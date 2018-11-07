@@ -1,6 +1,6 @@
 # Webots
 
-Webots is an open-source robot simulator that provides a complete development environment to model, program and simulate robots.
+Webots is an open-source robot simulator that provides a complete development environment to model, program and simulate robots and vehicles.
 
 [![Webots Video](https://user-images.githubusercontent.com/2461619/48144210-be528280-e2b0-11e8-9b7d-432db17522bb.PNG)](https://www.youtube.com/watch?v=pZC9YcRsKPI)
 
