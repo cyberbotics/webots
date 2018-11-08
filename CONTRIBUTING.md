@@ -22,3 +22,7 @@ Our git workflow is explained in detail [here](/omichel/webots-dev/wiki/Git-work
 * Follow our [Coding Style](/omichel/webots/wiki/Coding-Style/).
 * Avoid comitting files that exist elsewhere. Instead we should link to the source of these files.
 * Avoid comitting files that can be re-created from other files using a Makefile, a script or a compiler.
+
+## Untit test
+
+* Before merging any pull request the unit test should pass. 
