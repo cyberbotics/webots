@@ -20,16 +20,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**System (please complete the following information):**
+ - Operating System: [e.g. Windows 10, Linux Ubuntu 18.04, macOS Mojave]
+ - Graphics Card [e.g. NVIDIA GeForce RTX 2080 11 GB, AMD Radeon RX 580 8GB, etc.]
 
 **Additional context**
 Add any other context about the problem here.
