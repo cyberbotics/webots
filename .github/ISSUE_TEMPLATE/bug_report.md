@@ -4,11 +4,10 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
+**Describe the Bug**
 A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
+**Steps to Reproduce**
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -20,9 +19,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**System (please complete the following information):**
- - Operating System: [e.g. Windows 10, Linux Ubuntu 18.04, macOS Mojave]
- - Graphics Card [e.g. NVIDIA GeForce RTX 2080 11 GB, AMD Radeon RX 580 8GB, etc.]
+**System**
+ - Operating System: [e.g., Windows 10, Linux Ubuntu 18.04, macOS Mojave]
+ - Graphics Card: [e.g., NVIDIA GeForce RTX 2080 11 GB, AMD Radeon RX 580 8GB, etc.]
 
 **Additional context**
 Add any other context about the problem here.
