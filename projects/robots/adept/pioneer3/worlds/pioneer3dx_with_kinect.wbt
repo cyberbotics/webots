@@ -1,0 +1,64 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Pioneer 3DX robot (Adept Mobile Robots)"
+    "This two-wheel two-motor, differential wheel robot is equipped with a Microsoft kinect"
+    "It is programmed to perform a simple obstacle avoidance behavior based on sensed values situated on a medium-height line of the kinect display"
+  ]
+  title "Pioneer 3DX equipped with a Microsoft kinect"
+}
+Viewpoint {
+  fieldOfView 0.660595
+  orientation -0.5525376921081263 -0.7867145616172003 -0.2752858466018222 1.21012
+  position -9.14776 8.03821 5.12702
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 8 8
+  floorTileSize 1 1
+  floorAppearance Parquetry {
+  }
+  wallHeight 0.4
+}
+DEF PIONEER_3DX Pioneer3dx {
+  translation -0.681137 0.0975 -0.0495909
+  rotation 0 -1 0 5.12323
+  controller "pioneer3dx_obstacle_avoidance_with_kinect"
+  extensionSlot [
+    Kinect {
+      translation 0 0.15 0
+      width 150
+      height 100
+    }
+  ]
+}
+CardboardBox {
+  translation -0.36307 0.3 -2.01063
+}
+CardboardBox {
+  translation -0.382041 0.3 2.17641
+  name "cardboard box(1)"
+}
+FloorLight {
+  translation 0.351337 0 0.184194
+  pointLightAmbientIntensity 1
+  pointLightCastShadows TRUE
+}
+WoodenBox {
+  translation 3.28359 0.3 3.08068
+}
+WoodenBox {
+  translation 1.87377 0.3 -3.11289
+  name "wooden box(1)"
+}
+WoodenBox {
+  translation 0.188964 0.3 1.55421
+  name "wooden box(2)"
+}
+WoodenBox {
+  translation -2.77958 0.3 -3.05296
+  name "wooden box(3)"
+}

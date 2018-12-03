@@ -1,0 +1,63 @@
+###############################################################
+#
+# Purpose: Makefile for the ROBOTIS OP2 remote-control serveur
+# Author : david.mansolino@epfl.ch
+# Date   : January 2013
+#
+###############################################################
+
+# -------------------------------------------------------------
+# TO MODIFY:
+LIBNAME=darwin.a
+
+# name of the binary to generate
+TARGET = remote_control
+
+# paths
+ROBOTISOP2_ROOT ?= /robotis
+WEBOTS_ROBOTISOP2_PROJECT_ROOT = $(ROBOTISOP2_ROOT)/Linux/project/webots
+
+# source filenames
+CXX_SOURCES = \
+  main.cpp \
+  remote.cpp
+
+# -------------------------------------------------------------
+
+
+
+INCLUDE_DIRS = -I$(ROBOTISOP2_ROOT)/Linux/include -I$(ROBOTISOP2_ROOT)/Framework/include -I$(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/include -I$(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/include -Ilibjpeg-turbo/include
+CXX = g++
+CXXFLAGS += -O2 -DLINUX -DCROSSCOMPILATION -Wall $(INCLUDE_DIRS)
+LFLAGS += -lpthread -lrt
+WRAPPER = $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/lib/wrapper.a $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/keyboard/keyboardInterface.a
+ROBOTISOP2_STATIC_LIBRARY = $(ROBOTISOP2_ROOT)/Linux/lib/$(LIBNAME) ./libjpeg-turbo/lib/libturbojpeg.a
+OBJECTS = $(CXX_SOURCES:.cpp=.o)
+# X11 is needed to handle the keyboard input
+LIBX11 = libX11.so
+# To avoid installing the libX11-dev package, we can simply create a soft link
+# to libX11.so.6. This library however is located in /usr/lib/ on ubuntu <=10
+# and in /usr/lib/i386-linux-gnu/ on ubuntu >=12
+ifneq ($(wildcard /usr/lib/libX11.so.6),)
+LIBX11_SOURCE = /usr/lib/libX11.so.6
+else ifneq ($(wildcard /usr/lib/i386-linux-gnu/libX11.so.6),)
+LIBX11_SOURCE = /usr/lib/i386-linux-gnu/libX11.so.6
+endif
+
+all: $(TARGET)
+
+clean:
+	rm -f $(OBJECTS) $(TARGET) $(LIBX11)
+
+$(WRAPPER):
+	make -C $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/lib
+
+$(ROBOTISOP2_STATIC_LIBRARY):
+	make -C $(ROBOTISOP2_ROOT)/Linux/build
+
+$(LIBX11):
+	ln -s $(LIBX11_SOURCE) $@
+
+$(TARGET): $(WRAPPER) $(OBJECTS) $(ROBOTISOP2_STATIC_LIBRARY) $(LIBX11)
+	$(CXX) $(CFLAGS) $(OBJECTS) $(WRAPPER) $(ROBOTISOP2_STATIC_LIBRARY) $(LFLAGS) -L. -lX11 -o $(TARGET)
+	chmod 755 $(TARGET)

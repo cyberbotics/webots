@@ -1,0 +1,219 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Model of a Tesla model 3 car using the Car proto as a base.
+# The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
+# Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
+
+PROTO TeslaModel3 [
+  field     SFVec3f    translation       0 0.4 0
+  field     SFRotation rotation          0 1 0 0
+  field     SFColor    color             1 1 1
+  field     MFString   plate             "textures/plate.jpg"
+  field     SFString   engineSound       ""
+  field     SFString   name              "vehicle"
+  field     SFString   controller        "void"
+  field     SFString   controllerArgs    ""
+  field     SFBool     synchronization   TRUE
+  field     MFNode     sensorsSlotFront  NULL
+  field     MFNode     sensorsSlotRear   NULL
+  field     MFNode     sensorsSlotTop    NULL
+  field     MFNode     sensorsSlotCenter NULL
+  field     SFBool     frontSpotLights   FALSE
+]
+{
+  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  Car {
+    translation IS translation
+    rotation IS rotation
+    trackFront 1.72
+    trackRear 1.72
+    wheelbase 2.94
+    type "propulsion"
+    engineType "electric"
+    engineSound IS engineSound
+    brakeCoefficient 2000
+    time0To100 4
+    engineMaxTorque 639
+    engineMaxPower 147000
+    engineMaxRPM 25000
+    suspensionFrontDampingConstant 10000
+    suspensionRearDampingConstant  10000
+    suspensionFrontSpringConstant 60000
+    suspensionRearSpringConstant 60000
+    wheelsDampingConstant 3
+    gearRatio [-6.3 9]
+    wheelFrontLeft TeslaModel3Wheel {
+      rotation 1 0 0 -1.5708
+      name "front left wheel"
+      physics DEF WHEEL_PHYSICS Physics {
+        density -1
+        mass 10.4
+      }
+    }
+    wheelFrontRight TeslaModel3Wheel {
+      rotation 1 0 0 -1.5708
+      name "front right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearLeft DEF REAR_WHEEL TeslaModel3Wheel {
+      rotation 1 0 0 -1.5708
+      name "rear left wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearRight TeslaModel3Wheel {
+      rotation 1 0 0 -1.5708
+      name "rear right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    extensionSlot [
+    Transform {
+      translation 0 -0.36 1.39
+      rotation 0 1 0 1.5707896938995747
+      children [
+        VehicleLights {
+          front [
+              Group {
+                children [
+                  %{ if frontSpotLights then }%
+                  SpotLight {
+                    attenuation 0 0 1
+                    beamWidth 0.3
+                    cutOffAngle 0.6
+                    direction -1 -0.5 -0.05
+                    intensity 60
+                    location -2.03 0.72 -0.72
+                    radius 40
+                  }
+                  SpotLight {
+                    attenuation 0 0 1
+                    beamWidth 0.3
+                    cutOffAngle 0.6
+                    direction -1 -0.5 0.05
+                    intensity 60
+                    location -2.03 0.72 0.72
+                    radius 40
+                  }
+                  %{ end }%
+                  TeslaModel3FrontLights {
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.142 3.79
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.2 -1.05
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotRear
+      }
+      Transform {
+        translation 0 1.16 1.11
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 0 0
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      Transform {
+        translation 0 -0.36 1.39
+        rotation 0 1 0 1.5707896938995747
+        children [
+          TeslaModel3Coachwork {
+            color IS color
+          }
+          TeslaModel3Windows {
+          }
+          TeslaModel3Details {
+          }
+          DEF FRONT_PLATE Transform {
+            translation -2.335 0.5199999997602552 7.192344581019582e-10
+            rotation -0.5773502627301781 0.577350273803517 -0.5773502710351822 4.188790199249722
+            children [
+              DEF PLATES Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url IS plate
+                  }
+                  roughness 0.8
+                  metalness 0
+                }
+                geometry Plane {
+                  size 0.5 0.125
+                }
+              }
+            ]
+          }
+          DEF REAR_PLATE Transform {
+            translation 2.299835640686857 0.773269651734629 7.434408060502636e-8
+            rotation -0.5199879403136037 -0.6776614836699748 0.5199879378203156 4.332744305786689
+            children [
+              DEF PLATES Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url IS plate
+                  }
+                  roughness 0.8
+                  metalness 0
+                }
+                geometry Plane {
+                  size 0.5 0.125
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "Tesla model 3"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    synchronization IS synchronization
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.2099999999999999 1.3699999820191329
+          rotation 0 -0.9999999999999999 0 1.5707963411795867
+          children [
+            Box {
+              size 4.5 0.7 1.7999999999999998
+            }
+          ]
+        }
+        Transform {
+          translation -1.0069283031148894e-8 0.7600000000000002 0.6799999999999999
+          rotation 0 -0.9999999999999999 0 1.5707963411795867
+          children [
+            Box {
+              size 2.9 0.7 1.5
+            }
+          ]
+        }
+      ]
+    }
+    radarCrossSection 100
+    recognitionColors [
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    ]
+    physics Physics {
+      density -1
+      mass 1847
+      centerOfMass [
+        0 0 1.27
+      ]
+      inertiaMatrix [
+        26116.9 25854 4466.54
+        2.33023e-5 0.000158947 -3204.91
+      ]
+    }
+  }
+}

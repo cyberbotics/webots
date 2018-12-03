@@ -1,0 +1,75 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Efficient (with only 8 polygons) and fast to load tree.
+# This PROTO is less configurable than `SimpleTree` but way faster to load.
+
+PROTO Tree [
+  field SFVec3f    translation          0 0 0
+  field SFRotation rotation             0 1 0 0
+  field SFString   name                 "tree"                       # Defines the name of the tree.
+  field SFVec3f    scale                1 4 1                        # The first and last components of the scale define the radius of the tree and the middle one defines it's height.
+  field MFString   texture              "textures/cherry_tree.png"   # Defines the texture used for the tree.
+  field SFNode     boundingObject       NULL                         # Is `Solid.boundingObject`.
+  field SFBool     locked               TRUE                         # Is `Solid.locked`.
+  field SFBool     isPickable           TRUE
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Transform {
+        scale IS scale
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url IS texture
+                repeatS FALSE
+                repeatT FALSE
+              }
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  2 0 0
+                  0 0 2
+                  -2 0 0
+                  0 0 -2
+                  2 1 0
+                  0 1 2
+                  -2 1 0
+                  0 1 -2
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  0 0
+                  1 0
+                  0 1
+                  1 1
+                ]
+              }
+              coordIndex [
+                4 0 2 6 -1
+                4 6 2 0  -1
+                5 1 3 7 -1
+                5 7 3 1  -1
+              ]
+              texCoordIndex [
+                2, 0, 1, 3, -1, 3, 2, 0, 1, -1,
+                2, 0, 1, 3, -1, 3, 2, 0, 1, -1,
+              ]
+            }
+            isPickable IS isPickable
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "tree"
+    boundingObject IS boundingObject
+    locked IS locked
+  }
+}

@@ -1,0 +1,130 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A box object implemented at the Solid-node level.
+# The box has similar properties as the VRML Box node in term of axis and fields.
+# The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
+
+PROTO SolidBox [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "box"
+  field SFVec3f    size            2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
+  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
+  field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the box.
+  field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local wbmath = require('wbmath')
+
+    local size = fields.size.value
+    if size.x <= 0 or size.y <= 0 or size.z <= 0 then
+      io.stderr:write("'size' must contain positive values\n")
+      size = fields.size.defaultValue
+    end
+
+    -- attend to create quads as square as possible
+    -- subdivision is applied only on the longest egde
+    local maxEdge = math.max( math.max(size.x, size.y), size.z)
+    local ratio = {
+      x = size.x / maxEdge;
+      y = size.y / maxEdge;
+      z = size.z / maxEdge;
+    }
+
+    local halfSize = { x = size.x / 2; y = size.y / 2; z = size.z / 2 }
+
+    local quads = {
+      -- quadTop
+      {
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = 0       }, -- vertex A
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       }, -- vertex B
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.z }, -- ...
+        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.z }
+      },
+      -- quadBottom
+      {
+        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.x, v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.x, v = ratio.z },
+        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = ratio.z }
+      },
+      -- quadFront
+      {
+        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.x, v = 0       },
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.x, v = ratio.y },
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.y }
+      },
+      -- quadBack
+      {
+        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0       },
+        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.x, v = 0       },
+        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.x, v = ratio.y },
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.y }
+      },
+      -- quadLeft
+      {
+        { x = -halfSize.x, y = -halfSize.y, z = -halfSize.z, u = 0,       v = 0 },
+        { x = -halfSize.x, y = -halfSize.y, z =  halfSize.z, u = ratio.z, v = 0 },
+        { x = -halfSize.x, y =  halfSize.y, z =  halfSize.z, u = ratio.z, v = ratio.y },
+        { x = -halfSize.x, y =  halfSize.y, z = -halfSize.z, u = 0,       v = ratio.y }
+      },
+      -- quadRight
+      {
+        { x =  halfSize.x, y = -halfSize.y, z =  halfSize.z, u = 0,       v = 0       },
+        { x =  halfSize.x, y = -halfSize.y, z = -halfSize.z, u = ratio.z, v = 0       },
+        { x =  halfSize.x, y =  halfSize.y, z = -halfSize.z, u = ratio.z, v = ratio.y },
+        { x =  halfSize.x, y =  halfSize.y, z =  halfSize.z, u = 0,       v = ratio.y }
+      }
+    }
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance IS appearance
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{ for i, quad in ipairs(quads) do }%
+                %{= quad[1].x }% %{= quad[1].y }% %{= quad[1].z }%
+                %{= quad[2].x }% %{= quad[2].y }% %{= quad[2].z }%
+                %{= quad[3].x }% %{= quad[3].y }% %{= quad[3].z }%
+                %{= quad[4].x }% %{= quad[4].y }% %{= quad[4].z }%
+              %{ end }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              %{ for i, quad in ipairs(quads) do }%
+                %{= quad[1].u }% %{= quad[1].v }%
+                %{= quad[2].u }% %{= quad[2].v }%
+                %{= quad[3].u }% %{= quad[3].v }%
+                %{= quad[4].u }% %{= quad[4].v }%
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            %{ for i, quad in ipairs(quads) do }%
+              %{ offset = 4 * (i - 1) }%
+              %{= offset }% %{= offset + 1 }% %{= offset + 2 }% %{= offset + 3 }% -1
+            %{ end }%
+          ]
+          creaseAngle 1.5
+        }
+      }
+    ]
+    name IS name
+    model "box"
+    contactMaterial IS contactMaterial
+    boundingObject Box {
+      size %{= size.x }% %{= size.y }% %{= size.z }%
+    }
+    physics IS physics
+  }
+}

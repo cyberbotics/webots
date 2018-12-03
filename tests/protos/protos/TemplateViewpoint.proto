@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateViewpoint [
+  field     SFFloat    fieldOfView        0.785398
+  field     SFRotation orientation        0 0 1 0
+  field     SFVec3f    position           0 0 10
+  field     SFString   description        ""
+  field     SFFloat    near               0.05
+  field     SFFloat    far                0.0
+  field     SFString   follow             ""
+  field     SFBool     followOrientation  FALSE
+  field     SFFloat    followSmoothness   0.5
+]
+{
+  Viewpoint {
+    fieldOfView %{= fields.fieldOfView.value }%
+    orientation IS orientation
+    position IS position
+    description IS description
+    near IS near
+    far IS far
+    follow IS follow
+    followOrientation IS followOrientation
+    followSmoothness IS followSmoothness
+  }
+}

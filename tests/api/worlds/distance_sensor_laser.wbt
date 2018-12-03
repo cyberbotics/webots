@@ -1,0 +1,54 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.995574 0.0174104 -0.0923494 5.7496
+  position -0.156961 0.689912 1.21631
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 1 0
+  intensity 0
+}
+Robot {
+  children [
+    DistanceSensor {
+      name "ds0"
+      type "laser"
+      aperture 0.01
+    }
+    DistanceSensor {
+      rotation 0 1 0 1.5708
+      name "ds1"
+      type "laser"
+      aperture 0.01
+    }
+    Camera {
+      rotation 0 1 0 -1.5708
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_laser"
+}
+Solid {
+  translation 0.05 0 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+TestSuiteSupervisor {
+}

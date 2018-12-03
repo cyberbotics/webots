@@ -1,0 +1,19 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoNestedMultipleInstances [
+  field MFNode slot []
+]
+{
+  Solid {
+    children [
+      Transform {
+        translation 0.5 0 0
+        children IS slot
+      }
+      Transform {
+        translation -0.5 0 0
+        children IS slot
+      }
+    ]
+  }
+}

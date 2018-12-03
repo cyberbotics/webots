@@ -1,0 +1,17 @@
+#VRML_SIM R2019a utf8
+
+PROTO ColorBoxShape [
+  field SFColor faceColor 0.8 0.8 0.8
+]
+{
+  Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor IS faceColor
+      }
+    }
+    geometry Box {
+      size 0.1 0.1 0.1
+    }
+  }
+}

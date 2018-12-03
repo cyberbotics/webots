@@ -1,0 +1,692 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Demo of the IPR (Katana) robotic arm (Neuronics AG)."
+    "The demo shows a HD6M180 model (6 DOF) equipped with a gripper, infra-red sensors and touch sensors."
+  ]
+  title "IPR (Katana) 6M"
+  basicTimeStep 20
+  contactProperties [
+    ContactProperties {
+      material1 "object"
+      material2 "gripper"
+      coulombFriction [
+        2
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.07149712122662581 0.9786502905493699 0.192696057209116 2.44314
+  position 2.58168 1.8672 -2.10238
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      appearance DEF ROOM_COLOR PBRAppearance {
+        baseColor 0.65098 0.698039 0.854902
+        roughness 0.21471786800000003
+        metalness 0
+      }
+      geometry DEF PLANE Plane {
+        size 20 8
+      }
+    }
+  ]
+  name "floor"
+  boundingObject USE PLANE
+}
+DEF WALLS Solid {
+  children [
+    Transform {
+      translation -10 4 -4
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance DEF WALL_COLOR PBRAppearance {
+            baseColor 0.905882 0.72549 0.72549
+            roughness 0.10196099999999997
+            metalness 0
+          }
+          geometry ElevationGrid {
+            colorPerVertex FALSE
+            xDimension 5
+            zDimension 9
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 10 0 -4
+      rotation 0 0 1 1.57
+      children [
+        Shape {
+          appearance USE WALL_COLOR
+          geometry ElevationGrid {
+            colorPerVertex FALSE
+            xDimension 5
+            zDimension 9
+          }
+        }
+      ]
+    }
+  ]
+  name "walls"
+}
+DEF GATE_OUT Solid {
+  translation 7.24 0.5 0.3
+  children [
+    DEF GATE Group {
+      children [
+        Transform {
+          translation 0.001 0.501 -0.501
+          children [
+            DEF GATE_1 Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 5.55 1 0.2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.001 0.501 0.501
+          children [
+            USE GATE_1
+          ]
+        }
+        Transform {
+          translation 0 1 0
+          children [
+            DEF GATE_2 Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 5.55 0.2 1.2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.1 0
+          children [
+            USE GATE_2
+          ]
+        }
+      ]
+    }
+  ]
+  name "belt_gate_out"
+}
+DEF GATE_IN Solid {
+  translation -7.27 0.5 0.3
+  children [
+    USE GATE
+  ]
+  name "belt_gate_in"
+}
+DEF FOOTWALL Solid {
+  children [
+    Transform {
+      translation 0 0.4 0.13
+      children [
+        DEF FOOTWALL_SHAPE Shape {
+          appearance DEF ROOM_COLOR PBRAppearance {
+            baseColor 0.65098 0.698039 0.854902
+            roughness 0.21471786800000003
+            metalness 0
+          }
+          geometry Box {
+            size 9 0.8 0.04
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.4 0.47
+      children [
+        USE FOOTWALL_SHAPE
+      ]
+    }
+  ]
+  name "footwall"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.4 0.13
+        children [
+          USE FOOTWALL_SHAPE
+        ]
+      }
+      Transform {
+        translation 0 0.4 0.47
+        children [
+          USE FOOTWALL_SHAPE
+        ]
+      }
+    ]
+  }
+}
+DEF OBJ_1 Solid {
+  translation -1 0.77 0.3
+  children [
+    DEF OBJECT Group {
+      children [
+        Shape {
+          appearance DEF OBJECT_COLOR PBRAppearance {
+            baseColor 1 0 0
+            roughness 0.365482152
+            metalness 0
+          }
+          geometry DEF BOUNDING_OBJECT Box {
+            size 0.03 0.1 0.03
+          }
+        }
+        Transform {
+          translation 0 0.065 0
+          children [
+            Shape {
+              appearance USE OBJECT_COLOR
+              geometry Cylinder {
+                height 0.03
+                radius 0.035
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "object 1"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics DEF PHYSICS_OBJECT Physics {
+    density -1
+    mass 0.15
+    centerOfMass [
+      0 -0.025 0
+    ]
+  }
+}
+DEF OBJ_2 Solid {
+  translation -2 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 2"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_3 Solid {
+  translation -3 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 3"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_4 Solid {
+  translation -4 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 4"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_5 Solid {
+  translation -5 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 5"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_6 Solid {
+  translation -6 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 6"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_7 Solid {
+  translation -7 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 7"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF OBJ_8 Solid {
+  translation -8 0.77 0.3
+  children [
+    USE OBJECT
+  ]
+  name "object 8"
+  contactMaterial "object"
+  boundingObject USE BOUNDING_OBJECT
+  physics USE PHYSICS_OBJECT
+}
+DEF SLOTS_1 Solid {
+  translation 0 0.642 -0.3
+  children [
+    DEF SLOTS Group {
+      children [
+        Transform {
+          children [
+            DEF SLOTS_GROUND Shape {
+              appearance DEF SLOTS_COLOR PBRAppearance {
+                baseColor 0.301961 0.301961 0.301961
+                roughness 0.631373
+                metalness 0
+              }
+              geometry Box {
+                size 0.4 0.01 0.31
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.001 0.031 0.136
+          children [
+            DEF ROWS Shape {
+              appearance USE SLOTS_COLOR
+              geometry Box {
+                size 0.4 0.05 0.04
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.001 0.031 0.046
+          children [
+            USE ROWS
+          ]
+        }
+        Transform {
+          translation 0.001 0.031 -0.046
+          children [
+            USE ROWS
+          ]
+        }
+        Transform {
+          translation 0.001 0.031 -0.136
+          children [
+            USE ROWS
+          ]
+        }
+        Transform {
+          translation -0.18 0.03 0
+          children [
+            DEF COLUMNS Shape {
+              appearance USE SLOTS_COLOR
+              geometry Box {
+                size 0.04 0.05 0.31
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.09 0.03 0
+          children [
+            USE COLUMNS
+          ]
+        }
+        Transform {
+          translation 0 0.03 0
+          children [
+            USE COLUMNS
+          ]
+        }
+        Transform {
+          translation 0.09 0.03 0
+          children [
+            USE COLUMNS
+          ]
+        }
+        Transform {
+          translation 0.18 0.03 0
+          children [
+            USE COLUMNS
+          ]
+        }
+      ]
+    }
+  ]
+  name "slot 1"
+  boundingObject DEF BOUNDING_SLOTS Group {
+    children [
+      Transform {
+        translation -0.18 0.03 0
+        children [
+          USE COLUMNS
+        ]
+      }
+      Transform {
+        translation -0.09 0.03 0
+        children [
+          USE COLUMNS
+        ]
+      }
+      Transform {
+        translation 0 0.03 0
+        children [
+          USE COLUMNS
+        ]
+      }
+      Transform {
+        translation 0.09 0.03 0
+        children [
+          USE COLUMNS
+        ]
+      }
+      Transform {
+        translation 0.18 0.03 0
+        children [
+          USE COLUMNS
+        ]
+      }
+      Transform {
+        translation 0 0.03 0.135
+        children [
+          USE ROWS
+        ]
+      }
+      Transform {
+        translation 0 0.03 0.045
+        children [
+          USE ROWS
+        ]
+      }
+      Transform {
+        translation 0 0.03 -0.045
+        children [
+          USE ROWS
+        ]
+      }
+      Transform {
+        translation 0 0.03 -0.135
+        children [
+          USE ROWS
+        ]
+      }
+      Transform {
+        children [
+          USE SLOTS_GROUND
+        ]
+      }
+    ]
+  }
+}
+DEF SLOTS_2 Solid {
+  translation 1.5 0.642 -0.3
+  children [
+    USE SLOTS
+  ]
+  name "slot 2"
+  boundingObject USE BOUNDING_SLOTS
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation -0.85 0.75 0.175
+      rotation 0 1 0 -1.57
+      name "object_detector_sensor1"
+      lookupTable [
+        0 0 0
+        0.25 1000 0
+      ]
+      type "infra-red"
+    }
+    LED {
+      translation -0.85 0.75 0.3
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            transparency 0.6000000238418579
+            roughness 1
+            metalness 0
+          }
+          geometry DEF LED_GEOM Cylinder {
+            height 0.32
+            radius 0.006
+          }
+        }
+      ]
+      name "object_detector_led1"
+      color [
+        1 0 0
+        0 1 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.65 0.75 0.175
+      rotation 0 1 0 -1.57
+      name "object_detector_sensor2"
+      lookupTable [
+        0 0 0
+        0.25 1000 0
+      ]
+      type "infra-red"
+    }
+    LED {
+      translation 0.65 0.75 0.3
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            transparency 0.6000000238418579
+            roughness 1
+            metalness 0
+          }
+          geometry USE LED_GEOM
+        }
+      ]
+      name "object_detector_led2"
+      color [
+        1 0 0
+        0 1 0
+      ]
+    }
+    Track {
+      translation 0 0.695 0.312
+      rotation -1 0 0 3.141592653589793
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "textures/conveyor_belt.png"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              scale 50 1
+            }
+          }
+          geometry DEF BELT_BO Box {
+            size 20 0.06 0.275
+          }
+        }
+      ]
+      boundingObject USE BELT_BO
+      physics Physics {
+        density -1
+        mass 1
+      }
+      device [
+        LinearMotor {
+          name "belt_motor"
+        }
+      ]
+      textureAnimation -0.001 0
+    }
+  ]
+  name "Belt"
+  boundingObject Group {
+    children [
+      Transform {
+        translation -70 0.3375 0.5
+        rotation 0 1 0 -1.57
+        children [
+          DEF BELT_SUPPORT Box {
+            size 2 0.675 100
+          }
+        ]
+      }
+      Transform {
+        translation 70 0.3375 0.5
+        rotation 0 1 0 -1.57
+        children [
+          USE BELT_SUPPORT
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 10
+  }
+  controller "conveyor_belt"
+  supervisor TRUE
+}
+IprHd6m90 {
+  translation 0 0.642 0
+  name "IPR1 factory"
+  controller "ipr_factory"
+  sensorsSlot [
+    DistanceSensor {
+      translation -0.85 0.108 0.175
+      rotation 0 1 0 -1.57
+      name "dsBelt"
+      lookupTable [
+        0 249 0.05
+        0.25 30 0.1
+      ]
+      type "infra-red"
+    }
+  ]
+  tableSlot [
+    DEF TABLE Solid {
+      children [
+        DEF PLANE Transform {
+          translation 0 -0.027 -0.4
+          children [
+            Shape {
+              appearance DEF ALUMINIUM PBRAppearance {
+                baseColor 0.898039 0.898039 0.898039
+                roughness 0.49019599999999997
+                metalness 0
+              }
+              geometry Box {
+                size 1.2 0.03 1
+              }
+            }
+          ]
+        }
+        DEF LEG1 Transform {
+          translation 0.35 -0.342 -0.05
+          children [
+            DEF LEG Shape {
+              appearance USE ALUMINIUM
+              geometry Box {
+                size 0.05 0.6 0.05
+              }
+            }
+          ]
+        }
+        DEF LEG2 Transform {
+          translation -0.35 -0.342 -0.05
+          children [
+            USE LEG
+          ]
+        }
+        DEF LEG3 Transform {
+          translation -0.35 -0.342 -0.72
+          children [
+            USE LEG
+          ]
+        }
+        DEF LEG4 Transform {
+          translation 0.35 -0.342 -0.72
+          children [
+            USE LEG
+          ]
+        }
+      ]
+      boundingObject Group {
+        children [
+          USE PLANE
+          USE LEG1
+          USE LEG2
+          USE LEG3
+          USE LEG4
+        ]
+      }
+    }
+  ]
+}
+IprHd6m90 {
+  translation 1.5 0.642 0
+  name "IPR2 factory"
+  controller "ipr_factory"
+  sensorsSlot [
+    DistanceSensor {
+      translation -0.85 0.108 0.175
+      rotation 0 1 0 -1.57
+      name "dsBelt"
+      lookupTable [
+        0 249 0.05
+        0.25 30 0.1
+      ]
+      type "infra-red"
+    }
+  ]
+  tableSlot [
+    DEF TABLE Solid {
+      children [
+        USE PLANE
+        USE LEG1
+        USE LEG2
+        USE LEG3
+        USE LEG4
+      ]
+      boundingObject Group {
+        children [
+          USE PLANE
+          USE LEG1
+          USE LEG2
+          USE LEG3
+          USE LEG4
+        ]
+      }
+    }
+  ]
+}

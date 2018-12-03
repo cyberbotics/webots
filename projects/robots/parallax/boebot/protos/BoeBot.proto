@@ -1,0 +1,1169 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/boebot
+# The "Boe-Bot" is a 3 wheeled robot (2 motorized wheels and a passive caster wheel) created by Parallax Inc.
+
+PROTO BoeBot [
+  field SFVec3f    translation     0 0 0    # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0  # Is `Transform.rotation`.
+  field SFString   name            "BoeBot" # Is `Solid.name`.
+  field SFString   controller      "boebot" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""       # Is `Robot.controllerArgs`.
+  field SFString   customData      ""       # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE    # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE     # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []       # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      DEF right_ir_led Transform {
+        translation 0.034 0.048 -0.05
+        rotation 0 1 0 5.88319
+        children [
+          DEF right_leg Transform {
+            translation 0.001 -0.005 0.004
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF left_leg Transform {
+            translation -0.001 -0.005 0.004
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          Transform {
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0015
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF left_ir_led Transform {
+        translation -0.034 0.048 -0.05
+        rotation 0 1 0 0.500004
+        children [
+          DEF right_leg Transform {
+            translation 0.001 -0.005 0.004
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF left_leg Transform {
+            translation -0.001 -0.005 0.004
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          Transform {
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0015
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF rds DistanceSensor {
+        translation 0.028 0.05 -0.05
+        rotation 0 1 0 1.17
+        children [
+          Transform {
+            translation -0.001 0 0
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.002
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF left_leg Transform {
+            translation -0.003 -0.005 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF right_leg Transform {
+            translation -0.001 -0.005 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.002 0 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0.501961 0.25098
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Box {
+                  size 0.003 0.004 0.004
+                }
+              }
+            ]
+          }
+        ]
+        name "rds"
+        lookupTable [
+          0 0 0 0.1 0 0 0.101 1 0
+        ]
+        type "infra-red"
+      }
+      DEF lds DistanceSensor {
+        translation -0.028 0.05 -0.05
+        rotation 0 1 0 2.07
+        children [
+          Transform {
+            translation -0.001 0 0
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.002
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          USE left_leg
+          USE right_leg
+          Transform {
+            translation -0.002 0 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0.501961 0.25098
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Box {
+                  size 0.003 0.004 0.004
+                }
+              }
+            ]
+          }
+        ]
+        name "lds"
+        lookupTable [
+          0 0 0 0.1 0 0 0.101 1 0
+        ]
+        type "infra-red"
+      }
+      DEF rls LightSensor {
+        translation 0.021 0.052 -0.052
+        rotation 0 1 0 1.57
+        children [
+          Transform {
+            translation 0 0 0.0007
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.0025
+                  radius 0.0004
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 -0.0007
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.0025
+                  radius 0.0004
+                }
+              }
+            ]
+          }
+          DEF right_ls_leg Transform {
+            translation 0 -0.005 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF left_ls_leg Transform {
+            translation 0 -0.005 -0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF ls_body Shape {
+            appearance PBRAppearance {
+              baseColor 1 0.501961 0.25098
+              metalness 0
+              roughness 0.2
+            }
+            geometry Cylinder {
+              height 0.002
+              radius 0.0017
+            }
+          }
+        ]
+        name "rls"
+      }
+      DEF lls LightSensor {
+        translation -0.021 0.052 -0.052
+        rotation 0 1 0 1.57
+        children [
+          Transform {
+            translation 0 0 -0.0007
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.0025
+                  radius 0.0004
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.0007
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Cylinder {
+                  height 0.0025
+                  radius 0.0004
+                }
+              }
+            ]
+          }
+          USE right_ls_leg
+          USE left_ls_leg
+          USE ls_body
+        ]
+        name "lls"
+      }
+      DEF right_led LED {
+        translation 0.014 0.055 -0.052
+        children [
+          Transform {
+            translation 0 0.003 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.811765 0.211765 0.211765
+                  metalness 0
+                  roughness 0.2
+                }
+                geometry Sphere {
+                  radius 0.002
+                }
+              }
+            ]
+          }
+          DEF left_leg Transform {
+            translation -0.001 -0.008 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF right_leg Transform {
+            translation 0.001 -0.008 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.0003
+                }
+              }
+            ]
+          }
+          DEF led_body Shape {
+            appearance PBRAppearance {
+              baseColor 0.811765 0.211765 0.211765
+              metalness 0
+              roughness 0.2
+            }
+            geometry Cylinder {
+              height 0.006
+              radius 0.002
+            }
+          }
+        ]
+        name "right_led"
+      }
+      DEF left_led LED {
+        translation -0.014 0.055 -0.052
+        children [
+          Transform {
+            translation 0 0.003 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.811765 0.211765 0.211765
+                  metalness 0
+                  roughness 0.2
+                }
+                geometry Sphere {
+                  radius 0.002
+                }
+              }
+            ]
+          }
+          USE right_leg
+          USE left_leg
+          USE led_body
+        ]
+        name "left_led"
+      }
+      DEF right_whisker TouchSensor {
+        translation 0.03 0.035 -0.08
+        rotation 0 1 0 5.88319
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.501961 0.501961 0.501961
+              roughness 0.2
+            }
+            geometry DEF right_whisker_box Box {
+              size 0.001 0.001 0.1
+            }
+          }
+        ]
+        name "right_whisker"
+        boundingObject USE right_whisker_box
+      }
+      DEF left_whisker TouchSensor {
+        translation -0.03 0.035 -0.08
+        rotation 0 1 0 0.533625
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.501961 0.501961 0.501961
+              roughness 0.2
+            }
+            geometry DEF left_whisker_box Box {
+              size 0.001 0.001 0.1
+            }
+          }
+        ]
+        name "left_whisker"
+        boundingObject USE left_whisker_box
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 -0.0052 -0.025
+        }
+        device [
+          RotationalMotor {
+            name "right wheel motor"
+            maxVelocity 20
+          }
+          PositionSensor {
+            name "right wheel sensor"
+          }
+        ]
+        endPoint DEF right_wheel Solid {
+          translation 0.046 -0.0052 -0.025
+          rotation -1 0 0 1.74327
+          children [
+            DEF Cylinder10 Transform {
+              translation 0.005 0 0
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Cylinder10_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        0.004257 0.02471 -0.002899, -0.01226 -0.02172 -0.002981, 0.01226 -0.02172 -0.002981, -0.01226 0.02173 -0.002905, 0.01878 0.01613 -0.002914, -0.01226 -0.02171 -0.00804, -0.02452 1.468e-5 -0.008002, 0.02452 1.467e-5 -0.008002, -0.004257 0.02471 -0.002899, 0.02304 -0.008573 -0.002958, -0.02304 -0.008573 -0.002958, -0.02304 0.008593 -0.007987, 0.02304 -0.008564 -0.008017, 0.01878 0.01614 -0.007974, -0.01878 0.01613 -0.002914, 0.004257 -0.0247 -0.002986, 0.004257 0.02472 -0.007959, 0.01226 -0.02171 -0.00804, -0.02304 -0.008564 -0.008017, 0.02452 0 -0.002943, -0.01878 0.01614 -0.007974, -0.01878 -0.01611 -0.00803, 0.01878 -0.01611 -0.00803, 0.02304 0.008593 -0.007987, -0.02452 0 -0.002943, -0.004257 0.02472 -0.007959, -0.01226 0.02174 -0.007964, 0.01226 0.02173 -0.002905, -0.02304 0.008584 -0.002928, -0.004257 -0.02469 -0.008045, 0.01226 0.02174 -0.007964, 0.004257 -0.02469 -0.008045, -0.01878 -0.01612 -0.002971, -0.004257 -0.0247 -0.002986, 0.01878 -0.01612 -0.002971, 0.02304 0.008584 -0.002928, -0.03122 -0.01162 -0.008022, -0.02545 0.02186 -0.007964, -0.005769 -0.03347 -0.003001, 0.02545 -0.02184 -0.00804, 0.02545 0.02186 -0.007964, -0.02545 -0.02185 -0.002981, 0.03122 0.01163 -0.007982, -0.03122 0.01163 -0.002922, 0.01661 0.02944 -0.002891, -0.01661 0.02945 -0.00795, 0.005769 0.03348 -0.007943, -0.005769 0.03347 -0.002884, 0.005769 -0.03346 -0.008061, -0.01661 -0.02943 -0.008053, 0.03122 -0.01163 -0.002963, -0.03322 0 -0.002943, 0.01661 -0.02944 -0.002994, 0.03322 0 -0.008002, 0.02545 0.02185 -0.002904, 0.03122 -0.01162 -0.008022, -0.01661 -0.02944 -0.002994, -0.03122 -0.01163 -0.002963, -0.005769 -0.03346 -0.008061, 0.005769 0.03347 -0.002884, -0.02545 0.02185 -0.002904, 0.01661 0.02945 -0.00795, -0.01661 0.02944 -0.002891, -0.03122 0.01163 -0.007982, 0.005769 -0.03347 -0.003001, -0.005769 0.03348 -0.007943, 0.01661 -0.02943 -0.008053, -0.02545 -0.02184 -0.00804, 0.03122 0.01163 -0.002922, 0.02545 -0.02185 -0.002981, 0.03322 0 -0.002943, -0.03322 0 -0.008002
+                      ]
+                    }
+                    coordIndex [
+                      48, 58, 17, -1, 38, 64, 2, -1, 38, 2, 15, -1, 49, 29, 31, -1, 68, 54, 19, -1, 22, 34, 9, -1, 52, 9, 34, -1, 21, 32, 1, -1, 57, 1, 32, -1, 60, 24, 28, -1, 70, 68, 19, -1, 12, 9, 7, -1, 4, 35, 54, -1, 54, 0, 27, -1, 14, 20, 26, -1, 47, 62, 14, -1, 5, 1, 29, -1, 56, 15, 33, -1, 30, 27, 0, -1, 61, 40, 16, -1, 61, 16, 25, -1, 16, 0, 8, -1, 34, 22, 17, -1, 2, 17, 31, -1, 51, 57, 32, -1, 32, 21, 18, -1, 43, 51, 10, -1, 19, 7, 9, -1, 69, 19, 9, -1, 62, 60, 28, -1, 20, 14, 11, -1, 1, 5, 21, -1, 36, 21, 5, -1, 48, 17, 22, -1, 9, 12, 22, -1, 13, 30, 40, -1, 63, 6, 18, -1, 63, 37, 6, -1, 6, 24, 18, -1, 24, 6, 11, -1, 44, 59, 8, -1, 59, 3, 8, -1, 65, 26, 20, -1, 65, 46, 26, -1, 3, 26, 8, -1, 26, 3, 14, -1, 27, 30, 13, -1, 4, 54, 27, -1, 62, 28, 14, -1, 29, 33, 15, -1, 0, 16, 30, -1, 40, 30, 16, -1, 58, 31, 17, -1, 51, 32, 10, -1, 33, 29, 1, -1, 41, 33, 1, -1, 17, 2, 34, -1, 64, 34, 2, -1, 7, 19, 35, -1, 35, 19, 54, -1, 71, 18, 21, -1, 71, 63, 18, -1, 37, 11, 6, -1, 37, 45, 11, -1, 67, 5, 29, -1, 67, 36, 5, -1, 55, 12, 7, -1, 66, 22, 12, -1, 7, 23, 40, -1, 23, 13, 40, -1, 41, 56, 33, -1, 42, 7, 40, -1, 42, 55, 7, -1, 60, 43, 24, -1, 43, 10, 24, -1, 54, 44, 0, -1, 44, 8, 0, -1, 45, 20, 11, -1, 45, 65, 20, -1, 46, 25, 26, -1, 46, 61, 25, -1, 59, 47, 3, -1, 47, 14, 3, -1, 64, 52, 34, -1, 66, 48, 22, -1, 56, 38, 15, -1, 58, 49, 31, -1, 52, 69, 9, -1, 55, 39, 12, -1, 68, 70, 53, -1, 42, 53, 55, -1, 57, 41, 1, -1, 39, 66, 12, -1, 49, 67, 29, -1, 69, 50, 19, -1, 50, 53, 70, -1, 50, 70, 19, -1, 36, 71, 21, -1, 40, 61, 44, -1, 59, 44, 61, -1, 58, 48, 64, -1, 66, 64, 48, -1, 64, 66, 52, -1, 69, 52, 66, -1, 59, 65, 47, -1, 62, 47, 65, -1, 53, 42, 68, -1, 40, 68, 42, -1, 63, 71, 51, -1, 57, 51, 71, -1, 60, 63, 43, -1, 51, 43, 63, -1, 71, 36, 57, -1, 41, 57, 36, -1, 68, 40, 54, -1, 44, 54, 40, -1, 36, 67, 41, -1, 56, 41, 67, -1, 45, 37, 60, -1, 63, 60, 37, -1, 4, 13, 35, -1, 13, 4, 27, -1, 61, 46, 59, -1, 65, 59, 46, -1, 66, 39, 69, -1, 50, 69, 39, -1, 67, 49, 56, -1, 58, 56, 49, -1, 25, 8, 26, -1, 8, 25, 16, -1, 28, 11, 14, -1, 11, 28, 24, -1, 10, 18, 24, -1, 18, 10, 32, -1, 15, 31, 29, -1, 31, 15, 2, -1, 39, 55, 50, -1, 53, 50, 55, -1, 56, 58, 38, -1, 64, 38, 58, -1, 23, 35, 13, -1, 35, 23, 7, -1, 65, 45, 62, -1, 60, 62, 45, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Cylinder11 Transform {
+              translation 0.003 0 0
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Cylinder11_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        0.002906 -0.01685 -0.005089, -0.01572 0.005855 1.026e-5, 0.01673 0 0, -0.01282 -0.011 -0.005078, 0.008367 0.01484 -0.005033, -0.008367 0.01483 2.597e-5, 0.008367 -0.01483 -2.597e-5, -0.008367 -0.01483 -2.597e-5, 0.008367 0.01483 2.597e-5, -0.01282 0.01101 -0.00504, 0.01572 0.005865 -0.005049, 0.01282 -0.011 -0.005078, -0.01673 0 -0.005059, -0.01572 -0.005855 -1.026e-5, -0.002906 -0.01685 -0.005089, 0.01572 -0.005846 -0.005069, -0.002906 0.01687 -0.00503, 0.002906 -0.01686 -2.954e-5, 0.01282 0.011 1.928e-5, 0.002906 0.01687 -0.00503, -0.008367 0.01484 -0.005033, 0.01282 -0.011 -1.928e-5, -0.01572 0.005865 -0.005049, -0.002906 0.01686 2.954e-5, -0.01282 0.011 1.928e-5, 0.01572 -0.005855 -1.026e-5, -0.002906 -0.01686 -2.954e-5, -0.01572 -0.005846 -0.005069, 0.002906 0.01686 2.954e-5, -0.01282 -0.011 -1.928e-5, 0.01673 0 -0.005059, 0.01282 0.01101 -0.00504, 0.008367 -0.01482 -0.005085, 0.01572 0.005855 1.026e-5, -0.01673 0 0, -0.008367 -0.01482 -0.005085
+                      ]
+                    }
+                    coordIndex [
+                      28, 1, 21, -1, 35, 22, 19, -1, 1, 7, 21, -1, 35, 27, 22, -1, 28, 21, 2, -1, 30, 11, 31, -1, 22, 20, 19, -1, 28, 5, 1, -1, 11, 35, 19, -1, 7, 17, 21, -1, 1, 13, 7, -1, 3, 35, 7, -1, 20, 16, 19, -1, 5, 24, 1, -1, 30, 15, 11, -1, 15, 21, 11, -1, 11, 0, 35, -1, 21, 25, 2, -1, 28, 23, 5, -1, 14, 0, 17, -1, 32, 17, 0, -1, 18, 28, 2, -1, 18, 4, 8, -1, 11, 19, 31, -1, 22, 9, 20, -1, 17, 6, 21, -1, 27, 12, 22, -1, 20, 9, 24, -1, 22, 24, 9, -1, 7, 26, 17, -1, 35, 3, 27, -1, 28, 8, 4, -1, 18, 8, 28, -1, 13, 29, 7, -1, 10, 30, 31, -1, 19, 4, 31, -1, 32, 11, 21, -1, 11, 32, 0, -1, 33, 18, 2, -1, 1, 34, 13, -1, 14, 7, 35, -1, 0, 14, 35, -1, 24, 22, 1, -1, 34, 1, 22, -1, 22, 12, 34, -1, 13, 34, 12, -1, 33, 2, 30, -1, 15, 30, 2, -1, 17, 32, 6, -1, 21, 6, 32, -1, 12, 27, 13, -1, 29, 13, 27, -1, 33, 31, 18, -1, 4, 18, 31, -1, 4, 19, 28, -1, 23, 28, 19, -1, 27, 3, 29, -1, 7, 29, 3, -1, 7, 14, 26, -1, 17, 26, 14, -1, 30, 10, 33, -1, 31, 33, 10, -1, 19, 16, 23, -1, 20, 23, 16, -1, 23, 20, 5, -1, 24, 5, 20, -1, 21, 15, 25, -1, 2, 25, 15, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Box13 Transform {
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Box13_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        -0.002923 -0.0269 0 -0.002923 0.0269 0 0.002923 -0.0269 -0.003945 0.002923 0.0269 0 0.002923 -0.0269 0 -0.002923 0.0269 -0.003945
+                      ]
+                    }
+                    coordIndex [
+                      1, 0, 4, -1, 2, 0, 5, -1, 5, 3, 2, -1, 4, 3, 1, -1, 0, 2, 4, -1, 3, 4, 2, -1, 0, 1, 5, -1, 3, 5, 1, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Box14 Transform {
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Box14_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        -0.02631 0.002778 0 0.02626 0.003203 0 -0.02626 -0.003203 -0.003945 0.02631 -0.002778 0 -0.02626 -0.003203 0 0.02626 0.003203 -0.003945
+                      ]
+                    }
+                    coordIndex [
+                      1, 0, 4, -1, 2, 0, 5, -1, 5, 3, 2, -1, 4, 3, 1, -1, 0, 2, 4, -1, 3, 4, 2, -1, 0, 1, 5, -1, 3, 5, 1, -1
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+          name "right wheel"
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              DEF wheel_cylinder Cylinder {
+                height 0.005
+                radius 0.034
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 -0.0052 -0.025
+        }
+        device [
+          RotationalMotor {
+            name "left wheel motor"
+            maxVelocity 20
+          }
+          PositionSensor {
+            name "left wheel sensor"
+          }
+        ]
+        endPoint DEF left_wheel Solid {
+          translation -0.0468861 -0.0052 -0.025
+          rotation -1 0 0 0.4
+          children [
+            DEF Cylinder08 Transform {
+              translation 0.005 0 0
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Cylinder08_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        0.004257 0.02471 -0.002899, -0.01226 -0.02172 -0.002981, 0.01226 -0.02172 -0.002981, -0.01226 0.02173 -0.002905, 0.01878 0.01613 -0.002914, -0.01226 -0.02171 -0.00804, -0.02452 1.468e-5 -0.008002, 0.02452 1.467e-5 -0.008002, -0.004257 0.02471 -0.002899, 0.02304 -0.008573 -0.002958, -0.02304 -0.008573 -0.002958, -0.02304 0.008593 -0.007987, 0.02304 -0.008564 -0.008017, 0.01878 0.01614 -0.007974, -0.01878 0.01613 -0.002914, 0.004257 -0.0247 -0.002986, 0.004257 0.02472 -0.007959, 0.01226 -0.02171 -0.00804, -0.02304 -0.008564 -0.008017, 0.02452 0 -0.002943, -0.01878 0.01614 -0.007974, -0.01878 -0.01611 -0.00803, 0.01878 -0.01611 -0.00803, 0.02304 0.008593 -0.007987, -0.02452 0 -0.002943, -0.004257 0.02472 -0.007959, -0.01226 0.02174 -0.007964, 0.01226 0.02173 -0.002905, -0.02304 0.008584 -0.002928, -0.004257 -0.02469 -0.008045, 0.01226 0.02174 -0.007964, 0.004257 -0.02469 -0.008045, -0.01878 -0.01612 -0.002971, -0.004257 -0.0247 -0.002986, 0.01878 -0.01612 -0.002971, 0.02304 0.008584 -0.002928, -0.03122 -0.01162 -0.008022, -0.02545 0.02186 -0.007964, -0.005769 -0.03347 -0.003001, 0.02545 -0.02184 -0.00804, 0.02545 0.02186 -0.007964, -0.02545 -0.02185 -0.002981, 0.03122 0.01163 -0.007982, -0.03122 0.01163 -0.002922, 0.01661 0.02944 -0.002891, -0.01661 0.02945 -0.00795, 0.005769 0.03348 -0.007943, -0.005769 0.03347 -0.002884, 0.005769 -0.03346 -0.008061, -0.01661 -0.02943 -0.008053, 0.03122 -0.01163 -0.002963, -0.03322 0 -0.002943, 0.01661 -0.02944 -0.002994, 0.03322 0 -0.008002, 0.02545 0.02185 -0.002904, 0.03122 -0.01162 -0.008022, -0.01661 -0.02944 -0.002994, -0.03122 -0.01163 -0.002963, -0.005769 -0.03346 -0.008061, 0.005769 0.03347 -0.002884, -0.02545 0.02185 -0.002904, 0.01661 0.02945 -0.00795, -0.01661 0.02944 -0.002891, -0.03122 0.01163 -0.007982, 0.005769 -0.03347 -0.003001, -0.005769 0.03348 -0.007943, 0.01661 -0.02943 -0.008053, -0.02545 -0.02184 -0.00804, 0.03122 0.01163 -0.002922, 0.02545 -0.02185 -0.002981, 0.03322 0 -0.002943, -0.03322 0 -0.008002
+                      ]
+                    }
+                    coordIndex [
+                      48, 58, 17, -1, 38, 64, 2, -1, 38, 2, 15, -1, 49, 29, 31, -1, 68, 54, 19, -1, 22, 34, 9, -1, 52, 9, 34, -1, 21, 32, 1, -1, 57, 1, 32, -1, 60, 24, 28, -1, 70, 68, 19, -1, 12, 9, 7, -1, 4, 35, 54, -1, 54, 0, 27, -1, 14, 20, 26, -1, 47, 62, 14, -1, 5, 1, 29, -1, 56, 15, 33, -1, 30, 27, 0, -1, 61, 40, 16, -1, 61, 16, 25, -1, 16, 0, 8, -1, 34, 22, 17, -1, 2, 17, 31, -1, 51, 57, 32, -1, 32, 21, 18, -1, 43, 51, 10, -1, 19, 7, 9, -1, 69, 19, 9, -1, 62, 60, 28, -1, 20, 14, 11, -1, 1, 5, 21, -1, 36, 21, 5, -1, 48, 17, 22, -1, 9, 12, 22, -1, 13, 30, 40, -1, 63, 6, 18, -1, 63, 37, 6, -1, 6, 24, 18, -1, 24, 6, 11, -1, 44, 59, 8, -1, 59, 3, 8, -1, 65, 26, 20, -1, 65, 46, 26, -1, 3, 26, 8, -1, 26, 3, 14, -1, 27, 30, 13, -1, 4, 54, 27, -1, 62, 28, 14, -1, 29, 33, 15, -1, 0, 16, 30, -1, 40, 30, 16, -1, 58, 31, 17, -1, 51, 32, 10, -1, 33, 29, 1, -1, 41, 33, 1, -1, 17, 2, 34, -1, 64, 34, 2, -1, 7, 19, 35, -1, 35, 19, 54, -1, 71, 18, 21, -1, 71, 63, 18, -1, 37, 11, 6, -1, 37, 45, 11, -1, 67, 5, 29, -1, 67, 36, 5, -1, 55, 12, 7, -1, 66, 22, 12, -1, 7, 23, 40, -1, 23, 13, 40, -1, 41, 56, 33, -1, 42, 7, 40, -1, 42, 55, 7, -1, 60, 43, 24, -1, 43, 10, 24, -1, 54, 44, 0, -1, 44, 8, 0, -1, 45, 20, 11, -1, 45, 65, 20, -1, 46, 25, 26, -1, 46, 61, 25, -1, 59, 47, 3, -1, 47, 14, 3, -1, 64, 52, 34, -1, 66, 48, 22, -1, 56, 38, 15, -1, 58, 49, 31, -1, 52, 69, 9, -1, 55, 39, 12, -1, 68, 70, 53, -1, 42, 53, 55, -1, 57, 41, 1, -1, 39, 66, 12, -1, 49, 67, 29, -1, 69, 50, 19, -1, 50, 53, 70, -1, 50, 70, 19, -1, 36, 71, 21, -1, 40, 61, 44, -1, 59, 44, 61, -1, 58, 48, 64, -1, 66, 64, 48, -1, 64, 66, 52, -1, 69, 52, 66, -1, 59, 65, 47, -1, 62, 47, 65, -1, 53, 42, 68, -1, 40, 68, 42, -1, 63, 71, 51, -1, 57, 51, 71, -1, 60, 63, 43, -1, 51, 43, 63, -1, 71, 36, 57, -1, 41, 57, 36, -1, 68, 40, 54, -1, 44, 54, 40, -1, 36, 67, 41, -1, 56, 41, 67, -1, 45, 37, 60, -1, 63, 60, 37, -1, 4, 13, 35, -1, 13, 4, 27, -1, 61, 46, 59, -1, 65, 59, 46, -1, 66, 39, 69, -1, 50, 69, 39, -1, 67, 49, 56, -1, 58, 56, 49, -1, 25, 8, 26, -1, 8, 25, 16, -1, 28, 11, 14, -1, 11, 28, 24, -1, 10, 18, 24, -1, 18, 10, 32, -1, 15, 31, 29, -1, 31, 15, 2, -1, 39, 55, 50, -1, 53, 50, 55, -1, 56, 58, 38, -1, 64, 38, 58, -1, 23, 35, 13, -1, 35, 23, 7, -1, 65, 45, 62, -1, 60, 62, 45, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Cylinder09 Transform {
+              translation 0.003 0 0
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Cylinder09_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        0.002906 -0.01685 -0.005089, -0.01572 0.005855 1.026e-5, 0.01673 0 0, -0.01282 -0.011 -0.005078, 0.008367 0.01484 -0.005033, -0.008367 0.01483 2.597e-5, 0.008367 -0.01483 -2.597e-5, -0.008367 -0.01483 -2.597e-5, 0.008367 0.01483 2.597e-5, -0.01282 0.01101 -0.00504, 0.01572 0.005865 -0.005049, 0.01282 -0.011 -0.005078, -0.01673 0 -0.005059, -0.01572 -0.005855 -1.026e-5, -0.002906 -0.01685 -0.005089, 0.01572 -0.005846 -0.005069, -0.002906 0.01687 -0.00503, 0.002906 -0.01686 -2.954e-5, 0.01282 0.011 1.928e-5, 0.002906 0.01687 -0.00503, -0.008367 0.01484 -0.005033, 0.01282 -0.011 -1.928e-5, -0.01572 0.005865 -0.005049, -0.002906 0.01686 2.954e-5, -0.01282 0.011 1.928e-5, 0.01572 -0.005855 -1.026e-5, -0.002906 -0.01686 -2.954e-5, -0.01572 -0.005846 -0.005069, 0.002906 0.01686 2.954e-5, -0.01282 -0.011 -1.928e-5, 0.01673 0 -0.005059, 0.01282 0.01101 -0.00504, 0.008367 -0.01482 -0.005085, 0.01572 0.005855 1.026e-5, -0.01673 0 0, -0.008367 -0.01482 -0.005085
+                      ]
+                    }
+                    coordIndex [
+                      28, 1, 21, -1, 35, 22, 19, -1, 1, 7, 21, -1, 35, 27, 22, -1, 28, 21, 2, -1, 30, 11, 31, -1, 22, 20, 19, -1, 28, 5, 1, -1, 11, 35, 19, -1, 7, 17, 21, -1, 1, 13, 7, -1, 3, 35, 7, -1, 20, 16, 19, -1, 5, 24, 1, -1, 30, 15, 11, -1, 15, 21, 11, -1, 11, 0, 35, -1, 21, 25, 2, -1, 28, 23, 5, -1, 14, 0, 17, -1, 32, 17, 0, -1, 18, 28, 2, -1, 18, 4, 8, -1, 11, 19, 31, -1, 22, 9, 20, -1, 17, 6, 21, -1, 27, 12, 22, -1, 20, 9, 24, -1, 22, 24, 9, -1, 7, 26, 17, -1, 35, 3, 27, -1, 28, 8, 4, -1, 18, 8, 28, -1, 13, 29, 7, -1, 10, 30, 31, -1, 19, 4, 31, -1, 32, 11, 21, -1, 11, 32, 0, -1, 33, 18, 2, -1, 1, 34, 13, -1, 14, 7, 35, -1, 0, 14, 35, -1, 24, 22, 1, -1, 34, 1, 22, -1, 22, 12, 34, -1, 13, 34, 12, -1, 33, 2, 30, -1, 15, 30, 2, -1, 17, 32, 6, -1, 21, 6, 32, -1, 12, 27, 13, -1, 29, 13, 27, -1, 33, 31, 18, -1, 4, 18, 31, -1, 4, 19, 28, -1, 23, 28, 19, -1, 27, 3, 29, -1, 7, 29, 3, -1, 7, 14, 26, -1, 17, 26, 14, -1, 30, 10, 33, -1, 31, 33, 10, -1, 19, 16, 23, -1, 20, 23, 16, -1, 23, 20, 5, -1, 24, 5, 20, -1, 21, 15, 25, -1, 2, 25, 15, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Box07 Transform {
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Box07_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        -0.002923 -0.0269 0 -0.002923 0.0269 0 0.002923 -0.0269 -0.003945 0.002923 0.0269 0 0.002923 -0.0269 0 -0.002923 0.0269 -0.003945
+                      ]
+                    }
+                    coordIndex [
+                      1, 0, 4, -1, 2, 0, 5, -1, 5, 3, 2, -1, 4, 3, 1, -1, 0, 2, 4, -1, 3, 4, 2, -1, 0, 1, 5, -1, 3, 5, 1, -1
+                    ]
+                  }
+                }
+              ]
+            }
+            DEF Box12 Transform {
+              rotation 0 1 0 1.57
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    metalness 0
+                    roughness 0.3
+                  }
+                  geometry DEF Box12_FACES IndexedFaceSet {
+                    coord Coordinate {
+                      point [
+                        -0.02631 0.002778 0 0.02626 0.003203 0 -0.02626 -0.003203 -0.003945 0.02631 -0.002778 0 -0.02626 -0.003203 0 0.02626 0.003203 -0.003945
+                      ]
+                    }
+                    coordIndex [
+                      1, 0, 4, -1, 2, 0, 5, -1, 5, 3, 2, -1, 4, 3, 1, -1, 0, 2, 4, -1, 3, 4, 2, -1, 0, 1, 5, -1, 3, 5, 1, -1
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+          name "left wheel"
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              USE wheel_cylinder
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.05
+          }
+        }
+      }
+      DEF body Transform {
+        rotation 0 1 0 1.5708
+        children [
+          DEF electronic_texture Transform {
+            translation -0.045 0.038 -0.0387
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/very-top.jpg"
+                    ]
+                  }
+                  metalness 0
+                  roughness 0.8
+                }
+                geometry IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0 0 0 0.106 0 0 0.106 0 0.078 0 0 0.078
+                    ]
+                  }
+                  texCoord TextureCoordinate {
+                    point [
+                      0 0 0 1 1 1 1 0
+                    ]
+                  }
+                  ccw FALSE
+                  coordIndex [
+                    0, 1, 2, 3
+                  ]
+                  texCoordIndex [
+                    3, 0, 1, 2
+                  ]
+                }
+              }
+            ]
+          }
+          DEF second_condensator Transform {
+            translation -0.04 0.043 -0.013
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0.627451
+                  roughness 0.3
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.004
+                }
+              }
+            ]
+          }
+          DEF first_condensator Transform {
+            translation -0.026 0.043 -0.013
+            children [
+              DEF condensator Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0.627451
+                  roughness 0.3
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.004
+                }
+              }
+            ]
+          }
+          DEF electronic_box Transform {
+            translation 0.035 0.04 0
+            children [
+              DEF texture_shape Transform {
+                translation -0.02 0.003 -0.035
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.7
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/electronic-box.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0 0 0 0.04 0 0 0.04 0 0.07 0 0 0.07
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0 8 0 8 8 0 8
+                        ]
+                      }
+                      ccw FALSE
+                      coordIndex [
+                        0, 1, 2, 3
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3
+                      ]
+                    }
+                  }
+                ]
+              }
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.752941 0.752941 0.752941
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Box {
+                  size 0.04 0.005 0.07
+                }
+              }
+            ]
+          }
+          DEF right_side Transform {
+            translation -0.03791 0.01059 0.0398
+            rotation 0 1 0 0.007
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 0.2
+                }
+                geometry DEF right_side_FACES IndexedFaceSet {
+                  coord DEF right_side_COORD Coordinate {
+                    point [
+                      -0.004724 0.002791 -0.001725, 0.01258 -6.595e-5 -0.001557, -0.01256 0.002832 -0.0002252, 0.01259 0.0027 -5.352e-5, 0.01259 0.0027 -0.001607, -0.01206 6.323e-5 -0.001725, 0.01258 -6.595e-5 0, -0.01258 6.595e-5 -0.0001752, -0.01763 0.007362 -0.0003412, -0.01556 -0.01156 -0.001539, 0.1028 -0.004067 0.0006761, 0.07864 -0.0289 0.0009626, 0.01762 -0.01406 0.0002835, 0.04277 -0.01419 -0.001098, 0.105 0.007447 -0.001071, 0.1007 -0.004162 -0.0008897, 0.1053 -0.01755 -0.0006167, 0.1019 -0.01722 -0.0006453, 0.1026 -0.01688 0.0009065, 0.04277 -0.01419 0.0004552, 0.01762 -0.01406 -0.00127, 0.02623 -0.00796 -0.001322, 0.02624 -0.005194 0.0001811, 0.1018 -0.004927 -0.000869, 0.1016 -0.001964 -0.0009239, 0.1017 -0.004349 0.0006735, 0.001087 -0.005062 -0.001544, 0.001087 -0.005062 0, 0.103 -0.002203 -0.0009101, 0.1006 -0.003874 -0.0008957, 0.03781 -0.02815 -0.0008793, 0.1025 -0.001954 -0.0009178, 0.1017 -0.002442 0.0006389, 0.101 -0.01507 -0.0006905, 0.1032 -0.004421 -0.0008685, 0.1016 -0.01483 0.0008622, 0.1012 -0.004008 0.0006642, 0.1037 -0.01545 -0.0006653, 0.1029 -0.003875 0.0006733, 0.103 -0.00464 -0.000866, 0.1018 -0.001846 -0.0003078, -0.01831 -0.007786 -7.173e-5, 0.1007 -0.002663 -0.0009168, 0.1053 -0.01752 0.0009361, 0.1034 -0.01532 0.0008832, 0.1017 -0.002442 0.0006389, 0.1026 -0.002504 0.0006461, 0.1035 -0.003257 -0.0008872, 0.02623 -0.00796 0.0002311, 0.0176 -0.01683 -0.00122, 0.04276 -0.01696 0.0005051, 0.02624 -0.005194 -0.001372, 0.0176 -0.01683 0.0003335, 0.04276 -0.01696 -0.001048, 0.001073 -0.007828 -0.001494, 0.001073 -0.007828 5.942e-5, 0.1025 -0.01431 -0.0006942, 0.1018 -0.004979 -0.0003078, 0.07865 -0.02893 -0.0005903, 0.1049 0.007477 0.0004816, -0.01762 0.007332 -0.001894, -0.0183 -0.007816 -0.001625, 0.1029 -0.002774 0.0006529, 0.1031 -0.004542 -0.0001007, 0.1036 -0.003329 -0.0008858, 0.0378 -0.02812 0.0006736, 0.1024 -0.004345 0.0006783, 0.101 -0.003257 0.0006495, 0.1011 -0.01592 0.0008793, 0.1006 -0.002951 -0.0009124, -0.01557 -0.01153 1.433e-5, 0.1006 -0.003724 6.283e-5, 0.1034 -0.002801 2.883e-5, 0.1012 -0.004717 -0.0008764, 0.1023 -0.001937 2.883e-5, 0.1005 -0.003101 -0.0002244, 0.1011 -0.01662 -0.0006621, 0.1021 -0.001846 -0.0008219
+                    ]
+                  }
+                  coordIndex [
+                    21, 31, 9, -1, 41, 7, 8, -1, 4, 0, 60, -1, 61, 60, 5, -1, 59, 3, 6, -1, 54, 21, 9, -1, 7, 2, 8, -1, 60, 0, 5, -1, 59, 8, 3, -1, 8, 2, 3, -1, 50, 65, 45, -1, 41, 6, 7, -1, 1, 4, 14, -1, 4, 60, 14, -1, 53, 31, 30, -1, 52, 70, 65, -1, 45, 6, 22, -1, 41, 19, 55, -1, 49, 30, 9, -1, 9, 31, 13, -1, 51, 14, 31, -1, 45, 59, 6, -1, 17, 16, 58, -1, 64, 14, 16, -1, 18, 11, 43, -1, 62, 43, 59, -1, 30, 15, 56, -1, 37, 15, 16, -1, 35, 36, 11, -1, 43, 36, 44, -1, 50, 52, 65, -1, 41, 12, 19, -1, 49, 53, 30, -1, 13, 20, 9, -1, 26, 1, 51, -1, 1, 14, 51, -1, 48, 19, 45, -1, 19, 48, 55, -1, 38, 72, 63, -1, 5, 26, 61, -1, 26, 5, 1, -1, 6, 27, 22, -1, 41, 27, 6, -1, 46, 72, 38, -1, 71, 25, 57, -1, 25, 71, 67, -1, 33, 58, 30, -1, 45, 65, 11, -1, 39, 64, 16, -1, 31, 69, 30, -1, 28, 46, 74, -1, 32, 75, 24, -1, 37, 56, 15, -1, 33, 76, 58, -1, 63, 57, 66, -1, 35, 44, 36, -1, 18, 68, 11, -1, 45, 62, 59, -1, 10, 36, 43, -1, 17, 37, 16, -1, 25, 66, 57, -1, 15, 39, 16, -1, 40, 77, 28, -1, 24, 40, 32, -1, 54, 9, 61, -1, 12, 41, 70, -1, 67, 71, 75, -1, 59, 43, 16, -1, 58, 16, 43, -1, 44, 18, 43, -1, 36, 45, 11, -1, 46, 32, 74, -1, 46, 28, 72, -1, 48, 45, 22, -1, 20, 49, 9, -1, 19, 50, 45, -1, 21, 51, 31, -1, 70, 52, 12, -1, 53, 13, 31, -1, 61, 26, 54, -1, 41, 55, 27, -1, 56, 33, 30, -1, 73, 71, 57, -1, 23, 57, 63, -1, 43, 11, 58, -1, 30, 58, 11, -1, 16, 14, 59, -1, 8, 59, 14, -1, 41, 8, 60, -1, 14, 60, 8, -1, 70, 41, 61, -1, 60, 61, 41, -1, 62, 10, 43, -1, 34, 63, 72, -1, 23, 63, 34, -1, 64, 31, 14, -1, 11, 65, 30, -1, 9, 30, 65, -1, 63, 66, 38, -1, 67, 75, 32, -1, 68, 35, 11, -1, 69, 15, 30, -1, 65, 70, 9, -1, 61, 9, 70, -1, 71, 73, 29, -1, 71, 29, 75, -1, 47, 72, 28, -1, 72, 47, 34, -1, 57, 23, 73, -1, 40, 74, 32, -1, 28, 74, 40, -1, 42, 24, 75, -1, 75, 29, 42, -1, 76, 17, 58, -1, 77, 40, 24, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF back_wheel Transform {
+            translation -0.05619 -0.02451 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.2
+                }
+                geometry DEF back_wheel_sphere Sphere {
+                  radius 0.013
+                  subdivision 3
+                }
+              }
+            ]
+          }
+          DEF back_wheel_axis Transform {
+            translation -0.055 -0.025 0
+            rotation 1 0 0 1.55
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 1 1
+                  metalness 0
+                  roughness 0.5
+                }
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF main_wheel_axis Transform {
+            translation 0.02322 -0.008308 -0.04687
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.6 0.8941 0.7216
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry DEF main_wheel_axis_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0 -0.001977 0, 0.0006611 -0.001858 0, 0.001242 -0.001515 0, 0.001674 -0.0009887 0, 0.001903 -0.0003434 0, 0.001903 0.0003434 0, 0.001674 0.0009887 0, 0.001242 0.001515 0, 0.0006611 0.001858 0, 0 0.001977 0, -0.0006611 0.001858 0, -0.001242 0.001515 0, -0.001674 0.0009887 0, -0.001903 0.0003434 0, -0.001903 -0.0003434 0, -0.001674 -0.0009887 0, -0.001242 -0.001515 0, -0.0006611 -0.001858 0, -7.995e-5 -0.001977 0.01896, 0.0005811 -0.001858 0.01896, 0.001162 -0.001515 0.01897, 0.001594 -0.0009887 0.01897, 0.001824 -0.0003434 0.01897, 0.001824 0.0003434 0.01897, 0.001594 0.0009887 0.01897, 0.001162 0.001515 0.01897, 0.0005811 0.001858 0.01896, -7.995e-5 0.001977 0.01896, -0.000741 0.001858 0.01896, -0.001322 0.001515 0.01895, -0.001754 0.0009887 0.01895, -0.001983 0.0003434 0.01895, -0.001983 -0.0003434 0.01895, -0.001754 -0.0009887 0.01895, -0.001322 -0.001515 0.01895, -0.000741 -0.001858 0.01896, -0.0001599 -0.001977 0.03792, 0.0005012 -0.001858 0.03792, 0.001082 -0.001515 0.03792, 0.001514 -0.0009887 0.03793, 0.001744 -0.0003434 0.03793, 0.001744 0.0003434 0.03793, 0.001514 0.0009887 0.03793, 0.001082 0.001515 0.03792, 0.0005012 0.001858 0.03792, -0.0001599 0.001977 0.03792, -0.000821 0.001858 0.03792, -0.001402 0.001515 0.03791, -0.001834 0.0009887 0.03791, -0.002063 0.0003434 0.03791, -0.002063 -0.0003434 0.03791, -0.001834 -0.0009887 0.03791, -0.001402 -0.001515 0.03791, -0.000821 -0.001858 0.03792, -0.0002399 -0.001977 0.05688, 0.0004212 -0.001858 0.05688, 0.001003 -0.001515 0.05688, 0.001434 -0.0009887 0.05689, 0.001664 -0.0003434 0.05689, 0.001664 0.0003434 0.05689, 0.001434 0.0009887 0.05689, 0.001003 0.001515 0.05688, 0.0004212 0.001858 0.05688, -0.0002399 0.001977 0.05688, -0.0009009 0.001858 0.05688, -0.001482 0.001515 0.05687, -0.001914 0.0009887 0.05687, -0.002143 0.0003434 0.05687, -0.002143 -0.0003434 0.05687, -0.001914 -0.0009887 0.05687, -0.001482 -0.001515 0.05687, -0.0009009 -0.001858 0.05688, -0.0003198 -0.001977 0.07584, 0.0003413 -0.001858 0.07584, 0.0009226 -0.001515 0.07584, 0.001354 -0.0009887 0.07585, 0.001584 -0.0003434 0.07585, 0.001584 0.0003434 0.07585, 0.001354 0.0009887 0.07585, 0.0009226 0.001515 0.07584, 0.0003412 0.001858 0.07584, -0.0003198 0.001977 0.07584, -0.0009809 0.001858 0.07584, -0.001562 0.001515 0.07583, -0.001994 0.0009887 0.07583, -0.002223 0.0003434 0.07583, -0.002223 -0.0003434 0.07583, -0.001994 -0.0009887 0.07583, -0.001562 -0.001515 0.07583, -0.0009809 -0.001858 0.07584, -0.0003998 -0.001977 0.0948, 0.0002613 -0.001858 0.0948, 0.0008426 -0.001515 0.0948, 0.001274 -0.0009887 0.09481, 0.001504 -0.0003434 0.09481, 0.001504 0.0003434 0.09481, 0.001274 0.0009887 0.09481, 0.0008426 0.001515 0.0948, 0.0002613 0.001858 0.0948, -0.0003998 0.001977 0.0948, -0.001061 0.001858 0.0948, -0.001642 0.001515 0.09479, -0.002074 0.0009887 0.09479, -0.002303 0.0003434 0.09479, -0.002303 -0.0003434 0.09479, -0.002074 -0.0009887 0.09479, -0.001642 -0.001515 0.09479, -0.001061 -0.001858 0.0948
+                    ]
+                  }
+                  coordIndex [
+                    16, 15, 14, -1, 14, 13, 12, -1, 12, 11, 10, -1, 14, 12, 10, -1, 10, 9, 8, -1, 8, 7, 6, -1, 10, 8, 6, -1, 6, 5, 4, -1, 4, 3, 2, -1, 6, 4, 2, -1, 10, 6, 2, -1, 14, 10, 2, -1, 2, 1, 0, -1, 14, 2, 0, -1, 16, 14, 0, -1, 17, 16, 0, -1, 0, 1, 19, -1, 19, 18, 0, -1, 1, 2, 20, -1, 20, 19, 1, -1, 2, 3, 21, -1, 21, 20, 2, -1, 3, 4, 22, -1, 22, 21, 3, -1, 4, 5, 23, -1, 23, 22, 4, -1, 5, 6, 24, -1, 24, 23, 5, -1, 6, 7, 25, -1, 25, 24, 6, -1, 7, 8, 26, -1, 26, 25, 7, -1, 8, 9, 27, -1, 27, 26, 8, -1, 9, 10, 28, -1, 28, 27, 9, -1, 10, 11, 29, -1, 29, 28, 10, -1, 11, 12, 30, -1, 30, 29, 11, -1, 12, 13, 31, -1, 31, 30, 12, -1, 13, 14, 32, -1, 32, 31, 13, -1, 14, 15, 33, -1, 33, 32, 14, -1, 15, 16, 34, -1, 34, 33, 15, -1, 16, 17, 35, -1, 35, 34, 16, -1, 17, 0, 18, -1, 18, 35, 17, -1, 18, 19, 37, -1, 37, 36, 18, -1, 19, 20, 38, -1, 38, 37, 19, -1, 20, 21, 39, -1, 39, 38, 20, -1, 21, 22, 40, -1, 40, 39, 21, -1, 22, 23, 41, -1, 41, 40, 22, -1, 23, 24, 42, -1, 42, 41, 23, -1, 24, 25, 43, -1, 43, 42, 24, -1, 25, 26, 44, -1, 44, 43, 25, -1, 26, 27, 45, -1, 45, 44, 26, -1, 27, 28, 46, -1, 46, 45, 27, -1, 28, 29, 47, -1, 47, 46, 28, -1, 29, 30, 48, -1, 48, 47, 29, -1, 30, 31, 49, -1, 49, 48, 30, -1, 31, 32, 50, -1, 50, 49, 31, -1, 32, 33, 51, -1, 51, 50, 32, -1, 33, 34, 52, -1, 52, 51, 33, -1, 34, 35, 53, -1, 53, 52, 34, -1, 35, 18, 36, -1, 36, 53, 35, -1, 36, 37, 55, -1, 55, 54, 36, -1, 37, 38, 56, -1, 56, 55, 37, -1, 38, 39, 57, -1, 57, 56, 38, -1, 39, 40, 58, -1, 58, 57, 39, -1, 40, 41, 59, -1, 59, 58, 40, -1, 41, 42, 60, -1, 60, 59, 41, -1, 42, 43, 61, -1, 61, 60, 42, -1, 43, 44, 62, -1, 62, 61, 43, -1, 44, 45, 63, -1, 63, 62, 44, -1, 45, 46, 64, -1, 64, 63, 45, -1, 46, 47, 65, -1, 65, 64, 46, -1, 47, 48, 66, -1, 66, 65, 47, -1, 48, 49, 67, -1, 67, 66, 48, -1, 49, 50, 68, -1, 68, 67, 49, -1, 50, 51, 69, -1, 69, 68, 50, -1, 51, 52, 70, -1, 70, 69, 51, -1, 52, 53, 71, -1, 71, 70, 52, -1, 53, 36, 54, -1, 54, 71, 53, -1, 54, 55, 73, -1, 73, 72, 54, -1, 55, 56, 74, -1, 74, 73, 55, -1, 56, 57, 75, -1, 75, 74, 56, -1, 57, 58, 76, -1, 76, 75, 57, -1, 58, 59, 77, -1, 77, 76, 58, -1, 59, 60, 78, -1, 78, 77, 59, -1, 60, 61, 79, -1, 79, 78, 60, -1, 61, 62, 80, -1, 80, 79, 61, -1, 62, 63, 81, -1, 81, 80, 62, -1, 63, 64, 82, -1, 82, 81, 63, -1, 64, 65, 83, -1, 83, 82, 64, -1, 65, 66, 84, -1, 84, 83, 65, -1, 66, 67, 85, -1, 85, 84, 66, -1, 67, 68, 86, -1, 86, 85, 67, -1, 68, 69, 87, -1, 87, 86, 68, -1, 69, 70, 88, -1, 88, 87, 69, -1, 70, 71, 89, -1, 89, 88, 70, -1, 71, 54, 72, -1, 72, 89, 71, -1, 72, 73, 91, -1, 91, 90, 72, -1, 73, 74, 92, -1, 92, 91, 73, -1, 74, 75, 93, -1, 93, 92, 74, -1, 75, 76, 94, -1, 94, 93, 75, -1, 76, 77, 95, -1, 95, 94, 76, -1, 77, 78, 96, -1, 96, 95, 77, -1, 78, 79, 97, -1, 97, 96, 78, -1, 79, 80, 98, -1, 98, 97, 79, -1, 80, 81, 99, -1, 99, 98, 80, -1, 81, 82, 100, -1, 100, 99, 81, -1, 82, 83, 101, -1, 101, 100, 82, -1, 83, 84, 102, -1, 102, 101, 83, -1, 84, 85, 103, -1, 103, 102, 84, -1, 85, 86, 104, -1, 104, 103, 85, -1, 86, 87, 105, -1, 105, 104, 86, -1, 87, 88, 106, -1, 106, 105, 87, -1, 88, 89, 107, -1, 107, 106, 88, -1, 89, 72, 90, -1, 90, 107, 89, -1, 90, 91, 92, -1, 92, 93, 94, -1, 94, 95, 96, -1, 92, 94, 96, -1, 96, 97, 98, -1, 98, 99, 100, -1, 96, 98, 100, -1, 100, 101, 102, -1, 102, 103, 104, -1, 100, 102, 104, -1, 96, 100, 104, -1, 92, 96, 104, -1, 104, 105, 106, -1, 92, 104, 106, -1, 90, 92, 106, -1, 107, 90, 106, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF batteries Transform {
+            translation 0.02595 -0.01374 -0.0001386
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry DEF batteries_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      -0.02146 0 0.03969 0.02146 0 0.03969 -0.02146 0 -0.03969 0.02146 0 -0.03969 -0.02146 0.01596 0.03969 0.02146 0.01596 0.03969 -0.02146 0.01596 -0.03969 0.02146 0.01596 -0.03969
+                    ]
+                  }
+                  coordIndex [
+                    3, 1, 0, -1, 0, 2, 3, -1, 7, 6, 4, -1, 4, 5, 7, -1, 5, 4, 0, -1, 0, 1, 5, -1, 7, 5, 1, -1, 1, 3, 7, -1, 6, 7, 3, -1, 3, 2, 6, -1, 4, 6, 2, -1, 2, 0, 4, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF very_top_side Transform {
+            translation 0.008089 0.03532 0.0005004
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0.501961 0
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry DEF green_top_side_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      -0.0528 0 0.03876 0.0528 0 0.03876 -0.0528 0 -0.03876 0.0528 0 -0.03876 -0.0528 0.002393 0.03876 0.0528 0.002393 0.03876 -0.0528 0.002393 -0.03876 0.0528 0.002393 -0.03876
+                    ]
+                  }
+                  coordIndex [
+                    3, 1, 0, -1, 0, 2, 3, -1, 7, 6, 4, -1, 4, 5, 7, -1, 5, 4, 0, -1, 0, 1, 5, -1, 7, 5, 1, -1, 1, 3, 7, -1, 6, 7, 3, -1, 3, 2, 6, -1, 4, 6, 2, -1, 2, 0, 4, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF top_side Transform {
+            translation 0.06379 0.01639 -0.02235
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 0.25
+                }
+                geometry DEF top_side_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      -0.1194 0.001484 0.06198, 0.003959 0.001484 0.06198, 0.003959 0.001484 -0.01692, -0.1202 0.001484 -0.01692, -0.1194 0.003073 0.06198, 0.003959 0.003073 0.06198, 0.003959 0.003073 -0.01692, -0.1202 0.003073 -0.01692, -0.00191 0.001484 0.05255, 0.00191 0.001484 0.05255, 0.00191 0.003073 0.05255, -0.00191 0.003073 0.05255, 0.00191 0.001484 0.03905, 0.00191 0.003073 0.03905, -0.00191 0.001484 0.03905, -0.00191 0.003073 0.03905, 0.00191 0.003073 0.03022, -0.00191 0.003073 0.03022, -0.00191 0.001484 0.03022, 0.00191 0.001484 0.03022, 0.00191 0.003073 0.01671, 0.00191 0.001484 0.01671, -0.00191 0.003073 0.01671, -0.00191 0.001484 0.01671, 0.00191 0.003073 0.006753, -0.00191 0.003073 0.006753, -0.00191 0.001484 0.006753, 0.00191 0.001484 0.006753, 0.00191 0.003073 -0.006753, 0.00191 0.001484 -0.006753, -0.00191 0.003073 -0.006753, -0.00191 0.001484 -0.006753
+                    ]
+                  }
+                  coordIndex [
+                    0, 1, 5, -1, 5, 4, 0, -1, 1, 2, 6, -1, 6, 5, 1, -1, 2, 3, 7, -1, 7, 6, 2, -1, 3, 0, 4, -1, 4, 7, 3, -1, 10, 9, 8, -1, 8, 11, 10, -1, 11, 8, 14, -1, 14, 15, 11, -1, 12, 13, 15, -1, 15, 14, 12, -1, 13, 12, 9, -1, 9, 10, 13, -1, 6, 13, 10, -1, 10, 5, 6, -1, 5, 10, 11, -1, 11, 4, 5, -1, 8, 9, 1, -1, 1, 0, 8, -1, 9, 12, 2, -1, 2, 1, 9, -1, 18, 17, 16, -1, 16, 19, 18, -1, 19, 16, 20, -1, 20, 21, 19, -1, 22, 23, 21, -1, 21, 20, 22, -1, 23, 22, 17, -1, 17, 18, 23, -1, 6, 20, 16, -1, 16, 13, 6, -1, 15, 13, 16, -1, 16, 17, 15, -1, 19, 12, 14, -1, 14, 18, 19, -1, 19, 21, 2, -1, 2, 12, 19, -1, 7, 4, 11, -1, 7, 11, 15, -1, 7, 15, 17, -1, 7, 17, 22, -1, 6, 7, 28, -1, 6, 28, 24, -1, 20, 6, 24, -1, 22, 20, 24, -1, 22, 24, 25, -1, 7, 22, 25, -1, 7, 25, 30, -1, 7, 30, 28, -1, 8, 0, 3, -1, 31, 26, 3, -1, 29, 31, 3, -1, 29, 3, 2, -1, 27, 29, 2, -1, 27, 2, 21, -1, 27, 21, 23, -1, 26, 27, 23, -1, 3, 26, 23, -1, 3, 23, 18, -1, 3, 18, 14, -1, 8, 3, 14, -1, 26, 25, 24, -1, 24, 27, 26, -1, 27, 24, 28, -1, 28, 29, 27, -1, 30, 31, 29, -1, 29, 28, 30, -1, 31, 30, 25, -1, 25, 26, 31, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF left_back_screw Transform {
+            translation -0.03943 0.01925 -0.0354
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5137 0.5373 0.4941
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF left_back_screw_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                    ]
+                  }
+                  coordIndex [
+                    2, 7, 4, -1, 6, 9, 5, -1, 9, 10, 11, -1, 11, 20, 13, -1, 4, 12, 2, -1, 13, 17, 18, -1, 15, 0, 10, -1, 0, 5, 4, -1, 10, 21, 15, -1, 9, 6, 10, -1, 7, 9, 11, -1, 14, 3, 8, -1, 8, 4, 7, -1, 13, 4, 8, -1, 16, 2, 12, -1, 7, 2, 9, -1, 1, 19, 0, -1, 10, 1, 11, -1, 3, 18, 17, -1, 7, 11, 3, -1, 5, 12, 4, -1, 12, 5, 9, -1, 13, 0, 4, -1, 0, 13, 20, -1, 14, 7, 3, -1, 7, 14, 8, -1, 0, 15, 5, -1, 5, 15, 6, -1, 9, 16, 12, -1, 2, 16, 9, -1, 17, 13, 8, -1, 8, 3, 17, -1, 18, 11, 13, -1, 11, 18, 3, -1, 19, 10, 0, -1, 10, 19, 1, -1, 20, 1, 0, -1, 1, 20, 11, -1, 21, 6, 15, -1, 6, 21, 10, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF right_back_screw Transform {
+            translation -0.03943 0.01925 0.03507
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5137 0.5373 0.4941
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF right_back_screw_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                    ]
+                  }
+                  coordIndex [
+                    2, 7, 4, -1, 6, 9, 5, -1, 9, 10, 11, -1, 11, 20, 13, -1, 4, 12, 2, -1, 13, 17, 18, -1, 15, 0, 10, -1, 0, 5, 4, -1, 10, 21, 15, -1, 9, 6, 10, -1, 7, 9, 11, -1, 14, 3, 8, -1, 8, 4, 7, -1, 13, 4, 8, -1, 16, 2, 12, -1, 7, 2, 9, -1, 1, 19, 0, -1, 10, 1, 11, -1, 3, 18, 17, -1, 7, 11, 3, -1, 5, 12, 4, -1, 12, 5, 9, -1, 13, 0, 4, -1, 0, 13, 20, -1, 14, 7, 3, -1, 7, 14, 8, -1, 0, 15, 5, -1, 5, 15, 6, -1, 9, 16, 12, -1, 2, 16, 9, -1, 17, 13, 8, -1, 8, 3, 17, -1, 18, 11, 13, -1, 11, 18, 3, -1, 19, 10, 0, -1, 10, 19, 1, -1, 20, 1, 0, -1, 1, 20, 11, -1, 21, 6, 15, -1, 6, 21, 10, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF right_front_screw Transform {
+            translation 0.0574 0.01925 0.03507
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5137 0.5373 0.4941
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF right_front_screw_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                    ]
+                  }
+                  coordIndex [
+                    2, 7, 4, -1, 6, 9, 5, -1, 9, 10, 11, -1, 11, 20, 13, -1, 4, 12, 2, -1, 13, 17, 18, -1, 15, 0, 10, -1, 0, 5, 4, -1, 10, 21, 15, -1, 9, 6, 10, -1, 7, 9, 11, -1, 14, 3, 8, -1, 8, 4, 7, -1, 13, 4, 8, -1, 16, 2, 12, -1, 7, 2, 9, -1, 1, 19, 0, -1, 10, 1, 11, -1, 3, 18, 17, -1, 7, 11, 3, -1, 5, 12, 4, -1, 12, 5, 9, -1, 13, 0, 4, -1, 0, 13, 20, -1, 14, 7, 3, -1, 7, 14, 8, -1, 0, 15, 5, -1, 5, 15, 6, -1, 9, 16, 12, -1, 2, 16, 9, -1, 17, 13, 8, -1, 8, 3, 17, -1, 18, 11, 13, -1, 11, 18, 3, -1, 19, 10, 0, -1, 10, 19, 1, -1, 20, 1, 0, -1, 1, 20, 11, -1, 21, 6, 15, -1, 6, 21, 10, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF left_front_screw Transform {
+            translation 0.0574 0.01925 -0.03503
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5137 0.5373 0.4941
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF left_front_screw_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.0004726 0.01947 -0.00268 0.0004726 0 -0.00268 -0.001361 0 0.002357 0.002721 0 0 0.0004726 0.01947 0.00268 -0.002721 0.01947 0 -0.002557 0 -0.0009308 0.001361 0 0.002357 0.002557 0.01947 0.0009308 -0.002557 0 0.0009308 -0.001361 0 -0.002357 0.002085 0 -0.001749 -0.002085 0.01947 0.001749 0.002085 0.01947 -0.001749 0.002085 0 0.001749 -0.002085 0.01947 -0.001749 -0.002085 0 0.001749 0.002721 0.01947 0 0.002557 0 -0.0009308 -0.0004726 0 -0.00268 0.001361 0 -0.002357 -0.002085 0 -0.001749
+                    ]
+                  }
+                  coordIndex [
+                    2, 7, 4, -1, 6, 9, 5, -1, 9, 10, 11, -1, 11, 20, 13, -1, 4, 12, 2, -1, 13, 17, 18, -1, 15, 0, 10, -1, 0, 5, 4, -1, 10, 21, 15, -1, 9, 6, 10, -1, 7, 9, 11, -1, 14, 3, 8, -1, 8, 4, 7, -1, 13, 4, 8, -1, 16, 2, 12, -1, 7, 2, 9, -1, 1, 19, 0, -1, 10, 1, 11, -1, 3, 18, 17, -1, 7, 11, 3, -1, 5, 12, 4, -1, 12, 5, 9, -1, 13, 0, 4, -1, 0, 13, 20, -1, 14, 7, 3, -1, 7, 14, 8, -1, 0, 15, 5, -1, 5, 15, 6, -1, 9, 16, 12, -1, 2, 16, 9, -1, 17, 13, 8, -1, 8, 3, 17, -1, 18, 11, 13, -1, 11, 18, 3, -1, 19, 10, 0, -1, 10, 19, 1, -1, 20, 1, 0, -1, 1, 20, 11, -1, 21, 6, 15, -1, 6, 21, 10, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF back_side Transform {
+            translation -0.053 -0.001431 0.02171
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 0.25
+                }
+                geometry DEF back_side_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      -0.002624 0 -0.03822, -0.001136 0.003509 -0.004455, -0.001608 0.01326 -0.05054, -0.002164 -0.02516 -0.005204, -0.002272 0.01977 0.01681, -0.00125 -0.025 -0.03901, -0.002248 0 0.004455, -0.002634 0.009747 -0.03199, -0.002282 0.009417 0.007724, -0.00236 -0.003097 -0.01063, -0.001512 0.003509 -0.04713, -0.002446 0.009417 -0.01083, -0.002552 -0.006097 -0.03471, -0.002481 0.001012 -0.02129, -0.002953 0.01939 -0.0608, -0.001058 0.003509 0.004455, -0.002702 0 -0.04713, -0.001444 0.01326 -0.03199, -0.002526 -0.02472 -0.04589, -0.002111 -0.02449 0.001364, -0.002326 0 -0.004455, -0.001092 0.01293 0.007724, -0.001024 -0.01427 -0.005266, -0.001256 0.01293 -0.01083, -0.001434 0.003509 -0.03822, -0.002798 0.009747 -0.05054, -0.001339 -0.006089 -0.03472, -0.001034 0 0.004455, -0.001489 0 -0.04713, -0.002271 0.003509 0.004455, -0.001421 0.009747 -0.03199, -0.001058 0.01978 0.01679, -0.001268 0.001021 -0.0213, -0.002726 0.003509 -0.04713, -0.001147 -0.003089 -0.01064, -0.001069 0.009417 0.007724, -0.001232 0.009417 -0.01083, -0.001739 0.0194 -0.06081, -0.0009509 -0.02515 -0.005215, -0.002658 0.01326 -0.03199, -0.00235 0.003509 -0.004455, -0.002647 0.003509 -0.03822, -0.001329 -0.002227 -0.03067, -0.002527 -0.01315 -0.03718, -0.001584 0.009747 -0.05054, -0.002469 0.01293 -0.01083, -0.002306 0.01293 0.007724, -0.002821 0.01326 -0.05054, -0.002512 0.0006737 -0.02504, -0.001312 -0.02471 -0.0459, -0.002238 -0.01428 -0.005255, -0.0008976 -0.02448 0.001354, -0.001113 0 -0.004455, -0.00141 0 -0.03822, -0.002542 -0.002235 -0.03066, -0.001299 0.0006822 -0.02505, -0.001313 -0.01314 -0.03719, -0.002324 -0.005969 -0.008736, -0.002181 -0.02228 -0.004905, -0.002463 -0.02501 -0.039, -0.001111 -0.005961 -0.008746, -0.0009676 -0.02227 -0.004915, -0.002416 -0.0008793 -0.01533, -0.001203 -0.0008708 -0.01534
+                    ]
+                  }
+                  coordIndex [
+                    36, 32, 30, -1, 7, 62, 11, -1, 36, 63, 32, -1, 62, 9, 40, -1, 27, 31, 61, -1, 58, 4, 6, -1, 4, 39, 45, -1, 23, 17, 31, -1, 28, 49, 37, -1, 16, 14, 18, -1, 45, 46, 4, -1, 21, 23, 31, -1, 34, 52, 27, -1, 57, 6, 20, -1, 37, 31, 17, -1, 39, 4, 14, -1, 10, 44, 30, -1, 7, 25, 33, -1, 29, 8, 11, -1, 29, 4, 8, -1, 15, 1, 35, -1, 35, 31, 15, -1, 27, 61, 22, -1, 6, 50, 58, -1, 28, 56, 5, -1, 18, 0, 16, -1, 33, 41, 7, -1, 30, 24, 10, -1, 36, 1, 63, -1, 36, 35, 1, -1, 29, 11, 40, -1, 11, 62, 40, -1, 18, 43, 0, -1, 28, 53, 42, -1, 24, 30, 55, -1, 24, 55, 42, -1, 41, 48, 7, -1, 54, 48, 41, -1, 25, 14, 33, -1, 10, 37, 44, -1, 17, 2, 37, -1, 47, 39, 14, -1, 31, 27, 15, -1, 29, 6, 4, -1, 10, 28, 37, -1, 16, 33, 14, -1, 30, 17, 23, -1, 45, 39, 7, -1, 28, 5, 49, -1, 18, 59, 43, -1, 31, 51, 61, -1, 58, 19, 4, -1, 20, 40, 9, -1, 34, 1, 52, -1, 31, 35, 21, -1, 46, 8, 4, -1, 22, 60, 27, -1, 57, 50, 6, -1, 36, 30, 23, -1, 45, 7, 11, -1, 54, 41, 0, -1, 53, 24, 42, -1, 44, 37, 2, -1, 25, 47, 14, -1, 48, 54, 42, -1, 5, 56, 43, -1, 29, 27, 6, -1, 27, 20, 6, -1, 16, 28, 10, -1, 28, 16, 0, -1, 29, 1, 15, -1, 29, 15, 27, -1, 30, 25, 7, -1, 30, 7, 39, -1, 51, 31, 4, -1, 14, 4, 31, -1, 42, 55, 48, -1, 32, 63, 62, -1, 24, 33, 10, -1, 16, 10, 33, -1, 60, 22, 57, -1, 9, 62, 63, -1, 46, 35, 8, -1, 8, 35, 36, -1, 11, 8, 36, -1, 11, 36, 23, -1, 31, 37, 14, -1, 18, 14, 37, -1, 22, 61, 58, -1, 19, 3, 38, -1, 47, 17, 39, -1, 39, 17, 30, -1, 1, 40, 20, -1, 29, 40, 1, -1, 24, 0, 41, -1, 24, 41, 33, -1, 42, 26, 28, -1, 26, 42, 54, -1, 0, 43, 12, -1, 12, 43, 56, -1, 25, 44, 2, -1, 30, 44, 25, -1, 23, 45, 11, -1, 46, 45, 23, -1, 46, 23, 21, -1, 46, 21, 35, -1, 25, 2, 47, -1, 47, 2, 17, -1, 7, 48, 13, -1, 13, 48, 55, -1, 37, 49, 18, -1, 59, 18, 49, -1, 50, 57, 22, -1, 58, 50, 22, -1, 4, 19, 51, -1, 38, 51, 19, -1, 1, 20, 52, -1, 27, 52, 20, -1, 0, 53, 28, -1, 24, 53, 0, -1, 0, 12, 54, -1, 54, 12, 26, -1, 30, 32, 55, -1, 55, 32, 13, -1, 28, 26, 56, -1, 56, 26, 12, -1, 20, 9, 57, -1, 57, 9, 34, -1, 58, 3, 19, -1, 3, 58, 61, -1, 49, 5, 59, -1, 43, 59, 5, -1, 34, 27, 60, -1, 34, 60, 57, -1, 51, 38, 61, -1, 61, 38, 3, -1, 7, 13, 62, -1, 62, 13, 32, -1, 1, 34, 63, -1, 63, 34, 9, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF left_side Transform {
+            translation -0.00773 -0.006306 -0.038
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 0.25
+                }
+                geometry DEF left_side_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.01258 -6.595e-5 5.189e-5, -0.01256 0.002832 0.000167, -0.01258 6.595e-5 -0.001436, 0.01259 0.002543 -0.001454, -0.01256 0.002832 -0.001386, 0.01258 -6.595e-5 -0.001502, 0.01179 0.002704 -0.001449, -0.01258 6.595e-5 0.000117, 0.01259 0.0027 0.0001019, 0.07081 0.000376 -8.532e-5, 0.0491 -0.01209 -0.0002567, -0.0176 0.01683 0.0004327, 0.07126 0.01486 0.0001755, -0.04509 0.005421 0.0002949, 0.07545 0.02427 -0.001218, 0.07576 -0.0007594 -0.0001182, 0.07186 0.01236 -0.001425, -0.04274 0.01973 -0.001006, 0.07313 0.001492 -0.001624, -0.02911 0.009066 -0.001232, 0.07186 0.01464 -0.001383, -0.003956 0.008934 -0.001298, -0.003956 0.008934 0.0002559, -0.01759 0.01959 -0.001071, -0.02911 0.009066 0.000321, 0.07116 0.01213 0.0001265, -0.04783 0.009195 -0.001183, -0.02909 0.01183 0.000371, 0.07169 0.01505 -6.086e-5, 0.008257 -0.01125 -0.0001397, 0.07316 0.002207 -5.805e-5, 0.0704 0.01333 0.00015, 0.07306 0.01259 -0.0008109, 0.073 0.01445 0.0001637, 0.07334 0.01344 0.0001447, -0.04276 0.01696 0.0004978, -0.04713 0.02434 -0.0009112, 0.07142 0.001973 -0.001611, 0.07186 0.01201 -0.0009116, 0.07114 0.01481 -0.000796, 0.0713 0.01207 0.0001251, 0.07576 -0.00073 -0.001671, 0.07306 -5.904e-5 -9.88e-5, 0.07079 0.01317 -0.001407, 0.07294 0.01379 -0.001401, 0.072 5.042e-5 -0.001648, 0.07251 0.01211 0.0001226, 0.07278 0.01461 -0.0009275, -0.04274 0.01973 0.0005478, -0.003942 0.0117 0.0003059, -0.003942 0.0117 -0.001248, -0.01759 0.01959 0.0004827, -0.0176 0.01683 -0.001121, -0.04276 0.01696 -0.001056, -0.02909 0.01183 -0.001182, 0.07152 0.002516 -4.837e-5, 0.0491 -0.01206 -0.00181, 0.07546 0.02424 0.0003348, 0.07053 0.01409 -0.0008661, -0.0451 0.00545 -0.001258, -0.04712 0.02431 0.0006417, 0.0704 0.01333 0.00015, 0.07059 0.01259 -0.0005674, 0.07222 0.01494 0.0001746, 0.008253 -0.01122 -0.001693, -0.04782 0.009165 0.0003695, 0.07169 0.01191 -6.086e-5, 0.0726 0.01265 -0.001421, 0.07072 0.01444 0.0001693, 0.07331 0.01287 -0.0003141, 0.07149 -0.0002714 -9.873e-5, 0.07104 0.001281 -0.001623, 0.07091 0.01409 -0.001391, 0.07131 0.01201 -0.0005428, 0.07328 0.01409 -3.271e-5, 0.07304 0.0144 0.0001628, 0.07192 0.01505 -0.0006129, 0.07359 0.0009696 -8.15e-5, 0.07215 0.01191 -0.0004307, 0.07333 0.01333 0.0001426, 0.0734 0.01348 -0.0006187, 0.07289 0.0003921 -0.001644, 0.0707 0.001587 -6.314e-5
+                    ]
+                  }
+                  coordIndex [
+                    12, 0, 29, -1, 0, 7, 29, -1, 22, 13, 12, -1, 12, 1, 8, -1, 4, 2, 59, -1, 5, 3, 56, -1, 6, 4, 59, -1, 1, 12, 13, -1, 12, 8, 0, -1, 52, 14, 20, -1, 56, 41, 15, -1, 2, 64, 59, -1, 2, 5, 64, -1, 52, 20, 50, -1, 19, 6, 59, -1, 57, 15, 41, -1, 55, 40, 10, -1, 7, 13, 29, -1, 7, 1, 13, -1, 34, 15, 57, -1, 11, 12, 57, -1, 30, 15, 40, -1, 70, 10, 15, -1, 37, 56, 3, -1, 21, 43, 3, -1, 24, 27, 35, -1, 51, 57, 60, -1, 44, 14, 41, -1, 43, 37, 3, -1, 36, 14, 23, -1, 19, 59, 26, -1, 72, 43, 21, -1, 41, 67, 44, -1, 3, 6, 21, -1, 19, 21, 6, -1, 12, 27, 49, -1, 54, 52, 50, -1, 54, 53, 52, -1, 24, 65, 13, -1, 22, 24, 13, -1, 31, 43, 58, -1, 69, 46, 79, -1, 24, 35, 65, -1, 26, 53, 54, -1, 12, 11, 27, -1, 11, 35, 27, -1, 58, 43, 72, -1, 5, 56, 64, -1, 12, 29, 10, -1, 77, 42, 15, -1, 82, 55, 10, -1, 25, 62, 31, -1, 67, 80, 44, -1, 32, 67, 38, -1, 74, 44, 80, -1, 63, 47, 33, -1, 40, 61, 10, -1, 12, 75, 57, -1, 60, 48, 51, -1, 60, 65, 35, -1, 53, 26, 36, -1, 23, 17, 36, -1, 56, 71, 45, -1, 18, 37, 43, -1, 25, 73, 62, -1, 39, 20, 76, -1, 68, 39, 28, -1, 34, 40, 15, -1, 45, 41, 56, -1, 18, 43, 41, -1, 70, 15, 42, -1, 43, 16, 41, -1, 73, 16, 43, -1, 74, 47, 44, -1, 44, 20, 14, -1, 81, 18, 41, -1, 46, 32, 78, -1, 78, 66, 46, -1, 20, 47, 76, -1, 20, 44, 47, -1, 35, 48, 60, -1, 12, 49, 22, -1, 20, 21, 50, -1, 57, 51, 11, -1, 52, 23, 14, -1, 36, 17, 53, -1, 54, 19, 26, -1, 55, 30, 40, -1, 64, 56, 10, -1, 15, 10, 56, -1, 41, 14, 57, -1, 60, 57, 14, -1, 39, 68, 58, -1, 58, 72, 39, -1, 26, 59, 13, -1, 29, 13, 59, -1, 14, 36, 60, -1, 65, 60, 36, -1, 61, 12, 10, -1, 62, 73, 43, -1, 43, 31, 62, -1, 47, 63, 28, -1, 59, 64, 29, -1, 10, 29, 64, -1, 36, 26, 65, -1, 13, 65, 26, -1, 73, 25, 66, -1, 67, 16, 38, -1, 16, 67, 41, -1, 68, 31, 58, -1, 67, 32, 80, -1, 32, 46, 69, -1, 70, 9, 10, -1, 37, 71, 56, -1, 72, 20, 39, -1, 72, 21, 20, -1, 16, 73, 38, -1, 66, 38, 73, -1, 80, 79, 74, -1, 47, 74, 33, -1, 75, 34, 57, -1, 28, 76, 47, -1, 76, 28, 39, -1, 30, 77, 15, -1, 32, 38, 78, -1, 66, 78, 38, -1, 79, 33, 74, -1, 32, 69, 80, -1, 79, 80, 69, -1, 45, 81, 41, -1, 9, 82, 10, -1
+                  ]
+                }
+              }
+            ]
+          }
+          DEF front_side Transform {
+            translation 0.06689 0.008742 0.009575
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.9 0.9 0.9
+                  roughness 0.25
+                }
+                geometry DEF front_side_FACES IndexedFaceSet {
+                  coord Coordinate {
+                    point [
+                      0.0007957 0.002722 -0.01551, -0.0006382 0.0042 0.00698, 0.000717 -0.01162 -0.007233, -0.0005718 0.001365 0, 0.0008724 0.002722 -0.02357, -0.0004094 -0.001373 -0.01707, -0.0002005 -0.001459 0.0002005, 0.001121 0.006125 -0.04967, 0.0003542 0.006562 0.0309, -0.000503 0.004044 -0.007233, -0.0004195 0.001237 -0.01601, -0.000559 0 -0.001341, 0.0001575 0.001459 -0.01693, 0.0006358 0 0.0013, -0.0004242 0.0042 -0.01551, -0.000457 -0.01598 -0.01206, 0.0008054 -0.001225 -0.01653, -0.0005615 0.0042 -0.001079, 0.000685 -0.01567 -0.003878, 0.0007957 0.0002901 -0.01551, 0.0002781 0.001459 5.532e-5, 0.0008154 -0.0008262 -0.01758, -0.0005844 0 0.001328, -0.0007789 0.006221 0.02177, 0.001043 0.005787 -0.04147, 0.0006584 0.002722 -0.001079, -0.0004219 -0.001052 -0.01576, 0.0008154 0.0008262 -0.01758, -0.0004 -0.0002901 -0.01805, 0.0006526 -0.001237 -0.0004716, 0.0006578 0.0008262 -0.001012, -0.0005348 -0.01567 -0.003889, -0.0004797 -0.01162 -0.00968, -0.0005798 -0.001052 0.0008474, -0.0004259 0.0002901 -0.01534, -0.0001011 0.009353 -0.04948, 0 -0.0008262 -0.001209, -0.0003475 0.0042 -0.02357, 0.0007402 0.004044 -0.00968, 0.0005817 0.002722 0.00698, -0.0008616 0.009445 0.03047, 0.0007628 -0.01598 -0.01205, -0.0004094 0.001374 -0.01707, 0.0006436 0.001237 0.0004827, -0.0005663 -0.001237 -0.0005728, 0.000441 0.006221 0.02178, 0.000571 0.001237 -0.01612, 0.0002781 -0.0002901 -0.01529, -0.0001771 0.005787 -0.04148, 0.0002358 -0.001459 -0.01685, 0.0008184 0 -0.01789, 0.0006436 -0.001237 0.0004827, 0.0006604 0 -0.001287, -0.0005832 0.0005691 0.001204, -0.0005636 0.001052 -0.0008586, 0.0008085 0.001222 -0.01685, -0.0006382 0.002722 0.00698, 0.0006584 0.0042 -0.001079, 0.0007402 -0.01162 -0.00968, -0.000503 -0.01162 -0.007233, 0.000717 0.004044 -0.007233, -0.0004797 0.004044 -0.00968, -0.000404 0.001052 -0.01764, 0.001119 0.009353 -0.04947, 0 -0.0008262 -0.0179, 0.0007957 0.0042 -0.01551, -0.0004242 0.002722 -0.01551, -0.0004165 -0.001374 -0.01633, 0.0001575 -0.001237 -0.0159, 0.0002005 0.001052 0.001008, 0 0.001374 -0.0005563, 0.0002358 -0.0008262 0.001185, 0.0002358 0.0008262 -0.01551, 0 -0.001374 -0.0005563, 0.0003582 0.009445 0.03048, 0.0005817 0.0042 0.00698, -0.0005772 0.001233 0.0005704, 0 0.0008262 -0.0179, 0 0.0002901 -0.001426, 0 0.0008262 -0.001209, 0.0007984 0.0008262 -0.01579, -0.0003475 0.002722 -0.02357, 0.0008724 0.0042 -0.02357, -0.0005615 0.002722 -0.001079, 0 -0.0002901 0.001426, -0.000404 -0.001052 -0.01764, 0.0001085 -0.001374 0.0005456, 0 0.0005691 0.001343, -9.917e-5 0.006125 -0.04968, -0.0008656 0.006562 0.03088, 0.0008009 -0.001052 -0.01606, 0.0006384 -0.0008241 0.001024, 0 0.001237 -0.0175, 0 -0.001237 -0.0175, 0.0001575 0.001237 -0.0159, 5.532e-5 0.001459 -0.01641, -0.0005602 -0.0005691 -0.001216, 0.0006578 -0.0008262 -0.001012, 0.0007957 -0.0002901 -0.01551, 0.0002781 -0.001459 -5.532e-5, 0 -0.0002901 -0.01812, 0.0002005 -0.001459 -0.01649, 0.0006526 0.001237 -0.0004716, 0.0006384 0.0008262 0.001023, -0.0005718 -0.001365 0, 0.000262 0.0005691 -0.01801, 0.0001085 0.001459 0.000262, 0 -0.0002901 -0.001426, 0.0002358 -0.0008262 -0.01551, 0.0005563 0.001374 -0.01669, -0.0001575 -0.001459 -0.0002358, -0.0004237 0.0008262 -0.01556, 0.0003933 0.001052 -0.01764, -0.000262 0.001459 -0.0001085, 0.0006469 -0.001317 0.0001321, 0 -0.001374 -0.01725, -0.0003933 0.001052 0.0009496, -0.0001085 -0.001374 -0.01615, 0.0002781 0.0002901 -0.01529, 0.0008129 -0.001052 -0.01731, -0.0002129 0.001374 0.0005139, 0.0008129 0.001052 -0.01731, 0.000309 -0.001237 -0.01744, -0.0004237 -0.0008225 -0.01556, -0.0004259 -0.0002901 -0.01534, -0.0004 0.0002901 -0.01805, 5.532e-5 0.001459 -0.0002781, -0.0004022 0.0008262 -0.01783, 0.0006592 -0.0005682 -0.001163, 0.000637 0.0005691 0.001175, -0.0005832 -0.0005691 0.001204, 0.0004625 -0.0008262 -0.01781, -0.0005602 0.0005691 -0.001216, 0.0005563 0 -0.01804, 0 -0.001052 -0.001028, -0.0002005 -0.001052 0.001008, -0.0001575 -0.001459 -0.01693, -0.000413 0.001418 -0.01669, -0.0005772 -0.001234 0.0005702, 0 0.001052 -0.001028, 0.0006469 0.001317 0.0001287, 0.0002129 0.001374 -0.01618, 0.0005456 -0.001374 -0.0168, 0.000309 0.001374 -0.0004625, -0.0002005 -0.001459 -0.01649
+                    ]
+                  }
+                  coordIndex [
+                    83, 59, 132, -1, 30, 2, 25, -1, 91, 39, 18, -1, 31, 56, 130, -1, 43, 25, 39, -1, 56, 83, 3, -1, 41, 4, 21, -1, 28, 81, 15, -1, 23, 48, 61, -1, 38, 24, 45, -1, 124, 123, 32, -1, 90, 98, 58, -1, 27, 50, 4, -1, 125, 127, 81, -1, 128, 97, 2, -1, 44, 96, 31, -1, 129, 103, 39, -1, 56, 76, 53, -1, 81, 48, 15, -1, 37, 14, 48, -1, 65, 82, 24, -1, 4, 41, 24, -1, 39, 45, 18, -1, 75, 57, 45, -1, 56, 31, 23, -1, 17, 1, 23, -1, 32, 66, 34, -1, 66, 81, 42, -1, 65, 14, 37, -1, 66, 0, 4, -1, 65, 24, 38, -1, 38, 58, 0, -1, 137, 10, 66, -1, 19, 0, 58, -1, 30, 52, 2, -1, 83, 132, 54, -1, 80, 55, 0, -1, 4, 0, 55, -1, 138, 104, 31, -1, 51, 91, 18, -1, 66, 32, 61, -1, 14, 61, 48, -1, 24, 41, 15, -1, 15, 32, 26, -1, 100, 133, 105, -1, 26, 67, 15, -1, 25, 83, 56, -1, 57, 60, 45, -1, 9, 59, 83, -1, 23, 9, 17, -1, 11, 59, 31, -1, 15, 31, 59, -1, 90, 58, 41, -1, 97, 18, 2, -1, 111, 34, 66, -1, 55, 80, 46, -1, 79, 54, 132, -1, 76, 69, 116, -1, 5, 115, 93, -1, 119, 16, 41, -1, 91, 51, 71, -1, 129, 87, 69, -1, 23, 40, 35, -1, 45, 63, 74, -1, 63, 45, 24, -1, 23, 35, 48, -1, 25, 2, 60, -1, 60, 57, 25, -1, 101, 144, 117, -1, 108, 90, 68, -1, 77, 127, 125, -1, 109, 12, 55, -1, 64, 28, 85, -1, 15, 85, 28, -1, 97, 134, 73, -1, 51, 86, 71, -1, 140, 102, 25, -1, 70, 54, 139, -1, 31, 15, 41, -1, 23, 31, 18, -1, 32, 58, 38, -1, 2, 59, 9, -1, 91, 71, 84, -1, 31, 130, 33, -1, 47, 123, 124, -1, 80, 72, 46, -1, 24, 7, 63, -1, 35, 88, 48, -1, 78, 52, 30, -1, 36, 96, 44, -1, 4, 81, 66, -1, 37, 82, 65, -1, 9, 60, 2, -1, 38, 61, 32, -1, 56, 39, 25, -1, 39, 75, 45, -1, 74, 8, 45, -1, 23, 89, 40, -1, 2, 18, 41, -1, 41, 18, 31, -1, 12, 92, 112, -1, 95, 10, 137, -1, 120, 106, 69, -1, 20, 102, 140, -1, 110, 99, 29, -1, 104, 138, 6, -1, 89, 23, 45, -1, 18, 45, 23, -1, 111, 94, 72, -1, 141, 10, 95, -1, 108, 98, 90, -1, 19, 47, 118, -1, 15, 48, 24, -1, 7, 24, 48, -1, 101, 117, 90, -1, 16, 119, 142, -1, 50, 100, 131, -1, 50, 21, 4, -1, 51, 114, 99, -1, 114, 51, 18, -1, 128, 107, 36, -1, 36, 97, 128, -1, 13, 84, 87, -1, 56, 53, 22, -1, 70, 113, 54, -1, 83, 54, 3, -1, 112, 121, 12, -1, 121, 27, 4, -1, 1, 56, 23, -1, 39, 56, 1, -1, 83, 25, 57, -1, 17, 57, 75, -1, 41, 58, 2, -1, 2, 58, 32, -1, 59, 32, 15, -1, 32, 59, 2, -1, 45, 60, 38, -1, 61, 38, 60, -1, 23, 61, 9, -1, 60, 9, 61, -1, 42, 92, 12, -1, 62, 42, 81, -1, 88, 35, 63, -1, 74, 63, 35, -1, 119, 122, 115, -1, 131, 21, 50, -1, 0, 65, 38, -1, 14, 65, 0, -1, 61, 14, 66, -1, 0, 66, 14, -1, 49, 136, 144, -1, 67, 5, 15, -1, 67, 26, 117, -1, 123, 108, 68, -1, 69, 103, 129, -1, 43, 69, 106, -1, 126, 113, 70, -1, 102, 20, 143, -1, 135, 33, 130, -1, 33, 135, 86, -1, 34, 118, 47, -1, 72, 34, 111, -1, 110, 104, 6, -1, 44, 73, 134, -1, 35, 40, 74, -1, 8, 74, 40, -1, 75, 1, 17, -1, 1, 75, 39, -1, 113, 106, 120, -1, 56, 3, 76, -1, 105, 50, 27, -1, 112, 92, 77, -1, 96, 36, 107, -1, 132, 78, 79, -1, 139, 102, 143, -1, 30, 79, 78, -1, 72, 80, 19, -1, 19, 80, 0, -1, 81, 37, 48, -1, 82, 37, 81, -1, 82, 4, 24, -1, 81, 4, 82, -1, 83, 17, 9, -1, 57, 17, 83, -1, 130, 84, 135, -1, 22, 87, 84, -1, 93, 85, 5, -1, 5, 85, 15, -1, 86, 51, 99, -1, 86, 6, 138, -1, 116, 69, 87, -1, 87, 22, 53, -1, 63, 7, 88, -1, 48, 88, 7, -1, 40, 89, 8, -1, 45, 8, 89, -1, 90, 16, 101, -1, 16, 90, 41, -1, 84, 13, 91, -1, 91, 13, 39, -1, 127, 77, 92, -1, 92, 42, 62, -1, 21, 131, 122, -1, 85, 93, 64, -1, 109, 141, 95, -1, 94, 46, 72, -1, 95, 137, 12, -1, 95, 12, 109, -1, 107, 11, 96, -1, 96, 11, 31, -1, 73, 29, 97, -1, 29, 18, 97, -1, 98, 47, 19, -1, 98, 19, 58, -1, 99, 110, 6, -1, 99, 6, 86, -1, 125, 100, 77, -1, 28, 64, 100, -1, 142, 101, 16, -1, 49, 144, 101, -1, 30, 102, 139, -1, 102, 30, 25, -1, 69, 43, 103, -1, 103, 43, 39, -1, 104, 110, 44, -1, 104, 44, 31, -1, 105, 77, 100, -1, 112, 77, 105, -1, 126, 106, 113, -1, 140, 106, 20, -1, 52, 78, 107, -1, 11, 107, 78, -1, 123, 47, 108, -1, 98, 108, 47, -1, 55, 46, 109, -1, 141, 109, 46, -1, 73, 44, 110, -1, 29, 73, 110, -1, 94, 111, 10, -1, 10, 111, 66, -1, 27, 112, 105, -1, 27, 121, 112, -1, 3, 54, 113, -1, 120, 3, 113, -1, 114, 29, 99, -1, 29, 114, 18, -1, 115, 142, 119, -1, 136, 49, 115, -1, 53, 116, 87, -1, 53, 76, 116, -1, 68, 90, 117, -1, 26, 68, 117, -1, 19, 118, 72, -1, 34, 72, 118, -1, 21, 122, 119, -1, 21, 119, 41, -1, 120, 76, 3, -1, 69, 76, 120, -1, 121, 55, 12, -1, 55, 121, 4, -1, 93, 122, 131, -1, 122, 93, 115, -1, 68, 26, 123, -1, 123, 26, 32, -1, 47, 124, 34, -1, 34, 124, 32, -1, 100, 125, 28, -1, 28, 125, 81, -1, 126, 20, 106, -1, 20, 126, 143, -1, 92, 62, 127, -1, 127, 62, 81, -1, 107, 128, 52, -1, 52, 128, 2, -1, 87, 129, 13, -1, 13, 129, 39, -1, 84, 130, 22, -1, 56, 22, 130, -1, 64, 131, 100, -1, 131, 64, 93, -1, 78, 132, 11, -1, 11, 132, 59, -1, 100, 50, 133, -1, 50, 105, 133, -1, 97, 36, 134, -1, 44, 134, 36, -1, 135, 71, 86, -1, 71, 135, 84, -1, 136, 5, 67, -1, 115, 5, 136, -1, 42, 137, 66, -1, 137, 42, 12, -1, 86, 138, 33, -1, 138, 31, 33, -1, 79, 30, 139, -1, 54, 79, 139, -1, 43, 106, 140, -1, 43, 140, 25, -1, 94, 10, 141, -1, 46, 94, 141, -1, 142, 115, 49, -1, 49, 101, 142, -1, 143, 70, 139, -1, 70, 143, 126, -1, 144, 136, 67, -1, 67, 117, 144, -1
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    model "Boe Bot"
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.012 -0.007
+          children [
+            Box {
+              size 0.075 0.06 0.105
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.005 -0.006
+          children [
+            Box {
+              size 0.08 0.03 0.123
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.0245 0.056
+          children [
+            USE back_wheel_sphere
+          ]
+        }
+      ]
+    }
+    physics Physics {
+    }
+  }
+}

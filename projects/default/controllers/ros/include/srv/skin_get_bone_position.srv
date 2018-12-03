@@ -1,0 +1,4 @@
+int32 index
+bool absolute
+---
+geometry_msgs/Vector3 position

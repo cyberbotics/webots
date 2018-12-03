@@ -1,0 +1,9 @@
+\documentclass{article}
+
+\usepackage{pstricks}
+
+\pagestyle{empty}
+\begin{document}
+$$ corr = noise\_correlation^{time\_step / 1000} $$
+$$ noise_{t} = corr * noise_{t-1} + \sqrt{1 - corr^{2}} * gaussian\_variate $$
+\end{document}

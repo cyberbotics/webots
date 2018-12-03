@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoTypoInISKeyword [
+  field SFRotation rotation 0 1 0 0
+  field SFVec3f translation 0 0 0
+]
+{
+  Solid {
+    rotation IS rotation
+    translation ISNOT translation # error here: typo in IS keyword
+    children [
+      Shape {
+        geometry DEF BOX Box {
+          size 0.1 0.1 0.1
+        }
+      }
+    ]
+    boundingObject USE BOX
+  }
+}

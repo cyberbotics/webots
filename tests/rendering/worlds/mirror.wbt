@@ -1,0 +1,71 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0 1 0 0
+  position -0.06790763702491784 -1.463755315382977 1.0217679711005074
+}
+Background {
+  skyColor [
+    0.788235294117647 0.788235294117647 0.788235294117647
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -0.5 -1
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -0.5 1
+}
+TestSuiteSupervisor {
+}
+Transform {
+  translation 0 -4.000000021624983 -4.509999999999999
+  rotation 1 0 0 1.5707963220000003
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+        size 20 20
+      }
+    }
+  ]
+}
+Mirror {
+  translation 0 -2.0100000000000073 -0.7900000000000005
+}
+Robot {
+  translation 0 -2.1699999999999973 1.4300000000000068
+  children [
+    Camera {
+      translation 0 0.4700000000000002 -1.6100000000000012
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+        texture ImageTexture {
+          url [
+            "textures/transparent.png"
+          ]
+        }
+      }
+      geometry Box {
+        size 8 8 0.1
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "mirror supervisor"
+  controller "mirror_supervisor"
+  supervisor TRUE
+  cpuConsumption 10
+}

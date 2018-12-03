@@ -1,0 +1,241 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Simulation showing the KUKA youBot model"
+  ]
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "box"
+      coulombFriction [
+        10
+      ]
+    }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.12712896951333258 -0.9255637780415025 -0.35660891448198306 3.85207
+  position 2.14386 2.68552 -2.17579
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 3 3
+}
+WoodenBox {
+  translation 1.75 0.25 1
+  name "wooden box(1)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation 1.75 0.25 0
+  name "wooden box(2)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation 1.75 0.25 -1
+  name "wooden box(3)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation -1.75 0.25 1
+  name "wooden box(4)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation -1.75 0.25 0
+  name "wooden box(5)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation -1.75 0.25 -1
+  name "wooden box(6)"
+  size 0.5 0.5 1
+  locked TRUE
+}
+WoodenBox {
+  translation 1.5 0.25 -1.75
+  name "wooden box(7)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation 0.5 0.25 -1.75
+  name "wooden box(8)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation -0.5 0.25 -1.75
+  name "wooden box(9)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation -1.5 0.25 -1.75
+  name "wooden box(10)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation 1.5 0.25 1.75
+  name "wooden box(11)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation 0.5 0.25 1.75
+  name "wooden box(12)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation -0.5 0.25 1.75
+  name "wooden box(13)"
+  size 1 0.5 0.5
+  locked TRUE
+}
+WoodenBox {
+  translation -1.5 0.25 1.75
+  size 1 0.5 0.5
+  locked TRUE
+}
+DEF SRC_PLATFORM SolidBox {
+  translation 1 0.005 0
+  name "platform"
+  size 0.1 0.01 0.2
+  appearance PBRAppearance {
+    baseColor 0.8 0.8 0.8
+    roughness 0.5
+    metalness 0
+  }
+}
+DEF TMP_PLATFORM SolidBox {
+  translation -0.5 0.005 0.866
+  rotation 0 1 0 -2.0944
+  name "platform(1)"
+  size 0.1 0.01 0.2
+  appearance PBRAppearance {
+    baseColor 0.8 0.8 0.8
+    roughness 0.5
+    metalness 0
+  }
+}
+DEF DST_PLATFORM SolidBox {
+  translation -0.5 0.005 -0.866
+  rotation 0 1 0 2.0944
+  name "platform(2)"
+  size 0.1 0.01 0.2
+  appearance PBRAppearance {
+    baseColor 0.8 0.8 0.8
+    roughness 0.5
+    metalness 0
+  }
+}
+DEF C1 KukaBox {
+  translation 1 0.035 -0.06
+  name "Kuka box(1)"
+  color 0.12549 0.847059 0.12549
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+DEF C2 KukaBox {
+  translation 1 0.035 0
+  name "Kuka box(2)"
+  color 0.12549 0.847059 0.12549
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+DEF C3 KukaBox {
+  translation 1 0.035 0.06
+  name "Kuka box(3)"
+  color 0.12549 0.847059 0.12549
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+DEF B1 KukaBox {
+  translation 1 0.085 -0.03
+  name "Kuka box(4)"
+  color 0.901961 0.901961 0.0901961
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+DEF B2 KukaBox {
+  translation 1 0.085 0.03
+  name "Kuka box(5)"
+  color 0.901961 0.901961 0.0901961
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+DEF A1 KukaBox {
+  translation 1 0.135 0
+  color 0.901961 0.0901961 0.0901961
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+YoubotFlag {
+  translation 1.35 0 0
+  name "youBot flag(1)"
+  locked TRUE
+}
+YoubotFlag {
+  translation -0.675 0 1.16913
+  rotation 0 1 0 -2.0944
+  name "youBot flag(2)"
+  textureURL [
+    "textures/flag_tmp.png"
+  ]
+  locked TRUE
+}
+YoubotFlag {
+  translation -0.675 0 -1.16913
+  rotation 0 1 0 2.0944
+  textureURL [
+    "textures/flag_goal.png"
+  ]
+  locked TRUE
+}
+Youbot {
+  translation 0 0.102838 0
+  controller "hanoi"
+  bodySlot [
+    Kinect {
+      translation 0.27 0 -0.02
+      rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.0944
+      foot FALSE
+    }
+    GPS {
+    }
+    Compass {
+    }
+  ]
+}

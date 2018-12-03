@@ -1,0 +1,444 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/blimp
+# The "Blimp" robot is a Zeppelin-like aerial robot developed by the EPFL LIS laboratory.
+
+PROTO Blimp [
+  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFString   name            "Blimp" # Is `Solid.name`.
+  field SFString   controller      "blimp" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""      # Is `Robot.controllerArgs`.
+  field SFString   customData      ""      # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      DEF emitter Emitter {
+        model "radio"
+        bufferSize 1000
+      }
+      Receiver {
+        bufferSize 1000
+      }
+      DEF DS0 DistanceSensor {
+        translation 0.54 0 0
+        name "ds0"
+        lookupTable [
+          0 255 0
+          0.25 0 0
+        ]
+      }
+      DEF DS6 DistanceSensor {
+        translation 0 0 -0.26
+        rotation 0 1 0 1.57
+        name "ds6"
+        lookupTable [
+          0 255 0
+          0.25 0 0
+        ]
+      }
+      DEF SUPPORT Transform {
+        children [
+          DEF Support1 Transform {
+            translation 0 -0.33 0
+            rotation 0 0 1 1.5707
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 1
+                  radius 0.002
+                }
+              }
+            ]
+          }
+          DEF Support2 Transform {
+            translation -0.49 -0.18 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.3
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support3 Transform {
+            translation 0.01 -0.34 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.02
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support4 Transform {
+            translation -0.49 -0.2 -0.005
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.01
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support5 Transform {
+            translation 0.48 -0.18 -0.07
+            rotation 1 0 0 -0.25
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.31
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support6 Transform {
+            translation 0.48 -0.18 0.07
+            rotation 1 0 0 0.25
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.31
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support7 Transform {
+            translation 0.48 -0.33 0
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.065
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support8 Transform {
+            translation 0.48 -0.26 0
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.1
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support9 Transform {
+            translation 0.495 -0.26 0
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.03
+                  radius 0.001
+                }
+              }
+            ]
+          }
+          DEF Support10 Transform {
+            translation 0.3815 -0.366 0
+            rotation 0 1 0 1.57
+            children [
+              Transform {
+                rotation 1 0 0 -0.2
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.6
+                    }
+                    geometry Cylinder {
+                      bottom FALSE
+                      height 0.07
+                      radius 0.001
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF Support11 Transform {
+            translation 0.4 -0.4 0
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.025
+                  radius 0.001
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF PROCESSOR Transform {
+        translation 0.14 -0.337 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.6
+            }
+            geometry Box {
+              size 0.05 0.01 0.05
+            }
+          }
+        ]
+      }
+      DEF BATTERY Transform {
+        translation -0.18 -0.337 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.6
+            }
+            geometry Box {
+              size 0.05 0.01 0.025
+            }
+          }
+        ]
+      }
+      DEF CAMERA Camera {
+        translation 0.5 -0.33 0
+        rotation 0 1 0 -1.57
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.6
+            }
+            geometry Box {
+              size 0.02 0.02 0.02
+            }
+          }
+        ]
+        model "camera"
+        description "designed by jcz (ASL2)"
+        fieldOfView 2
+        width 192
+        height 128
+      }
+      DEF ENVELOP Transform {
+        scale 2.1 1 1
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.929412 0.929412 0.929412
+              metalness 0
+              roughness 0.9
+            }
+            geometry Sphere {
+              radius 0.26
+              subdivision 2
+            }
+          }
+        ]
+      }
+      GPS {
+      }
+      DEF MOTORS Transform {
+        children [
+          DEF Motor1 Transform {
+            children [
+              Transform {
+                translation 0.51 -0.26 0
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.501961 0.25098
+                      transparency 0.55
+                      metalness 0
+                      roughness 0.2
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.05
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF Motor2 Transform {
+            children [
+              Transform {
+                translation -0.49 -0.2 -0.01
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.501961 0.25098
+                      transparency 0.55
+                      metalness 0
+                      roughness 0.2
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.05
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF Motor3 Transform {
+            children [
+              DEF PROPELLER3 Transform {
+                translation 0.01 -0.355 0
+                rotation 0 0 1 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 1 0.501961 0.25098
+                      transparency 0.55
+                      metalness 0
+                      roughness 0.2
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.035
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "LIS Blimp"
+    contactMaterial "blimp"
+    boundingObject Group {
+      children [
+        DEF ForwardSphere Transform {
+          translation 0.36 0 0
+          children [
+            Sphere {
+              radius 0.2
+            }
+          ]
+        }
+        DEF MiddleSphere Transform {
+          children [
+            Sphere {
+              radius 0.27
+            }
+          ]
+        }
+        DEF BackwardSphere Transform {
+          translation -0.36 0 0
+          children [
+            Sphere {
+              radius 0.2
+            }
+          ]
+        }
+        DEF MiddleBox Transform {
+          translation -0.1 -0.2 0
+          children [
+            Box {
+              size 0.8 0.3 0.02
+            }
+          ]
+        }
+        DEF ForwardBox Transform {
+          translation 0.38 -0.25 0
+          children [
+            Box {
+              size 0.16 0.4 0.02
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.184
+      centerOfMass [
+        0 0 0
+      ]
+      inertiaMatrix [
+        0.0095 0.0193 0.0193
+        0 0 0
+      ]
+    }
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+  }
+}

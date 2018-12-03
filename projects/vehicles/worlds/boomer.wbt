@@ -1,0 +1,87 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Boomer 3050 Tractor"
+  ]
+  title "Boomer 3050 Tractor"
+  ERP 0.7
+  basicTimeStep 20
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.10571301981600961 0.9673411383163714 0.23038202959902687 3.93451
+  position -5.40748 5.63732 -5.67547
+  follow "vehicle"
+  followSmoothness 0
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF FLOOR Solid {
+  children [
+    DEF PLANE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 200 200
+        }
+      }
+      geometry Plane {
+        size 1000 1000
+      }
+      castShadows FALSE
+    }
+  ]
+  boundingObject USE PLANE_SHAPE
+}
+DEF BOOMER_T3050 Tractor {
+  translation 0 2.14471 0
+  rotation 0 0 -1 0.0707971
+  controller "boomer"
+  sensorSlot [
+    Camera {
+      translation -8.630814e-10 0.97344943 1.9889894
+      rotation -3.592801893310027e-10 0.9971888181431856 -0.07492970686047722 3.1415926
+      children [
+        Transform {
+          translation 0 0 0.05
+          rotation 1 0 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.1
+                radius 0.04
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 1
+      width 128
+    }
+    SickLms291 {
+      translation -2.4859527e-10 0.57400942 2.311692
+      rotation 0 0.9975390707399396 -0.07011278305200722 3.1415926
+    }
+    GPS {
+    }
+    Gyro {
+    }
+  ]
+}

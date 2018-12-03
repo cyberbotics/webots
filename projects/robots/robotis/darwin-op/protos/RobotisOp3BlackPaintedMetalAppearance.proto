@@ -1,0 +1,12 @@
+#VRML_SIM R2019a utf8
+#tags: hidden
+
+PROTO RobotisOp3BlackPaintedMetalAppearance [
+]
+{
+  PBRAppearance {
+    baseColor 0 0 0
+    roughness 0.2
+    metalness 0  # The paint covers the metal
+  }
+}

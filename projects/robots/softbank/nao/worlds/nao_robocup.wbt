@@ -1,0 +1,110 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Simulation of the Robocup Standard Platform League"
+  ]
+  title "Robocup"
+  basicTimeStep 20
+  contactProperties [
+    ContactProperties {
+      material1 "NAO foot material"
+      coulombFriction [
+        7
+      ]
+      bounce 0.3
+      bounceVelocity 0.003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.17094980505604018 -0.8417582968897727 -0.5120733675641911 2.62221698868725
+  position -0.6916257978273604 5.767657877815401 -2.5655584153912394
+  follow "soccer ball"
+}
+Background {
+  skyColor [
+    0.3333333333333333 0.3333333333333333 1
+  ]
+  cubemap Cubemap {
+    textureBaseName "noon_sunny_empty"
+  }
+}
+TexturedBackgroundLight {
+}
+RobotstadiumSoccerField {
+  frame1Color 0.9 0.8 0.2
+  frame2Color 0.2 0.4 0.8
+}
+DEF PLAYER_RED_0 Nao {
+  translation 1.6165476423589933 0.3329304771302178 0.0026676331664634567
+  rotation 0.9698156454665537 0.17182420481959848 0.17301461338974955 4.683491411094361
+  name "NAO RED 0"
+  color 1 0 0
+  controller "nao_soccer_player"
+}
+DEF PLAYER_RED_1 Nao {
+  translation -4.189078234279978 0.33300676598835294 0.039695211702941026
+  rotation -0.9868416116782344 -0.11676687070791363 -0.1118442281272779 1.5846197354266194
+  name "NAO RED 1"
+  color 1 0 0
+  controller "nao_soccer_player"
+}
+DEF PLAYER_RED_2 Nao {
+  translation 1.3501460514988497 0.3390930784105474 -1.2099812442616138
+  rotation -0.9879069384466822 0.1097909284902179 0.10947982914746986 1.5808077660000075
+  name "NAO RED 2"
+  color 1 0 0
+  controller "nao_soccer_player"
+}
+DEF PLAYER_RED_3 Nao {
+  translation 0.36739503210305435 0.3357677604036858 -1.6435627388517386
+  rotation 0.9774638626893564 0.1488478003190821 0.1496954557646083 4.691607651043623
+  name "NAO RED 3"
+  color 1 0 0
+  controller "nao_soccer_player"
+}
+DEF PLAYER_RED_4 Nao {
+  translation -2.6648561567397575 0.33427031603579793 0.6415851643507511
+  rotation 0.9443198892102148 -0.2326732905303641 -0.23264369047059993 4.657355590070573
+  name "NAO RED 4"
+  color 1 0 0
+  controller "nao_soccer_player"
+}
+DEF PLAYER_BLUE_0 Nao {
+  translation 4.309062533400849 0.33015371869812854 0.05
+  rotation -0.0038626902539394986 0.7072664002420006 0.7069365733308219 3.13064400088176
+  name "NAO BLUE 0"
+  color 0 0 1
+  controller "nao_soccer_player"
+}
+DEF PLAYER_BLUE_1 Nao {
+  translation 2.7218854339347587 0.3309309279540207 -0.6154142999012528
+  rotation -0.3258409293759376 -0.6695328481042027 -0.6674979056543173 2.5226173470543802
+  name "NAO BLUE 1"
+  color 0 0 1
+  controller "nao_soccer_player"
+}
+DEF PLAYER_BLUE_2 Nao {
+  translation 1.4859355746012894 0.33373540201436713 1.851647569690251
+  rotation -0.41831294812023195 0.6458248701091512 0.6386896856717336 2.375459682695928
+  name "NAO BLUE 2"
+  color 0 0 1
+  controller "nao_soccer_player"
+}
+DEF PLAYER_BLUE_3 Nao {
+  translation 1.5352627298546198 0.34429941624834287 -1.6736458271759806
+  rotation -0.7435255954465955 -0.4815955479112143 -0.4639347121609711 2.0044296938995747
+  name "NAO BLUE 3"
+  color 0 0 1
+  controller "nao_soccer_player"
+}
+DEF PLAYER_BLUE_4 Nao {
+  translation -0.3192054765305876 0.30764130386256766 -1.178147890865063
+  rotation -0.24638718737679263 -0.6931562446989735 -0.67736827083306 2.651817342096992
+  name "NAO BLUE 4"
+  color 0 0 1
+  controller "nao_soccer_player"
+}
+RobocupSoccerBall {
+  translation 2.22287275349532 0.05 0.10176994678105382
+}

@@ -1,0 +1,96 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden, static
+
+PROTO Thymio2LED [
+  field SFString   name          "led"
+  field MFVec3f    translations  [ 0 0 0 ]
+  field MFRotation rotations     [ 0 1 0 0 ]
+  field MFString   textureUrls   [ "textures/thymio2_radial_flare.png" ]
+  field MFVec2f    sizes         [ 0.01 0.01 ]
+  field SFFloat    level         32 # 0: rgb, 1: boolean, 2: layers
+  field SFColor    color         1 0 0
+  field SFVec3f    lightPosition -1 -1 -1 # default = no light
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local length = wbcore.tablelength(fields.translations.value)
+    local isLight = fields.lightPosition.value.x ~= -1 or fields.lightPosition.value.y ~= -1 or fields.lightPosition.value.z ~= -1
+
+    if
+      length ~= wbcore.tablelength(fields.rotations.value) or
+      length ~= wbcore.tablelength(fields.textureUrls.value) or
+      length ~= wbcore.tablelength(fields.sizes.value)
+    then
+      io.stderr:write("MF lengths mismatches\n")
+      length = 0
+    end
+  }%
+
+  LED {
+    name IS name
+    children [
+      Group {
+        children [
+          %{ if length > 0 then }%
+            %{ for i = 1, length do }%
+            %{
+              local translation = fields.translations.value[i]
+              local rotation = fields.rotations.value[i]
+              local url = fields.textureUrls.value[i]
+              local size = fields.sizes.value[i]
+            }%
+              Transform {
+                translation %{= translation.x }% %{= translation.y }% %{= translation.z }%
+                rotation %{= rotation.x }% %{= rotation.y }% %{= rotation.z }% %{= rotation.a }%
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          %{= '"' .. url .. '"' }%
+                        ]
+                      }
+                      roughness 0.1
+                      metalness 0
+                    }
+                    geometry Plane {
+                      size %{= size.x }% %{= size.y }%
+                    }
+                  }
+                ]
+              }
+            %{ end }%
+          %{ end }%
+          %{ if isLight then }%
+            SpotLight {
+              location IS lightPosition
+              direction 0 -1 0
+              attenuation 0 0 1
+              intensity 0.0004
+              beamWidth 0.01
+              cutOffAngle 1
+            }
+          %{ end }%
+        ]
+      }
+    ]
+    %{ if fields.level.value <= 0 then }%
+      gradual TRUE
+      color []
+    %{ elseif fields.level.value == 1 then }%
+      color [
+        %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+      ]
+    %{ else }%
+      color [
+        %{ for i = 0, fields.level.value do }%
+          %{ local intensity = i / fields.level.value }%
+          %{= intensity * fields.color.value.r }% %{= intensity * fields.color.value.g }% %{= intensity * fields.color.value.b }%
+        %{ end }%
+      ]
+    %{ end }%
+  }
+}

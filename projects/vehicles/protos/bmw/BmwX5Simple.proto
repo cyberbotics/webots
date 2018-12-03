@@ -1,0 +1,148 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# Simple kinematic model of the BMW X5 to be moved with a Supervisor.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO BmwX5Simple [
+  field       SFVec3f    translation         0 0.4 0
+  field       SFRotation rotation            0 1 0 0
+  field       SFColor    color               0.43 0.11 0.1
+  field       MFColor    recognitionColors   [ 0.43 0.11 0.1 ]
+  field       SFString   name                "vehicle"
+  field       SFString   controller          ""
+  field       SFString   controllerArgs      ""
+  field       MFNode     sensorsSlotFront    [ ]
+  field       MFNode     sensorsSlotRear     [ ]
+  field       MFNode     sensorsSlotTop      [ ]
+  field       MFNode     sensorsSlotCenter   [ ]
+  field       SFBool     wheelBoundingObject FALSE
+  hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
+  hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearRightWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearLeftWheelAngularVelocity   0 0 0
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    children [
+      Transform {
+        translation 0 0.3 -1
+        children IS sensorsSlotRear
+      }
+      Transform {
+        translation 0 0.45 3.85
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 1.45 1
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 0 0
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      BmwX5FrontLight {
+      }
+      BmwX5RightIndicator {
+      }
+      BmwX5LeftIndicator {
+      }
+      BmwX5AntiFogLight {
+      }
+      BmwX5RearLight {
+      }
+      BmwX5BrakingLight {
+      }
+      BmwX5BackwardsLight {
+      }
+      BmwX5RightWiper {
+      }
+      BmwX5LeftWiper {
+      }
+      BmwX5Mesh {
+        color IS color
+      }
+      BmwX5RightWingMirror {
+      }
+      BmwX5LeftWingMirror {
+      }
+      DEF FRONT_RIGHT_WHEEL Solid {
+        angularVelocity IS frontRightWheelAngularVelocity
+        translation -0.814 0 2.995
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 0.814 0 2.995
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation -0.814 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 0.814 0 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint BmwX5Wheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
+    ]
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    model "BMW X5"
+    radarCrossSection 100
+    boundingObject Transform {
+      translation 0 0.7 1.35
+      children [
+        Box {
+          size 1.8 1.6 4.5
+        }
+      ]
+    }
+    physics NULL
+  }
+}

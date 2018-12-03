@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateSolidCylinder [
+  field SFFloat height 0.4
+]
+{
+  DEF PARAMETER Solid {
+    children [
+      Shape {
+        geometry DEF GEOM Cylinder {
+          radius 0.2
+          height %{= fields.height.value }%
+        }
+      }
+    ]
+    boundingObject USE GEOM
+  }
+}

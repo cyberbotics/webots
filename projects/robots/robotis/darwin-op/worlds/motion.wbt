@@ -1,0 +1,36 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "ROBOTIS OP2 robot."
+  ]
+  title "ROBOTIS OP2"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.09469678222791374 0.9834238154373097 0.15462897098022396 2.06176
+  position 0.949163 0.543302 -0.552018
+  follow "ROBOTIS OP2"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RobotisOp2 {
+  translation 0 0.24 0
+  rotation 0.05930240739403188 0.9964411242397698 -0.059902507468854456 1.58336
+  selfCollision TRUE
+  cameraWidth 320
+  cameraHeight 240
+}
+Floor {
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/carpet.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}

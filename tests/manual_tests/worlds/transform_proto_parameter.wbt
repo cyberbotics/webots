@@ -1,0 +1,41 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test procedure:"
+    "- transform the Transform parameter node of Solid Slot into a Group"
+    "- accept transform message dialog"
+    " "
+    "=> the node type in the scene tree has been updated"
+    "=> the rotate box is disappeared"
+    "=> the axis aligned box is visible"
+    " "
+    "Regression test for issues 1343"
+  ]
+}
+Viewpoint {
+  orientation 0.923133 -0.366749 -0.115418 5.78631
+  position 0.790646 2.34839 4.03811
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+SolidSlot {
+  slot [
+    Transform {
+      rotation 0.707107 0.707107 0 1.57
+      children [
+        Shape {
+          geometry Box {
+            size 0.5 0.5 0.5
+          }
+        }
+      ]
+    }
+  ]
+}

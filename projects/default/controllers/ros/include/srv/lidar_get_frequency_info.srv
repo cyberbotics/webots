@@ -1,0 +1,5 @@
+uint8 ask
+---
+float64 frequency
+float64 minFrequency
+float64 maxFrequency

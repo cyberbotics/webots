@@ -1,0 +1,141 @@
+{
+  "name": "pioneer-3at", 
+  "devices": [
+    {
+      "transformID": "n31", 
+      "name": "back left wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n68", 
+      "name": "back right wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n100", 
+      "name": "front left wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n132", 
+      "name": "front right wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n31", 
+      "type": "PositionSensor", 
+      "name": "back left wheel sensor"
+    }, 
+    {
+      "transformID": "n68", 
+      "type": "PositionSensor", 
+      "name": "back right wheel sensor"
+    }, 
+    {
+      "transformID": "n100", 
+      "type": "PositionSensor", 
+      "name": "front left wheel sensor"
+    }, 
+    {
+      "transformID": "n132", 
+      "type": "PositionSensor", 
+      "name": "front right wheel sensor"
+    }, 
+    {
+      "transformID": "n160", 
+      "type": "DistanceSensor", 
+      "name": "so0"
+    }, 
+    {
+      "transformID": "n178", 
+      "type": "DistanceSensor", 
+      "name": "so1"
+    }, 
+    {
+      "transformID": "n196", 
+      "type": "DistanceSensor", 
+      "name": "so10"
+    }, 
+    {
+      "transformID": "n214", 
+      "type": "DistanceSensor", 
+      "name": "so11"
+    }, 
+    {
+      "transformID": "n232", 
+      "type": "DistanceSensor", 
+      "name": "so12"
+    }, 
+    {
+      "transformID": "n250", 
+      "type": "DistanceSensor", 
+      "name": "so13"
+    }, 
+    {
+      "transformID": "n268", 
+      "type": "DistanceSensor", 
+      "name": "so14"
+    }, 
+    {
+      "transformID": "n286", 
+      "type": "DistanceSensor", 
+      "name": "so15"
+    }, 
+    {
+      "transformID": "n304", 
+      "type": "DistanceSensor", 
+      "name": "so2"
+    }, 
+    {
+      "transformID": "n322", 
+      "type": "DistanceSensor", 
+      "name": "so3"
+    }, 
+    {
+      "transformID": "n340", 
+      "type": "DistanceSensor", 
+      "name": "so4"
+    }, 
+    {
+      "transformID": "n358", 
+      "type": "DistanceSensor", 
+      "name": "so5"
+    }, 
+    {
+      "transformID": "n376", 
+      "type": "DistanceSensor", 
+      "name": "so6"
+    }, 
+    {
+      "transformID": "n394", 
+      "type": "DistanceSensor", 
+      "name": "so7"
+    }, 
+    {
+      "transformID": "n412", 
+      "type": "DistanceSensor", 
+      "name": "so8"
+    }, 
+    {
+      "transformID": "n430", 
+      "type": "DistanceSensor", 
+      "name": "so9"
+    }
+  ]
+}

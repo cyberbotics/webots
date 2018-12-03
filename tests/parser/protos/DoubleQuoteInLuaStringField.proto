@@ -1,0 +1,10 @@
+#VRML_SIM R2019a utf8
+
+PROTO DoubleQuoteInLuaStringField [
+  field SFString test ""
+]
+{
+  %{ print(fields.test.value) }%
+  Robot {
+  }
+}

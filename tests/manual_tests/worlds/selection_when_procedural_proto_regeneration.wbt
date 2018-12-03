@@ -1,0 +1,39 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Aim:"
+    "- To test that the scene tree and 3D view selection remain coherent after a procedural "
+    "  PROTO regeneration (either fired from a supervisor or from the GUI)."
+    ""
+    "What is occurring:"
+    "- The Supervisor fires the SolidBox regeneration after 10 steps."
+    ""
+    "Test procedure:"
+    "- Whatever is selected in the scene tree or in the 3D view, this selection remains unchanged after step 10."
+    "- At step 0, the selection remains:"
+    "    - when editing SolidBox.size from the scene tree."
+    "    - when editing Top.my_parameter.my_custom_parameter from the scene tree."
+  ]
+}
+Viewpoint {
+  orientation -0.079047828 -0.97209643 -0.22086187 2.340296
+  position -6.486432 4.2024237 -6.0349996
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+DEF BOX SolidBox {
+  translation 3 0 0
+}
+Robot {
+  controller "procedural_proto_regenerator"
+  supervisor TRUE
+}
+Top {
+}

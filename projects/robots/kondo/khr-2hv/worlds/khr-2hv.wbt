@@ -1,0 +1,58 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This is a model of a Kondo KHR-2HV robot executing movement files."
+    "The movement are executed from the original Kondo files."
+    "After the introduction, you will be able to control the robot with the keyboard (follow the instructions in Webots Console)."
+    "Author: Laurent Lessieux"
+  ]
+  title "Kondo KHR-2HV"
+  ERP 0.5
+  physicsDisableLinearThreshold 0.05
+  physicsDisableAngularThreshold 0.05
+  contactProperties [
+    ContactProperties {
+      material1 "floor"
+      material2 "khr2"
+      coulombFriction [
+        0.995
+      ]
+      bounce 0.05
+      forceDependentSlip [
+        0.005
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.015941149784921154 -0.9995883126915739 -0.023855499867895952 0.33961194261801625
+  position -0.4071373733375979 0.2022620335752398 1.571068482839273
+  follow "KHR-2HV"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 0.0618921 0 0.653058
+  floorSize 2.2 2.2
+  floorTileSize 2.2 2.2
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/kondo_logo.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallAppearance BrushedAluminium {
+    textureTransform TextureTransform {
+      scale 3 4
+    }
+  }
+}
+Khr2hv {
+  translation -0.0605689 0.22 0.619011
+  contactMaterial "khr2"
+}

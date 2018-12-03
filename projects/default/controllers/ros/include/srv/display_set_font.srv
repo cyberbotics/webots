@@ -1,0 +1,5 @@
+string font
+int32 size
+uint8 antiAliasing
+---
+int8 success

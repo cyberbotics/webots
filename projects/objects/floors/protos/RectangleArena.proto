@@ -1,0 +1,112 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A configurable rectangle arena composed of a floor surrounded by walls.
+
+PROTO RectangleArena [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "rectangle arena"
+  field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
+  field SFVec2f    floorSize       1 1                    # Defines the size of the floor.
+  field SFVec2f    floorTileSize   0.5 0.5                # Defines the size of the texture used for the floor.
+  field SFNode     floorAppearance ChequeredParquetry {}  # Defines the appearance of the floor.
+  field SFFloat    wallThickness   0.01                   # Defines the thickness of the walls.
+  field SFFloat    wallHeight      0.1                    # Defines the height of the walls.
+  field SFColor    wallColor       0.8 0.8 0.8            # Defines the color of the walls.
+  field SFVec2f    wallTileSize    0.5 0.5                # Defines the size of the texture used for the walls.
+  field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
+
+  # Deprecated in R2019a
+  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+]
+{
+  %{
+
+    local wbcore = require("wbcore")
+    local floorSize = fields.floorSize.value
+    if floorSize.x <= 0.0 or floorSize.y <= 0.0 then
+      io.stderr:write("'floorSize' must contain positive values\n")
+      floorSize = fields.floorSize.defaultValue
+    end
+
+    local floorTextureUrl = fields.floorTextureUrl.value[0]
+    if floorTextureUrl ~= fields.floorTextureUrl.defaultValue[0] then
+      io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
+    end
+
+    local wallTextureUrl = fields.wallTextureUrl.value[0]
+    if wallTextureUrl ~= fields.wallTextureUrl.defaultValue[0] then
+      io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
+    end
+
+    local wallThickness = fields.wallThickness.value
+    if wallThickness <= 0 then
+      io.stderr:write("'wallThickness' must be positive\n")
+      wallThickness = fields.wallThickness.defaultValue
+    end
+
+    local wallHeight = fields.wallHeight.value
+    if wallHeight <= 0 then
+      io.stderr:write("'wallHeight' must be positive\n")
+      wallHeight = fields.wallHeight.defaultValue
+    end
+
+    local wallTextureScaleA = { x = 1; y = 1 }
+    local wallTextureScaleB = { x = 1; y = 1 }
+    local wallTextureUrl = fields.wallTextureUrl.value
+    if fields.wallTileSize.value.x >= 0 and fields.wallTileSize.value.y > 0.0 then -- avoid a zero division and negative values
+      wallTextureScaleA.x = floorSize.y / fields.wallTileSize.value.x
+      wallTextureScaleA.y = floorSize.y / fields.wallTileSize.value.y
+      wallTextureScaleB.x = (floorSize.x + 2 * wallThickness) / fields.wallTileSize.value.x
+      wallTextureScaleB.y = (floorSize.x + 2 * wallThickness) / fields.wallTileSize.value.y
+    else
+     io.stderr:write("'wallTextureScale' must contain positive values\n")
+    end
+
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Floor {
+        size %{= floorSize.x }% %{= floorSize.y }%
+        tileSize IS floorTileSize
+        appearance IS floorAppearance
+        contactMaterial IS contactMaterial
+      }
+      SolidBox {
+        translation %{= floorSize.x / 2 + wallThickness / 2 }% %{= wallHeight / 2 }% 0
+        name "wall"
+        size %{= wallThickness }% %{= wallHeight }% %{= floorSize.y }%
+        appearance IS wallAppearance
+        contactMaterial IS contactMaterial
+      }
+      SolidBox {
+        translation %{= -(floorSize.x / 2 + wallThickness / 2) }% %{= wallHeight / 2 }% 0
+        name "wall#2"
+        size %{= wallThickness }% %{= wallHeight }% %{= floorSize.y }%
+        appearance IS wallAppearance
+        contactMaterial IS contactMaterial
+      }
+      SolidBox {
+        translation 0 %{= wallHeight / 2 }% %{= floorSize.y / 2 + wallThickness / 2 }%
+        name "wall#3"
+        size %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }% %{= wallThickness }%
+        appearance IS wallAppearance
+        contactMaterial IS contactMaterial
+      }
+      SolidBox {
+        translation 0 %{= wallHeight / 2 }% %{= -(floorSize.y / 2 + wallThickness / 2) }%
+        name "wall#4"
+        size %{= floorSize.x + 2 * wallThickness }% %{= wallHeight }% %{= wallThickness }%
+        appearance IS wallAppearance
+        contactMaterial IS contactMaterial
+      }
+    ]
+    name IS name
+    model "rectangle arena"
+  }
+}

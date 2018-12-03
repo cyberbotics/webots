@@ -1,0 +1,62 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Building under construction with scaffolding.
+
+PROTO BuildingUnderConstruction [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "building under construction"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors [ 0.38 0.38 0.40 ]
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/construction_building_base_color.jpg"
+            ]
+          }
+          roughnessMap ImageTexture {
+            url [
+              "textures/construction_building_roughness.png"
+            ]
+          }
+          metalness 0
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              -7.99999 0.002496 8.00001 -8.00001 0.002496 -7.99999 7.99999 0.002496 -8.00001 8.00001 0.002496 7.99999 -7.99999 32.7831 8.00001 -8.00001 38.5454 -7.99999 7.99999 38.5454 -8.00001 8.00001 30.834 7.99999 8.00081 33.007 -4.9079 -1.81085 30.7522 8 -8.00001 35.4823 -5.63982 -8 33.0108 -0.063092
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              1 -1.4998 0 -1.4998 0.5039 0.5632 0 0.9091 1 0.9091 1 -1.4998 0 -1.4998 -1 0.4271 -1 -1.4998 -1 -1.4998 0 -1.4998 -0.6132 0.422 0.4867 0.6503 0.4876 0.6506 0.4867 0.6505 0.4867 0.6503 0.4877 0.6502 0.4876 0.6506 0.4867 0.6499 0.4877 0.6502 0.4867 0.6503 0.4871 0.6494 0.4867 0.6499 0.4868 0.6495 0.4867 0.6499 0.4871 0.6494 0.4877 0.6502 0.4877 0.6502 0.4871 0.6494 0.4875 0.6497 0.5039 0.5632 0.8525 0.7176 1 -1.4998 0.8525 0.7176 1 0.9091 1 -1.4998 0 -1.4998 0 0.9091 1 -1.4998 0 0.9091 -0.1933 0.5629 0 -1.4998 -0.1933 0.5629 -1 0.4271 0 -1.4998 0 -1.4998 0 0.5489 0.5039 0.5632 -0.6132 0.422 -1 0.5489 -1 -1.4998 0 -1.4998 0 0.4271 -0.6132 0.422
+            ]
+          }
+          coordIndex [
+            1, 0, 11, -1, 5, 6, 2, -1, 2, 7 3, -1, 0, 3, 9, -1, 10, 6, 5, -1 10, 8, 6, -1, 11, 8, 10, -1, 9, 11 4, -1, 11, 9, 8, -1, 8, 9, 7, -1 11, 10, 1, -1, 10, 5, 1, -1, 1, 5 2, -1, 6, 8, 2, -1, 8, 7, 2, -1 0, 4, 11, -1, 9, 4, 0, -1, 3, 7 9, -1
+          ]
+          texCoordIndex [
+            0, 1, 2, -1, 3, 4, 5, -1, 6, 7 8, -1, 9, 10, 11, -1, 12, 13, 14, -1 15, 16, 17, -1, 18, 19, 20, -1, 21, 22 23, -1, 24, 25, 26, -1, 27, 28, 29, -1 30, 31, 32, -1, 33, 34, 35, -1, 36, 37 38, -1, 39, 40, 41, -1, 42, 43, 44, -1 45, 46, 47, -1, 48, 49, 50, -1, 51, 52 53, -1
+          ]
+        }
+      }
+    ]
+    name IS name
+    model "building under construction"
+    boundingObject Transform {
+      translation 0 19.3 0
+      children [
+        Box {
+          size 16 38.6 16
+        }
+      ]
+    }
+  }
+}

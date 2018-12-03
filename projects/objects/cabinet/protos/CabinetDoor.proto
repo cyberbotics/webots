@@ -1,0 +1,107 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden, static
+# A door for the Cabinet PROTO.
+
+PROTO CabinetDoor [
+  field SFVec3f  translation         0 0 0
+  field SFString name                "cabinet door"
+  field SFVec3f  size                0.3 0.2 0.2       # Defines the size of the door.
+  field SFBool   rightSided          TRUE              # Defines on which side the door is connected.
+  field SFFloat  thickness           0.03              # Defines the thickness of the door.
+  field SFFloat  mass                1.5               # Defines the mass of the door.
+  field SFNode   handle              CabinetHandle {}  # Defines door handle.
+  field SFNode   primaryAppearance   NULL              # Defines the primary appearance (this field is not used but is required for compatibilty reason with the other cabinet modules).
+  field SFNode   secondaryAppearance NULL              # Defines the secondary appearance.
+]
+{
+  %{
+    local size = fields.size.value
+    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then
+      io.stderr:write("'size' must contain positive values.\n")
+      size = fields.size.default
+    end
+
+    local thickness = fields.thickness.value
+    if thickness <= 0.0 then
+      io.stderr:write("'thickness' must be positive.\n")
+      thickness = fields.thickness.default
+    end
+
+    local mass = fields.mass.value
+    if mass <= 0.0 then
+      io.stderr:write("'mass' must be positive.\n")
+      mass = fields.mass.default
+    end
+
+    local rightSided = fields.rightSided.value and -1 or 1
+  }%
+  Solid {
+    translation IS translation
+    children [
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor %{= rightSided * 0.5 * size.x }% 0 0
+          axis 0 1 0
+          %{ if rightSided > 0 then }%
+            minStop -0.01
+            maxStop 1.57
+          %{ else }%
+            minStop -1.57
+            maxStop 0.01
+          %{ end }%
+          dampingConstant 5
+        }
+        endPoint Solid {
+          children [
+            SolidBox {
+              translation 0 0 %{= -0.5 * thickness }%
+              size %{= size.x }% %{= size.y }% %{= thickness }%
+              appearance IS secondaryAppearance
+              physics Physics {
+                density -1
+                mass %{= mass }%
+              }
+            }
+            Transform {
+              translation  %{= -rightSided * 0.4 * size.x }% 0 0
+              rotation 0 0 1 1.57
+              children [
+                Slot {
+                   endPoint IS handle
+                }
+              ]
+            }
+          ]
+          physics Physics {
+            density -1
+            mass 0.01
+          }
+          boundingObject Transform {
+            translation 0 0 %{= - 0.5 * thickness }%
+            children [
+              Sphere {
+                radius %{= 0.5 * thickness }%
+              }
+            ]
+          }
+        }
+      }
+    ]
+    name IS name
+    model "cabinet door"
+    physics Physics {
+      density -1
+      mass 0.01
+    }
+    boundingObject Transform {
+      translation 0 0 %{= - size.z }%
+      children [
+        Sphere {
+          radius 0.01
+        }
+      ]
+    }
+  }
+}

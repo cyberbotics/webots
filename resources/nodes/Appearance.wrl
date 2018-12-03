@@ -1,0 +1,9 @@
+# The Appearance node specifies the visual properties of geometry
+# by defining the Material and texture nodes.
+
+Appearance {
+  vrmlField SFNode   material         NULL
+  vrmlField SFNode   texture          NULL
+  vrmlField SFNode   textureTransform NULL
+  field     SFString name             "appearance"
+}

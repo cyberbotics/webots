@@ -1,0 +1,24 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.407042 0.852811 0.327155 4.64614
+  position -1.28204 1.29398 0.188893
+}
+DEF BACKGROUND Background {
+  skyColor [
+    0.4 0.7 1
+    0.5 0.4 0.74
+    0.666667 1 0
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0 0.3 0
+}
+DEF ROBOT SupervisorInternalFields {
+  controller "supervisor_internal_field"
+}
+TestSuiteSupervisor {
+}

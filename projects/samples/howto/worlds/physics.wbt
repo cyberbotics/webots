@@ -1,0 +1,410 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example of use of a custom ODE plugin"
+  ]
+  title "Physics"
+  physics "flying_mybot"
+  basicTimeStep 64
+}
+Viewpoint {
+  orientation 0.997511393271538 0.06728942652903659 -0.021051208299495243 5.54169
+  position -0.0777383 1.03052 1.18579
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Solid {
+  translation -0.05 0.1 -0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.2 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+Solid {
+  translation 0.2 0.1 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.2 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+Solid {
+  translation -0.2 0.1 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 0.03934117200000009
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.2 0.3
+      }
+    }
+  ]
+  name "yellow box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+Solid {
+  translation 0.42 0.1 -0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.2 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+DEF ROBOT Robot {
+  rotation 0 1 0 1
+  children [
+    LED {
+      translation 0 -0.009999999999999998 -0.19999999999999998
+      rotation 1 0 0 4.712388966
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            transparency 0.27000001072883606
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.4
+            radius 0.002
+          }
+        }
+      ]
+      color []
+      gradual TRUE
+    }
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance DEF BODY_COLOR PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint DEF LEFT_WING Solid {
+        translation -0.045 0.025 0
+        rotation -1 0 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 0
+            children [
+              Shape {
+                appearance DEF WHEEL_COLOR PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint DEF RIGHT_WING Solid {
+        translation 0.045 0.025 0
+        rotation -1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.35 0 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.35 0 0
+      ]
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/mybot.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.015 0.038 -0.041
+            0.015 0.023 -0.041
+            0 0.023 -0.0455
+            -0.015 0.023 -0.041
+            -0.015 0.038 -0.041
+            0 0.038 -0.0455
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.5 0
+            1 0
+            1 1
+            0.5 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 5, -1, 5, 2, 3, 4, -1
+        ]
+        texCoordIndex [
+          5, 0, 1, 4, -1, 4, 1, 2, 3, -1
+        ]
+        creaseAngle 0.9
+      }
+    }
+    Transform {
+      translation 0 0.095 0
+      children [
+        Shape {
+          appearance USE BODY_COLOR
+          geometry Cylinder {
+            height 0.03
+            radius 0.0025
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "lower_rotor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.1 0
+        children [
+          DEF ROTOR Shape {
+            appearance USE WHEEL_COLOR
+            geometry DEF BOUNDING_ROTOR Box {
+              size 0.1 0.002 0.01
+            }
+          }
+        ]
+        name "rotor 1"
+        boundingObject USE BOUNDING_ROTOR
+        physics DEF ROTOR_PHYSICS Physics {
+          density -1
+          mass 0.05
+          centerOfMass [
+            0 0 0
+          ]
+          inertiaMatrix [
+            4e-05 0.0004 0.0004
+            0 0 0
+          ]
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.11 0
+      }
+      device [
+        RotationalMotor {
+          name "upper_rotor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.11 0
+        children [
+          USE ROTOR
+        ]
+        name "rotor 2"
+        boundingObject USE BOUNDING_ROTOR
+        physics USE ROTOR_PHYSICS
+      }
+    }
+    Emitter {
+    }
+    Receiver {
+      name "data_receiver"
+      channel 1
+    }
+    Receiver {
+      name "color_receiver"
+      channel 2
+    }
+  ]
+  name "Flying MyBot"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.0045 0
+        children [
+          Box {
+            size 0.09 0.01 0.09
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.0415 0
+        children [
+          USE BODY
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      0.00124 0.000529 0.00124
+      0 0 0
+    ]
+  }
+  controller "physics"
+}

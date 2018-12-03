@@ -1,0 +1,4 @@
+#define keyboard_width 1
+#define keyboard_height 1
+static unsigned char keyboard_bits[] = {
+   0x01 };

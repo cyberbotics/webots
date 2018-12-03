@@ -1,0 +1,277 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/altino
+# The "ALTINO System" is a robot platform designed for education. It is a four-wheeled robot based on an Ackermann vehicle frame.
+
+PROTO Altino [
+  field SFVec3f    translation     0 0.016 0               # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 1.5708            # Is `Transform.rotation`.
+  field SFString   name            "vehicle"               # Is `Solid.name`.
+  field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""                      # Is `Robot.controllerArgs`.
+  field SFBool     synchronization TRUE                    # Is `Robot.synchronization`.
+  field SFColor    color           0.3 0.3 0.7             # Is `Material.diffuseColor`.
+]
+{
+  Car {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "Altino"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    synchronization IS synchronization
+    trackFront                     0.08
+    trackRear                      0.08
+    wheelbase                      0.1
+    minSteeringAngle               -1.34
+    maxSteeringAngle               1.34
+    suspensionFrontSpringConstant  100000
+    suspensionFrontDampingConstant 4000
+    suspensionRearSpringConstant   100000
+    suspensionRearDampingConstant  4000
+    wheelsDampingConstant          5
+    extensionSlot [
+      DistanceSensor {
+        name "front_left_sensor"
+        type "infra-red"
+        aperture 0.1
+        numberOfRays 3
+        translation 0.03 0 0.14
+        rotation 0 1 0 -1.3708
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      DistanceSensor {
+        translation 0 0 0.14
+        rotation 0 1 0 -1.5708
+        aperture 0.1
+        numberOfRays 3
+        name "front_center_sensor"
+        type "infra-red"
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      DistanceSensor {
+        translation -0.03 0 0.14
+        rotation 0 1 0 -1.7708
+        aperture 0.1
+        numberOfRays 3
+        name "front_right_sensor"
+        type "infra-red"
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      DistanceSensor {
+        translation 0.04 -0.005 0.05
+        rotation 0 1 0 0
+        aperture 0.1
+        numberOfRays 3
+        name "side_left_sensor"
+        type "infra-red"
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      DistanceSensor {
+        translation -0.04 -0.005 0.05
+        rotation 0 1 0 3.1415926
+        aperture 0.1
+        numberOfRays 3
+        name "side_right_sensor"
+        type "infra-red"
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      DistanceSensor {
+        translation 0 -0.005 -0.037
+        rotation 0 1 0 1.5708
+        aperture 0.1
+        numberOfRays 3
+        name "back_sensor"
+        type "infra-red"
+        lookupTable [ 0 1023 0, 0.6 0 0.04 ]
+      }
+      LightSensor {
+        translation -0.01 0.042 0.055
+        rotation 0 0 1 1.5708
+        name "light_sensor"
+        occlusion TRUE
+      }
+      Accelerometer {
+        name "accelerometer"
+        xAxis TRUE
+        yAxis TRUE
+        zAxis TRUE
+      }
+      Emitter {
+        type "radio"
+      }
+      Receiver {
+        type "radio"
+      }
+      LED {
+        name "headlights"
+        color 1 1 0.66667
+        children [
+          Group {
+            children [
+              Transform {
+                rotation 0 1 0 3.1415926
+                translation 0 0.024 0.071
+                children [
+                  SpotLight {
+                    attenuation 1 0 0
+                    beamWidth   0.1
+                    color       1 1 0.66667
+                    cutOffAngle 0.2
+                    direction   0 -0.1 -1
+                    intensity   0.5
+                    on          TRUE
+                    radius      100
+                    castShadows TRUE
+                    location    0.03 0.02 -0.05
+                  }
+                  SpotLight {
+                    attenuation 1 0 0
+                    beamWidth   0.1
+                    color       1 1 0.66667
+                    cutOffAngle 0.2
+                    direction   0 -0.1 -1
+                    intensity   0.5
+                    on          TRUE
+                    radius      100
+                    castShadows TRUE
+                    location    -0.03 0.02 -0.05
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor IS color
+                      roughness 0.2
+                      metalness 0
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.019334 0.00239 -0.051835 0.020065 -0.001789 -0.053643 0.021938 -0.003791 -0.054219 0.023721 -0.003889 -0.053917 0.026249 -0.002203 -0.052645 0.028131 0.001063 -0.050751 0.024382 0.009938 -0.047334 0.026955 0.008951 -0.047302 0.028603 0.005994 -0.048366 0.020779 0.007348 -0.049247 -0.022477 0.008836 -0.048278 -0.025018 0.009849 -0.047309 -0.02742 0.00894 -0.047278 -0.028905 0.005297 -0.048691 -0.022834 -0.004024 -0.054201 -0.020267 -0.001617 -0.053576 -0.025432 -0.003153 -0.053297 -0.019721 0.004066 -0.051031 -0.028122 1.2e-05 -0.051305
+                        ]
+                      }
+                      coordIndex [
+                        8, 5, 9, -1, 5, 0, 9, -1, 7, 8 6, -1, 6, 8, 9, -1, 3, 2, 1, -1 4, 3, 1, -1, 5, 4, 0, -1, 4, 1 0, -1, 11, 10, 12, -1, 15, 14, 16, -1 17, 15, 18, -1, 15, 16, 18, -1, 10, 17 13, -1, 17, 18, 13, -1, 10, 13, 12, -1
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      LED {
+        name "backlights"
+        color 1 0.2 0
+        children [
+          Group {
+            children [
+              Transform {
+                rotation 0 1 0 3.1415926
+                translation 0 0.024 0.071
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.4
+                      baseColor 0.6 0.6 0.6 
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.019409 0.002164 0.10489 -0.020266 0.001922 0.104911 -0.02094 0.001374 0.105106 -0.021298 0.000629 0.105437 -0.021269 -0.000165 0.105838 -0.02086 -0.000851 0.10623 -0.02015 -0.001294 0.106534 -0.019281 -0.001405 0.106692 -0.018425 -0.001163 0.106671 -0.017751 -0.000616 0.106475 -0.017393 0.000129 0.106144 -0.017421 0.000923 0.105743 -0.017831 0.001609 0.105352 -0.01854 0.002052 0.105047
+                        ]
+                      }
+                      coordIndex [
+                        4, 8, 12, -1, 0, 1, 2, -1, 2, 3 4, -1, 4, 5, 6, -1, 6, 7, 4, -1 8, 9, 10, -1, 10, 11, 8, -1, 12, 13 0, -1, 0, 2, 12, -1, 4, 7, 8, -1 8, 11, 12, -1, 12, 2, 4, -1
+                      ]
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.4
+                      baseColor 0.6 0.6 0.6 
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.019474 0.002153 0.104908 0.018644 0.001904 0.105114 0.018033 0.001354 0.105454 0.017761 0.00061 0.105861 0.017883 -0.000179 0.106254 0.018373 -0.000858 0.106555 0.019136 -0.001292 0.106705 0.02002 -0.001395 0.106674 0.020849 -0.001146 0.106468 0.02146 -0.000596 0.106128 0.021732 0.000148 0.105721 0.021611 0.000937 0.105328 0.02112 0.001616 0.105026 0.020357 0.00205 0.104877
+                        ]
+                      }
+                      coordIndex [
+                        4, 8, 12, -1, 0, 1, 2, -1, 2, 3 4, -1, 4, 5, 6, -1, 6, 7, 4, -1 8, 9, 10, -1, 10, 11, 8, -1, 12, 13 0, -1, 0, 2, 12, -1, 4, 7, 8, -1 8, 11, 12, -1, 12, 2, 4, -1
+                      ]
+                    }
+                  }
+
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.024 0.071
+        rotation 0 1 0 3.1415926
+        children [
+          DEF ALTINO_BODY Shape {
+            appearance PBRAppearance {
+              baseColor IS color
+              roughness 0.2
+              metalness 0
+            }
+            geometry AltinoBodyMesh { }
+          }
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.017 0.03
+          children [
+            Box {
+              size 0.063 0.05 0.097
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.015 0.052
+          children [
+            Box {
+              size 0.09 0.04 0.16
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.015 0.052
+          children [
+            Box {
+              size 0.07 0.04 0.18
+            }
+          ]
+        }
+      ]
+    }
+    physics                 Physics { density -1 mass 2 }
+    radarCrossSection       100
+    wheelFrontRight         AltinoWheel { name "front right wheel" }
+    wheelFrontLeft          AltinoWheel { name "front left wheel"}
+    wheelRearRight          AltinoWheel { name "rear right wheel"}
+    wheelRearLeft           AltinoWheel { name "rear left wheel"}
+    type                    "4x4"
+    engineType              "electric"
+    engineSound             ""
+    brakeCoefficient        700
+    time0To100              2
+    engineMaxTorque         0.1
+    engineMaxPower          1
+    engineMinRPM            1
+    engineMaxRPM            250
+    gearRatio               [-30 30]
+    maxWheelVelocity         29.8
+  }
+}

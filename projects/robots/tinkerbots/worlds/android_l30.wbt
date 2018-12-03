@@ -1,0 +1,79 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.04752838915311271 0.9842363802199339 0.17035198876465224 3.642006566220462
+  position -0.1827830895022971 0.1682163423110524 -0.28495810462128235
+  near 0.001
+  exposure 2
+  follow "android L30"
+  followSmoothness 0.1
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+TinkerbotsBase {
+  translation 0 0.07 0
+  rotation 1 0 0 4.71
+  name "android L30"
+  upDSlot TinkerbotsBrickAdapter {
+    name "top brick adapter"
+  }
+  downSlot TinkerbotsMotor {
+    rotation 0 0 1 1.57
+    leftDSlot TinkerbotsCubieBoxWithRoundSlots {
+      name "cubie A"
+    }
+    rightDSlot TinkerbotsCubieBoxWithRoundSlots {
+      name "cubie B"
+    }
+    frontSlot TinkerbotsAxle {
+      name "axle A"
+      endSlot TinkerbotsWheel {
+      }
+    }
+    backSlot TinkerbotsAxle {
+      name "axle B"
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  backASlot TinkerbotsBrickAdapter {
+    name "back brick adapter"
+  }
+}

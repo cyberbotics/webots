@@ -1,0 +1,83 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.0570543 -0.985491 -0.159853 2.76296
+  position -0.436058 0.533884 -1.0595
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+Floor {
+}
+Robot {
+  children [
+    DEF ACC1 Slot {
+      type "slot"
+      endPoint SlotNode { }
+    }
+    DEF ACC2 Slot {
+      type "slot-"
+      endPoint SlotNodeGendered { }
+    }
+    DEF ACC3&4 Slot {
+      endPoint Slot {
+        type "any"
+        endPoint Accelerometer {
+          name "acc3"
+          children [
+            Accelerometer {
+              name "acc4"
+            }
+          ]
+        }
+      }
+    }
+    DEF ACC5 Slot {
+      endPoint Slot {
+        endPoint  Accelerometer {
+          name "acc5"
+        }
+      }
+    }
+    DEF ACC6 Slot {
+      type "type with spaces"
+      endPoint Slot {
+        type "type with spaces"
+        endPoint  Accelerometer {
+          name "acc6"
+        }
+      }
+    }
+    DEF ACC7 Slot {
+      type "slot+"
+      endPoint Slot {
+        type "slot+"
+        endPoint Accelerometer {
+          name "acc7"
+        }
+      }
+    }
+    DEF ACC8 Slot {
+      type "slot"
+      endPoint Slot {
+        type "default"
+        endPoint Accelerometer {
+          name "acc8"
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "slot_node"
+}
+TestSuiteSupervisor {
+}

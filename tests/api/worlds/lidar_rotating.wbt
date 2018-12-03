@@ -1,0 +1,105 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.551234 -0.804225 -0.222179 5.36895
+  position 8.06917 6.72391 6.61093
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF INCLINED_PLANE Transform {
+  translation 1 0 -2
+  rotation 1 0 0 1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.211765 0.309804 1
+          emissiveColor 0.0588235 0.129412 0.462745
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+DEF CYLINDER Transform {
+  translation -0.5 0 -1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.972549 0.0901961 0.0901961
+          emissiveColor 0.67451 0.0823529 0.0823529
+        }
+      }
+      geometry Cylinder {
+        height 3
+        radius 0.2
+      }
+    }
+  ]
+}
+DEF GROUND Transform {
+  translation 0 -0.1 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Plane {
+        size 15 15
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    DEF FIXED_LIDAR Lidar {
+      horizontalResolution 256
+      fieldOfView 1.57075
+      verticalFieldOfView 0.1
+      numberOfLayers 1
+      maxRange 5
+    }
+    DEF ROTATING_LIDAR Lidar {
+      rotation 0 1 0 0.78539816
+      name "rotating lidar"
+      horizontalResolution 1024
+      fieldOfView 1.57075
+      verticalFieldOfView 0.1
+      numberOfLayers 1
+      maxRange 5
+      type "rotating"
+      defaultFrequency 1
+      rotatingHead Solid {
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.945098 0.945098 0.945098
+                emissiveColor 0.47451 0.447059 0.447059
+              }
+            }
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "lidar_rotating"
+}
+TestSuiteSupervisor {
+}

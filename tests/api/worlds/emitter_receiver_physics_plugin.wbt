@@ -1,0 +1,158 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  physics "emitter_receiver_physics"
+}
+Viewpoint {
+  orientation -0.999417 0.0192633 0.0282059 1.19169
+  position -0.00853172 3.13764 1.29146
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  name "solid(1)"
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.395 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+    }
+  ]
+}
+DEF ROBOT_RADIO Robot {
+  translation 0.174784 0.05 -0.156834
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    DEF EMITTER_RADIO Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "emitter_radio"
+      range 1
+      bufferSize 100
+    }
+    DEF RECEIVER_RADIO Receiver {
+      name "receiver_radio"
+      channel 1
+    }
+    DEF EMITTER_INFRA-RED Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "emitter_infra-red"
+      type "infra-red"
+    }
+    DEF RECEIVER_INFRA-RED Receiver {
+      name "receiver_infra-red"
+      type "infra-red"
+      channel 2
+    }
+    DEF EMITTER_INFRA-RED_REDUCED Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "emitter_infra-red_reduced"
+      type "infra-red"
+      aperture 0
+    }
+    DEF RECEIVER_INFRA-RED_REDUCED Receiver {
+      name "receiver_infra-red_reduced"
+      type "infra-red"
+      aperture 0
+      channel 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_radio"
+  controller "emitter_receiver_physics_plugin"
+}
+TestSuiteSupervisor {
+}

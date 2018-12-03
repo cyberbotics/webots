@@ -1,0 +1,92 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
+# Simple non-controllable model of a generic scooter without physics properties
+
+PROTO ScooterSimple [
+  field       SFVec3f    translation                0 0.23 0
+  field       SFRotation rotation                   0 1 0 0
+  field       SFColor    primaryColor               0.43 0.11 0.1
+  field       SFColor    secondaryColor             0.69 0.43 0.43
+  field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]
+  field       SFNode     driver                     ScooterDriver { }
+  field       SFString   name                       "vehicle"
+  field       SFBool     wheelBoundingObject        FALSE
+  hiddenField SFVec3f    frontWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f    rearWheelAngularVelocity   0 0 0
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    children [
+      DEF DRIVER Slot {
+        type "scooter driver"
+        endPoint IS driver
+      }
+      ScooterMesh {
+        primaryColor IS primaryColor
+        secondaryColor IS secondaryColor
+      }
+      ScooterFrontLight {
+      }
+      ScooterBackwardsLight {
+      }
+      ScooterRightIndicator {
+      }
+      ScooterLeftIndicator {
+      }
+      DEF FRONT_WHEEL Solid {
+        angularVelocity IS frontWheelAngularVelocity
+        translation 0 0 1.484
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ScooterWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front wheel"
+      }
+      DEF REAR_WHEEL Solid {
+        angularVelocity IS rearWheelAngularVelocity
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ScooterWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear wheel"
+      }
+    ]
+    name IS name
+    model "ScooterSimple"
+    radarCrossSection 10
+    boundingObject Transform { # changing the bounding box to fit the driver if present
+      %{ if fields.driver.value then }%
+        translation 0 0.7 0.624
+        children [
+          Box {
+            size 0.66 1.52 1.95
+          }
+        ]
+      %{ else }%
+        translation 0 0.5 0.624
+        children [
+          Box {
+            size 0.66 1.12 1.95
+          }
+        ]
+      %{ end }%
+    }
+    physics NULL
+  }
+}

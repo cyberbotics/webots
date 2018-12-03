@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+PROTO NestedResettableHingeJoint 
+[
+  field SFVec3f translation 0 0.055 0
+  field SFRotation hingeRotation 1 0 0 0
+  field SFColor color 1 0 1
+] 
+{
+  ResettableHingeJoint {
+    translation IS translation
+    name "nested solid"
+    hingeRotation IS hingeRotation
+    color IS color
+  }
+}

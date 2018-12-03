@@ -1,0 +1,82 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Static light sensor rays"
+}
+Viewpoint {
+  orientation -0.114352 0.987653 0.10708 1.17516
+  position 0.448936 0.20009 0.195734
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+DEF DYNAMIC_LIGHT Solid {
+  translation 0 0.16 -0.1
+  children [
+    SpotLight {
+      beamWidth 0.06
+      cutOffAngle 0.6
+      direction 0 0 1
+      radius 0.1
+    }
+  ]
+  name "green box"
+  boundingObject DEF BOX0 Box {
+    size 0.09 0.06 0.02
+  }
+  physics Physics {
+    density 500
+  }
+}
+SpotLight {
+  beamWidth 0.06
+  cutOffAngle 0.06
+  location 0 0.06 0.1
+  radius 0.1
+}
+DEF STATIC_ROBOT Robot {
+  translation 0 0.06 0
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry Sphere {
+        radius 0.02
+      }
+    }
+    LightSensor {
+      translation -0.05 0 0.001
+      rotation 0 1 0 3.14159
+      name "light sensor static"
+    }
+    LightSensor {
+      translation 0.05 0 0.001
+      name "light sensor dynamic"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "static"
+  controller "light_sensor_rays"
+  controllerArgs "static_light_sensor_rays"
+}
+TestSuiteSupervisor {
+}

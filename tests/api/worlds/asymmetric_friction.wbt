@@ -1,0 +1,80 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Description: example of fully asymetric friction contact"
+  ]
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        0.01, 0.23
+      ]
+      frictionRotation 0.1 0
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.147696 -0.931138 -0.33342 4.07756
+  position 4.15362 2.76824 -3.60275
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+DEF BOX1 Solid {
+  translation 0.121931 -0.9 1.17269
+  rotation 0.180072 0.980392 -0.080032 -0.73
+  children [
+    Shape {
+      geometry DEF BOX Box {
+        size 0.3 0.3 0.3
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF BOX2 Solid {
+  translation -0.8 -0.9 0.7
+  rotation -0.156677 0.98581 -0.0602604 0.864729
+  children [
+    Shape {
+      geometry DEF BOX Box {
+        size 0.3 0.3 0.3
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF PLANE Solid {
+  translation 0 -1.16 0
+  rotation 0.237127 0.969399 -0.0635379 5.74384
+  children [
+    Shape {
+      geometry DEF PLANE Plane {
+        size 4 4
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE PLANE
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "asymmetric_friction"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

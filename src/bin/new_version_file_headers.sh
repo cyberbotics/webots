@@ -1,0 +1,30 @@
+#!/bin/bash
+# update header versions of WBT, PROTO, and WBO files
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+  echo "Usage: $0 [<old_version>] <new_version>" >&2
+  echo "Example: $0 R2018a R2018b" >&2
+  echo "Example: $0 R2018b" >&2
+  exit 1
+fi
+
+if [ "$#" -eq 2 ]; then
+  old_sim_header="#VRML_SIM\\s"$1
+  old_obj_header="#VRML_OBJ\\s"$1
+  new_version=$2
+else
+  # match any version like V8.5 or V8.3.1
+  old_sim_header="#VRML_SIM\\sV[0-9]\+\.[0-9]\+\(\.[0-9]\)\?"
+  old_obj_header="#VRML_OBJ\\sV[0-9]\+\.[0-9]\+\(\.[0-9]\)\?"
+  new_version=$1
+fi
+
+for f in $(find ../../projects/ ../../tests/ -name "*.wbt" -o -name "*.proto")
+do
+  ./new_version_file.sh $old_sim_header "#VRML_SIM "$new_version $f
+done
+
+for f in $(find ../../projects/ ../../tests/ -name "*.wbo")
+do
+  ./new_version_file.sh $old_obj_header "#VRML_OBJ "$new_version $f
+done

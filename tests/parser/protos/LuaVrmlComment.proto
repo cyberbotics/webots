@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO LuaVrmlComment [
+]
+{
+  %{
+    local myVariable = 1 # invalid VRML comment
+  }%
+  Shape {
+    geometry Box {
+      size 1 1 %{=count}%
+    }
+  }
+}

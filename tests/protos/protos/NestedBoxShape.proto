@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+PROTO NestedBoxShape [
+  field SFVec3f translation 0 0 0
+  field SFVec3f boxSize 1 1 1
+]
+{
+  Transform {
+    translation IS translation
+    children [
+      BoxShape {
+        size IS boxSize
+      }
+    ]
+  }
+}

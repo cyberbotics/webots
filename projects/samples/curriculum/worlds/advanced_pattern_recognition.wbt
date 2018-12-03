@@ -1,0 +1,740 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.5136141607774364 0.7885542468423574 0.33820510586886815 4.89166
+  position -0.833387 1.0197 0.325004
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 0.88 0.88
+  floorTileSize 0.88 0.88
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/arena_floor.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallHeight 0.05
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/arena_wall.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF FLOOR_TRAINING_ROOM Solid {
+  translation 0.8 0 0
+  children [
+    DEF FLOOR_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.42 0.73 0.44
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.4 0.4
+      }
+    }
+  ]
+  name "ground(1)"
+  locked TRUE
+}
+DEF FLOOR_BORDER_TRAINING_ROOM Solid {
+  translation 0.8 -0.001 0
+  children [
+    DEF FLOOR_BORDER_SHAPE_TRAINING_ROOM Shape {
+      appearance PBRAppearance {
+        baseColor 0.21 0.22 0.24
+        roughness 1
+        metalness 0
+      }
+      geometry Plane {
+        size 0.6 0.6
+      }
+    }
+  ]
+  name "ground"
+}
+DEF WALL_TRAINING_ROOM Solid {
+  translation 0.8 0 0
+  children [
+    Shape {
+      appearance DEF WALL_APPEARANCE_TRAINING_ROOM PBRAppearance {
+        baseColor 0.42 0.73 0.44
+        roughness 1
+        metalness 0
+      }
+      geometry DEF WALL_GEOMETRY_TRAINING_ROOM IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.3 0 0.3
+            0.3 0 -0.3
+            -0.3 0 -0.3
+            -0.3 0 0.3
+            -0.29 0 0.3
+            -0.29 0 -0.29
+            0.29 0 -0.29
+            0.29 0 0.29
+            -0.29 0 0.29
+            -0.29 0 0.3
+            0.3 0 0.3
+            0.3 0.05 0.3
+            0.3 0.05 -0.3
+            -0.3 0.05 -0.3
+            -0.3 0.05 0.3
+            -0.29 0.05 0.3
+            -0.29 0.05 -0.29
+            0.29 0.05 -0.29
+            0.29 0.05 0.29
+            -0.29 0.05 0.29
+            -0.29 0.05 0.3
+            0.3 0.05 0.3
+          ]
+        }
+        coordIndex [
+          10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, -1, 0, 1, 12, 11, -1, 1, 2, 13, 12, -1, 2, 3, 14, 13, -1, 3, 4, 15, 14, -1, 4, 5, 16, 15, -1, 5, 6, 17, 16, -1, 6, 7, 18, 17, -1, 7, 8, 19, 18, -1, 8, 9, 20, 19, -1, 9, 10, 21, 20, -1
+        ]
+      }
+    }
+  ]
+  name "wall"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0.295 0.025 0
+        children [
+          DEF WALL_SHAPE_TRAINING_ROOM Shape {
+            appearance USE WALL_APPEARANCE_TRAINING_ROOM
+            geometry Box {
+              size 0.01 0.05 0.6
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -0.295 0.025 0
+        children [
+          USE WALL_SHAPE_TRAINING_ROOM
+        ]
+      }
+      Transform {
+        translation 0 0.025 0.295
+        rotation 0 1 0 1.57
+        children [
+          USE WALL_SHAPE_TRAINING_ROOM
+        ]
+      }
+      Transform {
+        translation 0 0.025 -0.295
+        rotation 0 1 0 1.57
+        children [
+          USE WALL_SHAPE_TRAINING_ROOM
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+DEF BLOCK1 Solid {
+  translation 0.2 0.025 0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.42 0.73 0.44
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.2 0.05 0.2
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BOX1
+}
+DEF BLOCK2 Solid {
+  translation -0.2 0.025 -0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.42 0.73 0.44
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOX1
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BOX1
+}
+DEF LANDMARK1 Solid {
+  translation 0.8 0 0.2899
+  rotation 0 1 0 3.1415
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l1.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry DEF LM_GEOM IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.015 0.01 0
+            0.015 0.01 0
+            0.015 0.04 0
+            -0.015 0.04 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            1 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3
+        ]
+        texCoordIndex [
+          0, 1, 2, 3
+        ]
+      }
+    }
+  ]
+  name "solid(3)"
+}
+DEF LANDMARK2 Solid {
+  translation 0.8 0 -0.2899
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(4)"
+}
+DEF LANDMARK3 Solid {
+  translation 0.5101 0 0
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l3.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(5)"
+}
+DEF LANDMARK4 Solid {
+  translation 1.089 0 0
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(6)"
+}
+DEF LANDMARK5 Solid {
+  translation 0.439 0 0.3
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l1.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(7)"
+}
+DEF LANDMARK6 Solid {
+  translation 0.439 0 0
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(8)"
+}
+DEF LANDMARK7 Solid {
+  translation 0.439 0 -0.3
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l3.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(9)"
+}
+DEF LANDMARK8 Solid {
+  translation -0.439 0 0.3
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(10)"
+}
+DEF LANDMARK9 Solid {
+  translation -0.439 0 0
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l3.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(11)"
+}
+DEF LANDMARK10 Solid {
+  translation -0.439 0 -0.3
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(12)"
+}
+DEF LANDMARK11 Solid {
+  translation 0.3 0 -0.439
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l1.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(13)"
+}
+DEF LANDMARK12 Solid {
+  translation 0 0 -0.439
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(14)"
+}
+DEF LANDMARK13 Solid {
+  translation -0.3 0 -0.439
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(15)"
+}
+DEF LANDMARK14 Solid {
+  translation 0.3 0 0.439
+  rotation 0 1 0 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l1.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(16)"
+}
+DEF LANDMARK15 Solid {
+  translation 0 0 0.439
+  rotation 0 1 0 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(17)"
+}
+DEF LANDMARK16 Solid {
+  translation -0.3 0 0.439
+  rotation 0 1 0 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(18)"
+}
+DEF LANDMARK17 Solid {
+  translation 0.099 0 0.2
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l2.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(19)"
+}
+DEF LANDMARK18 Solid {
+  translation -0.301 0 -0.2
+  rotation 0 1 0 4.71
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l1.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(20)"
+}
+DEF LANDMARK19 Solid {
+  translation 0.301 0 0.2
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(21)"
+}
+DEF LANDMARK20 Solid {
+  translation -0.099 0 -0.2
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l3.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(22)"
+}
+DEF LANDMARK21 Solid {
+  translation -0.2 0 -0.099
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(23)"
+}
+DEF LANDMARK22 Solid {
+  translation 0.2 0 0.301
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(24)"
+}
+DEF LANDMARK23 Solid {
+  translation 0.2 0 0.099
+  rotation 0 1 0 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+  name "solid(25)"
+}
+DEF LANDMARK24 Solid {
+  translation -0.2 0 -0.301
+  rotation 0 1 0 3.14
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        baseColorMap ImageTexture {
+          url [
+            "textures/l4.png"
+          ]
+          filtering 0
+        }
+        roughness 0.5
+        metalness 0
+        emissiveColor 1 1 1
+      }
+      geometry USE LM_GEOM
+    }
+  ]
+}
+Robot {
+  controller "advanced_pattern_recognition_supervisor"
+}
+DEF EPUCK E-puck {
+  translation 0 0.01 0
+  rotation 0 1 0 -1.57
+  controller "advanced_pattern_recognition"
+  supervisor TRUE
+  camera_antiAliasing TRUE
+  camera_noise 0.024
+  turretSlot [
+    Display {
+      width 52
+      height 39
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# kuka logo on a transparent background appearance
+
+PROTO KukaAlphaAppearance [
+]
+{
+PBRAppearance {
+  baseColor 0.8 0.8 0.8
+  metalness 0
+  roughness 0.6
+  baseColorMap ImageTexture {
+    url [
+      "textures/kuka_alpha.png"
+    ]
+  }
+}
+}

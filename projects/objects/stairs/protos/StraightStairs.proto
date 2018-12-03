@@ -1,0 +1,249 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Generic and customizable stairs model.
+
+PROTO StraightStairs [
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   name               "straight stairs"
+  field SFVec3f    stepSize           0.4 0.03 1.27                                                      # Defines the size of one step.
+  field SFFloat    stepRise           0.15                                                               # Defines the height difference between two consecutives steps.
+  field SFInt32    nSteps             5                                                                  # Defines the number of steps.
+  field SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the steps.
+  field SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the stringers.
+  field MFNode     leftRail           StraightStairsRail {}                                              # Defines the left rail.
+  field MFNode     rightRail          StraightStairsRail {}                                              # Defines the right rail.
+  field SFBool     startingStairs     TRUE                                                               # Defines whether the bottom part of the stairs should be flat.
+  field SFString   contactMaterial    "default"                                                          # Is `Solid.contactMaterial`.  
+]
+{
+  %{
+    local wbrotation = require('wbrotation')
+
+    local stringerWidth = 0.02
+
+    -- check inputs
+    local stepRise = fields.stepRise.value
+    if fields.stepRise.value <= 0.0 then
+      io.stderr:write("'stepRise' must be positive\n")
+      stepRise = fields.stepRise.defaultValue
+    end
+
+    local nSteps = fields.nSteps.value
+    if fields.nSteps.value <= 0.0 then
+      io.stderr:write("'nSteps' must be positive\n")
+      nSteps = fields.nSteps.defaultValue
+    end
+
+    local stepSize = fields.stepSize.value
+    if fields.stepSize.value.x <= 0.0 or fields.stepSize.value.y <= 0.0 or fields.stepSize.value.z <= 0.0 then
+      io.stderr:write("'stepSize' must contain positive values\n")
+      stepSize.x = fields.stepSize.defaultValue.x
+      stepSize.y = fields.stepSize.defaultValue.y
+      stepSize.z = fields.stepSize.defaultValue.z
+    end
+
+    local stairsRun = stepSize.x * nSteps
+    local stairsRise = stepRise * nSteps
+
+    local boxCoordIndex = {
+      1, 2, 3, -1, 1, 0, 2, -1,
+      0, 6, 2, -1, 0, 4, 6, -1,
+      4, 7, 6, -1, 4, 5, 7, -1,
+      5, 3, 7, -1, 5, 1, 3, -1,
+      2, 6, 7, -1, 2, 7, 3, -1,
+      1, 4, 0, -1, 1, 5, 4, -1
+    }
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      #steps
+      Shape {
+        appearance IS stepAppearance
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+            %{
+            local deltaX = 0.0
+            local deltaY = stepRise - 0.5*stepSize.y
+            for n=1,nSteps do
+              for z=-0.5*stepSize.z,0.6*stepSize.z,stepSize.z do
+                for y=-0.5*stepSize.y,0.6*stepSize.y,stepSize.y do
+                  for x=-0.5*stepSize.x,0.6*stepSize.x,stepSize.x do
+            }%
+                    %{= x + deltaX }% %{= y + deltaY }% %{= z }%
+            %{
+                  end
+                end
+              end
+              deltaX = deltaX + stepSize.x
+              deltaY = deltaY + stepRise
+            end
+            }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              0.0 0.0
+              0.0 1.0
+              1.0 1.0
+              1.0 0.0
+            ]
+          }
+          coordIndex [
+          %{
+          local indexOffset = 0
+          for n=1,nSteps do
+            for i=1,48,4 do
+          }%
+              %{= boxCoordIndex[i] + indexOffset }% %{= boxCoordIndex[i+1] + indexOffset }% %{= boxCoordIndex[i+2] + indexOffset }% -1
+          %{
+            end
+            indexOffset = indexOffset + 8
+          end
+          }%
+          ]
+          texCoordIndex [
+            %{
+            for n=1,nSteps do
+            }%
+              0 1 2 -1 0 2 3 -1
+              3 1 0 -1 3 2 1 -1
+              0 1 2 -1 0 2 3 -1
+              3 1 0 -1 3 2 1 -1
+              0 1 2 -1 0 2 3 -1
+              3 1 0 -1 3 2 1 -1
+            %{
+            end
+            }%
+          ]
+        }
+      }
+    %{
+    if fields.startingStairs.value then
+    }%
+      Solid {
+        translation %{=-stepSize.x * 0.5}% 0.0 %{=(stepSize.z + stringerWidth) * 0.5}%
+        children [
+          DEF GEOM Shape {
+            appearance IS stringerAppearance
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                %{
+                  local stringerRise = stairsRise - stepRise
+                  local coords = {}
+                  coords[1] = {0, 0}
+                  coords[2] = {stepSize.x, 0}
+                  coords[3] = {stairsRun, stringerRise}
+                  coords[4] = {stairsRun, stringerRise + 2 * stepRise }
+                  coords[5] = {0, stepRise }
+                  for z=1,-1,-2 do
+                    for ci=1,5 do
+                }%
+                      %{=coords[ci][1]}% %{=coords[ci][2]}% %{= z * stringerWidth * 0.5 }%
+                %{
+                    end
+                  end
+                }%
+                ]
+              }
+              coordIndex [
+                0 1 4 -1 1 2 3 -1
+                1 3 4 -1 0 4 9 -1
+                0 9 5 -1 4 8 9 -1
+                4 3 8 -1 0 6 1 -1
+                0 5 6 -1 1 7 2 -1
+                1 6 7 -1 3 2 8 -1
+                2 7 8 -1 5 9 6 -1
+                6 8 7 -1 6 9 8 -1
+              ]
+            }
+          }
+        ]
+        name "right stringer"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+      Solid {
+        translation %{=-stepSize.x * 0.5}% 0.0 %{=(stepSize.z + stringerWidth) * -0.5}%
+        children [
+          USE GEOM
+        ]
+        name "left stringer"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+    %{ else
+         local pAngle = math.atan2(stairsRise, stairsRun)
+    }%
+      Solid {
+        translation %{= (stairsRun - stepSize.x) * 0.5  }% %{= stairsRise * 0.5 }% %{=(stepSize.z + stringerWidth) * 0.5}%
+        rotation 0 1 0 1.5708
+        children [
+          DEF GEOM Shape {
+            appearance IS stringerAppearance
+            geometry TexturedParallelepiped {
+              size %{= stringerWidth }% %{= 2 * stepRise }% %{= math.sqrt(stairsRun * stairsRun + stairsRise * stairsRise) }%
+              angles 1.5708 %{= pAngle}% 0
+              mapping "metric"
+            }
+          }
+        ]
+        name "right stringer"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+      Solid {
+        translation %{= (stairsRun - stepSize.x) * 0.5 }% %{= stairsRise * 0.5 }% %{=(stepSize.z + stringerWidth) * -0.5}%
+        rotation 0 1 0 1.5708
+        children [
+          USE GEOM
+        ]
+        name "left stringer"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+    %{ end }%
+      Solid {
+        translation %{=-stepSize.x * 0.5}% %{=stepRise}% %{=(-stepSize.z - stringerWidth) * 0.5}%
+        children IS leftRail
+        name "left rail"
+      }
+      Solid {
+        translation %{=-stepSize.x * 0.5}% %{=stepRise}% %{=(stepSize.z + stringerWidth) * 0.5}%
+        children IS rightRail
+        name "right rail"
+      }
+    ]
+    name IS name
+    model "straight stairs"
+    contactMaterial IS contactMaterial
+    boundingObject Group {
+      children [
+      %{
+        local deltaX = 0.0
+        local deltaY = stepRise * 0.5
+        for n = 1, nSteps do
+      }%
+          Transform {
+            translation %{=deltaX}% %{=deltaY + stepRise * 0.5-stepSize.y*0.5}% 0.0
+            children [
+              Box {
+                size %{=stepSize.x}% %{=stepSize.y}% %{=stepSize.z}%
+              }
+            ]
+          }
+      %{
+          deltaX = deltaX + stepSize.x
+          deltaY = deltaY + stepRise
+        end
+      }%
+      ]
+    }
+  }
+}

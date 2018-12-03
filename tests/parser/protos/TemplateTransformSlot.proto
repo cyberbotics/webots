@@ -1,0 +1,11 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateTransformSlot [
+  field MFNode slot []
+]
+{
+  %{ local test = fields.slot.value }%
+  Transform {
+    children IS slot
+  }
+}

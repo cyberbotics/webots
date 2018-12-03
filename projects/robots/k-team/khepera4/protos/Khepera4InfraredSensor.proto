@@ -1,0 +1,46 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO Khepera4InfraredSensor [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+  field SFString name "infrared sensor"
+]
+{
+  DistanceSensor {
+    translation IS translation
+    rotation IS rotation
+    type "infra-red"
+    name IS name
+    model "Khepera IV infra-red sensor"
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0 0 0
+          metalness 0
+          roughness 0.7
+        }
+        geometry Box {
+          size 0.0005 0.0031 0.008
+        }
+      }
+    ]
+    lookupTable [
+      0 1023 0
+      0.01 1010 0.005
+      0.02 1000 0.01
+      0.03 990 0.015
+      0.04 800 0.02
+      0.05 500 0.025
+      0.06 400 0.03
+      0.07 350 0.035
+      0.08 280 0.04
+      0.09 250 0.055
+      0.1 220 0.05
+      0.15 180 0.075
+      0.2 120 0.1
+    ]
+  }
+}

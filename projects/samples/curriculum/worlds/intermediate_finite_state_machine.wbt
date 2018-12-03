@@ -1,0 +1,46 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.10554199454527324 0.9395989514387088 0.32559898317206826 3.73287
+  position -0.666193 0.917662 -0.934976
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 0.88 0.88
+  floorTileSize 0.88 0.88
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/arena_floor.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallHeight 0.05
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/arena_wall.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Obstacle {
+  translation 0.25 0.025 -0.25
+  color 1 1 0.498039
+  name "obstacle(1)"
+}
+Obstacle {
+  translation -0.25 0.025 0.25
+}
+E-puck {
+  translation 0 0 -0.15
+  controller "intermediate_finite_state_machine"
+}

@@ -1,0 +1,13 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoNestedFixed [
+]
+{
+  Solid {
+    children [
+      DerivedBoxShape {
+        boxSize 1 1 1
+      }
+    ]
+  }
+}

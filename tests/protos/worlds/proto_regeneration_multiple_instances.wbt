@@ -1,0 +1,55 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.885364 -0.363046 -0.290394 6.09175
+  position -0.47206 0.249955 0.823111
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+Floor {
+}
+ProtoNestedMultipleInstances {
+  slot [
+    DEF TEST_NODE ProceduralSolidWithPhysics {
+      size 0.15
+    }
+  ]
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation -0.4 0.05 0.3
+      rotation 0 1 0 1.5708
+      name "ds1"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.35 0.05 0.3
+      rotation 0 1 0 1.5708
+      name "ds2"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "proto_regeneration_multiple_instances"
+  controllerArgs "proto_regeneration_multiple_instances"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

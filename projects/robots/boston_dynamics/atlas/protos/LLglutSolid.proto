@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO LLglutSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    LLglutMesh {
+    }
+  ]
+  name "LLglut"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0.049968 0.022488 -0.0501165
+        rotation 1.0 0.0 0.0 3.14079632679
+        children [
+          Cylinder {
+            radius 0.02009687
+            height 0.060306
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.02
+            height 0.12
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.69
+    centerOfMass 0.0133341 0.0170484 -0.0312052
+    inertiaMatrix [0.000691326 0.00126856 0.00106487, -2.24344e-05 2.50508e-06 0.000137862 ]
+  }
+}
+}

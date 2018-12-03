@@ -1,0 +1,13 @@
+#VRML_SIM R2019a utf8
+# Standard appearance
+
+PROTO AppearanceProto [
+  field SFColor color 0 0 0
+]
+{
+  Appearance {
+    material Material {
+      diffuseColor IS color
+    }
+  }
+}

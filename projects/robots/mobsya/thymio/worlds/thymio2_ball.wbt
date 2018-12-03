@@ -1,0 +1,29 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 10
+  contactProperties [
+    ContactProperties {
+      material2 "thymio body"
+      coulombFriction [
+        0.7
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.4763769133017915 -0.8450938461971593 -0.2426549558380153 5.16919
+  position 2.40884 2.46245 1.5833
+  follow "thymio2"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+}
+Thymio2 {
+  translation 0 1 0
+  window "thymio2"
+}
+Thymio2Ball {
+}

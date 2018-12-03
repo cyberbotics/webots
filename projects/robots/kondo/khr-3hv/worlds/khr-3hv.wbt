@@ -1,0 +1,22 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "KHR3-HV demo"
+  ]
+  basicTimeStep 16
+}
+Viewpoint {
+  fieldOfView 0.660595
+  orientation 0.7804458453854987 -0.5866368837810851 -0.21624395715980577 5.6836
+  position 0.892061 1.54657 2.01331
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  tileSize 1 1
+}
+Khr3hv {
+  translation 0 0.68 0
+}

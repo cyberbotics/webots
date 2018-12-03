@@ -1,0 +1,47 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Pioneer 3DX (Adept Mobile Robots)"
+    "This two-wheel, two-motor differential drive robot has in addition a rear caster wheel"
+    "It is programmed to perform a simple obstacle avoidance behavior based on the values sensed by its 16 sonars"
+  ]
+  title "Pioneer 3-DX with a Matlab programming interface"
+  basicTimeStep 8
+}
+Viewpoint {
+  fieldOfView 0.660595
+  orientation -0.43097805068883993 0.8957671053543106 0.1089000128081124 0.562701
+  position 0.663146 1.11377 2.59365
+  follow "Pioneer 3-DX"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 6 6
+  floorTileSize 2 2
+  wallThickness 0.1
+  wallHeight 0.4
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/red_brick_wall.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+    textureTransform TextureTransform {
+      scale 11 13
+    }
+  }
+}
+CardboardBox {
+  translation -1.48831 0.15 0.352735
+  size 0.3 0.3 0.6
+}
+DEF PIONEER_3DX Pioneer3dx {
+  translation -0.613659 0.0975 0.0464224
+  rotation 0 1 0 2.73075
+  controller "pioneer3dx_matlab"
+}

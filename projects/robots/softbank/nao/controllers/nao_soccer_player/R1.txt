@@ -1,0 +1,2 @@
+0: motion:HandWave
+2000: eyes:ff0000:ff0000

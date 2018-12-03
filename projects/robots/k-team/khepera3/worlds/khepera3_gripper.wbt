@@ -1,0 +1,92 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The model of the Khepera III robot equipped with its gripper"
+  ]
+  title "Khepera III"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "wheel"
+      coulombFriction [
+        0.45
+      ]
+    }
+    ContactProperties {
+      material1 "body"
+      coulombFriction [
+        0.1
+      ]
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.010375173565955154 0.9881546100079622 0.15311049112810118 3.390766842814564
+  position -0.3619521972641332 0.35555303289553575 -1.118924537226051
+  follow "Khepera III"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+WoodenBox {
+  translation -0.2 0.05 0.683174
+  rotation 0 1 0 0.5
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.75 0.05 -0.35
+  rotation 0 1 0 4.96782
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.5 0.05 0.35471
+  rotation 0 1 0 5.36782
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.21 0.05 -0.41
+  rotation 0 1 0 5.636164372494129
+  name "wooden box(3)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.65 0.05 0.66
+  rotation 0 1 0 5.36782
+  name "wooden box(4)"
+  size 0.1 0.1 0.1
+}
+Khepera3 {
+  controller "khepera3_gripper"
+  wheelMaterial "wheel"
+  bodyMaterial "body"
+  turretSlot [
+    DEF BASE Khepera3_Gripper {
+    }
+  ]
+}
+DEF CYLINDER_LOAD Solid {
+  translation 0 0.05 -0.48
+  children [
+    DEF CYLINDER_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.976471 0.462745 0.168627
+        roughness 1.1102230246251565e-16
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.0125
+      }
+    }
+  ]
+  boundingObject USE CYLINDER_SHAPE
+  physics Physics {
+  }
+}

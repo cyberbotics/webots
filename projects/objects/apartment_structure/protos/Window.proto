@@ -1,0 +1,166 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable window including walls above and below.
+
+PROTO Window [
+  field SFVec3f    translation            0 0 0
+  field SFRotation rotation               0 1 0 0
+  field SFString   name                   "window"
+  field SFVec3f    size                   0.8 2.4 0.2       # Defines the size of the window.
+  field SFFloat    windowThickness        0.05              # Defines the thickness of the window.
+  field SFFloat    bottomWallHeight       0.7               # Defines the height of the top wall.
+  field SFFloat    windowHeight           1.4               # Defines the height of the window.
+  field SFVec3f    frameSize              0.05 0.05 0.02    # Defines the size of the window frame.
+  field SFVec2f    windowSillSize         0.1 0.05          # Defines the size of the sill below the window.
+  field SFNode     wallAppearance         Roughcast {}      # Defines the appearance of the wall.
+  field SFNode     frameAppearance        VarnishedPine {}  # Defines the appearance of the frame.
+]
+{
+  %{
+
+    local size = fields.size.value
+    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid a negative values
+      size = fields.size.defaultValue
+      io.stderr:write("'size' must contain positive values\n")
+    end
+
+    local windowThickness = fields.windowThickness.value
+    if windowThickness <= 0.0 then
+      io.stderr:write("'windowThickness' must be positive\n")
+      windowThickness = fields.windowThickness.defaultValue
+    end
+
+    local bottomWallHeight = fields.bottomWallHeight.value
+    if bottomWallHeight < 0.0 then
+      io.stderr:write("'bottomWallHeight' must be positive\n")
+      bottomWallHeight = fields.bottomWallHeight.defaultValue
+    end
+
+    local windowHeight = fields.windowHeight.value
+    if windowHeight <= 0.0 then
+      io.stderr:write("'windowHeight' must be positive\n")
+      windowHeight = fields.windowHeight.defaultValue
+    end
+
+    local frameSize = fields.frameSize.value
+    if frameSize.x < 0.0 or frameSize.y < 0.0 or frameSize.z < 0.0 then
+      io.stderr:write("'frameSize' must contain positive or zero values\n")
+      frameSize = fields.frameSize.defaultValue
+    end
+
+    local windowSillSize = fields.windowSillSize.value
+    if windowSillSize.x < 0.0 or windowSillSize.y < 0.0 then
+      io.stderr:write("'windowSillSize' must contain positive or zero values\n")
+      windowSillSize = fields.windowSillSize.defaultValue
+    end
+
+    local reset = true
+    if windowHeight <= 2 * frameSize.y then
+      io.stderr:write("'frameSize.y' is too big in comparison to 'windowHeight'\n")
+    elseif windowHeight + bottomWallHeight > size.y then
+      io.stderr:write("'windowHeight' and 'bottomWallHeight' are too big in comparison to 'size.y'\n")
+    elseif size.x <= 2 * frameSize.x then
+      io.stderr:write("'frameSize.x' is too big in comparison to 'size.x'\n")
+    else
+      reset = false
+    end
+
+    if reset == true then
+      windowHeight = fields.windowHeight.defaultValue
+      bottomWallHeight = fields.bottomWallHeight.defaultValue
+      frameSize = fields.frameSize.defaultValue
+      size = fields.size.defaultValue
+    end
+
+    local bottomWallTextureFactor = math.max(size.x, bottomWallHeight)
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      %{ if bottomWallHeight > 0 then }%
+        Solid { # bottom wall
+          translation 0 %{= 0.5 * bottomWallHeight }% 0
+          children [
+            Shape {
+              appearance IS wallAppearance
+              geometry Box {
+                size %{= size.x }% %{= bottomWallHeight }% %{= size.z }%
+              }
+            }
+          ]
+          name "bottom wall"
+          boundingObject Box {
+            size %{= size.x }% %{= bottomWallHeight }% %{= size.z }%
+          }
+        }
+      %{ end }%
+      %{ local topWallHeight = size.y - bottomWallHeight - windowHeight }%
+      %{ if topWallHeight > 0 then }%
+        Solid { # top wall
+          translation 0 %{= size.y - 0.5 * topWallHeight }% 0
+          children [
+            Shape {
+              appearance IS wallAppearance
+              geometry Box {
+                size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+              }
+            }
+          ]
+          name "top wall"
+          boundingObject Box {
+            size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+          }
+        }
+      %{ end }%
+      SolidBox { # glass
+        translation 0 %{= bottomWallHeight + 0.5 * windowHeight }% 0
+        name "glass"
+        size %{= size.x - 2 * frameSize.x }% %{= windowHeight - 2 * frameSize.y }% %{= windowThickness }%
+        appearance PBRAppearance {
+          baseColor 0.8 0.8 0.8
+          metalness 0
+          transparency 0.8
+        }
+      }
+      %{ if windowSillSize.x > 0 and windowSillSize.y > 0 then }%
+        SolidBox { # window sill
+          translation 0 %{= bottomWallHeight + windowSillSize.y * 0.5 }% 0
+          name "sill"
+          size %{= size.x }% %{= windowSillSize.y }% %{= 2 * windowSillSize.x + size.z + 2 * frameSize.z }%
+          appearance IS frameAppearance
+        }
+      %{ end }%
+      %{ if frameSize.x > 0 or frameSize.y > 0 then }%
+        SolidBox { # bottom frame
+          translation 0 %{= bottomWallHeight + frameSize.y * 0.5 + windowSillSize.y }% 0
+          name "bottom frame"
+          size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
+          appearance IS frameAppearance
+        }
+        SolidBox { # top frame
+          translation 0 %{= bottomWallHeight + windowHeight - 0.5 * frameSize.y }% 0
+          name "top frame"
+          size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
+          appearance IS frameAppearance
+        }
+        SolidBox { # right frame
+          translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
+          name "right frame"
+          size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
+          appearance IS frameAppearance
+        }
+        SolidBox { # left frame
+          translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
+          name "left frame"
+          size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
+          appearance IS frameAppearance
+        }
+      %{ end }%
+    ]
+    name IS name
+    model "window"
+  }
+}

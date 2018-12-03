@@ -1,0 +1,52 @@
+###############################################################
+#
+# Purpose: Makefile for "keyboardInterface.a"
+#
+###############################################################
+
+TARGET = keyboardInterface.a
+
+CXX_SOURCES = \
+  ./keyboardInterface.cpp 
+
+SOURCES = $(CXX_SOURCES)
+
+EXTRA_FLAGS =
+AR          = ar cr
+
+CC        = gcc
+CXX       = g++
+OBJECTS   = $(notdir $(CXX_SOURCES:.cpp=.o) $(C_SOURCES:.c=.o))
+CFLAGS   += -c -O2 -Wall -DWEBOTS -DCROSSCOMPILATION -I./
+CXXFLAGS += -c -O2 -Wall -DWEBOTS -DCROSSCOMPILATION -I./ 
+LIBS += -lX11
+DEPENDENCIES = $(OBJECTS:.o=.d)
+
+.PHONY: clean compil
+
+compil: $(TARGET)
+
+vpath %.c   $(dir $(SOURCES))
+vpath %.cpp $(dir $(SOURCES))
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(DEPENDENCIES)
+endif
+
+clean:
+	rm -f $(TARGET) $(OBJECTS) $(DEPENDENCIES)
+
+$(TARGET): $(OBJECTS)
+	$(AR) $(TARGET) $(OBJECTS) 
+
+%.d:%.cpp
+	$(CXX) $(CXXFLAGS) $(LIBS) -MM $< > $@
+
+%.d:%.c
+	$(CC) $(CFLAGS) -MM $< > $@
+
+%.o:%.cpp
+	$(CXX) $(CXXFLAGS) $(LIBS) $(EXTRA_FLAGS) $< -o $@
+
+%.o:%.c
+	$(CC) $(CFLAGS) $(EXTRA_FLAGS) $< -o $@

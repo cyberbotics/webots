@@ -1,0 +1,124 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "NAO Challenge 2014-2015"
+  ]
+  basicTimeStep 20
+  FPS 20
+  lineScale 0.2
+  contactProperties [
+    ContactProperties {
+      material1 "NAO foot material"
+      coulombFriction [
+        3
+      ]
+      bounce 0.9
+      bounceVelocity 0.003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.6243151526091754 -0.7413971812290027 -0.24609106015512136 0.805969
+  position -2.21806 2.07599 0.541135
+}
+Background {
+  cubemap Cubemap {
+    textureBaseName "brown_floor"
+  }
+}
+Solid {
+  translation 0 0 -2
+  rotation 0 1 0 -1.5708
+  children [
+    DEF Candies_Area Floor {
+      size 1 2.6
+      texture [
+        "textures/parquetry.jpg"
+      ]
+    }
+    Shelves {
+      translation -0.36 0 0
+    }
+    Solid {
+      translation 0.505 0.05 0
+      children [
+        DEF WALL_SHAPE_1 Shape {
+          appearance DEF WALL_APPEARANCE PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.1 2.6
+          }
+        }
+      ]
+      name "wall 1"
+      boundingObject USE WALL_SHAPE_1
+    }
+    Solid {
+      translation -0.505 0.05 0
+      children [
+        USE WALL_SHAPE_1
+      ]
+      name "wall 2"
+      boundingObject USE WALL_SHAPE_1
+    }
+    Solid {
+      translation 0 0.05 1.305
+      children [
+        DEF WALL_SHAPE_2 Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Box {
+            size 1.02 0.1 0.01
+          }
+        }
+      ]
+      name "wall 3"
+      boundingObject USE WALL_SHAPE_2
+    }
+    Solid {
+      translation 0 0.05 -1.305
+      children [
+        USE WALL_SHAPE_2
+      ]
+      name "wall 4"
+      boundingObject USE WALL_SHAPE_2
+    }
+  ]
+  name "get the candies environment"
+  model "get the candies environment"
+  locked TRUE
+}
+DEF CART Cart {
+  translation -0.6 0 -2.05
+  rotation 0 1 0 3.1415
+}
+BallCandy {
+  translation 0.18 0.14 -2.35
+  name "ball candy(1)"
+}
+LollipopCandy {
+  translation 0.13 0.5 -2.3
+  rotation 0 1 0 3.14159
+  name "lollipop candy(1)"
+}
+BallCandy {
+  translation -0.18 0.14 -2.35
+}
+LollipopCandy {
+  translation -0.13 0.5 -2.3
+  rotation 0 1 0 3.14159
+  name "lollipop candy(2)"
+}
+LollipopCandy {
+  translation -0.26 0.5 -2.3
+  rotation 0 1 0 3.14159
+}
+DEF NAO Nao {
+  translation -0.2 0.34 -2.05
+  rotation 0 0.7071067811865476 0.7071067811865476 3.1415
+  controller "void"
+  cameraWidth 320
+  cameraHeight 240
+}

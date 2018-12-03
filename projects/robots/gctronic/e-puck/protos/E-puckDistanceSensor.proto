@@ -1,0 +1,70 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Distance sensor of the e-puck mobile robot.
+
+PROTO E-puckDistanceSensor [
+  field SFVec3f translation 0 0.005 0
+  field SFRotation rotation  0 1 0 0
+  field SFString name "ds"
+]
+{
+  Solid {
+  translation IS translation
+  rotation IS rotation
+    children [
+      DistanceSensor {
+        rotation 0 0 1 0.16
+        name IS name
+        children [
+          Shape { # sensor
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 0.4
+              metalness 0
+            }
+            geometry Box {
+              size 0.002 0.004 0.007
+            }
+          }
+          Shape { # pins
+            appearance PBRAppearance {
+              roughness 0.2
+            }
+            geometry IndexedLineSet {
+              coord Coordinate {
+                point [
+                  0 0 -0.003
+                  0 0.004 -0.003
+                  0 0 -0.001
+                  0 0.004 -0.001
+                  0 0 0.001
+                  0 0.004 0.001
+                  0 0 0.003
+                  0 0.004 0.003
+                ]
+              }
+              coordIndex [
+                0, 1, -1, 2, 3, -1, 4, 5, -1, 6, 7
+              ]
+            }
+          }
+        ]
+        lookupTable [
+          0 4095 0.005
+          0.005 3474 0.037
+          0.01 2211 0.071
+          0.02 676 0.105
+          0.03 306 0.125
+          0.04 164 0.206
+          0.05 90 0.269
+          0.06 56 0.438
+          0.07 34 0.704
+        ]
+        type "infra-red"
+      }
+    ]
+    name IS name
+    model "e-puck distance sensor"
+  }
+}

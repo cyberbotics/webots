@@ -1,0 +1,502 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+PROTO Cart [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "cart"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Solid {
+      translation 0 0.032 0.116
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.34 0.74 0.89
+            metalness 0
+            roughness 0.4
+          }
+          geometry DEF SIDE IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.1645  0      0.003
+                -0.1745  0.01   0.003
+                -0.1745  0.08   0.003
+                -0.1645  0.095  0.003
+                -0.1495  0.11   0.003
+                 0.1445  0.11   0.003
+                 0.1745  0.08   0.003
+                 0.1745  0.01   0.003
+                 0.1645  0      0.003
+                -0.1645  0     -0.003
+                -0.1745  0.01  -0.003
+                -0.1745  0.08  -0.003
+                -0.1645  0.095 -0.003
+                -0.1495  0.11  -0.003
+                 0.1445  0.11  -0.003
+                 0.1745  0.08  -0.003
+                 0.1745  0.01  -0.003
+                 0.1645  0     -0.003
+              ]
+            }
+            coordIndex [
+              2 1 0 -1
+              3 2 0 -1
+              4 3 0 -1
+              5 4 0 -1
+              6 5 0 -1
+              7 6 0 -1
+              8 7 0 -1
+              9 10 11 -1
+              9 11 12 -1
+              9 12 13 -1
+              9 13 14 -1
+              9 14 15 -1
+              9 15 16 -1
+              9 16 17 -1
+              0 1 9  -1
+              1 2 10 -1
+              2 3 11 -1
+              3 4 12 -1
+              4 5 13 -1
+              5 6 14 -1
+              6 7 15 -1
+              7 8 16 -1
+              8 0 17 -1
+              1 10 9  -1
+              2 11 10 -1
+              3 12 11 -1
+              4 13 12 -1
+              5 14 13 -1
+              6 15 14 -1
+              7 16 15 -1
+              8 17 16 -1
+              0 9  17 -1
+            ]
+          }
+        }
+      ]
+      name "left side"
+    }
+    Solid {
+      translation 0 0.032 -0.116
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.34 0.74 0.89
+            metalness 0
+            roughness 0.4
+          }
+          geometry USE SIDE
+        }
+      ]
+      name "right side"
+    }
+    Solid {
+      translation -0.0175 0.0625 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/lightwood.jpg"
+              ]
+            }
+            metalness 0
+            roughness 0.4
+          }
+          geometry DEF CART_FLOOR Box {
+            size 0.234 0.01 0.226
+          }
+        }
+      ]
+      name "floor"
+    }
+    Solid {
+      translation 0.0945 0.089 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/lightwood.jpg"
+              ]
+            }
+            metalness 0
+            roughness 0.4
+          }
+          geometry DEF BACK Box {
+            size 0.01 0.05 0.226
+          }
+        }
+      ]
+      name "back side"
+    }
+    Solid {
+      translation 0.1385 0.1443 0.105
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.4
+          }
+          geometry DEF LOWER_HANDLE_SIDE Capsule {
+            radius 0.008
+            height 0.1906
+          }
+        }
+      ]
+      name "lower handle left side"
+    }
+    Solid {
+      translation 0.1385 0.1443 -0.105
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.4
+          }
+          geometry USE LOWER_HANDLE_SIDE
+        }
+      ]
+      name "lower handle right side"
+    }
+    Solid {
+      translation 0.2125 0.3493 0.105
+      rotation 0 0 1 -0.593412
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.4
+          }
+          geometry DEF UPPER_HANDLE_SIDE Capsule {
+            radius 0.008
+            height 0.26464
+          }
+        }
+      ]
+      name "upper handle left side"
+    }
+    Solid {
+      translation 0.2125 0.3493 -0.105
+      rotation 0 0 1 -0.593412
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.4
+          }
+          geometry USE UPPER_HANDLE_SIDE
+        }
+      ]
+      name "upper handle right side"
+    }
+    Solid {
+      translation 0.2865 0.459 0
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 0.4
+          }
+          geometry DEF HANDLE_TOP Capsule {
+            radius 0.008
+            height 0.21
+          }
+        }
+      ]
+      name "handle top"
+    }
+    Solid {
+      translation -0.1515 0.049 0
+      rotation 1 0 0 1.5708
+      children [
+        DEF WHEEL1 HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor 0 0.14 0
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation 0 0.14 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.4
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry DEF WHEEL Cylinder {
+                  radius 0.049
+                  height 0.018
+                  subdivision 24
+                }
+              }
+            ]
+            name "wheel 1"
+            boundingObject USE WHEEL
+            physics Physics {
+            }
+          }
+        }
+        DEF WHEEL2 HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor 0 -0.14 0
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation 0 -0.14 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.4
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry USE WHEEL
+              }
+            ]
+            name "wheel 2"
+            boundingObject USE WHEEL
+            physics Physics {
+            }
+          }
+        }
+        Solid {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColorMap ImageTexture {
+                  url [
+                    "textures/metal.jpg"
+                  ]
+                }
+                roughness 0.4
+              }
+              geometry DEF TIE_ROD Cylinder {
+                radius 0.003
+                height 0.262
+              }
+            }
+          ]
+          name "tie rod"
+        }
+      ]
+      name "front wheels"
+      boundingObject USE TIE_ROD
+      physics Physics {
+      }
+    }
+    Solid {
+      translation 0.1385 0.049 0
+      rotation 1 0 0 1.5708
+      children [
+        DEF WHEEL3 HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor 0 0.14 0
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation 0 0.14 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.4
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry USE WHEEL
+              }
+            ]
+            name "wheel 3"
+            boundingObject USE WHEEL
+            physics Physics {
+            }
+          }
+        }
+        DEF WHEEL4 HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor 0 -0.14 0
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation 0 -0.14 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 0.4
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/plastic.jpg"
+                    ]
+                  }
+                }
+                geometry USE WHEEL
+              }
+            ]
+            name "wheel 4"
+            boundingObject USE WHEEL
+            physics Physics {
+            }
+          }
+        }
+        DEF TIE_RODS Group {
+          children [
+            Transform {
+              translation 0 0.122 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/metal.jpg"
+                      ]
+                    }
+                    roughness 0.4
+                  }
+                  geometry Capsule {
+                    radius 0.003
+                    height 0.018
+                    top FALSE
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.122 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/metal.jpg"
+                      ]
+                    }
+                    roughness 0.4
+                  }
+                  geometry Capsule {
+                    radius 0.003
+                    height 0.018
+                    bottom FALSE
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "back wheels"
+      boundingObject USE TIE_RODS
+      physics Physics {
+      }
+    }
+  ]
+  name IS name
+  model "cart"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.087 0.116
+        children [
+          DEF SIDE_HITBOX Box { 
+            size 0.349 0.11  0.01
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.087 -0.116
+        children [
+          USE SIDE_HITBOX
+        ]
+      }
+      Transform {
+        translation -0.0175 0.0625 0
+        children [
+          USE CART_FLOOR
+        ]
+      }
+      Transform {
+        translation 0.0945 0.089 0
+        children [
+          USE BACK
+        ]
+      }
+      Transform {
+        translation 0.1385 0.1443 0.105
+        children [
+          USE LOWER_HANDLE_SIDE
+        ]
+      }
+      Transform {
+        translation 0.1385 0.1443 -0.105
+        children [
+          USE LOWER_HANDLE_SIDE
+        ]
+      }
+      Transform {
+        translation 0.2125 0.3493 0.105
+        rotation 0 0 1 -0.593412
+        children [
+          USE UPPER_HANDLE_SIDE
+        ]
+      }
+      Transform {
+        translation 0.2125 0.3493 -0.105
+        rotation 0 0 1 -0.593412
+        children [
+          USE UPPER_HANDLE_SIDE
+        ]
+      }
+      Transform {
+        translation 0.2865 0.459 0
+        rotation 1 0 0 1.5708
+        children [
+          USE HANDLE_TOP
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    mass 1
+    density -1
+  }
+}
+}

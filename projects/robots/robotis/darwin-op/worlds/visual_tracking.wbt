@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "ROBOTIS OP2 robot."
+    "The ROBOTIS OP2 robot simulation model can be programmed using the ROBOTIS OP2 motions files and the ROBOTIS OP2 walk control library."
+  ]
+  title "ROBOTIS OP2"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.16290496645257643 0.9377938068777967 0.3066019368607031 2.21925
+  position 1.02479 1.62057 -0.53216
+  follow "ROBOTIS OP2"
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+  cubemap Cubemap {
+    textureBaseName "noon_cloudy_empty"
+  }
+}
+TexturedBackgroundLight {
+}
+Table {
+}
+RobotisOp2 {
+  translation 0 0.976 0
+  rotation -0.05930240737917794 -0.9964411241724841 0.05990250860281376 4.699825326290915
+  controller "visual_tracking"
+  selfCollision TRUE
+  plasticColor 0.27450980392156865 0.27450980392156865 0.27450980392156865
+  cameraWidth 320
+  cameraHeight 240
+}
+Floor {
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/carpet.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF BALL Ball {
+  translation 0.5 0.773 0
+  color 1 0 0
+}

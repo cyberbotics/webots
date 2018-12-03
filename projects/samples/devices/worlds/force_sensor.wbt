@@ -1,0 +1,333 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example use of a Force TouchSensor device."
+  ]
+  title "Force Sensor"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.9997227168394336 0.021386593942480294 -0.009854087208937169 5.28181
+  position -0.0310531 1.18903 0.818946
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GREEN_BOX Solid {
+  translation -0.05 0.05 -0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.2 0.05 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF YELLOW_BOX Solid {
+  translation -0.2 0.05 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 0.03934117200000009
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "yellow box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF PINK_BOX Solid {
+  translation 0.42 0.05 -0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.1 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+Robot {
+  translation 0.15 0 0
+  rotation 0 1 0 1
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    Transform {
+      translation 0.02 0.063 -0.0385
+      rotation 0 1 0 2.7489
+      children [
+        DEF UNUSED_EYE Group {
+          children [
+            Transform {
+              translation 0 0 -1e-05
+              rotation 0 0 1 0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+            Transform {
+              rotation 0 0 1 -0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    Transform {
+      translation -0.02 0.063 -0.0385
+      rotation 0 1 0 0.3927
+      children [
+        USE UNUSED_EYE
+      ]
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/mybot.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.015 0.038 -0.041
+            0.015 0.023 -0.041
+            0 0.023 -0.0455
+            -0.015 0.023 -0.041
+            -0.015 0.038 -0.041
+            0 0.038 -0.0455
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.5 0
+            1 0
+            1 1
+            0.5 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 5, -1, 5, 2, 3, 4, -1
+        ]
+        texCoordIndex [
+          5, 0, 1, 4, -1, 4, 1, 2, 3, -1
+        ]
+        creaseAngle 0.9
+      }
+    }
+    TouchSensor {
+      translation 0 0.02 -0.045
+      rotation 0 1 0 3.1415
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.647059 0
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BUMPER Box {
+            size 0.09 0.02 0.02
+          }
+        }
+      ]
+      name "force"
+      boundingObject USE BUMPER
+      physics Physics {
+        density -1
+        mass 0.01
+      }
+      type "force"
+      lookupTable [
+        0 0 0
+        1000 1000 0
+      ]
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+    centerOfMass [
+      0 0 0
+    ]
+  }
+  controller "force_sensor"
+}

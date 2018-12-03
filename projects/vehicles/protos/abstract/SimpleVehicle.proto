@@ -1,0 +1,132 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Simple example shwoing how to inherit from AckermannVehicle to build any other vehicle.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO SimpleVehicle [
+  field SFVec3f    translation                    0 0.4 0
+  field SFRotation rotation                       0 1 0 0.0
+  field SFString   name                           "vehicle"
+  field SFString   controller                     "void"
+  field SFString   controllerArgs                 ""
+  field SFBool     supervisor                     FALSE
+  field SFBool     synchronization                TRUE
+  field SFFloat    trackFront                     1.7
+  field SFFloat    trackRear                      1.7
+  field SFFloat    wheelbase                      4.0
+  field SFFloat    suspensionFrontSpringConstant  100000
+  field SFFloat    suspensionFrontDampingConstant 4000
+  field SFFloat    suspensionRearSpringConstant   100000
+  field SFFloat    suspensionRearDampingConstant  4000
+  field SFFloat    minSteeringAngle              -0.5
+  field SFFloat    maxSteeringAngle               0.5
+  field MFNode     sensorsSlot                    [ ]
+  field SFNode     boundingObject                 NULL
+  field SFNode     physics                        NULL
+]
+{
+  AckermannVehicle {
+    translation IS translation
+    rotation IS rotation
+    model "simple vehicle"
+    extensionSlot [
+      Group {
+        children IS sensorsSlot
+      }
+      Transform {
+        translation 0 0 %{= fields.wheelbase.value }%
+        rotation 0 0 1 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              metalness 0
+              roughness 0.6
+            }
+            geometry Cylinder {
+              height %{= fields.trackFront.value }%
+              radius 0.04
+            }
+          }
+        ]
+      }
+      Transform {
+        rotation 0 0 1 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              metalness 0
+              roughness 0.6
+            }
+            geometry Cylinder {
+              height %{= fields.trackRear.value }%
+              radius 0.04
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 %{= fields.wheelbase.value/2 }%
+        rotation 1 0 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              metalness 0
+              roughness 0.6
+            }
+            geometry Cylinder {
+              height %{= fields.wheelbase.value }%
+              radius 0.06
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 %{= fields.wheelbase.value }%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              metalness 0
+              roughness 0.6
+            }
+            geometry Box {
+              size 0.2 0.2 0.2
+            }
+          }
+        ]
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0.8 0.8 0.8
+          metalness 0
+          roughness 0.6
+        }
+        geometry Box {
+          size 0.2 0.2 0.2
+        }
+      }
+    ]
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    trackFront IS trackFront
+    trackRear IS trackRear
+    wheelbase IS wheelbase
+    suspensionFrontSpringConstant  IS suspensionFrontSpringConstant
+    suspensionFrontDampingConstant IS suspensionFrontDampingConstant
+    suspensionRearSpringConstant IS suspensionRearSpringConstant
+    suspensionRearDampingConstant IS suspensionRearDampingConstant
+    minSteeringAngle IS minSteeringAngle
+    maxSteeringAngle IS maxSteeringAngle
+    boundingObject IS boundingObject
+    physics IS physics
+  }
+}

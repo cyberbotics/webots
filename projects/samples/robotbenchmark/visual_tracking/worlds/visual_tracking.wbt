@@ -1,0 +1,403 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Visual Tracking"
+  window "visual_tracking"
+}
+Viewpoint {
+  orientation -0.581194229109169 -0.8130424087538014 -0.03428278894745272 0.24858132
+  position -1.8452917 0.71870796 4.555569
+}
+TexturedBackground {
+  texture "noon_sunny_garden"
+}
+TexturedBackgroundLight {
+}
+AiboErs7 {
+  translation -1.0510903 0.14351524 2.2559382
+  rotation 0.7223048238922644 -0.6913638337255336 -0.01708188509204869 -0.068192399
+  controller "visual_tracking"
+  camera_width 480
+  camera_height 320
+  headSlot [
+    DEF HEAD_CAM Solid {
+      translation 0 -0.0146 -0.08106
+    }
+  ]
+  extensionSlot [
+    Display {
+      width 480
+      height 320
+    }
+  ]
+  window "pan_tilt_camera_view"
+}
+VisualTrackingBenchmark {
+}
+DEF TARGET RubberDuck {
+  translation -1.1365463 0.05 -0.30921327
+  scale 2.3
+  density -1
+}
+DEF GROUND Solid {
+  children [
+    DEF GROUND_PLANE Shape {
+      appearance PBRAppearance {
+        baseColor 0.659998 0.624781 0.437797
+        baseColorMap ImageTexture {
+          url [
+            "textures/grass.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          rotation 1.5708
+          scale 500 500
+        }
+      }
+      geometry Plane {
+        size 500 500
+      }
+      castShadows FALSE
+    }
+  ]
+  boundingObject USE GROUND_PLANE
+  locked TRUE
+}
+SoccerBall {
+  translation -0.42375106 0.11205838 -0.25488945
+  rotation -0.43227862013868584 0.8130487002608464 -0.3899833401251165 -1.6200383
+}
+TrafficCone {
+  translation 2.5149217 -0.02 -0.73315092
+}
+TrafficCone {
+  translation -2.1182004 0.01 -1.8381243
+  name "traffic cone(1)"
+}
+WoodenPalletStack {
+  translation -0.50931144 -0.01 -1.3638403
+  rotation 0 1 0 1.3089969
+}
+Tree {
+  translation 0.61971554 -8.5487173e-15 1.2509734
+  rotation 0 1 0 1.1780997
+  scale 1 4.1 1
+  isPickable FALSE
+}
+Tree {
+  translation 5.3720847 3.8857806e-15 -5.0809835
+  rotation 0 1 0 0.65449969
+  name "tree(1)"
+  scale 1 4.1 1
+  isPickable FALSE
+}
+Tree {
+  translation -1.7739373 -0.16 0.63327304
+  rotation 0 1 0 0.65449969
+  name "tree(2)"
+  scale 0.1 0.5 0.1
+  texture [
+    "textures/crab_apple_tree.png"
+  ]
+  isPickable FALSE
+}
+Tree {
+  translation -2.531561 1.2663481e-15 0.23907889
+  rotation 0 1 0 0.65449969
+  name "tree(3)"
+  scale 0.1 0.5 0.1
+  texture [
+    "textures/spruce.png"
+  ]
+  isPickable FALSE
+}
+Tree {
+  translation 0.96826292 -0.02 -0.5064047
+  rotation 0 1 0 0.65449969
+  name "tree(4)"
+  scale 0.1 0.5 0.1
+  texture [
+    "textures/spruce.png"
+  ]
+  isPickable FALSE
+}
+Tree {
+  translation -0.2104699 -0.14 0.7669959
+  rotation 0 1 0 0.65449969
+  name "tree(5)"
+  scale 0.1 0.5 0.1
+  texture [
+    "textures/crab_apple_tree.png"
+  ]
+  isPickable FALSE
+}
+Tree {
+  translation -3.3919707 8.3266727e-15 -1.5041469
+  rotation 0 1 0 0.65449969
+  name "tree(6)"
+  scale 0.8 3.3 0.8
+  isPickable FALSE
+}
+Tree {
+  translation -2.2862005 -9.9920072e-16 -5.6937585
+  rotation 0 1 0 0.65449969
+  name "tree(7)"
+  scale 0.8 3.3 0.8
+  isPickable FALSE
+}
+DEF BUS Solid {
+  translation -2.0079 0.0171 1.3259
+  rotation 0 1 0 5.7595865
+  children [
+    Transform {
+      scale 0.04 0.04 0.03
+      children [
+        BusShape {
+          color 0.596674 0.0318151 0.0318151
+        }
+      ]
+    }
+    DEF REAR_LEFT_WHEEL Transform {
+      translation 0.04999999999966258 0 0
+      rotation 0 0 1 -1.5708
+      scale 0.04 0.04 0.03
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            name "rear left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_LEFT_WHEEL Transform {
+      translation 0.04999999999966268 0 0.135
+      rotation 0 0 1 -1.5708
+      scale 0.04 0.04 0.03
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            name "front left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF REAR_RIGHT_WHEEL Transform {
+      translation -0.04999999999966268 0 0
+      rotation 0 0 1 1.5708
+      scale 0.04 0.04 0.03
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            name "rear right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_RIGHT_WHEEL Transform {
+      translation -0.05 0 0.135
+      rotation 0 0 1 1.5708
+      scale 0.04 0.04 0.03
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            name "front right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+  ]
+  name "bus"
+  boundingObject Transform {
+    translation 0 0.054 0.044
+    children [
+      Box {
+        size 0.1056 0.116 0.2919
+      }
+    ]
+  }
+}
+DEF YELLOW_CAR Solid {
+  translation -1.2951 0.0267 0.8371
+  scale 0.08 0.08 0.08
+  children [
+    CitroenCZeroHeadLight {
+    }
+    CitroenCZeroRightIndicator {
+    }
+    CitroenCZeroLeftIndicator {
+    }
+    DEF FOGLIGHT CitroenCZeroFogLight {
+    }
+    CitroenCZeroBrakeLight {
+    }
+    CitroenCZeroMesh {
+    }
+    Transform {
+      scale 0.04 0.04 0.03
+      children [
+        BusShape {
+          color 0.596674 0.0318151 0.0318151
+        }
+      ]
+    }
+    DEF REAR_LEFT_WHEEL Transform {
+      translation -0.655 0 2.55
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroFrontWheel {
+            name "rear left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_LEFT_WHEEL Transform {
+      translation 0.655 0 2.55
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "front left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF REAR_RIGHT_WHEEL Transform {
+      translation 0.635 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "rear right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_RIGHT_WHEEL Transform {
+      translation -0.635 0 0
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "front right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+  ]
+  name "yellow car"
+  boundingObject Transform {
+    translation 0 0.5 1.25
+    children [
+      Box {
+        size 1.4 1.5 3.3
+      }
+    ]
+  }
+}
+DEF BLUE_CAR Solid {
+  translation -0.30210000000000004 0.0164 1.6722
+  rotation 0 1 0 1.31
+  scale 0.08 0.08 0.08
+  children [
+    CitroenCZeroHeadLight {
+    }
+    CitroenCZeroRightIndicator {
+    }
+    CitroenCZeroLeftIndicator {
+    }
+    DEF FOGLIGHT CitroenCZeroFogLight {
+    }
+    CitroenCZeroBrakeLight {
+    }
+    CitroenCZeroMesh {
+      color 0.458824 0.705882 0.858824
+    }
+    Transform {
+      scale 0.04 0.04 0.03
+      children [
+        BusShape {
+          color 0.596674 0.0318151 0.0318151
+        }
+      ]
+    }
+    DEF REAR_LEFT_WHEEL Transform {
+      translation -0.655 0 2.55
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroFrontWheel {
+            name "rear left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_LEFT_WHEEL Transform {
+      translation 0.655 0 2.55
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "front left wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF REAR_RIGHT_WHEEL Transform {
+      translation 0.635 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "rear right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+    DEF FRONT_RIGHT_WHEEL Transform {
+      translation -0.635 0 0
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint CitroenCZeroRearWheel {
+            name "front right wheel"
+            boundingObject FALSE
+          }
+        }
+      ]
+    }
+  ]
+  name "blue car"
+  boundingObject Transform {
+    translation 0 0.5 1.25
+    children [
+      Box {
+        size 1.4 1.5 3.3
+      }
+    ]
+  }
+}

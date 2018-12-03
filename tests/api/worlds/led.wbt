@@ -1,0 +1,81 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.15023135140565766 -0.9704603131574298 -0.18877849888483914 4.75758663062292
+  position 3.6416571022598587 1.4061453735844354 0.33667456946036417
+}
+Background {
+}
+PointLight {
+  intensity 0.5
+  location 0 0.345 0
+}
+Floor {
+}
+Robot {
+  translation 0 0.114 0
+  children [
+    LED {
+      translation 0 0 0.5
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+          geometry Sphere {
+            radius 0.1
+            subdivision 2
+          }
+        }
+      ]
+      name "phong"
+      color []
+      gradual TRUE
+    }
+    LED {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+          }
+          geometry Sphere {
+            radius 0.1
+            subdivision 2
+          }
+        }
+      ]
+      name "pbr"
+      color []
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 -0.5
+      children [
+        SpotLight {
+          beamWidth 0.785398
+          color 0 0 0
+          direction 0 -1 0
+          intensity 3
+          on FALSE
+        }
+      ]
+      name "light"
+      color []
+      gradual TRUE
+    }
+    Camera {
+      translation 0 1.7300000000000009 -2.488551381655889e-8
+      rotation 0.5773502738035172 -0.5773502710351824 -0.5773502627301779 4.188790199249721
+      width 128
+      height 128
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "led"
+}
+TestSuiteSupervisor {
+}

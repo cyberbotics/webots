@@ -1,0 +1,46 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -1.1204874825883285e-14 -1 -6.932051954659864e-15 1.170000000000002
+  position -2.7093619711215187 0.26884959217499993 1.2094506704051398
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+Background {
+  skyColor [
+    0.4470588235294118 0.6235294117647059 0.8117647058823529
+  ]
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation 0.4 0.5 0.65
+      name "ds use"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.1 0 0.15
+      name "ds def"
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_nested_slot_container"
+  controllerArgs "template_nested_slot_container"
+  supervisor TRUE
+}
+DEF TEST_PROTO TemplateNestedSlotContainer {
+  slotA ShapeWithGeometryParameter {
+    geometry DEF TEST_BOX Box {
+      size 0.1 0.1 0.1
+    }
+  }
+  slotB ShapeWithGeometryParameter {
+    geometry USE TEST_BOX
+  }
+}
+TestSuiteSupervisor {
+}

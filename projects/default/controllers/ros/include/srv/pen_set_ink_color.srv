@@ -1,0 +1,4 @@
+int32 color
+float64 density
+---
+int8 success

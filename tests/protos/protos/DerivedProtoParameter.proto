@@ -1,0 +1,12 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedProtoParameter [
+  field MFNode children [
+    DerivedSlotContainer { }
+  ]
+]
+{
+  Solid {
+    children IS children
+  }
+}

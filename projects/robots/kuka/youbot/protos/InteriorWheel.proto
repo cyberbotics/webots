@@ -1,0 +1,95 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# omnidirectionnal wheels with 2D coulomb friction
+
+PROTO InteriorWheel [
+  field SFVec3f translation 0 0 0
+  field SFVec3f anchor 0 0 0
+  field SFString name "wheel"
+  field SFString sensorName "wheel_sensor"
+]
+{
+  HingeJoint {
+    device [
+      RotationalMotor {
+        name IS name
+        maxVelocity 14.81
+      }
+      PositionSensor {
+        name IS sensorName
+      }
+    ]
+    jointParameters HingeJointParameters {
+      axis 0 1 0
+      anchor IS anchor
+    }
+    endPoint DEF WHEEL_SOLID Solid {
+      translation IS translation
+      children [
+        WheelMesh {
+        }
+        Transform {
+          translation 0 0 0.036
+          rotation 0 0 1 0.785402
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+        Transform {
+          translation 0.0311 0 0.018
+          rotation 0.318977 0.770074 0.552484 1.28666
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+        Transform {
+          translation 0.0311 0 -0.018
+          rotation 0.373673 0.902122 0.21574 2.18123
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 -0.036
+          rotation 0.382685 0.923879 0 3.14159
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+        Transform {
+          translation -0.0311 0 -0.018
+          rotation 0.373673 0.902122 -0.21574 4.10195
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+        Transform {
+          translation -0.0311 0 0.018
+          rotation 0.318977 0.770074 -0.552484 4.99652
+          children [
+            SubWheelMesh {
+            }
+          ]
+        }
+      ]
+      name IS name
+      contactMaterial "InteriorWheelMat"
+      boundingObject Cylinder {
+        height 0.072
+        radius 0.05
+        subdivision 24
+      }
+      physics Physics {
+        density -1
+        mass 0.4
+      }
+    }
+  }
+}

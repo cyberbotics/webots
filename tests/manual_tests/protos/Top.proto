@@ -1,0 +1,21 @@
+#VRML_SIM R2019a utf8
+
+PROTO Top [
+  field SFNode my_parameter Parameter {}
+]
+{
+  DerivedNode {
+    extensionSlot [
+      Slot {
+        type "parameter"
+        endPoint IS my_parameter
+      }
+      %{ if fields.my_parameter.value then }%
+        Shape {
+          geometry Box {
+          }
+        }
+      %{ end }%
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+#VRML_SIM R2019a utf8
+# error: missing ending bracket in default value of children field
+
+PROTO ProtoParameterMissingEndingCurlyBracket [
+  field SFRotation rotation 0 1 0 0
+  field SFVec3f translation 0 0 0
+  field MFNode children [ Solid { ]
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children IS children
+  }
+}

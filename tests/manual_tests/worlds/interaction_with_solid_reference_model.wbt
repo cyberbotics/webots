@@ -1,0 +1,221 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+  info [
+    "Aim:"
+    "- To test that no infinite loop occurs loading the world or interacting with the model"
+    ""
+    "Test procedure:"
+    "- Run the simulation and select the robot in the 3d scene"
+    ""
+    "Regression test for issue #7064"
+  ]
+  basicTimeStep 1
+}
+Viewpoint {
+  orientation -0.028291589404666157 0.9898196254930011 0.13948725733145992 2.745338711812142
+  position 0.2576980950321587 0.39918006804380113 -0.9250211171666126
+}
+DirectionalLight {
+  direction 0 -1 0.7
+}
+DEF FLOOR Floor {
+  texture [
+    "textures/carpet.jpg"
+  ]
+}
+DEF Leg_test Robot {
+  translation 2.7330911128024204e-9 0.2800000000000001 0.04999999999999963
+  rotation 0 0 0.9999999999999999 4.712388966
+  children [
+    DEF Hip_SEA HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0 0.03 0
+      }
+      device [
+        DEF Hip_m RotationalMotor {
+          name "Hip_m"
+        }
+        DEF Hip_ps PositionSensor {
+          name "Hip_ps"
+        }
+      ]
+      endPoint DEF Link_1 Solid {
+        translation 0.08000000000000002 0.03 0
+        rotation 0 0 1 0
+        children [
+          DEF Joint_Knee HingeJoint {
+            jointParameters HingeJointParameters {
+              position -1.5704
+              axis 0 0 1
+              anchor 0.08 0 0
+            }
+            device [
+              DEF Knee_m RotationalMotor {
+                name "Knee_m"
+              }
+              DEF Knee_ps PositionSensor {
+                name "Knee_Ps"
+              }
+            ]
+            endPoint DEF Link_2 Solid {
+              translation 0.08003170614276169 -0.07999999371700295 0
+              rotation 0 0 -1 1.5704
+              children [
+                DEF Pris_base HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor -0.06 0 0
+                    dampingConstant 0.01
+                  }
+                  endPoint DEF Pris_socket Solid {
+                    translation -0.06 -0.03 -0.02
+                    children [
+                      DEF Pris_joint SliderJoint {
+                        jointParameters JointParameters {
+                          axis 0 1 0
+                          minStop -0.05
+                          maxStop 0.05
+                          springConstant 1000
+                          dampingConstant 0.5
+                        }
+                        device [
+                          LinearMotor {
+                            name "Pris_m"
+                          }
+                          PositionSensor {
+                            name "spring_com_sen"
+                          }
+                        ]
+                        endPoint DEF Pris_Header Solid {
+                          translation 0 -0.1 0
+                          children [
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 0 1
+                              }
+                              endPoint SolidReference {
+                                solidName "Link_1"
+                              }
+                            }
+                            DEF Pris_head Shape {
+                              appearance Appearance {
+                                material Material {
+                                  diffuseColor 0 0 1
+                                }
+                              }
+                              geometry Cylinder {
+                                height 0.05
+                                radius 0.005
+                              }
+                            }
+                          ]
+                          name "Pris_head"
+                          boundingObject USE Pris_head
+                          physics DEF Cylinder Physics {
+                            density -1
+                            mass 0.05
+                            centerOfMass [
+                              0 0 0
+                            ]
+                            inertiaMatrix [
+                              0.000842667 4.90874e-5 0.000842667
+                              0 0 0
+                            ]
+                          }
+                        }
+                      }
+                      DEF Pris_base Shape {
+                        appearance Appearance {
+                          material Material {
+                            diffuseColor 0 0 1
+                          }
+                        }
+                        geometry Cylinder {
+                          height 0.05
+                          radius 0.005
+                        }
+                      }
+                    ]
+                    name "Pris_base"
+                    boundingObject USE Pris_base
+                    physics DEF Cylinder Physics {
+                      density -1
+                      mass 0.05
+                      centerOfMass [
+                        0 0 0
+                      ]
+                      inertiaMatrix [
+                        0.000842667 4.90874e-5 0.000842667
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+                DEF Link_2 Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.5 0.5 0.5
+                    }
+                  }
+                  geometry Box {
+                    size 0.16 0.01 0.01
+                  }
+                }
+              ]
+              name "Link_2"
+              boundingObject USE Link_2
+              physics DEF Link_2 Physics {
+                density -1
+                mass 0.5
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  2.66667e-5 0.00342667 0.00342667
+                  0 0 0
+                ]
+              }
+            }
+          }
+          DEF Link_1 Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.5 0.5 0.5
+              }
+            }
+            geometry Box {
+              size 0.16 0.01 0.01
+            }
+          }
+        ]
+        name "Link_1"
+        boundingObject USE Link_1
+        physics DEF Link_1 Physics {
+          density -1
+          mass 0.5
+          centerOfMass [
+            0 0 0
+          ]
+          inertiaMatrix [
+            0.000266667 0.00342667 0.00342667
+            0 0 0
+          ]
+        }
+      }
+    }
+    DEF Hip_base Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry Box {
+        size 0.02 0.08 0.01
+      }
+    }
+  ]
+  boundingObject USE Hip_base
+  physics Physics {
+  }
+}

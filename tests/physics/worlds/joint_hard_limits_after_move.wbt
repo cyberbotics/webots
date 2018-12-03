@@ -1,0 +1,138 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.44725703 -0.86140286 -0.24072032 1.1169281
+  position -4.0630652 3.6856586 3.1244738
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+Floor {
+}
+Robot {
+  translation 0 1.05 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.1
+        minStop -0.1
+        maxStop 0.4
+      }
+      device [
+        RotationalMotor {
+          name "hinge motor"
+        }
+        PositionSensor {
+          name "hinge sensor"
+        }
+      ]
+      endPoint Solid {
+        rotation 1 0 0 0.1
+        children [
+          DEF HINGE_SHAPE Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.643137 0 0
+              }
+            }
+            geometry Box {
+              size 0.4 0.2 0.3
+            }
+          }
+        ]
+        boundingObject USE HINGE_SHAPE
+        physics Physics {
+          density 100
+        }
+      }
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor -1 0 0
+        minStop -0.1
+        maxStop 0.4
+      }
+      jointParameters2 JointParameters {
+        minStop -0.1
+        maxStop 0.4
+      }
+      device [
+        RotationalMotor {
+          name "hinge2 motor1"
+        }
+        PositionSensor {
+          name "hinge2 sensor1"
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "hinge2 motor2"
+        }
+        PositionSensor {
+          name "hinge2 sensor2"
+        }
+      ]
+      endPoint Solid {
+        translation -1 0 0
+        children [
+          USE HINGE_SHAPE
+        ]
+        name "solid(1)"
+        boundingObject USE HINGE_SHAPE
+        physics Physics {
+          density 100
+        }
+      }
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        minStop -0.1
+        maxStop 0.4
+      }
+      device [
+        LinearMotor {
+          name "slider motor"
+        }
+        PositionSensor {
+          name "slider sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 1.18 0 0
+        rotation 1 0 0 0
+        children [
+          USE HINGE_SHAPE
+        ]
+        name "solid(2)"
+        boundingObject USE HINGE_SHAPE
+        physics Physics {
+          density 100
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  boundingObject Transform {
+    translation 0 -1 0
+    children [
+      Box {
+        size 3 0.1 2
+      }
+    ]
+  }
+  physics Physics {
+    density 100
+  }
+  controller "check_joint_hard_limits_after_move"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

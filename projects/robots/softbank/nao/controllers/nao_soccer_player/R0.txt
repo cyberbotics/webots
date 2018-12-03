@@ -1,0 +1,11 @@
+0: motion:HandWave
+2500: eyes:ff0000:ff0000
+2500: yaw:0.3
+2500: pitch:0.2
+2500: motion:Forwards50
+9000: eyes:0000ff:0000ff
+9000: motion:Shoot
+12000: yaw:0.1
+13000: pitch:-0.2
+16000: motion:Forwards50
+16000: left_arm:1

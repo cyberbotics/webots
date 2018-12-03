@@ -1,0 +1,13 @@
+# The DirectionalLight node defines a light source that illuminates along rays parallel to a given 3-dimensional vector.
+# A DirectionalLight node is well-suited to model sunlight, for example.
+# If you want to model a light bulb you should rather use a PointLight or a SpotLight node.
+
+DirectionalLight {
+  vrmlField SFFloat ambientIntensity 0
+  vrmlField SFColor color            1 1 1
+  vrmlField SFVec3f direction        0 0 -1
+  vrmlField SFFloat intensity        1
+  vrmlField SFBool  on               TRUE
+  field     SFBool  castShadows      FALSE
+  field     SFBool  castLensFlares   FALSE
+}

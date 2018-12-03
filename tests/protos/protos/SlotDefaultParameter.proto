@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+
+PROTO SlotDefaultParameter [
+  field SFVec3f translation 0.0 0.0 0.0
+  field SFFloat height 0.4
+]
+{
+  DEF PARAMETER Solid {
+    translation IS translation
+    children [
+      Shape {
+        geometry DEF GEOM Cylinder {
+          radius 0.2
+          height IS height
+        }
+      }
+    ]
+    boundingObject USE GEOM
+  }
+}

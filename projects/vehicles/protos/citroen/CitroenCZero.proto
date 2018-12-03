@@ -1,0 +1,206 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Model of a Citroën C-Zero car using the Car proto as a base.
+# The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
+# The contactMaterial of the wheels is "CitroenCZeroWheels"
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO CitroenCZero [
+  field     SFVec3f    translation       0 0.4 0
+  field     SFRotation rotation          0 1 0 0
+  field     SFColor    color             0.85 0.85 0.05
+  field     MFString   plate             "textures/plate.jpg"
+  field     SFString   engineSound       ""
+  field     SFString   name              "vehicle"
+  field     SFString   controller        "void"
+  field     SFString   controllerArgs    ""
+  field     SFBool     supervisor        FALSE
+  field     SFBool     synchronization   TRUE
+  field     MFNode     sensorsSlotFront  NULL
+  field     MFNode     sensorsSlotRear   NULL
+  field     MFNode     sensorsSlotTop    NULL
+  field     MFNode     sensorsSlotCenter NULL
+  field     SFBool     frontSpotLights   FALSE
+]
+{
+  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  Car {
+    translation IS translation
+    rotation IS rotation
+    trackFront 1.31
+    trackRear 1.27
+    wheelbase 2.55
+    minSteeringAngle -0.631 # calibrated with real data
+    maxSteeringAngle 0.631 # calibrated with real data
+    type "propulsion"
+    engineType "electric"
+    engineSound IS engineSound
+    brakeCoefficient 580 # calibrated with real data
+    time0To100 17.5
+    engineMaxTorque 150 # calibrated with real data
+    engineMaxPower 75000 # calibrated with real data
+    engineMaxRPM 8000
+    suspensionFrontDampingConstant 5000
+    suspensionRearDampingConstant  5000
+    suspensionFrontSpringConstant 30000
+    suspensionRearSpringConstant 30000
+    wheelsDampingConstant 1.55 # calibrated with real data
+    gearRatio [-6.2329 6.2329] # calibrated with real data
+    wheelFrontLeft CitroenCZeroFrontWheel {
+      name "front left wheel"
+      physics DEF FRONT_WHEEL_PHYSICS Physics {
+        density -1
+        mass 5
+      }
+    }
+    wheelFrontRight CitroenCZeroFrontWheel {
+      name "front right wheel"
+      physics USE FRONT_WHEEL_PHYSICS
+    }
+    wheelRearLeft DEF REAR_WHEEL CitroenCZeroRearWheel {
+      name "rear left wheel"
+      physics DEF BACK_WHEEL_PHYSICS Physics {
+        density -1
+        mass 6
+      }
+    }
+    wheelRearRight CitroenCZeroFrontWheel {
+      name "rear right wheel"
+      physics USE BACK_WHEEL_PHYSICS
+    }
+    extensionSlot [
+      # Sensors slots
+      Transform {
+        translation 0 0.05 3.075
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.3 -0.425
+        rotation 0 1 0 0
+        children IS sensorsSlotRear
+      }
+      Transform {
+        translation 0 1.35 1.075
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 0 0
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      # lights
+      VehicleLights {
+        front [
+          Group {
+            children [
+              %{ if frontSpotLights then }%
+                SpotLight {
+                  attenuation 0.2 0 0
+                  beamWidth 0.7
+                  cutOffAngle 0.8
+                  direction -0.2 -1 1
+                  location 0.52 0.6 2.8
+                  radius 20
+                }
+                SpotLight {
+                  attenuation 0.2 0 0
+                  beamWidth 0.7
+                  cutOffAngle 0.8
+                  direction 0.2 -1 1
+                  location -0.52 0.6 2.8
+                  radius 20
+                }
+              %{ end }%
+              CitroenCZeroHeadLight {
+              }
+            ]
+          }
+        ]
+        rightIndicator [
+          CitroenCZeroRightIndicator {
+          }
+        ]
+        leftIndicator [
+          CitroenCZeroLeftIndicator {
+          }
+        ]
+        antifog [
+          CitroenCZeroFogLight {
+          }
+        ]
+        rear [
+          CitroenCZeroBrakeLight {
+          }
+        ]
+      }
+      CitroenCZeroMesh {
+        color IS color
+        plate IS plate
+      }
+    ]
+    name IS name
+    model "Citroen C-Zero"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    boundingObject Group {
+      children [
+        DEF LOWER_BOX Transform {
+          translation 0 0.15 1.305
+          children [
+            Box {
+              size 1.5 0.5 3.35
+            }
+          ]
+        }
+        DEF REAR_BOX Transform {
+          translation 0 0.8 0.575
+          children [
+            Box {
+              size 1.4 0.9 1.85
+            }
+          ]
+        }
+        DEF CENTRAL_BOX Transform {
+          translation 0 0.4 1.675
+          children [
+            Box {
+              size 1.4 0.8 0.8
+            }
+          ]
+        }
+        DEF FRONT_BOX Transform {
+          translation 0 0.61 2.115
+          rotation 1 0 0 0.52
+          children [
+            Box {
+              size 1.4 0.5 1.7
+            }
+          ]
+        }
+      ]
+    }
+    radarCrossSection 100
+    recognitionColors [
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    ]
+    physics Physics {
+      density -1
+      mass 1200
+      centerOfMass [
+#        -0.007 0.272 1.199 # I-Mev benchmark
+        -0.002 0.248 1.180 # PSA tests
+      ]
+      inertiaMatrix [ # Computed using the 'sub-solids' method
+        2645 2534 200
+        0 0 0
+      ]
+    }
+  }
+}

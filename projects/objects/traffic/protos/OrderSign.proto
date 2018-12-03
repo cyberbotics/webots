@@ -1,0 +1,25 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Traffic sign: Order sign.
+
+PROTO OrderSign [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "order sign"
+  field SFFloat    height       2                                               # Defines the height of the sign.
+  field SFFloat    radius       0.03                                            # Defines the radius of the sign pole.
+  field SFColor    color        0.576471 0.576471 0.576471                      # Defines the color of the sign.
+  field MFNode     signBoards   [ OrderPanel { translation 0 -0.175 -0.026 } ]  # Defines the boards.
+]
+{
+  SignPole {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    height IS height
+    radius IS radius
+    color IS color
+    signBoards IS signBoards
+  }
+}

@@ -1,0 +1,18 @@
+CFLAGS=-Wall
+CC=gcc
+
+ifeq ($(OS),Windows_NT)
+TARGET = client.exe
+else
+TARGET = client
+endif
+
+.PHONY = build release debug profile
+
+build release debug profile: $(TARGET)
+
+$(TARGET): client.c
+	$(CC) $(CFLAGS) $< -o $@ $(LIBS)
+
+clean:
+	rm -f client.o client client.exe

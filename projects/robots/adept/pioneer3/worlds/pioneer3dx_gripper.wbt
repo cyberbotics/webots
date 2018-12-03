@@ -1,0 +1,148 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Pioneer 3DX with its gripper (Adept Mobile Robots)"
+    "This two-wheel, two-motor differential drive robot has in addition a rear caster wheel"
+    "It is programmed to perform a simple obstacle avoidance behavior based on the values sensed by its 16 sonars"
+  ]
+  basicTimeStep 16
+}
+Viewpoint {
+  fieldOfView 0.660595
+  orientation -0.03335558634190153 -0.9914415940348108 -0.12621794831758765 2.81354
+  position -0.408731 0.90769 -2.30036
+  follow "Pioneer 3-DX"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 4 4
+  floorTileSize 1 1
+  wallHeight 0.4
+}
+DEF PIONEER_3DX Pioneer3dx {
+  translation 0.48905 0.0975 0.1983
+  rotation 0 -1 0 5.08581
+  controller "pioneer3dx_gripper"
+  extensionSlot [
+    DEF GRIPPER_BASE Pioneer3Gripper {
+      translation 0 0.026 -0.135
+    }
+  ]
+}
+Ball {
+  translation 0 0.082 0
+  color 0.0784314 0.137255 1
+}
+DEF RED_TEE Solid {
+  translation -0.0376035 0 -0.618808
+  children [
+    Group {
+      children [
+        DEF PITCH_PLATE Transform {
+          translation 0 0.0465 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.045 0.0025 0.045
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.02 0
+          children [
+            Shape {
+              appearance DEF PITCH_APPEARANCE PBRAppearance {
+                baseColor 0.917647 0.486275 0.478431
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.041
+                radius 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.028 0
+          rotation 0 0 1 3.14159
+          children [
+            Shape {
+              appearance USE PITCH_APPEARANCE
+              geometry Cone {
+                bottomRadius 0.035
+                height 0.04
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE PITCH_PLATE
+}
+DEF BLUE_TEE Solid {
+  children [
+    Group {
+      children [
+        DEF PITCH_PLATE Transform {
+          translation 0 0.0465 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.045 0.0025 0.045
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.02 0
+          children [
+            Shape {
+              appearance DEF PITCH_APPEARANCE PBRAppearance {
+                baseColor 0.698039 0.760784 0.945098
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.041
+                radius 0.01
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.028 0
+          rotation 0 0 1 3.14159
+          children [
+            Shape {
+              appearance USE PITCH_APPEARANCE
+              geometry Cone {
+                bottomRadius 0.035
+                height 0.04
+                subdivision 24
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE PITCH_PLATE
+}

@@ -1,0 +1,125 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable crash barrier.
+
+PROTO CrashBarrier [
+  field SFVec3f      translation             0 0 0
+  field SFRotation   rotation                0 1 0 0
+  field SFString     name                    "crash barrier"
+  field SFFloat      poleGap                 2                                     # Defines the gap between two consecutive poles.
+  field SFNode       poleAppearance          PBRAppearance { roughness 0.7 }       # Defines the appearance of the poles.
+  field MFVec3f      path                    [0 0 0, 5 0 0]                        # Defines the 3D path of the crash barrier.
+  field SFBool       barrierOnRightSide      TRUE                                  # Defines the side of the barrier.
+  field SFInt32      subdivision             -1                                    # Defines the degree of interpolation using B-Splines (if the value is lower than 0, the interpolation is disabled).
+  field SFBool       enableBoundingObject    FALSE                                 # Defines whether the crash barrier should have a bounding object.
+]
+{
+  %{
+    local poleRadius = 0.06
+    local height = 0.8
+    local wbgeometry = require('wbgeometry')
+    local wbcore = require('wbcore')
+    local wbvector3 = require('wbvector3')
+
+    local path = fields.path.value
+    if wbcore.tablelength(path) < 2 then
+      io.stderr:write("'path' must have at least two components\n")
+      path = fields.path.defaultValue
+    end
+    local subdivision = fields.subdivision.value
+
+    -- copy original path to use it unchanged in the bounding object
+    local originalPath = {}
+    for key, value in ipairs(path) do
+      table.insert(originalPath, value)
+    end
+
+    -- compute the length (used for the texture scale)
+    if subdivision > 0 then
+      path = wbgeometry.bspline3D(path, subdivision)
+    end
+    local length = 0
+    local nbPath = wbcore.tablelength(path)
+    for i = 2, nbPath do
+      length = length + wbvector3.distance(path[i], path[i -1])
+    end
+  }%
+  Fence {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    height %{= height }%
+    poleGap IS poleGap
+    poleRadius %{= poleRadius }%
+    poleShape "H"
+    poleAppearance IS poleAppearance
+    path IS path
+    subdivision IS subdivision
+    horizontalBarsNumber 1
+    creaseAngle 0.9
+    horizontalBarAppearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url [
+          "textures/road_crash_barrier_bar.jpg"
+        ]
+      }
+      roughnessMap ImageTexture {
+        url [
+          "textures/road_crash_barrier_bar_roughness.jpg"
+        ]
+      }
+      textureTransform TextureTransform {
+        scale %{= 0.5 * length }% 2
+      }
+    }
+    horizontalBarShape [
+    %{
+      local barHeight = 0.4
+      local barThickness = 0.05
+      local angleOffset = -0.25 * math.pi
+      local maxAngle = 3 * math.pi + 2 * math.abs(angleOffset)
+      local angleSubdivision = 12
+      local lateralOffset = 0.01 + poleRadius
+      local side = 1
+      if fields.barrierOnRightSide.value then
+        side = -1
+      end
+    }%
+      %{= side * poleRadius }% 0
+    %{ for j = 0, angleSubdivision do }%
+      %{= side * (lateralOffset + barThickness * (1 + math.sin(angleOffset + maxAngle * j / angleSubdivision))) }% %{= barHeight * j / angleSubdivision }%
+    %{ end }%
+      %{= side * poleRadius }% %{= barHeight }%
+    %{ for j = angleSubdivision, 0, -1 do }%
+      %{= side * (lateralOffset + barThickness * (1 + math.sin(angleOffset + maxAngle * j / angleSubdivision))) }% %{= barHeight * j / angleSubdivision }%
+    %{ end }%
+      %{= side * poleRadius }% 0
+    ]
+    %{ if fields.enableBoundingObject.value then }%
+      boundingObject Transform {
+        translation 0 %{= 0.5 * height }% 0
+        children [
+          Extrusion {
+            spine [
+              %{ for key, value in ipairs(originalPath) do }%
+                %{= value.x }% %{= value.y }% %{= value.z }%
+              %{ end }%
+            ]
+            splineSubdivision %{= fields.subdivision.value }%
+            crossSection [
+              %{= side * lateralOffset }% %{= 0 }%
+              %{= side * lateralOffset }% %{= barHeight }%
+              %{= side * (lateralOffset + 2 * barThickness) }% %{= barHeight }%
+              %{= side * (lateralOffset + 2 * barThickness) }% %{= 0 }%
+              %{= side * lateralOffset }% %{= 0 }%
+            ]
+          }
+        ]
+      }
+    %{ end }%
+    recognitionColors [ 0.65 0.65 0.65 ]
+    model "crash barrier"
+  }
+}

@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A generic car tire appearance. Useful with the "VehicleWheel" PROTO.
+
+PROTO GenericTireAppearance [
+]
+{
+  PBRAppearance {
+    metalness 0
+    roughness 0.8
+    baseColorMap ImageTexture {
+      url [
+        "textures/tire_texture_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/tire_texture_roughness.jpg"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/tire_texture_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/tire_texture_occlusion.jpg"
+      ]
+    }
+  }
+}

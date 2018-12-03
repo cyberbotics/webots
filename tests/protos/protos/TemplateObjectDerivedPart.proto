@@ -1,0 +1,6 @@
+PROTO TemplateObjectDerivedPart [
+]
+{
+  TemplateObjectBasePart {
+  }
+}

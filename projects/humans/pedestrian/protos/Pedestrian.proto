@@ -1,0 +1,559 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Simple model of a pedestrian
+# Based on the model of Paul Salvador (zxys.com)
+
+PROTO Pedestrian [
+  field       SFVec3f    translation           0 1.27 0
+  field       SFRotation rotation              0 1 0 0
+  field       SFString   name                  "pedestrian"
+  field       SFString   controller            "pedestrian"
+  field       SFString   controllerArgs        ""
+  field       SFColor    shirtColor            0.25 0.55 0.20
+  field       SFColor    pantsColor            0.24 0.25 0.5
+  field       SFColor    shoesColor            0.28 0.15 0.06
+  field       SFColor    skinColor             1.0 0.75 0.7
+  field       SFBool     enableBoundingObject  FALSE
+  field       MFNode     bodySlot              []
+  field       MFNode     leftHandSlot          []
+  field       MFNode     rightHandSlot         []
+  hiddenField SFFloat    rightLegAngle         0.0
+  hiddenField SFFloat    rightLowerLegAngle    0.0
+  hiddenField SFFloat    rightFootAngle        0.0
+  hiddenField SFFloat    leftLegAngle          0.0
+  hiddenField SFFloat    leftLowerLegAngle     0.0
+  hiddenField SFFloat    leftFootAngle         0.0
+  hiddenField SFFloat    rightArmAngle         0.0
+  hiddenField SFFloat    rightLowerArmAngle    0.0
+  hiddenField SFFloat    rightHandAngle        0.0
+  hiddenField SFFloat    leftArmAngle          0.0
+  hiddenField SFFloat    leftLowerArmAngle     0.0
+  hiddenField SFFloat    leftHandAngle         0.0
+  hiddenField SFFloat    headAngle             0.0
+]
+{
+%{ local static = fields.controllerArgs.value == '' }%
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Group {
+      children IS bodySlot
+    }
+    Solid {
+      children [
+        DEF TORSO Shape {
+          appearance DEF SHIRT_APP PBRAppearance {
+            baseColor IS shirtColor
+            metalness 0
+            roughness 1
+          }
+          geometry PedestrianTorso {
+          }
+        }
+        DEF NECK Shape {
+          appearance DEF SKIN_APP PBRAppearance {
+            baseColor IS skinColor
+            metalness 0
+            roughness 1
+          }
+          geometry PedestrianNeck {
+          }
+        }
+        %{ if static == false then }%
+        DEF LEFT_ARM HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS leftArmAngle
+            anchor 0.28 0.19 -0.01
+          }
+          endPoint DEF LEFT_UPPER_ARM Solid {
+        %{ else }%
+          DEF LEFT_UPPER_ARM Solid {
+        %{ end }%
+            rotation 1 0 0 0
+            children [
+              Shape {
+                appearance USE SHIRT_APP
+                geometry PedestrianLeftUpperArm {
+                }
+              }
+              %{ if static == false then }%
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  position IS leftLowerArmAngle
+                  anchor 0.25 -0.09 -0.04
+                }
+                endPoint DEF LEFT_LOWER_ARM Solid {
+              %{ else }%
+                DEF LEFT_LOWER_ARM Solid {
+              %{ end }%
+                  rotation 1 0 0 0
+                  children [
+                    Shape {
+                      appearance USE SKIN_APP
+                      geometry PedestrianLeftLowerArm {
+                      }
+                    }
+                    %{ if static == false then }%
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        position IS leftHandAngle
+                        anchor 0.25 -0.37 -0.035
+                      }
+                      endPoint DEF LEFT_HAND Solid {
+                    %{ else }%
+                      DEF LEFT_HAND Solid {
+                    %{ end }%
+                        rotation 1 0 0 0
+                        children [
+                          Transform {
+                            translation 0.25 -0.45 0
+                            children IS leftHandSlot
+                          }
+                          Shape {
+                            appearance USE SKIN_APP
+                            geometry PedestrianLeftHand {
+                            }
+                          }
+                        ]
+                      %{ if fields.enableBoundingObject.value then }%
+                        boundingObject Transform {
+                          translation 0.253 -0.44 -0.02
+                          children [
+                            Box {
+                              size 0.05 0.17 0.14
+                            }
+                          ]
+                        }
+                      %{ end }%
+                      }
+                    %{ if static == false then }%
+                    }
+                    %{ end }%
+                  ]
+                %{ if fields.enableBoundingObject.value then }%
+                  boundingObject Transform {
+                    translation 0.254 -0.23 -0.04
+                    children [
+                      Capsule {
+                        height 0.19
+                        radius 0.05
+                      }
+                    ]
+                  }
+                %{ end }%
+                }
+              %{ if static == false then }%
+              }
+              %{ end }%
+            ]
+            name "left arm"
+          %{ if fields.enableBoundingObject.value then }%
+            boundingObject Group {
+              children [
+                Transform {
+                  translation 0.23 0.2 -0.01
+                  children [
+                    Box {
+                      size 0.13 0.15 0.15
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.25 0.03 -0.03
+                  rotation 1 0 0 0.1409
+                  children [
+                    Capsule {
+                      height 0.2
+                      radius 0.07
+                    }
+                  ]
+                }
+              ]
+            }
+          %{ end }%
+          }
+        %{ if static == false then }%
+        }
+        DEF RIGHT_ARM HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS rightArmAngle
+            anchor -0.28 0.19 -0.01
+          }
+          endPoint DEF RIGHT_UPPER_ARM Solid {
+        %{ else }%
+          DEF RIGHT_UPPER_ARM Solid {
+        %{ end }%
+            rotation 1 0 0 0
+            children [
+              Shape {
+                appearance USE SHIRT_APP
+                geometry PedestrianRightUpperArm {
+                }
+              }
+              %{ if static == false then }%
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  position IS rightLowerArmAngle
+                  anchor -0.25 -0.09 -0.04
+                }
+                endPoint DEF RIGHT_LOWER_ARM Solid {
+              %{ else }%
+                DEF RIGHT_LOWER_ARM Solid {
+              %{ end }%
+                  rotation 1 0 0 0
+                  children [
+                    Shape {
+                      appearance USE SKIN_APP
+                      geometry PedestrianRightLowerArm {
+                      }
+                    }
+                    %{ if static == false then }%
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        position IS rightHandAngle
+                        anchor -0.25 -0.37 -0.035
+                      }
+                      endPoint DEF RIGHT_HAND Solid {
+                    %{ else }%
+                      DEF RIGHT_HAND Solid {
+                    %{ end }%
+                        rotation 1 0 0 0
+                        children [
+                          Transform {
+                            translation -0.26 -0.45 0.02
+                            children IS rightHandSlot
+                          }
+                          Shape {
+                            appearance USE SKIN_APP
+                            geometry PedestrianRightHand {
+                            }
+                          }
+                        ]
+                      %{ if fields.enableBoundingObject.value then }%
+                        boundingObject Transform {
+                          translation -0.253 -0.44 0.02
+                          children [
+                            Box {
+                              size 0.05 0.17 0.14
+                            }
+                          ]
+                        }
+                      %{ end }%
+                      }
+                    %{ if static == false then }%
+                    }
+                    %{ end }%
+                  ]
+                %{ if fields.enableBoundingObject.value then }%
+                  boundingObject Transform {
+                    translation -0.254 -0.23 -0.025
+                    children [
+                      Capsule {
+                        height 0.19
+                        radius 0.05
+                      }
+                    ]
+                  }
+                %{ end }%
+                }
+              %{ if static == false then }%
+              }
+              %{ end }%
+            ]
+            name "right arm"
+          %{ if fields.enableBoundingObject.value then }%
+            boundingObject Group {
+              children [
+                Transform {
+                  translation -0.23 0.2 0
+                  children [
+                    Box {
+                      size 0.13 0.15 0.15
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.25 0.03 -0.02
+                  rotation 1 0 0 0.1409
+                  children [
+                    Capsule {
+                      height 0.2
+                      radius 0.07
+                    }
+                  ]
+                }
+              ]
+            }
+          %{ end }%
+          }
+        %{ if static == false then }%
+        }
+        DEF LEFT_LEG HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS leftLegAngle
+            anchor 0.17 -0.3 -0.04
+          }
+          endPoint DEF LEFT_UPPER_LEG Solid {
+        %{ else }%
+          DEF LEFT_UPPER_LEG Solid {
+        %{ end }%
+            children [
+              Shape {
+                appearance DEF LEG_APP PBRAppearance {
+                  baseColor IS pantsColor
+                  metalness 0
+                  roughness 1
+                }
+                geometry PedestrianLeftUpperLeg {
+                }
+              }
+              %{ if static == false then }%
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  position IS leftLowerLegAngle
+                  anchor 0.17 -0.76 -0.03
+                }
+                endPoint DEF LEFT_LOWER_LEG Solid {
+              %{ else }%
+                DEF LEFT_LOWER_LEG Solid {
+              %{ end }%
+                  children [
+                    Shape {
+                      appearance USE LEG_APP
+                      geometry PedestrianLeftLowerLeg {
+                      }
+                    }
+                    %{ if static == false then }%
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        position IS leftFootAngle
+                        anchor 0.17 -1.165 -0.092
+                      }
+                      endPoint DEF LEFT_FOOT Solid {
+                    %{ else }%
+                      DEF LEFT_FOOT Solid {
+                    %{ end }%
+                        children [
+                          Shape {
+                            appearance DEF SHOE_APP PBRAppearance {
+                              baseColor IS shoesColor
+                              metalness 0
+                              roughness 1
+                            }
+                            geometry PedestrianLeftFoot {
+                            }
+                          }
+                        ]
+                      %{ if fields.enableBoundingObject.value then }%
+                        boundingObject Transform {
+                          translation 0.115 -1.21 0
+                          children [
+                            Box {
+                              size 0.1 0.1 0.27
+                            }
+                          ]
+                        }
+                      %{ end }%
+                      }
+                    %{ if static == false then }%
+                    }
+                    %{ end }%
+                  ]
+                %{ if fields.enableBoundingObject.value then }%
+                  boundingObject Transform {
+                    translation 0.116 -0.965 -0.056
+                    rotation 1 0 0 0.1
+                    children [
+                      Capsule {
+                        height 0.335
+                        radius 0.075
+                      }
+                    ]
+                  }
+                %{ end }%
+                }
+              %{ if static == false then }%
+              }
+              %{ end }%
+            ]
+            name "left leg"
+          %{ if fields.enableBoundingObject.value then }%
+            boundingObject Transform {
+              translation 0.116 -0.5 -0.033
+              children [
+                Box {
+                  size 0.15 0.6 0.19
+                }
+              ]
+            }
+          %{ end }%
+          }
+        %{ if static == false then }%
+        }
+        DEF RIGHT_LEG HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS rightLegAngle
+            anchor -0.17 -0.3 -0.04
+          }
+          endPoint DEF RIGHT_UPPER_LEG Solid {
+        %{ else }%
+          DEF RIGHT_UPPER_LEG Solid {
+        %{ end }%
+            children [
+              Shape {
+                appearance USE LEG_APP
+                geometry PedestrianRightUpperLeg {
+                }
+              }
+              %{ if static == false then }%
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  position IS rightLowerLegAngle
+                  anchor -0.17 -0.76 -0.03
+                }
+                endPoint DEF RIGHT_LOWER_LEG Solid {
+              %{ else }%
+                DEF RIGHT_LOWER_LEG Solid {
+              %{ end }%
+                  children [
+                    Shape {
+                      appearance USE LEG_APP
+                      geometry PedestrianRightLowerLeg {
+                      }
+                    }
+                    %{ if static == false then }%
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        position IS rightFootAngle
+                        anchor -0.17 -1.165 -0.092
+                      }
+                      endPoint DEF RIGHT_FEET Solid {
+                    %{ else }%
+                      DEF RIGHT_FEET Solid {
+                    %{ end }%
+                        children [
+                          Shape {
+                            appearance USE SHOE_APP
+                            geometry PedestrianRightFoot {
+                            }
+                          }
+                        ]
+                      %{ if fields.enableBoundingObject.value then }%
+                        boundingObject Transform {
+                          translation -0.115 -1.21 0.031
+                          children [
+                            Box {
+                              size 0.1 0.1 0.27
+                            }
+                          ]
+                        }
+                      %{ end }%
+                      }
+                    %{ if static == false then }%
+                    }
+                    %{ end }%
+                  ]
+                %{ if fields.enableBoundingObject.value then }%
+                  boundingObject Transform {
+                    translation -0.116 -0.965 -0.044
+                    rotation 1 0 0 0.1
+                    children [
+                      Capsule {
+                        height 0.335
+                        radius 0.075
+                      }
+                    ]
+                  }
+                %{ end }%
+                }
+              %{ if static == false then }%
+              }
+              %{ end }%
+            ]
+            name "right leg"
+          %{ if fields.enableBoundingObject.value then }%
+            boundingObject Transform {
+              translation -0.116 -0.5 -0.033
+              children [
+                Box {
+                  size 0.15 0.6 0.19
+                }
+              ]
+            }
+          %{ end }%
+          }
+        %{ if static == false then }%
+        }
+        DEF HEAD HingeJoint {
+          jointParameters HingeJointParameters {
+            position IS headAngle
+            anchor 0 0.37 0.01
+          }
+          endPoint DEF HEAD Solid {
+        %{ else }%
+          DEF HEAD Solid {
+        %{ end }%
+            children [
+              Shape {
+                appearance USE SKIN_APP
+                geometry PedestrianHead {
+                }
+              }
+            ]
+            name "head"
+          %{ if fields.enableBoundingObject.value then }%
+            boundingObject Transform {
+              translation 0 0.436 0.04
+              rotation 1 0 0 -0.5236
+              children [
+                Capsule {
+                  height 0.02
+                  radius 0.13
+                }
+              ]
+            }
+          %{ end }%
+          }
+        %{ if static == false then }%
+        }
+        %{ end }%
+      ]
+    %{ if fields.enableBoundingObject.value then }%
+      boundingObject Group {
+        children [
+          DEF TORSO_BO Box {
+            size 0.35 0.6 0.24
+          }
+          DEF NECK_BO Transform {
+            translation 0 0.3 0.01
+            children [
+              Capsule {
+                height 0.1
+                radius 0.07
+              }
+            ]
+          }
+        ]
+      }
+    %{ end }%
+    }
+  ]
+  name IS name
+  model "pedestrian"
+  radarCrossSection 1
+  recognitionColors [
+    %{= fields.shirtColor.value.r }% %{= fields.shirtColor.value.g }% %{= fields.shirtColor.value.b }%
+    %{= fields.pantsColor.value.r }% %{= fields.pantsColor.value.g }% %{= fields.pantsColor.value.b }%
+  ]
+  %{ if not static then }%
+    controller IS controller
+  %{ else }%
+    controller ""
+  %{ end }%
+  controllerArgs IS controllerArgs
+  supervisor TRUE
+}
+}

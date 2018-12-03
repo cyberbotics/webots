@@ -1,0 +1,6 @@
+# A BallJoint node can be used to simulate a rotating motion with 3 DOF (ball and socket).
+
+BallJoint {
+  field SFNode     jointParameters   NULL        # BallJointParameters specifying the anchor
+  field SFNode     endPoint          NULL        # either a Solid child, or a (non-child) reference to an existing Solid: SolidReference
+}

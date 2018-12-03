@@ -1,0 +1,76 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.99169286 0.007423969 -0.12841398 5.74739
+  position -0.236366 2.54748 4.38049
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Transform {
+  translation 2 0 -2
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 0 -2
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          transparency 0.5
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation -0.5 -1.37 -2.0000023
+  rotation 1 0 0 1.5708003
+  children [
+    Shape {
+      geometry ElevationGrid {
+        color Color {
+          color [
+            0 0 0
+          ]
+        }
+        height [
+          0, 0, 0, 0
+        ]
+        xDimension 2
+        zDimension 2
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    RangeFinder {
+      fieldOfView 1.5708
+      maxRange 3
+      motionBlur 32
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "range_finder_checker"
+  controllerArgs "range_finder"
+}
+TestSuiteSupervisor {
+}

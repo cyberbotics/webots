@@ -1,0 +1,110 @@
+{
+  "name": "salamander", 
+  "devices": [
+    {
+      "transformID": "n160", 
+      "name": "motor_1", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n175", 
+      "name": "motor_2", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n190", 
+      "name": "motor_3", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n325", 
+      "name": "motor_4", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n340", 
+      "name": "motor_5", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n355", 
+      "name": "motor_6", 
+      "maxPosition": 1.13446, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.13446, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n54", 
+      "name": "motor_leg_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n107", 
+      "name": "motor_leg_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n219", 
+      "name": "motor_leg_3", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n272", 
+      "name": "motor_leg_4", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n27", 
+      "type": "DistanceSensor", 
+      "name": "ds_left"
+    }, 
+    {
+      "transformID": "n32", 
+      "type": "DistanceSensor", 
+      "name": "ds_right"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "GPS", 
+      "name": "gps"
+    }
+  ]
+}

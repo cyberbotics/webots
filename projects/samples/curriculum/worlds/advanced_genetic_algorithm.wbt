@@ -1,0 +1,139 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "load"
+      material2 "floor"
+      coulombFriction [
+        0.1
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.9999649479917812 0.008039999581839286 0.0023369198784566995 5.71599
+  position -0.00620952 0.868051 0.882617
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF FLOOR Solid {
+  children [
+    DEF LINE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_grid.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -10 0 -10
+            -10 0 10
+            10 0 10
+            10 0 -10
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 10
+            0 0
+            10 0
+            10 10
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+    Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.647059 0.164706 0.164706
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.5 0.001 0.5
+          }
+        }
+      ]
+    }
+  ]
+  name "ground"
+  contactMaterial "floor"
+  boundingObject Transform {
+    translation 0 -1 0
+    children [
+      Box {
+        size 20 2 20
+      }
+    ]
+  }
+  locked TRUE
+}
+DEF OBSTACLE Solid {
+  translation 0 0.03 -1
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.647059 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.1
+      }
+    }
+  ]
+  name "obstacle"
+  boundingObject USE BOX_SHAPE
+}
+DEF LOAD Solid {
+  translation 0 0.025 0
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.627451 0.12549 0.941176
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.05
+      }
+    }
+  ]
+  contactMaterial "load"
+  boundingObject USE BOX_SHAPE
+  physics Physics {
+  }
+}
+DEF ROBOT E-puck {
+  translation 0 0 0.1
+  controller "advanced_genetic_algorithm"
+}
+DEF GA Robot {
+  children [
+    Emitter {
+      channel 1
+    }
+    Display {
+      width 200
+      height 100
+    }
+  ]
+  controller "advanced_genetic_algorithm_supervisor"
+  supervisor TRUE
+}

@@ -1,0 +1,61 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+    <li><a href='#infotab-explanations'>Explanations</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark will teach you how to program a robot and run the simulation.</p>
+    <p>The tab entitled <a class='tablink' onclick='$("#infotabs").tabs({active:1});'>Metrics</a> measures your progress on an
+      exercise where you have to program a robot to cover a certain distance. It also allows you to record your performance in
+      the robotbenchmark database (if you are logged-in).</p>
+    <p>The tab entitled <a class='tablink' onclick='$("#infotabs").tabs({active:2});'>Instructions</a> explains you how to
+      open the source code editor to edit the robot controller program, save it and run the simulation with your modified code.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center' title='Your performance increases as you get closer to the target position.'>
+      <span id='achievement'>0%</span></div>
+    <br>
+    <p>Program the Thymio II robot to move straight forward and stop. The performance value increases as the robot gets closer
+     to the target position situated exactly one parquetry square in front of it. It will decrease if the robot continues aways
+     from this position.
+     The <a class='tablink' onclick='$("#infotabs").tabs({active:2});'>Instructions</a> tab explains the step-by-step
+     procedure to follow.</p>
+  </div>
+  <div id='infotab-instructions'>
+    <h2>Programming a robot in Python</h2>
+     <ol>
+      <li><b>Open the source code editor</b>: click on the robot with the right mouse button to pop up the robot contextual menu
+       and select the "Edit controller" item. A window should open containing the source code of the controller of the robot.
+       This is actually a simple Python program.
+      </li>
+      <li><b>Edit the controller</b>: on line 7, modify the value assigned to the <em>target</em> variable: instead of
+       <em>0</em>, try to set a different value, for example 10.</li>
+      <li><b>Save your program</b>: in the source code editor, press <em id='saveShortcut'>Ctrl-S</em> to save your program.
+      </li>
+      <li><b>Reset the simulation</b>: press the reset button
+       <img src='reset.png' alt='reset'> to take into account your modifications.</li>
+      <li><b>Run the simulation</b>: press the play button <img src='real_time.png' alt='real-time'> to run the simulation.
+      </li>
+      <li><b>Observe the result</b>: the robot should move forward. Your performance should be updated in real time on the
+       <a class='tablink' onclick='$("#infotabs").tabs({active:1});'>Metrics</a> tab. After a while, the robot should stop and
+       your performance should be recorded (if you are logged in).
+       Try to modify the controller program again to achieve a better performance.
+      </li>
+     </ol>
+     <p>During the execution, the sample controller prints some output on the console.
+       You can open the console by clicking on the toolbar button <img src='console.png' alt='console'>.
+     </p>
+  </div>
+  <div id='infotab-explanations'>
+   <h2>Thymio II position control</h2>
+    <p>The provided controller program drives the Thymio II robot in position control. That is, for each motor of the robot, it
+     defines a target position that the motor has to reach. This position corresponds to an angular position of the wheel and is
+     expressed in radians. Given that each wheel has a radius of 21 millimeters, a target value of 10 on each motor will make the
+     robot move forward by a distance of 10 x 21, that is about 210 millimeters. The size of a parquetry square being 250
+     millimeters, a target position of 10 will probably not drive the robot at the very correct position...
+   </p>
+  </div>
+</div>

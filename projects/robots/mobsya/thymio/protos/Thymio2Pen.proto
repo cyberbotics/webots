@@ -1,0 +1,74 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Pen designed to be inserted directly into the Thymio II's bodySlot field
+# cf. https://aseba.wikidot.com/fr:thymiodrawing
+
+PROTO Thymio2Pen [
+  field SFString name "Thymio II pen"
+  field SFFloat leadSize 0.003
+  field SFColor inkColor 0 0 0
+]
+{
+Pen {
+  translation 0 0.01 0
+  children [
+    Transform {
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.726665 0.958923 0.967361
+            metalness 0
+            roughness 0.6
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.005
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.0045 0
+      rotation 1 0 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.968627 0.717311 0.627604
+            metalness 0
+            roughness 0.6
+          }
+          geometry Cone {
+            bottomRadius 0.005
+            height 0.01
+            bottom FALSE
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.008 0
+      rotation 1 0 0 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0
+            roughness 0.6
+          }
+          geometry Cone {
+            bottomRadius 0.0016
+            height 0.003
+            bottom FALSE
+          }
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "Thymio II pen"
+  leadSize IS leadSize
+  inkColor IS inkColor
+}
+}

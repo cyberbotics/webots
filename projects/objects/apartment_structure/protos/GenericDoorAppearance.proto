@@ -1,0 +1,23 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A generic varnished, painted wooden door's appearance.
+
+PROTO GenericDoorAppearance [
+  field SFColor colorOverride  1 1 1   # Defines the default color multiplied with the texture color.
+  field SFNode  environmentMap   NULL  # Defines an optional `Cubemap` node that can override the world's skybox for this object.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url "textures/door_base_color.jpg"
+    }
+    normalMap ImageTexture {
+      url "textures/door_normal.jpg"
+    }
+    environmentMap IS environmentMap
+    metalness 0
+    roughness 0.25
+  }
+}

@@ -1,0 +1,388 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  physics "spring_damping_force_plugin"
+}
+Viewpoint {
+  orientation 0.371267 0.881389 0.292085 4.82578
+  position -4.23197 2.48435 1.32798
+}
+Background {
+  skyColor [
+    0 0.807843 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+Floor {
+}
+DEF SLIDER_JOINT_1 Solid {
+  translation 0 0.05 0
+  rotation 0 -1 0 4.18879
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.7
+      }
+    }
+    SliderJoint {
+      jointParameters DEF JOINT_PARAMETER_1 JointParameters {
+        axis 1 0 0
+        springConstant 5
+        dampingConstant 1.75
+      }
+      endPoint DEF END_POINT_SOLID_1 Solid {
+        translation 0.25 0.05 0
+        rotation 0 1 0 0.5236
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE BOX
+}
+DEF SLIDER_JOINT_2 Solid {
+  translation 0 0.05 0.86
+  rotation 0 1 0 5.75959
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.7
+      }
+    }
+    SliderJoint {
+      jointParameters DEF JOINT_PARAMETER_2 JointParameters {
+        axis 1 0 0
+        springConstant 5
+        dampingConstant 1.75
+      }
+      endPoint DEF END_POINT_SOLID_2 Solid {
+        translation 0.25 0.05 0
+        rotation 1 1.73445e-06 6.97981e-07 4.71239
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BOX
+  physics Physics {
+    density 100
+  }
+}
+DEF HINGE_JOINT_3 Solid {
+  translation -0.7 0.05 0
+  rotation 0 -1 0 4.97418
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.2
+      }
+    }
+    HingeJoint {
+      jointParameters DEF JOINT_PARAMETER_3 HingeJointParameters {
+        axis 0 1 0
+        springConstant 10
+        dampingConstant 0.5
+      }
+      endPoint DEF END_POINT_SOLID_3 Solid {
+        translation 0.25 0.05 0
+        rotation -0.57735 0.57735 -0.57735 2.0944
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BOX
+}
+DEF HINGE_JOINT_4 Solid {
+  translation -0.687018 0.05 0.807395
+  rotation 0 1 0 3.927
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.2
+      }
+    }
+    HingeJoint {
+      jointParameters DEF JOINT_PARAMETER_4 HingeJointParameters {
+        axis 0 1 0
+        springConstant 10
+        dampingConstant 0.5
+      }
+      endPoint DEF END_POINT_SOLID_4 Solid {
+        translation 0.25 0.05 0
+        rotation 0 1 0 6.28319
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF BALL_JOINT_5 Solid {
+  translation -1.68 0.02 0
+  rotation 0 -1 0 5.75958
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.7
+      }
+    }
+    BallJoint {
+      jointParameters DEF JOINT_PARAMETER_5 BallJointParameters {
+        anchor 0 0.2 0
+        springConstant 2
+      }
+      endPoint DEF END_POINT_SOLID_5 Solid {
+        translation 0 0.43 0
+        rotation -0.227884 -0.890685 0.393383 4.92295
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE BOX
+}
+DEF BALL_JOINT_6 Solid {
+  translation -1.68 0.05 0.9
+  rotation 0 1 0 5.23599
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0.180392
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.2 0.1 0.7
+      }
+    }
+    BallJoint {
+      jointParameters DEF JOINT_PARAMETER_6 BallJointParameters {
+        anchor 0 0.2 0
+        springConstant 2
+      }
+      endPoint DEF END_POINT_SOLID_6 Solid {
+        translation 0 0.43 0
+        rotation -0.227884 -0.890685 0.393383 4.92295
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0.0470588
+              }
+            }
+            geometry DEF SPHERE Sphere {
+              radius 0.05
+            }
+          }
+          Transform {
+            translation -0.28 0 0
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0.368627 0.0117647
+                  }
+                }
+                geometry Box {
+                  size 0.5 0.02 0.02
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE SPHERE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject USE BOX
+  physics Physics {
+    density 100
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "spring_damping_force"
+  controllerArgs "spring_damping_force"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

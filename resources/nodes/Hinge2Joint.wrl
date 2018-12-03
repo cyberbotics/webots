@@ -1,0 +1,14 @@
+# A Hinge2Joint can be used to simulate a combination of two rotating motions along axes which intersect.
+# It is equivalent to two HingeJoint nodes but it spares the creation of an intermediate solid and is therefore more stable.
+# Spring and damping behavior can be specified.
+
+Hinge2Joint {
+  field SFNode     jointParameters   NULL        # HingeJointParameters specifying anchor, axis, spring and damper constants, minStop, maxStop, suspension
+  field SFNode     jointParameters2  NULL        # JointParameters specifying axis, spring and damper constants, minStop, maxStop related to the second hinge
+  field MFNode     device            [ ]         # rotational motor, position sensor and brake associated to the first hinge
+  field MFNode     device2           [ ]         # rotational motor, position sensor and brake associated to the second hinge
+  field SFNode     endPoint          NULL        # either a Solid child, or a (non-child) reference to an existing Solid: SolidReference
+  # hidden fields
+  hiddenField SFFloat position        0          # current position of the first hinge (rad)
+  hiddenField SFFloat position2        0         # current position of the second hinge (rad)
+}

@@ -1,0 +1,217 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This world shows all the base graphical geometries."
+  ]
+  title "Base graphical geometries"
+}
+Viewpoint {
+  orientation 0.08742646544963854 0.9871664543756572 0.13363758638338366 3.8410697195465167
+  position -6.655348826933393 3.047211123704163 -4.13710092336658
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF BOX Transform {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.264 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Box {
+        size 0.3 0.4 0.5
+      }
+    }
+  ]
+}
+DEF CONE Transform {
+  translation 0 0 1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.621333 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Cone {
+        bottomRadius 0.3
+        height 0.5
+        subdivision 36
+      }
+    }
+  ]
+}
+DEF CAPSULE Transform {
+  translation 0 0 2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.621333 0.8 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Capsule {
+        height 0.3
+        radius 0.25
+        subdivision 24
+      }
+    }
+  ]
+}
+DEF CYLINDER Transform {
+  translation 0 0 3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.264 0.8 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.6
+        radius 0.3
+      }
+    }
+  ]
+}
+DEF ELEVATION_GRID Transform {
+  translation -0.25 0 3.75
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.264 0.8 0.621333
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry ElevationGrid {
+        height [
+          0.04, 0.015, -0.025, -0.04, -0.035, -0.035, -0.035, -0.04, -0.025, 0.015, 0.015, -0.03, -0.035, -0.005, 0.02, 0.025, 0.02, -0.005, -0.035, -0.03, -0.025, -0.035, 0.01, 0.04, 0.03, 0.025, 0.03, 0.04, 0.01, -0.035, -0.04, -0.005, 0.04, 0.01, -0.025, -0.035, -0.025, 0.01, 0.04, -0.005, -0.035, 0.02, 0.03, -0.025, -0.03, -0.01, -0.03, -0.025, 0.03, 0.02, -0.035, 0.025, 0.025, -0.035, -0.01, 0.04, -0.01, -0.035, 0.025, 0.025, -0.035, 0.02, 0.03, -0.025, -0.03, -0.01, -0.03, -0.025, 0.03, 0.02, -0.04, -0.005, 0.04, 0.01, -0.025, -0.035, -0.025, 0.01, 0.04, -0.005, -0.025, -0.035, 0.01, 0.04, 0.03, 0.025, 0.03, 0.04, 0.01, -0.035, 0.015, -0.03, -0.035, -0.005, 0.02, 0.025, 0.02, -0.005, -0.035, -0.03
+        ]
+        xDimension 10
+        xSpacing 0.05
+        zDimension 10
+        zSpacing 0.05
+      }
+    }
+  ]
+}
+DEF INDEXED_LINE_SET Transform {
+  translation 0 0 5
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.264 0.621333 0.8
+      }
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [
+            -0.2 0 0.2
+            0.2 0 0.2
+            0.2 0 -0.2
+            -0.2 0 -0.2
+            -0.1 0.1 0.1
+            0.1 0.1 0.1
+            0.1 0.1 -0.1
+            -0.1 0.1 -0.1
+          ]
+        }
+        coordIndex [
+          0, 1, -1, 1, 2, -1, 2, 3, -1, 3, 0, -1, 4, 5, -1, 5, 6, -1, 6, 7, -1, 7, 4, -1, 0, 4, -1, 1, 5, -1, 2, 6, -1, 3, 7, -1
+        ]
+      }
+    }
+  ]
+}
+DEF INDEXED_FACE_SET Transform {
+  translation 0 0 6
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.264 0.264 0.8
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.2 0 0.2
+            0.2 0 0.2
+            0.2 0 -0.2
+            -0.2 0 -0.2
+            -0.1 0.1 -0.1
+            -0.1 0.1 0.1
+            0.1 0.1 0.1
+            0.1 0.1 -0.1
+          ]
+        }
+        coordIndex [
+          0, 1, 6, 5, -1, 2, 7, 6, 1, -1, 3, 4, 7, 2, -1, 0, 5, 4, 3, -1, 7, 4, 5, 6, -1, 3, 2, 1, 0, -1
+        ]
+      }
+    }
+  ]
+}
+DEF PLANE Transform {
+  translation 0 0 7
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.621333 0.264 0.8
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Plane {
+        size 0.6 0.6
+      }
+    }
+  ]
+}
+DEF SPHERE Transform {
+  translation 0 0 8
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.264 0.621333
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.3
+        subdivision 2
+      }
+    }
+  ]
+}
+DEF POINT_SET Transform {
+  translation 0 0 9
+  children [
+    Shape {
+      geometry PointSet {
+        color Color {
+          color [
+            0.8 0 0
+            0.9607843137254902 0.4745098039215686 0
+            0.9294117647058824 0.8313725490196079 0
+            0.45098039215686275 0.8235294117647058 0.08627450980392157
+            0.20392156862745098 0.396078431372549 0.6431372549019608
+          ]
+        }
+        coord Coordinate {
+          point [
+            0 0.4 0
+            0 0.19999999999999998 0.5
+            0.5 0 0.7
+            0.5 0.19999999999999998 0.5
+            0.5 0.1 1.2000000000000002
+          ]
+        }
+      }
+    }
+  ]
+}

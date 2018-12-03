@@ -1,0 +1,30 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 40
+}
+Viewpoint {
+  orientation 0.0938128 0.977288 0.190019 3.79301
+  position -0.688942 0.522118 -0.823828
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.55
+}
+Floor {
+  size 20 20
+  tileSize 2 2
+  texture [
+    "textures/parquetry.jpg"
+  ]
+}
+DEF HEXAPOD Hexapod {
+  controller "motion"
+  controllerArgs "loop"
+}
+TestSuiteSupervisor {
+}

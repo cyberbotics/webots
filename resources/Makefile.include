@@ -1,0 +1,702 @@
+# Copyright 1996-2018 Cyberbotics Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+### Generic Makefile.include for Webots controllers, physics plugins, robot
+### window libraries, remote control libraries and other libraries
+### to be used with GNU make
+###
+### Platforms: Windows, macOS, Linux
+### Languages: C, C++
+###
+### Authors: Olivier Michel, Yvan Bourquin, Fabien Rohrer
+###          Edmund Ronald, Sergei Poskriakov
+###
+###-----------------------------------------------------------------------------
+###
+### This file is meant to be included from the Makefile files located in the
+### Webots projects subdirectories. It is possible to set a number of variables
+### to customize the build process, i.e., add source files, compilation flags,
+### include paths, libraries, etc. These variables should be set in your local
+### Makefile just before including this Makefile.include. This Makefile.include
+### should never be modified.
+###
+### Here is a description of the variables you may set in your local Makefile:
+###
+### ---- C Sources ----
+### if your program uses several C source files:
+### C_SOURCES = my_plugin.c my_clever_algo.c my_graphics.c
+###
+### ---- C++ Sources ----
+### if your program uses several C++ source files:
+### CXX_SOURCES = my_plugin.cc my_clever_algo.cpp my_graphics.c++
+###
+### ---- Compilation options ----
+### if special compilation flags are necessary:
+### CFLAGS = -Wno-unused-result
+###
+### ---- Linked libraries ----
+### if your program needs additional libraries:
+### INCLUDE = -I"/my_library_path/include"
+### LIBRARIES = -L"/path/to/my/library" -lmy_library -lmy_other_library
+###
+### ---- Linking options ----
+### if special linking flags are needed:
+### LFLAGS = -s
+###
+### ---- Webots included libraries ----
+### if you want to use the Webots C API in your C++ controller program:
+### USE_C_API = true
+### if you want to link with the Qt framework embedded in Webots:
+### QT = core gui widgets network
+###
+### ---- Debug mode ----
+### if you want to display the gcc command line for compilation and link, as
+### well as the rm command details used for cleaning:
+### VERBOSE = 1
+###
+###-----------------------------------------------------------------------------
+
+
+ifdef WEBOTS_HOME
+ # Check if WEBOTS_HOME contains a trailing path separator and display a warning in this case.
+ PROTECTED_WEBOTS_HOME := $(WEBOTS_HOME:/=)
+ PROTECTED_WEBOTS_HOME := $(PROTECTED_WEBOTS_HOME:\=)
+ ifneq ($(WEBOTS_HOME),$(PROTECTED_WEBOTS_HOME))
+  WEBOTS_HOME := $(PROTECTED_WEBOTS_HOME)
+  $(warning Please remove the trailing path separator from WEBOTS_HOME.)
+ endif
+else
+ # WEBOTS_HOME is a sine qua non condition to run this Makefile.
+ $(error The WEBOTS_HOME environment variable is not defined.)
+endif
+
+# WEBOTS_HOME_PATH is commonly defined in the caller Makefile
+# but as it is not necessary on non-windows OS, it seems safer to reconstruct it there if required
+space :=
+space +=
+WEBOTS_HOME_PATH ?= $(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+
+###-----------------------------------------------------------------------------
+### OS determination and OS specific commands
+###-----------------------------------------------------------------------------
+
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
+###-----------------------------------------------------------------------------
+### Functions
+###-----------------------------------------------------------------------------
+
+ifeq ($(OSTYPE),darwin)
+
+ # Retrieve the relative path of a path according to some base path.
+ # cf. http://stackoverflow.com/a/3344050/2210777
+ #   @param 1 Base path (e.g. "/Users/fabien/develop/webots")
+ #   @param 2 Path  (e.g. "/Users/fabien/develop/webots/projects/robots/e-puck/controllers/e-puck")
+ #   @return The relative path (e.g. "../../../../../")
+ computeRelativePath = $(shell \
+   basedir=$(1); \
+   currentdir=$(2); \
+   if [[ $$currentdir =~ ^$$basedir ]] ; \
+   then \
+     up=; \
+     while ! expr $$basedir : $$currentdir >/dev/null; do \
+       up=../$$up; \
+       currentdir=`dirname $$currentdir`; \
+     done; \
+     relative=$$up`expr $$basedir : $$currentdir'/*\(.*\)'`; \
+     echo $$relative; \
+   else \
+     echo $$currentdir; \
+   fi; \
+ )
+
+endif
+
+###-----------------------------------------------------------------------------
+### Paths
+###-----------------------------------------------------------------------------
+
+# compiler
+ifeq ($(CC),cc)
+ CC = gcc
+endif
+
+# compute the current directory, the CURDIR variable may be already set
+ifndef CURDIR
+ CURDIR = $(shell pwd)
+endif
+
+# compute the name of the controller from its directory (i.e. braiten)
+BAD_NAME = $(basename $(notdir $(CURDIR)))
+
+# this is a hack to work around a problem with spaces in dir names
+NAME = $(word $(words $(BAD_NAME)),$(BAD_NAME))
+
+# compute BUILD_TYPE (either ode, controllers, physics, robot_windows, remote_controls or libraries)
+SPLIT_PATH = $(subst /, ,$(dir $(CURDIR)))
+BUILD_TYPE = $(word $(words $(SPLIT_PATH)),$(SPLIT_PATH))
+
+ifdef VERBOSE
+  SILENT =
+else
+  SILENT = @
+endif
+
+# backward compatibility
+ifdef CC_SOURCES
+ $(warning Please use CXX_SOURCES instead of CC_SOURCES to define the C++ sources)
+endif
+ifdef CPP_SOURCES
+ $(warning Please use CXX_SOURCES instead of CPP_SOURCES to define the C++ sources)
+endif
+CXX_SOURCES += $(CC_SOURCES) $(CPP_SOURCES)
+
+# if the source files were not explicitly defined, we try to find
+# the *.c, *.cc, *.c++, or *.cpp source files.
+ifeq ($(C_SOURCES),)
+ ifeq ($(strip $(CXX_SOURCES)),)
+  C_SOURCES = $(shell ls $(NAME).c 2> /dev/null)
+  CXX_SOURCES = $(shell ls $(NAME).cpp 2> /dev/null)
+  ifeq ($(CXX_SOURCES),)
+   CXX_SOURCES = $(shell ls $(NAME).cc 2> /dev/null)
+   ifeq ($(CXX_SOURCES),)
+    CXX_SOURCES = $(shell ls $(NAME).c++ 2> /dev/null)
+   endif
+  endif
+ endif
+endif
+
+ifneq ($(strip $(CXX_SOURCES)),)
+ USE_CXX = true
+endif
+ifneq ($(strip $(C_SOURCES)),)
+ USE_C = true
+endif
+
+# the objects files result from the C or C++ sources
+SOURCES_DIRECTORIES = $(sort $(dir $(C_SOURCES) $(CXX_SOURCES)))
+OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
+
+# automatic flags settings
+ifeq ($(BUILD_TYPE),physics)
+ USE_ODE = true
+ EXCLUDE_CONTROLLERS = true
+endif
+ifeq ($(BUILD_TYPE),controllers)
+ BUILD_EXECUTABLE = true
+else
+ ifdef STATIC_LIBRARY
+  BUILD_STATIC_LIBRARY = true
+ else
+  BUILD_SHARED_LIBRARY = true
+ endif
+endif
+
+# target
+ifneq ($(C_SOURCES)$(CXX_SOURCES),)
+ ifdef BUILD_EXECUTABLE
+  MAIN_TARGET = $(NAME)$(EXE_EXTENSION)
+ else
+  ifdef BUILD_STATIC_LIBRARY
+   MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(STATIC_LIB_EXTENSION)
+  else
+   MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(SHARED_LIB_EXTENSION)
+  endif
+ endif
+endif
+TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS)
+
+# goal
+SUPPORTED_TARGETS = all release debug profile
+ifeq ($(MAKECMDGOALS),)
+ GOAL = release
+else
+ ifdef MAIN_TARGET
+  ifeq ($(MAKECMDGOALS),$(MAIN_TARGET))
+   GOAL_TMP = true
+  endif
+ endif
+ ifeq ($(MAKECMDGOALS),all)
+  GOAL_TMP = true
+ endif
+
+ ifdef GOAL_TMP
+   GOAL = release
+ else
+  ifneq ($(filter $(SUPPORTED_TARGETS),$(MAKECMDGOALS)),)
+   GOAL = $(MAKECMDGOALS)
+  endif
+ endif
+endif
+
+# build directory
+BUILD_DIR = build
+BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
+ifdef GOAL
+ $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
+endif
+
+# files to remove
+FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
+
+###-----------------------------------------------------------------------------
+### Compilation flags
+###-----------------------------------------------------------------------------
+
+# global flags
+INCLUDE += -I.
+WBCFLAGS += -Wall
+
+# goal dependent flags
+ifeq ($(GOAL),debug)
+ WBCFLAGS += -g
+endif
+
+ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
+CFLAGS += -Werror
+endif
+
+ifeq ($(GOAL),release)
+ # -O3 has the advantage also to prevents a false positive trojan alert from avast and Kapersky antivirus
+ WBCFLAGS += -O3 -DNDEBUG
+ ifneq ($(OSTYPE),darwin)
+  DYNAMIC_LINK_FLAGS += -s
+ endif
+endif
+
+ifeq ($(GOAL),profile)
+ WBCFLAGS += -pg
+ ifndef BUILD_STATIC_LIBRARY
+  LFLAGS += -pg
+ endif
+endif
+
+# platform dependent flags
+ifeq ($(OSTYPE),windows)
+ WBCFLAGS += -mwindows -Wl,-subsystem,windows -D_GLIBCXX_USE_CXX11_ABI=1
+endif
+
+ifeq ($(OSTYPE),linux)
+ DYNAMIC_LIBRARIES += -lm
+endif
+
+ifeq ($(OSTYPE),darwin)
+ WBCFLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+ DYNAMIC_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+endif
+
+ifdef USE_CXX
+ ifdef BUILD_STATIC_LIBRARY
+  LINKER = ar
+ else
+  LINKER = $(CXX)
+ endif
+ ifndef EXCLUDE_CONTROLLERS
+  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lController
+  ifdef USE_C_API
+   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  else
+   DYNAMIC_LIBRARIES += -lCppController
+   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+  endif
+  ifeq ($(OSTYPE),windows)
+   DYNAMIC_LINK_FLAGS += -Wl,--enable-auto-import
+  endif
+ endif
+ ifeq ($(OSTYPE),darwin)
+  WBCFLAGS += -stdlib=libc++
+  DYNAMIC_LINK_FLAGS += -stdlib=libc++
+ endif
+else
+ ifdef BUILD_STATIC_LIBRARY
+  LINKER = ar
+ else
+  LINKER = $(CC)
+ endif
+ ifndef EXCLUDE_CONTROLLERS
+  INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lController
+ endif
+endif
+
+ifdef BUILD_SHARED_LIBRARY
+ DYNAMIC_LINK_FLAGS += -shared
+ ifeq ($(OSTYPE),linux)
+  WBCFLAGS += -fPIC
+ endif
+ ifeq ($(OSTYPE),darwin)
+  DYNAMIC_LINK_FLAGS += -dynamiclib -compatibility_version 1.0 -current_version 1.0.0
+ endif
+endif
+
+ifdef BUILD_STATIC_LIBRARY
+ ifeq ($(OSTYPE),linux)
+  WBCFLAGS += -fPIC
+ endif
+ STATIC_LINK_FLAGS += rvs
+endif
+
+# Visual Studio
+ifeq ($(OSTYPE),windows)
+ ifdef BUILD_SHARED_LIBRARY
+  ifndef USE_CXX
+   VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio 10.0
+   VS_DEF_NAME = $(NAME).def
+  endif
+ endif
+endif
+
+ifeq ($(OSTYPE),darwin)
+ ifdef WEBOTS_LIBRARY
+  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/$(MAIN_TARGET)
+ else
+  CALLING_MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+  WEBOTS_RELATIVE_PATH = $(call computeRelativePath,$(WEBOTS_HOME),$(CALLING_MAKEFILE_DIR))
+  ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
+   DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   ifdef BUILD_SHARED_LIBRARY
+    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+   endif
+  endif
+ endif
+endif
+
+
+###-----------------------------------------------------------------------------
+### ODE
+###-----------------------------------------------------------------------------
+
+ifdef USE_ODE
+ DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ ifeq ($(OSTYPE),darwin)
+  DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
+ endif
+ INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
+endif
+
+
+###-----------------------------------------------------------------------------
+### Qt
+###-----------------------------------------------------------------------------
+
+# Qt linking
+ifneq ($(strip $(QT)),)
+ USE_QT = true
+endif
+
+ifdef USE_QT
+ CFLAGS += -std=c++11
+ MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
+ MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
+ OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
+
+ .PRECIOUS: $(MOC_SOURCES)
+
+ ifeq ($(OSTYPE),windows)
+  CFLAGS += -D_USE_MATH_DEFINES
+  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+  MOC = moc
+  MOC_PLATFORM_FLAGS = -D_WIN32
+
+  ifneq ($(filter concurrent,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Concurrent
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
+  endif
+  ifneq ($(filter core,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Core
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+  endif
+  ifneq ($(filter gui,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Gui
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtGui"
+  endif
+  ifneq ($(filter network,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Network
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtNetwork"
+  endif
+  ifneq ($(filter opengl,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5OpenGL
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtOpenGL"
+  endif
+  ifneq ($(filter printsupport,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5PrintSupport
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtPrintSupport"
+  endif
+  ifneq ($(filter widgets,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Widgets
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+  endif
+  ifneq ($(filter xml,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Xml
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtXml"
+  endif
+ endif
+
+ ifeq ($(OSTYPE),linux)
+  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
+  QT_LIB_DIR = $(WEBOTS_HOME)/lib
+  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
+  MOC_PLATFORM_FLAGS = -D__linux__
+
+  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)"
+
+  ifneq ($(filter concurrent,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Concurrent
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
+  endif
+  ifneq ($(filter core,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Core
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
+  endif
+  ifneq ($(filter gui,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Gui
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtGui"
+  endif
+  ifneq ($(filter network,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Network
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtNetwork"
+  endif
+  ifneq ($(filter opengl,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5OpenGL
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtOpenGL"
+  endif
+  ifneq ($(filter printsupport,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5PrintSupport
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtPrintSupport"
+  endif
+  ifneq ($(filter widgets,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Widgets
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+  endif
+  ifneq ($(filter xml,$(QT)),)
+   DYNAMIC_LIBRARIES += -lQt5Xml
+   INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtXml"
+  endif
+ endif
+
+ ifeq ($(OSTYPE),darwin)
+  WBCFLAGS += -Wno-unknown-pragmas
+  FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
+  INCLUDE += -F"$(FRAMEWORKS_DIR)"
+  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
+  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
+  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
+  MOC_PLATFORM_FLAGS = -D__APPLE__
+
+  ifneq ($(filter concurrent,$(QT)),)
+   FRAMEWORKS += -framework QtConcurrent
+  endif
+  ifneq ($(filter core,$(QT)),)
+   FRAMEWORKS += -framework QtCore
+  endif
+  ifneq ($(filter gui,$(QT)),)
+   FRAMEWORKS += -framework QtGui
+  endif
+  ifneq ($(filter network,$(QT)),)
+   FRAMEWORKS += -framework QtNetwork
+  endif
+  ifneq ($(filter opengl,$(QT)),)
+   FRAMEWORKS += -framework QtOpenGL
+  endif
+  ifneq ($(filter printsupport,$(QT)),)
+   FRAMEWORKS += -framework QtPrintSupport
+  endif
+  ifneq ($(filter widgets,$(QT)),)
+   FRAMEWORKS += -framework QtWidgets
+  endif
+  ifneq ($(filter xml,$(QT)),)
+   FRAMEWORKS += -framework QtXml
+  endif
+
+ endif
+
+endif
+
+
+###-----------------------------------------------------------------------------
+### Makefile setup
+###-----------------------------------------------------------------------------
+
+# clear out all suffixes for implicit rules to speed up Makefile
+.SUFFIXES:
+MAKEFLAGS += -r
+
+# vpath
+vpath %.d $(BUILD_DIR)
+# find source files
+vpath %.c $(SOURCES_DIRECTORIES)
+vpath %.cc $(SOURCES_DIRECTORIES)
+vpath %.c++ $(SOURCES_DIRECTORIES)
+vpath %.cpp $(SOURCES_DIRECTORIES)
+# moc files:
+ifdef USE_QT
+ vpath %.cpp $(BUILD_DIR)
+ ifdef MOC_DIRECTORIES
+  vpath %.hpp $(MOC_DIRECTORIES)
+ endif
+endif
+
+# phony
+.PHONY : clean $(SUPPORTED_TARGETS) jar
+
+
+###-----------------------------------------------------------------------------
+### Rules
+###-----------------------------------------------------------------------------
+
+# define default rules for user pre and post builds in case user doesn't specify them
+
+$(SUPPORTED_TARGETS): post-build
+
+USER_PREBUILD:
+
+USER_POSTBUILD:
+
+pre-build:
+	@$(MAKE) --silent USER_PREBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+
+post-build: main-build
+	@$(MAKE) --silent USER_POSTBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+
+$(TARGETS): pre-build
+
+main-build: $(TARGETS)
+
+# we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGET)
+clean: $(EXTRA_TARGETS)
+
+### Begin ifdef MAIN_TARGET
+ifdef MAIN_TARGET
+
+MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
+ifdef WEBOTS_LIBRARY
+MAIN_TARGET_COPY = "$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_LIB_PATH))))/$(MAIN_TARGET)"
+MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
+MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/$(MAIN_TARGET_WINDOWS_LIB)
+else
+MAIN_TARGET_COPY = $(MAIN_TARGET)
+MAIN_TARGET_WINDOWS32_LIB = $(MAIN_TARGET:.dll=.lib)
+MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
+endif
+ifeq ($(OSTYPE),windows)
+FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS32_LIB)
+FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
+endif
+
+###-----------------------------------------------------------------------------
+### Rule for the top-level binary
+###-----------------------------------------------------------------------------
+
+ifdef BUILD_STATIC_LIBRARY
+ LFLAGS += $(STATIC_LINK_FLAGS)
+ ifndef VERBOSE
+  AR_SUPPRESS_OUTPUT = > /dev/null 2>&1
+ endif
+else
+ LIBRARIES += $(DYNAMIC_LIBRARIES)
+ LFLAGS += $(DYNAMIC_LINK_FLAGS) -o
+endif
+
+$(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+	@# In Webots context (WEBOTS_DISABLE_BINARY_COPY set), copy only if the target
+	@# does not exist yet, thus there cannot be error due to replacement.
+	@# Otherwise, Webots does the copy systematically before running the simulation.
+	@# Outside Webots context, always copy the target.
+	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
+		echo "# copying" $(notdir $(MAIN_TARGET)); \
+		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
+		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
+	fi || :
+ifdef VS_DEF_NAME
+	@# Generate the .lib libraries to facilitate the integration with Visual Studio
+	@# if the .def file is existing.
+	@if [ -f $(VS_DEF_NAME) ]; then \
+		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+			PATH="$(VISUAL_STUDIO_PATH)/VC/bin":"$(VISUAL_STUDIO_PATH)/Common7/IDE":"$(PATH)" lib /machine:X86 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+			mv out.lib $(MAIN_TARGET_WINDOWS32_LIB); \
+			PATH="$(VISUAL_STUDIO_PATH)/VC/bin":"$(VISUAL_STUDIO_PATH)/Common7/IDE":"$(PATH)" lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+			rm -f *.exp; \
+		else \
+			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+		fi \
+	fi
+endif
+
+###-----------------------------------------------------------------------------
+### Rule to make the executable file from C/C++ objects
+###-----------------------------------------------------------------------------
+$(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@)
+	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
+endif
+### End ifdef MAIN_TARGET
+
+###-----------------------------------------------------------------------------
+### Rules to make automatic dependencies adapted from the GNU make info file
+###-----------------------------------------------------------------------------
+$(BUILD_GOAL_DIR)/%.d:%.c
+	@echo "# updating" $(notdir $@)
+	$(SILENT)$(CC) $(INCLUDE) $(WBCFLAGS) $(CFLAGS) -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.c=.o))) > $@
+
+$(BUILD_GOAL_DIR)/%.d:%.cc
+	@echo "# updating" $(notdir $@)
+	$(SILENT)$(CXX) $(INCLUDE) $(WBCFLAGS) $(CFLAGS -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.cc=.o))) > $@
+
+$(BUILD_GOAL_DIR)/%.d:%.c++
+	@echo "# updating" $(notdir $@)
+	$(SILENT)$(CXX) $(INCLUDE) $(WBCFLAGS) $(CFLAGS) -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.c++=.o))) > $@
+
+$(BUILD_GOAL_DIR)/%.d:%.cpp
+	@echo "# updating" $(notdir $@)
+	$(SILENT)$(CXX) $(INCLUDE) $(WBCFLAGS) $(CFLAGS) -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.cpp=.o))) > $@
+
+# dependencies
+ifdef GOAL
+ DEPENDENCIES = $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(C_SOURCES:.c=.d) $(CXX_SOURCES:.cpp=.d)))
+ ifneq ($(DEPENDENCIES),)
+  -include $(DEPENDENCIES)
+ endif
+endif
+
+###-----------------------------------------------------------------------------
+### Generic rules to make the object files
+###-----------------------------------------------------------------------------
+$(BUILD_GOAL_DIR)/%.o:%.c
+	@echo "# compiling" $(notdir $<)
+	$(SILENT)$(CC) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/%.o:%.cc
+	@echo "# compiling" $(notdir $<)
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/%.o:%.c++
+	@echo "# compiling" $(notdir $<)
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/%.o:%.cpp
+	@echo "# compiling" $(notdir $<)
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_DIR)/%.moc.cpp: %.hpp
+	@echo "# moc-generating" $(notdir $<)
+	$(SILENT)$(MOC) $(MOC_PLATFORM_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
+
+###-----------------------------------------------------------------------------
+### How to clean up the directory
+###-----------------------------------------------------------------------------
+clean:
+	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
+	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :

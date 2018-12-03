@@ -1,0 +1,15 @@
+#VRML_SIM R2019a utf8
+
+PROTO NestedProtoMissingEndingCurlyBracket [
+]
+{
+  SolidSlot {
+    slot [
+      Shape {
+        geometry DEF BOX Box {
+          size 0.1 0.1 0.1
+        }
+      }
+    ]
+  }
+# error here: ending bracket is missing

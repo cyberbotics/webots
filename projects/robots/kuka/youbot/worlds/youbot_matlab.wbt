@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Simulation of the KUKA youBot robot."
+    "This model includes an accurate and fast simulation of the Meccanum wheels."
+    "The robot can be equiped with various sensors (including the Microsoft Kinect) and configured with zero, one or two arms."
+  ]
+  title "KUKA youBot"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.05110129288548202 0.9828348631659609 0.17726897531993338 3.71169
+  position -0.668662 0.789395 -1.09725
+  follow "youBot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 100 100
+}
+WoodenBox {
+  translation 0.605448 0.2 -0.00121984
+  size 0.6 0.4 0.6
+}
+KukaBox {
+  translation 0.472629 0.41876 -0.00710068
+}
+Youbot {
+  translation 0 0.102838 0
+  controller "youbot_matlab"
+}

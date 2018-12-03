@@ -1,0 +1,102 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Description: example of asymetric-symetric friction contact"
+  ]
+  contactProperties [
+    ContactProperties {
+      material1 "body"
+      material2 "plane"
+      coulombFriction [
+        1, 0.001, 0.01
+      ]
+      frictionRotation 0.785 0
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.8339551575520742 0.5175440977752165 0.1914860361758326 5.23812
+  position -2.40755 6.19634 4.34832
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF BODY Solid {
+  translation 1.79669 0.13 -1.29798
+  rotation 0 1 0 1.5708
+  children [
+    DEF BODY Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.65098 0.690196 0.827451
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.3 0.1 0.2
+          }
+        }
+      ]
+    }
+    DEF FRONT_WHEEL Transform {
+      translation 0.21 -0.02 0
+      rotation 1 0 0 1.5708
+      children [
+        DEF CYL Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/lines.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              rotation 0.785
+            }
+          }
+          geometry Cylinder {
+            height 0.25
+            radius 0.09
+          }
+        }
+      ]
+    }
+    DEF REAR_WHEEL Transform {
+      translation -0.21 -0.02 0
+      rotation 1 0 0 1.5708
+      children [
+        USE CYL
+      ]
+    }
+  ]
+  contactMaterial "body"
+  boundingObject Group {
+    children [
+      USE BODY
+      USE FRONT_WHEEL
+      USE REAR_WHEEL
+    ]
+  }
+  physics Physics {
+  }
+}
+DEF PLANE Solid {
+  rotation 1 0 0 0.02
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry DEF PLANE Plane {
+        size 4 4
+      }
+    }
+  ]
+  name "plane"
+  contactMaterial "plane"
+  boundingObject USE PLANE
+}

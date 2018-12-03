@@ -1,0 +1,403 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/vehiclewheel
+# Generic model of a vehicle wheel implemented at the Solid-node level.
+# The dimensions of the wheel can be set with the parmameters 'thickness' and 'tireRadius'.
+# The quality of the cylinder approximation can be set with the parameter 'subdivision'.
+# The subdivision and size of the round edges of the tire can be set with the parameters 'curvatureFactor' and 'edgeSubdivision'.
+# The size, shape and position of the rim can be set with the parameters 'rimRadius' 'rimBeamNumber' 'rimBeamWidth' 'rimBeamThickness' 'rimBeamOffset'.
+# Finally the size of the central part of the rim can be set with the parameters 'centralInnerRadius' and 'centralOuterRadius'.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO VehicleWheel [
+  field SFString   name               "vehicle wheel"
+  field SFFloat    thickness          0.3
+  field SFFloat    tireRadius         0.4
+  field SFInt32    subdivision        36
+  field SFFloat    curvatureFactor    0.35
+  field SFInt32    edgeSubdivision    3
+  field SFFloat    rimRadius          0.28
+  field SFInt32    rimBeamNumber      5
+  field SFFloat    rimBeamWidth       0.1
+  field SFFloat    centralInnerRadius 0.09
+  field SFFloat    centralOuterRadius 0.13
+  field SFFloat    rimBeamThickness   0.2
+  field SFFloat    rimBeamOffset      0.03
+  field SFString   contactMaterial    "default"
+  field SFNode     tireAppearance     GenericTireAppearance {}
+  field SFNode     rimAppearance      PBRAppearance { roughness 0.4 }
+  field SFNode     physics            Physics {}
+  field SFBool     boundingObject     TRUE
+  field MFNode     logoSlot           []
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision > 200 then
+      print "High value for 'subdivision'. This can slow down the simulation"
+    elseif subdivision <= 8 then
+      io.stderr:write("'subdivision' must be greater than 8\n")
+      subdivision = 8
+    end
+
+    local edgeSubdivision = fields.edgeSubdivision.value
+    if edgeSubdivision > 24 then
+      print "High value for 'edgeSubdivision'. This can slow down the simulation"
+    elseif edgeSubdivision < 1 then
+      io.stderr:write("'edgeSubdivision' must be greater or equal to 1\n")
+      edgeSubdivision = fields.edgeSubdivision.defaultValue
+    end
+
+    local rimBeamNumber = fields.rimBeamNumber.value
+    if rimBeamNumber < 3 then
+      io.stderr:write("'rimBeamNumber' must be greater or equal to 3\n")
+      rimBeamNumber = 3
+    end
+
+    local thickness = fields.thickness.value
+    if thickness <= 0 then
+      io.stderr:write("'thickness' must be strictly positive\n")
+      thickness = fields.thickness.defaultValue
+    end
+
+    local rimBeamThickness =  fields.rimBeamThickness.value
+    if rimBeamThickness <= 0 then
+      io.stderr:write("'rimBeamThickness' must be strictly positive\n")
+      rimBeamThickness = fields.rimBeamThickness.defaultValue
+    elseif rimBeamThickness > thickness then
+      io.stderr:write("'rimBeamThickness' must be greater or equal to 'thickness'\n")
+      rimBeamThickness = thickness
+    end
+
+    local tireRadius = fields.tireRadius.value
+    if tireRadius <= 0 then
+      io.stderr:write("'tireRadius' must be strictly positive\n")
+      tireRadius = fields.tireRadius.defaultValue
+    end
+
+    local curvatureFactor = fields.curvatureFactor.value
+    if curvatureFactor < 0 or curvatureFactor > 1 then
+      io.stderr:write("'curvatureFactor' must be in the interval [0,1]\n")
+      curvatureFactor = fields.curvatureFactor.defaultValue
+    end
+
+    local rimRadius = fields.rimRadius.value
+    if rimRadius <= 0 then
+      io.stderr:write("'rimRadius' must be strictly positive\n")
+      rimRadius = tireRadius / 2
+    elseif rimRadius > (tireRadius - (thickness / 2)  * curvatureFactor) then
+      io.stderr:write("'rimRadius' must be smaller than 'tireRadius' minus half of the 'thickness' multiplied by the 'curvatureFactor'\n")
+      rimRadius = tireRadius / 2
+    end
+
+    local rimBeamWidth = fields.rimBeamWidth.value
+    if rimBeamWidth <= 0 then
+      io.stderr:write("'rimBeamWidth' must be strictly positive\n")
+      rimBeamWidth = fields.rimBeamWidth.defaultValue
+    elseif rimBeamWidth >= rimRadius then
+      io.stderr:write("'rimBeamWidth' must be smaller than 'rimRadius'\n")
+      rimBeamWidth = fields.rimBeamWidth.defaultValue
+    end
+
+    local centralInnerRadius = fields.centralInnerRadius.value
+    if centralInnerRadius <= 0 then
+      io.stderr:write("'centralInnerRadius' must be strictly positive\n")
+      centralInnerRadius = fields.centralInnerRadius.defaultValue
+    end
+
+    local centralOuterRadius = fields.centralOuterRadius.value
+    if centralOuterRadius <= 0 then
+      io.stderr:write("'centralOuterRadius' must be strictly positive\n")
+      centralOuterRadius = fields.centralOuterRadius.defaultValue
+    elseif centralOuterRadius <= centralInnerRadius then
+      io.stderr:write("'centralOuterRadius' must be greater than 'centralInnerRadius'\n")
+      centralOuterRadius = centralInnerRadius
+    elseif centralOuterRadius >= rimRadius then
+      io.stderr:write("'centralOuterRadius' must be smaller than 'rimRadius'\n")
+      centralOuterRadius = rimRadius
+    end
+
+    local rimBeamOffset = fields.rimBeamOffset.value
+    local maxRimBeamOffset = (thickness - rimBeamThickness) / 2
+    if rimBeamOffset > maxRimBeamOffset then
+      io.stderr:write("'rimBeamOffset' must be smaller or equal to 'thickness' minus 'rimBeamThickness', divided by two\n")
+      rimBeamOffset = maxRimBeamOffset
+    end
+  }%
+  Slot {
+    type "vehicle wheel"
+    endPoint Solid {
+      children [
+        DEF WHEEL_SLOT Group {
+          children IS logoSlot
+        }
+        DEF TIRE Shape {
+          appearance IS tireAppearance
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{
+                  local circles = {}
+                  circles[0] = wbgeometry.circle(rimRadius, subdivision, 0, 0, 0)
+                  local beta = math.pi / (2 * edgeSubdivision)
+                  for i=0, edgeSubdivision do
+                    circles[i + 1] = wbgeometry.circle(tireRadius - (thickness / 2)  * curvatureFactor *  (1 - math.sin(beta * i)), subdivision, 0, 0, 0)
+                  end
+                }%
+
+                # top inner
+                %{ for i, el in ipairs(circles[0]) do }%
+                  %{= el.x }% %{= thickness / 2 }% %{= el.y }%
+                %{ end }%
+
+                %{ for i=0, edgeSubdivision do }%
+                  %{ for j, el in ipairs(circles[i+1]) do }%
+                    %{= el.x }% %{= (thickness / 2) * (1 - curvatureFactor * (1 - math.cos(beta*i))) }% %{= el.y }%
+                  %{ end }%
+                %{ end }%
+
+                %{ for i=0, edgeSubdivision do }%
+                  %{ for j, el in ipairs(circles[(edgeSubdivision-i) +1]) do }%
+                    %{= el.x }% %{= - (thickness / 2) * (1 - curvatureFactor * (1 - math.sin(beta*i))) }% %{= el.y }%
+                  %{ end }%
+                %{ end }%
+
+                # bottom inner
+                %{ for i, el in ipairs(circles[0]) do }%
+                  %{= el.x }% %{= - thickness / 2 }% %{= el.y }%
+                %{ end }%
+
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                # top inner
+                %{ for i=0, subdivision do }%
+                  0 %{= 10 * i / subdivision }%
+                %{ end }%
+
+                %{ for j=0, edgeSubdivision do }%
+                  %{ for i=0, subdivision do }%
+                    %{= 0.125 + 0.125 * j / edgeSubdivision }% %{= 10 * i / subdivision }%
+                  %{ end }%
+                %{ end }%
+
+                %{ for j=0, edgeSubdivision do }%
+                  %{ for i=0, subdivision do }%
+                    %{= 0.75 + 0.125 * j / edgeSubdivision }% %{= 10 * i / subdivision }%
+                  %{ end }%
+                %{ end }%
+
+                # bottom inner
+                %{ for i=0, subdivision do }%
+                  1 %{= 10 * i / subdivision }%
+                %{ end }%
+              ]
+            }
+            coordIndex [
+              %{
+                local offset = {}
+                offset[0] = 0;
+                for i=1, (3 + 2 * edgeSubdivision) do
+                  offset[i] = (subdivision + 1) * i
+                end
+              }%
+              %{ for j=0, (2 + 2 * edgeSubdivision) do }%
+                %{ for i = 0, subdivision - 1 do }%
+                  %{= offset[j] + i }% %{= offset[j] + i + 1 }% %{= offset[j + 1] + i + 1 }% %{= offset[j + 1] + i }% -1
+                %{ end }%
+              %{ end }%
+            ]
+            texCoordIndex [
+              %{ for j=0, (2 + 2 * edgeSubdivision) do }%
+                %{ for i = 0, subdivision - 1 do }%
+                  %{= offset[j] + i }% %{= offset[j] + i + 1 }% %{= offset[j + 1] + i + 1 }% %{= offset[j + 1] + i }% -1
+                %{ end }%
+              %{ end }%
+            ]
+            creaseAngle %{= 2 * math.pi / subdivision + 0.01 }%
+          }
+        }
+        DEF RIM Group {
+          children [
+            # Round contour
+            Shape {
+              appearance IS rimAppearance
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    %{
+                      local rimOuterCircle = wbgeometry.circle(rimRadius, subdivision, 0, 0, 0)
+                      local rimInnerCircle = wbgeometry.circle(rimRadius * 0.9, subdivision, 0, 0, 0)
+                    }%
+
+                    # top outer
+                    %{ for i, el in ipairs(rimOuterCircle) do }%
+                      %{= el.x }% %{= thickness / 2 }% %{= el.y }%
+                    %{ end }%
+
+                    # top inner
+                    %{ for i, el in ipairs(rimInnerCircle) do }%
+                      %{= el.x }% %{= thickness / 2 }% %{= el.y }%
+                    %{ end }%
+
+                    # bottom inner
+                    %{ for i, el in ipairs(rimInnerCircle) do }%
+                      %{= el.x }% %{= - thickness / 2 }% %{= el.y }%
+                    %{ end }%
+
+                    # bottom outer
+                    %{ for i, el in ipairs(rimOuterCircle) do }%
+                      %{= el.x }% %{= - thickness / 2 }% %{= el.y }%
+                    %{ end }%
+                  ]
+                }
+                coordIndex [
+                  %{
+                    local offset = {}
+                    offset[0] = 0;
+                    for i=1, 3 do
+                      offset[i] = (subdivision + 1) * i
+                    end
+                  }%
+                  %{ for j=0, 2 do }%
+                    %{ for i = 0, subdivision - 1 do }%
+                      %{= offset[j] + i + 1 }% %{= offset[j] + i}% %{= offset[j + 1] + i}% %{= offset[j + 1] + i  + 1 }% -1
+                    %{ end }%
+                  %{ end }%
+                ]
+                creaseAngle %{= 2 * math.pi / subdivision + 0.01 }%
+              }
+            }
+            # center
+            Shape {
+              appearance IS rimAppearance
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    %{
+                      local centralCircles = {}
+                      centralCircles[0] = wbgeometry.circle(centralInnerRadius, rimBeamNumber, 0, 0, 0)
+                      beta = math.atan2(rimBeamWidth / 2, centralOuterRadius)
+                      centralCircles[1] = wbgeometry.circle(centralOuterRadius, rimBeamNumber, 0, 0, beta)
+                      centralCircles[2] = wbgeometry.circle(centralOuterRadius, rimBeamNumber, 0, 0, -beta)
+                      centralCircles[3] = wbgeometry.circle(rimRadius, rimBeamNumber, 0, 0, 0)
+                      beta = math.atan2(rimBeamWidth / 2, rimRadius)
+                      centralCircles[4] = wbgeometry.circle(rimRadius, rimBeamNumber, 0, 0, beta)
+                      centralCircles[5] = wbgeometry.circle(rimRadius, rimBeamNumber, 0, 0, -beta)
+                      local centralOffset = {}
+                      for i=0, 10 do
+                        centralOffset[i] = (rimBeamNumber + 1) * i
+                      end
+                    }%
+                    # Top part
+                    ## Center
+                    0 %{= rimBeamThickness / 2.5 + rimBeamOffset }% 0
+                    %{ for i, el in ipairs(centralCircles[0]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    ## Between beams
+                    %{ for i, el in ipairs(centralCircles[1]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2.5 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                     %{ for i, el in ipairs(centralCircles[2]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2.5 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    ## Beams
+                    %{ for i, el in ipairs(centralCircles[3]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                     %{ for i, el in ipairs(centralCircles[4]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2.5 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    %{ for i, el in ipairs(centralCircles[5]) do }%
+                      %{= el.x }% %{= rimBeamThickness / 2.5 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+
+                    # side
+                    ## Between beams
+                    %{ for i, el in ipairs(centralCircles[1]) do }%
+                      %{= el.x }% %{= -rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    %{ for i, el in ipairs(centralCircles[2]) do }%
+                      %{= el.x }% %{= -rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    ## Beams
+                    %{ for i, el in ipairs(centralCircles[4]) do }%
+                      %{= el.x }% %{= -rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+                    %{ for i, el in ipairs(centralCircles[5]) do }%
+                      %{= el.x }% %{= -rimBeamThickness / 2 + rimBeamOffset }% %{= el.y }%
+                    %{ end }%
+
+                    # bottom
+                    0 %{= -rimBeamThickness / 2 + rimBeamOffset }% 0
+                  ]
+                }
+                coordIndex [
+                  # Top part
+                  ## Center
+                  %{ for i=0, rimBeamNumber do }%
+                    0 %{= i + 1 }% %{= i }% -1
+                  %{ end }%
+                  ## Between beams
+                  %{ for i=0, rimBeamNumber do }%
+                    %{= i }% %{= i + 1 }% %{= centralOffset[2] + i + 1 }% %{= centralOffset[1] + i }% -1
+                  %{ end }%
+                  ## Beams
+                  %{ for i=0, rimBeamNumber do }%
+                    %{= i }% %{= centralOffset[1] + i }% %{= centralOffset[4] + i }% %{= centralOffset[3] + i }%  -1
+                  %{ end }%
+                  %{ for i=0, rimBeamNumber do }%
+                    %{= i }% %{= centralOffset[3] + i }% %{= centralOffset[5] + i }% %{= centralOffset[2] + i }%  -1
+                  %{ end }%
+
+                  # Side
+                  ## Between beams
+                  %{ for i=1, rimBeamNumber do }%
+                    %{= centralOffset[1] + i }% %{= centralOffset[2] + i + 1 }% %{= centralOffset[7] + i + 1 }% %{= centralOffset[6] + i }% -1
+                  %{ end }%
+                  ## Beams
+                  %{ for i=1, rimBeamNumber do }%
+                    %{= centralOffset[1] + i }% %{= centralOffset[6] + i }% %{= centralOffset[8] + i }% %{= centralOffset[4] + i }% -1
+                  %{ end }%
+                  %{ for i=1, rimBeamNumber do }%
+                    %{= centralOffset[2] + i }% %{= centralOffset[5] + i }% %{= centralOffset[9] + i }% %{= centralOffset[7] + i }% -1
+                  %{ end }%
+
+                  # Bottom
+                  ## Beams
+                  %{ for i=1, rimBeamNumber do }%
+                    %{= centralOffset[8] + i }% %{= centralOffset[6] + i }% %{= centralOffset[7] + i }% %{= centralOffset[9] + i }% -1
+                  %{ end }%
+                  ## Center
+                  %{ for i=1, rimBeamNumber do }%
+                    %{= centralOffset[10] + 1 }% %{= centralOffset[7] + i }% %{= centralOffset[6] + i }% -1
+                    %{= centralOffset[10] + 1 }% %{= centralOffset[6] + i }% %{= centralOffset[7] + i + 1 }% -1
+                  %{ end }%
+
+                ]
+              }
+            }
+          ]
+        }
+      ]
+      name IS name
+      model "vehicle wheel"
+      %{ if fields.boundingObject.value then }%
+        contactMaterial IS contactMaterial
+        boundingObject Cylinder {
+          height %{= thickness }%
+          radius %{= tireRadius }%
+          subdivision %{= subdivision }%
+        }
+        physics IS physics
+      %{ end }%
+    }
+  }
+}

@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/sumo-interface
+# This PROTO is meant to be inserted in the 'display'
+# field of the 'SumoInterface' PROTO
+
+PROTO SumoDisplay [
+  field SFInt32 width       256
+  field SFInt32 height      256
+  field SFFloat zoom        1.0
+  field SFInt32 refreshRate 1000
+  field SFBool  fitSize     FALSE
+]
+{
+  Slot {
+    type "sumo display"
+    endPoint Display {
+      name "sumo"
+      width IS width
+      height IS height
+      description %{= "\"zoom: " .. fields.zoom.value .. " refreshRate: " .. fields.refreshRate.value .. "\"" }%
+    }
+  }
+}

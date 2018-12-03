@@ -1,0 +1,241 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.96721893 0.23860298 0.086926193 5.42536
+  position -0.0300542 1.89899 1.46426
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WALL Solid {
+  translation -0.25 0.15 0
+  children [
+    DEF WALL_SHAPE Shape {
+      geometry Box {
+        size 0.4 0.3 0.05
+      }
+    }
+  ]
+  boundingObject USE WALL_SHAPE
+}
+DEF LAMP Solid {
+  translation 0 0.395 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+    }
+  ]
+}
+DEF ROBOT0 Robot {
+  translation -0.3 0.05 0.3
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "emitter0"
+      type "serial"
+      channel -1
+      bufferSize 100
+    }
+    Receiver {
+      name "receiver0"
+      type "serial"
+      channel -1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot0"
+  controller "emitter_receiver_serial"
+  controllerArgs "emitter_receiver_serial_emitter_0"
+}
+DEF ROBOT1 Robot {
+  translation 0.3 0.05 0.3
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "emitter1"
+      type "serial"
+      range 1.3
+      maxRange 2
+      channel 24
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot1"
+  controller "emitter_receiver_serial"
+  controllerArgs "emitter_receiver_serial_emitter_1"
+}
+DEF ROBOT2 Robot {
+  translation 0.3 0.05 -0.3
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.1
+        radius 0.07
+      }
+    }
+    Receiver {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "receiver2"
+      type "serial"
+      channel -1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot2"
+  controller "emitter_receiver_serial"
+  controllerArgs "emitter_receiver_serial_emitter_2"
+}
+DEF ROBOT3 Robot {
+  translation -0.3 0.05 -0.3
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.1
+        radius 0.07
+      }
+    }
+    Receiver {
+      translation 0 0.11 0
+      rotation 0 1 0 1.5708
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "receiver3"
+      type "serial"
+      channel 24
+      bufferSize 120
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot3"
+  controller "emitter_receiver_serial"
+  controllerArgs "emitter_receiver_serial_receiver_3"
+}
+TestSuiteSupervisor {
+}

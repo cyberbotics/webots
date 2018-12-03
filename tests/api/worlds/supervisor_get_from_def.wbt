@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Check that the correct proto parameter node instance is returned"
+  ]
+}
+Viewpoint {
+  orientation -0.489857 0.827886 0.273213 1.11173
+  position 0.982171 0.73233 0.652271
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0.2 0.3 0.2
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_get_from_def"
+  supervisor TRUE
+}
+DEF SOLID_PROTO SolidProto {
+  children [
+    DEF SOLID_PROTO_PARAMETER Solid {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.1
+  }
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

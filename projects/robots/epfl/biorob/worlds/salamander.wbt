@@ -1,0 +1,204 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch). This demo exemplifies how Webots automotically generates hydrostatic and hydrodynamic forces."
+    "Authors: Jerome Braure (original work), Yvan Bourquin (this demo) and Luc Guyot (adaptation to the generic Webots fluid dynamics features)"
+    "Biorobotics Laboratory, EPFL, Lausanne"
+    "Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland"
+    ""
+    "Related publication:"
+    "A. Ijspeert, A. Crespi, D. Ryczko, and J.M. Cabelguen. From swimming to walking with a salamander robot driven by a spinal cord model. Science, 315(5817):1416-1420, 2007."
+  ]
+  title "Salamandra Robotica"
+  basicTimeStep 4
+  contactProperties [
+    ContactProperties {
+      material1 "leg"
+      material2 "floor"
+      coulombFriction [
+        5
+      ]
+    }
+    ContactProperties {
+      material1 "body"
+      material2 "floor"
+      coulombFriction [
+        0.2
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.3631869715851604 0.9133349285429613 0.18415898559186192 1.10338
+  position 5.42399 1.14139 4.17935
+  follow "Salamander"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Salamander {
+  translation 3.4 0.29422 3.15
+  rotation 0 1 0 1.5708
+}
+DEF FLOOR Solid {
+  children [
+    DEF GND Group {
+      children [
+        Transform {
+          translation -4.42876 -0.25 0
+          children [
+            Shape {
+              appearance DEF GROUND_APPEARANCE PBRAppearance {
+                baseColorMap ImageTexture {
+                  url [
+                    "textures/texture_grid.png"
+                  ]
+                }
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 3.14249 0.001 8
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 0 1 0.087266
+          children [
+            Shape {
+              appearance USE GROUND_APPEARANCE
+              geometry Box {
+                size 5.73686 0.001 8
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 4.42876 0.25 0
+          children [
+            Shape {
+              appearance USE GROUND_APPEARANCE
+              geometry Box {
+                size 3.14249 0.001 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ground"
+  contactMaterial "floor"
+  boundingObject USE GND
+  locked TRUE
+}
+DEF BIG_ISLAND Solid {
+  translation 1.5 0 1.5
+  rotation 0 1 0 0.7854
+  children [
+    DEF BIG_ISLAND_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 1 0.6
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 1.4 1.4 1.4
+      }
+    }
+  ]
+  name "big island"
+  boundingObject USE BIG_ISLAND_SHAPE
+  locked TRUE
+}
+DEF SMALL_ISLAND Solid {
+  translation -1.5 0 -1.5
+  rotation 0 1 0 0.7854
+  children [
+    DEF SMALL_ISLAND_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 1 0.6
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.8 0.8 0.8
+      }
+    }
+  ]
+  name "small island"
+  boundingObject USE SMALL_ISLAND_SHAPE
+  locked TRUE
+}
+DEF AQUARIUM Solid {
+  translation 0 0.1 0
+  children [
+    DEF SIDES_GROUP Group {
+      children [
+        Transform {
+          translation 0 0 4
+          children [
+            DEF GLASS_SHAPE1 Shape {
+              appearance DEF GLASS_APPEARANCE PBRAppearance {
+                baseColor 1 0.6 0.6
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 12 0.7 0.02
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 -4
+          children [
+            USE GLASS_SHAPE1
+          ]
+        }
+        Transform {
+          translation -6 0 0
+          rotation 0 1 0 1.5708
+          children [
+            DEF GLASS_SHAPE2 Shape {
+              appearance USE GLASS_APPEARANCE
+              geometry Box {
+                size 8 0.7 0.02
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 6 0 0
+          rotation 0 1 0 1.5708
+          children [
+            USE GLASS_SHAPE2
+          ]
+        }
+      ]
+    }
+  ]
+  name "aquarium"
+  boundingObject USE SIDES_GROUP
+  locked TRUE
+}
+DEF WATER Fluid {
+  translation 0 -0.125 0
+  children [
+    DEF WATER_BOX Shape {
+      appearance PBRAppearance {
+        baseColor 0.7254901960784313 0.8705882352941177 1
+        transparency 0.7
+        roughness 0.2
+        metalness 0
+      }
+      geometry Box {
+        size 12 0.25 8
+      }
+    }
+  ]
+  boundingObject USE WATER_BOX
+  locked TRUE
+}

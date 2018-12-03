@@ -1,0 +1,12 @@
+#VRML_SIM R2019a utf8
+
+PROTO SlotNodeGendered [
+]
+{
+  Slot {
+    type "slot+"
+    endPoint Accelerometer {
+      name "acc2"
+    }
+  }
+}

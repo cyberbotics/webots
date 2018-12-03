@@ -1,0 +1,24 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.0809507 -0.968174 -0.236826 2.70551
+  position -0.925343 1.3393 -1.89615
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+Floor {
+}
+DerivedPotoWithSlotExtension {
+  controller "slots_node_proto_parameter"
+}
+TestSuiteSupervisor {
+}

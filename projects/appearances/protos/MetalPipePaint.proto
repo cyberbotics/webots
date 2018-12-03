@@ -1,0 +1,37 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or any painted industrial surfaces.
+
+PROTO MetalPipePaint [
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFNode  environmentMap   NULL   # Defines an optional `Cubemap` node that can override the world's skybox for this object.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Cubemap node.
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/metal_pipe_paint/metal_pipe_paint_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/metal_pipe_paint/metal_pipe_paint_roughness.jpg"
+      ]
+    }
+    metalnessMap ImageTexture {
+      url [
+        "textures/metal_pipe_paint/metal_pipe_paint_metalness.jpg"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/metal_pipe_paint/metal_pipe_paint_normal.jpg"
+      ]
+    }
+    environmentMap IS environmentMap
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

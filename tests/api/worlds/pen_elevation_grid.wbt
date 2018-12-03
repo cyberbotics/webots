@@ -1,0 +1,128 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.679433 0.722901 0.125636 0.336116
+  position 0.0136095 0.306326 0.218138
+  follow "robot"
+}
+Background {
+  skyColor [
+    0.784314 0.784314 0.784314
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF BOARD Solid {
+  translation -0.1 0.044 0.04
+  rotation 0.22323 0.971601 0.078481 2.61799
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry ElevationGrid {
+        height [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          -0.11, -0.07, 0, 0, 0, 0, 0, 0, 0, 0
+          -0.05, -0.03, 0, 0, 0, 0, 0, 0, 0, 0
+          -0.03, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          0, 0, 0.11, 0, 0, 0, 0, 0, 0, 0
+          0, 0, 0.11, 0.12, 0.05, 0, 0, 0, 0, 0
+          0, 0, 0, 0, 0.04, 0, 0, 0, 0, 0
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ]
+        xDimension 10
+        xSpacing 0.05
+        zDimension 10
+        zSpacing 0.05
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0.17067 0.7389 -0.65
+      }
+      device [
+        LinearMotor {
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0 0.09 0
+        rotation 0.341533 0.844288 0.412955 3.27249
+        children [
+          Transform {
+            translation 0 0.03 0
+            children [
+              Shape {
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.031 0
+            children [
+              DEF BODY Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.980392 0.541176 0.0392157
+        inkDensity 1
+        leadSize 0.01
+      }
+    }
+    Solid {
+      rotation 0.22323 0.971601 0.078481 2.61799
+      children [
+        Camera {
+          translation 0.16 0.26 -0.06
+          rotation 1 0 0 -2.0944
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+          fieldOfView 0.56
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_elevation_grid"
+}
+TestSuiteSupervisor {
+}

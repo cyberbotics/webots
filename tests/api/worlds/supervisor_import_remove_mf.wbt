@@ -1,0 +1,36 @@
+#VRML_SIM R2019a utf8
+DEF WORLDINFO WorldInfo {
+  northDirection 1 0 1
+}
+Viewpoint {
+  orientation 0.99046415 -0.081281236 0.11123902 5.731315
+  position -0.17839539 0.63446416 1.0391962
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF NODE FieldImport {
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation -0.5 0 0
+      lookupTable [
+        0 0 0
+        0.5 0.5 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_import_remove_mf"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

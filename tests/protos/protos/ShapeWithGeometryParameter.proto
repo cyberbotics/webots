@@ -1,0 +1,14 @@
+#VRML_SIM VR2018a utf8
+
+PROTO ShapeWithGeometryParameter [
+  field SFNode geometry NULL
+]
+{
+  Solid {
+    children [
+      Shape {
+        geometry IS geometry
+      }
+    ]
+  }
+}

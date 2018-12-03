@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateNested [
+  field SFBool nestedParameter TRUE
+]
+{
+  %{ p = fields.nestedParameter.value and "TRUE" or "FALSE" }%
+  Shape {
+    appearance Appearance {
+      material Material {
+      }
+    }
+    geometry Capsule {
+      top %{= p }%
+      bottom %{= p }%
+    }
+  }
+}

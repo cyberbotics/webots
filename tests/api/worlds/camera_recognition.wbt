@@ -1,0 +1,296 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.45369882 -0.46373901 -0.76098851 5.1069199
+  position 1.5476591 -0.6786801 4.248267
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.4 0.2 0
+}
+Solid {
+  translation -3.49077 3.43016 -2.72278
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.5
+      }
+    }
+  ]
+  model "visible sphere"
+  boundingObject USE SPHERE
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
+Solid {
+  translation -3.097374 2.8409796 -1.0675441
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.2
+      }
+    }
+  ]
+  name "solid(1)"
+  model "visible sphere without BO"
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
+Solid {
+  translation -4.56863 2.3982827 -2.5180082
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.5
+      }
+    }
+  ]
+  name "solid(2)"
+  model "sphere too far"
+  boundingObject USE SPHERE
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
+Solid {
+  translation -5.1704021 1.2596087 -2.1223729
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.3
+      }
+    }
+  ]
+  name "solid(3)"
+  model "sphere too far"
+  boundingObject USE SPHERE
+  recognitionColors [
+    0 0 1
+  ]
+}
+Solid {
+  translation -1.34837 0.660611 -1.26226
+  rotation 0.55708479 -0.049756682 0.82896369 2.51922
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  model "visible box"
+  boundingObject USE BOX
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
+Solid {
+  translation -1.61501 0.792452 -1.40516
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+  ]
+  name "solid(5)"
+  model "occluded box"
+  boundingObject USE BOX
+  recognitionColors [
+    0 1 0
+    1 0 1
+  ]
+}
+Solid {
+  translation -3.1216271 1.773431 -1.1296883
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+    Solid {
+      translation -0.4 -0.5 0
+      rotation 0 0 1 1.5708003
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 1 0 0
+            }
+          }
+          geometry DEF BOX Box {
+            size 0.9 0.1 0.1
+          }
+        }
+      ]
+      model "sub solid"
+      boundingObject USE BOX
+      recognitionColors [
+        1 0 0
+      ]
+    }
+  ]
+  name "solid(6)"
+  boundingObject USE BOX
+}
+Solid {
+  translation -3.7763137 0.23806185 -1.2091656
+  rotation 0.55708479 -0.049756682 0.82896369 2.51922
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF CAPSULE Capsule {
+        height 1
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(7)"
+  model "visible capsule"
+  boundingObject USE CAPSULE
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
+Solid {
+  translation -3.8150432 1.5186302 -0.83295513
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    DEF SHAPE1 Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+    DEF SHAPE2 Transform {
+      translation -0.4 -0.5 0
+      rotation 0 0 1 1.5708003
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 1 0 0
+            }
+          }
+          geometry DEF BOX Box {
+            size 0.9 0.1 0.1
+          }
+        }
+      ]
+    }
+  ]
+  name "solid(8)"
+  model "composed solid"
+  boundingObject Group {
+    children [
+      USE SHAPE1
+      USE SHAPE2
+    ]
+  }
+  recognitionColors [
+    1 0 0
+  ]
+}
+Solid {
+  translation -3.49351 0.0982299 -1.05761
+  rotation -0.64578792 -0.53988793 -0.53988793 4.91351
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry DEF CAPSULE Capsule {
+        height 1
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(9)"
+  model "invisible capsule"
+  boundingObject USE CAPSULE
+  recognitionColors [
+    0 0 1
+  ]
+}
+Robot {
+  translation -0.116489 0.196931 -0.132093
+  rotation 0.64578792 0.53988793 0.53988793 1.36968
+  children [
+    Camera {
+      width 256
+      height 256
+      recognition DEF RECOGNITION Recognition {
+        maxRange 5
+        occlusion FALSE
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "camera_recognition"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

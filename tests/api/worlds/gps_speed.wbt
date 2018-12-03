@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.731225 -0.659272 -0.175128 5.67849
+  position 0.688572 0.886986 1.28351
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF ROBOT Robot {
+  linearVelocity 0 -5 0
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    GPS {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "gps_speed"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,126 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Dynamic light sensor rays"
+}
+Viewpoint {
+  orientation -0.250235 0.914866 0.316864 1.79401
+  position 0.344196 0.344947 -0.131923
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+DEF DYNAMIC_LIGHT Solid {
+  translation 0 0.15 -0.1
+  children [
+    SpotLight {
+      beamWidth 1
+      cutOffAngle 0.8
+      direction 0 0 1
+      radius 0.1
+    }
+  ]
+  name "green box"
+  boundingObject DEF BOX0 Box {
+    size 0.09 0.1 0.02
+  }
+  physics Physics {
+    density 500
+  }
+}
+SpotLight {
+  beamWidth 0.22
+  cutOffAngle 0.22
+  location 0 0.055 0.1
+  radius 0.1
+}
+DEF DYNAMIC_ROBOT DifferentialWheels {
+  translation 0 0.06 0
+  rotation 0 1 0 1.5708
+  children [
+    Solid {
+      translation -0.045 -0.03 0
+      rotation 1 0 0 4.98467
+      children [
+        DEF WHEEL Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 1
+                }
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.025
+              }
+            }
+          ]
+        }
+      ]
+      name "left wheel"
+      boundingObject USE WHEEL
+      physics DEF PHYSICS_WHEEL Physics {
+        density -1
+        mass 0.05
+      }
+    }
+    Solid {
+      translation 0.045 -0.03 0
+      rotation 1 0 0 4.58735
+      children [
+        USE WHEEL
+      ]
+      name "right wheel"
+      boundingObject USE WHEEL
+      physics USE PHYSICS_WHEEL
+    }
+    LightSensor {
+      translation -0.05 0 0.001
+      rotation 0 1 0 3.14159
+      name "light sensor static"
+    }
+    LightSensor {
+      translation 0.05 0 0.001
+      name "light sensor dynamic"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "dynamic"
+  boundingObject Transform {
+    translation 0 -0.03 0
+    children [
+      Sphere {
+        radius 0.02
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "light_sensor_rays"
+  controllerArgs "dynamic_light_sensor_rays"
+  axleLength 0.09
+  wheelRadius 0.025
+  maxSpeed 1000
+  maxAcceleration 1000
+}
+TestSuiteSupervisor {
+}

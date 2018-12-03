@@ -1,0 +1,61 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.588686 0.799884 0.116762 5.72617
+  position -1.07024 1.46083 2.18653
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Robot {
+  translation 0 0.368527 0
+  children [
+    DEF ROBOT_SHAPE Shape {
+      geometry Box {
+        size 0.4 0.2 0.4
+      }
+    }
+    TouchSensor {
+      translation 0 0.25 0
+      boundingObject Shape {
+        geometry Box {
+          size 0.3 0.3 0.3
+        }
+      }
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 1 0
+      }
+      device LinearMotor {
+      }
+      endPoint Solid {
+        translation 0 0.6 0
+        children [
+          DEF SLIDER_SHAPE Shape {
+            geometry Box {
+              size 0.2 0.2 0.2
+            }
+          }
+        ]
+        boundingObject USE SLIDER_SHAPE
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE ROBOT_SHAPE
+  controller "touch_sensor_kinematic"
+  selfCollision TRUE
+}
+Floor {
+}
+TestSuiteSupervisor {
+}

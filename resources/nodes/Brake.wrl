@@ -1,0 +1,6 @@
+# A Brake node can be added in the 'device' field of any joint to allow the
+# change of the dampingConstant coefficient of this joint from a controller program.
+
+Brake {
+  field SFString name "brake"  # used by wb_robot_get_device()
+}

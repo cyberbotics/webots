@@ -1,0 +1,215 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  ERP 0.6
+  lineScale 1.7
+  contactProperties [
+    ContactProperties {
+      material1 "no contact"
+      coulombFriction [
+        1e-05
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.27488671 -0.90071393 -0.3363803 1.779097
+  position -20.43118 19.174285 -3.4897581
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 -0.3
+  castShadows TRUE
+}
+Floor {
+  size 15 15
+}
+DEF VEHICLE Robot {
+  translation -3.5289477 0.5 0.46033814
+  children [
+    Transform {
+      rotation 0 0 1 -1.5708
+      children [
+        DEF STEER_HINGE2 Hinge2Joint {
+          jointParameters HingeJointParameters {
+          }
+          jointParameters2 JointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "steer motor"
+              maxTorque 1000
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "front motor"
+            }
+          ]
+          endPoint Solid {
+            children [
+              DEF CYLINDER Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0 0.333333 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.3
+                  radius 0.5
+                  subdivision 24
+                }
+              }
+            ]
+            boundingObject USE CYLINDER
+            physics Physics {
+              density -1
+              mass 10
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1 0 -2
+      rotation 0 0 1 -1.5708
+      children [
+        DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "rear left motor"
+            }
+          ]
+          endPoint Solid {
+            children [
+              USE CYLINDER
+            ]
+            name "solid(1)"
+            boundingObject USE CYLINDER
+            physics Physics {
+              density -1
+              mass 10
+            }
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -1 0 -2
+      rotation 0 0 1 1.5708
+      children [
+        DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 -1 0
+          }
+          device [
+            RotationalMotor {
+              name "rear right motor"
+            }
+          ]
+          endPoint Solid {
+            rotation 0 -1 0 0
+            children [
+              USE CYLINDER
+            ]
+            name "solid(2)"
+            boundingObject USE CYLINDER
+            physics Physics {
+              density -1
+              mass 10
+            }
+          }
+        }
+      ]
+    }
+    DistanceSensor {
+      translation 0.40854012 0 -0.702227
+      rotation 0 1 0 4.4505862
+      name "front wheel sensor"
+      lookupTable [
+        0 0 0
+        1.4 1000 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  boundingObject Transform {
+    translation 0 0 -1.64
+    children [
+      Box {
+        size 1 0.1 1.7
+      }
+    ]
+  }
+  physics Physics {
+  }
+  controller "move_vehicle_with_hinge_2_joint"
+  supervisor TRUE
+  cpuConsumption 10
+  selfCollision TRUE
+}
+DEF CAR Car {
+  hidden position_0_0 -0.200162
+  hidden position2_0_0 8.41114
+  hidden position_0_1 -0.19999
+  hidden position2_0_1 8.407
+  hidden position_0_2 7.03964
+  hidden position_0_3 6.66752
+  hidden translation_1 0 0 0
+  hidden rotation_1 0.055386094 -0.99346877 0.099760645 4.1496786
+  hidden translation_2 0 0 0
+  hidden rotation_2 -0.055608208 0.99346506 0.099673974 4.1538011
+  hidden translation_3 0 0 0
+  hidden rotation_3 0 -1 0 5.5267306
+  hidden translation_4 0 0 0
+  hidden rotation_4 0 1 0 5.8988506
+  translation 5.1164165 0.34688528 -1.4528767
+  rotation 0.010146934 -0.99994442 -0.0028622827 0.50605632
+  controller "move_car"
+  extensionSlot [
+    TestSuiteEmitter {
+    }
+    DistanceSensor {
+      translation -0.95690683 0 3.4569208
+      rotation 0 -1 0 1.75
+      name "right sensor"
+      lookupTable [
+        0 0 0
+        1 1000 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.75615429 0 3.433311
+      rotation 0 -1 0 1.78
+      name "left sensor"
+      lookupTable [
+        0 0 0
+        1 1000 0
+      ]
+      type "infra-red"
+    }
+  ]
+  boundingObject Transform {
+    translation 0 1 1.93
+    children [
+      Box {
+        size 1 0.2 2.1
+      }
+    ]
+  }
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

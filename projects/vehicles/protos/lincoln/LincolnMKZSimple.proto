@@ -1,0 +1,307 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
+
+PROTO LincolnMKZSimple [
+  field       SFVec3f    translation                    0 0.4 0
+  field       SFRotation rotation                       0 1 0 0
+  field       SFColor    color                          0.541 0.541 0.541
+  field       MFColor    recognitionColors              [ 0.541 0.541 0.541 ]
+  field       MFString   plate                          "textures/plate.jpg"
+  field       SFString   name                           "vehicle"
+  field       SFString   controller                     ""
+  field       SFString   controllerArgs                 ""
+  field       MFNode     sensorsSlotFront               [ ]
+  field       MFNode     sensorsSlotRear                [ ]
+  field       MFNode     sensorsSlotTop                 [ ]
+  field       MFNode     sensorsSlotCenter              [ ]
+  field       SFBool     wheelBoundingObject            FALSE
+  hiddenField SFVec3f    frontRightWheelAngularVelocity 0 0 0
+  hiddenField SFVec3f    frontLeftWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f    rearRightWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f    rearLeftWheelAngularVelocity   0 0 0
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    children [
+      Transform {
+        translation 0 0.142 3.944
+        rotation 0 1 0 0
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.33 -1.06
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotRear
+      }
+      Transform {
+        translation 0 1.16 1.11
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 0 0
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      DEF FRONT_RIGHT_WHEEL Solid {
+        angularVelocity IS frontRightWheelAngularVelocity
+        translation -0.82 0 2.94
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.255
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              contactMaterial "LincolnMKZWheels"
+              physics NULL
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 0.82 0 2.94
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.255
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              contactMaterial "LincolnMKZWheels"
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation -0.82 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.255
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              contactMaterial "LincolnMKZWheels"
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 0.82 0 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint VehicleWheel {
+              thickness 0.22
+              tireRadius 0.358
+              rimRadius 0.255
+              rimBeamWidth 0.07
+              centralInnerRadius 0.08
+              centralOuterRadius 0.12
+              rimBeamThickness 0.08
+              rimBeamOffset 0.065
+              contactMaterial "LincolnMKZWheels"
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
+      Transform {
+        translation 0 -0.35 1.44
+        rotation 0 1 0 3.14159
+        children [
+          DEF HEADLIGHT Shape {
+            appearance PBRAppearance {
+              roughness 0.1
+              metalness 0
+            }
+            geometry LincolnMKZFrontLightsMesh {
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.35 1.44
+        rotation 0 1 0 3.14159
+        children [
+          DEF INDICATOR_RIGHT Shape {
+            appearance DEF DETAILS_APP PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_details_base_color.jpeg"
+                ]
+              }
+              roughnessMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_details_roughness.jpg"
+                ]
+              }
+              metalnessMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_details_metalness.jpg"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_details_normal.jpg"
+                ]
+              }
+            }
+            geometry LincolnMKZRightTurnSignalMesh {
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.35 1.44
+        rotation 0 1 0 3.14159
+        children [
+          DEF INDICATOR_LEFT Shape {
+            appearance USE DETAILS_APP
+            geometry LincolnMKZLeftTurnSignalMesh {
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.35 1.44
+        rotation 0 1 0 3.14159
+        children [
+          DEF BRAKE_LIGHT Shape {
+            appearance DEF BREAKING_LIGHT_APP PBRAppearance {
+              baseColor 0.560784 0.113725 0.113725
+              metalness 0
+            }
+            geometry LincolnMKZBackLightsMesh {
+            }
+          }
+        ]
+      }
+      # vehicle shape
+      DEF COACHWORK Shape {
+        appearance DEF VEHICLE_APP GlossyCarPaint {
+          baseColor IS color
+        }
+        geometry LincolnMKZCoachworkMesh {
+        }
+      }
+      DEF WINDOWS Shape {
+        appearance DEF WINDOWS_APP PBRAppearance {
+          baseColor 0.2 0.2 0.2
+          metalness 0
+        }
+        geometry LincolnMKZWindowsMesh {
+        }
+      }
+      DEF DETAILS Shape {
+        appearance USE DETAILS_APP
+        geometry LincolnMKZDetailsMesh {
+        }
+      }
+      DEF LEFT_SIDE_MIRROR Shape {
+        appearance DEF MIRROR_APP PBRAppearance {
+          metalness 0
+          roughness 1
+        }
+        geometry LincolnMKZLeftSideMirrorMesh {
+        }
+      }
+      DEF RIGHT_SIDE_MIRROR Shape {
+        appearance USE MIRROR_APP
+        geometry LincolnMKZRightSideMirrorMesh {
+        }
+      }
+      DEF PLATES Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.4
+          baseColorMap ImageTexture {
+            url IS plate
+          }
+        }
+        geometry LincolnMKZPlatesMesh {
+        }
+      }
+      DEF REAR_LOGO Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/lincoln_mkz_logo_base_color.png"
+            ]
+          }
+          normalMap ImageTexture {
+            url [
+              "textures/lincoln_mkz_logo_normal.jpg"
+            ]
+          }
+        }
+        geometry LincolnMKZBackLogoMesh {
+        }
+      }
+    ]
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    model "Lincoln MKZ"
+    boundingObject Group {
+      children [
+        DEF LOWER_BOX Transform {
+          translation 0 0.3 1.44
+          rotation 0 0.9998 0.0199987 3.14159
+          children [
+            Box {
+              size 1.8 0.8 4.9
+            }
+          ]
+        }
+        DEF CENTRAL_BOX Transform {
+          translation 0 0.85 1.44
+          rotation 0 1 0 3.14159
+          children [
+            Box {
+              size 1.6 0.5 2.0
+            }
+          ]
+        }
+      ]
+    }
+    radarCrossSection 100
+    physics NULL
+  }
+}

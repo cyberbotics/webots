@@ -1,0 +1,4 @@
+string text
+float64 volume
+---
+int8 success

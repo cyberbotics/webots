@@ -1,0 +1,298 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example use of a spherical Camera device."
+  ]
+  title "Spherical Camera"
+}
+Viewpoint {
+  orientation 0.008893302370377151 0.8521192271196752 0.523272139470387 3.12414
+  position 0.0548659 1.50531 -0.74197
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GREEN_OBJECT Solid {
+  translation -0.43026667 0.05 -0.21473646
+  rotation 0 -1 0 1.576179
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green object"
+  boundingObject USE BOX_SHAPE
+}
+DEF BLUE_OBJECT Solid {
+  translation -0.199452 0.07 0.393343
+  rotation 0 1 0 0.31
+  children [
+    DEF SPHERE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.07
+        subdivision 2
+      }
+    }
+  ]
+  name "blue object"
+  boundingObject USE SPHERE_SHAPE
+}
+DEF PINK_OBJECT Solid {
+  translation 0.210413 0.05 0.0630102
+  children [
+    DEF CYLINDER_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  name "pink object"
+  boundingObject USE CYLINDER_SHAPE
+}
+Robot {
+  translation 0.0262634 0 -0.0266461
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.74902 0.74902 0.74902
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.301961 0.301961 0.301961
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DEF US0 DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SONAR_SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.301961 0.301961 0.301961
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "us0"
+      lookupTable [
+        0 0.7 0
+        0.2 0 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    DEF US1 DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SONAR_SENSOR
+      ]
+      name "us1"
+      lookupTable [
+        0 0.7 0
+        0.2 0 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    DEF SPHERICAL_CAMERA Camera {
+      translation 0 0.15 0
+      rotation 1 0 0 -1.5708
+      children [
+        DEF LENS Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1.1102230246251565e-16
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.005
+            subdivision 2
+          }
+        }
+        DEF STRUCTURE_AXES Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry IndexedLineSet {
+            coord Coordinate {
+              point [
+                0 0 0.01
+                0.01 0 -0.08
+                -0.01 0 -0.08
+                0 0.01 -0.08
+                0 -0.01 -0.08
+              ]
+            }
+            coordIndex [
+              0, 1, 0, 2, 0, 3, 0, 4
+            ]
+          }
+        }
+        DEF CAMERA_SHAPE Transform {
+          translation 0 0 0.01
+          rotation 1 0 0 1.57
+          children [
+            DEF CAMERA_OUTLINE Shape {
+              appearance PBRAppearance {
+                baseColor 0.898039 0.898039 0.898039
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.02
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 3.1415
+      width 128
+      height 128
+      spherical TRUE
+      antiAliasing TRUE
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.301961 0.301961 0.301961
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+    centerOfMass [
+      0 0.05 0
+    ]
+  }
+  controller "spherical_camera"
+}

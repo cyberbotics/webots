@@ -1,0 +1,72 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.53553238 -0.77658769 -0.33183825 1.4693669
+  position -10.440191 16.74779 4.6128968
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 1 -1 -0.5
+  castShadows TRUE
+}
+DEF BALL Solid {
+  translation 0 6 0
+  children [
+    DEF BALL_SHAPE Shape {
+      geometry Sphere {
+        radius 0.1
+        subdivision 2
+      }
+    }
+  ]
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+Robot {
+  children [
+    TouchSensor {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.9 0.3 0.3
+            }
+          }
+          geometry DEF TOUCH_SENSOR_SHAPE Box {
+            size 1 1 1
+          }
+        }
+      ]
+      name "red_collider"
+      boundingObject USE TOUCH_SENSOR_SHAPE
+    }
+    TouchSensor {
+      translation 2 0 2
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.3 0.9 0.3
+            }
+          }
+          geometry USE TOUCH_SENSOR_SHAPE
+        }
+      ]
+      name "green_collider"
+      boundingObject USE TOUCH_SENSOR_SHAPE
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_inertia"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

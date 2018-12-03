@@ -1,0 +1,8 @@
+{
+  "port": 2000,
+  "sslKey": "ssl/privkey.pem",
+  "sslCertificate": "ssl/cert.pem",
+  "projectsDir": "/home/cyberbotics/streaming_projects",
+  "logDir": "log/",
+  "monitorLogEnabled": true
+}

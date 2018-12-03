@@ -1,0 +1,203 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Resizable public toilet with two different displays.
+
+PROTO PublicToilet [
+  field SFVec3f     translation         0 0 0
+  field SFRotation  rotation            0 1 0 0
+  field SFString    name                "public toilet"
+  field SFFloat     height              3.2                              # Defines the height of the toilet.
+  field SFFloat     length              3.5                              # Defines the lenght of the toilet.
+  field SFFloat     width               2.1                              # Defines the wdith of the toilet.
+  field SFColor     mainColor           0.4 0.4 0.4                      # Defines the primary color of the toilet.
+  field SFColor     secondaryColor      0.5 0.5 0.5                      # Defines the secondary color of the toilet.
+  field SFColor     mainTopColor        0.22 0.22 0.22                   # Defines the primary color of the top part of the toilet.
+  field SFColor     secondaryTopColor   1 0.95 0.33                      # Defines the secondary color of the top part of the toilet.
+  field SFColor     windowColor         0.8 1 0.93                       # Defines the color of the windows of the toilet.
+  field SFString    text                "TOILET"                         # Defines the text displayed on the toilet.
+  field SFFloat     textScale           80                               # Defines the scale of the text displayed on the toilet.
+  field MFString    backDisplayTexture  "textures/webots_billboard.jpg"  # Defines the texture used on the back display.
+  field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
+  field MFNode      frontDisplay        [                                # Defines the content of the front display.
+    AdvertisingBoard {
+      translation 0 0.1 0
+      frontTexture ["textures/webots_billboard.jpg"]
+      backTexture []
+      displayBackLight FALSE
+      displayWidth 0.9
+      displayHeight 0.9
+      frameThickness 0.1
+    }
+  ]
+]
+{
+  %{
+    local wbrandom = require('wbrandom')
+    local os = require('os')
+    wbrandom.seed(os.clock() + os.time())
+    local height = fields.height.value
+    if height < 2.8 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be greater than or equal to 2.8.")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    elseif height > 3.5 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be smaller than or equal to 3.5.")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    end
+    local length = fields.length.value
+    if length < 3.2 then
+      length = fields.length.defaultValue
+      io.stderr:write("'length' should be greater than or equal to 3.2.")
+      io.stderr:write("'length' was reset to '" .. length .. "'.")
+    elseif length > 5 then
+      length = fields.length.defaultValue
+      io.stderr:write("'length' should be smaller than or equal to 5.")
+      io.stderr:write("'length' was reset to '" .. length .. "'.")
+    end
+    local width = fields.width.value
+    if width < 1.7 then
+      width = fields.width.defaultValue
+      io.stderr:write("'width' should be greater than or equal to 1.7.")
+      io.stderr:write("'width' was reset to '" .. width .. "'.")
+    elseif width > 4.5 then
+      width = fields.width.defaultValue
+      io.stderr:write("'width' should be smaller than or equal to 4.5.")
+      io.stderr:write("'width' was reset to '" .. width .. "'.")
+    end
+    local textScale = fields.textScale.value
+    if textScale <= 0.0 then
+      textScale = fields.textScale.defaultValue
+      io.stderr:write("'textScale' should be strictly positive. ")
+      io.stderr:write("'textScale' was reset to '" .. textScale .. "'.")
+    end
+
+    -- Generate the main texture
+    local gd = require("gd")
+    image = gd.createTrueColor(32, 32)
+
+    -- create the colors
+    mainColor = image:colorAllocate(fields.mainColor.value.r * 255, fields.mainColor.value.g * 255, fields.mainColor.value.b * 255)
+    secondaryColor = image:colorAllocate(fields.secondaryColor.value.r * 255, fields.secondaryColor.value.g * 255, fields.secondaryColor.value.b * 255)
+    mainTopColor = image:colorAllocate(fields.mainTopColor.value.r * 255, fields.mainTopColor.value.g * 255, fields.mainTopColor.value.b * 255)
+    secondaryTopColor = image:colorAllocate(fields.secondaryTopColor.value.r * 255, fields.secondaryTopColor.value.g * 255, fields.secondaryTopColor.value.b * 255)
+    windowColor = image:colorAllocate(fields.windowColor.value.r * 255, fields.windowColor.value.g * 255, fields.windowColor.value.b * 255)
+
+    -- draw the texture
+    image:filledRectangle(0, 0, 31, 31, mainColor)
+    image:filledRectangle(0, 0, 9, 8, secondaryColor)
+    image:filledRectangle(22, 23, 31, 31, mainTopColor)
+    image:filledRectangle(22, 0, 31, 8, secondaryTopColor)
+    image:filledRectangle(0, 23, 9, 31, windowColor)
+
+    -- save the image
+    local debug = require('debug')
+    local fileNamePrefix = debug.getinfo(1,'S').source  -- get the name of the current file
+    fileNamePrefix = fileNamePrefix .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+    local i = 0  -- make sure the file does not already exist
+    local file = io.open(fileNamePrefix .. i .. ".png", "r")
+    while file do
+      file:close()
+      i = i + 1
+      file = io.open(fileNamePrefix .. i .. ".png", "r")
+    end
+    image:png(fileNamePrefix .. i .. ".png")
+
+   -- Generate the secondary texture
+   gd.fontCacheSetup()
+   secondaryImage = gd.createTrueColor(512, 128)
+   secondaryImage:filledRectangle(0, 0, 511, 127, windowColor)
+   llx, lly, lrx, lry, urx, ury, ulx, uly = gd.stringFT(nil, mainTopColor, "Arial", textScale, 0, 0, 0, fields.text.value)
+   secondaryImage:stringFT(mainTopColor, "Arial", textScale, 0, 256 - urx / 2, 64 + 0.4 * textScale, fields.text.value)
+   secondaryImage:png(fileNamePrefix .. i .. "secondary.png")
+   gd.fontCacheShutdown()
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors [
+      %{= fields.mainColor.value.r }% %{= fields.mainColor.value.g }% %{= fields.mainColor.value.b }%
+      %{= fields.secondaryColor.value.r }% %{= fields.secondaryColor.value.g }% %{= fields.secondaryColor.value.b }%
+    ]
+    children [
+      DEF OBJECT Solid {
+        children [
+          Transform {
+            translation %{= - 0.113 * width }% 0 %{= 0.278 * length }%
+            scale %{= 0.33 * width }% %{= 0.2 * height }% %{= 0.2 * length }%
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. '.png"' }% ]
+                  }
+                  metalness 0
+                  roughness 0.5
+                }
+                geometry PublicToiletMesh {
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject Transform {
+          translation 0 %{= height / 2 }% 0
+          children [
+            Box {
+              size %{= width }% %{= height }% %{= length }%
+            }
+          ]
+        }
+      }
+      DEF TEXT Transform {
+        translation %{= - 0.392 * width }% %{=  0.828 * height }% %{= 0.168 * length }%
+        rotation -0.57735 0.57735 -0.57735 4.1888
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.2
+              baseColorMap ImageTexture {
+                url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. 'secondary.png"' }% ]
+              }
+            }
+            geometry Plane {
+              size %{= 0.3 * length }% %{= 0.089 * height }%
+            }
+          }
+        ]
+      }
+      DEF FRONT_DISPLAY Transform {
+        translation %{= - 0.51 * width }% %{=  0.437 * height }% %{= -0.17 * length }%
+        rotation 0 -1 0 1.5708
+        children IS frontDisplay
+      }
+      DEF BACK_DISPLAY Transform {
+        translation %{= 0.498 * width }% %{=  0.437 * height }% %{=  0.015 * length }%
+        rotation 0.57735 0.57735 -0.57735 2.09439
+        children [
+          Shape {
+            appearance PBRAppearance {
+              %{ if fields.backDisplayLight.value then }%
+              emissiveColorMap ImageTexture {
+              %{else}%
+              baseColorMap ImageTexture {
+              %{ end }%
+              url IS backDisplayTexture
+              }
+              metalness 0
+              roughness 0.4
+            }
+            geometry Plane {
+              size %{= 0.44 * length }% %{= 0.44 * height }%
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "public toilet"
+  }
+}

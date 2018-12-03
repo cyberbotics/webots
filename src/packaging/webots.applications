@@ -1,0 +1,8 @@
+webots
+        command=webots
+        name=Webots
+        can_open_multiple_files=false
+        expects_uris=false
+        requires_terminal=false
+        mimes_types=application/x-webots
+

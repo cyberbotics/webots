@@ -1,0 +1,6 @@
+# A SolidReference node is a reference to an existing Solid defined earlier. 
+# It can be used inside the 'endPoint' field of a Joint to close a mechanical loop.
+
+SolidReference {
+  field     SFString   solidName  ""
+}

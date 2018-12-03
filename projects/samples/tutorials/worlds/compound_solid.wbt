@@ -1,0 +1,154 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "dumbbell"
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.5112230187570285 0.843269030939963 0.16597700608977947 5.42515
+  position -0.378361 0.390215 0.420816
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1 1
+}
+E-puck {
+  controller "e-puck_avoid_collision"
+}
+DEF BALL Solid {
+  translation 0 0.1 -0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BALL_GEOMETRY Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE BALL_GEOMETRY
+  physics Physics {
+  }
+}
+DEF WALL_1 Solid {
+  translation 0.5 0.05 0
+  children [
+    DEF WALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.12549 0.368627 0.729412
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.1 0.98
+      }
+    }
+  ]
+  name "wall 1"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_2 Solid {
+  translation -0.5 0.05 0
+  children [
+    USE WALL_SHAPE
+  ]
+  name "wall 2"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_3 Solid {
+  translation 0 0.05 -0.5
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "wall 3"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_4 Solid {
+  translation 0 0.05 0.5
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "wall 4"
+  boundingObject USE WALL_SHAPE
+}
+DEF DUMBBELL Solid {
+  translation 0.2 0.1 -0.1
+  rotation 1 0 0 1.5708
+  children [
+    DEF G0 Group {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.01
+          }
+        }
+        Transform {
+          translation 0 0.05 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Sphere {
+                radius 0.03
+                subdivision 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.05 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 1
+                metalness 0
+              }
+              geometry Sphere {
+                radius 0.03
+                subdivision 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(5)"
+  contactMaterial "dumbbell"
+  boundingObject USE G0
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0.02 0
+    ]
+  }
+}

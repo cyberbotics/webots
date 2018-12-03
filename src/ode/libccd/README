@@ -1,0 +1,72 @@
+libccd is library for a collision detection between two convex shapes.
+libccd implements variation on Gilbert–Johnson–Keerthi algorithm plus Expand
+Polytope Algorithm (EPA) and also implements algorithm Minkowski Portal
+Refinement (MPR, a.k.a. XenoCollide) as described in Game Programming Gems 7.
+
+For more info see home of libccd: http://libccd.danfis.cz.
+
+
+Dependencies
+-------------
+This library is currently based only on standard libraries.
+The only exception are testsuites that are built on top of CU
+(cu.danfis.cz) library licensed under LGPL, however only testing depends on
+it and libccd library itself can be distributed without it.
+
+
+License
+--------
+libccd is licensed under OSI-approved 3-clause BSD License, text of license
+is distributed along with source code in BSD-LICENSE file.
+Each file should include license notice, the rest should be considered as
+licensed under 3-clause BSD License.
+
+
+Compile And Install
+--------------------
+Simply type 'make' and 'make install' in src/ directory.
+
+Library libccd is by default compiled in double precision of floating point
+numbers - you can controll this by options USE_SINGLE/USE_DOUBLE, i.e.:
+    $ make USE_SINGLE=yes
+will compile library in single precision.
+
+Installation directory can be changed by options PREFIX, INCLUDEDIR and
+LIBDIR.
+
+For more info type 'make help'.
+
+
+Compile And Install Using Autotools
+------------------------------------
+libccd also contains support for autotools:
+1) Generate configure script etc.: $ ./bootstrap
+2) Create new build/ directory: $ mkdir build && cd build
+3) Run configure script: $ ../configure
+4) Run make and make install: $ make && make install
+
+configure script can change the way libccd is compiled and installed, most
+significant option is --enable-double-precision which enables double
+precision (single is default in this case).
+
+
+Usage
+------
+See ccd.h for public API.
+In your application include <ccd/ccd.h>, setup ccd_t structure and run some
+of functions (all functions are reentrant). Then link with libccd.a.
+
+
+Directories
+------------
+src/
+    - contains source files of libccd.
+src/testsuites
+    - testsuites - libccd must be compiled before compiling this.
+src/testsuites/cu
+    - CU unit testing framework
+src/testsuites/regressions
+    - files ready for regression tests
+
+doc/
+    - some documentation.

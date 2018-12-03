@@ -1,0 +1,45 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Model for the course: Models of Biological Sensory-Motor Systems"
+    "With active and passive (spring & dampers) knee joints and touch sensors."
+    "Biorobotics Laboratory, EPFL, Lausanne"
+  ]
+  title "GhostDog"
+  CFM 0.0001
+  basicTimeStep 4
+  contactProperties [
+    ContactProperties {
+      material1 "floor"
+      forceDependentSlip [
+        0.01
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.001486959879162737 0.9990069188160597 0.04453049638124513 3.16888
+  position -0.0834002 0.3156 -1.4536
+  follow "GhostDog"
+  followSmoothness 0
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+GhostDog {
+  translation 0 0.3 0
+}
+Floor {
+  size 100 100
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/grid.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}

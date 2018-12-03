@@ -1,0 +1,30 @@
+#VRML_SIM R2018a utf8
+
+PROTO TwoSlotsContainer [
+  field SFNode slot1 NULL
+  field SFNode slot2 NULL
+]
+{
+  Robot {
+    children [
+      Slot {
+        endPoint Slot {
+          type "vehicle wheel"
+          endPoint IS slot1
+        }
+      }
+      Solid {
+        translation 0.5 0.5 0.5
+        children [
+          Slot {
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS slot2
+            }
+          }
+        ]
+        name "other"
+      }
+    ]
+  }
+}

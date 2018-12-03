@@ -1,0 +1,47 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.920152 0.3903 0.0314166 5.65888
+  position -0.321062 0.718685 1.12281
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Shape {
+  appearance Appearance {
+    material DEF MATERIAL Material {
+      emissiveColor 1.0 1.0 1.0
+    }
+  }
+  geometry Box {
+   size 0.1 0.1 0.1
+  }
+}
+Robot {
+  controller "supervisor_field_determinism"
+  controllerArgs "Red"
+  supervisor TRUE
+}
+Robot {
+  controller "supervisor_field_determinism"
+  controllerArgs "Blue"
+  supervisor TRUE
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_field_determinism"
+  controllerArgs "Supervisor"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

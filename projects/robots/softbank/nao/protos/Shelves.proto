@@ -1,0 +1,108 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+PROTO Shelves [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "shelves"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF SHELF_GROUP Group {
+      children [
+        Transform {
+          translation 0 0.53 0.39
+          children [
+            Shape {
+              appearance DEF SHELF_APPEARANCE PaintedWood {
+                textureTransform TextureTransform {
+                  scale 4 4
+                }
+              }
+              geometry DEF SIDE Box {
+                size 0.28 1.06 0.02
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.53 -0.39
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry USE SIDE
+            }
+          ]
+        }
+        Transform {
+          translation -0.1375 0.52 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry DEF BACK Box {
+                size 0.005 1.04 0.76
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.12 0.04 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry DEF LOWER_FRONT Box {
+                size 0.02 0.08 0.76
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.09 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry DEF SHELF Box {
+                size 0.27 0.02 0.76
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.472 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry USE SHELF
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.805 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry USE SHELF
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.05 0
+          children [
+            Shape {
+              appearance USE SHELF_APPEARANCE
+              geometry USE SHELF
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "shelves"
+  boundingObject USE SHELF_GROUP
+  locked TRUE
+}
+}

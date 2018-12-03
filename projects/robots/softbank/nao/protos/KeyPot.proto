@@ -1,0 +1,85 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Nao challenge key pot
+
+PROTO KeyPot [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "key pot"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF KEY_POT_GROUP Group {
+      children [
+        DEF BOX_UP Transform {
+          translation 0 0.005 0
+          children [
+            Shape {
+              appearance DEF KEY_POT_APPEARANCE PBRAppearance {
+                baseColor 0.858824 0.157305 0.11165
+                metalness 0
+                roughness 0.3
+              }
+              geometry Box {
+                size 0.13 0.01 0.13
+              }
+            }
+          ]
+        }
+        DEF BOX_FRONT Transform {
+          translation 0.07 0.025 0
+          children [
+            Shape {
+              appearance USE KEY_POT_APPEARANCE
+              geometry Box {
+                size 0.01 0.05 0.15
+              }
+            }
+          ]
+        }
+        DEF BOX_BACK Transform {
+          translation -0.07 0.025 0
+          children [
+            Shape {
+              appearance USE KEY_POT_APPEARANCE
+              geometry Box {
+                size 0.01 0.05 0.15
+              }
+            }
+          ]
+        }
+        DEF BOX_LEFT Transform {
+          translation 0 0.025 0.07
+          children [
+            Shape {
+              appearance USE KEY_POT_APPEARANCE
+              geometry Box {
+                size 0.13 0.05 0.01
+              }
+            }
+          ]
+        }
+        DEF BOX_RIGHT Transform {
+          translation 0 0.025 -0.07
+          children [
+            Shape {
+              appearance USE KEY_POT_APPEARANCE
+              geometry Box {
+                size 0.13 0.05 0.01
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "key pot"
+  boundingObject USE KEY_POT_GROUP
+  locked TRUE
+}
+}

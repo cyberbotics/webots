@@ -1,0 +1,6 @@
+# The Sphere node specifies a sphere primitive centered at (0,0,0) in the local coordinate system.
+
+Sphere {
+  vrmlField SFFloat radius  1
+  field     SFInt32 subdivision 1
+}

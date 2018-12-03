@@ -1,0 +1,81 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Configurable standard flat floor.
+
+PROTO Floor [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "floor"
+  field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
+  field SFVec2f    size            10 10                  # Defines the size of the floor.
+  field SFVec2f    tileSize        0.5 0.5                # Defines the size of texture used for the floor.
+  field SFNode     appearance      ChequeredParquetry {}  # Defines the appearance of the floor.
+
+  # Deprecated in R2019a
+  hiddenField MFString   texture  "textures/checkered_parquetry.jpg"
+]
+{
+  %{
+    local wbmath = require('wbmath')
+
+    local size = fields.size.value
+    if size.x <= 0 or size.y <= 0 then
+      size = fields.size.defaultValue
+      io.stderr:write("'size' must contain positive values\n")
+    end
+
+    local texture = fields.texture.value[0]
+    if texture ~= fields.texture.defaultValue[0] then
+      io.stderr:write("The 'texture' field is deprecated, using the new 'appearance' field instead.\n")
+    end
+
+    local tileSize = fields.tileSize.value
+    if tileSize.x <= 0 or tileSize.y <= 0 then -- avoid a zero division and negative values
+      tileSize = fields.tileSize.defaultValue
+      io.stderr:write("'tileScale' must contain positive values\n")
+    end
+    local textureScale = { x = size.x / tileSize.x, y = size.y / tileSize.y }
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance IS appearance
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{= -(size.x / 2) }% 0 %{= -(size.y / 2) }%
+              %{= size.x / 2 }% 0 %{= -(size.y / 2) }%
+              %{= -(size.x / 2) }% 0 %{= size.y / 2 }%
+              %{= size.x / 2 }% 0 %{= size.y / 2 }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              0 0
+              %{= textureScale.x }% 0
+              0 %{= textureScale.y }%
+              %{= textureScale.x }% %{= textureScale.y }%
+            ]
+          }
+          coordIndex [
+            0 2 3 1 -1
+          ]
+          texCoordIndex [
+            0 2 3 1 -1
+          ]
+        }
+      }
+    ]
+    name IS name
+    model "floor"
+    boundingObject Plane {
+      size IS size
+    }
+    contactMaterial IS contactMaterial
+    locked TRUE
+  }
+}

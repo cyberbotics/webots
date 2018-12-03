@@ -1,0 +1,14 @@
+# The PointLight node specifies a light source that emits light equally in all directions.
+# The emitted light can be detected by a LightSensor node.
+# Putting a PointLight onboard a robot allows the PointLight to move with the robot.
+
+PointLight {
+  vrmlField SFFloat ambientIntensity  0       # [0,1]
+  vrmlField SFVec3f attenuation       1 0 0   # [0,)
+  vrmlField SFColor color             1 1 1   # [0,1]
+  vrmlField SFFloat intensity         1       # [0,1]
+  vrmlField SFVec3f location          0 0 0   # (-,)
+  vrmlField SFBool  on                TRUE
+  vrmlField SFFloat radius            100     # [0,)
+  field     SFBool  castShadows       FALSE
+}

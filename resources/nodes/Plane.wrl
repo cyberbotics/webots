@@ -1,0 +1,8 @@
+# A Plane node defines an infinite 3D plane at y=0 in the local coordinate system.
+# The Plane can be used in a boundingObject to simulate boundaries, e.g., the floor or infinite walls.
+# The size field is used only for the visual representation, when collision detection is concerned the Plane is infinite.
+# The Plane is a strictly static object, it cannot be placed in the boundingObject of a dynamic (Physics-based) object.
+
+Plane {
+  field SFVec2f size 1 1
+}

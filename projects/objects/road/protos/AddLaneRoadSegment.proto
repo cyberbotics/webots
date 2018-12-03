@@ -1,0 +1,462 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A simple segment of road allowing to add (or remove) one lane to the road.
+# The side where the new lane is added is configurable as well as a lot of others parameters of a regular road.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO AddLaneRoadSegment [
+  field             SFVec3f              translation               0 0 0
+  field             SFRotation           rotation                  0 1 0 0
+  field             SFString             name                      "road"                             # Defines the junction name.
+  field             SFString             id                        ""                                 # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
+  field             MFString             connectedRoadIDs          []                                 # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
+  field             SFFloat              width                     7                                  # Defines the total width of the road (excluding sidewalk).
+  field             SFFloat              length                    20                                 # Defines the total length of the segment.
+  field             SFInt32              numberOfLanes             2                                  # Defines the number of lanes before addition of the new one (used for the texture mapping).
+  field             SFFloat              speedLimit                -1.0                               # Optionally defines the speed limit. The recommended unit is meter per seconds.
+  field             SFBool               newLaneLeft               TRUE                               # Defines on which side is added the new lane.
+  unconnectedField  MFNode{RoadLine {}}  lines                     [ RoadLine { }, RoadLine { } ]     # Defines the property of each line separating two lanes.
+  field             SFFloat              roadBorderHeight          0.15                               # Defines the height of the sidewalk.
+  field             SFFloat              roadBorderWidth           0.8                                # Defines the width of the sidewalk.
+  field             SFBool               rightBorder               TRUE                               # Defines whether the road should have a right sidewalk.
+  field             SFBool               leftBorder                TRUE                               # Defines whether the road should have a left sidewalk.
+  field             SFBool               rightBarrier              FALSE                              # Defines whether the road should have a right barrier.
+  field             SFBool               leftBarrier               FALSE                              # Defines whether the road should have a left barrier.
+  field             SFBool               bottom                    FALSE                              # Defines whether the road bottom should be displayed (useful in case of bridge).
+  field             MFString             startLine                 []                                 # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+  field             MFString             endLine                   []                                 # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
+  field             SFNode               appearance                Asphalt { }                        # Defines the appearance of the road.
+  field             SFNode               pavementAppearance        StonePavement { }                  # Defines the appearance of the sidewalk.
+  field             MFString             bottomTexture             []                                 # Defines the texture to be used for the bottom of the road.
+  field             SFBool               locked                    TRUE                               # Is `Solid.locked`.
+  field             SFBool               roadBoundingObject        FALSE                              # Defines whether the road should have a bounding object.
+  field             SFBool               rightBorderBoundingObject FALSE                              # Defines whether the right sidewalk should have a bounding object.
+  field             SFBool               leftBorderBoundingObject  FALSE                              # Defines whether the left sidewalk should have a bounding object.
+  field             SFBool               rightBarrierBoundingObject TRUE                              # Defines whether the right crash barrier (if any) should have a bounding object.
+  field             SFBool               leftBarrierBoundingObject TRUE                               # Defines whether the left crash barrier (if any) should have a bounding object.
+  field             SFBool               castShadows               FALSE                              # Defines whether the road should cast shadows.
+  field             SFString             contactMaterial           "default"                          # Is `Solid.contactMaterial`.
+
+  hiddenField       MFBool               dashedLine                [TRUE, TRUE]                       # Deprecated in Webots R2018c.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+
+    -- fields checks
+    local width = fields.width.value
+    if width < 0 then
+      io.stderr:write("'width' must be greater than 0\n")
+      width = fields.width.defaultValue
+    end
+    local length = fields.length.value
+    if length < 0 then
+      io.stderr:write("'length' must be greater than 0\n")
+      length = fields.length.defaultValue
+    end
+    local numberOfLanes = fields.numberOfLanes.value
+    if numberOfLanes < 1 then
+      io.stderr:write("'numberOfLanes' must be greater than 1\n")
+      numberOfLanes = fields.numberOfLanes.defaultValue
+    end
+
+    local borderHeight = fields.roadBorderHeight.value
+    if borderHeight < 0 then
+      io.stderr:write("'borderHeight' must be greater or equal tp 0\n")
+      borderHeight = fields.roadBorderHeight.defaultValue
+    end
+
+    local borderWidth = fields.roadBorderWidth.value
+    if borderWidth < 0 then
+      io.stderr:write("'roadBorderWidth' must be greater or equal to 0\n")
+      borderWidth = fields.roadBorderWidth.defaultValue
+    end
+
+    local roadLines = fields.lines.value
+    for i = 1, wbcore.tablelength(roadLines) do
+      if roadLines[i].node_name ~= "RoadLine" then
+        roadLines[i] = nil
+        io.stderr:write("Only 'RoadLine' nodes should be added in the 'lines' field.\n")
+      end
+    end
+
+    local dashedLine    = fields.dashedLine.value
+    local newLaneleft   = fields.newLaneLeft.value
+    local rightBorder   = fields.rightBorder.value
+    local leftBorder    = fields.leftBorder.value
+    local rightBarrier  = fields.rightBarrier.value
+    local leftBarrier   = fields.leftBarrier.value
+    local bottom        = fields.bottom.value
+    local roadBO        = fields.roadBoundingObject.value
+    local rightBorderBO = fields.rightBorderBoundingObject.value
+    local leftBorderBO  = fields.leftBorderBoundingObject.value
+    local rightBarrierBO  = fields.rightBarrierBoundingObject.value
+    local leftBarrierBO   = fields.leftBorderBoundingObject.value
+    local endLine       = fields.endLine.value
+
+    local barrierOffset = 0.06 + 0.05 * width
+    local lineWidth = 0.075
+    local heightOffset = 0.01
+    local textureCoordinateRatio = 0.2
+
+    local outputAddedWidth = width / numberOfLanes
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "add lane road segment"
+    children [
+      StraightRoadSegment {
+        width IS width
+        numberOfLanes IS numberOfLanes
+        dashedLine IS dashedLine
+        lines IS lines
+        roadBorderHeight IS roadBorderHeight
+        startingRoadBorderWidth IS roadBorderWidth
+        endingRoadBorderWidth IS roadBorderWidth
+        length IS length
+        startLine IS startLine
+        %{ if newLaneleft then }%
+          endLine IS endLine
+        %{ else }%
+          endLine [
+          %{ for i = 2, numberOfLanes + 1 do }%
+            %{ if endLine[i] then }%
+              %{= '"' .. endLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+        %{ end }%
+        appearance IS appearance
+        pavementAppearance IS pavementAppearance
+        locked IS locked
+        roadBoundingObject IS roadBoundingObject
+        rightBorderBoundingObject IS rightBorderBoundingObject
+        leftBorderBoundingObject IS leftBorderBoundingObject
+        rightBarrierBoundingObject IS rightBarrierBoundingObject
+        leftBarrierBoundingObject IS leftBarrierBoundingObject
+        contactMaterial IS contactMaterial
+        bottom IS bottom
+        castShadows IS castShadows
+        %{ if newLaneleft then}%
+          rightBorder IS rightBorder
+          rightBarrier IS rightBarrier
+          leftBorder FALSE
+        %{ else }%
+          leftBorder IS leftBorder
+          leftBarrier IS leftBarrier
+          rightBorder FALSE
+        %{ end }%
+      }
+      # new lane
+      Solid {
+        children [
+          Shape {
+            appearance IS appearance
+            geometry DEF NEW_LANE_GEOMETRY IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  %{ if newLaneleft then }%
+                    %{= width/2 }%                      %{= 0 }% %{= 0 }%
+                    %{= width/2 }%                      %{= 0 }% %{= length }%
+                    %{= width/2 + outputAddedWidth }%   %{= 0 }% %{= length }%
+                  %{ else }%
+                    %{= -width/2 }%                      %{= 0 }% %{= 0 }%
+                    %{= -(width/2 + outputAddedWidth) }% %{= 0 }% %{= length }%
+                    %{= -width/2 }%                      %{= 0 }% %{= length }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  0 0
+                  0 %{= textureCoordinateRatio * length }%
+                  %{= textureCoordinateRatio * outputAddedWidth }% %{= textureCoordinateRatio * length }%
+                ]
+              }
+              coordIndex [
+                0 1 2 -1
+              ]
+              texCoordIndex [
+                0 1 2 -1
+              ]
+              creaseAngle 0.2
+            }
+            castShadows IS castShadows
+          }
+        ]
+        name "new lane"
+        recognitionColors [ 0.2 0.2 0.2 ]
+        model "road"
+        %{ if roadBO then }%
+          contactMaterial IS contactMaterial
+          boundingObject USE NEW_LANE_GEOMETRY
+        %{ end }%
+      }
+      # new line
+      Solid {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              %{ if roadLines[numberOfLanes] then }%
+                baseColor %{= roadLines[numberOfLanes].fields.color.value.r }% %{= roadLines[numberOfLanes].fields.color.value.g }% %{= roadLines[numberOfLanes].fields.color.value.b }%
+              %{ end }%
+              baseColorMap ImageTexture {
+                url [
+                %{ if dashedLine[numberOfLanes] == false then }%
+                  "textures/line_base_color.png"
+                %{ else }%
+                  "textures/line_base_color_dashed.png"
+                %{ end }%
+                ]
+                filtering 5
+              }
+              roughness 0.7
+              metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/line_normal.png"
+                ]
+                filtering 5
+              }
+              occlusionMap ImageTexture {
+                url [
+                  "textures/line_occlusion.png"
+                ]
+                filtering 5
+              }
+              textureTransform TextureTransform {
+                scale 1 0.2
+              }
+            }
+            geometry DEF NEW_LANE_GEOMETRY IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  %{ if newLaneleft then }%
+                    %{= width / 2 + lineWidth }% %{= heightOffset }% 0
+                    %{= width / 2 - lineWidth }% %{= heightOffset }% 0
+                    %{= width / 2 - lineWidth }% %{= heightOffset }% %{= length }%
+                    %{= width / 2 + lineWidth }% %{= heightOffset }% %{= length }%
+                  %{ else }%
+                    %{= -width / 2 + lineWidth }% %{= heightOffset }% 0
+                    %{= -width / 2 - lineWidth }% %{= heightOffset }% 0
+                    %{= -width / 2 - lineWidth }% %{= heightOffset }% %{= length }%
+                    %{= -width / 2 + lineWidth }% %{= heightOffset }% %{= length }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  0 0
+                  1 0
+                  1 %{= length }%
+                  0 %{= length }%
+                ]
+              }
+              coordIndex [
+                0 1 2 3 -1
+              ]
+              texCoordIndex [
+                0 1 2 3 -1
+              ]
+              creaseAngle 0.2
+            }
+            castShadows IS castShadows
+          }
+        ]
+        name "new lane line"
+        recognitionColors [ 1 1 1 ]
+        model "road line"
+      }
+      # new end line
+      %{ if (newLaneleft and endLine[numberOfLanes + 1]) or (newLaneleft == false and endLine[1]) then }%
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+              %{ if newLaneleft then }%
+                %{= '"' .. endLine[numberOfLanes + 1] .. '"' }%
+              %{ else }%
+                %{= '"' .. endLine[1] .. '"' }%
+              %{ end }%
+              ]
+            }
+            roughness 1 
+            metalness 0
+          }
+          geometry DEF NEW_BORDER_GEOMETRY IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{ if newLaneleft then }%
+                  %{= width/2 + outputAddedWidth }%   %{= 0.002 }% %{= length }%
+                  %{= width/2 }%                      %{= 0.002 }% %{= length }%
+                  %{= width/2 }%                      %{= 0.002 }% %{= length - 0.4 }%
+                  %{= width/2 + outputAddedWidth }%   %{= 0.002 }% %{= length - 0.4 }%
+                %{ else }%
+                  %{= -width/2 - outputAddedWidth}%    %{= 0.002 }% %{= length }%
+                  %{= -width/2 }%                      %{= 0.002 }% %{= length }%
+                  %{= -width/2 }%                      %{= 0.002 }% %{= length - 0.4 }%
+                  %{= -width/2 - outputAddedWidth }%   %{= 0.002 }% %{= length - 0.4 }%
+                %{ end }%
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 -1
+                %{= outputAddedWidth / 0.4 }% -1
+                %{= outputAddedWidth / 0.4 }% 0
+                0 0
+              ]
+            }
+            coordIndex [
+              %{ if newLaneleft then }%
+                0 3 2 1
+              %{ else }%
+                0 1 2 3
+              %{ end }%
+            ]
+            texCoordIndex [
+              %{ if newLaneleft then }%
+                0 3 2 1
+              %{ else }%
+                0 1 2 3
+              %{ end }%
+            ]
+            creaseAngle 0.2
+          }
+          castShadows IS castShadows
+        }
+      %{ end }%
+      # new border
+      %{ if (rightBorder and newLaneleft ~= true) or (leftBorder and newLaneleft == true) then }%
+        Solid {
+          children [
+            Shape {
+              appearance IS pavementAppearance
+              geometry DEF NEW_BORDER_GEOMETRY IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    %{ for i = 0, 1 do }%
+                      %{ local offset = width/2 + outputAddedWidth * i }%
+                      %{ if newLaneleft then }%
+                        %{= offset }%                  %{= 0 }%            %{= i * length }% # lower interior
+                        %{= offset }%                  %{= borderHeight }% %{= i * length }% # higher interior
+                        %{= offset + borderWidth }%    %{= borderHeight }% %{= i * length }% # higher exterior
+                        %{= offset + borderWidth }%    %{= 0 }%            %{= i * length }% # lower exterior
+                      %{ else }%
+                        %{= -(offset + borderWidth) }% %{= 0 }%            %{= i * length }% # lower exterior
+                        %{= -(offset + borderWidth) }% %{= borderHeight }% %{= i * length }% # higher exterior
+                        %{= -offset }%                 %{= borderHeight }% %{= i * length }% # higher interior
+                        %{= -offset }%                 %{= 0 }%            %{= i * length }% # lower interior
+                      %{ end }%
+                    %{ end }%
+                  ]
+                }
+                texCoord TextureCoordinate {
+                  point [
+                    %{ for i = 0, 1 do }%
+                      %{= length * i }% %{= 0 }%
+                      %{= length * i }% %{= 0 }%
+                      %{= length * i }% %{= borderWidth }%
+                      %{= length * i }% %{= borderWidth }%
+                    %{ end }%
+                  ]
+                }
+                coordIndex [
+                  %{ skip = 4 }%
+                  %{ for j = 0, skip - 2 do }%
+                    %{= 0 + j }% %{= 0 + j + skip }% %{= 1 + j + skip }% %{= 1 + j }% -1
+                  %{ end }%
+                ]
+                texCoordIndex [
+                  %{ for j = 0, skip - 2 do }%
+                    %{= 0 + j }% %{= 0 + j + skip }% %{= 1 + j + skip }% %{= 1 + j }% -1
+                  %{ end }%
+                ]
+                creaseAngle 0.2
+              }
+              castShadows IS castShadows
+            }
+          ]
+          name "new lane border"
+          recognitionColors [ 0.6 0.6 0.6 ]
+          model "road border"
+          %{ if (rightBorderBO and rightBorder and newLaneleft ~= true) or (leftBorderBO and leftBorder and newLaneleft == true) then }%
+            contactMaterial IS contactMaterial
+            boundingObject USE NEW_BORDER_GEOMETRY
+          %{ end }%
+        }
+      %{ end }%
+      # new barrier
+      %{ if (rightBarrier and newLaneleft ~= true) or (leftBarrier and newLaneleft == true) then }%
+        CrashBarrier {
+          subdivision -1
+          %{ if newLaneleft then }%
+            enableBoundingObject IS leftBarrierBoundingObject
+            barrierOnRightSide FALSE
+            path [
+              %{= width / 2 + outputAddedWidth + barrierOffset }% %{= 0 }% %{= length }%
+              %{= width / 2  + barrierOffset }% 0 0
+            ]
+          %{ else }%
+            enableBoundingObject IS rightBarrierBoundingObject
+            barrierOnRightSide TRUE
+            path [
+              %{= -(width / 2 + outputAddedWidth + barrierOffset) }% %{= 0 }% %{= length }%
+              %{= -width / 2 - barrierOffset }% 0 0
+            ]
+          %{ end }%
+        }
+      %{ end }%
+      # New Lane bottom
+      %{ if bottom then }%
+        Shape {
+          appearance PBRAppearance {
+            metalness 0
+            roughness 1
+          }
+          geometry DEF NEW_LANE_BOTTOM_GEOMETRY IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{ if newLaneleft then }%
+                  %{= width/2 }% 0 0
+                  %{= width/2 }% 0 %{= length }%
+                  %{ if leftBorder then }%
+                    %{= width/2 + outputAddedWidth + borderWidth }% %{= 0 }% %{= length }%
+                    %{= width/2 + borderWidth }% 0 0
+                  %{ else }%
+                    %{= width/2 + outputAddedWidth }% %{= 0 }% %{= length }%
+                    %{= width/2 }% 0 0
+                  %{ end }%
+                %{ else }%
+                  %{= -width/2 }% 0 0
+                  %{= -width/2 }% 0 %{= length }%
+                  %{ if rightBorder then }%
+                    %{= -width/2 - outputAddedWidth - borderWidth }% %{= 0 }% %{= length }%
+                    %{= -width/2 -borderWidth }% 0 0
+                  %{ else }%
+                    %{= -width/2 - outputAddedWidth }% %{= 0 }% %{= length }%
+                    %{= -width/2 }% %{= 0 }% %{= length }%
+                  %{ end }%
+                %{ end }%
+              ]
+            }
+            coordIndex [
+              %{ if newLaneleft then }%
+                0 3 2 1 -1
+              %{ else }%
+                0 1 2 3 -1
+              %{ end }%
+            ]
+            creaseAngle 0.2
+          }
+          castShadows IS castShadows
+        }
+      %{ end }%
+    ]
+    locked IS locked
+  }
+}

@@ -1,0 +1,61 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+  lineScale 0.05
+  contactProperties [
+    ContactProperties {
+      material2 "khepera4 caster wheel"
+      coulombFriction [
+        0.01
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.11746115960966176 -0.9557627868238798 -0.2696671491038621 2.3526191
+  position -0.37099609 0.36370772 -0.33941538
+  follow "Khepera IV"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+}
+WoodenBox {
+  translation 0.59045508 0.05 -0.10925261
+  rotation 0 -1 0 0.26179935
+  size 0.2 0.1 0.3
+}
+WoodenBox {
+  translation -0.23181503 0.05 -0.35805822
+  rotation 0 1 0 5.7595865
+  name "wooden box(1)"
+  size 0.2 0.1 0.3
+}
+WoodenBox {
+  translation -0.26121308 0.05 0.38322938
+  rotation 0 -1 0 1.308997
+  name "wooden box(2)"
+  size 0.2 0.1 0.3
+}
+WoodenBox {
+  translation 0.63764542 0.05 -0.48941444
+  rotation 0 1 0 6.0213859
+  name "wooden box(3)"
+  size 0.1 0.1 0.4
+}
+WoodenBox {
+  translation 0.75809817 0.05 0.21034743
+  rotation 0 -1 0 2.0943952
+  name "wooden box(4)"
+  size 0.1 0.1 0.4
+}
+WoodenBox {
+  translation -0.16650726 0.05 -0.61963897
+  rotation 0 -1 0 5.2359878
+  name "wooden box(5)"
+  size 0.2 0.1 0.3
+}
+Khepera4 {
+}

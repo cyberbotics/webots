@@ -1,0 +1,62 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.7006608 -0.71283139 0.030754576 0.10639321
+  position -1.383102 0.75605871 6.5992059
+}
+Background {
+  skyColor [
+    0.4 0.7 0
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -1.4 -0.5 -1
+}
+TestSuiteSupervisor {
+}
+Solid {
+  rotation 0 -1 0 2.3561945
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.92388 1.273378 0.382683
+            0.92388 1.273378 -0.382683
+            0.382683 1.273378 -0.92388
+            -0.382684 1.273378 -0.92388
+            0.92388 -1.273378 0.382683
+            0.92388 -1.273378 -0.382683
+            0.382683 -1.273378 -0.92388
+            -0.382684 -1.273378 -0.92388
+          ]
+        }
+        coordIndex [
+          2, 7, 3, -1, 0, 5, 1, -1, 1, 6
+          2, -1, 2, 6, 7, -1, 0, 4, 5, -1
+          1, 5, 6, -1
+        ]
+        creaseAngle 2
+      }
+    }
+  ]
+}
+Robot {
+  translation -1 0 5
+  rotation 0 -1 0 0.2617994
+  children [
+    Camera {
+      width 384
+      height 216
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "smooth_shading_camera"
+}

@@ -1,0 +1,6 @@
+0: motion:HandWave
+2000: eyes:ff0000:ff0000
+2000: motion:Forwards
+5000: motion:TurnLeft180
+12000: motion:Forwards50
+19000: motion:Forwards50

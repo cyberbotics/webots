@@ -1,0 +1,76 @@
+#VRML_SIM R2019a utf8
+# license: Creative Commons Attribution 4.0 International License.
+# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# tags: static
+# A large residential tower with variable number of floors and optional boundingObject.
+
+PROTO LargeResidentialTower [
+  field SFVec3f    translation            0 0 0
+  field SFRotation rotation               0 1 0 0
+  field SFString   name                   "residential tower"
+  field SFInt32    numberOfFloors         4                    # Defines the number of floors of the tower.
+  field SFBool     groundSurroundingWall  TRUE                 # Defines whether to include a surrounding wall at the ground floor.
+  field SFBool     enableBoundingObject   TRUE                 # Defines whether the tower should have a bounding object.
+]
+{
+  %{
+    local numberOfFloors = fields.numberOfFloors.value
+    if numberOfFloors < 2 then
+      numberOfFloors = 2
+      io.stderr:write("'numberOfFloors' must be greater or equal to 2.\n")
+    end
+    local addedFloors = numberOfFloors - 1
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "building"
+    recognitionColors [
+      0.6784313725490196 0.6784313725490196 0.6784313725490196
+    ]
+    children [
+      LargeResidentialTowerBase {
+        surroundingWall IS groundSurroundingWall
+      }
+      LargeResidentialTowerRoof {
+          translation 0 %{= 2.588 * (addedFloors - 1) }% 0
+      }
+      %{ for i = 0, addedFloors - 1 do }%
+        LargeResidentialTowerFloor {
+          translation 0 %{= 2.768 * i - 0.18 }% 0
+        }
+      %{ end }%
+    ]
+    %{ if fields.enableBoundingObject.value then }%
+      boundingObject Group {
+        children [
+          Transform {
+            translation -4.79 %{= 1.963 + 1.384 * addedFloors }% 1.71
+            children [
+              Box {
+                size 10.1 %{= 3.926 + 2.768 * addedFloors }% 9.6
+              }
+            ]
+          }
+          Transform {
+            translation -0.37 %{= 1.963 + 1.384 * addedFloors }% -1.24
+            children [
+              Box {
+                size 16.2 %{= 3.926 + 2.768 * addedFloors }% 10.5
+              }
+            ]
+          }
+          Transform {
+            translation 8.58 %{= 1.963 + 1.384 * addedFloors }% -4.28
+            children [
+              Box {
+                size 3.7 %{= 3.926 + 2.768 * addedFloors }% 4.4
+              }
+            ]
+          }
+        ]
+      }
+    %{ end }%
+  }
+}

@@ -1,0 +1,59 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Customizable direction panel on pole with the possibility of adding more panels.
+
+PROTO SignPole [
+  field SFVec3f     translation   0 0 0
+  field SFRotation  rotation      0 1 0 0
+  field SFString    name          "sign pole"
+  field SFFloat     height        2.2                         # Defines the height of the sign.
+  field SFFloat     radius        0.02                        # Defines the radius of the sign.
+  field SFColor     color         0.258824 0.258824 0.258824  # Defines the color of the pole.
+  field MFNode      signBoards    [ DirectionPanel {} ]       # Defines the boards.
+]
+{
+  %{
+    local height = fields.height.value
+    if height <= 0.0 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be strictly positive. ")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    end
+    local radius = fields.radius.value
+    if radius <= 0.0 then
+      radius = fields.radius.defaultValue
+      io.stderr:write("'radius' should be strictly positive. ")
+      io.stderr:write("'radius' was reset to '" .. radius .. "'.")
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Transform {
+        translation 0 1.9 0
+        children IS signBoards
+      }
+      DEF POLE Solid {
+        translation 0 %{= height / 2 }% 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 0.6
+            }
+            geometry DEF POLE_GEOMETRY Cylinder {
+              height IS height
+              radius IS radius
+            }
+          }
+        ]
+        boundingObject USE POLE_GEOMETRY
+      }
+    ]
+    name IS name
+    model "sign pole"
+  }
+}

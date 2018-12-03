@@ -1,0 +1,341 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example of \"laser\" DistanceSensors used together with a Camera."
+  ]
+  title "Laser Pointers"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.16135401412388223 0.8844160774160381 0.43791903833258783 2.46207
+  position 0.410655 0.638243 -0.395912
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GREEN_BOX Solid {
+  translation -0.0698237 0.05 -0.236526
+  rotation 0 1 0 0.683463
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.144097 0.05 0.171792
+  rotation 0 -1 0 1.60957
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF GRAY_BOX Solid {
+  translation -0.326905 0.05 0.0135074
+  rotation 0 -1 0 2.36098
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "gray box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF SPHERE Solid {
+  translation -0.125915 0.05 0.262077
+  rotation 0 -1 0 2.36098
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.74902 0.74902 0.74902
+        roughness 0.10196099999999997
+        metalness 0
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "sphere"
+  boundingObject USE SPHERE
+}
+DEF PINK_BOX Solid {
+  translation 0.246966 0.05 -0.277033
+  rotation 0 -1 0 0.856706
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.1 0.08
+      }
+    }
+  ]
+  name "pink box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+DEF GRAY_CYLINDER Solid {
+  translation 0.335524 0.05 -0.0200903
+  rotation 0 -1 0 0.856706
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry DEF CYLINDER Cylinder {
+        height 0.2
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  name "gray cylinder"
+  boundingObject USE CYLINDER
+}
+DEF ROBOT Robot {
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 1.5708
+      children [
+        DEF LASER_SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "laser0"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      type "laser"
+      aperture 0.005
+    }
+    DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.5708
+      children [
+        USE LASER_SENSOR
+      ]
+      name "laser1"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      type "laser"
+      aperture 0.005
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0 0.0615 -0.05
+      rotation 0 0 -1 0
+      children [
+        Transform {
+          translation 0 0 0.015
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 1.047
+      width 80
+      height 60
+      near 0.001
+      antiAliasing TRUE
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "laser_pointer"
+}

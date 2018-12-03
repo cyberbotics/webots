@@ -1,0 +1,102 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test world checking the wb_emitter_set_channel function"
+  ]
+}
+Viewpoint {
+  orientation 0.99097079 -0.10994398 -0.076741283 5.27504
+  position 0.141085 2.28425 1.39394
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.395 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      attenuation 1 0 10
+    }
+  ]
+  name "solid(1)"
+}
+DEF RECEIVER1 Robot {
+  translation -0.3 0.05 0.3
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Receiver {
+      name "receiver1"
+      channel 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_receiver1"
+  controller "emitter_set_channel"
+  controllerArgs "emitter_set_channel_receiver_1"
+}
+DEF RECEIVER2 Robot {
+  translation 0.3 0.05 0.3
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Receiver {
+      name "receiver2"
+      channel 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_receiver2"
+  controller "emitter_set_channel"
+  controllerArgs "emitter_set_channel_receiver_2"
+}
+DEF EMITTER Robot {
+  translation -0.3 0.05 -0.3
+  children [
+    Shape {
+      geometry Cylinder {
+        height 0.1
+        radius 0.07
+      }
+    }
+    DEF EMITTER Emitter {
+      channel 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_emitter"
+  controller "emitter_set_channel"
+  controllerArgs "emitter_set_channel_emitter"
+}
+TestSuiteSupervisor {
+}

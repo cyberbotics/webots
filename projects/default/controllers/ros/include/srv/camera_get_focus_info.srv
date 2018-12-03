@@ -1,0 +1,6 @@
+uint8 ask
+---
+float64 focalLength
+float64 focalDistance
+float64 maxFocalDistance
+float64 minFocalDistance

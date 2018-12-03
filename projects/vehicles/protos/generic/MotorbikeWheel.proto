@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+
+PROTO MotorbikeWheel [
+  field       SFString name           "motorbike wheel"
+  field       SFNode   physics        NULL
+  field       SFBool   boundingObject TRUE
+  hiddenField SFFloat  tireRadius     0.25               # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller
+]
+{
+  VehicleWheel {
+    name IS name
+    thickness 0.2
+    tireRadius IS tireRadius
+    rimRadius 0.19
+    rimBeamNumber 8
+    rimBeamWidth 0.04
+    centralInnerRadius 0.06
+    centralOuterRadius 0.08
+    rimBeamThickness 0.11
+    rimBeamOffset 0
+    physics IS physics
+    boundingObject IS boundingObject
+  }
+}

@@ -1,0 +1,31 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "ROBOTIS OP2 robot."
+    "The ROBOTIS OP2 robot simulation model can be programmed using the ROBOTIS OP2 motions files and the ROBOTIS OP2 walk control library."
+  ]
+  title "ROBOTIS OP2"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.07594343413002892 0.9892124445657446 0.12526505629584758 2.06651
+  position 1.31752 0.611742 -0.654408
+  follow "ROBOTIS OP2"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RobotisOp2 {
+  translation 0 0.236 0
+  rotation 0.05930240739403188 0.9964411242397698 -0.059902507468854456 1.58336
+  controller "symmetry"
+  selfCollision TRUE
+  cameraWidth 320
+  cameraHeight 240
+}
+Floor {
+  tileSize 1 1
+  appearance Parquetry {
+  }
+}

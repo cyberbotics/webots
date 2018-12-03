@@ -1,0 +1,126 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.493548 0.869646 -0.0112392 0.283176
+  position 0.218333 0.0202882 0.764598
+}
+Background {
+  skyColor [
+    0.784314 0.784314 0.784314
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF BOARD Solid {
+  translation -0.06 0.052 -0.13
+  rotation 0.557833 0.80645 0.196116 7.19948
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0.17067 0.7389 -0.6
+      }
+      device [
+        LinearMotor {
+          minPosition -2
+          maxPosition 2
+          muscles [
+            Muscle {
+              maxRadius 0.005
+              endOffset 0 0.06 0
+              color [
+                0 1 0
+                1 0 0
+                0 0 1
+              ]
+            }
+          ]
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0.015 0.09 -0.014
+        rotation 0.341533 0.844288 0.412955 3.27249
+        children [
+          Transform {
+            translation 0 0.03 0
+            children [
+              Shape {
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.031 0
+            children [
+              DEF BODY Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.980392 0.541176 0.0392157
+        inkDensity 1
+        leadSize 0.006
+      }
+    }
+    Solid {
+      translation 0.09 -0.18 -0.03
+      rotation 0.557833 0.80645 0.196116 0.39269
+      children [
+        Camera {
+          translation -0.065 0.308 -0.033
+          rotation 1 0 0 -0.5236
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+          fieldOfView 0.56
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_box"
+}
+TestSuiteSupervisor {
+}

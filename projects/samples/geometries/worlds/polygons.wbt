@@ -1,0 +1,119 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This world shows the polygon tesselation feature."
+  ]
+  title "Base graphical geometries"
+}
+Viewpoint {
+  orientation 0.15867339485053722 0.9497980224930243 0.269641373373869 3.9581880857397573
+  position -2.987417425135484 2.6655440407377253 -1.5528967157677525
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF TRIANGLE_POLYGON Transform {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.264 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.3 0 -0.3
+            -0.3 0 -0.3
+            -0.3 0 0.3
+          ]
+        }
+        coordIndex [
+          0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+}
+DEF QUAD_POLYGON Transform {
+  translation 0 0 1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.532 0.8 0.264
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.3 0 -0.3
+            -0.3 0 -0.3
+            -0.3 0 0.3
+            0.3 0 0.3
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+}
+DEF CONVEX_POLYGON Transform {
+  translation 0 0 2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.264 0.8 0.8
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.2 0 -0.3
+            -0.2 0 -0.3
+            -0.3 0 0
+            -0.2 0 0.3
+            0.2 0 0.3
+            0.3 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, 5, -1
+        ]
+      }
+    }
+  ]
+}
+DEF NON_CONVEX_POLYGON Transform {
+  translation 0 0 3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.532 0.264 0.8
+        roughness 0.19999999999999996
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.3 0 -0.3
+            -0.3 0 -0.3
+            -0.3 0 0.3
+            -0.1 0 0.3
+            -0.1 0 0.1
+            0.1 0 0.1
+            0.1 0 0.3
+            0.3 0 0.3
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, 5, 6, 7, -1
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  lineScale 5
+}
+Viewpoint {
+  fieldOfView 0.6
+  orientation -0.7050270325405236 0.6815450314567117 0.1960440090484115 0.903731
+  position 31.3089 41.4252 35.2893
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Transform {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 25 1
+        }
+      }
+      geometry Extrusion {
+        crossSection [
+          -1 0
+          0 1
+          1 0
+          -1 0
+        ]
+        spine [
+          10 0 0
+          0 2 10
+          -10 4 0
+          0 6 -10
+          10 8 0
+          0 10 10
+          -10 12 0
+          0 14 -10
+          10 16 0
+        ]
+        scale [
+          1 1
+          0.25 0.25
+          1 1
+          2 2
+          1 1
+          0.25 2
+          1 1
+        ]
+        splineSubdivision 16
+      }
+    }
+  ]
+}

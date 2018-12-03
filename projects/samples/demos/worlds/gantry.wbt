@@ -1,0 +1,528 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Demo of a gantry robot playing the Hanoi Towers."
+    "The robot moves a stack of colored blocks from one location to another, using the recursive Hanoi Towers algorithm."
+    "Biologically Inspired Robotics Group (BIRG)."
+  ]
+  title "Gantry Robot"
+  CFM 0.0001
+  ERP 0.6
+  basicTimeStep 4
+  lineScale 0.5
+}
+Viewpoint {
+  orientation 0.05493830068991821 0.9867940123922135 0.1523790019135839 3.78655
+  position -2.1419 1.79289 -2.26954
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 100 100
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/grid.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF RAIL1 Solid {
+  translation 0.532 0.01 0
+  children [
+    DEF RAIL_SHAPE Shape {
+      appearance DEF RAIL_APPEARANCE PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.02 80
+      }
+    }
+  ]
+  name "rail1"
+  boundingObject USE RAIL_SHAPE
+  locked TRUE
+}
+DEF RAIL2 Solid {
+  translation 0.468 0.01 0
+  children [
+    USE RAIL_SHAPE
+  ]
+  name "rail2"
+  boundingObject USE RAIL_SHAPE
+  locked TRUE
+}
+DEF RAIL3 Solid {
+  translation -0.468 0.01 0
+  children [
+    USE RAIL_SHAPE
+  ]
+  name "rail3"
+  boundingObject USE RAIL_SHAPE
+  locked TRUE
+}
+DEF RAIL4 Solid {
+  translation -0.532 0.01 0
+  children [
+    USE RAIL_SHAPE
+  ]
+  name "rail4"
+  boundingObject USE RAIL_SHAPE
+  locked TRUE
+}
+DEF GANTRY Robot {
+  translation 0 0.98 0
+  children [
+    DEF PILLARS_GROUP Group {
+      children [
+        DEF BRIDGE_TRANS Transform {
+          translation 0 0.11 0
+          children [
+            Shape {
+              appearance DEF YELLOW_APPEARANCE PBRAppearance {
+                baseColor 1 1 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 2 0.12 0.2
+              }
+            }
+          ]
+        }
+        DEF PILLAR1_TRANS Transform {
+          translation 0.5 -0.44 -0.4
+          children [
+            DEF PILLAR_SHAPE Shape {
+              appearance USE YELLOW_APPEARANCE
+              geometry Box {
+                size 0.1 1 0.1
+              }
+            }
+          ]
+        }
+        DEF PILLAR2_TRANS Transform {
+          translation -0.5 -0.44 -0.4
+          children [
+            USE PILLAR_SHAPE
+          ]
+        }
+        DEF PILLAR3_TRANS Transform {
+          translation 0.5 -0.44 0.4
+          children [
+            USE PILLAR_SHAPE
+          ]
+        }
+        DEF PILLAR4_TRANS Transform {
+          translation -0.5 -0.44 0.4
+          children [
+            USE PILLAR_SHAPE
+          ]
+        }
+        DEF TRANSVERSE1 Transform {
+          translation -0.5 0.11 0
+          children [
+            DEF TRANSVERSE_SHAPE Shape {
+              appearance USE YELLOW_APPEARANCE
+              geometry Box {
+                size 0.1 0.1 0.9
+              }
+            }
+          ]
+        }
+        DEF TRANSVERSE2 Transform {
+          translation 0.5 0.11 0
+          children [
+            USE TRANSVERSE_SHAPE
+          ]
+        }
+      ]
+    }
+    DEF WHEEL1_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.5 -0.9 -0.4
+      }
+      device [
+        RotationalMotor {
+          name "wheel1_motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 -0.9 -0.4
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL1_TRANS Transform {
+            rotation 0 0 1 1.5708
+            children [
+              DEF WHEEL_SHAPE Shape {
+                appearance DEF WHEEL_APPEARANCE PBRAppearance {
+                  baseColor 0 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.08
+                }
+              }
+            ]
+          }
+        ]
+        name "wheel1"
+        boundingObject USE WHEEL1_TRANS
+        physics DEF WHEEL_PHYSICS Physics {
+        }
+      }
+    }
+    DEF WHEEL2_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.5 -0.9 -0.4
+      }
+      device [
+        RotationalMotor {
+          name "wheel2_motor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 -0.9 -0.4
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL2_TRANS Transform {
+            rotation 0 0 1 1.5708
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+        ]
+        name "wheel2"
+        boundingObject USE WHEEL2_TRANS
+        physics USE WHEEL_PHYSICS
+      }
+    }
+    DEF WHEEL3_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.5 -0.9 0.4
+      }
+      device [
+        RotationalMotor {
+          name "wheel3_motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.5 -0.9 0.4
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL3_TRANS Transform {
+            rotation 0 0 1 1.5708
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+        ]
+        name "wheel3"
+        boundingObject USE WHEEL3_TRANS
+        physics USE WHEEL_PHYSICS
+      }
+    }
+    DEF WHEEL4_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.5 -0.9 0.4
+      }
+      device [
+        RotationalMotor {
+          name "wheel4_motor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.5 -0.9 0.4
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL4_TRANS Transform {
+            rotation 0 0 1 1.5708
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+        ]
+        name "wheel4"
+        boundingObject USE WHEEL4_TRANS
+        physics USE WHEEL_PHYSICS
+      }
+    }
+    DEF BRIDGE_SLIDER_JOINT SliderJoint {
+      jointParameters JointParameters {
+        axis 1 0 0
+        minStop -0.9
+        maxStop 0.9
+      }
+      device [
+        LinearMotor {
+          name "bridge_motor"
+          maxVelocity 1
+          minPosition -0.9
+          maxPosition 0.9
+          maxForce 100
+        }
+      ]
+      endPoint Solid {
+        rotation 0 1 0 1.5708
+        children [
+          DEF TURRET_HINGE_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 0.11 0
+            }
+            device [
+              RotationalMotor {
+                name "turret_motor"
+                maxVelocity 3.14
+                maxTorque 100
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.11 0
+              rotation 0 1 0 1.5708
+              children [
+                DEF TURRET_SHAPE Shape {
+                  appearance USE WHEEL_APPEARANCE
+                  geometry Cylinder {
+                    height 0.16
+                    radius 0.08
+                  }
+                }
+                DEF LIFT_SLIDER_JOINT SliderJoint {
+                  jointParameters JointParameters {
+                    axis 0 -1 0
+                  }
+                  device [
+                    LinearMotor {
+                      name "lift_motor"
+                      maxVelocity 1
+                      maxPosition 0.73
+                      maxForce 400
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0.36 0
+                    rotation 1 0 0 1.5708
+                    children [
+                      DEF PISTON_GROUP Group {
+                        children [
+                          Transform {
+                            translation 0 0 0.5
+                            children [
+                              Shape {
+                                appearance USE RAIL_APPEARANCE
+                                geometry Box {
+                                  size 0.2 0.4 0.04
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            rotation 1 0 0 1.5708
+                            children [
+                              Shape {
+                                appearance USE RAIL_APPEARANCE
+                                geometry Cylinder {
+                                  height 1
+                                  radius 0.05
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                      DEF GRIPPER_SLIDER_JOINT1 SliderJoint {
+                        jointParameters JointParameters {
+                          axis 0 1 0
+                        }
+                        device [
+                          LinearMotor {
+                            name "grip_motor1"
+                            maxPosition 0.18
+                            maxForce 200
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0 -0.19 0.6
+                          rotation 1 0 0 -1.5708
+                          children [
+                            DEF GRIPPER_SHAPE Shape {
+                              appearance USE RAIL_APPEARANCE
+                              geometry Box {
+                                size 0.2 0.16 0.02
+                              }
+                            }
+                          ]
+                          name "grip1"
+                          boundingObject USE GRIPPER_SHAPE
+                          physics Physics {
+                          }
+                        }
+                      }
+                      DEF GRIPPER_SLIDER_JOINT2 SliderJoint {
+                        jointParameters JointParameters {
+                          axis 0 -1 0
+                        }
+                        device [
+                          LinearMotor {
+                            name "grip_motor2"
+                            maxPosition 0.18
+                            maxForce 200
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0 0.19 0.6
+                          rotation 1 0 0 1.5708
+                          children [
+                            USE GRIPPER_SHAPE
+                          ]
+                          name "grip2"
+                          boundingObject USE GRIPPER_SHAPE
+                          physics Physics {
+                          }
+                        }
+                      }
+                    ]
+                    boundingObject USE PISTON_GROUP
+                    physics Physics {
+                    }
+                  }
+                }
+              ]
+              boundingObject USE TURRET_SHAPE
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject Box {
+          size 0.1 0.1 0.1
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE PILLARS_GROUP
+  physics Physics {
+  }
+  controller "gantry"
+}
+DEF BOX_A Solid {
+  translation 0.8 0.55 0
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "gantry/A.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "box A"
+  boundingObject USE BOX_SHAPE
+  physics Physics {
+  }
+}
+DEF BOX_B Solid {
+  translation 0.8 0.35 0
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "gantry/B.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "box B"
+  boundingObject USE BOX_SHAPE
+  physics Physics {
+  }
+}
+DEF BOX_C Solid {
+  translation 0.8 0.15 0
+  children [
+    DEF BOX_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "gantry/C.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "box C"
+  boundingObject USE BOX_SHAPE
+  physics Physics {
+  }
+}
+DEF PLATFORM_1 Solid {
+  translation 0.8 0.02 0
+  children [
+    DEF PLATFORM1_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "gantry/1.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.04 0.4
+      }
+    }
+  ]
+  name "platform 1"
+  boundingObject USE PLATFORM1_SHAPE
+}
+DEF PLATFORM_2 Solid {
+  translation -0.8 0.02 0.794
+  children [
+    DEF PLATFORM2_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "gantry/2.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.04 0.4
+      }
+    }
+  ]
+  name "platform 2"
+  boundingObject USE PLATFORM2_SHAPE
+}

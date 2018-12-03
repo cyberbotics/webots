@@ -1,0 +1,223 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example use of a Speaker device."
+  ]
+  title "Speaker"
+}
+Viewpoint {
+  fieldOfView 1.5
+  orientation 0 1 0 4.63493
+  position 0 0.05 0
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+Robot {
+  translation 0.49961 0 0.016513
+  rotation 0 1 0 6.29
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    Transform {
+      translation 0.02 0.063 -0.0385
+      rotation 0 1 0 2.7489
+      children [
+        DEF UNUSED_EYE Group {
+          children [
+            Transform {
+              translation 0 0 -1e-05
+              rotation 0 0 1 0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+            Transform {
+              rotation 0 0 1 -0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    Transform {
+      translation -0.02 0.063 -0.0385
+      rotation 0 1 0 0.3927
+      children [
+        USE UNUSED_EYE
+      ]
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    Speaker {
+      translation 0 0.085 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.2
+            baseColorMap ImageTexture {
+              url [
+                "textures/speaker.png"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.03
+            side FALSE
+            subdivision 24
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.2
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.03
+            top FALSE
+            subdivision 24
+          }
+        }
+      ]
+    }
+  ]
+  name "mybot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "speaker"
+}

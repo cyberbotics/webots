@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Mantis Hexapod Robot"
+    "Author: Matt Denton"
+  ]
+  title "Mantis Hexapod"
+  ERP 0.62
+  basicTimeStep 10
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        12
+      ]
+      softCFM 1e-05
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.21696542654194298 0.960317981551545 0.17525803260974765 4.8751533541414345
+  position -34.66134443342866 64.89750524382097 -4.262118864510947
+  follow "Mantis"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+UnevenTerrain {
+  size 1000 100 1000
+  xDimension 100
+  zDimension 100
+  textureScale 5 5
+  perlinNOctaves 8
+}
+Mantis {
+  translation -24.12 61.31 -6.15
+  rotation 0 1 0 1.3
+}

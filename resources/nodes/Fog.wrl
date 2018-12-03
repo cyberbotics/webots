@@ -1,0 +1,8 @@
+# The Fog node provides a way to simulate atmospheric effects by blending objects with
+# the color specified by the color field based on the distances of the various objects from the camera.
+
+Fog {
+  vrmlField SFColor                                           color           1 1 1
+  vrmlField SFString{"LINEAR", "EXPONENTIAL", "EXPONENTIAL2"} fogType         "LINEAR"
+  vrmlField SFFloat                                           visibilityRange 0
+}

@@ -1,0 +1,129 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.201209 -0.920791 -0.334153 4.30915
+  position 1.55071 1.36157 -0.641403
+}
+Background {
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+RectangleArena {
+}
+Robot {
+  translation 0 0.05 0
+  children [
+    DEF ROBOT_SHAPE Shape {
+      geometry Box {
+        size 0.1 0.1 0.3
+      }
+    }
+    SliderJoint {
+      device [
+        LinearMotor {
+          name "m1"
+          minPosition -0.1
+          maxPosition 0.1
+          maxForce 20
+          muscles [
+            Muscle {
+              maxRadius 0.03
+              color [
+                1 1 0
+              ]
+            }
+          ]
+        }
+      ]
+      endPoint DEF S1 Solid {
+        translation 0.15 0.15 0
+        children [
+          DEF JOINT_SHAPE Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0 0.1 0.8
+              }
+            }
+            geometry Box {
+              size 0.1 0.1 0.3
+            }
+          }
+          SliderJoint {
+            device [
+              LinearMotor {
+                name "m2"
+                minPosition -0.1
+                maxPosition 0.1
+              }
+            ]
+            endPoint DEF S2 Solid {
+              translation 0.15 0.15 0
+              children [
+                USE JOINT_SHAPE
+              ]
+              boundingObject USE JOINT_SHAPE
+              physics Physics {
+                density -1
+                mass 1
+              }
+            }
+          }
+        ]
+        boundingObject USE JOINT_SHAPE
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF TS1 TouchSensor {
+      translation -0.15 0.15 -0.25
+      children [
+        DEF TS_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.1 0.8 0
+            }
+          }
+          geometry Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+      name "ts1"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    DEF TS2 TouchSensor {
+      translation -0.3 0.3 -0.25
+      children [
+        USE TS_SHAPE
+      ]
+      name "ts2"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+        density -1
+        mass 1
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  boundingObject USE JOINT_SHAPE
+  physics Physics {
+  }
+  controller "supervisor_set_hinge_position"
+  controllerArgs "supervisor_set_hinge_position_dynamic"
+  supervisor TRUE
+  selfCollision TRUE
+}
+TestSuiteSupervisor {
+}

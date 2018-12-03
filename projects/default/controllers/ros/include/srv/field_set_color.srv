@@ -1,0 +1,5 @@
+uint64 field
+int32 index
+std_msgs/ColorRGBA value
+---
+int32 success

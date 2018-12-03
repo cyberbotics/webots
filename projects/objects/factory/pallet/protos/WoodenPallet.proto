@@ -1,0 +1,159 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Simple and configurable wooden pallet.
+
+PROTO WoodenPallet [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   name           "wooden pallet"
+  field SFVec3f    size           0.8 0.14 1.2     # Defines the size of the pallet.
+  field SFInt32    lathNumber     6                # Defines the number of lath of the pallet.
+  field SFFloat    lathWidth      0.08             # Defines the width of one lath.
+  field SFFloat    mass           0                # Defines the mass of the pallet in kg. A value smaller or equal to 0 remove the physics of the pallet.
+  field SFBool     boundingObject TRUE             # Defines whether the bounding object should be enabled.
+  field SFBool     locked         FALSE            # Is `Solid.locked`.
+]
+{
+%{
+  local size = fields.size.value
+  if size.x <= 0 or size.y <= 0 or size.z <= 0 then
+    size = fields.size.defaultValue
+    io.stderr:write("'size' must be strictly positive\n")
+  end
+  lathNumber = fields.lathNumber.value
+  if lathNumber < 0 then
+    lathNumber = 0
+  end
+  lathWidth = fields.lathWidth.value
+  if lathWidth < 0 then
+    lathWidth = 0
+    io.stderr:write("'lathWidth' must be positive\n")
+  end
+  if lathWidth * lathNumber > size.x then
+    lathWidth = size.x / lathNumber
+    io.stderr:write("'lathWidth' * 'lathNumber' can't be bigger than first component of 'size'\n")
+  end
+
+  local mass = fields.mass.value
+}%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    # Cubes
+    %{ for i=-1,1 do }%
+      %{ for j=-1,1 do }%
+        Transform {
+          translation %{= size.x * i * 0.45 }% %{= 0.45 * size.y }% %{= size.z * j * 0.45 }%
+          children [
+            Shape {
+              appearance RoughPine {
+                textureTransform TextureTransform {
+                  scale %{= 2 * size.x * 0.1 }% %{= 2 * size.z * 0.1 }%
+                }
+              }
+              geometry Box {
+                size %{= size.x * 0.1 }% %{= 0.7 * size.y }% %{= size.z * 0.1 }%
+              }
+            }
+          ]
+        }
+      %{ end }%
+    %{ end }%
+    # Length boards
+    %{ for i=-1,1 do }%
+      Transform {
+        translation %{= size.x * i * 0.45 }% %{= 0.05 * size.y }% 0
+        children [
+          Shape {
+            appearance RoughPine {
+              textureTransform TextureTransform {
+                scale %{= 2 * size.z }% %{= 2 * size.y }%
+                rotation 1.5708
+              }
+            }
+            geometry Box {
+              size %{= size.x * 0.1 }% %{= 0.1 * size.y }% %{= size.z }%
+            }
+          }
+        ]
+      }
+    %{ end }%
+    # width boards
+    %{ for i=-1,1 do }%
+      Transform {
+        translation 0 %{= 0.85 * size.y }% %{= size.z * i * 0.45 }%
+        children [
+          Shape {
+            appearance RoughPine {
+              textureTransform TextureTransform {
+                scale %{= 2 * size.x }% %{= 2 * size.z * 0.1 }%
+                rotation 1.5708
+              }
+            }
+            geometry Box {
+              size %{= size.x }% %{= 0.1 * size.y }% %{= size.z * 0.1 }%
+            }
+          }
+        ]
+      }
+    %{ end }%
+    # Lath lathNumber
+    %{ for i=0,lathNumber do }%
+      Transform {
+        translation %{= (size.x - lathWidth) * (i / lathNumber - 0.5) }% %{= 0.95 * size.y }% %{= 0 }%
+        children [
+          Shape {
+            appearance RoughPine {
+              textureTransform TextureTransform {
+                scale %{= 2 * size.z }% %{= 2 * lathWidth }%
+                rotation 1.5708
+              }
+            }
+            geometry Box {
+              size %{= lathWidth }% %{= 0.1 * size.y }% %{= size.z }%
+            }
+          }
+        ]
+      }
+    %{ end }%
+  ]
+  name IS name
+  model "wooden pallet"
+  %{ if fields.boundingObject.value then }%
+  boundingObject Group {
+    children [
+      %{ for i=-1,1 do }%
+        Transform {
+          translation %{= 0.45 * i * size.x }% %{= 0.4 * size.y }% 0
+          children
+          [
+            Box {
+              size %{= 0.1 * size.x }% %{= 0.8 * size.y }% %{= size.z }%
+            }
+          ]
+        }
+      %{ end }%
+      Transform {
+        translation 0 %{= 0.9 * size.y }% 0
+        children
+        [
+          Box {
+            size %{= size.x }% %{= 0.2 * size.y }% %{= size.z }%
+          }
+        ]
+      }
+    ]
+  }
+  %{ end }%
+  %{ if mass > 0 then }%
+  physics Physics {
+    density -1
+    mass %{= mass}%
+  }
+  %{ end }%
+  locked IS locked
+}
+}

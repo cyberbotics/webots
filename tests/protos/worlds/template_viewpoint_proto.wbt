@@ -1,0 +1,43 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+DEF VIEWPOINT TemplateViewpoint {
+  position 0 0 3
+  follow "solid"
+  followSmoothness 0
+}
+Background {
+  skyColor [
+    0.12549 0.619608 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+DEF SOLID Solid {
+  children [
+    DEF SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  boundingObject USE SHAPE
+  physics Physics {
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_viewpoint_proto"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

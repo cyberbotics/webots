@@ -1,0 +1,181 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Simulation of the Robocup Standard Platform League"
+  ]
+  title "Robotstadium"
+  basicTimeStep 40
+  contactProperties [
+    ContactProperties {
+      material1 "NAO foot material"
+      coulombFriction [
+        7
+      ]
+      bounce 0.3
+      bounceVelocity 0.003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.9995184013681891 -0.027881811196264174 0.013622405470234671 0.678493
+  position -0.432501 5.29492 6.97982
+  follow "ball"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RobotstadiumSoccerField {
+  frame1Color 0.9 0.8 0.2
+  frame2Color 0.2 0.4 0.8
+}
+DEF BALL Ball {
+}
+Robot {
+  children [
+    Emitter {
+      channel -1
+    }
+    Receiver {
+      channel 2
+    }
+  ]
+  name "soccer referee"
+  controller "nao_soccer_supervisor"
+  supervisor TRUE
+}
+DEF GOAL_KEEPER_0 Nao {
+  translation -3 0.35 0
+  degreeOfFreedom 21
+  color 0.8 0.8 0.8
+  controllerArgs "0 0"
+  synchronization FALSE
+  jersey NaoJersey {
+  }
+}
+DEF PLAYER_1_0 Nao {
+  translation -2.325 0.35 -0.35
+  name "nao(1)"
+  degreeOfFreedom 21
+  color 0.8 0.8 0.8
+  controllerArgs "1 0"
+  synchronization FALSE
+  jersey NaoJersey {
+    jerseyTexture [
+      "textures/nao_2_red.png"
+    ]
+  }
+}
+DEF PLAYER_2_0 Nao {
+  translation -2.325 0.35 -1.575
+  name "nao(2)"
+  degreeOfFreedom 21
+  color 0.8 0.8 0.8
+  controllerArgs "2 0"
+  synchronization FALSE
+  jersey NaoJersey {
+    jerseyTexture [
+      "textures/nao_3_red.png"
+    ]
+  }
+}
+DEF PLAYER_3_0 Nao {
+  translation -2.325 0.35 1.575
+  name "nao(3)"
+  degreeOfFreedom 21
+  color 0.8 0.8 0.8
+  controllerArgs "3 0"
+  synchronization FALSE
+  jersey NaoJersey {
+    jerseyTexture [
+      "textures/nao_4_red.png"
+    ]
+  }
+}
+DEF PLAYER_4_0 Nao {
+  translation -2.325 0.35 0.35
+  name "nao(4)"
+  degreeOfFreedom 21
+  color 0.8 0.8 0.8
+  controllerArgs "4 0"
+  synchronization FALSE
+  jersey NaoJersey {
+    jerseyTexture [
+      "textures/nao_5_red.png"
+    ]
+  }
+}
+DEF GOAL_KEEPER_1 RobotisOp2 {
+  translation 3 0.35 0
+  rotation 0 1 0 -1.5708
+  controller "void"
+  controllerArgs "0 1"
+  synchronization FALSE
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_1_blue.png"
+    ]
+    jerseyColor 0.16 0.7 0.86
+  }
+  channel 1
+}
+DEF PLAYER_1_1 RobotisOp2 {
+  translation 0.675 0.35 0
+  rotation 0 1 0 -1.5708
+  name "ROBOTIS OP2(1)"
+  controller "void"
+  controllerArgs "1 1"
+  synchronization FALSE
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_2_blue.png"
+    ]
+    jerseyColor 0.16 0.7 0.86
+  }
+  channel 1
+}
+DEF PLAYER_2_1 RobotisOp2 {
+  translation 1.2 0.35 1.125
+  rotation 0 1 0 -1.5708
+  name "ROBOTIS OP2(2)"
+  controller "void"
+  controllerArgs "2 1"
+  synchronization FALSE
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_3_blue.png"
+    ]
+    jerseyColor 0.16 0.7 0.86
+  }
+  channel 1
+}
+DEF PLAYER_3_1 RobotisOp2 {
+  translation 2.325 0.35 -1.125
+  rotation 0 1 0 -1.5708
+  name "ROBOTIS OP2(3)"
+  controller "void"
+  controllerArgs "3 1"
+  synchronization FALSE
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_4_blue.png"
+    ]
+    jerseyColor 0.16 0.7 0.86
+  }
+  channel 1
+}
+DEF PLAYER_4_1 RobotisOp2 {
+  translation 2.325 0.35 1.125
+  rotation 0 1 0 -1.5708
+  name "ROBOTIS OP2(4)"
+  controller "void"
+  controllerArgs "4 1"
+  synchronization FALSE
+  jersey RobotisJersey {
+    jerseyTexture [
+      "textures/robotis-op2_5_blue.png"
+    ]
+    jerseyColor 0.16 0.7 0.86
+  }
+  channel 1
+}

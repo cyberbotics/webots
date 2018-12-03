@@ -1,0 +1,90 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Description: example of fully asymetric friction contact"
+  ]
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        0.01, 0.23
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.7859223626466676 -0.5543082557734088 -0.2739861264248995 5.38085
+  position 1.9879 2.67167 3.69567
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF BOX1 Solid {
+  translation 0 -0.22 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/lines.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX Box {
+        size 0.3 0.3 0.3
+      }
+    }
+  ]
+  name "box 1"
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+DEF BOX2 Solid {
+  translation 0 -0.5 0
+  rotation 0.5773498921773197 0 0.8164968475155537 0.261799
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/lines.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 1.7 0.1 1.7
+      }
+    }
+  ]
+  name "box 2"
+  boundingObject USE BOX2
+}
+DEF PLANE Solid {
+  translation 0 -1.16 0
+  rotation 0.2371269169977198 0.9693986606783392 -0.06353787775963689 5.74384
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/lines.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF PLANE Plane {
+        size 4 4
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}

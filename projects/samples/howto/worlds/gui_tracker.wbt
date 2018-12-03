@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "QT gui tracking system using a supervisor"
+  ]
+}
+Viewpoint {
+  orientation 1 0 0 5.41884
+  position -0.0247128 1.26593 1.09802
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    RectangleArena {
+    }
+  ]
+  supervisor TRUE
+  showWindow TRUE
+  window "tracking_window"
+}
+DEF ROBOT1 E-puck {
+  translation 0.0204371 9.4369e-15 -0.231157
+  rotation 0 -1 0 2.96582
+  name "e-puck 1"
+}
+DEF ROBOT2 E-puck {
+  translation 0.14485 2.10942e-15 0.255412
+  rotation 0 -1 0 2.54348
+  name "e-puck 2"
+}
+DEF ROBOT3 E-puck {
+  translation 0.244019 7.77156e-16 0.0278799
+  rotation 0 -1 0 0.0628735
+  name "e-puck 3"
+}
+DEF ROBOT4 E-puck {
+  translation -0.134231 -1.11022e-16 -0.0300073
+  rotation 0 1 0 3.52192
+  name "e-puck 4"
+}
+DEF ROBOT5 E-puck {
+  translation -0.0979771 1.22125e-15 0.26236
+  rotation 0 1 0 3.53216
+  name "e-puck 5"
+}

@@ -1,0 +1,45 @@
+#####################################################################################################
+# Uncomment / edit the following environment variables when the corresponding software is installed #
+#####################################################################################################
+
+# export JAVA_HOME=/C/Program\ Files/Java/jdk1.8.0_192                             # Optionally defines the path to Java home.
+# export PYTHON27_HOME=/C/Python27                                                 # Optionally defines the path to Python 27 home.
+# export PYTHON37_HOME=/C/Python37                                                 # Optionally defines the path to Python 37 home.
+# export MATLAB_HOME=/C/Program\ Files/MATLAB/R2018b                               # Optionally defines the path to MATLAB home.
+# export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"  # Optionally defines the path to Microsoft Visual Studio home.
+# export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 5"                     # Optionally defines the path to Inno Setup home.
+
+
+#######################################################
+# Edit these WEBOTS environment variables when needed #
+#######################################################
+
+export WEBOTS_DISABLE_SAVE_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save perspective changes when closed.
+export WEBOTS_ALLOW_MODIFY_INSTALLATION=1          # If defined, you are allowed to modify files in the Webots home using Webots.
+# export WEBOTS_DISABLE_WORLD_LOADING_DIALOG=1       # If defined, the loading world progress dialog will never be displayed.
+
+
+############################################################################
+# These aliases are useful in combination with the Atom source code editor #
+############################################################################
+
+alias edit="PATH=/mingw64/bin:/usr/bin:/C/WINDOWS/system32 /C/Users/$USER/AppData/Local/atom/bin/atom.cmd"
+alias reset_atom="edit --clear-window-state"
+
+
+####################################################################################################
+# These aliases / environment variables allow to easily switch between a two webots source folders #
+####################################################################################################
+
+MSYS64_WINDOWS_HOME=`cygpath -m /`
+MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH=${MSYS64_WINDOWS_HOME::-1}
+MSYS64_HOME="/${MSYS64_WINDOWS_HOME_WITHOUT_FINAL_SLASH/:\//\/}"
+# export WEBOTS_DEPENDENCY_PATH=$MSYS64_HOME/home/$USER/webots/dependencies  # to avoid duplicating dependencies
+alias develop="source ~/webots/src/install_scripts/msys.sh \"$MSYS64_HOME/home/$USER/webots-develop\""
+alias master="source ~/webots/src/install_scripts/msys.sh \"$MSYS64_HOME/home/$USER/webots\""
+alias installed="source ~/webots/src/install_scripts/msys.sh \"/C/Program Files/Webots\""
+alias msys="source ~/webots/src/install_scripts/msys.sh"
+master  # default to the master branch
+
+
+export LANG=en_US.UTF-8  # needed on some locales to avoid floating point representation issues

@@ -1,0 +1,7 @@
+# A Zoom node allows to specify a controllable zoom device for a Camera node.
+# It should be added in the zoom field of a Camera node.
+
+Zoom {
+  field SFFloat    maxFieldOfView     1.5     # (rad)
+  field SFFloat    minFieldOfView     0.5     # (rad)
+}

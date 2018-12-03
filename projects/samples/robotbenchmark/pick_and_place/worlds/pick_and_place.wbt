@@ -1,0 +1,911 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Benchmark objective:"
+    "move the box and place it on the target position."
+  ]
+  title "Pick and Place"
+  window "pick_and_place"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "box"
+      coulombFriction [
+        10
+      ]
+    }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation 0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.07398746518993696 0.9910244125441088 0.11133943028582508 4.3838106
+  position -6.8845226 1.8985127 -1.6465338
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 12 12
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/concrete.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF WALL Solid {
+  translation 0 2.5 -6
+  rotation 1 0 0 1.5707997
+  children [
+    DEF WALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/metal_stripes.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 17 1
+        }
+      }
+      geometry Plane {
+        size 12 5
+      }
+    }
+  ]
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL Solid {
+  translation 0 2.5 6
+  rotation 3.3905101056836537e-09 -0.7071080811853548 0.7071054811853503 3.1415926
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(1)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL Solid {
+  translation -6 2.5 0
+  rotation -0.5773509091889044 -0.5773509191889044 0.577348979188907 4.1887883
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(2)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL Solid {
+  translation 6 2.5 0
+  rotation -0.5773509191889153 0.5773508991889154 -0.577348989188918 4.1887883
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(3)"
+  boundingObject USE WALL_SHAPE
+}
+Ceiling {
+  translation 0 5 0
+  size 12 12
+}
+Door {
+  translation -2.44 0 -5.99
+  size 1.2 2 0.01
+  canBeOpen FALSE
+  doorHandle DoorLever {
+    translation 0 0.045 0
+    mass 0
+    hasStaticParent TRUE
+  }
+}
+DEF PIPES Group {
+  children [
+    LeverValve {
+      translation -5.83 1 0.50999991
+      rotation 0 1 0 3.1415926
+      scale 1 1 1
+    }
+    PipeSection {
+      translation -5.86 0.96000003 2.11
+      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      height 3
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.86 0.9600001 -2.81
+      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      name "pipe section(1)"
+      height 6.4
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.87 3.83 -4.39
+      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      name "pipe section(2)"
+      height 3.3
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.86 0.65 -1.63
+      rotation 0.5773488591887668 0.5773509791887638 -0.5773509691887639 4.1887881
+      name "pipe section(3)"
+      height 8.8
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.86 0.34 3.857
+      rotation 0 0 1 0
+      name "pipe section(4)"
+      height 0.7
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.86 0.19 3.037
+      rotation 0 0 1 0
+      name "pipe section(5)"
+      height 0.4
+      radius 0.07
+    }
+    PipeSection {
+      translation -5.84 2.37 -2.443
+      rotation 0 0 1 0
+      name "pipe section(6)"
+      height 2.4
+      radius 0.07
+    }
+    LJoint {
+      translation -5.8610001 0.85599996 3.74
+      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      scale 2.4 2.4 2.4
+    }
+    LJoint {
+      translation -5.8610001 0.54599994 2.93
+      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      name "L joint pipe(1)"
+      scale 2.4 2.4 2.4
+    }
+    LJoint {
+      translation -5.845 3.7259999 -2.55
+      rotation -0.5773502625229591 -0.5773502625229591 0.5773502825229592 2.0943951
+      name "L joint pipe(2)"
+      scale 2.4 2.4 2.4
+    }
+    TJoint {
+      translation -5.843 1.0259999 -2.44
+      rotation -0.7071067761865476 3.3905038817148895e-09 0.7071067861865474 3.1415927
+      scale 2.4 2.4 2.4
+    }
+  ]
+}
+WoodenPalletStack {
+  translation 3.5182364 -1.0658141e-14 -5.0539949
+  rotation 0 1 0 1.4089997
+}
+WoodenPalletStack {
+  translation 5.0506856 -1.0658141e-14 -4.3236115
+  rotation 0 -1 0 6.0213859
+  name "wooden pallet stack(1)"
+  palletNumber 2
+}
+WoodenBox {
+  translation 5.0461957 0.3 2.6920662
+}
+WoodenBox {
+  translation 5.0297142 0.3 3.3127088
+  name "wooden box(1)"
+}
+WoodenBox {
+  translation 5.0890438 0.3 2.0668732
+  rotation 0 1 0 -0.05
+  name "wooden box(2)"
+}
+WoodenBox {
+  translation 5.0324568 0.9 3.0679729
+  rotation 0 1 0 0.01
+  name "wooden box(3)"
+}
+DEF CONVEYOR_BELT Robot {
+  translation 1.0799988 0.15 0.66500175
+  rotation 0 1 0 1.5707997
+  children [
+    Track {
+      translation -0.6 0 0
+      rotation 1 0 0 3.141592644
+      children [
+        DEF BELT Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/conveyor_belt_rubber.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 0.5 2
+            }
+          }
+          geometry Box {
+            size 3.7 0.05 0.5
+          }
+        }
+      ]
+      boundingObject USE BELT
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "belt motor"
+        }
+      ]
+      textureAnimation -0.0043 0
+    }
+    DEF CYL1 Transform {
+      translation 1.28 0 0
+      rotation 1 0 0 1.5707997
+      children [
+        DEF CYL Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.5
+            radius 0.03
+          }
+        }
+      ]
+    }
+    DEF CYL2 Transform {
+      translation 1.34 0 0
+      rotation 1 0 0 1.5707997
+      children [
+        USE CYL
+      ]
+    }
+    DEF CYL3 Transform {
+      translation 1.4 0 0
+      rotation 1 0 0 1.5707997
+      children [
+        USE CYL
+      ]
+    }
+    DEF CYL4 Transform {
+      translation 1.46 0 0
+      rotation 1 0 0 1.5707997
+      children [
+        USE CYL
+      ]
+    }
+    DEF CYL5 Transform {
+      translation 1.52 0 0
+      rotation 1 0 0 1.5707997
+      children [
+        USE CYL
+      ]
+    }
+    DEF LEFT Transform {
+      translation 0.31 0.01 0.26
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 3.1 0.1 0.02
+          }
+        }
+      ]
+    }
+    DEF RIGHT Transform {
+      translation 0.31 0.01 -0.26
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 3.1 0.1 0.02
+          }
+        }
+      ]
+    }
+    DEF BACK Transform {
+      translation 1.87 0.01 0
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.54 0.1 0.02
+          }
+        }
+      ]
+    }
+    DEF BOTTOM Transform {
+      translation 1.69 -0.01 6.0717692e-07
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.54 0.01 0.34
+          }
+        }
+      ]
+    }
+    DEF FOOT1 Transform {
+      translation 1.7799993 -0.1 -0.2199997
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.12
+            radius 0.03
+          }
+        }
+      ]
+    }
+    DEF FOOT2 Transform {
+      translation 1.7799993 -0.1 0.22
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.12
+            radius 0.03
+          }
+        }
+      ]
+    }
+    DEF FOOT3 Transform {
+      translation 0.1599993 -0.1 0.22000546
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.12
+            radius 0.03
+          }
+        }
+      ]
+    }
+    DEF FOOT4 Transform {
+      translation 0.1599993 -0.1 -0.220005
+      rotation 0 1 0 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.12
+            radius 0.03
+          }
+        }
+      ]
+    }
+  ]
+  name "conveyor belt"
+  boundingObject Group {
+    children [
+      USE CYL1
+      USE CYL2
+      USE CYL3
+      USE CYL4
+      USE CYL5
+      USE LEFT
+      USE RIGHT
+      USE BOTTOM
+      USE BACK
+      USE FOOT1
+      USE FOOT2
+      USE FOOT3
+      USE FOOT4
+    ]
+  }
+  controller "move_conveyor_belt"
+}
+DEF MACHINERY Solid {
+  translation 1.3026953 0.1 2.6462761
+  rotation 0 1 0 1.5707997
+  children [
+    DEF BOTTOM Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 1.5 0.1 1.5
+          }
+        }
+      ]
+    }
+    DEF BACK Transform {
+      translation -0.65 0.685 5.2041704e-18
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.2 1.27 1.5
+          }
+        }
+      ]
+    }
+    DEF RIGHT Transform {
+      translation 0.099999998 0.685 0.40000002
+      rotation 0 1 0 1.5707963
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.7 1.27 1.3
+          }
+        }
+      ]
+    }
+    DEF LEFT Transform {
+      translation 0.10000001 0.685 -0.61599991
+      rotation 0 1 0 1.5707963
+      children [
+        TexturedBoxShape {
+          size 0.268 1.27 1.3
+          textureUrl [
+            "textures/factory_logo.jpg"
+          ]
+          textureMapping "metric"
+          faceColor 0.333333 0.341176 0.32549
+          leftFace FALSE
+        }
+      ]
+    }
+    DEF TOP Transform {
+      translation 6.9666728e-09 1.33 8.8423158e-08
+      rotation 0 1 0 1.5707963
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 1.5 0.02 1.5
+          }
+        }
+      ]
+    }
+    DEF HOLE Transform {
+      translation 0.10100001 0.97 -0.21699991
+      rotation 0 1 0 1.5707963
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.53 0.7 1.3
+          }
+        }
+      ]
+    }
+    DEF FOOT1 Transform {
+      translation 0.63999798 -0.07 -0.60000216
+      rotation 0 1 0 1.5707997
+      children [
+        DEF BLACK_BOX_FOOT_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.06
+            radius 0.07
+          }
+        }
+      ]
+    }
+    DEF FOOT2 Transform {
+      translation -0.639998 -0.07 -0.60000216
+      rotation 0 1 0 1.5707997
+      children [
+        DEF BLACK_BOX_FOOT_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.06
+            radius 0.07
+          }
+        }
+      ]
+    }
+    DEF FOOT3 Transform {
+      translation -0.639998 -0.07 0.600002
+      rotation 0 1 0 1.5707997
+      children [
+        DEF BLACK_BOX_FOOT_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.06
+            radius 0.07
+          }
+        }
+      ]
+    }
+    DEF FOOT4 Transform {
+      translation 0.63999798 -0.07 0.600002
+      rotation 0 1 0 1.5707997
+      children [
+        DEF BLACK_BOX_FOOT_SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/metal.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.06
+            radius 0.07
+          }
+        }
+      ]
+    }
+  ]
+  name "machinery"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.646 0
+        children [
+          Box {
+            size 1.5 1.39 1.5
+          }
+        ]
+      }
+      USE FOOT1
+      USE FOOT2
+      USE FOOT3
+      USE FOOT4
+    ]
+  }
+}
+PlatformCart {
+  translation -2.3649928 0 -1.0055135
+  rotation 0 1 0 4.712389
+  slot [
+    DEF TARGET_SLOTS Solid {
+      translation 0.1 0.11 -0.14
+      children [
+        DEF SLOTS Group {
+          children [
+            DEF BOTTOM Transform {
+              children [
+                Shape {
+                  appearance DEF CUBE_BOX_APPEARANCE PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/cardboard.jpg"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.3027 0.01 0.205
+                  }
+                }
+              ]
+            }
+            DEF BACK Transform {
+              translation 0 0.035 0.095
+              children [
+                DEF ROWS Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.3 0.06 0.015
+                  }
+                }
+              ]
+            }
+            DEF FRONT Transform {
+              translation 0 0.035 -0.095
+              children [
+                USE ROWS
+              ]
+            }
+            DEF LEFT Transform {
+              translation 0.1425 0.035 0
+              children [
+                DEF COLUMNS Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.015 0.06 0.175
+                  }
+                }
+              ]
+            }
+            DEF RIGHT Transform {
+              translation -0.1425 0.035 0
+              children [
+                USE COLUMNS
+              ]
+            }
+            DEF INTERNAL1 Transform {
+              translation -0.0475 0.03 0
+              children [
+                DEF INTERNAL_COLUMN Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.015 0.05 0.175
+                  }
+                }
+              ]
+            }
+            DEF INTERNAL2 Transform {
+              translation 0.0475 0.03 0
+              children [
+                USE INTERNAL_COLUMN
+              ]
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.08 0.05 0.015
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.095 0.03 0
+              children [
+                Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.08 0.05 0.015
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0.095 0.03 0
+              children [
+                Shape {
+                  appearance USE CUBE_BOX_APPEARANCE
+                  geometry Box {
+                    size 0.08 0.05 0.015
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        KukaBox {
+          translation 0.0925 0.03 0.05
+          color 0 1 0
+          size 0.05 0.05 0.05
+          contactMaterial "box"
+          physics NULL
+        }
+        KukaBox {
+          translation -0.0925 0.03 0.05
+          name "Kuka box(1)"
+          color 0 1 0
+          size 0.05 0.05 0.05
+          contactMaterial "box"
+          physics NULL
+        }
+        KukaBox {
+          translation 0 0.03 -0.04
+          rotation 0 1 0 0.02
+          name "Kuka box(2)"
+          color 0 1 0
+          size 0.05 0.05 0.05
+          contactMaterial "box"
+          physics NULL
+        }
+        KukaBox {
+          translation -0.089982001 0.03 -0.03820012
+          rotation 0 1 0 -0.008
+          name "Kuka box(3)"
+          color 0 1 0
+          size 0.05 0.05 0.05
+          contactMaterial "box"
+          physics NULL
+        }
+        KukaBox {
+          translation 0 0.03 0.05
+          name "Kuka box(4)"
+          color 0 1 0
+          size 0.05 0.05 0.05
+          contactMaterial "box"
+          physics NULL
+        }
+        DEF TARGET Transform {
+          translation 0.0925 0.03 -0.04
+        }
+      ]
+      boundingObject Group {
+        children [
+          USE BOTTOM
+          USE BACK
+          USE FRONT
+          USE LEFT
+          USE RIGHT
+          USE INTERNAL1
+          USE INTERNAL2
+          Transform {
+            translation 0 0.03 0
+            children [
+              Box {
+                size 0.27 0.05 0.015
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+  physics NULL
+}
+DEF PRODUCT KukaBox {
+  translation 1 0.20492526 0.75
+  rotation 1.2109709e-12 6.3279436e-13 -1 6.5312811e-05
+  color 0 1 0
+  size 0.05 0.05 0.05
+  contactMaterial "box"
+}
+PickAndPlaceBenchmark {
+}
+Youbot {
+  translation -2.4 0.10761028 0
+  rotation 0.9999989099264929 -0.0009911354799271444 0.0010944387999195508 -1.5708392
+  controller "pick_and_place"
+}

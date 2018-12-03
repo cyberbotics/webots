@@ -1,0 +1,202 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Model of the 16 DOF Bioloid Dog Robot (Tribotix Pty Ltd)"
+    "Based on the Bioloids Comprehensive Kit and some additional parts."
+    "Author: Jean-Christophe Fillion-Robin"
+    "Biologically Inspired Robotics Group (BIRG)"
+    "More info here: http://birg.epfl.ch/page66584.html"
+  ]
+  title "Bioloid Dog"
+  CFM 0.0001
+  ERP 0.6
+  basicTimeStep 16
+  defaultDamping Damping {
+  }
+  contactProperties [
+    ContactProperties {
+      material1 "rubber"
+      material2 "floor"
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.09502029875768925 0.9847429874888122 0.14578199962824212 4.20022
+  position -0.93098166 0.38481892 -0.50438455
+  follow "BioloidDog"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+}
+DEF BALL1 Solid {
+  translation 0.46 0.0324215 0
+  children [
+    DEF BALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.0705882 0.403922
+        roughness 0.722439418
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.0325
+        subdivision 2
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE BALL_SHAPE
+  physics DEF BALL_PHYSICS Physics {
+    density -1
+    mass 0.1
+  }
+}
+DEF BALL2 Solid {
+  translation 0 0.0324215 0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 2"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL3 Solid {
+  translation -0.46 0.0324215 0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 3"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL4 Solid {
+  translation 0.46 0.0324215 0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 4"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL5 Solid {
+  translation -0.46 0.0324215 -0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 5"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL6 Solid {
+  translation 0.46 0.0324215 -0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 6"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL7 Solid {
+  translation 0 0.0324215 -0.46
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 7"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL8 Solid {
+  translation -0.46 0.0324215 0
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 8"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL9 Solid {
+  translation -0.3 0.0324215 0
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 9"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL10 Solid {
+  translation -0.23 0.0324215 0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 10"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL11 Solid {
+  translation -0.23 0.0324215 -0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 11"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL12 Solid {
+  translation -0.23 0.0324215 0
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 12"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL13 Solid {
+  translation 0 0.0324215 -0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 13"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL14 Solid {
+  translation 0 0.0324215 0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 14"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL15 Solid {
+  translation 0.23 0.0324215 0
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 15"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL16 Solid {
+  translation 0.23 0.0324215 -0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 16"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BALL17 Solid {
+  translation 0.23 0.0324215 0.23
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball 17"
+  boundingObject USE BALL_SHAPE
+  physics USE BALL_PHYSICS
+}
+DEF BIOLOID BioloidDog {
+  translation 0 0.1 0
+}

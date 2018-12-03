@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.19393711365218194 -0.8126839052262745 -0.5494845458558705 0.2745182355942707
+  position -1.3396296140142627 0.37189407246495865 7.85565332947021
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -1.4 -0.5 -1
+}
+TestSuiteSupervisor {
+}
+Shape {
+  appearance Appearance {
+    material Material {
+      diffuseColor 0 0 1
+      emissiveColor 1 0 1
+    }
+  }
+  geometry PointSet {
+    color DEF COLOR Color {
+      color [
+        1 0 0
+        0 1 0
+        0 0 1
+      ]
+    }
+    coord Coordinate {
+      point [
+        -1 0 0
+        0 0 0
+        1 0 0
+      ]
+    }
+  }
+}
+Robot {
+  translation 0 0 4.8
+  children [
+    Camera {
+      width 256
+      height 128
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "point_set"
+  supervisor TRUE
+  cpuConsumption 10
+}

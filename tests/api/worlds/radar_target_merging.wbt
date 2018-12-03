@@ -1,0 +1,192 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.998504 0.0492482 -0.0237368 0.991774
+  position 0.264349 5.81972 1.01203
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+Solid {
+  translation 0 0 -1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation 0 0 -2
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation 0.5 0 -2
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  physics Physics {
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation -0.5 0 -2
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  physics Physics {
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation -1 0 -4
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  physics Physics {
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation 0 0 -4.5
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 1
+}
+Solid {
+  translation 1 0 -4
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(6)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  physics Physics {
+  }
+  radarCrossSection 1
+}
+Robot {
+  children [
+    Radar {
+      name "radar1"
+      maxRange 5
+      cellDistance 1
+    }
+    Radar {
+      name "radar2"
+      maxRange 5
+      cellDistance 0.2
+    }
+    Radar {
+      name "radar3"
+      maxRange 5
+    }
+    Radar {
+      name "radar4"
+      maxRange 5
+      cellDistance 0.8
+      cellSpeed 1e-06
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "radar_target_merging"
+}
+TestSuiteSupervisor {
+}

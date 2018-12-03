@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+PROTO LuaLengthOperator [
+]
+{
+  %{
+    local myVariable = {1, 2, 3, 4}
+    local count = #myVariable
+    io.stderr:write("Variable length is " .. count)
+  }%
+  Shape {
+    geometry Box {
+      size 1 1 %{=count}%
+    }
+  }
+}

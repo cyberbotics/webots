@@ -1,0 +1,257 @@
+{
+  "name": "atlas", 
+  "devices": [
+    {
+      "transformID": "n44", 
+      "name": "BackLbz", 
+      "maxPosition": 0.610865, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.610865, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n67", 
+      "name": "BackMby", 
+      "maxPosition": 1.28, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.2, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n88", 
+      "name": "BackUbx", 
+      "maxPosition": 0.790809, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.790809, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n252", 
+      "name": "LArmElx", 
+      "maxPosition": 2.35619, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n233", 
+      "name": "LArmEly", 
+      "maxPosition": 3.14159, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n327", 
+      "name": "LArmMwx", 
+      "maxPosition": 1.571, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.436, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n212", 
+      "name": "LArmShx", 
+      "maxPosition": 1.74533, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.39626, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n193", 
+      "name": "LArmUsy", 
+      "maxPosition": 1.9635, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.9635, 
+      "axis": "0 0.5 0.866025"
+    }, 
+    {
+      "transformID": "n301", 
+      "name": "LArmUwy", 
+      "maxPosition": 1.571, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.571, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n725", 
+      "name": "LLegKny", 
+      "maxPosition": 2.45, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n768", 
+      "name": "LLegLax", 
+      "maxPosition": 0.436, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.436, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n688", 
+      "name": "LLegLhy", 
+      "maxPosition": 0.524, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.75, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n648", 
+      "name": "LLegMhx", 
+      "maxPosition": 0.495, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.47, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n749", 
+      "name": "LLegUay", 
+      "maxPosition": 0.698, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.698, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n622", 
+      "name": "LLegUhz", 
+      "maxPosition": 1.14, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.32, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n368", 
+      "name": "NeckAy", 
+      "maxPosition": 1.13446401, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.610865238, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n531", 
+      "name": "RArmElx", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.35619, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n512", 
+      "name": "RArmEly", 
+      "maxPosition": 3.14159, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n578", 
+      "name": "RArmMwx", 
+      "maxPosition": 0.436, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.571, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n491", 
+      "name": "RArmShx", 
+      "maxPosition": 1.39626, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.74533, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n472", 
+      "name": "RArmUsy", 
+      "maxPosition": 1.9635, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.9635, 
+      "axis": "0 0.5 -0.866025"
+    }, 
+    {
+      "transformID": "n552", 
+      "name": "RArmUwy", 
+      "maxPosition": 1.571, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.571, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n922", 
+      "name": "RLegKny", 
+      "maxPosition": 2.45, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n972", 
+      "name": "RLegLax", 
+      "maxPosition": 0.436, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.436, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n885", 
+      "name": "RLegLhy", 
+      "maxPosition": 0.524, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.745, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n845", 
+      "name": "RLegMhx", 
+      "maxPosition": 0.47, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.495, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n946", 
+      "name": "RLegUay", 
+      "maxPosition": 0.698, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.698, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n819", 
+      "name": "RLegUhz", 
+      "maxPosition": 0.32, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.14, 
+      "axis": "0 0 1"
+    }
+  ]
+}

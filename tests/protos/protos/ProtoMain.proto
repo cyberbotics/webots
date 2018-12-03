@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoMain [
+  field SFBool mainParameter TRUE
+]
+{
+Group {
+  children [
+    ProtoNested {
+      nestedParameter IS mainParameter
+    }
+  ]
+}
+}

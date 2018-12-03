@@ -1,0 +1,83 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A customizable building, the size and geometry can fully be defined.
+# The texture of the wall is selected randomly.
+# The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
+
+PROTO RandomBuilding [
+  field SFVec3f     translation            0 0 0
+  field SFRotation  rotation               0 1 0 0
+  field SFString    name                   "building"
+  field SFFloat     floorHeight            3                                  # Defines the height of one floor.
+  field SFInt32     floorNumber            3                                  # Defines the number of floors (excluding roof).
+  field SFInt32     startingFloor          0                                  # Defines the floor number for the "ground floor" of the building, as not all buildings start at the ground floor.
+  field MFVec2f     corners                [10 10, 10 -10, -10 -10, -10 10 ]  # Defines the geometry of the building.
+  field MFString    groundFloor            []                                 # Defines the texture to be used for the first floor (optional).
+  field MFFloat     groundFloorScale       []                                 # Defines the horizontal scale of the ground texture.
+  field MFFloat     groundFloorTranslation []                                 # Defines the translation of the ground floor textures.
+  field SFString{"tiled", "gravel", "slate", "old tiles", "sheet metal", "metal tiles", "bitumen"}
+                    roofType               "tiled"                            # Defines the texture to be used for the roof.
+  field MFColor     roofColor              [ ]                                # Defines the color to be used for the roof.
+  field SFString{"flat roof", "pyramidal roof", "gabled roof", "hipped roof"}
+                    roofShape              "pyramidal roof"                   # Defines the geometry of the roof (flat or pyramidal).
+  field SFBool      snowOnRoof             FALSE                              # Defines whether the texture with or without snow should be used.
+  field SFFloat     roofHeight             3                                  # Defines the height of the roof (used only in the case of pyramidal roof).
+  field SFBool      enableBoundingObject   TRUE                               # Defines whether the building should have a bounding object or not.
+  field SFBool      bottom                 FALSE                              # Defines whether the building should have a floor (visible from below) or not.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local wbrandom = require('wbrandom')
+    local wallTypes = {
+      "glass building",
+      "classic building",
+      "orange building",
+      "gray glass building",
+      "blue glass building",
+      "arcade-style building",
+      "transparent highrise",
+      "windowed building",
+      "old brick building",
+      "red and white building",
+      "construction building",
+      "red brick wall",
+      "old brick wall",
+      "stone brick",
+      "stone wall",
+      "glass highrise",
+      "old house",
+      "old building",
+      "highrise",
+      "brick building",
+      "residential building",
+      "old office building",
+      "factory building",
+      "tall house",
+      "office building",
+      "concrete building"
+    }
+    local wallType = wallTypes[wbrandom.integer(wbcore.tablelength(wallTypes))]
+  }%
+  SimpleBuilding {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    floorHeight IS floorHeight
+    floorNumber IS floorNumber
+    startingFloor IS startingFloor
+    corners IS corners
+    groundFloor IS groundFloor
+    groundFloorScale IS groundFloorScale
+    groundFloorTranslation IS groundFloorTranslation
+    roofType IS roofType
+    roofColor IS roofColor
+    roofShape IS roofShape
+    snowOnRoof IS snowOnRoof
+    roofHeight IS roofHeight
+    enableBoundingObject IS enableBoundingObject
+    bottom IS bottom
+    wallType %{= '"' .. wallType .. '"' }%
+  }
+}

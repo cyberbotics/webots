@@ -1,0 +1,10 @@
+int32 id
+string label
+float64 xpos
+float64 ypos
+float64 size
+int32 color
+float64 transparency
+string font
+---
+int8 success

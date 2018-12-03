@@ -1,0 +1,41 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO RLlegSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    RLlegMesh {
+    }
+  ]
+  name "RLleg"
+  boundingObject Group {
+    children [
+      Transform {
+        translation -0.00345 -0.00295 -0.1913
+        rotation 0.0 1.0 0.0 0.0
+        children [
+          Box {
+            size 0.1465 0.1205 0.476
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 4.367
+    centerOfMass 0.001 0 -0.187
+    inertiaMatrix [0.077 0.076 0.01, -0 -0.003 -0 ]
+  }
+}
+}

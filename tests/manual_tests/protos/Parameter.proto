@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+
+PROTO Parameter [
+  field SFBool my_custom_parameter FALSE
+]
+{
+  Slot {
+    type "parameter"
+    endPoint Group {
+      children [
+        %{ if fields.my_custom_parameter.value then }%
+          Shape {
+            geometry Box {
+            }
+          }
+        %{ end }%
+      ]
+    }
+  }
+}

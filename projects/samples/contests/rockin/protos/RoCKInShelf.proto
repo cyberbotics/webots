@@ -1,0 +1,89 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+
+PROTO RoCKInShelf [
+  field SFVec3f    translation         0 0 0
+  field SFRotation rotation            0 1 0 0
+  field SFString   name                "RoCKIn shelf"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      SolidBox {
+        translation 0 0.51 0
+        name "shelf 1"
+        size 0.3 0.02 0.6
+        appearance BrushedAluminium {
+        }
+      }
+      SolidBox {
+        translation 0 0.35 0
+        name "shelf 2"
+        size 0.3 0.02 0.6
+        appearance BrushedAluminium {
+        }
+      }
+      SolidBox {
+        translation 0 0.18 0
+        name "shelf 3"
+        size 0.3 0.02 0.6
+        appearance BrushedAluminium {
+        }
+      }
+      SolidBox {
+        translation 0 0.01 0
+        name "shelf 4"
+        size 0.3 0.02 0.6
+        appearance BrushedAluminium {
+        }
+      }
+      Solid {
+        translation 0.15 0.26 0.3
+        children [
+          DEF SHELF_PILLAR_SHAPE Shape {
+            appearance VarnishedPine {
+              textureTransform TextureTransform {
+                scale 4 4
+              }
+            }
+            geometry Cylinder {
+              height 0.52
+              radius 0.015
+            }
+          }
+        ]
+        name "pillar 1"
+        boundingObject USE SHELF_PILLAR_SHAPE
+      }
+      Solid {
+        translation -0.15 0.26 0.3
+        children [
+          USE SHELF_PILLAR_SHAPE
+        ]
+        name "pillar 2"
+        boundingObject USE SHELF_PILLAR_SHAPE
+      }
+      Solid {
+        translation -0.15 0.26 -0.3
+        children [
+          USE SHELF_PILLAR_SHAPE
+        ]
+        name "pillar 3"
+        boundingObject USE SHELF_PILLAR_SHAPE
+      }
+      Solid {
+        translation 0.15 0.26 -0.3
+        children [
+          USE SHELF_PILLAR_SHAPE
+        ]
+        name "pillar 4"
+        boundingObject USE SHELF_PILLAR_SHAPE
+      }
+    ]
+    name IS name
+    model "RoCKIn shelf"
+  }
+}

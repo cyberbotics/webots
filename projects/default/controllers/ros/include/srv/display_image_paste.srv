@@ -1,0 +1,6 @@
+uint64 ir
+int32 x
+int32 y
+uint8 blend
+---
+int8 success

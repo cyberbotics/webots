@@ -1,0 +1,28 @@
+#VRML_SIM R2019a utf8
+
+PROTO SlotifiedRobot [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+  field SFString   controller "default"
+  field MFNode     slot []
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      geometry DEF BO Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Group {
+      children IS slot
+    }
+  ]
+  boundingObject USE BO
+  physics Physics {
+  }
+  controller IS controller
+}
+}

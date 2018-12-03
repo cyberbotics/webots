@@ -1,0 +1,242 @@
+{
+  "name": "qrio", 
+  "devices": [
+    {
+      "transformID": "n18", 
+      "name": "back_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n22", 
+      "name": "back_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n73", 
+      "name": "left_ankle_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n77", 
+      "name": "left_ankle_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n238", 
+      "name": "left_elbow", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n31", 
+      "name": "left_hip_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n40", 
+      "name": "left_hip_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n44", 
+      "name": "left_hip_3", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n58", 
+      "name": "left_knee", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n213", 
+      "name": "left_shoulder_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n217", 
+      "name": "left_shoulder_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n333", 
+      "name": "neck", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n160", 
+      "name": "right_ankle_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n164", 
+      "name": "right_ankle_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n298", 
+      "name": "right_elbow", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n118", 
+      "name": "right_hip_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 -1 0"
+    }, 
+    {
+      "transformID": "n127", 
+      "name": "right_hip_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n131", 
+      "name": "right_hip_3", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n145", 
+      "name": "right_knee", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n273", 
+      "name": "right_shoulder_1", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n277", 
+      "name": "right_shoulder_2", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n349"
+      ], 
+      "transformID": "n346", 
+      "name": "front eye", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n372"
+      ], 
+      "transformID": "n369", 
+      "name": "led", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n337"
+      ], 
+      "transformID": "n334", 
+      "name": "left eye", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n343"
+      ], 
+      "transformID": "n340", 
+      "name": "right eye", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }
+  ]
+}

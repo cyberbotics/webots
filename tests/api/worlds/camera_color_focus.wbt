@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.178256 0.983235 -0.0383914 5.70569
+  position -2.05173 0.237744 2.4162
+}
+Background {
+  skyColor [
+    0 0 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 -1
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 -1
+}
+Transform {
+  translation 0 -0.5 -0.5
+  children [
+    DEF SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry Box {
+        size 1 1 0.1
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Camera {
+      focus Focus {
+        focalLength 0.1
+        maxFocalDistance 0.2
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "camera_checker"
+  controllerArgs "camera_color_focus"
+}
+TestSuiteSupervisor {
+}

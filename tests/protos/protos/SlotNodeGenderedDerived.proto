@@ -1,0 +1,8 @@
+#VRML_SIM R2019a utf8
+
+PROTO SlotNodeGenderedDerived [
+]
+{
+  SlotNodeGendered {
+  }
+}

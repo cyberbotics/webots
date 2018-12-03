@@ -1,0 +1,170 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Aldebaran's Nao H25 V5.0"
+  ]
+  title "Nao Indoors"
+  basicTimeStep 20
+  FPS 20
+  contactProperties [
+    ContactProperties {
+      material1 "Nao foot material"
+      coulombFriction [
+        8.24
+      ]
+      bounce 0.9
+      bounceVelocity 0.003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.06784940012364316 -0.9855478736987582 -0.15521548747054348 2.4330084686142914
+  position -4.307780136604419 1.0632616765459961 -3.903964765437792
+  follow "NAO"
+}
+Background {
+  cubemap Cubemap {
+    textureBaseName "brown_floor"
+  }
+}
+Floor {
+  translation -1.7 0 -1.4
+  size 6.6 6.6
+  tileSize 1 1
+  appearance Parquetry {
+  }
+}
+Ceiling {
+  translation -1.7 2.4 -1.4
+  size 6.6 6.6
+}
+Nao {
+  translation -2.61026 0.334 -2.31678
+  rotation 0 0.7071067811865476 0.7071067811865476 3.1415
+}
+Wall {
+  translation 1 0 2
+  size 1.2 2.4 0.2
+}
+Wall {
+  translation -2.8 0 2
+  name "wall(1)"
+  size 4.4 2.4 0.2
+}
+Wall {
+  translation 1.7 0 -2.55
+  rotation 0 1 0 4.71239
+  name "wall(2)"
+  size 4.7 2.4 0.2
+}
+Wall {
+  translation -1.7 0 -4.8
+  name "wall(3)"
+  size 6.6 2.4 0.2
+}
+Wall {
+  translation -5.1 0 1.4
+  rotation 0 1 0 1.5708
+  name "wall(4)"
+  size 1.4 2.4 0.2
+}
+Wall {
+  translation -5.10002 0 -3.1
+  rotation 0 1 0 1.5708
+  name "wall(5)"
+  size 3.6 2.4 0.2
+}
+Wall {
+  translation 1.7 0 1.45
+  rotation 0 1 0 1.5708
+  name "wall(6)"
+  size 1.3 2.4 0.2
+}
+Door {
+  translation -0.1 0 2
+  rotation 0 1 0 3.14159
+  canBeOpen FALSE
+  doorHandle DoorLever {
+    hasStaticParent TRUE
+  }
+}
+Door {
+  translation 1.7 0 0.3
+  rotation 0 1 0 4.71239
+  name "door(1)"
+  canBeOpen FALSE
+  doorHandle DoorLever {
+    hasStaticParent TRUE
+  }
+}
+Window {
+  translation -5.1 0 -0.3
+  rotation 0 1 0 1.5708
+  size 2 2.4 0.2
+}
+CeilingLight {
+  translation -2.5 2.4 -1
+  pointLightAttenuation 0 0 2
+  pointLightColor 1 1 0.9411764705882353
+  pointLightIntensity 7
+}
+FloorLight {
+  translation -4.3 0 -4
+  pointLightAttenuation 0 0 5
+  pointLightIntensity 6
+}
+Desk {
+  translation -4.5 0 -3
+  rotation 0 1 0 1.5708
+}
+WoodenChair {
+  translation -4.1 0 -2.85
+  rotation 0 1 0 4.71239
+  physics Physics {
+    centerOfMass [
+      0 0.45 0
+    ]
+  }
+}
+Book {
+  translation -4.5 0.722909 -3.2
+  rotation -0.7372206774951444 0.4783317907487814 0.47718379125098576 1.8584
+}
+Table {
+  translation -2.5 0.02 -0.8
+  size 1.2 0.53 0.8
+}
+Armchair {
+  translation -1.2 0 -2.2
+  rotation 0 -1 0 2.30591
+}
+Sofa {
+  translation -4.2 0 -1
+}
+Sofa {
+  translation -2.5 0 1
+  rotation 0 1 0 1.5708
+  name "sofa(1)"
+}
+Carpet {
+  translation -2.5 -0.015 -0.9
+}
+BunchOfSunFlowers {
+  translation -1.1 0 1
+}
+Book {
+  translation -4.61 0.72292 -2.7
+  rotation -0.9362003879268816 0.2507851039160895 0.24624310203405161 1.62618
+  name "book(1)"
+}
+Can {
+  translation -2.3 0.61335 -0.78
+  rotation 0 -1 0 1.29491
+}
+PottedTree {
+  translation 1 0 -3.5
+}
+PortraitPainting {
+  translation -2.53 1.6 1.73
+  rotation 0 1 0 3.14159
+}

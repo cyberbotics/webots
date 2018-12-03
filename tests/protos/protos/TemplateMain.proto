@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateMain [
+  field SFBool mainParameter TRUE
+]
+{
+Group {
+  children [
+    %{ if not fields.mainParameter.value then }%
+      TemplateNested {
+        nestedParameter IS mainParameter
+      }
+    %{ end }%
+  ]
+}
+}

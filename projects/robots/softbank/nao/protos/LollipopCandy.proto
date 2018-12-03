@@ -1,0 +1,59 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+PROTO LollipopCandy [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFColor color 0.9 0.1 0.1
+  field SFString name "lollipop candy"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF LOLLIPOP_SHAPE Group {
+      children [
+        Transform {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor IS color
+                roughness 0.3
+                metalness 0
+              }
+              geometry Sphere {
+                subdivision 3
+                radius 0.0125
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.038
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 0.4
+                metalness 0
+              }
+              geometry Cylinder {
+                radius 0.0025
+                height 0.076
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "lollipop candy"
+  boundingObject USE LOLLIPOP_SHAPE
+  physics Physics {
+    density -1
+    mass 0.16
+  }
+}
+}

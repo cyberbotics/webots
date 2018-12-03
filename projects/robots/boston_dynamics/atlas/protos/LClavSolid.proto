@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO LClavSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    LClavMesh {
+    }
+  ]
+  name "LClav"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.0744 0.03657
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.045
+            height 0.1525
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.012 0.012
+        rotation 1.0 0.0 0.0 1.0464
+        children [
+          Cylinder {
+            radius 0.04
+            height 0.027
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 2.369
+    centerOfMass 0.014 0.058 0.029
+    inertiaMatrix [0.004 0.006 0.007, 0.001 0 0 ]
+  }
+}
+}

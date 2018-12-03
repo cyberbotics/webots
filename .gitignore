@@ -1,32 +1,65 @@
-# Prerequisites
-*.d
+# Global rules #
+################
 
-# Compiled Object files
-*.slo
-*.lo
+# Build directories
+build
+com
+
+# Compiled source
+*.exe
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
+*.d
+*.class
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
 *.lib
+*.a
+*.cof
+*.hex
+*.pyc
+*.gch
 
-# Executables
-*.exe
-*.out
-*.app
+# Packages
+*.7z
+*.bz2
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.directory
+ehthumbs.db
+Thumbs.db
+*.swp
+
+# Text editor backup files
+*~
+
+# Log files
+*.log
+
+# Blender cache
+*.blend1
+
+# Webots generated files
+*.signature
+*.cache
+
+# Local rules #
+###############
+
+/msys64
+/webots
+/webots.lnk
+/webots_debug_output.txt
+/util/

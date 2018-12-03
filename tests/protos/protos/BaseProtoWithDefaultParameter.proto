@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+PROTO BaseProtoWithDefaultParameter [
+  field MFNode extensionSlot SolidCylinder { }
+]
+{
+  Robot {
+    children [
+      Solid {
+        translation -0.75 0 0
+        rotation 0 0 1 1.5708
+        children IS extensionSlot
+      }
+    ]
+  }
+}

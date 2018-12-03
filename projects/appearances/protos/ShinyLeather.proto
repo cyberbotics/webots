@@ -1,0 +1,45 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A shiny leather material. The color can be selected using the `colorOverride` field. Useful with any of the vehicle PROTOs.
+
+PROTO ShinyLeather [
+  field SFColor colorOverride    1 1 1                           # Defines the leather's color.
+  field SFNode  textureTransform TextureTransform { scale 4 4 }  # Defines an optional 2d texture transform.
+  field SFNode  environmentMap   NULL                            # Defines a `Cubemap` node that can override the world's skybox for this object.
+  field SFFloat IBLStrength      1                               # Defines the strength of ambient lighting from the Cubemap node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/shiny_leather/shiny_leather_base_color.jpg"
+      ]
+      filtering 5   
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/shiny_leather/shiny_leather_roughness.jpg"
+      ]
+      filtering 5
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/shiny_leather/shiny_leather_normal.jpg"
+      ]
+      filtering 5      
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/shiny_leather/shiny_leather_occlusion.jpg"
+      ]
+      filtering 5      
+    }
+    metalness 0
+    normalMapFactor 1
+    environmentMap IS environmentMap
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

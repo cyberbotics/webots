@@ -1,0 +1,21 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoUnknownFieldHeader [
+  field SFRotation rotation 0 1 0 0
+  field SFVec3f translation 0 0 0
+  notfield SFBool fieldName TRUE # unknown field header
+]
+{
+  Solid {
+    rotation IS rotation
+    translation IS translation
+    children [
+      Shape {
+        geometry DEF BOX Box {
+          size 0.1 0.1 0.1
+        }
+      }
+    ]
+    boundingObject USE BOX
+  }
+}

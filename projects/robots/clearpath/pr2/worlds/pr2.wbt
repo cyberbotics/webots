@@ -1,0 +1,47 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Willow Garage PR2 robot."
+    "The robot model includes 44 actuated joints, 6 cameras and 2 laser-scanners."
+  ]
+  title "PR2"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "pr2_material"
+      softCFM 1e-05
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.06091631601174338 0.9680772544573537 0.24313706390813708 2.64476
+  position 1.58483 2.33481 -2.32756
+  follow "PR2"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Pr2 {
+}
+Floor {
+  tileSize 1 1
+  appearance Parquetry {
+  }
+}
+Table {
+  translation 1.5 0 0
+  rotation 0 1 0 1.5708
+}
+Table {
+  translation -1.5 0 0
+  rotation 0 1 0 1.5708
+  name "table 2"
+}
+Can {
+  translation 1.25 0.805 0.19
+}
+BiscuitBox {
+  translation 1.27 0.86 -0.17
+  rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 4.18879
+}

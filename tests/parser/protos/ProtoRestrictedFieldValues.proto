@@ -1,0 +1,15 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoRestrictedFieldValues
+[
+  field SFRotation{0 1 0 0, 0 0 1 0, 0 1 0 1.5708} rotation 0 1 0 0
+  field SFVec3f{0 0 0} translation 0 0 0
+  field MFNode{Solid{}, Group{}} extensionSlot []
+]
+{
+  Solid {
+    rotation IS rotation
+    translation IS translation
+    children IS extensionSlot
+  }
+}

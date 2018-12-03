@@ -1,0 +1,256 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example use of a color Camera device."
+  ]
+  title "Camera"
+}
+Viewpoint {
+  orientation 0.999365 0.0303157 -0.0187006 5.29098
+  position -0.0424516 1.17179 0.823619
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.3 -1 0.4
+  castShadows TRUE
+}
+DirectionalLight {
+  ambientIntensity 1
+  intensity 0
+}
+RectangleArena {
+}
+DEF GREEN_BOX Solid {
+  translation -0.05 0.05 -0.25
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 1 0
+          specularColor 0.564706 0.933333 0.564706
+        }
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+      }
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.2 0.05 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+          specularColor 0.117647 0.564706 1
+        }
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+      }
+    }
+    geometry USE BOX1
+  }
+}
+DEF WHITE_BOX Solid {
+  translation -0.2 0.05 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.74902 0.74902 0.74902
+          specularColor 0.898039 0.898039 0.898039
+        }
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "gray box"
+  boundingObject Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+      }
+    }
+    geometry USE BOX2
+  }
+}
+DEF PINK_BOX Solid {
+  translation 0.42 0.05 -0.1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0.1 0.1
+          specularColor 1 0.752941 0.796078
+        }
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.1 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 1 1 1
+        specularColor 1 1 1
+      }
+    }
+    geometry USE BOX3
+  }
+}
+Robot {
+  translation 0.15 0 0
+  rotation 0 1 0 1
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.0820075 0.364731 0.8
+            }
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left motor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0 0
+                  }
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    Camera {
+      translation 0 0.0915 -0.04
+      rotation 0 0 -1 0
+      children [
+        Transform {
+          translation 0 0 0.015
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 1 1 1
+                }
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      fieldOfView 1.047
+      width 320
+      height 240
+      antiAliasing TRUE
+      noise 0.04
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "camera_revert"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

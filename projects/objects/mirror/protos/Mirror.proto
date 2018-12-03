@@ -1,0 +1,176 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A simple mirror made of a display attached to a camera.
+# The reflected image does not depend on the viewpoint position.
+
+PROTO Mirror [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "mirror"
+  field SFString   controller      "mirror"          # Defines the controller of the mirror. This controller should simply enable the camera and attach it to the display.
+  field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
+  field SFFloat    fieldOfView     0.785398          # Defines the field of view of the mirror camera.
+  field SFFloat    width           0.5               # Defines the width of the mirror.
+  field SFFloat    height          0.8               # Defines the height of the mirror.
+  field SFFloat    frameThickness  0.02              # Defines the thickness of the mirror frame.
+  field SFNode     physics         NULL              # Is `Solid.physics`.
+  field SFNode     frameAppearance VarnishedPine {}  # Defines the appearance of the mirror frame.
+  
+  # Deprecated in Webots R2019a
+  hiddenField MFString   frameTexture    ["textures/wood.jpg"]
+]
+{
+  %{
+      local fieldOfView = fields.fieldOfView.value
+      if fieldOfView <= 0.0 then
+        fieldOfView = fields.fieldOfView.defaultValue
+        io.stderr:write("'fieldOfView' should be strictly positive.\n")
+        io.stderr:write("'fieldOfView' was reset to '" .. fieldOfView .. "'.\n")
+      end
+      if fieldOfView > math.pi then
+        fieldOfView = fields.fieldOfView.defaultValue
+        io.stderr:write("'fieldOfView' should not be bigger than pi.\n")
+        io.stderr:write("'fieldOfView' was reset to '" .. fieldOfView .. "'.\n")
+      end
+      local width = fields.width.value
+      if width <= 0.0 then
+        width = fields.width.defaultValue
+        io.stderr:write("'width' should be strictly positive.\n")
+        io.stderr:write("'width' was reset to '" .. width .. "'.\n")
+      end
+      local height = fields.height.value
+      if height <= 0.0 then
+        height = fields.height.defaultValue
+        io.stderr:write("'height' should be strictly positive.\n")
+        io.stderr:write("'height' was reset to '" .. height .. "'.\n")
+      end
+      local frameThickness = fields.frameThickness.value
+      if frameThickness <= 0.0 then
+        frameThickness = fields.frameThickness.defaultValue
+        io.stderr:write("'frameThickness' should be strictly positive.\n")
+        io.stderr:write("'frameThickness' was reset to '" .. frameThickness .. "'.\n")
+      end
+
+      local frameTexture = fields.frameTexture.value[0]
+      if frameTexture ~= fields.frameTexture.defaultValue[0] then
+        io.stderr:write("The 'frameTexture' field is deprecated, using the new 'frameAppearance' field instead.\n")
+      end
+
+      local cameraWidth = 256
+      local cameraHeight = math.ceil(256 * height / width) 
+  }%
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    supervisor IS supervisor
+    children [
+      %{ local camera_distance = (width / 2) / math.tan(fieldOfView / 2) }%
+      Camera {
+        translation 0 %{= height / 2 + frameThickness }% %{= -camera_distance }%
+        rotation 0 1 0 3.14159
+        fieldOfView IS fieldOfView
+        width %{= cameraWidth }%
+        height %{= cameraHeight }%
+        near %{= (1 + 0.0001 * math.max(width, height)) * camera_distance }%
+        antiAliasing TRUE
+      }
+      DEF FRONT Display {
+        translation 0 %{= height / 2 + frameThickness }% 0
+        rotation 1 0 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+               filtering 0
+              }
+              textureTransform TextureTransform {
+                scale -1 1
+              }
+              metalness 0
+              roughness 1
+            }
+            geometry Plane {
+              size %{= width }% %{= height }%
+            }
+          }
+        ]
+        width %{= cameraWidth }%
+        height %{= cameraHeight }%
+      }
+      DEF BACK Transform {
+        translation 0 %{= height / 2 + frameThickness }% 0
+        rotation 0 -0.707108 0.707105 3.14159
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              baseColor 0.6 0.6 0.6
+              roughness 0.8
+            }
+            geometry Plane {
+              size %{= width }% %{= height }%
+            }
+          }
+        ]
+      }
+      DEF UPPER_FRAME Transform {
+        translation 0 %{= height + 1.5 * frameThickness }% 0
+        children [
+          Shape {
+            appearance IS frameAppearance
+            geometry Box {
+              size %{= width }% %{= frameThickness }% %{= frameThickness }%
+            }
+          }
+        ]
+      }
+      DEF LOWER_FRAME Transform {
+        translation 0 %{= frameThickness / 2 }% 0
+        children [
+          Shape {
+            appearance IS frameAppearance
+            geometry Box {
+              size %{= width }% %{= frameThickness }% %{= frameThickness }%
+            }
+          }
+        ]
+      }
+      DEF RIGHT_FRAME Transform {
+        translation %{= width / 2 + frameThickness / 2 }% %{= height / 2 + frameThickness }% 0
+        children [
+          Shape {
+            appearance IS frameAppearance
+            geometry Box {
+              size %{= frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+            }
+          }
+        ]
+      }
+      DEF LEFT_FRAME Transform {
+        translation %{= -width / 2 - frameThickness / 2 }% %{= height / 2 + frameThickness }% 0
+        children [
+          Shape {
+            appearance IS frameAppearance
+            geometry Box {
+              size %{= frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "mirror"
+    boundingObject Transform {
+      translation 0 %{= height / 2 + frameThickness }% 0
+      children [
+        Box {
+          size %{= width + 2 * frameThickness }% %{= height + 2 * frameThickness }% %{= frameThickness }%
+        }
+      ]
+    }
+    physics IS physics
+  }
+}

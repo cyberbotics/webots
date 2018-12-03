@@ -1,0 +1,17 @@
+#VRML_SIM R2019a utf8
+
+PROTO RobotWithSlot [
+  field SFVec3f translation 0 0 0
+  field MFNode extensions []
+]
+{
+  Robot {
+    translation IS translation
+    children [
+      DEF HIDDEN_SOLID Solid {
+        translation 0 0 0
+        children IS extensions
+      }
+    ]
+  }
+}

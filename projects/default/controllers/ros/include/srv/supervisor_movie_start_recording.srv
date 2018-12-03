@@ -1,0 +1,9 @@
+string filename
+int32 width
+int32 height
+int32 codec
+int32 quality
+int32 acceleration
+uint8 caption
+---
+int8 success

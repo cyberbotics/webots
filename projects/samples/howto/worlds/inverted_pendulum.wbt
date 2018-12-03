@@ -1,0 +1,128 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "An example of hot to solve the Inverted Pendulum problem using a PID controller"
+  ]
+  title "Inverted Pendulum"
+  contactProperties [
+    ContactProperties {
+      material1 "robot_basis"
+      material2 "floor"
+      coulombFriction [
+        0.2
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.05317585096836776 0.9887920240003923 0.1395086454202659 3.609723118221519
+  position -6.644331534525101 4.261264054273784 -9.7759672742021
+}
+TexturedBackground {
+}
+Floor {
+  size 2 60
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/checkered_marble.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+      }
+      device [
+        LinearMotor {
+          name "horizontal_motor"
+          maxForce 40
+        }
+        PositionSensor {
+          name "horizontal position sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 2.69072e-06
+        rotation 0 0 1 0
+        children [
+          DEF ROBOT_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 0.2443427176317998 0.704051270313573 0.1756923781185626
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.1 0.1 0.3
+            }
+          }
+          DEF HIP HingeJoint {
+            jointParameters HingeJointParameters {
+              position 0.000161402
+              anchor 0 0.03 0
+            }
+            device [
+              PositionSensor {
+                name "hip"
+              }
+            ]
+            endPoint DEF THIGH_BB Solid {
+              translation 0.061 0.33 0
+              rotation -1 0 0 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.8496833752956435 0.07072556649118791 0.09393453879606317
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry DEF THIGH_BOX Box {
+                    size 0.02 0.6 0.05
+                  }
+                }
+              ]
+              boundingObject USE THIGH_BOX
+              physics Physics {
+                density -1
+                mass 0.05
+                centerOfMass [
+                  -0.061 -0.27 0
+                ]
+              }
+            }
+          }
+          PointLight {
+            attenuation 0 1 0
+            intensity 0.8
+            location 0.5 0.9 0.3
+          }
+          PointLight {
+            attenuation 0 1 0
+            location -0.8 1.5 -0.65
+            castShadows TRUE
+          }
+        ]
+        contactMaterial "robot_basis"
+        boundingObject USE ROBOT_SHAPE
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.01 200
+  }
+  physics Physics {
+    density -1
+    mass 30
+  }
+  controller "inverted_pendulum"
+}
+TexturedBackgroundLight {
+}

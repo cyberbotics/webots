@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A generic traffic light with configurable timming.
+
+PROTO GenericTrafficLight [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "generic traffic light"
+  field SFBool     startGreen  TRUE                     # Defines whether the traffic light should start in a 'green' state or 'red' state.
+  field SFFloat    greenTime   60                       # Defines how long should be the green state in seconds.
+  field SFFloat    redTime     15                       # Defines how long should be the red state in seconds.
+  field SFString   state       "off"                    # Defines the current state of the traffic light, this field is automatically updated when the state change.
+]
+{
+%{
+  local greenTime = fields.greenTime.value
+  if greenTime <= 0.0 then
+    greenTime = fields.greenTime.defaultValue
+    io.stderr:write("'greenTime' should be strictly positive.\n")
+    io.stderr:write("'greenTime' was reset to '" .. greenTime .. "'.\n")
+  end
+  local redTime = fields.redTime.value
+  if redTime <= 0.0 then
+    redTime = fields.redTime.defaultValue
+    io.stderr:write("'redTime' should be strictly positive.\n")
+    io.stderr:write("'redTime' was reset to '" .. redTime .. "'.\n")
+  end
+  local controllerArgs = '"' .. redTime .. ' ' .. greenTime .. ' '
+  if fields.startGreen.value then
+    controllerArgs = controllerArgs .. 'g'
+  else
+    controllerArgs = controllerArgs .. 'r'
+  end
+  controllerArgs = controllerArgs .. '"'
+}%
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Pole {
+        slot [
+          TrafficLight {
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "generic traffic light"
+    controller "generic_traffic_light"
+    controllerArgs %{= controllerArgs }%
+    customData IS state
+  }
+}

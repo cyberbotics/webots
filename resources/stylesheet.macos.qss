@@ -1,0 +1,14 @@
+/********************************/
+/* MacOS-specific style sheet for Webots */
+/********************************/
+
+/* The following rules solves a Qt 5.9 bug hiding the close button of the text editor tab. */
+QTabBar::close-button:selected {
+  image: url(enabledIcons:macos_selected_tab_close_button.png);
+}
+QTabBar::close-button:!selected {
+  image: url(enabledIcons:macos_unselected_tab_close_button.png);
+}
+QTabBar::close-button:hover {
+  image: url(enabledIcons:macos_hover_tab_close_button.png);
+}

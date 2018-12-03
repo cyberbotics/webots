@@ -1,0 +1,54 @@
+#VRML_SIM R2019a utf8
+DEF WORLDINFO WorldInfo {
+  northDirection 1 0 1
+}
+Viewpoint {
+  orientation 0.99135756 -0.068406269 -0.11194095 5.71846
+  position -0.0502385 0.471237 0.824517
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF SPHERE0 Solid {
+  translation 0.15 0 0
+  children [
+    DEF SPHERE Shape {
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  boundingObject USE SPHERE
+}
+Robot {
+  children [
+    DistanceSensor {
+      name "ds0"
+    }
+    DistanceSensor {
+      rotation 0 1 0 3.14159
+      name "ds1"
+    }
+    TestSuiteEmitter {
+    }
+    DEF IMPORT_TEST Transform {
+      translation -0.34 0 0
+    }
+    Transform {
+      translation 0.2 0 0
+      children [
+        USE IMPORT_TEST
+      ]
+    }
+  ]
+  controller "supervisor_import_remove"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

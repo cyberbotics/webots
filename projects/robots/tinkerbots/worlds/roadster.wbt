@@ -1,0 +1,92 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.09334716944784768 0.9756289760722571 0.19858098349105363 3.971122944399357
+  position -0.43599534141196444 0.26747853118938325 -0.3764773617204816
+  near 0.001
+  exposure 2
+  follow "roadster"
+  followSmoothness 0.1
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+TinkerbotsBase {
+  translation 0 0.03 0
+  name "roadster"
+  controller "four_wheels_vehicle"
+  upBSlot TinkerbotsCubieBoxWithRoundSlots {
+    rotation 0 0 1 -1.5708
+    name "cubie A"
+    upSlot TinkerbotsBrickAdapter {
+      translation 0.01 -0.02 0
+    }
+    axisSlot TinkerbotsAxle {
+      translation 0 0 0.02
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  upDSlot TinkerbotsCubieBoxWithRoundSlots {
+    rotation 0 0 1 -1.5708
+    name "cubie B"
+    axisSlot TinkerbotsAxle {
+      translation 0 0 0.02
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  downSlot TinkerbotsPivot {
+    rotation 0 0 1 -1.5708
+    slot TinkerbotsMotor {
+      rightASlot TinkerbotsBrickAdapter {
+      }
+      frontSlot TinkerbotsAxle {
+        name "axle A"
+        endSlot TinkerbotsWheel {
+        }
+      }
+      backSlot TinkerbotsAxle {
+        name "axle B"
+        endSlot TinkerbotsWheel {
+        }
+      }
+    }
+  }
+}

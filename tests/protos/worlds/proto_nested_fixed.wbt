@@ -1,0 +1,36 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.880034 -0.461858 -0.110582 0.531269
+  position -0.562225 2.15275 4.51028
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+DEF TEST_PROTO ProtoNestedFixed {
+}
+Robot {
+  translation 0.45 0.45 0.6
+  children [
+    Camera {
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "proto_nested_internal"
+  controllerArgs "proto_nested_fixed"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

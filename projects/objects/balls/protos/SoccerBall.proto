@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A black and white soccer ball with customizable radius and mass.
+# This object is physics-enabled so it will roll or bounce when hit.
+
+PROTO SoccerBall [
+  field SFVec3f    translation 0 0.1 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "soccer ball"
+  field SFFloat    radius      0.113          # Defines the radius of the ball.
+  field SFFloat    mass        0.6            # Defines the mass of the ball.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF FOOTBALL_SHAPE Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.4
+          baseColorMap ImageTexture {
+            url [
+              "textures/football_base_color.jpg"
+            ]
+          }
+          normalMap ImageTexture {
+            url [
+              "textures/football_normal.jpg"
+            ]
+          }
+        }
+        geometry Sphere {
+          radius IS radius
+          subdivision 3
+        }
+      }
+    ]
+    name IS name
+    model "soccer ball"
+    boundingObject USE FOOTBALL_SHAPE
+    physics Physics {
+      mass IS mass
+      density -1
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "name": "khepera1", 
+  "devices": [
+    {
+      "transformID": "n25", 
+      "name": "left wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n41", 
+      "name": "right wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n157"
+      ], 
+      "transformID": "n154", 
+      "name": "led0", 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n162"
+      ], 
+      "transformID": "n159", 
+      "name": "led1", 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n58", 
+      "type": "DistanceSensor", 
+      "name": "ds0"
+    }, 
+    {
+      "transformID": "n69", 
+      "type": "DistanceSensor", 
+      "name": "ds1"
+    }, 
+    {
+      "transformID": "n80", 
+      "type": "DistanceSensor", 
+      "name": "ds2"
+    }, 
+    {
+      "transformID": "n91", 
+      "type": "DistanceSensor", 
+      "name": "ds3"
+    }, 
+    {
+      "transformID": "n102", 
+      "type": "DistanceSensor", 
+      "name": "ds4"
+    }, 
+    {
+      "transformID": "n113", 
+      "type": "DistanceSensor", 
+      "name": "ds5"
+    }, 
+    {
+      "transformID": "n124", 
+      "type": "DistanceSensor", 
+      "name": "ds6"
+    }, 
+    {
+      "transformID": "n135", 
+      "type": "DistanceSensor", 
+      "name": "ds7"
+    }, 
+    {
+      "transformID": "n25", 
+      "type": "PositionSensor", 
+      "name": "left wheel sensor"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.0245 0.0144 -0.012", 
+      "type": "LightSensor", 
+      "name": "ls0"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.0185 0.0144 -0.021", 
+      "type": "LightSensor", 
+      "name": "ls1"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.0075 0.0144 -0.027", 
+      "type": "LightSensor", 
+      "name": "ls2"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.0075 0.0144 -0.027", 
+      "type": "LightSensor", 
+      "name": "ls3"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.0185 0.0144 -0.021", 
+      "type": "LightSensor", 
+      "name": "ls4"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.0245 0.0144 -0.012", 
+      "type": "LightSensor", 
+      "name": "ls5"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.009 0.0144 0.026", 
+      "type": "LightSensor", 
+      "name": "ls6"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.009 0.0144 0.026", 
+      "type": "LightSensor", 
+      "name": "ls7"
+    }, 
+    {
+      "transformID": "n41", 
+      "type": "PositionSensor", 
+      "name": "right wheel sensor"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Receiver", 
+      "name": "rs232_in"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Emitter", 
+      "name": "rs232_out"
+    }
+  ]
+}

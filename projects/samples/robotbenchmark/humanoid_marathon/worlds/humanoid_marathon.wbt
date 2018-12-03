@@ -1,0 +1,619 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Humanoid Marathon"
+  window "humanoid_marathon"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.22959806948864758 -0.9625869278561616 -0.14391362967948082 5.2328629
+  position 2.8815727 1.2408186 1.1426191
+  follow "ROBOTIS OP2"
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+DEF BATTERYOP2 RobotisOp2 {
+  translation -0.09 0.265 -0.59
+  rotation 0.058975477104651855 0.9961271117676255 -0.06521250111571945 1.573677
+  controller "marathon"
+  selfCollision TRUE
+  battery [
+    2375.34, 100, 0
+  ]
+}
+HumanoidMarathonBenchmark {
+}
+Fog {
+  visibilityRange 600
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/ground.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 500 500
+        }
+      }
+      geometry DEF GROUND_PLANE Plane {
+        size 2000 2000
+      }
+      castShadows FALSE
+    }
+  ]
+  name "ground"
+  boundingObject Plane {
+    size 50 50
+  }
+  locked TRUE
+}
+DEF ENVIRONMENT Solid {
+  scale 0.3 0.3 0.3
+  children [
+    Tree {
+      translation 23.79 0.07 -9
+      texture [
+        "textures/birch_tree.png"
+      ]
+      isPickable FALSE
+    }
+    Tree {
+      translation 23.79 0.07 -35.302721
+      name "tree(1)"
+      texture [
+        "textures/birch_tree.png"
+      ]
+      isPickable FALSE
+    }
+    Tree {
+      translation 23.79 0.07 -19.790649
+      name "tree(2)"
+      texture [
+        "textures/birch_tree.png"
+      ]
+      isPickable FALSE
+    }
+    RoadIntersection {
+      translation 30.38 0.11000000000000001 -2
+      rotation 0 1 0 0.7853981610000004
+      roadsWidth 7.2
+      startRoadsLength [
+        60.5, 45.5, 100.4, 45.5
+      ]
+      startRoadBorder FALSE
+      locked FALSE
+    }
+    SimpleBuilding {
+      translation -0.53 0 -22.03
+      floorNumber 5
+      corners [
+        20 10
+        20 -10
+        -10 -10
+        -10 10
+      ]
+      wallType "residential building"
+    }
+    SimpleBuilding {
+      translation 50.5 0 -22.05
+      name "building(1)"
+    }
+    FastFoodRestaurant {
+      translation 16.23 0 11.34
+      rotation 0 1 0 1.5707962
+      brand "momo"
+    }
+    BungalowStyleHouse {
+      translation 48.49 0 16.48
+      rotation 0 1 0 1.5707963
+      appearance PBRAppearance {
+        baseColor 0.988235 0.913725 0.309804
+        roughness 1
+        metalness 0
+      }
+    }
+    SimpleTwoFloorsHouse {
+      translation -34.96 0 -16.6
+      appearance PBRAppearance {
+        baseColor 0.966674 0.95494 0.660563
+        roughness 1
+        metalness 0
+      }
+    }
+    BungalowStyleHouse {
+      translation -6.95 0 13.19
+      rotation 0 1 0 1.5707963
+      name "bungalow style house(1)"
+    }
+    Tree {
+      translation 65.147 0 6.104
+      rotation 0 1 0 1.0471975
+      name "tree(3)"
+      texture [
+        "textures/crab_apple_tree.png"
+      ]
+      isPickable FALSE
+    }
+    DEF POTTED_TREE Solid {
+      translation 16.18 0.34 -8.334
+      rotation 0 1 0 0.49269969
+      children [
+        Tree {
+          scale 0.30000000000000004 1 0.3
+          texture [
+            "textures/white_pine.png"
+          ]
+          isPickable FALSE
+        }
+        DEF PLANT_GROUND Shape {
+          appearance PBRAppearance {
+            baseColor 0.319997 0.157382 0.040528
+            baseColorMap ImageTexture {
+              url [
+                "textures/sand.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 3 3
+            }
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.52
+          }
+        }
+        SolidPipe {
+          translation 0 -0.11 0
+          height 0.5
+          radius 0.6
+          appearance DEF POT_APPEARANCE PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/rock.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 1 0.3
+            }
+          }
+        }
+      ]
+      name "solid(12)"
+    }
+    DEF POTTED_TREE Solid {
+      translation 8.954 0.34 -8.334
+      rotation 0 1 0 0.49269969
+      children [
+        Tree {
+          scale 0.30000000000000004 1 0.3
+          texture [
+            "textures/white_pine.png"
+          ]
+          isPickable FALSE
+        }
+        SolidPipe {
+          translation 0 -0.11 0
+          height 0.5
+          radius 0.6
+          appearance DEF POT_APPEARANCE PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/rock.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 1 0.3
+            }
+          }
+        }
+        USE PLANT_GROUND
+      ]
+      name "solid(13)"
+    }
+    DEF POTTED_TREE Solid {
+      translation -7.27 0.34 -8.334
+      children [
+        Tree {
+          scale 0.30000000000000004 1 0.3
+          texture [
+            "textures/white_pine.png"
+          ]
+          isPickable FALSE
+        }
+        SolidPipe {
+          translation 0 -0.11 0
+          height 0.5
+          radius 0.6
+          appearance DEF POT_APPEARANCE PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/rock.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 1 0.3
+            }
+          }
+        }
+        USE PLANT_GROUND
+      ]
+      name "solid(14)"
+    }
+    FireHydrant {
+      translation 23.107 0 3.59
+      appearance PBRAppearance {
+        baseColor 0.643137 0 0
+        roughness 1
+        metalness 0
+      }
+    }
+    FireHydrant {
+      translation -5.04 0 -7
+      rotation 0 -1 0 1.5707963
+      name "fire hydrant(1)"
+      appearance PBRAppearance {
+        baseColor 0.643137 0 0
+        roughness 1
+        metalness 0
+      }
+    }
+    BusStop {
+      translation 1.618 0 -8.171
+      internalAdvertisingTexture [
+        "textures/momo_advertising_right.jpg"
+      ]
+      externalAdvertisingTexture [
+        "textures/momo_advertising_left.jpg"
+      ]
+      advertisingLightOn FALSE
+    }
+    PedestrianCrossing {
+      translation 43.33 0.03 -2
+      rotation 0 1 0 1.5707997
+      size 7.2 3
+    }
+    PedestrianCrossing {
+      translation -10.26 0.03 -2
+      rotation 0 1 0 1.5707997
+      name "pedestrian crossing(1)"
+      size 7.2 3
+    }
+    StreetLight {
+      translation 9.07 0 2.69
+      rotation 0 1 0 6.2831853
+      on FALSE
+    }
+    StreetLight {
+      translation -40.27 0 2.69
+      rotation 0 1 0 6.2831853
+      name "street light(1)"
+      on FALSE
+    }
+    StreetLight {
+      translation 25.3 0 -6.6
+      rotation 0 1 0 3.1415926
+      name "street light(2)"
+      on FALSE
+    }
+    StreetLight {
+      translation 35.2 0 2.69
+      rotation 0 1 0 6.2831852
+      name "street light(3)"
+      on FALSE
+    }
+    StreetLight {
+      translation 61.3 0 -6.6
+      rotation 0 1 0 3.1415926
+      name "street light(4)"
+      on FALSE
+    }
+    StreetLight {
+      translation -13.38 0 -6.6
+      rotation 0 1 0 3.1415926
+      name "street light(5)"
+      on FALSE
+    }
+    YieldSign {
+      translation 24.29 0 2.45
+      rotation 0 1 0 1.5707963
+    }
+    YieldSign {
+      translation 35.13 0 3.78
+      rotation 0 1 0 3.141589
+      name "yield sign(1)"
+    }
+    YieldSign {
+      translation 25.95 0 -7.36
+      name "yield sign(2)"
+    }
+    YieldSign {
+      translation 35.132752 0 -6.3
+      rotation 0 1 0 -1.5708
+      name "yield sign(3)"
+    }
+    SpeedLimitSign {
+      translation -22.64 0 -6.32
+      rotation 0 -1 0 1.5707963
+    }
+    SpeedLimitSign {
+      translation 57.869588 0 2.2339776
+      rotation 0 -1 0 4.9741884
+      name "speed limit(1)"
+    }
+    SignPole {
+      translation 34.21 0 -6.07
+      rotation 0 1 0 4.71
+      signBoards [
+        DirectionPanel {
+          textSize 0.15
+          text "HBP office "
+          right FALSE
+          left TRUE
+        }
+      ]
+    }
+    TrafficCone {
+      translation 31.7 0.1 1.64
+    }
+    TrafficCone {
+      translation 28.51 0.1 -5.61
+      name "traffic cone(1)"
+    }
+    TrafficCone {
+      translation 28.54 0.1 1.57
+      rotation 0 1 0 5.236
+      name "traffic cone(2)"
+    }
+    TrafficCone {
+      translation 31.65 0.1 -5.599
+      name "traffic cone(3)"
+    }
+    TrafficCone {
+      translation -16.65 0.1 -0.42
+      name "traffic cone(4)"
+    }
+    TrafficCone {
+      translation -17.02 0.1 -4.18
+      rotation 0 1 0 6.021
+      name "traffic cone(5)"
+    }
+  ]
+  boundingObject Group {
+    children [
+      DEF ROAD1 Transform {
+        translation 64.38 0.05 -2
+        children [
+          Box {
+            size 60 0.1 7.2
+          }
+        ]
+      }
+      DEF ROAD_SIGNS1 Transform {
+        translation 34.18 0.05 -2.0000129
+        children [
+          DEF ROAD_SIGNS_BO Box {
+            size 0.4 0.1 7.2
+          }
+        ]
+      }
+      DEF ROAD2 Transform {
+        translation 30.38 0.05 -28.5
+        rotation 0 1 0 1.5707997
+        children [
+          Box {
+            size 45 0.1 7.2
+          }
+        ]
+      }
+      DEF ROAD_SIGNS2 Transform {
+        translation 30.38 0.05 -5.8
+        rotation 0 1 0 1.5708003
+        children [
+          USE ROAD_SIGNS_BO
+        ]
+      }
+      DEF ROAD3 Transform {
+        translation 30.379987 0.05 24.5
+        rotation 0 1 0 1.5707997
+        children [
+          Box {
+            size 45 0.1 7.2
+          }
+        ]
+      }
+      DEF ROAD_SIGNS3 Transform {
+        translation 30.38 0.05 1.8
+        rotation 0 1 0 -1.5708
+        children [
+          USE ROAD_SIGNS_BO
+        ]
+      }
+      DEF ROAD4 Transform {
+        translation -23.62 0.05 -2
+        children [
+          Box {
+            size 100 0.1 7.2
+          }
+        ]
+      }
+      DEF ROAD_SIGNS4 Transform {
+        translation 26.58 0.05 -2
+        rotation 0 1 0 3.1415927
+        children [
+          USE ROAD_SIGNS_BO
+        ]
+      }
+      DEF INTERSECTION Transform {
+        translation 30.38 0.05 -2
+        children [
+          Box {
+            size 7.2 0.1 7.2
+          }
+        ]
+      }
+    ]
+  }
+}
+DEF START Solid {
+  translation -0.01 0 -0.6
+  children [
+    Transform {
+      translation 0 0.52 1.2
+      children [
+        DEF POLE_SHAPE Shape {
+          appearance DEF POLE_APPEARANCE PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+            baseColorMap ImageTexture {
+              url [
+                "textures/wood.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 0.8 1
+            }
+          }
+          geometry Cylinder {
+            height 1.04
+            radius 0.024
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.53 -1.2
+      children [
+        USE POLE_SHAPE
+      ]
+    }
+    Transform {
+      translation 0 1 0
+      rotation 1 0 0 1.5707997
+      children [
+        Shape {
+          appearance USE POLE_APPEARANCE
+          geometry Cylinder {
+            height 2.4
+            radius 0.021
+          }
+        }
+      ]
+    }
+    DEF START_PANEL Transform {
+      translation 0 0.84 0
+      rotation 0 1 0 3.1415927
+      children [
+        TexturedBoxShape {
+          size 0.01 0.3 2
+          textureUrl [
+            "textures/start.jpg"
+          ]
+          textureMapping "default"
+          faceColor 0.116793 0.248112 0.973327
+          frontFace FALSE
+          backFace FALSE
+          topFace FALSE
+          bottomFace FALSE
+        }
+      ]
+    }
+    DEF GROUND_LINE Transform {
+      translation 0 0.031 0
+      rotation 0 1 0 3.1415927
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.116793 0.248112 0.973327
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.08 0.005 2.1
+          }
+        }
+      ]
+    }
+  ]
+  name "solid(1)"
+}
+DEF FINISH Solid {
+  translation 15 0 -0.6
+  children [
+    Transform {
+      translation 0 0.52 1.2
+      children [
+        USE POLE_SHAPE
+      ]
+    }
+    Transform {
+      translation 0 0.53 -1.2
+      children [
+        USE POLE_SHAPE
+      ]
+    }
+    Transform {
+      translation 0 1 0
+      rotation 1 0 0 1.5707997
+      children [
+        Shape {
+          appearance USE POLE_APPEARANCE
+          geometry Cylinder {
+            height 2.4
+            radius 0.021
+          }
+        }
+      ]
+    }
+    DEF FINISH_PANEL Transform {
+      translation 0 0.84 0
+      rotation 0 1 0 3.1415927
+      children [
+        TexturedBoxShape {
+          size 0.01 0.3 2
+          textureUrl [
+            "textures/finish.jpg"
+          ]
+          textureMapping "default"
+          faceColor 0.116793 0.248112 0.973327
+          frontFace FALSE
+          backFace FALSE
+          topFace FALSE
+          bottomFace FALSE
+        }
+      ]
+    }
+    DEF GROUND_LINE Transform {
+      translation 0 0.031 0
+      rotation 0 1 0 3.1415927
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.116793 0.248112 0.973327
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.08 0.005 2.1
+          }
+        }
+      ]
+    }
+  ]
+  name "solid(2)"
+}

@@ -1,0 +1,54 @@
+#VRML_SIM R2018a utf8
+# A ping pong ball 4 times bigger than a real one.
+
+PROTO PingPongBallScaled [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "ping pong ball"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 1
+          baseColorMap ImageTexture {
+            url [
+              "textures/pingpong_logo.jpg"
+            ]
+          }
+          textureTransform TextureTransform {
+            scale 1 0.5
+            translation 0 0.3
+          }
+        }
+        geometry DEF SPHERE Sphere {
+          radius 0.08
+          subdivision 3
+        }
+      }
+    ]
+    name IS name
+    model "ping pong ball"
+    contactMaterial "ping pong ball material"
+    immersionProperties [
+      ImmersionProperties {
+        fluidName "fluid"
+        dragForceCoefficients 0.4 0 0
+        dragTorqueCoefficients 0.001 0 0
+        viscousResistanceTorqueCoefficient 0.0005
+      }
+    ]
+    boundingObject USE SPHERE
+    physics Physics {
+      density 84.0
+      damping Damping {
+        linear 0.05
+        angular 0.1
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The BB-8 robot has to climb out of the pit."
+  ]
+  title "Pit Escape"
+  window "pit_escape"
+}
+Viewpoint {
+  orientation -0.16283208019443773 0.9717285111603408 0.17096612020415058 1.5403023
+  position 11.892294 4.7688289 1.0050492
+}
+TexturedBackground {
+  texture "twilight_cloudy_empty"
+}
+TexturedBackgroundLight {
+}
+DEF GROUND Solid {
+  children [
+    Transform {
+      translation -0.3 0 115
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "textures/fine_grained_sand.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              scale 100 100
+            }
+          }
+          geometry Plane {
+            size 500 210
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Transform {
+      translation -0.3 0 -115
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "textures/fine_grained_sand.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              scale 100 100
+            }
+          }
+          geometry Plane {
+            size 500 210
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Transform {
+      translation 130 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "textures/fine_grained_sand.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              scale 100 100
+            }
+          }
+          geometry Plane {
+            size 240 20
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+    Transform {
+      translation -130 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "textures/fine_grained_sand.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              scale 100 100
+            }
+          }
+          geometry Plane {
+            size 240 20
+          }
+          castShadows FALSE
+        }
+      ]
+    }
+  ]
+}
+DEF PIT Pit {
+  size 20 4 20
+  texture [
+    "textures/fine_grained_sand.jpg"
+  ]
+  textureScale 5 5
+  pitRadius 2.7
+}
+DEF ROBOT_BB-8 BB-8 {
+  translation 0 -0.02 0
+  controller "pit_escape"
+}
+PitEscapeBenchmark {
+}

@@ -1,0 +1,12 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateProtoWithoutRegeneratingTemplateParameter [
+  field MFNode slot TemplateSolidCylinder { }
+]
+{
+  Robot {
+    translation -0.75 0 0
+    rotation 0 0 1 %{= 1.5708 }%
+    children IS slot
+  }
+}

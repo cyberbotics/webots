@@ -1,0 +1,114 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A door knob.
+# This object can be used in the 'doorHandle' field of the Door object.
+
+PROTO DoorKnob [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "door knob"
+  field SFFloat    doorThickness    0.05                 # Defines the thickness of the door.
+  field SFFloat    handleRadius     0.03                 # Defines the radius of the handle.
+  field SFFloat    distanceFromDoor 0.065                # Defines the distance between the handle and the door.
+  field SFNode     appearance       BrushedAluminium {}  # Defines the appearance of the handle.
+  field SFFloat    mass             0.7                  # Defines the mass of the handle.
+]
+{
+  %{
+    local doorThickness = fields.doorThickness.value
+    if doorThickness <= 0.0 then
+      io.stderr:write("'doorThickness' must be positive\n")
+      doorThickness = fields.doorThickness.defaultValue
+    end
+
+    local handleRadius = fields.handleRadius.value
+    if handleRadius <= 0.0 then
+      io.stderr:write("'handleRadius' must be positive\n")
+      handleRadius = fields.handleRadius.defaultValue
+    end
+
+    local distanceFromDoor = fields.distanceFromDoor.value
+    if distanceFromDoor <= 0.0 then
+      io.stderr:write("'distanceFromDoor' must be positive\n")
+      distanceFromDoor = fields.distanceFromDoor.defaultValue
+    end
+
+    local axisHeight = distanceFromDoor * 2 + doorThickness
+    local handlePositionZ = axisHeight * 0.5
+  }%
+  Slot {
+    type "door handle"
+    endPoint Solid {
+      translation IS translation
+      rotation IS rotation
+      children [
+        DEF HANDLE_SUPPORT Transform { # handle support
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance IS appearance
+              geometry Cylinder {
+                radius 0.03
+                height %{= 0.025 + doorThickness }%
+              }
+            }
+          ]
+        }
+        DEF HANDLE_AXIS Transform { # handle axis
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance IS appearance
+              geometry Capsule {
+                radius %{= 0.4 * handleRadius }%
+                height %{= axisHeight }%
+              }
+            }
+          ]
+        }
+        DEF BACK_KNOB Transform { # back handle
+          translation 0 0 %{= -handlePositionZ }%
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance IS appearance
+              geometry Sphere {
+                radius %{= handleRadius }%
+                subdivision 2
+              }
+            }
+          ]
+        }
+        DEF FRONT_KNOB Transform { # front handle
+          translation 0 0 %{= handlePositionZ }%
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance IS appearance
+              geometry Sphere {
+                radius %{= handleRadius }%
+                subdivision 2
+              }
+            }
+          ]
+        }
+      ]
+      name IS name
+      model "door knob"
+      boundingObject Group {
+        children [
+          USE HANDLE_SUPPORT
+          USE HANDLE_AXIS
+          USE BACK_KNOB
+          USE FRONT_KNOB
+        ]
+      }
+      physics Physics {
+        density -1
+        mass IS mass
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoNestedInternal_2 [
+  field SFVec3f boxSize 1 1 1
+]
+{
+  Transform {
+    children [
+      SlotContainer {
+        slot [
+          BoxShape {
+            size IS boxSize
+          }
+        ]
+      }
+    ]
+  }
+}

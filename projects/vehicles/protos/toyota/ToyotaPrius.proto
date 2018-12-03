@@ -1,0 +1,197 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Model of an Toyota Prius car using the Car proto as a base.
+# The contactMaterial of the wheels is "ToyotaPriusWheels"
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO ToyotaPrius [
+  field     SFVec3f    translation       0 0.4 0
+  field     SFRotation rotation          0 1 0 0
+  field     SFColor    color             0.1 0.15 0.18
+  field     MFString   plate             "textures/plate.jpg"
+  field     SFString   engineSound       "sounds/engine.wav"
+  field     SFString   name              "vehicle"
+  field     SFString   controller        "void"
+  field     SFString   controllerArgs    ""
+  field     SFBool     supervisor        FALSE
+  field     SFBool     synchronization   TRUE
+  field     MFNode     sensorsSlotFront  NULL
+  field     MFNode     sensorsSlotRear   NULL
+  field     MFNode     sensorsSlotTop    NULL
+  field     MFNode     sensorsSlotCenter NULL
+  field     SFBool     frontSpotLights   FALSE
+]
+{
+  %{ local frontSpotLights = fields.frontSpotLights.value }%
+  Car {
+    translation IS translation
+    rotation IS rotation
+    trackFront 1.628
+    trackRear 1.628
+    wheelbase 2.8
+    time0To100 10.7
+    engineType "power-split hybrid"
+    engineSound IS engineSound
+    engineMaxTorque 350
+    engineMaxPower 33000
+    engineMinRPM 1200
+    engineMaxRPM 6500
+    engineFunctionCoefficients 65 0.0225 -0.0000025
+    wheelsDampingConstant 1
+    gearRatio [-6 6]
+    hybridPowerSplitRatio 0.2778
+    hybridPowerSplitRPM 3000
+    wheelFrontLeft ToyotaPriusWheel {
+      name "front left wheel"
+      physics DEF WHEEL_PHYSICS Physics {
+        density -1
+        mass 8
+      }
+    }
+    wheelFrontRight ToyotaPriusWheel {
+      name "front right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearRight ToyotaPriusWheel {
+      name "rear right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearLeft ToyotaPriusWheel {
+      name "rear left wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    extensionSlot [
+      # Sensors slots
+      Transform {
+        rotation 0 1 0 3.14159
+        translation 0 0.4 3.635
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.3 -0.85
+        children IS sensorsSlotRear
+      }
+      Transform {
+        rotation 0 1 0 3.14159
+        translation 0 1.3 1.1
+        children IS sensorsSlotTop
+      }
+      Transform {
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      # lights
+      VehicleLights {
+        front [
+          Group {
+            children [
+              %{ if frontSpotLights then }%
+                SpotLight {
+                  attenuation 0.2 0 0
+                  beamWidth 0.7
+                  cutOffAngle 0.8
+                  direction -0.2 -1 1
+                  location 0.7 0.6 3.4
+                  radius 20
+                }
+                SpotLight {
+                  attenuation 0.2 0 0
+                  beamWidth 0.7
+                  cutOffAngle 0.8
+                  direction 0.2 -1 1
+                  location -0.7 0.6 3.4
+                  radius 20
+                }
+              %{ end }%
+              ToyotaPriusFrontLight {
+              }
+            ]
+          }
+        ]
+        rightIndicator [
+          ToyotaPriusRightIndicator {
+          }
+        ]
+        leftIndicator [
+          ToyotaPriusLeftIndicator {
+          }
+        ]
+        antifog [
+          ToyotaPriusAntiFogLight {
+          }
+        ]
+        rear [
+          ToyotaPriusRearLight {
+          }
+        ]
+      }
+      ToyotaPriusMesh {
+        color IS color
+        plate IS plate
+      }
+    ]
+    name IS name
+    model "Toyota Prius"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.3 1.435
+          rotation 1 0 0 0.03
+          children [
+            Box {
+              size 1.7 0.7 4.3
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.77 0.125
+          rotation 1 0 0 -0.192699
+          children [
+            Box {
+              size 1.65 0.7 1.5
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.59 2.335
+          rotation 1 0 0 0.454499
+          children [
+            Box {
+              size 1.65 0.7 1.5
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.89 1.235
+          children [
+            Box {
+              size 1.63 0.7 1.2
+            }
+          ]
+        }
+      ]
+    }
+    radarCrossSection 100
+    recognitionColors [
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    ]
+    physics Physics {
+      density -1
+      mass 1805
+      centerOfMass [
+        0 0.1 1.2975
+      ]
+      inertiaMatrix [
+        4473.54 4346.1 1125.07
+        0 0 -300
+      ]
+    }
+  }
+}

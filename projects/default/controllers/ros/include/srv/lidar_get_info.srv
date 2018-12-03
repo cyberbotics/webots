@@ -1,0 +1,8 @@
+uint8 ask
+---
+uint32 horizontalResolution
+uint32 numberOfLayers
+float64 fov
+float64 verticalFov
+float64 minRange
+float64 maxRange

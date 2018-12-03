@@ -1,0 +1,10 @@
+Version 1.1
+
+- @Home
+  - Modified the table tray to transparent
+  - Added counter to split the kitchen
+  - Added 2 paintings on the walls
+  - Added floor lights
+  - Added plants
+  - Modified bedroom window height
+  - Added a change log file

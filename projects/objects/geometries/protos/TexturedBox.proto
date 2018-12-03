@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Box with customizable texture mapping.
+# Available texture mappings:
+# - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube_mapping.jpg
+# - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact_mapping.jpg
+# - `flat` mapping: projecting the texture on the front face
+# - `metric` mapping: similar to default mapping but the texture is not deformed to match each face size
+# - `default` mapping: same texture on all the faces
+# - `none`: no texture mapping
+# If a boolean field (front, back, left, right, top, bottom) is FALSE, then the corresponding face is not drawn.
+# A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
+
+PROTO TexturedBox [
+  field SFVec3f  size    0.1 0.1 0.1  # Defines the size of the box.
+  field SFString{"cube", "compact", "flat", "metric", "default", "none"}
+                 mapping "flat"       # Defines the texture mapping.
+  field SFBool   front   TRUE         # Defines whether the front face should be included.
+  field SFBool   back    TRUE         # Defines whether the back face should be included.
+  field SFBool   left    TRUE         # Defines whether the left face should be included.
+  field SFBool   right   TRUE         # Defines whether the right face should be included.
+  field SFBool   top     TRUE         # Defines whether the top face should be included.
+  field SFBool   bottom  TRUE         # Defines whether the bottom face should be included.
+]
+{
+  TexturedParallelepiped {
+    size IS size
+    angles 1.5708 0 0
+    mapping IS mapping
+    front IS front
+    back IS back
+    left IS left
+    right IS right
+    top IS top
+    bottom IS bottom
+  }
+}

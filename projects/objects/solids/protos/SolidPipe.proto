@@ -1,0 +1,222 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A pipe object implemented at the Solid-node level.
+# Graphically, the SolidPipe is an IndexedFaceSet.
+# Physically, the SolidPipe is a set of N boxes, where N is the subdivision field.
+# The 'accuracy' field defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+
+PROTO SolidPipe [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "pipe"
+  field SFFloat    height          2                                                                                                             # Defines the height of the pipe.
+  field SFFloat    radius          1                                                                                                             # Defines the radius of the pipe.
+  field SFFloat    thickness       0.1                                                                                                           # Defines the thickness of the pipe.
+  field SFInt32    subdivision     24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
+  field SFFloat    accuracy        0.0001                                                                                                        # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.  
+  field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
+  field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+    local wbrandom = require('wbrandom')
+
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision > 200 then
+      io.stderr:write("High value for 'subdivision'. This can slow down the simulation\n")
+    elseif subdivision < 8 then
+      io.stderr:write("'subdivision' must be greater than or equal to 8\n")
+      subdivision = 8
+    end
+
+    local height = fields.height.value
+    if height <= 0 then
+      io.stderr:write("'height' must be greater than 0\n")
+      height = fields.height.defaultValue
+    end
+
+    local radius = fields.radius.value
+    if radius <= 0 then
+      io.stderr:write("'radius' must be greater than 0\n")
+      radius = fields.radius.defaultValue
+    end
+
+    local thickness = fields.thickness.value
+    if thickness <= 0 then
+      io.stderr:write("'thickness' must be greater than 0\n")
+      thickness = radius / 2
+    elseif thickness >= fields.radius.value then
+      io.stderr:write("'thickness' must be smaller than 'radius'\n")
+      thickness = radius / 2
+    end
+
+    -- global stuff before entering in the main loop
+    local beta = 2.0 * math.pi / subdivision
+    local alpha = beta / 2.0
+    local innerRadius = radius - thickness
+    local su = radius * math.cos(alpha) - innerRadius
+    if su < 0 then
+      -- fixed edge case:
+      --   There are 2 inner radius, depending if we measure it along the center or along the edge of the boxes.
+      --   If the thickness is below the difference of these two radius, then the algorithm can not achieve.
+      io.stderr:write("Either 'thickness' or 'subdivision' are too small for the box subdivision algorithm.\n")
+      su = math.abs(su)
+    end
+    local sv = height
+    local sw = radius * math.sin(alpha) * 2.0
+    local boxRadius = innerRadius + su / 2.0
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance IS appearance
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{
+                local outerCircle = wbgeometry.circle(radius, subdivision, 0, 0, - math.pi / 2)
+                local innerCircle = wbgeometry.circle(radius - su, subdivision, 0, 0, - math.pi / 2)
+              }%
+              # top outer
+              %{ for i, el in ipairs(outerCircle) do }%
+                %{= el.x }% %{= height / 2 }% %{= el.y }%
+              %{ end }%
+              # top inner
+              %{ for i, el in ipairs(innerCircle) do }%
+                %{= el.x }% %{= height / 2 }% %{= el.y }%
+              %{ end }%
+              # bottom outer
+              %{ for i, el in ipairs(outerCircle) do }%
+                %{= el.x }% %{= - height / 2 }% %{= el.y }%
+              %{ end }%
+              # bottom inner
+              %{ for i, el in ipairs(innerCircle) do }%
+                %{= el.x }% %{= - height / 2 }% %{= el.y }%
+              %{ end }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              %{
+                local innerTexCircle = wbgeometry.circle(0.5 * (radius - su) / radius, subdivision, 0.5, 0.5, - math.pi / 2)
+                local outerTexCircle = wbgeometry.circle(0.5, subdivision, 0.5, 0.5, - math.pi / 2)
+              }%
+              # outer circle
+              %{ for i, el in ipairs(outerTexCircle) do }%
+                %{= el.x }% %{= el.y }%
+              %{ end }%
+              # inner circle
+              %{ for i, el in ipairs(innerTexCircle) do }%
+                %{= el.x }% %{= el.y }%
+              %{ end }%
+              # outer circlea # vertically inverted
+              %{ for i, el in ipairs(outerTexCircle) do }%
+                %{= el.x }% %{= -el.y }%
+              %{ end }%
+              # inner circle # vertically inverted
+              %{ for i, el in ipairs(innerTexCircle) do }%
+                %{= el.x }% %{= -el.y }%
+              %{ end }%
+              # top band
+              %{ for i = 0, subdivision do }%
+                %{= 1 - i / subdivision }% 1.0
+              %{ end }%
+              # bottom band
+              %{ for i = 0, subdivision do }%
+                %{= 1 - i / subdivision }% 0.0
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            %{
+              local offset0 = 0
+              local offset1 = subdivision + 1
+              local offset2 = 2 * offset1
+              local offset3 = 3 * offset1
+            }%
+            # top
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset0 + i }% %{= offset1 + i }% %{= offset1 + i + 1 }% %{= offset0 + i + 1 }% -1
+            %{ end }%
+            # bottom
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset2 + i }% %{= offset2 + i + 1 }% %{= offset3 + i + 1 }% %{= offset3 + i }% -1
+            %{ end }%
+            # inner side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset1 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset1 + i + 1 }% -1
+            %{ end }%
+            # outer side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset2 + i + 1 }% %{= offset2 + i }% -1
+            %{ end }%
+          ]
+          texCoordIndex [
+            %{
+              local offset0 = 0
+              local offset1 = subdivision + 1
+              local offset2 = 2 * offset1
+              local offset3 = 3 * offset1
+              local offset4 = 4 * offset1
+              local offset5 = 5 * offset1
+            }%
+            # top
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset2 + i }% %{= offset3 + i }% %{= offset3 + i + 1 }% %{= offset2 + i + 1 }% -1
+            %{ end }%
+            # bottom
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset0 + i }% %{= offset0 + i + 1 }% %{= offset1 + i + 1 }% %{= offset1 + i }% -1
+            %{ end }%
+            # inner side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset4 + i }% %{= offset5 + i }% %{= offset5 + i + 1 }% %{= offset4 + i + 1 }% -1
+            %{ end }%
+            # outer side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= offset4 + i }% %{= offset4 + i + 1 }% %{= offset5 + i + 1 }% %{= offset5 + i }% -1
+            %{ end }%
+          ]
+          creaseAngle 1.5
+        }
+      }
+    ]
+    name IS name
+    model "pipe"
+    contactMaterial IS contactMaterial
+    boundingObject Group { # set of boxes
+      children [
+        %{ for i = 0, (subdivision - 1) do }%
+          %{
+            -- position of an internal box
+            local gamma = beta * i + beta / 2
+            local ax = boxRadius * math.sin(gamma)
+            local ay = 0
+            local az = boxRadius * math.cos(gamma)
+            local angle = gamma + 0.5 * math.pi
+            -- add small offset to boxes y translation to reduce constraints
+            -- on the top and bottm face due to co-planarity
+            local offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
+          }%
+          Transform {
+            translation %{= ax}% %{= ay + offset }% %{= az}%
+            rotation 0 1 0 %{= angle }%
+            children [
+              Box {
+                size %{= su}% %{= sv}% %{= sw}%
+              }
+            ]
+          }
+        %{ end }%
+      ]
+    }
+    physics IS physics
+  }
+}

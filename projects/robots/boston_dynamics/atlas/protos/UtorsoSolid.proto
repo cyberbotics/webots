@@ -1,0 +1,61 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO UtorsoSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    UtorsoMesh {
+    }
+  ]
+  name "Utorso"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0.0446 0 0.1869
+        rotation 0.0 1.0 0.0 0.0
+        children [
+          Box {
+            size 0.3188 0.24 0.3162
+          }
+        ]
+      }
+      Transform {
+        translation 0.024 0.16 0.18
+        rotation 1.0 0.0 0.0 1.0464
+        children [
+          Cylinder {
+            radius 0.0363
+            height 0.22375
+          }
+        ]
+      }
+      Transform {
+        translation 0.024 -0.16 0.18
+        rotation 1.0 0.0 0.0 2.0936
+        children [
+          Cylinder {
+            radius 0.0363
+            height 0.22375
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 18.484
+    centerOfMass 0.02 -0.001 0.211
+    inertiaMatrix [0.395 1.089 0.327, 0 0.083 -0.003 ]
+  }
+}
+}

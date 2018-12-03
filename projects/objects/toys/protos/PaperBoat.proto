@@ -1,0 +1,274 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A paper boat (42.8 x 14.2 x 10.6 cm).
+
+PROTO PaperBoat [
+  field SFVec3f    translation         0 0 0
+  field SFRotation rotation            0 1 0 0
+  field SFString   name                "paper boat"
+  field SFFloat    scale               1                         # Defines the global scaling factor.
+  field MFString   textureUrl          "textures/newspaper.jpg"  # Defines the texture used for the paper boat.
+  field SFFloat    mass                0.25                      # Defines the mass of the paper boat in kg.
+  field MFNode     immersionProperties [                         # Is `Solid.immersionProperties`.
+      ImmersionProperties {
+        fluidName "water"
+        dragForceCoefficients 0.05 0 0
+        viscousResistanceForceCoefficient 200
+      }
+    ]
+]
+{
+  %{
+    local scale = fields.scale.value
+    if scale <= 0 then
+      io.stderr:write("'scale' must be strictly positive\n")
+      scale = fields.scale.defaultValue
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    scale %{= scale }% %{= scale }% %{= scale }%
+    children [
+      DEF GEOM Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url IS textureUrl
+          }
+          metalness 0
+          roughness 1
+        }
+        geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.001666 0.010904
+            0 0.001638 0.010888
+            0.102858 0.062664 0.052136
+            0.163138 -0.00001 0.011148
+            0.2144 0.076836 -0.001122
+            0 0.142664 -0.001122
+            0.102722 0.062664 0.052136
+            -0.102858 0.062664 0.052136
+            -0.163138 -0.00001 0.011148
+            -0.214402 0.076836 -0.001122
+            -0.102992 0.062664 0.052136
+            0.122824 0.03604 -0.011944
+            0.102858 0.062664 -0.05438
+            0.163138 -0.00001 -0.013392
+            -0.102858 0.062664 -0.05438
+            -0.163138 -0.00001 -0.013392
+            0.122112 0.036048 0.0091
+            -0.122138 0.036026 0.008102
+            -0.122522 0.036012 -0.011346
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0 0
+            0 0
+            0.4324 0.571
+            0.5246 0.6793
+            0.4126 0.7715
+            0.7878 0.3898
+            0.6324 0.2238
+            0.7878 0
+            0.4324 0.2006
+            0.4126 0
+            0.5246 0.0923
+            0.7849 0.7796
+            0.6324 0.5602
+            0.7849 0.3898
+            0.4324 0.2006
+            0.5246 0.0923
+            0.5246 0.6793
+            0.4324 0.571
+            0.2129 0.5809
+            0.221 0.789
+            0.1131 0.6939
+            0.1342 0.8982
+            0.1347 0.9742
+            0.0995 0.9742
+            0.0995 0.9742
+            0.1045 0.8946
+            0.1256 0.585
+            0.7536 0.114
+            0.4942 0.32
+            0.669 0.0925
+            0.2129 0.2118
+            0.1131 0.1088
+            0.221 0.0201
+            0.2129 0.2118
+            0.2129 0.5809
+            0.1131 0.6939
+            0.1131 0.1088
+            0.373 0.5863
+            0.4083 0.585
+            0.4083 0.6482
+            0.3244 0.0961
+            0.4937 0.3191
+            0.2516 0.1075
+            0.4083 0.6482
+            0.3789 0.6505
+            0.373 0.5863
+            0.5246 0.6776
+            0.591 0.6787
+            0.561 0.9901
+            0.5238 0.0909
+            0.5872 0.0909
+            0.5872 0.6781
+            0.5238 0.6781
+            0.7693 0.598
+            0.7365 0.3133
+            0.7031 0.5961
+            0.6428 0.9559
+            0.807 0.7965
+            0.6742 0.9915
+            0.5718 0.8757
+            0.8094 0.7932
+            0.6417 0.9499
+            0.3031 0.9369
+            0.2963 0.9716
+            0.1515 0.9562
+            0.6731 0.0727
+            0.639 -0.0036
+            0.8183 0.0721
+            0.302 0.9367
+            0.3079 0.8617
+            0.6462 0.9548
+            0.3078 0.8619
+            0.5737 0.8772
+            0.6459 0.9558
+            0.6727 0.0736
+            0.3255 0.0945
+            0.6409 -0.0033
+            0.3262 0.0966
+            0.3798 0.0138
+            0.6423 -0.0008
+            0.3802 0.0157
+            0.3244 0.0963
+            0.1571 0.0195
+            0.3078 0.8618
+            0.3012 0.9376
+            0.1506 0.9567
+            0.3255 0.0945
+            0.6696 0.0955
+            0.4936 0.3217
+          ]
+        }
+        coordIndex [
+          3, 2, 6, -1, 2, 3, 4, -1, 5, 0
+          3, -1, 7, 9, 8, -1, 8, 1, 5, -1
+          7, 8, 3, 2, -1, 12, 4, 13, -1, 18
+          15, 8, -1, 8, 17, 5, -1, 8, 5, 18
+          -1, 14, 15, 9, -1, 14, 12, 13, 15, -1
+          3, 13, 11, -1, 11, 5, 16, -1, 11, 16
+          3, -1, 3, 13, 4, -1, 8, 15, 13, 3
+          -1, 8, 9, 15, -1, 16, 4, 11, -1, 2
+          4, 16, -1, 17, 18, 9, -1, 18, 14, 9
+          -1, 17, 10, 16, -1, 7, 2, 16, -1, 18
+          11, 14, -1, 11, 12, 14, -1, 12, 11, 4
+          -1, 7, 17, 9, -1, 11, 18, 5, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 3, 4, 5, -1, 6, 7
+          8, -1, 9, 10, 11, -1, 12, 13, 14, -1
+          15, 16, 17, 18, -1, 19, 20, 21, -1, 22
+          23, 24, -1, 25, 26, 27, -1, 28, 29, 30
+          -1, 31, 32, 33, -1, 34, 35, 36, 37, -1
+          38, 39, 40, -1, 41, 42, 43, -1, 44, 45
+          46, -1, 47, 48, 49, -1, 50, 51, 52, 53
+          -1, 54, 55, 56, -1, 57, 58, 59, -1, 60
+          61, 62, -1, 63, 64, 65, -1, 66, 67, 68
+          -1, 69, 70, 71, -1, 72, 73, 74, -1, 75
+          76, 77, -1, 78, 79, 80, -1, 81, 82, 83
+          -1, 84, 85, 86, -1, 87, 88, 89, -1
+        ]
+      }
+      }
+    ]
+    name IS name
+    model "paper boat"
+    immersionProperties IS immersionProperties
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.01 0
+          children [
+            Box {
+              size 0.3 0.02 0.02
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.034 0
+          rotation 0 0 1 1.5707997
+          children [
+            Capsule {
+              height 0.342
+              radius 0.014
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.038 0.0308
+          rotation 0.27209603 -0.27209511 0.92299946 1.6508407
+          children [
+            Box {
+              size 0.06 0.24 0.008
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.038 -0.032
+          rotation 0.24017032 -0.24016993 -0.94055123 4.6511353
+          children [
+            Box {
+              size 0.06 0.24 0.008
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.086 0
+          rotation 0 0 1 0.78540031
+          children [
+            Box {
+              size 0.08 0.08 0.012
+            }
+          ]
+        }
+        Transform {
+          translation 0.184 0.052 0
+          rotation 0 0 1 5.754342
+          children [
+            Capsule {
+              height 0.032
+              radius 0.01
+            }
+          ]
+        }
+        Transform {
+          translation -0.184 0.052 0
+          rotation 0 0 1 -5.75434
+          children [
+            Capsule {
+              height 0.032
+              radius 0.01
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass IS mass
+      centerOfMass 0 -0.0256 0
+      damping Damping {
+        linear 0.95
+        angular 0.95
+      }
+    }
+  }
+}

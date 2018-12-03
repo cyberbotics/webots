@@ -1,0 +1,132 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  lineScale 0.4
+}
+Viewpoint {
+  orientation -0.165322 0.951768 0.258468 1.84265
+  position 2.0274 1.30972 -0.445536
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Robot {
+  children [
+    DEF BASE_BOX Shape {
+      geometry Box {
+        size 0.2 0.5 0.2
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.25 -0.1
+      }
+      device [
+        PositionSensor {
+          name "position sensor 1"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.25 -0.3
+        rotation -1 0 0 0
+        children [
+          DEF BOX_SHAPE Shape {
+            geometry Box {
+              size 0.1 0.1 0.5
+            }
+          }
+        ]
+        boundingObject USE BOX_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.1 0.25 0
+      }
+      device [
+        PositionSensor {
+          name "position sensor 2"
+        }
+        Brake {
+          name "brake 1"
+        }
+      ]
+      endPoint Solid {
+        translation -0.3 0.25 0
+        rotation 0 1 0 1.5708
+        children [
+          USE BOX_SHAPE
+        ]
+        name "solid(1)"
+        boundingObject USE BOX_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.25 0.1
+      }
+      device [
+        Brake {
+          name "brake 2"
+        }
+        PositionSensor {
+          name "position sensor 3"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.25 0.3
+        rotation 1 0 0 0
+        children [
+          USE BOX_SHAPE
+        ]
+        name "solid(2)"
+        boundingObject USE BOX_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 -1
+        anchor 0.1 0.25 0
+      }
+      device [
+        Brake {
+          name "brake 3"
+        }
+        PositionSensor {
+          name "position sensor 4"
+        }
+      ]
+      endPoint Solid {
+        translation 0.3 0.25 0
+        rotation 0 1 0 1.5708
+        children [
+          USE BOX_SHAPE
+        ]
+        name "solid(3)"
+        boundingObject USE BOX_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE BASE_BOX
+  controller "brake"
+}
+TestSuiteSupervisor {
+}

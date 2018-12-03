@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Physics-based simulation of the Fujitsu HOAP-2 robot."
+    "TouchSensors are used to measure the pressure between the feet soles and the ground."
+    "Author: Pascal Cominoli"
+    "Biologically Inspired Robotics Group (BIRG)"
+  ]
+  title "Fujitsu HOAP-2 walk"
+  basicTimeStep 25
+  contactProperties [
+    ContactProperties {
+      softERP 0.5
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.7921591240814383 0.5976310936111489 0.12377801938821913 5.77173
+  position -0.239505 0.631697 0.803636
+  follow "HOAP-2"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF TATAMI Solid {
+  translation 0.0618921 0 0.653058
+  children [
+    DEF WHITE_CENTER Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/fujitsu.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry Plane {
+        size 2.2 2.2
+      }
+    }
+  ]
+  name "ground"
+  boundingObject Transform {
+    translation 0 -0.1 0
+    children [
+      Box {
+        size 2.2 0.2 2.2
+      }
+    ]
+  }
+}
+Hoap2 {
+  translation 0 0.3 0
+  controllerArgs "walk"
+}

@@ -1,0 +1,37 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A woolen carpet material. Useful with the `Floor` PROTO.
+
+PROTO CarpetFibers [
+  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFNode  environmentMap   NULL   # Defines an optional `Cubemap` node that can override the world's skybox for this object.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Cubemap node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/carpet_fibers/carpet_fibers_base_color.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/carpet_fibers/carpet_fibers_normal.png"
+      ]
+    }
+    environmentMap IS environmentMap
+    IBLStrength IS IBLStrength
+    occlusionMap ImageTexture {
+      url [
+        "textures/carpet_fibers/carpet_fibers_occlusion.png"
+      ]
+    }
+    occlusionMapStrength 1
+    textureTransform IS textureTransform
+  }
+}

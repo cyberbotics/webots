@@ -1,0 +1,41 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+    <li><a href='#infotab-real-robot'>Real Robot</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark lets you program a Thymio II robot to reach the center of a maze as quickly as possible.</p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
+    <br>
+    <p>The benchmark metric <em>t</em> is the time taken by the robot to reach the center of the maze depicted with the "BASE" text.
+       The goal is to complete the task as quickly as possible.</p>
+    <p>The timer stops after either the robot is in the center of the maze or more than 1 minute has elapsed.</p>
+    <p>Any collision with the maze walls is considered an immediate failure to complete the task, and a time of 1 minute (the maximum time) is recorded.</p>
+  </div>
+  <div id='infotab-instructions'>
+  <h2>How to improve your time?</h2>
+    <p>The Thymio II in the default controller reads values from its frontal distance sensors, and uses only two of them to move forward or rotate.
+       This is a very naive approach: it is not possible to adjust the robot's orientation, nor will the robot avoid bumping into the maze walls.
+    </p>
+    <p>Using more sensor values you can have a more precise control on the distance between the robot and the maze walls
+       in order to reach the center of the maze without touching them.
+       This can for example be achieved by applying the <a target="_blank" href="https://en.wikipedia.org/wiki/Braitenberg_vehicle">Braitenberg Vehicle</a> approach.
+    </p>
+    <p>
+    </p>
+  </div>
+  <div id='infotab-real-robot'>
+    <p>This experiment can be easily reproduced for a real Thymio II robot.
+       The size of the paper on which the maze is drawn is 1.06mx0.81m and you can use some light bricks to build the walls.
+       The position of the walls is depicted with solid black lines.
+    </p>
+    <div align='center'>
+      <img width=400 src='maze.png' alt='Maze schema.'>
+      <div><small>Schema of the maze.</small></div>
+    </div>
+  </div>
+</div>

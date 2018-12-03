@@ -1,0 +1,139 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.51915392 -0.77840887 -0.35292894 1.4748
+  position -1.20045 2.13217 0.47028
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.395 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+    }
+  ]
+  name "solid(1)"
+}
+DEF EMITTER Robot {
+  translation -0.248398 0.05 0.242036
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0.666667 0
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    Emitter {
+      translation 0 0.11 0
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      range 0.8
+      channel 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_emitter"
+  controller "emitter_receiver_invalid_function_call"
+  controllerArgs "emitter_receiver_invalid_function_call_emitter"
+}
+DEF RECEIVER Robot {
+  translation 0.234283 0.05 0.224851
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 1 0
+        }
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.07
+      }
+    }
+    Receiver {
+      translation 0 0.11 0
+      rotation 0 1 0 1.5708
+      children [
+        Transform {
+          translation 0 -0.035 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.05
+                radius 0.003
+              }
+            }
+            Transform {
+              translation 0 0.03 0
+              children [
+                Shape {
+                  geometry Sphere {
+                    radius 0.01
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      channel -1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot_receiver"
+  controller "emitter_receiver_invalid_function_call"
+  controllerArgs "emitter_receiver_invalid_function_call_receiver"
+}
+TestSuiteSupervisor {
+}

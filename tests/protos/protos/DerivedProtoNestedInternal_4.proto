@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedProtoNestedInternal_4 [
+  field SFVec3f boxSize 1 1 1
+]
+{
+  SlotContainer {
+    slot [
+      DerivedColoredBoxShape {
+        boxSize IS boxSize
+      }
+    ]
+  }
+}

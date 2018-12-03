@@ -1,0 +1,142 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# Simple kinematic model of truck to be moved with a Supervisor.
+
+PROTO TruckSimple [
+  field     SFVec3f    translation         0 0.5 0
+  field     SFRotation rotation            0 1 0 0
+  field     SFColor    color               0.39 0 0
+  field     MFColor    recognitionColors   [ 0.39 0 0 ]
+  field     SFNode     trailer             TruckTrailerSimple { }
+  field     SFString   name                "vehicle"
+  field     SFString   controller          ""
+  field     SFString   controllerArgs      ""
+  field     MFNode     sensorsSlotFront    [ ]
+  field     MFNode     sensorsSlotRear     [ ]
+  field     MFNode     sensorsSlotTop      [ ]
+  field     MFNode     sensorsSlotCenter   [ ]
+  field     SFBool     wheelBoundingObject FALSE
+  hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
+  hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearRightWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearLeftWheelAngularVelocity   0 0 0
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    model "truck"
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    children [
+      Transform {
+        children IS sensorsSlotCenter
+      }
+      Transform {
+        translation 0 1.1 6.75
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 4.15 4.3
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 2.7 -7.3
+        children IS sensorsSlotRear
+      }
+      TruckFrontLight {
+      }
+      TruckCab {
+        color IS color
+      }
+      DEF TRAILER Slot {
+        type "truck trailer simple"
+        endPoint IS trailer
+      }
+      DEF FRONT_RIGHT_WHEEL Solid {
+        angularVelocity IS frontRightWheelAngularVelocity
+        translation -1.1 0 5.25
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint TruckWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 1.1 0 5.25
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint TruckWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation -1.1 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint TruckWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 1.1 0 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint TruckWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
+    ]
+    radarCrossSection 200
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 2 5.4
+          children [
+            Box {
+              size 2.8 4.1 3.2
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.35 1.55
+          children [
+            Box {
+              size 2.8 0.8 4.5
+            }
+          ]
+        }
+      ]
+    }
+    physics NULL
+  }
+}

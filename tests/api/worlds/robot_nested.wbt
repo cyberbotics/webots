@@ -1,0 +1,89 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.71783896 0.68281531 0.13590617 0.74164289
+  position 1.361179 1.788431 2.574618
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+TestSuiteSupervisor {
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    DEF CHILD_ROBOT Robot {
+      translation 0 0.1 0
+      children [
+        Robot {
+          translation 0 0.1 0
+          children [
+            TestSuiteEmitter {
+            }
+          ]
+          controller "robot_nested_child"
+          controllerArgs "robot_nested_three_levels"
+        }
+        TestSuiteEmitter {
+        }
+        GPS {
+        }
+      ]
+      controller "robot_nested_child"
+      controllerArgs "robot_nested_direct_child"
+    }
+    Group {
+      children [
+        DEF GROUP_CHILD Robot {
+          children [
+            TestSuiteEmitter {
+            }
+          ]
+          name "robot(1)"
+          controller "robot_nested_child"
+          controllerArgs "robot_nested_group_child"
+        }
+        HingeJoint {
+          endPoint Solid {
+            rotation 1 0 0 0
+            children [
+              DEF JOINT_ROBOT Robot {
+                children [
+                  TestSuiteEmitter {
+                  }
+                ]
+                controller "robot_nested_child"
+                controllerArgs "robot_nested_joint_endpoint"
+              }
+            ]
+          }
+        }
+        Slot {
+          endPoint Slot {
+            endPoint DEF SLOT_ROBOT Robot {
+              children [
+                TestSuiteEmitter {
+                }
+              ]
+              name "robot(2)"
+              controller "robot_nested_child"
+              controllerArgs "robot_nested_slot_endpoint"
+            }
+          }
+        }
+      ]
+    }
+  ]
+  controller "robot_nested"
+  controllerArgs "robot_nested_parent"
+  supervisor TRUE
+}

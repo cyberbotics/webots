@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO InternalTemplateParent [
+  field SFFloat width 0.1
+]
+{
+  Group {
+    children [
+      TemplateBoxShape {
+        xSize IS width
+      }
+    ]
+  }
+}

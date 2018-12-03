@@ -1,0 +1,109 @@
+{
+  "name": "create", 
+  "devices": [
+    {
+      "transformID": "n26", 
+      "name": "left wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n45", 
+      "name": "right wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n88"
+      ], 
+      "transformID": "n85", 
+      "name": "led_on", 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n94"
+      ], 
+      "transformID": "n91", 
+      "name": "led_play", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n100"
+      ], 
+      "transformID": "n97", 
+      "name": "led_step", 
+      "ledColors": [
+        "0 1 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "TouchSensor", 
+      "name": "bumper_left"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "TouchSensor", 
+      "name": "bumper_right"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.04 0 -0.15", 
+      "type": "DistanceSensor", 
+      "name": "cliff_front_left"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.04 0 -0.15", 
+      "type": "DistanceSensor", 
+      "name": "cliff_front_right"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "-0.15 0 -0.07", 
+      "type": "DistanceSensor", 
+      "name": "cliff_left"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.15 0 -0.07", 
+      "type": "DistanceSensor", 
+      "name": "cliff_right"
+    }, 
+    {
+      "transformID": "n26", 
+      "type": "PositionSensor", 
+      "name": "left wheel sensor"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0 0.037 -0.152", 
+      "type": "Receiver", 
+      "name": "receiver"
+    }, 
+    {
+      "transformID": "n45", 
+      "type": "PositionSensor", 
+      "name": "right wheel sensor"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "port": 1999,
+  "server": "localhost",
+  "simulationServers": [
+    "localhost:2000"
+  ]
+}

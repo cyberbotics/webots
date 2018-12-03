@@ -1,0 +1,137 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# Simple kinematic model of the Toyota Prius to be moved with a Supervisor.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO ToyotaPriusSimple [
+  field     SFVec3f    translation         0 0.4 0
+  field     SFRotation rotation            0 1 0 0
+  field     SFColor    color               0.1 0.15 0.18
+  field     MFColor    recognitionColors   [ 0.1 0.15 0.18 ]
+  field     MFString   plate               "textures/plate.jpg"
+  field     SFString   name                "vehicle"
+  field     SFString   controller          ""
+  field     SFString   controllerArgs      ""
+  field     MFNode     sensorsSlotFront    [ ]
+  field     MFNode     sensorsSlotRear     [ ]
+  field     MFNode     sensorsSlotTop      [ ]
+  field     MFNode     sensorsSlotCenter   [ ]
+  field     SFBool     wheelBoundingObject FALSE
+  hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
+  hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearRightWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearLeftWheelAngularVelocity   0 0 0
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+    model "Toyota Prius"
+    children [
+      Transform {
+        rotation 0 1 0 3.14159
+        translation 0 0.4 3.635
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 0.3 -0.85
+        children IS sensorsSlotRear
+      }
+      Transform {
+        rotation 0 1 0 3.14159
+        translation 0 1.3 1.1
+        children IS sensorsSlotTop
+      }
+      Transform {
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotCenter
+      }
+      ToyotaPriusFrontLight {
+      }
+      ToyotaPriusRightIndicator {
+      }
+      ToyotaPriusLeftIndicator {
+      }
+      ToyotaPriusAntiFogLight {
+      }
+      ToyotaPriusRearLight {
+      }
+      ToyotaPriusMesh {
+        color IS color
+        plate IS plate
+      }
+      DEF FRONT_RIGHT_WHEEL Solid {
+        angularVelocity IS frontRightWheelAngularVelocity
+        translation -0.814 0 2.8
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ToyotaPriusWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front right wheel"
+      }
+      DEF FRONT_LEFT_WHEEL Solid {
+        angularVelocity IS frontLeftWheelAngularVelocity
+        translation 0.814 0 2.8
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ToyotaPriusWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "front left wheel"
+      }
+      DEF REAR_RIGHT_WHEEL Solid {
+        angularVelocity IS rearRightWheelAngularVelocity
+        translation -0.814 0 0
+        rotation 0 0 1 1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ToyotaPriusWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear right wheel"
+      }
+      DEF REAR_LEFT_WHEEL Solid {
+        angularVelocity IS rearLeftWheelAngularVelocity
+        translation 0.814 0 0
+        rotation 0 0 1 -1.5708
+        children [
+          Slot {
+            type "vehicle wheel"
+            endPoint ToyotaPriusWheel {
+              boundingObject IS wheelBoundingObject
+            }
+          }
+        ]
+        name "rear left wheel"
+      }
+    ]
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    boundingObject Transform {
+      translation 0 0.6 1.4
+      children [
+        Box {
+          size 1.8 1.4 4.2
+        }
+      ]
+    }
+    radarCrossSection 100
+    physics NULL
+  }
+}

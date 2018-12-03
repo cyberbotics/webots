@@ -1,0 +1,53 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test world setting the visibility of nodes"
+  ]
+}
+Viewpoint {
+  orientation -0.0296805 -0.848972 -0.527604 3.167
+  position 0.0967175 1.93575 -0.921017
+}
+Background {
+  skyColor [
+    0 0 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+  intensity 22
+}
+DEF BOX Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+        }
+      }
+      geometry Box {
+        size 0.8 0.1 0.9
+      }
+    }
+  ]
+}
+DEF Test Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    DEF CAMERA0 Camera {
+      translation 0 0.3 0
+      rotation 1 0 0 4.71239
+      name "camera0"
+    }
+    DEF CAMERA1 Camera {
+      translation 0 0.3 0
+      rotation 1 0 0 4.71239
+      name "camera1"
+    }
+  ]
+  controller "supervisor_node_set_visibility"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

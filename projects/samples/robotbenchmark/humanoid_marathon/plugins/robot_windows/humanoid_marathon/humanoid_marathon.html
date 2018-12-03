@@ -1,0 +1,44 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark aims at developing a computer program that controls a humanoid robot to walk as far as possible given a limited battery life.
+      The programming language is Python and the humanoid robot model is a ROBOTIS OP2 robot.
+    </p>
+    <p>The environment is a scale model based on the robot size.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>battery</em> = <span id='battery-display'>2375.34</span> J</div>
+    <br>
+    <div style='text-align:center'><em>distance</em> = <span id='distance-display'>0.00</span> m</div>
+    <br>
+    <p>The benchmark metric is the <em>distance</em> traveled by the robot.</p>
+    <p>The <em>distance</em> is the the difference between the initial and final position of the robot on the world's x-axis
+     that is parallel to the street.
+    </p>
+    <p>If the robot falls down or tries to go on all fours, the benchmark finishes immediately.
+    </p>
+  </div>
+  <div id='infotab-instructions'>
+    <h2>How to make the ROBOTIS OP2 cover a bigger distance?</h2>
+    <p>If you look at the Python program controlling the ROBOTIS OP2 robot, you will see that this program uses the
+     <a target=_blank href="https://www.cyberbotics.com/doc/robotis-op2/gait-manager">RobotisOp2GaitManager</a> to make the robot walk:
+    <pre style='background:#FEE'>
+# At the beginning, start walking on the spot.
+# After 45 timesteps, begin taking steps forward.
+while robot.step(timestep) != -1:
+    if looptimes == 45:
+        gaitManager.setXAmplitude(gaitAmplitude)
+
+    gaitManager.step(basicTimeStep)
+    looptimes += 1
+    </pre>
+    <p>The parameters of the gait manager are customizable and it is possible to find a setup that produces better performance.
+      For example, tuning the gait amplitude or disabling the balance functionality makes the robot cover a bigger distance.
+    </p>
+  </div>
+</div>

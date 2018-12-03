@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<directory>
+  <file name="controllers" icon_position="202,106"/>
+  <file name="doc" icon_position="196,19"/>
+  <file name="include" icon_position="285,105"/>
+  <file name="lib" icon_position="361,111"/>
+  <file name="objects" icon_position="362,22"/>
+  <file name="resources" icon_position="433,25"/>
+  <file name="worlds" icon_position="282,21"/>
+  <file name="webots" custom_icon="file:///usr/share/pixmaps/webots.png" icon_position="99,70" icon_scale="0.75"/>
+</directory>

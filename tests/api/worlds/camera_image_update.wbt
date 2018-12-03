@@ -1,0 +1,67 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.310637 0.926361 0.21298 5.01092
+  position -2.84977 1.32849 0.648285
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Transform {
+  translation 0 0 -1
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      appearance Appearance {
+        material DEF MATERIAL Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+        size 2 2
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Camera {
+      name "camera0"
+      width 2
+      height 2
+      near 0.2
+      zoom Zoom {
+        maxFieldOfView 1.58
+        minFieldOfView 1.56
+      }
+    }
+    Camera {
+      name "camera1"
+      width 2
+      height 2
+      near 0.5
+      zoom Zoom {
+        maxFieldOfView 1.58
+        minFieldOfView 1.56
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "camera_image_update"
+  controllerArgs "camera_image_update"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

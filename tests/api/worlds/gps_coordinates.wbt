@@ -1,0 +1,53 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  gpsCoordinateSystem "WGS84"
+  gpsReference 40.67 -73.94 10
+}
+Viewpoint {
+  orientation 0.999675 0.00903885 -0.0238306 5.7216
+  position -0.0176444 0.71134 1.29089
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF ROBOT Robot {
+  translation 0.2 0.05 -0.4
+  rotation 0 1 0 1.57
+  children [
+    DEF BOX Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    GPS {
+      translation -0.05 0 0
+      rotation 0 0 1 3.1415
+      children [
+        DEF SENSOR_TRANSFROM Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              geometry Sphere {
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+  controller "gps_coordinates"
+}
+TestSuiteSupervisor {
+}

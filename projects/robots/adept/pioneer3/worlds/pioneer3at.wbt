@@ -1,0 +1,388 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Pioneer 3AT robot (Adept MobileRobots)."
+    "This all terrain four wheels drive robot is  equipped with a Sick LMS 291 lidar."
+    "It is programmed to perform a simple obstacle avoidance behavior based on the sensor data measured by the lidar."
+  ]
+  title "Pioneer 3AT"
+  lineScale 0.5
+}
+Viewpoint {
+  orientation -0.03550849299250827 0.9985127997893296 0.04136829199127195 1.14771
+  position 3.93051 0.285523 19.2926
+  follow "Pioneer 3-AT"
+  followSmoothness 0
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 60 60
+  floorTileSize 3 3
+  floorAppearance SandyGround {
+  }
+  wallThickness 0.2
+  wallHeight 0.8
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/gray_brick_wall.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+    textureTransform TextureTransform {
+      scale 56 28
+    }
+  }
+}
+DEF OBSTACLE_1 Solid {
+  translation 15.7489 1 12.6243
+  children [
+    DEF OBSTACLE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.898039 0.898039 0.898039
+        baseColorMap ImageTexture {
+          url [
+            "textures/rock.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 1.5 1.5
+        }
+      }
+      geometry Cylinder {
+        radius 0.4
+        subdivision 20
+      }
+    }
+  ]
+  name "obstacle"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_2 Solid {
+  translation -6.11857 1 -18.7895
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(2)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_3 Solid {
+  translation 21.7282 1 -24.6243
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(3)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_4 Solid {
+  translation 27.5208 1 -6.81157
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(4)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_5 Solid {
+  translation -13.0666 1 -5.54135
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(5)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_6 Solid {
+  translation -26.5756 1 -20.8546
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(6)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_7 Solid {
+  translation 5.65869 1 -4.7766
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(7)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_8 Solid {
+  translation 2.48883 1 16.7941
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(8)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_9 Solid {
+  translation -21.5071 1 19.6972
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(9)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_10 Solid {
+  translation -11.3252 1 23.9583
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(10)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_11 Solid {
+  translation -27.9213 1 -27.5921
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(11)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_12 Solid {
+  translation -20.3505 1 -12.0943
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(12)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_13 Solid {
+  translation -20.1731 1 14.1931
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(13)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_14 Solid {
+  translation -12.5078 1 -26.5308
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(14)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_15 Solid {
+  translation 23.5136 1 16.3913
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(15)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_16 Solid {
+  translation 11.2747 1 -3.27308
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(16)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_17 Solid {
+  translation 22.197 1 -3.21502
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(17)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_18 Solid {
+  translation 28.4213 1 6.60283
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(18)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_19 Solid {
+  translation 19.4685 1 -20.9128
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(19)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_20 Solid {
+  translation 4.81033 1 -27.563
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(20)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_21 Solid {
+  translation -2.91762 1 27.7484
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(21)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_22 Solid {
+  translation 5.15002 1 24.9015
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(22)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_23 Solid {
+  translation -14.717 1 6.97726
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(23)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_24 Solid {
+  translation 28.6207 1 -21.1249
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(24)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_25 Solid {
+  translation 15.5754 1 -12.0666
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(25)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_26 Solid {
+  translation 9.79035 1 14.8888
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(26)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_27 Solid {
+  translation -3.93434 1 16.4364
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(27)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_28 Solid {
+  translation -27.7733 1 5.49227
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(28)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_29 Solid {
+  translation -2.7517 1 -25.0956
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(29)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_30 Solid {
+  translation -23.7889 1 -0.62109
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(30)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_31 Solid {
+  translation -1.71767 1 7.68168
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(31)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_32 Solid {
+  translation -25.1618 1 10.2537
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(32)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_33 Solid {
+  translation 23.4432 1 -11.5598
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(33)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_34 Solid {
+  translation -7.22118 1 -5.04018
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(34)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_35 Solid {
+  translation 19.1942 1 23.0269
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(35)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_36 Solid {
+  translation 16.558 1 2.8216
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(36)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_37 Solid {
+  translation 5.42691 1 -15.3295
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(37)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_38 Solid {
+  translation -16.683 1 -24.0153
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(38)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_39 Solid {
+  translation 7.03998 1 6.59248
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(39)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF OBSTACLE_40 Solid {
+  translation -28.0377 1 -9.77742
+  children [
+    USE OBSTACLE_SHAPE
+  ]
+  name "obstacle(40)"
+  boundingObject USE OBSTACLE_SHAPE
+}
+DEF PIONEER_3AT Pioneer3at {
+  translation 2.61439 0.11 18.5513
+  rotation 0 1 0 3.61884
+  controller "pioneer3at_obstacle_avoidance_with_lidar"
+  extensionSlot [
+    SickLms291 {
+      translation 0 0.24 -0.136
+    }
+  ]
+}

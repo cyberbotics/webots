@@ -1,0 +1,395 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A simple segment of road allowing to divide a road into two smaller ones (or to assemble two roads into a bigger one).
+# The number of lanes of each of the two smaller roads is independently configurable as well as a lot of others parameters of a regular road.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO LaneSeparation [
+  field             SFVec3f              translation                 0 0 0
+  field             SFRotation           rotation                    0 1 0 0
+  field             SFString             name                        "road"                   # Defines the junction name.
+  field             SFString             id                          ""                       # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
+  field             MFString             connectedRoadIDs            []                       # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
+  field             SFFloat              width                       14                       # Defines the total width of the road (excluding sidewalk).
+  field             SFFloat              length                      5                        # Defines the length of the segment.
+  field             SFInt32              numberOfLanes               4                        # Defines the total number of lanes (used for the texture mapping).
+  field             SFInt32              numberOfleavingLanes        2                        # Defines the number of lanes leaving the road.
+  field             SFFloat              speedLimit                -1.0                       # Optionally defines the speed limit. The recommended unit is meter per seconds.
+  field             SFBool               newLaneLeft                 TRUE                     # Defines on which sied the lanes are leaving the road.
+  unconnectedField  MFNode{RoadLine {}}  lines                       [ RoadLine { } ]         # Defines the property of each line separating two lanes.
+  field             SFFloat              roadBorderHeight            0.15                     # Defines the height of the sidewalk.
+  field             SFFloat              roadBorderWidth             0.8                      # Defines the width of the sidewalk
+  field             SFBool               rightBorder                 TRUE                     # Defines whether the road should have a right sidewalk.
+  field             SFBool               leftBorder                  TRUE                     # Defines whether the road should have a left sidewalk.
+  field             SFBool               centralBorder               TRUE                     # Defines whether the road should have a central sidewalk.
+  field             SFBool               rightBarrier                FALSE                    # Defines whether the road should have a right barrier.
+  field             SFBool               leftBarrier                 FALSE                    # Defines whether the road should have a left barrier.
+  field             SFBool               bottom                      FALSE                    # Defines whether the road bottom should be displayed (useful in case of bridge).
+  field             MFString             startLine                   []                       # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+  field             MFString             endLine                     []                       # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
+  field             SFNode               appearance                  Asphalt { }              # Defines the appearance of the road.
+  field             SFNode               pavementAppearance          StonePavement { }        # Defines the appearance of the sidewalk.
+  field             MFString             bottomTexture               []                       # Defines the texture to be used for the bottom of the road.
+  field             SFBool               locked                      TRUE                     # Is `Solid.locked`.
+  field             SFBool               roadBoundingObject          FALSE                    # Defines whether the road should have a bounding object.
+  field             SFBool               rightBorderBoundingObject   FALSE                    # Defines whether the right sidewalk should have a bounding object.
+  field             SFBool               leftBorderBoundingObject    FALSE                    # Defines whether the left sidewalk should have a bounding object.
+  field             SFBool               centralBorderBoundingObject FALSE                    # Defines whether the central sidewalk should have a bounding object.
+  field             SFBool               rightBarrierBoundingObject  TRUE                     # Defines whether the right crash barrier (if any) should have a bounding object.
+  field             SFBool               leftBarrierBoundingObject   TRUE                     # Defines whether the left crash barrier (if any) should have a bounding object.
+  field             SFBool               castShadows                 FALSE                    # Defines whether the road should cast shadows.
+  field             SFString             contactMaterial             "default"                # Is `Solid.contactMaterial`.
+
+  hiddenField       MFBool               dashedLine                  TRUE                     # Deprecated in Webots R2018c.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+
+    -- fields checks
+    local width = fields.width.value
+    if width < 0 then
+      io.stderr:write("'width' must be greater than 0\n")
+      width = fields.width.defaultValue
+    end
+    local length = fields.length.value
+    if length < 0 then
+      io.stderr:write("'length' must be greater than 0\n")
+      length = fields.length.defaultValue
+    end
+    local numberOfleavingLanes = fields.numberOfleavingLanes.value
+    if numberOfleavingLanes < 1 then
+      io.stderr:write("'numberOfleavingLanes' must be greater than 1\n")
+      numberOfleavingLanes = fields.numberOfleavingLanes.defaultValue
+    end
+    local lanes = fields.numberOfLanes.value
+    if lanes < 1 then
+      io.stderr:write("'numberOfLanes' must be greater than 1\n")
+      lanes = fields.numberOfLanes.defaultValue
+    end
+    local borderHeight = fields.roadBorderHeight.value
+    if borderHeight < 0 then
+      io.stderr:write("'borderHeight' must be greater or equal to 0\n")
+      borderHeight = fields.roadBorderHeight.defaultValue
+    end
+    local borderWidth = fields.roadBorderWidth.value
+    if borderWidth < 0 then
+      io.stderr:write("'roadBorderWidth' must be greater or equal to 0\n")
+      borderWidth = fields.roadBorderWidth.defaultValue
+    end
+
+    local newLaneleft   = fields.newLaneLeft.value
+    local sideSign      = -1
+    if newLaneleft then
+      sideSign = 1
+    end
+    local roadLines = fields.lines.value
+    for i = 1, wbcore.tablelength(roadLines) do
+      if roadLines[i].node_name ~= "RoadLine" then
+        roadLines[i] = nil
+        io.stderr:write("Only 'RoadLine' nodes should be added in the 'lines' field.\n")
+      end
+    end
+    local dashedLine      = fields.dashedLine.value
+    local startLine       = fields.startLine.value
+    local endLine         = fields.endLine.value
+    local centralBorder   = fields.centralBorder.value
+    local centralBorderBO = fields.centralBorderBoundingObject.value
+    local bottom          = fields.bottom.value
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "lane separation"
+    children [
+      StraightRoadSegment {
+        translation %{= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) }% 0 0
+        name "road 1"
+        width %{= width * (1 - numberOfleavingLanes/lanes) }%
+        numberOfLanes %{= lanes - numberOfleavingLanes }%
+        %{ if newLaneleft then }%
+          rightBorder IS leftBorder
+          rightBarrier IS leftBarrier
+          rightBarrierBoundingObject IS leftBarrierBoundingObject
+          leftBorder FALSE
+          dashedLine [
+          %{ for i = 1, lanes - numberOfleavingLanes - 1 do }%
+            %{ if dashedLine[i] == false then }%
+              FALSE
+            %{ else }%
+              TRUE
+            %{ end }%
+          %{ end }%
+          ]
+          lines IS lines
+          startLine [
+          %{ for i = 1, lanes - numberOfleavingLanes do }%
+            %{ if startLine[i] then }%
+              %{= '"' .. startLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+          endLine [
+          %{ for i = 1, lanes - numberOfleavingLanes do }%
+            %{ if endLine[i] then }%
+              %{= '"' .. endLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+        %{ else }%
+          leftBorder IS rightBorder
+          leftBarrier IS rightBarrier
+          leftBarrierBoundingObject IS rightBarrierBoundingObject
+          rightBorder FALSE
+          dashedLine [
+          %{ for i = numberOfleavingLanes, lanes do }%
+            %{ if dashedLine[i] == false then }%
+              FALSE
+            %{ else }%
+              TRUE
+            %{ end }%
+          %{ end }%
+          ]
+          lines [
+          %{ for i = numberOfleavingLanes, lanes do }%
+            %{ if roadLines[i] then }%
+              RoadLine {
+                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
+                type %{=  '"' .. roadLines[i].fields.type.value  .. '"' }%
+                width %{= roadLines[i].fields.width.value }%
+             }
+            %{ end }%
+          %{ end }%
+          ]
+          startLine [
+          %{ for i = numberOfleavingLanes + 1, lanes do }%
+            %{ if startLine[i] then }%
+              %{= '"' .. startLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+          endLine [
+          %{ for i = numberOfleavingLanes + 1, lanes do }%
+            %{ if endLine[i] then }%
+              %{= '"' .. endLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+        %{ end }%
+        bottom IS bottom
+        roadBorderHeight IS roadBorderHeight
+        startingRoadBorderWidth IS roadBorderWidth
+        endingRoadBorderWidth IS roadBorderWidth
+        appearance IS appearance
+        pavementAppearance IS pavementAppearance
+        roadBoundingObject IS roadBoundingObject
+        rightBorderBoundingObject IS rightBorderBoundingObject
+        leftBorderBoundingObject IS leftBorderBoundingObject
+        contactMaterial IS contactMaterial
+        length IS length
+        castShadows IS castShadows
+      }
+      Road {
+        translation %{= sideSign * (width/2) * (numberOfleavingLanes/lanes) }% 0 0
+        name "road 2"
+        width %{= width * (numberOfleavingLanes/lanes) }%
+        numberOfLanes IS numberOfleavingLanes
+        %{ if newLaneleft then }%
+          rightBorder FALSE
+          leftBorder IS leftBorder
+          leftBarrier IS leftBarrier
+          leftBarrierBoundingObject IS leftBarrierBoundingObject
+          dashedLine [
+          %{ for i = lanes - numberOfleavingLanes, lanes do }%
+            %{ if dashedLine[i] == false then }%
+              FALSE
+            %{ else }%
+              TRUE
+            %{ end }%
+          %{ end }%
+          ]
+          lines [
+          %{ for i = lanes - numberOfleavingLanes, lanes do }%
+            %{ if roadLines[i] then }%
+              RoadLine {
+                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
+                type %{= '"' ..  roadLines[i].fields.type.value .. '"' }%
+                width %{= roadLines[i].fields.width.value }%
+             }
+            %{ end }%
+          %{ end }%
+          ]
+          startLine [
+          %{ for i = lanes - numberOfleavingLanes + 1, lanes do }%
+            %{ if startLine[i] then }%
+              %{= '"' .. startLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+          endLine [
+          %{ for i = lanes - numberOfleavingLanes + 1, lanes do }%
+            %{ if endLine[i] then }%
+              %{= '"' .. endLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+        %{ else }%
+          leftBorder FALSE
+          rightBorder IS rightBorder
+          rightBarrier IS rightBarrier
+          rightBarrierBoundingObject IS rightBarrierBoundingObject
+          dashedLine [
+          %{ for i = 1, numberOfleavingLanes - 1 do }%
+            %{ if dashedLine[i] == false then }%
+              FALSE
+            %{ else }%
+              TRUE
+            %{ end }%
+          %{ end }%
+          ]
+          lines [
+          %{ for i = 1, numberOfleavingLanes - 1 do }%
+            %{ if roadLines[i] then }%
+              RoadLine {
+                color %{= roadLines[i].fields.color.value.r }% %{= roadLines[i].fields.color.value.g }% %{= roadLines[i].fields.color.value.b }%
+                type %{= '"' ..  roadLines[i].fields.type.value  .. '"' }%
+                width %{= roadLines[i].fields.width.value }%
+              }
+            %{ end }%
+          %{ end }%
+          ]
+          startLine [
+          %{ for i = 1, numberOfleavingLanes do }%
+            %{ if startLine[i] then }%
+              %{= '"' .. startLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+          endLine [
+          %{ for i = 1, numberOfleavingLanes do }%
+            %{ if endLine[i] then }%
+              %{= '"' .. endLine[i] .. '"' }%
+            %{ end }%
+          %{ end }%
+          ]
+        %{ end }%
+        bottom IS bottom
+        roadBorderHeight IS roadBorderHeight
+        roadBorderWidth IS roadBorderWidth
+        appearance IS appearance
+        pavementAppearance IS pavementAppearance
+        roadBoundingObject IS roadBoundingObject
+        rightBorderBoundingObject IS rightBorderBoundingObject
+        leftBorderBoundingObject IS leftBorderBoundingObject
+        contactMaterial IS contactMaterial
+        castShadows IS castShadows
+        wayPoints [
+          0 0 0
+          %{= sideSign * borderWidth * 2 }% 0 %{= length }%
+        ]
+        startingAngle [
+          0
+        ]
+        endingAngle [
+          0
+        ]
+        splineSubdivision 0
+      }
+      # Central border
+      %{ if centralBorder then }%
+        Solid {
+          children [
+            Shape {
+              appearance IS pavementAppearance
+              geometry DEF CENTRAL_BORDER_GEOMETRY IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0                                           0              0
+                    0                                 %{= borderHeight }%      0
+                    0                                           0         %{= length }%
+                    0                                 %{= borderHeight }% %{= length }%
+                    %{= sideSign * borderWidth * 2 }%           0         %{= length }%
+                    %{= sideSign * borderWidth * 2 }% %{= borderHeight }% %{= length }%
+                  ]
+                }
+                texCoord TextureCoordinate {
+                  point [
+                    0             0
+                    0             0
+                    %{= length }% 0
+                    %{= length }% 0
+                    %{= length }% %{= 2 * borderWidth }%
+                    %{= length }% %{= 2 * borderWidth }%
+                  ]
+                }
+                coordIndex [
+                %{ if newLaneleft then }%
+                  1 0 2 3 -1
+                  0 1 5 4 -1
+                  1 3 5 -1
+                %{ else }%
+                  0 1 3 2 -1
+                  1 0 4 5 -1
+                  1 5 3 -1
+                %{ end }%
+                ]
+                texCoordIndex [
+                %{ if newLaneleft then }%
+                  1 0 2 3 -1
+                  0 1 5 4 -1
+                  1 3 5 -1
+                %{ else }%
+                  0 1 3 2 -1
+                  1 0 4 5 -1
+                  1 5 3 -1
+                %{ end }%
+                ]
+                creaseAngle 0.2
+              }
+              castShadows IS castShadows
+            }
+            # Central bottom
+            %{ if bottom then }%
+              Shape {
+                appearance PBRAppearance {
+                  metalness 0
+                  roughness 1
+                }
+                geometry DEF CENTRAL_BOTTOM_GEOMETRY IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0                                           0              0
+                    0                                           0         %{= length }%
+                    %{= sideSign * borderWidth * 2 }%           0         %{= length }%
+                  ]
+                }
+                coordIndex [
+                %{ if newLaneleft then }%
+                  0 2 1 -1
+                %{ else }%
+                  0 1 2 -1
+                %{ end }%
+                ]
+                creaseAngle 0.2
+              }
+              castShadows IS castShadows
+            }
+            %{ end }%
+          ]
+          %{ if centralBorderBO then }%
+            contactMaterial IS contactMaterial
+            boundingObject Shape {
+              geometry USE CENTRAL_BORDER_GEOMETRY
+            }
+          %{ end }%
+          recognitionColors [ 0.6 0.6 0.6 ]
+          model "road border"
+        }
+      %{ end }%
+    ]
+    locked IS locked
+  }
+}

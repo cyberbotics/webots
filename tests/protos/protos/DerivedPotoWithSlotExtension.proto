@@ -1,0 +1,12 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedPotoWithSlotExtension [
+  field SFNode slotExtension SlotNode { }
+  field SFString controller ""
+]
+{
+  ProtoWithSlotExtension {
+    slotExtension IS slotExtension
+    controller IS controller
+  }
+}

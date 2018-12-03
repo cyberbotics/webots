@@ -1,0 +1,25 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test world resetting itself"
+  ]
+}
+Viewpoint {
+  orientation 0.30621251 -0.92407837 -0.22872049 4.8372312
+  position 1.510522 0.83741937 0.23084154
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF Test Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_self_restart"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

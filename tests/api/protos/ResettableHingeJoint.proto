@@ -1,0 +1,68 @@
+#VRML_SIM R2019a utf8
+
+PROTO ResettableHingeJoint 
+[
+  field SFVec3f translation 0 0.055 0
+  field SFString name "resettable joint endPoint"
+  field SFRotation hingeRotation 1 0 0 0
+  field SFColor color 1 0 1
+] 
+{
+  Robot {
+    translation IS translation
+    children [
+      DEF BODY Shape {
+        appearance Appearance {
+          material Material {
+            diffuseColor IS color
+          }
+        }
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.07 0 0
+          dampingConstant 0.0003
+        }
+        device [
+          RotationalMotor {
+            name "wheel1"
+            maxVelocity 100
+            acceleration 10
+          }
+        ]
+        endPoint Solid {
+          translation 0.2 0 0
+          rotation IS hingeRotation
+          children [
+            DEF WHEEL Transform {
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.305882 0.898039 0.25098
+                    }
+                  }
+                  geometry Box {
+                    size 0.05 0.05 0.05
+                  }
+                }
+              ]
+            }
+          ]
+          boundingObject USE WHEEL
+          physics Physics {
+            density -1
+            mass 1
+          }
+        }
+      }
+    ]
+    name IS name
+    boundingObject USE BODY
+    controller "motor_spinner"
+  }
+}

@@ -1,0 +1,68 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Model of the BMW X5 wheels using the generic VehicleWheel proto
+# including physic properties and baseColorMaps
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO BmwX5Wheel [
+  field       SFString name           "BMW X5 wheel"
+  field       SFNode   physics        NULL
+  field       SFBool   boundingObject TRUE
+  hiddenField SFFloat  tireRadius     0.374           # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller
+]
+{
+  VehicleWheel {
+    name IS name
+    thickness 0.25
+    tireRadius IS tireRadius
+    rimRadius 0.255
+    rimBeamWidth 0.07
+    centralInnerRadius 0.08
+    centralOuterRadius 0.12
+    rimBeamThickness 0.08
+    rimBeamOffset 0.065
+    tireAppearance GenericTireAppearance {
+    }
+    rimAppearance PBRAppearance {
+      baseColor 0.7 0.7 0.7
+      roughness 0.5
+    }
+    physics IS physics
+    boundingObject IS boundingObject
+    logoSlot [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          baseColorMap ImageTexture {
+            url [
+              "textures/bmw_logo_base_color.jpg"
+            ]
+          }
+          roughnessMap ImageTexture {
+            url [
+              "textures/bmw_logo_roughness.jpg"
+            ]
+          }
+          metalnessMap ImageTexture {
+            url [
+              "textures/bmw_logo_metalness.jpg"
+            ]
+          }
+          normalMap ImageTexture {
+            url [
+              "textures/bmw_logo_normal.jpg"
+            ]
+          }
+        }
+        geometry Cylinder {
+          bottom FALSE
+          height 0.21
+          radius 0.036
+          side FALSE
+          subdivision 24
+        }
+      }
+    ]
+  }
+}

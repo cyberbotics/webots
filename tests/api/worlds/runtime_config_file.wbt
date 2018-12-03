@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.999915 0.00793805 -0.0103873 5.1417
+  position -0.0282472 1.54298 0.684422
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1.0
+  intensity 0.0
+  color 1.0 1.0 1.0
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "runtime_config_file"
+}
+TestSuiteSupervisor {
+}

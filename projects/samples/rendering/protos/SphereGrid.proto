@@ -1,0 +1,56 @@
+#VRML_SIM R2019a utf8
+# A grid of spheres for testing material properties.
+
+PROTO SphereGrid [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   name           "sphere grid"
+  field SFColor    color          1 0 0
+  field SFNode     normalMap      ImageTexture {}
+  field SFNode     baseColorMap   ImageTexture {}
+  field SFNode     roughnessMap   ImageTexture {}
+  field SFNode     cubeMap        Cubemap {}
+  field SFFloat    transparency   0.01
+  field SFInt32    widthAndHeight 10
+]
+{
+  %{
+    local dimensions = fields.widthAndHeight.value
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      %{ for i=0, dimensions - 1 do}%
+        %{ for j=0, dimensions - 1 do}%
+          Solid {
+            translation %{= j / 3}% %{= (1 - i) / 3}% 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor IS color
+                  metalness %{= j / dimensions }%
+                  roughness %{= i / dimensions }%
+                  normalMap IS normalMap
+                  baseColorMap IS baseColorMap
+                  roughnessMap IS roughnessMap
+                  environmentMap IS cubeMap
+                  transparency IS transparency
+                }
+                geometry Sphere {
+                  radius 0.1
+                  subdivision 4
+
+                }
+              }
+            ]
+            name "%{=i*dimensions + j}%"
+          }
+        %{end}%
+      %{end}%
+    ]
+    rotationStep 0.001
+    translationStep 0.001
+  }
+}

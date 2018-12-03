@@ -1,0 +1,66 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      bounce 1
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.113936 -0.939884 -0.321926 3.9231
+  position 2.49266 2.62338 -2.36077
+}
+Background {
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -1 0.2
+}
+DEF FLOOR Solid {
+  children [
+    DEF FLOOR_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.8 0.5 0.5
+        }
+      }
+      geometry Plane {
+        size 2 2
+      }
+    }
+  ]
+  boundingObject USE FLOOR_SHAPE
+}
+DEF BALL Solid {
+  translation 0 1 0
+  children [
+    DEF BALL_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.5 0.7 0.8
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+        subdivision 2
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_simulation_mode"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

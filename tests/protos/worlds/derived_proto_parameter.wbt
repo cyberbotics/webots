@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.908357 0.403597 0.109529 0.580641
+  position 0.086511 0.325577 0.503448
+}
+Background {
+  skyColor [
+    0 0.839216 1
+  ]
+}
+DerivedProtoParameter {
+}
+Robot {
+  translation 0 0 0.08
+  rotation 0 1 0 1.5708
+  children [
+    DistanceSensor {
+      translation 0 0 0.045
+      name "ds1"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0 0.1 0
+      name "ds2"
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "derived_proto_parameter"
+  controllerArgs "derived_proto_parameter"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

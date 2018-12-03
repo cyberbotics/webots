@@ -1,0 +1,67 @@
+#VRML_SIM R2019a utf8
+
+PROTO PassiveHingeJointRobot [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "default"
+  field SFFloat    dampingConstant 0
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      geometry DEF MAIN_BOX Box {
+        size 0.2 1 0.2
+      }
+    }
+    Emitter {
+    }
+    TouchSensor {
+      translation 0 -0.45 -0.106
+      children [
+        DEF TOUCH_SENSOR_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.3 0.5 0.7
+            }
+          }
+          geometry Box {
+            size 0.1 0.1 0.01
+          }
+        }
+      ]
+      boundingObject USE TOUCH_SENSOR_SHAPE
+      physics Physics {
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.5 -0.1
+        dampingConstant IS dampingConstant
+      }
+      endPoint Solid {
+        translation 0 0.55 -0.6
+        children [
+          DEF JOINT_BOX Shape {
+            geometry Box {
+              size 0.2 0.1 1
+            }
+          }
+        ]
+        boundingObject USE JOINT_BOX
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+  ]
+  boundingObject USE MAIN_BOX
+  selfCollision TRUE
+  name IS name
+  controller "passive_hinge_joint"
+}
+}

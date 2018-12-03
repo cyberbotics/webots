@@ -1,0 +1,650 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/puma
+# The PUMA robotic arm (for "Programmable Universal Machine for Assembly") is a six axes arm with three axes making up a spherical wrist.
+
+PROTO Puma560 [
+  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0     # Is `Transform.rotation`.
+  field SFString   name            "PUMA 560"  # Is `Solid.name`.
+  field SFString   controller      "puma560"   # Is `Robot.controller`.
+  field SFString   controllerArgs  ""          # Is `Robot.controllerArgs`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     bodySlot        []          # Extends the robot with new nodes in the body slot.
+  field MFNode     gripperSlot     []          # Extends the robot with new nodes in the gripper slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS bodySlot
+      }
+      DEF BASE_GROUP Group {
+        children [
+          Transform {
+            translation 0 0.308 0
+            children [
+              Shape {
+                appearance DEF DARK PBRAppearance {
+                  baseColor 0.301961 0.301961 0.301961
+                  roughness 0.3
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.56
+                  radius 0.09
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.02 0
+            children [
+              Shape {
+                appearance USE DARK
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.18
+                  subdivision 18
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.146 0.185 0
+            children [
+              Shape {
+                appearance USE DARK
+                geometry Cylinder {
+                  height 0.18
+                  radius 0.055
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.146 0.05 0
+            children [
+              Shape {
+                appearance USE DARK
+                geometry Box {
+                  size 0.15 0.105 0.105
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF Shoulder HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 0.669 0
+          minStop -2.792
+          maxStop 2.792
+        }
+        device [
+          RotationalMotor {
+            name "joint1"
+            maxVelocity 99999
+            minPosition -2.792
+            maxPosition 2.792
+            maxTorque 97.6
+          }
+        ]
+        endPoint Solid {
+          translation 0 0.669 0
+          children [
+            DEF SHOULDER_GROUP Group {
+              children [
+                DEF SHOULDER_SHAFT Transform {
+                  translation 0 0 -0.035
+                  rotation 1 0 0 -1.5708
+                  children [
+                    Shape {
+                      appearance DEF WHITE PBRAppearance {
+                        metalness 0
+                        roughness 0.4
+                      }
+                      geometry Cylinder {
+                        height 0.26
+                        radius 0.082
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0 -0.177
+                  rotation 1 0 0 -1.5708
+                  children [
+                    Shape {
+                      appearance USE WHITE
+                      geometry Cylinder {
+                        height 0.03
+                        radius 0.12
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 -0.041 0
+                  children [
+                    Shape {
+                      appearance USE WHITE
+                      geometry Cylinder {
+                        height 0.08
+                        radius 0.09
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            DEF UpperArm HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 0 -1
+                anchor 0 0 -0.1622
+              }
+              device [
+                RotationalMotor {
+                  name "joint2"
+                  maxVelocity 99999
+                  minPosition -3.9269
+                  maxPosition 0.7854
+                  maxTorque 186.4
+                }
+              ]
+              endPoint Solid {
+                translation 0 0 -0.1622
+                rotation 0 0 -1 0
+                children [
+                  Transform {
+                    rotation 1 0 0 -1.5708
+                    children [
+                      DEF UNIMATE_LOGO Transform {
+                        translation -0.05 0.135 -0.079
+                        scale 6 4 1
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              metalness 0
+                              roughness 0.4
+                              baseColorMap ImageTexture {
+                                url [
+                                  "textures/unimate.png"
+                                ]
+                                repeatT FALSE
+                              }
+                              textureTransform TextureTransform {
+                                center 1 -0.1
+                                scale 1 1.2
+                              }
+                            }
+                            geometry Plane {
+                              size 0.05 0.06
+                            }
+                          }
+                        ]
+                      }
+                      DEF PUMA_LOGO Transform {
+                        translation 0.1355 0.135 0
+                        scale 6 4 1
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              metalness 0
+                              roughness 0.4
+                              baseColorMap ImageTexture {
+                                url [
+                                  "textures/puma560.jpg"
+                                ]
+                                repeatT FALSE
+                              }
+                              textureTransform TextureTransform {
+                                center 1 -0.1
+                                scale 1 1.2
+                              }
+                            }
+                            geometry Plane {
+                              size 0.123 0.04
+                            }
+                          }
+                        ]
+                      }
+                      Shape {
+                        appearance USE WHITE
+                        geometry DEF UpperArm_FACES IndexedFaceSet {
+                          coord DEF UpperArm_COORD Coordinate {
+                            point [
+                              0 0 0, 0.1181 0 0, 0.1141 0 -0.03057, 0.1023 0 -0.05905, 0.08351 0 -0.08351, 0.05905 0 -0.1023, 0.03057 0 -0.1141, 0 0 -0.1181, -0.03057 0 -0.1141, -0.05905 0 -0.1023, -0.08351 0 -0.08351, -0.1023 0 -0.05905, -0.1141 0 -0.03057, -0.1181 0 0, -0.1141 0 0.03057, -0.1023 0 0.05905, -0.08351 0 0.08351, -0.05905 0 0.1023, -0.03057 0 0.1141, 0 0 0.1181, 0.03057 0 0.1141, 0.05905 0 0.1023, 0.08351 0 0.08351, 0.1023 0 0.05905, 0.1141 0 0.03057, 0.1181 0.03048 0, 0.1141 0.03048 -0.03057, 0.1023 0.03048 -0.05905, 0.08351 0.03048 -0.08351, 0.05905 0.03048 -0.1023, 0.03057 0.03048 -0.1141, 0 0.03048 -0.1181, -0.03057 0.03048 -0.1141, -0.05905 0.03048 -0.1023, -0.08351 0.03048 -0.08351, -0.1023 0.03048 -0.05905, -0.1141 0.03048 -0.03057, -0.1181 0.03048 0, -0.1141 0.03048 0.03057, -0.1023 0.03048 0.05905, -0.08351 0.03048 0.08351, -0.05905 0.03048 0.1023, -0.03057 0.03048 0.1141, 0 0.03048 0.1181, 0.03057 0.03048 0.1141, 0.05905 0.03048 0.1023, 0.08351 0.03048 0.08351, 0.1023 0.03048 0.05905, 0.1141 0.03048 0.03057, 0 0.03048 0, -0.2325 0.03048 0.02214, -0.2104 0.03048 0.08857, -0.1772 0.03048 0.1395, 0.03322 0.03048 0.1395, 0.4539 0.03048 0.07086, 0.4849 0.03048 0.05757, 0.5 0.03048 0.03543, 0.5071 0.03048 0.01107, 0.5093 0.03048 -0.0155, 0.4982 0.03048 -0.04207, 0.4872 0.03048 -0.05795, 0.4717 0.03048 -0.06643, 0.4539 0.03048 -0.07307, 0.03322 0.03048 -0.155, -0.1772 0.03048 -0.155, -0.2104 0.03048 -0.08857, -0.2325 0.03048 -0.02214, -0.2325 0.1321 0.02214, -0.2104 0.1321 0.08857, -0.1772 0.1321 0.1395, 0.03322 0.1321 0.1395, 0.4539 0.1321 0.07086, 0.4849 0.1321 0.05757, 0.5 0.1321 0.03543, 0.5071 0.1321 0.01107, 0.5093 0.1321 -0.0155, 0.4982 0.1321 -0.04207, 0.4872 0.1321 -0.05795, 0.4717 0.1321 -0.06643, 0.4539 0.1321 -0.07307, 0.03322 0.1321 -0.155, -0.1772 0.1321 -0.155, -0.2104 0.1321 -0.08857, -0.2325 0.1321 -0.02214
+                            ]
+                          }
+                          texCoord DEF UpperArm_TEXCOORD TextureCoordinate {
+                            point [
+                              0 0, 0.1181 0, 0.1141 0.03057, 0.1023 0.05905, 0.08351 0.08351, 0.05905 0.1023, 0.03057 0.1141, 0 0.1181, -0.03057 0.1141, -0.05905 0.1023, -0.08351 0.08351, -0.1023 0.05905, -0.1141 0.03057, -0.1181 0, -0.1141 -0.03057, -0.1023 -0.05905, -0.08351 -0.08351, -0.05905 -0.1023, -0.03057 -0.1141, 0 -0.1181, 0.03057 -0.1141, 0.05905 -0.1023, 0.08351 -0.08351, 0.1023 -0.05905, 0.1141 -0.03057, 0.1181 0, 0.1141 0.03057, 0.1023 0.05905, 0.08351 0.08351, 0.05905 0.1023, 0.03057 0.1141, 0 0.1181, -0.03057 0.1141, -0.05905 0.1023, -0.08351 0.08351, -0.1023 0.05905, -0.1141 0.03057, -0.1181 0, -0.1141 -0.03057, -0.1023 -0.05905, -0.08351 -0.08351, -0.05905 -0.1023, -0.03057 -0.1141, 0 -0.1181, 0.03057 -0.1141, 0.05905 -0.1023, 0.08351 -0.08351, 0.1023 -0.05905, 0.1141 -0.03057, 0 0, 1.054 0.5511, 1.042 0.6671, 1.024 0.7561, 0.91 0.7561, 0.1277 0.6362, 0.07004 0.613, 0.04203 0.5743, 0.02885 0.5318, 0.02474 0.4853, 0.04532 0.4389, 0.06591 0.4112, 0.09473 0.3964, 0.1277 0.3848, 0.91 0.2417, 1.024 0.2417, 1.042 0.3577, 1.054 0.4737, 1.054 0.5511, 1.042 0.6671, 1.024 0.7561, 0.91 0.7561, 0.1277 0.6362, 0.07004 0.613, 0.04203 0.5743, 0.02885 0.5318, 0.02474 0.4853, 0.04532 0.4389, 0.06591 0.4112, 0.09473 0.3964, 0.1277 0.3848, 0.91 0.2417, 1.024 0.2417, 1.042 0.3577, 1.054 0.4737, 0.91 0.7561, 0.91 0.2417, 0.91 0.7561, 0.91 0.2417, 0.2607 0.7561, 1.043 0.6362, 1.101 0.613, 1.129 0.5743, 1.142 0.5318, 1.146 0.4853, 1.125 0.4389, 1.105 0.4112, 1.076 0.3964, 1.043 0.3848, 0.2607 0.2417
+                            ]
+                          }
+                          coordIndex [
+                            0, 2, 1, -1, 0, 3, 2, -1, 0, 4, 3, -1, 0, 5, 4, -1, 0, 6, 5, -1, 0, 7, 6, -1, 0, 8, 7, -1, 0, 9, 8, -1, 0, 10, 9, -1, 0, 11, 10, -1, 0, 12, 11, -1, 0, 13, 12, -1, 0, 14, 13, -1, 0, 15, 14, -1, 0, 16, 15, -1, 0, 17, 16, -1, 0, 18, 17, -1, 0, 19, 18, -1, 0, 20, 19, -1, 0, 21, 20, -1, 0, 22, 21, -1, 0, 23, 22, -1, 0, 24, 23, -1, 0, 1, 24, -1, 1, 26, 25, -1, 1, 2, 26, -1, 2, 27, 26, -1, 2, 3, 27, -1, 3, 28, 27, -1, 3, 4, 28, -1, 4, 29, 28, -1, 4, 5, 29, -1, 5, 30, 29, -1, 5, 6, 30, -1, 6, 31, 30, -1, 6, 7, 31, -1, 7, 32, 31, -1, 7, 8, 32, -1, 8, 33, 32, -1, 8, 9, 33, -1, 9, 34, 33, -1, 9, 10, 34, -1, 10, 35, 34, -1, 10, 11, 35, -1, 11, 36, 35, -1, 11, 12, 36, -1, 12, 37, 36, -1, 12, 13, 37, -1, 13, 38, 37, -1, 13, 14, 38, -1, 14, 39, 38, -1, 14, 15, 39, -1, 15, 40, 39, -1, 15, 16, 40, -1, 16, 41, 40, -1, 16, 17, 41, -1, 17, 42, 41, -1, 17, 18, 42, -1, 18, 43, 42, -1, 18, 19, 43, -1, 19, 44, 43, -1, 19, 20, 44, -1, 20, 45, 44, -1, 20, 21, 45, -1, 21, 46, 45, -1, 21, 22, 46, -1, 22, 47, 46, -1, 22, 23, 47, -1, 23, 48, 47, -1, 23, 24, 48, -1, 24, 25, 48, -1, 24, 1, 25, -1, 49, 25, 26, -1, 49, 26, 27, -1, 49, 27, 28, -1, 49, 28, 29, -1, 49, 29, 30, -1, 49, 30, 31, -1, 49, 31, 32, -1, 49, 32, 33, -1, 49, 33, 34, -1, 49, 34, 35, -1, 49, 35, 36, -1, 49, 36, 37, -1, 49, 37, 38, -1, 49, 38, 39, -1, 49, 39, 40, -1, 49, 40, 41, -1, 49, 41, 42, -1, 49, 42, 43, -1, 49, 43, 44, -1, 49, 44, 45, -1, 49, 45, 46, -1, 49, 46, 47, -1, 49, 47, 48, -1, 49, 48, 25, -1
+                          ]
+                          creaseAngle 0.3
+                        }
+                      }
+                      Shape {
+                        appearance USE WHITE
+                        geometry DEF UpperArm_FACES IndexedFaceSet {
+                          coord DEF UpperArmCOORD Coordinate {
+                            point [
+                              0 0 0, 0.1181 0 0, 0.1141 0 -0.03057, 0.1023 0 -0.05905, 0.08351 0 -0.08351, 0.05905 0 -0.1023, 0.03057 0 -0.1141, 0 0 -0.1181, -0.03057 0 -0.1141, -0.05905 0 -0.1023, -0.08351 0 -0.08351, -0.1023 0 -0.05905, -0.1141 0 -0.03057, -0.1181 0 0, -0.1141 0 0.03057, -0.1023 0 0.05905, -0.08351 0 0.08351, -0.05905 0 0.1023, -0.03057 0 0.1141, 0 0 0.1181, 0.03057 0 0.1141, 0.05905 0 0.1023, 0.08351 0 0.08351, 0.1023 0 0.05905, 0.1141 0 0.03057, 0.1181 0.03048 0, 0.1141 0.03048 -0.03057, 0.1023 0.03048 -0.05905, 0.08351 0.03048 -0.08351, 0.05905 0.03048 -0.1023, 0.03057 0.03048 -0.1141, 0 0.03048 -0.1181, -0.03057 0.03048 -0.1141, -0.05905 0.03048 -0.1023, -0.08351 0.03048 -0.08351, -0.1023 0.03048 -0.05905, -0.1141 0.03048 -0.03057, -0.1181 0.03048 0, -0.1141 0.03048 0.03057, -0.1023 0.03048 0.05905, -0.08351 0.03048 0.08351, -0.05905 0.03048 0.1023, -0.03057 0.03048 0.1141, 0 0.03048 0.1181, 0.03057 0.03048 0.1141, 0.05905 0.03048 0.1023, 0.08351 0.03048 0.08351, 0.1023 0.03048 0.05905, 0.1141 0.03048 0.03057, 0 0.03048 0, -0.2325 0.03048 0.02214, -0.2104 0.03048 0.08857, -0.1772 0.03048 0.1395, 0.03322 0.03048 0.1395, 0.4539 0.03048 0.07086, 0.4849 0.03048 0.05757, 0.5 0.03048 0.03543, 0.5071 0.03048 0.01107, 0.5093 0.03048 -0.0155, 0.4982 0.03048 -0.04207, 0.4872 0.03048 -0.05795, 0.4717 0.03048 -0.06643, 0.4539 0.03048 -0.07307, 0.03322 0.03048 -0.155, -0.1772 0.03048 -0.155, -0.2104 0.03048 -0.08857, -0.2325 0.03048 -0.02214, -0.2325 0.1321 0.02214, -0.2104 0.1321 0.08857, -0.1772 0.1321 0.1395, 0.03322 0.1321 0.1395, 0.4539 0.1321 0.07086, 0.4849 0.1321 0.05757, 0.5 0.1321 0.03543, 0.5071 0.1321 0.01107, 0.5093 0.1321 -0.0155, 0.4982 0.1321 -0.04207, 0.4872 0.1321 -0.05795, 0.4717 0.1321 -0.06643, 0.4539 0.1321 -0.07307, 0.03322 0.1321 -0.155, -0.1772 0.1321 -0.155, -0.2104 0.1321 -0.08857, -0.2325 0.1321 -0.02214
+                            ]
+                          }
+                          coordIndex [
+                            68, 67, 50, -1, 50, 51, 68, -1, 69, 68, 51, -1, 51, 52, 69, -1, 70, 69, 52, -1, 52, 53, 70, -1, 71, 70, 53, -1, 53, 54, 71, -1, 72, 71, 54, -1, 54, 55, 72, -1, 73, 72, 55, -1, 55, 56, 73, -1, 74, 73, 56, -1, 56, 57, 74, -1, 75, 74, 57, -1, 57, 58, 75, -1, 76, 75, 58, -1, 58, 59, 76, -1, 77, 76, 59, -1, 59, 60, 77, -1, 78, 77, 60, -1, 60, 61, 78, -1, 79, 78, 61, -1, 61, 62, 79, -1, 80, 79, 62, -1, 62, 63, 80, -1, 81, 80, 63, -1, 63, 64, 81, -1, 82, 81, 64, -1, 64, 65, 82, -1, 83, 82, 65, -1, 65, 66, 83, -1, 67, 83, 66, -1, 66, 50, 67, -1, 65, 64, 63, -1, 65, 63, 53, -1, 66, 65, 53, -1, 50, 66, 53, -1, 51, 50, 53, -1, 51, 53, 52, -1, 76, 77, 78, -1, 76, 78, 79, -1, 75, 76, 79, -1, 74, 75, 79, -1, 73, 74, 79, -1, 72, 73, 79, -1, 71, 72, 79, -1, 70, 71, 79, -1, 70, 79, 80, -1, 80, 81, 82, -1, 68, 69, 70, -1, 67, 68, 70, -1, 83, 67, 70, -1, 82, 83, 70, -1, 80, 82, 70, -1, 61, 60, 59, -1, 62, 61, 59, -1, 62, 59, 58, -1, 62, 58, 57, -1, 62, 57, 56, -1, 62, 56, 55, -1, 62, 55, 54, -1, 62, 54, 53, -1, 63, 62, 53, -1
+                          ]
+                          texCoordIndex [
+                            68, 67, 50, -1, 50, 51, 68, -1, 69, 68, 51, -1, 51, 52, 69, -1, 86, 69, 52, -1, 52, 84, 86, -1, 71, 70, 53, -1, 53, 54, 71, -1, 72, 71, 54, -1, 54, 55, 72, -1, 73, 72, 55, -1, 55, 56, 73, -1, 74, 73, 56, -1, 56, 57, 74, -1, 75, 74, 57, -1, 57, 58, 75, -1, 76, 75, 58, -1, 58, 59, 76, -1, 77, 76, 59, -1, 59, 60, 77, -1, 78, 77, 60, -1, 60, 61, 78, -1, 79, 78, 61, -1, 61, 62, 79, -1, 80, 79, 62, -1, 62, 63, 80, -1, 81, 87, 85, -1, 85, 64, 81, -1, 82, 81, 64, -1, 64, 65, 82, -1, 83, 82, 65, -1, 65, 66, 83, -1, 67, 83, 66, -1, 66, 50, 67, -1, 65, 64, 85, -1, 65, 85, 84, -1, 66, 65, 84, -1, 50, 66, 84, -1, 51, 50, 84, -1, 51, 84, 52, -1, 76, 77, 78, -1, 76, 78, 79, -1, 75, 76, 79, -1, 74, 75, 79, -1, 73, 74, 79, -1, 72, 73, 79, -1, 71, 72, 79, -1, 70, 71, 79, -1, 70, 79, 80, -1, 87, 81, 82, -1, 68, 69, 86, -1, 67, 68, 86, -1, 83, 67, 86, -1, 82, 83, 86, -1, 87, 82, 86, -1, 96, 95, 94, -1, 97, 96, 94, -1, 97, 94, 93, -1, 97, 93, 92, -1, 97, 92, 91, -1, 97, 91, 90, -1, 97, 90, 89, -1, 97, 89, 88, -1, 98, 97, 88, -1
+                          ]
+                          creaseAngle 0.8
+                        }
+                      }
+                    ]
+                  }
+                  DEF Wrist1 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 0 -1
+                      anchor 0.42 0 0.086
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint3"
+                        maxVelocity 99999
+                        minPosition -0.7854
+                        maxPosition 3.9269
+                        maxTorque 89.4
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.42 0 0.086
+                      rotation 0 0 -1 0
+                      children [
+                        DEF Writst2 HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0 1 0
+                            anchor -0.02 0.353 -0.074
+                            minStop -1.9198
+                            maxStop 2.967
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint4"
+                              maxVelocity 99999
+                              minPosition -1.9198
+                              maxPosition 2.967
+                              maxTorque 24.2
+                            }
+                          ]
+                          endPoint Solid {
+                            translation -0.02 0.353 -0.074
+                            children [
+                              DEF Wrist3 HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0 0 -1
+                                  anchor 0 0.079 0
+                                  minStop -1.7453
+                                  maxStop 1.7453
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint5"
+                                    maxVelocity 99999
+                                    minPosition -1.7453
+                                    maxPosition 1.7453
+                                    maxTorque 20.1
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation 0 0.079 0
+                                  rotation 0 0 -1 0
+                                  children [
+                                    DEF JOINT5_TRANS Transform {
+                                      rotation 1 0 0 -1.571
+                                      children [
+                                        Shape {
+                                          appearance DEF DARK_JOIN PBRAppearance {
+                                            baseColor 0.1 0.1 0.1
+                                            roughness 0.4
+                                            metalness 0
+                                          }
+                                          geometry Cylinder {
+                                            height 0.088
+                                            radius 0.041
+                                          }
+                                        }
+                                      ]
+                                    }
+                                    DEF Wrist4 HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 1 0
+                                        anchor 0 -0.08 0
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "joint6"
+                                          maxVelocity 99999
+                                          minPosition -4.6425
+                                          maxPosition 4.6425
+                                          maxTorque 21.3
+                                        }
+                                      ]
+                                      endPoint Solid {
+                                        translation 0 -0.08 0
+                                        children [
+                                          Group {
+                                            children IS gripperSlot
+                                          }
+                                          DEF WRIST_GROUP Group {
+                                            children [
+                                              Transform {
+                                                translation 0 0.136 0
+                                                children [
+                                                  Shape {
+                                                    appearance USE DARK
+                                                    geometry Cylinder {
+                                                      height 0.05
+                                                      radius 0.019
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0 0.1845 0
+                                                children [
+                                                  Shape {
+                                                    appearance USE DARK
+                                                    geometry Cylinder {
+                                                      height 0.047
+                                                      radius 0.026
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0 0.222 0
+                                                children [
+                                                  Shape {
+                                                    appearance USE WHITE
+                                                    geometry Cylinder {
+                                                      height 0.03
+                                                      radius 0.015
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                          DEF GripperR SliderJoint {
+                                            jointParameters JointParameters {
+                                              axis -1 0 0
+                                            }
+                                            device [
+                                              LinearMotor {
+                                                name "joint_GripperR"
+                                                minPosition -0.004
+                                                maxPosition 0.01
+                                              }
+                                            ]
+                                            endPoint Solid {
+                                              translation -0.007 0.23 0
+                                              rotation 0 1 0 -1.5708
+                                              children [
+                                                Transform {
+                                                  rotation 0 1 0 1.5708
+                                                  children [
+                                                    Shape {
+                                                      appearance USE DARK_JOIN
+                                                      geometry DEF GripperR_FACES IndexedFaceSet {
+                                                        coord DEF GripperR_COORD Coordinate {
+                                                          point [
+                                                            -0.003226 0 0.01065 0.003226 0 0.01065 -0.003226 0 -0.01065 0.003226 0 -0.01065 -0.003226 0.03851 0.01065 0.003226 0.03851 0.01065 -0.003226 0.03851 -0.01065 0.003226 0.03851 -0.01065 -0.009777 0 0.06255 -0.003224 0 0.06255 -0.009777 0 -0.06255 -0.003224 0 -0.06255 -0.009777 0.03851 0.06255 -0.003224 0.03851 0.06255 -0.009777 0.03851 -0.06255 -0.003224 0.03851 -0.06255
+                                                          ]
+                                                        }
+                                                        texCoord DEF GripperR_TEXCOORD TextureCoordinate {
+                                                          point [
+                                                            0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1
+                                                          ]
+                                                        }
+                                                        coordIndex [
+                                                          0, 2, 3, -1, 3, 1, 0, -1, 4, 5, 7, -1, 7, 6, 4, -1, 0, 1, 5, -1, 5, 4, 0, -1, 1, 3, 7, -1, 7, 5, 1, -1, 3, 2, 6, -1, 6, 7, 3, -1, 2, 0, 4, -1, 4, 6, 2, -1
+                                                        ]
+                                                      }
+                                                    }
+                                                    Shape {
+                                                      appearance DEF CREAM PBRAppearance {
+                                                        baseColor 0.8314 0.8078 0.7451
+                                                        metalness 0
+                                                        roughness 0.4
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                              name "GripperR"
+                                              boundingObject DEF GRIP_BO Transform {
+                                                translation 0 0.023 0
+                                                children [
+                                                  Box {
+                                                    size 0.021 0.031 0.006
+                                                  }
+                                                ]
+                                              }
+                                              physics Physics {
+                                              }
+                                            }
+                                          }
+                                          DEF GripperL SliderJoint {
+                                            jointParameters JointParameters {
+                                              axis 1 0 0
+                                            }
+                                            device [
+                                              LinearMotor {
+                                                name "joint_GripperL"
+                                                minPosition -0.004
+                                                maxPosition 0.01
+                                              }
+                                            ]
+                                            endPoint Solid {
+                                              translation 0.007 0.23 0
+                                              rotation 0 1 0 1.5708
+                                              children [
+                                                DEF GripperL Transform {
+                                                  rotation 0 1 0 -1.5708
+                                                  children [
+                                                    Shape {
+                                                      appearance USE DARK_JOIN
+                                                      geometry DEF GripperL_FACES IndexedFaceSet {
+                                                        coord DEF GripperL_COORD Coordinate {
+                                                          point [
+                                                            -0.003226 0 0.01065 0.003226 0 0.01065 -0.003226 0 -0.01065 0.003226 0 -0.01065 -0.003226 0.03851 0.01065 0.003226 0.03851 0.01065 -0.003226 0.03851 -0.01065 0.003226 0.03851 -0.01065 0.003224 0 0.06255 0.009777 0 0.06255 0.003224 0 -0.06255 0.009777 0 -0.06255 0.003224 0.03851 0.06255 0.009777 0.03851 0.06255 0.003224 0.03851 -0.06255 0.009777 0.03851 -0.06255
+                                                          ]
+                                                        }
+                                                        texCoord DEF GripperL_TEXCOORD TextureCoordinate {
+                                                          point [
+                                                            0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1 0 0 1 0 0 1 1 1
+                                                          ]
+                                                        }
+                                                        coordIndex [
+                                                          0, 2, 3, -1, 3, 1, 0, -1, 4, 5, 7, -1, 7, 6, 4, -1, 0, 1, 5, -1, 5, 4, 0, -1, 1, 3, 7, -1, 7, 5, 1, -1, 3, 2, 6, -1, 6, 7, 3, -1, 2, 0, 4, -1, 4, 6, 2, -1
+                                                        ]
+                                                      }
+                                                    }
+                                                    Shape {
+                                                      appearance USE CREAM
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                              name "GripperL"
+                                              boundingObject USE GRIP_BO
+                                              physics Physics {
+                                              }
+                                            }
+                                          }
+                                        ]
+                                        boundingObject USE WRIST_GROUP
+                                        physics Physics {
+                                        }
+                                      }
+                                    }
+                                  ]
+                                  boundingObject USE JOINT5_TRANS
+                                  physics Physics {
+                                  }
+                                }
+                              }
+                              DEF JOINT4_TRANS Transform {
+                                translation 0 0.019 0
+                                children [
+                                  Shape {
+                                    appearance USE DARK_JOIN
+                                    geometry Box {
+                                      size 0.085 0.039 0.087
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                            boundingObject USE JOINT4_TRANS
+                            physics Physics {
+                            }
+                          }
+                        }
+                        Transform {
+                          translation 0 0 -0.074
+                          rotation 1 0 0 -1.571
+                          children [
+                            Shape {
+                              appearance USE WHITE
+                              geometry DEF LowerArm_FACES IndexedFaceSet {
+                                coord DEF LowerArm_COORD Coordinate {
+                                  point [
+                                    -0.08572 -0.04321 -0.08128 -0.0635 -0.04321 0.3531 0.02291 -0.04321 0.3531 0.08573 -0.04321 -0.08128 0.03 -0.04321 -0.1168 -0.03 -0.04321 -0.1168 -0.08572 0.04321 -0.08128 -0.0635 0.04321 0.3531 0.02291 0.04321 0.3531 0.08573 0.04321 -0.08128 0.03 0.04321 -0.1168 -0.03 0.04321 -0.1168
+                                  ]
+                                }
+                                coordIndex [
+                                  0, 1, 7, -1, 0, 7, 6, -1, 1, 2, 8, -1, 1, 8, 7, -1, 2, 3, 9, -1, 2, 9, 8, -1, 3, 4, 10, -1, 3, 10, 9, -1, 4, 5, 11, -1, 4, 11, 10, -1, 5, 0, 6, -1, 5, 6, 11, -1, 0, 2, 1, -1, 0, 3, 2, -1, 0, 4, 3, -1, 5, 4, 0, -1, 6, 7, 8, -1, 6, 8, 9, -1, 6, 9, 10, -1, 11, 6, 10, -1
+                                ]
+                                creaseAngle 0.3
+                              }
+                            }
+                          ]
+                        }
+                        DEF ARTLAB_LOGO Transform {
+                          translation -0.016 0.122 -0.03
+                          rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+                          children [
+                            Shape {
+                              appearance PBRAppearance {
+                                baseColorMap ImageTexture {
+                                  url [
+                                    "textures/artlab_logo.png"
+                                  ]
+                                }
+                                metalness 0
+                                roughness 0.4
+                              }
+                              geometry Plane {
+                                size 0.35 0.06
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                      boundingObject Group {
+                        children [
+                          Transform {
+                            translation -0.034 0.13 -0.074
+                            rotation 0 0 1 -0.05
+                            children [
+                              Box {
+                                size 0.08 0.44 0.088
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0.015 0.13 -0.074
+                            rotation 0 0 1 0.14
+                            children [
+                              Box {
+                                size 0.08 0.44 0.088
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                      physics Physics {
+                        centerOfMass [
+                          -0.01 0.1 0
+                        ]
+                      }
+                    }
+                  }
+                ]
+                boundingObject Group {
+                  children [
+                    Transform {
+                      translation -0.056 -0.007 -0.082
+                      children [
+                        Box {
+                          size 0.25 0.29 0.105
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.27 0.031 -0.082
+                      rotation 0 0 1 -0.16
+                      children [
+                        Box {
+                          size 0.43 0.14 0.105
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.267 -0.039 -0.082
+                      rotation 0 0 1 0.2
+                      children [
+                        Box {
+                          size 0.43 0.14 0.105
+                        }
+                      ]
+                    }
+                  ]
+                }
+                physics Physics {
+                  centerOfMass [
+                    0.2 0 -0.07
+                  ]
+                }
+              }
+            }
+          ]
+          boundingObject USE SHOULDER_SHAFT
+          physics Physics {
+            centerOfMass [
+              0 0 -0.1
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

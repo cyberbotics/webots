@@ -1,0 +1,195 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A cutomizable openable door.
+
+PROTO Door [
+  field SFVec3f    translation            0 0 0
+  field SFRotation rotation               0 1 0 0
+  field SFString   name                   "door"
+  field SFVec3f    size                   1 2.4 0.2                 # Defines the width, height and thickness of the door wall frame.
+  field SFBool     canBeOpen              TRUE                      # Defines whether the door is connected to the frame throught a hinge-joint.
+  field SFBool     jointAtLeft            TRUE                      # Defines on which side the door is connected to the frame.
+  field SFBool     selfClosing            FALSE                     # Defines whether the door as a spring effect that makes it closing on itself.
+  field SFFloat    doorThickness          0.05                      # Defines the thickness of the door.
+  field SFFloat    frameHeight            2.0                       # Defines the height of the door frame. It should be must be less than or equal to `size.y`.
+  field SFVec3f    frameSize              0.05 0.05 0.05            # Defines the size of the door frame.
+  field SFFloat    mainMaterialDensity    200                       # Defines the density of the door.
+  field SFNode     doorAppearance         GenericDoorAppearance {}  # Defines the door's appearance.
+  field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
+  field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
+  field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
+]
+{
+  %{
+
+    local size = fields.size.value
+    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid a negative values
+      size = fields.size.defaultValue
+      io.stderr:write("'size' must contain positive values\n")
+    end
+
+    local doorThickness = fields.doorThickness.value
+    if doorThickness <= 0.0 then
+      io.stderr:write("'doorThickness' must be positive\n")
+      doorThickness = fields.doorThickness.defaultValue
+    end
+
+    local frameHeight = fields.frameHeight.value
+    if frameHeight <= 0.0 then
+      io.stderr:write("'frameHeight' must be positive\n")
+      frameHeight = fields.frameHeight.defaultValue
+    elseif frameHeight > size.y then
+      io.stderr:write("'frameHeight' must be less than or equal to 'size.y'\n")
+      frameHeight = size.y
+    end
+
+    local frameSize = fields.frameSize.value
+    if frameSize.x <= 0.0 or frameSize.y <= 0.0 or frameSize.z <= 0.0 then
+      io.stderr:write("'frameSize' must contain positive values\n")
+      frameSize = fields.frameSize.defaultValue
+    end
+
+    local handle = fields.doorHandle.value
+    if handle ~= nil then
+      if handle.fields.jointAtLeft ~= nil and
+         fields.jointAtLeft.value ~= handle.fields.jointAtLeft.value then
+        io.stderr:write("'jointAtLeft' field value of Door and doorHandle nodes doesn't match\n")
+      end
+
+      if handle.fields.hasStaticParent ~= nil and
+         handle.fields.hasStaticParent.value == fields.canBeOpen.value then
+        io.stderr:write("'doorHandle.hasStaticParent' value is incorrect, the parent Door object is static\n")
+      end
+    end
+
+    local mirrorFactor = fields.jointAtLeft.value and -1 or 1
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      %{
+       local topWallHeight = size.y - frameHeight
+       if topWallHeight > 0 then
+      }%
+        Solid {
+          translation 0 %{= size.y - 0.5 * topWallHeight }% 0
+          children [
+            Shape {
+              appearance IS wallAppearance
+              geometry Box {
+                size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+              }
+            }
+          ]
+          name "mobile part"
+          boundingObject Box {
+            size %{= size.x }% %{= topWallHeight }% %{= size.z }%
+          }
+        }
+      %{ end }%
+      SolidBox { # top frame
+        translation 0 %{= frameHeight - 0.5 * frameSize.y }% 0
+        name "top frame"
+        size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= 2 * frameSize.z + size.z }%
+        appearance IS frameAppearance
+      }
+      SolidBox { # left frame
+        translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        name "left frame"
+        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        appearance IS frameAppearance
+      }
+      SolidBox { # right frame
+        translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
+        name "right frame"
+        size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
+        appearance IS frameAppearance
+      }
+      %{ if fields.canBeOpen.value then }%
+        Solid {
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% 0 %{= 0.5 * size.z + frameSize.z }%
+                axis 0 1 0
+                %{ if mirrorFactor > 0 then }%
+                  minStop -0.01
+                  maxStop 1.57
+                %{ else }%
+                  minStop -1.57
+                  maxStop 0.01
+                %{ end }%
+                %{ if fields.selfClosing.value then }%
+                  springConstant 5
+                %{ end }%
+                dampingConstant 10
+              }
+              endPoint
+          %{ end }%
+              Solid {
+                translation 0 0 0.001 # small offset to not generates collisions
+                children [
+                  Transform { # door
+                    translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                    rotation 0 1 0 -1.5708
+                    children [
+                      Shape {
+                        appearance IS doorAppearance
+                        geometry TexturedBox { # texture is mirrored on the back face of the door
+                          size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
+                        }
+                      }
+                    ]
+                  }
+                  Transform { # handle
+                    translation %{= - mirrorFactor * 0.4 * size.x }% %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                    children [
+                      Slot {
+                        type "door handle"
+                        endPoint IS doorHandle
+                      }
+                    ]
+                  }
+                ]
+                boundingObject Transform {
+                  translation 0 %{= 0.5 * frameHeight }% %{= 0.5 * size.z + frameSize.z + 0.5 * doorThickness }%
+                  children [
+                    Box {
+                      size %{= size.x - frameSize.x }% %{= frameHeight - 0.5 * frameSize.y }% %{= doorThickness }%
+                    }
+                  ]
+                }
+                %{ if fields.canBeOpen.value then }%
+                  physics Physics {
+                    density IS mainMaterialDensity
+                  }
+                %{ end }%
+              }
+      %{ if fields.canBeOpen.value then }%
+            }
+          ]
+          name "handle dock"
+          %{ if fields.selfClosing.value then }%
+          boundingObject Transform {
+          translation 0 0 -0.001
+            children [
+              Box {
+                size %{= size.x }% 0.01 %{= 4 * size.z }%
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 1000
+          }
+          %{ end }%
+        }
+      %{ end }%
+    ]
+    name IS name
+    model "door"
+  }
+}

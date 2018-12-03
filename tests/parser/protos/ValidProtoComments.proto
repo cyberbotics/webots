@@ -1,0 +1,27 @@
+#VRML_SIM R2019a utf8
+
+# Comment 1
+PROTO ValidProtoComments [
+  field SFVec3f translation 0.0 0.0 0.0 #This is Comment 2
+  field SFRotation rotation 0.0 1.0 0.0 0.0
+  # Comment3
+  field SFVec3f size 0.1 0.1 0.1
+  # Comment 4 ]
+]
+{
+  # Comment 5
+  Robot {
+    translation IS translation # Comment 6
+    # Comment 7
+    rotation IS rotation
+    children [
+      Shape {
+        geometry Box { # Comment 8 {
+          size IS size
+         # Comment 9 }
+        }
+      }
+    ]
+    # controller "invalid"
+  }
+}

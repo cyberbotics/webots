@@ -1,0 +1,143 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.135268 -0.98387 -0.117054 1.55506
+  position -0.244562 0.0879589 0.00151526
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF BOARD Solid {
+  translation 0 0.005 0
+  rotation 1 0 0 0
+  children [
+    DEF BOARD_GREEN_TRANSFORM Transform {
+      translation 0 0 -0.075
+      children [
+        DEF BOARD_GREEN Shape {
+          appearance DEF BOARD_GREEN_APPEARANCE Appearance {
+            material Material {
+              diffuseColor 0.75 1 1
+              specularColor 0.74902 0.74902 0.74902
+            }
+            texture ImageTexture {
+              url [
+                "textures/green.png"
+              ]
+            }
+          }
+          geometry DEF BORAD_GREEN_PLANE Plane {
+            size 0.15 0.15
+          }
+        }
+      ]
+    }
+    DEF BOARD_WHITE_TRANSFORM Transform {
+      translation 0 0 0.075
+      children [
+        DEF BOARD_WHITE Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry DEF BORAD_WHITE_PLANE Plane {
+            size 0.15 0.15
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 -0.075
+        children [
+          USE BOARD_GREEN
+        ]
+      }
+      Transform {
+        translation 0 0 0.075
+        children [
+          USE BOARD_WHITE
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.07 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+      intensity 0
+    }
+  ]
+  name "solid(1)"
+}
+DEF ROBOT Robot {
+  translation 0 0.09 0
+  children [
+    DEF BODY Shape {
+      geometry Box {
+        size 0.1 0.02 0.2
+      }
+    }
+    DEF PEN0 Pen {
+      translation 0 -0.02 0.08
+      rotation 0 0 1 0
+      name "pen0"
+      inkColor 0 1 0
+      inkDensity 0.298039
+      leadSize 0.01
+      write FALSE
+    }
+    DEF PEN1 Pen {
+      translation 0 -0.02 -0.08
+      rotation 0 0 1 0
+      name "pen1"
+      inkColor 0 1 0
+      inkDensity 0.298039
+      leadSize 0.01
+      write FALSE
+    }
+    DEF DS0 DistanceSensor {
+      translation 0 -0.02 0.08
+      rotation 0 0 1 -1.5708
+      name "ds0"
+      lookupTable [
+        0 0 0
+        0.2 2000 0
+      ]
+      type "infra-red"
+    }
+    DEF DS1 DistanceSensor {
+      translation 0 -0.02 -0.08
+      rotation 0 0 1 -1.5708
+      name "ds1"
+      lookupTable [
+        0 0 0
+        0.2 2000 0
+      ]
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_infra-red"
+}
+TestSuiteSupervisor {
+}

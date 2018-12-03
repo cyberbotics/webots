@@ -1,0 +1,92 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.999915 0.00793805 -0.0103873 5.1417
+  position -0.0282472 1.54298 0.684422
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.095 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+    }
+    SpotLight {
+      beamWidth 0.785398
+    }
+  ]
+  name "solid(1)"
+}
+DEF ROBOT Robot {
+  translation 0.2 0.05 -0.4
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    LightSensor {
+      translation -0.05 0 0
+      rotation 0 0 1 3.1415
+      children [
+        DEF SENSOR_TRANSFROM Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+        }
+      ]
+      name "ls0"
+      lookupTable [
+        0 0 0
+        10 1024 0
+      ]
+    }
+    LightSensor {
+      translation 0.05 0 0
+      children [
+        USE SENSOR_TRANSFROM
+      ]
+      name "ls1"
+      lookupTable [
+        0 0 0
+        10 1024 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "light_sensor_point_spot_light_no_occlusion"
+}
+TestSuiteSupervisor {
+}

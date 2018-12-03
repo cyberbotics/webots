@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.0570543 -0.985491 -0.159853 2.76296
+  position -0.436058 0.533884 -1.0595
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+Floor {
+}
+Robot {
+  children [
+    Slot {
+      type "slot"
+      endPoint SlotNodeDerived {
+      }
+    }
+    Slot {
+      type "default"
+      endPoint SlotNodeGenderedDerived {
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "slot_node_derived"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,23 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoWithSlotExtension [
+  field SFNode slotExtension SlotNode { }
+  field SFString controller ""
+]
+{
+  Robot {
+    children [
+      Solid {
+        children [
+          Slot {
+            type "slot"
+            endPoint IS slotExtension
+          }
+        ]
+      }
+      TestSuiteEmitter{
+      }
+    ]
+    controller IS controller
+  }
+}

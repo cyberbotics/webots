@@ -1,0 +1,87 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# a flag
+
+PROTO YoubotFlag [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "youBot flag"
+  field MFString textureURL "textures/flag_start.png"
+  field SFBool locked FALSE
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF FLAG_SHAPE Group {
+      children [
+        Transform {
+          translation 0 0.015 0
+          children [
+            Shape {
+              appearance MetalAppearance {
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.1
+                subdivision 20
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.27 0
+          children [
+            Shape {
+              appearance MetalAppearance {
+              }
+              geometry Cylinder {
+                height 0.5
+                radius 0.01
+                subdivision 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url IS textureURL
+        }
+        roughness 0.7
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.5 0
+            0 0.4 0.3
+            0 0.3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 1
+            1 0.5
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, -1, 0, 2, 1, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 2, 1, -1
+        ]
+      }
+    }
+  ]
+  name IS name
+  model "youBot flag"
+  boundingObject USE FLAG_SHAPE
+  locked IS locked
+}
+}

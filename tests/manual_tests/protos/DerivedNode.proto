@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedNode [
+  field MFNode extensionSlot []
+]
+{
+  Robot {
+    children [
+      Group {
+        children IS extensionSlot
+      }
+    ]
+  }
+}

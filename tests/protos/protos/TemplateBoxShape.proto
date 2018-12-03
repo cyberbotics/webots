@@ -1,0 +1,23 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateBoxShape [
+  field SFVec3f translation 0 0 0
+  field SFFloat xSize 0.1
+  field SFFloat ySize 0.1
+]
+{
+  Transform {
+    translation IS translation
+    children [
+      Shape {
+        appearance Appearance {
+          material Material {
+          }
+        }
+        geometry Box {
+          size %{= fields.xSize.value }% %{= fields.ySize.value }% 0.1
+        }
+      }
+    ]
+  }
+}

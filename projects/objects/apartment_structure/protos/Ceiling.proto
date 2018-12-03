@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A configurable standard ceiling.
+
+PROTO Ceiling [
+  field SFVec3f    translation      0 2.4 0
+  field SFRotation rotation         1 0 0 3.14159
+  field SFString   name             "ceiling"
+  field SFString   contactMaterial  "default"
+  field SFVec2f    size             10 10                                                            # Defines the size of the ceiling.
+  field SFNode     appearance       Roughcast { textureTransform TextureTransform { scale 10 10 } }  # Defines the appearance of the ceiling.
+  field SFBool     locked           TRUE                                                             # Is `Solid.locked`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF CEILING_SHAPE Shape {
+        appearance IS appearance
+        geometry Plane {
+          size IS size
+        }
+      }
+    ]
+    name IS name
+    model "ceiling"
+    boundingObject USE CEILING_SHAPE
+    contactMaterial IS contactMaterial
+    locked IS locked
+  }
+}

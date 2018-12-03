@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# The Ball's size, mass and color correspond to the soccer ball used in the Robocup SPL.
+# You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
+
+PROTO Ball [
+  field SFVec3f    translation     0 0.0325 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "ball"
+  field SFColor    color           1.0 0.54 0.08  # Defines the color of the ball.
+  field SFFloat    radius          0.0325         # Defines the radius of the ball.
+  field SFFloat    mass            0.055          # Defines the mass of the ball.
+  field MFVec3f    centerOfMass    [0 -0.0001 0]  # Defines the center of mass of the ball.
+  field SFFloat    linearDamping   0.17           # Defines the linear damping of the ball.
+  field SFFloat    angularDamping  0.33           # Defines the angular damping of the ball.
+  field SFString   contactMaterial "default"      # Is `Solid.contactMaterial`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BALL_SHAPE Shape {
+        appearance PBRAppearance {
+            baseColor IS color
+            roughness 0.3
+            metalness 0
+        }
+        geometry Sphere {
+          radius IS radius
+          subdivision 4
+        }
+      }
+    ]
+    contactMaterial IS contactMaterial
+    boundingObject USE BALL_SHAPE
+    physics Physics {
+      density -1
+      mass IS mass
+      centerOfMass IS centerOfMass
+      inertiaMatrix [ 0.000023 0.000023 0.000023, 0 0 0 ]
+      damping Damping {
+        linear IS linearDamping
+        angular IS angularDamping
+      }
+    }
+    name IS name
+    model "ball"
+  }
+}

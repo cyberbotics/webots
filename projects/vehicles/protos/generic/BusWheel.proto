@@ -1,0 +1,30 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Model of a bus wheel using the generic VehicleWheel proto
+# including physic properties and textures
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO BusWheel [
+  field       SFString name           "bus wheel"
+  field       SFNode   physics        NULL
+  field       SFBool   boundingObject TRUE
+  hiddenField SFFloat  tireRadius     0.56         # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller
+]
+{
+  VehicleWheel {
+    name IS name
+    thickness 0.28
+    tireRadius IS tireRadius
+    subdivision 36
+    edgeSubdivision 3
+    rimRadius 0.34
+    rimBeamNumber 7
+    rimBeamWidth 0.12
+    centralInnerRadius 0.1
+    centralOuterRadius 0.17
+    contactMaterial "BusWheels"
+    physics IS physics
+    boundingObject IS boundingObject
+  }
+}

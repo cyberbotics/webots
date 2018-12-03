@@ -1,0 +1,318 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Using a K213 linear vision turret"
+  ]
+  title "Khepera K213"
+}
+Viewpoint {
+  orientation 0.44032317800090087 0.7899533193390889 0.42671917250147373 4.47315
+  position -0.89803 1.5901 0.00532658
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 0.98 0.98
+  wallHeight 0.020000000000000004
+  wallColor 1 0.1 0.3
+  wallTextureUrl []
+}
+DEF BOX Solid {
+  translation -0.2 0.02 0.4
+  rotation 0 1 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOXO Box {
+        size 0.23 0.04 0.1
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOXO
+}
+DEF BOX Solid {
+  translation 0.37 0.02 -0.44
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOXO
+    }
+  ]
+  name "red box(1)"
+  boundingObject USE BOXO
+}
+DEF BOX Solid {
+  translation -0.39 0.02 0.2
+  rotation 0 1 0 -0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOXO
+    }
+  ]
+  name "red box(2)"
+  boundingObject USE BOXO
+}
+DEF BOX Solid {
+  translation 0.45 0.02 0.48
+  rotation 0 1 0 0.7
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOXO
+    }
+  ]
+  name "red box(3)"
+  boundingObject USE BOXO
+}
+DEF BOX Solid {
+  translation -0.45 0.02 -0.48
+  rotation 0 1 0 0.7
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOXO
+    }
+  ]
+  name "red box(4)"
+  boundingObject USE BOXO
+}
+DEF PANEL Solid {
+  translation -0.5 0 -0.5
+  children [
+    DEF STRIPES Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/strips.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+            1 0.2 0
+            0 0.2 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 1
+            8 0
+            8 0
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+}
+DEF PANEL Solid {
+  translation 0.5 0 0.5
+  rotation 0 1 0 3.1415
+  children [
+    DEF STRIPES Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/strips.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+            1 0.2 0
+            0 0.2 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 1
+            8 0
+            8 0
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF PANEL Solid {
+  translation -0.5 0 0.5
+  rotation 0 1 0 1.57
+  children [
+    DEF STRIPES Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/strips.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+            1 0.2 0
+            0 0.2 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 1
+            8 0
+            8 0
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "solid(2)"
+}
+DEF PANEL Solid {
+  translation 0.5 0 -0.5
+  rotation 0 1 0 -1.57
+  children [
+    DEF STRIPES Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/strips.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+            1 0.2 0
+            0 0.2 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 1
+            8 0
+            8 0
+            0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "solid(3)"
+}
+Khepera1 {
+  translation -0.101226 0 0.218527
+  rotation 0 1 0 0.0158842
+  name "khepera"
+  controller "khepera_k213"
+  extensionSlot [
+    DEF K213 Camera {
+      translation 0 0.053 0
+      rotation 1 0 0 0
+      children [
+        DEF K213_GREEN_CYLINDER Transform {
+          translation 0 -0.013 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.015 0.48 0.1796
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.013
+                radius 0.028
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.19 0.19 0.19
+                roughness 0.795
+                metalness 0
+              }
+              geometry Box {
+                size 0.022 0.0125 0.022
+              }
+            }
+          ]
+        }
+      ]
+      name "k213"
+      model "K213"
+      description "a linear vision turret with 64 pixels in gray levels (by K-Team SA)"
+      fieldOfView 0.6283
+      height 1
+    }
+  ]
+  kinematic TRUE
+}

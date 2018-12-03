@@ -1,0 +1,527 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable building, the size, appearance and geometry can fully be defined.
+
+PROTO Building [
+  field SFVec3f     translation            0 0 0
+  field SFRotation  rotation               0 1 0 0
+  field SFString    name                   "building"                                 # Defines the name of the building
+  field SFFloat     floorHeight            3                                          # Defines the height of one floor.
+  field SFInt32     floorNumber            3                                          # Defines the number of floors (excluding roof).
+  field SFInt32     startingFloor          0                                          # Defines the floor number for the "ground floor" of the building, as not all buildings start at the ground floor.
+  field MFVec2f     corners                [10 10, 10 -10, -10 -10, -10 10 ]          # Defines the 2D geometry of the building (2D ground footprint of the building).
+  field SFNode      wallAppearance         PBRAppearance { metalness 0 roughness 1 }  # Defines the appearance used for the walls of the building.
+  field MFString    groundFloor            []                                         # Defines the texture to be used for the first floor (optional).
+  field MFFloat     groundFloorScale       []                                         # Defines the horizontal scale of the ground texture.
+  field MFFloat     groundFloorTranslation []                                         # Defines the translation of the ground floor textures.
+  field SFNode      roofAppearance         PBRAppearance { metalness 0 roughness 1 }  # Defines the appearance used for the roof of the building.
+  field SFString{"flat roof", "pyramidal roof", "gabled roof", "hipped roof"}
+                    roofShape              "pyramidal roof"                           # Defines the geometry of the roof. Supported geometry are `flat roof`, `pyramidal roof`, `gabled roof` and `hipped roof`.
+  field SFFloat     roofHeight             3                                          # Defines the height of the roof (used only in the case of pyramidal roof).
+  field SFBool      enableBoundingObject   TRUE                                       # Defines whether the building should have a bounding object.
+  field SFBool      bottom                 FALSE                                      # Defines whether the bottom face of the building should be displayed.
+  field SFString    model                  "building"                                 # Is `Solid.model`.
+  field MFColor     recognitionColors      []                                         # Is `Solid.recognitionColors`.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local wbgeometry = require('wbgeometry')
+    local wbvector2 = require('wbvector2')
+
+    -- compute distance for the first floors with a shift
+    function distanceArray(corners, nbCorners, shift)
+      local distance = {}
+      distance[1] = shift
+      if nbCorners > 0 then
+        for i = 2, nbCorners do
+          distance[i] = distance[i-1] - wbvector2.norm({x=corners[i].x - corners[i-1].x, y=corners[i].y - corners[i-1].y})
+        end
+      distance[nbCorners+1] = distance[nbCorners] - wbvector2.norm({x=corners[nbCorners].x - corners[1].x, y=corners[nbCorners].y - corners[1].y})
+      end
+      return distance
+    end
+
+    -- parameter checking
+    local floorHeight = fields.floorHeight.value
+    if floorHeight <= 0 then
+      io.stderr:write("'floorHeight' must be greater than 0\n")
+      floorHeight = fields.floorHeight.defaultValue
+    end
+
+    local roofHeight = fields.roofHeight.value
+    if roofHeight <= 0 then
+      io.stderr:write("'roofHeight' must be greater than 0\n")
+      roofHeight = fields.roofHeight.defaultValue
+    end
+
+    local floorNumber = fields.floorNumber.value
+    if floorNumber <= 0 then
+      io.stderr:write("'floorNumber' must be greater than 0\n")
+      floorNumber = fields.floorNumber.defaultValue
+    end
+
+
+    local startingFloor = fields.startingFloor.value
+    if startingFloor < 0 then
+      io.stderr:write("'startingFloor' must not be smaller than 0\n")
+      startingFloor = fields.startingFloor.defaultValue
+    end
+
+    if startingFloor > floorNumber then
+      io.stderr:write("'startingFloor' must not be greater than 'floorNumber'\n")
+      startingFloor = fields.startingFloor.defaultValue
+    end
+
+    local roofShape = fields.roofShape.value
+    if roofShape ~= "flat roof" and roofShape ~= "pyramidal roof" and  roofShape ~= "gabled roof" and roofShape ~= "hipped roof" then
+      io.stderr:write("'roofShape' must be 'flat roof', 'pyramidal roof', 'gabled roof' or 'hipped roof' \n")
+      roofShape = fields.roofShape.defaultValue
+    end
+
+    local height = floorHeight * floorNumber
+
+    local corners = fields.corners.value
+    local nbCorners = wbcore.tablelength(corners)
+    if wbgeometry.islistclockwise2D(corners) == false then
+      temporaryCorners = {}
+      for i = 1, nbCorners do
+        temporaryCorners[i] = corners[nbCorners + 1 - i]
+      end
+      corners = temporaryCorners
+    end
+
+    if roofShape == "gabled roof" and nbCorners ~= 4 then
+      io.stderr:write("'gabled roof' must have 4 corners\n")
+      roofShape = fields.roofShape.defaultValue
+    end
+
+    if roofShape == "hipped roof" and nbCorners ~= 4 then
+      io.stderr:write("'hipped roof' must have 4 corners\n")
+      roofShape = fields.roofShape.defaultValue
+    end
+
+    -- In case of pyramidal roof we compute the 'center' of the roof to be the point of the pyramid
+    local centerX = 0
+    local centerY = 0
+    if roofShape == "pyramidal roof" and nbCorners > 0 then
+      for i = 1, nbCorners do
+        centerX = centerX + corners[i].x
+        centerY = centerY + corners[i].y
+      end
+      centerX = centerX / nbCorners
+      centerY = centerY / nbCorners
+
+      -- We check for each center(point of pyramid)->corner segment that it does not intersect
+      -- any upper edges, if it does => print warning and use flat roof instead
+      for i = 1, nbCorners do
+        for j = 1, nbCorners - 1 do
+          local intersection = wbvector2.intersection({x=centerX, y=centerY}, {x=corners[i].x, y=corners[i].y}, {x=corners[j].x, y=corners[j].y}, {x=corners[j+1].x, y=corners[j+1].y})
+          if intersection ~= nil and math.abs(intersection.x-centerX) > 0.01 and math.abs(intersection.x-corners[i].x) > 0.01 and math.abs(intersection.x-corners[j].x) > 0.01 and math.abs(intersection.x-corners[j+1].x) > 0.01 then
+            print "The geometry of this building is too complex for a pyramidal roof, a flat roof will be used instead."
+            roofShape = "flat roof"
+            break
+          end
+        end
+        if roofShape == "flat roof" then
+          break
+        end
+      end
+    end
+
+    -- In case of gabled roof we determine the shortest sides and we compute 2 points of the roof to be the middle points of those sides
+    local middlePoint1X = 0
+    local middlePoint1Y = 0
+    local middlePoint2X = 0
+    local middlePoint2Y = 0
+    local hippedPoint1X = 0
+    local hippedPoint1Y = 0
+    local hippedPoint2X = 0
+    local hippedPoint2Y = 0
+    if roofShape == "gabled roof" or roofShape == "hipped roof" then
+      if wbvector2.norm({x=corners[2].x - corners[1].x, y=corners[2].y - corners[1].y}) >= wbvector2.norm({x=corners[3].x - corners[2].x, y=corners[3].y - corners[2].y}) then
+        local tmpCorners = {}
+        for i = 1, nbCorners - 1 do
+          tmpCorners[i] = corners[i+1]
+        end
+        tmpCorners[4] = corners[1]
+        corners = tmpCorners
+      end
+      for i = 1, nbCorners / 2 do
+        middlePoint1X = middlePoint1X + corners[i].x
+        middlePoint1Y = middlePoint1Y + corners[i].y
+      end
+      middlePoint1X = middlePoint1X / nbCorners * 2
+      middlePoint1Y = middlePoint1Y / nbCorners * 2
+      for i = nbCorners / 2 + 1, nbCorners do
+        middlePoint2X = middlePoint2X + corners[i].x
+        middlePoint2Y = middlePoint2Y + corners[i].y
+      end
+      middlePoint2X = middlePoint2X / nbCorners * 2
+      middlePoint2Y = middlePoint2Y / nbCorners * 2
+      -- In case of hipped roof we use the middle points to calculate 2 points in the middle of the roof
+      if roofShape == "hipped roof" then
+        hippedPoint1X = middlePoint1X + (corners[3].x + corners[4].x - corners[1].x - corners[2].x) / 8
+        hippedPoint1Y = middlePoint1Y + (corners[3].y + corners[4].y - corners[1].y - corners[2].y) / 8
+        hippedPoint2X = middlePoint2X - (corners[3].x + corners[4].x - corners[1].x - corners[2].x) / 8
+        hippedPoint2Y = middlePoint2Y - (corners[3].y + corners[4].y - corners[1].y - corners[2].y) / 8
+      end
+    end
+
+    -- determine ground floor texture parameters
+    local groundFloorTexture = {}
+    local j = 1
+    for i,v in ipairs(fields.groundFloor.value) do
+      if v~="" then
+        groundFloorTexture[j]=v
+        j = j+1
+      end
+    end
+    local groundFloorNumber = wbcore.tablelength(groundFloorTexture)
+
+    -- determine ground floor texture scale parameters
+    local realScale = {}
+    for i, v in ipairs(fields.groundFloorScale.value) do
+      if v == 0 then
+        realScale[i]=1
+      else
+        realScale[i]=v
+      end
+    end
+    realScaleSize = wbcore.tablelength(realScale)
+    for i = wbcore.tablelength(realScale) + 1, groundFloorNumber do
+      realScale[i] = 1
+    end
+
+    -- determine the ground floor texture translation parameters
+    local groundFloorShift = fields.groundFloorTranslation.value
+    for i = wbcore.tablelength(groundFloorShift) + 1, groundFloorNumber do
+      groundFloorShift[i] = 0
+    end
+
+    -- compute distance from the first corner for the texture (we also make sure to not cut a window at a corner)
+    local distance = {}
+    distance[1] = 0
+    if nbCorners > 0 then
+      for i = 2, nbCorners do
+        distance[i] = distance[i-1] - wbvector2.norm({x=corners[i].x - corners[i-1].x, y=corners[i].y - corners[i-1].y})
+      end
+      distance[nbCorners+1] = distance[nbCorners] - wbvector2.norm({x=corners[nbCorners].x - corners[1].x, y=corners[nbCorners].y - corners[1].y})
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model IS model
+    recognitionColors IS recognitionColors
+    children [
+      %{ if nbCorners > 0 then }%
+      %{ if startingFloor ~= floorNumber then}%
+        # Ground Floors
+        %{ for j = 1, groundFloorNumber do }%
+          DEF %{= "FLOOR" .. j }% Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [ %{= '"' .. groundFloorTexture[j] .. '"' }% ]
+              }
+              metalness 0
+              roughness 1
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  %{ for i, el in ipairs(corners) do }%
+                    # bottom
+                    %{= el.x }% %{=(j + startingFloor - 1)*floorHeight}% %{= el.y }%
+                    # top
+                    %{= el.x }% %{= (j + startingFloor)*floorHeight }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ floorDistance = distanceArray(corners, nbCorners, groundFloorShift[j])}%
+                  %{ for i = 1, nbCorners + 1 do }%
+                    %{= floorDistance[i] /  realScale[j] }% 0
+                    %{= floorDistance[i] /  realScale[j] }% 1
+                  %{ end }%
+                ]
+              }
+              coordIndex [
+                # Sides
+                %{ for i = 0, nbCorners - 2 do }%
+                  %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                %{ end }%
+                %{= (nbCorners - 1) * 2 }% %{= (nbCorners - 1) * 2 + 1 }% %{= 1 }% %{= 0 }% -1
+              ]
+              texCoordIndex [
+                # Sides
+                %{ for i = 0, nbCorners - 1 do }%
+                  %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                %{ end }%
+              ]
+            }
+          }
+          %{ end }%
+          # Walls
+          DEF WALL Shape {
+            appearance IS wallAppearance
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  %{ for i, el in ipairs(corners) do }%
+                    # bottom
+                    %{= el.x }% %{= (groundFloorNumber + startingFloor) * floorHeight }% %{= el.y }%
+                    # top
+                    %{= el.x }% %{= height }% %{= el.y }%
+                  %{ end }%
+                  %{ if roofShape == "gabled roof" then }%
+                    # In case of gabled roof we need to add 2 points for the walls
+                    %{= middlePoint1X }% %{= height + roofHeight }% %{= middlePoint1Y }%
+                    %{= middlePoint2X }% %{= height + roofHeight }% %{= middlePoint2Y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ for i = 1, nbCorners + 1 do }%
+                    %{= distance[i] }% 0
+                    %{= distance[i] }% %{= floorNumber - groundFloorNumber - startingFloor }%
+                  %{ end }%
+                  %{ if roofShape == "gabled roof" then }%
+                    %{= (distance[1] + distance[2]) / 2 }% %{= floorNumber - groundFloorNumber - startingFloor + roofHeight / floorHeight }%
+                    %{= (distance[3] + distance[4]) / 2 }% %{= floorNumber - groundFloorNumber - startingFloor + roofHeight / floorHeight }%
+                  %{ end }%
+                ]
+              }
+              coordIndex [
+                # Sides
+                %{ for i = 0, nbCorners - 2 do }%
+                  %{ if roofShape == "gabled roof" then }%
+                    # In case of gabled roof, 2 sides have 5 points
+                    %{ if i == 0 then }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= 8 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ elseif i == 2 then }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= 9 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ else }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ end }%
+                  %{ else }%
+                    %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                  %{ end }%
+                %{ end }%
+                %{= (nbCorners - 1) * 2 }% %{= (nbCorners - 1) * 2 + 1 }% %{= 1 }% %{= 0 }% -1
+              ]
+              texCoordIndex [
+                # Sides
+                %{ for i = 0, nbCorners - 1 do }%
+                  %{ if roofShape == "gabled roof" then }%
+                    # In case of gabled roof, 2 sides have 5 points
+                    %{ if i == 0 then }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= 10 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ elseif i == 2 then }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= 11 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ else }%
+                      %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                    %{ end }%
+                  %{ else }%
+                    %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+                  %{ end }%
+                %{ end }%
+              ]
+            }
+          }
+        %{ end }%
+        # Roof
+        DEF ROOF Shape {
+          appearance IS roofAppearance
+          geometry IndexedFaceSet {
+            # Flat roof
+            %{ if roofShape == "flat roof" then }%
+              coord Coordinate {
+                point [
+                  %{ for i, el in ipairs(corners) do }%
+                    %{= el.x }% %{= height }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ for i, el in ipairs(corners) do }%
+                    %{= el.x - corners[1].x }% %{= el.y - corners[1].y }%
+                  %{ end }%
+                ]
+              }
+              coordIndex [
+                %{ for i = 0, nbCorners - 1 do }%
+                  %{= (nbCorners - i) - 1 }%
+                %{ end }%
+                -1
+              ]
+              texCoordIndex [
+                %{ for i = 0, nbCorners - 1 do }%
+                  %{= (nbCorners - i) - 1 }%
+                %{ end }%
+                -1
+              ]
+            # Pyramidal roof
+            %{ elseif roofShape == "pyramidal roof" then }%
+              coord Coordinate {
+                point [
+                    %{= centerX }% %{= height + roofHeight }% %{= centerY }%
+                  %{ for i, el in ipairs(corners) do }%
+                    %{= el.x }% %{= height }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ for i = 1, nbCorners - 1 do }%
+                    %{= wbvector2.norm({x=corners[i+1].x - corners[i].x, y=corners[i+1].y - corners[i].y}) / 2 }% %{= wbvector2.norm({x=((corners[i+1].x + corners[i].x) / 2) - centerX, y=((corners[i+1].y + corners[i].y) / 2) - centerY}) }%
+                    %{= wbvector2.norm({x=corners[i+1].x - corners[i].x, y=corners[i+1].y - corners[i].y}) }% 0
+                    0 0
+                  %{ end }%
+                  %{= wbvector2.norm({x=corners[1].x - corners[nbCorners].x, y=corners[1].y - corners[nbCorners].y}) / 2  }% %{= wbvector2.norm({x=((corners[1].x + corners[nbCorners].x) / 2) - centerX, y=((corners[1].y + corners[nbCorners].y) / 2) - centerY}) }%
+                  %{= wbvector2.norm({x=corners[1].x - corners[nbCorners].x, y=corners[1].y - corners[nbCorners].y}) }% 0
+                  0 0
+                ]
+              }
+              coordIndex [
+                %{ for i = 1, nbCorners - 1 do }%
+                  %{= 0 }% %{= i + 1 }% %{= i }%  -1
+                %{ end }%
+                %{= 0 }% %{= 1 }% %{= nbCorners }% -1
+              ]
+              texCoordIndex [
+                %{ for i = 0, nbCorners - 1 do }%
+                  %{= i * 3 }% %{= i * 3 + 1 }% %{= i * 3 + 2 }% -1
+                %{ end }%
+              ]
+            # Hipped roof
+            %{ elseif roofShape == "hipped roof" then }%
+              coord Coordinate {
+                point [
+                    %{= hippedPoint1X }% %{= height + roofHeight }% %{= hippedPoint1Y }%
+                    %{= hippedPoint2X }% %{= height + roofHeight }% %{= hippedPoint2Y }%
+                  %{ for i, el in ipairs(corners) do }%
+                    %{= el.x }% %{= height }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{= wbvector2.norm({x=hippedPoint1X - middlePoint2X, y=hippedPoint1Y - middlePoint2Y}) }% %{= wbvector2.norm({x=corners[4].x - middlePoint2X, y=corners[4].y - middlePoint2Y}) }%
+                  %{= wbvector2.norm({x=hippedPoint1X - middlePoint1X, y=hippedPoint1Y - middlePoint1Y}) }% %{= wbvector2.norm({x=corners[1].x - middlePoint1X, y=corners[1].y - middlePoint1Y}) }%
+                  0 0
+                  %{= wbvector2.norm({x=middlePoint1X - middlePoint2X, y=middlePoint1Y - middlePoint2Y}) }% 0
+                  %{= wbvector2.norm({x=hippedPoint1X - middlePoint2X, y=hippedPoint1Y - middlePoint2Y}) }% %{= wbvector2.norm({x=corners[3].x - middlePoint2X, y=corners[3].y - middlePoint2Y}) }%
+                  %{= wbvector2.norm({x=hippedPoint2X - middlePoint2X, y=hippedPoint2Y - middlePoint2Y}) }% %{= wbvector2.norm({x=corners[3].x - middlePoint2X, y=corners[3].y - middlePoint2Y}) }%
+                  %{= wbvector2.norm({x=corners[2].x - corners[1].x, y=corners[2].y - corners[1].y}) }% 0
+                  %{= wbvector2.norm({x=corners[4].x - corners[3].x, y=corners[4].y - corners[3].y}) }% 0
+                  %{= wbvector2.norm({x=corners[1].x - middlePoint1X, y=corners[1].y - middlePoint1Y}) }% %{= wbvector2.norm({x=hippedPoint1X - middlePoint1X, y=hippedPoint1Y - middlePoint1Y}) }%
+                  %{= wbvector2.norm({x=corners[2].x - middlePoint1X, y=corners[2].y - middlePoint1Y}) }% %{= wbvector2.norm({x=hippedPoint1X - middlePoint1X, y=hippedPoint1Y - middlePoint1Y}) }%
+                ]
+              }
+              coordIndex [
+                %{= 1 }% %{= 0 }% %{= 2 }% %{= 5 }% -1
+                %{= 0 }% %{= 1 }% %{= 4 }% %{= 3 }% -1
+                %{= 0 }% %{= 3 }% %{= 2 }% -1
+                %{= 1 }% %{= 5 }% %{= 4 }% -1
+              ]
+              texCoordIndex [
+                %{= 0 }% %{= 1 }% %{= 2 }% %{= 3 }% -1
+                %{= 4 }% %{= 5 }% %{= 2 }% %{= 3 }% -1
+                %{= 9 }% %{= 2 }% %{= 6 }% -1
+                %{= 8 }% %{= 2 }% %{= 7 }% -1
+
+              ]
+            # Gabled roof
+            %{ elseif roofShape == "gabled roof" then }%
+              coord Coordinate {
+                point [
+                    %{= middlePoint1X }% %{= height + roofHeight }% %{= middlePoint1Y }%
+                    %{= middlePoint2X }% %{= height + roofHeight }% %{= middlePoint2Y }%
+                  %{ for i, el in ipairs(corners) do }%
+                    %{= el.x }% %{= height }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                %{= wbvector2.norm({x=middlePoint1X - middlePoint2X, y=middlePoint1Y - middlePoint2Y}) }% %{= wbvector2.norm({x=corners[4].x - middlePoint2X, y=corners[4].y - middlePoint2Y}) }%
+                0 %{= wbvector2.norm({x=corners[1].x - middlePoint1X, y=corners[1].y - middlePoint1Y}) }%
+                0 0
+                %{= wbvector2.norm({x=middlePoint1X - middlePoint2X, y=middlePoint1Y - middlePoint2Y}) }% 0
+                %{= wbvector2.norm({x=middlePoint1X - middlePoint2X, y=middlePoint1Y - middlePoint2Y}) }% %{= wbvector2.norm({x=corners[2].x - middlePoint1X, y=corners[2].y - middlePoint1Y}) }%
+                0 %{= wbvector2.norm({x=corners[3].x - middlePoint2X, y=corners[3].y - middlePoint2Y}) }%
+                ]
+              }
+              coordIndex [
+                %{= 1 }% %{= 0 }% %{= 2 }% %{= 5 }% -1
+                %{= 0 }% %{= 1 }% %{= 4 }% %{= 3 }% -1
+              ]
+              texCoordIndex [
+                %{= 0 }% %{= 1 }% %{= 2 }% %{= 3 }% -1
+                %{= 4 }% %{= 5 }% %{= 2 }% %{= 3 }% -1
+              ]
+            %{ end }%
+          }
+        }
+        # bottom
+        %{ if fields.bottom.value then }%
+          DEF FLOOR Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.2
+            metalness 0
+            roughness 1
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{ for i, el in ipairs(corners) do }%
+                  %{= el.x }% %{= startingFloor * floorHeight }% %{= el.y }%
+                %{ end }%
+              ]
+            }
+            coordIndex [
+              %{ for i = 0, nbCorners - 1 do }%
+                %{= i }%
+              %{ end }%
+              -1
+            ]
+          }
+        }
+        %{ end }%
+      %{ end }%
+    ]
+    %{ if fields.enableBoundingObject.value and nbCorners > 0 then }%
+      boundingObject Group {
+        children [
+          IndexedFaceSet {
+            coord Coordinate {
+              point [
+                %{ for i, el in ipairs(corners) do }%
+                  # bottom
+                  %{= el.x }% %{= startingFloor * floorHeight }% %{= el.y }%
+                  # top
+                  %{= el.x }% %{= height }% %{= el.y }%
+                %{ end }%
+              ]
+            }
+            coordIndex [
+              # Sides
+              %{ for i = 0, nbCorners - 2 do }%
+                %{= i * 2 }% %{= i * 2 + 1 }% %{= i * 2 + 3 }% %{= i * 2 + 2 }% -1
+              %{ end }%
+              %{= (nbCorners - 1) * 2 }% %{= (nbCorners - 1) * 2 + 1 }% %{= 1 }% %{= 0 }% -1
+            ]
+          }
+          USE ROOF
+        ]
+      }
+    %{ end }%
+  }
+}

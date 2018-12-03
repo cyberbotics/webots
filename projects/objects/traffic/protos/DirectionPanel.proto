@@ -1,0 +1,391 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Resizable direction panel with two customizable sides.
+# The 'textSize' fields defines the height (in meter) of one line of text.
+# List of supported fonts:
+#  - 'Arial'
+#  - 'Arial Black'
+#  - 'Comic Sans MS'
+#  - 'Courier New'
+#  - 'Georgia',
+#  - 'Impact'
+#  - 'Lucida Console'
+#  - 'Lucida Sans Unicode'
+#  - 'Palatino Linotype'
+#  - 'Tahoma'
+#  - 'Times New Roman'
+#  - 'Trebuchet MS'
+#  - 'Verdana'
+# Alternatively it is possible to add other *.ttf files in the PROJECT_HOME/fonts directory.
+
+PROTO DirectionPanel [
+  field SFVec3f     translation      0 0 0
+  field SFRotation  rotation         0 1 0 0
+  field SFString    name             "direction panel"
+  field SFFloat     width            1.3                      # Defines the width of the panel.
+  field SFFloat     height           0.4                      # Defines the height of the panel.
+  field SFFloat     thickness        0.04                     # Defines the thickness of the panel.
+  field SFColor     backgroundColor  0.8 0.8 0.8              # Defines the background color of the panel.
+  field SFColor     textColor        0 0 0                    # Defines the color of the text displayed on the panel.
+  field SFFloat     textSize         0.1                      # Defines the size of the text displayed on the panel.
+  field SFString    font             "Arial"                  # Defines the font used by the text displayed on the panel.
+  field SFString    text             "INPUT YOUR\nTEXT HERE"  # Defines the text displayed on the panel.
+  field SFBool      arrow            TRUE                     # Defines whether the panel should display an arraw.
+  field SFBool      right            TRUE                     # Defines whether the pannel should draw text on the side pointing toward the right.
+  field SFBool      left             FALSE                    # Defines whether the pannel should draw text on the side pointing toward the left.
+]
+{
+  %{
+    local wbrandom = require('wbrandom')
+    local os = require('os')
+    wbrandom.seed(os.clock() + os.time())
+    local width = fields.width.value
+    if width <= 0.0 then
+      width = fields.width.defaultValue
+      io.stderr:write("'width' should be strictly positive. ")
+      io.stderr:write("'width' was reset to '" .. width .. "'.")
+    end
+    local height = fields.height.value
+    if height <= 0.0 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be strictly positive. ")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    end
+    local thickness = fields.thickness.value
+    if thickness < 0.01 then
+      thickness = fields.thickness.defaultValue
+      io.stderr:write("'thickness' should be >= 0.1. ")
+      io.stderr:write("'thickness' was reset to '" .. thickness .. "'.")
+    end
+    local textSize = fields.textSize.value
+    if textSize <= 0.0 then
+      textSize = fields.textSize.defaultValue
+      io.stderr:write("'textSize' should be strictly positive. ")
+      io.stderr:write("'textSize' was reset to '" .. textSize .. "'.")
+    end
+
+    -- arrow constant
+    local arrowHalfHeight = 0.4575
+    local arrowWidth = 0.129
+    local arrowThickness = 0.035
+    local arrowHorizontalOffset = 0.024
+
+    -- Generate front and back textures
+    local gd = require("gd")
+    local imageHeight = 128 * math.ceil(height * 2)
+    local requiredWidth = imageHeight * (width / height)
+    local imageWidth = 2
+    while imageWidth < requiredWidth do
+      imageWidth = 2 * imageWidth
+    end
+    local frontImage = gd.createTrueColor(imageWidth, imageHeight)
+    local backImage = gd.createTrueColor(imageWidth, imageHeight)
+
+    if fields.right.value or fields.left.value then
+      -- create the colors
+      textColor = backImage:colorAllocate(fields.textColor.value.r * 255, fields.textColor.value.g * 255, fields.textColor.value.b * 255)
+      backgroundColor = backImage:colorAllocate(fields.backgroundColor.value.r * 255, fields.backgroundColor.value.g * 255, fields.backgroundColor.value.b * 255)
+      gd.fontCacheSetup()
+
+      -- add background colors
+      frontImage:filledRectangle(0, 0, imageWidth - 1, imageHeight - 1, backgroundColor)
+      backImage:filledRectangle(0, 0, imageWidth - 1, imageHeight - 1, backgroundColor)
+
+      -- add the arrows
+      if fields.arrow.value then
+        local polygon = {}
+        table.insert(polygon, {arrowHorizontalOffset * imageWidth, imageHeight / 2})                                                       -- middle left
+        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth) * imageWidth, (0.5 - arrowHalfHeight) * imageHeight})                  -- top left
+        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth + arrowThickness) * imageWidth, (0.5 - arrowHalfHeight) * imageHeight}) -- top right
+        table.insert(polygon, {(arrowHorizontalOffset + arrowThickness) * imageWidth, imageHeight / 2})                                    -- middle right
+        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth + arrowThickness) * imageWidth, (0.5 + arrowHalfHeight) * imageHeight}) -- lower right
+        table.insert(polygon, {(arrowHorizontalOffset + arrowWidth) * imageWidth, (0.5 + arrowHalfHeight) * imageHeight})                  -- lower left
+        frontImage:filledPolygon(polygon, textColor)
+        for i, point in ipairs(polygon) do
+          point[1] = imageWidth - point[1]
+        end
+        backImage:filledPolygon(polygon, textColor)
+      end
+
+      -- check the font
+      local font = fields.font.value
+      local success = gd.stringFT(nil, textColor, font, 1, 0, 0, 0, "Test")
+      if success == nil then
+        io.stderr:write("Font '" .. fields.font.value .. "' not found, using '" .. fields.font.defaultValue .. "' instead.\n")
+        font = fields.font.defaultValue
+      end
+
+      -- add the texts
+      local scale = (textSize / height) * imageHeight
+      llx, lly, lrx, lry, urx, ury, ulx, uly = gd.stringFT(nil, textColor, font, scale, 0, 0, 0, fields.text.value)
+      frontImage:stringFT(textColor, font, scale, 0, imageWidth - urx - 0.02 * imageWidth, imageHeight / 2 - lly / 2 + 0.5 * scale, fields.text.value)
+      llx, lly, lrx, lry, urx, ury, ulx, uly = gd.stringFT(nil, textColor, font, scale, 0, 0, 0, fields.text.value)
+      backImage:stringFT(textColor, font, scale, 0, 0.02 * imageWidth, imageHeight / 2 - lly / 2 + 0.5 * scale, fields.text.value)
+
+      -- save the images
+      local debug = require('debug')
+      fileNamePrefix = debug.getinfo(1,'S').source  -- get the name of the current file
+      fileNamePrefix = fileNamePrefix .. wbrandom.integer(0, 100000)  -- add a random number to reduce name clashes
+      i = 0  -- make sure the file does not already exist
+      local file = io.open(fileNamePrefix .. i .. "front.png", "r")
+      while file do
+        file:close()
+        i = i + 1
+        file = io.open(fileNamePrefix .. i .. "front.png", "r")
+      end
+      frontImage:png(fileNamePrefix .. i .. "front.png")
+      backImage:png(fileNamePrefix .. i .. "back.png")
+      gd.fontCacheShutdown()
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors [
+      %{= fields.backgroundColor.value.r }% %{= fields.backgroundColor.value.g }% %{= fields.backgroundColor.value.b }%
+      %{= fields.textColor.value.r }% %{= fields.textColor.value.g }% %{= fields.textColor.value.b }%
+    ]
+    children [
+      Transform {
+        # precise percentage for translation because of imported shape scales
+        translation %{= -0.287 * width }% %{= -1.816 * height }% 0
+        scale %{= 0.387 * width }% %{= height }% %{= 11.37 * thickness }%
+        children [
+          DEF FRONT_SIDE Shape {
+            appearance PBRAppearance {
+              %{ if fields.left.value == false then }%
+                baseColor IS backgroundColor
+              %{ else }%
+                baseColorMap ImageTexture {
+                  url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. 'front.png"' }% ]
+                }
+              %{ end }%
+              metalness 0
+              roughness 0.8
+              textureTransform TextureTransform {
+                scale 1 2.7
+              }
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  -1.28982 1.5113 0.045
+                  -1.08982 1.36278 0.045
+                  -1.17482 1.38804 0.045
+                  0.933418 1.36278 0.045
+                  -1.28982 2.11427 0.045
+                  -1.08982 2.26278 0.045
+                  -1.17482 2.23753 0.045
+                  0.933419 2.26278 0.045
+                  -1.50838 1.81278 0.045
+                ]
+              }
+              coordIndex [
+                2, 3, 5, -1, 8, 0, 2, -1, 5, 6
+                4, -1, 4, 8, 2, -1, 2, 1, 3, -1
+                3, 7, 5, -1, 5, 4, 2, -1
+              ]
+            }
+          }
+          DEF BACK_SIDE Shape {
+            appearance PBRAppearance {
+              %{ if fields.right.value == false then }%
+                baseColor IS backgroundColor
+              %{ else }%
+                baseColorMap ImageTexture {
+                  url [ %{= '"' .. context.temporary_files_path .. fileNamePrefix .. i .. 'back.png"' }% ]
+                }
+              %{ end }%
+              metalness 0
+              roughness 0.8
+              textureTransform TextureTransform {
+                scale -1 2.7
+              }
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  -1.28982 1.5113 -0.045
+                  -1.08982 1.36278 -0.045
+                  -1.17482 1.38804 -0.045
+                  0.933419 1.36278 -0.045
+                  -1.08982 2.26278 -0.045
+                  -1.28982 2.11427 -0.045
+                  -1.17482 2.23753 -0.045
+                  0.933419 2.26278 -0.045
+                  -1.50838 1.81278 -0.045
+                ]
+              }
+              coordIndex [
+                4, 7, 3, -1, 3, 1, 2, -1, 2, 0
+                8, -1, 5, 6, 4, -1, 2, 8, 5, -1
+                4, 3, 2, -1, 2, 5, 4, -1
+              ]
+            }
+          }
+          DEF OUTLINE Shape {
+            appearance PBRAppearance {
+              baseColor %{= fields.textColor.value.r }% %{= fields.textColor.value.g }% %{= fields.textColor.value.b }%
+              metalness 0
+              roughness 0.8
+            }
+            geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  -1.28982 1.5113 0.045
+                  -1.25127 1.37566 0.0405
+                  -1.08982 1.31278 0.0405
+                  -1.08982 1.36278 0.045
+                  -1.2833 1.41915 0.043682
+                  -1.18628 1.34923 0.043932
+                  -1.1756 1.32534 0.0405
+                  -1.08982 1.32743 0.043682
+                  -1.17482 1.38804 0.045
+                  -1.08982 1.31278 -0.0405
+                  -1.25127 1.37566 -0.0405
+                  -1.28982 1.5113 -0.045
+                  -1.08982 1.36278 -0.045
+                  -1.1756 1.32534 -0.0405
+                  -1.18628 1.34923 -0.043932
+                  -1.2833 1.41915 -0.043682
+                  -1.17482 1.38804 -0.045
+                  -1.08982 1.32743 -0.043682
+                  0.9 1.31278 -0.0405
+                  0.933419 1.36278 -0.045
+                  1 1.36278 -0.0405
+                  0.9 1.32743 -0.043682
+                  0.957735 1.33392 -0.043098
+                  0.970711 1.36278 -0.043682
+                  0.970711 1.32743 -0.0405
+                  1 1.36278 0.0405
+                  0.933418 1.36278 0.045
+                  0.9 1.31278 0.0405
+                  0.97071 1.36278 0.043682
+                  0.957735 1.33392 0.043098
+                  0.9 1.32743 0.043682
+                  0.97071 1.32743 0.0405
+                  -1.25627 2.24991 0.0405
+                  -1.28982 2.11427 0.045
+                  -1.08982 2.26278 0.045
+                  -1.08982 2.31278 0.0405
+                  -1.2833 2.20642 0.043682
+                  -1.18628 2.27634 0.043932
+                  -1.17482 2.23753 0.045
+                  -1.08982 2.29814 0.043682
+                  -1.1756 2.30023 0.0405
+                  -1.08982 2.26278 -0.045
+                  -1.28982 2.11427 -0.045
+                  -1.25627 2.24991 -0.0405
+                  -1.08982 2.31278 -0.0405
+                  -1.17482 2.23753 -0.045
+                  -1.18628 2.27634 -0.043932
+                  -1.2833 2.20642 -0.043682
+                  -1.1756 2.30023 -0.0405
+                  -1.08982 2.29814 -0.043682
+                  0.9 2.31278 -0.0405
+                  1 2.26278 -0.0405
+                  0.933419 2.26278 -0.045
+                  0.970711 2.29814 -0.0405
+                  0.957735 2.29165 -0.043098
+                  0.970711 2.26278 -0.043682
+                  0.9 2.29814 -0.043682
+                  0.933419 2.26278 0.045
+                  1 2.26278 0.0405
+                  0.9 2.31278 0.0405
+                  0.970711 2.26278 0.043682
+                  0.957735 2.29165 0.043098
+                  0.970711 2.29814 0.0405
+                  0.9 2.29814 0.043682
+                  -1.54855 1.85566 0.0405
+                  -1.54855 1.76991 0.0405
+                  -1.50838 1.81278 0.045
+                  -1.5727 1.81278 0.0405
+                  -1.55361 1.81278 0.043098
+                  -1.52662 1.78247 0.043682
+                  -1.52662 1.8431 0.043682
+                  -1.54855 1.76991 -0.0405
+                  -1.54855 1.85566 -0.0405
+                  -1.50838 1.81278 -0.045
+                  -1.5727 1.81278 -0.0405
+                  -1.55361 1.81278 -0.043098
+                  -1.52662 1.8431 -0.043682
+                  -1.52662 1.78247 -0.043682
+                ]
+              }
+              coordIndex [
+                32, 43, 72, -1, 59, 50, 44, -1, 1, 65
+                71, -1, 51, 58, 25, -1, 4, 5, 8, -1
+                1, 6, 5, -1, 7, 5, 6, -1, 3, 8
+                5, -1, 13, 14, 17, -1, 10, 15, 14, -1
+                16, 14, 15, -1, 12, 17, 14, -1, 18, 21
+                22, -1, 19, 23, 22, -1, 24, 22, 23, -1
+                28, 29, 31, -1, 26, 30, 29, -1, 27, 31
+                29, -1, 32, 36, 37, -1, 38, 37, 36, -1
+                34, 39, 37, -1, 40, 37, 39, -1, 41, 45
+                46, -1, 47, 46, 45, -1, 43, 48, 46, -1
+                49, 46, 48, -1, 50, 53, 54, -1, 55, 54
+                53, -1, 52, 56, 54, -1, 57, 60, 61, -1
+                62, 61, 60, -1, 59, 63, 61, -1, 64, 67
+                68, -1, 65, 69, 68, -1, 66, 70, 68, -1
+                71, 74, 75, -1, 72, 76, 75, -1, 73, 77
+                75, -1, 10, 13, 6, -1, 6, 13, 9, -1
+                27, 30, 7, -1, 30, 26, 3, -1, 12, 19
+                21, -1, 21, 18, 9, -1, 25, 31, 24, -1
+                31, 27, 18, -1, 52, 55, 23, -1, 55, 51
+                20, -1, 58, 60, 28, -1, 60, 57, 26, -1
+                35, 44, 48, -1, 40, 48, 43, -1, 34, 57
+                63, -1, 63, 59, 35, -1, 50, 56, 49, -1
+                56, 52, 41, -1, 50, 59, 62, -1, 53, 62
+                58, -1, 64, 72, 74, -1, 74, 71, 65, -1
+                33, 36, 70, -1, 36, 32, 64, -1, 71, 77
+                15, -1, 77, 73, 11, -1, 65, 1, 4, -1
+                69, 4, 0, -1, 42, 73, 76, -1, 47, 76
+                72, -1, 9, 18, 27, -1, 64, 32, 72, -1
+                35, 59, 44, -1, 10, 1, 71, -1, 20, 51
+                25, -1, 0, 4, 8, -1, 4, 1, 5, -1
+                2, 7, 6, -1, 7, 3, 5, -1, 9, 13
+                17, -1, 13, 10, 14, -1, 11, 16, 15, -1
+                16, 12, 14, -1, 24, 18, 22, -1, 21, 19
+                22, -1, 20, 24, 23, -1, 25, 28, 31, -1
+                28, 26, 29, -1, 30, 27, 29, -1, 40, 32
+                37, -1, 33, 38, 36, -1, 38, 34, 37, -1
+                35, 40, 39, -1, 49, 41, 46, -1, 42, 47
+                45, -1, 47, 43, 46, -1, 44, 49, 48, -1
+                56, 50, 54, -1, 51, 55, 53, -1, 55, 52
+                54, -1, 63, 57, 61, -1, 58, 62, 60, -1
+                62, 59, 61, -1, 70, 64, 68, -1, 67, 65
+                68, -1, 69, 66, 68, -1, 77, 71, 75, -1
+                74, 72, 75, -1, 76, 73, 75, -1, 1, 10
+                6, -1, 2, 6, 9, -1, 2, 27, 7, -1
+                7, 30, 3, -1, 17, 12, 21, -1, 17, 21
+                9, -1, 20, 25, 24, -1, 24, 31, 18, -1
+                19, 52, 23, -1, 23, 55, 20, -1, 25, 58
+                28, -1, 28, 60, 26, -1, 40, 35, 48, -1
+                32, 40, 43, -1, 39, 34, 63, -1, 39, 63
+                35, -1, 44, 50, 49, -1, 49, 56, 41, -1
+                53, 50, 62, -1, 51, 53, 58, -1, 67, 64
+                74, -1, 67, 74, 65, -1, 66, 33, 70, -1
+                70, 36, 64, -1, 10, 71, 15, -1, 15, 77
+                11, -1, 69, 65, 4, -1, 66, 69, 0, -1
+                47, 42, 76, -1, 43, 47, 72, -1, 2, 9
+                27, -1
+              ]
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "direction panel"
+    boundingObject Transform {
+      translation %{= - (0.8 * width) / 2 }% 0 0
+      children [
+        Box {
+          size %{= width }% %{= height }% %{= thickness }%
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,85 @@
+## Using ROS
+
+### What Is ROS?
+
+[ROS (Robot Operating System)](http://www.ros.org/) is a framework for robot software development, providing operating system-like functionality on top of a heterogeneous computer cluster.
+ROS was originally developed in 2007 by the Stanford Artificial Intelligence Laboratory.
+As of 2008, development continues primarily at [Willow Garage](http://www.willowgarage.com/).
+
+ROS provides standard operating system services such as hardware abstraction, low-level device control, implementation of commonly-used functionality, message-passing between processes, and package management.
+It is based on a graph architecture where processing takes place in nodes that may receive, post and multiplex sensor, control, state, planning, actuator and other messages.
+The library is geared towards a Unix-like system and is supported under Linux, experimental on macOS and has partial functionality under Windows.
+
+ROS has two basic "sides": The operating system side, `ros`, as described above and ROS packages, a suite of user contributed packages (organized into sets called stacks) that implement functionalities such as simultaneous localization and mapping, planning, perception, simulation etc.
+
+ROS is released under the terms of the BSD license, and is an open source software.
+It is free for commercial and research use.
+The user contributed packages are licensed under a variety of open source licenses.
+
+### ROS for Webots
+
+There are two ways to use ROS with Webots.
+The first solution and the easiest one is to use the standard ROS controller.
+It is part of the Webots default controllers and is available in any project.
+This controller can be used on any robot in Webots and acts as a ROS node, providing all the Webots functions as services or topics to other ROS nodes.
+The second custom and more complicated solution is to build your own Webots controller that will also be a ROS node using Webots and ROS libraries.
+This solution should only be used for specific applications that cannot be done with the standard controller.
+
+### Standard Controller
+
+This controller uses the "libCppController" library and proposes the available Webots functionalities on the ROS network according to the robot's configuration.
+Using the "roscpp" library, it provides these Webots functions mostly as ROS services and uses standard messages type to avoid dependencies on third-party packages.
+
+During simulation there can be multiple instances of robots or devices and other Webots applications connected to the ROS network.
+Therefore the controller uses a specific syntax to declare its services or topics on the network: `[robot_unique_name]/[device_name]/[service/topic_name]`.
+
+`[robot_unique_name]`: in order to avoid any misunderstanding between different instances of the same robot, the name of the robot is followed by the ID of the process and the IP address of the computer.
+
+`[device_name]`: since the same function can refer to different devices, this field shows you which device it refers to.
+
+`[service/topic_name]`: this field is identical or very close to the Webots function it corresponds to.
+For topics, it is followed by the sampling period.
+For services, it is also the name of the corresponding srv file.
+
+#### Using the Standard Controller
+
+The controller, named `ros`, is pre-compiled and you shouldn't edit it.
+All you have to do is to load it in the `controller` field of your robot; you will find it in the default list of controller.
+In order to use it, you will have to build a ROS node that will communicate with the robot using the different services available.
+Good examples of such ROS node can be found inside Webots at `WEBOTS_HOME/projects/languages/ros/webots_ros`.
+
+In the [Tutorial 7](tutorial-7-using-ros.md) chapter, you will find the instructions to setup your workspace and run a sample simulation using ROS.
+
+In the following table you can find the list of `ros` controller arguments.
+
+%figure "ros controller arguments"
+
+| Argument | Description |
+| -------- | ----------- |
+| `--ROS_MASTER_URI=<address>` | Specify the URI address of the machine where `roscore` is running. |
+| `--name=<robot_unique_name>` | Specify a predefined [robot\_unique\_name] to be used for services and topics. Note that you are then responsible for avoiding any name clashes between the different robot controllers. |
+| `--synchronize`   | By default the `ros` controller is not blocking the simulation even if no ROS node is connected to it. In order to synchronize the simulation with the ROS node, the `--synchronize` argument can be specified, so that the simulation will not run as long as the robot `time_step` service is not called. |
+| `--clock`   | Publish the Webots time using the `clock` topic. |
+| `--use-sim-time` | Specify that the Webots time should be used as ROS time. To work correctly you should also define the `--clock` argument and set the ROS parameter `use_sim_time` to true. |
+
+%end
+
+If you want to access the controller from another machine and `roscore` isn't running on the same machine as Webots, you will need to edit the ROS\_MASTER\_URI variable.
+This can be done by editing your environment variables, setting `--ROS_MASTER_URI=<address>` in the controller arguments (see [table](#ros-controller-arguments)) or with a `runtime.ini` file in the controller directory.
+You must also be able to connect to each of the computer with  `ssh` in both ways.
+As ROS uses the hostname to find other computers on the network, you must add other computers' hostname and the associated IP address to the known hosts of each computer.
+You can find this list in a file named *hosts*.
+On Linux distribution, you can find it directly at `/etc/hosts`; on macOS, it is located at `/private/etc/hosts`; on Windows, it is located at `C:\Windows\System32\drivers\etc\hosts`.
+On Windows and macOS, this is a hidden path and you will need to search directly for this path.
+The hosts file is usually protected and you will need administrator or root privileges to edit it.
+
+### Custom Controller
+
+The standard controller has been developed in order to work on every robot and for general purpose.
+Sometimes, you may not be able to do what you want with this controller or it would be too complicated.
+In this case, you can build your own custom controller and ROS node.
+
+It is possible to implement such a ROS node in C++ using the "roscpp" library.
+However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.
+
+This controller can also be implemented in Python by importing both ROS libraries (roslib, rospy) and Webots libraries (controller) in a Webots robot or supervisor controller.

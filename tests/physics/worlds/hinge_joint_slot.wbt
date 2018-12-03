@@ -1,0 +1,76 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.032555 0.990111 0.136459 2.28838
+  position 4.17832 1.37343 -3.38124
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Robot {
+  children [
+    Shape {
+      geometry DEF MAIN_BOX Box {
+        size 0.2 1 0.2
+      }
+    }
+    TouchSensor {
+      translation 0 -0.45 -0.106
+      children [
+        DEF TOUCH_SENSOR_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.3 0.5 0.7
+            }
+          }
+          geometry Box {
+            size 0.1 0.1 0.01
+          }
+        }
+      ]
+      boundingObject USE TOUCH_SENSOR_SHAPE
+      physics Physics {
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.5 -0.1
+      }
+      endPoint Slot {
+        endPoint Slot {
+          endPoint Solid {
+            translation 0 0.55 -0.6
+            children [
+              DEF JOINT_BOX Shape {
+                geometry Box {
+                  size 0.2 0.1 1
+                }
+              }
+            ]
+            boundingObject USE JOINT_BOX
+            physics Physics {
+              density -1
+              mass 1
+            }
+          }
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE MAIN_BOX
+  controller "hinge_joint_slot"
+  selfCollision TRUE
+}
+TestSuiteSupervisor {
+}

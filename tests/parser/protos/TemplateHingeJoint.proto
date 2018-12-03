@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+
+PROTO TemplateHingeJoint [
+  field SFFloat height 0.4
+]
+{
+  HingeJoint {
+    endPoint Solid {
+      children [
+        Shape {
+          geometry Cylinder {
+            height %{= fields.height.value }%
+          }
+        }
+      ]
+    }
+  }
+}

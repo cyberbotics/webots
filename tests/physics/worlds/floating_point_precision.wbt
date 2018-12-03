@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.18437 -0.96585 -0.182049 1.90043
+  position -2.47806 1.54098 -0.493858
+}
+Robot {
+  children [
+    Receiver {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  customData "init"
+  controller "floating_point_precision"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

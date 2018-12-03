@@ -1,0 +1,123 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  ERP 0.6
+  lineScale 1.7
+}
+Viewpoint {
+  orientation -0.61528713 0.78628489 0.05637219 0.4895318
+  position 2.2015207 2.6270419 5.8984832
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 -0.3
+  castShadows TRUE
+}
+RectangleArena {
+  floorSize 10 10
+}
+DEF ROBOT Robot {
+  translation 0.5 1.01 0
+  children [
+    DEF MAIN_BOX Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Box {
+      }
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 1
+        suspensionSpringConstant 2000
+        suspensionDampingConstant 200
+        suspensionAxis 0 1 0
+      }
+      jointParameters2 JointParameters {
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "rotational motor 2"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 1
+        rotation 1 0 0 1.5708003
+        children [
+          DEF CYLINDER Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0 0.333333 1
+              }
+            }
+            geometry Cylinder {
+              height 0.3
+              radius 0.5
+              subdivision 24
+            }
+          }
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0
+              }
+            }
+            geometry Cylinder {
+              height 0.4
+              radius 0.01
+            }
+          }
+        ]
+        boundingObject USE CYLINDER
+        physics Physics {
+          density -1
+          mass 10
+        }
+      }
+    }
+  ]
+  boundingObject USE MAIN_BOX
+  physics Physics {
+    density -1
+    mass 200
+  }
+  controller "move_hinge_2_joint_with_suspension_robot"
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation 0.52 1 2
+      rotation 0 1 0 1.5708
+      name "right distance sensor"
+      lookupTable [
+        0 0 0
+        0.9 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation -0.52 1 2
+      rotation 0 1 0 1.5708
+      name "left distance sensor"
+      lookupTable [
+        0 0 0
+        0.9 1000 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "move_hinge_2_joint_with_suspension"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

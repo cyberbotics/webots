@@ -1,0 +1,29 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A traffic light lamp with an adjustable arrow.
+
+PROTO TrafficLightArrowLampGeometry [
+]
+{
+  IndexedFaceSet {
+    coord Coordinate {
+      point [
+        -0.016272 0.057538 -0.02
+        0.026209 0.015388 -0.02
+        -0.083277 0.015312 -0.02
+        -0.083644 -0.014357 -0.02
+        0.027261 -0.014327 -0.02
+        -0.018454 -0.057874 -0.02
+        0.025324 -0.057692 -0.02
+        0.083733 0.000784 -0.02
+        0.02544 0.057485 -0.02
+     ]
+    }
+    coordIndex [
+      1, 0, 8, -1, 4, 6, 5, -1, 4, 7
+      6, -1, 8, 7, 1, -1, 2, 1, 3, -1
+      3, 1, 4, -1, 7, 4, 1, -1
+    ]
+  }
+}

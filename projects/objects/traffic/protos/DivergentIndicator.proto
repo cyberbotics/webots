@@ -1,0 +1,123 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A divergent indicator block.
+
+PROTO DivergentIndicator [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "divergent indicator"
+  field MFString   texture         "textures/divergent_indicator.jpg"  # Defines the texture used by the divergent indicator.
+  field SFFloat    height          1                                   # Defines the height of the divergent indicator.
+  field SFFloat    radius          0.5                                 # Defines the radius of the divergent indicator.
+  field SFInt32    subdivision     24                                  # Defines the number of polygons used to represent the divergent indicator cylindrical part and so its resolution .
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision > 200 then
+      io.stderr:write("High value for 'subdivision'. This can slow down the simulation\n")
+    elseif subdivision < 8 then
+      io.stderr:write("'subdivision' must be greater than or equal to 8\n")
+      subdivision = 8
+    end
+
+    local height = fields.height.value
+    if height <= 0 then
+      io.stderr:write("'height' must be greater than 0\n")
+      height = fields.height.defaultValue
+    end
+
+    local radius = fields.radius.value
+    if radius <= 0 then
+      io.stderr:write("'radius' must be greater than 0\n")
+      radius = fields.radius.defaultValue
+    end
+
+    local circle = wbgeometry.circle(radius, subdivision, 0, 0, 0.5 * math.pi)
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url IS texture
+          }
+          metalness 0
+          roughness 0.3
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{ for i, el in ipairs(circle) do }%
+                %{= el.x }% %{= 0.8 * height - 0.2 * height * math.sin(2 * math.pi * (i - 1) / subdivision) }% %{= el.y }%
+                %{= el.x }% 0 %{= el.y }%
+              %{ end }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              %{ for i = 0, subdivision do }%
+                %{= i / subdivision - 0.25 }% %{= 0.8 - 0.2 * math.sin(2 * math.pi * i / subdivision) }%
+                %{= i / subdivision - 0.25 }% 0
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            # side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= 2 * i }% %{= 2 * i + 2 }% %{= 2 * i + 3 }% %{= 2 * i + 1 }% -1
+            %{ end }%
+            # top
+            %{ for i = 0, subdivision do }%
+              %{= 2 * (subdivision - i) }%
+            %{ end }%
+            -1
+            # bottom
+            %{ for i = 0, subdivision do }%
+              %{= 2 * i + 1 }%
+            %{ end }%
+            -1
+          ]
+          texCoordIndex [
+            # side
+            %{ for i = 0, subdivision - 1 do }%
+              %{= 2 * i }% %{= 2 * i + 2 }% %{= 2 * i + 3 }% %{= 2 * i + 1 }% -1
+            %{ end }%
+            # top
+            %{ for i = 0, subdivision do }%
+              %{= 2 * (subdivision - i) }%
+            %{ end }%
+            -1
+            # bottom
+            %{ for i = 0, subdivision do }%
+              %{= 2 * i + 1 }%
+            %{ end }%
+            -1
+          ]
+          creaseAngle 0.5
+        }
+      }
+    ]
+    name IS name
+    model "divergent indicator"
+    boundingObject Transform {
+      translation 0 %{= height / 2 }% 0
+      children [
+        Shape {
+          geometry Cylinder {
+            height %{= height }%
+            radius %{= radius }%
+            subdivision %{= subdivision }%
+          }
+        }
+      ]
+    }
+  }
+}

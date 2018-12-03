@@ -1,0 +1,142 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/yamor
+# The "Yamor" robot is a modular robot developed by the EPFL BioRob laboratory.
+
+PROTO Yamor [
+  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFString   name            "Yamor" # Is `Solid.name`.
+  field SFString   controller      "yamor" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""      # Is `Robot.controllerArgs`.
+  field SFString   customData      ""      # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      DEF BODY_GROUP Group {
+        children [
+          DEF BOX_SHAPE Shape {
+            appearance DEF PLASTIC PBRAppearance {
+              baseColor 0 1 0
+              roughness 0.2
+              metalness 0
+            }
+            geometry Box {
+              size 0.054 0.0482 0.06
+            }
+          }
+          DEF CYLINDER_TRANS Transform {
+            translation 0 0 -0.03
+            children [
+              Shape {
+                appearance USE PLASTIC
+                geometry Cylinder {
+                  height 0.0481
+                  radius 0.027
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF REAR_CONNECTOR Connector {
+        translation 0 0 0.03
+        children [
+          DEF ROUND_SHAPE Transform {
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 1 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.0005
+                  radius 0.0075
+                }
+              }
+            ]
+          }
+        ]
+        name "rear_connector"
+        isLocked TRUE
+        distanceTolerance 0.05
+        axisTolerance 0.5
+        rotationTolerance 0.5
+      }
+      DEF HINGE_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 0 -0.03
+        }
+        device [
+          RotationalMotor {
+            name "motor"
+            maxVelocity 3.9667
+            minPosition -1.5708
+            maxPosition 1.5708
+            maxTorque 1.1
+          }
+        ]
+        endPoint Solid {
+          translation 0 0 -0.03
+          children [
+            DEF GRAY_BOX_TRANS Transform {
+              translation 0 0 -0.0135
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.752941 0.752941 0.752941
+                    metalness 0
+                    roughness 0.2
+                  }
+                  geometry Box {
+                    size 0.015 0.0612 0.047
+                  }
+                }
+              ]
+            }
+            DEF FRONT_CONNECTOR Connector {
+              translation 0 0 -0.037
+              rotation 0 1 0 3.1416
+              children [
+                USE ROUND_SHAPE
+              ]
+              name "front_connector"
+              isLocked TRUE
+              distanceTolerance 0.05
+              axisTolerance 0.5
+              rotationTolerance 0.5
+            }
+          ]
+          boundingObject USE GRAY_BOX_TRANS
+          physics Physics {
+            density -1
+            mass 0.016
+          }
+        }
+      }
+    ]
+    boundingObject USE BODY_GROUP
+    physics DEF BODY_PHYSICS Physics {
+      density -1
+      mass 0.17
+    }
+  }
+}

@@ -1,0 +1,81 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.21943 -0.958409 -0.182488 5.19933
+  position 8.27136 1.85384 3.44488
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF INCLINED_PLANE Transform {
+  translation 1 0 -2
+  rotation 1 0 0 1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.211765 0.309804 1
+          emissiveColor 0.0588235 0.129412 0.462745
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+DEF CYLINDER Transform {
+  translation -1 0 -1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.972549 0.0901961 0.0901961
+          emissiveColor 0.67451 0.0823529 0.0823529
+        }
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 0.13
+      }
+    }
+  ]
+}
+DEF GROUND Transform {
+  translation 0 -0.1 0
+  children [
+    Shape {
+      geometry Plane {
+        size 15 15
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    DEF HORIZONTAL_RANGE_FINDER RangeFinder {
+      fieldOfView 3.14159
+      width 128
+      height 1
+      spherical TRUE
+      maxRange 5
+    }
+    Lidar {
+      horizontalResolution 128
+      fieldOfView 3.14159
+      numberOfLayers 1
+      maxRange 5
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "lidar_vs_range_finder"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# on Mac libtoolize is called glibtoolize
+LIBTOOLIZE=libtoolize
+if [ `uname -s` = Darwin ]; then
+    LIBTOOLIZE=glibtoolize
+fi
+$LIBTOOLIZE -c --automake
+aclocal
+autoheader
+autoconf
+automake -a --foreign -c

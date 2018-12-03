@@ -1,0 +1,152 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
+# A simple truck
+
+PROTO Truck [
+  field     SFVec3f    translation       0 0.5 0
+  field     SFRotation rotation          0 1 0 0
+  field     SFColor    color             0.39 0 0
+  field     SFNode     trailer           TruckTrailer { }
+  field     SFString   name              "vehicle"
+  field     SFString   controller        "void"
+  field     SFString   controllerArgs    ""
+  field     SFBool     supervisor        FALSE
+  field     SFBool     synchronization   TRUE
+  field     MFNode     sensorsSlotFront  [ ]
+  field     MFNode     sensorsSlotRear   [ ]
+  field     MFNode     sensorsSlotTop    [ ]
+  field     MFNode     sensorsSlotCenter [ ]
+]
+{
+  Car {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    trackFront 2.2
+    trackRear 2.2
+    wheelbase 5.25
+    type "4x4"
+    minSteeringAngle -0.4
+    maxSteeringAngle 0.4
+    suspensionFrontSpringConstant 1e+06
+    suspensionFrontDampingConstant 10000
+    suspensionRearSpringConstant 1e+06
+    suspensionRearDampingConstant 10000
+    wheelsDampingConstant 30
+    model "truck"
+    engineMinRPM 700
+    engineMaxRPM 2250
+    engineFunctionCoefficients -600 5.45 -0.0023  # calibrated for a torque of 2500Nm in the range [1000; 1350] RPM
+    gearRatio [-14.77 16 13 11 9 7 6 4.5 3.7 3 2.4 1.9 1.5 1.2 1]
+    extensionSlot [
+      Transform {
+        children IS sensorsSlotCenter
+      }
+      Transform {
+        translation 0 1.1 6.75
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotFront
+      }
+      Transform {
+        translation 0 4.15 4.3
+        rotation 0 1 0 3.14159
+        children IS sensorsSlotTop
+      }
+      Transform {
+        translation 0 2.7 -7.3
+        children IS sensorsSlotRear
+      }
+      DEF FRONT_LIGHTS LED {  # VehicleLights are not used because of the trailer rotation and name duplication.
+        children [
+          TruckFrontLight {
+          }
+        ]
+        name "front_lights"
+        color 0.8 0.8 0.8
+      }
+      DEF TRAILER_JOINT HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 10 0
+          anchor 0 0 1.35
+          minStop -1.3
+          maxStop 1.3
+          dampingConstant 10000
+          staticFriction 1000
+          suspensionAxis 0 1 0
+          suspensionSpringConstant 1e+06
+          suspensionDampingConstant 10000
+        }
+        endPoint DEF TRAILER Slot {
+          type "truck trailer"
+          endPoint IS trailer
+        }
+      }
+      TruckCab {
+        color IS color
+      }
+    ]
+    radarCrossSection 200
+    recognitionColors [
+      %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 2 5.4
+          children [
+            Box {
+              size 2.8 4.1 3.2
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.35 1.55
+          children [
+            Box {
+              size 2.8 0.8 4.5
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 8000
+      centerOfMass [
+        0 0.1 4.5
+      ]
+    }
+    wheelFrontLeft TruckWheel {
+      name "front left wheel"
+      physics DEF WHEEL_PHYSICS Physics {
+        density -1
+        mass 100
+      }
+    }
+    wheelFrontRight TruckWheel {
+      name "front right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearRight TruckWheel {
+      name "rear right wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    wheelRearLeft TruckWheel {
+      name "rear left wheel"
+      physics USE WHEEL_PHYSICS
+    }
+    brakeCoefficient 5000
+    %{ if fields.trailer.value then }%
+      time0To100 25
+    %{ else }%
+      time0To100 18
+    %{ end }%
+  }
+}

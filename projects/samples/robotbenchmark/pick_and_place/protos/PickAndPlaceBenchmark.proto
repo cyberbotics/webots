@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Supervisor that manages the Pick and Place benchmark.
+
+PROTO PickAndPlaceBenchmark [
+  field SFString window "pick_and_place"
+]
+{
+  Robot {
+    controller "pick_and_place_benchmark"
+    supervisor TRUE
+    window IS window
+  }
+}

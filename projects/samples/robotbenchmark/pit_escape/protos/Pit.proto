@@ -1,0 +1,149 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Randomly generated uneven terrain based on Perlin noise.
+
+PROTO Pit [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFVec3f    size           20 5 20
+  field SFInt32    xDimension     50
+  field SFInt32    zDimension     50
+  field MFString   texture        "textures/sand.jpg"
+  field SFVec2f    textureScale   1.0 1.0
+  field SFInt32    randomSeed     1 # if seed <= 0 then set a random seed
+  field SFInt32    perlinNOctaves 3
+  field SFFloat    noiseAmplitude 0.15
+  field SFFloat    pitRadius      3
+]
+{
+  %{
+    local wbrandom = require('wbrandom')
+    local os = require('os')
+    if fields.randomSeed.value <= 0 then
+      wbrandom.seed(os.clock() + os.time())
+    else
+      wbrandom.seed(fields.randomSeed.value)
+    end
+
+    function gaussian2d(x, y, amp, cx, cy, sx, sy)
+      return amp * math.exp( - ( ( math.pow(x - cx, 2) / (2.0 * math.pow(sx, 2)) ) + (math.pow(y - cy, 2) / (2.0 * math.pow(sy, 2)) ) ))
+    end
+
+    -- cosine interpolation
+    function interpolate(a, b, x)
+      local ft = x * math.pi
+      local f = (1.0 - math.cos(ft)) * 0.5
+
+      return  a * (1.0 - f) + b * f
+    end
+
+    function noise(x, y)
+      -- could be improved by taking care of x and y
+      return wbrandom.real(-1.0, 1.0)
+    end
+
+    function smoothNoise(x, y)
+      local corners = ( noise(x-1, y-1) + noise(x+1, y-1) + noise(x-1, y+1) + noise(x+1, y+1) ) / 16.0
+      local sides   = ( noise(x-1, y)   + noise(x+1, y)   + noise(x, y-1)   + noise(x, y+1) ) /  8.0
+      local center  =  noise(x, y) / 4.0
+      return corners + sides + center
+    end
+
+    function interpolatedNoise(x, y)
+      local integerX = math.floor(x)
+      local fractionalX = x - integerX
+
+      local integerY = math.floor(y)
+      local fractionalY = y - integerY
+
+      local v1 = smoothNoise(integerX,     integerY)
+      local v2 = smoothNoise(integerX + 1, integerY)
+      local v3 = smoothNoise(integerX,     integerY + 1)
+      local v4 = smoothNoise(integerX + 1, integerY + 1)
+
+      local i1 = interpolate(v1, v2, fractionalX)
+      local i2 = interpolate(v3, v4, fractionalX)
+
+      return interpolate(i1, i2, fractionalY)
+    end
+
+    -- cf. http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
+    function perlinNoise2d(x, y)
+      local total = 0.0
+
+      for i = 0, fields.perlinNOctaves.value - 1 do
+        local frequency = math.pow(2.0, i)
+
+        total = total + interpolatedNoise(x * frequency, y * frequency)
+      end
+
+      return total / fields.perlinNOctaves.value
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF PIT_ELEVATION_GRID Transform {
+        translation %{= - fields.size.value.x / 2 }% 0 %{= - fields.size.value.z / 2 }%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url IS texture
+              }
+              metalness 0
+              roughness 1
+              textureTransform TextureTransform {
+                scale %{= fields.xDimension.value / fields.textureScale.value.x }% %{= fields.zDimension.value / fields.textureScale.value.y }%
+              }
+            }
+            geometry ElevationGrid {
+              %{ if fields.xDimension.value > 2 and fields.zDimension.value > 2 then }%
+                xDimension IS xDimension
+                xSpacing %{= fields.size.value.x / (fields.xDimension.value - 1) }%
+                zDimension IS zDimension
+                zSpacing %{= fields.size.value.z / (fields.zDimension.value - 1) }%
+                height [
+                  %{
+                    local xSigma = fields.pitRadius.value / fields.size.value.x
+                    local zSigma = fields.pitRadius.value / fields.size.value.z
+                    local xMin = 0.5 - 3 * xSigma
+                    local xMax = 0.5 + 3 * xSigma
+                    local zMin = 0.5 - 3 * zSigma
+                    local zMax = 0.5 + 3 * zSigma
+                  }%
+                  %{ for i=0, fields.xDimension.value - 1 do }%
+                    %{ for j=0, fields.zDimension.value - 1 do }%
+                      %{
+                        local height = 1.0
+                        local x = i / fields.xDimension.value
+                        local z = j / fields.zDimension.value
+                        if x > xMin and x < xMax and z > zMin and z < zMax then
+                          if fields.perlinNOctaves.value > 0 then
+                            height = (1 - fields.noiseAmplitude.value) + fields.noiseAmplitude.value * perlinNoise2d(x, z)
+                          end
+
+                          height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, xSigma, zSigma))
+                          height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, xSigma, zSigma)
+
+                          height = height * fields.size.value.y
+                        else
+                          height = 0
+                        end
+                      }%
+                      %{= height }%
+                    %{ end }%
+                  %{ end }%
+                ]
+              %{ end }%
+            }
+          }
+        ]
+      }
+    ]
+    name "pit"
+    boundingObject USE PIT_ELEVATION_GRID
+  }
+}

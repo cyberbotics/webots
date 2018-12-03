@@ -1,0 +1,23 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Atlas sample"
+  ]
+  CFM 1e-07
+  ERP 0.8
+  basicTimeStep 8
+  lineScale 0.25
+}
+Viewpoint {
+  orientation 0.07361487165598588 -0.9880371064661203 -0.13551209140563525 4.208435019952087
+  position 4.007193926491309 2.1969755916188816 -2.1227761648514134
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1000 1000
+}
+Atlas {
+}

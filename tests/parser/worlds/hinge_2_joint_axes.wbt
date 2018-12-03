@@ -1,0 +1,50 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+}
+ParserTestSupervisor {
+}
+Robot {
+  children [
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 -1 0
+      }
+      jointParameters2 JointParameters {
+        axis -1 0 0
+      }
+      endPoint Solid {
+        translation 0 0.1 0
+        boundingObject Box {
+          size 0.1 0.1 0.1
+        }
+        physics Physics {
+        }
+      }
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      jointParameters2 JointParameters {
+        axis 0 1 0
+      }
+      endPoint Solid {
+        translation 0 0.1 0
+        boundingObject Box {
+          size 0.1 0.1 0.1
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.1
+  }
+  physics Physics {
+  }
+}

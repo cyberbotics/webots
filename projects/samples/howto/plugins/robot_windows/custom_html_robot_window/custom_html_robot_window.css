@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #2B2B2B;
+  color: #F6F6F6;
+}
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  text-indent: 20px;
+}
+h2 {
+  margin-top: 40px;
+}
+#content {
+  padding: 20px;
+}
+#console {
+  border-radius: 3px;
+  padding: 20px;
+  margin-left: 20px;
+  background-color: #F4F2BE;
+  color: #4B4B4B;
+  list-style-type: none;
+  font-style: italic;
+}
+#input-check {
+  display: inline-block;
+  margin-left: 20px;
+  padding: 7px;
+  background: #4CAF50;
+  color: #F6F6F6;
+  border-radius: 3px;
+}
+#input-check.checked {
+  background: #DC143C;
+  color: black;
+  font-weight: bold;
+}
+#input-check input {
+  display: none;
+}
+progress {
+  margin-left: 10%;
+  width: 80%;
+}

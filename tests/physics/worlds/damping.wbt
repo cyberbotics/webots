@@ -1,0 +1,135 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+  defaultDamping Damping {
+    linear 0.4
+  }
+}
+Viewpoint {
+  orientation 0.0598936 0.985395 0.159402 3.55295
+  position -1.49557 2.58777 -5.25137
+}
+PointLight {
+  location 0 3 0
+  castShadows TRUE
+}
+DEF BALL_A Solid {
+  translation 0 1 0
+  children [
+    DEF SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0.2 0.8
+        }
+      }
+      geometry Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  boundingObject USE SHAPE
+  physics Physics {
+    # default damping: 0.4
+  }
+}
+DEF BALL_B Solid {
+  translation 1 1 0
+  children [
+    USE SHAPE
+  ]
+  name "solid(1)"
+  boundingObject USE SHAPE
+  physics Physics {
+    damping Damping {
+      linear 0
+    }
+  }
+}
+DEF BALL_C Solid {
+  translation 2 1 0
+  children [
+    USE SHAPE
+  ]
+  name "solid(2)"
+  boundingObject USE SHAPE
+  physics Physics {
+    damping Damping {
+      linear 0.4
+    }
+  }
+}
+DEF BALL_D Solid {
+  translation 3 1 0
+  children [
+    USE SHAPE
+  ]
+  name "solid(3)"
+  boundingObject USE SHAPE
+  physics Physics {
+    damping Damping {
+      linear 0.8
+    }
+  }
+}
+Robot {
+  translation 0.1 0 0.1
+  children [
+    TouchSensor {
+      rotation 1 0 0 -1.5706
+      children [
+        DEF TS_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.4 0.6 0.8
+            }
+          }
+          geometry Box {
+            size 0.5 0.5 0.1
+          }
+        }
+      ]
+      name "tsA"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+      }
+    }
+    TouchSensor {
+      translation 1 0 0
+      rotation 1 0 0 -1.5706
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsB"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+      }
+    }
+    TouchSensor {
+      translation 2 0 0
+      rotation 1 0 0 -1.5706
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsC"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+      }
+    }
+    TouchSensor {
+      translation 3 0 0
+      rotation 1 0 0 -1.5706
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsD"
+      boundingObject USE TS_SHAPE
+      physics Physics {
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "damping"
+}
+TestSuiteSupervisor {
+}

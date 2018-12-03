@@ -1,0 +1,35 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+PROTO BallCandy [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "ball candy"
+  field SFColor color 0.9 0.1 0.1
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor IS color
+        roughness 0.3
+        metalness 0
+      }
+      geometry DEF CANDY_BALL_SHAPE Sphere {
+        radius 0.0325
+        subdivision 3
+      }
+    }
+  ]
+  name IS name
+  model "ball candy"
+  boundingObject USE CANDY_BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 0.16
+  }
+}
+}

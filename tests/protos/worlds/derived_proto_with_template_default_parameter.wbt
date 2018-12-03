@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  lineScale 1.4
+}
+Viewpoint {
+  orientation -0.620767 -0.781164 -0.0665642 0.272813
+  position -1.38134 0.59295 3.00648
+}
+Background {
+  skyColor [
+    0.619608 0.937255 0.956863
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+ProtoWithTemplateDefaultParameter {
+}
+Robot {
+  translation -0.9 0.4 0
+  children [
+    DistanceSensor {
+      rotation 0 0 -1 1.5708
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "test_cylinder_size_and_resizing"
+  controllerArgs "proto_with_template_default_parameter"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

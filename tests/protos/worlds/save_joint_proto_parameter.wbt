@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.08334733598826562 -0.9668174197677529 -0.24148974805834703 2.696656465490489
+  position -0.9432232632081097 1.3717031825484522 -1.8631266884352105
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+Floor {
+}
+SlotifiedRobot {
+  controller "void"
+  slot [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1
+      }
+      endPoint DEF TARGET Solid {
+        translation 0 0.270151 0.420735
+        rotation 1 0 0 1
+        children [
+          Shape {
+            geometry Sphere {
+              radius 0.1
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  customData "init"
+  controller "save_joint_proto_parameter"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,20 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0 1 0 0
+  position 0 0.35 1.5
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  controller "ros"
+  supervisor TRUE
+}
+Floor {
+}
+Nao {
+  controller "void"
+}

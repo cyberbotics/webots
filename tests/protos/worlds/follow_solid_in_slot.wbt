@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.9173812741630853 0.39663566854827187 0.03304155338629959 0.7222244315929436
+  position 2.3756420127787203 3.9520174863043622 5.079934994072254
+  near 0.001
+  follow "solid:solid(1)"
+  followSmoothness 0
+}
+Background {
+  skyColor [
+    0.23921568627450981 0.5294117647058824 0.788235294117647
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+SolidWithExtensionSlot {
+  translation 1 0 0
+  extensionSlot [
+    Solid {
+      translation 0 1 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.8 0 0
+            }
+          }
+          geometry DEF BOX Box {
+            size 0.1 0.1 0.1
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE BOX
+      physics Physics {
+      }
+    }
+  ]
+}
+Robot {
+  controller "follow_solid_in_slot"
+  supervisor TRUE
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+}
+TestSuiteSupervisor {
+}

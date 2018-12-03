@@ -1,0 +1,197 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A non-controllable truck tank model with physics properties.
+
+PROTO TruckTank [
+  field SFString name    "truck tank"
+  field SFColor  color   0.66 0.66 0.66
+]
+{
+  Slot {
+    type "truck trailer"
+    endPoint Solid {
+      translation 0 0 1.35
+      children [
+        DEF REAR_LIGHTS LED {
+          children [
+            TruckRearLight {
+            }
+          ]
+          name "rear_lights"
+          color 0.7 0.12 0.12
+        }
+        TruckTankMesh {
+          color IS color
+        }
+        DEF FRONT_RIGHT_WHEEL Transform {
+          translation -1 0 -5.45
+          rotation 0 0 1 1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 -1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        DEF FRONT_LEFT_WHEEL Transform {
+          translation 1 0 -5.45
+          rotation 0 0 1 -1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        DEF CENTER_RIGHT_WHEEL Transform {
+          translation -1 0 -6.55
+          rotation 0 0 1 1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 -1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        DEF CENTER_LEFT_WHEEL Transform {
+          translation 1 0 -6.55
+          rotation 0 0 1 -1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        DEF REAR_RIGHT_WHEEL Transform {
+          translation -1 0 -7.65
+          rotation 0 0 1 1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 -1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+        DEF REAR_LEFT_WHEEL Transform {
+          translation 1 0 -7.65
+          rotation 0 0 1 -1.5708
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                suspensionAxis 1 0 0
+                suspensionSpringConstant 1e+06
+                suspensionDampingConstant 10000
+              }
+              endPoint Slot {
+                type "vehicle wheel"
+                endPoint TruckWheel {
+                  physics Physics {
+                    density -1
+                    mass 100
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+      name IS name
+      model "truck tank"
+      boundingObject Group {
+        children [
+          Transform {
+            translation 0 2.21 -3.1
+            children [
+              Box {
+                size 2.5 3.05 11.15
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.27 -6.33
+            children [
+              Box {
+                size 2.5 0.87 4.5
+              }
+            ]
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 5000
+        centerOfMass [
+          0 0.1 -3.5
+        ]
+      }
+    }
+  }
+}

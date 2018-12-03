@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Block used to build walls of the maze.
+
+PROTO MazeBlock [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "maze block"
+  field SFFloat length 0.1
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BOX Transform {
+        translation 0 0.0325 0
+        children [
+          Shape {
+            appearance RoughPine {
+            }
+            geometry Box {
+              size %{= fields.length.value }% 0.065 0.015
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "maze block"
+    boundingObject USE BOX
+    physics Physics {
+      density 200
+    }
+  }
+}

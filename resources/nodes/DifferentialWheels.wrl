@@ -1,0 +1,51 @@
+# The DifferentialWheels node is used to represent robots with differential two-wheels steering (e.g., e-puck, Khepera, etc.).
+# If you want to build a legged robot or a robot with more than two wheels, you should rather start with a Robot node instead.
+
+DifferentialWheels {
+  # fields that inherit from the Robot node:
+  vrmlField SFVec3f    translation         0 0 0
+  vrmlField SFRotation rotation            0 1 0 0
+  vrmlField SFVec3f    scale               1 1 1
+  vrmlField MFNode     children            []                    # shape and devices fixed to that robot
+  field     SFString   name                "differential wheels" # used by wb_robot_get_device()
+  field     SFString   model               ""                    # model name of the robot (eg: "Khepera")
+  field     SFString   description         ""                    # a short (1 line) of description of the robot
+  field     SFString   customData          ""                    # for storing and getting user data
+  field     SFString   contactMaterial     "default"             # see ContactProperties node
+  field     MFNode     immersionProperties []                    # see ImmersionProperties node
+  field     SFNode     boundingObject      NULL                  # for collision detection
+  field     SFNode     physics             NULL                  # optional Physics node
+  field     SFBool     locked              FALSE                 # to avoid moving objects with the mouse
+  field     SFFloat    translationStep     0.01                  # step size used by translation manipulator
+  field     SFFloat    rotationStep        0.261799387           # step size used by rotation manipulator (PI/12)
+  field     SFFloat    radarCrossSection   0.0                   # radar cross section of this solid
+  field     MFColor    recognitionColors   []                    # colors returned for this Solid by Cameras with a Recognition node
+  field     SFString   controller          "void"                # program controlling the robot
+  field     SFString   controllerArgs      ""                    # arguments passed to the main() function
+  field     SFBool     supervisor          FALSE                 # defines if this robot is a supervisor or not
+  field     SFBool     synchronization     TRUE
+  field     MFFloat    battery             []                    # current (j), max (J), and load speed (W=J/s)
+  field     SFFloat    cpuConsumption      0                     # Watt
+  field     SFBool     selfCollision       FALSE                 # detect inner robot collisions
+  field     SFBool     showWindow          FALSE                 # show the robot window at the startup of the controller
+  field     SFString   window              ""                    # path of the library used to display the robot window
+  field     SFString   remoteControl       ""                    # path of the library used to remote control the real robot
+  #fields specific to the DifferentialWheels node:
+  field     SFFloat    motorConsumption  0                     # Watt per average speed unit
+  field     SFFloat    axleLength        0.1                   # distance between the wheels
+  field     SFFloat    wheelRadius       0.01                  # both wheels should have the same radius
+  field     SFFloat    maxSpeed          10                    # expressed in rad/s
+  field     SFFloat    maxAcceleration   10                    # expressed in rad/s^2
+  field     SFFloat    speedUnit         1                     # to be multiplicated by the command (rad/s)
+  field     SFFloat    slipNoise         0.1                   # a noise of +-10% is added to each move (slip)
+  field     SFFloat    encoderNoise      -1                    # noise added to the encoder (-1: ignored)
+  field     SFFloat    encoderResolution -1                    # number of pulses per wheel rotation radian (expressed in pulse/rad)
+  field     SFFloat    maxForce          0.3                   # max torque used in physics simulation
+
+  # hidden fields
+  hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
+  hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+
+  # deprecated fields
+  deprecatedField SFString data ""
+}

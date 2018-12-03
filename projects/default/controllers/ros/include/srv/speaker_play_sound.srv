@@ -1,0 +1,7 @@
+string sound
+float64 volume
+float64 pitch
+float64 balance
+int8 loop
+---
+int8 success

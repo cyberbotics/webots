@@ -1,0 +1,95 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This behavior-based controller allows the e-puck robot to follow the black line, avoid obstacles and recover its path afterwards."
+    "This model of the e-puck is equipped with ground sensors, located at the front of the e-puck."
+    "Thanks to Jean-Christophe Zufferey (EPFL-LIS)."
+  ]
+  title "E-Puck"
+  lineScale 0.04
+}
+Viewpoint {
+  orientation 0.2737971179330687 0.9518924100101338 0.13760805927213854 5.31154
+  position -0.149567 0.0843526 0.281244
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 0.9 0.9
+  floorTileSize 0.9 0.9
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/floor.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallHeight 0.05
+}
+DEF OBSTACLE1 Solid {
+  translation 0.0871577 0.025 -0.192401
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOX1
+}
+DEF OBSTACLE2 Solid {
+  translation -0.0740804 0.025 -0.0300418
+  rotation 0 1 0 3.82203
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.501961 1
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.08 0.05 0.08
+      }
+    }
+  ]
+  name "pink box"
+  boundingObject USE BOX2
+}
+DEF OBSTACLE3 Solid {
+  translation 0.116597 0.025 0.110302
+  rotation 0 1 0 13.7261
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.501961 0.501961 0.501961
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.2 0.05 0.05
+      }
+    }
+  ]
+  name "gray box"
+  boundingObject USE BOX3
+}
+DEF EPUCK E-puck {
+  translation 0.014831380364903241 -1.249000902703301e-16 0.20001950778748953
+  rotation 0 1 0 1.5
+  controller "e-puck_line_demo"
+  groundSensorsSlot [
+    E-puckGroundSensors {
+    }
+  ]
+}

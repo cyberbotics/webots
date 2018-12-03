@@ -1,0 +1,315 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+  lineScale 2
+}
+Viewpoint {
+  orientation 0.672408 -0.656047 -0.342739 5.12366
+  position 10.2778 13.4622 14.3915
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 0.33 -1 0.2
+  castShadows TRUE
+}
+DEF BOX Solid {
+  children [
+    Shape {
+      geometry DEF BO_BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BO_BOX
+}
+DEF BOX_FALLING_OBJECT Solid {
+  translation -0.45 0.2 0
+  children [
+    Shape {
+      geometry DEF FALLING_SHAPE Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE FALLING_SHAPE
+  physics DEF FALLING_PHYSICS Physics {
+    density -1
+    mass 1
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0 5
+  children [
+    Shape {
+      geometry DEF BO_CYLINDER Cylinder {
+        height 0.1
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BO_CYLINDER
+}
+DEF CYLINDER_FALLING_OBJECT Solid {
+  translation -0.45 0.2 5
+  children [
+    Shape {
+      geometry USE FALLING_SHAPE
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE FALLING_SHAPE
+  physics USE FALLING_PHYSICS
+}
+DEF SPHERE_1 Solid {
+  translation 5.25 0 -0.25
+  children [
+    Shape {
+      geometry DEF BO_SPHERE Sphere {
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE BO_SPHERE
+}
+DEF SPHERE_2 Solid {
+  translation 5.25 0 0.25
+  children [
+    Shape {
+      geometry USE BO_SPHERE
+    }
+  ]
+  name "solid(5)"
+  boundingObject USE BO_SPHERE
+}
+DEF SPHERE_3 Solid {
+  translation 4.75 0 -0.25
+  children [
+    Shape {
+      geometry USE BO_SPHERE
+    }
+  ]
+  name "solid(6)"
+  boundingObject USE BO_SPHERE
+}
+DEF SPHERE_4 Solid {
+  translation 4.75 0 0.25
+  children [
+    Shape {
+      geometry USE BO_SPHERE
+    }
+  ]
+  name "solid(7)"
+  boundingObject USE BO_SPHERE
+}
+DEF SPHERE_FALLING_OBJECT Solid {
+  translation 5 0.3 0
+  children [
+    Shape {
+      geometry USE FALLING_SHAPE
+    }
+  ]
+  name "solid(8)"
+  boundingObject USE FALLING_SHAPE
+  physics USE FALLING_PHYSICS
+}
+DEF CAPUSLE_1 Solid {
+  translation 5.5 0 4.95
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      geometry DEF BO_CAPSULE Capsule {
+        height 0.2
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(9)"
+  boundingObject USE BO_CAPSULE
+}
+DEF CAPUSLE_2 Solid {
+  translation 5.5 0 5.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      geometry USE BO_CAPSULE
+    }
+  ]
+  name "solid(10)"
+  boundingObject USE BO_CAPSULE
+}
+DEF CAPSULE_FALLING_OBJECT Solid {
+  translation 5 0.2 5
+  children [
+    Shape {
+      geometry USE FALLING_SHAPE
+    }
+  ]
+  name "solid(11)"
+  boundingObject USE FALLING_SHAPE
+  physics USE FALLING_PHYSICS
+}
+DEF INDEXED_FACE_SET Solid {
+  translation 0 0 10
+  rotation 0 0 1 3.1415
+  children [
+    Shape {
+      geometry DEF BO_INDEXED_FACE_SET IndexedFaceSet {
+        coord DEF BO_INDEXED_FACE_SET_COORD Coordinate {
+          point [
+            -0.0866 -0.05 -0.0866
+            -0.0866 -0.05 0.0866
+            0.0866 -0.05 0
+            0 0.1 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0.5 1
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1, 2, 0
+          3, -1, 1, 0, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 1, 2, -1, 0, 1
+          2, -1, 0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+  name "solid(12)"
+  boundingObject USE BO_INDEXED_FACE_SET
+}
+DEF INDEXED_FACE_SET_FALLING_OBJECT Solid {
+  translation -0.45 0.2 10
+  children [
+    Shape {
+      geometry USE FALLING_SHAPE
+    }
+  ]
+  name "solid(13)"
+  boundingObject USE FALLING_SHAPE
+  physics USE FALLING_PHYSICS
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation 0.45 0.2 0
+      rotation 0 0 1 -1.5708
+      name "dsBox"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.45 0.2 5
+      rotation 0 0 1 -1.5708
+      name "dsCylinder"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 5.25 0.5 0.25
+      rotation 0 0 1 -1.5708
+      name "dsSphere"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 5.8 0.2 5.05
+      rotation 0 0 1 -1.5708
+      name "dsCapsule"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation -0.2 0.2 10
+      rotation 0 0 1 -1.5708
+      name "dsIndexedFaceSet"
+      lookupTable [
+        0 0 0
+        0.5 1000 0
+      ]
+    }
+    TouchSensor {
+      translation -0.45 -1 0
+      rotation 1 0 0 1.5708
+      children [
+        DEF TS_SHAPE Shape {
+          geometry Box {
+            size 0.5 0.5 0.2
+          }
+        }
+      ]
+      name "tsBox"
+      boundingObject USE TS_SHAPE
+      physics DEF TS_PHYSICS Physics {
+        density -1
+        mass 1
+      }
+    }
+    TouchSensor {
+      translation -0.45 -1 5
+      rotation 1 0 0 1.5708
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsCylinder"
+      boundingObject USE TS_SHAPE
+      physics USE TS_PHYSICS
+    }
+    TouchSensor {
+      translation 5 -1 0
+      rotation 1 0 0 1.5708
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsSphere"
+      boundingObject USE TS_SHAPE
+      physics USE TS_PHYSICS
+    }
+    TouchSensor {
+      translation 5 -1 5
+      rotation 1 0 0 1.5708
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsCapsule"
+      boundingObject USE TS_SHAPE
+      physics USE TS_PHYSICS
+    }
+    TouchSensor {
+      translation -0.45 -1 10
+      rotation 1 0 0 1.5708
+      children [
+        USE TS_SHAPE
+      ]
+      name "tsIndexedFaceSet"
+      boundingObject USE TS_SHAPE
+      physics USE TS_PHYSICS
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "runtime_geom_update"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

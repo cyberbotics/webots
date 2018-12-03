@@ -1,0 +1,38 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.747029 0.646616 0.154387 5.42889
+  position -1.2077 1.6424 1.96945
+}
+Background {
+}
+ParserTestSupervisor {
+}
+DirectionalLight {
+  ambientIntensity 1
+  castShadows TRUE
+}
+DEF ROBOT RobotSlot {
+  hidden translation_0 0.1 0.1 0.23
+  hidden rotation_0 1 0 0 0.47
+  hidden linearVelocity_0 0 1 0
+  slot [
+    Shape {
+      geometry DEF BOX Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "hidden_parameter_single"
+  supervisor TRUE
+}

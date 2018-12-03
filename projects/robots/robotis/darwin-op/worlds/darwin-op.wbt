@@ -1,0 +1,47 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "DARwIn-OP robot."
+    "This world file is similar to visual_tracking.wbt, except that the ROBOTIS OP2 robot was replaced by a DARwIn-OP robot."
+    "The DARwIn-OP robot simulation model can be programmed similarly to the ROBOTIS OP2 model."
+    "When transferring (remote control or remote compilation) to a real robot, please ensure you have the corresponding simulation model."
+    "A DARwIn-OP simulation model won't be able to transfer to a real ROBOTIS OP2 robot and vice versa."
+  ]
+  title "DARwIn-OP"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.16290496645257643 0.9377938068777967 0.3066019368607031 2.21925
+  position 1.02479 1.62057 -0.53216
+  follow "DARwIn-OP"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Table {
+}
+Darwin-op {
+  translation 0 0.976 0
+  rotation 0.05930240739403188 0.9964411242397698 -0.059902507468854456 1.58336
+  controller "visual_tracking"
+  selfCollision TRUE
+  cameraWidth 320
+  cameraHeight 240
+}
+Floor {
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/carpet.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF BALL Ball {
+  translation 0.5 0.773 0
+  color 1 0 0
+}

@@ -1,0 +1,9 @@
+/*.so.*
+/*.lib
+/java
+/python27
+/python34
+/python35
+/python36
+/python37
+/qt

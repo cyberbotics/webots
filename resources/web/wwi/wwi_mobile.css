@@ -1,0 +1,32 @@
+.mobile-no-default-buttons .ui-dialog-titlebar-buttonpane {
+  display: none;
+}
+
+.mobile-no-default-buttons .ui-dialog-buttonpane {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  background: none !important;
+}
+
+.ui-resizable-se {
+  width: 30px !important;
+  height: 30px !important;
+  background-position: -76px -220px !important;
+  position: absolute !important;
+  right: -4px !important;
+  bottom: -4px !important;
+}
+
+.mobile-dialog-close-button {
+  position: absolute;
+  bottom: -12px;
+  left: -14px;
+  width: 20px;
+  height:24px;
+}
+
+button.mobile-dialog-close-button span {
+  right: 8px;
+  top: -4px;
+}

@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+
+PROTO RoCKInAX06 [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "RoCKIn AX06"
+  field SFColor    color       0.9 0.5 0.1
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF AX06_SHAPE Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+          metalness 0
+          roughness 0.4
+        }
+        geometry Box {
+          size 0.1 0.01 0.1
+        }
+      }
+    ]
+    name IS name
+    model "RoCKIn AX06"
+    boundingObject USE AX06_SHAPE
+    physics Physics {
+    }
+  }
+}

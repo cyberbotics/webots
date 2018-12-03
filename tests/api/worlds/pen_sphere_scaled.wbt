@@ -1,0 +1,104 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.66067 0.740734 0.121773 0.181824
+  position 0.0708881 0.206517 0.642218
+}
+Background {
+  skyColor [
+    0.784314 0.784314 0.784314
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF BOARD Solid {
+  translation -0.05 0.061 -0.15
+  rotation 0.56888 0.822421 0 0.7854
+  scale 1.33 1.33 1.33
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.077
+        subdivision 5
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0.17067 0.7389 -0.6
+      }
+      device [
+        LinearMotor {
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0 0.09 0
+        rotation 0.341533 0.844288 0.412955 3.27249
+        children [
+          Transform {
+            translation 0 0.03 0
+            children [
+              Shape {
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.031 0
+            children [
+              DEF BODY Shape {
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.980392 0.541176 0.0392157
+        inkDensity 1
+        leadSize 0.003
+      }
+    }
+    Camera {
+      translation -0.02 0.08 0.09
+      rotation 1 0 0 0
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.01
+            radius 0.01
+          }
+        }
+      ]
+      fieldOfView 0.56
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_sphere_scaled"
+}
+TestSuiteSupervisor {
+}

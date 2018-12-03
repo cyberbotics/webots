@@ -1,0 +1,32 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.38576643 0.88424537 0.26323826 4.8294469
+  position -39.210855 31.412887 12.053205
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+Floor {
+  size 250 250
+}
+Robot {
+  translation 0 1 0
+  children [
+    RangeFinder {
+      translation 0 0.6 0
+      fieldOfView 6.28
+      width 1000
+      height 80
+      spherical TRUE
+      minRange 4
+      maxRange 10
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "range_finder_horizontal_spherical_projection"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,212 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.24852896702592445 -0.9044928799946061 -0.3465919540152224 2.16502
+  position -0.894428 1.0418 -0.559745
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1 1
+}
+DEF WALL_1 Solid {
+  translation 0.5 0.05 0
+  children [
+    DEF WALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.12549 0.368627 0.729412
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.1 0.98
+      }
+    }
+  ]
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_2 Solid {
+  translation -0.5 0.05 0
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(1)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_3 Solid {
+  translation 0 0.05 -0.5
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(2)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_4 Solid {
+  translation 0 0.05 0.5
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(3)"
+  boundingObject USE WALL_SHAPE
+}
+Robot {
+  translation 0 0.05 0
+  rotation 0 -1 0 2.78858
+  children [
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.917647 0.145098 0.145098
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.05 0.2
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 0.05
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.305882 0.898039 0.25098
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.02
+                  radius 0.04
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.06 0 0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06 0 0.05
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 -0.05
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(2)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.06 0 -0.05
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06 0 -0.05
+        rotation 1 0 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(3)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF DS_RIGHT DistanceSensor {
+      translation -0.03 0 0.1
+      rotation 0 1 0 -1.87079
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right"
+    }
+    DEF DS_LEFT DistanceSensor {
+      translation 0.03 0 0.1
+      rotation 0 1 0 -1.27079
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.184314 0.596078 0.847059
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left"
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "4_wheels_collision_avoidance"
+}

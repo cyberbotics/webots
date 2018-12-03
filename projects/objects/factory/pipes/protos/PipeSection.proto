@@ -1,0 +1,39 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A section of pipe.
+
+PROTO PipeSection [
+  field SFVec3f    translation 0 0.03 0
+  field SFRotation rotation    0 0 1 1.5708
+  field SFString   name        "pipe section"
+  field SFFloat    height      0.5             # Defines the height of the pipe.
+  field SFFloat    radius      0.03            # Defines the radius of the pipe.
+  field SFInt32    subdivision 24              # Defines the number of polygons used to represent the pipe cylinder and so its resolution.
+  field SFVec2f    materialScale 1 1.5         # Defines the scale of the pipe appearance.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance MetalPipePaint {
+          textureTransform TextureTransform {
+            scale IS materialScale
+          }
+        }
+        geometry DEF PIPE Cylinder {
+          bottom FALSE
+          height IS height
+          radius IS radius
+          top FALSE
+          subdivision IS subdivision
+        }
+      }
+    ]
+    name IS name
+    model "pipe section"
+    boundingObject USE PIPE
+  }
+}

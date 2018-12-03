@@ -1,0 +1,106 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Simple and configurable wooden pallet stack.
+
+PROTO WoodenPalletStack [
+  field SFVec3f    translation              0 0 0
+  field SFRotation rotation                 0 1 0 0
+  field SFString   name                     "wooden pallet stack"
+  field SFInt32    palletNumber             8                      # Defines the number of pallet in the stack (vertically).
+  field SFVec3f    palletSize               0.8 0.14 1.2           # Defines the size of one pallet.
+  field SFInt32    palletLathNumber         6                      # Defines the number of lath of each pallet.s
+  field SFFloat    palletLathWidth          0.08                   # Defines the width of the pallet laths.
+  field SFFloat    lateralMisalignment      0.1                    # Defines the maximum lateral misalignment between two pallets.
+  field SFFloat    longitudinalMisalignment 0.05                   # Defines the maximum longitudinal misalignment between two pallets.
+  field SFFloat    palletMass               0                      # Defines the mass of one pallet in kg. A value smaller or equal to 0 remove the physics of the stack.
+  field SFBool     boundingObject           TRUE                   # Defines whether the bounding object should be enabled.
+  field SFBool     locked                   FALSE                  # Is `Solid.locked`.
+]
+{
+%{
+  local wbrandom = require('wbrandom')
+  wbrandom.seed(context.id)
+  local palletSize = fields.palletSize.value
+  if palletSize.x <= 0 or palletSize.y <= 0 or palletSize.z <= 0 then
+    palletSize = fields.palletSize.defaultValue
+    io.stderr:write("'palletSize' must be strictly positive\n")
+  end
+
+  local palletNumber = fields.palletNumber.value
+  if palletNumber < 0 then
+    palletNumber = fields.palletNumber.defaultValue
+    io.stderr:write("'palletNumber' must be positive\n")
+  end
+
+  local lateralMisalignment = fields.lateralMisalignment.value
+  if lateralMisalignment < 0 then
+    lateralMisalignment = 0
+    io.stderr:write("'lateralMisalignment' must be positive\n")
+  elseif lateralMisalignment > palletSize.x / 2 then
+    lateralMisalignment = palletSize.x / 2
+    io.stderr:write("'lateralMisalignment' must be smaller than half of first component of 'size'\n")
+  end
+
+  local longitudinalMisalignment = fields.longitudinalMisalignment.value
+  if longitudinalMisalignment < 0 then
+    longitudinalMisalignment = 0
+    io.stderr:write("'longitudinalMisalignment' must be positive\n")
+  elseif longitudinalMisalignment > palletSize.z / 2 then
+    longitudinalMisalignment = palletSize.z / 2
+    io.stderr:write("'longitudinalMisalignment' must be smaller than half of third component of 'size'\n")
+  end
+
+  local maxLateralMisalignment = 0
+  local maxLongitudinalMisalignment = 0
+
+  local palletMass = fields.palletMass.value
+}%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    %{ for i=0,palletNumber - 1 do }%
+      WoodenPallet {
+        %{
+          local xOffset = lateralMisalignment * wbrandom.real(-0.5, 0.5)
+          local yOffset = longitudinalMisalignment * wbrandom.real(-0.5, 0.5)
+          if math.abs(xOffset) > maxLateralMisalignment then
+            maxLateralMisalignment = xOffset
+          end
+          if math.abs(yOffset) > maxLongitudinalMisalignment then
+            maxLongitudinalMisalignment = xOffset
+          end
+        }%
+        translation %{= xOffset }% %{= i * palletSize.y }% %{= yOffset }%
+        name %{= "\"wooden pallet".. i .. "\""}%
+        size %{= palletSize.x }% %{= palletSize.y }% %{= palletSize.z }%
+        lathNumber IS palletLathNumber
+        lathWidth IS palletLathWidth
+        mass 0
+        boundingObject FALSE
+      }
+    %{ end }%
+  ]
+  name IS name
+  model "wooden pallet stack"
+  %{ if fields.boundingObject.value then }%
+  boundingObject Transform {
+    translation 0 %{= palletSize.y * palletNumber / 2 }% 0
+    children
+    [
+      Box {
+        size %{= palletSize.x + maxLateralMisalignment }% %{= palletSize.y * palletNumber }% %{= palletSize.z + maxLongitudinalMisalignment }%
+      }
+    ]
+  }
+  %{ end }%
+  %{ if palletMass > 0 then }%
+  physics Physics {
+    density -1
+    mass %{= palletMass * palletNumber }%
+  }
+  %{ end }%
+  locked IS locked
+}
+}

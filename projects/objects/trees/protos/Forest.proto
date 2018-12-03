@@ -1,0 +1,281 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Efficient and customizable forest.
+# Tree types are:
+#  - 'oak tree'
+#  - 'crab apple tree'
+#  - 'cherry tree'
+#  - 'birch tree'
+#  - 'palm tree'
+#  - 'spruce'
+#  - 'white pine'
+#  - 'hackberry tree'
+#  - 'hazel tree'
+#
+# The 'random' type choose randomly a tree type each time the node is regenerated.
+# The shape of the forest can either be defined using the 'shape' and 'density' fields or the coordinate of each tree can be defined in external files ( X,Y,Z per tree, one tree per line).
+# The path to those files can either be absolute, relative to the proto, relative to the world or relative to the project.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO Forest [
+  field SFVec3f    translation          0 0 0
+  field SFRotation rotation             0 1 0 0
+  field MFString   treesFiles           []                        # Can be used to define the paths to several files in which are defined the positions of the trees (one tree per line, using the format 'X Y Z').
+  field MFVec2f    shape                [-20 -10, 20 -10, 0 25]   # Alternatively, the position of each trees can be defined using the shape field. This field defines the shape of the forest, in that case the position of the trees is randomly generated from this shape.
+  field SFFloat    density              0.2                       # If the forest is defined using the `shape` field, this field defines the density of three to be generated (in trees per meter square).
+  field SFString{"random", "oak tree", "crab apple tree", "cherry tree", "birch tree", "palm tree", "spruce", "white pine", "hackberry tree", "hazel tree"}
+                   type                 "random"                  # Defines the type of threes, in case of `random` type, the forest will be mixed.
+  field SFInt32    randomSeed           0                         # Defines the seed of the random number generator. A value of 0 sets the seed to the node id and a value smaller than 0 sets a time based random seed.
+  field MFString   groundTexture        ["textures/dry_leaf.jpg"] # Defines the texture of the forest ground. If this field is empty the forest ground is not displayed.
+  field SFBool     withSnow             FALSE                     # Defines whether the texture used should have snow on top.
+  field SFFloat    maxHeight            6                         # Defines the maximum height of the trees.
+  field SFFloat    minHeight            2                         # Defines the minimum height of the trees.
+  field SFFloat    maxRadius            3                         # Defines the maximum radius of the trees.
+  field SFFloat    minRadius            1                         # Defines the minimum radius of the trees.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local wbmath = require('wbmath')
+    local wbfile = require('wbfile')
+    local wbstring = require('wbstring')
+    local wbgeometry = require('wbgeometry')
+    local os = require('os')
+    local wbrandom = require('wbrandom')
+    if fields.randomSeed.value == 0 then
+      wbrandom.seed(context.id)
+    elseif fields.randomSeed.value < 0 then
+      wbrandom.seed(os.clock() + os.time())
+    else
+      wbrandom.seed(fields.randomSeed.value)
+    end
+
+    local treeType = {
+      ["birch tree"] = 8,
+      ["cherry tree"] = 7,
+      ["crab apple tree"] = 6,
+      ["hackberry tree"] = 5,
+      ["hazel tree"] = 4,
+      ["oak tree"] = 3,
+      ["palm tree"] = 2,
+      ["spruce"] = 1,
+      ["white pine"] = 0 }
+
+    local keys = {}
+    local i = 1
+    for k,_ in pairs(treeType) do
+      keys[i] = k
+      i= i+1
+    end
+    table.sort(keys) -- since the order of 'pairs' is not deterministic we order the table alphabetically
+    local treeTypeNumber = wbcore.tablelength(keys)
+    local type = fields.type.value
+
+    -- fields checks
+    local shape = fields.shape.value
+    local groundTexture = fields.groundTexture.value
+    local nbShapePoint = wbcore.tablelength(shape)
+    local maxHeight = fields.maxHeight.value
+    local minHeight = fields.minHeight.value
+    local maxRadius = fields.maxRadius.value
+    local minRadius = fields.minRadius.value
+
+    local density = fields.density.value
+    if density < 0 then
+      density = fields.density.defaultValue
+      io.stderr:write("'density' must be positive\n")
+    end
+
+    local treesFiles = fields.treesFiles.value
+    local treesFilesNumber = wbcore.tablelength(treesFiles)
+
+    trees = {}
+    -- generate the trees table using the treesFiles if set and the shape otherwise
+    if treesFilesNumber > 0 then
+      for i = 1, treesFilesNumber do
+        -- check for absolute path
+        fp = io.open(treesFiles[i], "r")
+        -- check for path relative to the project directory
+        if fp == nil then
+          fp = io.open(context.project_path .. treesFiles[i], "r")
+        end
+        -- check for path relative to the world
+        if fp == nil then
+          fp = io.open(wbfile.getpathwithoutfilename(context.world) .. "/" .. treesFiles[i], "r")
+        end
+        -- check for path relative to the proto
+        if fp == nil then
+          fp = io.open(wbfile.getpathwithoutfilename(context.proto) .. "/" .. treesFiles[i], "r")
+        end
+
+        if fp == nil then
+          io.stderr:write("Could not found file '" .. treesFiles[i] .. "'\n")
+        else
+          for line in fp:lines() do
+            local coordinates = wbstring.split(line, ",")
+            local x = coordinates[1]
+            local y = coordinates[2]
+            local z = coordinates[3]
+            local sizeFactor = wbrandom.real()
+            if x ~= nil and y ~= nil and z ~= nil then
+              tree = {x=x, y=y, z=z, angle=wbrandom.real(2 * math.pi), height=maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius=maxRadius * sizeFactor + minRadius * (1 - sizeFactor) }
+              table.insert(trees, tree)
+            end
+          end
+        end
+      end
+    else
+      -- compute the maximum tree number
+      local xMin = shape[1].x
+      local xMax = shape[1].x
+      local yMin = shape[1].y
+      local yMax = shape[1].y
+
+      for i = 1, nbShapePoint do
+        if xMax < shape[i].x then
+          xMax = shape[i].x
+        end
+        if xMin > shape[i].x then
+          xMin = shape[i].x
+        end
+        if yMax < shape[i].y then
+          yMax = shape[i].y
+        end
+        if yMin > shape[i].y then
+          yMin = shape[i].y
+        end
+      end
+      numberOfTree = wbmath.round((xMax - xMin) * (yMax - yMin) * density)  -- we assume a density of 0.01 tree per meter square
+
+      -- generate the list of threes
+      for i = 1, numberOfTree do
+        local x = wbrandom.real(xMin, xMax)
+        local z = wbrandom.real(yMin, yMax)
+        local sizeFactor = wbrandom.real()
+        if wbgeometry.ispointinpolygon(x, z, shape) then
+          tree = {x=x, y=0, z=z, angle=wbrandom.real(2 * math.pi), height=maxHeight * sizeFactor + minHeight * (1 - sizeFactor), radius=maxRadius * sizeFactor + minRadius * (1 - sizeFactor) }
+          table.insert(trees, tree)
+        end
+      end
+    end
+    local numberOfTree = wbcore.tablelength(trees)
+
+    -- define the type for each tree in the table
+    local types = {}
+    if type == "random" then
+      for i = 0, numberOfTree - 1 do
+        j = wbrandom.integer(wbcore.tablelength(keys))
+        types[i] = keys[j]
+      end
+    else
+      for i = 0, numberOfTree - 1 do
+        types[i] = type
+      end
+    end
+
+  }%
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            %{ if fields.withSnow.value then }%
+              url [ "textures/trees_with_snow.png" ]
+            %{ else }%
+              url [ "textures/trees.png" ]
+            %{ end }%
+            repeatS FALSE
+            repeatT FALSE
+          }
+          metalness 0
+          roughness 1
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{ for _, v in ipairs(trees) do }%
+                %{ local circle = wbgeometry.circle(v["radius"], 4, v["x"], v["z"], v["angle"]) }%
+                %{ for i = 0, 3 do }%
+                  %{= circle[i+1].x }% %{= v["y"] }% %{= circle[i+1].y }%
+                %{ end }%
+                # top cylinder
+                %{ for i = 0, 3 do }%
+                  %{= circle[i+1].x }% %{= v["height"] + v["y"] }% %{= circle[i+1].y }%
+                %{ end }%
+              %{ end }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              %{ for i = 0, treeTypeNumber do }%
+                0 %{= i / treeTypeNumber }%
+                1 %{= i / treeTypeNumber }%
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            # each tree (4faces by tree)
+            %{ for i = 0, numberOfTree - 1 do }%
+              %{= 4 + i * 8 }% %{= 0 + i * 8 }% %{= 2 + i * 8 }% %{= 6 + i * 8 }% -1
+              %{= 4 + i * 8 }% %{= 6 + i * 8 }% %{= 2 + i * 8 }% %{= 0 + i * 8 }% -1
+              %{= 5 + i * 8 }% %{= 1 + i * 8 }% %{= 3 + i * 8 }% %{= 7 + i * 8 }% -1
+              %{= 5 + i * 8 }% %{= 7 + i * 8 }% %{= 3 + i * 8 }% %{= 1 + i * 8 }% -1
+            %{ end }%
+          ]
+          texCoordIndex [
+            %{ for i = 0, numberOfTree - 1 do }%
+              %{ local CurrentIndex = treeType[types[i]] }%
+              %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
+              %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
+              %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% %{= 2 * (CurrentIndex + 1) + 1 }% -1
+              %{= 2 * (CurrentIndex + 1) + 1}% %{= 2 * (CurrentIndex + 1) }% %{= 2 * CurrentIndex }% %{= 2 * CurrentIndex + 1}% -1
+            %{ end }%
+          ]
+        }
+      }
+      %{ if wbcore.tablelength(groundTexture) > 0 and nbShapePoint > 2 then }%
+        DEF GROUND Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+                url IS groundTexture
+            }
+            metalness 0
+            roughness 1
+          }
+          geometry IndexedFaceSet {
+              coord Coordinate {
+                point [
+                  %{ for i, el in ipairs(shape) do }%
+                    %{= el.x }% %{= 0 }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ for i, el in ipairs(shape) do }%
+                    %{= el.x - shape[1].x }% %{= el.y - shape[1].y }%
+                  %{ end }%
+                ]
+              }
+              coordIndex [
+                %{ for i = 0, nbShapePoint - 1 do }%
+                  %{= (nbShapePoint - i) - 1 }%
+                %{ end }%
+                -1
+              ]
+              texCoordIndex [
+                %{ for i = 0, nbShapePoint - 1 do }%
+                  %{= (nbShapePoint - i) - 1 }%
+                %{ end }%
+                -1
+              ]
+          }
+        }
+      %{ end }%
+    ]
+  }
+}

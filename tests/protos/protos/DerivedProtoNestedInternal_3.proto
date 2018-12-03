@@ -1,0 +1,15 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedProtoNestedInternal_3 [
+  field MFNode sensorsSlot []
+]
+{
+  SlotContainer {
+    slot [
+      Transform {
+        translation -0.5 -0.5 -0.5
+        children IS sensorsSlot
+      }
+    ]
+  }
+}

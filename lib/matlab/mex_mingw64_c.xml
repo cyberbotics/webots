@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  MEX XML configuration for MinGW
+  by Jonathan Chappelow (chappjc)
+  http://stackoverflow.com/a/28490382/2778484
+  https://github.com/chappjc/MATLAB/tree/master/MinGW
+-->
+<config
+    Name="MinGW-w64 GCC 5.3.0"
+    ShortName="MINGW64"
+    Manufacturer="GNU"
+    Version="5.3.0"
+    Language="C"
+    Priority="B"
+    Location="$MINGWROOT\" >
+    <Details
+        CompilerExecutable="$COMPILER"
+        CompilerDefines="$COMPDEFINES"
+        CompilerFlags="$COMPFLAGS"
+        OptimizationFlags="$OPTIMFLAGS"
+        DebugFlags="$DEBUGFLAGS"
+        IncludeFlags="$INCLUDE"
+        LinkerExecutable="$LINKER"
+        LinkerFlags="$LINKFLAGS"
+        LinkerLibraries="$LINKLIBS"
+        LinkerDebugFlags="$LINKDEBUGFLAGS"
+        LinkerOptimizationFlags="$LINKOPTIMFLAGS"
+		    CommandLineShellArg=""
+        CompilerDefineFormatter="-D%s"
+        LinkerLibrarySwitchFormatter="lib%s.lib;%s.lib"
+        LinkerPathFormatter="-L%s"
+		    LibrarySearchPath="$$LIB;$$LIBPATH;$$PATH;$$INCLUDE;$MATLABROOT\extern\lib\$ARCH\microsoft"
+    />
+    <vars
+        CMDLINE100="$COMPILER -c $COMPFLAGS $OPTIM $COMPDEFINES $INCLUDE $SRC -o$OBJ"
+        CMDLINE200="$LINKER $LINKFLAGS $LINKTYPE $LINKOPTIM $LINKEXPORT $OBJS $LINKLIBS -o$EXE"
+        CMDLINE250=""
+        CMDLINE300="del $OBJ"
+        
+        COMPILER="gcc"
+        COMPFLAGS="-m64 -mwin32 -Wall -Wno-sign-compare "
+        COMPDEFINES=" $MATLABMEX"
+        MATLABMEX=" -DMATLAB_MEX_FILE"
+        OPTIMFLAGS="-DNDEBUG -O3"
+        INCLUDE="-I&quot;$MATLABROOT\extern\include&quot; -I&quot;$MATLABROOT\simulink\include&quot;"
+        DEBUGFLAGS="-g"
+        
+        LINKER="gcc"
+        LINKFLAGS=" "
+        LINKTYPE="-shared "
+        LINKEXPORT="-Wl,--export-all-symbols "
+        LINKLIBS="-L&quot;$MATLABROOT\extern\lib\$ARCH\microsoft&quot; -L&quot;$MATLABROOT\bin\win64&quot; -lmex -lmx -leng -lmat -lmwlapack -lmwblas "
+        LINKDEBUGFLAGS="-g"
+        LINKOPTIMFLAGS="-O3"
+
+        OBJEXT=".obj"
+        LDEXT=".mexw64"
+  		  SETENV="set COMPILER=$COMPILER 
+    				set COMPFLAGS=-c $COMPFLAGS $COMPDEFINES $MATLABMEX 
+    				set OPTIMFLAGS=$OPTIMFLAGS 
+    				set DEBUGFLAGS=$DEBUGFLAGS 
+    				set LINKER=$LINKER 
+    				set LINKFLAGS=$LINKFLAGS $LINKTYPE $LINKLIBS $LINKEXPORT 
+    				set LINKDEBUGFLAGS=-g 
+    				set NAME_OUTPUT=-o &quot;%OUTDIR%%MEX_NAME%%MEX_EXT%&quot;"
+    />
+    <client/>
+	  <locationFinder>
+		    <MINGWROOT>
+			       <envVarExists name="MINGWROOT" />
+		    </MINGWROOT>
+		</locationFinder>
+    <env
+        PATH="$MINGWROOT\bin"
+        INCLUDE=""
+        LIB="$MATLABROOT\lib\$ARCH"
+        LIBPATH=""
+    />
+</config>

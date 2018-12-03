@@ -1,0 +1,58 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmarks aims at developing a computer program that controls a wheeled robot to keep a pendulum in equilibrium as long as possible.
+      The programming language is Python and the robot model is an e-puck robot.
+      During the simulation some random perturbation force is applied to the pendulum.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>F</em> = <span id='force-display'>0.00</span></div>
+    <br>
+    <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
+    <br>
+    <p>The benchmark metric <em>t</em> is the elapsed time since the start of the simulation, the highest value being the best.
+      The time measurement will stop as soon as the pendulum falls down.
+      The <em>F</em> value displays the last amount of perturbation force in newtons that was applied to the pendulum.
+      This force value will linearly increase with time.
+    </p>
+  </div>
+  <div id='infotab-instructions'>
+    <h2>How to improve the stability of the pendulum?</h2>
+    <p>The sample Python program controlling the e-puck robot, uses a
+    <a target='_blank' href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a>
+    to set the speed of the wheels:</p>
+    <pre style='background:#FEE'>
+  # PID control
+  integral = integral + (position + previous_position) * 0.5 / timestep
+  derivative = (position - previous_position) / timestep
+  speed = KP * position + KI * integral + KD * derivative</pre>
+    <p>The values of the PID coefficients <em>KP</em>, <em>KI</em>, and <em>KD</em> can be tuned to improve the pendulum stability and achieve a better result.</p>
+    <p>Alternatively, it is also possible to improve the result by using more complex algorithm for example based on the derived equations of the motion of the inverted pendulum.</p>
+    <p>Configuration of the system:</p>
+    <ul>
+     <li>mass of the pendulum:
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>m</mi><mo>=</mo><mn>50</mn><mo>&#xA0;</mo><mi>g</mi>
+      </math>
+     </li>
+     <li>length of the pendulum:
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>l</mi><mo>=</mo><mn>0.08</mn><mo>&#xA0;</mo><mi>m</mi>
+      </math>
+     </li>
+     <li>mass of the e-puck robot:
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>M</mi><mo>=</mo><mn>160</mn><mo>&#xA0;</mo><mi>g</mi>
+      </math>
+     </li>
+    </ul>
+    <div style='text-align:center'>
+     <img width='220' align='middle' src='inverted_pendulum_system.png'>
+    </div>
+  </div>
+</div>

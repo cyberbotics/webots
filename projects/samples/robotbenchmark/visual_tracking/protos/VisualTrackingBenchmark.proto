@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Supervisor node managing the visual tracking benchmark.
+
+PROTO VisualTrackingBenchmark [
+  field SFString window "visual_tracking"
+  field SFString controllerArgs "hit-error=0.1"
+]
+{
+Robot {
+  controller "visual_tracking_benchmark"
+  controllerArgs IS controllerArgs
+  supervisor TRUE
+  window IS window
+}
+}

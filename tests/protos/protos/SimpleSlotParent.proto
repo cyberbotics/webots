@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO SimpleSlotParent [
+  field SFNode endPoint NULL
+]
+{
+  Robot {
+    children [
+      Slot {
+        endPoint IS endPoint
+      }
+    ]
+  }
+}

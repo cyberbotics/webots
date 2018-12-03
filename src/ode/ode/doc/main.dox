@@ -1,0 +1,22 @@
+/**
+@mainpage Open Dynamics Engine API Reference
+ 
+<center><em>This document is &copy; Russell Smith and the ODE Project</em></center>
+
+The Open Dynamics Engine (ODE) is a free, industrial quality library for 
+simulating articulated rigid body dynamics. ODE is being developed by 
+<a href="http://www.q12.org/">Russell Smith</a> with help from several 
+<a href="http://ode.org/community.html">contributors</a>.
+
+This document describes the library API. For a more general introduction 
+to ODE, please see the <a href="http://opende.sourceforge.net/wiki/index.php/Manual">
+Online Handbook</a>.
+
+<h2>Important: this document is not yet complete!</h2>
+
+We are still working on getting the full API documentated. In the meantime,
+please refer to the <a href="http://opende.sourceforge.net/wiki/index.php/Manual">
+Online Handbook</a>
+ 
+*/
+ 

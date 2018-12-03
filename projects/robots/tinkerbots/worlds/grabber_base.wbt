@@ -1,0 +1,154 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.1105092011553471 0.9520813815669851 0.28518197582159355 3.8272062323666414
+  position -0.3386315347698087 0.4468751437193188 -0.509387912557796
+  near 0.001
+  exposure 2
+  follow "Tinkerbots"
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+TinkerbotsBase {
+  translation 0 0.12 0
+  name "grabber_base"
+  controller "grabber_base"
+  downSlot TinkerbotsDistanceSensor {
+    upSlot TinkerbotsPivot {
+      rotation 0 0 1 3.1415
+      name "pivot A"
+      slot TinkerbotsPivot {
+        name "pivot B"
+        slot TinkerbotsGrabber {
+          rotation 0 0 1 3.1415
+          fingerASlot TinkerbotsFinger {
+          }
+          fingerBSlot TinkerbotsFinger {
+          }
+          fingerCSlot TinkerbotsFinger {
+          }
+        }
+      }
+    }
+    leftASlot TinkerbotsBrickAdapter {
+      name "adapter A"
+    }
+    rightASlot TinkerbotsBrickAdapter {
+      name "adapter B"
+    }
+    backSlot TinkerbotsTwister {
+      slot TinkerbotsCube {
+        leftASlot TinkerbotsCubieFemaleCube {
+          name "left cube"
+        }
+        leftDSlot TinkerbotsCubieTriangle {
+          rotation 0 0 1 3.1415
+          name "left triangle"
+        }
+        rightASlot TinkerbotsCubieTriangle {
+          rotation 0 0 1 1.5708
+          name "right triangle"
+        }
+        rightDSlot TinkerbotsCubieFemaleCube {
+          rotation 0 0 1 1.5708
+          name "right cube"
+        }
+        frontDSlot TinkerbotsCubieBoxWithCrossSlots {
+          name "front box"
+          frontSlot TinkerbotsCubieFemaleCube {
+            rotation 0 0 1 1.5708
+            name "cubie A"
+            backSlot TinkerbotsAxle {
+              endSlot TinkerbotsWheel {
+              }
+            }
+          }
+          backSlot TinkerbotsCubieFemaleCube {
+            rotation 0 0 1 1.5708
+            name "cubie B"
+            backSlot TinkerbotsAxle {
+              endSlot TinkerbotsWheel {
+              }
+            }
+          }
+        }
+        backDSlot TinkerbotsCubieBoxWithCrossSlots {
+          name "back box"
+          leftSlot TinkerbotsAxle {
+            endSlot TinkerbotsWheel {
+            }
+          }
+        }
+      }
+    }
+  }
+}
+DEF OBJECT Solid {
+  translation 0 0.12 -0.21
+  children [
+    Slot {
+      endPoint TinkerbotsCubieFemaleCube {
+      }
+    }
+  ]
+  name "object"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 0.0025
+        children [
+          Box {
+            size 0.005 0.005 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.015
+        children [
+          Box {
+            size 0.021 0.021 0.021
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+  }
+}

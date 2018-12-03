@@ -1,0 +1,34 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.7470290283624516 0.646616024550071 0.15438700586161153 5.42889
+  position -1.2077 1.6424 1.96945
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+ParserTestSupervisor {
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+DEF A Solid {
+  translation 0 0 0.4000000000000002
+  children [
+    DEF A Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF B Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+}
+USE A

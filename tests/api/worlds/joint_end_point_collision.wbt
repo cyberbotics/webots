@@ -1,0 +1,96 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test Webots ray collision with joint end point solid"
+  ]
+}
+Viewpoint {
+  orientation 0.012723201 0.99176608 0.12742901 3.26165
+  position -0.137518 0.398085 -1.35156
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF OBSTACLE Robot {
+  children [
+    DEF BLOCK Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+          emissiveColor 1 0 0
+        }
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 1 0 0
+      }
+      device [
+        LinearMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 0
+        children [
+          USE BLOCK
+        ]
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "obstacle"
+  controller "joint_end_point_collision"
+  controllerArgs "joint_end_point_collision_obstacle"
+}
+DEF SENSOR Robot {
+  translation 0 0.06 0
+  rotation 0 0 1 -1.5708
+  children [
+    DEF IR1 DistanceSensor {
+      children [
+        DEF IR_SHAPE Shape {
+          appearance Appearance {
+            material Material {
+              emissiveColor 0.8 0.8 0.8
+            }
+          }
+          geometry Sphere {
+            radius 0.005
+          }
+        }
+      ]
+      name "ir1"
+      type "infra-red"
+    }
+    DEF IR2 DistanceSensor {
+      translation 0 0.06 0
+      children [
+        USE IR_SHAPE
+      ]
+      name "ir2"
+      type "infra-red"
+    }
+    DEF IR3 DistanceSensor {
+      translation 0 0.16 0
+      children [
+        USE IR_SHAPE
+      ]
+      name "ir3"
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "sensors"
+  controller "joint_end_point_collision"
+  controllerArgs "joint_end_point_collision_sensor"
+}
+TestSuiteSupervisor {
+}

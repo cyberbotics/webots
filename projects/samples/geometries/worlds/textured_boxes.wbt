@@ -1,0 +1,98 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  fieldOfView 0.6
+  orientation 0.2703180051796985 -0.9569520183366363 -0.10569300202523647 5.50743
+  position 3.62892 1.19028 3.43562
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF COMPACT Solid {
+  translation -1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/compact_mapping.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry TexturedBox {
+        size 0.2 0.2 0.2
+        mapping "compact"
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF CUBE Solid {
+  translation -0.5 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/cube_mapping.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry TexturedBox {
+        size 0.2 0.2 0.2
+        mapping "cube"
+      }
+    }
+  ]
+  name "solid(2)"
+}
+DEF FLAT Solid {
+  children [
+    Shape {
+      appearance DEF APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry TexturedBox {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "solid(3)"
+}
+DEF METRIC Solid {
+  translation 0.5 0 0
+  children [
+    Shape {
+      appearance USE APP
+      geometry TexturedBox {
+        size 0.4 0.2 0.1
+        mapping "metric"
+      }
+    }
+  ]
+  name "solid(4)"
+}
+DEF DEFAULT Solid {
+  translation 1 0 0
+  children [
+    Shape {
+      appearance USE APP
+      geometry TexturedBox {
+        size 0.2 0.2 0.2
+        mapping "default"
+      }
+    }
+  ]
+}

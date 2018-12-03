@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The Pioneer Robot has to follow the wall."
+  ]
+  title "Wall Following"
+  window "wall_following"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.10407812983052953 -0.9652828784282292 -0.2395760996098981 2.4222972
+  position -1.3599332 1.6838158 -1.8978714
+  follow "Pioneer 3-DX"
+}
+TexturedBackgroundLight {
+}
+TexturedBackground {
+}
+DEF PIONEER WallFollowingPioneer3dx {
+  translation 0 0.0943896 0
+  rotation 0 1 0 4.7123889
+  controller "wall_following"
+}
+RectangleArena {
+  translation 3 0 16
+  floorSize 16 36
+  wallHeight 0.5
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/wall.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF WALL LinkedWalls {
+  translation 5 0.25 0
+  appearance PBRAppearance {
+    baseColor 0.8 0.8 0.8
+    roughness 0.5
+    metalness 0
+    textureTransform TextureTransform {
+      scale 2 1
+    }
+  }
+}

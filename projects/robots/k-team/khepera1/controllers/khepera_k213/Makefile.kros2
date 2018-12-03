@@ -1,0 +1,60 @@
+##############################################################################
+# Makefile for cross-compiling Webots controllers to the Khepera II robot.   #
+#                                                                            #
+# usage: make -f Makefile.kros2                                              #
+#                                                                            #
+# Adapted from the original Makefile of K-Team S.A.                          #
+#                                                                            #
+##############################################################################
+
+ifeq ($(WEBOTS_HOME),) # not defined
+#assuming we are compiling controller in the installation directory
+WEBOTS_HOME=../../../../..
+endif
+
+KROS_INSTALL_DIR = $(WEBOTS_HOME)/transfer/kros/
+
+# DO NOT forget the / at the end.
+ifeq ($(TERM),cygwin)
+prefix = $(KROS_INSTALL_DIR)kros-i686-pc-cygwin/
+else
+prefix = $(KROS_INSTALL_DIR)kros-i686-pc-linux-gnu21/
+ifeq ($(LD_LIBRARY_PATH),)
+export LD_LIBRARY_PATH=$(prefix)lib
+else
+LD_LIBRARY_PATH:=$(LD_LIBRARY_PATH):$(prefix)lib
+endif
+endif
+sft_pack = $(KROS_INSTALL_DIR)kteam/
+# this one is for Khepera II
+hdw_pack = $(KROS_INSTALL_DIR)kh2pack601/
+
+# Hierachical structure for separating source/object/binary
+# (DO NOT forget the / at the end).
+srcdir	= ./
+asmdir = ./
+includedir=$(WEBOTS_HOME)/include
+objdir=./kros/
+libdir=../../lib/
+bindir=./
+
+# Include the master makefile
+# (PLEASE do not modify)
+include $(sft_pack)etc/Makefile
+
+OBJ=$(addprefix $(objdir),$(addsuffix .o,$(basename $(shell ls  *.c *.s *.S *.cc 2>null))))
+INC=$(addsuffix .o,$(basename $(shell ls  *.h 2>null)))
+EXE=$(addsuffix .s37,$(basename $(shell grep -wl main *.c *.s *.S *.cc 2>null)))
+SUPPLIB=$(sft_pack)/lib/kros.a
+
+all: kros $(EXE)
+	@echo $(EXE)" is ready for Khepera II upload"
+	@rm null
+
+$(EXE): $(OBJ)
+
+kros:
+	mkdir kros
+
+clean:
+	@rm -f kros/*.o $(EXE) null *~

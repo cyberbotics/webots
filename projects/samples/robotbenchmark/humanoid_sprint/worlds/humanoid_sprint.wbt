@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "
+    "The goal is to run the 10 meter as fast as possible. "
+    "All the sensors and actuators of the robot can be used to achieve the best performance. "
+    "Records are stored on the challenge web site. "
+  ]
+  title "Humanoid Sprint"
+  window "humanoid_sprint"
+  basicTimeStep 20
+  FPS 20
+  contactProperties [
+    ContactProperties {
+      material1 "NAO foot material"
+      coulombFriction [
+        7
+      ]
+      bounce 0.3
+      bounceVelocity 0.003
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.4229511610638218 -0.8985389522600371 -0.11721803029483097 5.5889281
+  position -3.2842069 1.4798389 2.2429662
+  follow "NAO"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF TRACK Floor {
+  size 11.78 3
+  tileSize 11.78 3
+  texture [
+    "textures/nao_10m_track.jpg"
+  ]
+}
+DEF GRASS Floor {
+  translation 0 -0.005 0
+  name "grass"
+  size 20 10
+  tileSize 1 1
+  texture [
+    "textures/grass.jpg"
+  ]
+}
+DEF NAO Nao {
+  translation -5.345 0.334 -0.65
+  controller "sprinter"
+}
+RaceStopwatch {
+  translation 4.73 0 -1.19623
+  rotation 0 -1 0 -1.57
+  window "humanoid_sprint"
+}

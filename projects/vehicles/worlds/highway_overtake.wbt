@@ -1,0 +1,806 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Autonomous Vehicle Simulation"
+    "The main vehicle uses distance-sensors and a front radar in order to overtake the other vehicles controlled by SUMO."
+  ]
+  title "Highway overtake"
+  ERP 0.6
+  basicTimeStep 10
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "LincolnMKZWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "RangeRoverSportSVRWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "TruckWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.02613899007604356 -0.9947504028939284 -0.09893628828782548 2.8047399
+  position -14.099924 6.8042483 26.891473
+  near 1
+  follow "vehicle"
+  followSmoothness 0
+  lensFlare LensFlare {
+  }
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Fog {
+  color 0.93 0.96 1
+  visibilityRange 500
+}
+DEF FLOOR Solid {
+  boundingObject Plane {
+  }
+}
+SumoInterface {
+  gui FALSE
+  useNetconvert FALSE
+  radius 250
+  laneChangeDelay 4
+}
+StraightRoadSegment {
+  translation -8.75 0.01 0
+  id "0"
+  width 15
+  numberOfLanes 4
+  numberOfForwardLanes 0
+  lines [
+    RoadLine {
+      type "continuous"
+      width 0.25
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  rightBarrier TRUE
+  leftBarrier TRUE
+  length 5000
+}
+StraightRoadSegment {
+  translation 8.75 0.01 5000
+  rotation 0 1 0 3.1415927
+  name "road(1)"
+  id "1"
+  width 15
+  numberOfLanes 4
+  numberOfForwardLanes 0
+  lines [
+    RoadLine {
+      type "continuous"
+      width 0.25
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  rightBarrier TRUE
+  leftBarrier TRUE
+  length 5000
+}
+DEF WEBOTS_VEHICLE0 LincolnMKZ {
+  translation -6.71 0.4 46.99
+  rotation 0 0 1 6.2831853
+  controller "highway_overtake"
+  sensorsSlotFront [
+    DEF FRONT_RIGHT_LIDAR IbeoLux {
+      translation -0.71 0 -0.2251666
+      rotation 0 -1 0 3.9269908
+      name "ibeo 1"
+      useExtendedFieldOfView TRUE
+    }
+    DEF FRONT_LEFT_LIDAR IbeoLux {
+      translation 0.71 0 -0.225
+      rotation 0 -1 0 2.39
+      name "ibeo 2"
+      useExtendedFieldOfView TRUE
+    }
+    DEF FRONT DistanceSensor {
+      translation 0 0.3 -0.14
+      rotation 0 1 0 4.712389
+      name "distance sensor front"
+      lookupTable [
+        0 0 0
+        20 20 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_RIGHT_0 DistanceSensor {
+      translation -0.64512585 0.3 -0.29286095
+      rotation 0 1 0 4.5814897
+      name "distance sensor front right 0"
+      lookupTable [
+        0 0 0
+        20 20 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_RIGHT_1 DistanceSensor {
+      translation -0.64512585 0.3 -0.29286095
+      rotation 0 1 0 4.4505903
+      name "distance sensor front right 1"
+      lookupTable [
+        0 0 0
+        15 15 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_RIGHT_2 DistanceSensor {
+      translation -0.64512585 0.3 -0.29286095
+      rotation 0 1 0 4.3196903
+      name "distance sensor front right 2"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_LEFT_0 DistanceSensor {
+      translation 0.650126 0.3 -0.28420069
+      rotation 0 1 0 4.8432897
+      name "distance sensor front left 0"
+      lookupTable [
+        0 0 0
+        20 20 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_LEFT_1 DistanceSensor {
+      translation 0.650126 0.3 -0.28420069
+      rotation 0 1 0 4.9741897
+      name "distance sensor front left 1"
+      lookupTable [
+        0 0 0
+        15 15 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    DEF FRONT_LEFT_2 DistanceSensor {
+      translation 0.650126 0.3 -0.28420069
+      rotation 0 1 0 5.1050897
+      name "distance sensor front left 2"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      numberOfRays 2
+      aperture 0.1
+    }
+    Robot {
+      translation 0 -5.1051227e-09 0.11
+      rotation 4.7948965e-09 -1 -2.3205103e-08 3.1415927
+      children [
+        Radar {
+          maxRange 60
+          horizontalFieldOfView 0.9
+          verticalFieldOfView 0.07854
+          minRadialSpeed -100
+          maxRadialSpeed 40
+          cellDistance 2
+          rangeNoise 0.25
+          speedNoise 0.12
+          angularNoise 0.001
+          frequency 76.5
+          transmittedPower 31
+          minDetectableSignal -80
+          occlusion TRUE
+        }
+      ]
+      controller "radar_target_tracker"
+      supervisor TRUE
+    }
+  ]
+  sensorsSlotRear [
+    DEF REAR DistanceSensor {
+      translation 0 0.3 0
+      rotation 0 1 0 4.712389
+      name "distance sensor rear"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      numberOfRays 2
+      aperture 0.2
+    }
+    DEF REAR_LEFT DistanceSensor {
+      translation -0.70512585 0.3 -0.1889379
+      rotation 0 1 0 4.1887902
+      name "distance sensor rear left"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      numberOfRays 2
+      aperture 0.2
+    }
+    DEF REAR_RIGHT DistanceSensor {
+      translation 0.705126 0.3 -0.1889379
+      rotation 0 -1 0 1.0471975
+      name "distance sensor rear right"
+      lookupTable [
+        0 0 0
+        10 10 0
+      ]
+      numberOfRays 2
+      aperture 0.2
+    }
+    DEF REAR_LEFT_LIDAR IbeoLux {
+      translation -0.745 0 -0.16454482
+      rotation 0 1 0 2.42
+      name "ibeo 3"
+      useExtendedFieldOfView TRUE
+    }
+    DEF REAR_RIGHT_LIDAR IbeoLux {
+      translation 0.75850978 0 -0.18985653
+      rotation 0 -1 0 2.35
+      name "ibeo 4"
+      useExtendedFieldOfView TRUE
+    }
+  ]
+  sensorsSlotTop [
+    DEF TOP_CAMERA Camera {
+      translation 0 0 -0.48
+      width 512
+      height 256
+      near 1
+      far 1000
+      motionBlur 200
+      recognition Recognition {
+      }
+      lensFlare LensFlare {
+      }
+    }
+  ]
+  sensorsSlotCenter [
+    DEF RIGHT DistanceSensor {
+      translation 0.9 0.3 -1.32
+      name "distance sensor right"
+      lookupTable [
+        0 0 0
+        4 4 0
+      ]
+      numberOfRays 2
+      aperture 0.9
+    }
+    DEF LEFT DistanceSensor {
+      translation -0.9 0.3 -1.32
+      rotation 0 1 0 3.1415926
+      name "distance sensor left"
+      lookupTable [
+        0 0 0
+        4 4 0
+      ]
+      numberOfRays 2
+      aperture 0.9
+    }
+    GPS {
+      translation 0 0 -5.03
+    }
+  ]
+}
+DEF WEBOTS_VEHICLE1 RangeRoverSportSVRSimple {
+  translation -10.421444 0.4 130.46564
+  rotation 0 -1 0 0.26179941
+  name "vehicle(1)"
+}
+TrafficCone {
+  translation -12.182304 1.7941203e-13 118.18033
+  rotation -3.589793e-09 -1 4.6783094e-09 4.9741884
+}
+TrafficCone {
+  translation -9.4738171 -2.6645353e-14 127.19847
+  name "traffic cone(1)"
+}
+TrafficCone {
+  translation -10.584217 3.5527136e-15 122.40328
+  name "traffic cone(2)"
+}
+DEF WEBOTS_VEHICLE2 Solid {
+  translation -10.36436 0 114.07405
+  name "solid(1)"
+}
+HighwayPole {
+  translation -16 0 215
+  rotation 0 1 0 1.5707997
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 600
+  rotation 0 1 0 1.5707997
+  name "highway pole(1)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 1000
+  rotation 0 1 0 1.5707997
+  name "highway pole(2)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 1400
+  rotation 0 1 0 1.5707997
+  name "highway pole(3)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 1800
+  rotation 0 1 0 1.5707997
+  name "highway pole(4)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 2200
+  rotation 0 1 0 1.5707997
+  name "highway pole(5)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 2600
+  rotation 0 1 0 1.5707997
+  name "highway pole(6)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+HighwayPole {
+  translation -16 0 3000
+  rotation 0 1 0 1.5707997
+  name "highway pole(7)"
+  stand 2
+  height 7
+  length 31
+  thickness 0.35
+  curveRadius 0.5
+  rightHorizontalSigns [
+    HighwaySign {
+      translation 0 0 5.35
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  rightVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(1)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+  leftHorizontalSigns [
+    HighwaySign {
+      translation 0 0 -17.5
+      name "highway sign(2)"
+      height 3.5
+      texture [
+        "textures/highway_sign_bayonne.jpg"
+      ]
+    }
+  ]
+  leftVerticalSigns [
+    HighwaySign {
+      translation 0 0.66 0
+      name "highway sign(3)"
+      height 1.7
+      length 3.5
+      texture [
+        "textures/highway_sign_sebastian.jpg"
+      ]
+    }
+  ]
+}
+Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/ground_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 1500 43
+        }
+      }
+      geometry Extrusion {
+        crossSection [
+          60 0, 59 0.061558297, 58 0.24471742, 57 0.54496738, 56 0.95491503, 55 1.4644661, 54 2.0610737, 53 2.7300475, 52 3.454915, 51 4.2178277, 50 5, 49 5.7821723, 48 6.545085, 47 7.2699525, 46 7.9389263, 45 8.5355339, 44 9.045085, 43 9.4550326, 42 9.7552826, 41 9.9384417, 40 10, 39 9.9384417, 38 9.7552826, 37 9.4550326, 36 9.045085, 35 8.5355339, 34 7.9389263, 33 7.2699525, 32 6.545085, 31 5.7821723, 30 5, 29 4.2178277, 28 3.454915, 27 2.7300475, 26 2.0610737, 25 1.4644661, 24 0.95491503, 23 0.54496738, 22 0.24471742, 21 0.061558297, 20 0, -20 0, -21 0.061558297, -22 0.24471742, -23 0.54496738, -24 0.95491503, -25 1.4644661, -26 2.0610737, -27 2.7300475, -28 3.454915, -29 4.2178277, -30 5, -31 5.7821723, -32 6.545085, -33 7.2699525, -34 7.9389263, -35 8.5355339, -36 9.045085, -37 9.4550326, -38 9.7552826, -39 9.9384417, -40 10, -41 9.9384417, -42 9.7552826, -43 9.4550326, -44 9.045085, -45 8.5355339, -46 7.9389263, -47 7.2699525, -48 6.545085, -49 5.7821723, -50 5, -51 4.2178277, -52 3.454915, -53 2.7300475, -54 2.0610737, -55 1.4644661, -56 0.95491503, -57 0.54496738, -58 0.24471742, -59 0.061558297, -60 0
+        ]
+        spine [
+          0 0 0
+          0 0 5000
+        ]
+        beginCap FALSE
+        endCap FALSE
+        ccw FALSE
+        creaseAngle 1.1
+      }
+    }
+  ]
+  name "solid(2)"
+}
+Forest {
+  treesFiles [
+    "forest/highway_overtake/1.forest"
+  ]
+  shape []
+  type "cherry tree"
+  minHeight 4
+  maxRadius 2.5
+  minRadius 1.5
+}

@@ -1,0 +1,390 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example uses of Track nodes, as caterpillar tracks on a robot, or as a conveyor belt."
+  ]
+  title "Track"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "track material"
+      coulombFriction [
+        500
+      ]
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.2787439164932131 0.9191017246532488 0.278484916570805 4.63136
+  position -1.89429 1.30605 -0.0459539
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+DEF TRACKED_ROBOT Robot {
+  translation 0.547744 0.07 0.672268
+  rotation 0 1 0 2.0944
+  children [
+    DEF GEOM Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.3 0.08 0.13
+      }
+    }
+    DEF LEFT_TRACK Track {
+      translation 0 0 -0.07
+      scale 0.5 0.5 0.5
+      children [
+        DEF WHEEL1 TrackWheel {
+          position -0.3 0.015
+          radius 0.092
+          children [
+            DEF TRACK_WHEEL_BIG Transform {
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/tank_wheel.jpg"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 0.03
+                    radius 0.092
+                    subdivision 20
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        DEF WHEEL2 TrackWheel {
+          position 0.288 0.015
+          radius 0.092
+          children [
+            USE TRACK_WHEEL_BIG
+          ]
+        }
+        DEF WHEEL3 TrackWheel {
+          position 0.185 -0.088
+          radius 0.04
+          children [
+            DEF TRACK_WHEEL_SMALL Transform {
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "textures/tank_wheel.jpg"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Cylinder {
+                    height 0.02
+                    radius 0.04
+                    subdivision 20
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        DEF WHEEL4 TrackWheel {
+          position 0.09135 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL5 TrackWheel {
+          position -0.00245 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL6 TrackWheel {
+          position -0.09625 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+        DEF WHEEL7 TrackWheel {
+          position -0.19 -0.088
+          radius 0.04
+          children [
+            USE TRACK_WHEEL_SMALL
+          ]
+        }
+      ]
+      name "left track"
+      contactMaterial "track material"
+      boundingObject DEF TRACK_BO Group {
+        children [
+          Transform {
+            translation 0 -0.009 0
+            children [
+              Box {
+                size 0.39 0.248 0.03
+              }
+            ]
+          }
+          Transform {
+            translation 0.237434 -0.0691798 0
+            rotation 0 0 -1 5.85646
+            children [
+              Box {
+                size 0.13 0.08 0.03
+              }
+            ]
+            translationStep 0.001
+            rotationStep 0.00261799
+          }
+          Transform {
+            translation -0.242803 -0.0708334 0
+            rotation 0 0 1 5.87479
+            children [
+              Box {
+                size 0.13 0.08 0.03
+              }
+            ]
+            translationStep 0.001
+            rotationStep 0.00261799
+          }
+          Transform {
+            translation -0.302 0.017 0
+            rotation 1 0 0 1.5708
+            children [
+              DEF WHEEL_BO Cylinder {
+                height 0.03
+                radius 0.1
+                subdivision 14
+              }
+            ]
+          }
+          Transform {
+            translation 0.288 0.017 0
+            rotation 1 0 0 1.5708
+            children [
+              USE WHEEL_BO
+            ]
+          }
+        ]
+      }
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "left motor"
+        }
+      ]
+      textureAnimation -0.033 0
+      animatedGeometry DEF ANIMATED_GEOM Group {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.141176 0.141176 0.141176
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.044 0.005 0.03
+            }
+          }
+          Transform {
+            translation 0 0.003 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.141176 0.141176 0.141176
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.02 0.006 0.03
+                }
+              }
+            ]
+          }
+        ]
+      }
+      geometriesCount 40
+    }
+    Track {
+      translation 0 0 0.07
+      scale 0.5 0.5 0.5
+      children [
+        USE WHEEL1
+        USE WHEEL2
+        USE WHEEL3
+        USE WHEEL4
+        USE WHEEL5
+        USE WHEEL6
+        USE WHEEL7
+      ]
+      name "right track"
+      contactMaterial "track material"
+      boundingObject USE TRACK_BO
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "right motor"
+        }
+      ]
+      animatedGeometry USE ANIMATED_GEOM
+      geometriesCount 40
+    }
+  ]
+  name "tracked robot"
+  boundingObject USE GEOM
+  physics Physics {
+    density -1
+    mass 40
+  }
+  controller "track"
+}
+DEF CONVEYOR_BELT Robot {
+  translation -0.6 0.06 6.97909e-07
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance DEF APP PBRAppearance {
+        baseColor 0.635294 0.607843 0.607843
+        roughness 1
+        metalness 0
+      }
+      geometry DEF PLANE Box {
+        size 0.66 0.12 0.1
+      }
+    }
+    Track {
+      translation 0 0.064 0
+      children [
+        DEF BELT Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/checkered_marble.jpg"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 40 1
+            }
+          }
+          geometry Box {
+            size 0.54 0.004 0.04
+          }
+        }
+      ]
+      boundingObject USE BELT
+      physics Physics {
+        density -1
+        mass 10
+      }
+      device [
+        LinearMotor {
+        }
+      ]
+      textureAnimation 0.0295 0
+    }
+  ]
+  name "conveyor robot"
+  boundingObject Group {
+    children [
+      USE PLANE
+    ]
+  }
+  controller "conveyor_belt"
+}
+DEF BOX_1 Solid {
+  translation -0.6 0.145 0.16
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.992157 0.00784314 0.00784314
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BO Box {
+        size 0.02 0.02 0.02
+      }
+    }
+  ]
+  name "box 1"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX_2 Solid {
+  translation -0.6 0.145 0.06
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.992157 0.00784314 0.00784314
+        roughness 1
+        metalness 0
+      }
+      geometry USE BO
+    }
+  ]
+  name "box 2"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX_3 Solid {
+  translation -0.6 0.145 -0.04
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.992157 0.00784314 0.00784314
+        roughness 1
+        metalness 0
+      }
+      geometry USE BO
+    }
+  ]
+  name "box 3"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF OBSTACLE_GREEN Solid {
+  translation 0.282729 0.025 0.23299
+  rotation -0.10917402098566134 -0.9940031910693968 -0.006220071195635248 5.49212
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BO Box {
+        size 0.6 0.05 0.2
+      }
+    }
+  ]
+  name "green obstacle"
+  boundingObject USE BO
+  rotationStep 0.00261799
+}

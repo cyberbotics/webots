@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The model of the Khepera robot"
+  ]
+  title "Khepera"
+}
+Viewpoint {
+  orientation 0.09220443157816254 0.9749953339162836 0.2021940692474003 3.93561
+  position -0.346871 0.186906 -0.315753
+  follow "khepera"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+WoodenBox {
+  translation -0.2 0.05 0.683174
+  rotation 0 1 0 0.5
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.75 0.05 -0.35
+  rotation 0 1 0 4.96782
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.5 0.05 0.35471
+  rotation 0 1 0 5.36782
+  name "wooden box(3)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.3 0.05 -0.36
+  rotation 0 1 0 5.36782
+  name "wooden box(4)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.65 0.05 0.66
+  rotation 0 1 0 5.36782
+  size 0.1 0.1 0.1
+}
+Khepera1 {
+  rotation 0 1 0 1.57
+  name "khepera"
+}

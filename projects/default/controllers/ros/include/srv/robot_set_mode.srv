@@ -1,0 +1,4 @@
+char[] arg
+int32 mode
+---
+int8 success

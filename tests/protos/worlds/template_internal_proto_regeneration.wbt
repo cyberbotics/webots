@@ -1,0 +1,35 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.0843555 0.704867 0.704306 3.31004
+  position -0.182951 4.46581 -0.00849769
+}
+Background {
+  skyColor [
+    0 0.768627 1
+  ]
+}
+DEF OBJECT TemplateObject {
+  color 1 0 0
+}
+Robot {
+  translation 0.85 0 0
+  children [
+    DistanceSensor {
+      translation -2.02 0 0
+      lookupTable [
+        0 0 0
+        1 1000 0
+      ]
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_internal_proto_regeneration"
+  controllerArgs "template_internal_proto_regeneration"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

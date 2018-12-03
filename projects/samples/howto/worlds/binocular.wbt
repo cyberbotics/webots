@@ -1,0 +1,319 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example of use of two Camera devices to produce stereoscopy"
+  ]
+  title "Binocular"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.997991773315356 0.05140398832405727 -0.03701419159256712 5.52984
+  position -0.0113298 0.829916 0.929914
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GREEN_BOX Solid {
+  translation -0.05 0.05 -0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.2 0.05 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF WOOD_BOX Solid {
+  translation -0.2 0.05 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.74902 0.74902 0.74902
+        baseColorMap ImageTexture {
+          url [
+            "textures/lightwood.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "wood box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF PINK_BOX Solid {
+  translation 0.42 0.05 -0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.1 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+Robot {
+  translation 0.15 0 0
+  rotation 0 1 0 1
+  children [
+    Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DEF LEFT_SENSOR DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF LEFT_CAMERA Camera {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 0.5
+      name "camera0"
+      fieldOfView 1.047
+      width 80
+      height 60
+    }
+    DEF RIGHT_SENSOR DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF RIGHT_CAMERA Camera {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 -0.5
+      name "camera1"
+      fieldOfView 1.047
+      width 80
+      height 60
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/mybot.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.015 0.038 -0.041
+            0.015 0.023 -0.041
+            0 0.023 -0.0455
+            -0.015 0.023 -0.041
+            -0.015 0.038 -0.041
+            0 0.038 -0.0455
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.5 0
+            1 0
+            1 1
+            0.5 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 5, -1, 5, 2, 3, 4, -1
+        ]
+        texCoordIndex [
+          5, 0, 1, 4, -1, 4, 1, 2, 3, -1
+        ]
+        creaseAngle 0.9
+      }
+    }
+  ]
+  name "MyBot"
+  boundingObject Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "binocular"
+}

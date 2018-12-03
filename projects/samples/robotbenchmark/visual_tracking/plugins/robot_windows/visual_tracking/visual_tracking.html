@@ -1,0 +1,125 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark aims at developing a computer program that controls a pan-tilt camera
+      to track and follow a target object in a cluttered environment.
+      The programming language is Python, the robot model on which the camera is mounted is a Sony Aibo ERS-7 robot,
+      and the target object is a yellow rubber duck.
+    </p>
+    <p>The robot has a <a href="https://www.cyberbotics.com/doc/reference/display" target="_blank">Display</a> device
+      shown in the robot window, which can be open by clicking on the robot with the right mouse button and
+      selecting the <em>Robot window</em> item.
+      This device displays the camera image as well as drawings resulting from the tracking procedure.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>frames</em> = <span id='frames-display'>0</span></div>
+    <br>
+    <div style='text-align:center'><em>hits</em> = <span id='hits-display'>0</span></div>
+    <br>
+    <div style='text-align:center'><em>hit rate</em> = <span id='rate-display'>0</span>%</div>
+    <br>
+    <p>The benchmark lasts at most 2 minutes and 20 seconds.
+    The performance is measured as the <em>hit rate</em>,
+    i.e. the percentage of frames in which the target object is recorded at the center of the camera:
+    <div style='text-align:center'>
+     <math xmlns="http://www.w3.org/1998/Math/MathML">
+       <mi>hit rate</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#x2009;</mo>
+       <mfrac>
+         <mrow><mi>hits</mi></mrow>
+         <mrow><mi>frames</mi></mrow>
+       </mfrac>
+     </math>
+    </div>
+    <p>The target object detection is checked each <span id='frame-step-display'>128</span> ms based on the camera orientation and using this formula:
+    <div style='text-align:center'>
+     <math xmlns="http://www.w3.org/1998/Math/MathML" display='block' indentalign='center'>
+      <mover><mi>v1</mi><mo>&rarr;</mo></mover><mo>=</mo>
+      <mi>norm</mi><mo>(</mo>
+       <msub><mi>T</mi><mi>o</mi></msub>
+       <mo>&minus;</mo>
+       <msub><mi>T</mi><mi>c</mi></msub>
+      <mo>)</mo>
+     </math>
+     <math xmlns="http://www.w3.org/1998/Math/MathML" display='block' indentalign='center'>
+      <mover><mi>v2</mi><mo>&rarr;</mo></mover><mo>=</mo>
+      <mi>norm</mi><mo>(</mo>
+       <msub><mi>R</mi><mi>c</mi></msub>
+       <mo>&sdot;</mo>
+       <mover><mi>c</mi><mo>&rarr;</mo></mover>
+      <mo>)</mo>
+     </math>
+     <math xmlns="http://www.w3.org/1998/Math/MathML" display='block' indentalign='center'>
+      <mi>hit</mi>
+      <mo>=</mo>
+      <mo>|</mo>
+       <msub><mover><mi>v1</mi><mo>&rarr;</mo></mover><mi>x</mi></msub>
+       <mo>&minus;</mo>
+       <msub><mover><mi>v2</mi><mo>&rarr;</mo></mover><mi>x</mi></msub>
+      <mo>|</mo><mo>&lt;</mo><mi>&epsilon;</mi>
+      <mo>&and;</mo>
+      <mo>|</mo>
+       <msub><mover><mi>v1</mi><mo>&rarr;</mo></mover><mi>y</mi></msub>
+       <mo>&minus;</mo>
+       <msub><mover><mi>v2</mi><mo>&rarr;</mo></mover><mi>y</mi></msub>
+      <mo>|</mo><mo>&lt;</mo><mi>&epsilon;</mi>
+      <mo>&and;</mo>
+      <mo>|</mo>
+       <msub><mover><mi>v1</mi><mo>&rarr;</mo></mover><mi>z</mi></msub>
+       <mo>&minus;</mo>
+       <msub><mover><mi>v2</mi><mo>&rarr;</mo></mover><mi>z</mi></msub>
+      <mo>|</mo><mo>&lt;</mo><mi>&epsilon;</mi>
+     </math>
+    </div>
+    where
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msub><mi>T</mi><mi>o</mi></mi></msub></math> is the target objects's global position,
+	<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msub><mi>T</mi><mi>c</mi></mi></msub></math> is the camera's global position,
+	<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msub><mi>R</mi><mi>c</mi></mi></msub></math> is the camera's global rotation matrix,
+	<math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+     <mover><mi>c</mi><mo>&rarr;</mo></mover><mo>=</mo><mo>[</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>-1</mn><mo>]</mo>
+    </math>
+	is the camera's recording axis, and
+	<em>&epsilon;</em> is <span id='hit-error-display'>0.1</span>.
+    </p>
+  </div>
+  <div id='infotab-instructions'>
+    <h2>How to improve the hit rate?</h2>
+    <p>The benchmark goal consists of two separate tasks:
+    <ol>
+	   <li>Detect target object in the camera image.</li>
+	   <li>Move the pan and tilt camera motors to center the target object in the image.</li>
+    </ol>
+    <h3>Improve object detection</h3>
+    <p>So the first improvement would be to develop a better visual tracking algorithm.
+    The provided sample controller creates a mask for yellow pixels, uses OpenCV image processing to extract the blobs from the mask, and finally select the largest blob.
+    These three steps are not optimized and some improvements are possible, for example:
+    <ul>
+	   <li>Fine tune the condition to detect yellow pixels.</li>
+	   <li>Apply morphological filter (dilation and erosion) to the mask to remove noise.</li>
+	   <li>Use information gathered in the previous frames to select the most promising blob.</li>
+    </ul>
+    Other strategies could also be applied to the image in order to detect the target object, for example:
+    <ul>
+	   <li>Use different color spaces to extract the regions of interest, like HSL.</li>
+	   <li>Use constraints on the shape of the blob.</li>
+	   <li>Use filtering algorithms (moments, Kalman filter, Particle filter) to predict the position of the object in the next frame.</li>
+    </ul>
+    </p>
+    <h3>Improve object following</h3>
+    <p>Once the target object position in the camera image is detected, you have to move the camera motors so that the object remains at the center of the image.
+    The sample controller uses the following functions to move the camera
+    <pre style='background:#FEE'>
+  panHeadMotor.setVelocity(-1.5 * dx / width)
+  tiltHeadMotor.setVelocity(-1.5 * dy / height))</pre>
+    where <em>width</em> and <em>height</em> are the camera width and camera height, <em>dx</em> and <em>dy</em> are the distance in pixels between the detected object
+    center and the camera center.
+    <br>
+    The speed factor values <em>1.5</em> are not optimal.
+    Tuning these factors or using a more precise method to move the motors could also improve the hit rate.
+    </p>
+  </div>
+</div>

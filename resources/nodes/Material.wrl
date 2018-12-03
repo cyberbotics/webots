@@ -1,0 +1,12 @@
+# The Material node specifies the surface material properties of the associated geometry nodes.
+# This is essentially used for the visual appearance of objects, but in addition,
+# Camera and infra-red DistanceSensor nodes are sensitive to the color of objects.
+
+Material {
+  vrmlField SFFloat ambientIntensity  0.2         # [0,1]
+  vrmlField SFColor diffuseColor      0.8 0.8 0.8
+  vrmlField SFColor emissiveColor     0 0 0
+  vrmlField SFFloat shininess         0.2         # [0,1]
+  vrmlField SFColor specularColor     0 0 0
+  vrmlField SFFloat transparency      0           # [0,1]
+}

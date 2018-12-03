@@ -1,0 +1,23 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Puma 560 Robot"
+    "Thanks to Andy Park (ARTLAB, Purdue University)"
+  ]
+  title "Unimate Puma 560"
+  ERP 0.4
+  basicTimeStep 20
+}
+Viewpoint {
+  orientation 0.25251790393551593 0.9621396339766561 0.10257696097701317 5.64803
+  position -1.63355 1.12609 2.37522
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 20 20
+}
+Puma560 {
+}

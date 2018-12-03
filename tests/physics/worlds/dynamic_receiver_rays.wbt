@@ -1,0 +1,331 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Dynamic receiver rays"
+}
+Viewpoint {
+  orientation -0.0636607 0.994194 0.0867518 1.46997
+  position 0.398982 0.121893 0.0363673
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+PointLight {
+  location 0 0.3 0
+}
+DEF DYNAMIC_EMITTER Robot {
+  translation 0 0.15 -0.1
+  children [
+    Emitter {
+      children [
+        Transform {
+          translation 0 3.67321e-08 0.05
+          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 1 1
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.025
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "emitter radio"
+      range 0.1
+      aperture 0.4
+    }
+    Emitter {
+      children [
+        Transform {
+          translation 0 3.67321e-08 0.05
+          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 1 1
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.025
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "emitter infra-red"
+      type "infra-red"
+      range 0.1
+      aperture 0.4
+    }
+  ]
+  name "dynamic emitter"
+  boundingObject DEF BOX0 Box {
+    size 0.09 0.04 0.02
+  }
+  physics Physics {
+    density 500
+  }
+  controller "emitter_rays"
+}
+DEF STATIC_EMITTER Robot {
+  translation 0 0.06 0.1
+  rotation 0 1 0 3.14159
+  children [
+    Emitter {
+      children [
+        Transform {
+          translation 0 3.67321e-08 0.05
+          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 1 1
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "emitter radio"
+      range 0.1
+      aperture 0.4
+    }
+    Emitter {
+      children [
+        Transform {
+          translation 0 3.67321e-08 0.05
+          rotation 3.39051e-09 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 1 1
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "emitter infra-red"
+      type "infra-red"
+      range 0.1
+      aperture 0.4
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "static"
+  boundingObject DEF BOX0 Box {
+    size 0.09 0.04 0.02
+  }
+  controller "emitter_rays"
+  customData "static"
+}
+DEF DYNAMIC_ROBOT DifferentialWheels {
+  translation 0 0.06 0
+  rotation 0 1 0 1.5708
+  children [
+    Solid {
+      translation -0.045 -0.03 0
+      rotation 1 0 0 4.98467
+      children [
+        DEF WHEEL Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 1
+                }
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.025
+              }
+            }
+          ]
+        }
+      ]
+      name "left wheel"
+      boundingObject USE WHEEL
+      physics DEF PHYSICS_WHEEL Physics {
+        density -1
+        mass 0.05
+      }
+    }
+    Solid {
+      translation 0.045 -0.03 0
+      rotation 1 0 0 4.58735
+      children [
+        USE WHEEL
+      ]
+      name "right wheel"
+      boundingObject USE WHEEL
+      physics USE PHYSICS_WHEEL
+    }
+    DEF STATIC Receiver {
+      translation -0.02 0 0
+      rotation 0 1 0 -1.5708
+      children [
+        Transform {
+          translation 0 0 0.05
+          rotation 0 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.890196 0.615686 0.380392
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "receiver radio static"
+      aperture 0.4
+    }
+    DEF DYNAMIC Receiver {
+      translation 0.02 0 0
+      rotation 0 1 0 1.5708
+      children [
+        Transform {
+          translation 0 0 0.05
+          rotation 0 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.890196 0.615686 0.380392
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "receiver radio dynamic"
+      aperture 0.4
+    }
+    DEF STATIC Receiver {
+      translation -0.02 0 0
+      rotation 0 1 0 -1.5708
+      children [
+        Transform {
+          translation 0 0 0.05
+          rotation 0 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.890196 0.615686 0.380392
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "receiver infra-red static"
+      type "infra-red"
+      aperture 0.4
+    }
+    DEF DYNAMIC Receiver {
+      translation 0.02 0 0
+      rotation 0 1 0 1.5708
+      children [
+        Transform {
+          translation 0 0 0.05
+          rotation 0 -0.707108 0.707105 3.14159
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.890196 0.615686 0.380392
+                }
+              }
+              geometry Cone {
+                bottomRadius 0.02
+                height 0.1
+                bottom FALSE
+              }
+            }
+          ]
+        }
+      ]
+      name "receiver infra-red dynamic"
+      type "infra-red"
+      aperture 0.4
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "dynamic robot"
+  boundingObject Transform {
+    translation 0 -0.03 0
+    children [
+      Sphere {
+        radius 0.02
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "receiver_rays"
+  controllerArgs "dynamic_receiver_rays"
+  axleLength 0.09
+  wheelRadius 0.025
+  maxSpeed 1000
+  maxAcceleration 1000
+}
+TestSuiteSupervisor {
+}

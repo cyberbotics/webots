@@ -1,0 +1,75 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Nao challenge key hole
+
+PROTO KeyHole [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "key hole"
+  field SFString contactMaterial "default"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF KEYHOLE_GROUP Group {
+      children [
+        DEF BOX_UP Transform {
+          translation 0 0.02875 0
+          children [
+            Shape {
+              appearance DEF KEYHOLE_APPEARANCE PBRAppearance {
+                roughness 0.3
+                baseColor 0.8 0.8 0.8
+              }
+              geometry Box {
+                size 0.1 0.0425 0.02
+              }
+            }
+          ]
+        }
+        DEF BOX_DOWN Transform {
+          translation 0 -0.02875 0
+          children [
+            Shape {
+              appearance USE KEYHOLE_APPEARANCE
+              geometry Box {
+                size 0.1 0.0425 0.02
+              }
+            }
+          ]
+        }
+        DEF BOX_LEFT Transform {
+          translation -0.02875 0 0
+          children [
+            Shape {
+              appearance USE KEYHOLE_APPEARANCE
+              geometry Box {
+                size 0.0425 0.015 0.02
+              }
+            }
+          ]
+        }
+        DEF BOX_RIGHT Transform {
+          translation 0.02875 0 0
+          children [
+            Shape {
+              appearance USE KEYHOLE_APPEARANCE
+              geometry Box {
+                size 0.0425 0.015 0.02
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "key hole"
+  contactMaterial IS contactMaterial
+  boundingObject USE KEYHOLE_GROUP
+  locked TRUE
+}
+}

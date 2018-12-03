@@ -1,0 +1,66 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The model of the Hemisson robot which controller can be cross-compiled for the real robot"
+  ]
+  title "Hemisson Cross Compilation"
+  inkEvaporation 0.1
+}
+Viewpoint {
+  orientation -0.15069064640395755 0.9495132141971846 0.2751671949039148 2.326742101257792
+  position 1.250543858777666 1.0213451955145507 -1.0422686787980247
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorTileSize 1 1
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/roughcast.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallColor 1 0 0
+  wallTextureUrl []
+}
+DEF RED_BRICK Solid {
+  translation -0.3 0.03 0.15
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry DEF BOXO Box {
+        size 0.23 0.06 0.1
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOXO
+}
+DEF WHITE_BRICK Solid {
+  translation 0.25 0.03 0
+  rotation 0 1 0 2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry USE BOXO
+    }
+  ]
+  name "white box"
+  boundingObject USE BOXO
+}
+Hemisson {
+  translation -0.0230131 0.003 -0.131228
+  rotation 0 1 0 6.27016
+}

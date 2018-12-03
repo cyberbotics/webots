@@ -1,0 +1,42 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.923133 -0.366749 -0.115418 5.78631
+  position 1.04345 2.52937 4.30892
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Robot {
+  children [
+    TouchSensor {
+      rotation 1 0 0 -1.5708
+      children [
+        DEF TS_SHAPE Shape {
+          geometry Box {
+            size 1 1 0.1
+          }
+        }
+      ]
+      boundingObject USE TS_SHAPE
+      physics Physics {
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_parameter_toggle_from_supervisor"
+  supervisor TRUE
+}
+DEF TEMPLATE TemplateSimpleSolidWithPhysicsToggle {
+  translation 0 1 0
+}
+TestSuiteSupervisor {
+}

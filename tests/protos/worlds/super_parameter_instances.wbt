@@ -1,0 +1,33 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.30952161260731814 -0.9415885439050846 -0.1326928231505681 0.8544930720188703
+  position -5.262636941558143 3.2311025716761037 6.151692962761366
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+BmwX5 {
+  sensorsSlotTop [
+    DEF SENSOR_SLOT Transform {
+    }
+  ]
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "super_parameter_instances"
+  controllerArgs "super_parameter_instances"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

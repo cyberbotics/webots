@@ -1,0 +1,118 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Generic and customizable road pillars which can be used for easily creating bridges or elevated roads.
+# The boundingObject can be optionally enable or not.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO RoadPillars [
+  field SFVec3f    translation        0 0 0
+  field SFRotation rotation           0 1 0 0
+  field SFString   name               "road pillar"
+  field SFFloat    height             5                                                                 # Defines the height of the pillar.
+  field SFFloat    width              8                                                                 # Defines the width of the pillar.
+  field SFFloat    depth              2                                                                 # Defines the depth of the pillar.
+  field SFFloat    pylonsRadius       0.6                                                               # Defines the radius of the two pylons.
+  field SFFloat    pylonsDistance     6                                                                 # Defines the distance between the two pylons (should be smaller than the width).
+  field SFFloat    pylonsInclination  0.1                                                               # Defines the inclination angle of the pylons.
+  field SFFloat    upperTilt          0                                                                 # Defines the tilt of the upper support.
+  field SFNode     appearance         RoughConcrete { textureTransform TextureTransform { scale 4 1} }  # Defines the appearance of the pillar.
+  field SFBool     boundingObject     TRUE                                                              # Defines whether the pillar should have a bounding object.
+]
+{
+  %{
+    local height = fields.height.value
+    if height < 0 then
+      io.stderr:write("'height' must be greater than 0\n")
+      length = fields.height.defaultValue
+    end
+    local width = fields.width.value
+    if width < 0 then
+      io.stderr:write("'width' must be greater than 0\n")
+      width = fields.width.defaultValue
+    end
+    local depth = fields.depth.value
+    if depth < 0 then
+      io.stderr:write("'depth' must be greater than 0\n")
+      depth = fields.depth.defaultValue
+    end
+    local pylonsDistance = fields.pylonsDistance.value
+    if pylonsDistance > width then
+      io.stderr:write("'pylonsDistance' be smaller than 'width'\n")
+      pylonsDistance = width
+    elseif pylonsDistance < 0 then
+      io.stderr:write("'pylonsDistance' must be greater than 0\n")
+      pylonsDistance =  fields.pylonsDistance.defaultValue
+    end
+    local pylonsInclination = fields.pylonsInclination.value
+    local boundingObject    = fields.boundingObject.value
+    local tilt              = fields.upperTilt.value
+  }%
+
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF LOWER_PART Transform {
+        translation 0 0.25 0
+        children [
+          Shape {
+            appearance IS appearance
+            geometry DEF BOX Box {
+              size %{= width }% 0.5 %{= depth }%
+            }
+          }
+        ]
+      }
+      DEF UPPER_PART Transform {
+        translation 0 %{= height - 0.25 }% 0
+        rotation 0 0 1 %{= tilt }%
+        children [
+          Shape {
+            appearance IS appearance
+            geometry USE BOX
+          }
+        ]
+      }
+      DEF CYLINDER_1 Transform {
+        translation %{= pylonsDistance / 2 }% %{= height/2 + math.sin(tilt) * pylonsDistance / 4 }% 0
+        rotation 0 0 1 %{= pylonsInclination }%
+        children [
+          Shape {
+            appearance IS appearance
+            geometry Cylinder {
+              height %{= height - 0.25 + math.sin(tilt) * pylonsDistance / 2 }%
+              radius IS pylonsRadius
+            }
+          }
+        ]
+      }
+      DEF CYLINDER_1 Transform {
+        translation %{= -pylonsDistance / 2 }% %{= height/2 - math.sin(tilt) * pylonsDistance / 4 }% 0
+        rotation 0 0 1 %{= -pylonsInclination }%
+        children [
+          Shape {
+            appearance IS appearance
+            geometry Cylinder {
+              height %{= height - 0.25 - math.sin(tilt) * pylonsDistance / 2 }%
+              radius IS pylonsRadius
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "road pillar"
+    %{ if boundingObject then }%
+      boundingObject Transform {
+        translation 0 %{= height/2 - width * math.abs(math.sin(tilt)) / 4 }% 0
+        children [
+          Box {
+            size %{= width }% %{= height - width * math.abs(math.sin(tilt)) / 2 }% %{= depth }%
+          }
+        ]
+      }
+    %{ end }%
+  }
+}

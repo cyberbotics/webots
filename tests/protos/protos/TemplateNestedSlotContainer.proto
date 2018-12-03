@@ -1,0 +1,17 @@
+#VRML_SIM R2018a utf8
+
+PROTO TemplateNestedSlotContainer [
+  field SFNode slotA NULL
+  field SFNode slotB NULL
+  field SFBool regenerate FALSE
+]
+{
+%{
+  -- trigger PROTO template regeneration
+  local test = fields.regenerate.value
+}%
+  TwoSlotsContainer {
+    slot1 IS slotA
+    slot2 IS slotB
+  }
+}

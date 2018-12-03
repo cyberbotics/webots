@@ -1,0 +1,396 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# The room of the Nao challenge
+
+PROTO NaoRoom [
+  field SFString name "Nao room"
+]
+{
+Solid {
+  children [
+    DEF FLOOR Shape {
+      appearance Parquetry {
+        textureTransform TextureTransform {
+          scale 5 5
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.25 0 -1
+            -0.25 0 1
+            -1 0 1
+            -1 0 2
+            0.2 0 2
+            1 0 1.2
+            1 0 -1
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0.58
+            0.667 0.58
+            0.667 0.334
+            1 0.334
+            1 0.734
+            0.734 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 6, -1, 1, 5, 6, -1, 5, 1
+          4, -1, 4, 1, 3, -1, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 6, -1, 1, 5, 6, -1, 5, 1
+          4, -1, 4, 1, 3, -1, 1, 2, 3, -1
+        ]
+      }
+    }
+    DEF CEIL Shape {
+      appearance Roughcast {
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.25 2 -1
+            -0.25 2 1
+            -1 2 1
+            -1 2 2
+            0.2 2 2
+            1 2 1.2
+            1 2 -1
+          ]
+        }
+        coordIndex [
+          0, 6, 1, -1, 1, 6, 5, -1, 5, 4
+          1, -1, 4, 3, 1, -1, 1, 3, 2, -1
+        ]
+      }
+    }
+    DEF NORTH Transform {
+      translation 1 1 0.1
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance DEF WALL_APPEARANCE Roughcast {
+            textureTransform TextureTransform {
+              scale 5 5
+            }
+          }
+          geometry Plane {
+            size 2 2.2
+          }
+        }
+      ]
+    }
+    DEF SOUTH1 Transform {
+      translation -0.25 1 0
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Plane {
+            size 2 2
+          }
+        }
+      ]
+    }
+    DEF SOUTH2 Transform {
+      translation -1 1 1.5
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Plane {
+            size 2 1
+          }
+        }
+      ]
+    }
+    DEF EAST Transform {
+      translation -0.4 1 2
+      rotation 1 0 0 -1.5708
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Plane {
+            size 1.2 2
+          }
+        }
+      ]
+    }
+    DEF WEST1 Transform {
+      translation 0.375 1 -1
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Plane {
+            size 1.25 2
+          }
+        }
+      ]
+    }
+    DEF WEST2 Transform {
+      translation -0.625 1 1
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance USE WALL_APPEARANCE
+          geometry Plane {
+            size 0.75 2
+          }
+        }
+      ]
+    }
+    DEF WARDROBE Transform {
+      translation 0.6 1 1.6
+      rotation -0.281052 0.678604 -0.678606 3.68956
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/wardrobe.jpg"
+              ]
+            }
+            metalness 0
+            roughness 0.7
+          }
+          geometry Plane {
+            size 1.1314 2
+          }
+        }
+      ]
+    }
+    DEF WHITE_LINE Transform {
+      translation 0 0.001 0
+      children [
+        Transform {
+          translation 0.325 0.0001 -0.83
+          rotation 0 1 0 1.57078
+          children [
+            Shape {
+              appearance DEF LINE_APPEARANCE PBRAppearance {
+                metalness 0
+                roughness 1
+              }
+              geometry Plane {
+                size 0.04 0.27
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.21 0 -0.375
+          children [
+            Shape {
+              appearance USE LINE_APPEARANCE
+              geometry Plane {
+                size 0.04 0.95
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.37 0.0001 0.08
+          rotation 0 1 0 1.57078
+          children [
+            Shape {
+              appearance USE LINE_APPEARANCE
+              geometry Plane {
+                size 0.04 0.355
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.5275 0 0.5164
+          children [
+            Shape {
+              appearance USE LINE_APPEARANCE
+              geometry Plane {
+                size 0.04 0.911
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.26 0.0001 1.232
+          rotation 0 1 0 -0.7854
+          children [
+            Shape {
+              appearance USE LINE_APPEARANCE
+              geometry Plane {
+                size 0.04 0.773
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.5 0 1.5
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance USE LINE_APPEARANCE
+              geometry Plane {
+                size 0.04 1
+              }
+            }
+          ]
+        }
+        DEF DOOR_SOUTH VisualArmature {
+          translation -1 0.9 1.5
+          rotation 0 1 0 1.5708
+          dimension 0.8 1.8 0.01
+          textureUrl [
+            "textures/living_room_door.jpg"
+          ]
+        }
+        DEF SOUTH_DOOR_HANDLE Transform {
+          translation -1 0.9 1.82
+          rotation 0 0 1 -1.5708
+          children [
+            DEF DOOR_HANDLE Group {
+              children [
+                Transform {
+                  translation 0 0.01 0
+                  children [
+                    Shape {
+                      appearance BrushedAluminium {}
+                      geometry Cylinder {
+                        bottom FALSE
+                        height 0.01
+                        radius 0.04
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0.04 0
+                  children [
+                    Shape {
+                      appearance BrushedAluminium {}
+                      geometry Capsule {
+                        bottom FALSE
+                        height 0.05
+                        radius 0.015
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0.07 -0.05
+                  rotation 1 0 0 1.5708
+                  children [
+                    Shape {
+                      appearance BrushedAluminium {}
+                      geometry Capsule {
+                        height 0.1
+                        radius 0.015
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        DEF DOOR_WEST VisualArmature {
+          translation 0.5 0.9 -1
+          dimension 0.8 1.8 0.01
+          textureUrl [
+            "textures/entree_door.jpg"
+          ]
+        }
+        DEF WEST_DOOR_HANDLE Transform {
+          translation 0.17 0.9 -1
+          rotation 0.57735 -0.57735 -0.57735 2.0944
+          children [
+            USE DOOR_HANDLE
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "Nao room"
+  boundingObject Group {
+    children [
+      DEF FLOOR Transform {
+        translation 0 0 0.5
+        children [
+          Plane {
+            size 2 3
+          }
+        ]
+      }
+      DEF CEIL Transform {
+        translation 0 2 0.5
+        rotation 1 0 0 3.1415
+        children [
+          Plane {
+            size 2 3
+          }
+        ]
+      }
+      DEF NORTH Transform {
+        translation 1 1 0.1
+        rotation 0 0 1 1.5708
+        children [
+          Plane {
+            size 2 2.2
+          }
+        ]
+      }
+      DEF SOUTH Transform {
+        translation -1 1 1.5
+        rotation 0 0 1 -1.5708
+        children [
+          Plane {
+            size 2 1
+          }
+        ]
+      }
+      DEF EAST Transform {
+        translation -0.4 1 2
+        rotation 1 0 0 -1.5708
+        children [
+          Plane {
+            size 1.2 2
+          }
+        ]
+      }
+      DEF WEST Transform {
+        translation 0.375 1 -1
+        rotation 1 0 0 1.5708
+        children [
+          Plane {
+            size 1.25 2
+          }
+        ]
+      }
+      DEF BOX_LIMITER Transform {
+        translation -0.625 1 0
+        children [
+          Box {
+            size 0.75 2 2
+          }
+        ]
+      }
+      DEF WARDROBE Transform {
+        translation 0.6 1 1.6
+        rotation -0.281052 0.678604 -0.678606 3.68956
+        children [
+          Plane {
+            size 1.1314 2
+          }
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+}

@@ -1,0 +1,24 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoNestedInternal_1 [
+  field SFVec3f boxSize 1 1 1
+]
+{
+  Transform {
+    children [
+      SlotContainer {
+        slot [
+          Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size IS boxSize
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

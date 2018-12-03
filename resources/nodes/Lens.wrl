@@ -1,0 +1,7 @@
+# A Lens node allows to specify image distortion due to the camera lens
+
+Lens {
+  field SFVec2f  center                  0.5 0.5
+  field SFVec2f  radialCoefficients      0 0
+  field SFVec2f  tangentialCoefficients  0 0
+}

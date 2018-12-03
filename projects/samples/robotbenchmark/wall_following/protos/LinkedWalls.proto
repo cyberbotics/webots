@@ -1,0 +1,141 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Customizable wall made of segments.
+
+PROTO LinkedWalls [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFFloat length 1
+  field SFFloat height 0.5
+  field MFInt32 angles []
+  field SFNode appearance NULL
+  field SFString window "wall_following"
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller "wall_following_supervisor"
+    supervisor TRUE
+    window IS window
+    children [
+      Solid {
+        children [
+          DEF SHAPE_WALL_LINKED_WALL Shape {
+            appearance IS appearance
+            geometry Box {
+              size 0.01 %{=fields.height.value}% %{=fields.length.value}%
+            }
+          }
+        ]
+        boundingObject USE SHAPE_WALL_LINKED_WALL
+      }
+
+      %{
+        local wbrandom = require('wbrandom')
+        local os = require('os')
+        local angles
+        local dataString = "\""
+
+        if table.maxn(fields.angles.value) == 0 then
+          local WALL_PARTS = {
+            { -6, -2, -12, 12, 8 },
+            { -6, 18, -6, -6, -6, -6, 12 },
+            { 6, 2, -2, -2, -4 },
+            { -4, 4, -4, 10, -6 },
+            { 6, 14, -14, -2, -2, -2 },
+            { -2, 2, -6, 2, 4 },
+            { -8, 16, -8, -6, 2, 4 }
+          }
+
+          local NB_WALL_PARTS = table.maxn(WALL_PARTS)
+          local remaining_indices = {}
+          local current_value
+          local shuffle = {}
+
+          wbrandom.seed(os.clock() + os.time())
+
+          -- List of the wall parts that have not been chosen yet.
+          for i=1,NB_WALL_PARTS do
+            remaining_indices[i] = i
+          end
+
+          for i=1,NB_WALL_PARTS-1 do
+            -- We select one wall part among the ones remaining
+            current_value = wbrandom.integer(NB_WALL_PARTS - i + 1)
+            shuffle[i] = remaining_indices[current_value]
+
+            -- Updates the available wall part list
+            for j = current_value, NB_WALL_PARTS - i do
+              remaining_indices[j] = remaining_indices[j + 1]
+            end
+          end
+          -- Only one choice for the last one.
+          shuffle[NB_WALL_PARTS] = remaining_indices[1]
+
+          angles = { 0, 0, -2, 0, 2, 0 }
+
+          local angle_index = 7
+          for i=1,NB_WALL_PARTS do
+            for _, angle in ipairs(WALL_PARTS[shuffle[i]]) do
+              angles[angle_index] = angle
+              angle_index = angle_index + 1
+            end
+          end
+        else
+          angles = fields.angles.value
+        end
+
+        dataString = dataString .. table.maxn(angles) .. ","
+
+        for _, angle in ipairs(angles) do
+          dataString = dataString .. angle .. ","
+        end
+        dataString = dataString .. "\""
+
+      }%
+
+      %{
+        local currentWall = {}
+
+        currentWall.x = 0
+        currentWall.z = 0
+        currentWall.angleIncrement = 0
+        currentWall.orientation = 0
+
+        function computeNextWall(currentWall, angleIncrement)
+          local nextWall = {}
+
+          nextWall.angleIncrement = currentWall.angleIncrement + angleIncrement
+
+          -- converts to actual radian
+          nextWall.orientation = (nextWall.angleIncrement * math.pi / 24)
+
+          -- sin and cos are reversed because the orientation is perpendicular to the
+          -- direction in which the wall is "moving"
+          nextWall.x = currentWall.x + 0.5 * fields.length.value * (math.sin(currentWall.orientation) + math.sin(nextWall.orientation))
+          nextWall.z = currentWall.z + 0.5 * fields.length.value * (math.cos(currentWall.orientation) + math.cos(nextWall.orientation))
+
+          return nextWall
+        end
+      }%
+
+      %{ for i,angle in ipairs(angles) do }%
+        %{ currentWall = computeNextWall(currentWall, angle) }%
+
+        Solid {
+          translation %{=currentWall.x}% 0 %{=currentWall.z}%
+          rotation 0 1 0 %{=currentWall.orientation}%
+          name "wall %{=i}%"
+          children [
+            USE SHAPE_WALL_LINKED_WALL
+          ]
+          boundingObject USE SHAPE_WALL_LINKED_WALL
+        }
+      %{ end }%
+    ]
+    customData %{=dataString}%
+  }
+}

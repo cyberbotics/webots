@@ -1,0 +1,140 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A configurable circle arena composed of floor surrounded by wall.
+
+PROTO CircleArena [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "circle arena"
+  field SFFloat    radius          1.0                    # Defines the radius of the arena.
+  field SFString   contactMaterial "default"              # Is `Solid.contactMaterial`.
+  field SFNode     floorAppearance ChequeredParquetry {}  # Defines the appearance of the floor.
+  field SFVec2f    floorTileSize   0.5 0.5                # Defines the size of the texture used for the floor.
+  field SFFloat    wallThickness   0.01                   # Defines the thickness of the wall.
+  field SFFloat    wallHeight      0.1                    # Defines the height of the wall.
+  field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
+  field SFVec2f    wallTileSize    0.5 0.5                # Defines the size of the texture used for the wall.
+  field SFInt32    subdivision     48                     # Defines the subdivision of the wall cylinder.
+  
+  # Deprecated in R2019a
+  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+
+    local floorTextureUrl = fields.floorTextureUrl.value[0]
+    if floorTextureUrl ~= fields.floorTextureUrl.defaultValue[0] then
+      io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
+    end
+
+    local wallTextureUrl = fields.wallTextureUrl.value[0]
+    if wallTextureUrl ~= fields.wallTextureUrl.defaultValue[0] then
+      io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
+    end
+
+    local subdivision = fields.subdivision.value
+    if subdivision <= 8 then
+      io.stderr:write("'subdivision' must be greater than 8\n")
+      subdivision = 8
+    end
+
+    local radius = fields.radius.value
+    if radius <= 0.0 then
+      io.stderr:write("'radius' must be positive\n")
+      radius = fields.radius.defaultValue
+    end
+
+    local wallThickness = fields.wallThickness.value
+    if wallThickness <= 0 then
+      io.stderr:write("'wallThickness' must be positive\n")
+      wallThickness = fields.wallThickness.defaultValue
+    end
+
+    local wallHeight = fields.wallHeight.value
+    if wallHeight <= 0 then
+      io.stderr:write("'wallHeight' must be positive\n")
+      wallHeight = fields.wallHeight.defaultValue
+    end
+
+    realRadius = radius + wallThickness / 2
+
+    local floorTextureScale = { x = 1; y = 1 }
+    if fields.floorTileSize.value.x >= 0 and fields.floorTileSize.value.y > 0.0 then -- avoid a zero division and negative values
+      floorTextureScale.x =  fields.floorTileSize.value.x
+      floorTextureScale.y =  fields.floorTileSize.value.y
+    else
+      io.stderr:write("'floorTextureScale' must contain positive values\n")
+    end
+
+    local wallTextureScale = { x = 1; y = 1 }
+    if fields.wallTileSize.value.x >= 0 and fields.wallTileSize.value.y > 0.0 then -- avoid a zero division and negative values
+      wallTextureScale.x = 2 * math.pi * radius / fields.wallTileSize.value.x
+      wallTextureScale.y = wallHeight / fields.wallTileSize.value.y
+    else
+      io.stderr:write("'wallTextureScale' must contain positive values\n")
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      SolidPipe {
+        translation 0 %{= wallHeight / 2 }% 0
+        height %{= wallHeight }%
+        radius %{= radius + wallThickness }%
+        thickness %{= wallThickness }%
+        subdivision %{= subdivision }%
+        contactMaterial IS contactMaterial
+        appearance IS wallAppearance
+      }
+      Transform {
+        translation 0 -0.01 0
+        children [
+          Shape {
+            appearance IS floorAppearance
+            geometry IndexedFaceSet {
+              %{ local circle = wbgeometry.circle(realRadius, subdivision, 0, 0, 0) }%
+              coord Coordinate {
+                point [
+                  %{ for i, el in ipairs(circle) do }%
+                    %{= el.x }% %{= 0 }% %{= el.y }%
+                  %{ end }%
+                ]
+              }
+              texCoord TextureCoordinate {
+                point [
+                  %{ for i, el in ipairs(circle) do }%
+                    %{= el.x / floorTextureScale.x }% %{= el.y / floorTextureScale.y}%
+                  %{ end }%
+                ]
+              }
+              coordIndex [
+                %{ for j = subdivision, 0, -1 do }%
+                  %{= j }%
+                %{ end }%
+                -1
+              ]
+              texCoordIndex [
+                %{ for j = subdivision, 0, -1 do }%
+                  %{= j }%
+                %{ end }%
+                -1
+              ]
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "circle arena"
+    boundingObject Plane {
+      size %{= 2 * radius }% %{= 2 * radius }%
+    }
+    contactMaterial IS contactMaterial
+    locked TRUE
+  }
+}

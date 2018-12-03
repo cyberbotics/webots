@@ -1,0 +1,138 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
+# A simple bus.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO Bus [
+  field     SFVec3f    translation       0 0.55 0
+  field     SFRotation rotation          0 1 0 0
+  field     SFColor    color             0.03 0.12 0.42
+  field     SFString   name              "vehicle"
+  field     SFString   controller        "void"
+  field     SFString   controllerArgs    ""
+  field     SFBool     supervisor        FALSE
+  field     SFBool     synchronization   TRUE
+  field     MFNode     sensorsSlotFront  [ ]
+  field     MFNode     sensorsSlotRear   [ ]
+  field     MFNode     sensorsSlotTop    [ ]
+  field     MFNode     sensorsSlotCenter [ ]
+]
+{
+Car {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  controller IS controller
+  controllerArgs IS controllerArgs
+  supervisor IS supervisor
+  synchronization IS synchronization
+  trackFront 2.5
+  trackRear 2.5
+  wheelbase 4.5
+  minSteeringAngle -0.4
+  maxSteeringAngle 0.4
+  suspensionFrontSpringConstant 1e+06
+  suspensionFrontDampingConstant 10000
+  suspensionRearSpringConstant 1e+06
+  suspensionRearDampingConstant 10000
+  wheelsDampingConstant 20
+  engineMinRPM 700
+  engineMaxRPM 2250
+  engineFunctionCoefficients -600 5.45 -0.0023  # calibrated for a torque of 2500Nm in the range [1000; 1350] RPM
+  gearRatio [-14 16 11 7 4.5 3 1.9 1.2]
+  model "bus"
+  extensionSlot [
+    Transform {
+      children IS sensorsSlotCenter
+    }
+    Transform {
+      translation 0 0.2 11.5
+      rotation 0 1 0 3.14159
+      children IS sensorsSlotFront
+    }
+    Transform {
+      translation 0 5.3 2.5
+      rotation 0 1 0 3.14159
+      children IS sensorsSlotTop
+    }
+    Transform {
+      translation 0 1 -6.2
+      children IS sensorsSlotRear
+    }
+    BusShape {
+      color IS color
+    }
+    VehicleLights {
+      front [
+        Transform {
+          translation -0.9 0.56 6.26
+          rotation 1 0 0 1.5708
+          children [
+            DEF FRONT_SPOT Shape {
+              appearance PBRAppearance {
+                metalness 0
+                roughness 0.3
+              }
+              geometry Cylinder {
+                height 0.056
+                radius 0.117
+                subdivision 24
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.9 0.56 6.26
+          rotation 1 0 0 1.5708
+          children [
+            USE FRONT_SPOT
+          ]
+        }
+      ]
+    }
+  ]
+  radarCrossSection 200
+  recognitionColors [
+    %{= fields.color.value.r }% %{= fields.color.value.g }% %{= fields.color.value.b }%
+  ]
+  boundingObject Transform {
+    translation 0 1.35 1.4625
+    children [
+      Box {
+        size 2.64 2.9 9.73
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 8000
+    centerOfMass [
+      0 0.1 2.25
+    ]
+  }
+  wheelFrontLeft BusWheel {
+    name "front left wheel"
+    physics DEF WHEEL_PHYSICS Physics {
+      density -1
+      mass 80
+    }
+  }
+  wheelFrontRight BusWheel {
+    name "front right wheel"
+    physics USE WHEEL_PHYSICS
+  }
+  wheelRearRight BusWheel {
+    name "rear right wheel"
+    physics USE WHEEL_PHYSICS
+  }
+  wheelRearLeft BusWheel {
+    name "rear left wheel"
+    physics USE WHEEL_PHYSICS
+  }
+  brakeCoefficient 3500
+  time0To100 25
+}
+}

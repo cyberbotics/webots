@@ -1,0 +1,28 @@
+###############################################################
+#
+# Purpose: Makefile for "check_start_position"
+#
+###############################################################
+
+TARGET = check_start_position
+
+CXX = g++
+INCLUDE_DIRS = -I../../../include -I../../../../Framework/include
+CXXFLAGS +=	-O2 -DLINUX -g -Wall -fmessage-length=0 $(INCLUDE_DIRS)
+LIBS += -lpthread -lrt
+
+OBJS =	main.o
+
+LIBNAME=darwin.a
+LIBRPATH=../../../lib/$(LIBNAME)
+
+all: $(LIBNAME) $(TARGET)
+
+$(LIBNAME):
+	make -C ../../../build
+
+$(TARGET): $(OBJS) $(LIBRPATH)
+	$(CXX) -o $(TARGET) $(OBJS) $(LIBRPATH) $(LIBS)
+
+clean:
+	rm -f $(OBJS) $(TARGET)

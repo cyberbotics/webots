@@ -1,0 +1,107 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  lineScale 0.3
+}
+Viewpoint {
+  orientation 0.180735 0.982754 0.0391057 5.27826
+  position -0.648203 0.119612 0.343123
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  intensity 0.5
+  location 0 0.345 0
+}
+Floor {
+}
+DEF BLUE_ROBOT Robot {
+  translation -0.25 0.025 0
+  children [
+    DEF BASE_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.113725 0.113725 0.854902
+          specularColor 0.984314 0.909804 0.909804
+        }
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.05
+        subdivision 24
+      }
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.06 0
+        minStop -1.5
+        maxStop 1.5
+      }
+      jointParameters2 JointParameters {
+        minStop -1.5
+        maxStop 1.5
+      }
+      device [
+        RotationalMotor {
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "rotational motor2"
+          minPosition -1.53
+          maxPosition 1.58
+          maxTorque 100
+        }
+        PositionSensor {
+          name "position sensor2"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 0
+        children [
+          DEF THICK_CYLINDER_SHAPE Shape {
+            appearance DEF GRAY_APPEARANCE Appearance {
+              material Material {
+                specularColor 1 1 1
+              }
+            }
+            geometry Cylinder {
+              height 0.05
+              radius 0.02
+              subdivision 24
+            }
+          }
+        ]
+        boundingObject Group {
+          children [
+            USE THICK_CYLINDER_SHAPE
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+          centerOfMass [
+            0 0 0
+          ]
+          inertiaMatrix [
+            1 1 1
+            0 0 0
+          ]
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE BASE_SHAPE
+  physics Physics {
+    density -1
+    mass 20
+  }
+  controller "motor2"
+}
+TestSuiteSupervisor {
+}

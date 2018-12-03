@@ -1,0 +1,171 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A door lever.
+# This object can be used in the 'doorHandle' field of the Door object.
+
+PROTO DoorLever [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "door lever"
+  field SFBool     canTurn          FALSE                # Defines whether the lever is connected to the door using a hinge-joint.
+  field SFBool     jointAtLeft      TRUE                 # Defines on which side is the lever.
+  field SFFloat    doorThickness    0.05                 # Defines the thickness of the door.
+  field SFFloat    handleThickness  0.0125               # Defines the thickness of the handle.
+  field SFFloat    handleLength     0.12                 # Defines the length of the handle.
+  field SFFloat    distanceFromDoor 0.065                # Defines the distance between the handle and the door.
+  field SFNode     appearance       BrushedAluminium {}  # Defines the appearance of the lever.
+  field SFFloat    mass             0.7                  # Defines the mass of the lever.
+  field SFBool     hasStaticParent  FALSE                # Defines whether the parent door has physics or not.
+]
+{
+  %{
+    local doorThickness = fields.doorThickness.value
+    if doorThickness <= 0.0 then
+      io.stderr:write("'doorThickness' must be positive\n")
+      doorThickness = fields.doorThickness.defaultValue
+    end
+
+    local handleThickness = fields.handleThickness.value
+    if handleThickness <= 0.0 then
+      io.stderr:write("'handleThickness' must be positive\n")
+      handleThickness = fields.handleThickness.defaultValue
+    end
+
+    local handleLength = fields.handleLength.value
+    if handleLength <= 0.0 then
+      io.stderr:write("'handleLength' must be positive\n")
+      handleLength = fields.handleLength.defaultValue
+    end
+
+    local distanceFromDoor = fields.distanceFromDoor.value
+    if distanceFromDoor <= 0.0 then
+      io.stderr:write("'distanceFromDoor' must be positive\n")
+      distanceFromDoor = fields.distanceFromDoor.defaultValue
+    end
+
+    local mirrorFactor = fields.jointAtLeft.value and -1 or 1
+
+    local axisHeight = distanceFromDoor * 2 + doorThickness
+    local handlePositionZ = axisHeight * 0.5
+    local handlePositionX = handleLength * 0.5
+  }%
+  Slot {
+    type "door handle"
+    endPoint Solid {
+      translation IS translation
+      rotation IS rotation
+      children [
+        DEF HANDLE_SUPPORT Transform { # handle support
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance IS appearance
+              geometry Cylinder {
+                radius %{= 3 * handleThickness }%
+                height %{= 0.025 + doorThickness }%
+              }
+            }
+          ]
+        }
+      %{ if fields.canTurn.value then }%
+        DEF LEVER HingeJoint {
+          jointParameters HingeJointParameters {
+            position 0.02
+          %{ if mirrorFactor > 0 then }%
+            axis 0 0 -1
+          %{ else }%
+            axis 0 0 1
+          %{ end }%
+            minStop -0.03
+            maxStop 0.6109
+            springConstant 10
+            dampingConstant 0.5
+            staticFriction 0.05
+          }
+          endPoint Solid {
+            children [
+      %{ end }%
+              DEF HANDLE_AXIS Transform { # handle axis
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance IS appearance
+                    geometry Capsule {
+                      radius %{= handleThickness }%
+                      height %{= axisHeight }%
+                    }
+                  }
+                ]
+              }
+              DEF BACK_HANDLE Transform { # back handle
+                translation %{= mirrorFactor * handlePositionX }% 0 %{= -handlePositionZ }%
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance IS appearance
+                    geometry Capsule {
+                      radius %{= handleThickness }%
+                      height %{= handleLength }%
+                    }
+                  }
+                ]
+              }
+              DEF FRONT_HANDLE Transform { # front handle
+                translation %{= mirrorFactor * handlePositionX }% 0 %{= handlePositionZ }%
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance IS appearance
+                    geometry Capsule {
+                      radius %{= handleThickness }%
+                      height %{= handleLength }%
+                    }
+                  }
+                ]
+              }
+    %{ if fields.canTurn.value then }%
+            ]
+            boundingObject Group {
+              children [
+                USE HANDLE_AXIS
+                USE BACK_HANDLE
+                USE FRONT_HANDLE
+              ]
+            }
+            physics Physics {
+              density -1
+              mass IS mass
+
+            }
+          }
+        }
+      ]
+      %{ if not fields.hasStaticParent.value then}%
+      boundingObject USE HANDLE_SUPPORT
+      physics Physics {
+      }
+      %{ end }%
+    %{ else }%
+      ]
+      name IS name
+      model "door lever"
+      boundingObject Group {
+        children [
+          USE HANDLE_SUPPORT
+          USE HANDLE_AXIS
+          USE BACK_HANDLE
+          USE FRONT_HANDLE
+        ]
+      }
+      %{ if not fields.hasStaticParent.value then }%
+      physics Physics {
+        density -1
+        mass IS mass
+      }
+      %{ end }%
+    %{ end }%
+    }
+  }
+}

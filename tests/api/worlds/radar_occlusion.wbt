@@ -1,0 +1,96 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.770023 0.604102 0.205245 0.921879
+  position 2.79333 5.3775 3.17801
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+DEF FRONT_TARGET Solid {
+  translation 0.00141908 2.42029e-14 -0.887852
+  scale 3.07454 3.07454 3.07454
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 3
+}
+DEF OCCLUDED_TARGET1 Solid {
+  translation -1.04952 2.06501e-14 -4.14052
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 1
+}
+DEF OCCLUDED_TARGET2 Solid {
+  translation 0.79048 2.06501e-14 -4.14052
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject Sphere {
+    radius 0.1
+  }
+  radarCrossSection 1
+}
+Robot {
+  children [
+    DEF RADAR_WITH_OCCLUSION Radar {
+      name "radar_with_occlusion"
+      maxRange 5
+      occlusion TRUE
+    }
+    DEF RADAR_WITHOUT_OCCLUSION Radar {
+      name "radar_without_occlusion"
+      maxRange 5
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "radar_occlusion"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

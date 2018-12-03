@@ -1,0 +1,19 @@
+<!--
+References:
+- animated tabs: https://www.w3schools.com/w3css/w3css_tabulators.asp
+- responsive div layout: https://stackoverflow.com/questions/1091322/how-to-fade-to-display-inline-block
+-->
+
+<script src="plot_widget.js"></script>
+<script src="timeplot_widget.js"></script>
+<script src="radar_widget.js"></script>
+
+<div ondragstart="return false">
+  <div id="menu">
+    <button id="menu-close-button" onclick="closeMenu()">&times;</button>
+  </div>
+  <div id="content">
+    <button id="menu-open-button" onclick="openMenu()">&#9776;</button>
+    <p id="no-controller-label">No controller.</p>
+  </div>
+</div>

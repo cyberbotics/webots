@@ -1,0 +1,76 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Ground sensor of a Khepera III robot.
+# Electronic part: Vishay TCRT5000
+
+PROTO Khepera3_GroundSensor [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+  field SFString name "ds"
+]
+{
+  DistanceSensor {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "Khepera III ground sensor"
+    children [
+      Group {
+        children [
+          Transform {
+            translation 0 -0.002 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry DEF SPHERE Sphere {
+                  radius 0.0014
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.002 0
+            children [
+              Shape {
+                appearance DEF BLACK PBRAppearance {
+                  baseColor 0.101961 0.101961 0.101961
+                  roughness 0.45
+                  metalness 0
+                }
+                geometry USE SPHERE
+              }
+            ]
+          }
+          Transform {
+            translation -0.0025 0 0
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry Box {
+                  size 0.006 0.01 0.005
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    lookupTable [
+      0 4000 0
+      0.0145 4000 0.01
+      0.0223 3816 0.05
+      0.0345 1855 0.1
+      0.0516 974 0.2
+      0.0774 474 0.2
+      0.1145 224 0.2
+      0.15 170 0.3
+      0.3 0 0.3
+    ]
+    type "infra-red"
+  }
+}

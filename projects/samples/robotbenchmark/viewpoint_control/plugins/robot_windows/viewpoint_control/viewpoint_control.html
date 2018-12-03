@@ -1,0 +1,39 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark will teach you how to move the 3D viewpoint using the mouse.</p>
+    <p>The tab entitled <a class='tablink' onclick='$("#infotabs").tabs({active:1});'>Metrics</a> measures your progress in an exercise where
+      you have to place the viewpoint at a specific position and orientation. It also allows you to record your performance in
+      the robotbenchmark database (if you are logged-in).</p>
+    <p>The tab entitled <a class='tablink' onclick='$("#infotabs").tabs({active:2});'>Instructions</a> explains you how to use the mouse to
+      control the viewpoint.</p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center' title='Your performance increases as you get closer to the target viewpoint position and orientation.'>
+      <span id='achievement'>%</span></div>
+    <div style='text-align:center'>
+      <button id='record-button' disabled onclick='recordPerformance()'>Record</button>
+    </div>
+    <br>
+    <p>Move the viewpoint to get as close as possible to the top view depicted below.
+     Note that you will not get the exact same view if you are using a different aspect ratio than the one in the picture,
+     so you may need to resize your window to help you get a good result.
+     The completion percentage displayed above indicates how close you are to the target viewpoint position and orientation.
+     You need to achieve a positive performance (displayed in green) to be able to record it by pressing the "Record" button.
+     The <a class='tablink' onclick='$("#infotabs").tabs({active:2});'>Instructions</a> tab explains the mouse control details.</p>
+    <div style='text-align:center'><img src='topview.png'></div>
+  </div>
+  <div id='infotab-instructions'>
+    <h2>Using the mouse to move the viewpoint</h2>
+     <ul>
+      <li><b>Rotate</b>: click on a 3D object in the scene with the left mouse button and drag the mouse pointer. The viewpoint will rotate around the object.</li>
+      <li><b>Translate</b>: click in the scene with the right mouse button and drag the mouse pointer.</li>
+      <li><b>Zoom</b>: click in the 3D scene and roll the mouse wheel. It is also possible to zoom by pressing the mouse wheel and dragging the mouse forward or backwards.</li>
+      <li><b>Tilt</b>: press the mouse wheel over the 3D scene and drag the mouse to the left or to the right. Pressing simultaneously the left and right mouse buttons is equivalent to pressing the mouse wheel.</li>
+     </ul>
+  </div>
+</div>

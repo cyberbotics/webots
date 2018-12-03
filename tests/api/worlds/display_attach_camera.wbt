@@ -1,0 +1,75 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.550333 -0.766248 -0.331657 5.11774
+  position 3.11937 3.65146 2.62953
+}
+Background {
+  skyColor [
+    1 0 0
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Transform {
+  translation 0 0 1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 0 0 1
+        }
+      }
+      geometry Box {
+        size 2 2 0.1
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Display {
+      translation 0 0 -1
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+            texture ImageTexture {
+              filtering 0
+            }
+          }
+          geometry Plane {
+            size 2 2
+          }
+        }
+      ]
+      width 80
+      height 80
+    }
+    Camera {
+      fieldOfView 1.5708
+      width 80
+      height 80
+    }
+    Camera {
+      rotation 0 1 0 3.14159
+      name "attached camera"
+      fieldOfView 1.5708
+      width 80
+      height 80
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "display_attach_camera"
+}
+TestSuiteSupervisor {
+}

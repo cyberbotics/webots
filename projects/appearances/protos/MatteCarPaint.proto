@@ -1,0 +1,39 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A matte car paint material. The color can be selected `baseColor` field. Useful with any of the vehicle PROTOs.
+
+PROTO MatteCarPaint [
+  field SFColor baseColor        1 1 1                             # Defines the paint's color.
+  field SFNode  textureTransform TextureTransform { scale 10 10 }  # Defines an optional 2d texture transform.
+  field SFNode  environmentMap   NULL                              # Defines an optional `Cubemap` node that can override the world's skybox for this object.
+  field SFFloat IBLStrength      1                                 # Defines the strength of ambient lighting from the Cubemap node.
+]
+{
+  PBRAppearance {
+    baseColor IS baseColor
+    baseColorMap ImageTexture {
+      url [
+        "textures/matte_car_paint/matte_car_paint_base_color.png"
+      ]
+      filtering 5   
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/matte_car_paint/matte_car_paint_roughness.png"
+      ]
+      filtering 5
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/matte_car_paint/matte_car_paint_normal.png"
+      ]
+      filtering 5      
+    }
+    metalness 0
+    normalMapFactor 0.5
+    environmentMap IS environmentMap
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

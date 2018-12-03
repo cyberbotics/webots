@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "A Mindstorms robot following a line drawn on a textured object"
+  ]
+  title "Rover"
+}
+Viewpoint {
+  orientation 0.6976547152414726 0.5971047562824885 0.39590883840370406 4.69705
+  position -0.462803 1.39528 0.18755
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorTileSize 1 1
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/line.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallHeight 0.06
+}
+Solid {
+  translation -0.02 0.05 0.015
+  children [
+    Shape {
+      appearance DEF SURROUNDING_WALL_APPEARANCE PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 1
+        metalness 0
+      }
+      geometry DEF OBSTACLE Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE OBSTACLE
+}
+MindstormsRover {
+  translation 0.23 0 -0.38
+  rotation 0 1 0 1.56145
+}

@@ -1,0 +1,135 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material2 "body"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.285534 -0.924684 -0.251852 1.75064
+  position -0.478412 0.34185 -0.0304515
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Floor {
+  size 50 50
+}
+Robot {
+  translation 0 0.04 0
+  children [
+    DEF BODY Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.917647 0.145098 0.145098
+        }
+      }
+      geometry Box {
+        size 0.1 0.05 0.05
+      }
+    }
+    DEF WHEEL1 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.06 0 0
+      }
+      jointParameters2 DEF WHEEL1PARAMETERS JointParameters {
+        axis 1 0 0
+      }
+      device [
+        RotationalMotor {
+          name "dummy motor 1"
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "wheel1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.055 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0.305882 0.898039 0.25098
+                  }
+                }
+                geometry Cylinder {
+                  height 0.005
+                  radius 0.04
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor -0.06 0 0
+      }
+      jointParameters2 DEF WHEEL2PARAMETERS JointParameters {
+        axis 1 0 0
+      }
+      device [
+        RotationalMotor {
+          name "dummy motor 2"
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "wheel2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.055 0 0
+        children [
+          USE WHEEL
+        ]
+        name "solid(1)"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    Gyro {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {
+  }
+  controller "hinge_2_joint_damping"
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "hinge_2_joint_damping_supervisor"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

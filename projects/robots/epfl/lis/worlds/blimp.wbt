@@ -1,0 +1,708 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "A blimp robot model demonstrating custom physics."
+    "If you wish you can control the robot with the keyboard:"
+    "The control keys are: up, down, right, left, page up, page down and space (reset)."
+    "Authors: Jean-Christophe Zufferey, Alexis Guanella, Antoine Beyeler"
+    "Laboratory of Intelligent Systems (LIS)"
+    "Swiss Federal Institute of Technology (EPFL), Lausanne"
+  ]
+  title "LIS-EPFL Blimp"
+  physics "blimp_physics"
+  contactProperties [
+    ContactProperties {
+      material1 "blimp"
+      coulombFriction [
+        0.6
+      ]
+      bounce 0.4
+      bounceVelocity 0
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.9734759850985606 -0.22738937416319646 0.02527011978715204 5.827790069904052
+  position 1.881999838982753 6.989019698287106 14.94509009756716
+  bloomThreshold 100
+}
+TexturedBackground {
+}
+DEF blimp_lis Blimp {
+  translation 1.27672 1.19599 3.59047
+  rotation -0.023760697188772353 -0.9996779791206752 0.008908834396613568 2.4247010340014534
+}
+FloorLight {
+  translation -5.3289884184332035 0 -5.198742668282387
+  pointLightAttenuation 0 1 0
+  pointLightIntensity 5
+  pointLightCastShadows TRUE
+}
+CeilingLight {
+  translation -0.778416458889009 3.0199999999999996 -2.5637438670646664
+  pointLightAttenuation 0 0 1
+  pointLightIntensity 8
+}
+CeilingLight {
+  translation 3.5035561583815937 3.010000000000003 4.758051372254145
+  name "ceiling light(1)"
+  pointLightAttenuation 1 1 0
+  pointLightIntensity 6
+  pointLightCastShadows TRUE
+}
+Floor {
+  size 12 12
+  tileSize 0.7999999999999999 0.7999999999999999
+  appearance Parquetry {
+  }
+}
+DEF CEILING Solid {
+  translation 0 3 0
+  rotation 1 0 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.215686 0.215686 0.215686
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            6 0 6
+            6 0 -6
+            -6 0 -6
+            -6 0 6
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3
+        ]
+      }
+    }
+  ]
+  boundingObject Box {
+    size 12 0.001 12
+  }
+}
+DEF OUTSIDE_WEST_WALL Solid {
+  translation 0 0 -6
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_indoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -6 0 0
+            3 0 0
+            3 3 0
+            -6 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            4 0
+            4 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside west wall 1"
+  description "designed by jcz"
+  boundingObject Transform {
+    translation 0 1.5 0
+    children [
+      Box {
+        size 12 3 0.01
+      }
+    ]
+  }
+}
+DEF OUTSIDE_WEST_WALL_2 Solid {
+  translation 0 0 -6
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_outdoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            3 0 0
+            6 0 0
+            6 3 0
+            3 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            2 0
+            2 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside west wall 2"
+  description "designed by jcz"
+}
+DEF OUTSIDE_SOUTH_WALL Solid {
+  translation -6 0 0
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_indoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -6 0 0
+            6 0 0
+            6 3 0
+            -6 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            6 0
+            6 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside south wall"
+  boundingObject Transform {
+    translation 0 1.5 0
+    children [
+      Box {
+        size 12 3 0.01
+      }
+    ]
+  }
+}
+DEF OUTSIDE_EAST_WALL Solid {
+  translation 0 0 6
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_outdoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -6 0 0
+            1.4 0 0
+            1.4 3 0
+            -6 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            4 0
+            4 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside east wall 1"
+  boundingObject Transform {
+    translation 0 1.5 0
+    children [
+      Box {
+        size 12 3 0.01
+      }
+    ]
+  }
+}
+DEF OUTSIDE_EAST_WALL_2 Solid {
+  translation 0 0 6
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_indoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            1.4 0 0
+            6 0 0
+            6 3 0
+            1.4 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            3 0
+            3 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside east wall 2"
+}
+DEF OUTSIDE_NORTH_WALL Solid {
+  translation 6 0 0
+  rotation 0 1 0 -1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_outdoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -6 0 0
+            6 0 0
+            6 3 0
+            -6 3 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            8 0
+            8 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "outside north wall"
+  boundingObject Transform {
+    translation 0 1.5 0
+    children [
+      Box {
+        size 12 3 0.01
+      }
+    ]
+  }
+}
+DEF INSIDE_SMALL_WALL Solid {
+  translation 3.04732 1.5 -2.73749
+  rotation 0 1 0 -1.5708
+  children [
+    DEF SMALL_WALL Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 6.5 3 0.5
+      }
+    }
+  ]
+  name "inside small wall 1"
+  boundingObject DEF SMALL_WALL Shape {
+    appearance PBRAppearance {
+      baseColor 0 0.501961 1
+      roughness 1
+      metalness 0
+    }
+    geometry Box {
+      size 6.5 3 0.5
+    }
+  }
+}
+DEF INSIDE_SMALL_WALL_TEX Solid {
+  translation 3.31 0 -6
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_outdoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 6.65
+            0 0 0
+            0 3 0
+            0 3 6.65
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            4 0
+            4 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "inside small wall 2"
+}
+DEF INSIDE_SMALL_WALL_TEX_2 Solid {
+  translation 2.79 0 0.64
+  rotation 0 1 0 3.14159
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/texture_indoor.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 6.65
+            0 0 0
+            0 3 0
+            0 3 6.65
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            4 0
+            4 2
+            0 2
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+  name "inside small wall 3"
+}
+DEF INSIDE_CENTER_WALL_1 Solid {
+  translation 0.19237 1.5 0.38524
+  rotation 0 1 0 6.27781
+  children [
+    DEF CENTER_WALL_1 Shape {
+      appearance DEF CENTER_WALL_APP PBRAppearance {
+        baseColor 0 0.501961 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 2.35 3 0.5
+      }
+    }
+  ]
+  name "inside center wall 1"
+  boundingObject USE CENTER_WALL_1
+}
+DEF INSIDE_CENTER_WALL_2 Solid {
+  translation 1.82171 2.7 0.394515
+  rotation 0 1 0 6.27781
+  children [
+    DEF CENTER_WALL_2 Shape {
+      appearance USE CENTER_WALL_APP
+      geometry Box {
+        size 1 0.6 0.5
+      }
+    }
+  ]
+  name "inside center wall 2"
+  boundingObject USE CENTER_WALL_2
+}
+DEF INSIDE_CENTER_WALL_3 Solid {
+  translation 1.82171 0.3 0.394515
+  rotation 0 1 0 6.27781
+  children [
+    DEF CENTER_WALL_3 Shape {
+      appearance USE CENTER_WALL_APP
+      geometry Box {
+        size 1 0.6 0.5
+      }
+    }
+  ]
+  name "inside center wall 3"
+  boundingObject USE CENTER_WALL_3
+}
+DEF INSIDE_CENTER_WALL_4 Solid {
+  translation 2.7 1.5 0.4
+  children [
+    DEF CENTER_WALL_4 Shape {
+      appearance USE CENTER_WALL_APP
+      geometry Box {
+        size 1 3 0.5
+      }
+    }
+  ]
+  name "inside center wall 4"
+  boundingObject USE CENTER_WALL_4
+}
+DEF EPFL_LOGO_1 Solid {
+  translation -1.4703 1.8 3.57092
+  rotation 0 1 0 17.28
+  children [
+    DEF EPFL_LOGO Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/epfl_logo.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 1.5 1.5 0.01
+      }
+    }
+  ]
+  name "epfl logo 1"
+}
+DEF EPFL_LOGO_2 Solid {
+  translation 3.315 1.5 -2.5
+  rotation 0 1 0 -1.5708
+  children [
+    USE EPFL_LOGO
+  ]
+  name "epfl logo 2"
+}
+DEF LIS_LOGO Solid {
+  translation -0.909653 1.5 3.72995
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/logo.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 1.5 0.01
+      }
+    }
+  ]
+  name "lis logo 1"
+}
+DEF LIS_LOGO_2 Solid {
+  translation 6 1.5 0.873895
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/logo.png"
+          ]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 3 1.5 0.01
+      }
+    }
+  ]
+  name "lis logo 2"
+}
+Chair {
+  translation 0.490773 0 -3.27998
+}
+Chair {
+  translation 1.51562 0 -3.43906
+  rotation 0 1 0 0.200872
+  name "chair(1)"
+}
+Chair {
+  translation 1.69055 0 -2.77177
+  rotation 0 1 0 0.0403698
+  name "chair(2)"
+}
+Chair {
+  translation -0.270254 0 2.50844
+  rotation 0 1 0 1.65549
+  name "chair(3)"
+}
+Chair {
+  translation -5.39791 0 3.18983
+  rotation 0 -1 0 0.786062
+  name "chair(4)"
+}
+Chair {
+  translation -5.43406 0 -1.95653
+  rotation 0 1 0 2.31073
+  name "chair(5)"
+}
+Chair {
+  translation -4.07525 0 3.04224
+  rotation 0 -1 0 2.28741
+  name "chair(6)"
+}
+Chair {
+  translation -5.42041 0 -0.755915
+  rotation 0 1 0 5.79869
+  name "chair(7)"
+}
+Chair {
+  translation -3.72668 0 0.425059
+  rotation 0 1 0 2.14982
+  name "chair(8)"
+}
+Chair {
+  translation -5.10104 0 0.484452
+  rotation 0 -1 0 4.87992
+  name "chair(9)"
+}
+Chair {
+  translation 2.13455 0 4.45918
+  rotation 0 1 0 4.00456
+  name "chair(10)"
+}
+Chair {
+  translation -3.67442 0 5.15692
+  rotation 0 1 0 4.00456
+  name "chair(11)"
+}
+Chair {
+  translation -3.51194 0 -3.06349
+  rotation 0 -1 0 3.26456
+  name "chair(12)"
+}
+Chair {
+  translation 0.232576 0 4.52469
+  rotation 0 1 0 2.45555
+  name "chair(13)"
+}
+Chair {
+  translation -5.63015 0 5.27482
+  rotation 0 -1 0 5.82071
+  name "chair(14)"
+}
+Chair {
+  translation -3.6307 0 -1.51246
+  rotation 0 -1 0 2.23375
+  name "chair(15)"
+}
+Chair {
+  translation -5.17973 0 -4.35753
+  rotation 0 1 0 0.407765
+  name "chair(16)"
+}
+RoundTable {
+  translation -4.36743 0 -0.575897
+}
+RoundTable {
+  translation -4.69509 0 -2.94547
+  name "round table(1)"
+}
+RoundTable {
+  translation 1.31334 0 3.39362
+  name "round table(2)"
+}
+RoundTable {
+  translation -4.50987 0 4.17092
+  name "round table(3)"
+}

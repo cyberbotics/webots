@@ -1,0 +1,65 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.188339 0.946267 0.262883 4.15506
+  position -0.929518 1.5538 -1.06563
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Floor {
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 0
+}
+DEF AIRPLANE Robot {
+  translation 0.484785 0.39156 -0.0676172
+  children [
+    InertialUnit {
+    }
+    Shape {
+      appearance Appearance {
+        texture ImageTexture {
+          url [
+            "textures/plane_top_view.jpg"
+          ]
+        }
+        textureTransform TextureTransform {
+          rotation 1.5708
+        }
+      }
+      geometry Plane {
+      }
+    }
+    Transform {
+      rotation 1 0 0 3.1416
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "textures/plane_bottom_view.jpg"
+              ]
+            }
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry Plane {
+          }
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "inertial_unit"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

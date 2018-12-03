@@ -1,0 +1,80 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Tractor Front Wheel
+
+PROTO TractorFrontWheel [
+  field SFString name           "tractor front wheel"
+  field SFFloat  tireRadius     0.38
+  field SFFloat  width          0.19
+  field SFInt32  subdivision    24
+  field SFNode   physics        Physics { density -1 mass 30 }
+  field SFBool   boundingObject TRUE
+]
+{
+  Slot {
+    type "vehicle wheel"
+    endPoint Solid {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url "textures/tractor_tire_tread_base_color.jpg"
+            }
+            metalness 0
+            roughness 0.4
+            normalMap ImageTexture {
+              url "textures/tractor_tire_tread_normal.jpg"
+            }
+            occlusionMap ImageTexture {
+              url "textures/tractor_tire_tread_occlusion.jpg"
+            }
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 1 7
+            }
+          }
+          geometry Cylinder {
+            height IS width
+            radius IS tireRadius
+            subdivision IS subdivision
+            bottom FALSE
+            top FALSE
+          }
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url "textures/tractor_front_tire_side_base_color.jpg"
+            }
+            roughnessMap ImageTexture {
+              url "textures/tractor_front_tire_side_roughness.jpg"
+            }
+            normalMap ImageTexture {
+              url "textures/tractor_front_tire_side_normal.jpg"
+            }
+            occlusionMap ImageTexture {
+              url "textures/tractor_front_tire_side_occlusion.jpg"
+            }
+          }
+          geometry Cylinder {
+            height IS width
+            radius IS tireRadius
+            subdivision IS subdivision
+            side FALSE
+          }
+        }
+      ]
+      name IS name
+      model "tractor front wheel"
+      %{ if fields.boundingObject.value then }%
+        boundingObject Cylinder {
+          height IS width
+          radius IS tireRadius
+          subdivision IS subdivision
+        }
+      %{ end }%
+      physics IS physics
+    }
+  }
+}

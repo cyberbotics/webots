@@ -1,0 +1,123 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Static radar rays"
+}
+Viewpoint {
+  orientation 0.293817 -0.917648 -0.26757 4.83703
+  position 0.302524 0.278027 0.0853756
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  location 0 0.3 0
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+DEF DYNAMIC_BOX_1 Solid {
+  translation 0 0.13 -0.1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 1 0
+          specularColor 0.564706 0.933333 0.564706
+        }
+      }
+      geometry DEF BOX0 Box {
+        size 0.03 0.07 0.02
+      }
+    }
+  ]
+  name "green box"
+  boundingObject USE BOX0
+  physics Physics {
+    density 500
+  }
+  radarCrossSection 1
+}
+DEF STATIC_BOX_1 Solid {
+  translation 0 0.05 0.1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+          specularColor 0.564706 0.933333 0.564706
+        }
+      }
+      geometry DEF BOX1 Box {
+        size 0.04 0.04 0.02
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOX1
+  radarCrossSection 1
+}
+DEF STATIC_ROBOT Robot {
+  translation 0 0.06 0
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry Sphere {
+        radius 0.02
+      }
+    }
+    DEF STATIC Radar {
+      translation -0.05 0 0.001
+      rotation 0 1 0 1.5708
+      name "radar static"
+      minRange 0.02
+      maxRange 0.2
+    }
+    DEF DYNAMIC Radar {
+      translation 0.05 0 0
+      rotation 0 1 0 -1.5708
+      name "radar dynamic"
+      minRange 0.01
+      maxRange 0.2
+    }
+    DEF STATIC_OCCLUSION Radar {
+      translation -0.05 0 0.001
+      rotation 0 1 0 1.5708
+      name "radar occlusion static"
+      minRange 0.02
+      maxRange 0.2
+      occlusion TRUE
+    }
+    DEF DYNAMIC_OCCLUSION Radar {
+      translation 0.05 0 0
+      rotation 0 1 0 -1.5708
+      name "radar occlusion dynamic"
+      minRange 0.01
+      maxRange 0.2
+      occlusion TRUE
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "static"
+  controller "radar_rays"
+  controllerArgs "static_radar_rays"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,4 @@
+string filename
+int32 quality
+---
+int8 success

@@ -1,0 +1,60 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>
+      This benchmark aims at developing a program that controls a KUKA youBot robot to pick a cube and move it to a target position.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
+    <p>
+      The benchmark metric is the time <em>t</em> spent by the robot to pick the green cube and place it in the empty slot of the box located on the cart.
+      The timer starts as soon as the simulation start and stops when the cube is in the slot.
+      At this point, the simulation time is recorded as the performance of the robot.
+    </p>
+    <div align='center'>
+      <img width=300 src='target.png' alt='Target position.'>
+      <div><small>Empty slot where the cube has to be placed.</small></div>
+    </div>
+  </div>
+  <div id='infotab-instructions'>
+    <p>
+      <h2>How to improve the performance?</h2>
+    </p>
+    <p>
+      The basic controller is an open-loop program that simply sets the velocity or position of the motors
+      and waits for a given time until the robot reaches the desired position.
+      There are different strategies to reduce the execution time.
+      For example you can increase the motors velocity, tune the duration of the steps, and parallelize the motions.
+    </p>
+    <p>
+      Instead of waiting for a predefined amount of time between the different motions, a more elegant and efficient solution is to use
+      the <a target=_blank href="https://www.cyberbotics.com/doc/reference/positionsensor">PositionSensor</a> values to exactly determine when the movement is completed.
+      If you look at the provided Python program controlling the youBot robot, you will find a sample code to monitor one of the arm joint position:
+      <pre style='background:#FEE'>
+  # Monitor the arm joint position to detect when the motion is completed.
+  while robot.step(timestep) != -1:
+      if abs(armPositionSensors[3].getValue() - (-1.2)) < 0.01:
+          # Motion completed.
+          break
+    </pre>
+    </p>
+    <p>
+      Some information about the environment and the robot that can be useful to improve the controller:
+      <ul>
+        <li>The initial robot position is [x: -2.4, z: 0.0] m.</li>
+        <li>The cube position is [x: 1.0, y: 0.205, z: 0.0] m after the conveyor belt stops.</li>
+        <li>The target position is [x: -2.185, y: 0.140, z: -0.813] m.</li>
+        <li>The robot's wheel radius is 5cm.</li>
+      </ul>
+      <div align=center>
+        <img width=220 src='youbot_wheels.png'>
+        <img width=350 src='youbot_arm.png'>
+      </div>
+    </p>
+  </div>
+</div>

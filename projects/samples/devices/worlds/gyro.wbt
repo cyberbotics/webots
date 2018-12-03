@@ -1,0 +1,145 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example world for testing/demonstrating the Gyro device."
+  ]
+  title "Gyro"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.6235639078943174 0.7267648926506559 0.2880639574505081 0.910026
+  position 0.223411 0.342275 0.289936
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GYROBOT Robot {
+  translation 0 0.05 0
+  children [
+    DEF HINGE_JOINT_X HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "motor_x"
+          controlPID 2 0 0
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.1 0
+        rotation 1 0 0 0
+        children [
+          DEF HINGE_JOINT_Y_Z Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+            }
+            jointParameters2 JointParameters {
+            }
+            device [
+              RotationalMotor {
+                name "motor_y"
+                controlPID 2 0 0
+              }
+            ]
+            device2 [
+              RotationalMotor {
+                name "motor_z"
+                controlPID 2 0 0
+              }
+            ]
+            endPoint Gyro {
+              rotation 0 0 1 0
+              children [
+                DEF RED_CYL Transform {
+                  rotation 0 0 1 1.5708
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 1 0 0
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        height 0.01
+                        radius 0.04
+                        subdivision 20
+                      }
+                    }
+                  ]
+                }
+                DEF GREEN_CYL Transform {
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 1 0
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        height 0.01
+                        radius 0.04
+                        subdivision 20
+                      }
+                    }
+                  ]
+                }
+                DEF BLUE_CYL Transform {
+                  rotation 1 0 0 1.5708
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 0 1
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        height 0.01
+                        radius 0.04
+                        subdivision 20
+                      }
+                    }
+                  ]
+                }
+                DEF BOX Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.8 0.8 0.8
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry DEF BOX Box {
+                    size 0.05 0.05 0.05
+                  }
+                }
+              ]
+              boundingObject USE BOX
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject Box {
+          size 0.01 0.01 0.01
+        }
+        physics Physics {
+        }
+      }
+    }
+    DEF BASIS Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.1 0.2
+      }
+    }
+  ]
+  name "gyrobot"
+  boundingObject USE BASIS
+  controller "gyro"
+}

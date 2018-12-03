@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 24.08.2017 14:24:14 by Netedit Version 0.30.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\msys64\home\David\develop\webots-develop\projects\automobile\worlds\highway_overtake_net\sumo.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\msys64\home\David\develop\webots-develop\projects\automobile\worlds\highway_overtake_net\sumo.net.xml"/>
+    </output>
+
+    <processing>
+        <no-internal-links value="true"/>
+        <no-turnarounds value="true"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+        <junctions.corner-detail value="0"/>
+        <rectangular-lane-cut value="false"/>
+    </processing>
+
+    <visualisation>
+        <registry-viewport value="true"/>
+    </visualisation>
+
+</configuration>
+-->
+
+<net version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="16.25,0.00" convBoundary="7.50,0.00,25.00,5000.00" origBoundary="-16.25,-0.00,16.25,5000.00" projParameter="!"/>
+
+    <edge id="-0" from="Custom0" to="Custom1" priority="-1" spreadType="center">
+        <lane id="-0_0" index="0" allow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="30.48,0.00 30.48,5000.00"/>
+        <lane id="-0_1" index="1" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="26.82,0.00 26.82,5000.00"/>
+        <lane id="-0_2" index="2" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="23.18,0.00 23.18,5000.00"/>
+        <lane id="-0_3" index="3" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="19.52,0.00 19.52,5000.00"/>
+    </edge>
+    <edge id="-1" from="Custom2" to="Custom3" priority="-1" spreadType="center">
+        <lane id="-1_0" index="0" allow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="2.02,5000.00 2.02,0.00"/>
+        <lane id="-1_1" index="1" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="5.67,5000.00 5.67,0.00"/>
+        <lane id="-1_2" index="2" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="9.32,5000.00 9.32,0.00"/>
+        <lane id="-1_3" index="3" disallow="pedestrian" speed="13.90" length="5000.00" width="3.55" shape="12.98,5000.00 12.98,0.00"/>
+    </edge>
+
+    <junction id="Custom0" type="dead_end" x="25.00" y="0.00" incLanes="" intLanes="" shape="17.75,0.00 32.25,0.00"/>
+    <junction id="Custom1" type="dead_end" x="25.00" y="5000.00" incLanes="-0_0 -0_1 -0_2 -0_3" intLanes="" shape="32.25,5000.00 17.75,5000.00"/>
+    <junction id="Custom2" type="dead_end" x="7.50" y="5000.00" incLanes="" intLanes="" shape="14.75,5000.00 0.25,5000.00"/>
+    <junction id="Custom3" type="dead_end" x="7.50" y="0.00" incLanes="-1_0 -1_1 -1_2 -1_3" intLanes="" shape="0.25,0.00 14.75,0.00"/>
+
+</net>

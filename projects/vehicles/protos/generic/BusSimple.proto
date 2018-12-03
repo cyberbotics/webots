@@ -1,0 +1,148 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# Simple kinematic model of bus to be moved with a Supervisor.
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO BusSimple [
+  field     SFVec3f    translation         0 0.55 0
+  field     SFRotation rotation            0 1 0 0
+  field     SFColor    color               0.03 0.12 0.42
+  field     MFColor    recognitionColors   [  0.03 0.12 0.42 ]
+  field     SFString   name                "vehicle"
+  field     SFString   controller          ""
+  field     SFString   controllerArgs      ""
+  field     MFNode     sensorsSlotFront    [ ]
+  field     MFNode     sensorsSlotRear     [ ]
+  field     MFNode     sensorsSlotTop      [ ]
+  field     MFNode     sensorsSlotCenter   [ ]
+  field     SFBool     wheelBoundingObject FALSE
+  hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
+  hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearRightWheelAngularVelocity  0 0 0
+  hiddenField SFVec3f rearLeftWheelAngularVelocity   0 0 0
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  controller IS controller
+  controllerArgs IS controllerArgs
+  model "bus"
+  recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
+  children [
+    Transform {
+      children IS sensorsSlotCenter
+    }
+    Transform {
+      translation 0 0.2 11.5
+      rotation 0 1 0 3.14159
+      children IS sensorsSlotFront
+    }
+    Transform {
+      translation 0 5.3 2.5
+      rotation 0 1 0 3.14159
+      children IS sensorsSlotTop
+    }
+    Transform {
+      translation 0 1 -6.2
+      children IS sensorsSlotRear
+    }
+    BusShape {
+      color IS color
+    }
+    Transform {
+      translation -0.9 0.56 6.26
+      rotation 1 0 0 1.5708
+      children [
+        DEF FRONT_SPOT Shape {
+          appearance PBRAppearance {
+            metalness 0
+            roughness 0.3
+          }
+          geometry Cylinder {
+            height 0.056
+            radius 0.117
+            subdivision 24
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.9 0.56 6.26
+      rotation 1 0 0 1.5708
+      children [
+        USE FRONT_SPOT
+      ]
+    }
+    DEF REAR_LEFT_WHEEL Solid {
+      angularVelocity IS rearLeftWheelAngularVelocity
+      translation 1.25 0 0
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            boundingObject IS wheelBoundingObject
+          }
+        }
+      ]
+        name "rear left wheel"
+    }
+    DEF FRONT_LEFT_WHEEL Solid {
+      angularVelocity IS frontLeftWheelAngularVelocity
+      translation 1.25 0 4.5
+      rotation 0 0 1 -1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            boundingObject IS wheelBoundingObject
+          }
+        }
+      ]
+        name "front left wheel"
+    }
+    DEF REAR_RIGHT_WHEEL Solid {
+      angularVelocity IS rearRightWheelAngularVelocity
+      translation -1.25 0 0
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            boundingObject IS wheelBoundingObject
+          }
+        }
+      ]
+        name "rear right wheel"
+    }
+    DEF FRONT_RIGHT_WHEEL Solid {
+      angularVelocity IS frontRightWheelAngularVelocity
+      translation -1.25 0 4.5
+      rotation 0 0 1 1.5708
+      children [
+        Slot {
+          type "vehicle wheel"
+          endPoint BusWheel {
+            boundingObject IS wheelBoundingObject
+          }
+        }
+      ]
+        name "front right wheel"
+    }
+  ]
+  radarCrossSection 200
+  boundingObject Transform {
+    translation 0 1.35 1.4625
+    children [
+      Box {
+        size 2.64 2.9 9.73
+      }
+    ]
+  }
+  physics NULL
+}
+}

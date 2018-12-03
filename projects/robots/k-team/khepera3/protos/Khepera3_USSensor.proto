@@ -1,0 +1,95 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Ultrasound sensor of a Khepera III robot.
+# Electronic parts: Midas 400ST100 (transmitter) and 400SR100 (receiver)
+
+PROTO Khepera3_USSensor [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+  field SFString name "ds"
+]
+{
+  DistanceSensor {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "Khepera III ultrasound sensor"
+    children [
+      Group {
+        children [
+          Transform {
+            translation -0.0025 0 0
+            children [
+              Shape {
+                appearance DEF BLACK PBRAppearance {
+                  baseColor 0.101961 0.101961 0.101961
+                  roughness 0.45
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.005 0.011 0.014
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.0025 0 0.007
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry DEF BIG_CYLINDER Cylinder {
+                  height 0.005
+                  radius 0.0055
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.0025 0 -0.007
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry USE BIG_CYLINDER
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.0045
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance DEF GRAY PBRAppearance {
+                  baseColor 0.74902 0.74902 0.74902
+                  roughness 0.2
+                }
+                geometry DEF SMALL_CYLINDER Cylinder {
+                  height 0.002
+                  radius 0.0045
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 -0.0045
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance USE GRAY
+                geometry USE SMALL_CYLINDER
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    lookupTable [
+      0 1023 0
+      0.2 1023 0.05
+      4 0 0.4
+    ]
+    type "sonar"
+  }
+}

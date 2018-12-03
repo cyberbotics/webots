@@ -1,0 +1,114 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.999382 0.0277185 -0.02164 4.71099
+  position -0.0198992 1.24915 -0.0584196
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+Robot {
+  translation 0 0.1 0
+  children [
+    DistanceSensor {
+      translation 0.05 0 0
+      name "ds0"
+      lookupTable [
+        0 0 0
+        1 1 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    DistanceSensor {
+      translation -0.05 0 0
+      rotation 0 1 0 3.1416
+      name "ds1"
+      lookupTable [
+        0 0 0
+        1 1 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    DistanceSensor {
+      translation 0 -0.05 0
+      rotation 0 0 1 -1.5708
+      name "ds2"
+      lookupTable [
+        0 0 0
+        1 1 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    DistanceSensor {
+      translation 0 0 -0.05
+      rotation 0 1 0 1.5708
+      name "ds3"
+      lookupTable [
+        0 0 0
+        1 1 0
+      ]
+      type "sonar"
+      numberOfRays 20
+    }
+    Shape {
+      geometry Cylinder {
+        height 0.1
+        radius 0.05
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_sonar"
+}
+Solid {
+  translation -0.101643 0.1 -0.246648
+  rotation 0.198977 0.198978 0.959592 1.61204
+  children [
+    DEF SHAPE Shape {
+      geometry Box {
+        size 0.1 0.1 0.01
+      }
+    }
+  ]
+  boundingObject USE SHAPE
+}
+Solid {
+  translation 0.2 0.1 0
+  rotation 0 0 1 1.5708
+  children [
+    DEF SHAPE Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE SHAPE
+}
+Solid {
+  translation 0.106512 0.1 -0.344285
+  rotation 0 0 1 1.5708
+  children [
+    DEF SHAPE Shape {
+      geometry Box {
+        size 0.1 0.1 0.01
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE SHAPE
+}
+Floor {
+}
+TestSuiteSupervisor {
+}

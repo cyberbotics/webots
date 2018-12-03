@@ -1,0 +1,138 @@
+
+WEBOTS_HOME ?= ..
+WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
+
+include $(WEBOTS_HOME)/resources/Makefile.os.include
+
+DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
+
+QT_PACKAGE = webots-qt-5.11.2-linux64-release.tar.bz2
+OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
+OPENCV_PACKAGE = opencv-linux64.tar.gz
+OIS_PACKAGE = libOIS.1.4.tar.bz2
+PICO_PACKAGE = libpico.tar.bz2
+LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
+LUA_PACKAGE = lua-5.2.3.tar.gz
+OPENSSL_PACKAGE = libssl_1.0.2.tar.bz2
+
+PACKAGES = qt open-al open-cv ois pico lua-gd lua
+PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
+
+ifeq ($(UBUNTU_VERSION), 18.04)
+	PACKAGES += open-ssl
+endif
+
+.PHONY: release debug distrib clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
+
+release debug distrib: $(PACKAGES)
+clean:
+cleanse: $(PACKAGES_CLEAN)
+
+qt-clean:
+	rm -rf $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME)/lib/libQt* $(WEBOTS_HOME)/lib/libicu* $(WEBOTS_HOME)/lib/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+
+qt: $(WEBOTS_HOME)/lib/libQt5Core.so.5.11.2
+
+$(WEBOTS_HOME)/lib/libQt5Core.so.5.11.2:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) -C $(WEBOTS_HOME)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+
+
+open-al-clean:
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)* $(WEBOTS_HOME)/lib/libopenal*
+
+open-al: $(WEBOTS_HOME)/lib/libopenal.so.1
+
+$(WEBOTS_HOME)/lib/libopenal.so.1:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so.1.16.0 $(WEBOTS_HOME)/lib/libopenal.so
+	ln -s $(WEBOTS_HOME)/lib/libopenal.so $(WEBOTS_HOME)/lib/libopenal.so.1
+
+
+open-cv-clean:
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME)/lib/libopencv_* $(WEBOTS_HOME)/include/opencv2
+
+open-cv: $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3
+
+$(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar zxvf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
+	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
+	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4
+	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2
+	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so
+	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4
+	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2
+	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so
+
+
+ois-clean:
+	rm -rf $(WEBOTS_HOME)/lib/libOIS* $(WEBOTS_HOME)/include/libOIS
+
+ois: $(WEBOTS_HOME)/lib/libOIS-1.4.0.so
+
+$(WEBOTS_HOME)/lib/libOIS-1.4.0.so:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) -C $(WEBOTS_HOME)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+
+
+pico-clean:
+	rm -rf $(WEBOTS_HOME)/lib/libpico.so $(WEBOTS_HOME)/resources/pico $(WEBOTS_HOME)/include/libpico
+
+pico: $(WEBOTS_HOME)/lib/libpico.so
+
+$(WEBOTS_HOME)/lib/libpico.so:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) -C $(WEBOTS_HOME)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+
+
+lua-gd-clean:
+	rm -rf $(WEBOTS_HOME)/resources/lua/modules/gd
+
+lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.so
+
+$(WEBOTS_HOME)/resources/lua/modules/gd/gd.so:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)/resources/lua/modules
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+
+
+lua-clean:
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+
+lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	wget http://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar zxf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	make -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux test
+
+
+open-ssl-clean:
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME)/lib/libcrypto.so $(WEBOTS_HOME)/lib/libssl.so
+
+open-ssl: $(WEBOTS_HOME)/lib/libcrypto.so
+
+$(WEBOTS_HOME)/lib/libcrypto.so:
+	cd $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libcrypto.so $(WEBOTS_HOME)/lib
+	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libssl.so $(WEBOTS_HOME)/lib

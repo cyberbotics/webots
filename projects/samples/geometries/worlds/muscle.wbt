@@ -1,0 +1,207 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the use of the Muscle node"
+  ]
+  title "Muscle"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.998991375752244 -0.03858734683592488 -0.02296187790236507 0.38129082
+  position 0.065910609 0.19038357 0.4744376
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 3 3
+}
+DEF HINGE Robot {
+  translation 0 0.035 0
+  children [
+    DEF BOX Transform {
+      translation -0.025 -0.01 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.06 0.08
+          }
+        }
+      ]
+    }
+    DEF JOINT Shape {
+      appearance PBRAppearance {
+        baseColor 0.337255 0.337255 0.337255
+        transparency 0.009999999776482582
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.008
+      }
+    }
+    DEF BONE1 Transform {
+      translation 0.05 1.6835523e-07 0
+      rotation 0 0 1 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.1
+            radius 0.005
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.1 0 0
+        dampingConstant 0.4
+      }
+      device [
+        RotationalMotor {
+          name "muscle"
+          controlPID 1 0.1 0
+          minPosition -0.5
+          maxPosition 3
+          maxTorque 0.5
+          muscles [
+            Muscle {
+              maxRadius 0.02
+              startOffset 0.01 0 0
+              endOffset 0 0.05 0
+              color [
+                1 0 0
+                1 1 0
+                1 0 1
+              ]
+            }
+            Muscle {
+              maxRadius 0.007
+              startOffset 0.106 -0.003 0
+              endOffset 0.003 0.05 0
+            }
+          ]
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0.1 0 0
+        rotation 0 0 1 4.9078177
+        children [
+          USE JOINT
+          DEF BONE2 Transform {
+            translation 0 0.0225 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Capsule {
+                  height 0.045
+                  radius 0.005
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject Group {
+          children [
+            USE JOINT
+            USE BONE2
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.6
+        }
+      }
+    }
+  ]
+  name "hinge"
+  boundingObject Group {
+    children [
+      USE BOX
+      USE JOINT
+      USE BONE1
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 20
+    centerOfMass [
+      -0.03 -0.015 0
+    ]
+  }
+  controller "muscle"
+}
+DEF SLIDER Robot {
+  translation -0.01 0.04 0.21
+  children [
+    DEF JOINT Shape {
+      appearance PBRAppearance {
+        baseColor 0.337255 0.337255 0.337255
+        transparency 0.009999999776482582
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.008
+      }
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 1 0 0
+      }
+      device [
+        LinearMotor {
+          name "muscle"
+          controlPID 1 0.6 0
+          minPosition -0.2
+          maxPosition 1
+          maxForce 0.3
+          muscles [
+            Muscle {
+              maxRadius 0.01
+              color [
+                1 0 0
+                1 1 0
+                1 0 1
+              ]
+            }
+          ]
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0.05 0 0
+        children [
+          USE JOINT
+        ]
+        boundingObject USE JOINT
+        physics Physics {
+          density -1
+          mass 2
+        }
+      }
+    }
+  ]
+  name "slider"
+  boundingObject USE JOINT
+  controller "muscle"
+}

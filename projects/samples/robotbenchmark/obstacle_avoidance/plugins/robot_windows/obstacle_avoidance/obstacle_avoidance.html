@@ -1,0 +1,48 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+    <li><a href='#infotab-explanations'>Explanations</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>This benchmark aims to create a robust and efficient algorithm for obstacle avoidance for the Thymio II robot, using the Python programming language.</p>
+    <p>The goal is for the robot to cross the room and reach the opposite wall as fast as possible, while avoiding all collisions with obstacles.</p>
+    <p>To encourage robust avoidance behaviour, the obstacles are randomly positioned each run.</p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'><em>t</em> = <span id='time-display'>00:00:00</span></div>
+    <br>
+    <p>The benchmark metric <em>t</em> is the time taken for the robot to cross the room. Minimizing this time is the goal for this scenario.</p>
+    <p>The timer stops after either the robot is within 40 cm of the back wall or more than 1 minute 20 seconds has elapsed.</p>
+    <p>Any collision with obstacles in the room is considered an immediate failure to complete the task, and a time of 1 minute 20 seconds (the maximum time) is recorded.</p>
+  </div>
+  <div id='infotab-instructions'>
+  <h2>How to improve your time?</h2>
+    <p>The Thymio II in the base controller reads values from its frontal distance sensors, and uses this to directly control the speed of its wheels.
+       In order to successfully avoid obstacles with the sensor response mechanism implemented here, the robot does not move at full speed. Getting the robot
+       to move at full speed requires a change in the strength of the effect that distance sensors have on wheel control.</p>
+    <p>Without knowing an absolute direction to travel, it is possible for the robot to get disoriented and fail to reach the other side of the room.
+       To combat this, the Thymio II is equipped with a Compass device, although the default controller does not make use of it.
+       The compass can be enabled using the following snippet:</p>
+    <pre style='background:#FEE'>
+  # import Compass module
+  from controller import Compass
+  # get robot's Compass device
+  compass = robot.getCompass("compass")
+  # enable the Compass
+  compass.enable(timestep)
+
+  # to read values
+  values = compass.getValues()</pre>
+  <p>Full documentation on the Compass device can be found <a target="_blank" href="https://www.cyberbotics.com/doc/reference/compass">here.</a></p>
+  </div>
+  <div id='infotab-explanations'>
+    <h2>Braitenberg Vehicles</h2>
+    <p>Like the e-puck robot used in other benchmarks, the Thymio II robot is driven by two wheels, each with their own motor and free rotation.</p>
+    <p>This robot controller and many in the field of obstacle avoidance are based upon the <a target="_blank" href="https://en.wikipedia.org/wiki/Braitenberg_vehicle">Braitenberg Vehicle</a>.
+       The Braitenberg vehicle, named after neuroscientist Valentino Braitenberg is an automaton that is able to navigate freely using inputs from
+       sensors present on the vehicle. In this example, the sensory inputs from the left side of the robot control the right wheel's velocity, and vice versa.
+       Though the mechanisms that power Braitenberg vehicles are simple, complex behaviour can be exhibited, as shown by this benchmark.</p>
+  </div>
+</div>

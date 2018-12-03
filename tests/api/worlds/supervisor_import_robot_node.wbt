@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test world importing a robot object and checking if his controller is started"
+  ]
+}
+Viewpoint {
+  orientation 0.00218105 -0.980408 -0.196965 3.38702
+  position 0.155299 0.402356 -0.6181
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0 0.3 0
+}
+Floor {
+  size 1 1
+}
+DEF Test Robot {
+  children[
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_import_robot_node"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

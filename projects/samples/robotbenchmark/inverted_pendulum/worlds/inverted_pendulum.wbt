@@ -1,0 +1,169 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Benchmark objective:"
+    "keep the pendulum in equilibrium as long as possible."
+    "Perturbations with increasing strength are applied to the pendulum."
+    "measure the simulation time "
+  ]
+  title "Inverted Pendulum"
+  window "inverted_pendulum"
+  physics "inverted_pendulum_perturbation"
+  basicTimeStep 4
+  lineScale 0.01
+}
+Viewpoint {
+  orientation -0.0035314798860618924 -0.9991060060567106 -0.042127393833730854 3.118668
+  position -0.021064378 0.11611695 -1.7670965
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 40 5
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/interlaced_parquetry.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Wall {
+  translation 0 0 2.52
+  size 40 2.4 0.2
+}
+E-puck {
+  translation 0 0 -0.98
+  rotation 0 1 0 1.5707963
+  controller "inverted_pendulum"
+  window ""
+  turretSlot [
+    Transform {
+      translation 0 0 -0.01
+      rotation 0 0 1 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 0.5
+            metalness 0
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry DEF JOINT_GEOM Cylinder {
+            height 0.01
+            radius 0.004
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters DEF PENDULUM_PARAMETERS HingeJointParameters {
+        position -0.05
+        anchor 0 0 -0.01
+        minStop -1.6
+        maxStop 1.6
+      }
+      device [
+        PositionSensor {
+          name "pendulum sensor"
+          resolution 1e-05
+        }
+      ]
+      endPoint DEF PENDULUM Solid {
+        translation 0 0.079900021 -0.013998333
+        rotation -1 0 0 1.6208
+        children [
+          DEF POLE Transform {
+            translation 0 0 -0.04
+            rotation 1 0 0 1.5707997
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 0.5
+                  metalness 0
+                  textureTransform TextureTransform {
+                  }
+                }
+                geometry Cylinder {
+                  height 0.075
+                  radius 0.0015
+                }
+              }
+            ]
+          }
+          DEF BALL Transform {
+            rotation 1 0 0 4.712389
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 0.5
+                  metalness 0
+                  textureTransform TextureTransform {
+                    rotation 1.5708
+                    scale 0.5 0.5
+                    translation 0.2 0
+                  }
+                }
+                geometry Sphere {
+                  radius 0.0075
+                  subdivision 3
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE BALL
+        physics Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+}
+PottedTree {
+  translation 2.3590843 2.3314684e-15 1.5713239
+  rotation 0 -1 0 3.1415927
+}
+PottedTree {
+  translation -8.1991063 2.3314684e-15 1.7283871
+  rotation 0 -1 0 4.712389
+  name "potted tree(1)"
+}
+PottedTree {
+  translation 6.9386009 2.3314684e-15 1.6952438
+  rotation 0 -1 0 4.712389
+  name "potted tree(2)"
+}
+LandscapePainting {
+  translation 4.93 1.41 2.4
+  rotation 0 -1 0 3.1415927
+}
+DEF PAINTING PortraitPainting {
+  translation -4.09 1.515 2.4
+  rotation 0 -1 0 3.1415927
+}
+Chair {
+  translation -6.7892764 0 1.6094394
+  rotation 0 1 0 1.5707963
+}
+Chair {
+  translation -5.8129552 0 1.6194171
+  rotation 0 1 0 1.5707963
+  name "chair(1)"
+}
+Sofa {
+  translation 0.46911152 -4.5519144e-14 1.5328805
+  rotation 0 1 0 1.5707963
+}
+InvertedPendulumBenchmark {
+}

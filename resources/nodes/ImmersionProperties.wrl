@@ -1,0 +1,10 @@
+# The ImmersionProperties node specifies the properties for a partially or fully immersed Solid node in a Fluid node.
+
+ImmersionProperties {
+  field SFString   fluidName       ""  # fluid in which the Solid is partially or fully immersed
+  field SFString   referenceArea   "immersed area"  # reference area(s) used to compute drag force and drag torque
+  field SFVec3f    dragForceCoefficients  0 0 0 # non-negative coefficients used to compute the drag force exerted by the fluid
+  field SFVec3f    dragTorqueCoefficients  0 0 0 # non-negative coefficients used to compute the drag torque exerted by the fluid
+  field SFFloat    viscousResistanceForceCoefficient 0 # non-negative coefficient used to compute the viscous resistance force of the fluid
+  field SFFloat    viscousResistanceTorqueCoefficient 0 # non-negative coefficient used to compute the angular viscous resistance torque of the fluid
+}

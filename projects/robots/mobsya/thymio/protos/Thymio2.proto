@@ -1,0 +1,644 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/guide/surveyor
+# Thymio II mobile robot.
+
+PROTO Thymio2 [
+  field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0         # Is `Transform.rotation`.
+  field SFString   name            "Thymio II"     # Is `Solid.name`.
+  field SFString   controller      "thymio2_aseba" # Is `Robot.controller`.
+  field SFString   controllerArgs  "port=33333"    # Is `Robot.controllerArgs`.
+  field SFString   customData      ""              # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
+  field SFString   window          ""              # Is `Robot.window`.
+  field SFString   contactMaterial "thymio body"   # Defines the `Solid.contactMaterial` for the body.
+  field SFBool     castLight       TRUE            # Defines whether OpenGL lights are cerated for each LEDs.
+  field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    window IS window
+    model "Thymio II"
+    children [
+      Transform {
+        children [
+          Shape {
+            appearance DEF MAIN_APPEARANCE PBRAppearance {
+              baseColor 1 1 1
+              roughness 0.1
+              metalness 0
+            }
+            geometry Thymio2MainIndexedFaceSet {
+            }
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              roughness 0.2
+              metalness 0
+            }
+            geometry Thymio2SecondaryIndexedFaceSet {
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.0533 -0.02
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 1
+              baseColorMap ImageTexture {
+                url [
+                  "textures/thymio2_grid.png"
+                ]
+              }
+            }
+            geometry Plane {
+              size 0.006 0.006
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.0533 0.0168
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColorMap ImageTexture {
+                url [
+                  "textures/thymio2_battery.png"
+                ]
+              }
+            }
+            geometry Plane {
+              size 0.006 0.01
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.0533 0.0168
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              emissiveColor 0 1 0
+              transparency 0.3
+              metalness 0
+              roughness 0.7
+              baseColorMap ImageTexture {
+                url [
+                  "textures/thymio2_battery_level.png"
+                ]
+              }
+            }
+            geometry Plane {
+              size 0.006 0.01
+            }
+          }
+        ]
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.05 0.021 0
+        }
+        device [
+          RotationalMotor {
+            name "motor.right"
+            maxVelocity 9.53
+          }
+          PositionSensor {
+            name "motor.right.position"
+          }
+        ]
+        endPoint Solid {
+          translation -0.05 0.021 0
+          rotation 1 0 0 0
+          children [
+            DEF WHEEL_SHAPE Shape {
+              appearance DEF WHITE_PLASTIC_APPEARANCE PBRAppearance {
+                baseColor 0.9 0.9 0.9
+                roughness 0.1
+                metalness 0
+              }
+              geometry Thymio2WheelIndexedFaceSet {
+              }
+            }
+            DEF TIRE_SHAPE Shape {
+              appearance PBRAppearance {
+                baseColor 0.1 0.1 0.1
+                metalness 0
+                roughness 0.3
+              }
+              geometry Thymio2TireIndexedFaceSet {
+              }
+            }
+          ]
+          name "right wheel"
+          boundingObject Transform {
+            rotation 0 0 1 1.5708
+            children [
+              DEF WHEEL_BO_SHAPE Shape {
+                geometry Cylinder {
+                  height 0.015
+                  radius 0.021
+                }
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.024
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.05 0.021 0
+        }
+        device [
+          RotationalMotor {
+            name "motor.left"
+            maxVelocity 9.53
+          }
+          PositionSensor {
+            name "motor.left.position"
+          }
+        ]
+        endPoint Solid {
+          translation 0.05 0.021 0
+          rotation 1 0 0 0
+          children [
+            Transform {
+              rotation 0 1 0 3.14159
+              children [
+                USE WHEEL_SHAPE
+                USE TIRE_SHAPE
+              ]
+            }
+          ]
+          name "left wheel"
+          boundingObject Transform {
+            rotation 0 0 1 1.5708
+            children [
+              DEF WHEEL_BO_SHAPE Shape {
+                geometry Cylinder {
+                  height 0.015
+                  radius 0.021
+                }
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.024
+          }
+        }
+      }
+      TouchSensor {
+        translation 0.015 0.0526 0.04886
+        rotation 1 0 0 -1.5708
+        name "button.left"
+        children [
+          DEF TOUCH_SENSOR_TRANSFORM Transform {
+            rotation 1 0 0 1.5708
+            children [
+              Shape {
+                appearance USE MAIN_APPEARANCE
+                geometry Plane {
+                  size 0.015 0.015
+                }
+              }
+            ]
+          }
+        ]
+      }
+      TouchSensor {
+        translation 0 0.0526 0.06386
+        rotation 1 0 0 -1.5708
+        name "button.forward"
+        children [
+          USE TOUCH_SENSOR_TRANSFORM
+        ]
+      }
+      TouchSensor {
+        translation -0.015 0.0526 0.04886
+        rotation 1 0 0 -1.5708
+        name "button.right"
+        children [
+          USE TOUCH_SENSOR_TRANSFORM
+        ]
+      }
+      TouchSensor {
+        translation 0 0.0526 0.03386
+        rotation 1 0 0 -1.5708
+        name "button.backward"
+        children [
+          USE TOUCH_SENSOR_TRANSFORM
+        ]
+      }
+      TouchSensor {
+        translation 0 0.0526 0.04886
+        rotation 1 0 0 -1.5708
+        name "button.center"
+        children [
+          USE TOUCH_SENSOR_TRANSFORM
+        ]
+      }
+      Thymio2DistanceSensor {
+        translation 0.0506 0.0346 0.0634
+        rotation 0 1 0 -0.885
+        name "prox.horizontal.0"
+      }
+      Thymio2DistanceSensor {
+        translation 0.027 0.0346 0.0768
+        rotation 0 1 0 -1.22
+        name "prox.horizontal.1"
+      }
+      Thymio2DistanceSensor {
+        translation 0.00015 0.0346 0.0816
+        rotation 0 1 0 -1.5708
+        name "prox.horizontal.2"
+      }
+      Thymio2DistanceSensor {
+        translation -0.027 0.0346 0.0768
+        rotation 0 1 0 -1.9216
+        name "prox.horizontal.3"
+      }
+      Thymio2DistanceSensor {
+        translation -0.0506 0.0346 0.0634
+        rotation 0 1 0 -2.27
+        name "prox.horizontal.4"
+      }
+      Thymio2DistanceSensor {
+        translation 0.0318 0.0346 -0.0307
+        rotation 0 1 0 1.5708
+        name "prox.horizontal.5"
+      }
+      Thymio2DistanceSensor {
+        translation -0.0318 0.0346 -0.0307
+        rotation 0 1 0 1.5708
+        name "prox.horizontal.6"
+      }
+      Thymio2DistanceSensor {
+        translation 0.012 0.008 0.07355
+        rotation -0.536796 0.536795 0.650923 4.29564
+        name "prox.ground.0"
+        isGroundSensor TRUE
+      }
+      Thymio2DistanceSensor {
+        translation -0.012 0.008 0.07355
+        rotation -0.555329 0.555329 -0.619047 2.03298
+        name "prox.ground.1"
+        isGroundSensor TRUE
+      }
+      Thymio2LED {
+        translations [ 0 0.0532 0.0582 ]
+        rotations [ 0 1 0 0 ]
+        name "leds.buttons.led0"
+        textureUrls [ "textures/thymio2_square_flare.png" ]
+        sizes [ 0.01 0.003 ]
+      }
+      Thymio2LED {
+        translations [ -0.0092 0.0532 0.0486 ]
+        rotations [ 0 1 0 1.5708 ]
+        name "leds.buttons.led1"
+        textureUrls [ "textures/thymio2_square_flare.png" ]
+        sizes [ 0.01 0.003 ]
+      }
+      Thymio2LED {
+        translations [ 0 0.0532 0.0398 ]
+        rotations [ 0 1 0 0 ]
+        name "leds.buttons.led2"
+        textureUrls [ "textures/thymio2_square_flare.png" ]
+        sizes [ 0.01 0.003 ]
+      }
+      Thymio2LED {
+        translations [ 0.0092 0.0532 0.0486 ]
+        rotations [ 0 1 0 1.5708 ]
+        name "leds.buttons.led3"
+        textureUrls [ "textures/thymio2_square_flare.png" ]
+        sizes [ 0.01 0.003 ]
+      }
+      Thymio2LED {
+        translations [ 0.00000 0.0532 0.07316 ]
+        rotations [ 0 -1 0 1.570796326794896 ]
+        name "leds.circle.led0"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ -0.01718 0.0532 0.06604 ]
+        rotations [ 0 -1 0 2.356194490192344 ]
+        name "leds.circle.led1"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ -0.02430 0.0532 0.04886 ]
+        rotations [ 0 -1 0 3.141592653589792 ]
+        name "leds.circle.led2"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ -0.01718 0.0532 0.03168 ]
+        rotations [ 0 -1 0 3.92699081698724 ]
+        name "leds.circle.led3"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ 0.00000 0.0532 0.02456 ]
+        rotations [ 0 -1 0 4.712388980384688 ]
+        name "leds.circle.led4"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ 0.01718 0.0532 0.03168 ]
+        rotations [ 0 -1 0 5.497787143782136 ]
+        name "leds.circle.led5"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ 0.02430 0.0532 0.04886 ]
+        rotations [ 0 -1 0 0.00000 ]
+        name "leds.circle.led6"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        translations [ 0.01718 0.0532 0.06604 ]
+        rotations [ 0 -1 0 0.785398163397448 ]
+        name "leds.circle.led7"
+        textureUrls [ "textures/thymio2_curved_flare.png" ]
+        sizes [ 0.004 0.016 ]
+        color 0.5 0.25 0.125
+      }
+      Thymio2LED {
+        name "leds.prox.h.led0"
+        translations [ 0.0555532 0.0322 0.0588603 ]
+        rotations [ 0.842253 0.38119 -0.381188 1.74164 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led1"
+        translations [ 0.0353637 0.0322 0.0733335 ]
+        rotations [ 0.951403 0.217753 -0.217752 1.6206 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led2"
+        translations [ 0.0088706 0.0322 0.0808631 ]
+        rotations [ 0.994401 0.0747202 -0.07472 1.57641 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led3"
+        translations [ -0.0088706 0.0322 0.0808631 ]
+        rotations [ 0.994401 -0.0747202 0.07472 1.57641 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led4"
+        translations [ -0.0353637 0.0322 0.0733335 ]
+        rotations [ 0.951403 -0.217753 0.217752 1.6206 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led5"
+        translations [ -0.0557035 0.0322 0.0589923 ]
+        rotations [ 0.842253 -0.38119 0.381188 1.74164 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led6"
+        translations [ 0.0406035 0.0322 -0.0308077 ]
+        rotations [ 1 0 0 4.71239 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.prox.h.led7"
+        translations [ -0.0406035 0.0322 -0.0308077 ]
+        rotations [ 1 0 0 4.71239 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.sound"
+        translations [ -0.0587035 0.0367 0.0266923 ]
+        rotations [ 0 0 1 1.5708 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+        color 0 0 1
+      }
+      Thymio2LED {
+        name "leds.rc"
+        translations [ -0.0587035 0.0367 0.0416923 ]
+        rotations [ 0 0 1 1.5708 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.temperature.red"
+        translations [ 0.0587035 0.0367 0.036 ]
+        rotations [ 0 0 -1 1.5708 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+      }
+      Thymio2LED {
+        name "leds.temperature.blue"
+        translations [ 0.0587035 0.0367 0.029 ]
+        rotations [ 0 0 -1 1.5708 ]
+        textureUrls [ "textures/thymio2_radial_flare.png" ]
+        sizes [ 0.01 0.01 ]
+        color 0 0 1
+      }
+      Thymio2LED {
+        name "leds.prox.v.led0"
+        translations [ 0.0222034 0.00790001 0.0732923, 0.0231072 0.0156 0.077828]
+        rotations [ 1 0 0 3.1415, 0.983105 0.129429 -0.12943 1.58783]
+        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        sizes [ 0.01 0.01, 0.01 0.01 ]
+        %{ if fields.castLight.value then }%
+          lightPosition 0.022 0.03 0.073
+        %{ end }%
+      }
+      Thymio2LED {
+        name "leds.prox.v.led1"
+        translations [ -0.0222034 0.00790001 0.0732923, -0.0231072 0.0156 0.077828]
+        rotations [ 1 0 0 3.1415, -0.983106 0.129428 -0.129429 4.69536]
+        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        sizes [ 0.01 0.01, 0.01 0.01 ]
+        %{ if fields.castLight.value then }%
+          lightPosition -0.022 0.03 0.073
+        %{ end }%
+      }
+      Thymio2LED {
+        name "leds.top"
+        translations [
+          0.0318706 0.0532 0.0008632,
+          0.0318 0.045 -0.0308,
+          0.0398 0.041 0.0012,
+          -0.0318706 0.0532 0.0008632,
+          -0.0318 0.045 -0.0308,
+          -0.0398 0.041 0.0012
+        ]
+        rotations [
+          0 1 0 3.1415,
+          1 0 0 4.71239,
+          -0.57735 -0.57735 -0.57735 2.0944,
+          0 1 0 3.1415,
+          1 0 0 4.71239,
+          -0.57735 0.57735 0.57735 2.0944
+        ]
+        textureUrls [
+          "textures/thymio2_radial_flare.png",
+          "textures/thymio2_square_flare.png",
+          "textures/thymio2_radial_flare.png",
+          "textures/thymio2_radial_flare.png",
+          "textures/thymio2_square_flare.png",
+          "textures/thymio2_radial_flare.png",
+        ]
+        sizes [
+          0.05 0.06,
+          0.04 0.014,
+          0.05 0.02,
+          0.05 0.06,
+          0.04 0.014,
+          0.05 0.02,
+        ]
+        level 0
+      }
+      Thymio2LED {
+        name "leds.bottom.left"
+        translations [ -0.0582 0.0213 0.0459278, -0.0513 0.0213 0.0626278]
+        rotations [ 0.577388 -0.57735 0.577312 2.0944, 0.397601 0.389351 0.830854 1.77445]
+        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        sizes [ 0.02 0.02, 0.02 0.01 ]
+        level 0
+        %{ if fields.castLight.value then }%
+          lightPosition -0.04 0.03 0.05
+        %{ end }%
+      }
+      Thymio2LED {
+        name "leds.bottom.right"
+        translations [ 0.0582 0.0213 0.0459278, 0.0513653 0.0212996 0.0627035]
+        rotations [ 0.577338 0.577375 -0.577338 2.09447, 0.669512 0.672817 0.314754 2.55802]
+        textureUrls [ "textures/thymio2_radial_flare.png", "textures/thymio2_radial_flare.png"]
+        sizes [ 0.02 0.02, 0.02 0.01 ]
+        level 0
+        %{ if fields.castLight.value then }%
+          lightPosition 0.04 0.03 0.05
+        %{ end }%
+      }
+      Accelerometer {
+        name "acc"
+        translation -0.02 0.03 0.015
+        rotation 0 0.7071 0.7071 3.14159
+        lookupTable [
+          -13.65 -32 0
+          13.65 32 0
+        ]
+      }
+      Group {
+        children IS bodySlot
+      }
+    ]
+    contactMaterial IS contactMaterial
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.0316 0.013
+          children [
+            Box {
+              size 0.115 0.0442 0.085
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.0316 0.0677
+          children [
+             DEF FRONT_BOX Box {
+              size 0.0245 0.0442 0.024
+            }
+          ]
+        }
+        Transform {
+          translation 0.0214 0.0316 0.0643
+          rotation 0 1 0 0.314
+          children [
+            USE FRONT_BOX
+          ]
+        }
+        Transform {
+          translation 0.0403 0.0316 0.0542
+          rotation 0 1 0 0.65
+          children [
+            USE FRONT_BOX
+          ]
+        }
+        Transform {
+          translation -0.0214 0.0316 0.0643
+          rotation 0 1 0 -0.314
+          children [
+            USE FRONT_BOX
+          ]
+        }
+        Transform {
+          translation -0.0403 0.0316 0.0542
+          rotation 0 1 0 -0.65
+          children [
+            USE FRONT_BOX
+          ]
+        }
+        Transform {
+          translation 0 0.009 0.0612
+          children [
+            Sphere {
+              radius 0.0096
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.2
+    }
+  }
+}

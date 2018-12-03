@@ -1,0 +1,131 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Simple bus stop with customizable appearance and an optional bench.
+# The original blender model was made by Ringbarkis (http://www.blendswap.com/blends/view/66783).
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO BusStop [
+  field SFVec3f     translation                 0 0 0
+  field SFRotation  rotation                    0 1 0 0
+  field SFString    name                        "bus stop"
+  field SFBool      bench                       TRUE                                                                  # Defines whether the bust stop should include a bench.
+  field SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }  # Defines the appearance of the bench.
+  field MFString    internalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]                                 # Defines the texture used for the internal advertising.
+  field MFString    externalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]                                 # Defines the texture used for the external advertising.
+  field SFBool      advertisingLightOn          TRUE                                                                  # Defines whether the advertising should have an emissive color.
+]
+{
+%{ local bench = fields.bench.value }%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  %{ if fields.appearance.value ~= nil and fields.appearance.value.fields.baseColor ~= nil then}%
+    %{ local color = fields.appearance.value.fields.baseColor.value }%
+    recognitionColors [
+      %{= color.r }% %{= color.g }% %{= color.b }%
+    ]
+  %{ end }%
+  children [
+    Transform {
+      translation 0 1.572 0
+      scale 0.8 0.6 0.8
+      children [
+        BusStopMesh {
+          appearance IS appearance
+        }
+        %{ if bench then }%
+        BusStopBench {
+          appearance IS appearance
+        }
+        %{ end }%
+        %{ if fields.internalAdvertisingTexture.value[1] ~= nil then }%
+          DEF INTERNAL_ADVERTISING Transform {
+            translation 3.7 0.33 0.02
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  %{ if fields.advertisingLightOn.value then }%
+                  emissiveColorMap ImageTexture {
+                  %{else}%
+                  baseColorMap ImageTexture {
+                  %{ end }%
+                    url IS internalAdvertisingTexture
+                  }
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Box {
+                  size 0.01 3.7 2.6
+                }
+              }
+            ]
+          }
+        %{ end }%
+        %{ if fields.externalAdvertisingTexture.value[1] ~= nil then }%
+          DEF EXTERNAL_ADVERTISING Transform {
+            translation 4.07 0.33 0.02
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  %{ if fields.advertisingLightOn.value then }%
+                  emissiveColorMap ImageTexture {
+                  %{else}%
+                  baseColorMap ImageTexture {
+                  %{ end }%
+                    url IS externalAdvertisingTexture
+                  }
+                  metalness 0
+                  roughness 0.3
+                }
+                geometry Box {
+                  size 0.01 3.7 2.6
+                }
+              }
+            ]
+          }
+        %{ end }%
+      ]
+    }
+  ]
+  name IS name
+  model "bus stop"
+  boundingObject Group {
+    children [
+      DEF ROOF Transform {
+        translation 0 3.03 -0.136
+        children [
+          Box {
+            size 7.04 0.06 3.36
+          }
+        ]
+      }
+      DEF RIGHT Transform {
+        translation 3.104 1.5 -0.08
+        children [
+          Box {
+            size 0.32 3 2.72
+          }
+        ]
+      }
+      DEF LEFT Transform {
+        translation -3.136 1.5 -0.736
+        children [
+          Box {
+            size 0.2 3 1.36
+          }
+        ]
+      }
+      DEF REAR Transform {
+        translation 0 1.6 -1.256
+        children [
+          Box {
+            size 6.16 2.88 0.24
+          }
+        ]
+      }
+    ]
+  }
+}
+}

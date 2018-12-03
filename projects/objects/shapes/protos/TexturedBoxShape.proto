@@ -1,0 +1,142 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Box with customizable texture mapping on selected faces.
+# If the boolean value associated with a face (`frontFace`, `leftFace`, etc.) is FALSE, then the uniform color specified in `faceColor` field will be applied instead of the texture.
+# This is an extension of the TexturedBox geometry PROTO.
+# Available texture mappings:
+# - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube_mapping.jpg
+# - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact_mapping.jpg
+# - `flat` mapping: projecting the texture on the front face.
+# - `metric` mapping: similar to default mapping but the texture is not deformed to match each face size.
+# - `default` mapping: same texture on all the faces.
+#
+# A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
+
+PROTO TexturedBoxShape [
+  field SFVec3f  size             0.1 0.1 0.1                    # Defines the size of the box.
+  field MFString textureUrl       "textures/old_brick_wall.jpg"  # Defines the texture used for the box.
+  field SFInt32  textureFiltering 4                              # Defines the filtering level for the texture used for the box.
+  field SFNode   textureTransform NULL                           # Defines the texture transform for the texture used for the box.
+  field SFString{"cube", "compact", "flat", "metric", "default", "none"}
+                 textureMapping   "flat"                         # Defines the texture mapping.
+  field SFColor  faceColor        0.8 0.8 0.8                    # Defines the color of the faces of the box.
+  field SFBool   frontFace        TRUE                           # Defines whether the front face is included.
+  field SFBool   backFace         TRUE                           # Defines whether the back face is included.
+  field SFBool   leftFace         TRUE                           # Defines whether the left face is included.
+  field SFBool   rightFace        TRUE                           # Defines whether the right face is included.
+  field SFBool   topFace          TRUE                           # Defines whether the top face is included.
+  field SFBool   bottomFace       TRUE                           # Defines whether the bottom face is included.
+]
+{
+  %{
+    local size = fields.size.value
+    if fields.size.value.x <= 0 or fields.size.value.y <= 0 or fields.size.value.z <= 0 then
+      io.stderr:write("all dimensions of 'size' should be greater than 0: reset to default value\n")
+      size = fields.size.defaultValue
+    end
+
+    local avgEdge = (size.x + size.y + size.z) / 3
+    local offset = 0.002 * avgEdge
+    local coloredFrontFace
+    if fields.frontFace.value then
+      coloredFrontFace = "FALSE"
+    else
+      coloredFrontFace = "TRUE"
+    end
+    local coloredBackFace
+    if fields.backFace.value then
+      coloredBackFace = "FALSE"
+    else
+      coloredBackFace = "TRUE"
+    end
+    local coloredRightFace
+    if fields.rightFace.value then
+      coloredRightFace = "FALSE"
+    else
+      coloredRightFace = "TRUE"
+    end
+    local coloredLeftFace
+    if fields.leftFace.value then
+      coloredLeftFace = "FALSE"
+    else
+      coloredLeftFace = "TRUE"
+    end
+    local coloredTopFace
+    if fields.topFace.value then
+      coloredTopFace = "FALSE"
+    else
+      coloredTopFace = "TRUE"
+    end
+    local coloredBottomFace
+    if fields.bottomFace.value then
+      coloredBottomFace = "FALSE"
+    else
+      coloredBottomFace = "TRUE"
+    end
+  }%
+
+  Group {
+    children [
+      %{
+      if fields.frontFace.value  or
+         fields.backFace.value   or
+         fields.rightFace.value  or
+         fields.leftFace.value   or
+         fields.topFace.value    or
+         fields.bottomFace.value then
+      }%
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 1
+          baseColorMap ImageTexture {
+            url IS textureUrl
+            filtering IS textureFiltering
+          }
+          textureTransform IS textureTransform
+        }
+        geometry TexturedBox {
+          size IS size
+          mapping IS textureMapping
+          front IS frontFace
+          back IS backFace
+          left IS leftFace
+          right IS rightFace
+          top IS topFace
+          bottom IS bottomFace
+        }
+      }
+      %{
+      end
+      if (fields.frontFace.value  and
+          fields.backFace.value   and
+          fields.rightFace.value  and
+          fields.leftFace.value   and
+          fields.topFace.value    and
+          fields.bottomFace.value) == false then
+      }%
+        Shape {
+          appearance PBRAppearance {
+            baseColor IS faceColor
+            metalness 0
+            roughness 1
+          }
+          geometry TexturedBox {
+            size IS size
+            mapping "none"
+            front %{= coloredFrontFace }%
+            back %{= coloredBackFace }%
+            left %{= coloredLeftFace }%
+            right %{= coloredRightFace }%
+            top %{= coloredTopFace }%
+            bottom %{= coloredBottomFace }%
+          }
+        }
+      %{
+      end
+      }%
+    ]
+  }
+}

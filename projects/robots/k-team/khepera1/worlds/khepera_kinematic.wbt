@@ -1,0 +1,59 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Demo for the kinematic simulation mode"
+  ]
+  title "Khepera kinematic example"
+}
+Viewpoint {
+  orientation -0.42902017872984366 0.7930163303706721 0.4325121801846118 1.78202
+  position 0.977632 1.38209 -0.0765189
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF CYLINDER Solid {
+  children [
+    Shape {
+      appearance DEF OBSTACLE_APPEARANCE PBRAppearance {
+        baseColor 0.678431 0.847059 0.901961
+        roughness 1
+        metalness 0
+      }
+      geometry DEF CYLINDER_GEOM Cylinder {
+        height 0.1
+        radius 0.1
+        subdivision 32
+      }
+    }
+  ]
+  boundingObject USE CYLINDER_GEOM
+}
+DEF RECTANGLE Solid {
+  translation 0 0 -0.35
+  children [
+    Shape {
+      appearance USE OBSTACLE_APPEARANCE
+      geometry DEF BOX_GEOM Box {
+        size 0.1 0.1 0.3
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BOX_GEOM
+}
+Khepera1 {
+  translation 0.425571 0 -0.341915
+  rotation 0 1 0 -40.6625
+  name "khepera"
+  kinematic TRUE
+}
+Khepera1 {
+  translation -0.441747 0 -0.329789
+  rotation 0 1 0 -0.0328268
+  name "khepera(1)"
+  kinematic TRUE
+}

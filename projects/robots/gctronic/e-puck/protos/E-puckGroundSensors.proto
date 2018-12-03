@@ -1,0 +1,83 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Ground sensors extension for the e-puck robot.
+#
+# It includes three infra-red proximity sensors
+# pointing down to the ground in front of the robot.
+
+PROTO E-puckGroundSensors [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation    0 0 1 1.5708
+]
+{
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF EPUCK_GROUND_SENSOR_CIRCUIT Transform {
+        translation 0 0.014 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.117647 0.815686 0.65098
+              metalness 0
+              roughness 0.5
+            }
+            geometry Box {
+              size 0.027 0.02 0.001
+            }
+          }
+        ]
+      }
+      DEF EPUCK_GS0 DistanceSensor {
+        translation -0.01 0.003 0
+        rotation 0 0 1 -1.57
+        children [
+          DEF EPUCK_GS_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 0.3 0.2 0.2
+              roughness 0.4
+              metalness 0
+            }
+            geometry Box {
+              size 0.002 0.004 0.002
+            }
+          }
+        ]
+        name "gs0"
+        lookupTable [
+          0 1000 0.1
+          0.016 300 0.1
+        ]
+        type "infra-red"
+      }
+      DEF EPUCK_GS1 DistanceSensor {
+        translation 0 0.003 0
+        rotation 0 0 1 -1.57
+        children [
+          USE EPUCK_GS_SHAPE
+        ]
+        name "gs1"
+        lookupTable [
+          0 1000 0.1
+          0.016 300 0.1
+        ]
+        type "infra-red"
+      }
+      DEF EPUCK_GS2 DistanceSensor {
+        translation 0.01 0.003 0
+        rotation 0 0 1 -1.57
+        children [
+          USE EPUCK_GS_SHAPE
+        ]
+        name "gs2"
+        lookupTable [
+          0 1000 0.1
+          0.016 300 0.1
+        ]
+        type "infra-red"
+      }
+    ]
+  }
+}

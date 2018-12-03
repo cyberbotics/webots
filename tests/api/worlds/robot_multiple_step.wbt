@@ -1,0 +1,101 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.598865 0.759875 0.252885 5.09863
+  position -0.3184 0.391568 0.295716
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0.4
+  location 0 0.5 0
+}
+Floor {
+  size 1 1
+}
+Robot {
+  controller "robot_multiple_step_supervisor"
+  supervisor TRUE
+}
+DEF OBSTACLE Solid {
+  translation -0.05 0.05 0.01
+  children [
+    DEF OBSTALCE_GEOM Shape {
+      appearance Appearance {
+      }
+      geometry Box {
+        size 0.1 0.1 0.05
+      }
+    }
+  ]
+  boundingObject USE OBSTALCE_GEOM
+}
+DEF ROBOT Robot {
+  translation 0.1 0.0295 0.1
+  children [
+    DEF BODY Transform {
+      rotation 0 0 1 -1.5708
+      children [
+        Shape {
+          geometry Cone {
+            bottomRadius 0.005
+            height 0.02
+          }
+        }
+      ]
+    }
+    Camera {
+      rotation 0 1 0 -1.5708
+      fieldOfView 0.1
+      width 1
+      height 1
+    }
+    Compass {
+    }
+    GPS {
+    }
+    DistanceSensor {
+    }
+    TouchSensor {
+      translation 0.067 0 0.01
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 1 0
+            }
+          }
+          geometry DEF TS_BO Sphere {
+            radius 0.005
+          }
+        }
+      ]
+      boundingObject USE TS_BO
+      physics Physics {
+      }
+      type "force"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject Transform {
+    translation 0 -0.004 0
+    children [
+      Box {
+        size 0.05 0.05 0.05
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "robot_multiple_step"
+}
+TestSuiteSupervisor {
+}

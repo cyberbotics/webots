@@ -1,0 +1,32 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.343499 -0.910646 -0.229636 5.24359
+  position 0.805917 0.450324 0.499419
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0 0.3 0
+}
+DEF CAN Can {
+  translation 0 0.176396 0
+  rotation 0.468149 0.242555 -0.849708 0.768349
+  color 0.666667 1 0.85
+}
+DEF Test Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_field_import_mf_node"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

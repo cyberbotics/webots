@@ -1,0 +1,320 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Illustartion of signalStrengthNoise and directionNoise of the Receiver."
+  ]
+  title "Receiver Noise"
+}
+Viewpoint {
+  orientation 0.7688865250351047 0.593461633400465 0.23794285301536885 5.33352
+  position -0.508464 0.772676 0.757646
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF RECEIVER_BOT Robot {
+  children [
+    DEF MAIN_BODY Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DEF LEFT_EYE DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF RIGHT_EYE DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    DEF RECEIVER Receiver {
+      translation 0 0.06 0
+      type "infra-red"
+      channel 1
+      signalStrengthNoise 0.01
+      directionNoise 0.1
+    }
+  ]
+  name "MyBot receiver"
+  boundingObject DEF MYBOT_BOUNDING Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics DEF MYBOT_PHYSICS Physics {
+    density -1
+    mass 0.5
+  }
+  controller "receiver_noise"
+}
+DEF EMITTER_BOT Robot {
+  translation 0.202947 0 0.128516
+  rotation 0 1 0 97.3742
+  children [
+    USE MAIN_BODY
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DEF LEFT_EYE DistanceSensor {
+      translation -0.02 0.063 -0.042
+      rotation 0 1 0 2.07
+      children [
+        DEF SENSOR Transform {
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF RIGHT_EYE DistanceSensor {
+      translation 0.02 0.063 -0.042
+      rotation 0 1 0 1.07
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    USE SMILE
+    DEF EMITTER Emitter {
+      translation 0 0.06 0
+      type "infra-red"
+      channel 1
+    }
+    DEF DEF_GPS GPS {
+      translation 0 0.06 0
+    }
+  ]
+  name "MyBot emitter"
+  boundingObject USE MYBOT_BOUNDING
+  physics USE MYBOT_PHYSICS
+  controller "receiver_noise"
+}

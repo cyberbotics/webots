@@ -1,0 +1,5786 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "World generated using the Open Street Map to Webots importer"
+  ]
+  ERP 0.6
+  lineScale 25
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "LincolnMKZWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "RangeRoverSportSVRWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material2 "TruckWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "high_snow"
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "high_snow"
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "high_snow"
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        4
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "medium_snow"
+      coulombFriction [
+        6
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "medium_snow"
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        6
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "medium_snow"
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        6
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "low_snow"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "low_snow"
+      material2 "CitroenCZeroWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+    ContactProperties {
+      material1 "low_snow"
+      material2 "ToyotaPriusWheels"
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.03069456977120739 0.923836830095174 0.38155386873449604 2.9129693468506797
+  position 646.752 809.863 -1143.7099999999998
+  near 10
+}
+TexturedBackground {
+  texture "noon_cloudy_mountains"
+}
+TexturedBackgroundLight {
+  texture "noon_cloudy_mountains"
+}
+Floor {
+  translation 0 -0.02 0
+  size 3385 2585
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 5.672665 0.01 -13.963351
+  id "-720"
+  shape [
+    -0.710164 0 -5.282619
+    -0.721637 0 -5.285915
+    -0.732944 0 -5.282087
+    -5.132223 0 -2.078144
+    -5.138618 0 -2.070337
+    -8.064438 0 4.288875
+    -8.06621 0 4.298765
+    -8.062949 0 4.308269
+    -4.177035 0 7.462503
+    -4.166348 0 7.46688
+    2.704138 0 6.096742
+    2.714228 0 6.091407
+    5.142618 0 -1.407647
+    5.142767 0 -1.419476
+    5.136208 0 -1.42932
+    -0.710164 0 -5.282619
+  ]
+  connectedRoadIDs [
+    "-2206"
+    "-2044_2"
+    "-2044_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 195.2564 0.01 -239.48044
+  name "crossroad(1)"
+  id "-726"
+  shape [
+    1.026964 0 -5.230272
+    1.018919 0 -5.236439
+    1.008883 0 -5.23787
+    -2.173068 0 -4.871437
+    -2.182516 0 -4.867763
+    -2.188949 0 -4.859928
+    -5.114959 0 1.499196
+    -5.116542 0 1.510699
+    -5.111467 0 1.521143
+    -1.910493 0 4.979055
+    -1.900471 0 4.98492
+    -1.888881 0 4.984228
+    4.676805 0 2.556931
+    4.685749 0 2.550331
+    5.325282 0 0.315057
+    5.325243 0 0.303942
+    1.026964 0 -5.230272
+  ]
+  connectedRoadIDs [
+    "-2048_2"
+    "-2046"
+    "-2048_3"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 8.189265 0.01 -28.973327
+  name "crossroad(2)"
+  id "-708"
+  shape [
+    1.535649 0 -5.104134
+    1.526933 0 -5.111712
+    -2.172229 0 -4.871463
+    -2.183045 0 -4.867411
+    -5.114916 0 1.499343
+    -5.116499 0 1.510846
+    -5.111424 0 1.52129
+    -1.91035 0 4.97911
+    -1.900328 0 4.984974
+    -1.888737 0 4.984282
+    4.676878 0 2.556796
+    4.686177 0 2.549719
+    5.268938 0 0.835591
+    5.269297 0 0.823911
+    1.535649 0 -5.104134
+  ]
+  connectedRoadIDs [
+    "-2044_4"
+    "-2050"
+    "-2044_2"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 291.94191 0.01 -336.58867
+  name "crossroad(3)"
+  id "-1270"
+  shape [
+    3.16652 0 -7.176597
+    3.156583 0 -7.183067
+    3.14473 0 -7.182773
+    -0.040722 0 -5.332277
+    -5.285278 0 -0.690102
+    -5.291363 0 -0.680213
+    -5.290929 0 -0.668609
+    -2.635649 0 2.333186
+    -2.129477 0 2.802686
+    3.448073 0 7.035708
+    3.458962 0 7.039741
+    3.470256 0 7.037044
+    7.707851 0 1.455825
+    7.711865 0 1.445215
+    7.641733 0 -1.777826
+    7.638279 0 -1.788632
+    3.16652 0 -7.176597
+  ]
+  connectedRoadIDs [
+    "-2210"
+    "-2042_2"
+    "-2042_3"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 102.25131 0.01 -337.46489
+  name "crossroad(4)"
+  id "-1272"
+  shape [
+    2.98329 0 -4.422996
+    2.972858 0 -4.426709
+    -3.975789 0 -3.550141
+    -7.75896 0 -1.119679
+    -7.765779 0 -1.112288
+    -7.768139 0 -1.102512
+    -5.550142 0 5.543133
+    -5.543312 0 5.552693
+    -3.899046 0 6.808682
+    -3.888026 0 6.812757
+    3.100966 0 7.205165
+    3.112482 0 7.202284
+    3.120336 0 7.193383
+    4.635626 0 2.640048
+    4.636249 0 2.629752
+    3.242855 0 -4.230165
+    3.237733 0 -4.239982
+    2.98329 0 -4.422996
+  ]
+  connectedRoadIDs [
+    "-2042_1"
+    "-2042_3"
+    "-2090"
+    "-1984"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 463.34524 0.01 -79.882497
+  name "crossroad(5)"
+  id "-1292"
+  shape [
+    -2.963743 0 -4.431568
+    -2.974756 0 -4.42872
+    -2.982435 0 -4.420326
+    -4.785377 0 2.347459
+    -4.785018 0 2.35895
+    -3.831754 0 3.711885
+    -3.822707 0 3.718979
+    3.159504 0 4.292777
+    3.169476 0 4.291024
+    4.603118 0 2.696288
+    4.607754 0 2.687287
+    3.287884 0 -4.195261
+    3.28265 0 -4.205362
+    3.272755 0 -4.210974
+    -2.963743 0 -4.431568
+  ]
+  connectedRoadIDs [
+    "-2206"
+    "-2208"
+    "-2092"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  contactMaterial "low_snow"
+}
+Crossroad {
+  translation 599.53883 0.01 -231.71507
+  name "crossroad(6)"
+  id "-1312"
+  shape [
+    -1.691257 0 -5.054706
+    -1.701165 0 -5.056108
+    -1.710512 0 -5.052536
+    -5.156672 0 -1.358764
+    -5.16145 0 -1.349972
+    -5.161371 0 -1.339966
+    -2.033685 0 4.926918
+    -2.02696 0 4.934577
+    0.147413 0 5.332603
+    0.157575 0 5.331816
+    5.299547 0 0.570264
+    5.305458 0 0.560021
+    4.785832 0 -2.355937
+    4.780403 0 -2.366442
+    -1.691257 0 -5.054706
+  ]
+  connectedRoadIDs [
+    "-1982"
+    "-2208"
+    "-1966"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  contactMaterial "low_snow"
+}
+Crossroad {
+  translation 321.36334 0.01 -238.5644
+  name "crossroad(7)"
+  id "-1258"
+  shape []
+  connectedRoadIDs [
+    "-2088_1"
+    "-2088_3"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 304.56045 0.01 -246.29628
+  name "crossroad(8)"
+  id "-1256"
+  shape [
+    -1.487324 0 -5.118424
+    -1.498579 0 -5.12007
+    -3.709665 0 -3.833429
+    -3.717459 0 -3.825144
+    -4.293406 0 3.158649
+    -4.29083 0 3.170226
+    -1.907999 0 4.981364
+    -1.896851 0 4.985413
+    4.676759 0 2.557015
+    4.686006 0 2.55001
+    4.689809 0 2.53905
+    4.876576 0 -2.158723
+    4.873656 0 -2.169949
+    4.864994 0 -2.177667
+    -1.487324 0 -5.118424
+  ]
+  connectedRoadIDs [
+    "-2088_2"
+    "-2046"
+    "-2088_4"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 465.18993 0.01 -263.3352
+  name "crossroad(9)"
+  id "-1198"
+  shape [
+    -2.004946 0 -5.286757
+    -2.016579 0 -5.288362
+    -2.027108 0 -5.28316
+    -5.479478 0 -0.399295
+    -5.483135 0 -0.388407
+    -5.480199 0 -0.377303
+    -1.11178 0 5.407697
+    -1.102544 0 5.41448
+    -1.091102 0 5.415081
+    4.95325 0 1.885453
+    4.961182 0 1.876863
+    4.962955 0 1.865306
+    4.354268 0 -2.321112
+    4.349257 0 -2.331708
+    -2.004946 0 -5.286757
+  ]
+  connectedRoadIDs [
+    "-2086_2"
+    "-2058"
+    "-2086_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 324.5749 0.01 -245.50162
+  name "crossroad(10)"
+  id "-1254"
+  shape [
+    1.909002 0 -4.980557
+    1.898531 0 -4.985258
+    -4.676752 0 -2.557028
+    -4.685999 0 -2.550023
+    -4.689801 0 -2.539063
+    -4.876582 0 2.158709
+    -4.873662 0 2.169936
+    -4.865 0 2.177653
+    1.487309 0 5.118429
+    1.498991 0 5.120008
+    3.19377 0 4.273108
+    3.20229 0 4.264961
+    4.659892 0 -2.587626
+    4.658956 0 -2.599066
+    1.909002 0 -4.980557
+  ]
+  connectedRoadIDs [
+    "-2088_5"
+    "-2088_3"
+    "-2086_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 121.84006 0.01 -248.92204
+  name "crossroad(11)"
+  id "-106"
+  shape []
+  connectedRoadIDs [
+    "-1984"
+    "-1976"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 132.81822 0.01 -241.66582
+  name "crossroad(12)"
+  id "-104"
+  shape []
+  connectedRoadIDs [
+    "-1978"
+    "-1976"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 471.36587 0.01 -166.67353
+  name "crossroad(13)"
+  id "-798"
+  shape [
+    1.952161 0 -4.965055
+    1.940859 0 -4.966622
+    -4.65179 0 -2.602163
+    -7.691743 0 -1.336199
+    -7.700659 0 -1.328884
+    -7.704053 0 -1.317862
+    -5.72733 0 5.403249
+    -5.721058 0 5.412874
+    -3.169006 0 7.177412
+    -3.158531 0 7.180941
+    3.835156 0 6.842659
+    3.846225 0 6.838656
+    3.853125 0 6.82912
+    5.018723 0 1.809401
+    5.017871 0 1.797602
+    2.471151 0 -4.722691
+    2.46414 0 -4.731694
+    1.952161 0 -4.965055
+  ]
+  connectedRoadIDs [
+    "-1968"
+    "-1970_2"
+    "-2058"
+    "-2054"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 541.65796 0.01 -193.83412
+  name "crossroad(14)"
+  id "-792"
+  shape [
+    0.982892 0 -7.783905
+    0.971206 0 -7.784576
+    -5.63319 0 -5.458715
+    -5.642499 0 -5.451914
+    -5.646507 0 -5.441105
+    -4.878167 0 -2.150236
+    -2.799777 0 4.535598
+    -2.793241 0 4.545223
+    -1.153929 0 5.208503
+    -1.14234 0 5.209536
+    5.001463 0 1.842762
+    7.82482 0 -0.453009
+    7.831405 0 -0.46294
+    7.831174 0 -0.474853
+    4.329821 0 -6.540875
+    4.321259 0 -6.548856
+    0.982892 0 -7.783905
+  ]
+  connectedRoadIDs [
+    "-1982"
+    "-2056"
+    "-1970_1"
+    "-2052"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 696.6426 0.01 -516.88407
+  name "crossroad(15)"
+  id "-94"
+  shape []
+  connectedRoadIDs [
+    "-1966"
+    "-1980_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation -6.52284 0.01 -15.427825
+  name "crossroad(16)"
+  id "-716"
+  shape [
+    1.910336 0 -4.979116
+    1.900314 0 -4.98498
+    1.888723 0 -4.984288
+    -4.676886 0 -2.556783
+    -4.68582 0 -2.550196
+    -5.170749 0 -1.313278
+    -5.171767 0 -1.302225
+    -1.996169 0 4.942237
+    -1.989489 0 4.949775
+    -1.979983 0 4.953102
+    2.171319 0 4.871499
+    2.181014 0 4.868772
+    2.188151 0 4.861666
+    5.114915 0 -1.499349
+    5.116497 0 -1.510852
+    5.111422 0 -1.521295
+    1.910336 0 -4.979116
+  ]
+  connectedRoadIDs [
+    "-2014"
+    "-2044_1"
+    "-2044_3"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 194.69567 0.01 -225.37325
+  name "crossroad(17)"
+  id "-738"
+  shape [
+    -1.487415 0 -5.118398
+    -1.498915 0 -5.120007
+    -1.50937 0 -5.114956
+    -4.974817 0 -1.921501
+    -4.980704 0 -1.911492
+    -4.980038 0 -1.8999
+    -2.567269 0 4.671138
+    -2.560154 0 4.680494
+    -1.815954 0 5.016442
+    -1.804293 0 5.017911
+    4.721278 0 2.473849
+    4.730349 0 2.466754
+    4.734003 0 2.455833
+    4.876544 0 -2.158987
+    4.87357 0 -2.170112
+    4.864955 0 -2.177754
+    -1.487415 0 -5.118398
+  ]
+  connectedRoadIDs [
+    "-2048_3"
+    "-2050"
+    "-2048_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 177.89268 0.01 -233.10476
+  name "crossroad(18)"
+  id "-732"
+  shape [
+    -1.48743 0 -5.118394
+    -1.498803 0 -5.120022
+    -1.509196 0 -5.115123
+    -4.924393 0 -2.047561
+    -4.930376 0 -2.037752
+    -4.929973 0 -2.026269
+    -2.685544 0 4.604156
+    -2.678624 0 4.613726
+    -1.904414 0 4.983525
+    -1.892728 0 4.985237
+    4.676812 0 2.556918
+    4.686059 0 2.549913
+    4.689861 0 2.538953
+    4.876531 0 -2.158824
+    4.873611 0 -2.170051
+    4.864949 0 -2.177767
+    -1.48743 0 -5.118394
+  ]
+  connectedRoadIDs [
+    "-1978"
+    "-2048_1"
+    "-2048_2"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 314.96437 0.01 -255.87428
+  name "crossroad(19)"
+  id "-1266"
+  shape [
+    -3.024897 0 -4.388667
+    -3.034865 0 -4.387247
+    -3.042877 0 -4.38115
+    -4.976954 0 -1.919246
+    -4.980981 0 -1.910018
+    -4.980001 0 -1.899997
+    -2.56736 0 4.671088
+    -2.560357 0 4.680364
+    -2.549379 0 4.684179
+    2.169886 0 4.871597
+    2.181132 0 4.868664
+    2.188848 0 4.859973
+    5.114991 0 -1.49909
+    5.116638 0 -1.510152
+    3.945721 0 -3.590111
+    3.937724 0 -3.597929
+    -3.024897 0 -4.388667
+  ]
+  connectedRoadIDs [
+    "-2088_5"
+    "-2042_2"
+    "-2088_4"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 314.17099 0.01 -235.92366
+  name "crossroad(20)"
+  id "-1260"
+  shape [
+    -2.169891 0 -4.871595
+    -2.181138 0 -4.868662
+    -2.188854 0 -4.859971
+    -5.114989 0 1.499096
+    -5.116563 0 1.510655
+    -3.631659 0 3.907235
+    -3.622886 0 3.914923
+    3.381804 0 4.119927
+    3.392949 0 4.116918
+    4.977455 0 1.918582
+    4.981209 0 1.907666
+    2.567365 0 -4.671085
+    2.560363 0 -4.68036
+    2.549385 0 -4.684176
+    -2.169891 0 -4.871595
+  ]
+  connectedRoadIDs [
+    "-2092"
+    "-2088_2"
+    "-2088_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 582.99924 0.01 -503.43291
+  name "crossroad(21)"
+  id "-1186"
+  shape [
+    4.742145 0 -6.248396
+    4.734265 0 -6.256826
+    4.723039 0 -6.259499
+    -5.105784 0 -1.524522
+    -5.114263 0 -1.516776
+    -5.117083 0 -1.505643
+    -2.187947 0 4.860379
+    -2.180718 0 4.86876
+    3.27509 0 7.12297
+    3.286755 0 7.124075
+    3.297037 0 7.118457
+    7.668847 0 1.648998
+    7.673108 0 1.638658
+    7.846041 0 0.037801
+    7.844086 0 0.02679
+    4.742145 0 -6.248396
+  ]
+  connectedRoadIDs [
+    "-2018"
+    "-1980_2"
+    "-1980_1"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  contactMaterial "high_snow"
+}
+Crossroad {
+  translation 506.08957 0.01 -183.05146
+  name "crossroad(22)"
+  id "-1320"
+  shape [
+    2.491494 0 -4.717554
+    2.480619 0 -4.720212
+    -4.333853 0 -3.102921
+    -4.342709 0 -3.09824
+    -5.188323 0 -1.241123
+    -5.190051 0 -1.231257
+    -1.925934 0 4.970028
+    -1.917765 0 4.978294
+    -1.906379 0 4.980622
+    4.843516 0 2.223864
+    4.852533 0 2.216533
+    4.855952 0 2.205426
+    2.846933 0 -4.506148
+    2.840848 0 -4.515545
+    2.491494 0 -4.717554
+  ]
+  connectedRoadIDs [
+    "-1970_1"
+    "-2094"
+    "-1970_2"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 572.65472 0.01 -93.35396
+  name "crossroad(23)"
+  id "-460"
+  shape []
+  connectedRoadIDs [
+    "-1974"
+    "-1972"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 566.70996 0.01 -109.86871
+  name "crossroad(24)"
+  id "-462"
+  shape []
+  connectedRoadIDs [
+    "-2052"
+    "-1974"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation 465.40535 0.01 -316.50379
+  name "crossroad(25)"
+  id "-1302"
+  shape [
+    -1.669783 0 -7.25426
+    -1.681205 0 -7.252451
+    -1.689717 0 -7.244623
+    -3.701682 0 -3.840937
+    -4.305873 0 3.141632
+    -4.303734 0 3.152497
+    -1.986102 0 7.659797
+    -1.978375 0 7.667938
+    -1.96748 0 7.670634
+    4.849744 0 6.064943
+    4.858613 0 6.060273
+    6.824875 0 3.870044
+    6.829771 0 3.859648
+    7.191315 0 -3.132951
+    7.188446 0 -3.14435
+    5.279711 0 -6.293867
+    5.270996 0 -6.301657
+    -1.669783 0 -7.25426
+  ]
+  connectedRoadIDs [
+    "-2210"
+    "-2086_2"
+    "-1980_2"
+    "-2018"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Crossroad {
+  translation -5.962571 0.01 -29.534512
+  name "crossroad(26)"
+  id "-712"
+  shape [
+    -0.932534 0 -5.251792
+    -0.943818 0 -5.250353
+    -5.32558 0 0.220452
+    -5.329915 0 0.231533
+    -4.875953 0 2.16434
+    -4.869905 0 2.174587
+    1.487578 0 5.118351
+    1.499078 0 5.119959
+    1.509533 0 5.114908
+    4.974875 0 1.921351
+    4.980762 0 1.911342
+    4.980095 0 1.89975
+    2.567128 0 -4.671216
+    2.560332 0 -4.680338
+    -0.932534 0 -5.251792
+  ]
+  connectedRoadIDs [
+    "-2044_3"
+    "-2042_1"
+    "-2044_4"
+  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snow.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+Road {
+  translation 461.4012 0.01 -316.84913
+  id "-2210"
+  startJunction "-1302"
+  endJunction "-1270"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -28.044254 0 -2.418679
+    -66.205032 0 -15.641283
+    -113.03193 0 -43.342969
+    -144.66954 0 -40.314421
+    -164.05751 0 -24.222887
+  ]
+  startingAngle [
+    1.65711
+  ]
+  endingAngle [
+    0.878056
+  ]
+  splineSubdivision 2
+  appearance DEF ROAD_WITH_SNOW PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/snowy_road/snowy_road_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/snowy_road/snowy_road_roughness.jpg"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/snowy_road/snowy_road_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/snowy_road/snowy_road_occlusion.jpg"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.287 0.287
+    }
+  }
+}
+Road {
+  translation 602.27033 0.01 -228.76675
+  name "road(27)"
+  id "-2208"
+  startJunction "-1312"
+  endJunction "-1292"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    5.073853 0 5.476597
+    14.944959 0 19.444209
+    21.242724 0 33.19534
+    24.389265 0 50.208126
+    25.501818 0 59.754649
+    25.624164 0 72.353532
+    25.298482 0 80.885869
+    22.721427 0 90.963518
+    15.961409 0 99.799434
+    0.873304 0 111.32565
+    -17.242187 0 119.74967
+    -39.824965 0 126.56883
+    -95.539985 0 140.55366
+    -134.97802 0 148.12636
+  ]
+  startingAngle [
+    5.53618
+  ]
+  endingAngle [
+    1.38133
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "low_snow"
+}
+Road {
+  translation 463.01651 0.01 -75.876384
+  name "road(28)"
+  id "-2206"
+  startJunction "-1292"
+  endJunction "-720"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -1.464894 0 17.851774
+    -11.137692 0 41.751447
+    -26.17939 0 63.353141
+    -42.376051 0 76.369177
+    -56.614782 0 85.695848
+    -71.784349 0 92.625555
+    -90.870214 0 98.388196
+    -140.81343 0 115.54314
+    -214.66362 0 129.70515
+    -280.81075 0 138.99166
+    -335.32727 0 144.60386
+    -369.40584 0 146.73372
+    -391.85978 0 145.38081
+    -413.48031 0 139.93606
+    -433.26469 0 128.80387
+    -443.76297 0 118.53829
+    -451.28042 0 102.7293
+    -458.07212 0 68.694279
+  ]
+  startingAngle [
+    0.081996
+  ]
+  endingAngle [
+    2.94475
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "low_snow"
+}
+Road {
+  translation 505.16112 0.01 -186.96259
+  name "road(29)"
+  id "-2094"
+  startJunction "-1320"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -2.065362 0 -8.700455
+    -3.068806 0 -15.419201
+    -2.692901 0 -25.848221
+    -1.27532 0 -35.259099
+    1.731237 0 -44.771231
+    4.158253 0 -51.457406
+    8.867466 0 -61.970234
+    37.116922 0 -114.63914
+  ]
+  startingAngle [
+    2.90857
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 314.05429 0.01 -231.90612
+  name "road(30)"
+  id "-2092"
+  startJunction "-1260"
+  endJunction "-1292"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -1.245258 0 42.870277
+    0.801517 0 86.235289
+    24.407543 0 116.36453
+    82.354482 0 134.19547
+    145.40656 0 150.98904
+  ]
+  startingAngle [
+    0.029258
+  ]
+  endingAngle [
+    4.97274
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "low_snow"
+}
+Road {
+  translation 101.748 0.01 -341.45309
+  name "road(31)"
+  id "-2090"
+  startJunction "-1272"
+  numberOfForwardLanes 2
+  speedLimit 25
+  roadBorderHeight 0.5
+  roadBorderWidth [
+    0.5
+  ]
+  bottom TRUE
+  wayPoints [
+    0 0 0
+    -2.70542 0 -21.437571
+    -13.271967 0 -59.679294
+    -51.934372 0 -78.336823
+    -90.961939 0 -84.751733
+    -137.23347 0 -83.796914
+    -168.58293 0 -53.222773
+    -188.00374 6 9.214729
+    -182.72277 6 67.719782
+    -177.19875 6 118.06296
+    -172.88392 6 146.68137
+    -173.94025 6 182.1311
+    -190.75949 6 218.76121
+    -223.41501 6 259.045
+    -246.02473 0 279.28286
+    -284.56259 0 303.94852
+    -354.97724 0 324.89843
+    -455.00525 0 348.32525
+    -577.69871 0 354.57734
+    -736.8786 0 363.04832
+    -846.33886 0 369.6989
+  ]
+  startingAngle [
+    3.01611
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 467.12821 0.01 -259.68914
+  name "road(32)"
+  id "-2058"
+  startJunction "-1198"
+  endJunction "-798"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    3.065243 0 4.887975
+    3.989675 0 10.053497
+    2.730483 0 16.441069
+    -0.58327 0 21.166625
+    -3.172591 0 23.87803
+    -4.483266 0 26.48093
+    -5.0443 0 31.678999
+    -4.943215 0 37.980823
+    -4.906166 0 54.942019
+    -1.296153 0 72.833502
+    0.530116 0 82.679853
+    2.880391 0 89.231861
+  ]
+  startingAngle [
+    5.75465
+  ]
+  endingAngle [
+    5.93882
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 568.95145 0.01 -271.58913
+  name "road(33)"
+  id "-2056"
+  endJunction "-792"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -13.167365 0 18.17245
+    -20.372693 0 30.747008
+    -28.679599 0 45.557796
+    -30.076988 0 57.687087
+    -30.221467 0 69.441236
+    -29.62541 0 71.133694
+  ]
+  endingAngle [
+    5.94458
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 471.70511 0.01 -159.66178
+  name "road(34)"
+  id "-2054"
+  startJunction "-798"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    0.27549 0 5.694051
+    7.144205 0 47.869679
+  ]
+  startingAngle [
+    6.23485
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 543.59007 0.01 -190.30937
+  name "road(35)"
+  id "-2052"
+  startJunction "-792"
+  endJunction "-462"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight -6
+  roadBorderWidth []
+  bottom TRUE
+  wayPoints [
+    0 0 0
+    4.99764 0 9.117192
+    9.463539 0 18.946256
+    15.524973 0 30.782748
+    16.702254 0 47.457424
+    18.790068 4 68.641896
+    23.119888 5 80.440665
+  ]
+  startingAngle [
+    5.78188
+  ]
+  endingAngle [
+    -0.351714
+  ]
+  splineSubdivision 1
+  appearance USE ROAD_WITH_SNOW
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 11.590181 0.01 -31.11591
+  name "road(36)"
+  id "-2050"
+  startJunction "-708"
+  endJunction "-738"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    23.273145 0 -14.662125
+    44.094223 0 -20.897732
+    86.238421 0 -29.316885
+    111.17653 0 -35.881531
+    138.43476 0 -45.764459
+    174.61585 0 -72.112735
+    187.29026 0 -84.278444
+    199.42143 0 -99.624949
+    201.76433 0 -123.46868
+    201.84621 0 -145.76866
+    191.11083 0 -173.7269
+    184.56583 0 -190.51218
+  ]
+  startingAngle [
+    4.15032
+  ]
+  endingAngle [
+    2.76986
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 198.43026 0.01 -241.9465
+  name "road(37)"
+  id "-2046"
+  startJunction "-726"
+  endJunction "-1256"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    2.984652 0 -2.319052
+    30.081037 0 -5.782815
+    63.838203 0 -7.828699
+    102.12445 0 -4.679295
+  ]
+  startingAngle [
+    4.05203
+  ]
+  endingAngle [
+    4.79467
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 588.4828 0.01 -499.04996
+  name "road(38)"
+  id "-2018"
+  startJunction "-1186"
+  endJunction "-1302"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    10.211801 0 8.162191
+    16.724307 0 25.686015
+    21.804513 0 35.740249
+    29.218016 0 50.815393
+    40.137104 0 59.393867
+    45.19258 0 70.272517
+    42.656318 0 85.875178
+    35.817716 0 93.097284
+    22.084556 0 95.574676
+    4.265312 0 96.279534
+    -7.085195 0 102.12897
+    -19.836537 0 113.30021
+    -33.501186 0 127.33226
+    -48.209199 0 134.7317
+    -60.194937 0 147.98878
+    -66.06384 0 164.3168
+    -72.951513 0 173.18779
+    -78.197349 0 182.52044
+    -87.066405 0 188.4441
+    -102.36718 0 187.98677
+    -110.08881 0 183.21755
+    -116.06685 0 182.90855
+  ]
+  startingAngle [
+    5.38671
+  ]
+  endingAngle [
+    1.62245
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "high_snow"
+}
+Road {
+  translation -742.22645 0.01 54.718216
+  name "road(39)"
+  id "-2014"
+  endJunction "-716"
+  numberOfForwardLanes 2
+  speedLimit 25
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    117.30386 0 -8.184939
+    269.79246 0 -12.987814
+    390.95395 0 -23.410905
+    567.97332 0 -62.493288
+    600.9592 0 -65.536294
+    631.25557 0 -61.416195
+    663.31508 0 -56.960269
+    686.01784 0 -52.783031
+    713.71168 0 -58.959018
+    732.1209 0 -68.323561
+  ]
+  endingAngle [
+    4.24193
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 101.85778 0.01 -330.45593
+  name "road(40)"
+  id "-1984"
+  startJunction "-1272"
+  endJunction "-106"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight -6
+  roadBorderWidth []
+  wayPoints [
+    0 0 0
+    -2.65935 0 47.364315
+    4.789959 0 70.937558
+    16.561411 4 78.582099
+    19.982286 5 81.533888
+  ]
+  startingAngle [
+    0.056088
+  ]
+  endingAngle [
+    -0.858875
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 595.9422 0.01 -229.9198
+  name "road(41)"
+  id "-1982"
+  startJunction "-1312"
+  endJunction "-792"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -17.923507 0 8.946595
+    -30.751593 0 19.992947
+    -46.394167 0 31.530861
+    -48.204739 0 32.576076
+  ]
+  startingAngle [
+    1.10788
+  ]
+  endingAngle [
+    1.0473
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 132.81822 0.01 -241.66582
+  name "road(42)"
+  id "-1978"
+  startJunction "-104"
+  endJunction "-732"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight -6
+  roadBorderWidth []
+  wayPoints [
+    0 5 0
+    7.699132 3.8 4.454542
+    21.801073 0 12.460392
+    32.134626 0 12.941247
+    41.266702 0 9.849999
+  ]
+  startingAngle [
+    -1.04628
+  ]
+  endingAngle [
+    4.38599
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 121.84006 5.01 -248.92204
+  name "road(43)"
+  id "-1976"
+  startJunction "-106"
+  endJunction "-104"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight 0
+  roadBorderWidth [
+    0.5
+  ]
+  rightBarrier TRUE
+  leftBarrier TRUE
+  bottom TRUE
+  wayPoints [
+    0 0 0
+    5.229256 0 3.717714
+    10.978157 0 7.256225
+  ]
+  startingAngle [
+    -0.858875
+  ]
+  endingAngle [
+    -1.04628
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  pavementAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/asphalt.jpg"
+      ]
+    }
+    roughness 0.8
+    metalness 0
+  }
+  roadBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 566.70996 5.01 -109.86871
+  name "road(44)"
+  id "-1974"
+  startJunction "-462"
+  endJunction "-460"
+  speedLimit 27.7778
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight 0
+  roadBorderWidth [
+    0.5
+  ]
+  rightBarrier TRUE
+  leftBarrier TRUE
+  bottom TRUE
+  wayPoints [
+    0 0 0
+    5.944757 0 16.514747
+  ]
+  startingAngle [
+    -0.351714
+  ]
+  endingAngle [
+    -0.345526
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  pavementAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/asphalt.jpg"
+      ]
+    }
+    roughness 0.8
+    metalness 0
+  }
+  roadBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 572.65472 0.01 -93.35396
+  name "road(45)"
+  id "-1972"
+  startJunction "-460"
+  speedLimit 27.7778
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  roadBorderHeight -6
+  roadBorderWidth []
+  wayPoints [
+    0 5 0
+    7.218931 4 13.052049
+    12.098618 1 26.034121
+    10.458298 0 41.738468
+    -6.177621 0 49.992833
+    -19.645461 0 50.173559
+    -28.18127 0 61.587467
+  ]
+  startingAngle [
+    -0.345526
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
+  castShadows TRUE
+}
+Road {
+  translation 464.65099 0.01 -164.62808
+  name "road(46)"
+  id "-1968"
+  startJunction "-798"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -5.647307 0 1.661655
+    -15.634444 0 2.58716
+    -25.837518 0 1.258407
+  ]
+  startingAngle [
+    1.28476
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 696.6426 0.01 -516.88407
+  name "road(47)"
+  id "-1966"
+  startJunction "-94"
+  endJunction "-1312"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    7.0659 0 7.477838
+    10.933869 0 14.18404
+    14.614897 0 27.137118
+    16.016888 0 42.08389
+    5.543189 0 73.584987
+    -38.401831 0 160.71467
+    -66.65714 0 211.56116
+    -83.267294 0 251.8382
+    -95.562791 0 281.45693
+  ]
+  startingAngle [
+    -0.757082
+  ]
+  endingAngle [
+    0.393703
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "high_snow"
+}
+Road {
+  translation 297.53327 0.01 -332.34528
+  name "road(48)"
+  id "-2042_2"
+  startJunction "-1270"
+  endJunction "-1266"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    12.023296 0 9.12469
+    20.186427 0 29.790288
+    20.868657 0 46.148088
+    17.883845 0 72.477287
+  ]
+  startingAngle [
+    5.36179
+  ]
+  endingAngle [
+    0.113084
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 537.8192 0.01 -192.64076
+  name "road(49)"
+  id "-1970_1"
+  startJunction "-792"
+  endJunction "-1320"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -7.648071 0 2.377577
+    -27.879025 0 8.436154
+  ]
+  startingAngle [
+    1.2694
+  ]
+  endingAngle [
+    1.27995
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 502.53341 0.01 -181.17858
+  name "road(50)"
+  id "-1970_2"
+  startJunction "-1320"
+  endJunction "-798"
+  speedLimit 5.55556
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -17.134368 0 9.023922
+    -27.423031 0 13.042505
+  ]
+  startingAngle [
+    1.08628
+  ]
+  endingAngle [
+    1.19843
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 321.36334 0.01 -238.5644
+  name "road(51)"
+  id "-2088_1"
+  startJunction "-1258"
+  endJunction "-1260"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -3.41938 0 1.255456
+  ]
+  startingAngle [
+    1.21892
+  ]
+  endingAngle [
+    1.21913
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation -9.10016 0.01 -32.045854
+  name "road(52)"
+  id "-2042_1"
+  startJunction "-712"
+  endJunction "-1272"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -26.930604 0 -21.555391
+    -44.779588 0 -60.247558
+    -56.820421 0 -99.20368
+    -79.587424 0 -120.8867
+    -113.19378 0 -132.39025
+    -133.86494 0 -145.84221
+    -172.31277 0 -191.33076
+    -159.4359 0 -230.62329
+    -84.171478 0 -250.29409
+    -56.803437 0 -263.03936
+    1.796295 0 -284.87374
+    90.445928 0 -298.43871
+    104.69328 0 -303.19588
+  ]
+  startingAngle [
+    2.24611
+  ]
+  endingAngle [
+    4.39026
+  ]
+  splineSubdivision 2
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 106.19086 0.01 -338.2651
+  name "road(53)"
+  id "-2042_3"
+  startJunction "-1272"
+  endJunction "-1270"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    56.650298 0 -11.506875
+    93.859839 0 -22.649788
+    150.22975 0 -28.552708
+    170.90077 0 -15.098958
+    183.08657 0 -1.33345
+  ]
+  startingAngle [
+    4.51199
+  ]
+  endingAngle [
+    5.55864
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 322.88606 0.01 -241.85358
+  name "road(54)"
+  id "-2088_3"
+  startJunction "-1254"
+  endJunction "-1258"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -1.522714 0 3.289184
+  ]
+  startingAngle [
+    0.433567
+  ]
+  endingAngle [
+    1.21892
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 328.50661 0.01 -244.66584
+  name "road(55)"
+  id "-2086_1"
+  startJunction "-1254"
+  endJunction "-1198"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    0.823814 0 0.175123
+    16.098738 0 1.778796
+    38.988743 0 2.501013
+    64.515605 0 4.509273
+    79.102989 0 4.758556
+    93.375398 0 2.868301
+    105.79123 0 -0.849229
+    117.43362 0 -5.249288
+    127.7402 0 -11.708938
+    133.31531 0 -16.249542
+  ]
+  startingAngle [
+    4.92197
+  ]
+  endingAngle [
+    4.06561
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 466.35858 0.01 -267.14606
+  name "road(56)"
+  id "-2086_2"
+  startJunction "-1198"
+  endJunction "-1302"
+  speedLimit 8.33333
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    3.651333 0 -7.855962
+    5.096278 0 -17.400707
+    4.447501 0 -29.998024
+    1.291869 0 -39.085585
+    0.48974 0 -42.490375
+  ]
+  startingAngle [
+    3.57689
+  ]
+  endingAngle [
+    2.91027
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 9.583336 0.01 -25.202787
+  name "road(57)"
+  id "-2044_2"
+  startJunction "-708"
+  endJunction "-720"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    1.256716 0 3.399038
+    -1.698483 0 7.882916
+  ]
+  startingAngle [
+    5.92905
+  ]
+  endingAngle [
+    0.582741
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 190.92202 0.01 -223.98764
+  name "road(58)"
+  id "-2048_1"
+  startJunction "-738"
+  endJunction "-732"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -3.418625 0 1.255259
+    -10.378649 0 -1.947233
+    -11.635439 0 -5.34674
+  ]
+  startingAngle [
+    1.2189
+  ]
+  endingAngle [
+    2.78754
+  ]
+  splineSubdivision 1
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 179.58144 0.01 -236.75285
+  name "road(59)"
+  id "-2048_2"
+  startJunction "-732"
+  endJunction "-726"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    1.52263 0 -3.289205
+    8.714925 0 -5.930099
+    12.023011 0 -4.407956
+  ]
+  startingAngle [
+    3.57514
+  ]
+  endingAngle [
+    5.14363
+  ]
+  splineSubdivision 1
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 196.65037 0.01 -235.70986
+  name "road(60)"
+  id "-2048_3"
+  startJunction "-726"
+  endJunction "-738"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    1.256714 0 3.399333
+    -0.265921 0 6.688526
+  ]
+  startingAngle [
+    5.92907
+  ]
+  endingAngle [
+    0.433547
+  ]
+  splineSubdivision 1
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 310.51907 0.01 -237.6041
+  name "road(61)"
+  id "-2088_2"
+  startJunction "-1260"
+  endJunction "-1256"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -3.30806 0 -1.522209
+    -4.564994 0 -4.922325
+  ]
+  startingAngle [
+    2.00206
+  ]
+  endingAngle [
+    2.78773
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 696.6426 0.01 -516.88407
+  name "road(62)"
+  id "-1980_1"
+  startJunction "-94"
+  endJunction "-1186"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -5.293717 0 -4.383055
+    -14.935638 0 -10.755056
+    -31.318347 0 -15.266778
+    -55.149529 0 -12.69353
+    -85.253998 0 -0.582228
+    -107.35024 0 10.340353
+  ]
+  startingAngle [
+    -3.89867
+  ]
+  endingAngle [
+    1.1117
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+  contactMaterial "high_snow"
+}
+Road {
+  translation 579.34831 0.01 -501.7521
+  name "road(63)"
+  id "-1980_2"
+  startJunction "-1186"
+  endJunction "-1302"
+  speedLimit 13.8889
+  lines [
+    RoadLine {
+      type "none"
+    }
+  ]
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -16.01377 0 7.372383
+    -36.850527 0 21.615237
+    -58.164253 0 37.261061
+    -78.152629 0 55.369689
+    -87.059137 0 68.605807
+    -94.767965 0 81.877703
+    -98.896834 0 94.548916
+    -104.17805 0 120.15729
+    -107.17929 0 142.25397
+    -112.14524 0 178.46996
+  ]
+  startingAngle [
+    1.13956
+  ]
+  endingAngle [
+    0.136395
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation -0.928863 0.01 -12.854083
+  name "road(64)"
+  id "-2044_1"
+  startJunction "-720"
+  endJunction "-716"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -1.942019 0 -0.893507
+  ]
+  startingAngle [
+    2.00201
+  ]
+  endingAngle [
+    2.00203
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 306.24929 0.01 -249.94433
+  name "road(65)"
+  id "-2088_4"
+  startJunction "-1256"
+  endJunction "-1266"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    1.522709 0 -3.289196
+    4.941402 0 -4.544405
+  ]
+  startingAngle [
+    3.57516
+  ]
+  endingAngle [
+    4.36051
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation 318.61629 0.01 -254.19384
+  name "road(66)"
+  id "-2088_5"
+  startJunction "-1266"
+  endJunction "-1254"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    3.308078 0 1.522222
+    4.56513 0 4.922686
+  ]
+  startingAngle [
+    5.14365
+  ]
+  endingAngle [
+    5.92942
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation -7.916921 0.01 -19.19836
+  name "road(67)"
+  id "-2044_3"
+  startJunction "-716"
+  endJunction "-712"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    -1.256723 0 -3.399025
+    0.265886 0 -6.688433
+  ]
+  startingAngle [
+    2.78745
+  ]
+  endingAngle [
+    3.57524
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+Road {
+  translation -2.188959 0.01 -30.920245
+  name "road(68)"
+  id "-2044_4"
+  startJunction "-712"
+  endJunction "-708"
+  numberOfForwardLanes 2
+  speedLimit 27.7778
+  rightBorder FALSE
+  leftBorder FALSE
+  wayPoints [
+    0 0 0
+    3.418345 0 -1.255273
+    6.727282 0 0.267145
+  ]
+  startingAngle [
+    4.36046
+  ]
+  endingAngle [
+    5.14394
+  ]
+  splineSubdivision 0
+  appearance USE ROAD_WITH_SNOW
+}
+RandomBuilding {
+  translation 290.5 0 -374.8
+  corners [
+    0 0
+    0.66 -22.19
+    -21.56 -23.96
+    -23.37 -0.7
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 21.95 0 -185.17
+  name "building(1)"
+  corners [
+    0 0
+    3.25 -34.32
+    -24.57 -35.15
+    -23.34 -1.81
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 20.57 0 -250.72
+  name "building(2)"
+  corners [
+    0 0
+    -1.3 -31.13
+    -30.34 -28.66
+    -29.23 9.12
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 172.13 0 -178.47
+  name "building(3)"
+  corners [
+    0 0
+    3.19 -32.11
+    -35.77 -33.27
+    -42.22 -3.48
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 164.31 0 -289.74
+  name "building(4)"
+  corners [
+    0 0
+    3.38 -38.76
+    -26.67 -39.66
+    -25.63 0.35
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 79.45 0 -245.63
+  name "building(5)"
+  corners [
+    0 0
+    1.32 -44.38
+    -36.48 -46.61
+    -34.37 -5.47
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 536.91 0 -397.92
+  name "building(6)"
+  corners [
+    0 0
+    2.61 -34.47
+    29.36 -33.67
+    26.71 2.37
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 399.18 0 -379.1
+  name "building(7)"
+  corners [
+    0 0
+    -0.79 -21.71
+    -20.3 -21.18
+    -21.99 -1.8
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 416.69 0 -363.69
+  name "building(8)"
+  corners [
+    0 0
+    1.67 -19.95
+    -17.57 -21.7
+    -17.51 -15.41
+    -17.37 -2.06
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 432.3 0 -353.39
+  name "building(9)"
+  corners [
+    0 0
+    0.23 -16.87
+    -14.7 -18.11
+    -15.62 -10.31
+    -16.81 -0.11
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 447.03 0 -343.04
+  name "building(10)"
+  corners [
+    0 0
+    1 -14.96
+    -14.56 -15.98
+    -14.73 -10.34
+    -15.06 0.66
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 288.65 0 -176.96
+  name "building(11)"
+  corners [
+    0 0
+    -40.06 -1.2
+    -40.4 65.97
+    -30.38 66.27
+    -30.25 70.99
+    -29.27 75.74
+    -26.57 78.6
+    -22.4 78.72
+    -17.92 77.74
+    -15.3 74.21
+    -14.53 67.02
+    -1.19 67.97
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 292.19 0 -202.39
+  name "building(12)"
+  corners [
+    0 0
+    2.01 -29.92
+    -44.74 -31.32
+    -45.7 0.86
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 245.38 0 -275.97
+  name "building(13)"
+  corners [
+    0 0
+    1.74 -21.05
+    -30.5 -23.12
+    -32.54 7.91
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 247.81 0 -320.31
+  name "building(14)"
+  corners [
+    0 0
+    -0.32 -26.66
+    -28.14 -27.49
+    -28.9 -1.97
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 285.29 0 -306.97
+  name "building(15)"
+  corners [
+    0 0
+    0.5 -16.64
+    -20.62 -18.38
+    -19.09 4.98
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 298.51 0 -264.78
+  name "building(16)"
+  corners [
+    0 0
+    1.37 -19.59
+    -27.35 -20.45
+    -27.54 -0.82
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 359.25 0 -270.76
+  name "building(17)"
+  corners [
+    0 0
+    -0.74 16.63
+    -17.12 15.04
+    -16.3 -2.98
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 375.23 0 -279.71
+  name "building(18)"
+  corners [
+    0 0
+    -0.3 16.92
+    -16.45 16.71
+    -15.98 8.95
+    -15.35 -1.3
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 390.75 0 -290.98
+  name "building(19)"
+  corners [
+    0 0
+    0.08 18.65
+    -15.64 17.59
+    -15.53 11.27
+    -15.32 0.13
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 370.67 0 -314.33
+  name "building(20)"
+  corners [
+    0 0
+    -0.02 -19.74
+    -16.13 -21.05
+    -14.25 -0.18
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 390.69 0 -297.71
+  name "building(21)"
+  corners [
+    0 0
+    0.31 -19.99
+    -20.2 -23.1
+    -20.02 -16.62
+    -19.66 -3.93
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 408.27 0 -282.48
+  name "building(22)"
+  corners [
+    0 0
+    1.52 -20.77
+    -17.65 -22.45
+    -17.58 -15.22
+    -17.52 -8.49
+    -17.45 -1.07
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 441.93 0 -269.78
+  name "building(23)"
+  corners [
+    0 0
+    0.82 -17.83
+    16.33 -16.58
+    15.82 0.48
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 426.64 0 -278.93
+  name "building(24)"
+  corners [
+    0 0
+    -1.79 16.89
+    14.91 17.98
+    15.29 9.15
+    15.58 2.3
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 425.74 0 -271.66
+  name "building(25)"
+  corners [
+    0 0
+    0.9 -7.27
+    2.2 -17.7
+    -16.69 -19.38
+    -17.46 -10.83
+    -18.35 -1.1
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 388.51 0 -210.91
+  name "building(26)"
+  corners [
+    0 0
+    2.72 -12.39
+    -8.61 -15.48
+    -10.62 -1.57
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 392.1 0 -186.38
+  name "building(27)"
+  corners [
+    0 0
+    3.85 -23.44
+    -3.59 -24.54
+    -14.21 -26.11
+    -22.81 -27.38
+    -26.59 -6.29
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 465.45 0 -110.38
+  name "building(28)"
+  corners [
+    0 0
+    -0.59 -32.99
+    -33.55 -37.12
+    -29.81 -4.03
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 452.1 0 -190.86
+  name "building(29)"
+  corners [
+    0 0
+    0.98 -32.95
+    -29.01 -30.7
+    -31.52 0.63
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 679.82 0 -100.99
+  name "building(30)"
+  corners [
+    0 0
+    4.5 -38.73
+    -23.16 -45.11
+    -28.87 -3.08
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 525.93 0 -108.04
+  name "building(31)"
+  corners [
+    0 0
+    4.67 -25.95
+    -30.28 -30.33
+    -30.07 -0.34
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 621.09 0 -140.31
+  name "building(32)"
+  corners [
+    0 0
+    -0.82 -25.15
+    -25.29 -23.53
+    -23.3 2.05
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 546.23 0 -165.71
+  name "building(33)"
+  corners [
+    0 0
+    -3.87 -15.43
+    -28.06 -9.87
+    -22.64 6.39
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 585.63 0 -179.45
+  name "building(34)"
+  corners [
+    0 0
+    -10.27 -12.08
+    -30.5 -7.19
+    -16.97 14.41
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 651.33 0 -163.74
+  name "building(35)"
+  corners [
+    0 0
+    -3.01 -31.1
+    21.46 -32.73
+    21.34 -2.5
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 604.52 0 -187.7
+  name "building(36)"
+  corners [
+    0 0
+    14.28 -11.79
+    -1.35 -29.47
+    -19.11 -12.79
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 655.61 0 -258.43
+  name "building(37)"
+  corners [
+    0 0
+    -22.8 -14.42
+    -25.66 -10.97
+    -26.97 -6.7
+    -27.96 -0.05
+    -27.35 5.86
+    -25.5 9.84
+    -22.94 16.59
+    -20.5 20.59
+    -17.03 23.05
+    -13.94 25.1
+    0.39 33.5
+    14.47 9.49
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 674.7 0 -283.13
+  name "building(38)"
+  corners [
+    0 0
+    -15.42 -11.06
+    -30.44 3.8
+    -12.27 15.34
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 670.73 0 -303.87
+  name "building(39)"
+  corners [
+    0 0
+    10.5 -15.79
+    -4.24 -25.67
+    -17.51 -10.52
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 691.38 0 -342.67
+  name "building(40)"
+  corners [
+    0 0
+    10.53 -16.9
+    -3.13 -25.63
+    -16.54 -5.49
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 701.41 0 -380.12
+  name "building(41)"
+  corners [
+    0 0
+    -10.37 -6.97
+    0.26 -27.2
+    19.94 -14.95
+    11.5 6.45
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 686.89 0 -451.19
+  name "building(42)"
+  corners [
+    0 0
+    4.42 -10.16
+    -3.56 -13.45
+    -5.94 -2.43
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 680.39 0 -421.98
+  name "building(43)"
+  corners [
+    0 0
+    -16.3 -13.81
+    -2.36 -32.83
+    0.56 -31.63
+    6.5 -29.21
+    10.85 -27.44
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 655.79 0 -381.63
+  name "building(44)"
+  corners [
+    0 0
+    11.19 -20.21
+    -1.94 -28.37
+    -16.99 -9.39
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 611.84 0 -309.1
+  name "building(45)"
+  corners [
+    0 0
+    33.93 -54.5
+    -4.16 -84.51
+    -26.16 -56.3
+    -5.48 -40.14
+    -15.76 -13.24
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 584.06 0 -243.8
+  name "building(46)"
+  corners [
+    0 0
+    10.65 -13.81
+    -2.84 -23.64
+    -16.29 -8.34
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 558.21 0 -208.85
+  name "building(47)"
+  corners [
+    0 0
+    10.58 -11.46
+    1.4 -20.37
+    -11.96 -8.21
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 522.33 0 -233.87
+  name "building(48)"
+  corners [
+    0 0
+    -2.98 7.37
+    -8.08 6.82
+    -9.59 17.77
+    9.36 16.38
+    10.25 -0.48
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 493.15 0 -206.47
+  name "building(49)"
+  corners [
+    0 0
+    2.92 -18.76
+    -11.96 -21.56
+    -14.49 -2.79
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 546.76 0 -260.62
+  name "building(50)"
+  corners [
+    0 0
+    -13.63 -5.12
+    -22.4 11.5
+    -9.52 15.42
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 517.86 0 -268.94
+  name "building(51)"
+  corners [
+    0 0
+    -11.64 -5.84
+    -18.42 -2.91
+    -28.13 -7.51
+    -32.3 0.21
+    -21.77 3.67
+    -20.43 11.56
+    -11.5 15.75
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 573.95 0 -300.63
+  name "building(52)"
+  corners [
+    0 0
+    -43.37 -24.85
+    -32.54 -44.55
+    13.93 -18.03
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 530.69 0 -289.75
+  name "building(53)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 549.7 0 -293.11
+  name "building(54)"
+  corners [
+    0 0
+    -7.52 14.3
+    6.46 21
+    12.01 6.64
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 462.14 0 -435.22
+  name "building(55)"
+  corners [
+    0 0
+    -21.79 0.45
+    -21.55 19.91
+    -2.13 21.89
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 477.86 0 -452.44
+  name "building(56)"
+  corners [
+    0 0
+    -19.98 -1.97
+    -22.03 17.18
+    -15.72 17.22
+    -2.33 17.28
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 488.43 0 -467.84
+  name "building(57)"
+  corners [
+    0 0
+    -16.92 -0.49
+    -18.38 14.38
+    -10.57 15.41
+    -0.36 16.76
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 499.02 0 -482.37
+  name "building(58)"
+  corners [
+    0 0
+    -14.99 -1.23
+    -16.25 14.27
+    -10.59 14.52
+    0.44 15.02
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 528.05 0 -520.49
+  name "building(59)"
+  corners [
+    0 0
+    -19.98 -1.97
+    -22.03 17.18
+    -15.72 17.22
+    -2.33 17.28
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 549.21 0 -550.42
+  name "building(60)"
+  corners [
+    0 0
+    -14.99 -1.23
+    -16.25 14.27
+    -10.59 14.52
+    0.44 15.02
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 512.33 0 -503.27
+  name "building(61)"
+  corners [
+    0 0
+    -21.79 0.45
+    -21.55 19.91
+    -2.13 21.89
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 538.62 0 -535.89
+  name "building(62)"
+  corners [
+    0 0
+    -16.92 -0.49
+    -18.38 14.38
+    -10.57 15.41
+    -0.36 16.76
+  ]
+  roofShape "flat roof"
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 510.8 0 -342.14
+  name "building(63)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 517.33 0 -403.79
+  name "building(64)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 495.66 0 -325.09
+  name "building(65)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 499.34 0 -369.9
+  name "building(66)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 535.42 0 -430.72
+  name "building(67)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 591.29 0 -435.43
+  name "building(68)"
+  corners [
+    0 0
+    9.73 -16.39
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 567.49 0 -446.1
+  name "building(69)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 573.04 0 -465.19
+  name "building(70)"
+  corners [
+    0 0
+    9.73 -16.39
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 656.54 0 -447.17
+  name "building(71)"
+  corners [
+    0 0
+    9.73 -16.39
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 637.02 0 -470.82
+  name "building(72)"
+  corners [
+    0 0
+    9.73 -16.39
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 604.22 0 -414.99
+  name "building(73)"
+  corners [
+    0 0
+    9.73 -16.39
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 530.9 0 -41.66
+  name "building(74)"
+  corners [
+    0 0
+    4.67 -25.95
+    -30.28 -30.33
+    -30.06 -0.34
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 577.88 0 -133.63
+  name "building(75)"
+  corners [
+    0 0
+    10.58 -11.46
+    1.4 -20.37
+    -11.96 -8.21
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 627.33 0 -27.15
+  name "building(76)"
+  corners [
+    0 0
+    -0.59 -32.99
+    -33.55 -37.12
+    -29.81 -4.03
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 559.23 0 -58.04
+  name "building(77)"
+  corners [
+    0 0
+    10.58 -11.46
+    1.4 -20.37
+    -11.96 -8.21
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 574.54 0 -12.07
+  name "building(78)"
+  corners [
+    0 0
+    10.58 -11.46
+    1.4 -20.37
+    -11.96 -8.21
+  ]
+  snowOnRoof TRUE
+}
+RandomBuilding {
+  translation 516 0 -10.8
+  name "building(79)"
+  corners [
+    0 0
+    7.96 -15.86
+    -6.77 -23.76
+    -16.33 -7.16
+  ]
+  snowOnRoof TRUE
+}
+SimpleTree {
+  translation 545.16 0 -122.16
+  rotation 0 1 0 5.306
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 406.2 0 -168.51
+  rotation 0 1 0 4.762
+  name "tree(1)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 434.09 0 -169.9
+  rotation 0 1 0 2.643
+  name "tree(2)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 298.38 0 -299.8
+  rotation 0 1 0 1.627
+  name "tree(3)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 254.93 0 -262.24
+  rotation 0 1 0 3.212
+  name "tree(4)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 345.08 0 -334.5
+  rotation 0 1 0 2.544
+  name "tree(5)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 338.67 0 -324.7
+  rotation 0 1 0 4.925
+  name "tree(6)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 360.34 0 -304.62
+  rotation 0 1 0 1.906
+  name "tree(7)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 358.82 0 -290.78
+  rotation 0 1 0 2.995
+  name "tree(8)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 381.23 0 -257.91
+  rotation 0 1 0 3.665
+  name "tree(9)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 392.59 0 -265.35
+  rotation 0 1 0 5.706
+  name "tree(10)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 405.39 0 -264.96
+  rotation 0 1 0 3.171
+  name "tree(11)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 415.24 0 -259.12
+  rotation 0 1 0 1.771
+  name "tree(12)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 421.75 0 -253.37
+  rotation 0 1 0 4.749
+  name "tree(13)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 150.76 0 94.42
+  rotation 0 1 0 3.885
+  name "tree(14)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 173.68 0 91.97
+  rotation 0 1 0 1.574
+  name "tree(15)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 194.99 0 90.25
+  rotation 0 1 0 5.716
+  name "tree(16)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 215.59 0 86.15
+  rotation 0 1 0 6.175
+  name "tree(17)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 233.76 0 84.34
+  rotation 0 1 0 5.091
+  name "tree(18)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 262.27 0 79.36
+  rotation 0 1 0 5.668
+  name "tree(19)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 280.21 0 75.45
+  rotation 0 1 0 1.949
+  name "tree(20)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 303.78 0 69.5
+  rotation 0 1 0 4.586
+  name "tree(21)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 348.59 0 60.84
+  rotation 0 1 0 5.648
+  name "tree(22)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 332.91 0 63.7
+  rotation 0 1 0 4.298
+  name "tree(23)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 364.31 0 49.49
+  rotation 0 1 0 2.967
+  name "tree(24)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 385.07 0 39.9
+  rotation 0 1 0 0.633
+  name "tree(25)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 402.66 0 31.01
+  rotation 0 1 0 2.728
+  name "tree(26)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 420.23 0 22.89
+  rotation 0 1 0 3.838
+  name "tree(27)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 438.54 0 16.38
+  rotation 0 1 0 5.737
+  name "tree(28)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 455.52 0 1.97
+  rotation 0 1 0 6.073
+  name "tree(29)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 467.02 0 -14.18
+  rotation 0 1 0 2.997
+  name "tree(30)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 476.96 0 -30.37
+  rotation 0 1 0 5.437
+  name "tree(31)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 483.82 0 -49.01
+  rotation 0 1 0 1.637
+  name "tree(32)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 486.03 0 -70.14
+  rotation 0 1 0 5.058
+  name "tree(33)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 163.53 0 42.71
+  rotation 0 1 0 3.448
+  name "tree(34)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 184.13 0 38.61
+  rotation 0 1 0 0.088
+  name "tree(35)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 203.06 0 37.61
+  rotation 0 1 0 4.522
+  name "tree(36)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 222.86 0 34.19
+  rotation 0 1 0 2.506
+  name "tree(37)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 245.77 0 31.74
+  rotation 0 1 0 5.183
+  name "tree(38)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 278.8 0 25.5
+  rotation 0 1 0 4.198
+  name "tree(39)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 265.05 0 28.04
+  rotation 0 1 0 0.007
+  name "tree(40)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 299.87 0 22.8
+  rotation 0 1 0 3.101
+  name "tree(41)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 317.27 0 18.32
+  rotation 0 1 0 5.451
+  name "tree(42)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 339.71 0 12.88
+  rotation 0 1 0 1.533
+  name "tree(43)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 364.39 0 6.96
+  rotation 0 1 0 2.043
+  name "tree(44)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 384.06 0 0.88
+  rotation 0 1 0 5.469
+  name "tree(45)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 403.82 0 -7.96
+  rotation 0 1 0 1.201
+  name "tree(46)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 418.52 0 -15.3
+  rotation 0 1 0 3.566
+  name "tree(47)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 428.9 0 -27.2
+  rotation 0 1 0 1.499
+  name "tree(48)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 438.74 0 -39.68
+  rotation 0 1 0 6.079
+  name "tree(49)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 443.67 0 -55.63
+  rotation 0 1 0 5.047
+  name "tree(50)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 447.44 0 -69.95
+  rotation 0 1 0 2.815
+  name "tree(51)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 580.27 0 -285.71
+  rotation 0 1 0 0.505
+  name "tree(52)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 594.18 0 -303.36
+  rotation 0 1 0 2.011
+  name "tree(53)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 607.7 0 -294.32
+  rotation 0 1 0 3.191
+  name "tree(54)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 595.77 0 -277.4
+  rotation 0 1 0 5.861
+  name "tree(55)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 726.15 0 -435.31
+  rotation 0 1 0 0.685
+  name "tree(56)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 649.47 0 -505.13
+  rotation 0 1 0 3.464
+  name "tree(57)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 558.34 0 -532.31
+  rotation 0 1 0 4.439
+  name "tree(58)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 568.65 0 -521.44
+  rotation 0 1 0 3.44
+  name "tree(59)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 555.65 0 -522.76
+  rotation 0 1 0 5.117
+  name "tree(60)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 554.68 0 -517.83
+  rotation 0 1 0 3.395
+  name "tree(61)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 545.71 0 -512.12
+  rotation 0 1 0 6.056
+  name "tree(62)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 554.5 0 -531.23
+  rotation 0 1 0 3.79
+  name "tree(63)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 563.33 0 -511.68
+  rotation 0 1 0 3.692
+  name "tree(64)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 547.43 0 -523.29
+  rotation 0 1 0 2.796
+  name "tree(65)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 552.68 0 -504.98
+  rotation 0 1 0 3.747
+  name "tree(66)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 547.44 0 -530.41
+  rotation 0 1 0 2.418
+  name "tree(67)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 534.94 0 -510.26
+  rotation 0 1 0 3.617
+  name "tree(68)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 537.4 0 -495.74
+  rotation 0 1 0 1.824
+  name "tree(69)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 538.46 0 -489.28
+  rotation 0 1 0 1.19
+  name "tree(70)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 542.07 0 -502.3
+  rotation 0 1 0 1.173
+  name "tree(71)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 532.25 0 -501.72
+  rotation 0 1 0 3.85
+  name "tree(72)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 528.21 0 -489
+  rotation 0 1 0 4.126
+  name "tree(73)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 529.39 0 -494.36
+  rotation 0 1 0 2.994
+  name "tree(74)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 518.4 0 -493.82
+  rotation 0 1 0 0.564
+  name "tree(75)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 519.68 0 -482.69
+  rotation 0 1 0 4.76
+  name "tree(76)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 566.05 0 -535.86
+  rotation 0 1 0 5.509
+  name "tree(77)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 565.36 0 -547.26
+  rotation 0 1 0 5.802
+  name "tree(78)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 564.28 0 -540.44
+  rotation 0 1 0 5.293
+  name "tree(79)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 556.93 0 -539.2
+  rotation 0 1 0 5.643
+  name "tree(80)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 559.28 0 -544.52
+  rotation 0 1 0 5.8
+  name "tree(81)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 559.85 0 -553.84
+  rotation 0 1 0 3.397
+  name "tree(82)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 551.97 0 -554.37
+  rotation 0 1 0 2.459
+  name "tree(83)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 135.44 0 46.69
+  rotation 0 1 0 4.431
+  name "tree(84)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 121.93 0 97.34
+  rotation 0 1 0 1.732
+  name "tree(85)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 106.29 0 52.53
+  rotation 0 1 0 5.1
+  name "tree(86)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 57.08 0 44.07
+  rotation 0 1 0 5.337
+  name "tree(87)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 78.25 0 50.82
+  rotation 0 1 0 5.624
+  name "tree(88)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 22.62 0 71.33
+  rotation 0 1 0 3.706
+  name "tree(89)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 94.24 0 93.6
+  rotation 0 1 0 5.968
+  name "tree(90)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 64.53 0 88.92
+  rotation 0 1 0 3.642
+  name "tree(91)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 37.85 0 80.54
+  rotation 0 1 0 2.831
+  name "tree(92)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 35.65 0 16.88
+  rotation 0 1 0 4.148
+  name "tree(93)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 45.99 0 33.23
+  rotation 0 1 0 6.26
+  name "tree(94)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 28.58 0 -1.13
+  rotation 0 1 0 5.761
+  name "tree(95)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation -6.23 0 8.05
+  rotation 0 1 0 4.985
+  name "tree(96)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation -0.75 0 30.38
+  rotation 0 1 0 0.518
+  name "tree(97)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 6.77 0 53.07
+  rotation 0 1 0 3.85
+  name "tree(98)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 207.13 0 -296.59
+  rotation 0 1 0 3.056
+  name "tree(99)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 181.22 0 -329.96
+  rotation 0 1 0 3.959
+  name "tree(100)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 204.66 0 -283.05
+  rotation 0 1 0 5.31
+  name "tree(101)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 142.18 0 -283.68
+  rotation 0 1 0 1.527
+  name "tree(102)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 193.99 0 -327.93
+  rotation 0 1 0 4.596
+  name "tree(103)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 200.24 0 -273.69
+  rotation 0 1 0 0.736
+  name "tree(104)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 190.42 0 -263.67
+  rotation 0 1 0 1.385
+  name "tree(105)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 176.17 0 -257.91
+  rotation 0 1 0 4.993
+  name "tree(106)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 140.54 0 -270.52
+  rotation 0 1 0 2.089
+  name "tree(107)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 163.71 0 -256.22
+  rotation 0 1 0 5.127
+  name "tree(108)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 206.38 0 -313.12
+  rotation 0 1 0 0.632
+  name "tree(109)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+SimpleTree {
+  translation 205.03 0 -323.47
+  rotation 0 1 0 0.92
+  name "tree(110)"
+  type "random"
+  withSnow TRUE
+  enableBoundingObject FALSE
+}
+Transform {
+  translation 101.44 -0.49 -215.37
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.3 0.5 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Extrusion {
+        crossSection [
+          -1 0
+          -1 0.5
+          1 0.5
+          1 0
+          -1 0
+        ]
+        spine [
+          0 0 0
+          8.91 0 -11.07
+          18.13 0 -16.04
+          22.76 0 -24.07
+          25.63 0 -29.83
+          32.88 0 -39.53
+          43.22 0 -42.72
+          56.61 0 -50.5
+        ]
+        splineSubdivision 0
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF water Transform {
+  translation 101.43607 0 -215.37494
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.3 0.5 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            -5.79 0 -8.18
+            -19.48 0 -12.96
+            -34.13 0 -15.63
+            -50.13 0 -12.22
+            -58.99 0 -0.69
+            -64.15 0 13.76
+            -68.56 0 28.73
+            -68.29 0 41.7
+            -61.51 0 55.76
+            -49.11 0 64.55
+            -28.73 0 67.05
+            -6.83 0 62.51
+            -1.69 0 56.04
+            0.66 0 53.07
+            9.19 0 44.66
+            12.38 0 34.85
+            11.37 0 26.99
+            7.91 0 18.22
+            8.21 0 7.91
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+          10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+          20, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF water Transform {
+  translation 175.87775 0 -293.65354
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.3 0.5 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            -3.51 0 6.5
+            -11.91 0 10.78
+            -20.64 0 12.17
+            -26.16 0 16.55
+            -25.56 0 24.4
+            -17.83 0 28.76
+            -7.5 0 29.48
+            2.03 0 28.94
+            8.76 0 25.43
+            18.04 0 19.52
+            22.44 0 10.98
+            24.86 0 -0.91
+            24.28 0 -9.18
+            22.58 0 -21.61
+            15.32 0 -28.01
+            4.96 0 -27.5
+            -0.19 0 -21.46
+            -2.09 0 -13.26
+            2.29 0 -7.36
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+          10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+          20, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+Forest {
+  treesFiles [
+    "forest/village/-2078.forest"
+  ]
+  shape []
+  withSnow TRUE
+}
+Forest {
+  treesFiles [
+    "forest/village/-2076.forest"
+  ]
+  shape []
+  withSnow TRUE
+}
+DEF water Transform {
+  translation 380.57449 0 -123.61298
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.3 0.5 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            17.84 0 -15.14
+            -16.39 0 -60.93
+            -35.41 0 -47.68
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+Forest {
+  treesFiles [
+    "forest/village/-2000.forest"
+  ]
+  shape []
+  withSnow TRUE
+}
+Forest {
+  treesFiles [
+    "forest/village/-1998.forest"
+  ]
+  shape []
+  withSnow TRUE
+}
+DEF farmland Transform {
+  translation 366.98881 0 -8.425716
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 80 80
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            2.35 0 -78.73
+            -29.9 0 -79.69
+            -32.25 0 -0.96
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF farmland Transform {
+  translation 313.05833 0 0.471732
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 80 80
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            2.35 0 -78.73
+            -29.9 0 -79.69
+            -32.25 0 -0.96
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF farmland Transform {
+  translation 264.82664 0 8.366795
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 80 80
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            2.35 0 -78.73
+            -29.9 0 -79.69
+            -32.25 0 -0.96
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF farmland Transform {
+  translation 213.64309 0 -2.496285
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 80 80
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            2.35 0 -78.73
+            -29.9 0 -79.69
+            -32.25 0 -0.96
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF farmland Transform {
+  translation 89.213474 0 17.671526
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        baseColorMap ImageTexture {
+          url [
+            "textures/dry_grass.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 83 83
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            78.27 0 -10.81
+            73.83 0 -42.67
+            -4.44 0 -31.86
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, 4, -1
+        ]
+      }
+      castShadows FALSE
+    }
+  ]
+}
+Forest {
+  treesFiles [
+    "forest/village/-1986.forest"
+  ]
+  shape []
+  withSnow TRUE
+}
+RoadPillars {
+  translation -72.048961 -2.5579529e-13 -373.0999
+  rotation 0 1 0 -0.35
+  height 2
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -76.46142 -3.5527127e-13 -358.44372
+  rotation 0 1 0 -0.15
+  name "road pillar(1)"
+  height 3.2
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -81.704497 -1.7053016e-13 -329.60384
+  rotation 0 1 0 0.1
+  name "road pillar(2)"
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -82.595626 -2.2737358e-13 -298.17454
+  rotation 0 -1 0 6.13319
+  name "road pillar(3)"
+  height 5.9
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -79.210289 1.4281908e-12 -257.50915
+  rotation 0 -1 0 -0.2
+  name "road pillar(4)"
+  height 5.9
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -74.137238 -1.0658148e-13 -216.65294
+  rotation 0 -1 0 -0.15
+  name "road pillar(5)"
+  height 5.9
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -73.453514 2.6290115e-13 -166.43662
+  rotation 0 -1 0 0.25
+  name "road pillar(6)"
+  height 5.9
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -102.98712 2.77112e-13 -106.03029
+  rotation 0 -1 0 0.65
+  name "road pillar(7)"
+  height 5.5
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -127.67517 2.77112e-13 -78.174003
+  rotation 0 -1 0 0.8
+  name "road pillar(8)"
+  height 3.7
+  width 6.5
+  pylonsDistance 4.8
+}
+RoadPillars {
+  translation -137.27546 2.77112e-13 -69.946965
+  rotation 0 -1 0 0.95
+  name "road pillar(9)"
+  height 2
+  width 6.5
+  pylonsDistance 4.8
+}
+GenericTrafficLight {
+  translation 461.644 5.32907e-15 -322.54977
+  startGreen FALSE
+  greenTime 30
+  redTime 30
+}
+GenericTrafficLight {
+  translation 473.15557 7.1054274e-15 -321.89109
+  rotation 0 1 0 4.45059
+  name "generic traffic light(1)"
+  greenTime 30
+  redTime 30
+}
+GenericTrafficLight {
+  translation 488.24625 7.1054274e-15 -409.06921
+  rotation 0 -1 0 3.40339
+  name "generic traffic light(2)"
+}
+GenericTrafficLight {
+  translation 401.4269 1.15818e-12 -337.44037
+  rotation 0 -1 0 1.83259
+  name "generic traffic light(3)"
+}
+GenericTrafficLight {
+  translation 388.8035 1.15818e-12 -332.00217
+  rotation 0 1 0 1.0472
+  name "generic traffic light(4)"
+}
+GenericTrafficLight {
+  translation 479.95684 4.9737992e-14 -418.5505
+  rotation 0 1 0 5.75959
+  name "generic traffic light(5)"
+}
+GenericTrafficLight {
+  translation 473.83715 7.1054274e-15 -310.71562
+  rotation 0 1 0 3.40339
+  name "generic traffic light(6)"
+  startGreen FALSE
+  greenTime 30
+  redTime 30
+}
+GenericTrafficLight {
+  translation 538.74879 -4.61853e-14 -101.0593
+  rotation 0 -1 0 1.309
+  name "generic traffic light(7)"
+}
+GenericTrafficLight {
+  translation 529.07497 -3.90799e-14 -89.074971
+  rotation 0 1 0 2.09439
+  name "generic traffic light(8)"
+}
+GenericTrafficLight {
+  translation 460.50299 3.5527174e-15 -310.92784
+  rotation 0 1 0 1.5708
+  name "generic traffic light(9)"
+  greenTime 30
+  redTime 30
+}
+StreetLight {
+  translation 605.341 -5.68434e-14 -158.398
+  rotation 0 1 0 1.8326
+  on FALSE
+}
+StreetLight {
+  translation 620.83288 -1.56319e-13 -177.27567
+  rotation 0 1 0 5.23599
+  name "street light(1)"
+  on FALSE
+}
+StreetLight {
+  translation 607.93438 -9.9476e-14 -240.10274
+  rotation 0 1 0 1.0472
+  name "street light(2)"
+  on FALSE
+}
+StreetLight {
+  translation 539.7538 8.52651e-14 -234.94812
+  rotation 0 1 0 4.97419
+  name "street light(3)"
+  on FALSE
+}
+StreetLight {
+  translation 638.556 -1.98952e-13 -239.582
+  rotation 0 1 0 3.92699
+  name "street light(4)"
+  on FALSE
+}
+StreetLight {
+  translation 680.48924 -6.53699e-13 -414.06582
+  rotation 0 1 0 4.18879
+  name "street light(5)"
+  on FALSE
+}
+StreetLight {
+  translation 698.217 -6.53699e-13 -344.226
+  rotation 0 -1 0 5.23599
+  name "street light(6)"
+  on FALSE
+}
+StreetLight {
+  translation 591.05735 -1.7053e-13 -221.64882
+  rotation 0 1 0 0.523599
+  name "street light(7)"
+  on FALSE
+}
+StreetLight {
+  translation 539.03362 3.55271e-12 -90.687623
+  rotation 0 -1 0 6.02139
+  name "street light(8)"
+  on FALSE
+}
+StreetLight {
+  translation 624.63191 1.9895185e-13 -128.77067
+  rotation 0 1 0 1.0472
+  name "street light(9)"
+  on FALSE
+}
+StreetLight {
+  translation 616.81167 -2.4869e-13 -217.72975
+  rotation 0 1 0 2.0944
+  name "street light(10)"
+  on FALSE
+}
+StreetLight {
+  translation 601.4606 -7.24754e-13 -111.08258
+  rotation 0 1 0 6.02139
+  name "street light(11)"
+  on FALSE
+}
+StreetLight {
+  translation 535.9263 -1.13687e-13 -280.10352
+  rotation 0 1 0 1.0472
+  name "street light(12)"
+  on FALSE
+}
+StreetLight {
+  translation 506.09693 -1.7053e-13 -245.08291
+  rotation 0 1 0 4.18879
+  name "street light(13)"
+  on FALSE
+}
+StreetLight {
+  translation 543.127 8.52651e-14 -210.696
+  rotation 0 1 0 1.8326
+  name "street light(14)"
+  on FALSE
+}
+StreetLight {
+  translation 546.51194 9.5923245e-13 -174.51658
+  rotation 0 1 0 5.2359874
+  name "street light(15)"
+  on FALSE
+}
+StreetLight {
+  translation 529.29342 -6.3948827e-14 -185.40734
+  rotation 0 1 0 0.261799
+  name "street light(16)"
+  on FALSE
+}
+StreetLight {
+  translation 486.293 -2.84217e-13 -161.219
+  name "street light(17)"
+  on FALSE
+}
+StreetLight {
+  translation 509.587 -2.84217e-13 -132.289
+  name "street light(18)"
+  on FALSE
+}
+StreetLight {
+  translation 399.71998 -2.84217e-14 -245.71967
+  rotation 0 1 0 3.14159
+  name "street light(19)"
+  on FALSE
+}
+StreetLight {
+  translation 364.96716 -2.84217e-14 -247.00194
+  rotation 0 1 0 3.14159
+  name "street light(20)"
+  on FALSE
+}
+StreetLight {
+  translation 299.76695 1.42109e-14 -251.63879
+  rotation 0 1 0 3.14159
+  name "street light(21)"
+  on FALSE
+}
+StreetLight {
+  translation 395.87223 1.20792e-12 -329.40364
+  rotation 0 -1 0 0.261799
+  name "street light(22)"
+  on FALSE
+}
+StreetLight {
+  translation 464.861 1.89004e-12 -307.153
+  rotation 0 1 0 6.02139
+  name "street light(23)"
+  on FALSE
+}
+StreetLight {
+  translation 499.165 4.61853e-12 -352.599
+  rotation 0 -1 0 4.71239
+  name "street light(24)"
+  on FALSE
+}
+StreetLight {
+  translation 490.42648 4.035882e-12 -414.77765
+  rotation 0 -1 0 5.23599
+  name "street light(25)"
+  on FALSE
+}
+StreetLight {
+  translation 535.411 7.00595e-12 -441.077
+  rotation 0 -1 0 5.49779
+  name "street light(26)"
+  on FALSE
+}
+StreetLight {
+  translation 568.717 7.43938e-12 -465.488
+  rotation 0 -1 0 5.75959
+  name "street light(27)"
+  on FALSE
+}
+StreetLight {
+  translation 581.80694 2.2311e-12 -496.96387
+  rotation 0 1 0 6.02139
+  name "street light(28)"
+  on FALSE
+}
+StreetLight {
+  translation 618.92951 2.2311e-12 -458.05694
+  rotation 0 1 0 2.35619
+  name "street light(29)"
+  on FALSE
+}
+StreetLight {
+  translation 627.35762 2.2311e-12 -423.50476
+  rotation 0 -1 0 1.5708
+  name "street light(30)"
+  on FALSE
+}
+StreetLight {
+  translation 586.03109 2.1316274e-12 -404.39332
+  rotation 0 -1 0 2.35619
+  name "street light(31)"
+  on FALSE
+}
+StreetLight {
+  translation 546.26893 2.089e-12 -372.27194
+  rotation 0 -1 0 2.35619
+  name "street light(32)"
+  on FALSE
+}
+StreetLight {
+  translation 505.00026 2.25953e-12 -320.65198
+  rotation 0 1 0 3.66519
+  name "street light(33)"
+  on FALSE
+}
+StreetLight {
+  translation 465.41396 2.1955763e-12 -290.105
+  rotation 0 -1 0 1.309
+  name "street light(34)"
+  on FALSE
+}
+StreetLight {
+  translation 432.73637 0 -316.4068
+  rotation 0 1 0 6.02139
+  name "street light(35)"
+  on FALSE
+}
+StreetLight {
+  translation 313.73463 4.12115e-13 -345.74977
+  rotation 0 1 0 0.261799
+  name "street light(36)"
+  on FALSE
+}
+StreetLight {
+  translation 305.22069 2.41585e-13 -320.67872
+  rotation 0 1 0 5.49779
+  name "street light(37)"
+  on FALSE
+}
+StreetLight {
+  translation 312.28702 8.95284e-13 -293.60216
+  rotation 0 1 0 4.71239
+  name "street light(38)"
+  on FALSE
+}
+StreetLight {
+  translation 268.89822 2.8066446e-12 -242.92502
+  rotation 0 1 0 6.28319
+  name "street light(39)"
+  on FALSE
+}
+StreetLight {
+  translation 107.67389 -1.1866046e-12 -285.10793
+  rotation 0 1 0 1.8326
+  name "street light(40)"
+  on FALSE
+}
+StreetLight {
+  translation 188.30271 -1.19371e-12 -234.73329
+  name "street light(41)"
+  on FALSE
+}
+StreetLight {
+  translation 190.29545 -1.25056e-12 -232.449
+  rotation 0 -1 0 2.0944
+  name "street light(42)"
+  on FALSE
+}
+StreetLight {
+  translation 187.15813 -1.22213e-12 -232.01145
+  rotation 0 -1 0 3.92699
+  name "street light(43)"
+  on FALSE
+}
+StreetLight {
+  translation 309.09625 2.25953e-12 -229.57482
+  rotation 0 -1 0 0.261799
+  name "street light(44)"
+  on FALSE
+}
+StreetLight {
+  translation 328.601 -1.42109e-14 -240.578
+  rotation 0 1 0 6.28319
+  name "street light(45)"
+  on FALSE
+}
+StreetLight {
+  translation 432.93866 6.0396141e-14 -251.77101
+  rotation 0 1 0 3.40339
+  name "street light(46)"
+  on FALSE
+}
+StreetLight {
+  translation 465.373 -2.84217e-14 -250.218
+  rotation 0 1 0 3.66519
+  name "street light(47)"
+  on FALSE
+}
+StreetLight {
+  translation 463.89589 -2.84217e-14 -255.19829
+  name "street light(48)"
+  on FALSE
+}
+StreetLight {
+  translation 511.09669 -2.84217e-14 -230.0741
+  rotation 0 1 0 1.0472
+  name "street light(49)"
+  on FALSE
+}
+StreetLight {
+  translation 508.42039 -5.68434e-14 -196.24775
+  rotation 0 1 0 1.8326
+  name "street light(50)"
+  on FALSE
+}
+StreetLight {
+  translation 501.67057 -1.2079243e-13 -175.77574
+  rotation 0 1 0 0.261799
+  name "street light(51)"
+  on FALSE
+}
+PedestrianCrossing {
+  translation 102.04649 -0.05 -279.31044
+  rotation 0 1 0 3.38
+  name "pedestrian crossing(1)"
+  size 6.8 4
+}
+PedestrianCrossing {
+  translation 545.744 -0.05 -326.324
+  rotation 0 1 0 5.7
+  name "pedestrian crossing(6)"
+  size 7.5 4
+}
+YieldSign {
+  translation 499.61613 -1.8545171e-12 -188.38963
+}
+YieldSign {
+  translation 601.25791 -1.9611e-12 -492.24815
+  rotation 0 -1 0 2.61799
+  name "yield sign(1)"
+}
+YieldSign {
+  translation 499.745 -1.81899e-12 -262.5
+  rotation 0 1 0 3.92699
+  name "yield sign(2)"
+}
+OrderSign {
+  translation -24.8932 2.06057e-13 -11.4382
+  rotation 0 -1 0 1.0472
+}
+OrderSign {
+  translation -19.8912 1.98952e-13 -3.95123
+  rotation 0 -1 0 1.0472
+  name "order sign(1)"
+}
+OrderSign {
+  translation 297.04794 -1.33582e-12 -346.7755
+  rotation 0 -1 0 1.0472
+  name "order sign(2)"
+  signBoards [
+    OrderPanel {
+      translation 0 -0.175 -0.026
+      signImage [
+        "textures/signs/stop.jpg"
+      ]
+    }
+  ]
+}
+OrderSign {
+  translation -34.178129 1.98952e-13 -7.0538699
+  rotation 0 -1 0 1.0472
+  name "order sign(3)"
+}
+OrderSign {
+  translation -28.509131 1.7053e-13 0.34553371
+  rotation 0 1 0 5.49779
+  name "order sign(4)"
+}
+CautionSign {
+  translation 204.97246 1.85452e-12 -212.47841
+  rotation 0 -1 0 2.61799
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 202.79903 4.76064e-13 -251.15217
+  rotation 0 -1 0 0.523599
+  name "caution sign(1)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 295.79619 4.9738e-14 -241.67994
+  rotation 0 -1 0 5.23599
+  name "caution sign(2)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 575.22523 2.13163e-14 -494.8197
+  rotation 0 1 0 1.8326
+  name "caution sign(3)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/right_cross_road.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 311.09046 2.13163e-14 -327.64599
+  rotation 0 -1 0 2.61799
+  name "caution sign(4)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/right_cross_road.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 268.33744 -2.77112e-13 -353.2835
+  rotation 0 -1 0 5.23599
+  name "caution sign(5)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/left_cross_road.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 108.35246 7.1054274e-15 -276.05165
+  rotation 0 -1 0 2.61799
+  name "caution sign(6)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 95.818204 1.9895197e-13 -286.42762
+  rotation 0 1 0 6.02139
+  name "caution sign(7)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 255.73333 -9.7699626e-15 -245.15288
+  rotation 0 1 0 1.309
+  name "caution sign(8)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 282.44849 0 -253.28283
+  rotation 0 -1 0 1.57079
+  name "caution sign(9)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 379.09395 -1.35003e-13 -236.33369
+  rotation 0 1 0 1.309
+  name "caution sign(10)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 622.22673 -1.9895185e-13 -144.72334
+  rotation 0 1 0 2.618
+  name "caution sign(11)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 619.40418 -1.84741e-13 -190.26921
+  name "caution sign(12)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 527.12042 -4.2632591e-14 -194.74012
+  rotation 0 -1 0 1.57079
+  name "caution sign(13)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 520.29405 -7.10543e-14 -182.59848
+  rotation 0 1 0 1.8326
+  name "caution sign(14)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 519.364 -7.10543e-14 -170.7
+  rotation 0 1 0 1.8326
+  name "caution sign(15)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 547.735 -5.68434e-14 -341.379
+  rotation 0 1 0 5.49779
+  name "caution sign(16)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 627.43936 2.50111e-12 -428.33078
+  rotation 0 -1 0 5.75958
+  name "caution sign(17)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 653.721 2.40874e-12 -394.676
+  rotation 0 1 0 1.8326
+  name "caution sign(18)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 490.58793 -6.3948873e-14 -179.99736
+  rotation 0 -1 0 1.57079
+  name "caution sign(19)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 406.79717 -8.52651e-14 -244.77838
+  rotation 0 -1 0 1.83259
+  name "caution sign(20)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 323.05667 7.1054274e-15 -287.83043
+  rotation 0 -1 0 3.40339
+  name "caution sign(21)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 320.299 0 -297.287
+  rotation 0 -1 0 6.02138
+  name "caution sign(22)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/pedestrian_crossing.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 310.89965 -1.2434471e-13 -268.48643
+  rotation 0 1 0 6.02139
+  name "caution sign(23)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 434.71169 1.2594391e-12 -81.912672
+  rotation 0 1 0 1.5708
+  name "caution sign(24)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 498.391 1.31628e-12 -46.9855
+  rotation 0 1 0 2.35619
+  name "caution sign(25)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 479.96235 1.8633992e-12 -87.842773
+  rotation 0 -1 0 1.5708
+  name "caution sign(26)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 632.07969 2.15472e-12 -180.2984
+  rotation 0 -1 0 2.61799
+  name "caution sign(27)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 650.674 2.1263e-12 -267.115
+  rotation 0 -1 0 0.261799
+  name "caution sign(28)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 463.57185 -1.3322715e-13 -272.32839
+  rotation 0 -1 0 3.40339
+  name "caution sign(29)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 489.518 -4.9738e-14 -348.88
+  rotation 0 1 0 6.28319
+  name "caution sign(30)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 421.57407 -4.9738e-14 -319.29798
+  rotation 0 1 0 1.0471959
+  name "caution sign(31)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/cross_roads.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 343.88177 -5.3290714e-14 -247.59117
+  rotation 0 1 0 4.45059
+  name "caution sign(32)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 334.155 -7.81597e-14 -223.982
+  rotation 0 1 0 3.14159
+  name "caution sign(33)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 10.500819 -7.4606986e-14 -4.0672038
+  rotation 0 1 0 3.14159
+  name "caution sign(34)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation -12.914705 2.84217e-14 -7.2905733
+  rotation 0 1 0 1.5708
+  name "caution sign(35)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation -15.723482 8.8817887e-14 -30.562892
+  rotation 0 1 0 0.523599
+  name "caution sign(36)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+CautionSign {
+  translation 14.649479 -4.26499e-14 -38.369806
+  rotation 0 1 0 5.23599
+  name "caution sign(37)"
+  signBoards [
+    CautionPanel {
+      translation 0 -0.17 0
+      signImage [
+        "textures/signs/us/roundabout.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation -58.563625 9.5923269e-14 -3.0446218
+  rotation 0 1 0 1.8326
+}
+SpeedLimitSign {
+  translation -62.649972 0 4.5048652
+  rotation 0 1 0 1.309
+  name "speed limit(1)"
+}
+SpeedLimitSign {
+  translation 61.0646 0 -386.436
+  rotation 0 1 0 3.92699
+  name "speed limit(2)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_80.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 54.1547 0 -380.584
+  rotation 0 1 0 4.18879
+  name "speed limit(3)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_80.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 162.87932 0 -234.52419
+  rotation 0 -1 0 1.5708
+  name "speed limit(4)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_60.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 486.09992 -1.7763591e-14 -79.649538
+  rotation 0 -1 0 4.71239
+  name "speed limit(5)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_30.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 737.182 4.47642e-13 -441.854
+  rotation 0 1 0 5.49779
+  name "speed limit(6)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_40.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 633.461 1.66978e-13 -236.468
+  rotation 0 1 0 5.23599
+  name "speed limit(7)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_20.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 465.3239 1.81188e-13 -247.71089
+  rotation 0 -1 0 6.02139
+  name "speed limit(8)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_20.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 309.108 2.0961e-13 -312.018
+  rotation 0 -1 0 6.02139
+  name "speed limit(9)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_30.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 208.48866 2.94875e-13 -241.16973
+  rotation 0 1 0 1.8326
+  name "speed limit(10)"
+  signBoards [
+    SpeedLimitPanel {
+      translation 0 0 -0.023
+      signImage [
+        "textures/signs/us/speed_limit_30.jpg"
+      ]
+    }
+  ]
+}
+SpeedLimitSign {
+  translation 197.83268 1.2434515e-13 -203.23282
+  rotation 0 1 0 0.523599
+  name "speed limit(11)"
+}

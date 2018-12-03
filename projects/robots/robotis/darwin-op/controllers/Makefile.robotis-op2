@@ -1,0 +1,63 @@
+###############################################################
+#
+# Purpose:            Makefile for compiling a controller using the Webots
+#                     API on the ROBOTIS OP2 real robot
+# Author :            fabien.rohrer@cyberbotics.com
+# License:            GPL
+# Date   :            September 2013
+#
+###############################################################
+
+# This Makefile is supposed to be executed directly on the ROBOTIS OP2 OS via ssh
+# Return an error if it is executed on the OS where Webots is running
+ifdef WEBOTS_HOME
+$(error Please use ROBOTIS OP2 remote compilation functionality from the robot window Transfer tab)
+endif
+
+# name of the binary to generate
+TARGET = $(shell basename $(CURDIR))
+
+# paths
+ROBOTISOP2_ROOT ?= /robotis
+WEBOTS_ROBOTISOP2_PROJECT_ROOT = $(ROBOTISOP2_ROOT)/Linux/project/webots
+LIBNAME=darwin.a
+
+# source filenames
+CXX_SOURCES = $(wildcard *.cpp)
+
+INCLUDE_DIRS = -I$(ROBOTISOP2_ROOT)/Linux/include -I$(ROBOTISOP2_ROOT)/Framework/include -I$(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/include -I$(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/include
+CXX = g++
+CXXFLAGS += -O2 -DLINUX -DCROSSCOMPILATION -Wall $(INCLUDE_DIRS)
+LFLAGS += -lpthread -ljpeg -lrt
+WRAPPER = $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/lib/wrapper.a $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/keyboard/keyboardInterface.a
+ROBOTISOP2_STATIC_LIBRARY = $(ROBOTISOP2_ROOT)/Linux/lib/$(LIBNAME)
+MANAGERS_STATIC_LIBRARY = $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/lib/managers.a
+OBJECTS = $(CXX_SOURCES:.cpp=.o)
+# X11 is needed to handle the keyboard input
+LIBX11 = libX11.so
+# To avoid installing the libX11-dev package, we can simply create a soft link
+# to libX11.so.6. This library however is located in /usr/lib/ on ubuntu <=10
+# and in /usr/lib/i386-linux-gnu/ on ubuntu >=12
+ifneq ($(wildcard /usr/lib/libX11.so.6),)
+LIBX11_SOURCE = /usr/lib/libX11.so.6
+else ifneq ($(wildcard /usr/lib/i386-linux-gnu/libX11.so.6),)
+LIBX11_SOURCE = /usr/lib/i386-linux-gnu/libX11.so.6
+endif
+
+all: $(TARGET)
+
+clean:
+	rm -f $(OBJECTS) $(TARGET) $(LIBX11)
+
+$(WRAPPER):
+	make -C $(WEBOTS_ROBOTISOP2_PROJECT_ROOT)/transfer/lib
+
+$(ROBOTISOP2_STATIC_LIBRARY):
+	make -C $(ROBOTISOP2_ROOT)/Linux/build
+
+$(LIBX11):
+	ln -s $(LIBX11_SOURCE) $@
+
+$(TARGET): $(WRAPPER) $(OBJECTS) $(ROBOTISOP2_STATIC_LIBRARY) $(LIBX11)
+	$(CXX) $(CFLAGS) $(OBJECTS) $(WRAPPER) $(ROBOTISOP2_STATIC_LIBRARY) $(MANAGERS_STATIC_LIBRARY) $(LFLAGS) -L. -lX11 -o $(TARGET)
+	chmod 755 $(TARGET)

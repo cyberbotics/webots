@@ -1,0 +1,14 @@
+{
+  "port": 1999,
+  "server": "cyberbotics2.cyberbotics.com",
+  "administrator": "webmaster@cyberbotics.com",
+  "mailServer": "www.cyberbotics.com",
+  "mailSender": "noreply@cyberbotics.com",
+  "simulationServers": [
+    "cyberbotics2.cyberbotics.com:2000",
+    "cyberbotics2.cyberbotics.com:3000"
+  ],
+  "sslKey": "ssl/privkey.pem",
+  "sslCertificate": "ssl/cert.pem",
+  "logDir": "log/"
+}

@@ -1,0 +1,723 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example use of a Connector device."
+  ]
+  title "Connector"
+}
+Viewpoint {
+  orientation -0.004183020337560718 0.9260620747312119 0.37734803045117216 3.1315
+  position 0.00913356 0.867352 -0.957029
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF GREEN_BOX Solid {
+  translation -0.05 0.05 -0.35
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.23 0.1 0.1
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 0.2 0.05 0.27
+  rotation 0 1 0 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF YELLOW_BOX Solid {
+  translation -0.2 0.05 0.15
+  rotation 0 1 0 0.4
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 0.03934117200000009
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.05 0.1 0.3
+      }
+    }
+  ]
+  name "yellow box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF PINK_BOX Solid {
+  translation 0.42 0.05 -0.35
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.15 0.1 0.08
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
+}
+DEF LIGHT_MYBOT Robot {
+  translation 0.42 0 -0.1
+  rotation 0 1 0 1.57
+  children [
+    DEF LIGHT_BODY Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.117647 0.776471 1
+            roughness 0.6980390000000001
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DEF RIGHT_EYE Transform {
+      translation 0.02 0.063 -0.0385
+      rotation 0 1 0 2.7489
+      children [
+        DEF UNUSED_EYE Group {
+          children [
+            Transform {
+              translation 0 0 -1e-05
+              rotation 0 0 1 0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+            Transform {
+              rotation 0 0 1 -0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    DEF LEFT_EYE Transform {
+      translation -0.02 0.063 -0.0385
+      rotation 0 1 0 0.3927
+      children [
+        DEF UNUSED_EYE Group {
+          children [
+            Transform {
+              translation 0 0 -1e-05
+              rotation 0 0 1 0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+            Transform {
+              rotation 0 0 1 -0.8
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.975691 0.981481 0.0252992
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.02 0.005 0.005
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    DEF SMILE Transform {
+      translation 0 0.025 -0.036
+      rotation 0.7745972408364944 0.44721228048294853 0.4472139204829502 1.8234794
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.721569 0.290196 0.290196
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.018
+            radius 0.009
+            subdivision 3
+          }
+        }
+      ]
+    }
+    DEF HINGE_JOINT_DEVICE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "upper motor"
+          maxVelocity 1
+          minPosition -1.57
+          maxPosition 1.57
+        }
+        PositionSensor {
+          name "upper sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 0
+        rotation 1 0 0 0
+        children [
+          DEF CONNECTOR_SHAPE Group {
+            children [
+              Transform {
+                translation 0.049 0.025 0
+                children [
+                  DEF SIDE_PART Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.008 0.05 0.015
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation -0.049 0.025 0
+                children [
+                  USE SIDE_PART
+                ]
+              }
+              Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.12 0.01 0.04
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CONNECTOR_DEVICE Connector {
+            translation 0 0.055 0
+            rotation 1 0 0 -1.57
+            model "magnetic"
+            autoLock TRUE
+            axisTolerance 3.14
+            rotationTolerance 3.14
+          }
+        ]
+        boundingObject USE CONNECTOR_SHAPE
+        physics DEF CONNECTOR_SHAPE_PHYSICS Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  name "MyBot 1"
+  boundingObject DEF MYBOT_BOUNDING Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics DEF MOVING_MYBOT_PHYSICS Physics {
+    density -1
+    mass 0.05
+  }
+  controller "connector"
+}
+DEF HEAVY_MYBOT Robot {
+  translation 0.15 0 -0.1
+  rotation 0 1 0 -1.57
+  children [
+    DEF MAIN_BODY Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry USE BODY
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    USE LEFT_EYE
+    USE RIGHT_EYE
+    USE SMILE
+    DEF HINGE_JOINT_DEVICE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "upper motor"
+          maxVelocity 1
+          minPosition -1.57
+          maxPosition 1.57
+        }
+        PositionSensor {
+          name "upper sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 0
+        rotation 1 0 0 0
+        children [
+          DEF CONNECTOR_SHAPE Group {
+            children [
+              Transform {
+                translation 0.049 0.025 0
+                children [
+                  DEF SIDE_PART Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.008 0.05 0.015
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation -0.049 0.025 0
+                children [
+                  USE SIDE_PART
+                ]
+              }
+              Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.12 0.01 0.04
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CONNECTOR_DEVICE Connector {
+            translation 0 0.055 0
+            rotation 1 0 0 -1.57
+            model "magnetic"
+            autoLock TRUE
+            axisTolerance 3.14
+            rotationTolerance 3.14
+          }
+        ]
+        boundingObject USE CONNECTOR_SHAPE
+        physics DEF CONNECTOR_SHAPE_PHYSICS Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  name "MyBot 2"
+  boundingObject USE MYBOT_BOUNDING
+  physics DEF STATIC_MYBOT_PHYSICS Physics {
+    density -1
+    mass 0.5
+  }
+  controller "connector"
+}
+DEF HEAVY_MYBOT Robot {
+  translation -0.2 0 -0.1
+  rotation 0 1 0 -1.57
+  children [
+    USE MAIN_BODY
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0.025 0
+        rotation 1 0 0 4.98467
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis -1 0 0
+        anchor 0 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+          resolution 0.314159
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0.025 0
+        rotation 1 0 0 4.58735
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    USE LEFT_EYE
+    USE RIGHT_EYE
+    USE SMILE
+    DEF HINGE_JOINT_DEVICE HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.06 0
+      }
+      device [
+        RotationalMotor {
+          name "upper motor"
+          maxVelocity 1
+          minPosition -1.57
+          maxPosition 1.57
+        }
+        PositionSensor {
+          name "upper sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 0
+        rotation 1 0 0 0
+        children [
+          DEF CONNECTOR_SHAPE Group {
+            children [
+              Transform {
+                translation 0.049 0.025 0
+                children [
+                  DEF SIDE_PART Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.008 0.05 0.015
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation -0.049 0.025 0
+                children [
+                  USE SIDE_PART
+                ]
+              }
+              Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.898039 0.898039 0.898039
+                      roughness 0.25098
+                      metalness 0
+                    }
+                    geometry Box {
+                      size 0.12 0.01 0.04
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CONNECTOR_DEVICE Connector {
+            translation 0 0.055 0
+            rotation 1 0 0 -1.57
+            model "magnetic"
+            autoLock TRUE
+            axisTolerance 3.14
+            rotationTolerance 3.14
+          }
+        ]
+        boundingObject USE CONNECTOR_SHAPE
+        physics DEF CONNECTOR_SHAPE_PHYSICS Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  name "MyBot 3"
+  boundingObject USE MYBOT_BOUNDING
+  physics USE STATIC_MYBOT_PHYSICS
+  controller "connector"
+}

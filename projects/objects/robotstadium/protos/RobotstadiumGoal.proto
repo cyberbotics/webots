@@ -1,0 +1,232 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Robot soccer goal inspired from the RoboCup 2013-2014 Standard Platform League.
+# The color of the goal and the support polygons can be modified.
+
+PROTO RobotstadiumGoal [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "robotstadium goal"
+  field SFFloat    postRadius  0.05                 # Defines the radius of the goal posts.
+  field SFColor    frameColor  1 1 1                # Defines the color of the goal frame.
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF HORIZONTAL_POST_TRANS Transform {
+      translation 0 0.85 0
+      rotation 1 0 0 1.5708
+      children [
+        Shape {
+          appearance DEF POST_APP PBRAppearance {
+            baseColor IS frameColor
+            metalness 0
+            roughness 0.2
+          }
+          geometry Capsule {
+            height 1.6
+            radius IS postRadius
+          }
+        }
+      ]
+    }
+    DEF RIGHT_POST_TRANS Transform {
+      translation 0 0.425 -0.8
+      children [
+        Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height 0.85
+            radius IS postRadius
+          }
+        }
+      ]
+    }
+    DEF LEFT_POST_TRANS Transform {
+      translation 0 0.425 0.8
+      children [
+        Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height 0.85
+            radius IS postRadius
+          }
+        }
+      ]
+    }
+    Shape {
+      appearance DEF NET_APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url "textures/net.png"
+          filtering 0
+        }
+        metalness 0
+        roughness 1
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.5  0   -0.8
+            0.5  0    0.8
+            0.5  0.85  0.8
+            0.5  0.85 -0.8
+            0.05 0    0.8
+            0.05 0   -0.8
+            0.05 0.85  0.8
+            0.05 0.85 -0.8
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            28 0
+            28 16
+            0 16
+            7 0
+            7 16
+            0 16
+            28 0
+            28 6
+            0 6
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1,
+          3, 2, 1, 0, -1,
+          1, 4, 6, 2, -1,
+          2, 6, 4, 1, -1,
+          0, 5, 7, 3, -1,
+          3, 7, 5, 0, -1,
+          2, 3, 7, 6, -1,
+          6, 7, 3, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1,
+          0, 1, 2, 3, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 4, 5, 6, -1,
+          0, 7, 8, 9, -1,
+          0, 7, 8, 9, -1
+        ]
+      }
+    }
+    Transform {
+      translation 0.5 0.85 0
+      rotation 1 0 0 1.5708
+      children [
+        DEF SMALL_HORIZONTAL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Capsule {
+            height 1.6
+            radius 0.014
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.5 0.007 0
+      rotation 1 0 0 1.5708
+      children [
+        USE SMALL_HORIZONTAL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation 0.5 0.425 0.8
+      children [
+        DEF SMALL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height 0.85
+            radius 0.014
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.5 0.425 -0.8
+      children [
+        USE SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation 0.25 0.85 0.8
+      rotation 0 0 1 1.5708
+      children [
+        DEF OTHER_SMALL_POST_SHAPE Shape {
+          appearance USE POST_APP
+          geometry Cylinder {
+            bottom FALSE
+            top FALSE
+            height 0.5
+            radius 0.014
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.25 0.85 -0.8
+      rotation 0 0 1 1.5708
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation 0.25 0.007 0.8
+      rotation 0 0 1 1.5708
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+    Transform {
+      translation 0.25 0.007 -0.8
+      rotation 0 0 1 1.5708
+      children [
+        USE OTHER_SMALL_POST_SHAPE
+      ]
+    }
+  ]
+  name IS name
+  model "robotstadium goal"
+  boundingObject Group {
+    children [
+      USE HORIZONTAL_POST_TRANS
+      USE RIGHT_POST_TRANS
+      USE LEFT_POST_TRANS
+      Transform {
+        translation 0.275 0.425 -0.8
+        children [
+          DEF GOAL_SIDE_BOX Box {
+            size 0.45 0.85 0.04
+          }
+        ]
+      }
+      Transform {
+        translation 0.275 0.425 0.8
+        children [
+          USE GOAL_SIDE_BOX
+        ]
+      }
+      Transform {
+        translation 0.6 0.425 0
+        children [
+          Box {
+            size 0.2 0.85 1.64
+          }
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+}

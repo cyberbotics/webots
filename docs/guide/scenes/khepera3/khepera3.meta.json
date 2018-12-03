@@ -1,0 +1,123 @@
+{
+  "name": "khepera3", 
+  "devices": [
+    {
+      "transformID": "n88", 
+      "name": "left wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n104", 
+      "name": "right wheel motor", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n116", 
+      "type": "DistanceSensor", 
+      "name": "ds0"
+    }, 
+    {
+      "transformID": "n133", 
+      "type": "DistanceSensor", 
+      "name": "ds1"
+    }, 
+    {
+      "transformID": "n286", 
+      "type": "DistanceSensor", 
+      "name": "ds10"
+    }, 
+    {
+      "transformID": "n150", 
+      "type": "DistanceSensor", 
+      "name": "ds2"
+    }, 
+    {
+      "transformID": "n167", 
+      "type": "DistanceSensor", 
+      "name": "ds3"
+    }, 
+    {
+      "transformID": "n184", 
+      "type": "DistanceSensor", 
+      "name": "ds4"
+    }, 
+    {
+      "transformID": "n201", 
+      "type": "DistanceSensor", 
+      "name": "ds5"
+    }, 
+    {
+      "transformID": "n218", 
+      "type": "DistanceSensor", 
+      "name": "ds6"
+    }, 
+    {
+      "transformID": "n235", 
+      "type": "DistanceSensor", 
+      "name": "ds7"
+    }, 
+    {
+      "transformID": "n252", 
+      "type": "DistanceSensor", 
+      "name": "ds8"
+    }, 
+    {
+      "transformID": "n269", 
+      "type": "DistanceSensor", 
+      "name": "ds9"
+    }, 
+    {
+      "transformID": "n88", 
+      "type": "PositionSensor", 
+      "name": "left wheel sensor"
+    }, 
+    {
+      "transformID": "n104", 
+      "type": "PositionSensor", 
+      "name": "right wheel sensor"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Receiver", 
+      "name": "rs232_in"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Emitter", 
+      "name": "rs232_out"
+    }, 
+    {
+      "transformID": "n303", 
+      "type": "DistanceSensor", 
+      "name": "us0"
+    }, 
+    {
+      "transformID": "n330", 
+      "type": "DistanceSensor", 
+      "name": "us1"
+    }, 
+    {
+      "transformID": "n357", 
+      "type": "DistanceSensor", 
+      "name": "us2"
+    }, 
+    {
+      "transformID": "n384", 
+      "type": "DistanceSensor", 
+      "name": "us3"
+    }, 
+    {
+      "transformID": "n411", 
+      "type": "DistanceSensor", 
+      "name": "us4"
+    }
+  ]
+}

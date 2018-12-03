@@ -1,0 +1,79 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.588653 -0.766793 -0.255961 5.50211
+  position 4.85458 4.04549 3.96199
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF INCLINED_PLANE Transform {
+  translation 1 0 -2
+  rotation 1 0 0 1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.211765 0.309804 1
+          emissiveColor 0.0588235 0.129412 0.462745
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+DEF CYLINDER Transform {
+  translation -1 0 -1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.972549 0.0901961 0.0901961
+          emissiveColor 0.67451 0.0823529 0.0823529
+        }
+      }
+      geometry Cylinder {
+        height 3
+        radius 0.2
+      }
+    }
+  ]
+}
+DEF GROUND Transform {
+  translation 0 -0.1 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Plane {
+        size 15 15
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Lidar {
+      rotation 0 1 0 0.15
+      fieldOfView 1.8
+      verticalFieldOfView 0.1
+      numberOfLayers 3
+      maxRange 5
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "lidar_point_cloud"
+}
+TestSuiteSupervisor {
+}

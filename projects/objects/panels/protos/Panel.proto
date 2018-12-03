@@ -1,0 +1,233 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Customizable simple panel.
+
+PROTO Panel [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "panel"
+  field SFVec3f    size             1.2 1.5 0.05                                                       # Defines the size of the panel
+  field SFFloat    borderHeight     0.05                                                               # Defines the height of the border.
+  field SFFloat    internalWidth    0.02                                                               # Defines the width of the panel (without border).
+  field SFInt32    panelsCount      2                                                                  # Defines the number of panels.
+  field SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 5 5 } }  # Defines the appearance of the panel body.
+  field SFNode     borderAppearance BrushedAluminium {}                                                # Defines the appearance of the panel border(s).
+]
+{
+  %{
+    local internalWidth = fields.internalWidth.value
+    local borderHeight = fields.borderHeight.value
+    local size = fields.size.value
+
+    if internalWidth <= 0 then
+      io.stderr:write("'internalWidth' should be greater than 0: reset to default value\n")
+      internalWidth = fields.internalWidth.defaultValue
+    end
+    if borderHeight < 0 then
+      io.stderr:write("'borderHeight' should be greater than 0: reset to default value\n")
+      borderHeight = fields.borderHeight.defaultValue
+    end
+    if size.x <= 0 or size.y <= 0 or size.z <= 0 then
+      io.stderr:write("all dimensions of 'size' should be greater than 0: reset to default value\n")
+      size.x = fields.size.defaultValue.x
+      size.y = fields.size.defaultValue.y
+      size.z = fields.size.defaultValue.z
+    end
+
+    local panelsCount = fields.panelsCount.value
+    if panelsCount <= 0 then
+      io.stderr:write("'panelsCount' should be greater than 0: reset to default value\n")
+      panelsCount = fields.panelsCount.defaultValue
+    end
+
+    if size.x <= borderHeight * (panelsCount + 1) then
+      io.stderr:write("cumulative size of separators exceeds total size: reset to single panel\n")
+      panelsCount = fields.panelsCount.defaultValue
+    end
+
+    local halfSizeX = 0.5 * size.x
+    local halfSizeY = 0.5 * size.y
+    local nSeparations = panelsCount - 1
+    local panelSizeX = (size.x - borderHeight * (1 + panelsCount)) / panelsCount
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Transform {
+        translation %{= halfSizeX }% %{= halfSizeY }% 0
+        children [
+          Shape {
+            appearance IS appearance
+            geometry Box {
+              size %{=size.x-2*borderHeight}% %{=size.y-2*borderHeight}% %{=internalWidth}%
+            }
+          }
+        ]
+      }
+      %{ if borderHeight > 0 then }%
+        Shape {
+          appearance IS borderAppearance
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                # external frame
+                %{
+                  for dz=0.5,-0.5,-1 do
+                    local z = dz * size.z
+                }%
+                    %{= 0 }% %{= 0 }% %{= z }%
+                    %{= size.x }% %{= 0 }% %{= z }%
+                    %{= size.x }% %{= size.y }% %{= z }%
+                    %{= 0 }% %{= size.y }% %{= z }%
+                    %{= borderHeight }% %{= borderHeight }% %{= z }%
+                    %{= size.x - borderHeight }% %{= borderHeight }% %{= z }%
+                    %{= size.x - borderHeight }% %{= size.y - borderHeight }% %{= z }%
+                    %{= borderHeight }% %{= size.y - borderHeight }% %{= z }%
+                %{
+                  end
+                }%
+                # internal panel separations
+                %{
+                  if nSeparations > 0 then
+                    local offsetX = 1.5 * borderHeight + panelSizeX --- halfSizeX
+                    for i=1,nSeparations,1 do
+                      for dz=-0.5,0.5,1 do
+                        local z = dz * size.z
+                        for dy=-0.5,0.5,1 do
+                          local y = halfSizeY + dy * (size.y - 2 * borderHeight)
+                          for dx=-0.5,0.5,1 do
+                  }%
+                            %{= offsetX + dx * borderHeight }% %{= y }% %{= z }%
+                  %{
+                          end
+                        end
+                      end
+                      offsetX = offsetX + panelSizeX + borderHeight
+                    end
+                  end
+                }%
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+              %{
+                local borderX = borderHeight / size.x
+                local borderY = borderHeight / size.y
+              }%
+                0.0 0.0
+                1.0 0.0
+                0.0 1.0
+                1.0 1.0
+                %{= borderX }% %{= borderY }%
+                %{= 1 - borderX }% %{= borderY }%
+                %{= borderX }% %{= 1 - borderY }%
+                %{= 1- borderX }% %{= 1 - borderY }%
+              %{
+                local x = panelSizeX + borderHeight
+                for i=1,nSeparations,1 do
+                  local texU1 = x / size.x
+                  local texU2 = (x + borderHeight) / size.x
+              }%
+                  %{= texU1 }% %{= borderY }%
+                  %{= texU2 }% %{= borderY }%
+                  %{= texU1 }% %{= 1 - borderY }%
+                  %{= texU2 }% %{= 1 - borderY }%
+              %{
+                  x = x + panelSizeX + borderHeight
+                end
+              }%
+              ]
+            }
+            coordIndex [
+              # external frame
+              0 5 4 -1 0 1 5 -1
+              1 6 5 -1 1 2 6 -1
+              2 7 6 -1 2 3 7 -1
+              3 4 7 -1 3 0 4 -1
+              8 12 13 -1 8 13 9 -1
+              9 13 14 -1 9 14 10 -1
+              10 14 15 -1 10 15 11 -1
+              11 15 12 -1 11 12 8 -1
+              0 11 8 -1 0 3 11 -1
+              1 9 10 -1 1 10 2 -1
+              2 11 3 -1 2 10 11 -1
+              0 8 9 -1 0 9 1 -1
+              4 12 15 -1 4 15 7 -1
+              5 14 13 -1 5 6 14 -1
+              6 15 14 -1 6 7 15 -1
+              4 13 12 -1 4 5 13 -1
+              # internal panel separations
+              %{
+              if nSeparations > 0 then
+                local pointCount = 16
+                for i=1,nSeparations,1 do
+              }%
+                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
+                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
+                  %{= pointCount + 0 }% %{= pointCount + 6 }% %{= pointCount + 2 }% -1
+                  %{= pointCount + 0 }% %{= pointCount + 4 }% %{= pointCount + 6 }% -1
+                  %{= pointCount + 4 }% %{= pointCount + 7 }% %{= pointCount + 6 }% -1
+                  %{= pointCount + 4 }% %{= pointCount + 5 }% %{= pointCount + 7 }% -1
+                  %{= pointCount + 5 }% %{= pointCount + 3 }% %{= pointCount + 7 }% -1
+                  %{= pointCount + 5 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
+              %{
+                  pointCount = pointCount + 8
+                 end
+                end
+              }%
+            ]
+            texCoordIndex [
+              # faces (aligned with panel)
+              0 5 4 -1 0 1 5 -1
+              1 7 5 -1 1 3 7 -1
+              3 6 7 -1 3 2 6 -1
+              2 4 6 -1 2 0 4 -1
+              0 4 5 -1 0 5 1 -1
+              1 5 7 -1 1 7 3 -1
+              3 7 6 -1 3 6 2 -1
+              2 6 4 -1 2 4 0 -1
+              # edges
+              0 3 2 -1 0 2 3 -1
+              0 2 3 -1 0 3 2 -1
+              0 3 2 -1 0 2 3 -1
+              0 2 3 -1 0 3 2 -1
+              0 2 3 -1 0 3 2 -1
+              0 3 2 -1 0 2 3 -1
+              0 3 2 -1 0 2 3 -1
+              0 3 2 -1 0 2 3 -1
+              %{
+              if nSeparations > 0 then
+                local pointCount = 8
+                for i=1,nSeparations do
+              }%
+                  %{= pointCount + 1 }% %{= pointCount + 2 }% %{= pointCount + 3 }% -1
+                  %{= pointCount + 1 }% %{= pointCount + 0 }% %{= pointCount + 2 }% -1
+                  0 3 2 -1 0 2 3 -1
+                  %{= pointCount + 0 }% %{= pointCount + 3 }% %{= pointCount + 2 }% -1
+                  %{= pointCount + 0 }% %{= pointCount + 1 }% %{= pointCount + 3 }% -1
+                  0 3 2 -1 0 2 3 -1
+              %{
+                  pointCount = pointCount + 4
+                end
+              end
+              }%
+            ]
+          }
+        }
+      %{ end }%
+    ]
+    name IS name
+    model "panel"
+    boundingObject Transform {
+      translation %{= halfSizeX }% %{= halfSizeY }% 0
+      children [
+        Box {
+          size IS size
+        }
+      ]
+    }
+  }
+}

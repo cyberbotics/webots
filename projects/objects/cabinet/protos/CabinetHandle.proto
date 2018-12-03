@@ -1,0 +1,95 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A handle for the Cabinet PROTO.
+
+PROTO CabinetHandle [
+  field SFVec3f    translation   0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFString   name         "cabinet handle"
+  field SFFloat    handleLength 0.065             # Defines the lenght of the handle.
+  field SFFloat    handleRadius 0.0055            # Defines the radius of the handle.
+  field SFColor    handleColor  0.74 0.74 0.74    # Defines the color of the handle.
+  field SFFloat    mass         0.3               # Defines the mass of the handle.
+]
+{
+  %{
+    local handleLength = fields.handleLength.value
+    if handleLength <= 0.0 then
+      io.stderr:write(" 'handleLength' must be positive.\n")
+      handleLength = fields.handleLength.default
+    end
+
+    local handleRadius = fields.handleRadius.value
+    if handleRadius <= 0.0 then
+      io.stderr:write("'handleRadius' must be positive.\n")
+      handleRadius = fields.handleRadius.default
+    end
+
+    local mass = fields.mass.value
+    if mass <= 0.0 then
+      io.stderr:write("'mass' must be positive.\n")
+      mass = fields.mass.default
+    end
+  }%
+  Slot {
+    type "handle"
+    endPoint Solid {
+      translation IS translation
+      rotation IS rotation
+      children [
+        DEF HANDLE Group {
+          children [
+            Transform { # main handle
+              translation 0 0 %{= 2.0 * handleRadius}%
+              rotation 0 0 1 1.57
+              children [
+                Shape {
+                  appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                    baseColor IS handleColor
+                    roughness 0.3
+                  }
+                  geometry Capsule {
+                    radius %{= handleRadius }%
+                    height %{= handleLength }%
+                  }
+                }
+              ]
+            }
+            Transform { # right handle anchorage point
+              translation %{= 0.35 * handleLength }% 0 0
+              rotation 1 0 0 1.57
+              children [
+                Shape {
+                  appearance USE HANDLE_APPEARANCE
+                  geometry DEF ANCHORAGE Capsule {
+                    radius %{= 0.7 * handleRadius }%
+                    height %{= 2.0 * handleRadius }%
+                  }
+                }
+              ]
+            }
+            Transform { # left handle anchorage point
+              translation %{= - 0.35 * handleLength }% 0 0
+              rotation 1 0 0 1.57
+              children [
+                Shape {
+                  appearance USE HANDLE_APPEARANCE
+                  geometry USE ANCHORAGE
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name IS name
+      model "cabinet handle"
+      boundingObject USE HANDLE
+      physics Physics {
+        mass %{= mass }%
+        density -1
+      }
+    }
+  }
+}

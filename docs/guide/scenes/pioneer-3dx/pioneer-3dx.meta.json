@@ -1,0 +1,197 @@
+{
+  "name": "pioneer-3dx", 
+  "devices": [
+    {
+      "transformID": "n154", 
+      "name": "left wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "transformID": "n215", 
+      "name": "right wheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "-1 0 0"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n147"
+      ], 
+      "transformID": "n144", 
+      "name": "green led", 
+      "ledColors": [
+        "0.564706 0.933333 0.564706"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n186"
+      ], 
+      "transformID": "n183", 
+      "name": "lower yellow led", 
+      "ledColors": [
+        "0.976471 0.980392 0.603922"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n193"
+      ], 
+      "transformID": "n189", 
+      "name": "red led 1", 
+      "ledColors": [
+        "0.913725 0.247059 0.247059"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n201"
+      ], 
+      "transformID": "n197", 
+      "name": "red led 2", 
+      "ledColors": [
+        "0.913725 0.247059 0.247059"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n208"
+      ], 
+      "transformID": "n204", 
+      "name": "red led 3", 
+      "ledColors": [
+        "0.913725 0.247059 0.247059"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n541"
+      ], 
+      "transformID": "n538", 
+      "name": "white led", 
+      "ledColors": [
+        "1 1 1"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "ledMaterialsIDs": [
+        "n535"
+      ], 
+      "transformID": "n532", 
+      "name": "yellow led", 
+      "ledColors": [
+        "0.929412 0.933333 0.615686"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n154", 
+      "type": "PositionSensor", 
+      "name": "left wheel sensor"
+    }, 
+    {
+      "transformID": "n215", 
+      "type": "PositionSensor", 
+      "name": "right wheel sensor"
+    }, 
+    {
+      "transformID": "n244", 
+      "type": "DistanceSensor", 
+      "name": "so0"
+    }, 
+    {
+      "transformID": "n262", 
+      "type": "DistanceSensor", 
+      "name": "so1"
+    }, 
+    {
+      "transformID": "n280", 
+      "type": "DistanceSensor", 
+      "name": "so10"
+    }, 
+    {
+      "transformID": "n298", 
+      "type": "DistanceSensor", 
+      "name": "so11"
+    }, 
+    {
+      "transformID": "n316", 
+      "type": "DistanceSensor", 
+      "name": "so12"
+    }, 
+    {
+      "transformID": "n334", 
+      "type": "DistanceSensor", 
+      "name": "so13"
+    }, 
+    {
+      "transformID": "n352", 
+      "type": "DistanceSensor", 
+      "name": "so14"
+    }, 
+    {
+      "transformID": "n370", 
+      "type": "DistanceSensor", 
+      "name": "so15"
+    }, 
+    {
+      "transformID": "n388", 
+      "type": "DistanceSensor", 
+      "name": "so2"
+    }, 
+    {
+      "transformID": "n406", 
+      "type": "DistanceSensor", 
+      "name": "so3"
+    }, 
+    {
+      "transformID": "n424", 
+      "type": "DistanceSensor", 
+      "name": "so4"
+    }, 
+    {
+      "transformID": "n442", 
+      "type": "DistanceSensor", 
+      "name": "so5"
+    }, 
+    {
+      "transformID": "n460", 
+      "type": "DistanceSensor", 
+      "name": "so6"
+    }, 
+    {
+      "transformID": "n478", 
+      "type": "DistanceSensor", 
+      "name": "so7"
+    }, 
+    {
+      "transformID": "n496", 
+      "type": "DistanceSensor", 
+      "name": "so8"
+    }, 
+    {
+      "transformID": "n514", 
+      "type": "DistanceSensor", 
+      "name": "so9"
+    }
+  ]
+}

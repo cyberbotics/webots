@@ -1,0 +1,22 @@
+#VRML_SIM R2019a utf8
+
+PROTO SupervisorInternalFields [
+  field       SFString   controller  ""
+  field       SFVec3f    translation 0 0 0
+  hiddenField SFRotation rotation    0 1 0 0
+]
+{
+DEF ROBOT Robot {
+  translation IS translation
+  rotation IS rotation
+  scale 1 1 1
+  children [
+    DEF INTERNAL_SOLID Solid {
+    }
+    TestSuiteEmitter{
+    }
+  ]
+  controller IS controller
+  supervisor TRUE
+}
+}

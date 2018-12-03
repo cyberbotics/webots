@@ -1,0 +1,574 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/koala
+# The "Koala" robot is a six-wheeled indoor robot produced by K-Team.
+
+PROTO Koala [
+  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
+  field SFString   name            "Koala" # Is `Solid.name`.
+  field SFString   controller      "koala" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""      # Is `Robot.controllerArgs`.
+  field SFString   customData      ""      # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      Shape {
+        appearance DEF MID_GRAY PBRAppearance {
+          baseColor 0.681481 0.681481 0.681481
+          metalness 0
+          roughness 0.4
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              0.14 0.085 0.083, 0.14 0.085 -0.106, 0.133 0.085 -0.127, 0.125 0.085 -0.139, 0.113 0.085 -0.149, 0.091 0.085 -0.158, 0.035 0.085 -0.17, 0 0.085 -0.175, -0.035 0.085 -0.17, -0.091 0.085 -0.158, -0.113 0.085 -0.149, -0.125 0.085 -0.139, -0.133 0.085 -0.127, -0.14 0.085 -0.106, -0.14 0.085 0.083, -0.133 0.085 0.104, -0.125 0.085 0.116, -0.113 0.085 0.126, -0.091 0.085 0.13, 0.091 0.085 0.13, 0.113 0.085 0.126, 0.125 0.085 0.116, 0.133 0.085 0.104, 0.14 0.085 0.083, 0.14 0.135 0.083, 0.14 0.135 -0.106, 0.133 0.135 -0.127, 0.125 0.135 -0.139, 0.113 0.135 -0.149, 0.091 0.135 -0.158, 0.035 0.135 -0.17, 0 0.135 -0.175, -0.035 0.135 -0.17, -0.091 0.135 -0.158, -0.113 0.135 -0.149, -0.125 0.135 -0.139, -0.133 0.135 -0.127, -0.14 0.135 -0.106, -0.14 0.135 0.083, -0.133 0.135 0.104, -0.125 0.135 0.116, -0.113 0.135 0.126, -0.091 0.135 0.13, 0.091 0.135 0.13, 0.113 0.135 0.126, 0.125 0.135 0.116, 0.133 0.135 0.104, 0.14 0.135 0.083
+            ]
+          }
+          coordIndex [
+            23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, -1, 0, 1, 25, 24, -1, 1, 2, 26, 25, -1, 2, 3, 27, 26, -1, 3, 4, 28, 27, -1, 4, 5, 29, 28, -1, 5, 6, 30, 29, -1, 6, 7, 31, 30, -1, 7, 8, 32, 31, -1, 8, 9, 33, 32, -1, 9, 10, 34, 33, -1, 10, 11, 35, 34, -1, 11, 12, 36, 35, -1, 12, 13, 37, 36, -1, 13, 14, 38, 37, -1, 14, 15, 39, 38, -1, 15, 16, 40, 39, -1, 16, 17, 41, 40, -1, 17, 18, 42, 41, -1, 18, 19, 43, 42, -1, 19, 20, 44, 43, -1, 20, 21, 45, 44, -1, 21, 22, 46, 45, -1, 22, 23, 47, 46, -1
+          ]
+          creaseAngle 2
+        }
+      }
+      Shape {
+        appearance USE MID_GRAY
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              0.12 0.06 -0.106, 0.14 0.06 -0.106, 0.133 0.06 -0.127, 0.125 0.06 -0.139, 0.113 0.06 -0.16, 0.091 0.06 -0.173, 0.035 0.06 -0.185, 0 0.06 -0.19, -0.035 0.06 -0.185, -0.091 0.06 -0.173, -0.113 0.06 -0.16, -0.125 0.06 -0.139, -0.133 0.06 -0.127, -0.14 0.06 -0.106, -0.12 0.06 -0.106, -0.12 0.06 0.13, 0.12 0.06 0.13, 0.12 0.0855 -0.106, 0.14 0.0855 -0.106, 0.133 0.0855 -0.127, 0.125 0.0855 -0.139, 0.113 0.0855 -0.16, 0.091 0.0855 -0.173, 0.035 0.0855 -0.185, 0 0.0855 -0.19, -0.035 0.0855 -0.185, -0.091 0.0855 -0.173, -0.113 0.0855 -0.16, -0.125 0.0855 -0.139, -0.133 0.0855 -0.127, -0.14 0.0855 -0.106, -0.12 0.0855 -0.106, -0.12 0.0855 0.13, 0.12 0.0855 0.13
+            ]
+          }
+          coordIndex [
+            14, 8, 6, -1, 25, 26, 31, -1, 1, 17, 0, -1, 2, 18, 1, -1, 3, 19, 2, -1, 4, 20, 3, -1, 5, 21, 4, -1, 6, 22, 5, -1, 7, 23, 6, -1, 8, 24, 7, -1, 9, 25, 8, -1, 10, 26, 9, -1, 11, 27, 10, -1, 12, 28, 11, -1, 13, 29, 12, -1, 14, 30, 13, -1, 15, 31, 14, -1, 16, 32, 15, -1, 0, 33, 16, -1, 0, 16, 15, -1, 14, 13, 12, -1, 0, 15, 14, -1, 2, 1, 0, -1, 5, 4, 0, -1, 3, 2, 0, -1, 0, 14, 6, -1, 11, 10, 14, -1, 14, 12, 11, -1, 4, 3, 0, -1, 7, 6, 8, -1, 9, 8, 14, -1, 14, 10, 9, -1, 6, 5, 0, -1, 17, 18, 19, -1, 20, 21, 17, -1, 17, 19, 20, -1, 32, 33, 17, -1, 29, 30, 31, -1, 31, 32, 17, -1, 17, 21, 22, -1, 22, 23, 17, -1, 24, 25, 23, -1, 26, 27, 31, -1, 28, 29, 31, -1, 31, 23, 25, -1, 23, 31, 17, -1, 27, 28, 31, -1, 1, 18, 17, -1, 2, 19, 18, -1, 3, 20, 19, -1, 4, 21, 20, -1, 5, 22, 21, -1, 6, 23, 22, -1, 7, 24, 23, -1, 8, 25, 24, -1, 9, 26, 25, -1, 10, 27, 26, -1, 11, 28, 27, -1, 12, 29, 28, -1, 13, 30, 29, -1, 14, 31, 30, -1, 15, 32, 31, -1, 16, 33, 32, -1, 0, 17, 33, -1
+          ]
+          creaseAngle 2
+        }
+      }
+      Shape {
+        appearance USE MID_GRAY
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              0.0725 0.135 0.1185
+              0.0725 0.135 -0.035
+              -0.0725 0.135 -0.035
+              -0.0725 0.135 0.1185
+              0.0725 0.135 0.1185
+              0.0725 0.2 0.1185
+              0.0725 0.2 -0.035
+              -0.0725 0.2 -0.035
+              -0.0725 0.2 0.1185
+              0.0725 0.2 0.1185
+            ]
+          }
+          coordIndex [
+            4, 3, 2, 1, 0, -1, 5, 6, 7, 8, 9, -1, 0, 1, 6, 5, -1, 1, 2, 7, 6, -1, 2, 3, 8, 7, -1, 3, 4, 9, 8, -1
+          ]
+        }
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0 0 0
+          metalness 0
+          roughness 0.4
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              -0.055 0.135 -0.045
+              -0.055 0.185 -0.045
+              0.055 0.185 -0.045
+              0.055 0.135 -0.045
+            ]
+          }
+          coordIndex [
+            0, 1, 2, 3, -1
+          ]
+        }
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0.2 0.2 0.2
+          metalness 0
+          roughness 0.4
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              -0.0875 0.145 -0.13
+              -0.0875 0.145 -0.035
+              0.0875 0.145 -0.035
+              0.0875 0.145 -0.13
+            ]
+          }
+          coordIndex [
+            0, 1, 2, 3, -1
+          ]
+        }
+      }
+      Solid {
+        translation -0.1425 0.0425 -0.09
+        rotation 1 0 0 0
+        children [
+          DEF LeftWheel Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.0425
+                }
+              }
+              Transform {
+                translation 0 0.02 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.4
+                    }
+                    geometry Cylinder {
+                      height 0.0001
+                      radius 0.021
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.7 0.7 0.8
+                      metalness 0
+                      roughness 0.4
+                    }
+                    geometry Box {
+                      size 0.01 0.005 0.01
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        name "wheel(1)"
+        boundingObject DEF WHEEL_BOUNDING_OBJECT Transform {
+          rotation 0 0 1 1.57
+          children [
+            Cylinder {
+              height 0.04
+              radius 0.0425
+            }
+          ]
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 0.0425 0
+        }
+        device [
+          RotationalMotor {
+            name "left wheel motor"
+          }
+          PositionSensor {
+            name "left wheel sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.1425 0.0425 0
+          rotation 1 0 0 4.5282446
+          children [
+            USE LeftWheel
+          ]
+          name "wheel(2)"
+          boundingObject USE WHEEL_BOUNDING_OBJECT
+        }
+      }
+      Solid {
+        translation -0.1425 0.0425 0.09
+        rotation 1 0 0 0
+        children [
+          USE LeftWheel
+        ]
+        name "wheel(3)"
+        boundingObject USE WHEEL_BOUNDING_OBJECT
+      }
+      Solid {
+        translation 0.1425 0.0425 -0.09
+        rotation 1 0 0 0
+        children [
+          DEF RightWheel Transform {
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Cylinder {
+                  height 0.04
+                  radius 0.0425
+                }
+              }
+              Transform {
+                translation 0 -0.02 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      metalness 0
+                      roughness 0.4
+                    }
+                    geometry Cylinder {
+                      height 0.0001
+                      radius 0.021
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0.7 0.7 0.8
+                      metalness 0
+                      roughness 0.4
+                    }
+                    geometry Box {
+                      size 0.01 0.005 0.01
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        name "wheel(4)"
+        boundingObject USE WHEEL_BOUNDING_OBJECT
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 0.0425 0
+        }
+        device [
+          RotationalMotor {
+            name "right wheel motor"
+          }
+          PositionSensor {
+            name "right wheel sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.1425 0.0425 0
+          rotation 1 0 0 3.6118637
+          children [
+            USE RightWheel
+          ]
+          name "wheel(5)"
+          boundingObject USE WHEEL_BOUNDING_OBJECT
+        }
+      }
+      Solid {
+        translation 0.1425 0.0425 0.09
+        children [
+          USE RightWheel
+        ]
+        name "wheel(6)"
+        boundingObject USE WHEEL_BOUNDING_OBJECT
+      }
+      Transform {
+        translation 0.1075 0.045 0
+        children [
+          Shape {
+            appearance USE MID_GRAY
+            geometry Box {
+              size 0.03 0.03 0.22
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -0.1075 0.045 0
+        children [
+          Shape {
+            appearance USE MID_GRAY
+            geometry Box {
+              size 0.03 0.03 0.22
+            }
+          }
+        ]
+      }
+      DistanceSensor {
+        translation 0.015 0.102 -0.175
+        rotation 0 1 0 1.4708
+        children [
+          DEF Sensor Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              metalness 0
+              roughness 0.4
+            }
+            geometry Box {
+              size 0.01 0.015 0.017
+            }
+          }
+        ]
+        name "ds0"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.04 0.102 -0.169
+        rotation 0 1 0 1.3708
+        children [
+          USE Sensor
+        ]
+        name "ds1"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.07 0.102 -0.16
+        rotation 0 1 0 1.2708
+        children [
+          USE Sensor
+        ]
+        name "ds2"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.12 0.102 -0.14
+        rotation 0 1 0 0.770796
+        children [
+          USE Sensor
+        ]
+        name "ds3"
+        lookupTable [
+          0 1024 0
+          0.35 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.14 0.102 -0.055
+        children [
+          USE Sensor
+        ]
+        name "ds4"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.14 0.102 0.05
+        children [
+          USE Sensor
+        ]
+        name "ds5"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.125 0.102 0.12
+        rotation 0 1 0 -0.8524
+        children [
+          USE Sensor
+        ]
+        name "ds6"
+        lookupTable [
+          0 1024 0
+          0.35 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.0475 0.107 0.13
+        rotation 0 1 0 -1.5708
+        children [
+          USE Sensor
+        ]
+        name "ds7"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.0475 0.107 0.13
+        rotation 0 1 0 -1.5708
+        children [
+          USE Sensor
+        ]
+        name "ds8"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.125 0.102 0.12
+        rotation 0 1 0 -2.36
+        children [
+          USE Sensor
+        ]
+        name "ds9"
+        lookupTable [
+          0 1024 0
+          0.35 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.14 0.102 0.05
+        rotation 0 1 0 3.14179
+        children [
+          USE Sensor
+        ]
+        name "ds10"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.14 0.102 -0.055
+        rotation 0 1 0 3.14159
+        children [
+          USE Sensor
+        ]
+        name "ds11"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.125 0.102 -0.14
+        rotation 0 1 0 2.3708
+        children [
+          USE Sensor
+        ]
+        name "ds12"
+        lookupTable [
+          0 1024 0
+          0.35 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.07 0.102 -0.16
+        rotation 0 1 0 1.8708
+        children [
+          USE Sensor
+        ]
+        name "ds13"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.04 0.102 -0.169
+        rotation 0 1 0 1.7708
+        children [
+          USE Sensor
+        ]
+        name "ds14"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.015 0.102 -0.175
+        rotation 0 1 0 1.6708
+        children [
+          USE Sensor
+        ]
+        name "ds15"
+        lookupTable [
+          0 1024 0
+          0.5 0 0.01
+        ]
+        type "infra-red"
+      }
+    ]
+    model "Koala"
+    description "designed by Edo Franzi, Francesco Mondada (K-Team SA)"
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.105 -0.025
+          children [
+            Box {
+              size 0.15 0.2 0.3
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.105 0.01
+          children [
+            Box {
+              size 0.28 0.2 0.23
+            }
+          ]
+        }
+        Transform {
+          translation 0.07 0.105 -0.105
+          children [
+            Cylinder {
+              height 0.2
+              radius 0.07
+            }
+          ]
+        }
+        Transform {
+          translation -0.07 0.105 -0.105
+          children [
+            Cylinder {
+              height 0.2
+              radius 0.07
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

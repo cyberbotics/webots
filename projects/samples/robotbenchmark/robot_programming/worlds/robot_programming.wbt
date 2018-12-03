@@ -1,0 +1,67 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Benchmark objective: "
+    "learn how to program a robot."
+  ]
+  title "Robot Programming"
+  window "robot_programming"
+  basicTimeStep 20
+  contactProperties [
+    ContactProperties {
+      material2 "thymio body"
+      coulombFriction [
+        0.7
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.3650235088419984 -0.9018337571390201 -0.2312005892665386 5.0279702
+  position 0.85252477 0.55969193 0.54871339
+  follow "Thymio II"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+  wallThickness 0.05
+}
+DEF THYMIO2 Thymio2 {
+  rotation 1 0 0 0
+  controller "move"
+  controllerArgs ""
+}
+RobotProgrammingBenchmark {
+}
+Transform {
+  translation 0 0 0.25
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/target.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.125 0.0001 0.125
+            0.125 0.0001 -0.125
+            -0.125 0.0001 -0.125
+            -0.125 0.0001 0.125
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.920152 0.3903 0.0314166 5.65888
+  position -0.325516 0.729488 1.13904
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "robot_data_supervisor"
+  supervisor TRUE
+}
+DEF ROBOT Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "robot_data"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,44 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.999272 -0.0368217 -0.00999375 0.530375
+  position 0.24064 0.93072 1.35507
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+DEF TEST_PROTO DerivedTemplateBoxShape {
+}
+Robot {
+  children [
+    Camera {
+      translation 0.2 0 0.15
+      name "cameraX"
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    Camera {
+      translation 0 0.2 0.15
+      name "cameraY"
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "mixed_template_derived_proto"
+  controllerArgs "mixed_template_derived_proto"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

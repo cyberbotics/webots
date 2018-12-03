@@ -1,0 +1,24 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.15446 -0.98633 -0.0573986 1.19999
+  position -1.85353 0.412186 0.697235
+}
+Background {
+}
+Shape {
+  geometry DEF SPHERE Sphere {
+    radius 0.1
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_save_world"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

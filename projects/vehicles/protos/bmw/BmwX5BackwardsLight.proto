@@ -1,0 +1,42 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO BmwX5BackwardsLight [
+]
+{
+  Transform {
+    translation 0 0 1.4975
+    rotation 0 1 0 3.14159
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          baseColor 0.807843 0.807843 0.807843
+          roughness 0.4
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              -0.495435 0.677913 2.40582
+              -0.634827 0.632899 2.39478
+              -0.634827 0.677913 2.39092
+              -0.495461 0.632899 2.41024
+              0.495434 0.677913 2.40582
+              0.634826 0.632899 2.39478
+              0.634826 0.677913 2.39092
+              0.495461 0.632899 2.41024
+            ]
+          }
+          solid FALSE
+          coordIndex [
+            7, 5, 4, -1, 4, 5, 6, -1, 0, 1
+            3, -1, 2, 1, 0, -1
+          ]
+          creaseAngle 0.785398
+        }
+      }
+    ]
+  }
+}

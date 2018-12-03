@@ -1,0 +1,75 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Simulation of the YAMOR modular robot."
+    "The YAMOR robot goes through a sequence of module deconnections and reconnections while demonstrating two different types of locomotion."
+    "Biorobotics Laboratory, EPFL, Lausanne"
+    ""
+    "Publication:"
+    "R. Moeckel, C. Jaquier, K. Drapel, E. Dittrich, A. Upegui, and A.J. Ijspeert."
+    "Exploring adaptive locomotion with YaMoR, a novel autonomous modular robot with Bluetooth interface."
+    "Industrial Robot, 33(4):285-290, 2006."
+  ]
+  title "Modular Robot"
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        0.5
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.09509263635092964 0.971964363586935 0.2150410807935871 3.95723
+  position -1.3380984 0.89625281 -1.0200788
+  follow "module_4"
+  followSmoothness 1
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 100 100
+}
+DEF MODULE_1 Yamor {
+  translation 0 0.03 0
+  rotation 0 0 1 1.5708
+  name "module_1"
+}
+DEF MODULE_2 Yamor {
+  translation 0 0.03 0.097
+  rotation 0 0 1 1.5708
+  name "module_2"
+}
+DEF MODULE_3 Yamor {
+  translation 0 0.03 0.194
+  rotation 0 0 1 1.5708
+  name "module_3"
+}
+DEF MODULE_4 Yamor {
+  translation 0 0.03 0.291
+  rotation 0 0 1 1.5708
+  name "module_4"
+}
+DEF MODULE_5 Yamor {
+  translation 0 0.03 0.388
+  rotation 0 0 1 1.5708
+  name "module_5"
+}
+DEF MODULE_6 Yamor {
+  translation 0 0.03 0.485
+  rotation 0 0 1 1.5708
+  name "module_6"
+}
+DEF MODULE_7 Yamor {
+  translation 0 0.03 0.582
+  rotation 0 0 1 1.5708
+  name "module_7"
+}
+DEF MODULE_8 Yamor {
+  translation 0 0.03 0.679
+  rotation 0 0 1 1.5708
+  name "module_8"
+}

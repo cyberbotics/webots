@@ -1,0 +1,77 @@
+{
+  "name": "puma", 
+  "devices": [
+    {
+      "transformID": "n39", 
+      "name": "joint1", 
+      "maxPosition": 2.792, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.792, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n59", 
+      "name": "joint2", 
+      "maxPosition": 0.7854, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -3.9269, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n89", 
+      "name": "joint3", 
+      "maxPosition": 3.9269, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.7854, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n93", 
+      "name": "joint4", 
+      "maxPosition": 2.967, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.9198, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n97", 
+      "name": "joint5", 
+      "maxPosition": 1.7453, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.7453, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n106", 
+      "name": "joint6", 
+      "maxPosition": 4.6425, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -4.6425, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n144", 
+      "name": "joint_GripperL", 
+      "maxPosition": 0.01, 
+      "position": 0, 
+      "type": "LinearMotor", 
+      "minPosition": -0.004, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n127", 
+      "name": "joint_GripperR", 
+      "maxPosition": 0.01, 
+      "position": 0, 
+      "type": "LinearMotor", 
+      "minPosition": -0.004, 
+      "axis": "-1 0 0"
+    }
+  ]
+}

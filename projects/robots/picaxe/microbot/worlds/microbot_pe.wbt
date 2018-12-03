@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "microbot"
+  basicTimeStep 25
+}
+Viewpoint {
+  orientation -0.4964529679144939 -0.8373889458799729 -0.2287229852177483 1.08346
+  position -0.744519 0.665374 0.594842
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 0.9 0.9
+  floorTileSize 0.9 0.9
+  floorAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/floor.png"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+  wallHeight 0.05
+}
+DEF OBSTACLE1 CardboardBox {
+  translation 0.249517 0.025 -0.325017
+  size 0.05 0.05 0.05
+}
+DEF OBSTACLE2 CardboardBox {
+  translation -0.192382 0.025 0.329351
+  rotation 0 1 0 3.82203
+  name "cardboard box(1)"
+  size 0.08 0.05 0.08
+}
+DEF OBSTACLE3 CardboardBox {
+  translation 0.31759 0.025 0.250604
+  rotation 0 1 0 13.7261
+  name "cardboard box(2)"
+  size 0.2 0.05 0.05
+}
+Microbot {
+  translation -0.134489 0.0215088 -0.0872078
+  rotation 0.9999987394151995 7.777267973359623e-06 0.0015877995862430402 0.00257075
+  controller "microbot_pe"
+}

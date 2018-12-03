@@ -1,0 +1,32 @@
+ODE is dual-licensed under either:
+
+    * GNU Lesser General Public License v 2.1 or later.
+        see LICENSE.TXT
+
+    * Modified 3-clause BSD license.
+        see LICENSE-BSD.TXT
+
+
+Third-party libraries bundled with ODE:
+
+    * GIMPACT: dual-licensed under either:
+        - GNU Lesser General Public License v 2.1 or later.
+            see GIMPACT-LICENSE-LGPL.TXT
+        - Modified 3-clause BSD license.
+            see GIMPACT/GIMPACT-LICENSE-BSD.TXT
+
+    * libccd: Modified 3-clause BSD License
+        see libccd/BSD-LICENSE
+
+    * OU/ODER: triple-licensed under either:
+        - GNU Lesser General Public License v 3 or later.
+            see ou/LICENSE.TXT
+            see ou/LICENSE-LESSER.TXT
+        - Modified 3-clause BSD license.
+            see ou/LICENSE-BSD.TXT
+        - ZLIB license.
+            see ou/LICENSE-ZLIB.TXT
+
+    * OPCODE: under the same terms as ODE
+        see OPCODE/COPYING
+

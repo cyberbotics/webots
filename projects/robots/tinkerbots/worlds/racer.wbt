@@ -1,0 +1,147 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.04411599689624797 0.9860425100846277 0.16054266449718863 3.633051030363406
+  position -0.2915391895891853 0.2213877996600895 -0.5075852310309379
+  near 0.001
+  exposure 2
+  follow "racer"
+  followSmoothness 0.1
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+TinkerbotsBase {
+  translation 0 0.03 0
+  rotation 0 1 0 3.141592644
+  name "racer"
+  controller "four_wheels_vehicle"
+  upSlot TinkerbotsPivot {
+    rotation 0 0 1 4.71
+    BSlot TinkerbotsCubieBoxWithRoundSlots {
+      name "box A"
+      upSlot TinkerbotsCubieFemaleCube {
+        translation -0.01 0 0
+        upSlot TinkerbotsCubieTriangle {
+          rotation 0 0 1 3.1415
+          name "triangle A"
+          color "blue"
+        }
+        frontSlot TinkerbotsCubieTriangle {
+          name "triangle B"
+        }
+      }
+      axisSlot TinkerbotsAxle {
+        rotation 0 1 0 3.1415
+        endSlot TinkerbotsWheel {
+        }
+      }
+    }
+    DSlot TinkerbotsCubieBoxWithRoundSlots {
+      name "box B"
+      upSlot TinkerbotsCubieFemaleCube {
+        translation 0.01 0 0
+        upSlot TinkerbotsCubieTriangle {
+          name "triangle A"
+          color "blue"
+        }
+        backSlot TinkerbotsCubieTriangle {
+          rotation 0 0 1 3.1415
+          name "triangle B"
+        }
+      }
+      axisSlot TinkerbotsAxle {
+        rotation 0 1 0 3.1415
+        endSlot TinkerbotsWheel {
+        }
+      }
+    }
+  }
+  downSlot TinkerbotsMotor {
+    rotation 0 0 1 1.5708
+    upCSlot TinkerbotsCubiePyramid {
+      rotation 0 0 1 -1.5708
+      name "pyramid A"
+      frontSlot TinkerbotsCubiePyramid {
+        rotation 0 0 1 1.5708
+        color "blue"
+        frontSlot TinkerbotsCubiePyramid {
+          name "pyramid A"
+          color "blue"
+        }
+        backSlot TinkerbotsCubiePyramid {
+          rotation 0 0 1 3.1415
+          name "pyramid B"
+          color "blue"
+        }
+      }
+    }
+    upDSlot TinkerbotsCubiePyramid {
+      name "pyramid B"
+      frontSlot TinkerbotsCubiePyramid {
+        rotation 0 0 1 1.5708
+        color "blue"
+        backSlot TinkerbotsCubiePyramid {
+          rotation 0 0 1 3.1415
+          color "blue"
+        }
+      }
+    }
+    leftBSlot TinkerbotsCubieBoxWithCrossSlots {
+      upSlot TinkerbotsCubieTriangle {
+        rotation 0 0 1 -1.5708
+        name "triangle A"
+      }
+      rightSlot TinkerbotsCubieTriangle {
+        rotation 0 0 1 1.5708
+        name "triangle B"
+      }
+    }
+    frontSlot TinkerbotsAxle {
+      name "axle A"
+      endSlot TinkerbotsWheel {
+      }
+    }
+    backSlot TinkerbotsAxle {
+      name "axle B"
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+}

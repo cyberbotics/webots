@@ -1,0 +1,213 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.41573087622488036 0.8178207565110802 0.3979158815289201 4.46958
+  position -0.31537 0.625615 0.156083
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Transform {
+  translation 0.15 -0.0001 0.21
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.5 0.0001 0.62
+      }
+    }
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry ElevationGrid {
+        color Color {
+          color [
+            1 1 1
+            0.4 0.4 0.4
+          ]
+        }
+        colorPerVertex FALSE
+        xDimension 31
+        xSpacing 0.01
+        zDimension 43
+        zSpacing 0.01
+      }
+    }
+  ]
+  boundingObject Transform {
+    translation 0.15 0 0.205
+    children [
+      Plane {
+        size 0.52 0.63
+      }
+    ]
+  }
+}
+Shape {
+  appearance PBRAppearance {
+    baseColor 0 0 1
+    roughness 1
+    metalness 0
+  }
+  geometry IndexedFaceSet {
+    coord Coordinate {
+      point [
+        0.21 0 0.07
+        0.09 0 0.22
+        0.25 0 0.26
+        0.21 0.0001 0.07
+        0.09 0.0001 0.22
+        0.25 0.0001 0.26
+      ]
+    }
+    coordIndex [
+      2, 1, 0, -1, 3, 4, 5, -1, 0, 1
+      4, 3, -1, 1, 2, 5, 4, -1, 2, 0
+      3, 5, -1
+    ]
+  }
+}
+Transform {
+  translation 0.04 0 0.04
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.501961 0.501961
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.0001
+        radius 0.037
+        subdivision 20
+      }
+    }
+  ]
+}
+Transform {
+  translation 0.245 0 0.36
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.501961 1 0.501961
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.0001
+        radius 0.037
+        subdivision 20
+      }
+    }
+  ]
+}
+DEF WALL Solid {
+  children [
+    Shape {
+      appearance DEF WALL_APPEARANCE PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF WALL_GEOMETRY IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.41 0 0.52
+            0.41 0 -0.11
+            -0.11 0 -0.11
+            -0.11 0 0.52
+            -0.1 0 0.52
+            -0.1 0 -0.1
+            0.4 0 -0.1
+            0.4 0 0.51
+            -0.1 0 0.51
+            -0.1 0 0.52
+            0.41 0 0.52
+            0.41 0.05 0.52
+            0.41 0.05 -0.11
+            -0.11 0.05 -0.11
+            -0.11 0.05 0.52
+            -0.1 0.05 0.52
+            -0.1 0.05 -0.1
+            0.4 0.05 -0.1
+            0.4 0.05 0.51
+            -0.1 0.05 0.51
+            -0.1 0.05 0.52
+            0.41 0.05 0.52
+          ]
+        }
+        coordIndex [
+          10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, -1, 0, 1, 12, 11, -1, 1, 2, 13, 12, -1, 2, 3, 14, 13, -1, 3, 4, 15, 14, -1, 4, 5, 16, 15, -1, 5, 6, 17, 16, -1, 6, 7, 18, 17, -1, 7, 8, 19, 18, -1, 8, 9, 20, 19, -1, 9, 10, 21, 20, -1
+        ]
+      }
+    }
+  ]
+  name "wall"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0.405 0.025 0.205
+        children [
+          DEF WALL_1 Shape {
+            appearance USE WALL_APPEARANCE
+            geometry Box {
+              size 0.01 0.05 0.63
+            }
+          }
+        ]
+      }
+      Transform {
+        translation -0.105 0.025 0.205
+        children [
+          USE WALL_1
+        ]
+      }
+      Transform {
+        translation 0.15 0.025 0.515
+        children [
+          DEF WALL_2 Shape {
+            appearance PBRAppearance {
+              baseColor 0.8 0.8 0.8
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.52 0.05 0.01
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.15 0.025 -0.105
+        children [
+          USE WALL_2
+        ]
+      }
+    ]
+  }
+  locked TRUE
+}
+E-puck {
+  translation 0.04 0 0.04
+  rotation 0 1 0 3.14159
+  controller "advanced_path_planning_potential_field"
+  turretSlot [
+    Display {
+      width 42
+      height 30
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.8008689484572773 0.5226339663640629 0.29233998118543786 1.21936
+  position 5.5871972574472375 11.819898280331486 6.02588109179489
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_robot_regenerated"
+  controllerArgs "template_robot_regenerated"
+  supervisor TRUE
+}
+DEF ROBOT TemplateRobot {
+  hidden translation_0 0.1 0 0.1
+}
+TestSuiteSupervisor {
+}

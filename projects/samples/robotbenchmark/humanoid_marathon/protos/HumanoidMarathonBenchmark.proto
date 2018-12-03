@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Supervisor that manages the humanoid marathon benchmark.
+
+PROTO HumanoidMarathonBenchmark [
+  field SFString window "humanoid_marathon"
+]
+{
+Robot {
+  controller "marathon_supervisor"
+  supervisor TRUE
+  window IS window
+}
+}

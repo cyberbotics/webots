@@ -1,0 +1,7 @@
+# A PositionSensor allows a robot controller to read the position of a joint with respect to its main axis.
+
+PositionSensor {
+  field SFString   name           "position sensor"  # used by wb_robot_get_device()
+  field SFFloat    noise          0                  # noise
+  field SFFloat    resolution     -1                 # resolution
+}

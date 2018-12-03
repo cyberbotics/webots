@@ -1,0 +1,128 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.9432722510932788 0.30510867828254074 0.13094332649699805 0.804787368223842
+  position 0.15298177541257071 0.5987375421277202 0.592078258445636
+  near 0.001
+  exposure 2
+  follow "the beast"
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+TinkerbotsBase {
+  translation 0 0.06 0
+  rotation 0 -1 0 2.63
+  name "the beast"
+  upSlot TinkerbotsPivot {
+    name "t1"
+    slot TinkerbotsTwister {
+      name "t2"
+      slot TinkerbotsGrabber {
+        name "gA"
+        fingerASlot TinkerbotsFinger {
+          name "fA"
+        }
+        fingerBSlot TinkerbotsFinger {
+          name "fB"
+        }
+        fingerCSlot TinkerbotsFinger {
+          name "fC"
+        }
+      }
+    }
+  }
+  downSlot TinkerbotsDistanceSensor {
+    name "ds1"
+    upSlot TinkerbotsLightSensor {
+      name "ls1"
+    }
+  }
+  leftSlot TinkerbotsTwister {
+    name "t3"
+    slot TinkerbotsCube {
+      leftSlot TinkerbotsPivot {
+        name "p2"
+        slot TinkerbotsMotor {
+          rotation 0 0 1 1.57
+          name "m1"
+          frontSlot TinkerbotsAxle {
+            name "a1"
+            endSlot TinkerbotsWheel {
+            }
+          }
+          backSlot TinkerbotsAxle {
+            name "a2"
+            endSlot TinkerbotsWheel {
+            }
+          }
+        }
+      }
+      rightSlot TinkerbotsMotor {
+        name "m2"
+        upSlot TinkerbotsPivot {
+          rotation 0 0 1 1.57
+          name "p4"
+        }
+        frontSlot TinkerbotsCubieTriangle {
+          name "w3"
+        }
+      }
+    }
+  }
+  rightSlot TinkerbotsTwister {
+    name "t4"
+    slot TinkerbotsPivot {
+      rotation 0 0 1 1.57
+      name "p5"
+      slot TinkerbotsGrabber {
+        name "gB"
+        fingerASlot TinkerbotsFinger {
+          name "fD"
+        }
+        fingerBSlot TinkerbotsFinger {
+          name "fE"
+        }
+        fingerCSlot TinkerbotsFinger {
+          name "fF"
+        }
+      }
+    }
+  }
+}

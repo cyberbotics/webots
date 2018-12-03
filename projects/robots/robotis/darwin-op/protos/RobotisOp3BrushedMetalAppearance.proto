@@ -1,0 +1,11 @@
+#VRML_SIM R2019a utf8
+#tags: hidden
+
+PROTO RobotisOp3BrushedMetalAppearance [
+]
+{
+  PBRAppearance {
+    baseColor 0.9 0.9 0.9
+    roughness 0.7
+  }
+}

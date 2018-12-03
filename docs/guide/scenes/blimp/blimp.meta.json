@@ -1,0 +1,37 @@
+{
+  "name": "blimp", 
+  "devices": [
+    {
+      "transformID": "n86", 
+      "type": "Camera", 
+      "name": "camera"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0.54 0 0", 
+      "type": "DistanceSensor", 
+      "name": "ds0"
+    }, 
+    {
+      "transformID": "n13", 
+      "transformOffset": "0 0 -0.26", 
+      "type": "DistanceSensor", 
+      "name": "ds6"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Emitter", 
+      "name": "emitter"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "GPS", 
+      "name": "gps"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Receiver", 
+      "name": "receiver"
+    }
+  ]
+}

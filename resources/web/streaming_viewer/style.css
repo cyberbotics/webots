@@ -1,0 +1,11 @@
+html {
+  font-family: "Arial", "Helvetica", "Verdana", "sans-serif";
+}
+html, body {
+  margin: 0;
+  padding:0;
+}
+#playerDiv {
+  min-height: 200px;
+  width: 100%;
+}

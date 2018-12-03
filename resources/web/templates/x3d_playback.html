@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>%title%</title>
+    <link type="text/css" href="https://www.cyberbotics.com/jquery-ui/1.11.4/jquery-ui.min.css" rel="stylesheet"/>
+    <link type="text/css" href="https://www.cyberbotics.com/wwi/R2019a/wwi.css" rel="stylesheet"/>
+    <script src="https://www.cyberbotics.com/jquery/1.11.3/jquery.min.js" ></script>
+    <script src="https://www.cyberbotics.com/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js"></script>
+    <script src="https://www.cyberbotics.com/ace/1.2.0/ace.js"></script>
+    <script src="https://www.cyberbotics.com/wwi/R2019a/webots.js"></script>
+    <script>
+      function init() {
+          var view = new webots.View(document.getElementById("view3d"));
+          view.open("%x3dFilename%");%setAnimation%
+      }
+      window.addEventListener("load", init, false);
+      if (location.protocol == "file:" && (!!window.chrome && !!window.chrome.webstore))
+        alert("Webots HTML5 Models and Animations cannot be loaded locally on Google Chrome, as Chrome does not support cross-origin requests using the file:// protocol.");
+    </script>
+  </head>
+  <body>
+    <h1>%title%</h1>
+    <div id="view3d"></div>
+    <p>%description%</p>
+  </body>
+</html>

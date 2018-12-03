@@ -1,0 +1,62 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO RHandSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    RHandMesh {
+    }
+  ]
+  name "RHand"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 -0.0526955 0.0
+        rotation 1.0 0.0 0.0 3.14079632679
+        children [
+          Cylinder {
+            radius 0.035939
+            height 0.055117
+          }
+        ]
+      }
+      Transform {
+        translation 0.034375 -0.002643 0
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.035939
+            height 0.019
+          }
+        ]
+      }
+      Transform {
+        translation -0.0365945 -0.002643 0
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.035939
+            height 0.019
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 2.263
+    centerOfMass 0 -0.093 0
+    inertiaMatrix [0.01 0.002 0.01, 0 0 0 ]
+  }
+}
+}

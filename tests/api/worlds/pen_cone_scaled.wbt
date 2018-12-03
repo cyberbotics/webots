@@ -1,0 +1,117 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.990732 0.0819522 0.108325 1.71904
+  position -0.0680446 0.532775 -0.0204467
+}
+Background {
+  skyColor [
+    0.784314 0.784314 0.784314
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF BOARD Solid {
+  translation -0.12 0.045 -0.13
+  rotation 0.56888 0.822421 0 1.5708
+  scale 2 2 2
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Cone {
+        bottomRadius 0.08
+        height 0.2
+        subdivision 100
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        position 0.02
+        axis 0.17067 0.7389 -0.6
+      }
+      device [
+        LinearMotor {
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0.008 0.117 -0.027
+        rotation 0.341533 0.844288 0.412955 3.27249
+        children [
+          Transform {
+            translation 0 0.03 0
+            children [
+              Shape {
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.031 0
+            children [
+              DEF BODY Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 1 0 1
+                  }
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.980392 0.541176 0.0392157
+        inkDensity 1
+        leadSize 0.01
+      }
+    }
+    Solid {
+      translation -0.06 0.062 -0.13
+      rotation 0.56888 0.822421 0 1.5708
+      children [
+        Camera {
+          translation 0.03 0.03 0.04
+          rotation 0.26704 0.707107 0.654744 0.6545
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.01
+              }
+            }
+          ]
+          fieldOfView 1.35
+        }
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_cone_scaled"
+}
+TestSuiteSupervisor {
+}

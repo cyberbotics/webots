@@ -1,0 +1,152 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.084769018 -0.9755551 -0.20274728 3.7520944
+  position 0.69717813 0.6530284 -0.88480606
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+DEF NESTEDTESTBOT NestedResettableHingeJoint {
+  translation 0 0.055 0.31
+  color 0.333333 0 0
+}
+DEF PROTOTESTBOT ResettableHingeJoint {
+  translation 0 0.055 0.15
+}
+DEF TESTBOT Robot {
+  translation 0 0.055 0
+  children [
+    DEF BODY Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.07 0 0
+        dampingConstant 0.0003
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+          acceleration 10
+          maxVelocity 100
+        }
+      ]
+      endPoint Solid {
+        translation 0.2 0 -6.9388939e-18
+        rotation 1 0 0 0
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0.305882 0.898039 0.25098
+                  }
+                }
+                geometry Box {
+                  size 0.05 0.05 0.05
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+        physics Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+  ]
+  boundingObject USE BODY
+  controller "motor_spinner"
+}
+DEF HINGE2TESTBOT Robot {
+  translation 0 0.055 -0.15
+  children [
+    DEF BODY Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.333333 0 1
+        }
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+    DEF WHEEL1 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 0.07 0 0
+        dampingConstant 0.0003
+      }
+      jointParameters2 JointParameters {
+        dampingConstant 0.0003
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+          acceleration 10
+          maxVelocity 100
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "wheel2"
+          acceleration 10
+          maxVelocity 100
+        }
+      ]
+      endPoint Solid {
+        translation 0.2 0 -6.9388939e-18
+        children [
+          DEF WHEEL Transform {
+            rotation 0 0 1 1.5708
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                    diffuseColor 0.305882 0.898039 0.25098
+                  }
+                }
+                geometry Box {
+                  size 0.05 0.05 0.05
+                }
+              }
+            ]
+          }
+        ]
+        boundingObject USE WHEEL
+      }
+    }
+  ]
+  name "robot(1)"
+  boundingObject USE BODY
+  controller "motor_spinner"
+  controllerArgs "--hinge2"
+}
+TestSuiteSupervisor {
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_reset_physics_hinge"
+  supervisor TRUE
+}

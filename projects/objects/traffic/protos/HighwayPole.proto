@@ -1,0 +1,194 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Customizable highway pole with the possibility of adding another stand and more signs along the vertical or horizontal parts of the pole.
+# Different types of poles are available: "cylinder", "box", or "H-shape".
+
+PROTO HighwayPole [
+  field SFVec3f       translation           0 0 0
+  field SFRotation    rotation              0 1 0 0
+  field SFString      name                  "highway pole"
+  field SFString{"cylinder", "box", "H-shape"}
+                      type                  "cylinder"                                                                                                      # Defines the shape of the pole.
+  field SFInt32{1, 2} stand                 1                                                                                                               # Defines the number of stands.
+  field SFFloat       height                6                                                                                                               # Defines the height of the pole.
+  field SFFloat       length                8                                                                                                               # Defines the length of the pole.
+  field SFFloat       thickness             0.2                                                                                                             # Defines the thickness of the pole.
+  field SFColor       color                 0.258824 0.258824 0.258824                                                                                      # Defines the color of the pole.
+  field SFFloat       curveRadius           0.4                                                                                                             # Defines the curvature radius of the pole.
+  field MFNode        rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]                                                                        # Defines the horizontal signs on the right side of the pole.
+  field MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]  # Defines the vertical signs on the right side of the pole.
+  field MFNode        leftHorizontalSigns   [ ]                                                                                                             # Defines the horizontal signs on the left side of the pole.
+  field MFNode        leftVerticalSigns     [ ]                                                                                                             # Defines the vertical signs on the left side of the pole.
+]
+{
+  %{
+    local stand = fields.stand.value
+    local type = fields.type.value
+    local height = fields.height.value
+    if height <= 0.0 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be strictly positive. ")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    end
+    local length = fields.length.value
+    if length <= 0.0 then
+      length = fields.length.defaultValue
+      io.stderr:write("'length' should be strictly positive. ")
+      io.stderr:write("'length' was reset to '" .. length .. "'.")
+    end
+    local thickness = fields.thickness.value
+    if thickness <= 0.0 then
+      thickness = fields.thickness.defaultValue
+      io.stderr:write("'thickness' should be strictly positive. ")
+      io.stderr:write("'thickness' was reset to '" .. thickness .. "'.")
+    end
+    local curveRadius = fields.curveRadius.value
+    if curveRadius < 0.0 then
+      curveRadius = fields.curveRadius.defaultValue
+      io.stderr:write("'curveRadius' should be strictly positive. ")
+      io.stderr:write("'curveRadius' was reset to '" .. curveRadius .. "'.")
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF CURVED_POLE Solid {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS color
+              metalness 0
+              roughness 0.6
+            }
+            geometry Extrusion {
+              %{ if type == "cylinder" then }%
+                  crossSection [
+                    %{= thickness/2 }%  %{= thickness/4 }%
+                    %{= thickness/4 }%  %{= thickness/2 }%
+                    %{= -thickness/4 }% %{= thickness/2 }%
+                    %{= -thickness/2 }% %{= thickness/4 }%
+                    %{= -thickness/2 }% %{= -thickness/4 }%
+                    %{= -thickness/4 }% %{= -thickness/2 }%
+                    %{= thickness/4 }%  %{= -thickness/2 }%
+                    %{= thickness/2 }%  %{= -thickness/4 }%
+                    %{= thickness/2 }%  %{= thickness/4 }%
+                  ]
+              %{ elseif type == "box" then }%
+                  crossSection [
+                    %{= thickness/2 }%  %{= thickness/2 }%
+                    %{= -thickness/2 }% %{= thickness/2 }%
+                    %{= -thickness/2 }% %{= -thickness/2 }%
+                    %{= thickness/2 }%  %{= -thickness/2 }%
+                    %{= thickness/2 }%  %{= thickness/2 }%
+                  ]
+              %{ elseif type == "H-shape" then }%
+                  # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
+                  crossSection [
+                    %{= thickness/2 }%  %{= -thickness/2 }%
+                    %{= thickness/2 }%  %{= -thickness/4 }%
+                    %{= thickness/4.02 }%  %{= -thickness/4 }%
+                    %{= thickness/4.01 }%  %{= thickness/4 }%
+                    %{= thickness/2 }%  %{= thickness/4 }%
+                    %{= thickness/2 }%  %{= thickness/2 }%
+                    %{= -thickness/2 }% %{= thickness/2 }%
+                    %{= -thickness/2 }% %{= thickness/4 }%
+                    %{= -thickness/4.02 }% %{= thickness/4 }%
+                    %{= -thickness/4.01 }% %{= -thickness/4 }%
+                    %{= -thickness/2 }% %{= -thickness/4 }%
+                    %{= -thickness/2 }% %{= -thickness/2 }%
+                    %{= thickness/2 }%  %{= -thickness/2 }%
+                  ]
+              %{ end }%
+              spine [
+                0 0                                    0
+                0 %{= 0.5 * height }%                  0
+                0 %{= 0.75 * height }%                 0
+                0 %{= height }%                        0
+                0 %{= height + 0.333 * curveRadius }%  %{= 0.33 * thickness }%
+                0 %{= height + 0.5 * curveRadius }%    %{= 0.66 * thickness }%
+                0 %{= height + 0.667 * curveRadius }%  %{= thickness }%
+                0 %{= height + 0.85 * curveRadius }%   %{= thickness + 0.33 * curveRadius }%
+                0 %{= height + 0.95 * curveRadius }%   %{= thickness + 0.66 * curveRadius }%
+                %{ if stand == 1 then }%
+                    0 %{= height + curveRadius }%           %{= length + curveRadius }%
+                %{ elseif stand == 2 then }%
+                    0 %{= height + curveRadius }%           %{= length }%
+                    0 %{= height + 0.95 * curveRadius }%    %{= length + 0.333 * curveRadius + thickness }%
+                    0 %{= height + 0.85 * curveRadius }%    %{= length + 0.667 * curveRadius + thickness }%
+                    0 %{= height + 0.667 * curveRadius }%   %{= length + curveRadius + thickness }%
+                    0 %{= height + 0.5 * curveRadius }%     %{= length + 1.333 * thickness + curveRadius }%
+                    0 %{= height + 0.333 * curveRadius }%   %{= length + 1.667 * thickness + curveRadius }%
+                    0 %{= height }%                         %{= length + 2 * thickness + curveRadius }%
+                    0 %{= 0.75 * height }%                  %{= length + 2 * thickness + curveRadius }%
+                    0 %{= 0.5 * height }%                   %{= length + 2 * thickness + curveRadius }%
+                    0 0                                     %{= length + 2 * thickness + curveRadius }%
+                %{ end }%
+              ]
+              ccw FALSE
+              splineSubdivision 0
+            }
+          }
+        ]
+        boundingObject Extrusion {
+          crossSection [
+            %{= thickness/2 }%  %{= thickness/2 }%
+            %{= -thickness/2 }% %{= thickness/2 }%
+            %{= -thickness/2 }% %{= -thickness/2 }%
+            %{= thickness/2 }%  %{= -thickness/2 }%
+            %{= thickness/2 }%  %{= thickness/2 }%
+          ]
+          spine [
+            0 0                                    0
+            0 %{= 0.5 * height }%                  0
+            0 %{= 0.75 * height }%                 0
+            0 %{= height }%                        0
+            0 %{= height + 0.333 * curveRadius }%  %{= 0.33 * thickness }%
+            0 %{= height + 0.5 * curveRadius }%    %{= 0.66 * thickness }%
+            0 %{= height + 0.667 * curveRadius }%  %{= thickness }%
+            0 %{= height + 0.85 * curveRadius }%   %{= thickness + 0.33 * curveRadius }%
+            0 %{= height + 0.95 * curveRadius }%   %{= thickness + 0.66 * curveRadius }%
+            %{ if stand == 1 then }%
+                0 %{= height + curveRadius }%           %{= length + curveRadius }%
+            %{ elseif stand == 2 then }%
+                0 %{= height + curveRadius }%           %{= length }%
+                0 %{= height + 0.95 * curveRadius }%    %{= length + 0.333 * curveRadius + thickness }%
+                0 %{= height + 0.85 * curveRadius }%    %{= length + 0.667 * curveRadius + thickness }%
+                0 %{= height + 0.667 * curveRadius }%   %{= length + curveRadius + thickness }%
+                0 %{= height + 0.5 * curveRadius }%     %{= length + 1.333 * thickness + curveRadius }%
+                0 %{= height + 0.333 * curveRadius }%   %{= length + 1.667 * thickness + curveRadius }%
+                0 %{= height }%                         %{= length + 2 * thickness + curveRadius }%
+                0 %{= 0.75 * height }%                  %{= length + 2 * thickness + curveRadius }%
+                0 %{= 0.5 * height }%                   %{= length + 2 * thickness + curveRadius }%
+                0 0                                     %{= length + 2 * thickness + curveRadius }%
+            %{ end }%
+          ]
+          ccw FALSE
+          splineSubdivision 0
+        }
+      }
+      DEF RIGHT_HORIZONTAL_SIGNS Transform {
+        translation %{= 0.95 * (thickness / 2) }% %{= height + curveRadius }% 3
+        children IS rightHorizontalSigns
+      }
+      DEF RIGHT_VERTICAL_SIGNS Transform {
+        translation %{= 0.95 * (thickness / 2) }% 3 0
+        children IS rightVerticalSigns
+      }
+      DEF LEFT_HORIZONTAL_SIGNS Transform {
+        rotation 0 1 0 3.14159
+        translation %{= - 0.95 * (thickness / 2) }% %{= height + curveRadius }% 6
+        children IS leftHorizontalSigns
+      }
+      DEF LEFT_VERTICAL_SIGNS Transform {
+        rotation 0 1 0 3.14159
+        translation %{= - 0.95 * (thickness / 2) }% 3 %{= length + 2 * thickness + curveRadius }%
+        children IS leftVerticalSigns
+      }
+    ]
+    name IS name
+    model "highway pole"
+  }
+}

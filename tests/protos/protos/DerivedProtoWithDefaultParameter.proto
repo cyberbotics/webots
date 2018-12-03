@@ -1,0 +1,10 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedProtoWithDefaultParameter [
+  field MFNode derivedExtensionSlot SolidCylinder { }
+]
+{
+  BaseProtoWithDefaultParameter {
+    extensionSlot IS derivedExtensionSlot
+  }
+}

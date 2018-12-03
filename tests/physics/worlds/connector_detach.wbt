@@ -1,0 +1,223 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Detach locked connectors"
+  physics "connector_apply_force"
+}
+Viewpoint {
+  orientation 0.0020499763 0.99330126 0.11553532 3.0908531
+  position 0.35479853 0.39389981 -1.1975532
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  location 0 0.3 0
+}
+DEF ACTIVE_ROBOT Robot {
+  translation 0.10186764 0 0.004082181
+  rotation 0 1 0 -1.57
+  children [
+    TestSuiteEmitter {
+    }
+    DEF LIGHT_BODY Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.117647 0.776471 1
+              specularColor 0.301961 0.301961 0.301961
+            }
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    DEF HINGE_JOINT_DEVICE HingeJoint {
+      jointParameters HingeJointParameters {
+        position -1.57
+        anchor 0 0.06 0
+      }
+      endPoint Solid {
+        translation 0 0.06 0
+        rotation 1 0 0 1.5707963
+        children [
+          DEF CONNECTOR_SHAPE Group {
+            children [
+              Transform {
+                translation 0.049 0.025 0
+                children [
+                  DEF SIDE_PART Shape {
+                    appearance Appearance {
+                      material DEF LIGHT_GRAY Material {
+                        diffuseColor 0.898039 0.898039 0.898039
+                        specularColor 0.74902 0.74902 0.74902
+                      }
+                    }
+                    geometry Box {
+                      size 0.008 0.05 0.015
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation -0.049 0.025 0
+                children [
+                  USE SIDE_PART
+                ]
+              }
+              Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material USE LIGHT_GRAY
+                    }
+                    geometry Box {
+                      size 0.12 0.01 0.04
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CONNECTOR_DEVICE Connector {
+            translation 0 0.055 0
+            rotation 1 9.5897933e-09 9.5974328e-09 4.7131853
+            model "magnetic"
+            type "active"
+            autoLock TRUE
+            tensileStrength 1
+          }
+        ]
+        boundingObject USE CONNECTOR_SHAPE
+        physics DEF CONNECTOR_SHAPE_PHYSICS Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  name "MyBot 1"
+  boundingObject DEF MYBOT_BOUNDING Transform {
+    translation 0 0.0415 0
+    children [
+      USE BODY
+    ]
+  }
+  physics DEF MOVING_MYBOT_PHYSICS Physics {
+    density -1
+    mass 0.05
+  }
+  controller "connector_detach"
+  supervisor TRUE
+}
+DEF PASSIVE_ROBOT Robot {
+  translation -0.0081323259 0 0.0038990259
+  rotation 0 1 0 -1.57
+  children [
+    DEF MAIN_BODY Transform {
+      translation 0 0.0415 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.0820075 0.364731 0.8
+            }
+          }
+          geometry USE BODY
+        }
+      ]
+    }
+    DEF HINGE_JOINT_DEVICE HingeJoint {
+      jointParameters HingeJointParameters {
+        position -1.57
+        anchor 0 0.06 0
+      }
+      endPoint Solid {
+        translation 0 0.06 0
+        rotation -1 0 0 1.57
+        children [
+          DEF CONNECTOR_SHAPE Group {
+            children [
+              Transform {
+                translation 0.049 0.025 0
+                children [
+                  DEF SIDE_PART Shape {
+                    appearance Appearance {
+                      material DEF LIGHT_GRAY Material {
+                        diffuseColor 0.898039 0.898039 0.898039
+                        specularColor 0.74902 0.74902 0.74902
+                      }
+                    }
+                    geometry Box {
+                      size 0.008 0.05 0.015
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation -0.049 0.025 0
+                children [
+                  USE SIDE_PART
+                ]
+              }
+              Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material USE LIGHT_GRAY
+                    }
+                    geometry Box {
+                      size 0.12 0.01 0.04
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF CONNECTOR_DEVICE Connector {
+            translation 0 0.055 0
+            rotation 1.0167461e-08 -0.70682518 -0.70738827 3.1415927
+            model "magnetic"
+            type "passive"
+            tensileStrength 1
+          }
+        ]
+        boundingObject USE CONNECTOR_SHAPE
+        physics DEF CONNECTOR_SHAPE_PHYSICS Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+  ]
+  name "MyBot 2"
+  boundingObject USE MYBOT_BOUNDING
+  physics DEF STATIC_MYBOT_PHYSICS Physics {
+    density -1
+    mass 0.5
+  }
+}
+Solid {
+  translation 0.28 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+TestSuiteSupervisor {
+}

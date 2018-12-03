@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+
+  PROTO
+ UnusualWhiteSpaces[
+  field SFVec3f translation 0.0,0.0,0.0,,
+  field SFRotation rotation 0.0 1.0 0.0 0.0]
+{Robot{
+  translation,IS,translation
+  rotation IS rotation
+
+  children
+  [  ,    Shape {
+        geometry Box { size 0.1 0.1 0.1 }
+      } ]
+  }
+}

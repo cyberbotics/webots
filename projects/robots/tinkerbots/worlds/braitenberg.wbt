@@ -1,0 +1,163 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.41515032536166135 -0.8865825519183383 -0.20401369068293806 1.0413490639682308
+  position -0.42231257696934626 0.3389210997135986 0.40686124397042656
+  near 0.001
+  exposure 2
+  follow "braitenberg"
+  followSmoothness 0.1
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+DEF WALLS SolidPipe {
+  translation 0 0.1 0
+  height 0.2
+  thickness 0.05
+  subdivision 60
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/older_plywood_base_color.png"
+      ]
+    }
+    roughness 0.5
+    normalMap ImageTexture {
+      url [
+        "textures/older_plywood_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/older_plywood_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 20 1
+    }
+  }
+}
+TinkerbotsBase {
+  translation 0 0.03 0
+  rotation 0 1 0 3.141592644
+  name "braitenberg"
+  controller "two_wheels_vehicle"
+  upASlot TinkerbotsCubiePyramid {
+    frontSlot TinkerbotsCubieTriangle {
+      rotation 0 0 1 3.1415
+    }
+  }
+  downSlot TinkerbotsMotor {
+    rotation 0 0 1 1.5707996938995747
+    name "right motor"
+    upASlot TinkerbotsCubieBoxWithCrossSlots {
+      rotation 0 0 1 3.1415
+    }
+    upBSlot TinkerbotsCubieMaleCube {
+      upSlot TinkerbotsCubieTriangle {
+        rotation 0 0 1 -1.5708
+      }
+    }
+    upDSlot TinkerbotsCubieTriangle {
+      rotation 0 0 1 3.1415
+    }
+    leftSlot TinkerbotsDistanceSensor {
+      rotation 0 0 1 1.5707996938995747
+      name "right distance sensor"
+      upASlot TinkerbotsBrickAdapter {
+      }
+    }
+    frontSlot TinkerbotsAxle {
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  rightSlot TinkerbotsCube {
+    leftCSlot TinkerbotsCubiePyramid {
+      rotation 0 0 1 -1.5708
+      frontSlot TinkerbotsCubieTriangle {
+        rotation 0 0 1 3.1415
+      }
+    }
+    rightSlot TinkerbotsMotor {
+      rotation 0 0 1 -1.5708
+      name "left motor"
+      upASlot TinkerbotsCubieTriangle {
+        rotation 0 0 1 1.5708
+      }
+      upCSlot TinkerbotsCubieMaleCube {
+        rotation 0 0 1 1.5708
+        upSlot TinkerbotsCubieTriangle {
+          rotation 0 0 1 -1.5708
+        }
+      }
+      rightSlot TinkerbotsDistanceSensor {
+        rotation 0 0 1 -1.5708
+        name "left distance sensor"
+        upASlot TinkerbotsBrickAdapter {
+        }
+      }
+      frontSlot TinkerbotsAxle {
+        endSlot TinkerbotsWheel {
+        }
+      }
+    }
+  }
+}
+DEF OBJECT Solid {
+  translation 0.01 0.02 0.12
+  children [
+    Slot {
+      endPoint TinkerbotsCubieFemaleCube {
+      }
+    }
+  ]
+  name "object"
+  boundingObject Transform {
+    translation 0 0 0.0025
+    children [
+      Box {
+        size 0.005 0.005 0.005
+      }
+    ]
+  }
+  physics Physics {
+  }
+}

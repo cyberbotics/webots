@@ -1,0 +1,4 @@
+uint64 node
+int32 index
+---
+geometry_msgs/Point point

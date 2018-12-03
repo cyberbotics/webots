@@ -1,0 +1,182 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Generic and customizable landing model for straight stairs.
+
+PROTO StraightStairsLanding [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "straight stairs landing"
+  field SFVec3f    landingSize     0.4 0.03 1.27                                                      # Defines the size of the landing.
+  field SFFloat    height          2.0                                                                # Defines the height of the landing.
+  field SFVec2f    stringerSize    0.3 0.02                                                           # Defines the height and width of the stringer.
+  field SFBool     stringerLeft    TRUE                                                               # Defines whether the left part of the stringer should be included.
+  field SFBool     stringerRight   TRUE                                                               # Defines whether the right part of the stringer should be included.
+  field SFBool     stringerBack    FALSE                                                              # Defines whether the back part of the stringer should be included.
+  field SFVec2f    supportPoleSize 0.05 0.05                                                          # Defines the size of the support poles.
+  field SFNode     appearance      VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the main appearance.
+  field SFNode     floorAppearance Parquetry {}                                                       # Defines the floor appearance.
+  field MFNode     rail            []                                                                 # Defines the rail.
+  field SFString   contactMaterial "default"                                                          # Is `Solid.contactMaterial`.  
+]
+{
+  %{
+    local height = fields.height.value
+    local stringerSize = fields.stringerSize.value
+    local landingSize = fields.landingSize.value
+    local supportPoleSize = fields.supportPoleSize.value
+
+    -- check inputs
+    if fields.stringerSize.value.x < 0.0 or fields.stringerSize.value.y < 0.0 then
+      io.stderr:write("'stringerSize' must contain positive values\n")
+      stringerSize = fields.stringerSize.defaultValue
+    end
+    if fields.landingSize.value.x <= 0.0 or fields.landingSize.value.y <= 0.0 or fields.landingSize.value.z <= 0.0 then
+      io.stderr:write("'landingSize' must contain positive values\n")
+      landingSize.x = fields.landingSize.defaultValue.x
+      landingSize.y = fields.landingSize.defaultValue.y
+      landingSize.z = fields.landingSize.defaultValue.z
+    end
+    if fields.supportPoleSize.value.x < 0.0 or fields.supportPoleSize.value.y < 0.0 then
+      io.stderr:write("'supportPoleSize' must contain positive values\n")
+      supportPoleSize.x = fields.supportPoleSize.defaultValue.x
+      supportPoleSize.y = fields.supportPoleSize.defaultValue.y
+    elseif fields.supportPoleSize.value.x == 0.0 or fields.supportPoleSize.value.y == 0.0 then
+      supportPoleSize.x = 0.0
+      supportPoleSize.y = 0.0
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF LANDING_SHAPE Transform {
+        translation 0 %{= height }% 0
+        children [
+          Shape {
+            appearance IS floorAppearance
+            geometry Box {
+              size %{=landingSize.x}% %{=landingSize.y}% %{=landingSize.z}%
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= height }% 0
+        children IS rail
+      }
+      %{
+        if fields.stringerRight.value then
+      }%
+        Solid {
+          translation 0 %{= height }% %{=(landingSize.z + stringerSize.y) * 0.5}%
+          children [
+            Shape {
+              appearance IS appearance
+              geometry DEF STRINGER_GEOM Box {
+                size %{=landingSize.x}% %{=stringerSize.x}% %{=stringerSize.y}%
+              }
+            }
+          ]
+          name "right stringer"
+          contactMaterial IS contactMaterial
+          boundingObject USE STRINGER_GEOM
+        }
+      %{
+        end
+      }%
+      %{
+        if fields.stringerLeft.value then
+      }%
+        Solid {
+          translation 0 %{= height }% %{=(-landingSize.z - stringerSize.y) * 0.5}%
+          children [
+            Shape {
+              appearance IS appearance
+              geometry DEF STRINGER_GEOM Box {
+                size %{=landingSize.x}% %{=stringerSize.x}% %{=stringerSize.y}%
+              }
+            }
+          ]
+          name "left stringer"
+          contactMaterial IS contactMaterial
+          boundingObject USE STRINGER_GEOM
+        }
+      %{
+        end
+      }%
+      %{
+        if fields.stringerBack.value then
+      }%
+        Solid {
+          translation %{=(landingSize.x + stringerSize.y) * 0.5}% %{= height }% 0
+          children [
+            Shape {
+              appearance IS appearance
+              geometry DEF STRINGER_GEOM Box {
+                size %{=stringerSize.y}% %{=stringerSize.x}% %{=landingSize.z}%
+              }
+            }
+          ]
+          name "back stringer"
+          contactMaterial IS contactMaterial
+          boundingObject USE STRINGER_GEOM
+        }
+      %{
+        end
+      }%
+      %{
+        if supportPoleSize.x > 0 and supportPoleSize.y then
+      }%
+        Solid {
+          translation %{=(landingSize.x - supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(landingSize.z - supportPoleSize.y) * 0.5}%
+          children [
+            DEF POLE Shape {
+              appearance IS appearance
+              geometry Box {
+                size %{=supportPoleSize.x}% %{=height - landingSize.y * 0.5}% %{=supportPoleSize.y}%
+              }
+            }
+          ]
+          name "support pole 1"
+          contactMaterial IS contactMaterial
+          boundingObject USE POLE
+        }
+        Solid {
+          translation %{=(-landingSize.x + supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(landingSize.z - supportPoleSize.y) * 0.5}%
+          children [
+            USE POLE
+          ]
+          name "support pole 2"
+          contactMaterial IS contactMaterial
+          boundingObject USE POLE
+        }
+        Solid {
+          translation %{=(-landingSize.x + supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(-landingSize.z + supportPoleSize.y) * 0.5}%
+          children [
+            USE POLE
+          ]
+          name "support pole 3"
+          contactMaterial IS contactMaterial
+          boundingObject USE POLE
+        }
+        Solid {
+          translation %{=(landingSize.x - supportPoleSize.x)* 0.5}% %{= height*0.5}% %{=(-landingSize.z + supportPoleSize.y) * 0.5}%
+          children [
+            USE POLE
+          ]
+          name "support pole 4"
+          contactMaterial IS contactMaterial
+          boundingObject USE POLE
+        }
+      %{
+        end
+      }%
+    ]
+    name IS name
+    model "straight stairs landing"
+    contactMaterial IS contactMaterial
+    boundingObject USE LANDING_SHAPE
+  }
+}

@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Pedestrian Simulation"
+  ]
+  title "Autonomous Vehicle"
+  ERP 0.6
+  basicTimeStep 10
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      softCFM 0.0003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.056791464063295376 0.9659535410765772 0.25240540028131153 2.3968598
+  position 11.910063 7.2731442 -10.132491
+  near 1
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+  radius 10
+  floorAppearance Parquetry {
+  }
+  floorTileSize 2 2
+  wallThickness 0.1
+  wallHeight 1
+}
+Pedestrian {
+  translation 0 1.26 3
+  rotation 0 1 0 3.14159
+  controllerArgs "--trajectory=\"0 3, 0 -3\" --speed=2.5"
+}
+Pedestrian {
+  translation 5 1.27 1
+  rotation 0 1 0 3.14159
+  name "pedestrian(1)"
+  controllerArgs "--trajectory=\"5 1, 5 -1, 1 -5, -1 -5, -5 -1, -5 1, -1 5, 1 5\""
+  shirtColor 0.466667 0.0980392 0.458824
+}
+Pedestrian {
+  translation 6 1.27 2
+  rotation 0 1 0 3.14159
+  name "pedestrian(2)"
+  shirtColor 0.6 0.4 0.35
+  pantsColor 0.18 0.18 0.23
+}

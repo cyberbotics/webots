@@ -1,0 +1,178 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Efficient (with only 8 polygones) and customizable outdoor tree.
+# Tree types are:
+#  - 'oak tree'
+#  - 'crab apple tree'
+#  - 'cherry tree'
+#  - 'birch tree'
+#  - 'palm tree'
+#  - 'spruce'
+#  - 'white pine'
+#  - 'hackberry tree'
+#  - 'hazel tree'
+#
+# The 'random' type choose randomly a tree type each time the node is regenerated.
+
+PROTO SimpleTree [
+  field SFVec3f    translation          0 0 0
+  field SFRotation rotation             0 1 0 0
+  field SFString   name                 "tree"          # Defines the name of the tree.
+  field SFString{"random", "oak tree", "crab apple tree", "cherry tree", "birch tree", "palm tree", "spruce", "white pine", "hackberry tree", "hazel tree"}
+                   type                 "cherry tree"   # Defines the texture to be used. If set to random, a type will be randomly selected in the list.
+  field SFBool     withSnow             FALSE           # Defines if the texture used should have snow on top.
+  field SFFloat    height               4               # Defines the height of the tree.
+  field SFFloat    radius               2               # Defines the radius of the tree.
+  field SFInt32    subdivision          2               # Defines the number of faces used to represent the tree.
+  field SFBool     enableBoundingObject TRUE            # Defines if the tree should have a bounding object (the bounding object is made of a simple cylinder).
+  field SFBool     locked               TRUE            # Is `Solid.locked`.
+  field SFBool     isPickable           TRUE
+]
+{
+%{
+  local wbgeometry = require('wbgeometry')
+  local wbcore     = require('wbcore')
+  local wbrandom   = require('wbrandom')
+  wbrandom.seed(context.id)
+
+  local treeType = {
+    ["crab apple tree"] = "crab_apple_tree.png",
+    ["hackberry tree"] = "hackberry_tree.png",
+    ["hazel tree"] = "hazel_tree.png",
+    ["oak tree"] = "oak_tree.png",
+    ["palm tree"] = "palm_tree.png",
+    ["spruce"] = "spruce.png",
+    ["white pine"] = "white_pine.png",
+    ["cherry tree"] = "cherry_tree.png",
+    ["birch tree"] = "birch_tree.png" }
+
+  local height = fields.height.value
+  if height <= 0 then
+    height = fields.height.defaultValue
+    io.stderr:write("'height' must be strictly positive\n")
+  end
+
+  local radius = fields.radius.value
+  if radius <= 0 then
+    radius = fields.radius.defaultValue
+    io.stderr:write("'radius' must be strictly positive\n")
+  end
+
+  local subdivision = fields.subdivision.value
+  if subdivision < 2 then
+    subdivision = fields.subdivision.defaultValue
+    io.stderr:write("'subdivision' must be bigger or equal to 2\n")
+  end
+
+  local type = fields.type.value
+  local keys = {}
+  local i = 1
+  for k, _ in pairs(treeType) do
+    keys[i] = k
+    i = i + 1
+  end
+  table.sort(keys) -- since the order of 'pairs' is not deterministic we order the table alphabetically
+  if (type ~= "random" and treeType[type] == nil) then
+    type = fields.type.defaultValue
+    list = " "
+    for _, v in ipairs(keys) do
+      list = list .. v .. ", "
+    end
+    list = string.sub(list, 2, -3)
+    list = list .. " and random."
+    io.stderr:write("'type' must be a value in the list: " .. list .. "\n")
+  elseif type == "random" then
+    i = wbrandom.integer(wbcore.tablelength(keys))
+    type = keys[i]
+  end
+
+
+  local boundinObject = fields.enableBoundingObject.value
+  local circle = wbgeometry.circle(radius, subdivision * 2, 0, 0, 0)
+  local skip = subdivision * 2
+}%
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            %{ if fields.withSnow.value then }%
+              %{= '"' .. "textures/" .. string.sub(treeType[type], 0, string.len(treeType[type]) - 4)  .. "_with_snow" .. string.sub(treeType[type], -4) .. '"' }%
+            %{ else }%
+              %{= '"' .. "textures/" .. treeType[type] .. '"' }%
+            %{ end }%
+          ]
+          repeatS FALSE
+          repeatT FALSE
+        }
+        metalness 0
+        roughness 1
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            # bottom cylinder
+            %{ for i = 0, skip - 1 do }%
+              %{= circle[i+1].x }% %{= 0 }% %{= circle[i+1].y }%
+            %{ end }%
+            # top cylinder
+            %{ for i = 0, skip - 1 do }%
+              %{= circle[i+1].x }% %{= height }% %{= circle[i+1].y }%
+            %{ end }%
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0 1
+            1 1
+          ]
+        }
+        coordIndex [
+          # each face
+          %{ for i = 0, subdivision - 1 do }%
+            %{= subdivision * 2 + i }% %{= i }% %{= subdivision + i }% %{= subdivision * 3 + i }% -1
+            %{= subdivision * 2 + i }% %{= subdivision * 3 + i }% %{= subdivision + i }% %{= i }%  -1
+          %{ end }%
+        ]
+        texCoordIndex [
+          %{ for i = 0, subdivision - 1 do }%
+            2, 0, 1, 3, -1, 3, 2, 0, 1, -1,
+          %{ end }%
+        ]
+      }
+      isPickable IS isPickable
+    }
+  ]
+  name IS name
+  model %{= '"' .. type .. '"' }%
+  recognitionColors [
+    %{ if fields.withSnow.value then }%
+      0.82 0.82 0.84
+    %{ else }%
+      %{ if type == "crab apple tree" then }%
+        0.85 0.49 0.57
+      %{ else }%
+        0.1 0.4 0
+      %{ end }%
+    %{ end }%
+  ]
+  %{ if boundinObject then }%
+    boundingObject Transform {
+      translation 0 %{= height / 2 }% 0
+      children [
+        Cylinder {
+          height %{= height }%
+          radius 0.1
+        }
+      ]
+    }
+  %{ end }%
+  locked IS locked
+}
+}

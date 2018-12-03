@@ -1,0 +1,164 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Default stairs handrail.
+
+PROTO StraightStairsRail [
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "straight stairs rail"
+  field SFFloat    run              2.0                                                                # Defines the horizontal lenght of the rail.
+  field SFFloat    rise             0.75                                                               # Defines the vertical lenght of the rail.
+  field SFFloat    width            0.04                                                               # Defines the width of the rail.
+  field SFFloat    newelHeight      0.93                                                               # Defines the height of the top bar.
+  field SFFloat    balusterHeight   0.8                                                                # Defines the height of the balusters.
+  field SFFloat    balusterRadius   0.01                                                               # Defines the radius of the balusters.
+  field SFInt32    nBalusters       20                                                                 # Defines the number of balusters.
+  field SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the rail.
+  field SFString   contactMaterial "default"                                                           # Is `Solid.contactMaterial`.  
+]
+{
+  %{
+    local wbrotation = require('wbrotation')
+
+    local run = fields.run.value
+    local rise = fields.rise.value
+    local width = fields.width.value
+    local newelHeight = fields.newelHeight.value
+    local balusterRadius = fields.balusterRadius.value
+    local balusterHeight = fields.balusterHeight.value
+    local nBalusters = fields.nBalusters.value
+
+    -- check inputs
+    if fields.run.value <= 0.0 then
+      io.stderr:write("'run' must be positive\n")
+      run = fields.run.defaultValue
+    end
+    if fields.rise.value < 0.0 then
+      io.stderr:write("'rise' must be positive\n")
+      rise = fields.rise.defaultValue
+    end
+    if fields.width.value <= 0.0 then
+      io.stderr:write("'width' must be positive\n")
+      width = fields.width.defaultValue
+    end
+    if fields.newelHeight.value <= 0.0 then
+      io.stderr:write("'newelHeight' must be positive\n")
+      newelHeight = fields.newelHeight.defaultValue
+    end
+    if fields.balusterHeight.value <= 0.0 then
+      io.stderr:write("'balusterHeight' must be positive\n")
+      balusterHeight = fields.balusterHeight.defaultValue
+    end
+    if fields.balusterRadius.value <= 0.0 then
+      io.stderr:write("'balusterRadius' must be positive\n")
+      balusterRadius = fields.balusterRadius.defaultValue
+    end
+    if fields.nBalusters.value <= 0.0 then
+      io.stderr:write("'nBalusters' must be positive\n")
+      nBalusters = fields.nBalusters.defaultValue
+    end
+
+    local balusterRun = run / (nBalusters + 1)
+    local balusterRise = rise / (nBalusters + 1)
+    local newelOffset = (newelHeight - balusterHeight + width * 0.5) * 0.5
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+    %{
+    local deltaX = balusterRun
+    local deltaY = balusterRise + 0.5 * newelHeight
+    for n = 1, nBalusters do
+    }%
+      Solid {
+        translation %{=deltaX}% %{=deltaY + newelOffset}% 0.0
+        children [
+          Shape {
+            appearance IS appearance
+            geometry DEF BALUSTER_GEOM Cylinder {
+              radius %{=balusterRadius}%
+              height %{=balusterHeight}%
+            }
+          }
+        ]
+        name %{= "\"baluster  " .. n .. "\""}%
+        contactMaterial IS contactMaterial
+        boundingObject USE BALUSTER_GEOM
+      }
+    %{
+      deltaX = deltaX + balusterRun
+      deltaY = deltaY + balusterRise
+    end
+    }%
+      Solid {
+        translation 0 %{=newelHeight * 0.5}% 0
+        children [
+          DEF NEWEL Shape {
+            appearance IS appearance
+            geometry Box {
+              size %{=width}% %{= newelHeight}% %{=width}%
+            }
+          }
+        ]
+        name "start newel"
+        contactMaterial IS contactMaterial
+        boundingObject USE NEWEL
+      }
+      Solid {
+        translation %{=deltaX}% %{=deltaY}% 0
+        children [
+          USE NEWEL
+        ]
+        name "end newel"
+        contactMaterial IS contactMaterial
+        boundingObject USE NEWEL
+      }
+      %{
+        local pAngle = math.atan2(rise, run)
+      }%
+      Solid {
+        translation %{= 0.5 * run }% %{= 2 * newelOffset + 0.5 * rise - 0.25 * width }% 0
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance IS appearance
+            geometry DEF GEOM TexturedParallelepiped {
+              size %{= width * 0.98 }% %{= width * 0.5 }% %{= math.sqrt(run * run + rise * rise) }%
+              angles 1.5708 %{= pAngle }% 0
+              mapping "metric"
+            }
+          }
+        ]
+        name "middel rail"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+      Solid {
+        %{
+          local boxRun = run + 2 * width
+          local boxRise = rise + width
+        }%
+        translation %{= 0.5 * run }% %{= newelOffset + (balusterHeight + newelHeight + rise) * 0.5}% 0
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance IS appearance
+            geometry DEF GEOM TexturedParallelepiped {
+              size %{= width * 1.2 }% %{= width }% %{= math.sqrt(boxRun * boxRun + boxRise * boxRise) }%
+              angles 1.5708 %{= pAngle }% 0
+              mapping "metric"
+            }
+          }
+        ]
+        name "top rail"
+        contactMaterial IS contactMaterial
+        boundingObject USE GEOM
+      }
+    ]
+    name IS name
+    model "straight stairs rail"
+  }
+}

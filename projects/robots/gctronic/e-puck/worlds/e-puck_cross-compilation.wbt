@@ -1,0 +1,84 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The model of the E-puck robot"
+  ]
+  title "E-puck"
+}
+Viewpoint {
+  orientation 1 0 0 6
+  position -0.0392465 0.562554 1.42935
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+DEF FOOT1 Solid {
+  translation 0.3597 0.02 0.354142
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/stone.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF short_brick_1_geometry Box {
+        size 0.1 0.04 0.1
+      }
+    }
+  ]
+  boundingObject USE short_brick_1_geometry
+}
+DEF FOOT2 Solid {
+  translation 0.3597 0.02 -0.535858
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/stone.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry USE short_brick_1_geometry
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE short_brick_1_geometry
+}
+DEF RAMP Solid {
+  translation -0.0883566 0.02 -0.0926487
+  rotation 0 0 1 0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/stone.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry DEF short_brick_1_geometry Box {
+        size 1 0.01 1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE short_brick_1_geometry
+}
+E-puck {
+  translation -0.00863959 0.0288237 0.0300262
+  rotation 0 1 0 1.6
+  controller "e-puck_cross-compilation"
+}

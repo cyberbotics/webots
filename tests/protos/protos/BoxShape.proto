@@ -1,0 +1,18 @@
+#VRML_SIM R2019a utf8
+
+PROTO BoxShape [
+  field SFVec3f size 0.1 0.1 0.1
+  field SFColor color 0.8 0.8 0.8
+]
+{
+  Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor IS color
+      }
+    }
+    geometry Box {
+      size IS size
+    }
+  }
+}

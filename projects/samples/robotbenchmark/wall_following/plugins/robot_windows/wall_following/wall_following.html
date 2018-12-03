@@ -1,0 +1,75 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>
+      This benchmark aims at developing a program that controls a Pioneer robot to follow a wall.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'>Performance: <span id='performance-display'>00.00</span>%</div>
+    <p>
+      The robot has exactly 1 minute to go as far as possible, while trying to stay at a 50cm distance from the wall.
+    </p>
+    <p>
+      The benchmark will first compute an "ideal" path.
+      The first segment of this path is a direct line going from the starting position of the robot
+      to the closest point which is 50cm away from the wall.
+      The path then continues parallel to the wall, at a distance of exactly 50cm.
+    </p>
+    <p>
+      The performance of your robot will be computed based on the average distance to this "ideal" path.
+      Note that the robot is always facing the wall in its starting position,
+      so the first part will always be to go forward until the wall is 50cm away.
+    </p>
+    <div style='text-align:center'><img src="wall_following.jpg"></div>
+    <p>
+      Additionally, if the robot tries to take a shortcut, it will get a penalty for each skipped segment.
+      At any given time, the segment of the path that is closest to the robot is considered as the current segment,
+      and any segment prior to the current segment that has not been visited will be considered as skipped.
+    </p>
+  </div>
+  <div id='infotab-instructions'>
+    <p>
+      <h2>How to improve the performance?</h2>
+    </p>
+    <p>
+      The controller (in Python) is based on the value received by the sonar sensors of the robot.
+    </p>
+    <p>
+      The basic controller is extremely simplistic and only uses 2 of the sensors available on the robot. Because
+      of this, and because of how sonar sensors work (see below), it is very bad at handling sharp turns, and will
+      basically only work as long as the wall is almost straight.
+    </p>
+    <p>
+      A first simple improvement would be to consider the orientation of the robot with respect to the wall,
+      for example if you are too far from the wall, but the robot is already heading towards the wall,
+      you don't need to turn any further. In order to do this you can use the
+      fact that the robot has 2 sensors on each side, and use the difference between the two to estimate the orientation.
+    </p>
+    <p>
+      In a second time, you need to consider the values of the front sensors, otherwise the robot won't be able to detect a sharper
+      angle in the wall, and will most likely bump into it.
+    </p>
+    <p>
+      It could also be useful to detect when the robot has hit the wall, and make the robot go backward when it happens.
+    </p>
+    <p>
+      The sensors of the Pioneer 3-DX have the following configuration:
+    </p>
+    <div style='text-align:center'><img src="pioneer3at_sonars.png"></div>
+    <p>
+      There is an angle of 20° between adjacent sensors, except for the side sensors (so0, so7, so8 and so15),
+      which have a 40° angle. The maximum range of the sensors is 5m.
+    </p>
+    <p>
+      Because the sensors of the Pioneer 3-DX are sonars, they can only detect an obstacle within their angle of incidence,
+      which is 22.5° in this case. In other words, sonar rays which lie outside the reflexion cone of aperture 45° are not
+      picked up by the sonar which causes the obstacle to be "invisible" to this particular sensor.
+    </p>
+    <div style='text-align:center'><img src="sonar_reflection.png"></div>
+  </div>
+</div>

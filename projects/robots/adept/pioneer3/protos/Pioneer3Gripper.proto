@@ -1,0 +1,350 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Physics-based model of the Pioneer gripper (Adept Mobile Robotics)
+
+PROTO Pioneer3Gripper [
+  field SFVec3f translation 0 0 0
+    field SFString name "Pioneer3 gripper"
+]
+{
+DEF GRIPPER_BASE Solid {
+  translation IS translation
+  children [
+    DEF LIFT_SLIDER SliderJoint {
+      jointParameters JointParameters {
+        axis 0 -1 0
+      }
+      device LinearMotor {
+        name "lift motor"
+        minPosition -0.05
+        maxPosition 0.05
+      }
+      endPoint DEF LIFT Solid {
+        translation 0 0 -0.0425
+        children [
+          DEF LEFT_FINGER_SLIDER SliderJoint {
+            jointParameters JointParameters {
+              axis -1 0 0
+            }
+            device LinearMotor {
+              name "left finger motor"
+              maxPosition 0.1
+            }
+            endPoint DEF LEFT_FINGER Solid {
+              translation -0.022 0 -0.02
+              children [
+                Group {
+                  children [
+                    Transform {
+                      translation 0 0.0015 -0.003
+                      children [
+                        Shape {
+                          appearance DEF METAL_APPEARANCE PBRAppearance {
+                            roughness 0.2
+                            baseColorMap ImageTexture {
+                              url [
+                                "textures/metal.jpg"
+                              ]
+                            }
+                          }
+                          geometry Box {
+                            size 0.018 0.031 0.036
+                          }
+                        }
+                      ]
+                    }
+                    DEF LEFT_FINGER_TRANSFORM Transform {
+                      translation 0.0015 -0.006 -0.069
+                      children [
+                        Shape {
+                          appearance DEF BLACK_APPEARANCE PBRAppearance {
+                            baseColor 0.0705882 0.0705882 0.0705882
+                            metalness 0
+                            roughness 0.4
+                          }
+                          geometry Box {
+                            size 0.015 0.035 0.095
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              name "left finger"
+              physics DEF LEFT_FINGER_PHYSICS Physics {
+              }
+              boundingObject USE LEFT_FINGER_TRANSFORM
+            }
+          }
+          DEF RIGHT_FINGER_SLIDER SliderJoint {
+            jointParameters JointParameters {
+              axis 1 0 0
+            }
+            device LinearMotor {
+              name "right finger motor"
+              maxPosition 0.1
+            }
+            endPoint DEF RIGHT_FINGER Solid {
+              translation 0.022 0 -0.02
+              children [
+                Group {
+                  children [
+                    Transform {
+                      translation 0 0.0015 -0.003
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Box {
+                            size 0.018 0.031 0.036
+                          }
+                        }
+                      ]
+                    }
+                    DEF RIGHT_FINGER_TRANSFORM Transform {
+                      translation -0.0015 -0.006 -0.069
+                      children [
+                        Shape {
+                          appearance USE BLACK_APPEARANCE
+                          geometry Box {
+                            size 0.015 0.035 0.095
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              name "right finger"
+              physics USE LEFT_FINGER_PHYSICS
+              boundingObject USE RIGHT_FINGER_TRANSFORM
+            }
+          }
+          Transform {
+            translation 0 -0.126 0.135
+            children [
+              Group {
+                children [
+                  Transform {
+                    translation 0 0.1478 -0.154
+                    children [
+                      DEF UPPER_BOX Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Box {
+                          size 0.315 0.01 0.043419
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.1072 -0.154
+                    children [
+                      USE UPPER_BOX
+                    ]
+                  }
+                  Transform {
+                    translation -0.155 0.1275 -0.154
+                    children [
+                      DEF LEFT_BOX Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Box {
+                          size 0.007 0.05 0.042227
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.155 0.1275 -0.154
+                    children [
+                      USE LEFT_BOX
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.126 -0.158
+                    children [
+                      DEF CENTER_BOX Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Box {
+                          size 0.027 0.0341 0.035
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.132 -0.154
+                    rotation 0 0 1 1.5708
+                    children [
+                      DEF UPPER_CYLINDER Shape {
+                        appearance USE METAL_APPEARANCE
+                        geometry Cylinder {
+                          height 0.3
+                          radius 0.00225
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.118 -0.154
+                    rotation 0 0 1 1.5708
+                    children [
+                      Shape {
+                        appearance USE METAL_APPEARANCE
+                        geometry Cylinder {
+                          height 0.3
+                          radius 0.00125
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation -0.041 0.155 -0.148
+                    children [
+                      Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Box {
+                          size 0.0141907 0.006 0.04
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation -0.036 0.145 -0.116
+                    children [
+                      Shape {
+                        appearance USE METAL_APPEARANCE
+                        geometry Box {
+                          size 0.027 0.03 0.03
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.041 0.155 -0.148
+                    children [
+                      Shape {
+                        appearance USE BLACK_APPEARANCE
+                        geometry Box {
+                          size 0.0141907 0.006 0.04
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.036 0.145 -0.116
+                    children [
+                      Shape {
+                        appearance USE METAL_APPEARANCE
+                        geometry Box {
+                          size 0.027 0.03 0.03
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject Transform {
+          translation 0 0.0015 -0.019
+          children [
+            Shape {
+              appearance USE METAL_APPEARANCE
+              geometry Box {
+                size 0.315 0.05 0.045
+              }
+            }
+          ]
+        }
+        physics DEF LIFT_PHYSICS Physics {
+        }
+      }
+    }
+    Transform {
+      translation 0 -0.126 0.135
+      children [
+        DEF BASE_SHAPE_GROUP Group {
+          children [
+            Transform {
+              translation 0 0.176 -0.154
+              children [
+                DEF UPPER_BOX Shape {
+                  appearance USE BLACK_APPEARANCE
+                  geometry Box {
+                    size 0.141092 0.0170038 0.043419
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.075 -0.154
+              children [
+                USE UPPER_BOX
+              ]
+            }
+            Transform {
+              translation -0.06 0.126 -0.158
+              children [
+                DEF LEFT_BOX Shape {
+                  appearance USE BLACK_APPEARANCE
+                  geometry Box {
+                    size 0.02 0.0875 0.035
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0.06 0.126 -0.158
+              children [
+                USE LEFT_BOX
+              ]
+            }
+            Transform {
+              translation 0 0.126 -0.158
+              children [
+                DEF CENTER_BOX Shape {
+                  appearance USE BLACK_APPEARANCE
+                  geometry Box {
+                    size 0.044 0.1 0.0315
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.037 0.126 -0.158
+              children [
+                DEF LEFT_CYLINDER Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry Cylinder {
+                    height 0.1
+                    radius 0.003
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0.037 0.126 -0.158
+              children [
+                USE LEFT_CYLINDER
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "Pioneer3 gripper"
+  boundingObject Transform {
+    translation 0 0 -0.019
+    children [
+      Box {
+        size 0.141 0.117 0.043
+      }
+    ]
+  }
+  physics DEF BASE_PHYSICS Physics {
+  }
+}
+}

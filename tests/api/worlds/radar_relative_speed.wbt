@@ -1,0 +1,58 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.5671063 -0.78578759 -0.24683658 5.2967541
+  position 1.7353279 1.6908869 1.2356903
+}
+Background {
+  skyColor [
+    0.666667 1 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+Robot {
+  translation 0 0 -0.08
+  rotation 0 -1 0 0
+  children [
+    TestSuiteEmitter {
+    }
+    Radar {
+      rotation 0 -1 0 0
+      children [
+        Solid {
+          children [
+            Shape {
+              geometry DEF TARGET_SHAPE Sphere {
+                radius 0.1
+                subdivision 2
+              }
+            }
+          ]
+          radarCrossSection 1
+        }
+      ]
+      minRange 0.2
+    }
+  ]
+  controller "radar_relative_speed"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
+DEF RADAR_TARGET Solid {
+  translation 0 0 -0.65
+  children [
+    DEF BALL Shape {
+      geometry DEF TARGET_SHAPE Sphere {
+        radius 0.1
+        subdivision 2
+      }
+    }
+  ]
+  name "radar_target"
+  radarCrossSection 1
+}

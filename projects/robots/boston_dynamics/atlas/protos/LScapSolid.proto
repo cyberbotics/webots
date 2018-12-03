@@ -1,0 +1,62 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# Extracted from:
+# https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
+
+PROTO LScapSolid [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation  0 1 0 0
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    LScapMesh {
+    }
+  ]
+  name "LScap"
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0.118521 0
+        rotation 1.0 0.0 0.0 3.14079632679
+        children [
+          Cylinder {
+            radius 0.0418405
+            height 0.137492
+          }
+        ]
+      }
+      Transform {
+        translation -0.0884125 0 0
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.048709
+            height 0.013937
+          }
+        ]
+      }
+      Transform {
+        translation 0.0847565 0 0
+        rotation 0.577196954996 0.577656775505 -0.577196954996 2.09393540394
+        children [
+          Cylinder {
+            radius 0.048709
+            height 0.013737
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 2.707
+    centerOfMass -0.002 0.108 0
+    inertiaMatrix [0.01 0.005 0.013, 0 0 0 ]
+  }
+}
+}

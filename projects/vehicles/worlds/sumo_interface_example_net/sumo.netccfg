@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="sumo.nod.xml"/>
+        <edge-files value="sumo.edg.xml"/>
+        <connection-files value="sumo.con.xml"/>
+    </input>
+
+    <output>
+        <output-file value="sumo.net.xml"/>
+    </output>
+
+    <report>
+        <verbose value="true"/>
+    </report>
+
+</configuration>

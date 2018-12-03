@@ -1,0 +1,17 @@
+#VRML_SIM R2019a utf8
+
+PROTO TestSuiteSupervisor [
+]
+{
+  Robot {
+    children [
+      Receiver {
+        name "ts_receiver"
+        channel 20
+      }
+    ]
+    name "test suite supervisor"
+    controller "test_suite_supervisor"
+    supervisor TRUE
+  }
+}

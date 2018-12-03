@@ -1,0 +1,119 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.677054996936791 0.6976775315778075 0.23418495479944731 0.7564855562113971
+  position 2.796752796188939 3.4667301766004015 5.020558958808468
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.1 -0.5 0.3
+}
+Floor {
+}
+DEF DYNAMIC_ROBOT Robot {
+  translation 0 0.05 0
+  children [
+    DEF BODY Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Box {
+        size 0.30000000000000004 0.1 1
+      }
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+      }
+      device [
+        LinearMotor {
+        }
+      ]
+      endPoint DEF DYNAMIC_SOLID_0 Solid {
+        translation 0 0.09999999999999991 0
+        children [
+          DEF SHAPE1 Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 1 0 0
+              }
+            }
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+          SliderJoint {
+            jointParameters JointParameters {
+              axis 1 0 0
+            }
+            device [
+              LinearMotor {
+                name "linear motor 2"
+              }
+            ]
+            endPoint DEF DYNAMIC_SOLID_1 Solid {
+              translation 0 0.09999999999999991 0
+              children [
+                DEF SHAPE2 Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 0 1
+                    }
+                  }
+                  geometry Box {
+                    size 0.1 0.1 0.1
+                  }
+                }
+                DEF DYNAMIC_SOLID_2 Solid {
+                  translation 0 0.09999999999999991 0
+                  children [
+                    DEF SHAPE2 Shape {
+                      appearance Appearance {
+                        material Material {
+                          diffuseColor 0.3333333333333333 1 0
+                        }
+                      }
+                      geometry Box {
+                        size 0.1 0.1 0.1
+                      }
+                    }
+                  ]
+                  boundingObject USE SHAPE2
+                  physics Physics {
+                    density 100
+                  }
+                }
+              ]
+              boundingObject USE SHAPE2
+              physics Physics {
+                density 100
+              }
+            }
+          }
+        ]
+        boundingObject USE SHAPE2
+        physics Physics {
+          density 100
+        }
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  boundingObject USE BODY
+  physics Physics {
+  }
+  controller "supervisor_get_velocity_with_joints"
+  controllerArgs "supervisor_get_velocity_with_joints"
+  supervisor TRUE
+  cpuConsumption 10
+}
+TestSuiteSupervisor {
+}

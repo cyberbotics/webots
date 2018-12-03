@@ -1,0 +1,268 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable cabinet containing elements (shelves, dynamic doors, and drawers).
+# The internal cabinet layout is a grid in which the elements can be inserted.
+# The grid dimension (and so the cabinet size) is defined by the 'rowsHeights' and the 'columnsWidths' fields.
+# The `layout` field is defining the location and the dimension of the elements into the grid layout, according to the following syntax:
+#  - `layout`: list("[RightSidedDoor|LeftSiderDoor|Drawer|Shelf] (x, y, column span, row span[, mass])"
+#
+# The coordinate origin (1,1) of the grid layout is at the bottom left corner.
+
+PROTO Cabinet [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   name           "cabinet"
+  field SFFloat    depth          0.5                  # Defines the depth of the cabinet.
+  field SFFloat    innerThickness 0.02                 # Defines the inner thickness of the cabinet frame.
+  field SFFloat    outerThickness 0.03                 # Defines the outer thickness of the cabinet frame.
+  field MFFloat    rowsHeights [                       # Defines the height of the cabinet rows.
+    0.24
+    0.2
+    0.2
+    0.4
+    0.4
+  ]
+  field MFFloat columnsWidths [                        # Defines the width of the cabinet columns.
+    0.4
+    0.17
+    0.17
+  ]
+  field MFString layout [                              # Defines the layout of the cabinet.
+    "RightSidedDoor (1, 4, 1, 2, 1.5)"
+    "LeftSidedDoor (2, 4, 2, 2, 1.5)"
+    "Drawer (3, 3, 1, 1, 1.5)"
+    "Drawer (2, 2, 1, 1, 1.5)"
+    "Drawer (3, 2, 1, 1, 1.5)"
+    "Drawer (1, 1, 3, 1, 3.5)"
+    "Shelf (1, 5, 3, 0)"
+    "Shelf (1, 4, 3, 0)"
+    "Shelf (1, 3, 3, 0)"
+    "Shelf (1, 2, 3, 0)"
+    "Shelf (1, 3, 0, 1)"
+    "Shelf (2, 3, 0, 1)"
+  ]
+  field SFNode   handle              CabinetHandle {}  # Defines the handle of the cabinet.
+  field SFNode   primaryAppearance   PaintedWood {}    # Defines the primary appearance.
+  field SFNode   secondaryAppearance PaintedWood {}    # Defines the secondary appearance.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+
+    -- function that split data
+    function split(inputstr, sep)
+      if sep == nil then
+        sep = "%s"
+      end
+      local t = {}
+      local i = 1
+      for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        t[i] = str
+        i = i + 1
+      end
+      return t
+    end
+
+    function computeCoordinate(elements, item, dimension)
+      local from = 0.0
+      for i = 1, (item - 1) do
+        if elements[i] then
+          from = from + elements[i]
+        end
+      end
+      local to = 0.0
+      for i = 1, (item + dimension - 1) do
+        if elements[i] then
+          to = to + elements[i]
+        end
+      end
+      return 0.5 * (from + to)
+    end
+
+    function computeDimension(elements, item, dimension)
+      local length = 0.0
+      for i = item, (item + dimension - 1) do
+        if elements[i] then
+          length = length + elements[i]
+        end
+      end
+      return length
+    end
+
+    local innerThickness = fields.innerThickness.value
+    if innerThickness <= 0.0 then
+      io.stderr:write(" 'innerThickness' must be positive.\n")
+      innerThickness = fields.innerThickness.default
+    end
+
+    local outerThickness = fields.outerThickness.value
+    if outerThickness <= 0.0 then
+      io.stderr:write("'outerThickness' must be positive.\n")
+      outerThickness = fields.outerThickness.default
+    end
+
+    if 2.0 * outerThickness <= innerThickness then
+      io.stderr:write("'innerThickness' should be at least twice bigger than 'outerThickness'.\n")
+      outerThickness = 0.51 * innerThickness
+    end
+
+    local depth = fields.depth.value
+    if depth <= 0.0 then
+      io.stderr:write("'depth' must be positive.\n")
+      depth = fields.depth.default
+    end
+    if depth < 2 * outerThickness + 3 * innerThickness then
+      io.stderr:write("'depth' must be bigger than 2 * 'outerThickness' + 3 * 'innerThickness'.\n")
+      depth = 2 * outerThickness + 3 * innerThickness
+    end
+
+    local rowsHeights = fields.rowsHeights.value
+    local nRows = wbcore.tablelength(fields.rowsHeights.value)
+    for i = 1,nRows do
+      height = rowsHeights[i]
+      if height < 3 * innerThickness then
+         io.stderr:write("'rowsHeights[" .. i .. "]' must be bigger than 3 * 'innerThickness'.\n")
+         rowsHeights[i] = 3 * innerThickness -- minimum size
+      end
+    end
+
+    local columnsWidths = fields.columnsWidths.value
+    local nColumns = wbcore.tablelength(fields.columnsWidths.value)
+    for i = 1,nColumns do
+      width = columnsWidths[i]
+      if width < 3 * innerThickness then
+         io.stderr:write("'columnsWidths[" .. i .. "]' must be bigger than 3 * 'innerThickness'.\n")
+         columnsWidths[i] = 3 * innerThickness -- minimum size
+      end
+    end
+
+    local size = {x = 2 * outerThickness; y = 2 * outerThickness; z = depth }
+    for i = 1,nColumns do
+      size.x = size.x + columnsWidths[i]
+    end
+    for i = 1,nRows do
+      size.y = size.y + rowsHeights[i]
+    end
+
+    -- in order to avoid object collisions
+    local objectScaleFactor = 0.995
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      SolidBox { # back of the cabinet frame
+        translation 0 %{= 0.5 * size.y }% %{= 0.5 * outerThickness }%
+        name "back box"
+        size %{= size.x }% %{= size.y - 2.0 * outerThickness }% %{= outerThickness }%
+        appearance IS primaryAppearance
+      }
+      SolidBox { # left side of the cabinet frame
+        translation %{= 0.5 * size.x - 0.5 * outerThickness }% %{= 0.5 * size.y }% %{= 0.5 * outerThickness + 0.5 * size.z }%
+        name "left box"
+        size %{= outerThickness }% %{= size.y - 2.0 * outerThickness }% %{= size.z - outerThickness }%
+        appearance IS primaryAppearance
+      }
+      SolidBox { # right side of the cabinet frame
+        translation %{= -0.5 * size.x + 0.5 * outerThickness }% %{= 0.5 * size.y }% %{= 0.5 * outerThickness + 0.5 * size.z }%
+        name "right box"
+        size %{= outerThickness }% %{= size.y - 2.0 * outerThickness }% %{= size.z - outerThickness }%
+        appearance IS primaryAppearance
+      }
+      SolidBox { # top side of the cabinet frame
+        translation 0 %{= size.y - 0.5 * outerThickness}% %{= 0.5 * size.z }%
+        name "top box"
+        size %{= size.x }% %{= outerThickness }% %{= size.z }%
+        appearance IS primaryAppearance
+      }
+      SolidBox { # bottom side of the cabinet frame
+        translation 0 %{= 0.5 * outerThickness }% %{= 0.5 * size.z }%
+        name "bottom box"
+        size %{= size.x }% %{= outerThickness }% %{= size.z }%
+        appearance IS primaryAppearance
+      }
+      # parse layout
+      %{ for i = 1,wbcore.tablelength(fields.layout.value) do }%
+        %{
+          local layout = fields.layout.value[i]
+          local data = split(layout, ", ( ) %s")
+          for j = 2, wbcore.tablelength(data) do
+            data[j] = tonumber(data[j])
+            if data[j] < 0 then
+              io.stderr:write("'layout[" .. i .. "][" .. j .. "]' must be positive.\n")
+              data[j] = 0.1
+            end
+          end
+        }%
+        %{ if wbcore.tablelength(data) >= 5 then }%
+          %{ if
+               data[2] > 0 and data[2] <= nColumns and
+               data[3] > 0 and data[3] <= nRows and
+               data[4] >= 0 and data[2] + data[4] - 1 <= nColumns and
+               data[5] >= 0 and data[3] + data[5] - 1 <= nRows
+             then
+          }%
+            %{ if data[1] == "RightSidedDoor" or data[1] == "LeftSidedDoor" or data[1] == "Drawer" then }%
+              %{ if data[1] == "RightSidedDoor" then }%
+                 CabinetDoor {
+                   name %{= "\"door " .. i .. "\"" }%
+                   rightSided TRUE
+              %{ elseif data[1] == "LeftSidedDoor" then }%
+                CabinetDoor {
+                  name %{= "\"door " .. i .. "\"" }%
+                  rightSided FALSE
+              %{ elseif data[1] == "Drawer" then }%
+                CabinetDrawer {
+                  name %{= "\"drawer " .. i .. "\"" }%
+              %{ end }%
+                  translation
+                    %{= computeCoordinate(columnsWidths, data[2], data[4]) - 0.5 * size.x + outerThickness }%
+                    %{= computeCoordinate(rowsHeights,   data[3], data[5]) + outerThickness }%
+                    %{= size.z }%
+                  size
+                    %{= objectScaleFactor * computeDimension(columnsWidths, data[2], data[4]) }%
+                    %{= objectScaleFactor * computeDimension(rowsHeights,   data[3], data[5]) }%
+                    %{= objectScaleFactor * (size.z - outerThickness) }%
+                  %{ if data[6] and data[6] > 0.0 then }%
+                    mass %{= data[6] }%
+                  %{ end }%
+                  thickness IS innerThickness
+                  handle IS handle
+                  primaryAppearance IS primaryAppearance
+                  secondaryAppearance IS secondaryAppearance
+                }
+            %{ elseif data[1] == "Shelf" then }%
+              %{
+                local horizontalOffset = data[4] == 0 and 1 or 0
+                local vertical = data[4] < data[5]
+                local depthFightingOffset = vertical and 0.0001 or 0
+              }%
+              SolidBox {
+                 name %{= "\"box " .. i .. "\"" }%
+                appearance IS primaryAppearance
+                translation
+                  %{= computeCoordinate(columnsWidths, horizontalOffset + data[2], data[4]) - 0.5 * size.x + outerThickness + depthFightingOffset }%
+                  %{= computeCoordinate(rowsHeights, data[3], data[5]) + outerThickness + depthFightingOffset }%
+                  %{= 0.5 * size.z + 0.5 * (outerThickness - innerThickness) + depthFightingOffset }%
+                size
+                  %{= innerThickness + computeDimension(columnsWidths, data[2], data[4]) }%
+                  %{= innerThickness + computeDimension(rowsHeights,   data[3], data[5]) }%
+                  %{= objectScaleFactor * (size.z - outerThickness - innerThickness) }%
+               }
+            %{ else }%
+              %{ io.stderr:write("'layout[" .. i .. "]': unknown object: " .. data[1] .. "\n") }%
+            %{ end }%
+          %{ else }%
+            %{ io.stderr:write("'layout[" .. i .. "]': invalid position or dimension.\n") }%
+          %{ end }%
+        %{ else }%
+          %{ io.stderr:write("'layout[" .. i .. "]': invalid layout.\n") }%
+        %{ end }%
+      %{ end }%
+    ]
+    name IS name
+    model "cabinet"
+  }
+}

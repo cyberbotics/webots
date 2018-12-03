@@ -1,0 +1,101 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.76089787 0.57759224 0.2956715 1.1844218
+  position 0.83478961 1.9617949 0.95280657
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.3
+}
+DEF ROBOT RobotisOp2 {
+  translation 0 0.26 0
+  rotation -0.99158904 0.12232784 0.042273856 -0.12577945
+  controller "void"
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    TouchSensor {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.4 0.8 0.4
+            }
+          }
+          geometry DEF TS_GROUND_GEOMETRY Box {
+            size 0.5 0.01 0.5
+          }
+        }
+      ]
+      name "ground collider"
+      boundingObject USE TS_GROUND_GEOMETRY
+    }
+    TouchSensor {
+      children [
+        DEF TS_WALLS_GEOMETRY Group {
+          children [
+            Transform {
+              translation 0 0.26 0.26
+              children [
+                Shape {
+                  appearance DEF WALLS_APPEARANCE Appearance {
+                    material Material {
+                      diffuseColor 0.8 0.4 0.4
+                    }
+                  }
+                  geometry Box {
+                    size 0.5 0.5 0.01
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.26 -0.26
+              children [
+                Shape {
+                  appearance USE WALLS_APPEARANCE
+                  geometry Box {
+                    size 0.5 0.5 0.01
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0.26 0.26 0
+              children [
+                Shape {
+                  appearance USE WALLS_APPEARANCE
+                  geometry Box {
+                    size 0.01 0.5 0.5
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation -0.26 0.26 0
+              children [
+                Shape {
+                  appearance USE WALLS_APPEARANCE
+                  geometry Box {
+                    size 0.01 0.5 0.5
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "walls collider"
+      boundingObject USE TS_WALLS_GEOMETRY
+    }
+  ]
+  controller "supervisor_set_position_loop"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

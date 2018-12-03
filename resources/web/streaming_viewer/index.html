@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Streaming viewer</title>
+    <link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'/>
+    <link type="text/css" rel="stylesheet" href='https://www.cyberbotics.com/jquery-ui-layout/1.4.4/layout-default.css' />
+    <link type="text/css" rel="stylesheet" href='https://www.cyberbotics.com/wwi/R2019a/wwi.css' />
+    <link type="text/css" rel="stylesheet" href='style.css' />
+    <script src='https://code.jquery.com/jquery-3.1.1.min.js' integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=' crossorigin='anonymous'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous'></script>
+    <script src='https://www.cyberbotics.com/jquery-ui-layout/1.4.4/jquery.layout.js'></script>
+    <script src='https://www.cyberbotics.com/jquery-dialogextend/2.0.4/jquery.dialogextend.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/ace/1.2.6/min/ace.js'></script>
+    <script src="https://www.cyberbotics.com/wwi/R2019a/webots.js"></script>
+    <script src="setup_viewer.js"></script>
+  </head>
+  <body>
+    <div style="padding-left:10px">
+      <h1>Webots streaming viewer</h1>
+      <p>
+        Connect to:
+        <input id="IPInput" type="text" value="localhost" />
+        :
+        <input id="PortInput" type="text" value="1234" />
+        <input id="ConnectButton" type="button" value="Connect" onclick="connect()" />
+      </p>
+    </div>
+    <div id="playerDiv">
+    </div>
+  </body>
+</html>

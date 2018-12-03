@@ -1,0 +1,41 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.847546 -0.529025 0.0424061 0.18862
+  position -0.77536 -0.704351 3.16576
+  near 0.001
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+DEF TEST_PROTO TemplateSlotContainer {
+  translation -1 -1 -1
+  children [
+    DEF TEST_PARAMETER NestedBoxShape {
+    }
+  ]
+}
+Robot {
+  translation 0.45 0.45 0.6
+  children [
+    Camera {
+      fieldOfView 0.01
+      width 1
+      height 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "proto_nested_parameter"
+  controllerArgs "proto_nested_parameter"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

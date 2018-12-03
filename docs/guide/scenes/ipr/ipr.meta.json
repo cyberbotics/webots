@@ -1,0 +1,181 @@
+{
+  "name": "ipr", 
+  "devices": [
+    {
+      "transformID": "n54", 
+      "name": "base", 
+      "maxPosition": 6.0335, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n119", 
+      "name": "forearm", 
+      "maxPosition": 4.2149, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n286", 
+      "name": "left_gripper", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.22171, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n330", 
+      "name": "right_gripper", 
+      "maxPosition": 1.22171, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n243", 
+      "name": "rotational_wrist", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -5.79789, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n103", 
+      "name": "upperarm", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -2.44342, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n181", 
+      "name": "wrist", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -4.0491, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n54", 
+      "type": "PositionSensor", 
+      "name": "base_sensor"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0325 0 -0.008", 
+      "type": "DistanceSensor", 
+      "name": "ds0"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0837 0 0", 
+      "type": "DistanceSensor", 
+      "name": "ds1"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0837 0 -0.015", 
+      "type": "DistanceSensor", 
+      "name": "ds2"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0988 0 0", 
+      "type": "DistanceSensor", 
+      "name": "ds3"
+    }, 
+    {
+      "transformID": "n243", 
+      "transformOffset": "-0.081 0.0288 0", 
+      "type": "DistanceSensor", 
+      "name": "ds4"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0325 0 0.008", 
+      "type": "DistanceSensor", 
+      "name": "ds5"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0837 0 0", 
+      "type": "DistanceSensor", 
+      "name": "ds6"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0837 0 0.015", 
+      "type": "DistanceSensor", 
+      "name": "ds7"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0988 0 0", 
+      "type": "DistanceSensor", 
+      "name": "ds8"
+    }, 
+    {
+      "transformID": "n119", 
+      "type": "PositionSensor", 
+      "name": "forearm_sensor"
+    }, 
+    {
+      "transformID": "n286", 
+      "type": "PositionSensor", 
+      "name": "left_gripper_sensor"
+    }, 
+    {
+      "transformID": "n330", 
+      "type": "PositionSensor", 
+      "name": "right_gripper_sensor"
+    }, 
+    {
+      "transformID": "n243", 
+      "type": "PositionSensor", 
+      "name": "rotational_wrist_sensor"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0325 0 -0.0057", 
+      "type": "TouchSensor", 
+      "name": "ts0"
+    }, 
+    {
+      "transformID": "n286", 
+      "transformOffset": "-0.0837 0 0", 
+      "type": "TouchSensor", 
+      "name": "ts1"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0325 0 0.0077", 
+      "type": "TouchSensor", 
+      "name": "ts2"
+    }, 
+    {
+      "transformID": "n330", 
+      "transformOffset": "-0.0837 0 0", 
+      "type": "TouchSensor", 
+      "name": "ts3"
+    }, 
+    {
+      "transformID": "n103", 
+      "type": "PositionSensor", 
+      "name": "upperarm_sensor"
+    }, 
+    {
+      "transformID": "n181", 
+      "type": "PositionSensor", 
+      "name": "wrist_sensor"
+    }
+  ]
+}

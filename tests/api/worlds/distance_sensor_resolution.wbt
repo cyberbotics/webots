@@ -1,0 +1,56 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.720262 0.677586 0.14866 5.45162
+  position -0.56591 0.692809 0.998593
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 1 0
+  intensity 0
+}
+Robot {
+  children [
+    DEF DS0 DistanceSensor {
+      name "ds0"
+    }
+    DEF DS1 DistanceSensor {
+      name "ds1"
+      resolution 0.01
+    }
+    DEF DS2 DistanceSensor {
+      name "ds2"
+      resolution 0.1
+    }
+    DEF DS3 DistanceSensor {
+      name "ds3"
+      resolution 0.3
+    }
+    DEF DS4 DistanceSensor {
+      name "ds4"
+      resolution 15
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "distance_sensor_resolution"
+}
+Solid {
+  translation 0.0987654 0 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+TestSuiteSupervisor {
+}

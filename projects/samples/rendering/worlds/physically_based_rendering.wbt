@@ -1,0 +1,105 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Demo of a simulation world with objects rendered with a Physically Based Rendering (PBR) appearance."
+    "PBR rendering was introduced in Webots R2018b, but it is not yet used by default in all simulations."
+    "This world file demonstrates the current possibilities of PBR and prefigures the rendering quality of upcoming versions of Webots."
+    "The documentation about PBR is provided in the Webots Reference Manual under the PBRAppearance node."
+  ]
+  title "Physically Based Rendering"
+}
+Viewpoint {
+  orientation -0.015676930272763123 0.9893439440317672 0.1447508005673555 2.6449785300973456
+  position 1.319769961883124 0.6861800275391068 -1.1005402262866653
+  near 0.049999999999999996
+}
+TexturedBackground {
+  texture "noon_cloudy_empty"
+}
+TexturedBackgroundLight {
+}
+DEF GOLD SphereGrid {
+  translation -1 1.3000000000000036 0.9919744784234101
+  name "gold sphere grid"
+  color 0.83 0.69 0.22
+  normalMap NULL
+  baseColorMap NULL
+  roughnessMap NULL
+  cubeMap NULL
+  transparency 0
+  widthAndHeight 5
+}
+DEF SILVER SphereGrid {
+  translation 0.6 2.9150000000000036 0.9919744784234101
+  name "silver sphere grid"
+  color 0.75 0.75 0.75
+  normalMap NULL
+  baseColorMap NULL
+  roughnessMap NULL
+  cubeMap NULL
+  transparency 0
+  widthAndHeight 5
+}
+DEF BLACK SphereGrid {
+  translation -1 2.9060000000000037 0.9919744784234101
+  name "black sphere grid"
+  color 0 0 0
+  normalMap NULL
+  baseColorMap NULL
+  roughnessMap NULL
+  cubeMap NULL
+  transparency 0
+  widthAndHeight 5
+}
+DEF COPPER SphereGrid {
+  translation 0.6 1.3000000000000036 0.9919744784234101
+  name "copper sphere grid"
+  color 0.72 0.45 0.2
+  normalMap NULL
+  baseColorMap NULL
+  roughnessMap NULL
+  cubeMap NULL
+  transparency 0
+  widthAndHeight 5
+}
+Telephone {
+  translation 0.1553735885250902 2.1760371282653068e-14 0.571515272665561
+  rotation 0 1 0 3.141592644
+}
+Solid {
+  translation -0.10578063300750806 -8.881784197001252e-16 2.187353216803486
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/tile_base_color.png"
+          ]
+        }
+        roughness 0.7
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/tile_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/tile_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 10 10
+        }
+      }
+      geometry Plane {
+        size 10 10
+      }
+    }
+  ]
+  name "solid(1)"
+}
+Helmet {
+  translation 0.7105062177551061 0.19000000000000136 0.5001095464053436
+  rotation 0 1 0 3.141592644
+}

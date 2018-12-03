@@ -1,0 +1,116 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.21254233658173552 0.9584996876628747 0.1900107994576834 1.468477722323009
+  position 0.7867288350924427 0.4055097783474205 0.10645968912830617
+  near 0.001
+  exposure 2
+  follow "vision car"
+  followSmoothness 0.1
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+  texture "empty_office"
+}
+DEF GROUND Solid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/parquet_base_color.png"
+          ]
+        }
+        roughness 0.3
+        normalMap ImageTexture {
+          url [
+            "textures/parquet_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/parquet_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 100 100
+        }
+      }
+      geometry DEF FLOOR Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject USE FLOOR
+}
+DEF WALLS SolidPipe {
+  translation 0 0.1 0
+  height 0.2
+  thickness 0.05
+  subdivision 60
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/older_plywood_base_color.png"
+      ]
+    }
+    roughness 0.5
+    normalMap ImageTexture {
+      url [
+        "textures/older_plywood_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/older_plywood_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 20 1
+    }
+  }
+}
+TinkerbotsBase {
+  translation 0 0.03 0
+  rotation 0 1 0 3.141592644
+  name "vision car"
+  controller "vision_car"
+  upASlot TinkerbotsCubieBoxWithRoundSlots {
+    name "rear left box"
+    axisSlot TinkerbotsAxle {
+      rotation 1 0 0 3.1415
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  upCSlot TinkerbotsCubieBoxWithRoundSlots {
+    name "rear right box"
+    axisSlot TinkerbotsAxle {
+      rotation 1 0 0 3.1415
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+  downSlot TinkerbotsMotor {
+    rotation 0 0 1 1.5708
+    leftSlot TinkerbotsDistanceSensor {
+      rotation 0 0 1 1.5708
+    }
+    frontSlot TinkerbotsAxle {
+      rotation 1 0 0 0
+      name "right axle"
+      endSlot TinkerbotsWheel {
+      }
+    }
+    backSlot TinkerbotsAxle {
+      rotation 1 0 0 0
+      name "left axle"
+      endSlot TinkerbotsWheel {
+      }
+    }
+  }
+}

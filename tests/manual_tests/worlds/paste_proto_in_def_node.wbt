@@ -1,0 +1,40 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test procedure:"
+    "- copy Shape node"
+    "- paste node in children field of TEST transform"
+    "-> two additional red boxes correctly appears and Webots doesn't crash"
+    ""
+    "Regression test for issue 867"
+  ]
+}
+Viewpoint {
+  orientation -0.856004 -0.319324 0.406557 4.32543
+  position -0.524758 -4.86861 -0.720647
+}
+Background {
+  skyColor [
+    0.0745098 0.796078 0.952941
+  ]
+}
+DirectionalLight {
+  direction 0 1 1
+}
+Shape {
+  appearance AppearanceProto {
+    color 1 0 0
+  }
+  geometry Box {
+    size 0.1 0.1 0.1
+  }
+}
+DEF TEST Transform {
+  translation 0.3 0 0
+}
+Transform {
+  translation 0 0 0.3
+  children [
+    USE TEST
+  ]
+}

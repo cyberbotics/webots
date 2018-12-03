@@ -1,0 +1,101 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.130331 -0.924734 -0.357604 2.61137
+  position -2.09134 4.15975 -3.90958
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 1 -1 -0.5
+  castShadows TRUE
+}
+DEF KINEMATIC_ROTATE_PARENT Solid {
+  translation 0.1 0.2 0.3
+  children [
+    DEF KINEMATIC_ROTATE Solid {
+      translation -0.5 0 0.5
+      children [
+        DEF BALL_SHAPE Shape {
+          geometry Sphere {
+            radius 0.1
+            subdivision 2
+          }
+        }
+      ]
+      boundingObject USE BALL_SHAPE
+    }
+  ]
+}
+DEF KINEMATIC_TRANSLATE Solid {
+  translation 0 0 0.5
+  children [
+    USE BALL_SHAPE
+    DEF KINEMATIC_TRANSLATE_CHILDREN Solid {
+      translation 0 0.2 0
+      children [
+        USE BALL_SHAPE
+      ]
+      boundingObject USE BALL_SHAPE
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BALL_SHAPE
+}
+DEF KINEMATIC_TRANSLATE_ROTATE Solid {
+  translation 0.5 0 0.5
+  children [
+    USE BALL_SHAPE
+  ]
+  name "solid(2)"
+  boundingObject USE BALL_SHAPE
+}
+DEF DYNAMIC_ROTATE Solid {
+  translation -0.5 0 -0.5
+  children [
+    DEF BALL_SHAPE Shape {
+      geometry Sphere {
+        radius 0.1
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+DEF DYNAMIC_TRANSLATE Solid {
+  translation 0 0 -0.5
+  children [
+    USE BALL_SHAPE
+  ]
+  name "solid(4)"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+DEF DYNAMIC_TRANSLATE_ROTATE Solid {
+  translation 0.5 0 -0.5
+  children [
+    USE BALL_SHAPE
+  ]
+  name "solid(5)"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_velocity"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+
+PROTO ProtoMismatchFieldType [
+  field SFRotation rotation 0 1 0 0
+  field SFVec3f translation 0 0 0
+  field SFString fieldTexture "textures/fieldTexture.png" # issue here: texture url should be an MFString
+]
+{
+  Solid {
+    rotation IS rotation
+    translation IS translation
+    children [
+      Shape {
+        appearance Appearance {
+          texture ImageTexture {
+            url IS fieldTexture
+          }
+        }
+        geometry DEF BOX Box {
+          size 0.1 0.1 0.1
+        }
+      }
+    ]
+    boundingObject USE BOX
+  }
+}

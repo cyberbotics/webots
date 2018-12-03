@@ -1,0 +1,1737 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# ROBOTIS OP3 is an open platform, miniature humanoid robot used for research, education and outreach.
+# The model contains principally:
+# - the 20 DOF
+# - LEDs
+# - accelerometer
+# - gyro
+# - camera
+# - realistic physics
+# More info here: http://support.robotis.com/en/product/robotis-op3/introduction/what_is_robotis_op3.htm
+
+PROTO RobotisOp3 [
+  field SFVec3f    translation         0 0 0
+  field SFRotation rotation            1 0 0 -1.5708
+  field SFString   name                "ROBOTIS OP3"                  # Is `Solid.name`.
+  field SFString   controller          "void"                         # Is `Robot.controller`.
+  field SFString   controllerArgs      ""                             # Is `Robot.controllerArgs`.
+  field SFString   contactMaterial     "ROBOTIS OP3 default material" # Defines the `Solid.contactMaterial` for all the robot parts, except the feet and the hands.
+  field SFString   footContactMaterial "ROBOTIS OP3 foot material"    # Defines the `Solid.contactMaterial` for the feet.
+  field SFString   handContactMaterial "ROBOTIS OP3 finger material"  # Defines the `Solid.contactMaterial` for the hands.
+  field SFString   customData          ""                             # Is `Robot.customData`.
+  field SFBool     synchronization     TRUE                           # Is `Robot.synchronization`.
+  field SFBool     selfCollision       FALSE                          # Is `Robot.selfCollision`.
+  field SFInt32    cameraWidth         1920                           # Is `Camera.width`.
+  field SFInt32    cameraHeight        1080                           # Is `Camera.height`.
+  field MFNode     bodySlot            []                             # Extends the robot with new nodes in the body slot.
+  field MFNode     headSlot            []                             # Extends the robot with new nodes in the head slot.
+  field MFNode     leftFootSlot        []                             # Extends the robot with new nodes in the left foot slot.
+  field MFNode     rightFootSlot       []                             # Extends the robot with new nodes in the right foot slot.
+  field MFNode     leftHandSlot        []                             # Extends the robot with new nodes in the left hand slot.
+  field MFNode     rightHandSlot       []                             # Extends the robot with new nodes in the righthand slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    synchronization IS synchronization
+    contactMaterial IS contactMaterial
+    selfCollision IS selfCollision
+    name IS name
+    children [
+      Accelerometer {
+        name "Accelerometer"
+      }
+      Gyro {
+        name "Gyro"
+      }
+      Speaker {
+        translation 0.0385 0.001 0.098
+        name "Speaker"
+      }
+      LED {
+        translation 0.03085 0 0.1232
+        name "BodyLed"
+        color [
+        ]
+        gradual TRUE
+        children [
+          Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Sphere {
+              radius 0.002
+            }
+          }
+        ]
+      }
+      Group {
+        children IS bodySlot
+      }
+      Solid {
+        name "body"
+        contactMaterial IS contactMaterial
+        physics Physics {
+          density -1
+          mass 1.34928
+          centerOfMass -0.01501 0.00013 0.06582
+          inertiaMatrix [
+            0.00340499 0.00296939 0.00317331 5.72e-06 -4.256e-05 -5.9e-07
+          ]
+        }
+        boundingObject Group {
+          children [
+            Transform {
+              translation -0.016750 0.052 0.08
+              children [
+                Box {
+                  size 0.172 0.01 0.063
+                }
+              ]
+            }
+            Transform {
+              translation -0.016750 -0.052 0.08
+              children [
+                Box {
+                  size 0.172 0.01 0.063
+                }
+              ]
+            }
+            Transform {
+              translation -0.016750 0 0.068250
+              children [
+                Box {
+                  size 0.11 0.12 0.135
+                }
+              ]
+            }
+          ]
+        }
+        children [
+          RobotisOp3BodyShape {
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.0 0.0 -1.0
+              anchor 0.0 0.035 0.0
+              dampingConstant 0.1
+              staticFriction 0.0
+            }
+            device [
+              RotationalMotor {
+                name "PelvYL"
+                maxVelocity 100.0
+                minPosition -2.82743338823
+                maxPosition 2.82743338823
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "PelvYLS"
+              }
+            ]
+            endPoint Solid {
+              name "PelvYLSolid"
+              translation 0.0 0.035 0.0
+              contactMaterial IS contactMaterial
+              physics Physics {
+                density -1
+                mass 0.01181
+                centerOfMass -0.00157 0.0 -0.00774
+                inertiaMatrix [
+                  1.51e-06 4.3e-06 4.12e-06 0.0 1e-08 0.0
+                ]
+              }
+              boundingObject Transform {
+                translation -0.001500 0.000000 -0.015500
+                children [
+                  Box {
+                    size 0.045000 0.025000 0.031000
+                  }
+                ]
+              }
+              children [
+                Transform { # Left Hip Yaw Shape
+                  translation 0 0 0.002
+                  rotation 1 0 0 -1.5708
+                  children [
+                    MX430FrontRotorShape {
+                      screwA TRUE
+                      screwB TRUE
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                      screwH TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.026 0 -0.028
+                  rotation 0 0 1 -1.5708
+                  children [
+                    MX430FrontRotorShape {
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.017 0 -0.028
+                  rotation 0 0 1 1.5708
+                  children [
+                    MX430RearRotorShape {
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.019 0 -0.028
+                  rotation 0 0 1 1.5708
+                  children [
+                    MX430RearRotorShape {
+                    }
+                  ]
+                }
+                RobotisOp3StraightFrameShape {
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -1.0 0.0 0.0
+                    anchor -0.024 0.0 -0.0285
+                    dampingConstant 0.1
+                    staticFriction 0.0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "PelvL"
+                      maxVelocity 100.0
+                      minPosition -2.82743338823
+                      maxPosition 2.82743338823
+                      maxTorque 1000.0
+                    }
+                    PositionSensor {
+                      name "PelvLS"
+                    }
+                  ]
+                  endPoint Solid {
+                    name "PelvLSolid"
+                    translation -0.024 0.0 -0.0285
+                    contactMaterial IS contactMaterial
+                    physics Physics {
+                      density -1
+                      mass 0.17886
+                      centerOfMass 0.00388 0.00028 -0.01214
+                      inertiaMatrix [
+                        4.661e-05 0.00012523 0.00010857 -1.01e-06 -1.31e-06 -6e-08
+                      ]
+                    }
+                    boundingObject Transform {
+                      translation 0.003875 0.002200 -0.012000
+                      children [
+                        Box {
+                          size 0.079750 0.042400 0.046500
+                        }
+                      ]
+                    }
+                    children [ # Left Hip Roll Shape
+                      Transform {
+                        translation 0.024 0.017 0
+                        rotation 0 1 0 3.1415
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.002 0 0
+                        rotation 0.707105 0.707108 -0.0000327581 3.14153
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      RobotisOp3TriangleFrameShape {
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0.0 1.0 0.0
+                          anchor 0.0241 0.019 0.0
+                          dampingConstant 0.1
+                          staticFriction 0.0
+                        }
+                        device [
+                          RotationalMotor {
+                            name "LegUpperL"
+                            maxVelocity 100.0
+                            minPosition -2.82743338823
+                            maxPosition 2.82743338823
+                            maxTorque 1000.0
+                          }
+                          PositionSensor {
+                            name "LegUpperLS"
+                          }
+                        ]
+                        endPoint Solid {
+                          name "LegUpperLSolid"
+                          translation 0.0241 0.019 0.0
+                          contactMaterial IS contactMaterial
+                          physics Physics {
+                            density -1
+                            mass 0.11543
+                            centerOfMass 0.00059 -0.01901 -0.08408
+                            inertiaMatrix [
+                              0.00010499 9.613e-05 2.493e-05 -1e-08 -7.1e-07 3.53e-06
+                            ]
+                          }
+                          boundingObject Transform {
+                            translation 0.000425 -0.018800 -0.059450
+                            children [
+                              Box {
+                                size 0.030850 0.046400 0.123900
+                              }
+                            ]
+                          }
+                          children [ # Left Hip Pitch Shape
+                            Transform {
+                              translation 0 -0.002 0
+                              children [
+                                MX430FrontRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                                MX430RearRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 -0.019 -0.056
+                              rotation -0.57735 0.57735 -0.577352 2.0944
+                              children [
+                                RobotisOp3LongFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 -0.019 -0.056
+                              rotation 0.57735 0.57735 0.577352 2.0944
+                              children [
+                                RobotisOp3SquaredFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 -0.002 -0.11
+                              children [
+                                MX430ServoShape {
+                                }
+                              ]
+                            }
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0.0 1.0 0.0
+                                anchor 0.0 0.0 -0.11015
+                                dampingConstant 0.1
+                                staticFriction 0.0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "LegLowerL"
+                                  maxVelocity 100.0
+                                  minPosition -2.82743338823
+                                  maxPosition 2.82743338823
+                                  maxTorque 1000.0
+                                }
+                                PositionSensor {
+                                  name "LegLowerLS"
+                                }
+                              ]
+                              endPoint Solid {
+                                name "LegLowerLSolid"
+                                translation 0.0 0.0 -0.11015
+                                contactMaterial IS contactMaterial
+                                physics Physics {
+                                  density -1
+                                  mass 0.04015
+                                  centerOfMass 0.0 -0.02151 -0.055
+                                  inertiaMatrix [
+                                    3.715e-05 2.751e-05 1.511e-05 0.0 0.0 0.0
+                                  ]
+                                }
+                                boundingObject Transform {
+                                  translation 0.000000 -0.020000 -0.055000
+                                  children [
+                                    Box {
+                                      size 0.030000 0.044000 0.115000
+                                    }
+                                  ]
+                                }
+                                children [
+                                  Transform {
+                                    translation 0 -0.002 0
+                                    children [
+                                      MX430FrontRotorShape {
+                                        screwA TRUE
+                                        screwB TRUE
+                                        screwC TRUE
+                                        screwG TRUE
+                                        screwH TRUE
+                                      }
+                                      MX430RearRotorShape {
+                                        screwA TRUE
+                                        screwB TRUE
+                                        screwC TRUE
+                                        screwG TRUE
+                                        screwH TRUE
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 -0.019 -0.055
+                                    rotation 0.57735 0.57735 0.57735 2.09434
+                                    children [
+                                      RobotisOp3LongFrameShape {
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 -0.019 -0.055
+                                    rotation -0.577352 -0.57735 0.57735 2.0944
+                                    children [
+                                      RobotisOp3LongFrameShape {
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 -0.002 -0.11
+                                    children [
+                                      MX430FrontRotorShape {
+                                        screwC TRUE
+                                        screwD TRUE
+                                        screwE TRUE
+                                        screwF TRUE
+                                        screwG TRUE
+                                      }
+                                      MX430RearRotorShape {
+                                        screwC TRUE
+                                        screwD TRUE
+                                        screwE TRUE
+                                        screwF TRUE
+                                        screwG TRUE
+                                      }
+                                    ]
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0.0 -1.0 0.0
+                                      anchor 0.0 0.0 -0.11
+                                      dampingConstant 0.1
+                                      staticFriction 0.0
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "AnkleL"
+                                        maxVelocity 100.0
+                                        minPosition -2.82743338823
+                                        maxPosition 2.82743338823
+                                        maxTorque 1000.0
+                                      }
+                                      PositionSensor {
+                                        name "AnkleLS"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      name "AnkleLSolid"
+                                      translation 0.0 0.0 -0.11
+                                      contactMaterial IS contactMaterial
+                                      physics Physics {
+                                        density -1
+                                        mass 0.17886
+                                        centerOfMass -0.02022 -0.01872 0.01214
+                                        inertiaMatrix [
+                                          4.661e-05 0.00012523 0.00010857 -1.01e-06 1.31e-06 6e-08
+                                        ]
+                                      }
+                                      boundingObject Transform {
+                                        translation -0.020600 -0.016800 0.012000
+                                        children [
+                                          Box {
+                                            size 0.079000 0.042400 0.046500
+                                          }
+                                        ]
+                                      }
+                                      children [ # Left Ankle Pitch Shape
+                                        Transform {
+                                          translation 0 -0.002 0
+                                          children [
+                                            MX430ServoShape {
+                                            }
+                                          ]
+                                        }
+                                        Transform {
+                                          translation -0.024 -0.019 0
+                                          rotation 1 0 0 3.1415
+                                          children [
+                                            RobotisOp3TriangleFrameShape {
+                                            }
+                                          ]
+                                        }
+                                        Transform {
+                                          translation -0.0265 -0.019 0
+                                          rotation 0 0 1 -1.5708
+                                          children [
+                                            MX430ServoShape {
+                                            }
+                                          ]
+                                        }
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            axis 1.0 0.0 0.0
+                                            anchor -0.0241 -0.019 0.0
+                                            dampingConstant 0.1
+                                            staticFriction 0.0
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "FootL"
+                                              maxVelocity 100.0
+                                              minPosition -2.82743338823
+                                              maxPosition 2.82743338823
+                                              maxTorque 1000.0
+                                            }
+                                            PositionSensor {
+                                              name "FootLS"
+                                            }
+                                          ]
+                                          endPoint Solid {
+                                            name "FootLSolid"
+                                            translation -0.0241 -0.019 0.0
+                                            contactMaterial IS footContactMaterial
+                                            physics Physics {
+                                              density -1
+                                              mass 0.06934
+                                              centerOfMass 0.02373 0.01037 -0.0276
+                                              inertiaMatrix [
+                                                4.034e-05 7.874e-05 0.00011579 -1.9e-07 1.2e-07 1.01e-06
+                                              ]
+                                            }
+                                            boundingObject Transform {
+                                              translation 0.024000 0.012500 -0.0265
+                                              children [
+                                                Box {
+                                                  size 0.127000 0.080000 0.008
+                                                }
+                                              ]
+                                            }
+                                            children [
+                                              Group {
+                                                children IS leftFootSlot
+                                              }
+                                              Transform { # Left Foot Shape
+                                                translation -0.002 0 0
+                                                rotation 0 0 1 -1.5708
+                                                children [
+                                                  MX430FrontRotorShape {
+                                                    screwA TRUE
+                                                    screwB TRUE
+                                                    screwC TRUE
+                                                    screwG TRUE
+                                                    screwH TRUE
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.007 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  MX430RearRotorShape {
+                                                    screwA TRUE
+                                                    screwB TRUE
+                                                    screwC TRUE
+                                                    screwG TRUE
+                                                    screwH TRUE
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.005 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  MX430RearRotorShape {
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.021 0 -0.029
+                                                rotation 0 1 0 3.1415
+                                                children [
+                                                  RobotisOp3StraightFrameShape {
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.02402 0.01251 -0.0305
+                                                children [
+                                                  RobotisOp3FootShape {
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.0 0.0 -1.0
+              anchor 0.0 -0.035 0.0
+              dampingConstant 0.1
+              staticFriction 0.0
+            }
+            device [
+              RotationalMotor {
+                name "PelvYR"
+                maxVelocity 100.0
+                minPosition -2.82743338823
+                maxPosition 2.82743338823
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "PelvYRS"
+              }
+            ]
+            endPoint Solid {
+              name "PelvYRSolid"
+              translation 0.0 -0.035 0.0
+              contactMaterial IS contactMaterial
+              physics Physics {
+                density -1
+                mass 0.01181
+                centerOfMass -0.00157 0.0 -0.00774
+                inertiaMatrix [
+                  1.51e-06 4.3e-06 4.12e-06 0.0 1e-08 0.0
+                ]
+              }
+              boundingObject Transform {
+                translation -0.001500 0.000000 -0.015500
+                children [
+                  Box {
+                    size 0.045000 0.025000 0.031000
+                  }
+                ]
+              }
+              children [
+                Transform { # Right Hip Yaw Shape
+                  translation 0 0 0.002
+                  rotation 1 0 0 -1.5708
+                  children [
+                    MX430FrontRotorShape {
+                      screwA TRUE
+                      screwB TRUE
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                      screwH TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.026 0 -0.028
+                  rotation 0 0 1 -1.5708
+                  children [
+                    MX430FrontRotorShape {
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.017 0 -0.028
+                  rotation 0 0 1 1.5708
+                  children [
+                    MX430RearRotorShape {
+                      screwC TRUE
+                      screwD TRUE
+                      screwE TRUE
+                      screwF TRUE
+                      screwG TRUE
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.019 0 -0.028
+                  rotation 0 0 1 1.5708
+                  children [
+                    MX430RearRotorShape {
+                    }
+                  ]
+                }
+                RobotisOp3StraightFrameShape {
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -1.0 0.0 0.0
+                    anchor -0.024 0.0 -0.0285
+                    dampingConstant 0.1
+                    staticFriction 0.0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "PelvR"
+                      maxVelocity 100.0
+                      minPosition -2.82743338823
+                      maxPosition 2.82743338823
+                      maxTorque 1000.0
+                    }
+                    PositionSensor {
+                      name "PelvRS"
+                    }
+                  ]
+                  endPoint Solid {
+                    name "PelvRSolid"
+                    translation -0.024 0.0 -0.0285
+                    contactMaterial IS contactMaterial
+                    physics Physics {
+                      density -1
+                      mass 0.17886
+                      centerOfMass 0.00388 -0.00028 -0.01214
+                      inertiaMatrix [
+                        4.661e-05 0.00012523 0.00010857 1.01e-06 -1.31e-06 6e-08
+                      ]
+                    }
+                    boundingObject Transform {
+                      translation 0.003875 -0.002200 -0.012000
+                      children [
+                        Box {
+                          size 0.079750 0.042400 0.046500
+                        }
+                      ]
+                    }
+                    children [ # Left Hip Roll Shape
+                      Transform {
+                        translation 0.024 -0.017 0
+                        rotation 1 0 0 3.1415
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.002 0 0
+                        rotation 0.707105 0.707108 -0.0000327581 3.14153
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      RobotisOp3TriangleFrameShape {
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0.0 -1.0 0.0
+                          anchor 0.0241 -0.019 0.0
+                          dampingConstant 0.1
+                          staticFriction 0.0
+                        }
+                        device [
+                          RotationalMotor {
+                            name "LegUpperR"
+                            maxVelocity 100.0
+                            minPosition -2.82743338823
+                            maxPosition 2.82743338823
+                            maxTorque 1000.0
+                          }
+                          PositionSensor {
+                            name "LegUpperRS"
+                          }
+                        ]
+                        endPoint Solid {
+                          name "LegUpperRSolid"
+                          translation 0.0241 -0.019 0.0
+                          contactMaterial IS contactMaterial
+                          physics Physics {
+                            density -1
+                            mass 0.11543
+                            centerOfMass 0.00059 0.01901 -0.08408
+                            inertiaMatrix [
+                              0.00010499 9.613e-05 2.493e-05 1e-08 -7.1e-07 -3.53e-06
+                            ]
+                          }
+                          boundingObject Transform {
+                            translation 0.000425 0.018800 -0.059450
+                            children [
+                              Box {
+                                size 0.030850 0.046400 0.123900
+                              }
+                            ]
+                          }
+                          children [ # Right Hip Pitch Shape
+                            Transform {
+                              translation 0 0.002 0
+                              rotation 0 0 1 3.1415
+                              children [
+                                MX430FrontRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                                MX430RearRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 0.019 -0.056
+                              rotation -0.57735 0.57735 -0.577352 2.0944
+                              children [
+                                RobotisOp3LongFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 0.019 -0.056
+                              rotation 0.57735 0.57735 0.577352 2.0944
+                              children [
+                                RobotisOp3SquaredFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 0.002 -0.11
+                              rotation 0 0 1 3.1415
+                              children [
+                                MX430ServoShape {
+                                }
+                              ]
+                            }
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0.0 -1.0 0.0
+                                anchor 0.0 0.0 -0.11015
+                                dampingConstant 0.1
+                                staticFriction 0.0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "LegLowerR"
+                                  maxVelocity 100.0
+                                  minPosition -2.82743338823
+                                  maxPosition 2.82743338823
+                                  maxTorque 1000.0
+                                }
+                                PositionSensor {
+                                  name "LegLowerRS"
+                                }
+                              ]
+                              endPoint Solid {
+                                name "LegLowerRSolid"
+                                translation 0.0 0.0 -0.11015
+                                contactMaterial IS contactMaterial
+                                physics Physics {
+                                  density -1
+                                  mass 0.04015
+                                  centerOfMass 0.0 0.02151 -0.055
+                                  inertiaMatrix [
+                                    3.715e-05 2.751e-05 1.511e-05 0.0 0.0 0.0
+                                  ]
+                                }
+                                boundingObject Transform {
+                                  translation 0.000000 0.020000 -0.055000
+                                  children [
+                                    Box {
+                                      size 0.030000 0.044000 0.115000
+                                    }
+                                  ]
+                                }
+                                children [ # Right Knee Shape
+                                  Transform {
+                                    translation 0 0.002 0
+                                    rotation 0 0 1 3.1415
+                                    children [
+                                      MX430FrontRotorShape {
+                                        screwA TRUE
+                                        screwB TRUE
+                                        screwC TRUE
+                                        screwG TRUE
+                                        screwH TRUE
+                                      }
+                                      MX430RearRotorShape {
+                                        screwA TRUE
+                                        screwB TRUE
+                                        screwC TRUE
+                                        screwG TRUE
+                                        screwH TRUE
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 0.019 -0.055
+                                    rotation -0.57735 0.57735 -0.577352 2.0944
+                                    children [
+                                      RobotisOp3LongFrameShape {
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 0.019 -0.055
+                                    rotation 0.577352 -0.57735 -0.57735 2.0944
+                                    children [
+                                      RobotisOp3LongFrameShape {
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 0.002 -0.11
+                                    rotation 0 0 1 3.1415
+                                    children [
+                                      MX430FrontRotorShape {
+                                        screwC TRUE
+                                        screwD TRUE
+                                        screwE TRUE
+                                        screwF TRUE
+                                        screwG TRUE
+                                      }
+                                      MX430RearRotorShape {
+                                        screwC TRUE
+                                        screwD TRUE
+                                        screwE TRUE
+                                        screwF TRUE
+                                        screwG TRUE
+                                      }
+                                    ]
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0.0 1.0 0.0
+                                      anchor 0.0 0.0 -0.11
+                                      dampingConstant 0.1
+                                      staticFriction 0.0
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "AnkleR"
+                                        maxVelocity 100.0
+                                        minPosition -2.82743338823
+                                        maxPosition 2.82743338823
+                                        maxTorque 1000.0
+                                      }
+                                      PositionSensor {
+                                        name "AnkleRS"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      name "AnkleRSolid"
+                                      translation 0.0 0.0 -0.11
+                                      contactMaterial IS contactMaterial
+                                      physics Physics {
+                                        density -1
+                                        mass 0.17886
+                                        centerOfMass -0.02022 0.01872 0.01214
+                                        inertiaMatrix [
+                                          4.661e-05 0.00012523 0.00010857 1.01e-06 1.31e-06 -6e-08
+                                        ]
+                                      }
+                                      boundingObject Transform {
+                                        translation -0.020225 0.016800 0.012000
+                                        children [
+                                          Box {
+                                            size 0.079750 0.042400 0.046500
+                                          }
+                                        ]
+                                      }
+                                      children [
+                                        Transform {
+                                          translation 0 0.002 0
+                                          rotation 0 0 1 3.1415
+                                          children [
+                                            MX430ServoShape {
+                                            }
+                                          ]
+                                        }
+                                        Transform {
+                                          translation -0.024 0.019 0
+                                          rotation 0 1 0 3.1415
+                                          children [
+                                            RobotisOp3TriangleFrameShape {
+                                            }
+                                          ]
+                                        }
+                                        Transform {
+                                          translation -0.0265 0.019 0
+                                          rotation 0 0 1 -1.5708
+                                          children [
+                                            MX430ServoShape {
+                                            }
+                                          ]
+                                        }
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            axis 1.0 0.0 0.0
+                                            anchor -0.0241 0.019 0.0
+                                            dampingConstant 0.1
+                                            staticFriction 0.0
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "FootR"
+                                              maxVelocity 100.0
+                                              minPosition -2.82743338823
+                                              maxPosition 2.82743338823
+                                              maxTorque 1000.0
+                                            }
+                                            PositionSensor {
+                                              name "FootRS"
+                                            }
+                                          ]
+                                          endPoint Solid {
+                                            name "FootRSolid"
+                                            translation -0.0241 0.019 0.0
+                                            contactMaterial IS footContactMaterial
+                                            physics Physics {
+                                              density -1
+                                              mass 0.06934
+                                              centerOfMass 0.02373 -0.01037 -0.0276
+                                              inertiaMatrix [
+                                                4.034e-05 7.874e-05 0.00011579 1.9e-07 1.2e-07 -1.01e-06
+                                              ]
+                                            }
+                                            boundingObject Transform {
+                                              translation 0.024000 -0.012500 -0.0265
+                                              children [
+                                                Box {
+                                                  size 0.127000 0.080000 0.008
+                                                }
+                                              ]
+                                            }
+                                            children [
+                                              Group {
+                                                children IS rightFootSlot
+                                              }
+                                              Transform { # Right Foot Shape
+                                                translation -0.002 0 0
+                                                rotation 0 0 1 -1.5708
+                                                children [
+                                                  MX430FrontRotorShape {
+                                                    screwA TRUE
+                                                    screwB TRUE
+                                                    screwC TRUE
+                                                    screwG TRUE
+                                                    screwH TRUE
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.007 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  MX430RearRotorShape {
+                                                    screwA TRUE
+                                                    screwB TRUE
+                                                    screwC TRUE
+                                                    screwG TRUE
+                                                    screwH TRUE
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.005 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  MX430RearRotorShape {
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.021 0 -0.029
+                                                rotation 0 1 0 3.1415
+                                                children [
+                                                  RobotisOp3StraightFrameShape {
+                                                  }
+                                                ]
+                                              }
+                                              Transform {
+                                                translation 0.02402 -0.01251 -0.0305
+                                                children [
+                                                  RobotisOp3FootShape {
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.0 1.0 0.0
+              anchor -0.001 0.06 0.111
+              dampingConstant 0.1
+              staticFriction 0.0
+            }
+            device [
+              RotationalMotor {
+                name "ShoulderL"
+                maxVelocity 100.0
+                minPosition -2.82743338823
+                maxPosition 2.82743338823
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "ShoulderLS"
+              }
+            ]
+            endPoint Solid {
+              name "ShoulderLSolid"
+              translation -0.001 0.06 0.111
+              contactMaterial IS contactMaterial
+              physics Physics {
+                density -1
+                mass 0.01176
+                centerOfMass 0.0 0.00823 -0.00233
+                inertiaMatrix [
+                  1.65e-06 3.87e-06 3.97e-06 0.0 0.0 3.1e-07
+                ]
+              }
+              boundingObject Transform {
+                translation 0.000000 0.015500 -0.003750
+                children [
+                  Box {
+                    size 0.042000 0.031000 0.032500
+                  }
+                ]
+              }
+              children [  # Left Shoulder Pitch Shape
+                Transform {
+                  rotation -0.57735 0.577352 0.57735 2.0944
+                  children [
+                    Transform {
+                      translation 0 0 -0.0025
+                      rotation 1 0 0 1.5708
+                      children [
+                        MX430FrontRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwD TRUE
+                          screwE TRUE
+                          screwF TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.01 -0.017 0.029
+                      rotation 1 0 0 3.14
+                      children [
+                        MX430RearRotorShape {
+                          screwC TRUE
+                          screwD TRUE
+                          screwE TRUE
+                          screwF TRUE
+                          screwG TRUE
+                        }
+                        MX430FrontRotorShape {
+                          screwC TRUE
+                          screwD TRUE
+                          screwE TRUE
+                          screwF TRUE
+                          screwG TRUE
+                        }
+                      ]
+                    }
+                    RobotisOp3ShiftedFrameShape {
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -1.0 0.0 0.0
+                    anchor 0.019 0.0285 -0.01
+                    dampingConstant 0.1
+                    staticFriction 0.0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "ArmUpperL"
+                      maxVelocity 100.0
+                      minPosition -2.82743338823
+                      maxPosition 2.82743338823
+                      maxTorque 1000.0
+                    }
+                    PositionSensor {
+                      name "ArmUpperLS"
+                    }
+                  ]
+                  endPoint Solid {
+                    name "ArmUpperLSolid"
+                    translation 0.019 0.0285 -0.01
+                    contactMaterial IS contactMaterial
+                    physics Physics {
+                      density -1
+                      mass 0.17758
+                      centerOfMass -0.01844 0.04514 0.00028
+                      inertiaMatrix [
+                        0.00022804 3.042e-05 0.00023474 -1e-08 3e-08 5.9e-07
+                      ]
+                    }
+                    boundingObject Transform {
+                      translation -0.016800 0.045200 0.000700
+                      children [
+                        Box {
+                          size 0.042400 0.112900 0.030100
+                        }
+                      ]
+                    }
+                    children [
+                      Transform {
+                        translation -0.002 0 0
+                        rotation -0.57735 -0.577352 -0.57735 2.0944
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.002 0.09 0
+                        rotation 0.57735 0.577352 -0.57735 2.0944
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.019 0.05441 -0.00037
+                        children [
+                          RobotisOp3SquaredFrameShape {
+                          }
+                        ]
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 1.0 0.0 0.0
+                          anchor 0.0 0.0904 -0.0001
+                          dampingConstant 0.1
+                          staticFriction 0.0
+                        }
+                        device [
+                          RotationalMotor {
+                            name "ArmLowerL"
+                            maxVelocity 100.0
+                            minPosition -2.82743338823
+                            maxPosition 2.82743338823
+                            maxTorque 1000.0
+                          }
+                          PositionSensor {
+                            name "ArmLowerLS"
+                          }
+                        ]
+                        endPoint Solid {
+                          name "ArmLowerLbowSolid"
+                          translation 0.0 0.0904 -0.0001
+                          contactMaterial IS handContactMaterial
+                          physics Physics {
+                            density -1
+                            mass 0.04127
+                            centerOfMass -0.019 0.07033 0.0038
+                            inertiaMatrix [
+                              6.196e-05 1.231e-05 6.854e-05 0.0 0.0 -3.72e-06
+                            ]
+                          }
+                          boundingObject Transform {
+                              translation -0.019000 0.072005 0.000000
+                            children [
+                              Box {
+                                size 0.042000 0.149010 0.030000
+                              }
+                            ]
+                          }
+                          children [
+                            Group {
+                              children IS leftHandSlot
+                            }
+                            Transform {
+                              translation -0.019 0.0552 0
+                              children [
+                                RobotisOp3LongFrameShape {
+                                }
+                                RobotisOp3ArmFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation -0.002 0 0
+                              rotation 0 0 1 -1.5708
+                              children [
+                                MX430FrontRotorShape {
+                                  screwA TRUE
+                                  screwE TRUE
+                                  screwF TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                                MX430RearRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwD TRUE
+                                  screwE TRUE
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.0 -1.0 0.0
+              anchor -0.001 -0.06 0.111
+              dampingConstant 0.1
+              staticFriction 0.0
+            }
+            device [
+              RotationalMotor {
+                name "ShoulderR"
+                maxVelocity 100.0
+                minPosition -2.82743338823
+                maxPosition 2.82743338823
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "ShoulderRS"
+              }
+            ]
+            endPoint Solid {
+              name "ShoulderRSolid"
+              translation -0.001 -0.06 0.111
+              contactMaterial IS contactMaterial
+              physics Physics {
+                density -1
+                mass 0.01176
+                centerOfMass 0.0 -0.00823 -0.00233
+                inertiaMatrix [
+                  1.65e-06 3.87e-06 3.97e-06 0.0 0.0 -3.1e-07
+                ]
+              }
+              boundingObject Transform {
+                translation 0.000000 -0.015500 -0.003750
+                children [
+                  Box {
+                    size 0.042000 0.031000 0.032500
+                  }
+                ]
+              }
+              children [ # Right Shoulder Pitch Shape
+                Transform {
+                  rotation 0.57735 0.577352 -0.57735 2.0944
+                  children [
+                    Transform {
+                      translation 0 0 -0.0025
+                      rotation 1 0 0 1.5708
+                      children [
+                        MX430FrontRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwD TRUE
+                          screwE TRUE
+                          screwF TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.01 0.017 0.029
+                      children [
+                        MX430RearRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                        MX430FrontRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                      ]
+                    }
+                    RobotisOp3ShiftedFrameShape {
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -1.0 0.0 0.0
+                    anchor 0.019 -0.0285 -0.01
+                    dampingConstant 0.1
+                    staticFriction 0.0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "ArmUpperR"
+                      maxVelocity 100.0
+                      minPosition -2.82743338823
+                      maxPosition 2.82743338823
+                      maxTorque 1000.0
+                    }
+                    PositionSensor {
+                      name "ArmUpperRS"
+                    }
+                  ]
+                  endPoint Solid {
+                    name "ArmUpperRSolid"
+                    translation 0.019 -0.0285 -0.01
+                    contactMaterial IS contactMaterial
+                    physics Physics {
+                      density -1
+                      mass 0.17758
+                      centerOfMass -0.01844 -0.04514 0.00028
+                      inertiaMatrix [
+                        0.00022804 3.042e-05 0.00023474 1e-08 3e-08 -5.9e-07
+                      ]
+                    }
+                    boundingObject Transform {
+                      translation -0.016800 -0.045200 0.000700
+                      children [
+                        Box {
+                          size 0.042400 0.112900 0.030100
+                        }
+                      ]
+                    }
+                    children [
+                      Transform {
+                        translation -0.002 0 0
+                        rotation 0.57735 0.577352 -0.57735 2.0944
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.002 -0.09 0
+                        rotation -0.57735 -0.577352 -0.57735 2.0944
+                        children [
+                          MX430ServoShape {
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.019 -0.05441 0.00037
+                        rotation 0 0 1 3.1415
+                        children [
+                          RobotisOp3SquaredFrameShape {
+                          }
+                        ]
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 1.0 0.0 0.0
+                          anchor 0.0 -0.0904 -0.0001
+                          dampingConstant 0.1
+                          staticFriction 0.0
+                        }
+                        device [
+                          RotationalMotor {
+                            name "ArmLowerR"
+                            maxVelocity 100.0
+                            minPosition -2.82743338823
+                            maxPosition 2.82743338823
+                            maxTorque 1000.0
+                          }
+                          PositionSensor {
+                            name "ArmLowerRS"
+                          }
+                        ]
+                        endPoint Solid {
+                          name "ArmLowerRbowSolid"
+                          translation 0.0 -0.0904 -0.0001
+                          contactMaterial IS handContactMaterial
+                          physics Physics {
+                            density -1
+                            mass 0.04127
+                            centerOfMass -0.019 -0.07033 0.0038
+                            inertiaMatrix [
+                              6.196e-05 1.231e-05 6.854e-05 0.0 0.0 3.72e-06
+                            ]
+                          }
+                          boundingObject Transform {
+                            translation -0.019000 -0.072005 0.000000
+                            children [
+                              Box {
+                                size 0.042000 0.149010 0.030000
+                              }
+                            ]
+                          }
+                          children [
+                            Group {
+                              children IS rightHandSlot
+                            }
+                            Transform {
+                              translation -0.019 -0.0552 0
+                              rotation 0 0 1 3.1415
+                              children [
+                                RobotisOp3LongFrameShape {
+                                }
+                                RobotisOp3ArmFrameShape {
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation -0.002 0 0
+                              rotation 0 0 1 -1.5708
+                              children [
+                                MX430FrontRotorShape {
+                                  screwA TRUE
+                                  screwB TRUE
+                                  screwC TRUE
+                                  screwD TRUE
+                                  screwE TRUE
+                                }
+                                MX430RearRotorShape {
+                                  screwA TRUE
+                                  screwE TRUE
+                                  screwF TRUE
+                                  screwG TRUE
+                                  screwH TRUE
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.0 0.0 1.0
+              anchor -0.001 0.0 0.1365
+              dampingConstant 0.1
+              staticFriction 0.0
+            }
+            device [
+              RotationalMotor {
+                name "Neck"
+                maxVelocity 100.0
+                minPosition -2.82743338823
+                maxPosition 2.82743338823
+                maxTorque 1000.0
+              }
+              PositionSensor {
+                name "NeckS"
+              }
+            ]
+            endPoint Solid {
+              name "NeckSolid"
+              translation -0.001 0.0 0.1365
+              contactMaterial IS contactMaterial
+              physics Physics {
+                density -1
+                mass 0.01176
+                centerOfMass 0.00233 0.0 0.00823
+                inertiaMatrix [
+                  3.97e-06 1.65e-06 3.87e-06 0.0 -3.1e-07 0.0
+                ]
+              }
+              boundingObject Transform {
+                translation 0.003750 0.000000 0.015500
+                children [
+                  Box {
+                    size 0.032500 0.042000 0.031000
+                  }
+                ]
+              }
+              children [
+                Group {
+                  children [ # Head Pan Shape
+                    Transform {
+                      translation 0 0 -0.0025
+                      rotation 1 0 0 1.5708
+                      children [
+                        MX430FrontRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwD TRUE
+                          screwE TRUE
+                          screwF TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.01 0.017 0.029
+                      children [
+                        MX430RearRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                        MX430FrontRotorShape {
+                          screwA TRUE
+                          screwB TRUE
+                          screwC TRUE
+                          screwG TRUE
+                          screwH TRUE
+                        }
+                      ]
+                    }
+                    RobotisOp3ShiftedFrameShape {
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0.0 -1.0 0.0
+                    anchor 0.01 0.019 0.0285
+                    dampingConstant 0.1
+                    staticFriction 0.0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "Head"
+                      maxVelocity 100.0
+                      minPosition -2.82743338823
+                      maxPosition 2.82743338823
+                      maxTorque 1000.0
+                    }
+                    PositionSensor {
+                      name "HeadS"
+                    }
+                  ]
+                  endPoint Solid {
+                    name "HeadSolid"
+                    translation 0.01 0.019 0.0285
+                    contactMaterial IS contactMaterial
+                    physics Physics {
+                      density -1
+                      mass 0.13631
+                      centerOfMass 0.0023 -0.01863 0.0277
+                      inertiaMatrix [
+                        0.00010612 8.721e-05 4.529e-05 1.1e-07 -9.1e-06 8.4e-07
+                      ]
+                    }
+                    boundingObject Transform {
+                      translation 0.006000 -0.019000 0.027750
+                      children [
+                        Box {
+                          size 0.044500 0.094000 0.078000
+                        }
+                      ]
+                    }
+                    children [
+                      Group {
+                        children IS headSlot
+                      }
+                      RobotisOp3HeadShape {
+                      }
+                      LED {
+                        name "HeadLed"
+                        color [
+                          0.1 0.5 1
+                        ]
+                        children [
+                          RobotisOp3HeadLEDShape {
+                          }
+                        ]
+                      }
+                      Camera {
+                        translation 0.015348 -0.019 0.04975
+                        rotation 0.577352 -0.57735 -0.57735 2.0944
+                        name "Camera"
+                        fieldOfView 1.3613
+                        width IS cameraWidth
+                        height IS cameraHeight
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Box{
+      size 0.01 0.01 0.01
+    }
+    physics Physics {
+    }
+  }
+}

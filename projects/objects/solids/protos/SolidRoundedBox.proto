@@ -1,0 +1,272 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A box object with rounded corners and edges implemented at the Solid-node level.
+# The box has similar properties as the VRML Box node in term of axis and fields.
+
+PROTO SolidRoundedBox [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "rounded box"
+  field SFVec3f    size            2 2 2                                                                                                          # Defines the size of the box.
+  field SFFloat    borderRadius    0.5                                                                                                            # Defines the radius of the box borders.
+  field SFInt32    subdivision     24                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
+  field SFString   contactMaterial "default"                                                                                                      # Is `Solid.contactMaterial`.  
+  field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }   # Defines the appearance of the box.
+  field SFNode     physics         NULL                                                                                                           # Is `Solid.physics`.
+]
+{
+  %{
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision > 200 then
+      print "High value for 'subdivision'. This can slow down the simulation"
+    elseif subdivision <= 8 then
+      io.stderr:write("'subdivision' must be greater than 8\n")
+      subdivision = 8
+    end
+
+    local borderRadius = fields.borderRadius.value
+    if borderRadius <= 0 then
+      io.stderr:write("'borderRadius' must be greater or equal to 0\n")
+      borderRadius = fields.borderRadius.defaultValue
+    end
+
+    local size = fields.size.value
+    if size.x <= 0 or size.y <= 0 or size.z <= 0 then
+      io.stderr:write("'size' must contain positive values\n")
+      size = fields.size.defaultValue
+    end
+
+    if 2 * borderRadius > size.x or
+       2 * borderRadius > size.y or
+       2 * borderRadius > size.z
+    then
+      io.stderr:write("'borderSize' must be smaller than the half of the 'size' elements\n")
+      borderSize = 0.5 * math.min(size.x, size.y, size.z)
+    end
+
+    -- global stuff
+    borderDiameter = 2 * borderRadius
+    innerSize = { x = size.x - borderDiameter; y = size.y - borderDiameter; z = size.z - borderDiameter }
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF SOLID_ROUNDED_BOX_GROUP Group {
+        children [
+          %{ if innerSize.x <= 0 and innerSize.y <= 0 and innerSize.z <= 0 then }%
+            # edge case: a sphere
+            Shape {
+              appearance IS appearance
+              geometry Sphere {
+                radius %{= 0.5 * size.x }%
+              }
+            }
+          %{ end }%
+          %{ if innerSize.x > 0 and innerSize.y > 0 then }%
+            Shape {
+              appearance IS appearance
+              geometry Box {
+                size %{= innerSize.x }% %{= innerSize.y }% %{= size.z }%
+              }
+            }
+          %{ end }%
+          %{ if innerSize.x > 0 and innerSize.z > 0 then }%
+            Shape {
+              appearance IS appearance
+              geometry Box {
+                size %{= innerSize.x }% %{= size.y }% %{= innerSize.z }%
+              }
+            }
+          %{ end }%
+          %{ if innerSize.y > 0 and innerSize.z > 0 then }%
+            Shape {
+              appearance IS appearance
+              geometry Box {
+                size %{= size.x }% %{= innerSize.y }% %{= innerSize.z }%
+              }
+            }
+          %{ end }%
+          %{ if innerSize.z > 0 then }%
+            Transform {
+              translation %{= 0.5 * innerSize.x }% %{= 0.5 * innerSize.y }% 0
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %{= innerSize.z }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= -0.5 * size.x + borderRadius }% %{= 0.5 * innerSize.y }% 0
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %{= innerSize.z }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= 0.5 * innerSize.x }% %{= - 0.5 * innerSize.y }% 0
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %{= innerSize.z }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= - 0.5 * innerSize.x }% %{= - 0.5 * innerSize.y }% 0
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Capsule {
+                    height %{= innerSize.z }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+          %{ end }%
+          %{ if innerSize.y > 0 then }%
+            Transform {
+              translation %{= 0.5 * innerSize.x }% 0 %{= 0.5 * innerSize.z }%
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.y }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= - 0.5 * innerSize.x }% 0 %{= 0.5 * innerSize.z }%
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.y }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= - 0.5 * innerSize.x }% 0 %{= - 0.5 * innerSize.z }%
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.y }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation %{= 0.5 * innerSize.x }% 0 %{= - 0.5 * innerSize.z }%
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.y }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+          %{ end }%
+          %{ if innerSize.x > 0 then }%
+            Transform {
+              translation 0 %{= 0.5 * innerSize.y }% %{= 0.5 * innerSize.z }%
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.x }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 %{= - 0.5 * innerSize.y }% %{= 0.5 * innerSize.z }%
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.x }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 %{= - 0.5 * innerSize.y }% %{= - 0.5 * innerSize.z }%
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.x }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 %{= 0.5 * innerSize.y }% %{= - 0.5 * innerSize.z }%
+              rotation 0 0 1 1.5708
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry Cylinder {
+                    height %{= innerSize.x }%
+                    radius %{= borderRadius }%
+                    subdivision %{= subdivision }%
+                  }
+                }
+              ]
+            }
+          %{ end }%
+        ]
+      }
+    ]
+    name IS name
+    model "rounded box"
+    contactMaterial IS contactMaterial
+    boundingObject USE SOLID_ROUNDED_BOX_GROUP
+    physics IS physics
+  }
+}

@@ -1,0 +1,183 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Randomly generated uneven terrain based on Perlin noise.
+
+PROTO UnevenTerrain [
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   name           "uneven terrain"
+  field SFVec3f    size           50 5 50           # Defines the size of the terrain.
+  field SFInt32    xDimension     50                # Defines the number of points in the grid height array in the x direction.
+  field SFInt32    zDimension     50                # Defines the number of points in the grid height array in the y direction.
+  field SFNode     appearance     SandyGround {}    # Defines the appearance of the terrain.
+  field SFVec2f    textureScale   1.0 1.0           # Defines the size of the textures used for the terrain.
+  field SFInt32    randomSeed     1                 # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
+  field SFBool     flatCenter     FALSE             # Defines whether the center of the terrain should be flat.
+  field SFBool     flatBounds     FALSE             # Defines whether the bounds of the terrain should be flat.
+  field SFInt32    perlinNOctaves 3                 # Defines the number of octaves of the perlin noise.
+  
+  # Deprecated in Webots R2019a
+  hiddenField MFString   texture        "textures/sand.jpg"
+]
+{
+  %{
+    -- Reference: https://stackoverflow.com/a/42543313/2210777
+
+    local wbcore = require('wbcore')
+    local wbrandom = require('wbrandom')
+    local os = require('os')
+
+    if fields.randomSeed.value <= 0 then
+      wbrandom.seed(os.clock() + os.time())
+    else
+      wbrandom.seed(fields.randomSeed.value)
+    end
+
+    function gaussian2d(x, y, amp, cx, cy, sx, sy)
+      return amp * math.exp( - ( ( math.pow(x - cx, 2) / (2.0 * math.pow(sx, 2)) ) + (math.pow(y - cy, 2) / (2.0 * math.pow(sy, 2)) ) ))
+    end
+
+    -- Create 256 shuffled numbers repeated twice.
+    local perm = {}
+    for i = 1, 256 do
+      table.insert(perm, wbrandom.integer(i), i)
+    end
+    for i = 1, 256 do
+      perm[i + 256] = perm[i]
+    end
+
+    -- Generate 256 directions
+    local dirs = {}
+    for a = 0, 255 do
+      table.insert(dirs, {
+        math.cos(a * 2.0 * math.pi / 256),
+        math.sin(a * 2.0 * math.pi / 256)
+      })
+    end
+
+    local function noise(x, y, per)
+      local function surflet(grid_x, grid_y)
+        local dist_x, dist_y = math.abs(x - grid_x), math.abs(y - grid_y)
+        local poly_x = 1 - 6 * dist_x ^ 5 + 15 * dist_x ^ 4 - 10 * dist_x ^ 3
+        local poly_y = 1 - 6 * dist_y ^ 5 + 15 * dist_y ^ 4 - 10 * dist_y ^ 3
+        local hashed = perm[(perm[(math.floor(grid_x) % per) + 1] + math.floor(grid_y) % per) + 1]
+        local grad = (x - grid_x)  * dirs[hashed][1] + (y - grid_y) * dirs[hashed][2]
+        return poly_x * poly_y * grad
+      end
+      local int_x, int_y = math.floor(x), math.floor(y)
+      return surflet(int_x + 0, int_y + 0) + surflet(int_x + 1, int_y + 0) +
+        surflet(int_x + 0, int_y + 1) + surflet(int_x + 1, int_y + 1)
+    end
+
+    local function fBm(x, y, per, octs)  -- Fractional Brownian motion
+      local val = 0
+      for o = 0, octs - 1 do
+        val = val + (0.5 ^ o * noise(x * 2 ^ o, y * 2 ^ o, per * 2 ^ o))
+      end
+      return val
+    end
+
+    local perlinSize = 128
+    local nOctave = fields.perlinNOctaves.value
+
+    local size = fields.size.value
+    local xDimension = fields.xDimension.value
+    local zDimension = fields.zDimension.value
+
+    local textureScale = { x = size.x / fields.textureScale.value.x, y = size.z / fields.textureScale.value.y }
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance IS appearance
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %{ for j = 0, zDimension do }%
+                %{ y = -(size.z / 2) + j * (size.z / zDimension) }%
+                %{ for i = 0, xDimension do }%
+                  %{
+                    local height = 1.0
+                    local x = i / xDimension
+                    local z = j / zDimension
+                    if nOctave > 0 then
+                      height = 0.5 * (1.0 + fBm(z, x, perlinSize, nOctave))
+                    end
+                    if fields.flatCenter.value then
+                      height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
+                    end
+                    if fields.flatBounds.value then
+                      height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
+                    end
+                    height = height * size.y
+                  }%
+                  %{= -(size.x / 2) + i * (size.x / xDimension) }% %{= height}% %{= y }%
+                %{ end }%
+              %{ end }%
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              %{ for j = 0, zDimension do }%
+                %{ y = (1.0 - j * (1.0 / zDimension) )}%
+                %{ for i = 0, xDimension do }%
+                  %{= i * (1.0 / xDimension) * textureScale.x  }% %{= y  * textureScale.y }%
+                %{ end }%
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            %{ local width = xDimension + 1 }%
+            %{ for j = 0, zDimension - 1 do }%
+              %{ for i = 0, xDimension - 1 do }%
+                %{= i + j * width  }% %{= i + (j + 1) * width }% %{= (i + 1) + (j + 1) * width }%  %{= (i + 1) + j * width }% -1
+              %{ end }%
+            %{ end }%
+          ]
+          creaseAngle 1
+        }
+      }
+    ]
+    name IS name
+    model "uneven terrain"
+    boundingObject DEF UNEVEN_TERRAIN_ELEVATION_GRID Transform {
+      translation %{= - size.x / 2 }% 0 %{= - size.z / 2 }%
+      children [
+        ElevationGrid {
+          %{ if xDimension > 2 and zDimension > 2 then }%
+            xDimension IS xDimension
+            xSpacing %{= size.x / xDimension }%
+            zDimension IS zDimension
+            zSpacing %{= size.z / zDimension }%
+
+            height [
+              %{ for i=0, xDimension - 1 do }%
+                %{ for j=0, zDimension - 1 do }%
+                  %{
+                    local height = 1.0
+                    local x = i / xDimension
+                    local z = j / zDimension
+                    if nOctave > 0 then
+                      height = 0.5 * (1.0 + fBm(x, z, perlinSize, nOctave))
+                    end
+                    if fields.flatCenter.value then
+                      height = height * (1.0 - gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2))
+                    end
+                    if fields.flatBounds.value then
+                      height = height * gaussian2d(x - 0.5, z - 0.5, 1, 0, 0, 0.2, 0.2)
+                    end
+                    height = height * size.y
+                  }%
+                  %{= height }%
+                %{ end }%
+              %{ end }%
+            ]
+          %{ end }%
+        }
+      ]
+    }
+  }
+}

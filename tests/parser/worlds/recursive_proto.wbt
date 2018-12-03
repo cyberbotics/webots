@@ -1,0 +1,16 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+ParserTestSupervisor {
+}
+DirectionalLight {
+}
+RecursiveProto {
+}

@@ -1,0 +1,130 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.332998 -0.799559 -0.499818 4.22224
+  position 0.882874 2.08463 -0.149395
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  intensity 0.5
+  location 0 0.345 0
+}
+Floor {
+}
+Robot {
+  translation 0 0.025 0
+  children [
+    Slot {
+      endPoint Slot {
+        endPoint HingeJoint {
+          jointParameters DEF HINGE_PARAMETERS HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              acceleration 5
+              maxVelocity 20
+              minPosition -1.63
+              maxPosition 1.51
+              maxTorque 100
+              muscles [
+                Muscle {
+                  maxRadius 0.02
+                }
+              ]
+            }
+            PositionSensor {
+            }
+          ]
+          endPoint Solid {
+            children [
+              DEF THICK_CYLINDER Transform {
+                translation 0 0.05 0
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE Appearance {
+                      material Material {
+                        specularColor 1 1 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.02
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              DEF THIN_CYLINDER Transform {
+                translation 0 0.05 -0.1
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.005
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.05 -0.25
+                rotation 1 0 0 -1.5708
+                children [
+                  Shape {
+                    appearance USE GRAY_APPEARANCE
+                    geometry Cone {
+                      bottomRadius 0.01
+                      height 0.04
+                      subdivision 24
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Group {
+              children [
+                USE THIN_CYLINDER
+                USE THICK_CYLINDER
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 1
+            }
+          }
+        }
+      }
+    }
+    DEF BASE_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.854902 0.113725 0.113725
+          specularColor 0.984314 0.909804 0.909804
+        }
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.05
+        subdivision 24
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE BASE_SHAPE
+  physics Physics {
+    density -1
+    mass 20
+  }
+  controller "motor"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,202 @@
+#include "NXCDefs.h"
+
+#define light_on(in) \
+  SetSensorType(in,IN_TYPE_LIGHT_ACTIVE); //SetSensorMode(in,IN_MODE_PCTFULLSCALE); ResetSensor(in);
+#define light_off(in) \
+  SetSensorType(in,IN_TYPE_LIGHT_INACTIVE); // SetSensorMode(in,IN_MODE_PCTFULLSCALE); ResetSensor(in);
+
+#define SENSIBILITY 4
+#define TIMER_SOUND 100
+#define TIMER_CALIBRATION_1 50
+#define TIMER_CALIBRATION_2 200
+#define VOL 1
+unsigned long ONE_MINUTE = 60000; // wait function is precise up to one minute :-)
+unsigned long FIFTEEN_SECONDS = 15000;
+
+int calibration[];
+int last_value[];
+int counter[];
+
+task light_sensor1()
+{
+  while (true)
+  {
+    light_on(IN_1);
+    int value=Sensor(IN_1);
+    string v = NumToStr(value);
+    string message;
+    if (value==last_value[0]){
+      counter[0]=counter[0]+1;
+    } else {
+      counter[0]=0;
+    }
+    if (counter[0]>TIMER_CALIBRATION_2) {
+      calibration[0]=value;
+      message = StrCat("1. reset  ", v,"  ");
+      TextOut(0, LCD_LINE4, message,0);
+      Wait(10);
+    }
+    last_value[0]=value;
+    if (value > calibration[0] + SENSIBILITY  ||  value < calibration[0] - SENSIBILITY)
+    {
+        light_off(IN_1);
+        message = StrCat("1. e-puck ", v,"  ");
+        TextOut(0, LCD_LINE4, message,0);
+        PlayToneEx(440,TIMER_SOUND,VOL,FALSE); //440, 494, 523, 587
+        Wait(ONE_MINUTE);
+        Wait(ONE_MINUTE);
+        Wait(FIFTEEN_SECONDS);
+        light_on(IN_1);
+        Wait(TIMER_CALIBRATION_1);
+        calibration[0]=Sensor(IN_1);
+    } else {
+        message = StrCat("1. clear  ", v,"  ");
+        TextOut(0, LCD_LINE4, message,0);
+    }
+  }
+}
+
+task light_sensor2()
+{
+  while (true)
+  {
+    light_on(IN_2);
+    int value=Sensor(IN_2);
+    string v = NumToStr(value);
+    string message;
+    if (value==last_value[1]){
+      counter[1]=counter[1]+1;
+    } else {
+      counter[1]=0;
+    }
+    if (counter[1]>TIMER_CALIBRATION_2) {
+      calibration[1]=value;
+      message = StrCat("2. reset  ", v,"  ");
+      TextOut(0, LCD_LINE5, message,0);
+      Wait(10);
+    }
+    last_value[1]=value;
+    if (value > calibration[1] + SENSIBILITY  ||  value < calibration[1] - SENSIBILITY)
+    {
+        light_off(IN_2);
+        message = StrCat("2. e-puck ", v,"  ");
+        TextOut(0, LCD_LINE5, message,0);
+        PlayToneEx(494,TIMER_SOUND,VOL,FALSE); //440, 494, 523, 587
+        Wait(ONE_MINUTE);
+        Wait(ONE_MINUTE);
+        Wait(FIFTEEN_SECONDS);
+        light_on(IN_2);
+        Wait(TIMER_CALIBRATION_1);
+        calibration[1]=Sensor(IN_2);
+    } else {
+        message = StrCat("2. clear  ", v,"  ");
+        TextOut(0, LCD_LINE5, message,0);
+    }
+  }
+}
+
+task light_sensor3()
+{
+  while (true)
+  {
+    light_on(IN_3);
+    int value=Sensor(IN_3);
+    string v = NumToStr(value);
+    string message;
+    if (value==last_value[2]){
+      counter[2]=counter[2]+1;
+    } else {
+      counter[2]=0;
+    }
+    if (counter[2]>TIMER_CALIBRATION_2) {
+      calibration[2]=value;
+      message = StrCat("3. reset  ", v,"  ");
+      TextOut(0, LCD_LINE6, message,0);
+      Wait(10);
+    }
+    last_value[2]=value;
+    if (value > calibration[2] + SENSIBILITY  ||  value < calibration[2] - SENSIBILITY)
+    {
+        light_off(IN_3);
+        message = StrCat("3. e-puck ", v,"  ");
+        TextOut(0, LCD_LINE6, message,0);
+        PlayToneEx(523,TIMER_SOUND,VOL,FALSE); //440, 494, 523, 587
+        Wait(ONE_MINUTE);
+        Wait(ONE_MINUTE);
+        Wait(FIFTEEN_SECONDS);
+        light_on(IN_3);
+        Wait(TIMER_CALIBRATION_1);
+        calibration[2]=Sensor(IN_3);
+    } else {
+        message = StrCat("3. clear  ", v,"  ");
+        TextOut(0, LCD_LINE6, message,0);
+    }
+  }
+}
+
+task light_sensor4()
+{
+  while (true)
+  {
+    light_on(IN_4);
+    int value=Sensor(IN_4);
+    string v = NumToStr(value);
+    string message;
+    if (value==last_value[3]){
+      counter[3]=counter[3]+1;
+    } else {
+      counter[3]=0;
+    }
+    if (counter[3]>TIMER_CALIBRATION_2) {
+      calibration[3]=value;
+      message = StrCat("4. reset  ", v,"  ");
+      TextOut(0, LCD_LINE7, message,0);
+      Wait(10);
+    }
+    last_value[3]=value;
+    if (value > calibration[3] + SENSIBILITY  ||  value < calibration[3] - SENSIBILITY)
+    {
+        light_off(IN_4);
+        message = StrCat("4. e-puck ", v,"  ");
+        TextOut(0, LCD_LINE7, message,0);
+        PlayToneEx(587,TIMER_SOUND,VOL,FALSE); //440, 494, 523, 587
+        Wait(ONE_MINUTE);
+        Wait(ONE_MINUTE);
+        Wait(FIFTEEN_SECONDS);
+        light_on(IN_4);
+        Wait(TIMER_CALIBRATION_1);
+        calibration[3]=Sensor(IN_4);
+    } else {
+        message = StrCat("4. clear  ", v,"  ");
+        TextOut(0, LCD_LINE7, message,0);
+    }
+  }
+}
+
+sub initial_calibration(){
+  Wait(TIMER_CALIBRATION_1);
+  calibration[0]=Sensor(IN_1);
+  calibration[1]=Sensor(IN_2);
+  calibration[2]=Sensor(IN_3);
+  calibration[3]=Sensor(IN_4);
+}
+
+task main()
+{
+  TextOut(0, LCD_LINE1, "Ratslife",0);
+  TextOut(0, LCD_LINE2, "Feeders control",0);
+  SetSensorLight(IN_1);
+  light_on(IN_1);
+  SetSensorLight(IN_2);
+  light_on(IN_2);
+  SetSensorLight(IN_3);
+  light_on(IN_3);
+  SetSensorLight(IN_4);
+  light_on(IN_4);
+  ArrayInit(calibration, 50, 4);
+  ArrayInit(counter, 0, 4);
+  ArrayInit(last_value, 50, 4);
+  initial_calibration();
+  Precedes(light_sensor1, light_sensor2, light_sensor3, light_sensor4);
+}
+

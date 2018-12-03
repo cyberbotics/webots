@@ -1,0 +1,355 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This example shows a Shrimp III robot (BlueBotics SA)."
+    "The robot's mechanical structure passively adapts to the uneven terrain."
+    "If you wish you can drive the robot using the keyboard (follow the instructions in Webots Console)."
+  ]
+  title "Shrimp III"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.5163327763784002 -0.8563497272590935 -0.008099917323578426 0.39463537377233604
+  position -0.7103984254609599 0.6119494874292382 6.018668516895889
+  follow "Shrimp"
+  followSmoothness 0
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 20 20
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/rock.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
+}
+DEF STAIRS Solid {
+  translation 0 0 -4.5
+  children [
+    DEF STAIRS Group {
+      children [
+        Transform {
+          translation 0 0.05 0
+          children [
+            Shape {
+              appearance DEF OBJECTS_APPEARANCE PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 0.6
+                metalness 0
+              }
+              geometry Box {
+                size 3 0.1 5
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.16 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 3 0.12 3.5
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.295 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 3 0.15 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.09 -3.9
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 3 0.18 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "stairs"
+  boundingObject USE STAIRS
+}
+DEF RAMP Solid {
+  translation 5 0 0
+  children [
+    DEF RAMPE Group {
+      children [
+        Transform {
+          translation 0 1 0.001
+          rotation 0 0 1 0.5236
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -1.7 0.25 0
+          rotation 0 0 1 0.3
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 2 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 1.51 1.49 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 1.33 0.1 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 3.1 0.7 0.001
+          rotation 0 0 1 -0.7
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Box {
+                size 2.5 0.1 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "ramp"
+  boundingObject USE RAMPE
+}
+DEF CAPS Solid {
+  translation -2 -0.1 0
+  rotation 1 0 0 1.5708
+  children [
+    DEF BUMPS Group {
+      children [
+        Transform {
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Capsule {
+                radius 0.3
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.4 0 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Capsule {
+                radius 0.2
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -1.3 0 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Capsule {
+                radius 0.336
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -2.2 0 0.05
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Capsule {
+                radius 0.3
+                subdivision 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "caps"
+  boundingObject USE BUMPS
+}
+DEF SPHERES Solid {
+  translation 0 -0.05 3.5
+  children [
+    DEF BALLS Group {
+      children [
+        Transform {
+          translation -0.2 -0.06 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.35 -0.03 -0.05
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.2 -0.015 -0.4
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.1 0 -0.6
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.015 -0.9
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.5 0.02 -0.55
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.005 0
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.5 0 -1
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.6 0.03 -0.15
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0.4 0 -1.3
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+        Transform {
+          translation -0.15 0.04 -1.35
+          children [
+            Shape {
+              appearance USE OBJECTS_APPEARANCE
+              geometry Sphere {
+                radius 0.15
+                subdivision 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "spheres"
+  boundingObject USE BALLS
+}
+Shrimp {
+  translation 0.02 0 4.5
+}

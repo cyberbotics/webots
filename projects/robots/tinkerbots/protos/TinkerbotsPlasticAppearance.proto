@@ -1,0 +1,30 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static, hidden
+
+PROTO TinkerbotsPlasticAppearance [
+  field SFString{"yellow", "red", "blue", "black", "grey"} color           "yellow"
+  field MFString                                           occlusionMapUrl []
+
+]
+{
+  PBRAppearance {
+    %{ if fields.color.value == "yellow" then }%
+      baseColor 1 0.6 0
+    %{ elseif fields.color.value == "red" then }%
+      baseColor 1 0 0
+    %{ elseif fields.color.value == "blue" then }%
+      baseColor 0 0.45 1
+    %{ elseif fields.color.value == "black" then }%
+      baseColor 0 0 0
+    %{ else }%
+      baseColor 0.8 0.8 0.8
+    %{ end }%
+    metalness 0
+    roughness 0.9
+    occlusionMap ImageTexture {
+      url IS occlusionMapUrl
+    }
+  }
+}

@@ -1,0 +1,31 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.995574 0.0174104 -0.0923494 5.7496
+  position -0.156961 0.689912 1.21631
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1.0
+  intensity 0.0
+  color 1.0 1.0 1.0
+}
+Robot {
+  children [
+    LED {
+    }
+    DistanceSensor {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "remote_control"
+  remoteControl "remote_control"
+}
+TestSuiteSupervisor {
+}

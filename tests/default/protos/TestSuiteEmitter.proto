@@ -1,0 +1,10 @@
+#VRML_SIM R2019a utf8
+
+PROTO TestSuiteEmitter [
+]
+{
+  Emitter {
+    name "ts_emitter"
+    channel 20
+  }
+}

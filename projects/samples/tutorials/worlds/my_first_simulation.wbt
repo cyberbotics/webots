@@ -1,0 +1,17 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.964988043047881 0.2609340116402026 0.026674301189934066 5.53317
+  position -0.319918 0.968445 1.19138
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+E-puck {
+  controller "e-puck_go_forward"
+}

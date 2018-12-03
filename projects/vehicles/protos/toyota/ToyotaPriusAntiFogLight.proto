@@ -1,0 +1,48 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+
+PROTO ToyotaPriusAntiFogLight [
+]
+{
+  Transform {
+    translation 0 -0.3 1.435
+    children [
+      DEF ANTIFOG_LIGHT Group {
+        children [
+          Transform {
+            translation 0.569 0.375 2.1
+            rotation 1 0 0 1.7017
+            children [
+              DEF ANTIFOG_SHAPE Shape {
+                appearance PBRAppearance {
+                  roughness 0.5
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/antifog.jpg"
+                    ]
+                  }
+                }
+                geometry Cylinder {
+                  bottom FALSE
+                  height 0.1
+                  radius 0.053
+                  side FALSE
+                  subdivision 24
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.569 0.375 2.1
+            rotation 1 0 0 1.7017
+            children [
+              USE ANTIFOG_SHAPE
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test procedure:"
+    "- add Box node to boundingObject PROTO field"
+    "- add Physics node to phyiscs PROTO field"
+    "- save and revert"
+    "- remove Physics node"
+    "- remove boundingObject node"
+    "- save and revert"
+    " "
+    "Regression test for issues 870 and 931"
+  ]
+}
+Viewpoint {
+  orientation -0.999346 0.0347544 0.00999315 0.560353
+  position 0.163095 0.754028 0.969325
+  near 0.001
+}
+Background {
+}
+DirectionalLight {
+  direction 0.2 -1 0.55
+}
+DEF TEST_PROTO DerivedSolidPhysics {
+}

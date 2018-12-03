@@ -1,0 +1,131 @@
+{
+  "name": "sojourner", 
+  "devices": [
+    {
+      "transformID": "n76", 
+      "name": "BackLeftArm", 
+      "maxPosition": 1.5708, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.5708, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n63", 
+      "name": "BackLeftBogie", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n80", 
+      "name": "BackLeftWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n204", 
+      "name": "BackRightArm", 
+      "maxPosition": 1.5708, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.5708, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n197", 
+      "name": "BackRightBogie", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n214", 
+      "name": "BackRightWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n162", 
+      "name": "FrontLeftArm", 
+      "maxPosition": 1.5708, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.5708, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n146", 
+      "name": "FrontLeftBogie", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n172", 
+      "name": "FrontLeftWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n296", 
+      "name": "FrontRightArm", 
+      "maxPosition": 1.5708, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.5708, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n280", 
+      "name": "FrontRightBogie", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n300", 
+      "name": "FrontRightWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n114", 
+      "name": "MiddleLeftWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }, 
+    {
+      "transformID": "n236", 
+      "name": "MiddleRightWheel", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 -1"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.995574 0.0174104 -0.0923494 5.7496
+  position -0.156961 0.689912 1.21631
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1.0
+  intensity 0.0
+  color 1.0 1.0 1.0
+}
+Transform {
+  translation 0.0 0.0 -2.0
+  rotation 0.000562864 0.707388 0.706825 3.14047
+  children [
+    Shape {
+      geometry Plane {
+        size 1 1
+      }
+    }
+  ]
+}
+Transform {
+  translation 0.0 0.0 2.0
+  rotation 1.0 0.0 0.0 -1.57
+  children [
+    Shape {
+      geometry Plane {
+        size 1 1
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    RangeFinder {
+      spherical TRUE
+      maxRange 3.0
+      fieldOfView 6.28
+      width 256
+      height 128
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "range_finder_checker"
+  controllerArgs "range_finder_spherical"
+}
+TestSuiteSupervisor {
+}

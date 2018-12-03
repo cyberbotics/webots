@@ -1,0 +1,63 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# Set of lights found in a standard vehicle: front, right and left indicators, antifog, braking, rear and backwards
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+
+PROTO VehicleLights [
+  field MFNode    front           [ ]
+  field MFColor   frontColor      [ 0.8 0.8 0.8 ]
+  field MFNode    rightIndicator  [ ]
+  field MFNode    leftIndicator   [ ]
+  field MFColor   indicatorColor  [ 1 0.7 0.1 ]
+  field MFNode    antifog         [ ]
+  field MFColor   antifogColor    [ 0.8 0.8 0.8 ]
+  field MFNode    braking         [ ]
+  field MFColor   brakingColor    [ 0.7 0.12 0.12 ]
+  field MFNode    rear            [ ]
+  field MFColor   rearColor       [ 0.7 0.12 0.12 ]
+  field MFNode    backwards       [ ]
+  field MFColor   backwardsColor  [ 0.8 0.8 0.8 ]
+]
+{
+  Group {
+    children [
+      DEF FRONT_LIGHTS LED {
+        children IS front
+        name "front_lights"
+        color IS frontColor
+      }
+      DEF RIGHT_INDICATORS LED {
+        children IS rightIndicator
+        name "right_indicators"
+        color IS indicatorColor
+      }
+      DEF LEFT_INDICATORS LED {
+        children IS leftIndicator
+        name "left_indicators"
+        color IS indicatorColor
+      }
+      DEF ANTIFOG_LIGHTS LED {
+        children IS antifog
+        name "antifog_lights"
+        color IS antifogColor
+      }
+      DEF BRAKE_LIGHTS LED {
+        children IS braking
+        name "brake_ligths"
+        color IS brakingColor
+      }
+      DEF REAR_LIGHTS LED {
+        children IS rear
+        name "rear_lights"
+        color IS rearColor
+      }
+      DEF BACKWARDS_LIGHTS LED {
+        children IS backwards
+        name "backwards_lights"
+        color IS backwardsColor
+      }
+    ]
+  }
+}

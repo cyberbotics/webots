@@ -1,0 +1,168 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Four roads crossing traffic light.
+
+PROTO CrossRoadsTrafficLight [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "cross road traffic light"
+  field SFString   controller  "crossroads_traffic_lights"  # Is `Robot.controller`.
+  field SFBool     supervisor  FALSE                        # Is `Robot.supervisor`.
+  field SFVec2f    size        20.8 20.8                    # Defines the size of the traffic lights.
+]
+{
+%{
+  local size = fields.size.value
+}%
+  Robot {
+    translation IS translation
+    rotation IS rotations
+    children [
+      TrafficLightBigPole {
+        translation %{= - size.x / 2 }% 0 %{= - size.y / 2 }%
+        name "pole 1"
+        slot1 [
+          TrafficLight {
+            name "traffic light 0"
+            red_light "red light 0"
+            orange_light "orange light 0"
+            green_light "green light 0"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot2 [
+          TrafficLightHorizontal {
+            name "traffic light 1"
+            red_light "red light 1"
+            orange_light "orange light 1"
+            green_light "green light 1"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot3 [
+          TrafficLightHorizontal {
+            name "traffic light 2"
+            red_light "red light 2"
+            orange_light "orange light 2"
+            green_light "green light 2"
+            lamp_geometry TrafficLightArrowLampGeometry {
+            }
+          }
+        ]
+      }
+      TrafficLightBigPole {
+        translation %{= size.x / 2 }% 0 %{= - size.y / 2 }%
+        rotation 0 -1 0 1.5708
+        name "pole 2"
+        slot1 [
+          TrafficLight {
+            name "traffic light 3"
+            red_light "red light 3"
+            orange_light "orange light 3"
+            green_light "green light 3"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot2 [
+          TrafficLightHorizontal {
+            name "traffic light 4"
+            red_light "red light 4"
+            orange_light "orange light 4"
+            green_light "green light 4"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot3 [
+          TrafficLightHorizontal {
+            name "traffic light 5"
+            red_light "red light 5"
+            orange_light "orange light 5"
+            green_light "green light 5"
+            lamp_geometry TrafficLightArrowLampGeometry {
+            }
+          }
+        ]
+      }
+      TrafficLightBigPole {
+        translation %{= size.x / 2 }% 0 %{= size.y / 2 }%
+        rotation 0 1 0 3.14159
+        name "pole 3"
+        slot1 [
+          TrafficLight {
+            name "traffic light 4"
+            red_light "red light 6"
+            orange_light "orange light 6"
+            green_light "green light 6"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot2 [
+          TrafficLightHorizontal {
+            name "traffic light 7"
+            red_light "red light 7"
+            orange_light "orange light 7"
+            green_light "green light 7"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot3 [
+          TrafficLightHorizontal {
+            name "traffic light 8"
+            red_light "red light 8"
+            orange_light "orange light 8"
+            green_light "green light 8"
+            lamp_geometry TrafficLightArrowLampGeometry {
+            }
+          }
+        ]
+      }
+      TrafficLightBigPole {
+        translation %{= - size.x / 2 }% 0 %{= size.y / 2 }%
+        rotation 0 1 0 1.5708
+        name "pole 4"
+        slot1 [
+          TrafficLight {
+            name "traffic light 9"
+            red_light "red light 9"
+            orange_light "orange light 9"
+            green_light "green light 9"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot2 [
+          TrafficLightHorizontal {
+            name "traffic light 10"
+            red_light "red light 10"
+            orange_light "orange light 10"
+            green_light "green light 10"
+            lamp_geometry TrafficLightStandardLampGeometry {
+            }
+          }
+        ]
+        slot3 [
+          TrafficLightHorizontal {
+            name "traffic light 11"
+            red_light "red light 11"
+            orange_light "orange light 11"
+            green_light "green light 11"
+            lamp_geometry TrafficLightArrowLampGeometry {
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "cross road traffic light"
+    controller IS controller
+    supervisor IS supervisor
+  }
+}

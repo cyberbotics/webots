@@ -1,0 +1,89 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.15446 -0.98633 -0.0573986 1.19999
+  position -3.82074 1.09852 1.79224
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 1 -1 -0.5
+  castShadows TRUE
+}
+Floor {
+  size 3 3
+}
+Solid {
+  translation 0 -0.04 -0.07
+  children [
+    DEF RAMP Transform {
+      rotation 1 0 0 0.1309
+      children [
+        Shape {
+          geometry Box {
+            size 3 0.1 0.3
+          }
+        }
+      ]
+    }
+  ]
+  boundingObject USE RAMP
+}
+DEF BALL1 Solid {
+  translation -0.9 0.105163 0
+  rotation 1 0 0 0.0578683
+  children [
+    DEF BALL_SHAPE Shape {
+      geometry Sphere {
+        radius 0.1
+        subdivision 2
+      }
+    }
+  ]
+  name "ball"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+}
+DEF BALL2 Solid {
+  translation 0 0.105163 0
+  rotation 1 0 0 0.0578683
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball(1)"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+}
+DEF BALL3 Solid {
+  translation 0.9 0.105163 0
+  rotation 1 0 0 0.0578683
+  children [
+    USE BALL_SHAPE
+  ]
+  name "ball(2)"
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_reset_physics"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

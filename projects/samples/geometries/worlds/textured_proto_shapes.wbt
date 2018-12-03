@@ -1,0 +1,50 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  fieldOfView 0.6
+  orientation 0.5616888363693936 -0.8192537613358483 -0.11545096636694481 5.79156
+  position 0.970868 0.71451 2.33667
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF TEXTURED_BOX Solid {
+  translation -0.25 0 0
+  children [
+    Shape {
+      appearance DEF APP PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry TexturedBox {
+        size 0.4 0.2 0.1
+        mapping "metric"
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF TEXTURED_BOX_SHAPE Solid {
+  translation 0.25 0 0
+  children [
+    TexturedBoxShape {
+      size 0.4 0.2 0.1
+      textureUrl [
+        "textures/tagged_wall.jpg"
+      ]
+      textureMapping "metric"
+      faceColor 0.219608 0.588235 0.141176
+      leftFace FALSE
+      topFace FALSE
+      bottomFace FALSE
+    }
+  ]
+}

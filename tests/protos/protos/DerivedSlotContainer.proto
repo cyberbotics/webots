@@ -1,0 +1,21 @@
+#VRML_SIM R2019a utf8
+
+PROTO DerivedSlotContainer [
+]
+{
+  SlotContainer {
+    slot [
+      Shape {
+        appearance Appearance {
+          material Material {
+            diffuseColor 0.8 0.8 0.8
+          }
+        }
+        geometry Cylinder {
+          height 0.3
+          radius 0.015
+        }
+      }
+    ]
+  }
+}

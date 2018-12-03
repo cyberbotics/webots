@@ -1,0 +1,51 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  lineScale 0.5
+}
+Viewpoint {
+  orientation 0.11169797260317144 -0.974901760880025 -0.1925879527628031 4.45337
+  position 12.6962 6.22517 -3.30534
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+}
+SolidBox {
+  translation 0.47 1.1 -0.51
+  size 1 0.5 0.5
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+SolidPipe {
+  translation 0 1 0
+  rotation 0 0 1 4.71239
+  subdivision 48
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+SolidRoundedBox {
+  translation 0 2.75 1.42
+  size 1.5 1 2
+  borderRadius 0.4
+  physics Physics {
+    density -1
+    mass 1
+  }
+}
+SolidTorus {
+  translation 1.49 2.75 -0.18
+  majorRadius 0.5
+  minorRadius 0.2
+  subdivision 40
+  physics Physics {
+    density -1
+    mass 1
+  }
+}

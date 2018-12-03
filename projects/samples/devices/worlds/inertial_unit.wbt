@@ -1,0 +1,236 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Example world for demonstrating the InertialUnit."
+  ]
+  title "Inertial Unit"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.2954309947130792 -0.9526699829513802 -0.07169679871694135 5.71352
+  position 0.72117 0.477662 1.14814
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF ROBOT Robot {
+  children [
+    DEF YAW_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          name "yaw motor"
+        }
+      ]
+      endPoint Solid {
+        children [
+          DEF PITCH_HINGE_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 0.33 0
+            }
+            device [
+              RotationalMotor {
+                name "pitch motor"
+                minPosition -0.8
+                maxPosition 1.5
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.33 0
+              rotation 0 0 1 0
+              children [
+                DEF ROLL_HINGE_JOINT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    anchor 0.3 0 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "roll motor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.3 0 0
+                    rotation 1 0 0 0
+                    children [
+                      InertialUnit {
+                        translation 0.08 0 0
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 1 1 0
+                              baseColorMap ImageTexture {
+                                url [
+                                  "textures/imu.png"
+                                ]
+                              }
+                              roughness 0.5
+                              metalness 0
+                            }
+                            geometry Box {
+                              size 0.04 0.04 0.04
+                            }
+                          }
+                        ]
+                      }
+                      DEF ROLL_GROUP Group {
+                        children [
+                          Transform {
+                            translation 0.02 0 0
+                            rotation 0 0 1 1.5708
+                            children [
+                              Shape {
+                                appearance DEF PLASTIC_APPEARANCE PBRAppearance {
+                                  baseColor 1 0.666667 0
+                                  roughness 1
+                                  metalness 0
+                                }
+                                geometry Cylinder {
+                                  height 0.02
+                                  radius 0.04
+                                  subdivision 16
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0.06 0 0
+                            children [
+                              Shape {
+                                appearance DEF METAL_APPEARANCE PBRAppearance {
+                                  baseColor 0.5 0.5 0.5
+                                  roughness 1.1102230246251565e-16
+                                  metalness 0
+                                }
+                                geometry Box {
+                                  size 0.06 0.02 0.02
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    boundingObject USE ROLL_GROUP
+                  }
+                }
+                DEF PITCH_GROUP Group {
+                  children [
+                    Transform {
+                      rotation 1 0 0 1.5708
+                      children [
+                        Shape {
+                          appearance USE PLASTIC_APPEARANCE
+                          geometry Cylinder {
+                            height 0.04
+                            radius 0.06
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.15 0 0
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Box {
+                            size 0.3 0.04 0.03
+                          }
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0.3 0 0
+                      rotation 0 0 1 1.5708
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Cylinder {
+                            height 0.02
+                            radius 0.04
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              boundingObject USE PITCH_GROUP
+            }
+          }
+          DEF YAW_GROUP Group {
+            children [
+              Transform {
+                translation 0 0.18 0
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.04
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.33 0
+                rotation 1 0 0 1.5708
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.09
+                      radius 0.05
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject USE YAW_GROUP
+      }
+    }
+    DEF BASIS_GROUP Group {
+      children [
+        Transform {
+          translation 0 0.02 0
+          children [
+            Shape {
+              appearance USE METAL_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.1
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.04 0
+          children [
+            Shape {
+              appearance USE PLASTIC_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.07
+                subdivision 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE BASIS_GROUP
+  controller "inertial_unit"
+}

@@ -1,0 +1,54 @@
+<div id='infotabs' class='webotsTabs webotsRobotWindowTabs'>
+  <ul>
+    <li><a href='#infotab-overview'>Overview</a></li>
+    <li><a href='#infotab-metrics'>Metrics</a></li>
+    <li><a href='#infotab-instructions'>Instructions</a></li>
+  </ul>
+  <div id='infotab-overview'>
+    <p>
+      This benchmark aims at developing a program that controls a BB-8 robot to escape from a pit.
+    </p>
+  </div>
+  <div id='infotab-metrics'>
+    <div style='text-align:center'>Performance: <span id='performance-display'>00.00</span>%</div>
+    <p>
+      The robot has to get out of the pit as fast as possible.
+      The benchmark stops if the robot takes more than one minute to escape.
+    </p>
+    <p>
+      If the robot is able to get out of the pit, the metric will be based on how fast the robot was to get out.
+      Otherwise, the metric will measure how close it was from escaping.
+    </p>
+    <p>
+      In the first case the metric ranges from 50% to 100% and is linearly correlated with the time result.
+      A value of 100% is awarded for an instantaneous escape, while a value of 50% is awarded for a last-second escape.
+      In the second case the metric ranges from 0% to 50% and is linearly correlated with the distance from the top of the pit.
+    </p>
+  </div>
+  <div id='infotab-instructions'>
+    <p>
+      <h2>How to improve the performance?</h2>
+    </p>
+    <p>
+      The slope is too steep for the robot to simply go forward.
+      Instead, it should go back and forth to accumulate momentum until it has enough to climb out of the pit.
+    </p>
+    <p>
+      The basic controller simply goes back and forth at regular time intervals.
+      You should try to find a better way to decide when to change direction to optimize the accumulated momentum.
+      For example you can use the gyro sensor of the robot to measure the current velocity of the robot.
+    </p>
+    <p>
+      The gyro can be initialized using the following piece of code:
+    </p>
+    <code>gyro = robot.getGyro("body gyro")</code><br>
+    <code>gyro.enable(timestep)</code>
+    <p>
+      You can then use
+    </p>
+    <code>gyro.getValues()</code>
+    <p>
+      to read the current value of the sensor.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.747029 0.646616 0.154387 5.42889
+  position -1.2077 1.6424 1.96945
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+ParserTestSupervisor {
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Group {
+  USE # error here: the USE value is missing
+}
+RectangleArena {
+}

@@ -1,0 +1,236 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A configurable fountain.
+
+PROTO Fountain [
+  field SFVec3f     translation            0 0 0
+  field SFRotation  rotation               0 1 0 0
+  field SFString    name                   "fountain"
+  field SFFloat     height                 1.5         # Defines the height of the fountain.
+  field SFFloat     radius                 1           # Defines the radius of the fountain.
+  field SFInt32     subdivision            16          # Defines subdivision of the fountain cylinders.
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision <= 3 then
+      io.stderr:write("'subdivision' must be greater than 3\n")
+      subdivision = fields.subdivision.defaultValue
+    end
+    local height = fields.height.value
+    if height <= 0 then
+      io.stderr:write("'height' must be greater than 0\n")
+      height = fields.height.defaultValue
+    end
+    local radius = fields.radius.value
+    if radius <= 0 then
+      io.stderr:write("'radius' must be greater than 0\n")
+      radius = fields.radius.defaultValue
+    end
+
+    local scales =  { 0,    0,   0.4, 0.3,  0.15, 0.15, 0.15,   0.1, 0.1, 0.08,  0.05, 0.02,    0.1, 0.12}
+    local heights = { 0, 0.01, 0.002, 0.15, 0.25, 0.35, 0.5, 0.501, 0.8,  0.9, 0.901,    1.05, 1.08, 1.12}
+
+    local circle = wbgeometry.circle(1.0, subdivision, 0, 0, 0)
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors [ 0.8 0.8 0.8 ]
+    children [
+      # main structure
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/rock.jpg"
+            ]
+          }
+          metalness 0
+          roughness 0.8
+          textureTransform TextureTransform {
+            scale %{= 2 * height }% %{= 2 * height }%
+          }
+        }
+        geometry Extrusion {
+          crossSection [
+            %{ for i, el in ipairs(circle) do }%
+              %{= el.x }% %{= el.y }%
+            %{ end }%
+          ]
+          spine [
+            %{ for i, el in ipairs(heights) do }%
+              0 %{= el * height }% 0
+            %{ end }%
+          ]
+          scale [
+            %{ for i, el in ipairs(scales) do }%
+              %{= el * radius }% %{= el * radius }%
+            %{ end }%
+          ]
+          splineSubdivision -1
+          creaseAngle 1
+          ccw FALSE
+        }
+      }
+      #contour pipe
+      SolidPipe {
+        translation 0 %{= 0.075 * height }% 0
+        name "bottom pipe"
+        height %{= 0.13 * height }%
+        radius %{= radius }%
+        thickness %{= 0.05 * radius }%
+        subdivision %{= subdivision }%
+        appearance DEF PIPE PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/rock.jpg"
+            ]
+          }
+          metalness 0
+          roughness 0.7
+          textureTransform TextureTransform {
+            scale %{= 20 * radius }% 1
+          }
+        }
+      }
+      SolidPipe {
+        translation 0 %{= 0.53 * height }% 0
+        name "middle pipe"
+        height %{= 0.066 * height }%
+        radius %{= 0.6 * radius }%
+        thickness %{= 0.05 * radius }%
+        subdivision %{= subdivision }%
+        appearance USE PIPE
+      }
+      SolidPipe {
+        translation 0 %{= 0.91 * height }% 0
+        name "top pipe"
+        height %{= 0.033 * height }%
+        radius %{= 0.4 * radius }%
+        thickness %{= 0.025 * radius }%
+        subdivision %{= subdivision }%
+        appearance USE PIPE
+      }
+      Transform {
+        translation 0 %{= 0.0385 * height }% 0
+        children [
+          Shape {
+            appearance DEF SURFACES PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/rock.jpg"
+                ]
+              }
+              metalness 0
+              roughness 0.7
+              textureTransform TextureTransform {
+                scale %{= 5 * radius }% %{= 5 * radius }%
+              }
+            }
+            geometry Cylinder {
+              height %{= 0.045 * height }%
+              radius %{= radius * 0.99 }%
+              subdivision IS subdivision
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= 0.504 * height }% 0
+        children [
+          Shape {
+            appearance USE SURFACES
+            geometry Cylinder {
+              height %{= 0.01 * height }%
+              radius %{= 0.56 * radius }%
+              subdivision IS subdivision
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= 0.9 * height }% 0
+        children [
+          Shape {
+            appearance USE SURFACES
+            geometry Cylinder {
+              height %{= 0.01 * height }%
+              radius %{= 0.38 * radius }%
+              subdivision IS subdivision
+            }
+          }
+        ]
+      }      
+      # water
+      Transform {
+        translation 0 %{= 0.066 * height }% 0
+        children [
+          Shape {
+            appearance DEF WATER PBRAppearance {
+              transparency 0.7
+              metalness 0
+              roughness 0.1
+              baseColor 0.6 0.6 0.6
+            }
+            geometry Cylinder {
+              bottom FALSE
+              height %{= 0.075 * height }%
+              radius %{= 0.99 * radius }%
+              side FALSE
+              subdivision %{= subdivision }%
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= 0.52 * height }% 0
+        children [
+          Shape {
+            appearance USE WATER
+            geometry Cylinder {
+              bottom FALSE
+              height %{= 0.075 * height }%
+              radius %{= 0.59 * radius }%
+              side FALSE
+              subdivision %{= subdivision }%
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= 0.88 * height }% 0
+        children [
+          Shape {
+            appearance USE WATER
+            geometry Cylinder {
+              bottom FALSE
+              height %{= 0.075 * height }%
+              radius %{= 0.39 * radius }%
+              side FALSE
+              subdivision %{= subdivision }%
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "fountain"
+    boundingObject Transform {
+      translation 0 %{= 0.45 * height }% 0
+      children [
+        Shape {
+          geometry Cylinder {
+            height %{= 0.9 * height }%
+            radius %{= 0.4 * radius }%
+          }
+        }
+      ]
+    }
+  }
+}

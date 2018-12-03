@@ -1,0 +1,42 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+  lineScale 0.9
+}
+Viewpoint {
+  orientation 0.0132098 -0.974725 -0.223015 3.4817
+  position 0.269593 0.23807 -0.613166
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0.2 -1 0.5
+}
+SimpleSlotParent {
+  endPoint Slot {
+    endPoint Shape {
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  }
+}
+DEF TEST Robot {
+  translation 0.1 0 0
+  children [
+    DistanceSensor {
+      rotation 0 1 0 3.14159
+      type "infra-red"
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "single_distance_sensor_detection"
+  controllerArgs "simple_slot_parameter"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,147 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.799307 0.413335 -0.436192 2.62846
+  position 4.587 1.99424 -5.25583
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.4 0.2 0
+}
+DEF VISIBLE_SPHERE Solid {
+  translation -3.49077 3.43016 -2.72278
+  rotation 0.645788 0.539888 0.539888 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.5
+      }
+    }
+  ]
+  boundingObject USE SPHERE
+  radarCrossSection 1
+}
+DEF NOT_VISIBLE_SPHERE Solid {
+  translation -5.01688 1.1837 -2.0401
+  rotation 0.645788 0.539888 0.539888 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF SPHERE Sphere {
+        radius 0.3
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE SPHERE
+  radarCrossSection 1
+}
+DEF VISIBLE_BOX Solid {
+  translation -1.34837 0.660611 -1.26226
+  rotation 0.557085 -0.0497567 0.828964 2.51922
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BOX
+  radarCrossSection 1
+}
+DEF NOT_VISIBLE_BOX Solid {
+  translation -1.61501 0.792452 -1.40516
+  rotation 0.645788 0.539888 0.539888 1.36968
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 0.1 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE BOX
+  radarCrossSection 1
+}
+DEF VISIBLE_CAPSULE Solid {
+  translation -3.49351 0.0982299 -1.05761
+  rotation 0.557085 -0.0497567 0.828964 2.51922
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF CAPSULE Capsule {
+        height 1
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE CAPSULE
+  radarCrossSection 1
+}
+DEF NOT_VISIBLE_CAPSULE Solid {
+  translation -3.49351 0.0982299 -1.05761
+  rotation -0.645788 -0.539888 -0.539888 4.91351
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF CAPSULE Capsule {
+        height 1
+        radius 0.05
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject USE CAPSULE
+  radarCrossSection 1
+}
+Robot {
+  translation -0.116489 0.196931 -0.132093
+  rotation 0.645788 0.539888 0.539888 1.36968
+  children [
+    Radar {
+      maxRange 5
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "robot"
+  controller "radar_frustum"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

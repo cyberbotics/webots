@@ -1,0 +1,62 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# Nao challenge key
+
+PROTO Key [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "key"
+  field SFString contactMaterial "default"
+]
+{
+Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    DEF KEY_GROUP Group {
+      children [
+        Shape {
+          appearance DEF KEY_APPEARANCE PBRAppearance {
+            baseColor 0.858824 0.157305 0.11165
+            metalness 0
+            roughness 0.3
+          }
+          geometry Cylinder {
+            height 0.125
+            radius 0.00750
+          }
+        }
+        Transform {
+          translation 0 0.0625 0
+          children [
+            Shape {
+              appearance USE KEY_APPEARANCE
+              geometry Sphere {
+                radius 0.0125
+                subdivision 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name IS name
+  model "key"
+  contactMaterial IS contactMaterial
+  boundingObject USE KEY_GROUP
+  physics Physics {
+    density -1
+    mass 0.03
+    centerOfMass 0 0.0169 0
+    # this inertia matrix comes from the same object
+    # with a radius twice bigger
+    # in order to solve some issues with light and oblong ODE objects
+    inertiaMatrix [
+      0.0005722 0.0001595 0.0005722,
+      0 0 0
+    ]
+  }
+}
+}

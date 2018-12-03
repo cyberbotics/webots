@@ -1,0 +1,88 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+
+PROTO RoCKInER02 [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   name        "RoCKIn ER02"
+  field SFColor    color       0.1 0.1 0.6
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF ER02_SHAPE Group {
+        children [
+          Transform {
+            translation 0 0.01 0
+            children [
+              Shape {
+                appearance DEF ER02_APPEARANCE PBRAppearance {
+                  baseColor IS color
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Box {
+                  size 0.16 0.02 0.26
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.09 0.1 0
+            children [
+              Shape {
+                appearance USE ER02_APPEARANCE
+                geometry Box {
+                  size 0.02 0.2 0.3
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.09 0.1 0
+            children [
+              Shape {
+                appearance USE ER02_APPEARANCE
+                geometry Box {
+                  size 0.02 0.2 0.3
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.1 -0.14
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance USE ER02_APPEARANCE
+                geometry Box {
+                  size 0.02 0.2 0.16
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.1 0.14
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance USE ER02_APPEARANCE
+                geometry Box {
+                  size 0.02 0.2 0.16
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "RoCKIn ER02"
+    boundingObject USE ER02_SHAPE
+    physics Physics {
+    }
+  }
+}

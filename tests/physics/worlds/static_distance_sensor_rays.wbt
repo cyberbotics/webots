@@ -1,0 +1,130 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  title "Static distance sensor rays"
+}
+Viewpoint {
+  orientation 0.313306 -0.92548 -0.212897 5.17154
+  position 0.292375 0.2301 0.174721
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  location 0 0.3 0
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry DEF PLANE Plane {
+      }
+    }
+  ]
+  boundingObject USE PLANE
+}
+DEF DYNAMIC_BOX_1 Solid {
+  translation 0 0.14 -0.1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 1 0
+          specularColor 0.564706 0.933333 0.564706
+        }
+      }
+      geometry DEF BOX0 Box {
+        size 0.09 0.06 0.02
+      }
+    }
+  ]
+  name "green box"
+  boundingObject USE BOX0
+  physics Physics {
+    density 500
+  }
+}
+DEF STATIC_BOX_1 Solid {
+  translation 0 0.05 0.1
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0 0
+          specularColor 0.564706 0.933333 0.564706
+        }
+      }
+      geometry DEF BOX1 Box {
+        size 0.04 0.04 0.02
+      }
+    }
+  ]
+  name "red box"
+  boundingObject USE BOX1
+}
+DEF STATIC_ROBOT Robot {
+  translation 0 0.06 0
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+      }
+      geometry Sphere {
+        radius 0.02
+      }
+    }
+    DEF GENERIC DistanceSensor {
+      translation -0.05 0 0.001
+      rotation 0 1 0 3.14159
+      name "ds_generic_static"
+      lookupTable [
+        0 500 0
+        0.1 0 0
+      ]
+    }
+    DEF INFRA-RED DistanceSensor {
+      translation -0.05 0 0
+      rotation 0 1 0 3.14159
+      name "ds_infra_red_static"
+      lookupTable [
+        0 500 0
+        0.1 0 0
+      ]
+      type "infra-red"
+      aperture 1
+    }
+    DEF GENERIC DistanceSensor {
+      translation 0.05 0 0.001
+      name "ds_generic_dynamic"
+      lookupTable [
+        0 500 0
+        0.1 0 0
+      ]
+      aperture 1
+    }
+    DEF INFRA-RED DistanceSensor {
+      translation 0.05 0 0
+      name "ds_infra_red_dynamic"
+      lookupTable [
+        0 500 0
+        0.1 0 0
+      ]
+      type "infra-red"
+      aperture 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "static"
+  controller "distance_sensor_rays"
+  controllerArgs "static_distance_sensor_rays"
+}
+TestSuiteSupervisor {
+}

@@ -1,0 +1,27 @@
+#VRML_SIM R2019a utf8
+
+PROTO SolidWithExtensionSlot [
+  field SFVec3f translation 0 0 0
+  field MFNode  extensionSlot [ ]
+]
+{
+  Solid {
+    translation IS translation
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      Shape {
+        appearance Appearance {
+          material Material {
+          }
+        }
+        geometry DEF SPHERE Sphere {
+        }
+      }
+    ]
+    boundingObject USE SPHERE
+    physics Physics {
+    }
+  }
+}

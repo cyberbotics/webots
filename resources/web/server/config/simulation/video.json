@@ -1,0 +1,5 @@
+{
+  "publicPort": 80,
+  "multimediaServer": "http://cyberbotics2.cyberbotics.com:9088",
+  "multimediaStream": "localhost:5004"
+}

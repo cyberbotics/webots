@@ -1,0 +1,172 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  physics "ode_dif_exporter"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.18437 -0.96585 -0.182049 1.90043
+  position -2.47806 1.54098 -0.493858
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Floor {
+  size 50 50
+}
+DEF CAPSULE Solid {
+  translation 3.46945e-18 0.25 0.22
+  rotation 1 0 0 4.71239
+  children [
+    DEF BO Shape {
+      appearance DEF APP Appearance {
+        material Material {
+          ambientIntensity 0
+          specularColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Capsule {
+        height 0.2
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX Solid {
+  translation 0 0.5 0
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF CYLINDER Solid {
+  translation 0 0.5 0.4
+  children [
+    DEF CY Shape {
+      appearance USE APP
+      geometry Cylinder {
+        height 0.2
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE CY
+  physics Physics {
+  }
+}
+DEF SPHERE Solid {
+  translation 0 0.9 0.4
+  children [
+    DEF SP Shape {
+      appearance USE APP
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE SP
+  physics Physics {
+  }
+}
+DEF INDEXEDFACESET Solid {
+  translation 0 1.08 0.07
+  children [
+    DEF IF Shape {
+      appearance USE APP
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.0866 -0.05 -0.0866
+            -0.0866 -0.05 0.0866
+            0.0866 -0.05 0
+            0 0.1 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0.5 1
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1, 2, 0
+          3, -1, 1, 0, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 1, 2, -1, 0, 1
+          2, -1, 0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE IF
+  physics Physics {
+  }
+}
+Solid {
+  translation 2 1 0
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+      }
+      endPoint Solid {
+        translation 0 0 0.5
+        rotation 1 0 0 0
+        children [
+          Shape {
+            appearance USE APP
+            geometry DEF BBO Box {
+              size 0.1 0.1 0.5
+            }
+          }
+        ]
+        boundingObject USE BBO
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(5)"
+}
+Robot {
+  children [
+    Receiver {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "determinism"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

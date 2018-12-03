@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+}
+
+.webotsTabs .ui-tabs-nav, .webotsTabs .ui-tabs-panel {
+  font-size: 80%;
+}

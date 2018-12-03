@@ -1,0 +1,327 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Double sided and adjustable advertising board with the possibility of adding up to four poles.
+# Those poles can either be a `cylinder`, `box`, or an `H-shape`.
+
+PROTO AdvertisingBoard [
+  field SFVec3f     translation       0 0 0
+  field SFRotation  rotation          0 1 0 0
+  field SFString    name              "advertising board"                   # Defines the name of the advertising board.
+  field MFString    frontTexture      "textures/webots_billboard.jpg"       # Defines the front display texture.
+  field MFString    backTexture       "textures/webots_billboard.jpg"       # Defines the back display texture.
+  field MFColor     recognitionColors [ 1 1 1, 0.75 0 0 ]                   # Is `Solid.recognitionColors`.
+  field SFBool      displayBackLight  FALSE                                 # Defines wether the displays are backlit or not.
+  field SFFloat     displayWidth      4                                     # Defines the width of the displays.
+  field SFFloat     displayHeight     3                                     # Defines the height of the displays.
+  field SFFloat     frameThickness    0.6                                   # Defines the thickness of the frame.
+  field SFColor     frameColor        0.886275 0.886275 0.886275            # Defines the color of the outer frame of the board.
+  field SFColor     poleColor         0.886275 0.886275 0.886275            # Defines the color of the pole if present.
+  field SFInt32     poleNumber        0                                     # Defines the number of poles. Their position is defined by the number of poles. There can be up to 4 equally spaced poles per board.
+  field SFString{"cylinder", "box", "H-shape"}
+                    poleType          "cylinder"                            # Defines the shape and behavious of the pole(s). `box` and `cylinder` pole types are placed at the center of the board and `H-shape` is placed behind. In the case of `H-shape`, backTexture is null and a base is not defined.
+  field SFFloat     poleHeight        5                                     # Defines the height of the pole.
+  field SFFloat     poleThickness     0.4                                   # Defines the thickness of the pole (radius of the cylinder for `cylinder`).
+  field SFFloat     baseRatio         3.2                                   # Defines the size of the base for `box` and `cylinder` poles. This field is based on a ratio of `poleThickness`.
+]
+{
+  %{
+    local displayWidth = fields.displayWidth.value
+    if displayWidth <= 0.0 then
+      displayWidth = fields.displayWidth.defaultValue
+      io.stderr:write("'displayWidth' should be strictly positive. ")
+      io.stderr:write("'displayWidth' was reset to '" .. displayWidth .. "'.")
+    end
+    local displayHeight = fields.displayHeight.value
+    if displayHeight <= 0.0 then
+      displayHeight = fields.displayHeight.defaultValue
+      io.stderr:write("'displayHeight' should be strictly positive. ")
+      io.stderr:write("'displayHeight' was reset to '" .. displayHeight .. "'.")
+    end
+    local frameThickness = fields.frameThickness.value
+    if frameThickness < 0.1 then
+      frameThickness = fields.frameThickness.defaultValue
+      io.stderr:write("'frameThickness' should be >= 0.1. ")
+      io.stderr:write("'frameThickness' was reset to '" .. frameThickness .. "'.")
+    end
+    local poleNumber = fields.poleNumber.value
+    if poleNumber < 0 then
+      poleNumber = fields.poleNumber.defaultValue
+      io.stderr:write("'poleNumber' should be strictly positive. ")
+      io.stderr:write("'poleNumber' was reset to '" .. poleNumber .. "'.")
+    elseif poleNumber >= 5 then
+      poleNumber = fields.poleNumber.defaultValue
+      io.stderr:write("'poleNumber' should be <= 4. ")
+      io.stderr:write("'poleNumber' was reset to '" .. poleNumber .. "'.")
+    end
+    local poleType = fields.poleType.value
+    local poleHeight = fields.poleHeight.value
+    if poleHeight <= 0.0 then
+      poleHeight = fields.poleHeight.defaultValue
+      io.stderr:write("'poleHeight' should be strictly positive. ")
+      io.stderr:write("'poleHeight' was reset to '" .. poleHeight .. "'.")
+    end
+    offsetFront = 0.06 -- Provides depth to the display plane with regards to the frame
+    offsetBack = 0.06
+    local poleThickness = fields.poleThickness.value
+    if poleThickness < 0.1 then
+      poleThickness = fields.poleThickness.defaultValue
+      io.stderr:write("'poleThickness' should be >= 0.1. ")
+      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
+    -- Following test takes into account offset to prevent pole from being larger
+    -- than the real display thickness
+    elseif poleThickness > (frameThickness - offsetFront) and poleNumber ~= 0 then
+      poleThickness = fields.poleThickness.defaultValue
+      io.stderr:write("'poleThickness' should be smaller than the frame. ")
+      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
+    elseif poleThickness > (frameThickness - offsetBack) and poleNumber ~= 0 then
+      poleThickness = fields.poleThickness.defaultValue
+      io.stderr:write("'poleThickness' should be smaller than the frame. ")
+      io.stderr:write("'poleThickness' was reset to '" .. poleThickness .. "'.")
+    end
+    local baseRatio = fields.baseRatio.value
+    if baseRatio < 0.1 then
+      baseRatio = fields.baseRatio.defaultValue
+      io.stderr:write("'baseRatio' should be strictly positive. ")
+      io.stderr:write("'baseRatio' was reset to '" .. baseRatio .. "'.")
+    end
+    local wbcore = require('wbcore')
+    xPosition = {{0},
+                 {-displayWidth / 4, displayWidth / 4},
+                 {-displayWidth / 3, 0, displayWidth / 3},
+                 {-(displayWidth / 2) + poleThickness, -displayWidth / 7, displayWidth / 7, (displayWidth / 2) - poleThickness}}
+  }%
+
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    recognitionColors IS recognitionColors
+    children [
+      %{
+        displayElevation = 0
+        -- Add an elevation parameter when there is a pole to adjust coordinate system
+        if poleNumber ~= 0 then
+          displayElevation = poleHeight - 0.6 * displayHeight - 0.2
+        end
+      }%
+      DEF BOARD Solid {
+        translation 0 %{= displayElevation }% 0
+        name "board"
+        children [
+          DEF LEFT_SIDE Transform {
+            translation %{= -0.05 - displayWidth / 2 }% 0 0
+            children [
+              DEF SHORT_SIDE Shape {
+                appearance DEF COLOR_SIDE PBRAppearance {
+                  baseColor IS frameColor
+                  metalness 0
+                  roughness 0.6
+                }
+                geometry Box {
+                  size 0.1 %{= 0.2 + displayHeight }% %{= frameThickness }%
+                }
+              }
+            ]
+          }
+          DEF RIGHT_SIDE Transform {
+            translation %{= 0.05 + displayWidth / 2 }% 0 0
+            children [
+              USE SHORT_SIDE
+            ]
+          }
+          DEF TOP_SIDE Transform {
+            translation 0 %{= 0.05 + displayHeight / 2 }% 0
+            children [
+              DEF LONG_SIDE Shape {
+                appearance USE COLOR_SIDE
+                geometry Box {
+                  size %{= displayWidth }% 0.1 %{= frameThickness }%
+                }
+              }
+            ]
+          }
+          DEF BOTTOM_SIDE Transform {
+            translation 0 %{= -0.05 - displayHeight / 2 }% 0
+            children [
+              USE LONG_SIDE
+            ]
+          }
+          %{
+            if wbcore.tablelength(fields.frontTexture.value) == 0 then
+              -- get size of Lua table component to decide whether an url is present or not.
+              -- if test is true, the frame indentation is deleted
+              offsetFront = 0
+            end
+          }%
+          DEF FRONT_SIDE Transform {
+            translation 0 0 %{= frameThickness/2 - offsetFront }%
+            rotation 1 0 0 1.5708
+            children [
+              DEF FRONT_PLANE Shape {
+                appearance PBRAppearance {
+                  baseColor 1 1 1
+                  %{ if fields.displayBackLight.value and offsetFront ~= 0 then }%
+                  emissiveColorMap ImageTexture {
+                    url IS frontTexture
+                  }
+                  %{ end }%
+                  emissiveIntensity 5
+                  metalness 0
+                  roughness 0.6
+                  baseColorMap ImageTexture {
+                    url IS frontTexture
+                  }
+                }
+                geometry DEF PLANE_GEOMETRY Plane {
+                  size %{= displayWidth }% %{= displayHeight }%
+                }
+              }
+            ]
+          }
+          %{
+            if wbcore.tablelength(fields.backTexture.value) == 0 or poleType == "H-shape" then
+              -- Manually setting the display offset for the H-shape because backTexture
+              -- is still present in the arguments, thus not allowing the loop to detect
+              -- the absence of texture.
+              offsetBack = 0
+            end
+          }%
+          DEF BACK_SIDE Transform {
+            translation 0 0 %{= -frameThickness/2 + offsetBack }%
+            rotation 0 -0.709375 0.709375 3.14159
+            children [
+              DEF BACK_PLANE Shape {
+                  appearance PBRAppearance {
+                  baseColor 1 1 1
+                  %{ if fields.displayBackLight.value and offsetFront ~= 0 then }%
+                  emissiveColorMap ImageTexture {
+                    url IS backTexture
+                  }
+                  %{ end }%
+                  emissiveIntensity 5
+                  metalness 0
+                  roughness 0.6
+                  %{ if (poleType == "cylinder" or poleType == "box") then }%
+                      baseColorMap ImageTexture {
+                        url IS backTexture
+                      }
+                  %{ end }%
+                }
+                geometry USE PLANE_GEOMETRY
+              }
+            ]
+          }
+        ]
+        boundingObject Box {
+          size %{= displayWidth + 0.2 }% %{= displayHeight + 0.2 }% %{= frameThickness }%
+        }
+      }
+      %{ for i = 1, poleNumber do }%
+          %{
+            offsetPole = 0
+            -- Add offset for the H-shaped pole for esthetic reasons
+            if poleType == "H-shape" then
+              offsetPole = - 0.82 * frameThickness
+            end
+          }%
+          DEF %{= "POLE_" .. i  }% Solid {
+            translation %{= xPosition[poleNumber][i] }% %{= poleHeight / 2 }% %{= offsetPole }%
+            name "pole %{=i}%"
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor IS poleColor
+                  roughness 0.6
+                  metalness 0
+                }
+                # Choose the type/geometry of pole(s)
+                %{ if poleType == "cylinder" then }%
+                    geometry DEF CYLINDRICAL_POLE Cylinder {
+                      height %{= poleHeight }%
+                      radius %{= poleThickness/2 }%
+                    }
+                %{ elseif poleType == "box" then }%
+                    geometry DEF SQUARE_POLE Box {
+                      size %{= poleThickness }% %{= poleHeight }% %{= poleThickness }%
+                    }
+                %{ elseif poleType == "H-shape" then }%
+                    # weird quotients (4.01 etc) here are here to avoid failures in polygon tesselation
+                    geometry Extrusion {
+                      crossSection [
+                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
+                        %{= poleThickness/2 }%  %{= -poleThickness/4 }%
+                        %{= poleThickness/4.02 }%  %{= -poleThickness/4 }%
+                        %{= poleThickness/4.01 }%  %{= poleThickness/4 }%
+                        %{= poleThickness/2 }%  %{= poleThickness/4 }%
+                        %{= poleThickness/2 }%  %{= poleThickness/2 }%
+                        %{= -poleThickness/2 }% %{= poleThickness/2 }%
+                        %{= -poleThickness/2 }% %{= poleThickness/4 }%
+                        %{= -poleThickness/4.02 }% %{= poleThickness/4 }%
+                        %{= -poleThickness/4.01 }% %{= -poleThickness/4 }%
+                        %{= -poleThickness/2 }% %{= -poleThickness/4 }%
+                        %{= -poleThickness/2 }% %{= -poleThickness/2 }%
+                        %{= poleThickness/2 }%  %{= -poleThickness/2 }%
+                      ]
+                      spine [
+                        0 %{= (poleHeight / 2) }% 0
+                        0 %{= -(poleHeight / 2) }% 0
+                      ]
+                    }
+                %{ end }%
+              }
+            ]
+            # Choose the boundingObject geometry of pole(s)
+            %{ if poleType == "cylinder" then }%
+                boundingObject USE CYLINDRICAL_POLE
+            %{ elseif poleType == "box" then }%
+                boundingObject USE SQUARE_POLE
+            %{ elseif poleType == "H-shape" then }%
+                # SQUARE_POLE not defined in case of H-shaped pole
+                boundingObject DEF SQUARE_POLE Box {
+                  size %{= poleThickness }% %{= poleHeight }% %{= poleThickness }%
+                }
+            %{ end }%
+          }
+          # Choose the type/geometry of the poles' bases
+          %{ if poleType == "cylinder" and baseRatio > 1 then }%
+            DEF %{= "CYLINDER_BASE_" .. i  }% Transform {
+              translation %{= xPosition[poleNumber][i] }% 0.01 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor IS poleColor
+                    metalness 0
+                    roughness 0.6
+                  }
+                  geometry Cylinder {
+                    height 0.02
+                    radius %{= baseRatio * (poleThickness / 2) }%
+                    subdivision 16
+                  }
+                }
+              ]
+            }
+          %{ elseif poleType == "box" and baseRatio > 1 then }%
+            DEF %{= "BOX_BASE" .. i  }% Transform {
+              translation %{= xPosition[poleNumber][i] }% 0.01 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor IS poleColor
+                    metalness 0
+                    roughness 0.6
+                  }
+                  geometry Box {
+                    size %{= baseRatio * poleThickness }% 0.02 %{= baseRatio * poleThickness }%
+                  }
+                }
+              ]
+            }
+          %{ end }%
+      %{ end }%
+    ]
+    name IS name
+    model "advertising board"
+  }
+}

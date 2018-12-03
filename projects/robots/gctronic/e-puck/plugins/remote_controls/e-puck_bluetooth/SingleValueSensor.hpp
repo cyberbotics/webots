@@ -1,0 +1,37 @@
+// Copyright 1996-2018 Cyberbotics Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ * Description:  Abstraction of a sensor returning one floating point value
+ */
+
+#ifndef SINGLE_VALUE_SENSOR_HPP
+#define SINGLE_VALUE_SENSOR_HPP
+
+#include "Sensor.hpp"
+
+class SingleValueSensor : public Sensor {
+public:
+  // Device Manager is responsible to create/destroy devices
+  SingleValueSensor(WbDeviceTag tag, int index) : Sensor(tag, index), mValue(0.0) {}
+  virtual ~SingleValueSensor() {}
+
+  double value() const { return mValue; }
+  void setValue(double v) { mValue = v; }
+
+private:
+  double mValue;
+};
+
+#endif

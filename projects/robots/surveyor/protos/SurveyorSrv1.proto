@@ -1,0 +1,1257 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/surveyor
+# The Surveyor's SRV-1 is a robot with two caterpillar tracks designed for research, education, and exploration.
+
+PROTO SurveyorSrv1 [
+  field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0        # Is `Transform.rotation`.
+  field SFString   name            "SurveyorSrv1" # Is `Solid.name`.
+  field SFString   controller      "surveyor"     # Is `Robot.controller`.
+  field SFString   controllerArgs  ""             # Is `Robot.controllerArgs`.
+  field SFString   customData      ""             # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []             # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      DEF BODY Group {
+        children [
+          DEF LEFT_TRACK Transform {
+            translation -0.0295 0.014 0
+            rotation 0 0 1 1.57
+            children [
+              DEF TRACK Group {
+                children [
+                  Transform {
+                    translation 0 0 0.049
+                    rotation 0 0 1 0
+                    children [
+                      DEF TRACK_EXTRUSION Shape {
+                        appearance DEF BLACK PBRAppearance {
+                          metalness 0
+                          roughness 0.7
+                          baseColor 0 0 0
+                        }
+                        geometry IndexedFaceSet {
+                          coord Coordinate {
+                            point [
+                              -0.014 0 0
+                              -0.01212 0 0.007
+                              -0.007 0 0.01212
+                              0 0 0.014
+                              0.007 0 0.01212
+                              0.01212 0 0.007
+                              0.014 0 0
+                              -0.014 0 0
+                              -0.014 0.0198 0
+                              -0.01212 0.0198 0.007
+                              -0.007 0.0198 0.01212
+                              0 0.0198 0.014
+                              0.007 0.0198 0.01212
+                              0.01212 0.0198 0.007
+                              0.014 0.0198 0
+                              -0.014 0.0198 0
+                            ]
+                          }
+                          coordIndex [
+                            7, 6, 5, 4, 3, 2, 1, 0, -1, 8, 9, 10, 11, 12, 13, 14, 15, -1, 0, 1, 9, 8, -1, 1, 2, 10, 9, -1, 2, 3, 11, 10, -1, 3, 4, 12, 11, -1, 4, 5, 13, 12, -1, 5, 6, 14, 13, -1, 6, 7, 15, 14, -1
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0 -0.049
+                    rotation 0 1 0 3.14
+                    children [
+                      DEF TRACK_EXTRUSION Shape {
+                        appearance USE BLACK
+                        geometry IndexedFaceSet {
+                          coord Coordinate {
+                            point [
+                              -0.014 0 0
+                              -0.01212 0 0.007
+                              -0.007 0 0.01212
+                              0 0 0.014
+                              0.007 0 0.01212
+                              0.01212 0 0.007
+                              0.014 0 0
+                              -0.014 0 0
+                              -0.014 0.0198 0
+                              -0.01212 0.0198 0.007
+                              -0.007 0.0198 0.01212
+                              0 0.0198 0.014
+                              0.007 0.0198 0.01212
+                              0.01212 0.0198 0.007
+                              0.014 0.0198 0
+                              -0.014 0.0198 0
+                            ]
+                          }
+                          coordIndex [
+                            7, 6, 5, 4, 3, 2, 1, 0, -1, 8, 9, 10, 11, 12, 13, 14, 15, -1, 0, 1, 9, 8, -1, 1, 2, 10, 9, -1, 2, 3, 11, 10, -1, 3, 4, 12, 11, -1, 4, 5, 13, 12, -1, 5, 6, 14, 13, -1, 6, 7, 15, 14, -1
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0101 -0.049
+                    rotation 0 0 1 0
+                    children [
+                      DEF TRACK_WHEEL Shape {
+                        appearance DEF GRAY PBRAppearance {
+                          roughness 0.2
+                        }
+                        geometry Cylinder {
+                          height 0.0205
+                          radius 0.011
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.0101 0.049
+                    rotation 0 0 1 0
+                    children [
+                      USE TRACK_WHEEL
+                    ]
+                  }
+                  Transform {
+                    translation 0.0125 0.0099 0
+                    rotation 0 0 1 0
+                    children [
+                      DEF TRACK_BOX Shape {
+                        appearance USE BLACK
+                        geometry Box {
+                          size 0.003 0.0198 0.098
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation -0.0125 0.0099 0
+                    rotation 0 0 1 0
+                    children [
+                      USE TRACK_BOX
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          DEF RIGHT_TRACK Transform {
+            translation 0.0295 0.014 0
+            rotation 0 0 1 -1.57
+            children [
+              USE TRACK
+            ]
+          }
+          DEF BASE Transform {
+            translation 0 0.014 0
+            children [
+              Transform {
+                translation 0 0 0.047
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.056 0.014 0.022
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 -0.048
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.056 0.014 0.016
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 -0.002
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.043 0.014 0.0765
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 0.049
+                rotation 0 0 1 1.57
+                children [
+                  DEF WHEEL_AXE Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.059
+                      radius 0.00635
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 -0.049
+                rotation 0 0 1 1.57
+                children [
+                  USE WHEEL_AXE
+                ]
+              }
+            ]
+          }
+          DEF FRONT_SUPPORT Transform {
+            translation 0 0.021 -0.0254
+            children [
+              DEF SUPPORT Group {
+                children [
+                  Transform {
+                    translation 0.0127 0.0165 0
+                    children [
+                      DEF STICK Shape {
+                        appearance USE GRAY
+                        geometry Cylinder {
+                          height 0.033
+                          radius 0.003
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation -0.0127 0.0165 0
+                    children [
+                      USE STICK
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.026 -0.0076
+                    children [
+                      Shape {
+                        appearance USE GRAY
+                        geometry Box {
+                          size 0.03175 0.0012 0.0215
+                        }
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0.01685 -0.0195
+                    rotation 1 0 0 1.745
+                    children [
+                      Shape {
+                        appearance USE GRAY
+                        geometry Box {
+                          size 0.03175 0.0012 0.0185
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          DEF BACK_SUPPORT Transform {
+            translation 0 0.021 0.0254
+            rotation 0 1 0 3.142
+            children [
+              USE SUPPORT
+            ]
+          }
+          DEF TOP_PLATE Group {
+            children [
+              Transform {
+                translation 0 0.05425 0
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.076 0.0015 0.076
+                    }
+                  }
+                ]
+              }
+              DEF TOP Transform {
+                translation 0 0.0551 0
+                rotation 1 0 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/surveyor_top_base_color.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_top_roughness.jpg"
+                        ]
+                      }
+                      metalnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_top_metalness.jpg"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "textures/surveyor_top_normal.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.038 0 -0.038
+                          0.038 0 0.038
+                          -0.038 0 0.038
+                          -0.038 0 -0.038
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0
+                          1 0
+                          1 1
+                          0 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 3, 2, 1, -1
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3, -1
+                      ]
+                    }
+                  }
+                ]
+              }
+              DEF XBEE Transform {
+                translation -0.013 0.0631 -0.011
+                rotation 1 0 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/surveyor_xbee_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_xbee_roughness.jpg"
+                        ]
+                      }
+                      metalnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_xbee_metalness.jpg"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "textures/surveyor_xbee_normal.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.012 0 -0.0165
+                          0.012 0 0.0165
+                          -0.012 0 0.0165
+                          -0.012 0 -0.0165
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0
+                          1 0
+                          1 1
+                          0 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 3, 2, 1, -1
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3, -1
+                      ]
+                    }
+                  }
+                  Shape {
+                    appearance USE BLACK
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.005 -0.008 0.0165
+                          0.012 -0.008 0.01
+                          0.012 -0.008 -0.0165
+                          -0.012 -0.008 -0.0165
+                          -0.012 -0.008 0.01
+                          -0.005 -0.008 0.0165
+                          0.005 -0.008 0.0165
+                          0.005 -0.0001 0.0165
+                          0.012 -0.0001 0.01
+                          0.012 -0.0001 -0.0165
+                          -0.012 -0.0001 -0.0165
+                          -0.012 -0.0001 0.01
+                          -0.005 -0.0001 0.0165
+                          0.005 -0.0001 0.0165
+                        ]
+                      }
+                      coordIndex [
+                        6, 5, 4, 3, 2, 1, 0, -1, 7, 8, 9, 10, 11, 12, 13, -1, 0, 1, 8, 7, -1, 1, 2, 9, 8, -1, 2, 3, 10, 9, -1, 3, 4, 11, 10, -1, 4, 5, 12, 11, -1, 5, 6, 13, 12, -1
+                      ]
+                    }
+                  }
+                ]
+              }
+              DEF SERIAL Transform {
+                translation 0.0158 0.0611 0.0044
+                rotation 1 0 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/surveyor_serial_base_color.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_serial_roughness.jpg"
+                        ]
+                      }
+                      metalnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_serial_metalness.jpg"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "textures/surveyor_serial_normal.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.015 0.0061 -0.0335
+                          0.015 0.0061 0.0335
+                          -0.015 0.0061 0.0335
+                          -0.015 0.0061 -0.0335
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0
+                          1 0
+                          1 1
+                          0 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 3, 2, 1, -1
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3, -1
+                      ]
+                    }
+                  }
+                  Shape {
+                    appearance USE BLACK
+                    geometry Box {
+                      size 0.03 0.012 0.067
+                    }
+                  }
+                ]
+              }
+              DEF SERIAL_PORT Transform {
+                translation 0.0158 0.0665 0.0375
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.006 0 0.003
+                          0.0075 0 -0.003
+                          -0.0075 0 -0.003
+                          -0.006 0 0.003
+                          0.006 0 0.003
+                          0.006 0.01 0.003
+                          0.0075 0.01 -0.003
+                          -0.0075 0.01 -0.003
+                          -0.006 0.01 0.003
+                          0.006 0.01 0.003
+                        ]
+                      }
+                      coordIndex [
+                        4, 3, 2, 1, 0, -1, 5, 6, 7, 8, 9, -1, 0, 1, 6, 5, -1, 1, 2, 7, 6, -1, 2, 3, 8, 7, -1, 3, 4, 9, 8, -1
+                      ]
+                    }
+                  }
+                  Shape {
+                    appearance PBRAppearance {
+                      roughness 1
+                      metalness 0
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/surveyor_serial_port.png"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.0068 0.0101 -0.0025
+                          0.0068 0.0101 0.0025
+                          -0.0068 0.0101 0.0025
+                          -0.0068 0.0101 -0.0025
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 1
+                          0 1
+                          0 0
+                          1 0
+                        ]
+                      }
+                      coordIndex [
+                        0, 3, 2, 1, -1
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3, -1
+                      ]
+                    }
+                  }
+                  Transform {
+                    translation 0 0.004 0
+                    children [
+                      Shape {
+                        appearance USE GRAY
+                        geometry Box {
+                          size 0.03 0.001 0.012
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          DEF BATTERIES Group {
+            children [
+              Transform {
+                translation 0 0.037 -0.008
+                rotation 1 0 0 1.57
+                children [
+                  DEF BATTERY Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.065
+                      radius 0.009
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.019 -0.008
+                rotation 1 0 0 1.57
+                children [
+                  USE BATTERY
+                ]
+              }
+            ]
+          }
+          DEF BUTTONS Transform {
+            translation 0 0.037 0.0455
+            rotation 1 0 0 -1.745
+            children [
+              Transform {
+                translation -0.00575 0 0
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.005
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0.00575 0 0
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.006
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0.00575 -0.0075 -0.0015
+                rotation 1 0 0 0.3
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.004 0.015 0.002
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+          DEF FRONT_PLATE Transform {
+            translation 0 0.041 -0.047
+            rotation 1 0 0 -1.395
+            children [
+              Transform {
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Box {
+                      size 0.02 0.0012 0.0265
+                    }
+                  }
+                ]
+              }
+              DEF FRONT Transform {
+                translation 0 0.0007 0
+                rotation 1 0 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/surveyor_front_base_color.jpg"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_front_roughness.jpg"
+                        ]
+                      }
+                      metalnessMap ImageTexture {
+                        url [
+                          "textures/surveyor_front_metalness.jpg"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "textures/surveyor_front_normal.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          0.01 0 -0.01325
+                          0.01 0 0.01325
+                          -0.01 0 0.01325
+                          -0.01 0 -0.01325
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0 0
+                          1 0
+                          1 1
+                          0 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 3, 2, 1, -1
+                      ]
+                      texCoordIndex [
+                        0, 1, 2, 3, -1
+                      ]
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.001 -0.002
+                children [
+                  Shape {
+                    appearance USE BLACK
+                    geometry Box {
+                      size 0.01 0.0025 0.015
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      DEF ANTENNA_EMITTER Emitter {
+        translation -0.017 0.08 -0.002
+        children [
+          Transform {
+            translation 0 -0.008 0
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry Cylinder {
+                  height 0.019
+                  radius 0.0006
+                }
+              }
+            ]
+          }
+          Transform {
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry Cylinder {
+                  height 0.007
+                  radius 0.0015
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF ANTENNA_RECEIVER Receiver {
+        translation -0.017 0.08 -0.002
+      }
+      DEF CAMERA Camera {
+        translation 0 0.037 -0.058
+        rotation 1 0 0 0.1742
+        children [
+          Transform {
+            translation 0 0 0.0075
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry Box {
+                  size 0.014 0.014 0.005
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.0025
+            rotation 1 0 0 1.57
+            children [
+              Shape {
+                appearance USE BLACK
+                geometry Cylinder {
+                  height 0.005
+                  radius 0.0045
+                }
+              }
+            ]
+          }
+        ]
+        fieldOfView 0.994838
+        width 160
+        height 128
+        near 0.005
+      }
+      DEF FIRST_LEFT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.0394 0.014 -0.049
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor00"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor00"
+          }
+        ]
+        endPoint Solid {
+          translation -0.0394 0.014 -0.049
+          rotation 1 0 0 0
+          name "first left wheel"
+          contactMaterial "wheel"
+          boundingObject DEF BOUNDING_WHEEL Transform {
+            rotation 0 0 1 1.57
+            children [
+              Cylinder {
+                height 0.0198
+                radius 0.014
+              }
+            ]
+          }
+          physics DEF PHYSICS_FRONT_WHEEL Physics {
+            density -1
+            mass 0.005
+          }
+        }
+      }
+      DEF SECOND_LEFT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.0394 0.014 -0.0245
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor01"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor01"
+          }
+        ]
+        endPoint Solid {
+          translation -0.0394 0.014 -0.0245
+          rotation 1 0 0 0
+          name "second left wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF THIRD_LEFT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.0394 0.014 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor02"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor02"
+          }
+        ]
+        endPoint Solid {
+          translation -0.0394 0.014 0
+          rotation 1 0 0 0
+          name "third left wheel"
+          contactMaterial "center_wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics DEF PHYSICS_CENTER_WHEEL Physics {
+            density -1
+            mass 0.005
+          }
+        }
+      }
+      DEF FOURTH_LEFT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.0394 0.014 0.0245
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor03"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor03"
+          }
+        ]
+        endPoint Solid {
+          translation -0.0394 0.014 0.0245
+          rotation 1 0 0 0
+          name "fourth left wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF LAST_LEFT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor -0.0394 0.014 0.049
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor04"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor04"
+          }
+        ]
+        endPoint Solid {
+          translation -0.0394 0.014 0.049
+          rotation 1 0 0 0
+          name "last left wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF FIRST_RIGHT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.0394 0.014 -0.049
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor05"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor05"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0394 0.014 -0.049
+          rotation 1 0 0 0
+          name "first right wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF SECOND_RIGHT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.0394 0.014 -0.0245
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor06"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor06"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0394 0.014 -0.0245
+          rotation 1 0 0 0
+          name "second right wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF THIRD_RIGHT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.0394 0.014 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor07"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor07"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0394 0.014 0
+          rotation 1 0 0 0
+          name "third right wheel"
+          contactMaterial "center_wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_CENTER_WHEEL
+        }
+      }
+      DEF FOURTH_RIGHT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.0394 0.014 0.0245
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor08"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor08"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0394 0.014 0.0245
+          rotation 1 0 0 0
+          name "forth right wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF LAST_RIGHT_WHEEL HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0.0394 0.014 0.049
+        }
+        device [
+          RotationalMotor {
+            name "wheel_motor09"
+            maxVelocity 50
+          }
+          PositionSensor {
+            name "wheel_sensor09"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0394 0.014 0.049
+          rotation 1 0 0 0
+          name "last right wheel"
+          contactMaterial "wheel"
+          boundingObject USE BOUNDING_WHEEL
+          physics USE PHYSICS_FRONT_WHEEL
+        }
+      }
+      DEF FRONT DistanceSensor {
+        translation -0.0168 0.0585 -0.0356
+        rotation 0 1 0 1.57
+        children [
+          DEF RIGHT_SENSOR Group {
+            children [
+              Transform {
+                translation 0.00425 0 0
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 1
+                      metalness 0
+                      emissiveColor 0 0 0.619608
+                      transparency 0.1
+                    }
+                    geometry Cylinder {
+                      height 0.0085
+                      radius 0.0025
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.0025 0.001
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.0002
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.0025 -0.001
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.0002
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.0025 0.01
+                children [
+                  Shape {
+                    appearance USE BLACK
+                    geometry Box {
+                      size 0.005 0.013 0.01
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0.0025 0.0025 0.01
+                children [
+                  Shape {
+                    appearance USE BLACK
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0025
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        name "ds0"
+        lookupTable [
+          0 154 0
+          0.1 144 0.1
+          0.15 96 0.2
+          0.2 48 0.25
+          0.3 16 0.3
+          0.4 0 0.35
+        ]
+        type "infra-red"
+        numberOfRays 4
+        aperture 0.523599
+      }
+      DEF LEFT DistanceSensor {
+        translation -0.0355 0.0585 -0.0082
+        rotation 0 1 0 3.14
+        children [
+          DEF LEFT_SENSOR Group {
+            children [
+              Transform {
+                translation 0.00425 0 0
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColor 0 0 1
+                      metalness 0
+                      emissiveColor 0 0 0.619608
+                      transparency 0.1
+                    }
+                    geometry Cylinder {
+                      height 0.0085
+                      radius 0.0025
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.0025 0.001
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.0002
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 -0.0025 -0.001
+                children [
+                  Shape {
+                    appearance USE GRAY
+                    geometry Cylinder {
+                      height 0.005
+                      radius 0.0002
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0.0025 -0.01
+                children [
+                  Shape {
+                    appearance USE BLACK
+                    geometry Box {
+                      size 0.005 0.013 0.01
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0.0025 0.0025 -0.01
+                children [
+                  Shape {
+                    appearance USE BLACK
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.0025
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        name "ds1"
+        lookupTable [
+          0 154 0
+          0.1 144 0.1
+          0.15 96 0.2
+          0.2 48 0.25
+          0.3 16 0.3
+          0.4 0 0.35
+        ]
+        type "infra-red"
+        numberOfRays 4
+        aperture 0.523599
+      }
+      DEF REAR DistanceSensor {
+        translation -0.0168 0.0585 0.0356
+        rotation 0 1 0 -1.57
+        children [
+          USE LEFT_SENSOR
+        ]
+        name "ds2"
+        lookupTable [
+          0 154 0
+          0.1 144 0.1
+          0.15 96 0.2
+          0.2 48 0.25
+          0.3 16 0.3
+          0.4 0 0.35
+        ]
+        type "infra-red"
+        numberOfRays 4
+        aperture 0.523599
+      }
+      DEF RIGHT DistanceSensor {
+        translation 0.0355 0.0585 -0.0082
+        children [
+          USE RIGHT_SENSOR
+        ]
+        name "ds3"
+        lookupTable [
+          0 154 0
+          0.1 144 0.1
+          0.15 96 0.2
+          0.2 48 0.25
+          0.3 16 0.3
+          0.4 0 0.35
+        ]
+        type "infra-red"
+        numberOfRays 4
+        aperture 0.523599
+      }
+    ]
+    model "SRV-1"
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0.03 0
+          rotation 0 0 1 0
+          children [
+            Box {
+              size 0.0535 0.045 0.114
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.063 0.0039
+          rotation 0 0 1 0
+          children [
+            Box {
+              size 0.08 0.017 0.087
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.324
+      centerOfMass [
+        0 0.028 0.005
+      ]
+      inertiaMatrix [
+        0.000473553 0.000418585 0.000267079
+        0 0 6.02166e-6
+      ]
+    }
+  }
+}

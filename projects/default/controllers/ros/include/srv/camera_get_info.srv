@@ -1,0 +1,6 @@
+uint8 ask
+---
+uint32 width
+uint32 height
+float64 Fov
+float64 nearRange

@@ -1,0 +1,413 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A customizable fast food restaurant.
+
+PROTO FastFoodRestaurant [
+  field SFVec3f       translation   0 0 0
+  field SFRotation    rotation      0 1 0 0
+  field SFString      name          "fast food restaurant"
+  field SFFloat       height        4                       # Defines the height of the building.
+  field SFFloat       length        10                      # Defines the length of the building.
+  field SFFloat       width         10                      # Defines the width of the building.
+  field SFString{"KFC", "FFC", "subway", "momo"}
+                      brand         "KFC"                   # Defines the brand of the restaurant: `KFC`, `FFC`, `subway` or `momo`.
+  field SFInt32{1, 2} numberOfSides 1                       # Defines whether it is a two sided restaurant.
+]
+{
+  %{
+    local height = fields.height.value
+    if height < 4.0 then
+      height = fields.height.defaultValue
+      io.stderr:write("'height' should be greater than or equal to 4.")
+      io.stderr:write("'height' was reset to '" .. height .. "'.")
+    end
+    local numberOfSides = fields.numberOfSides.value
+    local width = fields.width.value
+    if width < 10.0 then
+      width = fields.width.defaultValue
+      io.stderr:write("'width' should be greater than or equal to 10.")
+      io.stderr:write("'width' was reset to '" .. width .. "'.")
+    end
+    local length = fields.length.value
+    -- Allow different minimal sizes depending on the number of sides demanded
+    if numberOfSides == 1 then
+      if length < 3.0 then
+        length = fields.length.defaultValue
+        io.stderr:write("'length' should be greater than or equal to 3.")
+        io.stderr:write("'length' was reset to '" .. length .. "'.")
+      end
+    elseif numberOfSides == 2 then
+      if length < 10.0 then
+        length = fields.length.defaultValue
+        io.stderr:write("'length' should be greater than or equal to 10 because of the second side.")
+        io.stderr:write("'length' was reset to '" .. length .. "'.")
+      end
+    end
+    local brand = fields.brand.value
+    -- Used to avoid depth fighting between the inner textures and the building structure.
+    local depth_fighting_offset = 0.05
+    -- Used to prevent planes from colliding with the boxes.
+    local plane_offset = 0.005
+    -- Used to further adjust the front plane when two sides are demanded.
+    local front_adjust = 0
+    -- Another adjustment required when two sides are demanded on Subway ( or momo ).
+    local subway_front_adjust = 0
+    -- Used to adjust the front plane height.
+    local front_plane_height = 4.47
+    -- Used to adjust the front plane position on the Y axis.
+    local front_plane_y = 2.23
+    -- Used to set the size of the front plane for the four brands.
+    local front_brand_size = 10
+    -- Provides correct alignement of the planes when two sides are demanded.
+    local front_transform = 0.0
+    if numberOfSides == 2 then
+      front_transform =  5.4 - ( width / 2 )
+    end
+    if ( brand == "subway" ) or ( brand == "momo" ) then
+      front_plane_height = 4
+      front_plane_y = 2
+      front_brand_size = 6.8
+    end
+    if ( brand == "subway" or brand == "momo" ) and ( numberOfSides == 2 ) then
+      subway_front_adjust = 0.5
+      front_brand_size = 9
+    end
+    if ( brand == "subway" or brand == "momo" ) then
+      outerWallTexture = "\"textures/subway_outer_wall.jpg\""
+    else
+      outerWallTexture = "\"textures/KFC_outer_wall.jpg\""
+    end
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    %{ if ( brand == "subway" or brand == "momo" ) then }%
+      recognitionColors [ 0.81 0 0 ]
+    %{ else }%
+      recognitionColors [ 0.57 0.68 0.8 ]
+    %{ end }%
+    children [
+      Transform {
+        translation 0 0 %{= front_transform }%
+        children [
+          DEF LEFT_INNER_WALL Transform {
+            translation %{= ( length / 2 ) - 1 }% 1.4 %{= 3.4 - plane_offset - depth_fighting_offset }%
+            rotation 0 -0.707107 0.707106 3.14159
+            children [
+              DEF INNER_WALL Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/fastfood_inner_wall.jpg"
+                    ]
+                  }
+                  roughness 1
+                  metalness 0
+                  textureTransform TextureTransform {
+                    scale 1 1
+                  }
+                }
+                geometry Plane {
+                  size 2 2.8
+                }
+              }
+            ]
+          }
+          DEF RIGHT_INNER_WALL Transform {
+            %{ if numberOfSides == 1 then }%
+                translation %{= ( length / 2 ) - 1 }% 1.4 %{= -3.4 + plane_offset + depth_fighting_offset }%
+                rotation 1 0 0 1.5708
+            %{ elseif numberOfSides == 2 then }%
+                translation %{= ( length / 2 ) - 8.8 + plane_offset + depth_fighting_offset }% 1.4 -4.4
+                rotation -0.57735 -0.57735 0.57735 4.18879
+            %{ end }%
+            children USE INNER_WALL
+          }
+          %{ for i = 1, numberOfSides do }%
+              DEF %{= "BACK_" .. i }% Transform {
+                %{ if ( numberOfSides == 1 ) or (( numberOfSides == 2 ) and ( i == 1 )) then }%
+                    translation %{= ( length / 2 ) - 2 + plane_offset + depth_fighting_offset }% 1.4 0
+                    rotation -0.57735 -0.577351 0.57735 4.18879
+                %{ else }%
+                    translation %{= ( length / 2 ) - 5.4 }% 1.4 %{= -3.4 - plane_offset - depth_fighting_offset }%
+                    rotation 0 0.707107 -0.707107 3.14159
+                %{ end }%
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/fastfood_counter.jpg"
+                        ]
+                      }
+                      emissiveColorMap ImageTexture {
+                        url [
+                          "textures/fastfood_counter.jpg"
+                        ]
+                      }
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Plane {
+                      size %{= 6.8 + 2 * plane_offset }% 2.8
+                    }
+                  }
+                ]
+              }
+              %{
+                if ( numberOfSides == 2 ) and ( i == 1 ) then
+                  front_adjust = -0.4
+                end
+              }%
+              DEF %{= "FRONT_" .. i }% Transform {
+                %{ if ( numberOfSides == 1 ) or (( numberOfSides == 2 ) and ( i == 1 )) then }%
+                    translation %{= ( length / 2 ) + plane_offset }% %{= front_plane_y }% %{= front_adjust - subway_front_adjust }%
+                    rotation -0.57735 -0.577351 0.57735 4.18879
+                %{ else }%
+                    translation %{= ( length / 2 ) - 5 + subway_front_adjust }% %{= front_plane_y }% %{= -5.4 - plane_offset }%
+                    rotation 0 0.707107 -0.707107 3.14159
+                %{ end }%
+                children [
+                  DEF FRONT_WALL_SHAPE Shape {
+                    appearance PBRAppearance {
+                      baseColorMap DEF FRONT_TEXTURE ImageTexture {
+                        %{ if ( numberOfSides == 2 ) and ( brand == "subway" or brand == "momo" ) then }%
+                            url [
+                              %{= "\"textures/" .. brand .. "_front.png\"" }%
+                            ]
+                        %{ else }%
+                            url [
+                              %{= "\"textures/" .. brand .. ".png\"" }%
+                            ]
+                        %{ end }%
+                        filtering 0
+                      }
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry DEF FRONT_SIDE Plane {
+                      size %{= front_brand_size + 4 * plane_offset }% %{= front_plane_height }%
+                    }
+                  }
+                ]
+              }
+              DEF %{= "REVERSE_FRONT_" .. i }% Transform {
+                %{ if i == 1 then }%
+                  translation %{= ( length / 2 ) + plane_offset }% %{= front_plane_y }% %{= front_adjust - subway_front_adjust }%
+                  rotation -0.577351 0.57735 -0.57735 4.18879
+                %{ elseif i == 2 then }%
+                  translation %{= ( length / 2 ) - 5 + subway_front_adjust }% %{= front_plane_y }% %{= -5.4 - plane_offset }%
+                  rotation 1 0 0 1.5708
+                %{ end }%
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap USE FRONT_TEXTURE
+                      roughness 1
+                      metalness 0
+                      textureTransform TextureTransform {
+                        scale -1 1
+                      }
+                    }
+                    geometry USE FRONT_SIDE
+                  }
+                ]
+              }
+              DEF %{= "ROOF_" .. i }% Transform {
+                %{ if ( numberOfSides == 1 ) or (( numberOfSides == 2 ) and ( i == 1 )) then }%
+                    translation %{= ( length / 2 ) - 1 }% %{= 2.8 - plane_offset }% 0
+                    rotation 0 0 1 3.14159
+                %{ else }%
+                    translation %{= ( length / 2 ) - 4.4 }% %{= 2.8 - plane_offset }% -4.4
+                    rotation -0.707107 0 -0.707107 3.14159
+                %{ end }%
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/fastfood_ceiling.jpg"
+                        ]
+                      }
+                      roughness 1
+                      metalness 0
+                      textureTransform TextureTransform {
+                        scale 2 5
+                        translation 0.05 0
+                      }
+                    }
+                    geometry DEF ROOF Plane {
+                      %{ if ( numberOfSides == 1 ) or (( numberOfSides == 2 ) and ( i == 1 )) then }%
+                          size 2 6.8
+                      %{ else }%
+                          size 2 8.8
+                      %{ end }%
+                    }
+                  }
+                ]
+              }
+              DEF %{= "FLOOR_" .. i }% Transform {
+                %{ if ( numberOfSides == 1 ) or (( numberOfSides == 2 ) and ( i == 1 )) then }%
+                    translation %{= ( length / 2 ) - 1 }% %{= depth_fighting_offset }% 0
+                %{ else }%
+                    translation %{= ( length / 2 ) - 4.4 }% %{= depth_fighting_offset }% -4.4
+                    rotation 0 1 0 1.5708
+                %{ end }%
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "textures/fastfood_floor.jpg"
+                        ]
+                      }
+                      roughness 1
+                      metalness 0
+                      textureTransform TextureTransform {
+                        scale 3 5
+                        translation 0 0.05
+                      }
+                    }
+                    geometry USE ROOF
+                  }
+                ]
+              }
+          %{ end }%
+        ]
+      }
+      DEF LEFT_SIDE Transform {
+        %{ if numberOfSides == 1 then }%
+            translation 0 1.4 %{= ( width / 4 ) + ( 3.4 / 2 ) }%
+            children [
+              DEF SIDE_WALL Shape {
+                appearance PBRAppearance {
+                  baseColorMap DEF SIDE_TEXTURE ImageTexture {
+                    url %{= outerWallTexture }%
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size %{= length }% 2.8 %{= ( width / 2 ) - 3.4 }%
+                }
+              }
+            ]
+        %{ elseif numberOfSides == 2 then }%
+            translation 0 1.4 4.4
+            children [
+              DEF SIDE_WALL Shape {
+                appearance DEF SIDE_APPEARANCE PBRAppearance {
+                  baseColorMap DEF SIDE_TEXTURE ImageTexture {
+                    url %{= outerWallTexture }%
+                  }
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size %{= length }% 2.8 %{= width - 8.8 }%
+                }
+              }
+            ]
+        %{ end }%
+      }
+      DEF RIGHT_SIDE Transform {
+        %{ if numberOfSides == 1 then }%
+            translation 0 1.4 %{= - ( width / 4 ) - ( 3.4 / 2 ) }%
+            children USE SIDE_WALL
+        %{ elseif numberOfSides == 2 then }%
+            translation -4.4 1.4 %{= - ( width / 2 ) + 1 }%
+            children [
+              Shape {
+                appearance USE SIDE_APPEARANCE
+                geometry Box {
+                  size %{= length - 8.8 }% 2.8 2
+                }
+              }
+            ]
+        %{ end }%
+      }
+      DEF TOP_SIDE Transform {
+        translation 0 %{= ( height / 2 ) + 1.4 }% 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap USE SIDE_TEXTURE
+              roughness 1
+              metalness 0
+              textureTransform TextureTransform {
+                # Allows correct alignement of the texture from the SIDE to TOP
+                scale 1 %{= ( height / 2.8 ) - 1 }%
+                translation 0 %{= height }%
+              }
+            }
+            geometry TexturedBox {
+              size %{= length }% %{= height - 2.8 }% %{= width }%
+              mapping "default"
+              top FALSE
+              bottom FALSE
+            }
+          }
+        ]
+      }
+      DEF BACK_SIDE Transform {
+        %{ if numberOfSides == 1 then }%
+            translation -1 1.4 0
+        %{ elseif numberOfSides == 2 then }%
+            translation -1 1.4 %{= - ( width / 2 ) + 5.4 }%
+        %{ end }%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap DEF SIDE_TEXTURE ImageTexture {
+                url %{= outerWallTexture }%
+              }
+              roughness 1
+              metalness 0
+              textureTransform TextureTransform {
+                scale -0.9 1
+                translation 0.01 0
+              }
+            }
+            geometry Box {
+              size %{= length - 2 }% 2.8 6.8
+            }
+          }
+        ]
+      }
+      DEF TOP_WALL Transform {
+        translation 0 %{= height }% 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/gravel.jpg"
+                ]
+              }
+              roughness 1
+              metalness 0
+              textureTransform TextureTransform {
+                scale %{= 0.6 * length }% %{= 0.6 * width }%
+              }
+            }
+            geometry Plane {
+              size %{= length }% %{= width }%
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model %{= '"' .. brand .. '"' }%
+    boundingObject Transform {
+      translation 0 %{= height / 2 }% 0
+      children [
+        Box {
+          size %{= length }% %{= height }% %{= width }%
+        }
+      ]
+    }
+  }
+}

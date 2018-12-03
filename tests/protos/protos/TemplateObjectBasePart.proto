@@ -1,0 +1,10 @@
+PROTO TemplateObjectBasePart [
+  field SFFloat r 0.2
+]
+{
+  DEF BASE_SHAPE Shape {
+    geometry DEF BASE_GEOM Sphere {
+      radius IS r
+    }
+  }
+}

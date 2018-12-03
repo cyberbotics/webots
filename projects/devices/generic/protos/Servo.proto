@@ -1,0 +1,109 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A Servo represents a servomotor which adds one active degree of freedom (DOF) in a mechanical simulation.
+# The Servo 'children' move with respect to the Servo parent.
+# A Servo can be used to simulate a rotational or a linear motion.
+# Spring and damping behavior can be specified.
+# For loading performance reasons, it is suggested to use the joint and motor nodes directly instead of this node.
+
+PROTO Servo [
+  field     SFVec3f    translation         0 0 0
+  field     SFRotation rotation            0 1 0 0
+  field     SFVec3f    scale               1 1 1
+  field     MFNode     children            []
+  field     SFString   name                "servo"         # name of the motor, the position sensor is called: name + ' sensor'
+  field     SFString   model               ""
+  field     SFString   description         ""
+  field     SFString   contactMaterial     "default"
+  field     MFNode     immersionProperties []
+  field     SFNode     boundingObject      NULL
+  field     SFNode     physics             NULL
+  field     SFBool     locked              FALSE
+  field     SFFloat    translationStep     0.01
+  field     SFFloat    rotationStep        0.261799387
+  field     SFFloat    radarCrossSection   0
+  field     MFColor    recognitionColors   []
+  field     SFString   type                "rotational"    # "rotational" or "linear"
+  field     SFFloat    maxVelocity         10              # max velocity (rad/s or m/s)
+  field     SFFloat    maxForce            10              # max force or torque (rad/s^2 or m/s^2)
+  field     SFFloat    controlP            10              # proportional PID parameter for control
+  field     SFFloat    acceleration        -1              # acceleration for control (rad/s^2 or m/s^2)
+  field     SFFloat    position            0               # current position
+  field     SFFloat    minPosition         0               # ignored if maxPosition = minPosition
+  field     SFFloat    maxPosition         0               # ignored if maxPosition = minPosition
+  field     SFFloat    minStop             0               # low stop angle or position
+  field     SFFloat    maxStop             0               # high stop angle or position
+  field     SFFloat    springConstant      0               # spring constant
+  field     SFFloat    dampingConstant     0               # damping constant
+  field     SFFloat    staticFriction      0               # static friction
+]
+{
+  %{
+    local jointType = fields.type.value
+    if (jointType ~= "rotational" and jointType ~= "linear") then
+      jointType = fields.poleType.defaultValue
+      io.stderr:write("'type' should be one of the following: 'rotational' or 'linear'. ")
+      io.stderr:write("'type' was reset to '" .. jointType .. "'.")
+    end
+    local rotation = fields.rotation.value
+  }%
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    scale IS scale
+    children [
+      %{ if jointType == "rotational" then }%
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis %{= rotation.x }% %{= rotation.y }% %{= rotation.z }%
+      %{ else }%
+      SliderJoint {
+        jointParameters JointParameters {
+      %{ end }%
+          position IS position
+          minStop IS minStop
+          maxStop IS maxStop
+          springConstant IS springConstant
+          dampingConstant IS dampingConstant
+          staticFriction IS staticFriction
+        }
+        device [
+          PositionSensor {
+            name %{= '"' .. fields.name.value .. ' sensor"' }%
+          }
+          %{ if jointType == "rotational" then }%
+          RotationalMotor {
+            maxTorque IS maxForce
+          %{ else }%
+          LinearMotor {
+            maxForce IS maxForce
+          %{ end }%
+            name IS name
+            maxVelocity IS maxVelocity
+            acceleration IS acceleration
+            minPosition IS minPosition
+            maxPosition IS maxPosition
+            controlPID %{= fields.controlP.value }% 0 0
+          }
+        ]
+        endPoint Solid {
+          children IS children
+          name IS name
+          model IS model
+          description IS description
+          contactMaterial IS contactMaterial
+          immersionProperties IS immersionProperties
+          boundingObject IS boundingObject
+          physics IS physics
+          locked IS locked
+          translationStep IS translationStep
+          rotationStep IS rotationStep
+          radarCrossSection IS radarCrossSection
+          recognitionColors IS recognitionColors
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+# The Color node defines a set of RGB colors to be used by a parent node.
+
+Color {
+  vrmlField MFColor color []
+}

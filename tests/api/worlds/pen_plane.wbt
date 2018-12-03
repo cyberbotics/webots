@@ -1,0 +1,97 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.661446 -0.737211 -0.137873 5.86474
+  position 0.145679 0.353926 0.473557
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+DEF BOARD Solid {
+  translation -0.05 0.022 -0.1
+  rotation 0.56888 0.822421 0 0.7854
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Plane {
+        size 0.15 0.3
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF WRITER Robot {
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0.17067 0.7389 -0.65184
+      }
+      device [
+        LinearMotor {
+        }
+        PositionSensor {
+        }
+      ]
+      endPoint Pen {
+        translation 0.014 0.1 0.016
+        rotation 0.341533 0.844288 0.412955 3.27249
+        children [
+          Transform {
+            translation 0 0.031 0
+            children [
+              Shape {
+                geometry Box {
+                  size 0.01 0.01 0.01
+                }
+              }
+              DEF BODY Shape {
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.002
+                }
+              }
+            ]
+          }
+        ]
+        inkColor 0.941176 0 1
+        inkDensity 1
+        leadSize 0.01
+      }
+    }
+    Camera {
+      translation -0.07 0.2 -0.13
+      rotation 1 0 0 -1.5708
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.01
+            radius 0.01
+          }
+        }
+      ]
+      fieldOfView 0.56
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen_plane"
+}
+TestSuiteSupervisor {
+}

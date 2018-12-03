@@ -1,0 +1,123 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.0337313 -0.999263 -0.0183317 1.52813
+  position -0.480663 0.147115 0.0135119
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DEF FLOOR Solid {
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF BOARD Solid {
+  translation 0 0.005 0
+  rotation 1 0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 1
+          diffuseColor 1 1 1
+          specularColor 0.74902 0.74902 0.74902
+        }
+        texture ImageTexture {
+          url [
+            "textures/white256.png"
+          ]
+        }
+      }
+      geometry Plane {
+        size 0.15 0.3
+      }
+    }
+  ]
+  locked TRUE
+}
+DEF LAMP Solid {
+  translation 0 0.07 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.01
+      }
+    }
+    PointLight {
+      ambientIntensity 1
+      intensity 0
+    }
+  ]
+}
+DEF ROBOT Robot {
+  translation 0 0.09 0
+  children [
+    DEF BODY Shape {
+      geometry Box {
+        size 0.1 0.02 0.2
+      }
+    }
+    DEF PEN0 Pen {
+      translation 0 -0.02 0.08
+      rotation 0 0 1 0
+      name "pen0"
+      inkColor 1 0 0
+      inkDensity 0.0980392
+      leadSize 0.04
+    }
+    DEF PEN1 Pen {
+      translation 0 -0.02 -0.08
+      rotation 0 0 1 0
+      name "pen1"
+      inkColor 0 1 0
+      inkDensity 1
+      leadSize 0.04
+    }
+    DEF CAM0 Camera {
+      translation 0 -0.008 0.08
+      rotation 1 0 0 -1.5708
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.01
+            radius 0.01
+          }
+        }
+      ]
+      name "camera0"
+      fieldOfView 0.35
+    }
+    DEF CAM1 Camera {
+      translation 0 -0.008 -0.08
+      rotation 1 0 0 -1.5708
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.01
+            radius 0.01
+          }
+        }
+      ]
+      name "camera1"
+      fieldOfView 0.35
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pen"
+}
+TestSuiteSupervisor {
+}

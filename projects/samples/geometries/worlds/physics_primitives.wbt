@@ -1,0 +1,384 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "Test world with all collision detection primitives"
+  ]
+  title "Physics primitves"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.7594660871164611 -0.6305700723311206 -0.15997701835056488 0.298506
+  position -1.48131 3.25114 8.16416
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF CAPSULE1 Solid {
+  translation -2 1.5 -0.4
+  children [
+    DEF BO Shape {
+      appearance DEF APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Capsule {
+        height 0.2
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF CAPSULE2 Solid {
+  translation 0 1.5 -0.4
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Capsule {
+        height 0.2
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF CAPSULE3 Solid {
+  translation 2 1.5 -0.4
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Capsule {
+        height 0.2
+        radius 0.1
+        subdivision 20
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX1 Solid {
+  translation -2 1.5 0
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX2 Solid {
+  translation 0 1.5 0
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF BOX3 Solid {
+  translation 2 1.5 0
+  children [
+    DEF BO Shape {
+      appearance USE APP
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  name "solid(6)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF CYLINDER1 Solid {
+  translation -2 1.5 0.4
+  children [
+    DEF CY Shape {
+      appearance USE APP
+      geometry Cylinder {
+        height 0.2
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(7)"
+  boundingObject USE CY
+  physics Physics {
+  }
+}
+DEF CYLINDER2 Solid {
+  translation 0 1.5 0.4
+  children [
+    DEF CY Shape {
+      appearance USE APP
+      geometry Cylinder {
+        height 0.2
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(8)"
+  boundingObject USE CY
+  physics Physics {
+  }
+}
+DEF CYLINDER3 Solid {
+  translation 2 1.5 0.4
+  children [
+    DEF CY Shape {
+      appearance USE APP
+      geometry Cylinder {
+        height 0.2
+        radius 0.1
+      }
+    }
+  ]
+  name "solid(9)"
+  boundingObject USE CY
+  physics Physics {
+  }
+}
+DEF SPHERE1 Solid {
+  translation -2 1.5 0.8
+  children [
+    DEF SP Shape {
+      appearance USE APP
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "solid(10)"
+  boundingObject USE SP
+  physics Physics {
+  }
+}
+DEF SPHERE2 Solid {
+  translation 0 1.5 0.8
+  children [
+    DEF SP Shape {
+      appearance USE APP
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "solid(11)"
+  boundingObject USE SP
+  physics Physics {
+  }
+}
+DEF SPHERE3 Solid {
+  translation 2 1.5 0.8
+  children [
+    DEF SP Shape {
+      appearance USE APP
+      geometry Sphere {
+        radius 0.1
+        subdivision 3
+      }
+    }
+  ]
+  name "solid(12)"
+  boundingObject USE SP
+  physics Physics {
+  }
+}
+DEF INDEXEDFACESET1 Solid {
+  translation -2 1.5 1.2
+  children [
+    DEF IF Shape {
+      appearance USE APP
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.0866 -0.05 -0.0866
+            -0.0866 -0.05 0.0866
+            0.0866 -0.05 0
+            0 0.1 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0.5 1
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1, 2, 0
+          3, -1, 1, 0, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 1, 2, -1, 0, 1
+          2, -1, 0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+  name "solid(13)"
+  boundingObject USE IF
+  physics Physics {
+  }
+}
+DEF INDEXEDFACESET2 Solid {
+  translation 0 1.5 1.2
+  children [
+    DEF IF Shape {
+      appearance USE APP
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.0866 -0.05 -0.0866
+            -0.0866 -0.05 0.0866
+            0.0866 -0.05 0
+            0 0.1 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0.5 1
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1, 2, 0
+          3, -1, 1, 0, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 1, 2, -1, 0, 1
+          2, -1, 0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+  name "solid(14)"
+  boundingObject USE IF
+  physics Physics {
+  }
+}
+DEF INDEXEDFACESET3 Solid {
+  translation 2 1.5 1.2
+  children [
+    DEF IF Shape {
+      appearance USE APP
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -0.0866 -0.05 -0.0866
+            -0.0866 -0.05 0.0866
+            0.0866 -0.05 0
+            0 0.1 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            0.5 1
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1, 2, 0
+          3, -1, 1, 0, 2, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, -1, 0, 1, 2, -1, 0, 1
+          2, -1, 0, 1, 2, -1
+        ]
+      }
+    }
+  ]
+  name "solid(15)"
+  boundingObject USE IF
+  physics Physics {
+  }
+}
+DEF GROUND1 Solid {
+  translation -11 0.25 0
+  children [
+    DEF GROUND_SHAPE1 Shape {
+      appearance DEF GROUND_APP PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/lightwood.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 20 20
+        }
+      }
+      geometry Box {
+        size 20 0.5 20
+      }
+    }
+  ]
+  name "solid(16)"
+  boundingObject USE GROUND_SHAPE1
+  locked TRUE
+}
+DEF GROUND2 Solid {
+  children [
+    DEF GROUND_SHAPE2 Shape {
+      appearance USE GROUND_APP
+      geometry Plane {
+        size 50 50
+      }
+    }
+  ]
+  name "solid(17)"
+  boundingObject USE GROUND_SHAPE2
+  locked TRUE
+}
+DEF GROUND3 Solid {
+  translation 1 0.5 -10
+  children [
+    DEF GROUND_SHAPE3 Shape {
+      appearance USE GROUND_APP
+      geometry ElevationGrid {
+        height [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.354037, 0.382574, 0.0593742, -0.318414, -0.403453, -0.11756, 0.276418, 0.416258, 0.173393, -0.228889, -0.420731, -0.225755, 0.176779, 0.416784, 0.273599, -0.121131, -0.404494, -0.315967, 0.0630587, 0, 0.382574, 0.413411, 0.06416, -0.344079, -0.435974, -0.127036, 0.298698, 0.44981, 0.187369, -0.247338, -0.454644, -0.243952, 0.191028, 0.450378, 0.295653, -0.130895, -0.437098, -0.341435, 0.0681415, 0, 0.0593742, 0.06416, 0.00995743, -0.0534, -0.0676617, -0.0197156, 0.046357, 0.0698091, 0.0290791, -0.0383861, -0.0705593, -0.0378606, 0.029647, 0.0698973, 0.0458843, -0.0203145, -0.0678362, -0.0529897, 0.0105753, 0, -0.318414, -0.344079, -0.0534, 0.286375, 0.362858, 0.105731, -0.248605, -0.374374, -0.155946, 0.205858, 0.378398, 0.20304, -0.158992, -0.374847, -0.24607, 0.108943, 0.363794, 0.284175, -0.0567137, 0, -0.403453, -0.435974, -0.0676617, 0.362858, 0.459768, 0.133969, -0.315, -0.47436, -0.197595, 0.260838, 0.479457, 0.257266, -0.201454, -0.474959, -0.311788, 0.138039, 0.460954, 0.36007, -0.0718604, 0, -0.11756, -0.127036, -0.0197156, 0.105731, 0.133969, 0.0390365, -0.0917861, -0.138221, -0.0575761, 0.076004, 0.139706, 0.0749634, -0.0587006, -0.138396, -0.0908503, 0.0402223, 0.134315, 0.104919, -0.020939, 0, 0.276418, 0.298698, 0.046357, -0.248605, -0.315, -0.0917861, 0.215816, 0.324998, 0.135378, -0.178707, -0.32849, -0.176261, 0.138022, 0.325408, 0.213615, -0.0945743, -0.315813, -0.246694, 0.0492337, 0, 0.416258, 0.44981, 0.0698091, -0.374374, -0.47436, -0.138221, 0.324998, 0.489415, 0.203866, -0.269116, -0.494674, -0.265431, 0.207848, 0.490033, 0.321684, -0.14242, -0.475583, -0.371498, 0.0741411, 0, 0.173393, 0.187369, 0.0290791, -0.155946, -0.197595, -0.0575761, 0.135378, 0.203866, 0.0849208, -0.112101, -0.206057, -0.110566, 0.0865793, 0.204124, 0.133998, -0.0593251, -0.198105, -0.154748, 0.0308836, 0, -0.228889, -0.247338, -0.0383861, 0.205858, 0.260838, 0.076004, -0.178707, -0.269116, -0.112101, 0.147979, 0.272008, 0.145953, -0.11429, -0.269456, -0.176885, 0.0783127, 0.26151, 0.204276, -0.0407682, 0, -0.420731, -0.454644, -0.0705593, 0.378398, 0.479457, 0.139706, -0.32849, -0.494674, -0.206057, 0.272008, 0.49999, 0.268284, -0.210081, -0.495299, -0.325141, 0.14395, 0.480694, 0.37549, -0.0749379, 0, -0.225755, -0.243952, -0.0378606, 0.20304, 0.257266, 0.0749634, -0.176261, -0.265431, -0.110566, 0.145953, 0.268284, 0.143955, -0.112725, -0.265767, -0.174463, 0.0772406, 0.25793, 0.20148, -0.04021, 0, 0.176779, 0.191028, 0.029647, -0.158992, -0.201454, -0.0587006, 0.138022, 0.207848, 0.0865793, -0.11429, -0.210081, -0.112725, 0.0882702, 0.20811, 0.136615, -0.0604837, -0.201974, -0.15777, 0.0314867, 0, 0.416784, 0.450378, 0.0698973, -0.374847, -0.474959, -0.138396, 0.325408, 0.490033, 0.204124, -0.269456, -0.495299, -0.265767, 0.20811, 0.490651, 0.32209, -0.1426, -0.476184, -0.371967, 0.0742347, 0, 0.273599, 0.295653, 0.0458843, -0.24607, -0.311788, -0.0908503, 0.213615, 0.321684, 0.133998, -0.176885, -0.325141, -0.174463, 0.136615, 0.32209, 0.211437, -0.09361, -0.312593, -0.244179, 0.0487317, 0, -0.121131, -0.130895, -0.0203145, 0.108943, 0.138039, 0.0402223, -0.0945743, -0.14242, -0.0593251, 0.0783127, 0.14395, 0.0772406, -0.0604837, -0.1426, -0.09361, 0.0414442, 0.138395, 0.108106, -0.0215751, 0, -0.404494, -0.437098, -0.0678362, 0.363794, 0.460954, 0.134315, -0.315813, -0.475583, -0.198105, 0.26151, 0.480694, 0.25793, -0.201974, -0.476184, -0.312593, 0.138395, 0.462143, 0.360999, -0.0720458, 0, -0.315967, -0.341435, -0.0529897, 0.284175, 0.36007, 0.104919, -0.246694, -0.371498, -0.154748, 0.204276, 0.37549, 0.20148, -0.15777, -0.371967, -0.244179, 0.108106, 0.360999, 0.281991, -0.0562779, 0, 0.0630587, 0.0681415, 0.0105753, -0.0567137, -0.0718604, -0.020939, 0.0492337, 0.0741411, 0.0308836, -0.0407682, -0.0749379, -0.04021, 0.0314867, 0.0742347, 0.0487317, -0.0215751, -0.0720458, -0.0562779, 0.0112316
+        ]
+        xDimension 20
+        zDimension 20
+      }
+    }
+  ]
+  boundingObject USE GROUND_SHAPE3
+  locked TRUE
+}

@@ -1,0 +1,826 @@
+#VRML_SIM R2018a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/salamander
+# The "Salamander" robot is a salamander-like robot developed by the EPFL BioRob laboratory.
+
+PROTO Salamander [
+  field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
+  field SFRotation rotation        0 1 0 0      # Is `Transform.rotation`.
+  field SFString   name            "Salamander" # Is `Solid.name`.
+  field SFString   controller      "salamander" # Is `Robot.controller`.
+  field SFString   controllerArgs  ""           # Is `Robot.controllerArgs`.
+  field SFString   customData      ""           # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []           # Extends the robot with new nodes in the extension slot.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    name IS name
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      GPS {
+      }
+      DEF SMALL_SEGMENT Group {
+        children [
+          Transform {
+            children [
+              Shape {
+                appearance DEF SALAMANDER_COLOR PBRAppearance {
+                  baseColor 1 0.8 0.3
+                  roughness 0.3
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.0561
+                  radius 0.019
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.038
+            children [
+              Shape {
+                appearance USE SALAMANDER_COLOR
+                geometry Box {
+                  size 0.038 0.056 0.076
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF LEFT_EYE DistanceSensor {
+        translation -0.02 0.03 0
+        rotation 0 1 0 2.356
+        children [
+          DEF EYE_SHAPE Shape {
+            appearance DEF EYE_APPEARANCE PBRAppearance {
+              baseColor 0.2 0.2 0.2
+              roughness 0.2
+              metalness 0
+            }
+            geometry Sphere {
+              radius 0.005
+              subdivision 2
+            }
+          }
+        ]
+        name "ds_left"
+        lookupTable [
+          0 0 0
+          0.7 0.7 0
+        ]
+        numberOfRays 6
+        aperture 0.8
+      }
+      DEF RIGHT_EYE DistanceSensor {
+        translation 0.02 0.03 0
+        rotation 0 1 0 0.785
+        children [
+          USE EYE_SHAPE
+        ]
+        name "ds_right"
+        lookupTable [
+          0 0 0
+          0.7 0.7 0
+        ]
+        numberOfRays 6
+        aperture 0.8
+      }
+      HingeJoint {  # Simulation of backlash.
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0 0 0.108
+          minStop -0.0001
+          maxStop 0.0001
+        }
+        endPoint DEF SOLID_THORAX Solid {
+          translation 0 0 0.108
+          children [
+            DEF BIG_SEGMENT Group {
+              children [
+                Transform {
+                  children [
+                    Shape {
+                      appearance USE SALAMANDER_COLOR
+                      geometry Cylinder {
+                        height 0.0561
+                        radius 0.032
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0 0.0235
+                  children [
+                    Shape {
+                      appearance USE SALAMANDER_COLOR
+                      geometry Box {
+                        size 0.064 0.056 0.047
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            DEF HINGE_JOINT_LEG_1 HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor -0.032 0 0.02
+              }
+              device [
+                RotationalMotor {
+                  name "motor_leg_1"
+                  maxVelocity 20
+                  maxTorque 100
+                }
+              ]
+              endPoint DEF SOLID_LEG_1 Solid {
+                translation -0.032 0 0.02
+                rotation 1 0 0 0
+                children [
+                  DEF GROUP_FEMUR_1 Group {
+                    children [
+                      DEF TRANSFORM_HIP_1 Transform {
+                        translation -0.004 0 0
+                        rotation 0 0 1 1.5708
+                        children [
+                          DEF SHAPE_HIP Shape {
+                            appearance DEF LEG_COLOR PBRAppearance {
+                              baseColor 0.2 0.2 0.2
+                              roughness 0.2
+                              metalness 0
+                            }
+                            geometry Cylinder {
+                              height 0.008
+                              radius 0.00975
+                            }
+                          }
+                        ]
+                      }
+                      DEF TRANSFORM_FEMUR_1 Transform {
+                        translation -0.016 0 0
+                        rotation 0 0 1 1.5708
+                        children [
+                          DEF FEMUR Shape {
+                            appearance USE LEG_COLOR
+                            geometry Capsule {
+                              height 0.016
+                              radius 0.00575
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  DEF JOINT_TIBIA_1 Solid {
+                    translation -0.024 0 0
+                    rotation 0 0 1 1.0472
+                    children [
+                      DEF GROUP_TIBIA_1 Group {
+                        children [
+                          DEF TRANSFORM_TIBIA_1 Transform {
+                            translation -0.0225 0 0
+                            rotation 0 0 1 1.5708
+                            children [
+                              DEF TIBIA Shape {
+                                appearance USE LEG_COLOR
+                                geometry Capsule {
+                                  height 0.042
+                                  radius 0.00575
+                                }
+                              }
+                            ]
+                          }
+                          DEF TRANSFORM_FOOT_1 Transform {
+                            translation -0.045 -0.002 -0.0055
+                            rotation 0 0 1 -1.0472
+                            children [
+                              DEF FOOT Shape {
+                                appearance USE LEG_COLOR
+                                geometry Cylinder {
+                                  height 0.0075
+                                  radius 0.013
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "leg"
+                    immersionProperties [
+                      DEF IMMERSION_PROP_TIBIA ImmersionProperties {
+                        fluidName "fluid"
+                        dragForceCoefficients 0.95 0.15 0.15
+                      }
+                    ]
+                    boundingObject USE GROUP_TIBIA_1
+                    physics Physics {
+                      density -1
+                      mass 0.0045704
+                      centerOfMass [
+                        -0.03 0 0
+                      ]
+                      inertiaMatrix [
+                        2.59057e-7 1.32103e-6 1.25007e-6
+                        -2.73481e-8 -1.64256e-7 -2.19008e-8
+                      ]
+                    }
+                  }
+                ]
+                name "leg 1"
+                contactMaterial "body"
+                immersionProperties [
+                  DEF IMMERSION_PROP_FEMUR ImmersionProperties {
+                    fluidName "fluid"
+                    dragForceCoefficients 0 0.15 0.15
+                  }
+                ]
+                boundingObject USE GROUP_FEMUR_1
+                physics Physics {
+                  density -1
+                  mass 0.00242371
+                  centerOfMass [
+                    -0.012 0 0
+                  ]
+                  inertiaMatrix [
+                    7.57828e-8 1.99961e-7 1.99961e-7
+                    -1.03066e-13 0 0
+                  ]
+                }
+              }
+            }
+            DEF HINGE_JOINT_LEG_2 HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0.032 0 0.02
+              }
+              device [
+                RotationalMotor {
+                  name "motor_leg_2"
+                  maxVelocity 20
+                  maxTorque 100
+                }
+              ]
+              endPoint DEF SOLID_LEG_2 Solid {
+                translation 0.032 0 0.02
+                rotation 1 0 0 3.14159
+                children [
+                  DEF GROUP_FEMUR_2 Group {
+                    children [
+                      DEF TRANSFORM_HIP_2 Transform {
+                        translation 0.004 0 0
+                        rotation 0 0 1 1.5708
+                        children [
+                          USE SHAPE_HIP
+                        ]
+                      }
+                      DEF TRANSFORM_FEMUR_2 Transform {
+                        translation 0.016 0 0
+                        rotation 0 0 1 1.5708
+                        children [
+                          DEF FEMUR Shape {
+                            appearance USE LEG_COLOR
+                            geometry Capsule {
+                              height 0.016
+                              radius 0.00575
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  DEF JOINT_TIBIA_2 Solid {
+                    translation 0.024 0 0
+                    rotation 0 0 1 1.0472
+                    children [
+                      DEF GROUP_TIBIA_2 Group {
+                        children [
+                          DEF TRANSFORM_TIBIA_2 Transform {
+                            translation 0.0225 0 0
+                            rotation 0 0 1 1.5708
+                            children [
+                              DEF TIBIA Shape {
+                                appearance USE LEG_COLOR
+                                geometry Capsule {
+                                  height 0.042
+                                  radius 0.00575
+                                }
+                              }
+                            ]
+                          }
+                          DEF TRANSFORM_FOOT_2 Transform {
+                            translation 0.045 0.002 0.0055
+                            rotation 0 0 1 -1.0472
+                            children [
+                              DEF FOOT Shape {
+                                appearance USE LEG_COLOR
+                                geometry Cylinder {
+                                  height 0.0075
+                                  radius 0.013
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "leg"
+                    immersionProperties [
+                      USE IMMERSION_PROP_TIBIA
+                    ]
+                    boundingObject USE GROUP_TIBIA_2
+                    physics Physics {
+                      density -1
+                      mass 0.0045704
+                      centerOfMass [
+                        0.03 0 0
+                      ]
+                      inertiaMatrix [
+                        2.59057e-7 1.32103e-6 1.25007e-6
+                        -2.73481e-8 -1.64256e-7 -2.19008e-8
+                      ]
+                    }
+                  }
+                ]
+                name "leg 2"
+                contactMaterial "body"
+                immersionProperties [
+                  USE IMMERSION_PROP_FEMUR
+                ]
+                boundingObject USE GROUP_FEMUR_2
+                physics Physics {
+                  density -1
+                  mass 0.00242371
+                  centerOfMass [
+                    0.012 0 0
+                  ]
+                  inertiaMatrix [
+                    7.57828e-8 1.99961e-7 1.99961e-7
+                    -1.03066e-13 0 0
+                  ]
+                }
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 1 0
+                anchor 0 0 0.066
+              }
+              device [
+                RotationalMotor {
+                  name "motor_1"
+                  minPosition -1.13446
+                  maxPosition 1.13446
+                  maxTorque 100
+                }
+              ]
+              endPoint DEF SEGMENT_1 Solid {
+                translation 0 0 0.066
+                children [
+                  USE SMALL_SEGMENT
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                      anchor 0 0 0.095
+                    }
+                    device [
+                      RotationalMotor {
+                        name "motor_2"
+                        minPosition -1.13446
+                        maxPosition 1.13446
+                        maxTorque 100
+                      }
+                    ]
+                    endPoint DEF SEGMENT_2 Solid {
+                      translation 0 0 0.095
+                      children [
+                        USE SMALL_SEGMENT
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 0 1 0
+                            anchor 0 0 0.095
+                          }
+                          device [
+                            RotationalMotor {
+                              name "motor_3"
+                              minPosition -1.13446
+                              maxPosition 1.13446
+                              maxTorque 100
+                            }
+                          ]
+                          endPoint DEF SEGMENT_3 Solid {
+                            translation 0 0 0.095
+                            children [
+                              USE SMALL_SEGMENT
+                              HingeJoint {  # Simulation of backlash.
+                                jointParameters HingeJointParameters {
+                                  axis 0 1 0
+                                  anchor 0 0 0.108
+                                  minStop -0.0001
+                                  maxStop 0.0001
+                                }
+                                endPoint DEF SEGMENT_PELVIS Solid {
+                                  translation 0 0 0.108
+                                  children [
+                                    USE BIG_SEGMENT
+                                    DEF HINGE_JOINT_LEG_3 HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        anchor -0.032 0 0.02
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "motor_leg_3"
+                                          maxVelocity 20
+                                          maxTorque 100
+                                        }
+                                      ]
+                                      endPoint DEF SOLID_LEG_3 Solid {
+                                        translation -0.032 0 0.02
+                                        rotation 1 0 0 0
+                                        children [
+                                          DEF GROUP_FEMUR_3 Group {
+                                            children [
+                                              DEF TRANSFORM_HIP_3 Transform {
+                                                translation -0.004 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  USE SHAPE_HIP
+                                                ]
+                                              }
+                                              DEF TRANSFORM_FEMUR_3 Transform {
+                                                translation -0.016 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  DEF FEMUR Shape {
+                                                    appearance USE LEG_COLOR
+                                                    geometry Capsule {
+                                                      height 0.016
+                                                      radius 0.00575
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                          DEF JOINT_TIBIA_3 Solid {
+                                            translation -0.024 0 0
+                                            rotation 0 0 1 1.0472
+                                            children [
+                                              DEF GROUP_TIBIA_3 Group {
+                                                children [
+                                                  DEF TRANSFORM_TIBIA_3 Transform {
+                                                    translation -0.0225 0 0
+                                                    rotation 0 0 1 1.5708
+                                                    children [
+                                                      DEF TIBIA Shape {
+                                                        appearance USE LEG_COLOR
+                                                        geometry Capsule {
+                                                          height 0.042
+                                                          radius 0.00575
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                  DEF TRANSFORM_FOOT_3 Transform {
+                                                    translation -0.045 -0.002 -0.0055
+                                                    rotation 0 0 1 -1.0472
+                                                    children [
+                                                      DEF FOOT Shape {
+                                                        appearance USE LEG_COLOR
+                                                        geometry Cylinder {
+                                                          height 0.0075
+                                                          radius 0.013
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                            contactMaterial "leg"
+                                            immersionProperties [
+                                              USE IMMERSION_PROP_TIBIA
+                                            ]
+                                            boundingObject USE GROUP_TIBIA_3
+                                            physics Physics {
+                                              density -1
+                                              mass 0.0045704
+                                              centerOfMass [
+                                                -0.03 0 0
+                                              ]
+                                              inertiaMatrix [
+                                                2.59057e-7 1.32103e-6 1.25007e-6
+                                                -2.73481e-8 -1.64256e-7 -2.19008e-8
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                        name "leg 3"
+                                        contactMaterial "body"
+                                        immersionProperties [
+                                          USE IMMERSION_PROP_FEMUR
+                                        ]
+                                        boundingObject USE GROUP_FEMUR_3
+                                        physics Physics {
+                                          density -1
+                                          mass 0.00242371
+                                          centerOfMass [
+                                            -0.012 0 0
+                                          ]
+                                          inertiaMatrix [
+                                            7.57828e-8 1.99961e-7 1.99961e-7
+                                            -1.03066e-13 0 0
+                                          ]
+                                        }
+                                      }
+                                    }
+                                    DEF HINGE_JOINT_LEG_4 HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        anchor 0.032 0 0.02
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "motor_leg_4"
+                                          maxVelocity 20
+                                          maxTorque 100
+                                        }
+                                      ]
+                                      endPoint DEF SOLID_LEG_4 Solid {
+                                        translation 0.032 0 0.02
+                                        rotation 1 0 0 3.14159
+                                        children [
+                                          DEF GROUP_FEMUR_4 Group {
+                                            children [
+                                              DEF TRANSFORM_HIP_4 Transform {
+                                                translation 0.004 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  USE SHAPE_HIP
+                                                ]
+                                              }
+                                              DEF TRANSFORM_FEMUR_4 Transform {
+                                                translation 0.016 0 0
+                                                rotation 0 0 1 1.5708
+                                                children [
+                                                  DEF FEMUR Shape {
+                                                    appearance USE LEG_COLOR
+                                                    geometry Capsule {
+                                                      height 0.016
+                                                      radius 0.00575
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                          DEF JOINT_TIBIA_4 Solid {
+                                            translation 0.024 0 0
+                                            rotation 0 0 1 1.0472
+                                            children [
+                                              DEF GROUP_TIBIA_4 Group {
+                                                children [
+                                                  DEF TRANSFORM_TIBIA_4 Transform {
+                                                    translation 0.0225 0 0
+                                                    rotation 0 0 1 1.5708
+                                                    children [
+                                                      DEF TIBIA Shape {
+                                                        appearance USE LEG_COLOR
+                                                        geometry Capsule {
+                                                          height 0.042
+                                                          radius 0.00575
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                  DEF TRANSFORM_FOOT_4 Transform {
+                                                    translation 0.045 0.002 0.0055
+                                                    rotation 0 0 1 -1.0472
+                                                    children [
+                                                      DEF FOOT Shape {
+                                                        appearance USE LEG_COLOR
+                                                        geometry Cylinder {
+                                                          height 0.0075
+                                                          radius 0.013
+                                                        }
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                            contactMaterial "leg"
+                                            immersionProperties [
+                                              USE IMMERSION_PROP_TIBIA
+                                            ]
+                                            boundingObject USE GROUP_TIBIA_4
+                                            physics Physics {
+                                              density -1
+                                              mass 0.0045704
+                                              centerOfMass [
+                                                0.03 0 0
+                                              ]
+                                              inertiaMatrix [
+                                                2.59057e-7 1.32103e-6 1.25007e-6
+                                                -2.73481e-8 -1.64256e-7 -2.19008e-8
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                        name "leg 4"
+                                        contactMaterial "body"
+                                        immersionProperties [
+                                          USE IMMERSION_PROP_FEMUR
+                                        ]
+                                        boundingObject USE GROUP_FEMUR_4
+                                        physics Physics {
+                                          density -1
+                                          mass 0.00242371
+                                          centerOfMass [
+                                            0.012 0 0
+                                          ]
+                                          inertiaMatrix [
+                                            7.57828e-8 1.99961e-7 1.99961e-7
+                                            -1.03066e-13 0 0
+                                          ]
+                                        }
+                                      }
+                                    }
+                                    HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 1 0
+                                        anchor 0 0 0.066
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "motor_4"
+                                          minPosition -1.13446
+                                          maxPosition 1.13446
+                                          maxTorque 100
+                                        }
+                                      ]
+                                      endPoint DEF SEGMENT_4 Solid {
+                                        translation 0 0 0.066
+                                        children [
+                                          USE SMALL_SEGMENT
+                                          HingeJoint {
+                                            jointParameters HingeJointParameters {
+                                              axis 0 1 0
+                                              anchor 0 0 0.095
+                                            }
+                                            device [
+                                              RotationalMotor {
+                                                name "motor_5"
+                                                minPosition -1.13446
+                                                maxPosition 1.13446
+                                                maxTorque 100
+                                              }
+                                            ]
+                                            endPoint DEF SEGMENT_5 Solid {
+                                              translation 0 0 0.095
+                                              children [
+                                                USE SMALL_SEGMENT
+                                                HingeJoint {
+                                                  jointParameters HingeJointParameters {
+                                                    axis 0 1 0
+                                                    anchor 0 0 0.095
+                                                  }
+                                                  device [
+                                                    RotationalMotor {
+                                                      name "motor_6"
+                                                      minPosition -1.13446
+                                                      maxPosition 1.13446
+                                                      maxTorque 100
+                                                    }
+                                                  ]
+                                                  endPoint DEF SEGMENT_6 Solid {
+                                                    translation 0 0 0.095
+                                                    children [
+                                                      USE SMALL_SEGMENT
+                                                    ]
+                                                    contactMaterial "body"
+                                                    immersionProperties [
+                                                      DEF IMMERSION_PROP_SEGMENT ImmersionProperties {
+                                                        fluidName "fluid"
+                                                        referenceArea "xyz-projection"
+                                                        dragForceCoefficients 3.1 1.3 0
+                                                        viscousResistanceTorqueCoefficient 5
+                                                      }
+                                                    ]
+                                                    boundingObject USE SMALL_SEGMENT
+                                                    physics DEF SEGMENT_PHYSICS Physics {
+                                                      density -1
+                                                      mass 0.180281
+                                                      centerOfMass [
+                                                        0 -0.014 0.038
+                                                      ]
+                                                      inertiaMatrix [
+                                                        0.000222864 0.000160531 0.000102659
+                                                        0 0 2.70783e-5
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                              contactMaterial "body"
+                                              immersionProperties [
+                                                USE IMMERSION_PROP_SEGMENT
+                                              ]
+                                              boundingObject USE SMALL_SEGMENT
+                                              physics USE SEGMENT_PHYSICS
+                                            }
+                                          }
+                                        ]
+                                        contactMaterial "body"
+                                        immersionProperties [
+                                          USE IMMERSION_PROP_SEGMENT
+                                        ]
+                                        boundingObject USE SMALL_SEGMENT
+                                        physics USE SEGMENT_PHYSICS
+                                      }
+                                    }
+                                  ]
+                                  contactMaterial "body"
+                                  immersionProperties [
+                                    DEF IMMERSION_PROP_BIG_SEGMENT ImmersionProperties {
+                                      fluidName "fluid"
+                                      referenceArea "xyz-projection"
+                                      dragForceCoefficients 1.8 0.95 0.75
+                                      viscousResistanceTorqueCoefficient 5
+                                    }
+                                  ]
+                                  boundingObject USE BIG_SEGMENT
+                                  physics DEF BIG_SEGMENT_PHYSICS Physics {
+                                    density -1
+                                    mass 0.279137
+                                    centerOfMass [
+                                      0 -0.014 0.0235
+                                    ]
+                                    inertiaMatrix [
+                                      0.000269294 0.000224459 0.000210752
+                                      0 0 4.75005e-5
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            contactMaterial "body"
+                            immersionProperties [
+                              USE IMMERSION_PROP_SEGMENT
+                            ]
+                            boundingObject USE SMALL_SEGMENT
+                            physics USE SEGMENT_PHYSICS
+                          }
+                        }
+                      ]
+                      contactMaterial "body"
+                      immersionProperties [
+                        USE IMMERSION_PROP_SEGMENT
+                      ]
+                      boundingObject USE SMALL_SEGMENT
+                      physics USE SEGMENT_PHYSICS
+                    }
+                  }
+                ]
+                contactMaterial "body"
+                immersionProperties [
+                  USE IMMERSION_PROP_SEGMENT
+                ]
+                boundingObject USE SMALL_SEGMENT
+                physics USE SEGMENT_PHYSICS
+              }
+            }
+          ]
+          contactMaterial "body"
+          immersionProperties [
+            USE IMMERSION_PROP_BIG_SEGMENT
+          ]
+          boundingObject USE BIG_SEGMENT
+          physics USE BIG_SEGMENT_PHYSICS
+        }
+      }
+    ]
+    contactMaterial "body"
+    immersionProperties [
+      DEF IMMERSION_PROP_HEAD ImmersionProperties {
+        fluidName "fluid"
+        referenceArea "xyz-projection"
+        dragForceCoefficients 2 1 1
+        viscousResistanceTorqueCoefficient 5
+      }
+    ]
+    boundingObject USE SMALL_SEGMENT
+    physics USE SEGMENT_PHYSICS
+  }
+}

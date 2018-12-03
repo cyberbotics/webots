@@ -1,0 +1,110 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# documentation url: https://www.cyberbotics.com/doc/automobile/sumo-interface
+# Supervisor interfacing SUMO with Webots
+
+PROTO SumoInterface [
+  field SFString  name                  "sumo interface"
+  field SFBool    gui                   TRUE
+  field SFBool    useNetconvert         TRUE
+  field SFBool    enableTrafficLights   TRUE
+  field SFBool    enableWheelsRotation  FALSE
+  field SFInt32   maxVehicles           100
+  field SFInt32   radius               -1
+  field SFFloat   maximumLateralSpeed   2.5
+  field SFFloat   maximumAngularSpeed   3
+  field SFFloat   laneChangeDelay       3
+  field SFBool    enableHeight          FALSE
+  field SFInt32   step                  200
+  field SFInt32   port                  8873
+  field SFInt32   seed                  1
+  field SFString  networkFiles          ""
+  field SFString  sumoArguments         ""
+  field SFNode    display               NULL
+  field SFBool    verbose               FALSE
+  field SFBool    synchronization       TRUE
+  field MFNode    children              []
+  hiddenField SFBool  enableWheelsRoattion  FALSE  # deprecated in Webots 2018a
+  hiddenField SFInt32 maxVehicules          100    # deprecated in Webots 2018a
+]
+{
+  %{
+    -- tracks check
+    local arguments = ""
+    if fields.gui.value ~= true then
+      arguments = arguments .. "--no-gui "
+    end
+    if fields.useNetconvert.value ~= true then
+      arguments = arguments .. "--no-netconvert "
+    end
+    if fields.enableTrafficLights.value ~= true then
+      arguments = arguments .. "--disable-traffic-lights "
+    end
+    local enableWheelsRotation = fields.enableWheelsRotation.value
+    if enableWheelsRotation == fields.enableWheelsRotation.defaultValue then
+      enableWheelsRotation = fields.enableWheelsRoattion.value
+      if enableWheelsRotation ~= fields.enableWheelsRoattion.defaultValue then
+        io.stderr:write("Deprecated 'enableWheelsRoattion' field, use 'enableWheelsRotation' instead\n")
+      end
+    end
+    local maxVehicles = fields.maxVehicles.value
+    if maxVehicles == fields.maxVehicles.defaultValue then
+      maxVehicles = fields.maxVehicules.value
+      if maxVehicles ~= fields.maxVehicules.defaultValue then
+        io.stderr:write("Deprecated 'maxVehicules' field, use 'maxVehicles' instead\n")
+      end
+    end
+    arguments = arguments .. "--max-vehicles=" .. maxVehicles .. " "
+    if enableWheelsRotation == true then
+      arguments = arguments .. "--rotate-wheels "
+    end
+    if fields.verbose.value == true then
+      arguments = arguments .. "--verbose "
+    end
+    if fields.enableHeight.value == true then
+      arguments = arguments .. "--enable-height "
+    end
+    if fields.networkFiles.value ~= "" then
+      arguments = arguments .. "--directory=" .. fields.networkFiles.value .. " "
+    end
+    if fields.sumoArguments.value ~= "" then
+      arguments = arguments .. "--sumo-arguments=\\\"" .. fields.sumoArguments.value .. "\\\" "
+    end
+    arguments = arguments .. "--port=" .. fields.port.value .. " "
+    arguments = arguments .. "--seed=" .. fields.seed.value .. " "
+    arguments = arguments .. "--step=" .. fields.step.value .. " "
+    arguments = arguments .. "--radius=" .. fields.radius.value .. " "
+    arguments = arguments .. "--maximum-lateral-speed=" .. fields.maximumLateralSpeed.value .. " "
+    arguments = arguments .. "--maximum-angular-speed=" .. fields.maximumAngularSpeed.value .. " "
+    arguments = arguments .. "--lane-change-delay=" .. fields.laneChangeDelay.value .. " "
+    local display = fields.display.value
+    if display ~= nil then
+      arguments = arguments .. "--use-display "
+      arguments = arguments .. "--display-zoom=" .. display.fields.zoom.value .. " "
+      arguments = arguments .. "--display-refresh-rate=" .. display.fields.refreshRate.value .. " "
+      if display.fields.fitSize.value then
+        arguments = arguments .. "--display-fit-size "
+      end
+    end
+  }%
+
+  Robot {
+    name IS name
+    model "SUMO interface"
+    controller "sumo_supervisor"
+    controllerArgs %{= '"' .. arguments ..'"' }%
+    supervisor TRUE
+    synchronization IS synchronization
+    children [
+      Group {
+        children IS children
+      }
+      Slot {
+        type "sumo display"
+        endPoint IS display
+      }
+    ]
+  }
+}

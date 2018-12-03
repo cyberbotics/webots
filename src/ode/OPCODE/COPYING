@@ -1,0 +1,30 @@
+The OPCODE library distributed as part of ODE is licensed under
+the same terms as ODE (LGPLv2.1+ and BSD).
+
+Quoting a public e-mail from the author:
+
+    Re: TriMesh support and OPCODE added to ODE core
+    Pierre Terdiman <p.terdiman <at> wanadoo.fr>
+    2003-07-01 21:18:44 GMT
+
+    > If he wants
+    > to explicitly make it clear that OpCode is good under ODE's
+    > license, that would be A-1 Super...
+
+    "Opcode is good under ODE's license"
+
+    I didn't put a license to prevent boring questions about licenses, but it
+    seems it's not enough - I still get as many questions, regarding missing
+    license.
+
+    The only thing that would NOT be good would be renaming it "TopCode",
+    changing the author's name, selling it at a very expensive price, and still
+    managing to make money out of it :)
+
+    ...I should add a license explicitely against this :)
+
+    Pierre
+
+Source:
+    http://permalink.gmane.org/gmane.comp.lib.ode/3237
+

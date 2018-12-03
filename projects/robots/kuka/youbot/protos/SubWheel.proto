@@ -1,0 +1,46 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: hidden
+# subwheel of the omnidirectionnal wheel
+
+PROTO SubWheel [
+  field SFString name "youBot subwheel"
+]
+{
+  HingeJoint {
+    jointParameters HingeJointParameters {
+      axis 0 1 0
+      dampingConstant 0.000005
+    }
+    endPoint Solid {
+      children [
+        SubWheelMesh {
+        }
+      ]
+      name IS name
+      boundingObject Group {
+        children [
+          Sphere {
+            radius 0.014
+            subdivision 2
+          }
+          Capsule {
+            radius 0.0125
+            height 0.035
+            subdivision 24
+          }
+          Capsule {
+            radius 0.008
+            height 0.065
+            subdivision 24
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.05
+      }
+    }
+  }
+}

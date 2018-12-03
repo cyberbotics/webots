@@ -1,0 +1,14 @@
+#VRML_SIM R2019a utf8
+
+PROTO NestedColorBoxShape [
+  field SFColor color 0.2 0.2 0.2
+]
+{
+  Group {
+    children [
+      ColorBoxShape {
+        faceColor IS color
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+﻿#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A customizable (size, texture, etc.) worktop.
+
+PROTO Worktop [
+  field SFVec3f    translation   0 0.71 0
+  field SFRotation rotation      0 1 0 0
+  field SFString   name          "worktop"
+  field SFVec3f    size          0.44 0.06 0.7           # Defines the size of the worktop.
+  field MFString   textureUrl    "textures/worktop.jpg"  # Defines the texture used for the worktop.
+  field SFVec2f    tileSize      0.7 0.7                 # Defines the size of texture used for the worktop.
+]
+{
+  %{
+    -- parameters check
+    local size = fields.size.value
+    if size.x <= 0.0 or size.y <= 0.0 or size.z <= 0.0 then -- avoid a negative values
+      size = fields.size.defaultValue
+      io.stderr:write("'size' must contain positive values\n")
+    end
+
+    local tileSize = fields.tileSize.value
+    if tileSize.x <= 0.0 or tileSize.y <= 0.0 then -- avoid a zero division and negative values
+      tileSize = fields.tileSize.defaultValue
+      io.stderr:write("'titleSize' must contain positive values\n")
+    end
+
+    -- global stuff
+    local mainFrameSize = { x = size.x; y = size.y; z = size.z }
+
+  }%
+  SolidBox {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    size %{= mainFrameSize.x }% %{= mainFrameSize.y }% %{= mainFrameSize.z }%
+    appearance PBRAppearance {
+      metalness 0
+      baseColorMap ImageTexture {
+        url IS textureUrl
+      }
+      roughnessMap ImageTexture {
+        url "textures/worktop_roughness.jpg"
+      }
+      normalMap ImageTexture {
+        url "textures/worktop_normal.jpg"
+      }
+      occlusionMap ImageTexture {
+        url "textures/worktop_occlusion.jpg"
+      }
+      normalMapFactor 0.2
+      textureTransform TextureTransform {
+        %{ local frameTextureFactor = math.max(mainFrameSize.x, mainFrameSize.y, mainFrameSize.z) }%
+        scale %{= frameTextureFactor / tileSize.x }% %{= frameTextureFactor / tileSize.y }%
+      }
+    }
+  }
+}

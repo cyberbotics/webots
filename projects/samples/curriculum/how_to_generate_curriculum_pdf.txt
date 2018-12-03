@@ -1,0 +1,75 @@
+How to generate Curriculum.pdf
+
+This document is a copy of the Appendix B of the Nicolas Heiniger's master project final
+report, and updated by Fabien Rohrer
+
+---------------------------------------------------------------------------------------------
+
+The PDF generation is done using javaLatex, as explained in 3.3.1. The source code of a
+customized version of the program is available on the Curriculum SVN repository:
+
+  http://robotcurriculum.svn.sourceforge.net/svnroot/robotcurriculum/misc/javaLatex
+
+---------------------------------------------------------------------------------------------
+
+Step 1: Download and compile javaLatex
+
+Download the code, we will suppose you did not move the code, it should be in the
+folder javaLatex. Once you have downloaded the source code of the program you will
+want to generate the PDF file. First you need to compile the program, doing it with the
+NetBeans IDE is the simplest way because the code was written with it. NetBeans is an
+open source program, it can be downloaded here: http://www.netbeans.org. When you
+have downloaded and installed NetBEans you can simply open the project (the project is the
+robotcurriculum/misc/javaLatex directory) from NetBeans and build it (the shortcut is F11).
+After that you will have a javaLatex/dist/ folder containing the result of the build,
+a jar file, javaLatex/dist/javaLatex.jar, and some configuration files.
+The config files should be fine directly from the repository but one can
+modify them if needed.
+
+---------------------------------------------------------------------------------------------
+
+Step 2: Generate Latex code
+
+Once the jar is generated, open a terminal. To run a terminal under windows got to the
+start menu, select “Run...” and type cmd. Enter in the "dist" direcotry.
+Then in the folder of the jar file type the following command:
+
+  java -jar javaLatex.jar --title="Cyberbotics' Robot Curriculum" --genall --cll="Cyberbotics' Robot Curriculum/Contents"
+
+The process can take a while because it needs to download all the texts and images from
+the wikibooks server. It will generate a javaLatex/dist/LaTeX/Cyberbotics’ Robot
+Curriculum LaTeX/ folder containing a directory with the Latex code for the book.
+
+---------------------------------------------------------------------------------------------
+
+Step 3: Compile Latex code
+
+Now that we have the Latex source code we will compile it to get a PDF file. Use
+your favorite Latex distribution to compile the file
+curriculim/misc/javaLatex/dist/LaTeX/Cyberbotics’ Robot Curriculum LaTeX/main.tex.
+Under windows this can be done using the Miktex distribution for instance.
+Under Linux you will have to run the following command (and have pdflatex installed):
+
+  pdflatex main.tex
+
+You will have to run it twice to get the references right, after the first pass you will get a
+warning telling you that cross-references might be wrong. This is because on the first pass
+the labels are listed and only after a second pass the references to the labels are updated.
+
+---------------------------------------------------------------------------------------------
+
+Troubleshooting
+
+If there are any errors you can read the file javaLatex/dist/log.txt to get information
+about the problem. Further information about the javaLatex program can be found in
+[19].
+    The most frequent error encoutered was the impossibility to create a file (namely
+gfdl.tex). This one can be fixed by copying the file from “dist/appendices/gfdl.tex”
+to “dist/LaTeX/Cyberbotics’ Robot Curriculum LaTeX/appendices/gfdl.tex”.
+
+---------------------------------------------------------------------------------------------
+
+Bibliography
+
+[19] Derbeth, “User:derbeth/javalatex - wikibooks, collection of open-content textbooks.”
+     Website. http://en.wikibooks.org/wiki/User:Derbeth/javaLatex.

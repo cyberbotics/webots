@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 16
+  physicsDisableTime 0
+}
+Viewpoint {
+  orientation 0.964181 0.261768 0.0428191 5.79435
+  position -0.0769734 0.744563 0.527158
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 0
+}
+Robot {
+  translation 0 0.368527 0
+  children [
+    DEF ROBOT_SHAPE Shape {
+      geometry Box {
+        size 0.4 0.2 0.4
+      }
+    }
+    TouchSensor {
+      rotation 1 0 0 1.5708
+      children [
+        DEF SENSOR_SHAPE Shape {
+          geometry Box {
+            size 0.3 0.3 0.3
+          }
+        }
+      ]
+      boundingObject USE SENSOR_SHAPE
+      physics Physics {
+        density -1
+        mass 100
+      }
+      type "force"
+      lookupTable []
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  boundingObject USE ROBOT_SHAPE
+  physics Physics {
+    density -1
+    mass 100
+  }
+  controller "touch_sensor_force"
+}
+Floor {
+}
+TestSuiteSupervisor {
+}

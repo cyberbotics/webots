@@ -1,0 +1,270 @@
+body {
+  scroll-behavior: smooth;
+}
+
+iframe {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+#toolBar {
+  clear: both;
+  z-index: 1;
+  width: 100%;
+  height: 48px;
+  background-color: #666;
+}
+
+.toolBarRight {
+  display: flex;
+  float: right;
+}
+
+.toolBarLeft {
+  display: flex;
+  float: left;
+}
+
+.toolBarButton {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: none;
+  color: #ccc;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background-color: #ccc;
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+}
+
+.toolBarButton:hover {
+  background-color: #eee;
+}
+
+.toolBarButtonActive {
+  background-color: #111;
+}
+
+.toolBarButtonActive:hover {
+  background-color: #444;
+}
+
+ .toolBarButtonDisabled {
+   background-color: #444;
+ }
+
+.toolBarButtonDisabled:hover {
+  background-color: #444;
+}
+
+#playBar {
+  display: flex;
+  float: left;
+  z-index: 1;
+  width: 100%;
+  height: 20px;
+  background-color: #666;
+}
+
+#playSlider {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin: 7px 15px;
+  background: #888;
+}
+
+.ui-slider {
+  height: 5px;
+}
+
+.ui-slider-handle {
+  height: 13px !important;
+  outline: 0;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+#playPauseButton {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: none;
+  color: #ccc;
+  margin-left: 10px;
+  background-image: url(play.png);
+  background-color: #ccc;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+}
+
+#playPauseButton:hover {
+  background-color: #eee;
+}
+
+#webotsProgress {
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 160px);
+  top: calc(50% - 84px);
+  background-color: white;
+  width:300px;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.webotsView {
+  padding: 0px;
+  overflow: hidden;
+}
+
+.webots3DView {
+  border: none;
+  width: 100%;
+  height: calc(100% - 48px);
+}
+
+#webotsConsole {
+  overflow-y: scroll;
+  font-family: monospace;
+}
+
+.webotsTime {
+  padding-top: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.webotsTabContainer {
+  padding: 2px 0px 4px 0px !important;
+}
+
+.webotsTab {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(100% - 54px);
+  border-width: 0px;
+}
+
+.webotsRobotWindowTabs {
+  display: inline-block;
+}
+
+.webotsTabs {
+  padding: 0px;
+  background: none;
+  border-width: 0px !important;
+  height: 100%;
+}
+
+.webotsTabs .ui-tabs-nav {
+  padding: 0px;
+  background: transparent;
+  border-width: 0px 0px 1px 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+#webotsEditorTabs .ui-tabs-nav {
+  padding-right: 30px;
+}
+
+.webotsTabs .ui-tabs-nav li {
+  font-size: 80%;
+}
+
+.webotsTabs .ui-tabs-panel {
+  border-width: 0px 1px 1px 1px;
+}
+
+.webotsEditorStatusMessage {
+  z-index: 100;
+  background: #f1f1f1;
+  color: #0074FF;
+  position:absolute;
+  bottom:0;
+  right:0;
+}
+
+#webotsEditorMenu {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: inline-block;
+}
+
+#webotsEditorMenu.pressed #webotsEditorMenuContent {
+  display: block;
+}
+
+#webotsEditorMenu.pressed #webotsEditorMenuImage {
+  background-color:  #dddddd;
+  border-radius: 2px;
+  border: none;
+}
+
+#webotsEditorMenuImage {
+  padding: 3px 3px;
+  background-color:transparent;
+  border: none;
+  outline: none;
+}
+
+#webotsEditorMenuContent {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background-color: #f9f9f9;
+  border:1px solid #ccc;
+  border-radius: 2px;
+  min-width: 115px;
+  box-shadow: 0px 5px 16px 0px rgba(0,0,0,0.2);
+  padding: 4px 0px;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.webotsEditorMenuContentItem {
+  padding: 3px 7px;
+  border: solid 1px transparent;
+  z-index: 10;
+}
+
+.webotsEditorMenuContentItem:hover {
+  color: white;
+  background-color: #007fff;
+  border: solid 1px #003eff;
+}
+
+#webotsHelpGuide {
+  height: calc(100% - 30px);
+  padding-top: 0px;
+  padding-bottom: 0px;
+  overflow: auto;
+}
+
+#webotsHelpReference {
+  height: calc(100% - 30px);
+  width: 100%;
+  padding: 0;
+}
+
+.webotsLabel {
+  position: absolute;
+  white-space: pre;
+}

@@ -1,0 +1,288 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# Customizable parallelepiped.
+# The `size` and `angles` fields specify the edges and angles of the parallelepiped:
+# - `angles.x`: angle between base and side edges of the parallelogram face
+# - `angles.y`: angle in y direction between front and back faces of the prism
+# - `angles.z`: angle in x direction between front and back faces of the prism
+# Available texture mappings:
+# - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube_mapping.jpg
+# - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact_mapping.jpg
+# - `flat` mapping: projecting the texture on the front face
+# - `metric` mapping: similar to default mapping but the texture is not deformed to match each face size
+# - `default` mapping: same texture on all the faces
+# - `none` no texture mapping
+# If a boolean field (front, back, left, right, top, bottom) is FALSE, then the corresponding face is not drawn.
+# A demo of these mappings is available in projects/samples/geometries/worlds/textured_boxes.wbt.
+
+PROTO TexturedParallelepiped [
+  field SFVec3f  size    0.1 0.1 0.1     # Defines the size of the parallelepiped.
+  field SFVec3f  angles  0.7854 0.0 0.0  # Defines the angles of the parallelepiped.
+  field SFString{"cube", "compact", "flat", "metric", "default", "none"}
+                 mapping "flat"          # Defines the texture mapping.
+  field SFBool   front   TRUE            # Defines whether the front face should be included.
+  field SFBool   back    TRUE            # Defines whether the back face should be included.
+  field SFBool   left    TRUE            # Defines whether the left face should be included.
+  field SFBool   right   TRUE            # Defines whether the right face should be included.
+  field SFBool   top     TRUE            # Defines whether the top face should be included.
+  field SFBool   bottom  TRUE            # Defines whether the bottom face should be included.
+]
+{
+  %{
+    local front = fields.front.value
+    if (fields.front.value or fields.back.value or fields.left.value or
+        fields.right.value or fields.top.value or fields.bottom.value ) == false then
+      io.stderr:write("cannot create an object without any faces: 'front' reset to default value\n")
+      front = fields.front.defaultValue
+    end
+
+    local mapping = fields.mapping.value
+    local rows = 1
+    local cols = 1
+    if mapping == "cube" then
+      rows = 3
+      cols = 4
+    elseif mapping == "compact" then
+      rows = 2
+      cols = 3
+    elseif mapping == "metric" then
+      rows = 2
+      cols = 2
+    end
+
+    local halfSize = { x = 0, y = 0, z = 0 }
+    if fields.size.value.x <= 0 or fields.size.value.y <= 0 or fields.size.value.z <= 0 then
+      io.stderr:write("'size' must contain positive values\n")
+      halfSize.x = fields.size.defaultValue.x * 0.5
+      halfSize.y = fields.size.defaultValue.y * 0.5
+      halfSize.z = fields.size.defaultValue.z * 0.5
+    else
+      halfSize.x = fields.size.value.x * 0.5
+      halfSize.y = fields.size.value.y * 0.5
+      halfSize.z = fields.size.value.z * 0.5
+    end
+
+
+    local angleThreshold = 0.001
+    local angles = fields.angles.value
+
+
+    -- normalize angles
+    while angles.x > math.pi do
+      angles.x = angles.x - math.pi
+    end
+    while angles.x < 0 do
+      angles.x = angles.x + math.pi
+    end
+
+    local halfPi = 0.5 * math.pi
+    while angles.y > halfPi do
+      angles.y = angles.y - math.pi
+    end
+    while angles.y < -halfPi do
+      angles.y = angles.y + math.pi
+    end
+
+    while angles.z > halfPi do
+      angles.z = angles.z - math.pi
+    end
+    while angles.z < -halfPi do
+      angles.z = angles.z + math.pi
+    end
+
+    if (angles.x < angleThreshold) or (angles.x > (math.pi - angleThreshold)) then
+      io.stderr:write("'angles.x' cannot be 0\n")
+      angles = fields.angles.defaultValue
+    elseif (math.abs(angles.y) > (halfPi - angleThreshold)) or (math.abs(angles.z) > (halfPi - angleThreshold)) then
+      io.stderr:write("'angles.y' and 'angles.z' cannot be PI/2 or -PI/2\n")
+      angles = fields.angles.defaultValue
+    end
+
+    local parallelogramHeight = halfSize.y * math.sin(angles.x)
+    local parallelogramHalfOffsetX = halfSize.y * math.cos(angles.x)
+    local prismHalfOffsetX = halfSize.z * math.sin(angles.z) * math.cos(angles.y)
+    local prismHalfOffsetY = halfSize.z * math.sin(angles.y)
+    local prismHalfOffsetZ = halfSize.z * math.cos(angles.z) * math.cos(angles.y)
+  }%
+
+  IndexedFaceSet {
+    coord Coordinate {
+      point [
+      %{ for k=-1,1,2 do
+         for j=-1,1,2 do
+         for i=-1,1,2 do
+      }%
+        %{= i * halfSize.x + j * parallelogramHalfOffsetX + k * prismHalfOffsetX }% %{= j * parallelogramHeight + k * prismHalfOffsetY }% %{= k * prismHalfOffsetZ }%
+      %{ end
+         end
+         end
+      }%
+      ]
+    }
+    coordIndex [
+      %{ if fields.back.value then }%
+        1 0 2 3 -1 # back
+      %{ end
+         if front then }%
+      4 5 7 6 -1 # front
+      %{ end
+         if fields.right.value then }%
+      5 1 3 7 -1 # right
+      %{ end
+         if fields.left.value then }%
+      0 4 6 2 -1 # left
+      %{ end
+         if fields.top.value then }%
+      7 3 2 6 -1 # top
+      %{ end
+         if fields.bottom.value then }%
+      4 0 1 5 -1 # bottom
+      %{ end }%
+    ]
+    %{ if mapping ~= "none" then }%
+    texCoord TextureCoordinate {
+      point [
+      %{
+        local u = {}
+        local v = {}
+        local ratio = { x = 1, y = 1, z = 1}
+        local maxEdge = math.max( math.max(halfSize.x + parallelogramHalfOffsetX, parallelogramHeight), halfSize.z)
+        local offsetRatio = parallelogramHalfOffsetX / maxEdge;
+        if mapping == "metric" then
+          ratio.x = halfSize.x / maxEdge + offsetRatio;
+          ratio.y = parallelogramHeight / maxEdge;
+          ratio.z = halfSize.z / maxEdge;
+          u[0] = 0
+          u[1] = ratio.x
+          u[2] = ratio.z
+          u[3] = offsetRatio;
+          v[0] = 0
+          v[1] = ratio.y
+          v[2] = ratio.z
+        else
+          for j=0,rows do
+            v[j] = j/rows
+          end
+          for i=0,cols do
+            u[i] = i/cols
+          end
+        end
+        for j=0,rows do
+        for i=0,cols do
+      }%
+        %{=u[i]}% %{=v[j]}%
+      %{
+        end
+        end
+        if mapping == "metric" then
+      }%
+        %{= offsetRatio }% %{= 0 }%
+        %{= halfSize.x / maxEdge }% %{= 0 }%
+        %{= halfSize.x / maxEdge }% %{= ratio.y }%
+        %{= offsetRatio }% %{= ratio.y }%
+      %{ end }%
+      ]
+    }
+    texCoordIndex [
+      %{ if mapping == "cube" then }%
+        %{ if fields.back.value == true then }%
+          7 8 13 12 -1
+        %{ end
+           if front then }%
+          5 6 11 10 -1
+        %{ end
+           if fields.right.value then }%
+        6 7 12 11 -1
+        %{ end
+           if fields.left.value then }%
+        8 9 14 13 -1
+        %{ end
+           if fields.top.value then }%
+        11 12 17 16 -1
+        %{ end
+           if fields.bottom.value then }%
+        1 2 7 6 -1
+        %{ end }%
+      %{ elseif mapping == "compact" then }%
+        %{ if fields.back.value == true then }%
+          2 3 7 6 -1
+        %{ end
+           if front then }%
+        0 1 5 4 -1
+        %{ end
+           if fields.right.value then }%
+        1 2 6 5 -1
+        %{ end
+           if fields.left.value then }%
+        6 7 11 10 -1
+        %{ end
+           if fields.top.value then }%
+        5 6 10 9 -1
+        %{ end
+           if fields.bottom.value then }%
+        4 5 9 8 -1
+        %{ end }%
+      %{ elseif mapping == "flat" then }%
+        %{ if fields.back.value then }%
+          1 1 3 3 -1
+        %{ end
+           if front then }%
+          0 0 2 2 -1
+        %{ end
+           if fields.right.value then }%
+          0 1 3 2 -1
+        %{ end
+           if fields.left.value then }%
+          1 0 2 3 -1
+        %{ end
+           if fields.top.value then }%
+          2 3 3 2 -1
+        %{ end
+           if fields.bottom.value then }%
+          0 1 1 0 -1
+        %{ end }%
+      %{ elseif mapping == "metric" then }%
+        %{ if fields.back.value then }%
+          9 1 11 3 -1
+        %{ end
+           if front then }%
+          0 10 4 12 -1
+        %{ end
+           if fields.right.value then }%
+          0 2 5 3 -1
+        %{ end
+           if fields.left.value then }%
+          0 2 5 3 -1
+        %{ end
+           if fields.top.value then }%
+          1 7 6 0 -1
+        %{ end
+           if fields.bottom.value then }%
+          6 0 1 7 -1
+        %{ end }%
+      %{ elseif mapping == "default" then }%
+        %{ if fields.back.value then }%
+          0 1 3 2 -1
+        %{ end
+           if front then }%
+          0 1 3 2 -1
+        %{ end
+           if fields.right.value then }%
+          0 1 3 2 -1
+        %{ end
+           if fields.left.value then }%
+          0 1 3 2 -1
+        %{ end
+           if fields.top.value then }%
+          1 3 2 0 -1
+        %{ end
+           if fields.bottom.value then }%
+          2 0 1 3 -1
+        %{ end }%
+      %{ end }%
+    ]
+    %{ end }%
+  }
+}

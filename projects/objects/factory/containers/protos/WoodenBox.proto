@@ -1,0 +1,107 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# A wooden box.
+
+PROTO WoodenBox [
+  field SFVec3f    translation         0 0.3 0
+  field SFRotation rotation            0 1 0 0
+  field SFString   name                "wooden box"
+  field SFVec3f    size                0.6 0.6 0.6  # Defines the size of the wooden box.
+  field SFFloat    mass                0            # Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
+  field MFNode     immersionProperties []           # Is `Solid.immersionProperties`.
+  field SFBool     locked              FALSE        # Is `Solid.locked`.
+]
+{
+Solid {
+  %{
+    local size = fields.size.value
+    local volume = size.x * size.y * size.z
+    local mass = fields.mass.value
+
+    local max_size = 3
+    local min_size = 0.1
+
+    if size.x > max_size then
+      io.stderr:write("'size.x' greater than " .. max_size .. "\n")
+      size.x = max_size
+    elseif size.x < min_size then
+      io.stderr:write("'size.x' less than " .. min_size .. "\n")
+      size.x = min_size
+    end
+    if size.y > max_size then
+      io.stderr:write("'size.y' greater than " .. max_size .. "\n")
+      size.y = max_size
+    elseif size.y < min_size then
+      io.stderr:write("'size.y' less than " .. min_size .. "\n")
+      size.y = min_size
+    end
+    if size.z > max_size then
+      io.stderr:write("'size.z' greater than " .. max_size .. "\n")
+      size.z = max_size
+    elseif size.z < min_size then
+      io.stderr:write("'size.z' less than " .. min_size .. "\n")
+      size.z = min_size
+    end
+
+    -- we want the mass for a 1000cm3 box be comprised between 0.1 and 10 kg inclusive
+    -- and the mass for a 27m3 box be comprised between 90 and 9000 kg, hence the
+    -- following min_mass and max_mass values:
+    local min_mass = volume^(2/3)*10
+    local max_mass = min_mass*100
+    if mass > 0 and mass < min_mass then
+      io.stderr:write("'mass' less than " .. min_mass .. "\n")
+      mass = min_mass
+    elseif mass > max_mass then
+      io.stderr:write("'mass' greater than " .. max_mass .. "\n")
+      mass = max_mass
+    end
+  }%
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/wooden_box_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/wooden_box_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/wooden_box_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/wooden_box_occlusion.png"
+          ]
+        }
+      }
+      geometry Box {
+        size %{= size.x }% %{= size.y }% %{= size.z }%
+      }
+    }
+  ]
+  name IS name
+  model "wooden box"
+  immersionProperties IS immersionProperties
+  boundingObject Box {
+    size %{= size.x }% %{= size.y }% %{= size.z }%
+  }
+  %{ if mass > 0 then }%
+  physics Physics {
+    density -1
+    mass %{= mass}%
+  }
+  %{ end }%
+  locked IS locked
+}
+}
