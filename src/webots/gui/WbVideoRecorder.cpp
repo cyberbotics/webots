@@ -112,11 +112,13 @@ WbVideoRecorder *WbVideoRecorder::instance() {
 WbVideoRecorder::WbVideoRecorder() :
   mIsGraphicFeedbackEnabled(false),
   mIsInitialized(false),
+  mIsFullScreen(false),
   mFrameFilePrefix(TEMP_FRAME_FILENAME_PREFIX + QString::number(QCoreApplication::applicationPid()) + "_"),
   mLastFileNumber(-1),
   mVideoQuality(0),
   mVideoAcceleration(1),
   mShowCaption(false),
+  mMovieFPS(25.0),
   mSimulationView(NULL),
   mScriptProcess(NULL) {
 }
@@ -458,20 +460,20 @@ QString WbVideoRecorder::nextFileName() {
 
 void WbVideoRecorder::createMpeg() {
 #ifdef __linux__
-  static QString ffmpeg("ffmpeg");
-  static QString percentageChar = "%";
+  static const QString ffmpeg("ffmpeg");
+  static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
-  static QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
-  static QString percentageChar = "%";
+  static const QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
+  static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #else  // _WIN32
-  static QString ffmpeg = QDir::toNativeSeparators(QString("\"%1ffmpeg.exe\"").arg(WbStandardPaths::webotsMinGWBinPath()));
-  static QString percentageChar = "%%";
+  static const QString ffmpeg = "ffmpeg.exe";
+  static const QString percentageChar = "%%";
   mScriptPath = "ffmpeg_script.bat";
 #endif
 
-  QString initialDir = QDir::currentPath();
+  const QString initialDir = QDir::currentPath();
   QDir::setCurrent(mTempDirPath);
   // for MPEG-4: requires ffmpeg / avconv (installed on Linux, distributed on Win32 and Mac)
   QFile ffmpegScript(mScriptPath);
@@ -484,12 +486,12 @@ void WbVideoRecorder::createMpeg() {
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32
     stream << "#!/bin/sh\n";
-    QString openParenthesis = "\\(";
-    QString closeParenthesis = "\\)";
+    static const QString openParenthesis = "\\(";
+    static const QString closeParenthesis = "\\)";
 #else
     stream << "@echo off\n";
-    QString openParenthesis = "(";
-    QString closeParenthesis = ")";
+    static const QString openParenthesis = "(";
+    static const QString closeParenthesis = ")";
 #endif
     stream << "echo " + tr("Recording at %1 FPS, %2 bit/s.").arg(mMovieFPS).arg(bitrate) + "\n";
     stream << "echo " + tr("Video encoding stage 1... ") + openParenthesis + tr("please wait") + closeParenthesis + "\n";
