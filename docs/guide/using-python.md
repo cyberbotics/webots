@@ -21,12 +21,16 @@ If you set it for example to `python3.7` instead of `python`, this version of py
 Finally, it is also possible to set a different version of Python for each robot controller by editing the `[python]` section of the `runtime.ini` file in each robot controller directory and setting the `COMMAND` value to `python3`, `python3.7` or `python2.7`, etc.
 If specified in the `runtime.ini` file of a controller, this Python command will be executed instead of the default one to launch this controller.
 
-#### macOS and Linux Installation
+#### Linux Installation
 
 Most of the Linux distributions have Python 2.7 and 3.x already installed.
-`macOS` has Python 2.7 installed by default.
-It is possible to install Python 3.6 from the [Python web site](https://www.python.org) or from various Linux repositories.
 To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.6 --version`, `python2.7 --version`, `python3 --version`, etc.
+
+#### macOS Installation
+
+Python 2.7 installed by default.
+You can install Python 3.7 from the [Python web site](https://www.python.org).
+To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.7 --version`, `python2.7 --version`, `python3 --version`, etc.
 
 #### Windows Installation
 
