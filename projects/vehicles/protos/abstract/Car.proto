@@ -37,8 +37,10 @@ PROTO Car [
   field SFNode     wheelRearRight                 VehicleWheel { name "rear right wheel" }
   field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" }
 #fields specific to Car
-  field SFString   type                           "traction"    # traction, propulsion or 4x4
-  field SFString   engineType                     "combustion"  # combustion, electric, parallel hybrid or power-split hybrid
+  field SFString{"traction", "propulsion", "4x4"}
+                   type                           "traction"
+  field SFString{"combustion", "electric", "parallel hybrid", "power-split hybrid"}
+                   engineType                     "combustion"
   field SFString   engineSound                    "sounds/engine.wav"
   field SFFloat    engineSoundRpmReference        1000
   field SFFloat    brakeCoefficient               700
@@ -78,20 +80,6 @@ PROTO Car [
     end
     -- type check
     local type = fields.type.value
-    if type ~= "traction" and type ~= "propulsion" and type ~= "4x4" then
-      type = fields.type.defaultValue
-      io.stderr:write("Unsupported value for 'type': " .. type .. "\n")
-      io.stderr:write("Supported 'type' values are: 'traction', 'propulsion' or '4x4'.\n")
-      io.stderr:write("'type' was reset to '" .. type .. "'.\n")
-    end
-    -- engineType check
-    local engineType = fields.engineType.value
-    if engineType ~= "combustion" and engineType ~= "electric" and engineType ~= "parallel hybrid" and engineType ~= "power-split hybrid" then
-      engineType = fields.engineType.defaultValue
-      io.stderr:write("Unsupported value for 'engineType': " .. engineType .. "\n")
-      io.stderr:write("Supported 'engineType' values are: 'combustion', 'electric', 'parallel hybrid' or 'power-split hybrid'.\n")
-      io.stderr:write("'engineType' was reset to '" .. engineType .. "'.\n")
-    end
     -- engineSound check
     local engineSound = fields.engineSound.value
     if engineSound == nil or engineSound == "" then
@@ -220,6 +208,7 @@ PROTO Car [
     -- wheels dampingConstant
     customData = customData .. wheelsDampingConstant .. ' '
     -- engine type
+    local engineType = fields.engineType.value
     if engineType == "combustion" then
       customData = customData .. 'C '
     elseif engineType == "electric" then
