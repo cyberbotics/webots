@@ -50,7 +50,7 @@ LIB           = -L"$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
 endif
 
 ifeq ($(OSTYPE),darwin)
-JAVA_INCLUDES = -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
+JAVA_INCLUDES = -I"$(JAVA_HOME)/Versions/Current/Headers"
 CFLAGS1 = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wl,-rpath,@loader_path/../..
 CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wno-unused-function
 LIBRARY = $(WEBOTS_HOME_PATH)/lib/java/libvehicle.jnilib
