@@ -58,6 +58,7 @@ Thumbs.db
 # Local rules #
 ###############
 
+/distribution
 /msys64
 /webots
 /webots.lnk
