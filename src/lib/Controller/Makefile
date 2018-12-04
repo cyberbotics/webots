@@ -16,7 +16,7 @@ WEBOTS_PATH = ../../..
 
 include $(WEBOTS_PATH)/resources/Makefile.os.include
 
-WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/../dependencies
+WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/dependencies
 
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
