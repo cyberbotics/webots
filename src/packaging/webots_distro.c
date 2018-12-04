@@ -567,7 +567,7 @@ static void create_file(const char *name, int m) {
   if (mode == ISS) {
     FILE *f = fopen("msys64_folders.iss", "r");
     while (fgets(buffer, sizeof(buffer), f) != NULL)
-      fprintf(fd, buffer);
+      fprintf(fd, "%s", buffer);
     fclose(f);
     fprintf(fd, "\n[Files]\n");
   }
@@ -787,7 +787,7 @@ static void create_file(const char *name, int m) {
   if (mode == ISS) {
     FILE *f = fopen("msys64_files.iss", "r");
     while (fgets(buffer, sizeof(buffer), f) != NULL)
-      fprintf(fd, buffer);
+      fprintf(fd, "%s", buffer);
     fclose(f);
   }
 
