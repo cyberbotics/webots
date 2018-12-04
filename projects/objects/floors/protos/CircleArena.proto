@@ -17,7 +17,7 @@ PROTO CircleArena [
   field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
   field SFVec2f    wallTileSize    0.5 0.5                # Defines the size of the texture used for the wall.
   field SFInt32    subdivision     48                     # Defines the subdivision of the wall cylinder.
-  
+
   # Deprecated in R2019a
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
@@ -91,42 +91,37 @@ PROTO CircleArena [
         contactMaterial IS contactMaterial
         appearance IS wallAppearance
       }
-      Transform {
-        translation 0 -0.01 0
-        children [
-          Shape {
-            appearance IS floorAppearance
-            geometry IndexedFaceSet {
-              %{ local circle = wbgeometry.circle(realRadius, subdivision, 0, 0, 0) }%
-              coord Coordinate {
-                point [
-                  %{ for i, el in ipairs(circle) do }%
-                    %{= el.x }% %{= 0 }% %{= el.y }%
-                  %{ end }%
-                ]
-              }
-              texCoord TextureCoordinate {
-                point [
-                  %{ for i, el in ipairs(circle) do }%
-                    %{= el.x / floorTextureScale.x }% %{= el.y / floorTextureScale.y}%
-                  %{ end }%
-                ]
-              }
-              coordIndex [
-                %{ for j = subdivision, 0, -1 do }%
-                  %{= j }%
-                %{ end }%
-                -1
-              ]
-              texCoordIndex [
-                %{ for j = subdivision, 0, -1 do }%
-                  %{= j }%
-                %{ end }%
-                -1
-              ]
-            }
+      Shape {
+        appearance IS floorAppearance
+        geometry IndexedFaceSet {
+          %{ local circle = wbgeometry.circle(realRadius, subdivision, 0, 0, 0) }%
+          coord Coordinate {
+            point [
+              %{ for i, el in ipairs(circle) do }%
+                %{= el.x }% %{= 0 }% %{= el.y }%
+              %{ end }%
+            ]
           }
-        ]
+          texCoord TextureCoordinate {
+            point [
+              %{ for i, el in ipairs(circle) do }%
+                %{= el.x / floorTextureScale.x }% %{= el.y / floorTextureScale.y}%
+              %{ end }%
+            ]
+          }
+          coordIndex [
+            %{ for j = subdivision, 0, -1 do }%
+              %{= j }%
+            %{ end }%
+            -1
+          ]
+          texCoordIndex [
+            %{ for j = subdivision, 0, -1 do }%
+              %{= j }%
+            %{ end }%
+            -1
+          ]
+        }
       }
     ]
     name IS name
