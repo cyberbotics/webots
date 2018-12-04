@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Wrapper.hpp"
 #include "entry_points.hpp"
+
+#include "Wrapper.hpp"
 
 bool wbr_init(WbrInterface *ri) {
   Wrapper::init();
