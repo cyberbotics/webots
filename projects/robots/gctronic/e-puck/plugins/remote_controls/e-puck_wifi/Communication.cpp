@@ -110,16 +110,22 @@ bool Communication::send(const char *data, int size) {
 int Communication::receive(char *data, int size, bool block) {
   int n = 0;
   int flag;
+
 #ifdef _WIN32
+
   if (!block) {
     u_long iMode = 0;
     if (ioctlsocket(mFd, FIONBIO, &iMode) != NO_ERROR)
       fprintf(stderr, "ioctlsocket failed\n");
   }
   flag = 0;
+
 #else
+
   flag = block ? 0 : MSG_DONTWAIT;
+
 #endif
+
   do {
     int m = ::recv(mFd, &data[n], size - n, flag);
 #ifdef _WIN32
