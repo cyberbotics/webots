@@ -493,6 +493,7 @@ PROTO BmwX5 [
                 name "left_wing_yaw_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             device2 [
@@ -500,6 +501,7 @@ PROTO BmwX5 [
                 name "left_wing_pitch_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             endPoint DEF LEFT_WING_CAMERA Camera {
@@ -527,6 +529,7 @@ PROTO BmwX5 [
                 name "right_wing_yaw_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             device2 [
@@ -534,6 +537,7 @@ PROTO BmwX5 [
                 name "right_wing_pitch_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             endPoint DEF RIGHT_WING_CAMERA Camera {
@@ -561,6 +565,7 @@ PROTO BmwX5 [
                 name "rear_yaw_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             device2 [
@@ -568,6 +573,7 @@ PROTO BmwX5 [
                 name "rear_pitch_mirror_motor"
                 maxPosition 0.2
                 minPosition -0.2
+                sound ""
               }
             ]
             endPoint DEF REAR_CAMERA Camera {

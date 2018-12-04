@@ -1071,6 +1071,7 @@ PROTO BmwX5Interior [
             minPosition -0.4
             maxPosition 0.4
             maxVelocity 100
+            sound ""
           }
         ]
         endPoint Solid {
