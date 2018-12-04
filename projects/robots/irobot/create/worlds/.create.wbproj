@@ -6,4 +6,4 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 1 "controllers/ground/ground.c" "controllers/create_avoid_obstacles/create_avoid_obstacles.c"
-renderingDevicePerspectives: supervisor:ground_display;0;1;0.282728;0.354972
+renderingDevicePerspectives: robot:ground_display;0;1;0;0
