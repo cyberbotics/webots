@@ -26,12 +26,14 @@ java: cpp/driver cpp/car
 	+@make -s -C $@ $(MAKECMDGOALS)
 
 python: cpp/driver cpp/car
-	+@echo "# make" $(MAKECMDGOALS) python 3.7
 ifeq ($(OSTYPE), windows)
+	+@echo "# make" $(MAKECMDGOALS) python 3.7
 	+@make -s -C python $(MAKECMDGOALS)
 	+@echo "# make" $(MAKECMDGOALS) python 2.7
 	+@PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
-else
+endif
+ifeq ($(OSTYPE),linux)
+	+@echo "# make" $(MAKECMDGOALS) python 3.6
 	+@PYTHON_COMMAND=python3.6 make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $(MAKECMDGOALS) python 2.7;
 	+@PYTHON_COMMAND=python2.7 make -s -C python $(MAKECMDGOALS)
@@ -40,6 +42,13 @@ ifeq ($(UBUNTU_VERSION), 16.04)
 	@+PYTHON_COMMAND=python3.5 make -s -C python $(MAKECMDGOALS)
 endif
 endif
+ifeq ($(OSTYPE),darwin)
+	+@echo "# make" $(MAKECMDGOALS) python 3.7
+	+@PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
+	@echo "# make" $(MAKECMDGOALS) python 2.7;
+	+@PYTHON_COMMAND=python2.7 make -s -C python $(MAKECMDGOALS)
+endif
+
 
 cpp/driver: c/driver
 	+@echo "# make" $(MAKECMDGOALS) $@

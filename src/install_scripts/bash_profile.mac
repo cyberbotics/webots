@@ -1,0 +1,19 @@
+#####################################################################################################
+# Uncomment / edit the following environment variables when the corresponding software is installed #
+#####################################################################################################
+
+# export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"  # Defines the path to Java home.
+
+#######################################################
+# Edit these WEBOTS environment variables when needed #
+#######################################################
+
+export WEBOTS_DISABLE_SAVE_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save perspective changes when closed.
+export WEBOTS_ALLOW_MODIFY_INSTALLATION=1          # If defined, you are allowed to modify files in the Webots home using Webots.
+# export WEBOTS_DISABLE_WORLD_LOADING_DIALOG=1     # If defined, the loading world progress dialog will never be displayed.
+
+#########################################################################
+# These environment variables are necessaries to compile and run Webots #
+#########################################################################
+
+export WEBOTS_HOME=$HOME/webots          # Defines the path to Webots home.

@@ -41,6 +41,6 @@ endif
 ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
 	+make -s -C python $@
-	@echo "# make" $@ python3.6;
-	+PYTHON_COMMAND=python3.6 make -s -C python $@
+	@echo "# make" $@ python3.7;
+	+PYTHON_COMMAND=python3.7 make -s -C python $@
 endif
