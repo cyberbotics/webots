@@ -452,6 +452,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "rm -rf \"%s/%s/transfer\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/util\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -f \"%s/%s-%s.dmg\"\n\n", distribution_path, application_name_lowercase_and_dashes, package_version);
+      fprintf(fd, "mkdir -p \"%s/%s\"\n\n", distribution_path, bundle_name);
       break;
     case ISS:
       fprintf(fd,
@@ -567,7 +568,7 @@ static void create_file(const char *name, int m) {
   if (mode == ISS) {
     FILE *f = fopen("msys64_folders.iss", "r");
     while (fgets(buffer, sizeof(buffer), f) != NULL)
-      fprintf(fd, buffer);
+      fprintf(fd, "%s", buffer);
     fclose(f);
     fprintf(fd, "\n[Files]\n");
   }
@@ -787,7 +788,7 @@ static void create_file(const char *name, int m) {
   if (mode == ISS) {
     FILE *f = fopen("msys64_files.iss", "r");
     while (fgets(buffer, sizeof(buffer), f) != NULL)
-      fprintf(fd, buffer);
+      fprintf(fd, "%s", buffer);
     fclose(f);
   }
 

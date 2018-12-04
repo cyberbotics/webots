@@ -5,5 +5,3 @@ projects/default/controllers/ros/include/rosconsole
 projects/default/controllers/ros/include/rosgraph_msgs
 projects/default/controllers/ros/include/sensor_msgs
 projects/default/controllers/ros/include/std_msgs
-projects/default/controllers/ros/include/XmlRpcDecl.h
-projects/default/controllers/ros/include/XmlRpcValue.h

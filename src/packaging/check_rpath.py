@@ -35,7 +35,7 @@ def command(cmd):
 
 
 os.chdir(WEBOTS_HOME)
-dylibFiles = command('find . -type f -name *dylib -o -name *jnilib | grep -v ros | grep -v sumo | grep -v nao_soccer | grep -v dashel | grep -v build').split()
+dylibFiles = command('find . -type f -name *dylib -o -name *jnilib | grep -v dependencies | grep -v ros | grep -v sumo | grep -v nao_soccer | grep -v dashel | grep -v build').split()
 frameworkFiles = command('find Contents -name *.framework | sed -e "s:\\(.*\\)/\\([^/]*\\).framework:\\1/\\2.framework/\\2:"').split()
 for i in range(len(frameworkFiles)):
     frameworkFiles[i] = os.path.realpath(frameworkFiles[i]).replace(WEBOTS_HOME, '')
