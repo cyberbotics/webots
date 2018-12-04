@@ -91,7 +91,6 @@ lib/libController.dylib [mac]
 
 lib/libCppController.so [linux]
 lib/libCppController.dylib [mac]
-lib/libStdCppController.dylib [mac]
 
 lib/java/ [linux,mac]
 lib/java/*.jar
