@@ -26,7 +26,7 @@ public:
   Communication();
   virtual ~Communication();
 
-  bool initialize(const std::string &port);
+  bool initialize(const std::string &ip);
   void cleanup();
   bool isInitialized() const { return mFd > 0; }
   bool send(const char *, int size);
