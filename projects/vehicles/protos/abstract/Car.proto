@@ -38,9 +38,9 @@ PROTO Car [
   field SFNode     wheelRearLeft                  VehicleWheel { name "rear left wheel" }
 #fields specific to Car
   field SFString{"traction", "propulsion", "4x4"}
-                   type                           "traction"    # traction, propulsion or 4x4
+                   type                           "traction"
   field SFString{"combustion", "electric", "parallel hybrid", "power-split hybrid"}
-                   engineType                     "combustion"  # combustion, electric, parallel hybrid or power-split hybrid
+                   engineType                     "combustion"
   field SFString   engineSound                    "sounds/engine.wav"
   field SFFloat    engineSoundRpmReference        1000
   field SFFloat    brakeCoefficient               700
