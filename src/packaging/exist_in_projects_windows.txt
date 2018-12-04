@@ -1,1 +1,3 @@
 projects/default/libraries/ros/libroscpp.dll
+projects/default/controllers/ros/include/XmlRpcDecl.h
+projects/default/controllers/ros/include/XmlRpcValue.h
