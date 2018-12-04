@@ -30,6 +30,7 @@ PROTO BmwX5 [
   field MFNode       sensorsSlotCenter        [ ]
   field SFBool       interior                 TRUE
   field SFBool       dynamicSpeedDisplay      TRUE
+  field SFBool       indicatorLevers          TRUE
   field SFNode       steeringWheel            CarSteeringWheel {}
   field SFBool       completeInterior         TRUE
   field SFBool       shifter                  TRUE
