@@ -2,7 +2,7 @@
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export JAVA_HOME=/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/JavaVM.framework  # Defines the path to Java home.
+# export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"  # Defines the path to Java home.
 
 #######################################################
 # Edit these WEBOTS environment variables when needed #

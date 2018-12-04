@@ -99,7 +99,7 @@ ECHO_N          = -n
 else
 
 ifeq ($(OSTYPE),darwin)
-JAVA_HEADERS    = $(JAVA_HOME)/Versions/Current/Headers
+JAVA_HEADERS    = $(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
 CFLAGS1         = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 PLATFORM_INCLUDE= -I"$(JAVA_HEADERS)"
 TARGET          = $(WEBOTS_HOME_PATH)/lib/java/lib$(LIBNAME).jnilib
