@@ -337,6 +337,7 @@
     "fields": "rotation 0 1 0 5.535"
   },
   "projects/objects/kitchen/utensils/protos/Wineglass": {
+    "alphaRejectionThreshold": 0.25
   },
   "projects/objects/kitchen/utensils/protos/WoodenSpoon": {
   },
