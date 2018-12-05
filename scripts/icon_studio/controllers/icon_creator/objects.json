@@ -341,7 +341,7 @@
   },
   "projects/objects/kitchen/utensils/protos/WoodenSpoon": {
   },
-  "projects/objects/lego/actuators/protos/LegoLargeMotor": {
+  "projects/objects/lego/protos/LegoLargeMotor": {
     "colorThreshold": 0.01,
     "background": [0.0, 0.0, 1.0],
     "nodeString": "Robot { rotation 0 1 0 5.23 children [ LegoLargeMotor { } ] }"
