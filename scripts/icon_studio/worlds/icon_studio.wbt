@@ -1,13 +1,16 @@
-#VRML_SIM R2018b utf8
+#VRML_SIM R2019a utf8
 WorldInfo {
   gravity 0 0 0
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.1859324798493441 0.9619887372262059 0.20001695524880664 1.6823357551703098
-  position 63.771319750176886 32.361250563989785 -3.861070890518376
+  orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
+  position 54.32519512629353 36.85193472314329 -3.1707126958688465
   near 0.2
 }
-TexturedBackground {
+Background {
+  cubemap Cubemap {
+    textureBaseName "studio"
+  }
 }
 DirectionalLight {
   ambientIntensity 1
