@@ -145,7 +145,7 @@
     "fields": "rotation 0 1 0 1.0854"
   },
   "projects/objects/cabinet/protos/CabinetHandle": {
-    "nodeString": "Solid { translation 0 0.006 0 children [ Slot { endPoint DoorKnob { } } ] }"
+    "nodeString": "Solid { translation 0 0.03 0 children [ Slot { endPoint DoorKnob { } } ] }"
   },
   "projects/objects/chairs/protos/Chair": {
   },
