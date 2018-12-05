@@ -210,7 +210,7 @@ void wb_robot_window_step(int time_step) {
       free(full_path);
     } else if (strncmp(message, "connect ", 8) == 0) {
       wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[8]);
-      fprintf(stderr, "Connected to %s...\n", &message[8]);
+      fprintf(stderr, "Connected to %s\n", &message[8]);
     } else if (strncmp(message, "disconnect", 10) == 0) {
       wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
       fprintf(stderr, "Disconnected from e-puck2\n");
