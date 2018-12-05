@@ -721,7 +721,8 @@
     "background": [1.0, 0.0, 0.0]
   },
   "projects/robots/tinkerbots/protos/TinkerbotsBase": {
-    "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393"
+    "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
+    "background": [1.0, 0.0, 1.0]
   },
   "projects/robots/tinkerbots/protos/TinkerbotsAxle": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsAxle { } } ] }"
