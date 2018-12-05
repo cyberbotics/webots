@@ -372,14 +372,14 @@
   "projects/objects/mirror/protos/Mirror": {
     "fields": "rotation 0 -1 0 4.93"
   },
-  "projects/objects/misc/protos/Blackboard": {
+  "projects/objects/school_furniture/protos/Blackboard": {
     "background": [1.0, 0.0, 0.0],
     "fields": "translation 0 0.72 0 rotation 0 1 0 1.35"
   },
-  "projects/objects/misc/protos/Book": {
+  "projects/objects/school_furniture/protos/Book": {
     "fields": "rotation 0 1 0 3.44"
   },
-  "projects/objects/misc/protos/Clock": {
+  "projects/objects/school_furniture/protos/Clock": {
     "fields": "translation 0 0.17 0 rotation 0 1 0 1.609"
   },
   "projects/objects/obstacles/protos/OilBarrel": {
