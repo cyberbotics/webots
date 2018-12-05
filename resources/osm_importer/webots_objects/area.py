@@ -115,14 +115,13 @@ class Area(WebotsObject):
         file.write("  translation %f 0 %f\n" % (OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[refs[0]].z))
         file.write("  children [\n")
         file.write("    Shape {\n")
-        file.write("      appearance Appearance {\n")
-        file.write("        material Material {\n")
-        file.write("          diffuseColor " + str(red) + " " + str(green) + " " + str(blue) + "\n")
+        file.write("      appearance PBRAppearance {\n")
         if transparency > 0:
-            file.write("          transparency " + str(transparency) + "\n")
-        file.write("        }\n")
+            file.write("        transparency " + str(transparency) + "\n")
+        file.write("        roughness 1\n")
+        file.write("        metalness 0\n")
         if not texture == "":
-            file.write("        texture ImageTexture {\n")
+            file.write("        baseColorMap ImageTexture {\n")
             file.write("          url [\n")
             file.write("            \"" + texture + "\"\n")
             file.write("          ]\n")
@@ -132,6 +131,8 @@ class Area(WebotsObject):
             file.write("        textureTransform TextureTransform {\n")
             file.write("          scale %.2f %.2f\n" % (scale, scale))
             file.write("        }\n")
+        else:
+            file.write("        baseColor " + str(red) + " " + str(green) + " " + str(blue) + "\n")
         file.write("      }\n")
         file.write("      geometry IndexedFaceSet {\n")
         file.write("        coord Coordinate {\n")
