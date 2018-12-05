@@ -32,7 +32,7 @@ Solid {
         }
       }
       geometry DEF P Plane {
-        size 1000 1000
+        size 10000 10000
       }
       castShadows FALSE
     }
