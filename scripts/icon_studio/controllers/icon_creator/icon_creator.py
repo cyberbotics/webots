@@ -87,8 +87,8 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
     iconImage.paste(pilImage, ((128 - pilImage.size[0]) / 2, (128 - pilImage.size[1]) / 2, ((128 - pilImage.size[0]) / 2) + pilImage.size[0], ((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
     iconImage.save(os.path.join(directory, 'icon.png'))
 
-    # copy icons in the appropriate directory
     if not options.disableIconCopy:
+        # copy icons in the appropriate directory
         iconsFolder = os.environ['WEBOTS_HOME'] + os.sep + protoDirectory + os.sep + 'icons'
         iconPath = iconsFolder + os.sep + protoName + '.png'
         if not os.path.exists(iconsFolder):
@@ -96,6 +96,16 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
         if os.path.exists(iconPath):
             os.remove(iconPath)
         shutil.copy2(directory + os.sep + 'icon.png', iconPath)
+
+        categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
+        # copy the models in the docs directory
+        modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', 'objects', categoryFolder, protoName)
+        modelPath = os.path.join(modelFolder, 'model.png')
+        if not os.path.exists(modelFolder):
+            os.makedirs(modelFolder)
+        if os.path.exists(modelPath):
+            os.remove(modelPath)
+        shutil.copy2(directory + os.sep + 'model.png', modelPath)
 
 
 # Initialize the Supervisor.
