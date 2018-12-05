@@ -57,6 +57,15 @@ button {
   width:160px;
   font-size:16px;
 }
+input {
+  font-family:Arial, Helvetica, sans-serif;
+  position:absolute;
+  top:0;
+  left:50%;
+  text-align:center;
+  width:156px;
+  font-size:16px;
+}
 img {
   position:absolute;
   top:0;

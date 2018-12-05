@@ -12,12 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=e-puck_bluetooth.Makefile e-puck_wifi.Makefile
+# Webots Makefile system
+#
+# You may add some variable definitions hereafter to customize the build process
+# See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-.PHONY: release debug profile clean
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
-release debug profile clean: $(TARGETS)
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-%.Makefile:
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+CXX_SOURCES = $(wildcard *.cpp)
+
+ifeq ($(OS),Windows_NT)
+# on Windows, need to link with WinSock2
+LIBRARIES=-lws2_32
+endif
+
+USE_C_API = true
+
+include $(WEBOTS_HOME_PATH)/resources/Makefile.include

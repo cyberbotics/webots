@@ -50,4 +50,7 @@ E-puck {
   rotation 0 1 0 1.57
   controller "e-puck"
   version "2"
+  name "e-puck2"
+  camera_width 160
+  camera_height 120
 }

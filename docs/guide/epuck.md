@@ -144,11 +144,8 @@ The resolution of the camera was limited to 52x39 pixels, as this is the maximum
 %end
 
 The [e-puck2](http://www.gctronic.com/e-puck2.php) robot has been released in 2018.
-Comparing to the original e-puck robot, the e-puck2 robot has a more powerful micro-controller, a WiFi chipset, a few more sensors and a USB charging capability.
+Comparing to the original e-puck robot, the e-puck2 robot has a more powerful micro-controller, a Wi-Fi chipset, a few more sensors and a USB charging capability.
 More information is available on [this wiki page](http://www.gctronic.com/doc/index.php/e-puck2).
-
-Remote-controlling the e-puck2 robot through Bluetooth works the same way as on the original e-puck.
-However controller cross-compilation is currently not available for the e-puck2.
 
 The `version` field of the `E-puck` PROTO node selects the version of the e-puck model.
 When set to "2", the e-puck model switches to the e-puck2, with the following differences:
@@ -156,6 +153,9 @@ When set to "2", the e-puck model switches to the e-puck2, with the following di
 - The graphical shape is changing: in particular, the top turret is removed and different chipset texture is set for the plate.
 - The overall mass differs: 130 [grams] instead of 150 [grams].
 - The max speed differs: 1200 [steps / second] instead of 1000 [steps / second].
+- The e-puck2 robot windows offers Wi-Fi remote control instead of Bluetooth.
+
+> **Note**: Controller cross-compilation is currently not available for the e-puck2 robot. However, remote-controlling a real e-puck2 robot with Bluetooth is possible by using an e-puck 1 model in Webots (e.g., setting the `version` field of the `E-puck` PROTO to "1").
 
 ### E-puck PROTO
 

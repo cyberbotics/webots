@@ -674,10 +674,8 @@ void wb_robot_set_mode(WbRobotMode mode, void *args) {
     fprintf(stderr, "Error: Cannot set mode to %d.\n", mode);
     return;
   }
-
   if (robot.mode == WB_MODE_REMOTE_CONTROL && mode == WB_MODE_SIMULATION && remote_control_is_initialized()) {
-    // deactivate the remote control
-    remote_control_stop();
+    remote_control_stop();  // deactivate the remote control
     robot.toggle_remote_first_step = true;
   } else if (robot.mode == WB_MODE_SIMULATION && mode == WB_MODE_REMOTE_CONTROL &&
              remote_control_is_initialized()) {  // activate the remote control
@@ -689,8 +687,6 @@ void wb_robot_set_mode(WbRobotMode mode, void *args) {
     } else
       fprintf(stderr, "Error: Starting the remote control library (wbr_start) failed\n");
   }
-
-  // simulation
   robot.mode = WB_MODE_SIMULATION;
 }
 

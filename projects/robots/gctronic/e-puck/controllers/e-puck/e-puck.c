@@ -15,6 +15,8 @@
  */
 
 #include <stdio.h>
+#include <string.h>
+
 #include <webots/accelerometer.h>
 #include <webots/camera.h>
 #include <webots/distance_sensor.h>
@@ -23,7 +25,6 @@
 #include <webots/position_sensor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 256
 #define WHEEL_RADIUS 0.02
 #define AXLE_LENGTH 0.052
 #define RANGE (1024 / 2)
@@ -47,15 +48,26 @@ int main(int argc, char *argv[]) {
   double sensors_value[8];
   double braitenberg_coefficients[8][2] = {{0.942, -0.22}, {0.63, -0.1}, {0.5, -0.06},  {-0.06, -0.06},
                                            {-0.06, -0.06}, {-0.06, 0.5}, {-0.19, 0.63}, {-0.13, 0.942}};
-
+  int time_step;
+  int camera_time_step;
   /* initialize Webots */
   wb_robot_init();
 
+  if (strcmp(wb_robot_get_model(), "GCtronic e-puck2") == 0) {
+    printf("e-puck2 robot\n");
+    time_step = 64;
+    camera_time_step = 64;
+  } else {  // original e-puck
+    printf("e-puck robot\n");
+    time_step = 256;
+    camera_time_step = 1024;
+  }
+
   /* get and enable the camera and accelerometer */
   WbDeviceTag camera = wb_robot_get_device("camera");
-  wb_camera_enable(camera, TIME_STEP * 4);
+  wb_camera_enable(camera, camera_time_step);
   WbDeviceTag accelerometer = wb_robot_get_device("accelerometer");
-  wb_accelerometer_enable(accelerometer, TIME_STEP);
+  wb_accelerometer_enable(accelerometer, time_step);
 
   /* get a handler to the motors and set target position to infinity (speed control). */
   left_motor = wb_robot_get_device("left wheel motor");
@@ -68,8 +80,8 @@ int main(int argc, char *argv[]) {
   /* get a handler to the position sensors and enable them. */
   left_position_sensor = wb_robot_get_device("left wheel sensor");
   right_position_sensor = wb_robot_get_device("right wheel sensor");
-  wb_position_sensor_enable(left_position_sensor, TIME_STEP);
-  wb_position_sensor_enable(right_position_sensor, TIME_STEP);
+  wb_position_sensor_enable(left_position_sensor, time_step);
+  wb_position_sensor_enable(right_position_sensor, time_step);
 
   for (i = 0; i < 8; i++) {
     char device_name[4];
@@ -77,11 +89,11 @@ int main(int argc, char *argv[]) {
     /* get distance sensors */
     sprintf(device_name, "ps%d", i);
     distance_sensor[i] = wb_robot_get_device(device_name);
-    wb_distance_sensor_enable(distance_sensor[i], TIME_STEP);
+    wb_distance_sensor_enable(distance_sensor[i], time_step);
   }
 
   /* main loop */
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     /* get sensors values */
     for (i = 0; i < 8; i++)
       sensors_value[i] = wb_distance_sensor_get_value(distance_sensor[i]);

@@ -29,14 +29,16 @@
   <img id="camera" width="104" height="78" style="margin-left:-52px;margin-top:1px;background:#6bf;text-align:center" title="camera image" src="camera.jpg"></img>
   <button id="enable all" style="margin-left:-50px;margin-top:248px;width:100px" onclick="onEnableAll()">Enable All</button>
   <input type="file" id="file-selector" accept=".hex" style="visibility:hidden">
-  <div class="dropdown" style="margin-left:-20px;margin-top:1px">
+  <div id="upload hex" class="dropdown" style="margin-left:-20px;margin-top:1px;visibility:hidden">
     <div id="upload-button" onclick="dropDownMenu('upload')" class="dropdown-button">Upload HEX... &#x25BC;</div>
     <div id="upload" class="dropdown-content"><a href="#" name="refresh">Refresh</a></div>
   </div>
-  <div class="dropdown" style="margin-left:-300px;margin-top:1px">
+  <div id="simulation" class="dropdown" style="margin-left:-300px;margin-top:1px;visibility:hidden">
     <div id="mode-button" name="simulation" onclick="dropDownMenu('mode')" class="dropdown-button">Simulation &#x25BC;</div>
     <div id="mode" class="dropdown-content"><a href="#" name="refresh">Refresh</a></div>
   </div>
+  <input id="ip address" style="margin-left:55px;visibility:hidden" placeholder="Enter IP address"><br>
+  <button id="connect" style="margin-left:54px;margin-top:22px;visibility:hidden" onclick="wifiConnect()">connect</button>
   <div align="center" style="position:absolute;top:120px;left:50%;margin-left:-40px">
     <div id="gs0" class="groundSensor"></div>
     <div id="gs1" class="groundSensor"></div>

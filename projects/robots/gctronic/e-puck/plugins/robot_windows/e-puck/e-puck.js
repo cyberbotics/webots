@@ -1,6 +1,8 @@
 /* global webots: false */
 /* exported dropDownMenu */
 /* exported onEnableAll */
+/* exported wifiConnect */
+/* exported wifiDisconnect */
 
 window.onload = function() {
   var progressBar = document.getElementById('uploadProgressBar');
@@ -195,8 +197,33 @@ function dropDownMenu(id) {
   document.getElementById(id).classList.toggle('show');
 }
 
+function wifiConnect() {
+  var button = document.getElementById('connect');
+  button.innerHTML = 'disconnect';
+  button.onclick = wifiDisconnect;
+  window.robotWindow.send('connect ' + document.getElementById('ip address').value);
+}
+
+function wifiDisconnect() {
+  var button = document.getElementById('connect');
+  button.innerHTML = 'connect';
+  button.onclick = wifiConnect;
+  window.robotWindow.send('disconnect');
+}
+
 function robotLayout(configure) {
   window.robotWindow.setTitle('Robot: ' + configure.name, configure.name);
+  if (configure.model === 'GCtronic e-puck2') { // e-puck2: Wifi remote control only
+    var ipAddress = document.getElementById('ip address');
+    ipAddress.style.visibility = 'visible';
+    var connect = document.getElementById('connect');
+    connect.style.visibility = 'visible';
+  } else { // first e-puck: use Bluetooth communication only
+    var uploadButton = document.getElementById('upload hex');
+    uploadButton.style.visibility = 'visible';
+    var simulationButton = document.getElementById('simulation');
+    simulationButton.style.visibility = 'visible';
+  }
 }
 
 function onEnableAll() {

@@ -208,13 +208,21 @@ void wb_robot_window_step(int time_step) {
         wb_remote_control_custom_function(&upload);
       }
       free(full_path);
+    } else if (strncmp(message, "connect ", 8) == 0) {
+      wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, (char *)&message[8]);
+      fprintf(stderr, "Connected to %s\n", &message[8]);
+    } else if (strncmp(message, "disconnect", 10) == 0) {
+      wb_robot_set_mode(WB_MODE_SIMULATION, NULL);
+      fprintf(stderr, "Disconnected from e-puck2\n");
     } else
       fprintf(stderr, "received unknown message from robot window: %s\n", message);
   }
   if (!configured)
     return;
-  char update_message[256];
-  char update[256];
+  const int UPDATE_MESSAGE_SIZE = 1024;
+  const int UPDATE_SIZE = 256;
+  char *update_message = malloc(UPDATE_MESSAGE_SIZE);
+  char *update = malloc(UPDATE_SIZE);
   update_message[0] = '\0';
   for (i = 0; i < 8; i++) {
     double v;
@@ -223,10 +231,10 @@ void wb_robot_window_step(int time_step) {
     else
       v = NAN;
     if (isnan(v))
-      snprintf(update, sizeof(update), "ps%d ", i);
+      snprintf(update, UPDATE_SIZE, "ps%d ", i);
     else
-      snprintf(update, sizeof(update), "%d ", (int)v);
-    if (strlen(update) + strlen(update_message) < sizeof(update_message))
+      snprintf(update, UPDATE_SIZE, "%d ", (int)v);
+    if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
   }
   for (i = 0; i < 8; i++) {
@@ -236,52 +244,52 @@ void wb_robot_window_step(int time_step) {
     else
       v = NAN;
     if (isnan(v))
-      snprintf(update, sizeof(update), "ls%d ", i);
+      snprintf(update, UPDATE_SIZE, "ls%d ", i);
     else
-      snprintf(update, sizeof(update), "%d ", (int)v);
-    if (strlen(update) + strlen(update_message) < sizeof(update_message))
+      snprintf(update, UPDATE_SIZE, "%d ", (int)v);
+    if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
   }
 
   bool areDevicesReady = true;
   double left_speed = wb_motor_get_velocity(motors[0]);
   if (isnan(left_speed)) {
-    snprintf(update, sizeof(update), "speed ");
+    snprintf(update, UPDATE_SIZE, "speed ");
     areDevicesReady = false;
   } else
-    snprintf(update, sizeof(update), "%.3lf ", left_speed);
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "%.3lf ", left_speed);
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   double right_speed = wb_motor_get_velocity(motors[1]);
   if (isnan(right_speed)) {
-    snprintf(update, sizeof(update), "speed ");
+    snprintf(update, UPDATE_SIZE, "speed ");
     areDevicesReady = false;
   } else
-    snprintf(update, sizeof(update), "%.3lf ", right_speed);
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "%.3lf ", right_speed);
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   if (areDevicesReady && wb_position_sensor_get_sampling_period(position_sensors[0])) {
     const double value = wb_position_sensor_get_value(position_sensors[0]);
     if (isnan(value))
-      snprintf(update, sizeof(update), "left_wheel_position ");
+      snprintf(update, UPDATE_SIZE, "left_wheel_position ");
     else
-      snprintf(update, sizeof(update), "%.3lf ", value);
+      snprintf(update, UPDATE_SIZE, "%.3lf ", value);
   } else
-    snprintf(update, sizeof(update), "left_wheel_position ");
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "left_wheel_position ");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   if (areDevicesReady && wb_position_sensor_get_sampling_period(position_sensors[1])) {
     const double value = wb_position_sensor_get_value(position_sensors[1]);
     if (isnan(value))
-      snprintf(update, sizeof(update), "right_wheel_position ");
+      snprintf(update, UPDATE_SIZE, "right_wheel_position ");
     else
-      snprintf(update, sizeof(update), "%.3lf ", value);
+      snprintf(update, UPDATE_SIZE, "%.3lf ", value);
   } else
-    snprintf(update, sizeof(update), "right_wheel_position ");
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "right_wheel_position ");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   if (wb_accelerometer_get_sampling_period(accelerometer)) {
@@ -297,8 +305,8 @@ void wb_robot_window_step(int time_step) {
       strcat(update, s);
     }
   } else
-    snprintf(update, sizeof(update), "X Y Z ");
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "X Y Z ");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
@@ -312,11 +320,11 @@ void wb_robot_window_step(int time_step) {
     for (i = 0; i < l; i++)
       if (full_path[i] == '\\')
         full_path[i] = '/';
-    snprintf(update, sizeof(update), "file:///%s", full_path);
+    snprintf(update, UPDATE_SIZE, "file:///%s", full_path);
     free(full_path);
   } else
-    snprintf(update, sizeof(update), "camera.jpg");
-  if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    snprintf(update, UPDATE_SIZE, "camera.jpg");
+  if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
   for (i = 0; i < gs_sensors_count; i++) {
@@ -326,20 +334,21 @@ void wb_robot_window_step(int time_step) {
     else
       v = NAN;
     if (isnan(v))
-      snprintf(update, sizeof(update), " -1");
+      snprintf(update, UPDATE_SIZE, " -1");
     else {
       int c = (v - 300.0) * 255.0 / 700.0;
       if (c > 255)
         c = 255;
       else if (c < 0)
         c = 0;
-      snprintf(update, sizeof(update), " %d", (int)c);
+      snprintf(update, UPDATE_SIZE, " %d", (int)c);
     }
-    if (strlen(update) + strlen(update_message) < sizeof(update_message))
+    if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
       strcat(update_message, update);
   }
-
   wb_robot_wwi_send_text(update_message);
+  free(update);
+  free(update_message);
 }
 
 void wb_robot_window_cleanup() {

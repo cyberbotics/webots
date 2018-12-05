@@ -838,7 +838,11 @@ Robot {
     }
   ]
   name IS name
+  %{ if v2 then }%
+  model "GCtronic e-puck2"
+  %{ else }%
   model "GCtronic e-puck"
+  %{ end }%
   description "Educational robot designed at EPFL"
   boundingObject Group {
     children [
@@ -882,6 +886,10 @@ Robot {
   battery IS battery
   cpuConsumption 1.11 # 100% to 0% in 90[s] (calibrated for the rat's life contest)
   window IS window
+  %{ if v2 then }%
+  remoteControl "e-puck_wifi"
+  %{ else }%
   remoteControl "e-puck_bluetooth"
+  %{ end }%
 }
 }
