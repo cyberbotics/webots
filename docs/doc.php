@@ -62,14 +62,14 @@
     $githubHead = file_get_contents("https://api.github.com/repos/omichel/webots-doc/git/refs/heads/master");
     // failed request / github is down
     if ($githubHead === FALSE)
-      $rawgiturl = "https://rawgit.com/$repository/webots-doc/master"; //fall back to dev URL at worst
+      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@master";  // fall back to dev URL at worst
     else {
       $githubPhp = json_decode($githubHead);
       $sha = $githubPhp->object->sha;
-      $rawgiturl = "https://cdn.rawgit.com/$repository/webots-doc/$sha";  // Load the current master snapshot from RawGit CDN.
+      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@$sha";  // Load the current master snapshot from RawGit CDN.
     }
   } else
-    $rawgiturl = "https://rawgit.com/$repository/webots-doc/"; // Load master snapshot from dev URL.
+    $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@"; // Load master snapshot from dev URL.
 
   $scripts = "
     <script>
@@ -85,10 +85,10 @@
       }
       console.log('Setup: ' + JSON.stringify(setup));
     </script>
-    <link rel='stylesheet' type='text/css' href='$rawgiturl$branch/css/webots-doc.css'/>
+    <link rel='stylesheet' type='text/css' href='$cacheUrl$branch/css/webots-doc.css'/>
   ";
 
-  $dependencies = file_get_contents("$rawgiturl$branch/dependencies.txt");
+  $dependencies = file_get_contents("$cacheUrl$branch/dependencies.txt");
   if ($dependencies == FALSE)  // fallback for doc < R2018a.rev2
     $dependencies = file_get_contents("https://www.cyberbotics.com/files/repository/www/wwi/R2018a/dependencies_fallback.txt");
   foreach (explode(PHP_EOL, $dependencies) as $dependency) {
@@ -108,8 +108,8 @@
   }
 
   $scripts .= "
-    <script src='$rawgiturl$branch/js/showdown-extensions.js'></script>
-    <script src='$rawgiturl$branch/js/viewer.js'></script>
+    <script src='$cacheUrl$branch/js/showdown-extensions.js'></script>
+    <script src='$cacheUrl$branch/js/viewer.js'></script>
   ";
   include 'header.php';
 ?>
