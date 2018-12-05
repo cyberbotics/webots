@@ -678,8 +678,8 @@
   "projects/objects/traffic/protos/TrafficLightHorizontal": {
     "nodeString": "Robot { rotation 0 1 0 5.23 children [ TrafficLightHorizontal { } ] }"
   },
-  "projects/objects/traffic/protos/TrafficLightStandardLampGeometry": {
-    "nodeString": "Transform { translation 0 0.07 0 children [ appearance Appearance { material Material { diffuseColor 0.8 0 0} }Shape { geometry TrafficLightStandardLampGeometry { } } ] }"
+  "projects/objects/traffic/protos/TrafficLightArrowLampGeometry": {
+    "nodeString": "Transform { translation 0 -0.019 0 rotation 1 0 0 1.57 children [ Shape { appearance PBRAppearance { baseColor 1 0 0 metalness 0 roughness 0.9 } geometry TrafficLightArrowLampGeometry { } } ] }"
   },
   "projects/objects/traffic/protos/WorkBarrier": {
     "fields": "rotation 0 1 0 1.3472"
