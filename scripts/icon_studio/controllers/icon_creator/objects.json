@@ -584,6 +584,7 @@
     "fields": "rotation 0 1 0 4.48"
   },
   "projects/objects/traffic/protos/ControlledStreetLight": {
+    "fields": "radius 0.01"
   },
   "projects/objects/traffic/protos/CrossRoadsTrafficLight": {
   },
@@ -659,6 +660,7 @@
     "fields": "rotation 0 1 0 4.75059"
   },
   "projects/objects/traffic/protos/StreetLight": {
+    "fields": "on FALSE"
   },
   "projects/objects/traffic/protos/TrafficCone": {
     "colorThreshold": 0.01,
