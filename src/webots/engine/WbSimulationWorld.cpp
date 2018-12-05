@@ -37,6 +37,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTimer>
+#include <QtCore/QtGlobal>
 
 #include <cassert>
 
@@ -165,7 +166,7 @@ void WbSimulationWorld::step() {
     // Moreover it improves the stability of simulations where
     // basicTimeStep contains significant decimals
     mElapsedTimeHistory.append(elapsed);
-    if (mElapsedTimeHistory.size() > 4)  // history size found empirically
+    if (mElapsedTimeHistory.size() > qMax(4.0, 128.0 / timeStep))  // history size found empirically
       mElapsedTimeHistory.pop_front();
     double mean = 0.0;
     foreach (const int &v, mElapsedTimeHistory)
@@ -176,10 +177,10 @@ void WbSimulationWorld::step() {
     //              (if the real-time mode is enabled, of course)
     // mean *= 0.90;
 
-    if (mean > timeStep && mSleepRealTime > 0)
-      --mSleepRealTime;
+    if (mean > timeStep && mSleepRealTime > 0.0)
+      mSleepRealTime -= 0.03 * timeStep;
     else if (mean < timeStep)
-      ++mSleepRealTime;
+      mSleepRealTime += 0.03 * timeStep;
 
     mTimer->start(mSleepRealTime);
   }

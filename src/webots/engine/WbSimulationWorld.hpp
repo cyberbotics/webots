@@ -73,7 +73,7 @@ private:
   WbPhysicsPlugin *mPhysicsPlugin;
   QTimer *mTimer;
   QTime mLastRealTime;
-  int mSleepRealTime;
+  double mSleepRealTime;
   QList<int> mElapsedTimeHistory;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started
 
