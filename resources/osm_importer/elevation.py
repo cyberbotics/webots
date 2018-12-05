@@ -142,12 +142,14 @@ class Elevation(object):
         self.floorString += "  translation %.2f 0 %.2f\n" % (-Xdiff / 2, -Zdiff / 2)
         self.floorString += "  children [\n"
         self.floorString += "    DEF FLOOR_SHAPE Shape {\n"
-        self.floorString += "      appearance Appearance {\n"
-        self.floorString += "        texture ImageTexture {\n"
+        self.floorString += "      appearance PBRAppearance {\n"
+        self.floorString += "        baseColorMap ImageTexture {\n"
         self.floorString += "          url [\n"
         self.floorString += "            \"textures/grass.jpg\"\n"
         self.floorString += "          ]\n"
         self.floorString += "        }\n"
+        self.floorString += "        roughness 1\n"
+        self.floorString += "        metalness 0\n"
         scale = max(Xdiff, Zdiff)
         self.floorString += "        textureTransform TextureTransform {\n"
         self.floorString += "          scale %.2f %.2f\n" % (scale, scale)
