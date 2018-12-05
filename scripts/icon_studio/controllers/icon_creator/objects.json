@@ -1,6 +1,7 @@
 {
   "default": {
     "colorThreshold": 0.05,
+    "alphaRejectionThreshold": 0.4,
     "background": [0.0, 1.0, 1.0],
     "fields": "rotation 0 1 0 0.3",
     "nodeString": ""

@@ -49,7 +49,7 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
     pixels = pilImage.getdata()
 
     # Remove the background.
-    background = controller.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').getSFColor()
+    background = [float(pixels[0][0]) / 255.0, float(pixels[0][1]) / 255.0, float(pixels[0][2]) / 255.0]
     iBackground = [1.0 - background[RED], 1.0 - background[GREEN], 1.0 - background[BLUE]]
     newPixels = []
     for pixel in pixels:
@@ -57,6 +57,8 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
         if abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold:  # If pixel color is close to background.
             colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN] + iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
             alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN] + background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
+            if alphaChanel < alphaRejectionThreshold * 255:
+                alphaChanel = 0
             newPixels.append((colorChanel, colorChanel, colorChanel, alphaChanel))
         else:
             newPixels.append(pixel)
@@ -66,7 +68,7 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
     # pilImage.show()
 
     # Save model.png (cropped) and icon.png (scaled down)
-    croppedImage = pilImage.crop(pilImage.getbbox())
+    croppedImage = pilImage.crop(pilImage.convert("RGBa").getbbox())
     croppedImage.save(os.path.join(directory, 'model.png'))
 
     croppedImage.thumbnail((128, 128), Image.ANTIALIAS)
@@ -128,6 +130,10 @@ else:
                 colorThreshold = value['colorThreshold']
             else:
                 colorThreshold = data['default']['colorThreshold']
+            if 'alphaRejectionThreshold' in value:
+                alphaRejectionThreshold = value['alphaRejectionThreshold']
+            else:
+                alphaRejectionThreshold = data['default']['alphaRejectionThreshold']
             if 'background' in value:
                 background = value['background']
             else:
