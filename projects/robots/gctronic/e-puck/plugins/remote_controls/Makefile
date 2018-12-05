@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=e-puck_bluetooth.Makefile
+TARGETS=e-puck_bluetooth.Makefile e-puck_wifi.Makefile
 
 .PHONY: release debug profile clean
 
