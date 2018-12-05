@@ -684,12 +684,12 @@
   },
   "projects/objects/traffic/protos/YieldPanel": {
     "colorThreshold": 0.01,
-    "background": [0.0, 1.0, 0.0],
+    "background": [0.0, 1.0, 1.0],
     "fields": "translation 0 0.48 0 rotation 0 1 0 4.75"
   },
   "projects/objects/traffic/protos/YieldSign": {
     "colorThreshold": 0.01,
-    "background": [0.0, 1.0, 0.0],
+    "background": [0.0, 1.0, 1.0],
     "fields": "rotation 0 1 0 4.75059"
   },
   "projects/objects/trees/protos/BigSassafras": {
