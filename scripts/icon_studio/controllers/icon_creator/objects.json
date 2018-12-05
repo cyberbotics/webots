@@ -296,7 +296,7 @@
   "projects/objects/kitchen/breakfast/protos/HoneyJar": {
   },
   "projects/objects/kitchen/breakfast/protos/JamJar": {
-    "background": [0.0, 1.0, 0.0],
+    "background": [1.0, 0.0, 1.0],
     "fields": "rotation 0 1 0 3.965"
   },
   "projects/objects/kitchen/components/protos/HotPlate": {
