@@ -9,7 +9,7 @@ import shutil
 import sys
 
 from controller import Supervisor
-from PIL import Image
+from PIL import Image, ImageChops
 
 # Considerations:
 # - The shadow should appear on the objects right.
@@ -41,11 +41,23 @@ def take_original_screenshot(camera, directory):
     pilImage.save(os.path.join(directory, 'original.png'))
 
 
+def autocrop(im):
+    """Autocrop an image based on its upperleft pixel."""
+    # reference: https://stackoverflow.com/a/48605963/2210777
+    bg = Image.new(im.mode, im.size, im.getpixel((0, 0)))
+    diff = ImageChops.difference(im, bg)
+    diff = ImageChops.add(diff, diff, 2.0)
+    bbox = diff.getbbox()
+    if bbox:
+        return im.crop(bbox)
+
+
 def take_screenshot(camera, directory, protoDirectory, protoName, options):
     """Take the screenshot."""
     # Convert Camera image to PIL image.
     image = camera.getImage()
     pilImage = Image.frombytes('RGBA', (camera.getWidth(), camera.getHeight()), image, 'raw', 'BGRA')
+    pilImage = autocrop(pilImage)  # cropped at an early stage to save lot of CPU resources.
     pixels = pilImage.getdata()
 
     # Remove the background.
@@ -68,12 +80,11 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
     # pilImage.show()
 
     # Save model.png (cropped) and icon.png (scaled down)
-    croppedImage = pilImage.crop(pilImage.convert("RGBa").getbbox())
-    croppedImage.save(os.path.join(directory, 'model.png'))
+    pilImage.save(os.path.join(directory, 'model.png'))
 
-    croppedImage.thumbnail((128, 128), Image.ANTIALIAS)
+    pilImage.thumbnail((128, 128), Image.ANTIALIAS)
     iconImage = Image.new('RGBA', (128, 128))
-    iconImage.paste(croppedImage, ((128 - croppedImage.size[0]) / 2, (128 - croppedImage.size[1]) / 2, ((128 - croppedImage.size[0]) / 2) + croppedImage.size[0], ((128 - croppedImage.size[1]) / 2) + croppedImage.size[1]))
+    iconImage.paste(pilImage, ((128 - pilImage.size[0]) / 2, (128 - pilImage.size[1]) / 2, ((128 - pilImage.size[0]) / 2) + pilImage.size[0], ((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
     iconImage.save(os.path.join(directory, 'icon.png'))
 
     # copy icons in the appropriate directory
@@ -114,12 +125,16 @@ if options.singleShot:
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
+        print('%d objects' % (len(data) - 1))
+        itemCounter = 0
         for key, value in data.items():
             if key == 'default':
                 continue
 
+            itemCounter += 1
             protoName = os.path.basename(key).split('.')[0].encode('utf-8')
-            print(protoName)
+            print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
+
             objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key))) + os.sep + protoName
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
