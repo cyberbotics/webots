@@ -35,6 +35,7 @@
   "projects/objects/balls/protos/SoccerBall": {
   },
   "projects/objects/bedroom/protos/Bed": {
+    "fields": "rotation 0 1 0 2"
   },
   "projects/objects/buildings/protos/Auditorium": {
     "background": [0.0, 1.0, 0.0],
@@ -181,6 +182,7 @@
     "background": [0.0, 0.0, 1.0]
   },
   "projects/objects/drinks/protos/WaterBottle": {
+    "alphaRejectionThreshold": 0.25
   },
   "projects/objects/factory/containers/protos/CardboardBox": {
   },
@@ -316,6 +318,8 @@
   "projects/objects/kitchen/oven/protos/Oven": {
   },
   "projects/objects/kitchen/utensils/protos/Carafe": {
+    "background": [1.0, 1.0, 0.0],
+    "alphaRejectionThreshold": 0.25
   },
   "projects/objects/kitchen/utensils/protos/Cookware": {
     "fields": "rotation 0 1 0 4.75"
@@ -324,6 +328,7 @@
     "fields": "rotation 0 1 0 3.44"
   },
   "projects/objects/kitchen/utensils/protos/Glass": {
+    "alphaRejectionThreshold": 0.25
   },
   "projects/objects/kitchen/utensils/protos/Knife": {
     "fields": "rotation 0 1 0 5.53"
@@ -346,7 +351,7 @@
     "background": [0.0, 0.0, 1.0],
     "nodeString": "Robot { rotation 0 1 0 5.23 children [ LegoLargeMotor { } ] }"
   },
-  "projects/objects/lego/wheels/protos/LegoWheel": {
+  "projects/objects/lego/protos/LegoWheel": {
     "colorThreshold": 0.01,
     "background": [0.0, 0.0, 1.0],
     "fields": "rotation 0 -1 0 1.34"
@@ -358,7 +363,7 @@
   },
   "projects/objects/lights/protos/FloorLight": {
     "colorThreshold": 0.1,
-    "background": [1.0, 0.0, 0.0]
+    "fields": "pointLightIntensity 0"
   },
   "projects/objects/living_room_furniture/protos/Armchair": {
     "colorThreshold": 0.01,
@@ -553,7 +558,7 @@
     "fields": "rotation 0 1 0 5.27419"
   },
   "projects/objects/street_furniture/protos/UndergroundContainer": {
-    "background": [0.0, 1.0, 0.0],
+    "background": [1.0, 0.0, 1.0],
     "fields": "rotation 0 1 0 4.22699"
   },
   "projects/objects/street_furniture/protos/UrbanFence": {
