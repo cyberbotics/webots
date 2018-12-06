@@ -30,6 +30,7 @@
 #include <webots/remote_control.h>
 
 #include <assert.h>
+#include <stdio.h>
 
 using namespace std;
 
