@@ -16,6 +16,7 @@
 
 import subprocess
 import os
+import sys
 
 
 def list_dependencies(package):
@@ -39,7 +40,8 @@ folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/min
 files = []
 skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll']
 for p in dependencies:
-    print("# processing " + p, flush=True)
+    print("# processing " + p)
+    sys.stdout.flush()
     l = subprocess.check_output(['pacman', '-Qql', p]).decode().strip().split('\n')
     for f in l:
         skip = False
