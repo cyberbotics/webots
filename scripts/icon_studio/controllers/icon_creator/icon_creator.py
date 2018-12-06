@@ -101,6 +101,9 @@ def take_screenshot(camera, directory, protoDirectory, protoName, options):
         # copy the models in the docs directory
         modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', 'objects', categoryFolder, protoName)
         modelPath = os.path.join(modelFolder, 'model.png')
+        if protoName.startswith('Tinkerbots'):  # Exception to be generalized if possible.
+            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', 'robots', categoryFolder)
+            modelPath = os.path.join(modelFolder, protoName + '.png')
         if not os.path.exists(modelFolder):
             os.makedirs(modelFolder)
         if os.path.exists(modelPath):
