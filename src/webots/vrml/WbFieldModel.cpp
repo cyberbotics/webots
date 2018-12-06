@@ -188,7 +188,7 @@ QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenize
     if (type == "SFNode" && variant.toNode()) {
       // explicit copy of the node to be persistent.
       WbNode *copy = variant.toNode()->cloneAndReferenceProtoInstance();
-      variant.setNode(copy);
+      variant.setNode(copy, true);
       QObject::connect(&variant, &QObject::destroyed, copy, &QObject::deleteLater);
     }
 

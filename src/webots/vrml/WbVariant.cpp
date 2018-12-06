@@ -131,6 +131,10 @@ void WbVariant::clear() {
       delete mRotation;
       break;
     case WB_SF_NODE:
+      /*if (mNode) {
+        delete mNode;
+        mNode = NULL;
+      }*/
       break;
   }
 
@@ -214,11 +218,15 @@ void WbVariant::setRotation(const WbRotation &r) {
   mType = WB_SF_ROTATION;
 }
 
-void WbVariant::setNode(WbNode *n) {
+void WbVariant::setNode(WbNode *n, bool persistent) {
   clear();
-  mNode = n;
-  if (n)
-    connect(n, &QObject::destroyed, this, &WbVariant::clearNode);
+  if (persistent)
+    mNode = n ? n->cloneAndReferenceProtoInstance() : NULL;
+  else {
+    mNode = n;
+    if (n)
+      connect(n, &QObject::destroyed, this, &WbVariant::clearNode);
+  }
   mType = WB_SF_NODE;
 }
 
