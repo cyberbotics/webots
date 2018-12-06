@@ -138,7 +138,7 @@
     "fields": "rotation 0 1 0 0.823599"
   },
   "projects/objects/buildings/protos/UBuilding": {
-    "background": [0.0, 1.0, 0.1],
+    "background": [1.0, 1.0, 0.0],
     "fields": "rotation 0 1 0 5.01"
   },
   "projects/objects/buildings/protos/Warehouse": {
@@ -187,7 +187,8 @@
     "background": [0.0, 0.0, 1.0]
   },
   "projects/objects/drinks/protos/WaterBottle": {
-    "alphaRejectionThreshold": 0.25
+    "alphaRejectionThreshold": 0.35,
+    "background": [0.0, 1.0, 1.0]
   },
   "projects/objects/factory/containers/protos/CardboardBox": {
   },
@@ -278,7 +279,8 @@
     "fields": "rotation 0 1 0 1.3472"
   },
   "projects/objects/garden/protos/SwingCouch": {
-    "fields": "rotation 0 1 0 3.17979"
+    "fields": "rotation 0 1 0 3.17979",
+    "background": [1.0, 0.0, 1.0]
   },
   "projects/objects/garden/protos/TableWithUmbrella": {
   },
@@ -325,8 +327,7 @@
   "projects/objects/kitchen/oven/protos/Oven": {
   },
   "projects/objects/kitchen/utensils/protos/Carafe": {
-    "background": [1.0, 1.0, 0.0],
-    "alphaRejectionThreshold": 0.25
+    "background": [1.0, 1.0, 1.0]
   },
   "projects/objects/kitchen/utensils/protos/Cookware": {
     "fields": "rotation 0 1 0 4.75"
@@ -344,6 +345,8 @@
     "fields": "translation 0 0.008 0"
   },
   "projects/objects/kitchen/utensils/protos/Plate": {
+    "background": [1.0, 1.0, 1.0],
+    "alphaRejectionThreshold": 0.25
   },
   "projects/objects/kitchen/utensils/protos/Spoon": {
     "fields": "rotation 0 1 0 5.535"
@@ -492,7 +495,8 @@
     "fields": "rotation 0 1 0 2.3944"
   },
   "projects/objects/street_furniture/protos/Atm": {
-    "fields": "rotation 0 1 0 1.0854"
+    "fields": "rotation 0 1 0 1.0854",
+    "background": [1.0, 0.0, 1.0]
   },
   "projects/objects/street_furniture/protos/Bench": {
     "fields": "rotation 0 1 0 1.5708"
@@ -595,11 +599,13 @@
     "fields": "translation 0 0.03 0 rotation 0 1 0 0.3"
   },
   "projects/objects/traffic/protos/CautionPanel": {
-    "background": [0.95, 0.95, 0.95],
-    "fields": "translation 0 0.42 0 rotation 0 1 0 4.48879"
+    "fields": "translation 0 0.42 0 rotation 0 1 0 4.48879",
+    "background": [1.0, 0.0, 1.0],
+    "colorThreshold": 0.01
   },
   "projects/objects/traffic/protos/CautionSign": {
-    "background": [0.95, 0.95, 0.95],
+    "background": [1.0, 0.0, 1.0],
+    "colorThreshold": 0.01,
     "fields": "rotation 0 1 0 4.48"
   },
   "projects/objects/traffic/protos/ControlledStreetLight": {
@@ -670,7 +676,7 @@
   },
   "projects/objects/traffic/protos/StopPanel": {
     "colorThreshold": 0.01,
-    "background": [0.0, 1.0, 0.0],
+    "background": [0.0, 1.0, 1.0],
     "fields": "translation 0 0.32 0 rotation 0 1 0 4.48879"
   },
   "projects/objects/traffic/protos/StopSign": {
