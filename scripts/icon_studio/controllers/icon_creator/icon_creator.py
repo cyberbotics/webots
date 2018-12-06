@@ -190,7 +190,7 @@ else:
 
             importedNode.moveViewpoint()
             controller.simulationSetMode(Supervisor.SIMULATION_MODE_REAL_TIME)
-            controller.step(50 * timeStep)
+            controller.step(60 * timeStep)
 
             # Set the camera at the right location.
             position = viewpointPosition.getSFVec3f()
