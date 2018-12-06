@@ -33,10 +33,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <stdio.h>
 #endif
 
 using namespace std;
