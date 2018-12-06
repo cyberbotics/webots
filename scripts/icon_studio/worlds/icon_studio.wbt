@@ -1,0 +1,52 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  gravity 0 0 0
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
+  position 54.32519512629353 36.85193472314329 -3.1707126958688465
+  near 0.2
+}
+Background {
+  cubemap Cubemap {
+    textureBaseName "studio"
+  }
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -1 -1 -0.6
+  intensity 0.6
+  castShadows TRUE
+}
+DirectionalLight {
+  direction 0.2 -0.3 0.1
+  intensity 0.3
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material DEF FLOOR_MATERIAL Material {
+          ambientIntensity 0.4
+          diffuseColor 0 1 1
+        }
+      }
+      geometry DEF P Plane {
+        size 10000 10000
+      }
+      castShadows FALSE
+    }
+  ]
+}
+DEF SUPERVISOR Robot {
+  children [
+    DEF CAMERA Camera {
+      width 2048
+      height 2048
+      near 0.8
+      antiAliasing TRUE
+    }
+  ]
+  controller "icon_creator"
+  supervisor TRUE
+}

@@ -1,0 +1,808 @@
+{
+  "default": {
+    "colorThreshold": 0.05,
+    "alphaRejectionThreshold": 0.4,
+    "background": [0.0, 1.0, 1.0],
+    "fields": "rotation 0 1 0 0.3",
+    "nodeString": ""
+  },
+  "projects/objects/advertising_board/protos/AdvertisingBoard": {
+    "fields": "translation 0 1.63 0 rotation 0 1 0 1.0854"
+  },
+  "projects/objects/apartment_structure/protos/Ceiling": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/apartment_structure/protos/Door": {
+    "fields": "rotation 0 1 0 1.08"
+  },
+  "projects/objects/apartment_structure/protos/DoorKnob": {
+    "nodeString": "Solid { translation 0 0.03 0 rotation 0 1 0 0.785 children [ Slot { endPoint DoorKnob { } } ] }"
+  },
+  "projects/objects/apartment_structure/protos/DoorLever": {
+    "nodeString": "Solid { translation 0 0.04 0 rotation 0 1 0 0.52 children [ Slot { endPoint DoorLever { } } ] }"
+  },
+  "projects/objects/apartment_structure/protos/GenericDoorAppearance": {
+    "nodeString": "Door { rotation 0 1 0 1.08 }"
+  },
+  "projects/objects/apartment_structure/protos/Wall": {
+  },
+  "projects/objects/apartment_structure/protos/Window": {
+    "fields": "rotation 0 1 0 1.09"
+  },
+  "projects/objects/balls/protos/Ball": {
+  },
+  "projects/objects/balls/protos/PingPongBall": {
+    "fields": "translation 0 0.02 0 rotation 0 1 0 1.609"
+  },
+  "projects/objects/balls/protos/SoccerBall": {
+  },
+  "projects/objects/bedroom/protos/Bed": {
+    "fields": "rotation 0 1 0 2"
+  },
+  "projects/objects/buildings/protos/Auditorium": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 3.96519"
+  },
+  "projects/objects/buildings/protos/BigGlassTower": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/BuildingUnderConstruction": {
+  },
+  "projects/objects/buildings/protos/BungalowStyleHouse": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/Carwash": {
+  },
+  "projects/objects/buildings/protos/Church": {
+    "fields": "rotation 0 1 0 4.32"
+  },
+  "projects/objects/buildings/protos/Building": {
+  },
+  "projects/objects/buildings/protos/CommercialBuilding": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/ComposedHouse": {
+    "fields": "rotation 0 1 0 5.01239"
+  },
+  "projects/objects/buildings/protos/CyberboticsTower": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/FastFoodRestaurant": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/GasStation": {
+    "fields": "rotation 0 1 0 3.96519"
+  },
+  "projects/objects/buildings/protos/HollowBuilding": {
+    "background": [0.0, 0.0, 1.0]
+  },
+  "projects/objects/buildings/protos/Hotel": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/HouseWithGarage": {
+    "fields": "rotation 0 1 0 5.01239"
+  },
+  "projects/objects/buildings/protos/LargeResidentialTower": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/buildings/protos/ModernHouse": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 5.759"
+  },
+  "projects/objects/buildings/protos/ModernSuburbanHouse": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/buildings/protos/MotelReception": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/Museum": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 3.441"
+  },
+  "projects/objects/buildings/protos/OldResidentialBuilding": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/RandomBuilding": {
+  },
+  "projects/objects/buildings/protos/ResidentialBuilding": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/ResidentialBuildingWithRoundFront": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/ResidentialTower": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/SimpleBuilding": {
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/buildings/protos/SimpleTwoFloorsHouse": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/buildings/protos/SmallManor": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/buildings/protos/SmallResidentialBuilding": {
+    "fields": "rotation 0 1 0 4.75059"
+  },
+  "projects/objects/buildings/protos/SmallResidentialTower": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/buildings/protos/SuburbanHouse": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/buildings/protos/TheThreeTowers": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 0.823599"
+  },
+  "projects/objects/buildings/protos/UBuilding": {
+    "background": [1.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 5.01"
+  },
+  "projects/objects/buildings/protos/Warehouse": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/buildings/protos/Windmill": {
+    "fields": "rotation 0 1 0 5.01239"
+  },
+  "projects/objects/cabinet/protos/Cabinet": {
+    "fields": "rotation 0 1 0 1.0854"
+  },
+  "projects/objects/cabinet/protos/CabinetHandle": {
+    "nodeString": "Solid { translation 0 0.03 0 children [ Slot { endPoint DoorKnob { } } ] }"
+  },
+  "projects/objects/chairs/protos/Chair": {
+  },
+  "projects/objects/chairs/protos/SimpleChair": {
+  },
+  "projects/objects/chairs/protos/WoodenChair": {
+  },
+  "projects/objects/computers/protos/ComputerMouse": {
+  },
+  "projects/objects/computers/protos/DesktopComputer": {
+    "fields": "rotation 0 1 0 4.23"
+  },
+  "projects/objects/computers/protos/Keyboard": {
+    "fields": "rotation 0 1 0 4.75"
+  },
+  "projects/objects/computers/protos/Laptop": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0],
+    "fields": "rotation 0 1 0 4.2"
+  },
+  "projects/objects/computers/protos/Monitor": {
+    "fields": "rotation 0 1 0 4.48"
+  },
+  "projects/objects/create_wall/protos/CreateWall": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/drinks/protos/BeerBottle": {
+    "fields": "rotation 0 -1 0 3.88"
+  },
+  "projects/objects/drinks/protos/Can": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 0.0, 1.0]
+  },
+  "projects/objects/drinks/protos/WaterBottle": {
+    "alphaRejectionThreshold": 0.35,
+    "background": [0.0, 1.0, 1.0]
+  },
+  "projects/objects/factory/containers/protos/CardboardBox": {
+  },
+  "projects/objects/factory/containers/protos/PlasticCrate": {
+  },
+  "projects/objects/factory/containers/protos/WoodenBox": {
+  },
+  "projects/objects/factory/conveyor_belt/protos/ConveyorBelt": {
+    "fields": "rotation 0 1 0 0.8236"
+  },
+  "projects/objects/factory/pallet/protos/WoodenPallet": {
+  },
+  "projects/objects/factory/pallet/protos/WoodenPalletStack": {
+  },
+  "projects/objects/factory/pipes/protos/LJoint": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/factory/pipes/protos/PipeSection": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/factory/pipes/protos/TJoint": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.07 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/factory/tools/protos/Bolt": {
+  },
+  "projects/objects/factory/tools/protos/Hammer": {
+  },
+  "projects/objects/factory/tools/protos/Nut": {
+  },
+  "projects/objects/factory/tools/protos/PaintBucket": {
+  },
+  "projects/objects/factory/tools/protos/PlatformCart": {
+  },
+  "projects/objects/factory/tools/protos/Screwdriver": {
+  },
+  "projects/objects/factory/tools/protos/Wrench": {
+  },
+  "projects/objects/factory/valves/protos/LargeValve": {
+    "fields": "translation 0 0.126 0 rotation 0 1 0 3.44"
+  },
+  "projects/objects/factory/valves/protos/LeverValve": {
+    "fields": "rotation 0 1 0 3.44159"
+  },
+  "projects/objects/factory/valves/protos/SmallValve": {
+    "fields": "translation 0 0.047 0 rotation 0 -1 0 3.365"
+  },
+  "projects/objects/floors/protos/CircleArena": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/floors/protos/Floor": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/floors/protos/RectangleArena": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/floors/protos/UnevenTerrain": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/fruits/protos/Apple": {
+  },
+  "projects/objects/fruits/protos/FruitBowl": {
+  },
+  "projects/objects/fruits/protos/Orange": {
+  },
+  "projects/objects/garden/protos/Barbecue": {
+    "fields": "rotation 0 1 0 1.609"
+  },
+  "projects/objects/garden/protos/DogHouse": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/garden/protos/Gnome": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/garden/protos/Pergolas": {
+  },
+  "projects/objects/garden/protos/PicketFence": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/garden/protos/PicketFenceWithDoor": {
+    "fields": "rotation 0 1 0 1.609"
+  },
+  "projects/objects/garden/protos/Slide": {
+    "fields": "rotation 0 1 0 5.75959"
+  },
+  "projects/objects/garden/protos/Swing": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/garden/protos/SwingCouch": {
+    "fields": "rotation 0 1 0 3.17979",
+    "background": [1.0, 0.0, 1.0]
+  },
+  "projects/objects/garden/protos/TableWithUmbrella": {
+  },
+  "projects/objects/garden/protos/WateringCan": {
+  },
+  "projects/objects/garden/protos/Wheelbarrow": {
+  },
+  "projects/objects/geometries/protos/Extrusion": {
+    "nodeString": "Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
+  },
+  "projects/objects/geometries/protos/TexturedBox": {
+    "nodeString": "Transform { translation 0 0.07 0 rotation 0 -1 0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
+  },
+  "projects/objects/geometries/protos/TexturedParallelepiped": {
+    "nodeString": "Transform { translation 0 0.03 0 rotation 0 1 0 6.021  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
+  },
+  "projects/objects/kitchen/breakfast/protos/BiscuitBox": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "translation 0 0.04 0 rotation -0.66 -0.53 0.53 4.31"
+  },
+  "projects/objects/kitchen/breakfast/protos/CerealBox": {
+    "fields": "rotation 0 1 0 3.44"
+  },
+  "projects/objects/kitchen/breakfast/protos/HoneyJar": {
+  },
+  "projects/objects/kitchen/breakfast/protos/JamJar": {
+    "background": [1.0, 0.0, 1.0],
+    "fields": "rotation 0 1 0 3.965"
+  },
+  "projects/objects/kitchen/components/protos/HotPlate": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 -0.03 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/kitchen/components/protos/Sink": {
+    "background": [0.0, 1.0, 0.0],
+    "fields": "translation 0 0.04 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/kitchen/components/protos/Worktop": {
+    "fields": "translation 0 0.03 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/kitchen/fridge/protos/Fridge": {
+  },
+  "projects/objects/kitchen/oven/protos/Oven": {
+  },
+  "projects/objects/kitchen/utensils/protos/Carafe": {
+    "background": [1.0, 1.0, 1.0]
+  },
+  "projects/objects/kitchen/utensils/protos/Cookware": {
+    "fields": "rotation 0 1 0 4.75"
+  },
+  "projects/objects/kitchen/utensils/protos/Fork": {
+    "fields": "rotation 0 1 0 3.44"
+  },
+  "projects/objects/kitchen/utensils/protos/Glass": {
+    "alphaRejectionThreshold": 0.25
+  },
+  "projects/objects/kitchen/utensils/protos/Knife": {
+    "fields": "rotation 0 1 0 5.53"
+  },
+  "projects/objects/kitchen/utensils/protos/Lid": {
+    "fields": "translation 0 0.008 0"
+  },
+  "projects/objects/kitchen/utensils/protos/Plate": {
+    "background": [1.0, 1.0, 1.0],
+    "alphaRejectionThreshold": 0.25
+  },
+  "projects/objects/kitchen/utensils/protos/Spoon": {
+    "fields": "rotation 0 1 0 5.535"
+  },
+  "projects/objects/kitchen/utensils/protos/Wineglass": {
+    "alphaRejectionThreshold": 0.25
+  },
+  "projects/objects/kitchen/utensils/protos/WoodenSpoon": {
+  },
+  "projects/objects/lego/protos/LegoLargeMotor": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 0.0, 1.0],
+    "nodeString": "Robot { rotation 0 1 0 5.23 children [ LegoLargeMotor { } ] }"
+  },
+  "projects/objects/lego/protos/LegoWheel": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 0.0, 1.0],
+    "fields": "rotation 0 -1 0 1.34"
+  },
+  "projects/objects/lights/protos/CeilingLight": {
+    "colorThreshold": 0.1,
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/lights/protos/FloorLight": {
+    "colorThreshold": 0.1,
+    "fields": "pointLightIntensity 0"
+  },
+  "projects/objects/living_room_furniture/protos/Armchair": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/living_room_furniture/protos/Carpet": {
+  },
+  "projects/objects/living_room_furniture/protos/Sofa": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/mirror/protos/Mirror": {
+    "fields": "rotation 0 -1 0 4.93"
+  },
+  "projects/objects/school_furniture/protos/Blackboard": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.72 0 rotation 0 1 0 1.35"
+  },
+  "projects/objects/school_furniture/protos/Book": {
+    "fields": "rotation 0 1 0 3.44"
+  },
+  "projects/objects/school_furniture/protos/Clock": {
+    "fields": "translation 0 0.17 0 rotation 0 1 0 1.609"
+  },
+  "projects/objects/obstacles/protos/OilBarrel": {
+  },
+  "projects/objects/obstacles/protos/Ramp30deg": {
+    "fields": "rotation 0 1 0 2.13"
+  },
+  "projects/objects/obstacles/protos/ThreeSteps": {
+  },
+  "projects/objects/paintings/protos/LandscapePainting": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/paintings/protos/PortraitPainting": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/panels/protos/Panel": {
+    "fields": "rotation 0 1 0 1.609"
+  },
+  "projects/objects/panels/protos/PannelWithTubes": {
+    "fields": "rotation 0 1 0 0.8235"
+  },
+  "projects/objects/plants/protos/BunchOfSunFlowers": {
+  },
+  "projects/objects/plants/protos/PottedTree": {
+  },
+  "projects/objects/robotstadium/protos/RobotstadiumGoal": {
+    "fields": "rotation 0 1 0 2.6562"
+  },
+  "projects/objects/robotstadium/protos/RobotstadiumSoccerField": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/road/protos/AddLaneRoadSegment": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 -1.9634996938995748"
+  },
+  "projects/objects/road/protos/AddLanesRoadSegment": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 -1.9634996938995748"
+  },
+  "projects/objects/road/protos/Crossroad": {
+    "nodeString": "Group { children [ Crossroad { translation -4 0.01 -7 shape [ 0 0 0 0 0 7 7 0 7 7 0 0 ] } Road { translation -0.5 0.01 0 wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation -0.5 0.01 -7 rotation 0 1 0 3.1415 name \"road(1)\" wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3 0.01 -3.5 rotation 0 1 0 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
+  },
+  "projects/objects/road/protos/CrashBarrier": {
+    "fields": "rotation 0 1 0 2.094395096 path [ 0 0 0, 4.2 0 0 ]"
+  },
+  "projects/objects/road/protos/CurvedRoadSegment": {
+    "fields": "translation 0 0.01 0 subdivision 16"
+  },
+  "projects/objects/road/protos/HelicoidalRoadSegment": {
+  },
+  "projects/objects/road/protos/LaneSeparation": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 -1.5707996938995747 length 19"
+  },
+  "projects/objects/road/protos/Road": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 -1.4399003061004252 wayPoints [ 0 0 0, 0 0 6, 3 0 10, -2 0 20 ] splineSubdivision 16"
+  },
+  "projects/objects/road/protos/RoadIntersection": {
+    "fields": "translation 0 0.01 0"
+  },
+  "projects/objects/road/protos/RoadLine": {
+    "nodeString": " Road { translation -0.5 0.01 0 rotation 0 1 0 1.57 width 16 numberOfLanes 4 wayPoints [ 0 0 0 10 0 20 -10 0 50 ] lines [ RoadLine { type \"dashed\" } RoadLine { type \"continuous\" } RoadLine { type \"double\" color 1 1 0 } ] splineSubdivision 6 } "
+  },
+  "projects/objects/road/protos/RoadPillars": {
+    "fields": "rotation 0 1 0 4.450589579"
+  },
+  "projects/objects/road/protos/Roundabout": {
+    "fields": "translation 0 0.01 0"
+  },
+  "projects/objects/road/protos/StraightRoadSegment": {
+    "fields": "translation 0 0.01 0"
+  },
+  "projects/objects/rocks/protos/Rock10cm": {
+  },
+  "projects/objects/rocks/protos/Rock17cm": {
+  },
+  "projects/objects/shapes/protos/TexturedBoxShape": {
+    "nodeString": "Transform { translation 0 0.05 0 rotation 0 1 0 6.02 children [ TexturedBoxShape { } ] }"
+  },
+  "projects/objects/solids/protos/SolidBox": {
+    "fields": "translation 0 1 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/solids/protos/SolidPipe": {
+    "fields": "translation 0 1.3 0 rotation -0.7608424491507817 -0.4588675008271012 0.4588675018509486 4.44240113790767"
+  },
+  "projects/objects/solids/protos/SolidRoundedBox": {
+    "fields": "translation 0 0.95 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/solids/protos/SolidTorus": {
+    "fields": "translation 0.011487731066173942 2.9359738531380777 -0.673474604293481 rotation 0.2646433610066595 -0.4645459710268791 0.8450804294727176 2.545192800312096"
+  },
+  "projects/objects/stairs/protos/StraightStairs": {
+    "fields": "rotation 0 1 0 2.3944"
+  },
+  "projects/objects/stairs/protos/StraightStairsLanding": {
+    "fields": "rotation 0 1 0 2.3944"
+  },
+  "projects/objects/stairs/protos/StraightStairsRail": {
+    "fields": "rotation 0 1 0 2.3944"
+  },
+  "projects/objects/street_furniture/protos/Atm": {
+    "fields": "rotation 0 1 0 1.0854",
+    "background": [1.0, 0.0, 1.0]
+  },
+  "projects/objects/street_furniture/protos/Bench": {
+    "fields": "rotation 0 1 0 1.5708"
+  },
+  "projects/objects/street_furniture/protos/BusStop": {
+    "background": [0.0, 0.0, 1.0],
+    "fields": "rotation 0 1 0 1.309"
+  },
+  "projects/objects/street_furniture/protos/ClothRecyclingContainer": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/street_furniture/protos/DrinkingFountain": {
+    "fields": "rotation 0 1 0 4.488790192"
+  },
+  "projects/objects/street_furniture/protos/ElectricalCabinet": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/street_furniture/protos/EmergencyPhone": {
+    "fields": "rotation 0 1 0 1.309"
+  },
+  "projects/objects/street_furniture/protos/Fence": {
+    "fields": "rotation 0 1 0 2.0944 path [ 0 0 0, 5.1 0 0 ]"
+  },
+  "projects/objects/street_furniture/protos/FireHydrant": {
+  },
+  "projects/objects/street_furniture/protos/Fountain": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/street_furniture/protos/GlassRecyclingContainer": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/street_furniture/protos/GuardShelter": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/street_furniture/protos/IceFreezerContainer": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/street_furniture/protos/Mailbox": {
+  },
+  "projects/objects/street_furniture/protos/MetallicTrash": {
+  },
+  "projects/objects/street_furniture/protos/NewsStand": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/street_furniture/protos/OldBench": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/street_furniture/protos/PhoneBooth": {
+    "fields": "rotation 0 1 0 3.70339"
+  },
+  "projects/objects/street_furniture/protos/PublicBin": {
+  },
+  "projects/objects/street_furniture/protos/PublicToilet": {
+    "fields": "rotation 0 1 0 3.66519"
+  },
+  "projects/objects/street_furniture/protos/SimpleBench": {
+    "fields": "rotation 0 1 0 2.65619"
+  },
+  "projects/objects/street_furniture/protos/SmallKiosk": {
+    "fields": "rotation 0 1 0 5.27419"
+  },
+  "projects/objects/street_furniture/protos/SnackStand": {
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/street_furniture/protos/StoneBench": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/street_furniture/protos/StoneFountain": {
+  },
+  "projects/objects/street_furniture/protos/TrashBin": {
+    "fields": "rotation 0 1 0 0.9163"
+  },
+  "projects/objects/street_furniture/protos/TrashContainer": {
+    "fields": "rotation 0 1 0 5.27419"
+  },
+  "projects/objects/street_furniture/protos/UndergroundContainer": {
+    "background": [1.0, 0.0, 1.0],
+    "fields": "rotation 0 1 0 4.22699"
+  },
+  "projects/objects/street_furniture/protos/UrbanFence": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/street_furniture/protos/WorkTrashContainer": {
+  },
+  "projects/objects/tables/protos/Desk": {
+  },
+  "projects/objects/tables/protos/RoundTable": {
+  },
+  "projects/objects/tables/protos/Table": {
+  },
+  "projects/objects/television/protos/Television": {
+    "colorThreshold": 0.01,
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/toys/protos/PaperBoat": {
+  },
+  "projects/objects/toys/protos/RubberDuck": {
+    "fields": "translation 0 0.03 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/traffic/protos/CautionPanel": {
+    "fields": "translation 0 0.42 0 rotation 0 1 0 4.48879",
+    "background": [1.0, 0.0, 1.0],
+    "colorThreshold": 0.01
+  },
+  "projects/objects/traffic/protos/CautionSign": {
+    "background": [1.0, 0.0, 1.0],
+    "colorThreshold": 0.01,
+    "fields": "rotation 0 1 0 4.48"
+  },
+  "projects/objects/traffic/protos/ControlledStreetLight": {
+    "fields": "radius 0.01"
+  },
+  "projects/objects/traffic/protos/CrossRoadsTrafficLight": {
+  },
+  "projects/objects/traffic/protos/DirectionPanel": {
+    "fields": "translation 0 0.23 0 rotation 0 1 0 4.48879"
+  },
+  "projects/objects/traffic/protos/DivergentIndicator": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/traffic/protos/ExitPanel": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.43 0 rotation 0 1 0 4.75"
+  },
+  "projects/objects/traffic/protos/ExitSign": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0],
+    "fields": "rotation 0 1 0 4.75"
+  },
+  "projects/objects/traffic/protos/GenericTrafficLight": {
+    "fields": "rotation 0 1 0 5.01"
+  },
+  "projects/objects/traffic/protos/HighwayPole": {
+    "colorThreshold": 0.01
+  },
+  "projects/objects/traffic/protos/HighwaySign": {
+    "colorThreshold": 0.01,
+    "fields": "translation 0 1.55 0 rotation 0 -1 0 6.24"
+  },
+  "projects/objects/traffic/protos/OrderPanel": {
+    "background": [0.0, 0.0, 1.0],
+    "fields": "translation 0 0.33 0 rotation 0 1 0 4.48879"
+  },
+  "projects/objects/traffic/protos/OrderSign": {
+    "background": [0.0, 0.0, 1.0],
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/traffic/protos/ParkingLines": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/traffic/protos/ParkingMeter": {
+    "fields": "rotation 0 1 0 4.48879"
+  },
+  "projects/objects/traffic/protos/PedestrianCrossing": {
+    "colorThreshold": 0.01,
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/traffic/protos/Pole": {
+  },
+  "projects/objects/traffic/protos/RectangularPanel": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 0.0],
+    "fields": "translation 0 0.26 0 rotation 0 1 0 4.22"
+  },
+  "projects/objects/traffic/protos/SignPole": {
+    "fields": "rotation 0 1 0 4.75059"
+  },
+  "projects/objects/traffic/protos/SpeedLimitPanel": {
+    "fields": "translation 0 0.32 0 rotation 0 1 0 4.22"
+  },
+  "projects/objects/traffic/protos/SpeedLimitSign": {
+    "fields": "rotation 0 1 0 4.75059"
+  },
+  "projects/objects/traffic/protos/StopPanel": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 1.0],
+    "fields": "translation 0 0.32 0 rotation 0 1 0 4.48879"
+  },
+  "projects/objects/traffic/protos/StopSign": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 0.0],
+    "fields": "rotation 0 1 0 4.75059"
+  },
+  "projects/objects/traffic/protos/StreetLight": {
+    "fields": "on FALSE"
+  },
+  "projects/objects/traffic/protos/TrafficCone": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 0.0]
+  },
+  "projects/objects/traffic/protos/TrafficLight": {
+    "nodeString": "Robot { rotation 0 1 0 5.23 children [ TrafficLight { } ] }"
+  },
+  "projects/objects/traffic/protos/TrafficLightArrowLampGeometry": {
+    "nodeString": "Shape { geometry TrafficLightArrowLampGeometry { } }"
+  },
+  "projects/objects/traffic/protos/TrafficLightBigPole": {
+    "fields": "rotation 0 1 0 1.0854"
+  },
+  "projects/objects/traffic/protos/TrafficLightHorizontal": {
+    "nodeString": "Robot { rotation 0 1 0 5.23 children [ TrafficLightHorizontal { } ] }"
+  },
+  "projects/objects/traffic/protos/TrafficLightStandardLampGeometry": {
+    "nodeString": "Transform { translation 0 0.1 0 rotation 1 0 0 1.57 children [ Shape { appearance PBRAppearance { baseColor 1 0 0 metalness 0 roughness 0.9 } geometry TrafficLightStandardLampGeometry { } } ] }"
+  },
+  "projects/objects/traffic/protos/TrafficLightArrowLampGeometry": {
+    "nodeString": "Transform { translation 0 -0.019 0 rotation 1 0 0 1.57 children [ Shape { appearance PBRAppearance { baseColor 1 0 0 metalness 0 roughness 0.9 } geometry TrafficLightArrowLampGeometry { } } ] }"
+  },
+  "projects/objects/traffic/protos/WorkBarrier": {
+    "fields": "rotation 0 1 0 1.3472"
+  },
+  "projects/objects/traffic/protos/YieldPanel": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 1.0],
+    "fields": "translation 0 0.48 0 rotation 0 1 0 4.75"
+  },
+  "projects/objects/traffic/protos/YieldSign": {
+    "colorThreshold": 0.01,
+    "background": [0.0, 1.0, 1.0],
+    "fields": "rotation 0 1 0 4.75059"
+  },
+  "projects/objects/trees/protos/BigSassafras": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/Cypress": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/Forest": {
+    "background": [1.0, 0.0, 0.0],
+    "fields": "translation 0 0.1 0 rotation 0 1 0 0.3"
+  },
+  "projects/objects/trees/protos/Oak": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/PalmTree": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/Pine": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/Sassafras": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/SimpleTree": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/objects/trees/protos/Tree": {
+    "background": [1.0, 0.0, 0.0]
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsBase": {
+    "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
+    "background": [1.0, 0.0, 1.0]
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsAxle": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsAxle { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsBrickAdapter": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsBrickAdapter { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCube": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCube { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieBoxWithCrossSlots { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieBoxWithRoundSlots { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubieFemaleCube": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieFemaleCube { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubieMaleCube": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieMaleCube { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubiePyramid": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubiePyramid { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsCubieTriangle": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieTriangle { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsDistanceSensor": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsDistanceSensor { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsFinger": {
+    "nodeString": "Robot { rotation 0.09269165825812836 -0.704062955298831 -0.7040622213023753 3.326453232984257 children [ Slot { endPoint TinkerbotsFinger { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsGrabber": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsGrabber { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsLightSensor": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsLightSensor { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsMotor": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsMotor { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsPivot": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsPivot { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsTwister": {
+    "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsTwister { } } ] }"
+  },
+  "projects/robots/tinkerbots/protos/TinkerbotsWheel": {
+    "nodeString": "Robot { translation 0 0.027 0 rotation -0.6087598420165832 1.0122819105744343e-6 -0.7933545580299642 3.1415961372248167 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
+  }
+}
