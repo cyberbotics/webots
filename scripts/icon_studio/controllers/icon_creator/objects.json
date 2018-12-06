@@ -22,6 +22,9 @@
   "projects/objects/apartment_structure/protos/DoorLever": {
     "nodeString": "Solid { translation 0 0.04 0 rotation 0 1 0 0.52 children [ Slot { endPoint DoorLever { } } ] }"
   },
+  "projects/objects/apartment_structure/protos/GenericDoorAppearance": {
+    "nodeString": "Door { rotation 0 1 0 1.08 }"
+  },
   "projects/objects/apartment_structure/protos/Wall": {
   },
   "projects/objects/apartment_structure/protos/Window": {
@@ -53,6 +56,8 @@
   },
   "projects/objects/buildings/protos/Church": {
     "fields": "rotation 0 1 0 4.32"
+  },
+  "projects/objects/buildings/protos/Building": {
   },
   "projects/objects/buildings/protos/CommercialBuilding": {
     "background": [0.0, 1.0, 0.0]
@@ -185,6 +190,8 @@
     "alphaRejectionThreshold": 0.25
   },
   "projects/objects/factory/containers/protos/CardboardBox": {
+  },
+  "projects/objects/factory/containers/protos/PlasticCrate": {
   },
   "projects/objects/factory/containers/protos/WoodenBox": {
   },
@@ -424,6 +431,9 @@
   "projects/objects/road/protos/AddLanesRoadSegment": {
     "fields": "translation 0 0.01 0 rotation 0 1 0 -1.9634996938995748"
   },
+  "projects/objects/road/protos/Crossroad": {
+    "nodeString": "Group { children [ Crossroad { translation -4 0.01 -7 shape [ 0 0 0 0 0 7 7 0 7 7 0 0 ] } Road { translation -0.5 0.01 0 wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation -0.5 0.01 -7 rotation 0 1 0 3.1415 name \"road(1)\" wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3 0.01 -3.5 rotation 0 1 0 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
+  },
   "projects/objects/road/protos/CrashBarrier": {
     "fields": "rotation 0 1 0 2.094395096 path [ 0 0 0, 4.2 0 0 ]"
   },
@@ -440,6 +450,9 @@
   },
   "projects/objects/road/protos/RoadIntersection": {
     "fields": "translation 0 0.01 0"
+  },
+  "projects/objects/road/protos/RoadLine": {
+    "nodeString": " Road { translation -0.5 0.01 0 rotation 0 1 0 1.57 width 16 numberOfLanes 4 wayPoints [ 0 0 0 10 0 20 -10 0 50 ] lines [ RoadLine { type \"dashed\" } RoadLine { type \"continuous\" } RoadLine { type \"double\" color 1 1 0 } ] splineSubdivision 6 } "
   },
   "projects/objects/road/protos/RoadPillars": {
     "fields": "rotation 0 1 0 4.450589579"
@@ -683,6 +696,9 @@
   },
   "projects/objects/traffic/protos/TrafficLightHorizontal": {
     "nodeString": "Robot { rotation 0 1 0 5.23 children [ TrafficLightHorizontal { } ] }"
+  },
+  "projects/objects/traffic/protos/TrafficLightStandardLampGeometry": {
+    "nodeString": "Transform { translation 0 0.1 0 rotation 1 0 0 1.57 children [ Shape { appearance PBRAppearance { baseColor 1 0 0 metalness 0 roughness 0.9 } geometry TrafficLightStandardLampGeometry { } } ] }"
   },
   "projects/objects/traffic/protos/TrafficLightArrowLampGeometry": {
     "nodeString": "Transform { translation 0 -0.019 0 rotation 1 0 0 1.57 children [ Shape { appearance PBRAppearance { baseColor 1 0 0 metalness 0 roughness 0.9 } geometry TrafficLightArrowLampGeometry { } } ] }"
