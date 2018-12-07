@@ -339,9 +339,22 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 
   if (info.isEmpty())
     mInfoText->setPlainText(tr("No info available."));
-  else
-    mInfoText->appendPlainText(info);
-
+  else {
+    for (int i = 0; i < info.length(); i++) {
+      if (info[i] == '\n') {
+        if (i < (info.length() - 1)) {
+          if (info[i + 1] == '\n') {
+            i++;
+            continue;
+          }
+          if (info[i + 1] == '-')
+            continue;
+        }
+        info[i] = ' ';
+      }
+    }
+    mInfoText->appendPlainText(info.trimmed());
+  }
   mInfoText->moveCursor(QTextCursor::Start);
 }
 
@@ -363,12 +376,11 @@ void WbAddNodeDialog::buildTree() {
 
   // basic tree items
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *lprotosItem = NULL;
   QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots)"), PROTO_WEBOTS);
 
   QStringList basicNodes;
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
-  lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Project)")), PROTO_PROJECT);
+  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Project)")), PROTO_PROJECT);
   basicNodes = WbNodeModel::baseModelNames();
 
   QTreeWidgetItem *item = NULL;
