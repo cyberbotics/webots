@@ -118,3 +118,6 @@
 /mingw64/include/jpeglib.h
 /mingw64/include/jconfig.h
 /mingw64/include/jmorecfg.h
+
+# needed to recompile the Qt-based robot windows (darwin-op or automobile)
+/mingw64/bin/moc.exe
