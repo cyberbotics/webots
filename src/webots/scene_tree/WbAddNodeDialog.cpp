@@ -340,16 +340,17 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   if (info.isEmpty())
     mInfoText->setPlainText(tr("No info available."));
   else {
-    // replace carriage returns with spaces where appropriate
+    // replace carriage returns with spaces where appropriate:
+    // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
+    // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
+    // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
     for (int i = 0; i < info.length(); i++) {
       if (info[i] == '\n') {
         if (i < (info.length() - 1)) {
-          if (info[i + 1] == '\n') {
+          if (info[i + 1] == '\n' || info[i + 1] == '-') {
             i++;
             continue;
           }
-          if (info[i + 1] == '-')
-            continue;
         }
         info[i] = ' ';
       }
