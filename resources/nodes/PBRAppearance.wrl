@@ -1,4 +1,6 @@
-# The PBRAppearance node specifies the visual properties of geometry using a physically based shading model and several textures to define material properties.
+# The PBRAppearance node specifies the visual properties of geometry using a
+# physically based shading model and several textures to define material
+# properties.
 
 PBRAppearance {
   field     SFColor  baseColor            1 1 1

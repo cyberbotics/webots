@@ -54,8 +54,8 @@ private:
   explicit WbNodeModel(WbTokenizer *tokenizer);
   ~WbNodeModel();
 
-  QString mName;
   QString mInfo;
+  QString mName;
   QList<WbFieldModel *> mFieldModels;
 
   static WbNodeModel *readModel(const QString &fileName);
