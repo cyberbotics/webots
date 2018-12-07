@@ -340,6 +340,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   if (info.isEmpty())
     mInfoText->setPlainText(tr("No info available."));
   else {
+    // replace carriage returns with spaces where appropriate
     for (int i = 0; i < info.length(); i++) {
       if (info[i] == '\n') {
         if (i < (info.length() - 1)) {
