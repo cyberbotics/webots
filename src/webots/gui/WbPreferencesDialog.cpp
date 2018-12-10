@@ -95,6 +95,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
     mAntiAliasingCombo->setCurrentIndex(0);
 
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
+  mTexturesQualityCombo->setCurrentIndex(prefs->value("OpenGL/TexturesQuality", 2).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
   mDisableCameraAntiAliasingCheckBox->setChecked(prefs->value("OpenGL/disableCameraAntiAliasing").toBool());
@@ -147,6 +148,7 @@ void WbPreferencesDialog::accept() {
   // openGL
   prefs->setValue("OpenGL/SMAA", static_cast<bool>(mAntiAliasingCombo->currentIndex()));
   prefs->setValue("OpenGL/GTAO", mAmbientOcclusionCombo->currentIndex());
+  prefs->setValue("OpenGL/TexturesQuality", mTexturesQualityCombo->currentIndex());
   prefs->setValue("OpenGL/disableShadows", mDisableShadowsCheckBox->isChecked());
   prefs->setValue("OpenGL/disableCameraAntiAliasing", mDisableCameraAntiAliasingCheckBox->isChecked());
 
@@ -317,14 +319,21 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
   layout->addWidget(new QLabel(tr("Ambient Occlusion:"), this), 1, 0);
   layout->addWidget(mAmbientOcclusionCombo, 1, 1, Qt::AlignLeft);
 
-  // row 2
-  layout->addWidget(new QLabel(tr("Options:"), this), 2, 0);
-  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
-  layout->addWidget(mDisableShadowsCheckBox, 2, 1, Qt::AlignLeft);
+  mTexturesQualityCombo = new QComboBox(this);
+  mTexturesQualityCombo->addItem(tr("Low"));
+  mTexturesQualityCombo->addItem(tr("Medium"));
+  mTexturesQualityCombo->addItem(tr("High"));
+  layout->addWidget(new QLabel(tr("Textures Quality:"), this), 2, 0);
+  layout->addWidget(mTexturesQualityCombo, 2, 1, Qt::AlignLeft);
 
   // row 3
+  layout->addWidget(new QLabel(tr("Options:"), this), 3, 0);
+  mDisableShadowsCheckBox = new QCheckBox(tr("Disable shadows"), this);
+  layout->addWidget(mDisableShadowsCheckBox, 3, 1, Qt::AlignLeft);
+
+  // row 4
   mDisableCameraAntiAliasingCheckBox = new QCheckBox(tr("Disable camera anti-aliasing"), this);
-  layout->addWidget(mDisableCameraAntiAliasingCheckBox, 3, 1, Qt::AlignLeft);
+  layout->addWidget(mDisableCameraAntiAliasingCheckBox, 4, 1, Qt::AlignLeft);
 
   return widget;
 }
