@@ -1184,6 +1184,7 @@ void WbView3D::checkRendererCapabilities() {
   bool disableShadows = false;
   bool disableCameraAntiAliasing = false;
   bool disableSMAA = false;
+  bool reduceTextureQuality = false;
 
   // 2. determine what has to be reduced
   if (!mWrenRenderingContext->isNvidiaRenderer() && !mWrenRenderingContext->isAmdRenderer() &&
@@ -1203,6 +1204,7 @@ void WbView3D::checkRendererCapabilities() {
     disableShadows = true;
     disableCameraAntiAliasing = true;
     disableSMAA = true;
+    reduceTextureQuality = true;
   }
 
   if (mWrenRenderingContext->isIntelRenderer()) {
@@ -1236,6 +1238,12 @@ void WbView3D::checkRendererCapabilities() {
     message += "\n - ";
     message += tr("Main 3D view anti-aliasing has been de-activated.");
     WbPreferences::instance()->setValue("OpenGL/SMAA", false);
+  }
+
+  if (reduceTextureQuality) {
+    message += "\n - ";
+    message += tr("Texture quality has been reduced.");
+    WbPreferences::instance()->setValue("OpenGL/TexturesQuality", 1);
   }
 
   // 4. check OpenGL capabilities.
