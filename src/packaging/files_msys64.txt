@@ -52,6 +52,7 @@
 /mingw64/share/qt5/plugins/platforms/qwindows.dll
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
 /mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
+/mingw64/share/qt5/translations/*.qm
 
 # needed by ffmpeg.exe
 /mingw64/bin/ffmpeg.exe

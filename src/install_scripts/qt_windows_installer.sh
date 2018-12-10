@@ -36,15 +36,7 @@ script_name=$0
 script_full_path=$(dirname "$0")
 cd $script_full_path/../..
 
-rm -rf lib/qt
 rm -rf include/qt
-
-mkdir -p lib/qt/bin
-mkdir -p lib/qt/plugins/imageformats
-mkdir -p lib/qt/plugins/platforms
-mkdir -p lib/qt/plugins/printsupport
-mkdir -p lib/qt/plugins/styles
-mkdir -p lib/qt/translations
 
 for MODULE in QtCore QtConcurrent QtGui QtNetwork QtOpenGL QtPrintSupport QtWebKit QtWebKitWidgets QtWebSockets QtWidgets QtXml
 do
@@ -56,14 +48,5 @@ done
 echo installing QtPlatformHeaders...
 mkdir -p include/qt/QtPlatformHeaders/QtPlatformHeaders
 cp /mingw64/include/QtPlatformHeaders/* include/qt/QtPlatformHeaders/QtPlatformHeaders/
-
-echo installing miscellanous libraries and tools...
-cp /mingw64/share/qt5/plugins/imageformats/qjpeg.dll lib/qt/plugins/imageformats/
-cp /mingw64/share/qt5/plugins/platforms/qwindows.dll lib/qt/plugins/platforms/
-cp /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll lib/qt/plugins/printsupport/
-cp /mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll lib/qt/plugins/styles/
-cp /mingw64/share/qt5/translations/*.qm lib/qt/translations/
-
-echo $'[Paths]\nPrefix = ..\n' >lib/qt/bin/qt.conf
 
 echo done.
