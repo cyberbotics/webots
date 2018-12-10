@@ -33,10 +33,7 @@ void WbNodeModel::cleanup() {
     delete it.next().value();
 }
 
-WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) {
-  mInfo = tokenizer->info();
-  mName = tokenizer->nextWord();
-
+WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mName(tokenizer->nextWord()) {
   tokenizer->skipToken("{");
 
   while (tokenizer->peekWord() != "}") {

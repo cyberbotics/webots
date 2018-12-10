@@ -103,9 +103,8 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     qint64 savedPos = mStream->pos();
     QString line = readLine();
     if (line.startsWith('#')) {
-      line = line.mid(1);  // remove '#'
-      if (!line.isEmpty())
-        mInfo.append(line + '\n');
+      line = line.mid(1).trimmed();  // remove '#' and whitespace at the beginning and end
+      mInfo.append(line + '\n');
     } else {
       mStream->seek(savedPos);
       mLine--;        // one extra line was read
@@ -123,7 +122,6 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, QString
     } else
       return true;
   }
-
   // get the first line
   QStringList splittedInfo = mInfo.split('\n');
   QString header = splittedInfo[0];
