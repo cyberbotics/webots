@@ -19,13 +19,15 @@ CircleArena {
   SFString   name            "circle arena"
   SFFloat    radius          1.0
   SFString   contactMaterial "default"
-  MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
+  SFNode     floorAppearance ChequeredParquetry {}
   SFVec2f    floorTileSize   0.5 0.5
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
-  MFString   wallTextureUrl  "textures/metal.jpg"
+  SFNode     wallAppearance  BrushedAluminium {}
   SFVec2f    wallTileSize    0.5 0.5
   SFInt32    subdivision     48
+  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
 }
 ```
 
@@ -38,7 +40,7 @@ CircleArena {
 
 - `radius`: Defines the radius of the arena.
 
-- `floorTextureUrl`: Defines the texture used for the floor.
+- `floorAppearance`: Defines the appearance of the floor.
 
 - `floorTileSize`: Defines the size of the texture used for the floor.
 
@@ -46,7 +48,7 @@ CircleArena {
 
 - `wallHeight`: Defines the height of the wall.
 
-- `wallTextureUrl`: Defines the the texture used for the wall.
+- `wallAppearance`: Defines the appearance of the wall.
 
 - `wallTileSize`: Defines the size of the texture used for the wall.
 
@@ -72,9 +74,7 @@ Floor {
   SFString   contactMaterial "default"
   SFVec2f    size            10 10
   SFVec2f    tileSize        0.5 0.5
-  MFString   texture         "textures/checkered_parquetry.jpg"
-  SFInt32    subdivision     8
-  SFInt32    filtering       5
+  SFNode     appearance      ChequeredParquetry {}
 }
 ```
 
@@ -89,11 +89,7 @@ Floor {
 
 - `tileSize`: Defines the size of texture used for the floor.
 
-- `texture`: Defines the texture used for the floor.
-
-- `subdivision`: Defines the number of polygons used to represent the floor and so its resolution.
-
-- `filtering`: Defines the filtering value of the texture used for the floor.
+- `appearance`: Defines the appearance of the floor.
 
 ## RectangleArena
 
@@ -114,14 +110,15 @@ RectangleArena {
   SFString   name            "rectangle arena"
   SFString   contactMaterial "default"
   SFVec2f    floorSize       1 1
-  MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   SFVec2f    floorTileSize   0.5 0.5
+  SFNode     floorAppearance ChequeredParquetry {}
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
-  MFString   wallTextureUrl  "textures/metal.jpg"
   SFColor    wallColor       0.8 0.8 0.8
   SFVec2f    wallTileSize    0.5 0.5
-  SFInt32    subdivision     8
+  SFNode     wallAppearance  BrushedAluminium {}
+  hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
+  hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
 }
 ```
 
@@ -134,21 +131,19 @@ RectangleArena {
 
 - `floorSize`: Defines the size of the floor.
 
-- `floorTextureUrl`: Defines the texture used for the floor.
-
 - `floorTileSize`: Defines the size of the texture used for the floor.
+
+- `floorAppearance`: Defines the appearance of the floor.
 
 - `wallThickness`: Defines the thickness of the walls.
 
 - `wallHeight`: Defines the height of the walls.
 
-- `wallTextureUrl`: Defines the size of the walls.
-
 - `wallColor`: Defines the color of the walls.
 
 - `wallTileSize`: Defines the size of the texture used for the walls.
 
-- `subdivision`: Defines the number of polygons used to represent the arena boxes and so their resolution.
+- `wallAppearance`: Defines the appearance of the wall.
 
 ## UnevenTerrain
 
@@ -170,7 +165,7 @@ UnevenTerrain {
   SFVec3f    size           50 5 50
   SFInt32    xDimension     50
   SFInt32    zDimension     50
-  MFString   texture        "textures/sand.jpg"
+  SFNode     appearance     SandyGround {}
   SFVec2f    textureScale   1.0 1.0
   SFInt32    randomSeed     1
   SFBool     flatCenter     FALSE
@@ -192,7 +187,7 @@ UnevenTerrain {
 
 - `zDimension`: Defines the number of points in the grid height array in the y direction.
 
-- `texture`: Defines the textures used for the terrain.
+- `appearance`: Defines the appearance of the terrain.
 
 - `textureScale`: Defines the size of the textures used for the terrain.
 

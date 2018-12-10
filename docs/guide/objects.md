@@ -15,6 +15,7 @@
 - [Drinks](object-drinks.md)
 - [Factory](object-factory.md)
   - [Containers](object-factory.md#containers)
+  - [Conveyor Belt](object-factory.md#conveyor-belt)
   - [Pallet](object-factory.md#pallet)
   - [Pipes](object-factory.md#pipes)
   - [Tools](object-factory.md#tools)

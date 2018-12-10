@@ -5,7 +5,6 @@
 A box object implemented at the Solid-node level.
 The box has similar properties as the VRML Box node in term of axis and fields.
 The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
-The subdivision field allows to divide the faces into multiple quads (useful mainly for simple renderings).
 
 %figure
 
@@ -21,9 +20,8 @@ SolidBox {
   SFRotation rotation        0 1 0 0
   SFString   name            "box"
   SFVec3f    size            2 2 2
-  SFInt32    subdivision     8
   SFString   contactMaterial "default"
-  SFNode     appearance      Appearance { material Material { } texture ImageTexture { url [ "textures/tagged_wall.jpg" ] } }
+  SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
 }
 ```
@@ -35,9 +33,7 @@ SolidBox {
 
 ### SolidBox Field Summary
 
-- `size`: Defines the size of the box.
-
-- `subdivision`: Defines the number of polygons used to represent the box and so its resolution.
+- `size`: Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
 
 - `appearance`: Defines the appearance of the box.
 
@@ -67,7 +63,7 @@ SolidPipe {
   SFInt32    subdivision     24
   SFFloat    accuracy        0.0001
   SFString   contactMaterial "default"
-  SFNode     appearance      Appearance { material Material { } texture ImageTexture { url [ "textures/tagged_wall.jpg" ] } }
+  SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
 }
 ```
@@ -89,7 +85,7 @@ SolidPipe {
 
 - `accuracy`: Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
 
-- `appearance`: Defines the appearance of the box.
+- `appearance`: Defines the appearance of the pipe.
 
 ## SolidRoundedBox
 
@@ -113,7 +109,7 @@ SolidRoundedBox {
   SFFloat    borderRadius    0.5
   SFInt32    subdivision     24
   SFString   contactMaterial "default"
-  SFNode     appearance      Appearance { material Material { } texture ImageTexture { url [ "textures/tagged_wall.jpg" ] } }
+  SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
 }
 ```
@@ -156,7 +152,7 @@ SolidTorus {
   SFFloat    minorRadius     1
   SFInt32    subdivision     24
   SFString   contactMaterial "default"
-  SFNode     appearance      Appearance { material Material { } texture ImageTexture { url [ "textures/tagged_wall.jpg" ] } }
+  SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
 }
 ```
@@ -175,3 +171,4 @@ SolidTorus {
 - `subdivision`: Defines the number of polygons used to represent the torus and so its resolution.
 
 - `appearance`: Defines the appearance of the torus.
+

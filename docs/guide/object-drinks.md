@@ -17,7 +17,6 @@ BeerBottle {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "beer bottle"
-  MFString   textureUrl  "textures/heineken.jpg"
   SFFloat    mass        0.4
 }
 ```
@@ -45,7 +44,7 @@ Can {
   SFRotation rotation 0 1 0 0
   SFString name "can"
   SFColor color 1 1 1
-  MFString textureUrl "textures/can.jpg"
+  MFString textureUrl "textures/can_base_color.jpg"
   SFFloat mass 0.35
 }
 ```
@@ -72,7 +71,7 @@ WaterBottle {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "water bottle"
-  MFString   textureUrl  "textures/evian.jpg"
+  MFString   textureUrl  "textures/evian.png"
   SFFloat    mass        1
 }
 ```

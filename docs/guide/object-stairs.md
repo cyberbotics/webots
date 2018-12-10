@@ -20,8 +20,8 @@ StraightStairs {
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
   SFInt32    nSteps             5
-  SFNode     stepAppearance     Appearance { material Material {} texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } textureTransform TextureTransform { rotation 1.5708 } }
-  SFNode     stringerAppearance Appearance { material Material {} texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } textureTransform TextureTransform { rotation 1.5708 } }
+  SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
+  SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   MFNode     leftRail           StraightStairsRail {}
   MFNode     rightRail          StraightStairsRail {}
   SFBool     startingStairs     TRUE
@@ -38,7 +38,7 @@ StraightStairs {
 
 - `stepSize`: Defines the size of one step.
 
-- `stepRise`: Defines the height difference between tewo consecutives steps.
+- `stepRise`: Defines the height difference between two consecutives steps.
 
 - `nSteps`: Defines the number of steps.
 
@@ -76,8 +76,8 @@ StraightStairsLanding {
   SFBool     stringerRight   TRUE
   SFBool     stringerBack    FALSE
   SFVec2f    supportPoleSize 0.05 0.05
-  SFNode     appearance      Appearance { material Material {} texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } textureTransform TextureTransform { rotation 1.5708 } }
-  SFNode     floorAppearance Appearance { material Material {} texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } textureTransform TextureTransform { rotation 1.5708 } }
+  SFNode     appearance      VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
+  SFNode     floorAppearance Parquetry {}
   MFNode     rail            []
   SFString   contactMaterial "default"
 }
@@ -94,7 +94,7 @@ StraightStairsLanding {
 
 - `height`: Defines the height of the landing.
 
-- `stringerSize`: Defines the height and width stringer.
+- `stringerSize`: Defines the height and width of the stringer.
 
 - `stringerLeft`: Defines whether the left part of the stringer should be included.
 
@@ -134,7 +134,7 @@ StraightStairsRail {
   SFFloat    balusterHeight   0.8
   SFFloat    balusterRadius   0.01
   SFInt32    nBalusters       20
-  SFNode     appearance       Appearance { material Material {} texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } textureTransform TextureTransform { rotation 1.5708 } }
+  SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   SFString   contactMaterial "default"
 }
 ```

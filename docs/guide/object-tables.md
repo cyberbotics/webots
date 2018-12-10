@@ -18,7 +18,6 @@ Desk {
   SFRotation rotation    0 1 0 0
   SFString   name        "desk"
   SFColor    color       1 1 1
-  MFString   textureUrl "textures/desk.jpg"
   SFNode     physics     NULL
 }
 ```
@@ -31,8 +30,6 @@ Desk {
 ### Desk Field Summary
 
 - `color`: Defines the color of the desk.
-
-- `textureUrl`: Defines the texture used for the desk.
 
 ## RoundTable
 
@@ -51,8 +48,7 @@ RoundTable {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "round table"
-  SFColor    color       1 1 1
-  MFString   textureUrl  "textures/wood.jpg"
+  SFNode     appearance  VarnishedPine { textureTransform TextureTransform { scale 6 6 } }
   SFNode     physics     NULL
 }
 ```
@@ -64,9 +60,9 @@ RoundTable {
 
 ### RoundTable Field Summary
 
-- `color`: Defines the color of the table.
+- `name`: Defines the color of the table.
 
-- `textureUrl`: Defines the texture used for the table.
+- `appearance`: Defines the appearance of the table.
 
 ## Table
 
@@ -82,18 +78,15 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Table {
-  SFVec3f    translation         0 0 0
-  SFRotation rotation            0 1 0 0
-  SFString   name                "table"
-  SFVec3f    size                1.8 0.74 1
-  SFVec2f    feetSize            0.1 0.1
-  SFFloat    feetPadding         0
-  SFFloat    frameThickness      0.05
-  SFFloat    trayTransparency    0
-  MFString   trayTextureUrl      "textures/wood.jpg"
-  SFVec2f    trayTileSize        0.5 0.5
-  MFString   feetTextureUrl      "textures/wood.jpg"
-  SFVec2f    feetTileSize        0.5 0.5
+  SFVec3f    translation    0 0 0
+  SFRotation rotation       0 1 0 0
+  SFString   name           "table"
+  SFVec3f    size           1.8 0.74 1
+  SFVec2f    feetSize       0.1 0.1
+  SFFloat    feetPadding    0
+  SFFloat    frameThickness 0.05
+  SFNode     trayAppearance VarnishedPine { textureTransform TextureTransform { scale 10 10 } }
+  SFNode     legAppearance  VarnishedPine { textureTransform TextureTransform { scale 4 5 } }
 }
 ```
 
@@ -112,13 +105,7 @@ Table {
 
 - `frameThickness`: Defines the thickness of the frame.
 
-- `trayTransparency`: Defines the transparency of the tray.
+- `trayAppearance`: Defines the appearance of the tray.
 
-- `trayTextureUrl`: Defines the texture used for the tray.
-
-- `trayTileSize`: Defines the size of the texture used for the tray.
-
-- `feetTextureUrl`: Defines the texture used for the feet.
-
-- `feetTileSize`: Defines the size of the texture used for the feet.
+- `legAppearance`: Defines the appearance of the feet.
 
