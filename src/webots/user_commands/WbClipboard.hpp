@@ -47,7 +47,7 @@ public:
 
   // store copied node value as a string to be used when pasting
   // the isBoundingObjectNode property has to be set manually
-  void setNode(WbNode *n) override;
+  void setNode(WbNode *n, bool persistent = false) override;
   const QString &nodeExportString() const { return mNodeExportString; }
   QString computeNodeExportStringForInsertion(WbNode *parentNode, WbField *field, int fieldIndex) const;
   void replaceAllExternalDefNodesInString();
