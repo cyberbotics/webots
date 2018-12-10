@@ -104,6 +104,10 @@ namespace wren {
 
   void Viewport::removePostProcessingEffect(PostProcessingEffect *postProcessingEffect) {
     containerutils::removeElementFromVector(mPostProcessingEffects, postProcessingEffect);
+    if (mAmbientOcclusionEffect == postProcessingEffect)
+      mAmbientOcclusionEffect = NULL;
+    else if (mAntiAliasingEffect == postProcessingEffect)
+      mAntiAliasingEffect = NULL;
   }
 
   void Viewport::updateUniforms() const {
