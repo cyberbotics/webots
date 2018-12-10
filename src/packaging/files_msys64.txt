@@ -106,6 +106,7 @@
 # needed to execute the lua-gd module
 /mingw64/bin/libXpm-noX4.dll
 /mingw64/bin/libgd.dll
+/mingw64/bin/libzstd.dll
 
 # needed to execute 32 bit controller programs
 /mingw32/bin/libjpeg-8.dll
