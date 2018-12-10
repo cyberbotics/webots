@@ -60,13 +60,8 @@ const QString &WbStandardPaths::webotsLibPath() {
 }
 
 #ifdef _WIN32
-const QString &WbStandardPaths::webotsUsrBinPath() {
-  static QString path = webotsHomePath() + "msys64/usr/bin/";
-  return path;
-}
-
-const QString &WbStandardPaths::webotsMinGWBinPath() {
-  static QString path = webotsHomePath() + "msys64/mingw64/bin/";
+const QString &WbStandardPaths::webotsMsys64Path() {
+  static QString path = webotsHomePath() + "msys64/";
   return path;
 }
 #endif

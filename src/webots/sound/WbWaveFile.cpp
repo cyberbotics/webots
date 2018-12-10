@@ -214,7 +214,8 @@ void WbWaveFile::loadFromFile(int side) {
   static QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
   static QString percentageChar = "%";
 #else  // _WIN32
-  static QString ffmpeg = QDir::toNativeSeparators(QString("\"%1ffmpeg.exe\"").arg(WbStandardPaths::webotsMinGWBinPath()));
+  static QString ffmpeg =
+    QDir::toNativeSeparators(QString("\"%1mingw64/bin/ffmpeg.exe\"").arg(WbStandardPaths::webotsMsys64Path()));
   static QString percentageChar = "%%";
 #endif
 

@@ -23,8 +23,7 @@ namespace WbStandardPaths {
   const QString &webotsHomePath();  // e.g. /usr/local/webots/
   const QString &webotsLibPath();   // e.g. /usr/local/webots/lib/
 #ifdef _WIN32
-  const QString &webotsUsrBinPath();    // e.g. C:/Program Files/Webots/msys64/usr/bin/
-  const QString &webotsMinGWBinPath();  // e.g. C:/Program Files/Webots/msys64/mingw64/bin/
+  const QString &webotsMsys64Path();  // e.g. C:/Program Files/Webots/msys64/
 #endif
   const QString &localDocPath();                      // e.g. /usr/local/webots/docs/
   const QString &projectsPath();                      // e.g. /usr/local/webots/projects/

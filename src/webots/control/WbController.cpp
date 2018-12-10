@@ -357,8 +357,8 @@ void WbController::setProcessEnvironment() {
   // Note: on windows, this is the default behavior
   addPathEnvironmentVariable(env, ldEnvironmentVariable, mControllerPath, false, true);
 #else
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsUsrBinPath(), false, true);
-  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMinGWBinPath(), false, true);
+  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "usr/bin", false, true);
+  addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::webotsMsys64Path() + "mingw64/bin", false, true);
 #endif
 
   if (QFile::exists(mControllerPath + "runtime.ini")) {
