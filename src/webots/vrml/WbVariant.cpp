@@ -223,7 +223,7 @@ void WbVariant::setNode(WbNode *n, bool persistent) {
   clear();
   if (persistent) {
     // If persistent is true, the variant owns its own clone of the node.
-    // This is usefull in case of enumration for the proto model.
+    // This is usefull in case of enumeration for the field model.
     mNode = n ? n->cloneAndReferenceProtoInstance() : NULL;
     if (mNode)
       mOwnsNode = true;
