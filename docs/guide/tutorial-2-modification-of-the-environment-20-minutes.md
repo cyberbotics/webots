@@ -97,7 +97,7 @@ As Geometry nodes we will use [Spheres](../reference/sphere.md).
 Similarly select the `children` field of the [Solid](../reference/solid.md) node, and add a [Shape](../reference/shape.md) node to it.
 In order to get a shaded object as shown in the figure, it is necessary to specify an appearance.
 To do this, select the `appearance` field of the [Shape](../reference/shape.md) node and use the `Add` button.
-Add a `PBRAppearance` node and change the `metalness` field to 0.
+Add a `PBRAppearance` node, change the `metalness` field to 0 and the `roughness` field to 1.
 Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly created [Shape](../reference/shape.md) node.
 Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
 Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
