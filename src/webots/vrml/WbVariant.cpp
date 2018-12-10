@@ -132,7 +132,7 @@ void WbVariant::clear() {
       break;
     case WB_SF_NODE:
       if (mNode && mOwnsNode) {
-        delete mNode;
+        // delete mNode;
         mNode = NULL;
         mOwnsNode = false;
       }
@@ -226,7 +226,7 @@ void WbVariant::setNode(WbNode *n, bool persistent) {
     // This is usefull in case of enumration for the proto model.
     mNode = n ? n->cloneAndReferenceProtoInstance() : NULL;
     if (mNode)
-      mOwnsNode = false;
+      mOwnsNode = true;
   } else {
     mNode = n;
     if (n)
