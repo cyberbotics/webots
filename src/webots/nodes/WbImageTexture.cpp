@@ -118,9 +118,9 @@ void WbImageTexture::updateWrenTexture() {
     const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
     const int minResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
     if (divider != 1) {
-      if (width > minResolution)
+      if (width >= minResolution)
         width /= divider;
-      if (height > minResolution)
+      if (height >= minResolution)
         height /= divider;
     }
 
