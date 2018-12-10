@@ -106,7 +106,7 @@ namespace wren {
     containerutils::removeElementFromVector(mPostProcessingEffects, postProcessingEffect);
     if (mAmbientOcclusionEffect == postProcessingEffect)
       mAmbientOcclusionEffect = NULL;
-    if (mAntiAliasingEffect == postProcessingEffect)
+    else if (mAntiAliasingEffect == postProcessingEffect)
       mAntiAliasingEffect = NULL;
   }
 
