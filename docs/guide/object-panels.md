@@ -21,8 +21,8 @@ Panel {
   SFFloat    borderHeight     0.05
   SFFloat    internalWidth    0.02
   SFInt32    panelsCount      2
-  SFNode     appearance       Appearance { material Material { } texture ImageTexture { url [ "textures/desktop_wood.jpg" ] } }
-  SFNode     borderAppearance Appearance { material Material { } texture ImageTexture { url [ "textures/metal.jpg" ] } }
+  SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 5 5 } }
+  SFNode     borderAppearance BrushedAluminium {}
 }
 ```
 
@@ -43,7 +43,7 @@ Panel {
 
 - `appearance`: Defines the appearance of the panel body.
 
-- `borderAppearance`: Defines the appearance of the panel norder.
+- `borderAppearance`: Defines the appearance of the panel border(s).
 
 ## PannelWithTubes
 
@@ -59,10 +59,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PannelWithTubes {
-  SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
-  SFString   name                 "panel with tubes"
-  SFNode     appearance           Appearance { material Material { } }
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "panel with tubes"
+  SFNode     appearance  BrushedAluminium { textureTransform TextureTransform { scale 3 3 } }
 }
 ```
 

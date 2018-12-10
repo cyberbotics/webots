@@ -18,8 +18,8 @@ CautionPanel {
   SFRotation rotation           0 1 0 0
   SFString   name               "caution panel"
   MFString   signImage          "textures/signs/us/traffic_signals_ahead.jpg"
-  SFColor    color              0.576471 0.576471 0.576471
-  MFColor    recognitionColors  [ 1 0.82 0.2, 0.58 0.58 0.58 ]
+  SFColor    color              0.8 0.8 0.8
+  MFColor    recognitionColors  [ 1 0.82 0.2, 0.8 0.8 0.8 ]
 }
 ```
 
@@ -91,11 +91,12 @@ ControlledStreetLight {
   SFRotation rotation     0 1 0 0
   SFString   name         "street light"
   SFString   controller   "defective_street_light"
+  SFBool     supervisor   FALSE
   SFFloat    beamWidth    1.1
   MFColor    color        [ 1 0.9 0.8 ]
-  SFFloat    cutOffAngle  1.57
+  SFFloat    cutOffAngle  1.4
   SFVec3f    direction    0 -1 -0.1
-  SFFloat    radius       50
+  SFFloat    radius       1000
   SFBool     castShadows  FALSE
 }
 ```
@@ -139,6 +140,7 @@ CrossRoadsTrafficLight {
   SFRotation rotation    0 1 0 0
   SFString   name        "cross road traffic light"
   SFString   controller  "crossroads_traffic_lights"
+  SFBool     supervisor  FALSE
   SFVec2f    size        20.8 20.8
 }
 ```
@@ -285,8 +287,8 @@ ExitPanel {
   SFRotation rotation           0 1 0 0
   SFString   name               "exit panel"
   MFString   signImage          "textures/signs/exit.jpg"
-  SFColor    color              0.576471 0.576471 0.576471
-  MFColor    recognitionColors  [ 0 0.4 0.3, 0.58 0.58 0.58 ]
+  SFColor    color              0.8 0.8 0.8
+  MFColor    recognitionColors  [ 0 0.4 0.3, 0.8 0.8 0.8 ]
 }
 ```
 
@@ -394,20 +396,20 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HighwayPole {
-  SFVec3f     translation           0 0 0
-  SFRotation  rotation              0 1 0 0
-  SFString    name                  "highway pole"
-  SFString    type                  "cylinder"
-  SFInt32     stand                 1
-  SFFloat     height                6
-  SFFloat     length                8
-  SFFloat     thickness             0.2
-  SFColor     color                 0.258824 0.258824 0.258824
-  SFFloat     curveRadius           0.4
-  MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
-  MFNode      leftHorizontalSigns   [ ]
-  MFNode      leftVerticalSigns     [ ]
+  SFVec3f       translation           0 0 0
+  SFRotation    rotation              0 1 0 0
+  SFString      name                  "highway pole"
+  SFString      type                  "cylinder"
+  SFInt32       stand                 1
+  SFFloat       height                6
+  SFFloat       length                8
+  SFFloat       thickness             0.2
+  SFColor       color                 0.258824 0.258824 0.258824
+  SFFloat       curveRadius           0.4
+  MFNode        rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
+  MFNode        rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode        leftHorizontalSigns   [ ]
+  MFNode        leftVerticalSigns     [ ]
 }
 ```
 
@@ -417,6 +419,8 @@ HighwayPole {
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### HighwayPole Field Summary
+
+- `type`: Defines the shape of the pole.
 
 - `stand`: Defines the number of stands.
 
@@ -499,8 +503,8 @@ OrderPanel {
   SFRotation rotation           0 1 0 0
   SFString   name               "order panel"
   MFString   signImage          "textures/signs/do_not_enter.jpg"
-  SFColor    color              0.576471 0.576471 0.576471
-  MFColor    recognitionColors  [ 0.75 0.17 0.22, 0.58 0.58 0.58 ]
+  SFColor    color              0.8 0.8 0.8
+  MFColor    recognitionColors  [ 0.75 0.17 0.22, 0.8 0.8 0.8 ]
 }
 ```
 
@@ -701,9 +705,9 @@ RectangularPanel {
   SFRotation  rotation           0 1 0 0
   SFString    name               "rectangular panel"
   MFString    signImage          "textures/signs/eu/dead_end.jpg"
-  SFColor     color              0.576471 0.576471 0.576471
+  SFColor     color              0.8 0.8 0.8
   SFVec2f     size               0.5 0.5
-  MFColor     recognitionColors  [ 0 0.5 0.76, 0.58 0.58 0.58 ]
+  MFColor     recognitionColors  [ 0 0.5 0.76, 0.8 0.8 0.8 ]
 }
 ```
 
@@ -755,7 +759,7 @@ SignPole {
 
 - `radius`: Defines the radius of the sign.
 
-- `color`: Defines the color of the sign.
+- `color`: Defines the color of the pole.
 
 - `signBoards`: Defines the boards.
 
@@ -777,8 +781,8 @@ SpeedLimitPanel {
   SFRotation  rotation           0 1 0 0
   SFString    name               "speed limit panel"
   MFString    signImage          "textures/signs/us/speed_limit_45.jpg"
-  SFColor     color              0.576471 0.576471 0.576471
-  MFColor     recognitionColors  [ 1 1 1, 0.58 0.58 0.58 ]
+  SFColor     color              0.8 0.8 0.8
+  MFColor     recognitionColors  [ 1 1 1, 0.8 0.8 0.8 ]
 }
 ```
 
@@ -923,13 +927,13 @@ StreetLight {
   SFVec3f    translation   0 0 0
   SFRotation rotation      0 1 0 0
   SFString   name          "street light"
-  SFVec3f    attenuation   1 0 0
+  SFVec3f    attenuation   0 1 0
   SFFloat    beamWidth     1.1
-  SFColor    color         1 0.9 0.8
-  SFFloat    cutOffAngle   1.57
+  SFColor    color         1 1 1
+  SFFloat    cutOffAngle   1.4
   SFVec3f    direction     0 -1 -0.1
   SFBool     on            TRUE
-  SFFloat    radius        50
+  SFFloat    radius        1000
   SFBool     castShadows   FALSE
 }
 ```
@@ -1195,9 +1199,9 @@ YieldPanel {
   SFRotation  rotation           0 1 0 0
   SFString    name               "yield panel"
   MFString    signImage          "textures/signs/us/yield.jpg"
-  SFColor     color              0.576471 0.576471 0.576471
+  SFColor     color              0.8 0.8 0.8
   SFFloat     textureRotation    0
-  MFColor     recognitionColors  [ 0.7 0.12 0.18, 0.58 0.58 0.58 ]
+  MFColor     recognitionColors  [ 0.7 0.12 0.18, 0.8 0.8 0.8 ]
 }
 ```
 

@@ -42,8 +42,8 @@ Bench {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 1 0 0
   SFString   name                 "bench"
-  SFColor    metalColor           0.17 0.17 0.17
-  SFColor    woodColor            0.25 0.17 0.12
+  SFColor    metalColor           1 1 1
+  SFColor    woodColor            0.5 0.5 0.5
   MFColor    recognitionColors    [0.25 0.17 0.12, 0.17 0.17 0.17]
 }
 ```
@@ -79,7 +79,7 @@ BusStop {
   SFRotation  rotation                    0 1 0 0
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
-  SFNode      appearance                  Appearance { material Material { diffuseColor 0.3 0.45 0.33 } }
+  SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
   MFString    internalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
   MFString    externalAdvertisingTexture  ["textures/cocacola_advertising.jpg"]
   SFBool      advertisingLightOn          TRUE
@@ -229,17 +229,20 @@ Fence {
   SFVec3f      translation             0 0 0
   SFRotation   rotation                0 1 0 0
   SFString     name                    "fence"
+  SFString     model                   "fence"
+  MFColor      recognitionColors       [0.8 0.8 0.8]
   SFFloat      height                  1.5
   SFFloat      poleGap                 0.5
   SFFloat      poleRadius              0.04
   SFString     poleShape               "cylinder"
-  SFNode       poleAppearance          Appearance { material Material {} }
+  SFNode       poleAppearance          PBRAppearance {}
   MFVec3f      path                    [0 0 0, 5 0 0]
   SFInt32      subdivision             -1
   SFInt32      horizontalBarsNumber    2
   MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]
-  SFNode       horizontalBarAppearance Appearance { material Material {} }
+  SFNode       horizontalBarAppearance PBRAppearance {}
   SFNode       boundingObject          NULL
+  SFFloat      creaseAngle             0.3
 }
 ```
 
@@ -270,7 +273,7 @@ Fence {
 
 - `horizontalBarAppearance`: Defines the appearance of the horizontal bars.
 
-- `appearance`: For backward compatibility warning.
+- `creaseAngle`: Defines the creaseAngle of the horizontal bar.
 
 ## FireHydrant
 
@@ -289,7 +292,7 @@ FireHydrant {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "fire hydrant"
-  SFNode     appearance  Appearance { material Material { diffuseColor 0.643 0 0 specularColor 0.473 0.027 0.027} }
+  SFNode     appearance  PBRAppearance { baseColor 0.643 0 0 metalness 0 roughness 0.4 }
 }
 ```
 
@@ -321,7 +324,7 @@ Fountain {
   SFString    name                   "fountain"
   SFFloat     height                 1.5
   SFFloat     radius                 1
-  SFInt32     sudivision             16
+  SFInt32     subdivision            16
 }
 ```
 
@@ -336,7 +339,7 @@ Fountain {
 
 - `radius`: Defines the radius of the fountain.
 
-- `sudivision`: Defines subdivision of the fountain cylinders.
+- `subdivision`: Defines subdivision of the fountain cylinders.
 
 ## GlassRecyclingContainer
 

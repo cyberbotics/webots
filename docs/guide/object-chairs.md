@@ -18,7 +18,6 @@ Chair {
   SFRotation rotation    0 1 0 0
   SFString   name        "chair"
   SFColor    color       1 1 1
-  MFString   textureUrl "textures/chair.jpg"
   SFNode     physics     NULL
 }
 ```
@@ -31,8 +30,6 @@ Chair {
 ### Chair Field Summary
 
 - `color`: Define the color of the chair.
-
-- `textureUrl`: Defines the texture used for the chair.
 
 - `physics`: Define the physcis of the chair.
 
@@ -91,18 +88,18 @@ WoodenChair {
   SFRotation rotation    0 1 0 0
   SFString   name        "wooden chair"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/wood.jpg"
   SFNode     physics     NULL
 }
 ```
 
 > **File location**: "WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto"
 
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
 ### WoodenChair Field Summary
 
 - `color`: Defines the color of the chair.
-
-- `textureUrl`: Defines the texture used for the chair.
 
 - `physics`: Defines the physics of the chair.
 
