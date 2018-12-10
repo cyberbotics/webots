@@ -88,6 +88,7 @@ protected slots:
 
 private:
   int mType;
+  bool mOwnsNode;
   union {
     bool mBool;
     int mInt;

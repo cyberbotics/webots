@@ -23,10 +23,10 @@
 #include <QtCore/QString>
 #include "../../../include/controller/c/webots/supervisor.h"
 
-WbVariant::WbVariant() : mType(-1) {
+WbVariant::WbVariant() : mType(-1), mOwnsNode(false) {
 }
 
-WbVariant::WbVariant(const WbVariant &other) : mType(-1) {
+WbVariant::WbVariant(const WbVariant &other) : mType(-1), mOwnsNode(false) {
   setValue(other);
 }
 
@@ -131,10 +131,11 @@ void WbVariant::clear() {
       delete mRotation;
       break;
     case WB_SF_NODE:
-      /*if (mNode) {
+      if (mNode && mOwnsNode) {
         delete mNode;
         mNode = NULL;
-      }*/
+        mOwnsNode = false;
+      }
       break;
   }
 
@@ -220,9 +221,11 @@ void WbVariant::setRotation(const WbRotation &r) {
 
 void WbVariant::setNode(WbNode *n, bool persistent) {
   clear();
-  if (persistent)
+  if (persistent) {
     mNode = n ? n->cloneAndReferenceProtoInstance() : NULL;
-  else {
+    if (mNode)
+      mOwnsNode = false;
+  } else {
     mNode = n;
     if (n)
       connect(n, &QObject::destroyed, this, &WbVariant::clearNode);
