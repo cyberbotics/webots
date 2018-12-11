@@ -1,0 +1,139 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-puck
+# Velodyne Puck sensor model based on the Lidar PROTO.
+# This model can simulate the following versions:
+#  - 'Puck'
+#  - 'Puck LITE'
+#  - 'Puck Hi-Res'
+
+PROTO VelodynePuck [
+  field   SFVec3f    translation    0 0 0
+  field   SFRotation rotation       0 1 0 0
+  field   SFString   name           "Velodyne Puck"
+  field   SFString{"Puck", "Puck LITE", "Puck Hi-Res"}
+                     version        "Puck"              # Defines the version of the velodyne puck.
+  field   SFBool     enablePhysics  TRUE                # Defines whether the sensor should have physics.
+]
+{
+  Lidar {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BOTTOM Transform {
+        translation 0 -0.0286 0
+        children [
+          Shape {
+            appearance DEF COLOR PBRAppearance {
+              baseColor 0.6 0.6 0.6
+              roughness 0.5
+            }
+            geometry Cylinder {
+              height 0.0188
+              radius 0.05165
+              subdivision 24
+            }
+          }
+        ]
+      }
+      DEF LOGO Transform {
+        translation 0 -0.0286 0
+        rotation 0 1 0 3.14159
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.6
+              baseColorMap ImageTexture {
+                url [
+                  "textures/velodyne.png"
+                ]
+                repeatS FALSE
+                repeatT FALSE
+              }
+              textureTransform TextureTransform {
+                scale 4 1.5
+                translation -0.38 -0.09
+              }
+            }
+            geometry Cylinder {
+              bottom FALSE
+              top FALSE
+              height 0.0188
+              radius 0.052
+              subdivision 24
+            }
+          }
+        ]
+      }
+      DEF GLASS Transform {
+        translation 0 0.0004 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.0470588 0.0470588 0.0470588
+              metalness 0
+              roughness 0.1
+            }
+            geometry Cylinder {
+              height 0.0392
+              radius 0.05165
+              subdivision 24
+            }
+          }
+        ]
+      }
+      DEF TOP Transform {
+        translation 0 0.0274 0
+        children [
+          Shape {
+            appearance USE COLOR
+            geometry Cylinder {
+              height 0.0147
+              radius 0.05165
+              subdivision 24
+            }
+          }
+        ]
+      }
+    ]
+    name IS name
+    model "Velodyne Puck"
+    boundingObject Transform {
+      translation 0 -0.00165 0
+      children [
+        Cylinder {
+          height 0.0727
+          radius 0.052
+        }
+      ]
+    }
+    %{ if fields.enablePhysics.value then }%
+    physics Physics {
+      density -1
+      %{ if fields.version.value == "Puck LITE" then }%
+        mass 0.590
+      %{ else }%
+        mass 0.830
+      %{ end }%
+    }
+    %{ end }%
+    horizontalResolution 3600
+    fieldOfView 6.28318
+    %{ if fields.version.value == "Puck Hi-Res" then }%
+      verticalFieldOfView 0.3491 # 20deg
+    %{ else }%
+      verticalFieldOfView 0.5236 # 30deg
+    %{ end }%
+    numberOfLayers 16
+    minRange 1
+    maxRange 100
+    spherical TRUE
+    type "fixed"
+    noise 0.003 # 0.03 / 100
+    defaultFrequency 5
+    minFrequency 5
+    maxFrequency 20
+  }
+}
