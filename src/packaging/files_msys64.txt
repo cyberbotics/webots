@@ -113,6 +113,11 @@
 /mingw64/bin/libgd.dll
 /mingw64/bin/libzstd.dll
 
+# needed run the darwin-op remote control library
+/mingw64/bin/Qt5Concurrent.dll
+/mingw64/bin/libssh.dll
+/mingw64/bin/libzip.dll
+
 # needed to execute 32 bit controller programs
 /mingw32/bin/libjpeg-8.dll
 /mingw32/bin/liblzma-5.dll
@@ -123,6 +128,9 @@
 /mingw64/include/jpeglib.h
 /mingw64/include/jconfig.h
 /mingw64/include/jmorecfg.h
+/mingw64/include/zip.h
+/mingw64/include/zipconf.h
+/mingw64/include/libssh/*.*
 
 # needed to recompile the Qt-based robot windows (darwin-op or automobile)
 /mingw64/bin/moc.exe
