@@ -143,7 +143,7 @@ We will now merge these two [Spheres](../reference/sphere.md) into only once usi
 > **Hands on**: Select the first [Sphere](../reference/sphere.md) node (the child of the [Shape](../reference/shape.md)) in the scene tree view.
 The field editor of the scene tree view allows you to enter the DEF string.
 Enter *"BALL\_GEOMETRY"*.
-Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Reset to default` entry in the context menu that pops up.
+Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Delete` entry in the context menu that pops up.
 Then, click on the `Add` button, and select the `USE / BALL_GEOMETRY` in the dialog box.
 The result is shown in [this figure](#def-use-mechanism-on-the-sphere-node-called-ball_geometry).
 
