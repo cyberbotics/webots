@@ -54,6 +54,12 @@ Robot {
       children [
         Shape {
           appearance PBRAppearance {
+            baseColor 0.10980392156862745 0.10980392156862745 0.10980392156862745
+            baseColorMap ImageTexture {
+              url [
+                ""
+              ]
+            }
             roughness 1
             metalness 0
           }
@@ -467,7 +473,7 @@ DEF OBSTACLE_40 Solid {
 }
 DEF PIONEER_3AT Pioneer3at {
   translation -0.109484 0.104364 2.44983
-  rotation 1.83729e-08 1 1.9336e-08 1.51441
+  rotation 1.83729e-8 1 1.9336e-8 1.51441
   controller "sick_terrain_scanning"
   extensionSlot [
     DEF SICK SickLms291 {
