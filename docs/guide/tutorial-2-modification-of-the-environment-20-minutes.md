@@ -23,7 +23,7 @@ This means we can add a skybox around the world, and ambiently light our scene u
 This technique is known as Image-Based Lighting or IBL for short.
 Carefully combining Webots lights and skybox textures, it is possible to very realistically light objects.
 
-> **Hands on**: Delete the `Background` and `DirectionalLight` nodes, and using the Add button, add a `TexturedBackground` and a `TexturedBackgroundLight` to the scene. This loads a mountainous skybox and a matching `DirectionalLight` to the scene, realistically lighting it.
+> **Hands on**: Delete the `Background` and `DirectionalLight` nodes, and using the Add button, add a `TexturedBackground` and a `TexturedBackgroundLight` node to the scene. This loads a mountainous skybox and a matching `DirectionalLight` to the scene, realistically lighting it.
 
 ### Modifying the Floor
 
