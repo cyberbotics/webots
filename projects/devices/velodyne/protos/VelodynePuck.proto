@@ -27,8 +27,7 @@ PROTO VelodynePuck [
           Shape {
             appearance DEF COLOR PBRAppearance {
               baseColor 0.6 0.6 0.6
-              roughness 0.3
-              metalness 0
+              roughness 0.5
             }
             geometry Cylinder {
               height 0.0188
