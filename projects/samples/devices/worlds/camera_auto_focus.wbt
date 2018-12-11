@@ -25,6 +25,9 @@ RectangleArena {
     }
     roughness 1
     metalness 0
+    textureTransform TextureTransform {
+      scale 6 7
+    }
   }
 }
 Robot {
@@ -165,7 +168,7 @@ Robot {
       width 400
       height 300
       focus Focus {
-        focalDistance 0.5
+        focalDistance 0.516532689268457
         focalLength 0.25
         maxFocalDistance 1
         minFocalDistance 0.1
