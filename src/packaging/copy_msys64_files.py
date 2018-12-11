@@ -36,10 +36,11 @@ for item in d:
         seen.add(item)
         dependencies.append(item)
 
-folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/lib', '/mingw64/share',
-           '/mingw64/share/qt5', 'mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
-           'mingw64/share/qt5/plugins/imageformats', 'mingw64/share/qt5/plugins/platforms',
-           'mingw64/share/qt5/plugins/printsupport', 'mingw64/share/qt5/plugins/styles']
+folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
+           '/mingw64/include/libssh', '/mingw64/lib', '/mingw64/share',
+           '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
+           '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
+           '/mingw64/share/qt5/plugins/printsupport', '/mingw64/share/qt5/plugins/styles']
 files = []
 skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll']
 for p in dependencies:
