@@ -35,7 +35,7 @@ The small `Solids` are affected by the fluids' viscosity and by forces generated
 
 **Keywords**: Box, Capsule, Cone, Cylinder, ElevationGrid, IndexedLineSet, IndexedFaceSet, Plane, Sphere
 
-![geometric_primitives.png](images/geometric_primitives.png) This example demonstrates the geometric primitives natively supported in Webots.
+![geometric_primitives.png](images/samples/geometric_primitives.png) This example demonstrates the geometric primitives natively supported in Webots.
 The primitives are inserted into [Transform](../reference/transform.md) and [Shape](../reference/shape.md) nodes.
 Therefore they are static, i.e. physics is not applied on them.
 
@@ -72,7 +72,7 @@ Three identical sets of primitives composed of [Box](../reference/box.md), a `Ca
 
 **Keywords**: IndexedFaceSet, polygon tesselation
 
-![polygons.png](images/polygons.png) This example shows the polygon tesselation feature.
+![polygons.png](images/samples/polygons.png) This example shows the polygon tesselation feature.
 Four polygons are displayed: a simple triangle, a quad, a convex polygon (hexagon), and a non-convex polygon.
 Each polygon is modeled as a list of vertices.
 Webots applies a tesselation algorithm on this list, and creates the minimum number of OpenGL triangles.
