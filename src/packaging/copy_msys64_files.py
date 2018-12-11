@@ -37,6 +37,7 @@ for item in d:
         dependencies.append(item)
 
 folders = ['/tmp', '/mingw32', '/mingw32/bin', '/mingw32/lib', '/mingw64', '/mingw64/bin', '/mingw64/include',
+           '/mingw64/bin/platforms/',  # hack to get qwindows.dll found by Webots
            '/mingw64/include/libssh', '/mingw64/lib', '/mingw64/share',
            '/mingw64/share/qt5', '/mingw64/share/qt5/plugins', '/mingw64/share/qt5/translations',
            '/mingw64/share/qt5/plugins/imageformats', '/mingw64/share/qt5/plugins/platforms',
@@ -80,4 +81,7 @@ f = open('msys64_files.iss', 'w')
 for i in files:
     w = i.replace('/', '\\')
     f.write('Source: "' + root + w + '"; DestDir: "{app}\\msys64' + os.path.dirname(w) + '"\n')
+# This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
+f.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
+        '"{app}\\msys64\\mingw64\\bin\\platforms\\qwindows.dll"\n')
 f.close()
