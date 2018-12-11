@@ -44,6 +44,8 @@ This option enables a much higher level of realism in the scene, but at a non-ne
 To mitigate this, it is set to "medium" quality by default.
 Ultra quality gives the best results, but is the most performance-heavy.
 
+- The **Texture Quality** option allows you to reduce the resolution of all textures in the scene in order to conserve GPU memory. If set to `high` the maximum available (i.e. original) resolution will be used. If set to `medium`, the resolution of images bigger or equal to 1024 is divided by 2 (width and height taken into account independently). If set to `low`, the resolution of images bigger or equal to 512 is divided by 4.
+
 - The **Disable shadows** option allows you to disable completely the shadows in the 3D view and in the [Camera](../reference/camera.md) rendering, whatever the values of the *Light.castShadows* fields.
 
 Globally speaking, performance can be improved by disabling this feature, but on the other hand the rendering is more difficult to understand, and less pretty.
