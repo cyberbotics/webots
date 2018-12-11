@@ -17,8 +17,6 @@ Apple {
   SFVec3f    translation         0 0.05 0
   SFRotation rotation            0 1 0 0
   SFString   name                "apple"
-  SFColor    color               1 1 1
-  MFString   textureUrl          "textures/apple.jpg"
   SFFloat    mass                0.15
   MFNode     immersionProperties []
 }
@@ -30,10 +28,6 @@ Apple {
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### Apple Field Summary
-
-- `color`: Define the color of the apple.
-
-- `textureUrl`: Defines the texture used for the apple.
 
 - `mass`: Defines the mass of the apple in kg.
 
@@ -55,7 +49,6 @@ FruitBowl {
   SFRotation rotation    0 1 0 0
   SFString   name        "fruit bowl"
   SFColor    color       1 1 1
-  MFString   textureUrl "textures/plastic.jpg"
   SFFloat    mass        0.5
 }
 ```
@@ -68,8 +61,6 @@ FruitBowl {
 ### FruitBowl Field Summary
 
 - `color`: Defines the color of the bowl.
-
-- `textureUrl`: Defines the texture used for the bowl.
 
 - `mass`: Defines the mass of the bowl in kg.
 
@@ -90,8 +81,6 @@ Orange {
   SFVec3f    translation 0 0.05 0
   SFRotation rotation    0 1 0 0
   SFString   name        "orange"
-  SFColor    color       1 1 1
-  MFString   textureUrl  "textures/orange.jpg"
   SFFloat    mass        0.15
 }
 ```
@@ -102,10 +91,6 @@ Orange {
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### Orange Field Summary
-
-- `color`: Defines the color of the orange.
-
-- `textureUrl`: Defines the texture used fo rteh orange.
 
 - `mass`: Defines the mass of the orange in kg.
 

@@ -261,9 +261,6 @@ Fridge {
   SFRotation rotation       0 1 0 0
   SFString   name           "fridge"
   SFColor    mainColor      1 1 1
-  MFString   mainTextureUrl ["textures/fridge_main.jpg"]
-  SFColor    doorColor      1 1 1
-  MFString   doorTextureUrl ["textures/fridge_door.jpg"]
 }
 ```
 
@@ -275,12 +272,6 @@ Fridge {
 #### Fridge Field Summary
 
 - `mainColor`: Defines the color of the fridge.
-
-- `mainTextureUrl`: Defines the texture used for the fridge.
-
-- `doorColor`: Defines the color of the door of the fridge.
-
-- `doorTextureUrl`: Defines the texture used for the door of the fridge.
 
 ## Oven
 
@@ -302,9 +293,6 @@ Oven {
   SFRotation rotation       0 1 0 0
   SFString   name           "oven"
   SFColor    mainColor      1 1 1
-  MFString   mainTextureUrl ["textures/oven.jpg"]
-  SFColor    doorColor      1 1 1
-  MFString   doorTextureUrl ["textures/oven.jpg"]
 }
 ```
 
@@ -316,12 +304,6 @@ Oven {
 #### Oven Field Summary
 
 - `mainColor`: Defines the color of the oven.
-
-- `mainTextureUrl`: Defines the texture used for the oven.
-
-- `doorColor`: Defines the color of the door of the oven.
-
-- `doorTextureUrl`: Defines the texture used for the door of the oven.
 
 ## Utensils
 
@@ -405,7 +387,7 @@ Fork {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "fork"
-  SFColor    color       0.55 0.55 0.55
+  SFColor    color       0.75 0.75 0.75
 }
 ```
 
@@ -465,7 +447,7 @@ Knife {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "knife"
-  SFColor    color       0.55 0.55 0.55
+  SFColor    color       0.75 0.75 0.75
 }
 ```
 
@@ -567,7 +549,7 @@ Spoon {
   SFVec3f     translation 0 0 0
   SFRotation  rotation    0 1 0 0
   SFString    name        "spoon"
-  SFColor     color       0.55 0.55 0.55
+  SFColor     color       0.75 0.75 0.75
   SFString    type        "table"
 }
 ```

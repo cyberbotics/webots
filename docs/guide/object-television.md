@@ -22,6 +22,7 @@ Television {
   SFInt32    displayWidth  128
   SFInt32    displayHeight 64
   SFString   controller    "television_switch_on"
+  SFBool     supervisor     FALSE
 }
 ```
 

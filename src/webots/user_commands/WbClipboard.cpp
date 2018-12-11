@@ -134,11 +134,11 @@ void WbClipboard::setRotation(const WbRotation &r) {
   mSystemClipboard->blockSignals(false);
 }
 
-void WbClipboard::setNode(WbNode *n) {
+void WbClipboard::setNode(WbNode *n, bool persistent) {
   if (!n)
     return;
 
-  WbVariant::setNode(NULL);
+  WbVariant::setNode(NULL, persistent);
   assert(!mNodeInfo);
   mNodeInfo = new WbClipboardNodeInfo();
   mNodeInfo->modelName = n->modelName();

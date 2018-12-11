@@ -17,11 +17,7 @@ BunchOfSunFlowers {
   SFVec3f    translation            0 0 0
   SFRotation rotation               0 1 0 0
   SFString   name                   "bunch of sunflowers"
-  SFColor    potAndSteamsColor      1 1 1
-  MFString   potAndSteamsTextureUrl "textures/bunch_of_sun_flowers_pot_and_steams.jpg"
-  SFColor    flowerColor            1 1 1
   MFString   flowerTextureUrl       "textures/bunch_of_sun_flowers_flower.png"
-  SFColor    leavesColor            1 1 1
   MFString   leavesTextureUrl       "textures/bunch_of_sun_flowers_leaves.png"
   SFNode     physics                NULL
 }
@@ -34,15 +30,7 @@ BunchOfSunFlowers {
 
 ### BunchOfSunFlowers Field Summary
 
-- `potAndSteamsColor`: Defines the color of the pot and the steams.
-
-- `potAndSteamsTextureUrl`: Defines the textures used for the pot and the steams.
-
-- `flowerColor`: Defines the color of the flowers.
-
 - `flowerTextureUrl`: Defines the textures used for the flowers.
-
-- `leavesColor`: Defines the color of the leaves.
 
 - `leavesTextureUrl`: Defines the textures used for the leaves.
 

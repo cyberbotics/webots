@@ -36,6 +36,33 @@ CardboardBox {
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
 
+### PlasticCrate
+
+A plastic crate.
+
+%figure
+
+![PlasticCrate](images/objects/containers/PlasticCrate/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+PlasticCrate {
+  SFVec3f    translation 0 0 0
+  SFRotation rotation    0 1 0 0
+  SFString   name        "plastic crate"
+  SFVec3f    size        0.6 0.6 0.6
+  SFFloat    mass        0
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/containers/protos/PlasticCrate.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
 ### WoodenBox
 
 A wooden box.
@@ -71,7 +98,9 @@ WoodenBox {
 
 - `mass`: Defines the mass of the wooden box in kg. A value smaller or equal to 0 remove the physics of the wooden box.
 
-## ConveyorBelt
+## Conveyor Belt
+
+### ConveyorBelt
 
 A customizable conveyor belt moving at a constant speed.
 
@@ -85,14 +114,13 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorBelt {
-  field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
-  field SFString   name            "conveyor belt"
-  field SFVec3f    size            1.5 0.6 0.5
-  field SFFloat    borderThickness 0.03
-  field SFFloat    borderHeight    0.01
-  field SFFloat    speed           0.5
-
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "conveyor belt"
+  SFVec3f    size            1.5 0.6 0.5
+  SFFloat    borderThickness 0.03
+  SFFloat    borderHeight    0.01
+  SFFloat    speed           0.5
 }
 ```
 
@@ -101,7 +129,7 @@ ConveyorBelt {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
-### ConveyorBelt Field Summary
+#### ConveyorBelt Field Summary
 
 - `borderThickness`: Defines the thickness of the metal part around the conveyor belt.
 
@@ -254,6 +282,7 @@ PipeSection {
   SFFloat    height      0.5
   SFFloat    radius      0.03
   SFInt32    subdivision 24
+  SFVec2f    materialScale 1 1.5
 }
 ```
 
@@ -269,6 +298,8 @@ PipeSection {
 - `radius`: Defines the radius of the pipe.
 
 - `subdivision`: Defines the number of polygons used to represent the pipe cylinder and so its resolution.
+
+- `materialScale`: Defines the scale of the pipe appearance.
 
 ### TJoint
 
@@ -506,6 +537,7 @@ LargeValve {
   SFString   name            "large valve"
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
+  SFBool     supervisor      FALSE
   SFString   absoluteStop    "15.7079632679"
   SFString   contactMaterial "default"
 }
@@ -574,6 +606,7 @@ SmallValve {
   SFString   name          "small valve"
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
+  SFBool     supervisor    FALSE
   SFString   absoluteStop  "15.7079632679"
 }
 ```
@@ -590,3 +623,4 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+

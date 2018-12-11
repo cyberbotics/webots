@@ -20,7 +20,7 @@ CeilingLight {
   SFColor    bulbColor                  1 1 1
   MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFFloat    pointLightAmbientIntensity 0
   SFVec3f    pointLightAttenuation      1 0 0
   SFColor    pointLightColor            1 1 1
@@ -74,7 +74,7 @@ FloorLight {
   SFColor    bulbColor                  1 1 1
   MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "textures/light_support.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFFloat    pointLightAmbientIntensity 0
   SFVec3f    pointLightAttenuation      1 0 0
   SFColor    pointLightColor            1 1 1

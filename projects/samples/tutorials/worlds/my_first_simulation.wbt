@@ -6,9 +6,15 @@ Viewpoint {
   orientation 0.964988043047881 0.2609340116402026 0.026674301189934066 5.53317
   position -0.319918 0.968445 1.19138
 }
-TexturedBackground {
+Background {
+  skyColor [
+    0.1 0.1 0.1
+  ]
 }
-TexturedBackgroundLight {
+DirectionalLight {
+  direction -0.33 -1 0.5
+  intensity 2.3
+  castShadows TRUE
 }
 RectangleArena {
 }

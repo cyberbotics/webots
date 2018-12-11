@@ -52,9 +52,9 @@ Cabinet {
     "Shelf (1, 3, 0, 1)"
     "Shelf (2, 3, 0, 1)"
   ]
-  SFNode   handle           CabinetHandle {}
-  MFString mainTextureUrl   "textures/wood.jpg"
-  MFString objectTextureUrl "textures/plastic.jpg"
+  SFNode   handle              CabinetHandle {}
+  SFNode   primaryAppearance   PaintedWood {}
+  SFNode   secondaryAppearance PaintedWood {}
 }
 ```
 
@@ -79,9 +79,9 @@ Cabinet {
 
 - `handle`: Defines the handle of the cabinet.
 
-- `mainTextureUrl`: Defines the primary texture.
+- `primaryAppearance`: Defines the primary appearance.
 
-- `objectTextureUrl`: Defines the secondary texture.
+- `secondaryAppearance`: Defines the secondary appearance.
 
 ## CabinetHandle
 

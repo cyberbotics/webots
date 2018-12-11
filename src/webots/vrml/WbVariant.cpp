@@ -23,10 +23,10 @@
 #include <QtCore/QString>
 #include "../../../include/controller/c/webots/supervisor.h"
 
-WbVariant::WbVariant() : mType(-1) {
+WbVariant::WbVariant() : mType(-1), mOwnsNode(false) {
 }
 
-WbVariant::WbVariant(const WbVariant &other) : mType(-1) {
+WbVariant::WbVariant(const WbVariant &other) : mType(-1), mOwnsNode(false) {
   setValue(other);
 }
 
@@ -73,39 +73,39 @@ bool WbVariant::operator!=(const WbVariant &other) const {
   return !(*this == other);
 }
 
-WbVariant::WbVariant(bool b) : mType(-1) {
+WbVariant::WbVariant(bool b) : mType(-1), mOwnsNode(false) {
   setBool(b);
 }
 
-WbVariant::WbVariant(int i) : mType(-1) {
+WbVariant::WbVariant(int i) : mType(-1), mOwnsNode(false) {
   setInt(i);
 }
 
-WbVariant::WbVariant(double d) : mType(-1) {
+WbVariant::WbVariant(double d) : mType(-1), mOwnsNode(false) {
   setDouble(d);
 }
 
-WbVariant::WbVariant(const QString &s) : mType(-1) {
+WbVariant::WbVariant(const QString &s) : mType(-1), mOwnsNode(false) {
   setString(s);
 }
 
-WbVariant::WbVariant(const WbVector2 &v) : mType(-1) {
+WbVariant::WbVariant(const WbVector2 &v) : mType(-1), mOwnsNode(false) {
   setVector2(v);
 }
 
-WbVariant::WbVariant(const WbVector3 &v) : mType(-1) {
+WbVariant::WbVariant(const WbVector3 &v) : mType(-1), mOwnsNode(false) {
   setVector3(v);
 }
 
-WbVariant::WbVariant(const WbRgb &c) : mType(-1) {
+WbVariant::WbVariant(const WbRgb &c) : mType(-1), mOwnsNode(false) {
   setColor(c);
 }
 
-WbVariant::WbVariant(const WbRotation &r) : mType(-1) {
+WbVariant::WbVariant(const WbRotation &r) : mType(-1), mOwnsNode(false) {
   setRotation(r);
 }
 
-WbVariant::WbVariant(WbNode *n) : mType(-1) {
+WbVariant::WbVariant(WbNode *n) : mType(-1), mOwnsNode(false) {
   setNode(n);
 }
 
@@ -131,6 +131,11 @@ void WbVariant::clear() {
       delete mRotation;
       break;
     case WB_SF_NODE:
+      if (mNode && mOwnsNode) {
+        delete mNode;
+        mNode = NULL;
+        mOwnsNode = false;
+      }
       break;
   }
 
@@ -214,11 +219,19 @@ void WbVariant::setRotation(const WbRotation &r) {
   mType = WB_SF_ROTATION;
 }
 
-void WbVariant::setNode(WbNode *n) {
+void WbVariant::setNode(WbNode *n, bool persistent) {
   clear();
-  mNode = n;
-  if (n)
-    connect(n, &QObject::destroyed, this, &WbVariant::clearNode);
+  if (persistent) {
+    // If persistent is true, the variant owns its own clone of the node.
+    // This is usefull in case of enumeration for the field model.
+    mNode = n ? n->cloneAndReferenceProtoInstance() : NULL;
+    if (mNode)
+      mOwnsNode = true;
+  } else {
+    mNode = n;
+    if (n)
+      connect(n, &QObject::destroyed, this, &WbVariant::clearNode);
+  }
   mType = WB_SF_NODE;
 }
 

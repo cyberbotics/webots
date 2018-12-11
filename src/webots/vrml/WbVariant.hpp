@@ -67,7 +67,7 @@ public:
   virtual void setVector3(const WbVector3 &v);
   virtual void setColor(const WbRgb &c);
   virtual void setRotation(const WbRotation &r);
-  virtual void setNode(WbNode *n);
+  virtual void setNode(WbNode *n, bool persistent = false);
 
   // getters
   bool toBool() const { return mBool; }
@@ -88,6 +88,7 @@ protected slots:
 
 private:
   int mType;
+  bool mOwnsNode;
   union {
     bool mBool;
     int mInt;

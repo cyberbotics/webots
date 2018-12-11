@@ -47,7 +47,7 @@ The first step is about modifying the background color.
 
 > **Hands on**: Create a [Background](../reference/background.md) node by clicking on the plus icon above the Scene Tree view, and select "Background" from the "New Node" option.
 Modify the background color, by setting up the `skyColor` field of the [Background](../reference/background.md) node.
-Choose a blue color (e.g. red = 0.4, green = 0.7 and blue = 1.0) using the color picker at the bottom of the Scene Tree view.
+Choose a dark gray color (e.g. red = 0.2, green = 0.2 and blue = 0.2) using the color picker at the bottom of the Scene Tree view.
 The background of the 3D view should be modified accordingly.
 
 Now, we would like to add some environment object (a floor and some walls).
@@ -56,7 +56,7 @@ A predefined node called `RectangleArena` is designed to accomplish this task qu
 > **Hands on**: Select the last node of the Scene Tree view ([Background](../reference/background.md)).
 Click on the `Add` button at the top of the Scene Tree view.
 In the open dialog box, choose `PROTO (Webots) / objects / floors / RectangleArena`.
-The new node has been added and is appearing far away.
+The new node has been added and appears far away.
 Use the left click and the wheel of the mouse in the 3D view to choose a better viewpoint.
 
 However, the rectangle arena appears black because the scene is still unlit.
@@ -71,13 +71,13 @@ It's a good time to improve the scene light.
 
 > **Hands on**: Modify the following fields of the `DirectionalLight` node:
 
-    - `ambientIntensity` to 1.
-    - `direction` to [-0.33 -1 -0.5].
+    - `intensity` to 2.3.
+    - `direction` to [-0.33 -1 0.5].
     - `castShadows` to TRUE.
 
 <!-- -->
 
-> **Note**: In the Scene Tree view, the fields are displayed in blue if they differ from their default values.
+> **Note**: In the Scene Tree view, the fields are displayed in a different color (depending on the theme) if they differ from their default values.
 
 Now your environment should look like the one depicted in the [figure](prerequisites.md#the-webots-main-window-splits-into-four-dockable-subwindows-the-scene-tree-view-on-the-left-hand-side-including-a-panel-at-the-bottom-for-editing-fields-values-the-3d-view-in-the-center-the-text-editor-on-the-right-hand-side-and-the-console-at-bottom-of-the-window-note-that-some-of-these-subwindows-have-a-toolbar-with-buttons-the-main-menus-appear-on-the-top-of-the-main-window-the-virtual-time-counter-and-the-speedometer-are-displayed-in-the-right-part-of-the-main-toolbar-the-status-text-is-displayed-in-the-bottom-left-of-the-main-window).
 

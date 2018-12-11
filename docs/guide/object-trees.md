@@ -92,7 +92,7 @@ Forest {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 1 0 0
   MFString   treesFiles           []
-  MFVec2f    shape                [ -20 -10, 20 -10, 0 25]
+  MFVec2f    shape                [-20 -10, 20 -10, 0 25]
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
@@ -317,7 +317,7 @@ SimpleTree {
 
 ## Tree
 
-Efficient (with only 8 polygones) and fast to load tree.
+Efficient (with only 8 polygons) and fast to load tree.
 This PROTO is less configurable than `SimpleTree` but way faster to load.
 
 %figure

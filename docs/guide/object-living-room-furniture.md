@@ -52,7 +52,6 @@ Carpet {
   SFRotation rotation    0 1 0 0
   SFString   name        "carpet"
   SFColor    color       1 1 1
-  MFString   textureUrl  "textures/carpet.jpg"
 }
 ```
 
@@ -64,8 +63,6 @@ Carpet {
 ### Carpet Field Summary
 
 - `color`: Defines the color of the carpet.
-
-- `textureUrl`: Defines the texture used for the armchair.
 
 ## Sofa
 

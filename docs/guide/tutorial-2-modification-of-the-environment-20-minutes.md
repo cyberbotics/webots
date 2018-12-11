@@ -16,7 +16,16 @@ First we create a new simulation based on the one created in Tutorial 1.
 > **Hands on**: Make sure the "my\_first\_simulation.wbt" world file is open, and that the simulation is paused and is at a virtual time of 0.
 Using the `File / Save World As...` menu, save the simulation as "obstacles.wbt".
 
-### Modification of the Floor
+### A Better Background
+
+With the PBRAppearance node for an object's appearance, ambient light comes from the background node.
+This means we can add a skybox around the world, and ambiently light our scene using the skybox texture itself!
+This technique is known as Image-Based Lighting or IBL for short.
+Carefully combining Webots lights and skybox textures, it is possible to very realistically light objects.
+
+> **Hands on**: Delete the `Background` and `DirectionalLight` nodes, and using the Add button, add a `TexturedBackground` and a `TexturedBackgroundLight` node to the scene. This loads a mountainous skybox and a matching `DirectionalLight` to the scene, realistically lighting it.
+
+### Modifying the Floor
 
 The default `RectangleArena` PROTO defines a simple floor pinned on the statical environment, i.e. without [Physics](../reference/physics.md) node, and surrounded by walls.
 
@@ -88,7 +97,7 @@ As Geometry nodes we will use [Spheres](../reference/sphere.md).
 Similarly select the `children` field of the [Solid](../reference/solid.md) node, and add a [Shape](../reference/shape.md) node to it.
 In order to get a shaded object as shown in the figure, it is necessary to specify an appearance.
 To do this, select the `appearance` field of the [Shape](../reference/shape.md) node and use the `Add` button.
-Then, you can add a default [Material](../reference/material.md) to the `material` field in a similar way.
+Add a `PBRAppearance` node, change the `metalness` field to 0 and the `roughness` field to 1.
 Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly created [Shape](../reference/shape.md) node.
 Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
 Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
@@ -134,7 +143,7 @@ We will now merge these two [Spheres](../reference/sphere.md) into only once usi
 > **Hands on**: Select the first [Sphere](../reference/sphere.md) node (the child of the [Shape](../reference/shape.md)) in the scene tree view.
 The field editor of the scene tree view allows you to enter the DEF string.
 Enter *"BALL\_GEOMETRY"*.
-Select the boundingObject field (containing the second [Sphere](../reference/sphere.md) node), and delete it by using the `Reset to default` button in the field editor (represented by an asterisk).
+Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Delete` entry in the context menu that pops up.
 Then, click on the `Add` button, and select the `USE / BALL_GEOMETRY` in the dialog box.
 The result is shown in [this figure](#def-use-mechanism-on-the-sphere-node-called-ball_geometry).
 

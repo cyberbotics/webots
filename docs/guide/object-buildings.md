@@ -71,11 +71,11 @@ Building {
   SFInt32     floorNumber            3
   SFInt32     startingFloor          0
   MFVec2f     corners                [10 10, 10 -10, -10 -10, -10 10 ]
-  SFNode      wallAppearance         Appearance { material Material {} }
+  SFNode      wallAppearance         PBRAppearance { metalness 0 roughness 1 }
   MFString    groundFloor            []
   MFFloat     groundFloorScale       []
   MFFloat     groundFloorTranslation []
-  SFNode      roofAppearance         Appearance { material Material {} }
+  SFNode      roofAppearance         PBRAppearance { metalness 0 roughness 1 }
   SFString    roofShape              "pyramidal roof"
   SFFloat     roofHeight             3
   SFBool      enableBoundingObject   TRUE
@@ -168,9 +168,9 @@ BungalowStyleHouse {
   SFBool floor                TRUE
   SFBool chimney              TRUE
   SFBool enableBoundingObject TRUE
-  SFNode appearance           Appearance { material Material { diffuseColor 0.52 0.73 0.76 } }
-  SFNode floorAppearance      Appearance { material Material { diffuseColor 0.27 0.14 0.03 } }
-  SFNode fenceAppearance      Appearance { material Material { } texture ImageTexture { url ["textures/wood.jpg"] } textureTransform TextureTransform { scale 10 10 } }
+  SFNode appearance           PBRAppearance { baseColor 0.52 0.73 0.76 roughness 1 metalness 0 }
+  SFNode floorAppearance      PBRAppearance { baseColor 0.27 0.14 0.03 roughness 1 metalness 0 }
+  SFNode fenceAppearance      RoughPine { textureTransform TextureTransform { scale 10 10 } }
 }
 ```
 
@@ -349,14 +349,14 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 FastFoodRestaurant {
-  SFVec3f     translation   0 0 0
-  SFRotation  rotation      0 1 0 0
-  SFString    name          "fast food restaurant"
-  SFFloat     height        4
-  SFFloat     length        10
-  SFFloat     width         10
-  SFString    brand         "KFC"
-  SFInt32     numberOfSides 1
+  SFVec3f       translation   0 0 0
+  SFRotation    rotation      0 1 0 0
+  SFString      name          "fast food restaurant"
+  SFFloat       height        4
+  SFFloat       length        10
+  SFFloat       width         10
+  SFString      brand         "KFC"
+  SFInt32       numberOfSides 1
 }
 ```
 
@@ -543,8 +543,8 @@ ModernHouse {
   SFRotation rotation             0 1 0 0
   SFString   name                 "modern house"
   SFBool     enableBoundingObject TRUE
-  SFNode     appearance           Appearance { material Material { diffuseColor 0.56 0.18 0.12 } }
-  SFNode     windowAppearance     Appearance { material Material { diffuseColor 0.38 0.55 0.69 } }
+  SFNode     appearance           PBRAppearance { baseColor 0.56 0.18 0.12 metalness 0 roughness 1 }
+  SFNode     windowAppearance     PBRAppearance { baseColor 0.38 0.55 0.69 metalness 0 roughness 0.2 }
 }
 ```
 
@@ -975,7 +975,7 @@ SimpleTwoFloorsHouse {
   SFRotation rotation              0 1 0 0
   SFString   name                  "simple two-storey house"
   SFBool     enableBoundingObject  TRUE
-  SFNode     appearance            Appearance { material Material { diffuseColor 0.63 0.71 0.63 } }
+  SFNode     appearance            PBRAppearance { baseColor 0.63 0.71 0.63 metalness 0 roughness 1 }
 }
 ```
 
