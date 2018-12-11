@@ -51,7 +51,7 @@ static void enable_device(WbDeviceTag tag, bool enable) {
       wb_gyro_enable(tag, enableRate);
       break;
     case WB_NODE_INERTIAL_UNIT:
-      wb_gyro_enable(tag, enableRate);
+      wb_inertial_unit_enable(tag, enableRate);
       break;
     case WB_NODE_LIDAR:
       wb_lidar_enable(tag, enableRate);
