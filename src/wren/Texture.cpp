@@ -47,16 +47,6 @@ namespace wren {
 
     char color[16];
     memset(&color[0], 0, 16);
-    if (glFormatParams.mInternalFormat == GL_RGBA8)
-      memset(&color[0] + 3, 0xff, 1);
-    else if (glFormatParams.mInternalFormat == GL_RGBA16F) {
-      color[6] = 0x7C;  // first 8 bits: 0 sign bit, all 5 exponent bits set, two 0 bits of significand
-      color[7] = 0x00;  // second 8 bits: 0 in significand
-    } else if (glFormatParams.mInternalFormat == GL_RGBA32F) {
-      color[12] = 0x3F;  // first 8 bits: 0 sign bit, top bit of exponent bits not set, 6 more bits of exponent set
-      color[13] = 0x80;  // second 8 bits: 1 bit of exponent left to set, 0 in significand for the rest of the float
-      color[14] = color[15] = 0x00;
-    }
 
     char *current = data;
     const char *end = data + sizeInBytes;
