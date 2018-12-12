@@ -27,7 +27,7 @@ public:
   virtual ~EPuckCommandPacket();
 
   virtual void clear();
-  static const int size() { return sizeof(mData); }
+  const int size() { return sizeof(mData); }
   const char *data() const { return mData; }
   int apply(int simulationTime);
   bool areDistanceSensorRequested() const { return mDistanceSensorRequested; }
