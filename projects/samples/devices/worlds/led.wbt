@@ -6,12 +6,14 @@ WorldInfo {
   title "LED"
 }
 Viewpoint {
-  orientation 0.9998303245400035 0.017233006078251185 -0.006507352129548415 5.18193
-  position -0.00821074 1.35543 0.734349
+  orientation 0.8289903167727999 0.5454557477491351 0.12350336814987996 5.646092614053312
+  position -0.4457169967452991 0.7463318878452632 1.2828577010646867
 }
 TexturedBackground {
+  texture "dawn_cloudy_empty"
 }
 TexturedBackgroundLight {
+  texture "dawn_cloudy_empty"
 }
 RectangleArena {
 }
