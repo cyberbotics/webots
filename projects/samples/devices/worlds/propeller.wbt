@@ -480,6 +480,7 @@ DEF RED_HELICOPTER Robot {
     }
   }
   controller "axial_and_tail_rotors"
+  supervisor TRUE
 }
 DEF BLUE_HELICOPTER Robot {
   translation 0.193739 -0.01 0.278025
@@ -580,6 +581,7 @@ DEF BLUE_HELICOPTER Robot {
     }
   }
   controller "axial_rotor"
+  supervisor TRUE
 }
 DEF GREEN_HELICOPTER Robot {
   translation 0.105923 -0.01 -0.379858
