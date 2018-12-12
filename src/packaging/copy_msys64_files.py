@@ -83,5 +83,5 @@ for i in files:
     f.write('Source: "' + root + w + '"; DestDir: "{app}\\msys64' + os.path.dirname(w) + '"\n')
 # This is a patch needed to ensure qwindows.dll is found by Webots (it should be improved)
 f.write('Source: "' + root + '\\mingw64\\share\\qt5\\plugins\\platforms\\qwindows.dll"; DestDir: ' +
-        '"{app}\\msys64\\mingw64\\bin\\platforms\\qwindows.dll"\n')
+        '"{app}\\msys64\\mingw64\\bin\\platforms"\n')
 f.close()
