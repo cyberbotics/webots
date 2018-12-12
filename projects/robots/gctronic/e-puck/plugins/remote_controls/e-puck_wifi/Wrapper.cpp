@@ -140,7 +140,7 @@ int Wrapper::robotStep(int step) {
   EPuckCommandPacket commandPacket;
   int command = commandPacket.apply(beginStepTime);
   log("Command = 0x%02x\n", command);
-  cSuccess = cCommunication->send(commandPacket.data(), commandPacket.size());
+  cSuccess = cCommunication->send(commandPacket.data(), EPUCK_COMMAND_PACKET_SIZE);
   if (!cSuccess) {
     log("Failed to send packet to the e-puck.\n");
     return 0;
