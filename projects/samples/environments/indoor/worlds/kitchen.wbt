@@ -3,9 +3,9 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 1.1
-  orientation 0.6112501867158963 -0.7011198952397005 -0.36715678087004333 4.951143107189011
-  position 7.1246380550177815 9.669765449262108 3.355846518073885
-  exposure 0.4
+  orientation 0.4447039698767724 -0.8513559584975763 -0.27826500158394285 5.207202333893893
+  position 6.442030557280244 5.206668161781518 3.0097162179105705
+  exposure 0.7999999999999999
 }
 Background {
   cubemap Cubemap {
@@ -213,29 +213,15 @@ Floor {
   translation 0.17 0 0
   name "floor(1)"
   size 3.6666 4.5
-  tileSize 1.33333 1.33333
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/tiles.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
+  tileSize 1 1
+  appearance Parquetry {
   }
 }
 Floor {
   translation 3 0 0.5
   size 2 3.5
-  tileSize 1.33333 1.33333
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/tiles.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
+  tileSize 1 1
+  appearance Parquetry {
   }
 }
 Ceiling {
@@ -717,7 +703,7 @@ Cookware {
 }
 Lid {
   translation -1.31968 0.960471 -1.66658
-  rotation 0.7083611653994737 6.470801510906041e-05 -0.7058501648131651 0.000636256
+  rotation 0.7083611653994737 6.470801510906041e-5 -0.7058501648131651 0.000636256
 }
 WoodenSpoon {
   translation -1.37605 0.889212 -1.24856

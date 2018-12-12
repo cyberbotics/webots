@@ -2,9 +2,16 @@
 
 This section shows the advanced 3D rendering capabilities of Webots.
 The samples provided here can be used as a starting point to create your own simulations using advanced rendering techniques.
-The world files for these examples are located in the "projects/sample/rendering/worlds" directory.
+The world files for these examples are located in the "projects/samples/rendering/worlds" directory.
 
-In this directory, you will find the following world file:
+In this directory, you will find the following world files:
+
+### animated\_skin.wbt
+
+**Keywords**: PBRAppearance, skin, animation, salamander, normal map, bump map, metalness, roughness.
+
+![animated_skin.png](images/samples/animated_skin.png) This example shows the use of an animated Skin node on a salamander robot. This Skin node supports the use of the `PBRAppearance` node to generate very realistic images.
+
 
 ### physically\_based\_rendering.wbt
 
@@ -19,3 +26,9 @@ In this directory, you will find the following world file:
 %end
 
 This example illustrates the capabilities of the [PBRAppearance](../reference/pbrappearance.md) node that allows to produce [Physically Based Rendering](https://en.wikipedia.org/wiki/Physically_based_rendering) (PBR) in Webots simulations for both the main 3D view and simulated robot cameras.
+
+### sponza.wbt
+
+**Keywords**: PBRAppearance, sponza, ambient occlusion, rendering, post-processing.
+
+![sponza.png](images/samples/sponza.png) This world contains an untextured version of the Sponza Palace in Dubrovnik, Croatia. This model was used while developing our Ambient Occlusion technique to visually test its implementation, but we have included it as a sample as it looks quite good!
