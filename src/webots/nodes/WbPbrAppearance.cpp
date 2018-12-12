@@ -520,6 +520,7 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     writer << "}\n";
     if (mBaseColorMap->value()) {
       writer.indent();
+      writer << "texture ";
       mBaseColorMap->write(writer);
       writer << "\n";
     }
