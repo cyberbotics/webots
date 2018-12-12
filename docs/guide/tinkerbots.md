@@ -12,6 +12,10 @@ It is possible to assemble them in the same way as in reality thanks to the powe
 Thus, all the basic models present in the [Sensoric Mega Set](https://www.tinkerbots.com/arduino-specials/sensoric-mega-set/) kit can be simulated.
 These simulated models can be programmed with the standard Webots API.
 
+### Presentation Movie
+
+![youtube video](https://www.youtube.com/watch?v=QMbojDv5DH0)
+
 ### Tinkerbots PROTO Nodes
 
 #### TinkerbotsBase PROTO

@@ -14,6 +14,10 @@ It has been used in the RoboCup international competition with some success.
 The ROBOTIS OP3 Webots model will allow you to test your controller in simulation, without any risk of damaging the robot.
 You will also be able to run automatically a lot of different simulations in a very small amount of time (to tune up parameters for example), which would be impossible to do with the real robot.
 
+### Presentation Movie
+
+![youtube video](https://www.youtube.com/watch?v=MgykUcSfUFI)
+
 ### RobotisOp3 PROTO
 
 Derived from [Robot](../reference/robot.md).
