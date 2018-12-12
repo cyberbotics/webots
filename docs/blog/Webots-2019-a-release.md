@@ -9,7 +9,7 @@
 After 20 years as proprietary software, with the release of version R2019a Webots is now fully open-source, under the Apache 2.0 License!
 We have made this change as we believe that making our software as accessible as possible is the best way for robotics research to advance.
 As a result, we will no longer be selling licenses, as anyone can install and use Webots completely free of charge.
-However, we will continue to support any users with active Premier service for the duration of said service. 
+However, we will continue to support any users with active Premier service for the duration of said service.
 
 We will be shifting our efforts towards offering bespoke consulting, training and support services to Webots users, to use our expertise to develop and enhance user simulations.
 The source code for Webots is now publicly available on [GitHub](https://github.com/omichel/webots), and we will welcome any and all contributions from users.
@@ -46,6 +46,18 @@ As a result, some important PROTO files have had their fields adjusted to accomo
 Please check the [ChangeLog](https://cyberbotics.com/change_log) for a complete list of breaking changes.
 In addition to this, we have added a library of ready-made PBR materials (as `PBRAppearance`-based PROTO files) already used across Webots that will help you make your next simulation look awesome.
 These can be found in `$WEBOTS_HOME/projects/appearances`.
+
+---
+
+## New Robots
+
+### ROBOTIS OP3
+
+![youtube video](https://www.youtube.com/watch?v=MgykUcSfUFI)
+
+### Tinkerbots
+
+![youtube video](https://www.youtube.com/watch?v=QMbojDv5DH0)
 
 ---
 
