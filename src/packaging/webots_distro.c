@@ -897,7 +897,7 @@ static void create_file(const char *name, int m) {
 
       fprintf(fd, "cd %s/\n", distribution_path);
       fprintf(fd, "mkdir -p /tmp/empty\n");
-      fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 2000m %s.dmg\n",
+      fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 3000m %s.dmg\n",
               application_name, application_name_lowercase_and_dashes);
       fprintf(fd, "rmdir /tmp/empty\n");
       fprintf(fd, "ditto -rsrcFork \"%s\" \"/Volumes/%s/%s\"\n", bundle_name, application_name, bundle_name);
