@@ -41,6 +41,7 @@ namespace wren {
     static StaticMesh *cBoxMesh = NULL;
     static ShaderProgram *cBoundingVolumeProgram = NULL;
     static bool cRequiresFlushAfterDraw = false;
+    static bool cRequiresDepthBufferDistortion = false;
 
     void enableShadows(bool enable) { cAreShadowsEnabled = enable; }
 
@@ -98,6 +99,8 @@ namespace wren {
     void setBoundingVolumeProgram(ShaderProgram *program) { cBoundingVolumeProgram = program; }
 
     void setRequiresFlushAfterDraw(bool require) { cRequiresFlushAfterDraw = require; }
+
+    void setRequiresDepthBufferDistortion(bool require) { cRequiresDepthBufferDistortion = require; }
 
     void drawAabb(const primitive::Aabb &aabb) {
       if (!cShowAabbs && !cShowShadowAabbs)
@@ -176,6 +179,8 @@ namespace wren {
 
     bool requiresFlushAfterDraw() { return cRequiresFlushAfterDraw; }
 
+    bool requiresDepthBufferDistortion() { return cRequiresDepthBufferDistortion; }
+
     bool areShadowsEnabled() { return cAreShadowsEnabled; }
 
     bool isPointSizeEnabled() { return cIsPointSizeEnabled; }
@@ -231,6 +236,10 @@ void wr_config_set_bounding_volume_program(WrShaderProgram *program) {
 
 void wr_config_set_requires_flush_after_draw(bool require) {
   wren::config::setRequiresFlushAfterDraw(require);
+}
+
+void wr_config_set_requires_depth_buffer_distortion(bool require) {
+  wren::config::setRequiresDepthBufferDistortion(require);
 }
 
 bool wr_config_are_shadows_enabled() {
