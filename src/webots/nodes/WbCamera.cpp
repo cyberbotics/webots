@@ -300,7 +300,9 @@ void WbCamera::clearRecognizedObjectsOverlay() {
 WrTexture *WbCamera::getWrenTexture() {
   if (!hasBeenSetup())
     setup();
-  return mWrenCamera->getWrenTexture();
+  if (mWrenCamera)
+    return mWrenCamera->getWrenTexture();
+  return NULL;
 }
 
 void WbCamera::displayRecognizedObjectsInOverlay() {
