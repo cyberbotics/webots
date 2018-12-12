@@ -499,7 +499,8 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     writer << "shininess=\"" << 1.0 - mRoughness->value() << "\"";
     writer << "/>";
     mBaseColorMap->write(writer);
-    findField("textureTransform")->write(writer);
+    if (textureTransform())
+      textureTransform()->write(writer);
   } else if (writer.isVrml()) {
     // export as vrml
     writer.indent();
