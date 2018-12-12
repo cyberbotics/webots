@@ -63,7 +63,11 @@ WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, 
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
-  QCoreApplication::setLibraryPaths(QStringList(WbStandardPaths::webotsLibPath() + "qt/plugins"));
+  QProcess process;
+  process.start("cygpath", QStringList{QString("-w"), QString("/")});
+  process.waitForFinished(-1);
+  const QString webotsQtPlugins = process.readAllStandardOutput().trimmed().replace('\\', '/') + "mingw64/share/qt5/plugins";
+  QCoreApplication::setLibraryPaths(QStringList(webotsQtPlugins));
   QApplication::setStyle("windowsvista");
 #endif
 
