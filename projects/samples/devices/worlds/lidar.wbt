@@ -322,8 +322,8 @@ DEF ROBOT Robot {
       horizontalResolution 256
       fieldOfView 1.57
       numberOfLayers 6
-      near 0.02
-      minRange 0.02
+      near 0.05
+      minRange 0.05
       maxRange 8
       type "rotating"
       noise 0.1

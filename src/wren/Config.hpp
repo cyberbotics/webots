@@ -32,6 +32,7 @@ namespace wren {
     void setShowBoundingSpheres(bool show);
     void setBoundingVolumeProgram(ShaderProgram *program);
     void setRequiresFlushAfterDraw(bool require);
+    void setRequiresDepthBufferDistortion(bool require);
     void drawBoundingSphere(const primitive::Sphere &sphere);
     void drawAabb(const primitive::Aabb &aabb);
 
@@ -39,6 +40,7 @@ namespace wren {
     bool showShadowAabbs();
     bool showBoundingSpheres();
     bool requiresFlushAfterDraw();
+    bool requiresDepthBufferDistortion();
     bool areShadowsEnabled();
     bool isPointSizeEnabled();
     float lineScale();

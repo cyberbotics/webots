@@ -150,10 +150,14 @@ void WbWrenWindow::initialize() {
   // wr_config_set_show_shadow_axis_aligned_bounding_boxes(true);
   // wr_config_set_show_bounding_spheres(true);
 
-  // Workaround a OpenGL driver bug occuring in VMWare virtual machines:
+  // Workaround an OpenGL driver bug occuring in VMWare virtual machines:
   // - The OpenGL state when calling the glDrawElements function may be corrupted.
   //   In such case, the previous vertex buffers may be overriden with the current material.
   wr_config_set_requires_flush_after_draw(WbSysInfo::isVirtualMachine());
+
+  // Workaround an OpenGL driver bug occuring in VMWare virtual machines:
+  // - The OpenGL depth buffer returns the square root of the expected value when getting the depth buffer.
+  wr_config_set_requires_depth_buffer_distortion(WbSysInfo::isVirtualMachine());
 
   updateFrameBuffer();
 

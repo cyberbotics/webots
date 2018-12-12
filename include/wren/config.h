@@ -16,6 +16,7 @@ void wr_config_set_show_shadow_axis_aligned_bounding_boxes(bool show);
 void wr_config_set_show_frustums(bool show);
 void wr_config_set_bounding_volume_program(WrShaderProgram *program);
 void wr_config_set_requires_flush_after_draw(bool require);
+void wr_config_set_requires_depth_buffer_distortion(bool require);
 void wr_config_enable_point_size(bool enable);
 
 int wr_config_get_max_active_spot_light_count();

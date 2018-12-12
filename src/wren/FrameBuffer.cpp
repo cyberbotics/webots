@@ -14,6 +14,7 @@
 
 #include "FrameBuffer.hpp"
 
+#include "Config.hpp"
 #include "Debug.hpp"
 #include "GlState.hpp"
 #include "TextureRtt.hpp"
@@ -184,6 +185,10 @@ namespace wren {
 
     glstate::bindReadFrameBuffer(mGlName);
     glReadPixels(x, (flipY ? mHeight - 1 - y : y), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, data);
+    if (config::requiresDepthBufferDistortion()) {
+      GLfloat *fData = (GLfloat *)data;
+      fData[0] = fData[0] * fData[0];
+    }
     glstate::bindReadFrameBuffer(currentReadFrameBuffer);
   }
 
