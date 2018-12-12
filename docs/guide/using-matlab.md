@@ -13,7 +13,7 @@ In addition, it becomes possible to reuse your existing MATLAB code directly in 
 ### MATLAB Installation
 
 In order to use MATLAB controllers in Webots, the MATLAB software must be installed (a MATLAB license is required).
-Webots {{ webots.version.full }} supports only MATLAB versions 2015b (64 bits), R2016a, R2016b and R2017a.
+Webots {{ webots.version.full }} supports only 64bits MATLAB versions from 2015b.
 
 Webots must be able to access the "matlab" executable (usually a script) in order to run controller m-files.
 Webots looks for the "matlab" executable in every directory of your *PATH* (or *Path* on Windows) environment variable.
@@ -23,7 +23,7 @@ On Windows, the MATLAB installer will normally add MATLAB's bin directories to y
 However, in case it does not work, please make sure that your *Path* contains this directory (or something slightly different, according to your MATLAB version):
 
 ```
-Path=C:\Program Files\MATLAB\R2017a\bin
+Path=C:\Program Files\MATLAB\R2018b\bin
 ```
 
 On Linux, the MATLAB installer normally suggests to add a symlink to the "matlab" startup script in the "/usr/local/bin" directory.
@@ -31,13 +31,13 @@ This is a good option to make "matlab" globally accessible.
 Otherwise you can create the link at anytime afterwards with this shell command (please change according to your actual MATLAB installation directory and version):
 
 ```sh
-$ sudo ln -s /usr/local/MATLAB/R2016a/bin/matlab /usr/local/bin/matlab
+$ sudo ln -s /usr/local/MATLAB/R2018b/bin/matlab /usr/local/bin/matlab
 ```
 
 Similarly, on macOS, if Webots is unable to find the "matlab" startup script then you should add a symlink in "/usr/bin":
 
 ```sh
-$ sudo ln -s /Applications/MATLAB_R2016a.app/bin/matlab /usr/bin/matlab
+$ sudo ln -s /Applications/MATLAB_R2018b.app/bin/matlab /usr/local/bin/matlab
 ```
 
 ### How to Run the Examples?
