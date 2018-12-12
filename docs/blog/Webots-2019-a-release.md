@@ -60,7 +60,7 @@ These models were created from scratch using the PBR material system and so look
 
 Manufactured by [ROBOTIS](http://www.robotis.us/robotis-op3/), we've added the third-generation OP3 to the family of ROBOTIS models in Webots.
 
-#### Some features:
+#### Some Features:
 20 degrees of freedom (20 DYNAMIXEL XM430)
 
 Several sensors including FULL HD Logitech C920
