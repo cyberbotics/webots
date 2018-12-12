@@ -21,13 +21,14 @@
 
 class Device;
 
+#define EPUCK_COMMAND_PACKET_SIZE 21
+
 class EPuckCommandPacket {
 public:
   EPuckCommandPacket();
   virtual ~EPuckCommandPacket();
 
   virtual void clear();
-  static const int size() { return sizeof(mData); }
   const char *data() const { return mData; }
   int apply(int simulationTime);
   bool areDistanceSensorRequested() const { return mDistanceSensorRequested; }
@@ -43,7 +44,7 @@ private:
   bool mLightSensorRequested;
   bool mAccelerometerRequested;
   bool mEncoderRequested;
-  char mData[21];
+  char mData[EPUCK_COMMAND_PACKET_SIZE];
 };
 
 #endif
