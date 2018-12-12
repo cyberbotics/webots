@@ -51,27 +51,27 @@ These can be found in `$WEBOTS_HOME/projects/appearances`.
 
 ## New Robot Models
 
-The new Webots release also contains new models of robots.
-These models benefit from all the new rendering enhancements.
+We've added a couple of new robot models in this release too.
+These models were created from scratch using the PBR material system and so look great!
 
 ### ROBOTIS OP3
 
-- Manufactor: ROBOTIS
-- Upgrade of ROBOTIS OP2
-- ROBOTIS OP3 mainwebsite: http://www.robotis.us/robotis-op3/ (complete spec here)
-- 20 degrees of freedom (20 DYNAMIXEL XM430)
-- Several sensors including FULL HD Logitech C920
-- The model can play the real robot motions
-
 ![youtube video](https://www.youtube.com/watch?v=MgykUcSfUFI)
+
+Manufactured by [ROBOTIS](http://www.robotis.us/robotis-op3/), we've added the third-generation OP3 to the family of ROBOTIS models in Webots.
+
+#### Some features:
+20 degrees of freedom (20 DYNAMIXEL XM430)
+
+Several sensors including FULL HD Logitech C920
+
+Support for official pre-recorded ROBOTIS motion playback.
 
 ### Tinkerbots
 
-- Modular robotics kit
-- Model as a set of parts: 8 Tinkebors parts (servos, sensors), 12 Cubies parts (passive)
-- Possibility to build easily a model from the Webots GUI
-
 ![youtube video](https://www.youtube.com/watch?v=QMbojDv5DH0)
+
+We've continued to build support for modular robots by adding a set of models for the Tinkerbots modular robot kit. It's easy to design and build a model from the Webots GUI, with the kit's collection of passive connectors, active sensors and actuators.
 
 ---
 
