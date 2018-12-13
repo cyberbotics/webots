@@ -405,6 +405,7 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::gtao(float width, float hei
     wr_post_processing_effect_pass_set_program(depthDownsamplePassThrough, WbWrenShaders::passThroughShader());
     wr_post_processing_effect_pass_set_output_size(depthDownsamplePassThrough, width / 2, height / 2);
     wr_post_processing_effect_pass_set_input_texture_count(depthDownsamplePassThrough, 1);
+    wr_post_processing_effect_pass_set_alpha_blending(depthDownsamplePassThrough, false);
     wr_post_processing_effect_pass_set_input_texture(depthDownsamplePassThrough, 0, WR_TEXTURE(depthTexture));
     wr_post_processing_effect_pass_set_input_texture_interpolation(depthDownsamplePassThrough, 0, false);
     wr_post_processing_effect_pass_set_output_texture_count(depthDownsamplePassThrough, 1);
@@ -414,6 +415,7 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::gtao(float width, float hei
     normalDownsamplePassThrough = wr_post_processing_effect_pass_new();
     wr_post_processing_effect_pass_set_name(normalDownsamplePassThrough, "normalDownsamplePassThrough");
     wr_post_processing_effect_pass_set_program(normalDownsamplePassThrough, WbWrenShaders::passThroughShader());
+    wr_post_processing_effect_pass_set_alpha_blending(normalDownsamplePassThrough, false);
     wr_post_processing_effect_pass_set_output_size(normalDownsamplePassThrough, width / 2, height / 2);
     wr_post_processing_effect_pass_set_input_texture_count(normalDownsamplePassThrough, 1);
     wr_post_processing_effect_pass_set_input_texture(normalDownsamplePassThrough, 0, WR_TEXTURE(normalTexture));
