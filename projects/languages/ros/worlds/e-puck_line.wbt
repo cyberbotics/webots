@@ -77,7 +77,7 @@ DEF OBSTACLE3 Solid {
   boundingObject USE BOX3
 }
 DEF EPUCK E-puck {
-  translation 0.012 0 0.175
+  translation 0.0792 0 0.2087
   rotation 0 1 0 1.5
   controller "ros"
   groundSensorsSlot [
