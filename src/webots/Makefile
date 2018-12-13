@@ -170,7 +170,7 @@ CFLAGS += -g
 endif
 
 ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
-#CFLAGS += -Werror
+CFLAGS += -Werror
 endif
 
 ifeq ($(MAKECMDGOALS),profile)
