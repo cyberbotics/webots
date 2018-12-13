@@ -5,34 +5,34 @@
 # A simple and customizable roads intersection, all the road are crossing at the same point and equally separated in orientation.
 
 PROTO RoadIntersection [
-  field             SFVec3f              translation                    0 0 0
-  field             SFRotation           rotation                       0 1 0 0
-  field             SFString             name                           "road intersection"                   # Defines the intersection name.
-  field             SFString             id                             ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
-  field             MFString             connectedRoadIDs               []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
-  field             SFInt32              roadNumber                     4                                     # Defines the number of intersecting roads.
-  field             SFFloat              roadsWidth                     7                                     # Defines the width of the intersecting roads.
-  field             SFFloat              speedLimit                     -1.0                                  # Optionally defines the speed limit. The recommended unit is meter per seconds.
-  field             SFBool               startRoads                     TRUE                                  # Defines if the beginning of each roads should be included or not.
-  field             MFFloat              startRoadsLength               [5]                                   # Defines the length of the intersecting roads. The same length is used for all the roads if this field has only one item.
-  field             SFInt32              startRoadsNumberOfLanes        2                                     # Defines the number of lanes of the roads(used for the texture mapping).
-  field             MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+  field        SFVec3f              translation                    0 0 0
+  field        SFRotation           rotation                       0 1 0 0
+  field        SFString             name                           "road intersection"                   # Defines the intersection name.
+  field        SFString             id                             ""                                    # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
+  field        MFString             connectedRoadIDs               []                                    # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
+  field        SFInt32              roadNumber                     4                                     # Defines the number of intersecting roads.
+  field        SFFloat              roadsWidth                     7                                     # Defines the width of the intersecting roads.
+  field        SFFloat              speedLimit                     -1.0                                  # Optionally defines the speed limit. The recommended unit is meter per seconds.
+  field        SFBool               startRoads                     TRUE                                  # Defines if the beginning of each roads should be included or not.
+  field        MFFloat              startRoadsLength               [5]                                   # Defines the length of the intersecting roads. The same length is used for all the roads if this field has only one item.
+  field        SFInt32              startRoadsNumberOfLanes        2                                     # Defines the number of lanes of the roads(used for the texture mapping).
+  field        MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",    # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
                                                                         "textures/road_line_triangle.png" ]
-  field             MFString             startRoadsEndLine              []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
-  unconnectedField  MFNode{RoadLine {}}  startRoadsLine                 [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
-  field             SFBool               startRoadBorder                TRUE                                  # Defines whether the intersecting road should have a sidewalks.
-  field             SFFloat              startRoadBorderHeight          0.15                                  # Defines the width of the intersecting road sidewalks.
-  field             SFFloat              startRoadBorderWidth           0.8                                   # Defines the height of the intersecting road sidewalks.
-  field             SFBool               startRoadBorderboundingObject  FALSE                                 # Defines whether the sidewalks should have a bounding object.
-  field             SFBool               boundingObject                 FALSE                                 # Defines whether the intersecting roads should have a bounding object.
-  field             SFBool               castShadows                    FALSE                                 # Defines whether the intersection should cast shadows.
-  field             SFString             contactMaterial                "default"                             # Is `Solid.contactMaterial`.
-  field             SFBool               bottom                         FALSE                                 # Defines whether the intersection bottom should be displayed (useful in case of bridge).
-  field             SFBool               locked                         TRUE                                  # Is `Solid.locked`.
-  field             SFNode               appearance                     Asphalt { }                           # Defines the appearance of the road.
+  field        MFString             startRoadsEndLine              []                                    # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
+  field        MFNode{RoadLine {}}  startRoadsLine                 [ RoadLine { } ]                      # Defines the property of each line separating two lanes.
+  field        SFBool               startRoadBorder                TRUE                                  # Defines whether the intersecting road should have a sidewalks.
+  field        SFFloat              startRoadBorderHeight          0.15                                  # Defines the width of the intersecting road sidewalks.
+  field        SFFloat              startRoadBorderWidth           0.8                                   # Defines the height of the intersecting road sidewalks.
+  field        SFBool               startRoadBorderboundingObject  FALSE                                 # Defines whether the sidewalks should have a bounding object.
+  field        SFBool               boundingObject                 FALSE                                 # Defines whether the intersecting roads should have a bounding object.
+  field        SFBool               castShadows                    FALSE                                 # Defines whether the intersection should cast shadows.
+  field        SFString             contactMaterial                "default"                             # Is `Solid.contactMaterial`.
+  field        SFBool               bottom                         FALSE                                 # Defines whether the intersection bottom should be displayed (useful in case of bridge).
+  field        SFBool               locked                         TRUE                                  # Is `Solid.locked`.
+  field        SFNode               appearance                     Asphalt { }                           # Defines the appearance of the road.
 
-  hiddenField       SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b
-  hiddenField       MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
+  hiddenField  SFFloat              roadsWith                7                                     # Deprecated in Webots R2018b
+  hiddenField  MFBool               startRoadsDashedLine     TRUE                                  # Deprecated in Webots R2018c.
 ]
 {
   %{
