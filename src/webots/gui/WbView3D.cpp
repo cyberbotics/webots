@@ -1184,13 +1184,14 @@ void WbView3D::checkRendererCapabilities() {
   bool disableShadows = false;
   bool disableCameraAntiAliasing = false;
   bool disableSMAA = false;
+  bool disableGTAO = false;
   bool reduceTextureQuality = false;
 
   // 2. determine what has to be reduced
   if (!mWrenRenderingContext->isNvidiaRenderer() && !mWrenRenderingContext->isAmdRenderer() &&
       !mWrenRenderingContext->isIntelRenderer()) {
     message += tr("Webots has detected that your GPU vendor is '%1'. "
-                  "A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. ")
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ")
                  .arg(wr_gl_state_get_vendor());
 
     if (mWrenRenderingContext->isMesaRenderer() || mWrenRenderingContext->isMicrosoftRenderer()) {
@@ -1204,12 +1205,13 @@ void WbView3D::checkRendererCapabilities() {
     disableShadows = true;
     disableCameraAntiAliasing = true;
     disableSMAA = true;
+    disableGTAO = true;
     reduceTextureQuality = true;
   }
 
   if (mWrenRenderingContext->isIntelRenderer()) {
-    message += tr("Webots has detected that you GPU is an Intel Graphics card. "
-                  "A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. ");
+    message += tr("Webots has detected that your system features an Intel GPU. "
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     message += '\n';
 
 #ifndef __APPLE__
@@ -1240,10 +1242,16 @@ void WbView3D::checkRendererCapabilities() {
     WbPreferences::instance()->setValue("OpenGL/SMAA", false);
   }
 
+  if (disableGTAO) {
+    message += "\n - ";
+    message += tr("Main 3D view global ambient occlusion has been de-activated.");
+    WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
+  }
+
   if (reduceTextureQuality) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
-    WbPreferences::instance()->setValue("OpenGL/TexturesQuality", 1);
+    WbPreferences::instance()->setValue("OpenGL/TextureQuality", 1);
   }
 
   // 4. check OpenGL capabilities.
@@ -1254,8 +1262,8 @@ void WbView3D::checkRendererCapabilities() {
 
   // 5. complete and display the message
   if (!message.isEmpty()) {
-    message += "\n";
-    if (disableShadows || disableCameraAntiAliasing || disableSMAA)
+    message += "\n\n";
+    if (disableShadows || disableCameraAntiAliasing || disableSMAA || disableGTAO || reduceTextureQuality)
       message += tr("You can try to re-activate some OpenGL features from the Webots preferences.");
     else
       message +=
