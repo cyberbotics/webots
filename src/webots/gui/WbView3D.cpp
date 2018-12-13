@@ -1210,7 +1210,7 @@ void WbView3D::checkRendererCapabilities() {
   }
 
   if (mWrenRenderingContext->isIntelRenderer()) {
-    message += tr("Webots has detected that you GPU is an Intel Graphics card. "
+    message += tr("Webots has detected that your system features an Intel GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     message += '\n';
 
