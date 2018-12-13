@@ -114,61 +114,6 @@ int main(int argc, char **argv) {
   getWorldChildrenSrv.request.fieldName = "children";
   getWorldChildrenClient.call(getWorldChildrenSrv);
 
-  // get spotlight node
-  ros::ServiceClient getSpotlightClient =
-    n.serviceClient<webots_ros::field_get_node>(controllerName + "/supervisor/field/get_node");
-  webots_ros::field_get_node getSpotlightSrv;
-  getSpotlightSrv.request.field = getWorldChildrenSrv.response.field;
-  getSpotlightSrv.request.index = 4;
-  getSpotlightClient.call(getSpotlightSrv);
-
-  // get spotlight position and orientation
-  ros::ServiceClient getSpotlightPositionFieldClient =
-    n.serviceClient<webots_ros::node_get_field>(controllerName + "/supervisor/node/get_field");
-  webots_ros::node_get_field getSpotlightPositionFieldSrv;
-  getSpotlightPositionFieldSrv.request.node = getSpotlightSrv.response.node;
-  getSpotlightPositionFieldSrv.request.fieldName = "location";
-  getSpotlightPositionFieldClient.call(getSpotlightPositionFieldSrv);
-
-  ros::ServiceClient getPositionClient =
-    n.serviceClient<webots_ros::field_get_vec3f>(controllerName + "/supervisor/field/get_vec3f");
-  webots_ros::field_get_vec3f getPositionSrv;
-  getPositionSrv.request.field = getSpotlightPositionFieldSrv.response.field;
-  getPositionClient.call(getPositionSrv);
-  geometry_msgs::Vector3 initialSpotPosition = getPositionSrv.response.value;
-
-  ros::ServiceClient getSpotlightOrientationFieldClient =
-    n.serviceClient<webots_ros::node_get_field>(controllerName + "/supervisor/node/get_field");
-  webots_ros::node_get_field getSpotlightOrientationFieldSrv;
-  getSpotlightOrientationFieldSrv.request.node = getSpotlightSrv.response.node;
-  getSpotlightOrientationFieldSrv.request.fieldName = "direction";
-  getSpotlightOrientationFieldClient.call(getSpotlightOrientationFieldSrv);
-
-  ros::ServiceClient getOrientationClient =
-    n.serviceClient<webots_ros::field_get_vec3f>(controllerName + "/supervisor/field/get_vec3f");
-  webots_ros::field_get_vec3f getOrientationSrv;
-  getOrientationSrv.request.field = getSpotlightOrientationFieldSrv.response.field;
-  getOrientationClient.call(getOrientationSrv);
-  geometry_msgs::Vector3 spotOrientation = getOrientationSrv.response.value;
-
-  ROS_INFO("Initial position of spotlight is %f %f %f and its orientation is %f %f %f.", initialSpotPosition.x,
-           initialSpotPosition.y, initialSpotPosition.z, spotOrientation.x, spotOrientation.y, spotOrientation.z);
-
-  // initialize services to update spotlight position and orientation
-  ros::ServiceClient setPositionClient =
-    n.serviceClient<webots_ros::field_set_vec3f>(controllerName + "/supervisor/field/set_vec3f");
-  webots_ros::field_set_vec3f setSpotPositionSrv;
-  setSpotPositionSrv.request.field = getSpotlightPositionFieldSrv.response.field;
-  setSpotPositionSrv.request.value = initialSpotPosition;
-
-  ros::ServiceClient setOrientationClient =
-    n.serviceClient<webots_ros::field_set_vec3f>(controllerName + "/supervisor/field/set_vec3f");
-  webots_ros::field_set_vec3f setSpotOrientationSrv;
-  setSpotOrientationSrv.request.field = getSpotlightOrientationFieldSrv.response.field;
-  setSpotOrientationSrv.request.value = spotOrientation;
-
-  timeStepClient.call(timeStepSrv);
-
   // get POV(Point Of View) node
   ros::ServiceClient getPovClient = n.serviceClient<webots_ros::field_get_node>(controllerName + "/supervisor/field/get_node");
   webots_ros::field_get_node getPovSrv;
@@ -184,6 +129,8 @@ int main(int argc, char **argv) {
   getPovPositionFieldSrv.request.fieldName = "position";
   getPovPositionFieldClient.call(getPovPositionFieldSrv);
 
+  ros::ServiceClient getPositionClient =
+    n.serviceClient<webots_ros::field_get_vec3f>(controllerName + "/supervisor/field/get_vec3f");
   webots_ros::field_get_vec3f getPovPositionSrv;
   getPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   getPositionClient.call(getPovPositionSrv);
@@ -209,6 +156,8 @@ int main(int argc, char **argv) {
   timeStepClient.call(timeStepSrv);
 
   // initialize services to update POV position and orientation
+  ros::ServiceClient setPositionClient =
+    n.serviceClient<webots_ros::field_set_vec3f>(controllerName + "/supervisor/field/set_vec3f");
   webots_ros::field_set_vec3f setPovPositionSrv;
   setPovPositionSrv.request.field = getPovPositionFieldSrv.response.field;
   setPovPositionSrv.request.value = initialPovPosition;
@@ -264,19 +213,8 @@ int main(int argc, char **argv) {
       setPovPositionSrv.request.value.x = initialPovPosition.z * sinAngle;
       setPovPositionSrv.request.value.z = initialPovPosition.z * cosAngle;
       if (setPositionClient.call(setPovPositionSrv) && setPovPositionSrv.response.success == 1) {
-        // we adjust the position and orientation of the spotlight to follow the camera's POV
-        setSpotOrientationSrv.request.value.x = spotOrientation.z * sinAngle;
-        setSpotOrientationSrv.request.value.z = spotOrientation.z * cosAngle;
-        if (setOrientationClient.call(setSpotOrientationSrv) && setSpotOrientationSrv.response.success == 1) {
-          setSpotPositionSrv.request.value.x = initialSpotPosition.z * sinAngle;
-          setSpotPositionSrv.request.value.z = initialSpotPosition.z * cosAngle;
-          if (setPositionClient.call(setSpotPositionSrv) && setSpotPositionSrv.response.success == 1) {
-            if (!timeStepClient.call(timeStepSrv) || !timeStepSrv.response.success)
-              ROS_ERROR("Couldn't update robot step.");
-          } else
-            ROS_ERROR("Failed to send new spotlight position.");
-        } else
-          ROS_ERROR("Failed to send new spotlight orientation.");
+        if (!timeStepClient.call(timeStepSrv) || !timeStepSrv.response.success)
+          ROS_ERROR("Couldn't update robot step.");
       } else
         ROS_ERROR("Failed to send new point of view position.");
     } else
