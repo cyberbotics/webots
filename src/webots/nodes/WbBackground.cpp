@@ -319,7 +319,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   findField("skyColor", true)->write(writer);
 
-  if (!cubemap() || !cubemap()->isValid())
+  if (!cubemap() || !cubemap()->isValid() || cubemap()->isEquirectangular())
     return;
 
   QString outputFileNames[6];
