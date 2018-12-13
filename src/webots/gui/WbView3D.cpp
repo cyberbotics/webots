@@ -1191,7 +1191,7 @@ void WbView3D::checkRendererCapabilities() {
   if (!mWrenRenderingContext->isNvidiaRenderer() && !mWrenRenderingContext->isAmdRenderer() &&
       !mWrenRenderingContext->isIntelRenderer()) {
     message += tr("Webots has detected that your GPU vendor is '%1'. "
-                  "A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. ")
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ")
                  .arg(wr_gl_state_get_vendor());
 
     if (mWrenRenderingContext->isMesaRenderer() || mWrenRenderingContext->isMicrosoftRenderer()) {
@@ -1211,7 +1211,7 @@ void WbView3D::checkRendererCapabilities() {
 
   if (mWrenRenderingContext->isIntelRenderer()) {
     message += tr("Webots has detected that you GPU is an Intel Graphics card. "
-                  "A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. ");
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     message += '\n';
 
 #ifndef __APPLE__
