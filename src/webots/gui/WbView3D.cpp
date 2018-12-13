@@ -1263,7 +1263,7 @@ void WbView3D::checkRendererCapabilities() {
   // 5. complete and display the message
   if (!message.isEmpty()) {
     message += "\n";
-    if (disableShadows || disableCameraAntiAliasing || disableSMAA || disableGTAO)
+    if (disableShadows || disableCameraAntiAliasing || disableSMAA || disableGTAO || reduceTextureQuality)
       message += tr("You can try to re-activate some OpenGL features from the Webots preferences.");
     else
       message +=
