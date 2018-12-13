@@ -172,9 +172,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
     if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
-                                           WbNodeUtilities::slotType(childNode), false) ||
-        WbNodeUtilities::isAllowedToInsert(field, childNode->modelName(), parentNode, errorMessage, nodeUse,
-                                           WbNodeUtilities::slotType(childNode), false)) {
+                                           WbNodeUtilities::slotType(childNode),
+                                           QStringList() << childNode->nodeModelName() << childNode->modelName(), false)) {
       if (avoidIntersections)
         tryToAvoidIntersections(childNode);
       const OperationResult result = initNewNode(childNode, parentNode, field, nodeIndex, true);
@@ -251,7 +250,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &fi
       delete baseNode;
     } else {
       if (WbNodeUtilities::isAllowedToInsert(root->findField("children"), baseNode->nodeModelName(), root, errorMessage,
-                                             WbNode::STRUCTURE_USE, WbNodeUtilities::slotType(baseNode))) {
+                                             WbNode::STRUCTURE_USE, WbNodeUtilities::slotType(baseNode),
+                                             QStringList(baseNode->nodeModelName()))) {
         baseNode->validate();
         root->addChild(baseNode);
         baseNode->finalize();

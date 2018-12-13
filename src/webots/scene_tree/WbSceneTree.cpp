@@ -976,11 +976,8 @@ bool WbSceneTree::isPasteAllowed() {
     const QString &nodeModelName = clipboardNodeInfo->nodeModelName;
     QString errorMessage;
     if (!WbNodeUtilities::isAllowedToInsert(field, nodeModelName, parentNode, errorMessage,
-                                            static_cast<const WbBaseNode *>(parentNode)->nodeUse(),
-                                            clipboardNodeInfo->slotType) &&
-        !WbNodeUtilities::isAllowedToInsert(field, clipboardNodeInfo->modelName, parentNode, errorMessage,
-                                            static_cast<const WbBaseNode *>(parentNode)->nodeUse(),
-                                            clipboardNodeInfo->slotType))
+                                            static_cast<const WbBaseNode *>(parentNode)->nodeUse(), clipboardNodeInfo->slotType,
+                                            QStringList() << nodeModelName << clipboardNodeInfo->modelName))
       return false;
 
     // allow to paste devices node only in robot top nodes
