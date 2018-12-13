@@ -54,6 +54,7 @@ void WbCubemap::init() {
   mDiffuseIrradianceCubeTexture = NULL;
   mSpecularIrradianceCubeTexture = NULL;
   mIsValid = false;
+  mIsEquirectangular = false;
 
   for (int i = 0; i < 6; ++i) {
     mQImages[i] = NULL;
@@ -122,6 +123,7 @@ void WbCubemap::loadWrenTexture() {
     WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
 
   if (!expectedEquirectangularPath.isEmpty()) {
+    mIsEquirectangular = true;
     stbi_set_flip_vertically_on_load(true);
     int width, height, nrComponents;
     float *data = stbi_loadf(expectedEquirectangularPath.toUtf8().constData(), &width, &height, &nrComponents, 0);
@@ -142,6 +144,7 @@ void WbCubemap::loadWrenTexture() {
     WbWrenOpenGlContext::doneWren();
 
   } else {
+    mIsEquirectangular = false;
     QString mSuffix = "";
     bool allTexturesAreDefined = true;
     for (int i = 0; i < 6; ++i) {
