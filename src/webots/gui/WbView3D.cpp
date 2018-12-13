@@ -1251,7 +1251,7 @@ void WbView3D::checkRendererCapabilities() {
   if (reduceTextureQuality) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
-    WbPreferences::instance()->setValue("OpenGL/TexturesQuality", 1);
+    WbPreferences::instance()->setValue("OpenGL/TextureQuality", 1);
   }
 
   // 4. check OpenGL capabilities.
