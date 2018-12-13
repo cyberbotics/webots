@@ -1184,6 +1184,7 @@ void WbView3D::checkRendererCapabilities() {
   bool disableShadows = false;
   bool disableCameraAntiAliasing = false;
   bool disableSMAA = false;
+  bool disableGTAO = false;
   bool reduceTextureQuality = false;
 
   // 2. determine what has to be reduced
@@ -1204,6 +1205,7 @@ void WbView3D::checkRendererCapabilities() {
     disableShadows = true;
     disableCameraAntiAliasing = true;
     disableSMAA = true;
+    disableGTAO = true;
     reduceTextureQuality = true;
   }
 
@@ -1240,6 +1242,12 @@ void WbView3D::checkRendererCapabilities() {
     WbPreferences::instance()->setValue("OpenGL/SMAA", false);
   }
 
+  if (disableGTAO) {
+    message += "\n - ";
+    message += tr("Main 3D view global ambient occlusion has been de-activated.");
+    WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
+  }
+
   if (reduceTextureQuality) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
@@ -1255,7 +1263,7 @@ void WbView3D::checkRendererCapabilities() {
   // 5. complete and display the message
   if (!message.isEmpty()) {
     message += "\n";
-    if (disableShadows || disableCameraAntiAliasing || disableSMAA)
+    if (disableShadows || disableCameraAntiAliasing || disableSMAA || disableGTAO)
       message += tr("You can try to re-activate some OpenGL features from the Webots preferences.");
     else
       message +=
