@@ -1156,7 +1156,7 @@ void WbViewpoint::updatePostProcessingParameters() {
     updateExposure();
 
   if (mWrenGtao) {
-    if (mAmbientOcclusionRadius->value() == 0.0) {
+    if (mAmbientOcclusionRadius->value() == 0.0 || !WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt()) {
       mWrenGtao->detachFromViewport();
       return;
     } else if (!mWrenGtao->hasBeenSetup())
