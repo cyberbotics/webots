@@ -28,8 +28,11 @@ Viewpoint {
 }
 Background {
   skyColor [
-    0.37006179903868164 0.4989547570000763 0.6932326237888151
+    0.33 0.66 1
   ]
+  cubemap Cubemap {
+    textureBaseName "gradient"
+  }
 }
 TexturedBackgroundLight {
 }
