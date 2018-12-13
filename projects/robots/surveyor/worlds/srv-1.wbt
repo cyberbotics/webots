@@ -26,7 +26,13 @@ Viewpoint {
   position -0.405125 0.707895 0.57836
   follow "SurveyorSrv1"
 }
-TexturedBackground {
+Background {
+  skyColor [
+    0.33 0.66 1
+  ]
+  cubemap Cubemap {
+    textureBaseName "gradient"
+  }
 }
 TexturedBackgroundLight {
 }
