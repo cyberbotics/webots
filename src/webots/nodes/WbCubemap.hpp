@@ -40,6 +40,7 @@ public:
   void modifyWrenMaterial(WrMaterial *material);
 
   bool isValid() const { return mIsValid; }
+  bool isEquirectangular() const { return mIsEquirectangular; }
 
   QString textureUrls(int index) const { return mTextureUrls[index]; }
 
@@ -75,6 +76,7 @@ private:
   WrTextureCubeMap *mDiffuseIrradianceCubeTexture;
   WrTextureCubeMap *mSpecularIrradianceCubeTexture;
   bool mIsValid;
+  bool mIsEquirectangular;
 
 private slots:
   void updateWrenTexture();

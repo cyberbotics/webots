@@ -23,6 +23,7 @@ PROTO TexturedBackground [
 ]
 {
   Background {
+    skyColor 0.33 0.66 1
     cubemap Cubemap {
       textureBaseName IS texture
       directory "textures/cubic"
