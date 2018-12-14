@@ -524,6 +524,8 @@ namespace {
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
     foreach (const WbVariant variant, field->acceptedValues()) {
+      if (variant.type() != WB_SF_NODE)
+        continue;
       const WbNode *acceptedNode = variant.toNode();
       assert(acceptedNode);
       if (nodeNames.contains(acceptedNode->modelName()))

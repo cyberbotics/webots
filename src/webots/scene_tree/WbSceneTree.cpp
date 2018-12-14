@@ -971,6 +971,9 @@ bool WbSceneTree::isPasteAllowed() {
     if (parentNode->isWorldRoot() && mSelectedItem->row() < 1)
       return false;
 
+    if (!(field->type() & WB_SF_NODE))
+      return false;
+
     // semantic checks
     const WbClipboard::WbClipboardNodeInfo *clipboardNodeInfo = mClipboard->nodeInfo();
     const QString &nodeModelName = clipboardNodeInfo->nodeModelName;
