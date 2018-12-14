@@ -499,7 +499,6 @@ float WbWrenCamera::computeFieldOfViewY(double fovX, double aspectRatio) {
 }
 
 void WbWrenCamera::init() {
-  assert(mNumActivePostProcessingEffects >= 0);
   mFirstRenderingCall = true;
   mIsCopyingEnabled = false;
 
@@ -780,7 +779,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 void WbWrenCamera::applyPostProcessingEffectStack(int index) {
   assert(index >= 0 && index <= CAMERA_ORIENTATION_COUNT);
 
-  // if this camera is spherical image we need is in result framebuffer if
+  // if this camera is spherical the image we need is in result framebuffer
   for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
     WrPostProcessingEffectPass *firstPass = wr_post_processing_effect_get_first_pass(mPostProcessingEffects[i]);
     if (index == CAMERA_ORIENTATION_COUNT || i != 0)
