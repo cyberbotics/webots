@@ -116,6 +116,8 @@ void WbBackground::init() {
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
   init();
+  if (tokenizer == NULL)
+    mSkyColor->setItem(0, WbRgb(0.15, 0.45, 1), false);
 }
 
 WbBackground::WbBackground(const WbBackground &other) : WbBaseNode(other) {

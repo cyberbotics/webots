@@ -57,7 +57,7 @@ public:
     assert(index >= 0 && index < size());
     return mVector[index];
   }
-  void setItem(int index, const WbRgb &value);
+  void setItem(int index, const WbRgb &value, bool signal = true);
   void addItem(const WbRgb &value);
   void insertItem(int index, const WbRgb &value);
   WbMFColor &operator=(const WbMFColor &other);

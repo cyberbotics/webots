@@ -44,12 +44,14 @@ void WbMFColor::removeItem(int index) {
   emit changed();
 }
 
-void WbMFColor::setItem(int index, const WbRgb &value) {
+void WbMFColor::setItem(int index, const WbRgb &value, bool signal) {
   assert(index >= 0 && index < size());
   if (mVector[index] != value) {
     mVector[index] = value;
-    emit itemChanged(index);
-    emit changed();
+    if (signal) {
+      emit itemChanged(index);
+      emit changed();
+    }
   }
 }
 
