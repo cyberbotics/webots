@@ -942,7 +942,7 @@ void WbView3D::updateViewport() {
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   connect(viewpoint, &WbViewpoint::followInvalidated, this, &WbView3D::notifyFollowObjectAction);
   connect(viewpoint, &WbViewpoint::followOrientationChanged, this, &WbView3D::notifyFollowObjectAndRotationAction);
-  connect(viewpoint, &WbViewpoint::virtualRealityHeadsetRequiresRender, this, &WbView3D::renderNow);
+  connect(viewpoint, SIGNAL(virtualRealityHeadsetRequiresRender()), this, SLOT(renderNow()));
   if (viewpoint->followedSolid() && viewpoint->isFollowingOrientation())
     WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(true);
   else if (viewpoint->followedSolid())
@@ -1005,7 +1005,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   WbViewpoint *const viewpoint = mWorld->viewpoint();
   connect(viewpoint, &WbViewpoint::followInvalidated, this, &WbView3D::notifyFollowObjectAction);
   connect(viewpoint, &WbViewpoint::followOrientationChanged, this, &WbView3D::notifyFollowObjectAndRotationAction);
-  connect(viewpoint, &WbViewpoint::virtualRealityHeadsetRequiresRender, this, &WbView3D::renderNow);
+  connect(viewpoint, SIGNAL(virtualRealityHeadsetRequiresRender()), this, SLOT(renderNow()));
   viewpoint->startFollowUpFromField();
   if (viewpoint->followedSolid() && viewpoint->isFollowingOrientation())
     WbActionManager::instance()->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE)->setChecked(true);
@@ -1075,6 +1075,9 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   onSelectionChanged(WbSelection::instance()->selectedAbstractTransform());
 
   WbWrenOpenGlContext::doneWren();
+
+  // first rendering without culling to make sure every meshes/textures are actually loaded on the GPU
+  renderNow(false);
 }
 
 void WbView3D::restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
@@ -1329,7 +1332,7 @@ void WbView3D::resizeWren(int width, int height) {
   WbWrenWindow::resizeWren(width, height);
 }
 
-void WbView3D::renderNow() {
+void WbView3D::renderNow(bool culling) {
   // take screenshot if needed
   if (mScreenshotRequested) {
     mScreenshotRequested = false;
@@ -1355,7 +1358,7 @@ void WbView3D::renderNow() {
       WbWrenOpenGlContext::doneWren();
     } else
 #endif
-      WbWrenWindow::renderNow();
+      WbWrenWindow::renderNow(culling);
     mLastRefreshTimer.start();
     emit mainRenderingEnded(mPhysicsRefresh);
 

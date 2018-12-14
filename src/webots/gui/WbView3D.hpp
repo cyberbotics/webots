@@ -90,7 +90,7 @@ public slots:
   void unleashAndClean();
 
 protected slots:
-  void renderNow() override;
+  void renderNow(bool culling = true) override;
 
 protected:
   void initialize() override;
