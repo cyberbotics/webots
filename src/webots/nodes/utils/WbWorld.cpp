@@ -127,7 +127,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
       }
       QString errorMessage;
       if (WbNodeUtilities::isAllowedToInsert(childrenField, node->nodeModelName(), mRoot, errorMessage, WbNode::STRUCTURE_USE,
-                                             WbNodeUtilities::slotType(node))) {
+                                             WbNodeUtilities::slotType(node), QStringList(node->nodeModelName()))) {
         node->validate();
         mRoot->addChild(node);
       } else

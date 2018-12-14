@@ -104,7 +104,6 @@ public:
   bool isSingle() const;
   bool isHidden() const;
   bool isHiddenParameter() const;
-  bool isUnconnected() const { return mModel->isUnconnected(); }
 
   // accepted values
   bool hasRestrictedValues() const { return mModel->hasRestrictedValues(); }

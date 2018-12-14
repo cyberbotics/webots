@@ -7,42 +7,42 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 PROTO LaneSeparation [
-  field             SFVec3f              translation                 0 0 0
-  field             SFRotation           rotation                    0 1 0 0
-  field             SFString             name                        "road"                   # Defines the junction name.
-  field             SFString             id                          ""                       # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
-  field             MFString             connectedRoadIDs            []                       # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
-  field             SFFloat              width                       14                       # Defines the total width of the road (excluding sidewalk).
-  field             SFFloat              length                      5                        # Defines the length of the segment.
-  field             SFInt32              numberOfLanes               4                        # Defines the total number of lanes (used for the texture mapping).
-  field             SFInt32              numberOfleavingLanes        2                        # Defines the number of lanes leaving the road.
-  field             SFFloat              speedLimit                -1.0                       # Optionally defines the speed limit. The recommended unit is meter per seconds.
-  field             SFBool               newLaneLeft                 TRUE                     # Defines on which sied the lanes are leaving the road.
-  unconnectedField  MFNode{RoadLine {}}  lines                       [ RoadLine { } ]         # Defines the property of each line separating two lanes.
-  field             SFFloat              roadBorderHeight            0.15                     # Defines the height of the sidewalk.
-  field             SFFloat              roadBorderWidth             0.8                      # Defines the width of the sidewalk
-  field             SFBool               rightBorder                 TRUE                     # Defines whether the road should have a right sidewalk.
-  field             SFBool               leftBorder                  TRUE                     # Defines whether the road should have a left sidewalk.
-  field             SFBool               centralBorder               TRUE                     # Defines whether the road should have a central sidewalk.
-  field             SFBool               rightBarrier                FALSE                    # Defines whether the road should have a right barrier.
-  field             SFBool               leftBarrier                 FALSE                    # Defines whether the road should have a left barrier.
-  field             SFBool               bottom                      FALSE                    # Defines whether the road bottom should be displayed (useful in case of bridge).
-  field             MFString             startLine                   []                       # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
-  field             MFString             endLine                     []                       # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
-  field             SFNode               appearance                  Asphalt { }              # Defines the appearance of the road.
-  field             SFNode               pavementAppearance          StonePavement { }        # Defines the appearance of the sidewalk.
-  field             MFString             bottomTexture               []                       # Defines the texture to be used for the bottom of the road.
-  field             SFBool               locked                      TRUE                     # Is `Solid.locked`.
-  field             SFBool               roadBoundingObject          FALSE                    # Defines whether the road should have a bounding object.
-  field             SFBool               rightBorderBoundingObject   FALSE                    # Defines whether the right sidewalk should have a bounding object.
-  field             SFBool               leftBorderBoundingObject    FALSE                    # Defines whether the left sidewalk should have a bounding object.
-  field             SFBool               centralBorderBoundingObject FALSE                    # Defines whether the central sidewalk should have a bounding object.
-  field             SFBool               rightBarrierBoundingObject  TRUE                     # Defines whether the right crash barrier (if any) should have a bounding object.
-  field             SFBool               leftBarrierBoundingObject   TRUE                     # Defines whether the left crash barrier (if any) should have a bounding object.
-  field             SFBool               castShadows                 FALSE                    # Defines whether the road should cast shadows.
-  field             SFString             contactMaterial             "default"                # Is `Solid.contactMaterial`.
+  field        SFVec3f              translation                 0 0 0
+  field        SFRotation           rotation                    0 1 0 0
+  field        SFString             name                        "road"                   # Defines the junction name.
+  field        SFString             id                          ""                       # Optionally defines a unique ID. A unique ID is required to use the SUMO exporter.
+  field        MFString             connectedRoadIDs            []                       # Optionally defines a list of the identifiers of the connected Road. This is required to use the SUMO exporter.
+  field        SFFloat              width                       14                       # Defines the total width of the road (excluding sidewalk).
+  field        SFFloat              length                      5                        # Defines the length of the segment.
+  field        SFInt32              numberOfLanes               4                        # Defines the total number of lanes (used for the texture mapping).
+  field        SFInt32              numberOfleavingLanes        2                        # Defines the number of lanes leaving the road.
+  field        SFFloat              speedLimit                -1.0                       # Optionally defines the speed limit. The recommended unit is meter per seconds.
+  field        SFBool               newLaneLeft                 TRUE                     # Defines on which sied the lanes are leaving the road.
+  field        MFNode{RoadLine {}}  lines                       [ RoadLine { } ]         # Defines the property of each line separating two lanes.
+  field        SFFloat              roadBorderHeight            0.15                     # Defines the height of the sidewalk.
+  field        SFFloat              roadBorderWidth             0.8                      # Defines the width of the sidewalk
+  field        SFBool               rightBorder                 TRUE                     # Defines whether the road should have a right sidewalk.
+  field        SFBool               leftBorder                  TRUE                     # Defines whether the road should have a left sidewalk.
+  field        SFBool               centralBorder               TRUE                     # Defines whether the road should have a central sidewalk.
+  field        SFBool               rightBarrier                FALSE                    # Defines whether the road should have a right barrier.
+  field        SFBool               leftBarrier                 FALSE                    # Defines whether the road should have a left barrier.
+  field        SFBool               bottom                      FALSE                    # Defines whether the road bottom should be displayed (useful in case of bridge).
+  field        MFString             startLine                   []                       # Optionally defines the texture used for the road line at the first way-point for each lane. If the string is empty, no road line will be added for the corresponding lane. The two textures `textures/road_line_dashed.png` and `textures/road_line_triangle.png` may be used in this field.
+  field        MFString             endLine                     []                       # Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
+  field        SFNode               appearance                  Asphalt { }              # Defines the appearance of the road.
+  field        SFNode               pavementAppearance          StonePavement { }        # Defines the appearance of the sidewalk.
+  field        MFString             bottomTexture               []                       # Defines the texture to be used for the bottom of the road.
+  field        SFBool               locked                      TRUE                     # Is `Solid.locked`.
+  field        SFBool               roadBoundingObject          FALSE                    # Defines whether the road should have a bounding object.
+  field        SFBool               rightBorderBoundingObject   FALSE                    # Defines whether the right sidewalk should have a bounding object.
+  field        SFBool               leftBorderBoundingObject    FALSE                    # Defines whether the left sidewalk should have a bounding object.
+  field        SFBool               centralBorderBoundingObject FALSE                    # Defines whether the central sidewalk should have a bounding object.
+  field        SFBool               rightBarrierBoundingObject  TRUE                     # Defines whether the right crash barrier (if any) should have a bounding object.
+  field        SFBool               leftBarrierBoundingObject   TRUE                     # Defines whether the left crash barrier (if any) should have a bounding object.
+  field        SFBool               castShadows                 FALSE                    # Defines whether the road should cast shadows.
+  field        SFString             contactMaterial             "default"                # Is `Solid.contactMaterial`.
 
-  hiddenField       MFBool               dashedLine                  TRUE                     # Deprecated in Webots R2018c.
+  hiddenField  MFBool               dashedLine                  TRUE                     # Deprecated in Webots R2018c.
 ]
 {
   %{
@@ -105,6 +105,9 @@ PROTO LaneSeparation [
     name IS name
     model "lane separation"
     children [
+      Group {
+        children IS lines
+      }
       StraightRoadSegment {
         translation %{= -sideSign * (width/2) * (1 - numberOfleavingLanes/lanes) }% 0 0
         name "road 1"

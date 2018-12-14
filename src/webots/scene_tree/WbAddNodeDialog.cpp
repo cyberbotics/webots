@@ -393,7 +393,8 @@ void WbAddNodeDialog::buildTree() {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
     if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)) &&
-        WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString())) {
+        WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
+                                           QStringList(fileInfo.baseName()))) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
       item->setIcon(0, QIcon("enabledIcons:node.png"));
       nodesItem->addChild(item);
@@ -575,9 +576,8 @@ int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &p
 
     QString errorMessage;
     if (!WbNodeUtilities::isAllowedToInsert(mField, protoCachedInfo->baseType(), mCurrentNode, errorMessage, nodeUse,
-                                            protoCachedInfo->slotType()) &&
-        !WbNodeUtilities::isAllowedToInsert(mField, protoFile.chopped(6), mCurrentNode, errorMessage, nodeUse,
-                                            protoCachedInfo->slotType()))
+                                            protoCachedInfo->slotType(),
+                                            QStringList() << protoCachedInfo->baseType() << protoFile.chopped(6)))
       continue;
 
     const QFileInfo fileInfo(protoFile);
