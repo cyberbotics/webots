@@ -33,8 +33,7 @@ public:
 private:
   void applyParametersToWren() override;
 
-  float mTextureWidth;
-  float mTextureHeight;
+  float mTextureSize[2];
   float mCameraParams[2];
   float mDepthOfFieldParams[4];
   WrTexture *mColorTexture;

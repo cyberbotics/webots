@@ -24,8 +24,9 @@
 
 WbWrenDepthOfField::WbWrenDepthOfField() :
   WbWrenAbstractPostProcessingEffect(),
-  mTextureWidth(0.0f),
-  mTextureHeight(0.0f),
+  mTextureSize{0.0f, 0.0f},
+  mCameraParams{0.0f, 0.0f},
+  mDepthOfFieldParams{0.0f, 0.0f, 0.0f, 0.0f},
   mColorTexture(NULL),
   mDepthTexture(NULL) {
 }
@@ -44,9 +45,9 @@ void WbWrenDepthOfField::setup(WrViewport *viewport) {
   const float width = wr_viewport_get_width(mWrenViewport);
   const float height = wr_viewport_get_height(mWrenViewport);
 
-  mWrenPostProcessingEffect =
-    WbWrenPostProcessingEffects::depthOfField(width, height, mTextureWidth, mTextureHeight, mTextureFormat, mColorTexture, mDepthTexture);
-  
+  mWrenPostProcessingEffect = WbWrenPostProcessingEffects::depthOfField(width, height, mTextureSize[0], mTextureSize[1],
+                                                                        mTextureFormat, mColorTexture, mDepthTexture);
+
   applyParametersToWren();
 
   WbWrenOpenGlContext::makeWrenCurrent();
@@ -59,11 +60,11 @@ void WbWrenDepthOfField::setup(WrViewport *viewport) {
 }
 
 void WbWrenDepthOfField::setTextureWidth(float width) {
-  mTextureWidth = width;
+  mTextureSize[0] = width;
 }
 
 void WbWrenDepthOfField::setTextureHeight(float height) {
-  mTextureHeight = height;
+  mTextureSize[1] = height;
 }
 
 void WbWrenDepthOfField::setColorTexture(WrTexture *colorTexture) {
@@ -92,13 +93,13 @@ void WbWrenDepthOfField::applyParametersToWren() {
   if (!mWrenPostProcessingEffect)
     return;
 
-  float textureSize[2] = {mTextureWidth, mTextureHeight};
-
-  wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"),
-                                                       "cameraParams", reinterpret_cast<const char *>(&mCameraParams));
-  wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"),
-                                                       "dofParams", reinterpret_cast<const char *>(&mDepthOfFieldParams));
-  wr_post_processing_effect_pass_set_program_parameter(wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"),
-                                                       "blurTextureSize", reinterpret_cast<const char *>(&textureSize));  
-
+  wr_post_processing_effect_pass_set_program_parameter(
+    wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"), "cameraParams",
+    reinterpret_cast<const char *>(&mCameraParams));
+  wr_post_processing_effect_pass_set_program_parameter(
+    wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"), "dofParams",
+    reinterpret_cast<const char *>(&mDepthOfFieldParams));
+  wr_post_processing_effect_pass_set_program_parameter(
+    wr_post_processing_effect_get_pass(mWrenPostProcessingEffect, "LensFocus_Dof"), "blurTextureSize",
+    reinterpret_cast<const char *>(&mTextureSize));
 }

@@ -716,7 +716,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   // color noise
   if (mColorNoiseIntensity > 0.0f && mType == 'c')
     mWrenColorNoise[index]->setup(mCameraViewport[index]);
-  
+
   // range noise
   if (mRangeNoiseIntensity > 0.0f && mType != 'c')
     mWrenRangeNoise[index]->setup(mCameraViewport[index]);
@@ -775,13 +775,16 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 
   if (mIsLensDistortionEnabled) {
     mWrenLensDistortion[index]->setCenter(mLensDistortionCenter.x(), mLensDistortionCenter.y());
-    mWrenLensDistortion[index]->setRadialDistortionCoefficients(mLensDistortionRadialCoeffs.x(), mLensDistortionRadialCoeffs.y());
-    mWrenLensDistortion[index]->setTangentialDistortionCoefficients(mLensDistortionTangentialCoeffs.x(), mLensDistortionTangentialCoeffs.y());                                           
+    mWrenLensDistortion[index]->setRadialDistortionCoefficients(mLensDistortionRadialCoeffs.x(),
+                                                                mLensDistortionRadialCoeffs.y());
+    mWrenLensDistortion[index]->setTangentialDistortionCoefficients(mLensDistortionTangentialCoeffs.x(),
+                                                                    mLensDistortionTangentialCoeffs.y());
   }
 
   if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
     mWrenDepthOfField[index]->setCameraParams(wr_camera_get_near(mCamera[index]), wr_camera_get_far(mCamera[index]));
-    mWrenDepthOfField[index]->setDepthOfFieldParams(mFocusDistance - mFocusLength, mFocusDistance, mFocusDistance + mFocusLength, cDofFarBlurCutoff);
+    mWrenDepthOfField[index]->setDepthOfFieldParams(mFocusDistance - mFocusLength, mFocusDistance,
+                                                    mFocusDistance + mFocusLength, cDofFarBlurCutoff);
   }
 
   // if (mMotionBlurIntensity > 0.0f) {
@@ -808,7 +811,7 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
     mWrenRangeNoise[index]->setIntensity(mRangeNoiseIntensity);
   }
 
-  if (mDepthResolution > 0.0f) 
+  if (mDepthResolution > 0.0f)
     mWrenRangeQuantization[index]->setResolution(mDepthResolution);
 
   // if (mNoiseMaskTexture) {
