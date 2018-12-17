@@ -112,7 +112,7 @@ function computeTargetPath() {
   if (localSetup.branch)
     branch = localSetup.branch;
   if (localSetup.url.startsWith('http'))
-    targetPath = localSetup.url + branch + '/';
+    targetPath = localSetup.url + branch + '/docs/';
   targetPath += localSetup.book + '/';
   return targetPath;
 }
@@ -321,7 +321,7 @@ function addContributionBanner() {
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
                                                  'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/omichel/webots-doc"> ' +
+                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/omichel/webots/tree/master/docs"> ' +
                                                  'Contribute on GitHub!' +
                                                  '<span class=github-logo />' +
                                                  '</a>' +
@@ -339,7 +339,7 @@ function addContributionBanner() {
 function updateContributionBannerUrl() {
   var contributionBanner = document.querySelector('.contribution-banner-url');
   if (contributionBanner)
-    contributionBanner.href = 'https://github.com/omichel/webots-doc/edit/master/' + localSetup.book + '/' + localSetup.page + '.md';
+    contributionBanner.href = 'https://github.com/omichel/webots/edit/master/docs/' + localSetup.book + '/' + localSetup.page + '.md';
 }
 
 function addNavigationToBlogIfNeeded() {
@@ -1307,7 +1307,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (!isCyberboticsUrl) {
     if (!localSetup.url)
-      localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/omichel/webots-doc/');
+      localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/omichel/webots/');
     if (!localSetup.book)
       localSetup.book = getGETQueryValue('book', 'guide');
     if (!localSetup.page)
