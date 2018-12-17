@@ -35,6 +35,7 @@ class WbWrenColorNoise;
 class WbWrenHdr;
 class WbWrenRangeNoise;
 class WbWrenSmaa;
+class WbWrenRangeQuantization;
 
 class WbWrenCamera : public QObject {
   Q_OBJECT
@@ -155,6 +156,7 @@ private:
   WrTextureInternalFormat mTextureFormat;
 
   WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
