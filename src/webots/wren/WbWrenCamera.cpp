@@ -62,9 +62,6 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mNotifyOnTextureUpdate(false),
   mPostProcessingEffects(),
   mSphericalPostProcessingEffect(NULL),
-  mWrenColorNoise(new WbWrenColorNoise()),
-  mWrenHdr(new WbWrenHdr()),
-  mWrenSmaa(new WbWrenSmaa()),
   mColorNoiseIntensity(0.0f),
   mRangeNoiseIntensity(0.0f),
   mDepthResolution(-1.0f),
@@ -76,15 +73,24 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
+
+  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    mWrenColorNoise[i] = new WbWrenColorNoise();
+    mWrenHdr[i] = new WbWrenHdr();
+    mWrenSmaa[i] = new WbWrenSmaa();
+  }
+  
   init();
 }
 
 WbWrenCamera::~WbWrenCamera() {
   cleanup();
 
-  delete mWrenColorNoise;
-  delete mWrenHdr;
-  delete mWrenSmaa;
+  for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    delete mWrenColorNoise[i];
+    delete mWrenHdr[i];
+    delete mWrenSmaa[i];
+  }
 }
 
 WrTexture *WbWrenCamera::getWrenTexture() const {
@@ -533,12 +539,13 @@ void WbWrenCamera::cleanup() {
   wr_post_processing_effect_delete(mSphericalPostProcessingEffect);
   mSphericalPostProcessingEffect = NULL;
 
-  mWrenColorNoise->detachFromViewport();
-  mWrenHdr->detachFromViewport();
-  mWrenSmaa->detachFromViewport();
+
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
+      mWrenColorNoise[i]->detachFromViewport();
+      mWrenHdr[i]->detachFromViewport();
+      mWrenSmaa[i]->detachFromViewport();
       wr_node_delete(WR_NODE(mCamera[i]));
       wr_viewport_delete(mCameraViewport[i]);
 
@@ -657,7 +664,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 }
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
-
+  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
 
   // // lens distortion
   // if (mIsLensDistortionEnabled)
@@ -674,15 +681,15 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
 
   // hdr resolve
   if (mType == 'c')
-    mWrenHdr->setup(mCameraViewport[index]);
+    mWrenHdr[index]->setup(mCameraViewport[index]);
 
   // anti-aliasing
   if (mAntiAliasing && mType == 'c')
-    mWrenSmaa->setup(mCameraViewport[index]);
+    mWrenHdr[index]->setup(mCameraViewport[index]);
 
   // color noise
   if (mColorNoiseIntensity > 0.0f && mType == 'c')
-    mWrenColorNoise->setup(mCameraViewport[index]);
+    mWrenHdr[index]->setup(mCameraViewport[index]);
 
   // // range noise
   // if (mRangeNoiseIntensity > 0.0f && mType != 'c')
@@ -742,7 +749,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
-  assert(index >= 0 && index <= CAMERA_ORIENTATION_COUNT);
+  assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
 
   // // if this camera is spherical the image we need is in result framebuffer
   // for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
@@ -758,8 +765,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   //     wr_post_processing_effect_pass_set_program_parameter(hdrPass, "exposure", reinterpret_cast<const char *>(&mExposure));
   // }
 
-  if (mWrenHdr->hasBeenSetup())
-    mWrenHdr->setExposure(mExposure);
+  if (mWrenHdr[index]->hasBeenSetup())
+    mWrenHdr[index]->setExposure(mExposure);
 
   // if (mIsLensDistortionEnabled) {
   //   float center[2] = {static_cast<float>(mLensDistortionCenter.x()), static_cast<float>(mLensDistortionCenter.y())};
@@ -808,8 +815,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   if (mColorNoiseIntensity > 0.0f) {
     float time = WbSimulationState::instance()->time();
 
-    mWrenColorNoise->setTime(time);
-    mWrenColorNoise->setIntensity(mColorNoiseIntensity);
+    mWrenColorNoise[index]->setTime(time);
+    mWrenColorNoise[index]->setIntensity(mColorNoiseIntensity);
   }
 
   // if (mRangeNoiseIntensity > 0.0f) {

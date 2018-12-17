@@ -153,9 +153,9 @@ private:
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 
-  WbWrenColorNoise *mWrenColorNoise;
-  WbWrenHdr *mWrenHdr;
-  WbWrenSmaa *mWrenSmaa;
+  WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
+  WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
 
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;
