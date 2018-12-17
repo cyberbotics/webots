@@ -70,7 +70,7 @@ ifeq ($(OSTYPE),darwin)
  MACOSX_MIN_SDK_VERSION = 10.9
 
  # cf. https://stackoverflow.com/a/30225756/2210777
- MACOSX_SDK_PATH = $(shell xcrun --show-sdk-path)
+ MACOSX_SDK_PATH = $(shell xcrun --sdk macosx --show-sdk-path)
  ifeq ($(wildcard $(MACOSX_SDK_PATH)),)
   $(error The macOS SDK is not found. Please check that XCode and its command line tools are correctly installed.)
  endif
