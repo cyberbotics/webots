@@ -18,6 +18,8 @@
 struct WrViewport;
 struct WrPostProcessingEffect;
 
+#include <wren/texture.h>
+
 class WbWrenAbstractPostProcessingEffect {
 public:
   WbWrenAbstractPostProcessingEffect();
@@ -26,6 +28,7 @@ public:
   virtual void setup(WrViewport *viewport) = 0;
   virtual void detachFromViewport();
   bool hasBeenSetup() const { return mHasBeenSetup; }
+  void setTextureFormat(WrTextureInternalFormat format) { mTextureFormat = format; }
 
   WrViewport *wrenViewport() const { return mWrenViewport; }
 
@@ -35,6 +38,7 @@ protected:
   WrViewport *mWrenViewport;
   WrPostProcessingEffect *mWrenPostProcessingEffect;
   bool mHasBeenSetup;
+  WrTextureInternalFormat mTextureFormat;
 };
 
 #endif  // WB_ABSTRACT_POST_PROCESSING_EFFECT_HPP

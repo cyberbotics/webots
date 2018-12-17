@@ -22,6 +22,7 @@
 #include "WbVector4.hpp"
 #include "WbWrenColorNoise.hpp"
 #include "WbWrenHdr.hpp"
+#include "WbWrenLensDistortion.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRangeNoise.hpp"
@@ -78,6 +79,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenHdr[i] = new WbWrenHdr();
+    mWrenLensDistortion[i] = new WbWrenLensDistortion();
     mWrenRangeNoise[i] = new WbWrenRangeNoise();
     mWrenRangeQuantization[i] = new WbWrenRangeQuantization();
     mWrenSmaa[i] = new WbWrenSmaa();
@@ -92,6 +94,7 @@ WbWrenCamera::~WbWrenCamera() {
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     delete mWrenColorNoise[i];
     delete mWrenHdr[i];
+    delete mWrenLensDistortion[i];
     delete mWrenRangeNoise[i];
     delete mWrenRangeQuantization[i];
     delete mWrenSmaa[i];
@@ -547,6 +550,7 @@ void WbWrenCamera::cleanup() {
     if (mIsCameraActive[i]) {
       mWrenColorNoise[i]->detachFromViewport();
       mWrenHdr[i]->detachFromViewport();
+      mWrenLensDistortion[i]->detachFromViewport();
       mWrenRangeNoise[i]->detachFromViewport();
       mWrenRangeQuantization[i]->detachFromViewport();
       mWrenSmaa[i]->detachFromViewport();
@@ -670,9 +674,12 @@ void WbWrenCamera::setupSphericalSubCameras() {
 void WbWrenCamera::setupCameraPostProcessing(int index) {
   assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
 
-  // // lens distortion
-  // if (mIsLensDistortionEnabled)
-  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::lensDistortion(mWidth, mHeight, mTextureFormat));
+  // lens distortion
+  if (mIsLensDistortionEnabled) {
+    mWrenLensDistortion[index]->setTextureFormat(mTextureFormat);
+    mWrenLensDistortion[index]->setup(mCameraViewport[index]);
+  }
+
   // // depth of field
   // if (mFocusDistance > 0.0f && mFocusLength > 0.0f)
   //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthOfField(
@@ -773,23 +780,11 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
 
-  // if (mIsLensDistortionEnabled) {
-  //   float center[2] = {static_cast<float>(mLensDistortionCenter.x()), static_cast<float>(mLensDistortionCenter.y())};
-  //   float radialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionRadialCoeffs.x()),
-  //                                      static_cast<float>(mLensDistortionRadialCoeffs.y())};
-  //   float tangentialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionTangentialCoeffs.x()),
-  //                                          static_cast<float>(mLensDistortionTangentialCoeffs.y())};
-
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "center",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char
-  //                                              *>(&center));
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "radialDistortionCoeffs",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
-  //                                              reinterpret_cast<const char *>(&radialDistortionCoeffs));
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "tangentialDistortionCoeffs",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
-  //                                              reinterpret_cast<const char *>(&tangentialDistortionCoeffs));
-  // }
+  if (mIsLensDistortionEnabled) {
+    mWrenLensDistortion[index]->setCenter(mLensDistortionCenter.x(), mLensDistortionCenter.y());
+    mWrenLensDistortion[index]->setRadialDistortionCoefficients(mLensDistortionRadialCoeffs.x(), mLensDistortionRadialCoeffs.y());
+    mWrenLensDistortion[index]->setTangentialDistortionCoefficients(mLensDistortionTangentialCoeffs.x(), mLensDistortionTangentialCoeffs.y());                                           
+  }
 
   // if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
   //   float cameraParams[2] = {wr_camera_get_near(mCamera[CAMERA_ORIENTATION_FRONT]),

@@ -530,6 +530,7 @@ OTHER_SOURCES = \
   WbWrenGtao.cpp \
   WbWrenHdr.cpp \
   WbWrenLabelOverlay.cpp \
+  WbWrenLensDistortion.cpp \
   WbWrenLensFlare.cpp \
   WbWrenMeshBuffers.cpp \
   WbWrenPicker.cpp \

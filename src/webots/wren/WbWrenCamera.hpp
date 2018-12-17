@@ -33,6 +33,7 @@ struct WrViewport;
 
 class WbWrenColorNoise;
 class WbWrenHdr;
+class WbWrenLensDistortion;
 class WbWrenRangeNoise;
 class WbWrenSmaa;
 class WbWrenRangeQuantization;
@@ -160,6 +161,7 @@ private:
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
+  WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
 
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;
