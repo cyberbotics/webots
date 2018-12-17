@@ -22,6 +22,7 @@
 #include "WbVector4.hpp"
 #include "WbWrenColorNoise.hpp"
 #include "WbWrenHdr.hpp"
+#include "WbWrenSmaa.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -63,6 +64,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mSphericalPostProcessingEffect(NULL),
   mWrenColorNoise(new WbWrenColorNoise()),
   mWrenHdr(new WbWrenHdr()),
+  mWrenSmaa(new WbWrenSmaa()),
   mColorNoiseIntensity(0.0f),
   mRangeNoiseIntensity(0.0f),
   mDepthResolution(-1.0f),
@@ -82,6 +84,7 @@ WbWrenCamera::~WbWrenCamera() {
 
   delete mWrenColorNoise;
   delete mWrenHdr;
+  delete mWrenSmaa;
 }
 
 WrTexture *WbWrenCamera::getWrenTexture() const {
@@ -532,6 +535,7 @@ void WbWrenCamera::cleanup() {
 
   mWrenColorNoise->detachFromViewport();
   mWrenHdr->detachFromViewport();
+  mWrenSmaa->detachFromViewport();
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
@@ -672,12 +676,14 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   if (mType == 'c')
     mWrenHdr->setup(mCameraViewport[index]);
 
-  // // anti-aliasing
-  // if (mAntiAliasing && mType == 'c')
-  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::smaa(mWidth, mHeight, mTextureFormat));
-  // // color noise
+  // anti-aliasing
+  if (mAntiAliasing && mType == 'c')
+    mWrenSmaa->setup(mCameraViewport[index]);
+
+  // color noise
   if (mColorNoiseIntensity > 0.0f && mType == 'c')
     mWrenColorNoise->setup(mCameraViewport[index]);
+
   // // range noise
   // if (mRangeNoiseIntensity > 0.0f && mType != 'c')
   //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::rangeNoise(mWidth, mHeight, mTextureFormat));
