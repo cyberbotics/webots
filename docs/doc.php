@@ -59,17 +59,17 @@
   if ($branch === '') {
     # get HEAD commit SHA, to ensure that when master is updated the latest version is cached by the CDN
     ini_set('user_agent', 'omichel'); # every GitHub request needs a valid user agent header
-    $githubHead = file_get_contents("https://api.github.com/repos/omichel/webots-doc/git/refs/heads/master");
+    $githubHead = file_get_contents("https://api.github.com/repos/omichel/webots/git/refs/heads/master");
     // failed request / github is down
     if ($githubHead === FALSE)
-      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@master";  // fall back to dev URL at worst
+      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots@master";  // fall back to dev URL at worst
     else {
       $githubPhp = json_decode($githubHead);
       $sha = $githubPhp->object->sha;
-      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@$sha";  // Load the current master snapshot from RawGit CDN.
+      $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots@$sha";  // Load the current master snapshot from RawGit CDN.
     }
   } else
-    $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots-doc@"; // Load master snapshot from dev URL.
+    $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots@"; // Load master snapshot from dev URL.
 
   $scripts = "
     <script>
@@ -81,14 +81,14 @@
         'branch':     '$branch',
         'repository': '$repository',
         'tag':        '',  // For backward compatibility < R2018a.
-        'url':        'https://raw.githubusercontent.com/$repository/webots-doc/'
+        'url':        'https://raw.githubusercontent.com/$repository/webots/'
       }
       console.log('Setup: ' + JSON.stringify(setup));
     </script>
-    <link rel='stylesheet' type='text/css' href='$cacheUrl$branch/css/webots-doc.css'/>
+    <link rel='stylesheet' type='text/css' href='$cacheUrl$branch/docs/css/webots-doc.css'/>
   ";
 
-  $dependencies = file_get_contents("$cacheUrl$branch/dependencies.txt");
+  $dependencies = file_get_contents("$cacheUrl$branch/docs/dependencies.txt");
   if ($dependencies == FALSE)  // fallback for doc < R2018a.rev2
     $dependencies = file_get_contents("https://www.cyberbotics.com/files/repository/www/wwi/R2018a/dependencies_fallback.txt");
   foreach (explode(PHP_EOL, $dependencies) as $dependency) {
@@ -108,8 +108,8 @@
   }
 
   $scripts .= "
-    <script src='$cacheUrl$branch/js/showdown-extensions.js'></script>
-    <script src='$cacheUrl$branch/js/viewer.js'></script>
+    <script src='$cacheUrl$branch/docs/js/showdown-extensions.js'></script>
+    <script src='$cacheUrl$branch/docs/js/viewer.js'></script>
   ";
   include 'header.php';
 ?>
