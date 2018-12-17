@@ -534,6 +534,7 @@ OTHER_SOURCES = \
   WbWrenMeshBuffers.cpp \
   WbWrenPicker.cpp \
   WbWrenPostProcessingEffects.cpp \
+  WbWrenRangeNoise.cpp \
   WbWrenShaders.cpp \
   WbWrenSmaa.cpp \
   WbWrenVertexArrayFrameListener.cpp

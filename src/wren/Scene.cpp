@@ -260,6 +260,7 @@ namespace wren {
 
           sortRenderQueueByState(mRenderQueues[i].begin(), firstWithoutUseMaterial);
           renderDefault(mRenderQueues[i].begin(), firstWithoutUseMaterial, i > 0);
+          mCurrentViewport->applyPostProcessing();
         }
       } else {
         renderToViewport();

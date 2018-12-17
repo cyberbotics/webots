@@ -33,6 +33,7 @@ struct WrViewport;
 
 class WbWrenColorNoise;
 class WbWrenHdr;
+class WbWrenRangeNoise;
 class WbWrenSmaa;
 
 class WbWrenCamera : public QObject {
@@ -155,6 +156,7 @@ private:
 
   WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
 
   float mColorNoiseIntensity;

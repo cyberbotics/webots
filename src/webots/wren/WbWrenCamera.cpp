@@ -24,6 +24,7 @@
 #include "WbWrenHdr.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
+#include "WbWrenRangeNoise.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 #include "WbWrenSmaa.hpp"
@@ -76,6 +77,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenHdr[i] = new WbWrenHdr();
+    mWrenRangeNoise[i] = new WbWrenRangeNoise();
     mWrenSmaa[i] = new WbWrenSmaa();
   }
 
@@ -88,6 +90,7 @@ WbWrenCamera::~WbWrenCamera() {
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     delete mWrenColorNoise[i];
     delete mWrenHdr[i];
+    delete mWrenRangeNoise[i];
     delete mWrenSmaa[i];
   }
 }
@@ -541,6 +544,7 @@ void WbWrenCamera::cleanup() {
     if (mIsCameraActive[i]) {
       mWrenColorNoise[i]->detachFromViewport();
       mWrenHdr[i]->detachFromViewport();
+      mWrenRangeNoise[i]->detachFromViewport();
       mWrenSmaa[i]->detachFromViewport();
       wr_node_delete(WR_NODE(mCamera[i]));
       wr_viewport_delete(mCameraViewport[i]);
@@ -681,15 +685,16 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
 
   // anti-aliasing
   if (mAntiAliasing && mType == 'c')
-    mWrenHdr[index]->setup(mCameraViewport[index]);
+    mWrenSmaa[index]->setup(mCameraViewport[index]);
 
   // color noise
   if (mColorNoiseIntensity > 0.0f && mType == 'c')
-    mWrenHdr[index]->setup(mCameraViewport[index]);
+    mWrenColorNoise[index]->setup(mCameraViewport[index]);
+  
+  // range noise
+  if (mRangeNoiseIntensity > 0.0f && mType != 'c')
+    mWrenRangeNoise[index]->setup(mCameraViewport[index]);
 
-  // // range noise
-  // if (mRangeNoiseIntensity > 0.0f && mType != 'c')
-  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::rangeNoise(mWidth, mHeight, mTextureFormat));
   // // depth resolution
   // if (mDepthResolution > 0.0f && mType != 'c')
   //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthResolution(mWidth, mHeight, mTextureFormat));
@@ -818,16 +823,12 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
     mWrenColorNoise[index]->setIntensity(mColorNoiseIntensity);
   }
 
-  // if (mRangeNoiseIntensity > 0.0f) {
-  //   float time = WbSimulationState::instance()->time();
+  if (mRangeNoiseIntensity > 0.0f) {
+    float time = WbSimulationState::instance()->time();
 
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "time",
-  //   WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-  //                                              reinterpret_cast<const char *>(&time));
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "intensity",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-  //                                              reinterpret_cast<const char *>(&mRangeNoiseIntensity));
-  // }
+    mWrenRangeNoise[index]->setTime(time);
+    mWrenRangeNoise[index]->setIntensity(mRangeNoiseIntensity);
+  }
 
   // if (mDepthResolution > 0.0f) {
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthResolutionShader(), "resolution",
