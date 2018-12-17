@@ -31,6 +31,9 @@ struct WrTexture;
 struct WrTexture2d;
 struct WrViewport;
 
+class WbWrenColorNoise;
+class WbWrenHdr;
+
 class WbWrenCamera : public QObject {
   Q_OBJECT
 
@@ -102,12 +105,12 @@ private:
   void cleanup();
   void setupCamera(int index, int width, int height);
   void setupSphericalSubCameras();
-  void setupPostProcessingEffects();
+  void setupCameraPostProcessing(int index);
   void setupSphericalPostProcessingEffect();
   void setCamerasOrientations();
   void setFovy(float fov);
   void setAspectRatio(float aspectRatio);
-  void applyPostProcessingEffectStack(int index);
+  void updatePostProcessingParameters(int index);
   void applySphericalPostProcessingEffect();
 
   WrTransform *mNode;
@@ -149,7 +152,9 @@ private:
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 
-  int mNumActivePostProcessingEffects;
+  WbWrenColorNoise *mWrenColorNoise;
+  WbWrenHdr *mWrenHdr;
+  
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;
   float mDepthResolution;

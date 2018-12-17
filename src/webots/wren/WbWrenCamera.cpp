@@ -20,6 +20,8 @@
 #include "WbSimulationState.hpp"
 #include "WbVector2.hpp"
 #include "WbVector4.hpp"
+#include "WbWrenColorNoise.hpp"
+#include "WbWrenHdr.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -59,7 +61,8 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mNotifyOnTextureUpdate(false),
   mPostProcessingEffects(),
   mSphericalPostProcessingEffect(NULL),
-  mNumActivePostProcessingEffects(0),
+  mWrenColorNoise(new WbWrenColorNoise()),
+  mWrenHdr(new WbWrenHdr()),
   mColorNoiseIntensity(0.0f),
   mRangeNoiseIntensity(0.0f),
   mDepthResolution(-1.0f),
@@ -71,14 +74,14 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
-  if (mType == 'c' || mIsSpherical)
-    ++mNumActivePostProcessingEffects;
-
   init();
 }
 
 WbWrenCamera::~WbWrenCamera() {
   cleanup();
+
+  delete mWrenColorNoise;
+  delete mWrenHdr;
 }
 
 WrTexture *WbWrenCamera::getWrenTexture() const {
@@ -174,12 +177,6 @@ void WbWrenCamera::setMotionBlur(float blur) {
   mMotionBlurIntensity = blur;
   if (hasStatusChanged) {
     cleanup();
-
-    if (mMotionBlurIntensity > 0.0f)
-      ++mNumActivePostProcessingEffects;
-    else
-      --mNumActivePostProcessingEffects;
-
     init();
   }
 }
@@ -196,12 +193,6 @@ void WbWrenCamera::setFocus(float distance, float length) {
 
   if (hasStatusChanged) {
     cleanup();
-
-    if (mFocusDistance > 0.0f && mFocusLength > 0.0f)
-      ++mNumActivePostProcessingEffects;
-    else
-      --mNumActivePostProcessingEffects;
-
     init();
   }
 }
@@ -210,7 +201,6 @@ void WbWrenCamera::enableLensDistortion() {
   if (!mIsLensDistortionEnabled) {
     mIsLensDistortionEnabled = true;
     cleanup();
-    ++mNumActivePostProcessingEffects;
     init();
   }
 }
@@ -219,7 +209,6 @@ void WbWrenCamera::disableLensDistortion() {
   if (mIsLensDistortionEnabled) {
     mIsLensDistortionEnabled = false;
     cleanup();
-    --mNumActivePostProcessingEffects;
     init();
   }
 }
@@ -245,12 +234,6 @@ void WbWrenCamera::setColorNoise(float colorNoise) {
   mColorNoiseIntensity = colorNoise;
   if (hasStatusChanged) {
     cleanup();
-
-    if (mColorNoiseIntensity > 0.0f)
-      ++mNumActivePostProcessingEffects;
-    else
-      --mNumActivePostProcessingEffects;
-
     init();
   }
 }
@@ -264,12 +247,6 @@ void WbWrenCamera::setRangeNoise(float rangeNoise) {
   mRangeNoiseIntensity = rangeNoise;
   if (hasStatusChanged) {
     cleanup();
-
-    if (mRangeNoiseIntensity > 0.0f)
-      ++mNumActivePostProcessingEffects;
-    else
-      --mNumActivePostProcessingEffects;
-
     init();
   }
 }
@@ -284,12 +261,6 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   mDepthResolution = resolution;
   if (hasStatusChanged) {
     cleanup();
-
-    if (mDepthResolution != -1.0f)
-      ++mNumActivePostProcessingEffects;
-    else
-      --mNumActivePostProcessingEffects;
-
     init();
   }
 }
@@ -345,11 +316,6 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath) {
   }
   mNoiseMaskTextureFactor = factor;
 
-  if (mNoiseMaskTexture)
-    ++mNumActivePostProcessingEffects;
-  else
-    --mNumActivePostProcessingEffects;
-
   init();
 
   return "";
@@ -390,34 +356,25 @@ void WbWrenCamera::render() {
   }
 
   WbWrenOpenGlContext::makeWrenCurrent();
+  if (mIsSpherical) {
+    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+      if (mIsCameraActive[i])
+        updatePostProcessingParameters(i);
+    }
+  } else
+    updatePostProcessingParameters(CAMERA_ORIENTATION_FRONT);
+
   // Depth information needs to be conserved for post-processing shaders
-  wr_scene_enable_depth_reset(wr_scene_get_instance(), false);
+  // wr_scene_enable_depth_reset(wr_scene_get_instance(), true);
   wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender,
                                (mType != 'c') ? "encodeDepth" : NULL);
 
-  if (mIsSpherical) {
+  if (mIsSpherical)
     applySphericalPostProcessingEffect();
-
-    if (mNumActivePostProcessingEffects) {
-      foreach (WrPostProcessingEffect *const effect, mPostProcessingEffects)
-        wr_post_processing_effect_set_result_frame_buffer(effect, mResultFrameBuffer);
-
-      applyPostProcessingEffectStack(CAMERA_ORIENTATION_COUNT);
-    }
-  } else if (!mPostProcessingEffects.empty()) {
-    for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
-      if (mIsCameraActive[i]) {
-        foreach (WrPostProcessingEffect *const effect, mPostProcessingEffects)
-          wr_post_processing_effect_set_result_frame_buffer(effect, mResultFrameBuffer);
-
-        applyPostProcessingEffectStack(i);
-      }
-    }
-  }
 
   mFirstRenderingCall = false;
 
-  wr_scene_enable_depth_reset(wr_scene_get_instance(), true);
+  // wr_scene_enable_depth_reset(wr_scene_get_instance(), true);
   WbWrenOpenGlContext::doneWren();
 
   if (mNotifyOnTextureUpdate)
@@ -503,7 +460,7 @@ void WbWrenCamera::init() {
   mIsCopyingEnabled = false;
 
   if (mType == 'c')
-    mTextureFormat = WR_TEXTURE_INTERNAL_FORMAT_RGBA16F;
+    mTextureFormat = WR_TEXTURE_INTERNAL_FORMAT_RGB16F;
   else
     mTextureFormat = WR_TEXTURE_INTERNAL_FORMAT_R32F;
 
@@ -524,6 +481,7 @@ void WbWrenCamera::init() {
   wr_frame_buffer_set_size(mResultFrameBuffer, mWidth, mHeight);
   wr_frame_buffer_append_output_texture(mResultFrameBuffer, renderingTexture);
   wr_frame_buffer_append_output_texture(mResultFrameBuffer, outputTexture);
+  wr_frame_buffer_enable_depth_buffer(mResultFrameBuffer, true);
 
   mIsCameraActive[CAMERA_ORIENTATION_FRONT] = true;
   for (int i = CAMERA_ORIENTATION_FRONT + 1; i < CAMERA_ORIENTATION_COUNT; ++i)
@@ -533,18 +491,20 @@ void WbWrenCamera::init() {
     setupSphericalSubCameras();
 
     for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
-      if (mIsCameraActive[i])
+      if (mIsCameraActive[i]) {
         setupCamera(i, mSubCamerasResolutionX, mSubCamerasResolutionY);
+        setupCameraPostProcessing(i);
+      }
     }
 
     setupSphericalPostProcessingEffect();
-  } else
+  } else {
     setupCamera(CAMERA_ORIENTATION_FRONT, mWidth, mHeight);
+    setupCameraPostProcessing(CAMERA_ORIENTATION_FRONT);
+  }
 
   wr_frame_buffer_setup(mResultFrameBuffer);
 
-  if (mNumActivePostProcessingEffects)
-    setupPostProcessingEffects();
 
   setCamerasOrientations();
   setNear(mNear);
@@ -570,12 +530,15 @@ void WbWrenCamera::cleanup() {
   wr_post_processing_effect_delete(mSphericalPostProcessingEffect);
   mSphericalPostProcessingEffect = NULL;
 
+  mWrenColorNoise->detachFromViewport();
+  mWrenHdr->detachFromViewport();
+
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
       wr_node_delete(WR_NODE(mCamera[i]));
       wr_viewport_delete(mCameraViewport[i]);
 
-      if (mIsSpherical || mNumActivePostProcessingEffects) {
+      if (mIsSpherical) {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
         wr_frame_buffer_delete(mCameraFrameBuffer[i]);
@@ -617,27 +580,24 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
   } else
     wr_viewport_set_visibility_mask(mCameraViewport[index], WbWrenRenderingContext::VM_WEBOTS_CAMERA);
 
-  if (mIsSpherical || mNumActivePostProcessingEffects) {
+  WrTextureRtt *depthRenderTexture = wr_texture_rtt_new();
+  wr_texture_set_internal_format(WR_TEXTURE(depthRenderTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
+
+  // if spherical, we need to actually set up framebuffer + textures
+  if (mIsSpherical) {
     mCameraFrameBuffer[index] = wr_frame_buffer_new();
     wr_frame_buffer_set_size(mCameraFrameBuffer[index], width, height);
     wr_frame_buffer_enable_depth_buffer(mCameraFrameBuffer[index], true);
-
-    // depth must be rendered to texture for depth of field effect
-    if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
-      WrTextureRtt *depthRenderTexture = wr_texture_rtt_new();
-      wr_texture_set_internal_format(WR_TEXTURE(depthRenderTexture), WR_TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8);
-      wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
-    }
-
+    
     WrTextureRtt *texture = wr_texture_rtt_new();
     wr_texture_set_internal_format(WR_TEXTURE(texture), mTextureFormat);
     wr_frame_buffer_append_output_texture(mCameraFrameBuffer[index], texture);
     wr_frame_buffer_setup(mCameraFrameBuffer[index]);
-
     wr_viewport_set_frame_buffer(mCameraViewport[index], mCameraFrameBuffer[index]);
-  } else {
-    wr_frame_buffer_enable_depth_buffer(mResultFrameBuffer, true);
+    wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
+  } else { // otherwise, we use the result framebuffer directly, so no extra texture setup
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
+    wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
   }
 }
 
@@ -692,52 +652,51 @@ void WbWrenCamera::setupSphericalSubCameras() {
   mSubCamerasResolutionY = qBound(1, mSubCamerasResolutionY, 2048);
 }
 
-void WbWrenCamera::setupPostProcessingEffects() {
-  if (!mNumActivePostProcessingEffects)
-    return;
+void WbWrenCamera::setupCameraPostProcessing(int index) {
 
-  // lens distortion
-  if (mIsLensDistortionEnabled)
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::lensDistortion(mWidth, mHeight, mTextureFormat));
-  // depth of field
-  if (mFocusDistance > 0.0f && mFocusLength > 0.0f)
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthOfField(
-      mWidth, mHeight, cDofBlurTextureSize[0], cDofBlurTextureSize[1], mTextureFormat,
-      WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT], 0)),
-      WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]))));
-  // motion blur
-  if (mMotionBlurIntensity > 0.0f)
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::motionBlur(mWidth, mHeight, mTextureFormat));
+
+  // // lens distortion
+  // if (mIsLensDistortionEnabled)
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::lensDistortion(mWidth, mHeight, mTextureFormat));
+  // // depth of field
+  // if (mFocusDistance > 0.0f && mFocusLength > 0.0f)
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthOfField(
+  //     mWidth, mHeight, cDofBlurTextureSize[0], cDofBlurTextureSize[1], mTextureFormat,
+  //     WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT], 0)),
+  //     WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]))));
+  // // motion blur
+  // if (mMotionBlurIntensity > 0.0f)
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::motionBlur(mWidth, mHeight, mTextureFormat));
 
   // hdr resolve
   if (mType == 'c')
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::hdrResolve(mWidth, mHeight));
+    mWrenHdr->setup(mCameraViewport[index]);
 
-  // anti-aliasing
-  if (mAntiAliasing && mType == 'c')
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::smaa(mWidth, mHeight, mTextureFormat));
-  // color noise
+  // // anti-aliasing
+  // if (mAntiAliasing && mType == 'c')
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::smaa(mWidth, mHeight, mTextureFormat));
+  // // color noise
   if (mColorNoiseIntensity > 0.0f && mType == 'c')
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::colorNoise(mWidth, mHeight, mTextureFormat));
-  // range noise
-  if (mRangeNoiseIntensity > 0.0f && mType != 'c')
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::rangeNoise(mWidth, mHeight, mTextureFormat));
-  // depth resolution
-  if (mDepthResolution > 0.0f && mType != 'c')
-    mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthResolution(mWidth, mHeight, mTextureFormat));
-  // noise masks
-  if (mNoiseMaskTexture && mType == 'c')
-    mPostProcessingEffects.append(
-      WbWrenPostProcessingEffects::noiseMask(mWidth, mHeight, mTextureFormat, WR_TEXTURE(mNoiseMaskTexture)));
+    mWrenColorNoise->setup(mCameraViewport[index]);
+  // // range noise
+  // if (mRangeNoiseIntensity > 0.0f && mType != 'c')
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::rangeNoise(mWidth, mHeight, mTextureFormat));
+  // // depth resolution
+  // if (mDepthResolution > 0.0f && mType != 'c')
+  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::depthResolution(mWidth, mHeight, mTextureFormat));
+  // // noise masks
+  // if (mNoiseMaskTexture && mType == 'c')
+  //   mPostProcessingEffects.append(
+  //     WbWrenPostProcessingEffects::noiseMask(mWidth, mHeight, mTextureFormat, WR_TEXTURE(mNoiseMaskTexture)));
 
-  for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
-    if (i == 0)
-      wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]);
-    else
-      wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mResultFrameBuffer);
-    wr_post_processing_effect_set_result_program(mPostProcessingEffects[i], WbWrenShaders::passThroughShader());
-    wr_post_processing_effect_setup(mPostProcessingEffects[i]);
-  }
+  // for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
+  //   if (i == 0)
+  //     wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]);
+  //   else
+  //     wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mResultFrameBuffer);
+  //   wr_post_processing_effect_set_result_program(mPostProcessingEffects[i], WbWrenShaders::passThroughShader());
+  //   wr_post_processing_effect_setup(mPostProcessingEffects[i]);
+  // }
 }
 
 void WbWrenCamera::setupSphericalPostProcessingEffect() {
@@ -776,104 +735,104 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
   }
 }
 
-void WbWrenCamera::applyPostProcessingEffectStack(int index) {
+void WbWrenCamera::updatePostProcessingParameters(int index) {
   assert(index >= 0 && index <= CAMERA_ORIENTATION_COUNT);
 
-  // if this camera is spherical the image we need is in result framebuffer
-  for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
-    WrPostProcessingEffectPass *firstPass = wr_post_processing_effect_get_first_pass(mPostProcessingEffects[i]);
-    if (index == CAMERA_ORIENTATION_COUNT || i != 0)
-      wr_post_processing_effect_pass_set_input_texture(firstPass, 0,
-                                                       WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0)));
-    else
-      wr_post_processing_effect_pass_set_input_texture(
-        firstPass, 0, WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[index], 0)));
-    WrPostProcessingEffectPass *hdrPass = wr_post_processing_effect_get_pass(mPostProcessingEffects[i], "hdrResolve");
-    if (hdrPass)
-      wr_post_processing_effect_pass_set_program_parameter(hdrPass, "exposure", reinterpret_cast<const char *>(&mExposure));
-  }
+  // // if this camera is spherical the image we need is in result framebuffer
+  // for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
+  //   WrPostProcessingEffectPass *firstPass = wr_post_processing_effect_get_first_pass(mPostProcessingEffects[i]);
+  //   if (index == CAMERA_ORIENTATION_COUNT || i != 0)
+  //     wr_post_processing_effect_pass_set_input_texture(firstPass, 0,
+  //                                                      WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0)));
+  //   else
+  //     wr_post_processing_effect_pass_set_input_texture(
+  //       firstPass, 0, WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[index], 0)));
+  //   WrPostProcessingEffectPass *hdrPass = wr_post_processing_effect_get_pass(mPostProcessingEffects[i], "hdrResolve");
+  //   if (hdrPass)
+  //     wr_post_processing_effect_pass_set_program_parameter(hdrPass, "exposure", reinterpret_cast<const char *>(&mExposure));
+  // }
 
-  if (mIsLensDistortionEnabled) {
-    float center[2] = {static_cast<float>(mLensDistortionCenter.x()), static_cast<float>(mLensDistortionCenter.y())};
-    float radialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionRadialCoeffs.x()),
-                                       static_cast<float>(mLensDistortionRadialCoeffs.y())};
-    float tangentialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionTangentialCoeffs.x()),
-                                           static_cast<float>(mLensDistortionTangentialCoeffs.y())};
+  if (mWrenHdr->hasBeenSetup())
+    mWrenHdr->setExposure(mExposure);
 
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "center",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(&center));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "radialDistortionCoeffs",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
-                                               reinterpret_cast<const char *>(&radialDistortionCoeffs));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "tangentialDistortionCoeffs",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
-                                               reinterpret_cast<const char *>(&tangentialDistortionCoeffs));
-  }
+  // if (mIsLensDistortionEnabled) {
+  //   float center[2] = {static_cast<float>(mLensDistortionCenter.x()), static_cast<float>(mLensDistortionCenter.y())};
+  //   float radialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionRadialCoeffs.x()),
+  //                                      static_cast<float>(mLensDistortionRadialCoeffs.y())};
+  //   float tangentialDistortionCoeffs[2] = {static_cast<float>(mLensDistortionTangentialCoeffs.x()),
+  //                                          static_cast<float>(mLensDistortionTangentialCoeffs.y())};
 
-  if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
-    float cameraParams[2] = {wr_camera_get_near(mCamera[CAMERA_ORIENTATION_FRONT]),
-                             wr_camera_get_far(mCamera[CAMERA_ORIENTATION_FRONT])};
-    float dofParams[4] = {mFocusDistance - mFocusLength, mFocusDistance, mFocusDistance + mFocusLength, cDofFarBlurCutoff};
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "center",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(&center));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "radialDistortionCoeffs",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
+  //                                              reinterpret_cast<const char *>(&radialDistortionCoeffs));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "tangentialDistortionCoeffs",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
+  //                                              reinterpret_cast<const char *>(&tangentialDistortionCoeffs));
+  // }
 
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "cameraParams",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F,
-                                               reinterpret_cast<const char *>(&cameraParams));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "dofParams",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F,
-                                               reinterpret_cast<const char *>(&dofParams));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "blurTextureSize",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
-                                               reinterpret_cast<const char *>(&cDofBlurTextureSize));
-  }
+  // if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
+  //   float cameraParams[2] = {wr_camera_get_near(mCamera[CAMERA_ORIENTATION_FRONT]),
+  //                            wr_camera_get_far(mCamera[CAMERA_ORIENTATION_FRONT])};
+  //   float dofParams[4] = {mFocusDistance - mFocusLength, mFocusDistance, mFocusDistance + mFocusLength, cDofFarBlurCutoff};
 
-  if (mMotionBlurIntensity > 0.0f) {
-    float firstRender = mFirstRenderingCall ? 1.0f : 0.0f;
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "cameraParams",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F,
+  //                                              reinterpret_cast<const char *>(&cameraParams));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "dofParams",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC4F,
+  //                                              reinterpret_cast<const char *>(&dofParams));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthOfFieldShader(), "blurTextureSize",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
+  //                                              reinterpret_cast<const char *>(&cDofBlurTextureSize));
+  // }
 
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "firstRender",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&firstRender));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "intensity",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&mMotionBlurIntensity));
-  }
+  // if (mMotionBlurIntensity > 0.0f) {
+  //   float firstRender = mFirstRenderingCall ? 1.0f : 0.0f;
+
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "firstRender",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //                                              reinterpret_cast<const char *>(&firstRender));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "intensity",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //                                              reinterpret_cast<const char *>(&mMotionBlurIntensity));
+  // }
 
   if (mColorNoiseIntensity > 0.0f) {
     float time = WbSimulationState::instance()->time();
 
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::colorNoiseShader(), "time", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&time));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::colorNoiseShader(), "intensity",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&mColorNoiseIntensity));
+    mWrenColorNoise->setTime(time);
+    mWrenColorNoise->setIntensity(mColorNoiseIntensity);
   }
 
-  if (mRangeNoiseIntensity > 0.0f) {
-    float time = WbSimulationState::instance()->time();
+  // if (mRangeNoiseIntensity > 0.0f) {
+  //   float time = WbSimulationState::instance()->time();
 
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "time", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&time));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "intensity",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&mRangeNoiseIntensity));
-  }
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "time", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //                                              reinterpret_cast<const char *>(&time));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "intensity",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //                                              reinterpret_cast<const char *>(&mRangeNoiseIntensity));
+  // }
 
-  if (mDepthResolution > 0.0f) {
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthResolutionShader(), "resolution",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-                                               reinterpret_cast<const char *>(&mDepthResolution));
-  }
+  // if (mDepthResolution > 0.0f) {
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::depthResolutionShader(), "resolution",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //                                              reinterpret_cast<const char *>(&mDepthResolution));
+  // }
 
-  if (mNoiseMaskTexture) {
-    const float offset[2] = {static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform())};
-    const float factor[2] = {static_cast<float>(mNoiseMaskTextureFactor.x()), static_cast<float>(mNoiseMaskTextureFactor.y())};
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureOffset",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(offset));
-    wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureFactor",
-                                               WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(factor));
-  }
+  // if (mNoiseMaskTexture) {
+  //   const float offset[2] = {static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform())};
+  //   const float factor[2] = {static_cast<float>(mNoiseMaskTextureFactor.x()), static_cast<float>(mNoiseMaskTextureFactor.y())};
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureOffset",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(offset));
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureFactor",
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(factor));
+  // }
 
-  for (int i = 0; i < mPostProcessingEffects.size(); ++i)
-    wr_post_processing_effect_apply(mPostProcessingEffects.at(i));
+  // for (int i = 0; i < mPostProcessingEffects.size(); ++i)
+    // wr_post_processing_effect_apply(mPostProcessingEffects.at(i));
 }
 
 void WbWrenCamera::applySphericalPostProcessingEffect() {

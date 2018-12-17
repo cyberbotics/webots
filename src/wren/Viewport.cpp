@@ -157,6 +157,10 @@ namespace wren {
   }
 
   void Viewport::applyPostProcessing() {
+    
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CCW);
+
     if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL)
       return;
 

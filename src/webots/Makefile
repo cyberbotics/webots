@@ -526,6 +526,7 @@ OTHER_SOURCES = \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \
+  WbWrenColorNoise.cpp \
   WbWrenGtao.cpp \
   WbWrenHdr.cpp \
   WbWrenLabelOverlay.cpp \
