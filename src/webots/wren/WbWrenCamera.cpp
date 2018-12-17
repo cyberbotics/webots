@@ -22,11 +22,11 @@
 #include "WbVector4.hpp"
 #include "WbWrenColorNoise.hpp"
 #include "WbWrenHdr.hpp"
-#include "WbWrenSmaa.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
+#include "WbWrenSmaa.hpp"
 
 #include <wren/camera.h>
 #include <wren/frame_buffer.h>
@@ -73,13 +73,12 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mLensDistortionTangentialCoeffs(0.0, 0.0),
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
-
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenHdr[i] = new WbWrenHdr();
     mWrenSmaa[i] = new WbWrenSmaa();
   }
-  
+
   init();
 }
 
@@ -514,7 +513,6 @@ void WbWrenCamera::init() {
 
   wr_frame_buffer_setup(mResultFrameBuffer);
 
-
   setCamerasOrientations();
   setNear(mNear);
   setMinRange(mMinRange);
@@ -538,8 +536,6 @@ void WbWrenCamera::cleanup() {
 
   wr_post_processing_effect_delete(mSphericalPostProcessingEffect);
   mSphericalPostProcessingEffect = NULL;
-
-
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
@@ -599,14 +595,14 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     mCameraFrameBuffer[index] = wr_frame_buffer_new();
     wr_frame_buffer_set_size(mCameraFrameBuffer[index], width, height);
     wr_frame_buffer_enable_depth_buffer(mCameraFrameBuffer[index], true);
-    
+
     WrTextureRtt *texture = wr_texture_rtt_new();
     wr_texture_set_internal_format(WR_TEXTURE(texture), mTextureFormat);
     wr_frame_buffer_append_output_texture(mCameraFrameBuffer[index], texture);
     wr_frame_buffer_setup(mCameraFrameBuffer[index]);
     wr_viewport_set_frame_buffer(mCameraViewport[index], mCameraFrameBuffer[index]);
     wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
-  } else { // otherwise, we use the result framebuffer directly, so no extra texture setup
+  } else {  // otherwise, we use the result framebuffer directly, so no extra texture setup
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
   }
@@ -704,7 +700,8 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
 
   // for (int i = 0; i < mPostProcessingEffects.size(); ++i) {
   //   if (i == 0)
-  //     wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]);
+  //     wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i],
+  //     mCameraFrameBuffer[CAMERA_ORIENTATION_FRONT]);
   //   else
   //     wr_post_processing_effect_set_input_frame_buffer(mPostProcessingEffects[i], mResultFrameBuffer);
   //   wr_post_processing_effect_set_result_program(mPostProcessingEffects[i], WbWrenShaders::passThroughShader());
@@ -756,7 +753,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   //   WrPostProcessingEffectPass *firstPass = wr_post_processing_effect_get_first_pass(mPostProcessingEffects[i]);
   //   if (index == CAMERA_ORIENTATION_COUNT || i != 0)
   //     wr_post_processing_effect_pass_set_input_texture(firstPass, 0,
-  //                                                      WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0)));
+  //                                                      WR_TEXTURE(wr_frame_buffer_get_output_texture(mResultFrameBuffer,
+  //                                                      0)));
   //   else
   //     wr_post_processing_effect_pass_set_input_texture(
   //       firstPass, 0, WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[index], 0)));
@@ -776,7 +774,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   //                                          static_cast<float>(mLensDistortionTangentialCoeffs.y())};
 
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "center",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(&center));
+  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char
+  //                                              *>(&center));
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::lensDistortionShader(), "radialDistortionCoeffs",
   //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F,
   //                                              reinterpret_cast<const char *>(&radialDistortionCoeffs));
@@ -822,7 +821,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   // if (mRangeNoiseIntensity > 0.0f) {
   //   float time = WbSimulationState::instance()->time();
 
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "time", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "time",
+  //   WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
   //                                              reinterpret_cast<const char *>(&time));
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::rangeNoiseShader(), "intensity",
   //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
@@ -837,7 +837,8 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 
   // if (mNoiseMaskTexture) {
   //   const float offset[2] = {static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform())};
-  //   const float factor[2] = {static_cast<float>(mNoiseMaskTextureFactor.x()), static_cast<float>(mNoiseMaskTextureFactor.y())};
+  //   const float factor[2] = {static_cast<float>(mNoiseMaskTextureFactor.x()),
+  //   static_cast<float>(mNoiseMaskTextureFactor.y())};
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureOffset",
   //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(offset));
   //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureFactor",
@@ -845,7 +846,7 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   // }
 
   // for (int i = 0; i < mPostProcessingEffects.size(); ++i)
-    // wr_post_processing_effect_apply(mPostProcessingEffects.at(i));
+  // wr_post_processing_effect_apply(mPostProcessingEffects.at(i));
 }
 
 void WbWrenCamera::applySphericalPostProcessingEffect() {
