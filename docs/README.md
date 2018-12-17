@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/omichel/webots-doc.svg?branch=master)](https://travis-ci.org/omichel/webots-doc)
-
-
 # webots-doc
 
 This repository contains the documentation of the Webots software.
@@ -42,6 +39,12 @@ https://www.cyberbotics.com/doc/guide/index?version=remidhum:reference_proto
 
 ## Run the doc locally
 
+Set the terminal to the 'docs' directory.
+
+```sh
+cd $WEBOTS_HOME/docs
+```
+
 Create or update the `index.html` page:
 
 ```sh
@@ -63,12 +66,16 @@ In a browser, open:
 
 ## Run the unit tests
 
-Requires module pep8:
+Install the pep8 module:
+
 ```sh
 sudo apt-get install python-pip
 pip install pep8
 ```
 
+Run the tests:
+
 ```sh
+cd $WEBOTS_HOME/docs
 python -m unittest discover
 ```
