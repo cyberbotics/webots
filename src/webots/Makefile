@@ -527,6 +527,7 @@ OTHER_SOURCES = \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \
   WbWrenColorNoise.cpp \
+  WbWrenDepthOfField.cpp \
   WbWrenGtao.cpp \
   WbWrenHdr.cpp \
   WbWrenLabelOverlay.cpp \

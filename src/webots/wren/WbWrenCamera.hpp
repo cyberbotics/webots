@@ -32,6 +32,7 @@ struct WrTexture2d;
 struct WrViewport;
 
 class WbWrenColorNoise;
+class WbWrenDepthOfField;
 class WbWrenHdr;
 class WbWrenLensDistortion;
 class WbWrenRangeNoise;
@@ -157,6 +158,7 @@ private:
   WrTextureInternalFormat mTextureFormat;
 
   WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenDepthOfField *mWrenDepthOfField[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
