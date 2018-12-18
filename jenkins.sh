@@ -100,7 +100,6 @@ cp -R $DEPENDENCIES/xc16 $WEBOTS_HOME/projects/robots/gctronic/e-puck/transfer/x
 ln -fs $DEPENDENCIES/sumo/*.tar.gz $WEBOTS_HOME/projects/default/resources/
 
 cd $WEBOTS_HOME
-
 # build the path given in argument. In case of failure try to clean and rebuild it
 function build {
   path=$1
