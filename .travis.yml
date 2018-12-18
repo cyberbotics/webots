@@ -4,6 +4,7 @@ python:
   - "2.7"
 install:
   - pip install -r tests/sources/requirements.txt
+  - pip install -r docs/tests/requirements.txt
 addons:
   apt:
     packages:
@@ -11,3 +12,4 @@ addons:
       - clang-format
 script:
   - python -m unittest discover -s tests/sources
+  - python -m unittest discover -s docs/tests
