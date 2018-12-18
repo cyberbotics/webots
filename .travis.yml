@@ -11,6 +11,7 @@ install:
   - cd cppcheck-1.84/
   - make SRCDIR=build CFGDIR=/usr/share/cppcheck/ HAVE_RULES=yes
   - sudo -E make install CFGDIR=/usr/share/cppcheck/
+  - cd ..
 addons:
   apt:
     packages:
