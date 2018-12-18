@@ -29,7 +29,8 @@ class TestCppCheck(unittest.TestCase):
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
         self.cppcheck = 'cppcheck'
-        self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
+        if os.environ['TRAVIS']:
+            self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
 
         os.system(self.cppcheck + ' --version')
 
