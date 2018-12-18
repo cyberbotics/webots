@@ -6,7 +6,7 @@ Webots is an open-source robot simulator that provides a complete development en
 
 # Download
 
-You can download pre-compiled binaries for Windows, macOS and Linux from the [releases](https://github.com/omichel/webots/releases).
+You can download pre-compiled binaries for Windows, macOS and Linux from the [releases page](https://github.com/omichel/webots/releases).
 
 # Building from Source
 
