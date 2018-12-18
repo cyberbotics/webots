@@ -29,7 +29,7 @@ class TestCppCheck(unittest.TestCase):
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
         if os.environ['TRAVIS']:
-            os.environ['LD_LIBRARY_PATH'] = self.WEBOTS_HOME + '/tests/sources/bin:' + os.environ['LD_LIBRARY_PATH']
+            os.environ['LD_LIBRARY_PATH'] = self.WEBOTS_HOME + '/tests/sources/bin:' + os.getenv('LD_LIBRARY_PATH')
 
         self.includeDirs = [
             'include/controller/c',
