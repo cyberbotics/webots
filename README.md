@@ -10,7 +10,7 @@ You can download pre-compiled binaries for Windows, macOS and Linux from the [re
 
 # Building from Source
 
-If you prefer to compile Webots from source, read our [Webots Development](https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment) pages and check out [contributing guidelines](CONTRIBUTING.md).
+If you prefer to compile Webots from source, read our [Webots Development pages](https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment) and check out [contributing guidelines](CONTRIBUTING.md).
 
 # About us
 
