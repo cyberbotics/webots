@@ -8,6 +8,7 @@
     - [Installation Procedure](installation-procedure.md)
     - [Webots license agreement](webots-license-agreement.md)
     - [Translating Webots to Your Own Language](translating-webots-to-your-own-language.md)
+- [Building Webots](building-webots.md)
 - [Getting Started with Webots](getting-started-with-webots.md)
     - [Introduction to Webots](introduction-to-webots.md)
     - [Starting Webots](starting-webots.md)
