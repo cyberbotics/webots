@@ -108,7 +108,10 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
 
-        os.system(command)
+        self.assertTrue(
+            os.system(command) == 0,
+            msg='Cppcheck exited with failure'
+        )
 
         if os.path.isfile(self.reportFilename):
             reportFile = open(self.reportFilename, 'r')
