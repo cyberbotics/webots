@@ -5,10 +5,15 @@ python:
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
+  - wget https://github.com/danmar/cppcheck/archive/1.84.tar.gz
+  - tar xvzf 1.84.tar.gz
+  - rm 1.84.tar.gz
+  - cd cppcheck-1.84/
+  - make SRCDIR=build CFGDIR=/usr/share/cppcheck/ HAVE_RULES=yes
+  - sudo -E make install CFGDIR=/usr/share/cppcheck/
 addons:
   apt:
     packages:
-      - cppcheck
       - clang-format
 script:
   - python -m unittest discover -s tests/sources
