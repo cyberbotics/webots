@@ -1,8 +1,0 @@
-language: python
-python:
-  - "2.7"
-install:
-  - pip install -r tests/requirements.txt
-script:
-  - python local_exporter.py
-  - python -m unittest discover -s tests

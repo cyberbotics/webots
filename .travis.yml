@@ -1,0 +1,13 @@
+dist: xenial
+language: python
+python:
+  - "2.7"
+install:
+  - pip install -r tests/sources/requirements.txt
+addons:
+  apt:
+    packages:
+      - cppcheck
+      - clang-format
+script:
+  - python -m unittest discover -s tests/sources
