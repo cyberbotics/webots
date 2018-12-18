@@ -157,7 +157,6 @@ namespace wren {
   }
 
   void Viewport::applyPostProcessing() {
-    
     if (mCamera->flipY())
       glstate::setFrontFace(GL_CCW);
 
