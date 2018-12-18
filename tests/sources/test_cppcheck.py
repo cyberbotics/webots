@@ -127,10 +127,6 @@ class TestCppCheck(unittest.TestCase):
         """Test Webots with Cppcheck."""
         command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
-        self.assertTrue(
-            False,
-            msg='File: ' + self.reportFilename
-        )
         command += ' --inline-suppr --output-file=' + self.reportFilename
         for include in self.includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'
