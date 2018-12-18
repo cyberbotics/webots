@@ -535,6 +535,7 @@ OTHER_SOURCES = \
   WbWrenLensFlare.cpp \
   WbWrenMeshBuffers.cpp \
   WbWrenMotionBlur.cpp \
+  WbWrenNoiseMask.cpp \
   WbWrenPicker.cpp \
   WbWrenPostProcessingEffects.cpp \
   WbWrenRangeNoise.cpp \

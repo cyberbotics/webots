@@ -25,6 +25,7 @@
 #include "WbWrenHdr.hpp"
 #include "WbWrenLensDistortion.hpp"
 #include "WbWrenMotionBlur.hpp"
+#include "WbWrenNoiseMask.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRangeNoise.hpp"
@@ -83,6 +84,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
     mWrenDepthOfField[i] = new WbWrenDepthOfField();
     mWrenHdr[i] = new WbWrenHdr();
     mWrenMotionBlur[i] = new WbWrenMotionBlur();
+    mWrenNoiseMask[i] = new WbWrenNoiseMask();
     mWrenLensDistortion[i] = new WbWrenLensDistortion();
     mWrenRangeNoise[i] = new WbWrenRangeNoise();
     mWrenRangeQuantization[i] = new WbWrenRangeQuantization();
@@ -100,6 +102,7 @@ WbWrenCamera::~WbWrenCamera() {
     delete mWrenDepthOfField[i];
     delete mWrenHdr[i];
     delete mWrenMotionBlur[i];
+    delete mWrenNoiseMask[i];
     delete mWrenLensDistortion[i];
     delete mWrenRangeNoise[i];
     delete mWrenRangeQuantization[i];
@@ -558,6 +561,7 @@ void WbWrenCamera::cleanup() {
       mWrenDepthOfField[i]->detachFromViewport();
       mWrenHdr[i]->detachFromViewport();
       mWrenMotionBlur[i]->detachFromViewport();
+      mWrenNoiseMask[i]->detachFromViewport();
       mWrenLensDistortion[i]->detachFromViewport();
       mWrenRangeNoise[i]->detachFromViewport();
       mWrenRangeQuantization[i]->detachFromViewport();
@@ -731,10 +735,11 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   if (mDepthResolution > 0.0f && mType != 'c')
     mWrenRangeQuantization[index]->setup(mCameraViewport[index]);
 
-  // // noise masks
-  // if (mNoiseMaskTexture && mType == 'c')
-  //   mPostProcessingEffects.append(
-  //     WbWrenPostProcessingEffects::noiseMask(mWidth, mHeight, mTextureFormat, WR_TEXTURE(mNoiseMaskTexture)));
+  // noise masks
+  if (mNoiseMaskTexture && mType == 'c') {
+    mWrenNoiseMask[index]->setTexture(WR_TEXTURE(mNoiseMaskTexture));
+    mWrenNoiseMask[index]->setup(mCameraViewport[index]);
+  }
 }
 
 void WbWrenCamera::setupSphericalPostProcessingEffect() {
@@ -815,15 +820,10 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   if (mDepthResolution > 0.0f)
     mWrenRangeQuantization[index]->setResolution(mDepthResolution);
 
-  // if (mNoiseMaskTexture) {
-  //   const float offset[2] = {static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform())};
-  //   const float factor[2] = {static_cast<float>(mNoiseMaskTextureFactor.x()),
-  //   static_cast<float>(mNoiseMaskTextureFactor.y())};
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureOffset",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(offset));
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::noiseMaskShader(), "textureFactor",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F, reinterpret_cast<const char *>(factor));
-  // }
+  if (mNoiseMaskTexture) {
+    mWrenNoiseMask[index]->setTextureOffset(static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform()));
+    mWrenNoiseMask[index]->setTextureFactor(static_cast<float>(mNoiseMaskTextureFactor.x()), static_cast<float>(mNoiseMaskTextureFactor.y()));
+  }
 }
 
 void WbWrenCamera::applySphericalPostProcessingEffect() {

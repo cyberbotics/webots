@@ -36,6 +36,7 @@ class WbWrenDepthOfField;
 class WbWrenHdr;
 class WbWrenLensDistortion;
 class WbWrenMotionBlur;
+class WbWrenNoiseMask;
 class WbWrenRangeNoise;
 class WbWrenRangeQuantization;
 class WbWrenSmaa;
@@ -163,6 +164,7 @@ private:
   WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
   WbWrenMotionBlur *mWrenMotionBlur[CAMERA_ORIENTATION_COUNT];
+  WbWrenNoiseMask *mWrenNoiseMask[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
   WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
