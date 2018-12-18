@@ -16,6 +16,7 @@
 import unittest
 import os
 import multiprocessing
+import subprocess
 
 from distutils.spawn import find_executable
 
@@ -107,43 +108,35 @@ class TestCppCheck(unittest.TestCase):
         """Run Cppcheck command and check for errors."""
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
-
+        errors = subprocess.check_output(command)
         self.assertTrue(
-            os.system(command) == 0,
-            msg='Cppcheck exited with failure'
+            len(errors) == 0,
+            msg='Cppcheck detected some errors:\n\n%s' % errors
         )
-
-        if os.path.isfile(self.reportFilename):
-            reportFile = open(self.reportFilename, 'r')
-            reportText = reportFile.read()
-            self.assertTrue(
-                len(reportText) == 0,
-                msg='Cppcheck detected some errors:\n\n%s' % reportText
-            )
-            reportFile.close()
-            os.remove(self.reportFilename)
 
     def test_sources_with_cppcheck(self):
         """Test Webots with Cppcheck."""
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
-        command += ' -j %s' % str(multiprocessing.cpu_count())
-        command += ' --inline-suppr > ' + self.reportFilename + ' 2>&1'
+        command = ['cppcheck']
+        command.extend(['--enable=warning,style,performance,portability', '--inconclusive', '--force', '-q'])
+        command.append('-j %s' % str(multiprocessing.cpu_count()))
+        command.append('--inline-suppr')
         for include in self.includeDirs:
-            command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'
+            command.append('-I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"')
         for source in self.skippedDirs:
-            command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
+            command.append('-i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"')
         for source in self.sourceDirs:
-            command += ' \"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
+            command.append('\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"')
         self.run_cppcheck(command)
 
     def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
-        command += '--inline-suppr -UKROS_COMPILATION --std=c++03 --output-file=' + self.reportFilename
+        command = ['cppcheck']
+        command.extend(['--enable=warning,style,performance,portability', '--inconclusive', '--force', '-q'])
+        command.extend(['--inline-suppr', '-UKROS_COMPILATION', '--std=c++03'])
         for source in self.projectsSkippedDirs:
-            command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
+            command.append('-i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"')
         for source in self.projectsSourceDirs:
-            command += ' \"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
+            command.append('\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"')
         self.run_cppcheck(command)
 
 
