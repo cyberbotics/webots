@@ -58,7 +58,6 @@ void WbWrenRangeQuantization::setResolution(float resolution) {
   applyParametersToWren();
 }
 
-
 void WbWrenRangeQuantization::applyParametersToWren() {
   if (!mWrenPostProcessingEffect)
     return;
