@@ -821,8 +821,10 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
     mWrenRangeQuantization[index]->setResolution(mDepthResolution);
 
   if (mNoiseMaskTexture) {
-    mWrenNoiseMask[index]->setTextureOffset(static_cast<float>(WbRandom::nextUniform()), static_cast<float>(WbRandom::nextUniform()));
-    mWrenNoiseMask[index]->setTextureFactor(static_cast<float>(mNoiseMaskTextureFactor.x()), static_cast<float>(mNoiseMaskTextureFactor.y()));
+    mWrenNoiseMask[index]->setTextureOffset(static_cast<float>(WbRandom::nextUniform()),
+                                            static_cast<float>(WbRandom::nextUniform()));
+    mWrenNoiseMask[index]->setTextureFactor(static_cast<float>(mNoiseMaskTextureFactor.x()),
+                                            static_cast<float>(mNoiseMaskTextureFactor.y()));
   }
 }
 
