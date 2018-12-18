@@ -24,6 +24,7 @@
 #include "WbWrenDepthOfField.hpp"
 #include "WbWrenHdr.hpp"
 #include "WbWrenLensDistortion.hpp"
+#include "WbWrenMotionBlur.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenRangeNoise.hpp"
@@ -81,6 +82,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenDepthOfField[i] = new WbWrenDepthOfField();
     mWrenHdr[i] = new WbWrenHdr();
+    mWrenMotionBlur[i] = new WbWrenMotionBlur();
     mWrenLensDistortion[i] = new WbWrenLensDistortion();
     mWrenRangeNoise[i] = new WbWrenRangeNoise();
     mWrenRangeQuantization[i] = new WbWrenRangeQuantization();
@@ -97,6 +99,7 @@ WbWrenCamera::~WbWrenCamera() {
     delete mWrenColorNoise[i];
     delete mWrenDepthOfField[i];
     delete mWrenHdr[i];
+    delete mWrenMotionBlur[i];
     delete mWrenLensDistortion[i];
     delete mWrenRangeNoise[i];
     delete mWrenRangeQuantization[i];
@@ -554,6 +557,7 @@ void WbWrenCamera::cleanup() {
       mWrenColorNoise[i]->detachFromViewport();
       mWrenDepthOfField[i]->detachFromViewport();
       mWrenHdr[i]->detachFromViewport();
+      mWrenMotionBlur[i]->detachFromViewport();
       mWrenLensDistortion[i]->detachFromViewport();
       mWrenRangeNoise[i]->detachFromViewport();
       mWrenRangeQuantization[i]->detachFromViewport();
@@ -701,9 +705,11 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
     mWrenDepthOfField[index]->setup(mCameraViewport[index]);
   }
 
-  // // motion blur
-  // if (mMotionBlurIntensity > 0.0f)
-  //   mPostProcessingEffects.append(WbWrenPostProcessingEffects::motionBlur(mWidth, mHeight, mTextureFormat));
+  // motion blur
+  if (mMotionBlurIntensity > 0.0f) {
+    mWrenMotionBlur[index]->setTextureFormat(mTextureFormat);
+    mWrenMotionBlur[index]->setup(mCameraViewport[index]);
+  }
 
   // hdr resolve
   if (mType == 'c')
@@ -787,15 +793,10 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
                                                     mFocusDistance + mFocusLength, cDofFarBlurCutoff);
   }
 
-  // if (mMotionBlurIntensity > 0.0f) {
-  //   float firstRender = mFirstRenderingCall ? 1.0f : 0.0f;
-
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "firstRender",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-  //                                              reinterpret_cast<const char *>(&firstRender));
-  //   wr_shader_program_set_custom_uniform_value(WbWrenShaders::motionBlurShader(), "intensity",
-  //                                              WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
-  //                                              reinterpret_cast<const char *>(&mMotionBlurIntensity));
+  if (mMotionBlurIntensity > 0.0f) {
+    mWrenMotionBlur[index]->setFirstRender(mFirstRenderingCall ? 1.0f : 0.0f);
+    mWrenMotionBlur[index]->setIntensity(mMotionBlurIntensity);
+  }
 
   if (mColorNoiseIntensity > 0.0f) {
     float time = WbSimulationState::instance()->time();

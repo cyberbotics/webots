@@ -35,9 +35,10 @@ class WbWrenColorNoise;
 class WbWrenDepthOfField;
 class WbWrenHdr;
 class WbWrenLensDistortion;
+class WbWrenMotionBlur;
 class WbWrenRangeNoise;
-class WbWrenSmaa;
 class WbWrenRangeQuantization;
+class WbWrenSmaa;
 
 class WbWrenCamera : public QObject {
   Q_OBJECT
@@ -159,11 +160,12 @@ private:
 
   WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenDepthOfField *mWrenDepthOfField[CAMERA_ORIENTATION_COUNT];
-  WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
-  WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
-  WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
-  WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
   WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
+  WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
+  WbWrenMotionBlur *mWrenMotionBlur[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
+  WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
 
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;
