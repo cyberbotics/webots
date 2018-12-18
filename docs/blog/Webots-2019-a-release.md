@@ -1,6 +1,6 @@
 # Version R2019a - Webots Goes Open Source
 
-<p id="publish-data">By Tom Norton - 7th December 2018</p>
+<p id="publish-data">By Tom Norton - 18th December 2018</p>
 
 ---
 
