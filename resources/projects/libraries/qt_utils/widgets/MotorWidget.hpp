@@ -21,7 +21,7 @@ namespace webotsQtUtils {
     void setupBounds();
 
     void readSensors() override;
-    vvoid writeActuators() override;
+    void writeActuators() override;
 
   protected slots:
     void enable(bool enable) override;

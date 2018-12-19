@@ -22,7 +22,7 @@ namespace webotsQtUtils {
     virtual ~DifferentialWheelsWidget();
 
     void readSensors() override;
-    vvoid writeActuators() override;
+    void writeActuators() override;
 
   protected slots:
     void enable(bool enable) override;
