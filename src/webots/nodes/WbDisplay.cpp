@@ -90,7 +90,7 @@ void WbDisplay::init() {
   mNeedToSetExternalTextures = false;
   mImages.clear();
   mSaveOrders.clear();
-  mImageTextures.clear()
+  mImageTextures.clear();
 
   mDisplayFont = new WbDisplayFont();
   QString error = mDisplayFont->error();

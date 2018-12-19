@@ -114,7 +114,7 @@ void WbDifferentialWheels::handleMessage(QDataStream &stream) {
   stream >> (unsigned char &)byte;
 
   switch (byte) {
-    case C_DIFFERENTIAL_WHEELS_SET_SPEED:
+    case C_DIFFERENTIAL_WHEELS_SET_SPEED: {
       double left = 0.0, right = 0.0;
       stream >> (double &)left >> (double &)right;
       mTargetSpeed[0] = left * mSpeedUnit->value();
@@ -123,7 +123,7 @@ void WbDifferentialWheels::handleMessage(QDataStream &stream) {
       qBound(-mMaxSpeed->value(), mTargetSpeed[1], mMaxSpeed->value());
       awake();
       return;
-
+    }
     case C_DIFFERENTIAL_WHEELS_ENCODERS_SET_SAMPLING_PERIOD: {
       short rate;
       stream >> (short &)rate;

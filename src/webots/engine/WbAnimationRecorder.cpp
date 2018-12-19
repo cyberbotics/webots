@@ -46,7 +46,7 @@ void WbAnimationCommand::resetChanges() {
   mChangedValues.clear();
 }
 
-void WbAnimationCommand::addArtificialFieldChange(QString &fieldName, QString &value) {
+void WbAnimationCommand::addArtificialFieldChange(QString fieldName, QString value) {
   mChangedValues[fieldName] = value;
 }
 

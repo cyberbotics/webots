@@ -104,8 +104,8 @@ public:
   bool isViewpointLocked() const { return mViewpointLocked; }
 
   // projection and rendering mode
-  void setProjectionMode(QString &mode) { mProjectionMode = mode; }
-  void setRenderingMode(QString &mode) { mRenderingMode = mode; }
+  void setProjectionMode(const QString &mode) { mProjectionMode = mode; }
+  void setRenderingMode(const QString &mode) { mRenderingMode = mode; }
   const QString &projectionMode() const { return mProjectionMode; }
   const QString &renderingMode() const { return mRenderingMode; }
 

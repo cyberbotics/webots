@@ -30,7 +30,7 @@
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 
-void WbWorldInfo::init() : mGravityUnitVector(WbVector3()) {
+void WbWorldInfo::init() {
   mInfo = findMFString("info");
   mTitle = findSFString("title");
   mWindow = findSFString("window");
@@ -53,6 +53,7 @@ void WbWorldInfo::init() : mGravityUnitVector(WbVector3()) {
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
 
+  mGravityUnitVector = WbVector3();
   mGravityBasis[0] = WbVector3();
   mGravityBasis[1] = WbVector3();
   mGravityBasis[2] = WbVector3();
