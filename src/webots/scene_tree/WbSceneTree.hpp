@@ -41,6 +41,7 @@ class QSplitter;
 
 struct TreeItemState;
 
+// cppcheck-suppress noConstructor
 class WbSceneTree : public QWidget {
   Q_OBJECT
   Q_PROPERTY(int handleWidth MEMBER mHandleWidth READ handleWidth WRITE setHandleWidth)

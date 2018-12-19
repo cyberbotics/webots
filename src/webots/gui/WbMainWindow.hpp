@@ -38,6 +38,7 @@ class QMenuBar;
 class QProgressDialog;
 class QTimer;
 
+// cppcheck-suppress noConstructor
 class WbMainWindow : public QMainWindow {
   Q_OBJECT
   Q_PROPERTY(QString enabledIconPath MEMBER mEnabledIconPath READ enabledIconPath WRITE setEnabledIconPath)

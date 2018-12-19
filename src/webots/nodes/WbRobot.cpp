@@ -914,6 +914,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       QString message(nativeMessage);
       if (!message.endsWith('\n'))
         message += '\n';
+      // cppcheck-suppress identicalInnerCondition
       emit appendMessageToConsole(message, streamChannel == 0);
       return;
     }
