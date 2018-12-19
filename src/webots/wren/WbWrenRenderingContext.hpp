@@ -94,13 +94,13 @@ public:
     PP_DEPTH_OF_FIELD,
     PP_BLOOM,
     PP_LENS_FLARE,
-    PP_HDR,
-    PP_SMAA,
     PP_MOTION_BLUR,
+    PP_HDR,
     PP_COLOR_NOISE,
     PP_RANGE_NOISE,
     PP_DEPTH_RESOLUTION,
-    PP_NOISE_MASK
+    PP_NOISE_MASK,
+    PP_SMAA
   };
 
   static const double SOLID_LINE_SCALE_FACTOR;

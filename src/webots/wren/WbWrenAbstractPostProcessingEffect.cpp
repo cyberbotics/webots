@@ -23,7 +23,8 @@
 
 WbWrenAbstractPostProcessingEffect::WbWrenAbstractPostProcessingEffect() :
   mWrenViewport(NULL),
-  mWrenPostProcessingEffect(NULL) {
+  mWrenPostProcessingEffect(NULL),
+  mHasBeenSetup(false) {
 }
 
 WbWrenAbstractPostProcessingEffect::~WbWrenAbstractPostProcessingEffect() {

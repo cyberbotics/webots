@@ -157,6 +157,10 @@ namespace wren {
   }
 
   void Viewport::applyPostProcessing() {
+    // post-processing always happens with default winding order, so restore it in case cameras have changed it
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CCW);
+
     if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL)
       return;
 

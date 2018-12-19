@@ -31,6 +31,16 @@ struct WrTexture;
 struct WrTexture2d;
 struct WrViewport;
 
+class WbWrenColorNoise;
+class WbWrenDepthOfField;
+class WbWrenHdr;
+class WbWrenLensDistortion;
+class WbWrenMotionBlur;
+class WbWrenNoiseMask;
+class WbWrenRangeNoise;
+class WbWrenRangeQuantization;
+class WbWrenSmaa;
+
 class WbWrenCamera : public QObject {
   Q_OBJECT
 
@@ -102,12 +112,12 @@ private:
   void cleanup();
   void setupCamera(int index, int width, int height);
   void setupSphericalSubCameras();
-  void setupPostProcessingEffects();
+  void setupCameraPostProcessing(int index);
   void setupSphericalPostProcessingEffect();
   void setCamerasOrientations();
   void setFovy(float fov);
   void setAspectRatio(float aspectRatio);
-  void applyPostProcessingEffectStack(int index);
+  void updatePostProcessingParameters(int index);
   void applySphericalPostProcessingEffect();
 
   WrTransform *mNode;
@@ -149,7 +159,16 @@ private:
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 
-  int mNumActivePostProcessingEffects;
+  WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenDepthOfField *mWrenDepthOfField[CAMERA_ORIENTATION_COUNT];
+  WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
+  WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
+  WbWrenMotionBlur *mWrenMotionBlur[CAMERA_ORIENTATION_COUNT];
+  WbWrenNoiseMask *mWrenNoiseMask[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
+  WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
+  WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
+
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;
   float mDepthResolution;
