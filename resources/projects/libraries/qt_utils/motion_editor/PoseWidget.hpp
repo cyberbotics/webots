@@ -20,7 +20,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    PoseWidget(QWidget *parent = NULL);
+    explicit PoseWidget(QWidget *parent = NULL);
     virtual ~PoseWidget();
 
     void changePose(Pose *pose);
@@ -30,7 +30,7 @@ namespace webotsQtUtils {
     int count() const override;
     void newItemAt(int index) override;
     void deleteItemAt(int index) override;
-    virtual void duplicateItemAt(int index) {}  // not available in PoseWidget
+    void duplicateItemAt(int index) override {}  // not available in PoseWidget
     void swapItemWithNext(int index) override;
 
   private:

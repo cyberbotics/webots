@@ -98,7 +98,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     case C_SPEAKER_STOP: {
       short numberOfSound = 0;
       stream >> (short &)numberOfSound;
-      // cppcheck-suppress identicalInnerCondition
+      // cppcheck-suppress redundantCondition
       if (numberOfSound == 0)
         stopAll();
       else {
