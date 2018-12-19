@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 
   const unsigned char *valuesA = wb_camera_get_image(camera);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesA, 1, 0, 0), wb_camera_image_get_green(valuesA, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesA, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesA, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected camera color. Box should be located at position (-1, -1, -1).");
 
   double parentTranslation[] = {0, 0, 0};
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
   const unsigned char *valuesC = wb_camera_get_image(camera);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesC, 1, 0, 0), wb_camera_image_get_green(valuesC, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesC, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesC, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected camera color after resizing the Box. Box should not be visible in the camera image.");
 
   double parameterTranslation[] = {-0.25, 0.25, 0};

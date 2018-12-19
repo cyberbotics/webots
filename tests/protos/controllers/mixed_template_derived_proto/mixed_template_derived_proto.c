@@ -28,12 +28,12 @@ int main(int argc, char **argv) {
 
   const unsigned char *valuesXA = wb_camera_get_image(cameraX);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesXA, 1, 0, 0), wb_camera_image_get_green(valuesXA, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXA, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesXA, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected cameraX color. The box should not be visible.");
 
   const unsigned char *valuesYA = wb_camera_get_image(cameraY);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesYA, 1, 0, 0), wb_camera_image_get_green(valuesYA, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesYA, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesYA, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected cameraY color. The box should not be visible.");
 
   wb_supervisor_field_set_sf_float(yField, 0.5);
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 
   const unsigned char *valuesXB = wb_camera_get_image(cameraX);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesXB, 1, 0, 0), wb_camera_image_get_green(valuesXB, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXB, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesXB, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected cameraX after changing y size. The box should not be visible.");
 
   const unsigned char *valuesYB = wb_camera_get_image(cameraY);
@@ -73,12 +73,12 @@ int main(int argc, char **argv) {
 
   const unsigned char *valuesXD = wb_camera_get_image(cameraX);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesXD, 1, 0, 0), wb_camera_image_get_green(valuesXD, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesXD, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesXD, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected cameraX after changing translation. The box should not be visible.");
 
   const unsigned char *valuesYD = wb_camera_get_image(cameraY);
   ts_assert_color_in_delta(wb_camera_image_get_red(valuesYD, 1, 0, 0), wb_camera_image_get_green(valuesYD, 1, 0, 0),
-                           wb_camera_image_get_blue(valuesYD, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(valuesYD, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected cameraY color after changing translation. The box should not be visible.");
 
   ts_send_success();

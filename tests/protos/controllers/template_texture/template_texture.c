@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 
   const unsigned char *image2 = wb_camera_get_image(camera2);
   ts_assert_color_in_delta(wb_camera_image_get_red(image2, 1, 0, 0), wb_camera_image_get_green(image2, 1, 0, 0),
-                           wb_camera_image_get_blue(image2, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(image2, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected camera side color. The side of the capsule should be visible");
 
   ts_send_success();
