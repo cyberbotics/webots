@@ -526,13 +526,20 @@ OTHER_SOURCES = \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \
+  WbWrenColorNoise.cpp \
+  WbWrenDepthOfField.cpp \
   WbWrenGtao.cpp \
   WbWrenHdr.cpp \
   WbWrenLabelOverlay.cpp \
+  WbWrenLensDistortion.cpp \
   WbWrenLensFlare.cpp \
   WbWrenMeshBuffers.cpp \
+  WbWrenMotionBlur.cpp \
+  WbWrenNoiseMask.cpp \
   WbWrenPicker.cpp \
   WbWrenPostProcessingEffects.cpp \
+  WbWrenRangeNoise.cpp \
+  WbWrenRangeQuantization.cpp \
   WbWrenShaders.cpp \
   WbWrenSmaa.cpp \
   WbWrenVertexArrayFrameListener.cpp
