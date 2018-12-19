@@ -5,7 +5,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.0296805 -0.848972 -0.527604 3.167
+  orientation -0.02968049451385419 -0.8489718430759529 -0.5276039024776378 3.167
   position 0.0967175 1.93575 -0.921017
 }
 Background {
@@ -15,7 +15,7 @@ Background {
 }
 DirectionalLight {
   direction 0 -1 0
-  intensity 22
+  intensity 6
 }
 DEF BOX Solid {
   children [
