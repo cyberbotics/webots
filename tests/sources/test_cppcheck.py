@@ -108,6 +108,7 @@ class TestCppCheck(unittest.TestCase):
         )
 
     def run_cppcheck(self, command):
+        print(command)
         """Run Cppcheck command and check for errors."""
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
