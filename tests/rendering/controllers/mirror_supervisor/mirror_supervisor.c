@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
   int r = wb_camera_image_get_red(image, width, x, y);
   int g = wb_camera_image_get_green(image, width, x, y);
   int b = wb_camera_image_get_blue(image, width, x, y);
-  ts_assert_color_in_delta(r, g, b, 185, 185, 185, 5, "The white color of the mirror image in the 3D scene is wrong.");
+  ts_assert_color_in_delta(r, g, b, 180, 180, 180, 5, "The white color of the mirror image in the 3D scene is wrong.");
 
   // check the bottom red color
   x = 30;
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
   r = wb_camera_image_get_red(image, width, x, y);
   g = wb_camera_image_get_green(image, width, x, y);
   b = wb_camera_image_get_blue(image, width, x, y);
-  ts_assert_color_in_delta(r, g, b, 185, 168, 168, 5, "The red color of the mirror image in the 3D scene is wrong.");
+  ts_assert_color_in_delta(r, g, b, 180, 156, 156, 5, "The red color of the mirror image in the 3D scene is wrong.");
 
   ts_send_success();
   return EXIT_SUCCESS;
