@@ -99,25 +99,7 @@ cp -R $DEPENDENCIES/xc16 $WEBOTS_HOME/projects/robots/gctronic/e-puck/transfer/x
 # sumo
 ln -fs $DEPENDENCIES/sumo/*.tar.gz $WEBOTS_HOME/projects/default/resources/
 
-# run the sources unit test
-echo @@@ Run sources unit test
-cd $WEBOTS_HOME/tests
-python test_sources.py --no-ansi-escape
-if [ $? -ne 0 ]; then
-  echo "Unit test failed"
-  exit -1
-fi
-
-# run the docs test
-echo @@@ Run docs unit test
-cd $WEBOTS_HOME/docs/tests
-python suite.py
-if [ $? -ne 0 ]; then
-  echo "Docs unit test failed"
-  exit -1
-fi
 cd $WEBOTS_HOME
-
 # build the path given in argument. In case of failure try to clean and rebuild it
 function build {
   path=$1

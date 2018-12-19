@@ -1,4 +1,4 @@
-# Webots
+# Webots [![Build Status](https://travis-ci.org/omichel/webots.svg?branch=master)](https://travis-ci.org/omichel/webots)
 
 Webots is an open-source robot simulator that provides a complete development environment to model, program and simulate robots, vehicles and biomechanical systems.
 

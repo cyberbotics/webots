@@ -1,0 +1,18 @@
+dist: xenial
+git:
+  depth: 3
+  submodules: false
+language: python
+python:
+  - "2.7"
+cache: pip
+install:
+  - pip install -r tests/sources/requirements.txt
+  - pip install -r docs/tests/requirements.txt
+addons:
+  apt:
+    packages:
+      - clang-format
+script:
+  - python -m unittest discover -s tests/sources
+  - python -m unittest discover -s docs/tests
