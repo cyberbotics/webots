@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
   wb_display_attach_camera(display, camera);
   wb_robot_step(TIME_STEP);
 
-  quick_assert_color(mirror_camera, 0, 0, 0x00FF00FF, "attach camera failed");
+  quick_assert_color(mirror_camera, 0, 0, MAGENTA, "attach camera failed");
   wb_display_detach_camera(display);
   wb_robot_step(TIME_STEP);
 
