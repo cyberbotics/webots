@@ -39,7 +39,7 @@ public:
   // loads/unloads the shared library
   // returns true on success
   virtual bool load();
-  virtual bool unload();
+  bool unload();
 
   // returns true if the shared library is currentl loaded
   bool isLoaded() const { return mFunctions != NULL; }
