@@ -112,8 +112,7 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
 
-        if 'TRAVIS' not in os.environ:
-            os.system(command)
+        os.system(command)
 
         if os.path.isfile(self.reportFilename):
             reportFile = open(self.reportFilename, 'r')
@@ -127,7 +126,7 @@ class TestCppCheck(unittest.TestCase):
 
     def test_sources_with_cppcheck(self):
         """Test Webots with Cppcheck."""
-        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
+        command = self.cppcheck + ' --enable=warning,style,performance --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --output-file=' + self.reportFilename
         for include in self.includeDirs:
@@ -140,7 +139,7 @@ class TestCppCheck(unittest.TestCase):
 
     def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
-        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
+        command = self.cppcheck + ' --enable=warning,style,performance --inconclusive --force -q '
         command += '--inline-suppr -UKROS_COMPILATION --std=c++03 --output-file=' + self.reportFilename
         for source in self.projectsSkippedDirs:
             command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'

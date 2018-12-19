@@ -93,7 +93,10 @@ bool WbVirtualRealityHeadset::isInUse() {
   return cInstance != NULL;
 }
 
-WbVirtualRealityHeadset::WbVirtualRealityHeadset() {
+WbVirtualRealityHeadset::WbVirtualRealityHeadset() :
+  mViewpointPosition(WbVector3(0.0, 0.0, 0.0)),
+  mViewpointOrientation(WbRotation(0.0, 1.0, 0.0, 0.0))
+{
   mSystem = NULL;
   mWrenCameras[LEFT] = NULL;
   mWrenCameras[RIGHT] = NULL;
@@ -109,9 +112,6 @@ WbVirtualRealityHeadset::WbVirtualRealityHeadset() {
   mFieldOfViewY[1] = 0.0;
   mAspectRatio[0] = 0.0;
   mAspectRatio[1] = 0.0;
-
-  mViewpointPosition = WbVector3(0.0, 0.0, 0.0);
-  mViewpointOrientation = WbRotation(0.0, 1.0, 0.0, 0.0);
 
   mTextureBounds = new vr::VRTextureBounds_t;
   mTextureReferences[LEFT] = new vr::Texture_t;
@@ -452,7 +452,7 @@ void WbVirtualRealityHeadset::applyFieldOfViewToWren() {
   }
 }
 
-void WbVirtualRealityHeadset::setOrientation(WbRotation orientation) {
+void WbVirtualRealityHeadset::setOrientation(WbRotation &orientation) {
   mViewpointOrientation = orientation;
   WbMatrix3 rotation = orientation.toMatrix3();
   if (mTrackOrientation)
@@ -468,7 +468,7 @@ void WbVirtualRealityHeadset::setOrientation(WbRotation orientation) {
   }
 }
 
-void WbVirtualRealityHeadset::setPosition(WbVector3 position) {
+void WbVirtualRealityHeadset::setPosition(WbVector3 &position) {
   mViewpointPosition = position;
   if (mTrackPosition)
     position += mViewpointOrientation.toMatrix3() * mCurrentPosition;

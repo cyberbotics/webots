@@ -35,7 +35,9 @@ WbWrenRenderingContext::WbWrenRenderingContext(int width, int height) :
   mWidth(width),
   mHeight(height),
   mLineScale(0.0),
-  mRenderingMode(RM_PLAIN) {
+  mSolidLineScale(0.0),
+  mRenderingMode(RM_PLAIN),
+  mProjectionMode(PM_PERSPECTIVE) {
   mOptionalRenderingsMask = VM_MAIN;
 }
 

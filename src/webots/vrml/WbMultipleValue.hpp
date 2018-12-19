@@ -85,7 +85,10 @@ private:
   int i;
   const MF *mMf;
 
-  WbMFIterator() {}
+  WbMFIterator() {
+    i = 0;
+    mMf = NULL;
+  }
 };
 
 #endif

@@ -101,6 +101,7 @@ WbPerformanceLog::WbPerformanceLog(const QString &fileName, int stepsCount) :
   mValues(INFO_COUNT, 0.0),
   mValuesCount(INFO_COUNT, 0),
   mTimers(INFO_COUNT),
+  mAverageFPS(0.0),
   mIsLogCompleted(false) {
   mFile = new QFile(mFileName);
   for (int i = 0; i < INFO_COUNT; ++i)

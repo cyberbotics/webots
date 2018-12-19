@@ -176,7 +176,7 @@ WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *
     return NULL;
 }
 
-QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString worldPath) {
+QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
   QList<WbVariant> acceptedValues;
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();

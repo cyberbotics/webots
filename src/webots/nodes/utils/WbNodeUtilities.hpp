@@ -201,8 +201,8 @@ namespace WbNodeUtilities {
   // in case of PROTO parent node and parameter field,
   // it first retrieve the base field and model and then check the validity
   // type is checked in case of Slot node
-  bool isAllowedToInsert(const WbField *const field, const QString &modelName, const WbNode *node, QString &errorMessage,
-                         WbNode::NodeUse nodeUse, const QString type, const QStringList &restrictionValidNodeNames,
+  bool isAllowedToInsert(const WbField *const field, const QString &nodeName, const WbNode *node, QString &errorMessage,
+                         WbNode::NodeUse nodeUse, const QString &type, const QStringList &restrictionValidNodeNames,
                          bool automaticBoundingObjectCheck = true);
 
   // check existing node structure

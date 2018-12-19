@@ -22,7 +22,7 @@ public:
   WbWrenRangeQuantization();
 
   void setup(WrViewport *viewport) override;
-  void setResolution(float mResolution);
+  void setResolution(float resolution);
 
 private:
   void applyParametersToWren() override;

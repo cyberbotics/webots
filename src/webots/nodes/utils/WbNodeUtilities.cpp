@@ -124,7 +124,7 @@ namespace {
   }
 
   bool isAllowedToInsert(const QString &fieldName, const QString &nodeName, const WbNode *node, QString &errorMessage,
-                         WbNode::NodeUse nodeUse, const QString type, bool automaticBoundingObjectCheck = true,
+                         WbNode::NodeUse nodeUse, const QString &type, bool automaticBoundingObjectCheck = true,
                          bool areSlotAllowed = true) {
     errorMessage = QString();
     const QString defaultErrorMessage =
@@ -1406,7 +1406,7 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
 }
 
 bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QString &nodeName, const WbNode *node,
-                                        QString &errorMessage, WbNode::NodeUse nodeUse, const QString type,
+                                        QString &errorMessage, WbNode::NodeUse nodeUse, const QString &type,
                                         const QStringList &restrictionValidNodeNames, bool automaticBoundingObjectCheck) {
   if (field->hasRestrictedValues() && !doesFieldRestrictionAcceptNode(field, restrictionValidNodeNames))
     return false;
