@@ -32,8 +32,6 @@ class TestCppCheck(unittest.TestCase):
         if os.environ['TRAVIS']:
             self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
 
-        os.system(self.cppcheck + ' --version')
-
         self.includeDirs = [
             'include/controller/c',
             'include/ode',
