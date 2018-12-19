@@ -20,7 +20,7 @@ namespace webotsQtUtils {
 
   protected:
     bool isEnabled() const override;
-    virtual const double *values();
+    const double *values() override;
   };
 }  // namespace webotsQtUtils
 

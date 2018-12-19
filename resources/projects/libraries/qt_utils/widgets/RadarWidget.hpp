@@ -26,7 +26,7 @@ namespace webotsQtUtils {
     void enable(bool enable) override;
 
   protected:
-    bool isEnabled() const;
+    bool isEnabled() const override;
 
     QLabel *mTargetNumberLabel;
     Graph2D *mGraph2D;

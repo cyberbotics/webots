@@ -25,7 +25,7 @@ namespace webotsQtUtils {
     void enablePointCloud(bool enable);
 
   protected:
-    bool isEnabled() const;
+    bool isEnabled() const override;
 
     QLabel **mLabel;
     QVBoxLayout *mVBox;

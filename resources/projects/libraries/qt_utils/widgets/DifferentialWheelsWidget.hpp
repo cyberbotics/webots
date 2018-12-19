@@ -30,7 +30,7 @@ namespace webotsQtUtils {
     void sendStopCommand();
 
   protected:
-    bool isEnabled() const;
+    bool isEnabled() const override;
     bool isAButtonDown();
 
     Graph2D *mGraph2D;

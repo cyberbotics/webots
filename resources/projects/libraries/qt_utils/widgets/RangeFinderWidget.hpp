@@ -24,7 +24,7 @@ namespace webotsQtUtils {
     void enable(bool enable) override;
 
   protected:
-    bool isEnabled() const;
+    bool isEnabled() const override;
 
     QLabel *mLabel;
     QHBoxLayout *mHBox;
