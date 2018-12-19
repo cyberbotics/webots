@@ -13,7 +13,7 @@
 #define RED 0x00FF0000
 #define GREEN 0x0000CF06
 #define BLUE 0x000000FF
-#define MAGENTA 0x00EF00EF
+#define MAGENTA 0x00FF00FF
 #define GRAY 0x00808080
 
 static void reset_display(WbDeviceTag d) {
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
   wb_display_attach_camera(display, camera);
   wb_robot_step(TIME_STEP);
 
-  quick_assert_color(mirror_camera, 0, 0, 0x00EF00EF, "attach camera failed");
+  quick_assert_color(mirror_camera, 0, 0, MAGENTA, "attach camera failed");
   wb_display_detach_camera(display);
   wb_robot_step(TIME_STEP);
 

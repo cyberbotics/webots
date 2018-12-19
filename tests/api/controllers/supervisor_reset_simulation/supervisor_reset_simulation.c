@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
                            "CAMERA0 should see the red box before changing it's visibility.");
 
   image = wb_camera_get_image(camera[1]);
-  ts_assert_color_in_delta(image[2], image[1], image[0], 0, 0, 239, 0,
+  ts_assert_color_in_delta(image[2], image[1], image[0], 0, 0, 255, 0,
                            "CAMERA1 should see the background before importing the second box.");
 
   wb_supervisor_field_import_mf_node_from_string(root_children, -1,
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   image = wb_camera_get_image(camera[0]);
-  ts_assert_color_in_delta(image[2], image[1], image[0], 0, 0, 239, 0,
+  ts_assert_color_in_delta(image[2], image[1], image[0], 0, 0, 255, 0,
                            "CAMERA0 should see the background after changing the visibility of the first box.");
 
   image = wb_camera_get_image(camera[1]);

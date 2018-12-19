@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
   const unsigned char *top_values = wb_camera_get_image(top_camera);
   ts_assert_color_in_delta(wb_camera_image_get_red(top_values, 1, 0, 0), wb_camera_image_get_green(top_values, 1, 0, 0),
-                           wb_camera_image_get_blue(top_values, 1, 0, 0), 239, 239, 239,  // background
+                           wb_camera_image_get_blue(top_values, 1, 0, 0), 255, 255, 255,  // background
                            1, "Unexpected camera top color. The top of the capsule should be invisible");
 
   const unsigned char *side_values = wb_camera_get_image(side_camera);

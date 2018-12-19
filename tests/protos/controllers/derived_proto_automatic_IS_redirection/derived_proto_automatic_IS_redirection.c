@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   const unsigned char *values_before = wb_camera_get_image(camera);
   ts_assert_color_in_delta(
     wb_camera_image_get_red(values_before, 1, 0, 0), wb_camera_image_get_green(values_before, 1, 0, 0),
-    wb_camera_image_get_blue(values_before, 1, 0, 0), 239, 239, 239,  // background
+    wb_camera_image_get_blue(values_before, 1, 0, 0), 255, 255, 255,  // background
     1, "Unexpected camera color due to incorrect automatic derived parameter association: the box should be smaller.");
 
   wb_robot_step(TIME_STEP);
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   const unsigned char *values_after = wb_camera_get_image(camera);
   ts_assert_color_in_delta(
     wb_camera_image_get_red(values_after, 1, 0, 0), wb_camera_image_get_green(values_after, 1, 0, 0),
-    wb_camera_image_get_blue(values_after, 1, 0, 0), 239, 239, 239,  // background
+    wb_camera_image_get_blue(values_after, 1, 0, 0), 255, 255, 255,  // background
     1, "Unexpected camera color due to incorrect automatic derived parameter association: the box size should not change.");
 
   ts_send_success();

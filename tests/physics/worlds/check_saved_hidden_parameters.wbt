@@ -33,8 +33,9 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.0007164092 0.99695764 0.077942024 3.2006006
+  orientation 0.0007164091970262829 0.9969576358617646 0.07794202367647327 3.2006006
   position -0.14254139 0.61188672 -1.8556471
+  bloomThreshold 25
 }
 Background {
   skyColor [
@@ -65,8 +66,8 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  customData "init"
   controller "check_saved_hidden_parameters"
+  customData "init"
   supervisor TRUE
 }
 TestSuiteSupervisor {

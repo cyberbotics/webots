@@ -24,6 +24,7 @@
 #include "WbNodeOperations.hpp"
 #include "WbSFNode.hpp"
 #include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
@@ -277,11 +278,14 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
   if (areWrenObjectsInitialized()) {
     // use wren's set_diffuse to transform to linear color space
     wr_phong_material_set_diffuse(mHdrClearMaterial, value);
-    float *linearDiffuse = new float[4];
-    wr_phong_material_get_linear_diffuse(mHdrClearMaterial, linearDiffuse);
 
-    // exposure adjustment for better color reproduction at default exposure
-    const float hdrColor[] = {linearDiffuse[0] * 2.0f, linearDiffuse[1] * 2.0f, linearDiffuse[2] * 2.0f};
+    // de-gamma correct
+    float hdrColor[] = {powf(value[0], 2.2), powf(value[1], 2.2), powf(value[2], 2.2)};
+
+    // reverse tone map
+    const float exposure = WbWorld::instance()->viewpoint()->exposure()->value();
+    for (int i = 0; i < 3; ++i)
+      hdrColor[i] = -log(1.000000001 - hdrColor[i]) / exposure;
 
     wr_phong_material_set_linear_diffuse(mHdrClearMaterial, hdrColor);
     wr_scene_set_hdr_clear_quad(wr_scene_get_instance(), mHdrClearRenderable);

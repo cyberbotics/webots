@@ -26,7 +26,9 @@ void main() {
   vec2 aoOut = textureLod(inputTextures[1], texUv, 0).rg;
   float ao = aoOut.r;
 
-  if (ao >= 1.0)
+  fragDepth = textureLod(inputTextures[2], texUv, 0).x;
+
+  if (ao >= 1.0 || fragDepth == 1.0)
     fragColor = base;
   else {
     fragColor.rgb = base.rgb * MultiBounce(ao, base.rgb);
@@ -34,5 +36,4 @@ void main() {
     fragColor.a = 1.0;
   }
   fragAo = vec4(aoOut.rg, 0.0, 0.0);
-  fragDepth = textureLod(inputTextures[2], texUv, 0).r;
 }

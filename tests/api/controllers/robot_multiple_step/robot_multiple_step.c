@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   r = wb_camera_image_get_red(image, 1, 0, 0);
   g = wb_camera_image_get_green(image, 1, 0, 0);
   b = wb_camera_image_get_blue(image, 1, 0, 0);
-  ts_assert_color_in_delta(r, g, b, 0x84, 0xC9, 0xEF, 5, "Initial camera measurement is wrong.");
+  ts_assert_color_in_delta(r, g, b, 0x66, 0xB2, 0xFF, 5, "Initial camera measurement is wrong.");
 
   // compass
   values = wb_compass_get_values(compass);

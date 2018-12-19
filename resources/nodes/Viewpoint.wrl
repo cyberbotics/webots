@@ -13,5 +13,5 @@ Viewpoint {
   field     SFFloat    followSmoothness       0.5       # smoothness of the camera when following an object
   field     SFNode     lensFlare              NULL
   field     SFFloat    ambientOcclusionRadius 2         # radius of ambient occlusion in 3D View
-  field     SFFloat    bloomThreshold         10        # threshold of bloom in the 3D View
+  field     SFFloat    bloomThreshold         21        # threshold of bloom in the 3D View
 }

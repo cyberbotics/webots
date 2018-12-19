@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   quick_assert_color(camera, 20, 40, 0x00CF00, "Wrong display green color after 'wb_display_draw_rectangle'.");
-  quick_assert_color(camera, 60, 40, 0xEF0000, "Wrong display red color after 'wb_display_draw_rectangle'.");
+  quick_assert_color(camera, 60, 40, RED, "Wrong display red color after 'wb_display_draw_rectangle'.");
 
   wb_display_attach_camera(display, attached_camera);
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   quick_assert_color(camera, 20, 40, 0x00CF00, "Wrong display green color after detatching the camera.");
-  quick_assert_color(camera, 60, 40, 0xEF0000, "Wrong display red color after detaching the camera.");
+  quick_assert_color(camera, 60, 40, RED, "Wrong display red color after detaching the camera.");
 
   wb_display_set_color(display, WHITE);
   wb_display_fill_rectangle(display, 0, 0, 80, 80);

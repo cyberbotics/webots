@@ -191,7 +191,7 @@ int main(int argc, char **argv) {
     // No blur due to focus => upper part should be fully blue and lower part fully red
     ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 30), 0,
                         "Upper part of the image should not contain any red without focus");
-    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 30), 239,
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 30), 255,
                         "Upper part of the image should be entirely blue without focus");
     ts_assert_int_equal(wb_camera_image_get_red(image, width, 31, 32), 227,
                         "Lower part of the image should be entirely red without focus");
@@ -206,9 +206,9 @@ int main(int argc, char **argv) {
     // Blur due to focus => close to the edge color should be mixed
     ts_assert_int_not_equal(wb_camera_image_get_red(image, width, 31, 30), 0,
                             "Upper part of the image should contain some red with focus");
-    ts_assert_int_not_equal(wb_camera_image_get_blue(image, width, 31, 30), 255,
-                            "Upper part of the image should not be entirely blue with focus");
-    ts_assert_int_not_equal(wb_camera_image_get_red(image, width, 31, 32), 255,
+    ts_assert_int_equal(wb_camera_image_get_blue(image, width, 31, 30), 255,
+                        "Upper part of the image should be entirely blue with focus");
+    ts_assert_int_not_equal(wb_camera_image_get_red(image, width, 31, 32), 227,
                             "Lower part of the image should not be entirely red with focus");
     ts_assert_int_not_equal(wb_camera_image_get_blue(image, width, 31, 32), 0,
                             "Lower part of the image should contain some blue with focus");
