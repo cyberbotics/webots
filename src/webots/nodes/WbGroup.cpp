@@ -24,6 +24,7 @@ using namespace WbHiddenKinematicParameters;
 void WbGroup::init() {
   mOdeSpace = NULL;
   mHasNoSolidAncestor = true;
+  mHiddenKinematicParametersMap.clear();
   mBoundingSphere = NULL;
 
   mChildren = findMFNode("children");
