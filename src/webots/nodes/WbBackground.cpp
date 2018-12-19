@@ -284,9 +284,8 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 
     // reverse tone map
     const float exposure = WbWorld::instance()->viewpoint()->exposure()->value();
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i)
       hdrColor[i] = -log(1.000000001 - hdrColor[i]) / exposure;
-    }
 
     wr_phong_material_set_linear_diffuse(mHdrClearMaterial, hdrColor);
     wr_scene_set_hdr_clear_quad(wr_scene_get_instance(), mHdrClearRenderable);
