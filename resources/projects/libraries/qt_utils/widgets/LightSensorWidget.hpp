@@ -16,11 +16,11 @@ namespace webotsQtUtils {
     virtual ~LightSensorWidget() {}
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
 
   protected:
-    virtual bool isEnabled() const;
-    virtual double value();
+    bool isEnabled() const override;
+    double value() override;
   };
 }  // namespace webotsQtUtils
 

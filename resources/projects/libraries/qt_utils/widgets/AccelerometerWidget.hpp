@@ -16,10 +16,10 @@ namespace webotsQtUtils {
     virtual ~AccelerometerWidget() {}
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
 
   protected:
-    virtual bool isEnabled() const;
+    bool isEnabled() const override;
     virtual const double *values();
   };
 }  // namespace webotsQtUtils

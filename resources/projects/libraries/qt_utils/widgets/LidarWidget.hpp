@@ -18,10 +18,10 @@ namespace webotsQtUtils {
     LidarWidget(Device *device, QWidget *parent = NULL);
     virtual ~LidarWidget() {}
 
-    virtual void readSensors();
+    void readSensors() override;
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
     void enablePointCloud(bool enable);
 
   protected:

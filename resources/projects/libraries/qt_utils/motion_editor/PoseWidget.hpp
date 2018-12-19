@@ -27,11 +27,11 @@ namespace webotsQtUtils {
 
   protected:
     // reimplemented functions
-    virtual int count() const;
-    virtual void newItemAt(int index);
-    virtual void deleteItemAt(int index);
+    int count() const override;
+    void newItemAt(int index) override;
+    void deleteItemAt(int index) override;
     virtual void duplicateItemAt(int index) {}  // not available in PoseWidget
-    virtual void swapItemWithNext(int index);
+    void swapItemWithNext(int index) override;
 
   private:
     Pose *mPose;

@@ -20,7 +20,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    MotorTargetStateWidget(QWidget *parent = NULL);
+    explicit MotorTargetStateWidget(QWidget *parent = NULL);
     virtual ~MotorTargetStateWidget();
 
     void changeState(MotorTargetState *state);

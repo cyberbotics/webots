@@ -97,7 +97,7 @@ void VectorialSensorWidget::setMode(int mode) {
   mGraph2D->updateRange();
 }
 
-void VectorialSensorWidget::displayVector(QVector4D *v) {
+void VectorialSensorWidget::displayVector(QVector4D *vector) {
   switch (mMode) {
     case XY:
       mGraph2D->addPoint2D(Point2D(v->x(), v->y()));

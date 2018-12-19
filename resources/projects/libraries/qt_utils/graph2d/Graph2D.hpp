@@ -19,7 +19,7 @@ namespace webotsQtUtils {
     enum { CX, CY };
     enum { MIN, MAX };
 
-    Graph2D(QWidget *parent = NULL);
+    explicit Graph2D(QWidget *parent = NULL);
     ~Graph2D();
 
     virtual QSize sizeHint() const;

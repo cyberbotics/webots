@@ -16,7 +16,7 @@ namespace webotsQtUtils {
   public:
     enum Status { NORMAL, DISABLED, MODIFIED, INVALID };
 
-    MotorTargetState(Motor *sm);
+    MotorTargetState(Motor *motor);
     MotorTargetState(const MotorTargetState &other);
     virtual ~MotorTargetState();
 

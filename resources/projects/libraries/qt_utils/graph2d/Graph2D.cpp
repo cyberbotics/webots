@@ -52,7 +52,7 @@ void Graph2D::clear() {
   update();
 }
 
-void Graph2D::addNewColor(const QColor &c) {
+void Graph2D::addNewColor(const QColor &color) {
   bool found = false;
   foreach (QColor *color, mColors) {
     if (c == *color) {

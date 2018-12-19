@@ -21,11 +21,11 @@ namespace webotsQtUtils {
     DifferentialWheelsWidget(Device *device, QWidget *parent = NULL);
     virtual ~DifferentialWheelsWidget();
 
-    virtual void readSensors();
-    virtual void writeActuators();
+    void readSensors() override;
+    vvoid writeActuators() override;
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
     void sendCommand();
     void sendStopCommand();
 

@@ -20,10 +20,10 @@ namespace webotsQtUtils {
     RadarWidget(Device *device, QWidget *parent = NULL);
     virtual ~RadarWidget() {}
 
-    virtual void readSensors();
+    void readSensors() override;
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
 
   protected:
     bool isEnabled() const;

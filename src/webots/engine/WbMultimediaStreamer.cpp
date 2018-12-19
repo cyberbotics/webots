@@ -76,6 +76,10 @@ void WbMultimediaStreamer::reset() {
 
 WbMultimediaStreamer::WbMultimediaStreamer() :
   mIsInitialized(false),
+  mImageWidth(0),
+  mImageHeight(0),
+  mPort(0),
+  mSharedMemoryKey(0),
   mSharedMemoryData(NULL),
   mLocalSocket(0),
   mStreamerState(WAIT) {
