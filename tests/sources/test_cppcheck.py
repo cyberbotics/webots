@@ -29,7 +29,7 @@ class TestCppCheck(unittest.TestCase):
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
         self.cppcheck = 'cppcheck'
-        if os.environ['TRAVIS']:
+        if 'TRAVIS' in os.environ:
             self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
 
         self.includeDirs = [
