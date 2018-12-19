@@ -36,6 +36,7 @@ void WbJoint::init() {
   mOdePositionOffset = mPosition;
   mTimeStep = 0.0;
   mInitialPosition = mPosition;
+  mAnchor = WbVector3();
 }
 
 // Constructors

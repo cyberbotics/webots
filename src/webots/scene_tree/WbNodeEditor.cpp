@@ -156,7 +156,7 @@ void WbNodeEditor::apply() {
     return;
 
   QString newDef = mDefEdit->text();
-  const QString previousDef = mNode->defName();
+  const QString &previousDef = mNode->defName();
 
   if (!mNode || newDef == previousDef)
     return;

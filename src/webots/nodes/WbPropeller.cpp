@@ -43,6 +43,7 @@ void WbPropeller::init() {
 
   mPosition = 0.0;
   mHelixType = SLOW_HELIX;
+  mNormalizedAxis = WbVector3();
   mHelix = NULL;
 
   // WREN

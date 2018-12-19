@@ -37,6 +37,7 @@ void WbEmitter::init() {
   mNeedToSetBufferSize = false;
   mMediumType = WbDataPacket::UNKNOWN;
   mByteRate = -1.0;
+  mQueue.clear();
 }
 
 WbEmitter::WbEmitter(WbTokenizer *tokenizer) : WbSolidDevice("Emitter", tokenizer) {

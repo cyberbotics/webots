@@ -216,7 +216,7 @@ void WbPointSet::recomputeBoundingSphere() const {
     maxDistance = 0.0;
     p1 = p2;
     while (it.hasNext()) {
-      const WbVector3 point = it.next();
+      const WbVector3 &point = it.next();
       const double d = p1.distance2(point);
       if (d > maxDistance) {
         maxDistance = d;

@@ -88,6 +88,10 @@ void WbRadar::init() {
   mSensorElapsedTime = 0;
   mSensor = NULL;
 
+  mRadarTargets.clear();
+  mInvalidRadarTargets.clear();
+  mRadarTargetsPreviousTranslations.clear();
+
   mTransform = NULL;
   mRenderable = NULL;
   mMesh = NULL;
@@ -97,6 +101,7 @@ void WbRadar::init() {
   mRealGain = 0.0;
   mReceivedPowerThreshold = 0.0;
   mReceivedPowerFactor = 1.0;
+  mPreviousRadarPosition = WbVector3();
 }
 
 WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {

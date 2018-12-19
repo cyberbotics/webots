@@ -100,6 +100,9 @@ void WbReceiver::init() {
   mSensor = NULL;
   mLastWaitingPacketIndex = 0;
   mMediumType = WbDataPacket::UNKNOWN;
+  mTransmissionList.clear();
+  mWaitingQueue.clear();
+  mReadyQueue.clear();
   mType = findSFString("type");
   mAperture = findSFDouble("aperture");
   mChannel = findSFInt("channel");

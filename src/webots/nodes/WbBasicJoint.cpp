@@ -43,6 +43,9 @@ void WbBasicJoint::init() {
   mMesh = NULL;
   mMaterial = NULL;
 
+  mEndPointZeroTranslation = WbVector3();
+  mEndPointZeroRotation = WbRotation();
+
   mParameters = findSFNode("jointParameters");
   mEndPoint = findSFNode("endPoint");
 }

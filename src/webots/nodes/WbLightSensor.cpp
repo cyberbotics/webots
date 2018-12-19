@@ -124,6 +124,8 @@ void WbLightSensor::init() {
   mMaterial = NULL;
   mRenderable = NULL;
   mMesh = NULL;
+
+  mRayList.clear();
 }
 
 WbLightSensor::WbLightSensor(WbTokenizer *tokenizer) : WbSolidDevice("LightSensor", tokenizer) {

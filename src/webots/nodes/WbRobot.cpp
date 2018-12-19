@@ -99,6 +99,16 @@ void WbRobot::init() {
   mJoyStickLastValue = NULL;
   mMouse = NULL;
 
+  mControllerDir = QString();
+  mAbsoluteWindowFilename = QString();
+  mAbsoluteRemoteControlFilename = QString();
+  mKeyboardLastValue.clear();
+  mUserInputEventReferenceTime = QDateTime();
+
+  mDevices.clear();
+  mRenderingDevices.clear();
+  mPressedKeys.clear();
+
   mControllerStarted = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;
@@ -458,7 +468,7 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  const QString controllerName = mController->value();
+  const QString &controllerName = mController->value();
   if (!controllerName.isEmpty()) {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
@@ -895,7 +905,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       pinToStaticEnvironment((bool)pin);
       return;
     case C_CONSOLE_MESSAGE: {
-      unsigned char streamChannel;
+      unsigned char streamChannel = 0;
       stream >> (unsigned char &)streamChannel;
       unsigned int size;
       stream >> (unsigned int &)size;

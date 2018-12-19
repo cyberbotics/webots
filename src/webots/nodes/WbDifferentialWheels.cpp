@@ -115,7 +115,7 @@ void WbDifferentialWheels::handleMessage(QDataStream &stream) {
 
   switch (byte) {
     case C_DIFFERENTIAL_WHEELS_SET_SPEED:
-      double left, right;
+      double left = 0.0, right = 0.0;
       stream >> (double &)left >> (double &)right;
       mTargetSpeed[0] = left * mSpeedUnit->value();
       mTargetSpeed[1] = right * mSpeedUnit->value();

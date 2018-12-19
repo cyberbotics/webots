@@ -80,6 +80,8 @@ void WbAbstractCamera::init() {
   mFrustumDisplayMesh = NULL;
   mFrustumDisplayMaterial = NULL;
 
+  mInvisibleNodes.clear();
+
   // Fields initialization
   mFieldOfView = findSFDouble("fieldOfView");
   mSpherical = findSFBool("spherical");

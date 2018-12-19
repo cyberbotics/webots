@@ -60,11 +60,15 @@ void WbGeometry::init() {
   mPreviousCollisionTime = -std::numeric_limits<float>::infinity();
   mOdeGeom = NULL;
   mIs90DegreesRotated = false;
+  mLocalOdeGeomOffsetPosition = WbVector3();
   mOdeMass = NULL;
   mResizeManipulator = NULL;
   mResizeManipulatorInitialized = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
   mBoundingSphere = NULL;
+  mOdeOffsetTranslation = WbVector3();
+  mOdePositionSet = WbVector3();
+  mOdeOffsetRotation = WbRotation();
   mPickable = false;
 }
 

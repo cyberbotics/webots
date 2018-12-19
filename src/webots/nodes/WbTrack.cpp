@@ -62,7 +62,11 @@ void WbTrack::init() {
   mWheelsList.clear();
   mPathLength = 0.0;
   mPathStepSize = 0.0;
+  mPathList.clear()
   mAnimatedObjectList.clear();
+  mBeltElements.clear();
+  mBeltPositions.clear();
+  mWrenNodes.clear();
   mAnimationStepSize = 0;
 }
 
