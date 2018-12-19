@@ -19,7 +19,7 @@ static void check_robot_position(int time_step) {
     for (y = 0; y < image_height; y++) {
       if (y < 12 || (y < 28 && (x < 10 || x > 23))) {
         int value = wb_camera_image_get_gray(image, image_width, x, y);
-        ts_assert_int_equal(value, 239, "Wrong arm position: camera image pixel at [x=%d, y=%d] should be white.", x, y);
+        ts_assert_int_equal(value, 255, "Wrong arm position: camera image pixel at [x=%d, y=%d] should be white.", x, y);
       }
     }
   }
