@@ -608,6 +608,7 @@ void WbWrenCamera::cleanup() {
 
       if (mIsSpherical) {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
+        wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 1)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
         wr_frame_buffer_delete(mCameraFrameBuffer[i]);
       }
