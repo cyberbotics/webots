@@ -850,6 +850,12 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   if (mWrenBloom[index]->hasBeenSetup())
     mWrenBloom[index]->setThreshold(mBloomThreshold);
 
+  // handle preference ao disable/enable at runtime
+  if (!WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt()) {
+    mWrenGtao[index]->detachFromViewport();
+  } else if (!mWrenGtao[index]->hasBeenSetup())
+    mWrenGtao[index]->setup(mCameraViewport[index]);
+
   if (mWrenGtao[index]->hasBeenSetup()) {
     const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
     mWrenGtao[index]->setRadius(mAmbientOcclusionRadius);
