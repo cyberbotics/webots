@@ -61,12 +61,13 @@ Anti-aliasing is a technique that selectively blurs these jagged edges (and thus
 - The `ambientOcclusionRadius` field denotes the radius of geometric occlusion searches in the scene.
 Increasing the radius can increase occlusion from further objects.
 However, at lower quality levels, near-field occlusion can start to disappear as the radius increases.
-This effect is disabled by default on cameras for performance reasons.
+This effect is disabled by default on cameras for performance reasons, with a value of `0`.
+Setting this field to any positive non-zero value enables the effect.
 
 - The `bloomThreshold` field denotes the luminosity above which pixels start to "bloom" - i.e. overexpose the camera and leak light around themselves.
 Decreasing the threshold means pixels bloom more easily, as if the camera were more easily overexposed.
 The effect is disabled by default, with a default threshold of `-1`.
-Setting this value to 0 or any positive value re-enables the effect.
+Setting this value to 0 or any positive value enables the effect.
 Please note this effect is not physically based, like with Ambient Occlusion (GTAO) or PBR.
 It serves as a good approximation of camera overexposure, however.
 
