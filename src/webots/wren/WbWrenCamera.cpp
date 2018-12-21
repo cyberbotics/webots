@@ -851,7 +851,7 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
     mWrenBloom[index]->setThreshold(mBloomThreshold);
 
   if (mWrenGtao[index]->hasBeenSetup()) {
-    int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
+    const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
     mWrenGtao[index]->setRadius(mAmbientOcclusionRadius);
     mWrenGtao[index]->setQualityLevel(qualityLevel);
     mWrenGtao[index]->applyOldInverseViewMatrixToWren();
