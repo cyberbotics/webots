@@ -742,6 +742,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
     const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
     if (qualityLevel > 0) {
       mWrenGtao[index]->setHalfResolution(qualityLevel <= 2);
+      mWrenGtao[index]->setFlipNormalY(1.0f);
       mWrenGtao[index]->setup(mCameraViewport[index]);
     }
   }
