@@ -20,8 +20,10 @@
 #include "WbSimulationState.hpp"
 #include "WbVector2.hpp"
 #include "WbVector4.hpp"
+#include "WbWrenBloom.hpp"
 #include "WbWrenColorNoise.hpp"
 #include "WbWrenDepthOfField.hpp"
+#include "WbWrenGtao.hpp"
 #include "WbWrenHdr.hpp"
 #include "WbWrenLensDistortion.hpp"
 #include "WbWrenMotionBlur.hpp"
@@ -58,6 +60,8 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mHeight(height),
   mNear(nearValue),
   mExposure(1.0f),
+  mAmbientOcclusionRadius(0.0f),
+  mBloomThreshold(21.0f),
   mMinRange(minRange),
   mMaxRange(maxRange),
   mFieldOfView(fov),
@@ -80,8 +84,10 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mMotionBlurIntensity(0.0f),
   mNoiseMaskTexture(NULL) {
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    mWrenBloom[i] = new WbWrenBloom();
     mWrenColorNoise[i] = new WbWrenColorNoise();
     mWrenDepthOfField[i] = new WbWrenDepthOfField();
+    mWrenGtao[i] = new WbWrenGtao();
     mWrenHdr[i] = new WbWrenHdr();
     mWrenMotionBlur[i] = new WbWrenMotionBlur();
     mWrenNoiseMask[i] = new WbWrenNoiseMask();
@@ -98,8 +104,10 @@ WbWrenCamera::~WbWrenCamera() {
   cleanup();
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
+    delete mWrenBloom[i];
     delete mWrenColorNoise[i];
     delete mWrenDepthOfField[i];
+    delete mWrenGtao[i];
     delete mWrenHdr[i];
     delete mWrenMotionBlur[i];
     delete mWrenNoiseMask[i];
@@ -258,6 +266,32 @@ void WbWrenCamera::setColorNoise(float colorNoise) {
   const bool hasStatusChanged = mColorNoiseIntensity == 0.0f || colorNoise == 0.0f;
 
   mColorNoiseIntensity = colorNoise;
+  if (hasStatusChanged) {
+    cleanup();
+    init();
+  }
+}
+
+void WbWrenCamera::setAmbientOcclusionRadius(float radius) {
+  if (mType != 'c' || radius == mAmbientOcclusionRadius)
+    return;
+
+  const bool hasStatusChanged = mAmbientOcclusionRadius == 0.0f || radius == 0.0f;
+
+  mAmbientOcclusionRadius = radius;
+  if (hasStatusChanged) {
+    cleanup();
+    init();
+  }
+}
+
+void WbWrenCamera::setBloomThreshold(float threshold) {
+  if (mType != 'c' || threshold == mBloomThreshold)
+    return;
+
+  const bool hasStatusChanged = mBloomThreshold == -1.0f || threshold == -1.0f;
+
+  mBloomThreshold = threshold;
   if (hasStatusChanged) {
     cleanup();
     init();
@@ -557,8 +591,10 @@ void WbWrenCamera::cleanup() {
 
   for (int i = CAMERA_ORIENTATION_FRONT; i < CAMERA_ORIENTATION_COUNT; ++i) {
     if (mIsCameraActive[i]) {
+      mWrenBloom[i]->detachFromViewport();
       mWrenColorNoise[i]->detachFromViewport();
       mWrenDepthOfField[i]->detachFromViewport();
+      mWrenGtao[i]->detachFromViewport();
       mWrenHdr[i]->detachFromViewport();
       mWrenMotionBlur[i]->detachFromViewport();
       mWrenNoiseMask[i]->detachFromViewport();
@@ -573,6 +609,10 @@ void WbWrenCamera::cleanup() {
       if (mIsSpherical) {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
+
+        if (mType == 'c')
+          wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 1)));
+
         wr_frame_buffer_delete(mCameraFrameBuffer[i]);
       }
     }
@@ -606,6 +646,8 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
   wr_viewport_sync_aspect_ratio_with_camera(mCameraViewport[index], false);
   wr_viewport_set_camera(mCameraViewport[index], mCamera[index]);
 
+  mInverseViewMatrix[index] = wr_transform_get_matrix(WR_TRANSFORM(mCamera[index]));
+
   if (isRangeFinderOrLidar) {
     wr_viewport_set_visibility_mask(mCameraViewport[index], WbWrenRenderingContext::VM_WEBOTS_RANGE_CAMERA);
     wr_viewport_enable_skybox(mCameraViewport[index], false);
@@ -624,9 +666,18 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     WrTextureRtt *texture = wr_texture_rtt_new();
     wr_texture_set_internal_format(WR_TEXTURE(texture), mTextureFormat);
     wr_frame_buffer_append_output_texture(mCameraFrameBuffer[index], texture);
-    wr_frame_buffer_setup(mCameraFrameBuffer[index]);
     wr_viewport_set_frame_buffer(mCameraViewport[index], mCameraFrameBuffer[index]);
     wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
+
+    // needed to store normals for ambient occlusion
+    if (mType == 'c') {
+      WrTextureRtt *normalTexture = wr_texture_rtt_new();
+      wr_texture_rtt_enable_initialize_data(normalTexture, true);
+      wr_texture_set_internal_format(WR_TEXTURE(normalTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB8);
+      wr_frame_buffer_append_output_texture(mCameraFrameBuffer[index], normalTexture);
+    }
+
+    wr_frame_buffer_setup(mCameraFrameBuffer[index]);
   } else {  // otherwise, we use the result framebuffer directly, so no extra texture setup
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
@@ -686,6 +737,18 @@ void WbWrenCamera::setupSphericalSubCameras() {
 
 void WbWrenCamera::setupCameraPostProcessing(int index) {
   assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
+
+  if (mBloomThreshold != -1.0f && mType == 'c')
+    mWrenBloom[index]->setup(mCameraViewport[index]);
+
+  if (mAmbientOcclusionRadius != 0.0f && mType == 'c') {
+    const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
+    if (qualityLevel > 0) {
+      mWrenGtao[index]->setHalfResolution(qualityLevel <= 2);
+      mWrenGtao[index]->setFlipNormalY(1.0f);
+      mWrenGtao[index]->setup(mCameraViewport[index]);
+    }
+  }
 
   // lens distortion
   if (mIsLensDistortionEnabled) {
@@ -783,6 +846,17 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 
   if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
+
+  if (mWrenBloom[index]->hasBeenSetup())
+    mWrenBloom[index]->setThreshold(mBloomThreshold);
+
+  if (mWrenGtao[index]->hasBeenSetup()) {
+    const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
+    mWrenGtao[index]->setRadius(mAmbientOcclusionRadius);
+    mWrenGtao[index]->setQualityLevel(qualityLevel);
+    mWrenGtao[index]->applyOldInverseViewMatrixToWren();
+    mWrenGtao[index]->copyNewInverseViewMatrix(mInverseViewMatrix[index]);
+  }
 
   if (mIsLensDistortionEnabled) {
     mWrenLensDistortion[index]->setCenter(mLensDistortionCenter.x(), mLensDistortionCenter.y());
