@@ -155,6 +155,8 @@ void WbCamera::preFinalize() {
   updateNear();
   updateFar();
   updateExposure();
+  updateBloomThreshold();
+  updateAmbientOcclusionRadius();
 }
 
 void WbCamera::postFinalize() {
@@ -743,6 +745,8 @@ void WbCamera::createWrenCamera() {
   applyFocalSettingsToWren();
   applyFarToWren();
   updateExposure();
+  updateBloomThreshold();
+  updateAmbientOcclusionRadius();
 
   updateLensFlare();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);

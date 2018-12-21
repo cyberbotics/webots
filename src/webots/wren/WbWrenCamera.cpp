@@ -60,7 +60,7 @@ WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearV
   mHeight(height),
   mNear(nearValue),
   mExposure(1.0f),
-  mAmbientOcclusionRadius(2.0f),
+  mAmbientOcclusionRadius(0.0f),
   mBloomThreshold(21.0f),
   mMinRange(minRange),
   mMaxRange(maxRange),
@@ -289,7 +289,7 @@ void WbWrenCamera::setBloomThreshold(float threshold) {
   if (mType != 'c' || threshold == mBloomThreshold)
     return;
 
-  const bool hasStatusChanged = mBloomThreshold == 0.0f || threshold == 0.0f;
+  const bool hasStatusChanged = mBloomThreshold == -1.0f || threshold == -1.0f;
 
   mBloomThreshold = threshold;
   if (hasStatusChanged) {

@@ -28,7 +28,7 @@ Camera {
   field     SFFloat    far                    0.0      # OpenGL far clipping plane (meters)
   field     SFFloat    exposure               1.0      # Photometric exposure level
   field     SFBool     antiAliasing           FALSE    # enable anti-aliasing
-  field     SFFloat    ambientOcclusionRadius 2        # radius of ambient occlusion for this camera
+  field     SFFloat    ambientOcclusionRadius 0        # radius of ambient occlusion for this camera
   field     SFFloat    bloomThreshold         21       # threshold of above which pixels bloom for this camera
   field     SFFloat    motionBlur             0.0      # response time of the image in milliseconds
   field     SFFloat    noise                  0.0      # add a noise to the pixel values
