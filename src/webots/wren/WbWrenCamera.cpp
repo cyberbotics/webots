@@ -610,9 +610,9 @@ void WbWrenCamera::cleanup() {
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 0)));
         wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[i])));
 
-        if (mType == 'c') 
+        if (mType == 'c')
           wr_texture_delete(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[i], 1)));
-        
+
         wr_frame_buffer_delete(mCameraFrameBuffer[i]);
       }
     }
@@ -844,7 +844,7 @@ void WbWrenCamera::setAspectRatio(float aspectRatio) {
 void WbWrenCamera::updatePostProcessingParameters(int index) {
   assert(mIsCameraActive[index] && index >= 0 && index < CAMERA_ORIENTATION_COUNT);
 
-  if (mWrenHdr[index]->hasBeenSetup()) 
+  if (mWrenHdr[index]->hasBeenSetup())
     mWrenHdr[index]->setExposure(mExposure);
 
   if (mWrenBloom[index]->hasBeenSetup())
