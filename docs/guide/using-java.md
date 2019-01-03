@@ -10,11 +10,10 @@ A complete description of these functions can be found in the reference guide wh
 
 ### Java and Java Compiler Installation
 
-In order to develop and run Java controllers for Webots it is necessary to have the Java Development Kit (JDK) version 1.8.
+In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 1.8.
 
 The Java Development Kit (JDK) can be downloaded for free from the [Sun Developer Network](http://www.oracle.com/technetwork/java/javase/downloads).
-Make sure you choose the most recent release and the Standard Edition (SE) of the JDK 8.
-For Windows, make also sure you have selected the 64 bit version since Webots is not compatible with the 32 bit version.
+Make sure you choose the most recent 64-bit release of the Standard Edition (SE) of the JDK 8.
 Then, follow the installation instructions attending the package.
 
 The `java` command is the Java Virtual Machine (JVM); it is used to execute Java controllers in Webots.
@@ -75,12 +74,10 @@ On macOS, the JDK installer should setup the *PATH* variable automatically, so y
 
 #### Troubleshooting the Java Installation
 
-If a Java controller fails to execute or compile, check that the `java`, respectively the `javac` commands are reachable.
-You can verify this easily by opening a Terminal (Linux and macOS) or a Command Prompt (Windows) and typing `java` or `javac`.
+If a Java controller fails to execute or compile, check that the `java` and the `javac` commands are reachable and correspond to the 64-bit version of the JDK.
+You can verify this easily by opening a Terminal (Linux and macOS) or a Command Prompt (Windows) and typing `java -version` or `javac -version`.
 If these commands are not reachable from the Terminal (or Command Prompt) they will not be reachable by Webots.
-In this case, check that the JDK is installed and that your *PATH* variable is defined correctly as explained above.
-
-If you run into an error message that looks like this:
+If your default java command points to a 32-bit version of Java, Webots may display an error message that looks like this:
 
 ```
 Native code library failed to load. See the chapter on Dynamic Linking
@@ -88,11 +85,6 @@ Problems in the SWIG Java documentation for help.
 java.lang.UnsatisfiedLinkError: libJavaController.jnilib: no suitable
 image found.
 ```
-
-This is due to a 32-bit/64-bit incompatibility between Java Virtual Machine (JVM) and Webots.
-On macOS this problem should disappear after you upgrade to a recent version of Webots (6.3.0 or newer).
-On Windows, Webots is only compatible with 64-bit versions of Java.
-On Linux (and macOS) you should be able to solve this problem by replacing the default "java" command string by "java -d32" or "java -d64" in the dialog `Tools / Preferences / General / Java command`.
 
 ### Link with External JAR Files
 
