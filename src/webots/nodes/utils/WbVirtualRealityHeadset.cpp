@@ -469,9 +469,8 @@ void WbVirtualRealityHeadset::setOrientation(const WbRotation &orientation) {
 
 void WbVirtualRealityHeadset::setPosition(const WbVector3 &position) {
   mViewpointPosition = position;
-  WbVector3 actualPosition = position;
   if (mTrackPosition)
-    actualPosition += mViewpointOrientation.toMatrix3() * mCurrentPosition;
+    mViewpointPosition += mViewpointOrientation.toMatrix3() * mCurrentPosition;
   for (int i = 0; i < EYE_NUMBER; ++i) {
     if (mWrenCameras[i]) {
       WbVector3 offset = mEyeTranslation[i];
@@ -479,11 +478,13 @@ void WbVirtualRealityHeadset::setPosition(const WbVector3 &position) {
         offset = (mViewpointOrientation.toMatrix3() * mCurrentOrientation) * offset;
       else
         offset = mViewpointOrientation.toMatrix3() * offset;
-      float pos[] = {static_cast<float>(actualPosition.x() + offset.x()), static_cast<float>(actualPosition.y() + offset.y()),
-                     static_cast<float>(actualPosition.z() + offset.z())};
+      float pos[] = {static_cast<float>(mViewpointPosition.x() + offset.x()),
+                     static_cast<float>(mViewpointPosition.y() + offset.y()),
+                     static_cast<float>(mViewpointPosition.z() + offset.z())};
       wr_camera_set_position(mWrenCameras[i], pos);
     }
   }
+  mViewpointPosition = position;
 }
 
 void WbVirtualRealityHeadset::setNear(double nearValue) {
