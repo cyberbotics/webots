@@ -56,7 +56,6 @@ void WbSkin::init() {
 
   mBoneMesh = NULL;
   mBoneMaterial = NULL;
-  mModelPath = QString();
 
   mName = findSFString("name");
   mModelName = findSFString("model");
@@ -617,8 +616,8 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     WrTransform *parent = wr_node_get_parent(WR_NODE(wrenBone));
     if (parent) {
       // Attach bone representation
-      const WbVector3 offset = solid->translation();
-      const WbVector3 scale = solid->scale();
+      const WbVector3 &offset = solid->translation();
+      const WbVector3 &scale = solid->scale();
       const float length = (offset * scale).length();
       const float boneScale[3] = {length, length, length};
 

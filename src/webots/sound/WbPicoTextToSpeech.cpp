@@ -285,7 +285,7 @@ static QString toSsml(const QDomElement e) {
   return result;
 }
 
-static QString toSsml(const QString text) {
+static QString toSsml(const QString &text) {
   QString result;
   QDomDocument doc;
   doc.setContent("<?xml version=\"1.0\" encoding=\"UTF-8\"?><speak>" + text + "</speak>");

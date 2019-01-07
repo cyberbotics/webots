@@ -1448,7 +1448,7 @@ void WbSceneTree::help() {
         }
       }
       const WbProtoModel *protoModel = node->proto();
-      const QString documentationUrl = protoModel->documentationUrl();
+      const QString &documentationUrl = protoModel->documentationUrl();
       if (!documentationUrl.isEmpty()) {
         const QStringList splittedPath = documentationUrl.split("doc/");
         if (splittedPath.size() == 2) {

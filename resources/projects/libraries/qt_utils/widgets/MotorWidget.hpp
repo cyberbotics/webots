@@ -20,16 +20,16 @@ namespace webotsQtUtils {
 
     void setupBounds();
 
-    virtual void readSensors();
-    virtual void writeActuators();
+    void readSensors() override;
+    void writeActuators() override;
 
   protected slots:
-    virtual void enable(bool enable);
+    void enable(bool enable) override;
     void sendCommand();
 
   protected:
-    virtual bool isEnabled() const;
-    virtual double value();
+    bool isEnabled() const override;
+    double value() override;
 
     double minPosition() const;
     double maxPosition() const;

@@ -11,7 +11,7 @@ SensorWidget::SensorWidget(Device *device, QWidget *parent) : DeviceWidget(devic
   mCheckBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   mCheckBox->setToolTip(tr("Enable the %1 sensor").arg(mDevice->name()));
 
-  connect(mCheckBox, SIGNAL(toggled(bool)), this, SLOT(enable(bool)));
+  connect(mCheckBox, &QCheckBox::toggled, this, &SensorWidget::enable);
 
   mTitleLayout->insertWidget(0, mCheckBox);
 }

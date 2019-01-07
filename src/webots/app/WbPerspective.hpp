@@ -104,8 +104,8 @@ public:
   bool isViewpointLocked() const { return mViewpointLocked; }
 
   // projection and rendering mode
-  void setProjectionMode(QString mode) { mProjectionMode = mode; }
-  void setRenderingMode(QString mode) { mRenderingMode = mode; }
+  void setProjectionMode(const QString &mode) { mProjectionMode = mode; }
+  void setRenderingMode(const QString &mode) { mRenderingMode = mode; }
   const QString &projectionMode() const { return mProjectionMode; }
   const QString &renderingMode() const { return mRenderingMode; }
 
@@ -115,7 +115,7 @@ public:
   QStringList renderingDevicePerspective(const QString &deviceUniqueName) const;
 
   QHash<QString, QString> &x3dExportParameters() { return mX3dExportParameters; }
-  void setX3dExportParameter(const QString key, QString value);
+  void setX3dExportParameter(const QString &key, QString value);
 
   // load/save perspective
   bool load(bool reloading = false);

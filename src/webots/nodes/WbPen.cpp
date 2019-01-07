@@ -94,11 +94,11 @@ void WbPen::handleMessage(QDataStream &stream) {
       mWrite->setValue(false);
       return;
     case C_PEN_SET_INK_COLOR: {
-      unsigned char r, g, b;
+      unsigned char r = 0, g = 0, b = 0;
       stream >> (unsigned char &)r >> (unsigned char &)g >> (unsigned char &)b;
       mInkColor->setValue(r / 255.0f, g / 255.0f, b / 255.0f);
 
-      unsigned char density;
+      unsigned char density = 0;
       stream >> (unsigned char &)density;
       mInkDensity->setValue((double)density / 255.0);
       WbFieldChecker::checkAndClampDoubleInRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);

@@ -52,16 +52,16 @@ void Graph2D::clear() {
   update();
 }
 
-void Graph2D::addNewColor(const QColor &c) {
+void Graph2D::addNewColor(const QColor &color) {
   bool found = false;
-  foreach (QColor *color, mColors) {
-    if (c == *color) {
+  foreach (QColor *currentColor, mColors) {
+    if (color == *currentColor) {
       found = true;
       break;
     }
   }
   if (!found)
-    mColors.insert(new QColor(c));
+    mColors.insert(new QColor(color));
 }
 
 void Graph2D::addPoint2D(const Point2D &point) {

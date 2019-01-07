@@ -86,6 +86,12 @@ public:
     mGeom = NULL;
     mCollidedGeometry = NULL;
     mWeight = 1.0;
+    mContactPosition[0] = 0.0;
+    mContactPosition[1] = 0.0;
+    mContactPosition[2] = 0.0;
+    mContactNormal[0] = 0.0;
+    mContactNormal[1] = 0.0;
+    mContactNormal[2] = 0.0;
   };
 
   ~SensorRay() {

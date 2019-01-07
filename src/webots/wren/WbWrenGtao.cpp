@@ -49,6 +49,23 @@ WbWrenGtao::WbWrenGtao() :
   mOffsets[1] = 0.5f;
   mOffsets[2] = 0.25f;
   mOffsets[3] = 0.75f;
+
+  mPreviousInverseViewMatrix[0] = 1.0f;
+  mPreviousInverseViewMatrix[1] = 0.0f;
+  mPreviousInverseViewMatrix[2] = 0.0f;
+  mPreviousInverseViewMatrix[3] = 0.0f;
+  mPreviousInverseViewMatrix[4] = 0.0f;
+  mPreviousInverseViewMatrix[5] = 1.0f;
+  mPreviousInverseViewMatrix[6] = 0.0f;
+  mPreviousInverseViewMatrix[7] = 0.0f;
+  mPreviousInverseViewMatrix[8] = 0.0f;
+  mPreviousInverseViewMatrix[9] = 0.0f;
+  mPreviousInverseViewMatrix[10] = 1.0f;
+  mPreviousInverseViewMatrix[11] = 0.0f;
+  mPreviousInverseViewMatrix[12] = 0.0f;
+  mPreviousInverseViewMatrix[13] = 0.0f;
+  mPreviousInverseViewMatrix[14] = 0.0f;
+  mPreviousInverseViewMatrix[15] = 0.0f;
 }
 
 void WbWrenGtao::setup(WrViewport *viewport) {

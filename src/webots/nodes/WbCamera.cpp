@@ -65,9 +65,9 @@ public:
   const QList<WbRgb> colors() const { return mColors; }
 
   void setModel(const QString &model) { mModel = model; }
-  void setRelativeOrientation(WbRotation relativeOrientation) { mRelativeOrientation = relativeOrientation; }
-  void setPositionOnImage(WbVector2 positionOnImage) { mPositionOnImage = positionOnImage; }
-  void setPixelSize(WbVector2 pixelSize) { mPixelSize = pixelSize; }
+  void setRelativeOrientation(const WbRotation &relativeOrientation) { mRelativeOrientation = relativeOrientation; }
+  void setPositionOnImage(const WbVector2 &positionOnImage) { mPositionOnImage = positionOnImage; }
+  void setPixelSize(const WbVector2 &pixelSize) { mPixelSize = pixelSize; }
   void addColor(WbRgb colors) { mColors.append(colors); }
 
 protected:
@@ -607,7 +607,7 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
   delete[] frustumPlanes;
 }
 
-WbVector2 WbCamera::projectOnImage(WbVector3 position) {
+WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   const int w = width();
   const int h = height();
   const double fovX = fieldOfView();
@@ -852,7 +852,7 @@ void WbCamera::updateNoiseMaskUrl() {
   if (!hasBeenSetup())
     return;
 
-  const QString noiseMaskUrl = mNoiseMaskUrl->value();
+  const QString &noiseMaskUrl = mNoiseMaskUrl->value();
   if (!noiseMaskUrl.isEmpty()) {
     // use custom noise mask
     const QString fileName(WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl));

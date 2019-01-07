@@ -74,7 +74,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
   stream >> (unsigned char &)command;
   switch (command) {
     case C_SPEAKER_PLAY_SOUND: {
-      int numberOfSound;
+      int numberOfSound = 0;
       stream >> (int &)numberOfSound;
       for (int i = 0; i < numberOfSound; ++i) {
         short size;
@@ -96,8 +96,9 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
       return;
     }
     case C_SPEAKER_STOP: {
-      short numberOfSound;
+      short numberOfSound = 0;
       stream >> (short &)numberOfSound;
+      // cppcheck-suppress redundantCondition
       if (numberOfSound == 0)
         stopAll();
       else {

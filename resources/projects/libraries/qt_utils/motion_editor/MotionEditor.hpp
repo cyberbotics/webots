@@ -23,7 +23,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    MotionEditor(QWidget *parent = NULL);
+    explicit MotionEditor(QWidget *parent = NULL);
     virtual ~MotionEditor();
 
     void writeActuators();
@@ -33,15 +33,15 @@ namespace webotsQtUtils {
     void openMotion();
     void saveMotion();
     void saveAsMotion();
-    void play(bool play);
-    void reverse(bool play);
+    void play(bool playState);
+    void reverse(bool playState);
     void pin(bool enable);
     void checkPlayAction();
     void updateFixedStep();
     void enableRunButtons();
 
   private:
-    void play(bool play, bool reverse);
+    void play(bool playState, bool reverse);
     void createWidgetsAndLayouts();
 
     void initializeMotion(const QString &filename = "");

@@ -74,43 +74,43 @@ bool WbVariant::operator!=(const WbVariant &other) const {
 }
 
 WbVariant::WbVariant(bool b) : mType(-1), mOwnsNode(false) {
-  setBool(b);
+  WbVariant::setBool(b);
 }
 
 WbVariant::WbVariant(int i) : mType(-1), mOwnsNode(false) {
-  setInt(i);
+  WbVariant::setInt(i);
 }
 
 WbVariant::WbVariant(double d) : mType(-1), mOwnsNode(false) {
-  setDouble(d);
+  WbVariant::setDouble(d);
 }
 
 WbVariant::WbVariant(const QString &s) : mType(-1), mOwnsNode(false) {
-  setString(s);
+  WbVariant::setString(s);
 }
 
 WbVariant::WbVariant(const WbVector2 &v) : mType(-1), mOwnsNode(false) {
-  setVector2(v);
+  WbVariant::setVector2(v);
 }
 
 WbVariant::WbVariant(const WbVector3 &v) : mType(-1), mOwnsNode(false) {
-  setVector3(v);
+  WbVariant::setVector3(v);
 }
 
 WbVariant::WbVariant(const WbRgb &c) : mType(-1), mOwnsNode(false) {
-  setColor(c);
+  WbVariant::setColor(c);
 }
 
 WbVariant::WbVariant(const WbRotation &r) : mType(-1), mOwnsNode(false) {
-  setRotation(r);
+  WbVariant::setRotation(r);
 }
 
 WbVariant::WbVariant(WbNode *n) : mType(-1), mOwnsNode(false) {
-  setNode(n);
+  WbVariant::setNode(n);
 }
 
 WbVariant::~WbVariant() {
-  clear();
+  WbVariant::clear();
 }
 
 void WbVariant::clear() {

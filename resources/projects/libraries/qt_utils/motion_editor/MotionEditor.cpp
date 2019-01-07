@@ -240,12 +240,12 @@ void MotionEditor::updateFixedStep() {
     mMotion->setFixedStep(0);
 }
 
-void MotionEditor::play(bool _play, bool reverse) {
+void MotionEditor::play(bool playState, bool reverse) {
   static const QIcon playIcon(QIcon("icons:real_time_button.png"));
   static const QIcon reverseIcon(QIcon("icons:reverse_button.png"));
   static const QIcon stopIcon(QIcon("icons:pause_button.png"));
 
-  bool enable = !_play;
+  bool enable = !playState;
 
   QPushButton *pressedButton = NULL;
   QPushButton *dualButton = NULL;
@@ -264,7 +264,7 @@ void MotionEditor::play(bool _play, bool reverse) {
   mPinCheckBox->setEnabled(enable);
   dualButton->setEnabled(enable);
 
-  if (_play) {
+  if (playState) {
     pressedButton->setIcon(stopIcon);
     mMotionPlayer->play(mMotion, mMotionWidget->currentIndex(), reverse);
   } else {
@@ -276,12 +276,12 @@ void MotionEditor::play(bool _play, bool reverse) {
   }
 }
 
-void MotionEditor::play(bool _play) {
-  play(_play, false);
+void MotionEditor::play(bool playState) {
+  play(playState, false);
 }
 
-void MotionEditor::reverse(bool _play) {
-  play(_play, true);
+void MotionEditor::reverse(bool playState) {
+  play(playState, true);
 }
 
 void MotionEditor::pin(bool enable) {

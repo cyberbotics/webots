@@ -10,7 +10,7 @@
 namespace webotsQtUtils {
   class Motor : public Device {
   public:
-    Motor(WbDeviceTag tag);
+    explicit Motor(WbDeviceTag tag);
     virtual ~Motor() {}
 
     void enable(bool enable);

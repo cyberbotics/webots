@@ -474,8 +474,8 @@ void WbWrenTextureOverlay::restorePerspective(QStringList &perspective, bool glo
 
   bool isVisible = perspective.takeFirst() == "1";
   double pixelSize = perspective.takeFirst().toDouble();
-  double x = perspective.takeFirst().toDouble();
-  double y = perspective.takeFirst().toDouble();
+  double x = pixelSize;
+  double y = pixelSize;
   resize(pixelSize);
   updatePercentagePosition(x, y);
   setVisible(isVisible, globalOverlaysEnabled);

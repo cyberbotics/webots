@@ -20,18 +20,18 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    PoseWidget(QWidget *parent = NULL);
+    explicit PoseWidget(QWidget *parent = NULL);
     virtual ~PoseWidget();
 
     void changePose(Pose *pose);
 
   protected:
     // reimplemented functions
-    virtual int count() const;
-    virtual void newItemAt(int index);
-    virtual void deleteItemAt(int index);
-    virtual void duplicateItemAt(int index) {}  // not available in PoseWidget
-    virtual void swapItemWithNext(int index);
+    int count() const override;
+    void newItemAt(int index) override;
+    void deleteItemAt(int index) override;
+    void duplicateItemAt(int index) override {}  // not available in PoseWidget
+    void swapItemWithNext(int index) override;
 
   private:
     Pose *mPose;

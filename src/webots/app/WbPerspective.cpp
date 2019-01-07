@@ -319,7 +319,7 @@ void WbPerspective::clearRenderingDevicesPerspectiveList() {
   mRenderingDevicesPerspectiveList.clear();
 }
 
-void WbPerspective::setX3dExportParameter(const QString key, QString value) {
+void WbPerspective::setX3dExportParameter(const QString &key, QString value) {
   mX3dExportParameters.insert(key, value);
 }
 

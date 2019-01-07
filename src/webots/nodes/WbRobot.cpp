@@ -458,7 +458,7 @@ void WbRobot::updateRemoteControl() {
 }
 
 void WbRobot::updateControllerDir() {
-  const QString controllerName = mController->value();
+  const QString &controllerName = mController->value();
   if (!controllerName.isEmpty()) {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
@@ -895,7 +895,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       pinToStaticEnvironment((bool)pin);
       return;
     case C_CONSOLE_MESSAGE: {
-      unsigned char streamChannel;
+      unsigned char streamChannel = 0;
       stream >> (unsigned char &)streamChannel;
       unsigned int size;
       stream >> (unsigned int &)size;
@@ -904,6 +904,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       QString message(nativeMessage);
       if (!message.endsWith('\n'))
         message += '\n';
+      // cppcheck-suppress redundantCondition
       emit appendMessageToConsole(message, streamChannel == 0);
       return;
     }
