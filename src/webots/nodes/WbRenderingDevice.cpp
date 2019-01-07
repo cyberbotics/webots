@@ -268,7 +268,7 @@ bool WbRenderingDevice::areOverlaysEnabled() const {
   if (nodeType() == WB_NODE_CAMERA)
     return !WbPreferences::instance()->value("View3d/hideAllCameraOverlays").toBool();
   // cppcheck-suppress redundantCondition
-  else if (nodeType() == WB_NODE_RANGE_FINDER)
+  if (nodeType() == WB_NODE_RANGE_FINDER)
     return !WbPreferences::instance()->value("View3d/hideAllRangeFinderOverlays").toBool();
   return !WbPreferences::instance()->value("View3d/hideAllDisplayOverlays").toBool();
 }
