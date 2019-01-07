@@ -177,8 +177,6 @@ void WbGps::init() {
   mSpeedResolution = findSFDouble("speedResolution");
 
   mSensor = NULL;
-  mMeasuredPosition = WbVector3();
-  mPreviousPosition = WbVector3();
   mMeasuredSpeed = 0.0;
   mUTMConverter = NULL;
   mNeedToUpdateCoordinateSystem = false;

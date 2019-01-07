@@ -31,10 +31,6 @@ void WbLed::init() {
   mColor = findMFColor("color");
   mGradual = findSFBool("gradual");
   mValue = 0;
-
-  mMaterials.clear();
-  mPbrAppearances.clear();
-  mLights.clear();
 }
 
 WbLed::WbLed(WbTokenizer *tokenizer) : WbSolidDevice("LED", tokenizer) {

@@ -122,21 +122,6 @@ void WbViewpoint::init() {
   mWrenBloom = new WbWrenBloom();
   mInverseViewMatrix = NULL;
 
-  mInitialPosition = WbVector3();
-  mInitialOrientation = WbRotation();
-  mInitialDescription = QString();
-  mInitialFollow = QString();
-  mEquilibriumVector = WbVector3();
-  mVelocity = WbVector3();
-
-  mInvisibleNodes.clear();
-
-  mMoveToDirection = WbVector3();
-  mInitialMoveToPosition = WbVector3();
-  mCenterToViewpointUnitVector = WbVector3();
-  mOrbitTargetUnitVector = WbVector3();
-
-
   mNodeVisibilityEnabled = false;
 
 #ifdef _WIN32

@@ -53,11 +53,6 @@ void WbWorldInfo::init() {
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
 
-  mGravityUnitVector = WbVector3();
-  mGravityBasis[0] = WbVector3();
-  mGravityBasis[1] = WbVector3();
-  mGravityBasis[2] = WbVector3();
-
   mPhysicsReceiver = NULL;
 
   if (findSFString("fast2d")->value() != "")

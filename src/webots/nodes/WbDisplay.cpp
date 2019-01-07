@@ -88,9 +88,6 @@ void WbDisplay::init() {
   mRequestImages = false;
   mAttachedCamera = NULL;
   mNeedToSetExternalTextures = false;
-  mImages.clear();
-  mSaveOrders.clear();
-  mImageTextures.clear();
 
   mDisplayFont = new WbDisplayFont();
   QString error = mDisplayFont->error();

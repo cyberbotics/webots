@@ -99,16 +99,6 @@ void WbRobot::init() {
   mJoyStickLastValue = NULL;
   mMouse = NULL;
 
-  mControllerDir = QString();
-  mAbsoluteWindowFilename = QString();
-  mAbsoluteRemoteControlFilename = QString();
-  mKeyboardLastValue.clear();
-  mUserInputEventReferenceTime = QDateTime();
-
-  mDevices.clear();
-  mRenderingDevices.clear();
-  mPressedKeys.clear();
-
   mControllerStarted = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;

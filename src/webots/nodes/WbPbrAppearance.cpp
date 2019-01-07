@@ -55,7 +55,6 @@ void WbPbrAppearance::init() {
   mEmissiveColor = findSFColor("emissiveColor");
   mEmissiveColorMap = findSFNode("emissiveColorMap");
   mEmissiveIntensity = findSFDouble("emissiveIntensity");
-  mInitialEmissiveColor = WbRgb();
 }
 
 WbPbrAppearance::WbPbrAppearance(WbTokenizer *tokenizer) : WbAbstractAppearance("PBRAppearance", tokenizer) {

@@ -51,7 +51,6 @@ void WbCharger::init() {
   mRobot = NULL;
   mDone = true;
   mElementsUpdateRequired = true;
-  mVisualElements.clear();
   if (mBattery->size() > CURRENT_ENERGY)
     mInitialEnergy = mBattery->item(CURRENT_ENERGY);
 }

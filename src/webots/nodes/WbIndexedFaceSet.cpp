@@ -46,7 +46,6 @@ WbTriangleMeshMap WbIndexedFaceSet::cTriangleMeshMap;
 void WbIndexedFaceSet::init() {
   mTrimeshData = NULL;
   mTriangleMesh = NULL;
-  mTriangleMeshError = QString();
   mScaledVerticesNeedUpdate = true;
   mCorrectSolidMass = true;
   mIsOdeDataApplied = false;

@@ -56,14 +56,6 @@ void WbSkin::init() {
 
   mBoneMesh = NULL;
   mBoneMaterial = NULL;
-  mModelPath = QString();
-
-  mRenderables.clear();
-  mMaterialNames.clear();
-  mMaterials.clear();
-  mMeshes.clear();
-  mBoneTransforms.clear();
-  mBonesMap.clear();
 
   mName = findSFString("name");
   mModelName = findSFString("model");

@@ -33,8 +33,6 @@ void WbLensFlare::init() {
   mChromaDistortion = findSFDouble("chromaDistortion");
   mSamples = findSFInt("samples");
   mBlurIterations = findSFInt("blurIterations");
-
-  mWrenLensFlares.clear();
 }
 
 WbLensFlare::WbLensFlare(WbTokenizer *tokenizer) : WbBaseNode("LensFlare", tokenizer) {

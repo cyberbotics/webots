@@ -60,8 +60,6 @@ void WbMotor::init() {
   mErrorIntegral = 0.0;
   mPreviousError = 0.0;
 
-  mChangedAssociatedDevices.clear();
-
   mMaxForceOrTorque = NULL;
   mAcceleration = findSFDouble("acceleration");
   mConsumptionFactor = findSFDouble("consumptionFactor");
