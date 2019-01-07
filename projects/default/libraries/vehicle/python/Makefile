@@ -26,12 +26,12 @@ MODULE_NAME = vehicle
 
 INTERFACE          = $(MODULE_NAME).i
 SOURCE_HEADERS     = $(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp)
-SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I"$(WEBOTS_HOME_PATH)/resources/languages/python/"
+SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/resources/languages/python/
 WRAPPER            = $(MODULE_NAME)$(PYTHON_SHORT_VERSION).cpp
 WRAPPER_OBJECT     = $(WRAPPER:.cpp=.o)
 PYOUT              = $(PYTHON_LIB_FOLDER)/$(MODULE_NAME).py
 PYTHON_VERSION    ?= 2.7
-INCLUDES           = -I"$(WEBOTS_HOME_PATH)/include/controller/c" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp"
+INCLUDES           = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)

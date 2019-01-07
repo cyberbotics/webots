@@ -71,11 +71,11 @@ include/services/%.h: $(CURDIR)/include/srv/%.srv include/templateHeader.h inclu
 ROS_HEADERS:
 	+@make -s -C include $(MAKECMDGOALS)
 
-INCLUDE = -isystem "$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include"
+INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
 
 # include ros libraries
 
-LIBRARIES += -L"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros" -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/libraries/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -88,7 +88,7 @@ ifeq ($(OSTYPE),windows)
 endif
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -Wl,-rpath,"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros"
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/projects/default/libraries/ros
 endif
 
 ifeq ($(OSTYPE),darwin)

@@ -27,7 +27,7 @@ JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 WRAPPER = $(MODULE_NAME).cpp
 WRAPPER_OBJECT = $(WRAPPER:.cpp=.o)
 JAR = $(WEBOTS_HOME_PATH)/lib/java/$(MODULE_NAME).jar
-INCLUDES = -I"$(WEBOTS_HOME_PATH)/include/controller/c/" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp/"
+INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/ -I$(WEBOTS_HOME_PATH)/include/controller/cpp/
 
 SWIG_OUTPUT  = output
 MODULE_PATH  = com/cyberbotics/webots/controller/vehicle
@@ -46,7 +46,7 @@ ifeq ($(OSTYPE),windows)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 CFLAGS2       = -c -Wall -Wno-unused-function -O
 LIBRARY       = $(WEBOTS_HOME_PATH)/lib/java/vehicle.dll
-LIB           = -L"$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
+LIB           = -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -76,7 +76,7 @@ $(JAR): JAVA_CLASSES
 	@jar cfv $@ $(MODULE_PATH)/*.class > /dev/null
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	@javac -target 1.8 -classpath "$(WEBOTS_HOME_PATH)/lib/java/Controller.jar" $(JAVA_SOURCES) -d .
+	@javac -target 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/java/Controller.jar $(JAVA_SOURCES) -d .
 
 $(JAVA_SOURCES): $(WRAPPER)
 
