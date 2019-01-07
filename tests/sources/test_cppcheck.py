@@ -34,7 +34,7 @@ class TestCppCheck(unittest.TestCase):
 
         self.includeDirs = [
             'include/controller/c',
-            # 'include/ode',
+            'include/ode',
             'include/qt/QtCore',
             'include/qt/QtGui',
             'include/qt/QtWidgets',
@@ -112,7 +112,8 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
 
-        os.system(command)
+        if 'TRAVIS' not in os.environ:
+            os.system(command)
 
         if os.path.isfile(self.reportFilename):
             reportFile = open(self.reportFilename, 'r')
