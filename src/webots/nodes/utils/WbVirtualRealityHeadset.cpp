@@ -95,8 +95,7 @@ bool WbVirtualRealityHeadset::isInUse() {
 
 WbVirtualRealityHeadset::WbVirtualRealityHeadset() :
   mViewpointPosition(WbVector3(0.0, 0.0, 0.0)),
-  mViewpointOrientation(WbRotation(0.0, 1.0, 0.0, 0.0))
-{
+  mViewpointOrientation(WbRotation(0.0, 1.0, 0.0, 0.0)) {
   mSystem = NULL;
   mWrenCameras[LEFT] = NULL;
   mWrenCameras[RIGHT] = NULL;
@@ -452,7 +451,7 @@ void WbVirtualRealityHeadset::applyFieldOfViewToWren() {
   }
 }
 
-void WbVirtualRealityHeadset::setOrientation(WbRotation &orientation) {
+void WbVirtualRealityHeadset::setOrientation(const WbRotation &orientation) {
   mViewpointOrientation = orientation;
   WbMatrix3 rotation = orientation.toMatrix3();
   if (mTrackOrientation)
@@ -468,10 +467,10 @@ void WbVirtualRealityHeadset::setOrientation(WbRotation &orientation) {
   }
 }
 
-void WbVirtualRealityHeadset::setPosition(WbVector3 &position) {
+void WbVirtualRealityHeadset::setPosition(const WbVector3 &position) {
   mViewpointPosition = position;
   if (mTrackPosition)
-    position += mViewpointOrientation.toMatrix3() * mCurrentPosition;
+    mViewpointPosition += mViewpointOrientation.toMatrix3() * mCurrentPosition;
   for (int i = 0; i < EYE_NUMBER; ++i) {
     if (mWrenCameras[i]) {
       WbVector3 offset = mEyeTranslation[i];
@@ -479,11 +478,13 @@ void WbVirtualRealityHeadset::setPosition(WbVector3 &position) {
         offset = (mViewpointOrientation.toMatrix3() * mCurrentOrientation) * offset;
       else
         offset = mViewpointOrientation.toMatrix3() * offset;
-      float pos[] = {static_cast<float>(position.x() + offset.x()), static_cast<float>(position.y() + offset.y()),
-                     static_cast<float>(position.z() + offset.z())};
+      float pos[] = {static_cast<float>(mViewpointPosition.x() + offset.x()),
+                     static_cast<float>(mViewpointPosition.y() + offset.y()),
+                     static_cast<float>(mViewpointPosition.z() + offset.z())};
       wr_camera_set_position(mWrenCameras[i], pos);
     }
   }
+  mViewpointPosition = position;
 }
 
 void WbVirtualRealityHeadset::setNear(double nearValue) {
