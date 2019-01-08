@@ -93,6 +93,9 @@ endif
 
 .PHONY: all clean release debug profile
 
+clean:
+	@rm -fr *.class  *.jar > /dev/null 2>&1 || :
+
 ifeq ($(JAVA_HOME),)
 release debug profile:
 	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
@@ -102,9 +105,6 @@ release debug profile:
 else
 release debug profile:
 	@javac $(JAVAC_OPTS) *.java
-
-clean:
-	@rm -fr *.class  *.jar > /dev/null 2>&1 || :
 
 $(JAR_FILE):
 	@javac $(JAVAC_OPTS) *.java
