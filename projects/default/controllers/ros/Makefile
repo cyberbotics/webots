@@ -50,32 +50,28 @@ endif
 
 $(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) ROS_HEADERS include/templateHeader.h include/templateRequest.h include/templateResponse.h
 
-ifndef CURDIR
- CURDIR = $(shell pwd)
-endif
-
 $(GENERATED_HEADERS): $(SERVICE_HEADERS) $(MESSAGE_HEADERS)
 
-include/messages/%.h: $(CURDIR)/include/msg/%.msg include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromMSG.py headersGenerator.py
+include/messages/%.h: include/msg/%.msg include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromMSG.py headersGenerator.py
 	@echo "# generating message header" $(notdir $<)
 	$(SILENT)python headersFromMSG.py $<
-	$(SILENT)mkdir -p $(CURDIR)/include/messages
-	$(SILENT)cp $(CURDIR)/include/webots_ros/$(basename $(notdir $<)).h $(CURDIR)/include/messages/$(basename $(notdir $<)).h
+	$(SILENT)mkdir -p include/messages
+	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/messages/$(basename $(notdir $<)).h
 
-include/services/%.h: $(CURDIR)/include/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
+include/services/%.h: include/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
 	@echo "# generating service header" $(notdir $<)
 	$(SILENT)python headersFromSRV.py $<
-	$(SILENT)mkdir -p $(CURDIR)/include/services
-	$(SILENT)cp $(CURDIR)/include/webots_ros/$(basename $(notdir $<)).h $(CURDIR)/include/services/$(basename $(notdir $<)).h
+	$(SILENT)mkdir -p include/services
+	$(SILENT)cp include/webots_ros/$(basename $(notdir $<)).h include/services/$(basename $(notdir $<)).h
 
 ROS_HEADERS:
 	+@make -s -C include $(MAKECMDGOALS)
 
-INCLUDE = -isystem "$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include"
+INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
 
 # include ros libraries
 
-LIBRARIES += -L"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros" -lroscpp -lrosconsole -lroscpp_serialization -lrostime
+LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/libraries/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -88,7 +84,7 @@ ifeq ($(OSTYPE),windows)
 endif
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -Wl,-rpath,"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros"
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/projects/default/libraries/ros
 endif
 
 ifeq ($(OSTYPE),darwin)

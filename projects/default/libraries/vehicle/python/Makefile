@@ -15,6 +15,7 @@
 space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 PYTHON_COMMAND ?= python
@@ -25,13 +26,13 @@ WEBOTS_LIBRARY = 1
 MODULE_NAME = vehicle
 
 INTERFACE          = $(MODULE_NAME).i
-SOURCE_HEADERS     = $(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp)
-SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I"$(WEBOTS_HOME_PATH)/resources/languages/python/"
+SOURCE_HEADERS     = $(substr $(WEBOTS_HOME_PATH_NO_ESCAPE),$(WEBOTS_HOME_PATH),$(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp))
+SWIG_OPTS          = -c++ -python -outdir $(PYTHON_LIB_FOLDER) -I$(WEBOTS_HOME_PATH)/resources/languages/python/
 WRAPPER            = $(MODULE_NAME)$(PYTHON_SHORT_VERSION).cpp
 WRAPPER_OBJECT     = $(WRAPPER:.cpp=.o)
 PYOUT              = $(PYTHON_LIB_FOLDER)/$(MODULE_NAME).py
 PYTHON_VERSION    ?= 2.7
-INCLUDES           = -I"$(WEBOTS_HOME_PATH)/include/controller/c" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp"
+INCLUDES           = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIB                = -lCppCar -lCppDriver
 
 ifeq ($(OSTYPE),linux)

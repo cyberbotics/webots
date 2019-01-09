@@ -50,12 +50,12 @@ include/webots_ros/%.h : include/srv/%.srv $(WEBOTS_HOME_PATH)/projects/default/
 	@echo "# generating ROS header" $(notdir $<)
 	$(SILENT)python $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/headersFromSRV.py $< $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
 
-INCLUDE = -I"$(WEBOTS_HOME_PATH)/projects/default/controllers/ros" -isystem "$(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include" -I"include"
+INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -Iinclude
 LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
 # include ros libraries
 
-LIBRARIES += -L"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros" -lroscpp -lrosconsole -lroscpp_serialization  -lrostime
+LIBRARIES += -L$(WEBOTS_HOME_PATH)/projects/default/libraries/ros -lroscpp -lrosconsole -lroscpp_serialization -lrostime
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -68,7 +68,7 @@ ifeq ($(OSTYPE),windows)
 endif
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -Wl,-rpath,"$(WEBOTS_HOME_PATH)/projects/default/libraries/ros"
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/projects/default/libraries/ros
 endif
 
 ifeq ($(OSTYPE),darwin)
