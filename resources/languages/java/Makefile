@@ -147,22 +147,22 @@ $(WEBOTS_HOME_PATH)/lib/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
 
 $(WEBOTS_HOME_PATH)/lib/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController $^ -o $@
+	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController $^ -o "$@"
 
 $(WEBOTS_HOME_PATH)/lib/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
-	$^ -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController -lm -o $@
+	$^ -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): JAVA_CLASSES
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	jar cfv $@ $(CONTROLLERPATH)/*.class > /dev/null
+	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
 
 $(JAVA_SOURCES): $(WRAPPER)
 
 $(WRAPPER): $(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	test -d $(SWIG_OUTPUT_PATH) || mkdir -p $(SWIG_OUTPUT_PATH)
-	$(SWIG) -c++ -java -package $(subst /,.,$(CONTROLLERPATH)) -outdir $(SWIG_OUTPUT_PATH) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
+	$(SWIG) -c++ -java -package $(subst /,.,$(CONTROLLERPATH)) -outdir $(SWIG_OUTPUT_PATH) $(WEBOTS_INCLUDES) -o "$@" $<
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist, build it first."

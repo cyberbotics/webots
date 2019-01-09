@@ -94,7 +94,7 @@ endif
 all debug profile release: $(TARGET)
 
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
-	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o $@
+	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "Warning: $(LIBCONTROLLER) doesn't exist, rebuild it first."

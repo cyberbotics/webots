@@ -15,13 +15,14 @@
 space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH_NO_ESCAPE=$(subst \,/,$(WEBOTS_HOME))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 WEBOTS_LIBRARY = 1
 MODULE_NAME = vehicle
 
 INTERFACE = $(MODULE_NAME).i
-SOURCE_HEADERS = $(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp)
+SOURCE_HEADERS = $(substr $(WEBOTS_HOME_PATH_NO_ESCAPE),$(WEBOTS_HOME_PATH),$(wildcard $(WEBOTS_HOME_PATH)/include/controller/cpp/webots/*.hpp))
 JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 
 WRAPPER = $(MODULE_NAME).cpp
@@ -73,7 +74,7 @@ all release debug profile: $(JAR) $(LIBRARY)
 
 $(JAR): JAVA_CLASSES
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	@jar cfv $@ $(MODULE_PATH)/*.class > /dev/null
+	@jar cfv "$@" $(MODULE_PATH)/*.class > /dev/null
 
 JAVA_CLASSES: $(JAVA_SOURCES)
 	@javac -target 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/java/Controller.jar $(JAVA_SOURCES) -d .
@@ -85,19 +86,19 @@ $(WRAPPER): $(INTERFACE) $(SOURCE_HEADERS)
 	@swig -c++ -java -package $(subst /,.,$(MODULE_PATH)) -outdir $(SWIG_OUTPUT) -I$(WEBOTS_HOME_PATH)/resources/languages/java/ $(INCLUDES) -o $@ $<
 
 $(WRAPPER_OBJECT): $(WRAPPER)
-	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o $@
+	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
 %.so: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	@$(CXX) -shared $< $(LIB) -o $@
+	@$(CXX) -shared $< $(LIB) -o "$@"
 
 %.dll: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	@$(CXX)  -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O -lm $< $(LIB) -o $@
+	@$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O -lm $< $(LIB) -o "$@"
 
 %.jnilib: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
-	@$(CXX) $(CFLAGS1) -bundle $< $(LIB) -o $@
+	@$(CXX) $(CFLAGS1) -bundle $< $(LIB) -o "$@"
 endif
 
 clean:

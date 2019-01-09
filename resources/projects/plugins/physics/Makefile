@@ -12,7 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include ../../../Makefile.os.include
+ifeq ($(WEBOTS_HOME),)
+WEBOTS_HOME_PATH = ../../..
+else
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+endif
+
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 CFLAGS = -c -O3
 
@@ -26,8 +34,8 @@ ifeq ($(OSTYPE), linux)
 PLATFORM_FLAGS = -fPIC
 endif
 
-physics.o: physics.c $(WEBOTS_HOME)/include/plugins/physics.h
-	@gcc $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME)/include -I$(WEBOTS_HOME)/include/ode
+physics.o: physics.c $(WEBOTS_HOME_PATH)/include/plugins/physics.h
+	@gcc $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/ode
 release debug profile: physics.o
 clean:
 	@rm -f physics.o
