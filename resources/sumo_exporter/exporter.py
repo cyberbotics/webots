@@ -41,6 +41,7 @@ if os.path.exists(configFilePath):
 # Extracts map info, roads and crossroads from the Webots file
 with open(options.input, 'r') as f:
     wbtContent = f.read()
+wbtContent = re.sub(r'lines\s+\[[^\]]*\]', '', wbtContent)  # "RoadLine {.*}" can break the simplistic node parser bellow.
 
 roadTypes = ["Road", "StraightRoadSegment", "CurvedRoadSegment"]
 for roadType in roadTypes:
