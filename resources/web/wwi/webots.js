@@ -34,7 +34,6 @@ webots.User1Authentication // password or authentication for the main user (empt
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
-webots.disableTimeout      // if set to true the simulation runs without any timeout
 webots.showRevert          // if set to true the revert button is displayed
 webots.hideQuit            // if set to true the quit button is not displayed
 
@@ -378,10 +377,13 @@ webots.View.prototype.open = function(url, mode) {
         that.editor.upload(i);
     }
     that.onrobotwindowsdestroy();
-    if (that.timeout >= 0 && !webots.disableTimeout) {
+    console.log(that.timeout);
+    if (that.timeout >= 0) {
+      console.log(webots.parseMillisecondsIntoReadableTime(that.deadline));
       that.deadline = that.timeout;
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.deadline));
-    }
+    } else
+      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
     enableToolBarButtons(false);
     if (revert)
       that.stream.socket.send('revert');
@@ -398,10 +400,7 @@ webots.View.prototype.open = function(url, mode) {
     if (that.broadcast)
       return;
     $('#contextMenu').css('display', 'none');
-    if (webots.disableTimeout)
-      that.stream.socket.send('real-time:-1.0');
-    else
-      that.stream.socket.send('real-time:' + that.timeout);
+    that.stream.socket.send('real-time:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'none';
     if (that.fastButton !== undefined)
@@ -411,10 +410,7 @@ webots.View.prototype.open = function(url, mode) {
     if (that.broadcast)
       return;
     $('#contextMenu').css('display', 'none');
-    if (webots.disableTimeout)
-      that.stream.socket.send('fast:-1.0');
-    else
-      that.stream.socket.send('fast:' + that.timeout);
+    that.stream.socket.send('fast:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'inline';
     that.fastButton.style.display = 'none';
@@ -568,18 +564,15 @@ webots.View.prototype.open = function(url, mode) {
       clock.title = 'Current simulation time';
       clock.innerHTML = webots.parseMillisecondsIntoReadableTime(0);
       div.appendChild(clock);
-      if (!webots.disableTimeout) {
-        var timeout = document.createElement('span');
-        timeout.id = 'webotsTimeout';
-        timeout.title = 'Simulation time out';
-        timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(that.deadline);
-        div.appendChild(document.createElement('br'));
-        div.appendChild(timeout);
-      }
+      var timeout = document.createElement('span');
+      timeout.id = 'webotsTimeout';
+      timeout.title = 'Simulation time out';
+      timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(that.deadline);
+      div.appendChild(document.createElement('br'));
+      div.appendChild(timeout);
       that.toolBar.left.appendChild(div);
       that.toolBar.left.appendChild(toolBarButton('console', 'Open the console window'));
       that.consoleButton.onclick = toggleConsole;
-
       that.toolBar.right = document.createElement('div');
       that.toolBar.right.className = 'toolBarRight';
       that.toolBar.right.appendChild(toolBarButton('help', 'Get help on the simulator'));
@@ -1608,8 +1601,6 @@ webots.Server = function(url, view, onready) {
         webots.User2Name = '';
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
-      if (typeof webots.disableTimeout === 'undefined')
-        webots.disableTimeout = false;
       if (typeof webots.showRevert === 'undefined')
         webots.showRevert = false;
       if (typeof webots.hideQuit === 'undefined')
@@ -1795,7 +1786,7 @@ webots.Stream = function(url, view, onready) {
       that.view.real_timeButton.style.display = 'inline';
       if (that.view.fastButton !== undefined)
         that.view.fastButton.style.display = 'inline';
-      if (!webots.disableTimeout && that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
+      if (that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
         that.view.deadline = that.view.timeout;
         if (that.view.time !== undefined)
           that.view.deadline += that.view.time;
@@ -1806,7 +1797,7 @@ webots.Stream = function(url, view, onready) {
       that.view.real_timeButton.style.display = 'inline';
       if (that.view.fastButton !== undefined)
         that.view.fastButton.style.display = 'inline';
-      if (!webots.disableTimeout && that.view.timeout >= 0)
+      if (that.view.timeout >= 0)
         that.view.stream.socket.send('timeout:' + that.view.timeout);
     } else if (data === 'scene load completed') {
       that.view.time = 0;
@@ -1823,10 +1814,11 @@ webots.Stream = function(url, view, onready) {
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
       if (that.onready)
         that.onready();
-      if (!webots.disableTimeout) {
-        that.view.deadline = that.view.timeout;
+      that.view.deadline = that.view.timeout;
+      if (that.view.deadline >= 0)
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
-      }
+      else
+        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
       // restore viewpoint
       var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
       viewpoint.setAttribute('position', that.view.initialViewpointPosition);
