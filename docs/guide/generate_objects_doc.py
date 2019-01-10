@@ -89,7 +89,8 @@ for proto in prioritaryProtoList + fileList:
         for i, match in enumerate(matches):
             fieldsDefinition = match.group(1)
             break  # only first match is interesting
-        matches = re.finditer(r'.*ield\s+([^ ]*?)(\{(?:.*\,?\s?)(?<!\{)\})\s+([^ ]*)\s+([^#\n]*)(#?)(.*)', fieldsDefinition, re.MULTILINE)
+        # remove enumerations
+        matches = re.finditer(r'.*ield\s+([^ ]*?)(\{(?:[^\[]*\,?\s?)(?<!\{)\})\s+([^ ]*)\s+([^#\n]*)(#?)(.*)', fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
             if '\n' in match.group():
                 string = ' ' * match.group().index(match.group(2))
@@ -100,14 +101,13 @@ for proto in prioritaryProtoList + fileList:
             else:
                 fieldsDefinition = fieldsDefinition.replace(match.group(2), '')
             # we can evetually use the list of possibility in the future
-        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]+)(\{[^[\n]*\})*\s+([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)', fieldsDefinition, re.MULTILINE)
+        matches = re.finditer(r'^\s*([^#]*ield)\s+([^ \{]*)\s+([^ ]*)\s+([^#\n]*)(#?)(.*)((\n*(    |  \]).*)*)', fieldsDefinition, re.MULTILINE)
         for i, match in enumerate(matches):
             if match.group(1) != 'hiddenField':
                 fieldType = match.group(2)
-                fieldName = match.group(4)
-                fieldDefaultValue = match.group(5)
-                fieldComment = match.group(7).strip()
-                if protoName == 'Road':
+                fieldName = match.group(3)
+                fieldDefaultValue = match.group(4)
+                fieldComment = match.group(6).strip()
                 # skip 'Is `NodeType.fieldName`.' descriptions
                 if fieldComment and not re.match(r'Is\s`([a-zA-Z]*).([a-zA-Z]*)`.', fieldComment):
                     describedField.append((fieldName, fieldComment))
