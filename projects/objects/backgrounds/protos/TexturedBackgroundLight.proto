@@ -17,11 +17,12 @@
 # - noon_sunny_empty
 # - noon_sunny_garden
 # - twilight_cloudy_empty
+# - mountains
 
 PROTO TexturedBackgroundLight [
-  field SFString{"dawn_cloudy_empty", "empty_office", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
-                 texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
-  field SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
+  field  SFString{"dawn_cloudy_empty", "empty_office", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+                  texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
+  field  SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
 ]
 {
   %{
@@ -68,7 +69,7 @@ PROTO TexturedBackgroundLight [
       intensity = 1.8
     elseif fields.texture.value == "mountains" then
       direction = {-0.6, -1, 0.55}
-      intensity = 2.7      
+      intensity = 2.7
     else
       io.stderr:write("Unknown texture identifier\n")
     end
