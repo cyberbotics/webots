@@ -34,6 +34,9 @@ webots.User1Authentication // password or authentication for the main user (empt
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
+webots.disableTimeout      // if set to true the simulation runs without any timeout
+webots.showRevert          // if set to true the revert button is displayed
+webots.hideQuit            // if set to true the quit button is not displayed
 
 */
 
@@ -242,6 +245,35 @@ webots.View.prototype.setWebotsDocUrl = function(url) {
   this.webotsDocUrl = url;
 };
 
+webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
+  var that = this;
+  if (worlds.length <= 1)
+    return;
+  if (typeof this.worldSelect !== 'undefined')
+    this.worldSelect.parentNode.removeChild(this.worldSelect);
+  this.worldSelect = document.createElement("select");
+  this.worldSelect.id = "worldSelection";
+  this.toolBar.left.appendChild(this.worldSelect);
+  for (var i = 0; i < worlds.length; i++) {
+    var option = document.createElement("option");
+    option.value = worlds[i];
+    option.text = worlds[i];
+    this.worldSelect.appendChild(option);
+    if (currentWorld == worlds[i])
+      this.worldSelect.selectedIndex = i
+  }
+  this.worldSelect.onchange = loadWorld;
+  function loadWorld() {
+    if (that.broadcast || typeof that.worldSelect === 'undefined')
+      return;
+    that.followedObject = null;
+    that.onrobotwindowsdestroy();
+    $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
+    $('#webotsProgress').show();
+    that.stream.socket.send('load:' + that.worldSelect.value);
+  }
+}
+
 webots.View.prototype.open = function(url, mode) {
   if (mode === undefined)
     mode = 'x3dom';
@@ -329,11 +361,14 @@ webots.View.prototype.open = function(url, mode) {
     that.quitting = true;
     that.onquit();
   }
-  function reset() {
+  function reset(revert = false) {
     if (that.broadcast)
       return;
     that.time = 0; // reset time to correctly compute the initial deadline
-    $('#webotsProgressMessage').html('Restarting simulation...');
+    if (revert)
+      $('#webotsProgressMessage').html('Reverting simulation...');
+    else
+      $('#webotsProgressMessage').html('Restarting simulation...');
     $('#webotsProgress').show();
     that.runOnLoad = that.pauseButton.style.display === 'inline';
     pause();
@@ -343,12 +378,15 @@ webots.View.prototype.open = function(url, mode) {
         that.editor.upload(i);
     }
     that.onrobotwindowsdestroy();
-    if (that.timeout >= 0) {
+    if (that.timeout >= 0 && !webots.disableTimeout) {
       that.deadline = that.timeout;
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.deadline));
     }
     enableToolBarButtons(false);
-    that.stream.socket.send('reset');
+    if (revert)
+      that.stream.socket.send('revert');
+    else
+      that.stream.socket.send('reset');
   }
   function pause() {
     if (that.broadcast)
@@ -360,9 +398,26 @@ webots.View.prototype.open = function(url, mode) {
     if (that.broadcast)
       return;
     $('#contextMenu').css('display', 'none');
-    that.stream.socket.send('real-time:' + that.timeout);
+    if (webots.disableTimeout)
+      that.stream.socket.send('real-time:-1.0');
+    else
+      that.stream.socket.send('real-time:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'none';
+    if (that.fastButton !== undefined)
+      that.fastButton.style.display = 'inline';
+  }
+  function fast() {
+    if (that.broadcast)
+      return;
+    $('#contextMenu').css('display', 'none');
+    if (webots.disableTimeout)
+      that.stream.socket.send('fast:-1.0');
+    else
+      that.stream.socket.send('fast:' + that.timeout);
+    that.pauseButton.style.display = 'inline';
+    that.real_timeButton.style.display = 'inline';
+    that.fastButton.style.display = 'none';
   }
   function step() {
     if (that.broadcast)
@@ -370,6 +425,8 @@ webots.View.prototype.open = function(url, mode) {
     $('#contextMenu').css('display', 'none');
     that.pauseButton.style.display = 'none';
     that.real_timeButton.style.display = 'inline';
+    if (that.fastButton !== undefined)
+      that.fastButton.style.display = 'inline';
     that.stream.socket.send('step');
   }
   function requestFullscreen() {
@@ -440,7 +497,7 @@ webots.View.prototype.open = function(url, mode) {
     }
   }
   function enableToolBarButtons(enabled) {
-    var buttons = [that.infoButton, that.resetButton, that.stepButton, that.real_timeButton, that.pauseButton, that.consoleButton];
+    var buttons = [that.infoButton, that.revertButton, that.resetButton, that.stepButton, that.real_timeButton, that.fastButton, that.pauseButton, that.consoleButton];
     for (var i in buttons) {
       if (buttons[i]) {
         if ((!that.broadcast || buttons[i] === that.consoleButton) && enabled) {
@@ -483,12 +540,18 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.id = 'toolBar';
       that.toolBar.left = document.createElement('div');
       that.toolBar.left.className = 'toolBarLeft';
-      that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
-      that.quitButton.onclick = requestQuit;
+      if (!webots.hideQuit) {
+        that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
+        that.quitButton.onclick = requestQuit;
+      }
       that.toolBar.left.appendChild(toolBarButton('info', 'Open the information window'));
       that.infoButton.onclick = toggleInfo;
+      if (webots.showRevert) {
+        that.toolBar.left.appendChild(toolBarButton('revert', 'Save controllers and revert the simulation'));
+        that.revertButton.addEventListener('click', function() { reset(true); });
+      }
       that.toolBar.left.appendChild(toolBarButton('reset', 'Save controllers and reset the simulation'));
-      that.resetButton.onclick = reset;
+      that.resetButton.addEventListener('click', function() { reset(false); });
       that.toolBar.left.appendChild(toolBarButton('step', 'Perform one simulation step'));
       that.stepButton.onclick = step;
       that.toolBar.left.appendChild(toolBarButton('real_time', 'Run the simulation in real time'));
@@ -496,22 +559,27 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.left.appendChild(toolBarButton('pause', 'Pause the simulation'));
       that.pauseButton.onclick = pause;
       that.pauseButton.style.display = 'none';
+      that.toolBar.left.appendChild(toolBarButton('fast', 'Run the simulation as fast as possible'));
+      that.fastButton.onclick = fast;
       var div = document.createElement('div');
       div.className = 'webotsTime';
       var clock = document.createElement('span');
       clock.id = 'webotsClock';
       clock.title = 'Current simulation time';
       clock.innerHTML = webots.parseMillisecondsIntoReadableTime(0);
-      var timeout = document.createElement('span');
-      timeout.id = 'webotsTimeout';
-      timeout.title = 'Simulation time out';
-      timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(that.deadline);
       div.appendChild(clock);
-      div.appendChild(document.createElement('br'));
-      div.appendChild(timeout);
+      if (!webots.disableTimeout) {
+        var timeout = document.createElement('span');
+        timeout.id = 'webotsTimeout';
+        timeout.title = 'Simulation time out';
+        timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(that.deadline);
+        div.appendChild(document.createElement('br'));
+        div.appendChild(timeout);
+      }
       that.toolBar.left.appendChild(div);
       that.toolBar.left.appendChild(toolBarButton('console', 'Open the console window'));
       that.consoleButton.onclick = toggleConsole;
+
       that.toolBar.right = document.createElement('div');
       that.toolBar.right.className = 'toolBarRight';
       that.toolBar.right.appendChild(toolBarButton('help', 'Get help on the simulator'));
@@ -527,7 +595,7 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.appendChild(that.toolBar.right);
       that.view3D.appendChild(that.toolBar);
       enableToolBarButtons(false);
-      if (that.broadcast) {
+      if (that.broadcast && that.quitButton) {
         that.quitButton.disabled = true;
         that.quitButton.classList.add('toolBarButtonDisabled');
         $('#contextMenuRobotWindowDiv').addClass('ui-state-disabled');
@@ -653,6 +721,8 @@ webots.View.prototype.open = function(url, mode) {
             loadFinalize();
         });
       }).fail(function() {
+        if (windowName === infoWindowName)
+          that.infoWindow = null;
         pendingRequestsCount--;
         if (pendingRequestsCount === 0)
           loadFinalize();
@@ -1538,6 +1608,12 @@ webots.Server = function(url, view, onready) {
         webots.User2Name = '';
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
+      if (typeof webots.disableTimeout === 'undefined')
+        webots.disableTimeout = false;
+      if (typeof webots.showRevert === 'undefined')
+        webots.showRevert = false;
+      if (typeof webots.hideQuit === 'undefined')
+        webots.hideQuit = false;
       this.send('{ "init" : [ "' + host + '", "' + that.project + '", "' + that.worldFile + '", "' +
                 webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
                 webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
@@ -1666,6 +1742,11 @@ webots.Stream = function(url, view, onready) {
       var scene = data.substring(data.indexOf('<Scene>') + 8, data.lastIndexOf('</Scene>'));
       $(that.view.x3dScene).append(scene);
       that.view.onresize();
+    } else if (data.startsWith('world:')) {
+      data = data.substring(data.indexOf(':') + 1).trim();
+      var currentWorld = data.substring(0, data.indexOf(':')).trim();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      that.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('image')) {
       // extract texture url: the url should only contains escaped ']' characters
       var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
@@ -1712,7 +1793,9 @@ webots.Stream = function(url, view, onready) {
     } else if (data === 'pause') {
       that.view.pauseButton.style.display = 'none';
       that.view.real_timeButton.style.display = 'inline';
-      if (that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
+      if (that.view.fastButton !== undefined)
+        that.view.fastButton.style.display = 'inline';
+      if (!webots.disableTimeout && that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
         that.view.deadline = that.view.timeout;
         if (that.view.time !== undefined)
           that.view.deadline += that.view.time;
@@ -1720,8 +1803,10 @@ webots.Stream = function(url, view, onready) {
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       that.view.pauseButton.style.display = 'inline';
-      that.view.real_timeButton.style.display = 'none';
-      if (that.view.timeout >= 0)
+      that.view.real_timeButton.style.display = 'inline';
+      if (that.view.fastButton !== undefined)
+        that.view.fastButton.style.display = 'inline';
+      if (!webots.disableTimeout && that.view.timeout >= 0)
         that.view.stream.socket.send('timeout:' + that.view.timeout);
     } else if (data === 'scene load completed') {
       that.view.time = 0;
@@ -1738,8 +1823,10 @@ webots.Stream = function(url, view, onready) {
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
       if (that.onready)
         that.onready();
-      that.view.deadline = that.view.timeout;
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
+      if (!webots.disableTimeout) {
+        that.view.deadline = that.view.timeout;
+        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
+      }
       // restore viewpoint
       var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
       viewpoint.setAttribute('position', that.view.initialViewpointPosition);
