@@ -59,10 +59,8 @@ void WbTrack::init() {
   mInitialTextureTransformTranslation = WbVector2();
 
   // geometries animation
-  mWheelsList.clear();
   mPathLength = 0.0;
   mPathStepSize = 0.0;
-  mAnimatedObjectList.clear();
   mAnimationStepSize = 0;
 }
 

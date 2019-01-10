@@ -264,9 +264,11 @@ bool WbRenderingDevice::areOverlaysEnabled() const {
   if (WbVirtualRealityHeadset::isInUse())
     return false;
 #endif
+  // cppcheck-suppress redundantCondition
   if (nodeType() == WB_NODE_CAMERA)
     return !WbPreferences::instance()->value("View3d/hideAllCameraOverlays").toBool();
-  else if (nodeType() == WB_NODE_RANGE_FINDER)
+  // cppcheck-suppress redundantCondition
+  if (nodeType() == WB_NODE_RANGE_FINDER)
     return !WbPreferences::instance()->value("View3d/hideAllRangeFinderOverlays").toBool();
   return !WbPreferences::instance()->value("View3d/hideAllDisplayOverlays").toBool();
 }

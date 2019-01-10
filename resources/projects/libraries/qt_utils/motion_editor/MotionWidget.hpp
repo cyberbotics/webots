@@ -20,7 +20,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    MotionWidget(QWidget *parent = NULL);
+    explicit MotionWidget(QWidget *parent = NULL);
     virtual ~MotionWidget();
 
     void setMotion(Motion *motion);
@@ -30,11 +30,11 @@ namespace webotsQtUtils {
 
   protected:
     // reimplemented functions
-    virtual int count() const;
-    virtual void newItemAt(int index);
-    virtual void deleteItemAt(int index);
-    virtual void duplicateItemAt(int index);
-    virtual void swapItemWithNext(int index);
+    int count() const override;
+    void newItemAt(int index) override;
+    void deleteItemAt(int index) override;
+    void duplicateItemAt(int index) override;
+    void swapItemWithNext(int index) override;
 
   private:
     Pose *selectedPose() const;

@@ -12,13 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Webots Makefile system 
+# Webots Makefile system
 #
 # You may add some variable definitions hereafter to customize the build process
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 ### Do not modify: this includes Webots global Makefile.include
-include $(WEBOTS_HOME)/resources/Makefile.os.include
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 QT = core gui widgets network
 
@@ -31,7 +34,4 @@ endif
 
 CURDIR = controllers/osm_gui # hawful hack to generate an executable outside of the 'controllers' directory
 
-space :=
-space +=
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

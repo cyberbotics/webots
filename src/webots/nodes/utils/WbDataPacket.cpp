@@ -42,6 +42,7 @@ WbDataPacket::WbDataPacket(WbDataPacket &other) :
   mEmitter(other.mEmitter),
   mChannel(other.mChannel),
   mDataSize(other.mDataSize),
+  mEmitterPos(NAN, NAN, NAN),
   mEmitterDir(NAN, NAN, NAN),
   mSignalStrength(std::numeric_limits<double>::infinity()) {
   mData = new char[mDataSize];

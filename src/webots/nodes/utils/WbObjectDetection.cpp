@@ -252,11 +252,11 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     for (int i = 0; i < pointsInFrustum.size(); ++i)
       pointsInFrustum[i] = deviceInverseRotation * (pointsInFrustum[i] - devicePosition);
     double minX = pointsInFrustum[0].x();
-    double maxX = pointsInFrustum[0].x();
+    double maxX = minX;
     double minY = pointsInFrustum[0].y();
-    double maxY = pointsInFrustum[0].y();
+    double maxY = minY;
     double minZ = pointsInFrustum[0].z();
-    double maxZ = pointsInFrustum[0].z();
+    double maxZ = minZ;
     for (int i = 1; i < pointsInFrustum.size(); ++i) {
       minX = qMin(minX, pointsInFrustum[i].x());
       maxX = qMax(maxX, pointsInFrustum[i].x());

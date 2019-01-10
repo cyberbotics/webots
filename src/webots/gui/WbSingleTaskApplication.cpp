@@ -115,10 +115,12 @@ void WbSingleTaskApplication::showSysInfo() const {
 
   const char *vendor = (const char *)gl->glGetString(GL_VENDOR);
   const char *renderer = (const char *)gl->glGetString(GL_RENDERER);
+  // cppcheck-suppress redundantCondition
   if (vendorId == 0)
     cout << tr("OpenGL vendor: %1").arg(vendor).toUtf8().constData() << endl;
   else
     cout << tr("OpenGL vendor: %1 (0x%2)").arg(vendor).arg(vendorId, 0, 16).toUtf8().constData() << endl;
+  // cppcheck-suppress redundantCondition
   if (rendererId == 0)
     cout << tr("OpenGL renderer: %1").arg(renderer).toUtf8().constData() << endl;
   else

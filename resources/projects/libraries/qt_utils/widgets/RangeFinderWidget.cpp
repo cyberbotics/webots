@@ -33,8 +33,7 @@ void RangeFinderWidget::readSensors() {
     double rangeFinderRatio = (double)rangeFinderWidth / (double)rangeFinderHeight;
     double labelRatio = (double)labelWidth / (double)labelHeight;
     QImage *image;
-    unsigned char *buffer = NULL;
-    buffer = new unsigned char[rangeFinderWidth * rangeFinderHeight * 4];
+    unsigned char *buffer = new unsigned char[rangeFinderWidth * rangeFinderHeight * 4];
     int k = 0, r = 0;
     int size = rangeFinderWidth * rangeFinderHeight;
     float _255OverMax = 255.0f / wb_range_finder_get_max_range(tag);

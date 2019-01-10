@@ -26,7 +26,7 @@ class WbWrenFullScreenOverlay : public QObject {
   Q_OBJECT
 
 public:
-  WbWrenFullScreenOverlay(QString text, int fontSize, bool onTop);
+  WbWrenFullScreenOverlay(const QString &text, int fontSize, bool onTop);
   virtual ~WbWrenFullScreenOverlay();
 
   void adjustSize();

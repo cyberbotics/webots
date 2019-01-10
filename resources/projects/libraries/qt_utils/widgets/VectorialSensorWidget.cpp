@@ -97,21 +97,21 @@ void VectorialSensorWidget::setMode(int mode) {
   mGraph2D->updateRange();
 }
 
-void VectorialSensorWidget::displayVector(QVector4D *v) {
+void VectorialSensorWidget::displayVector(QVector4D *vector) {
   switch (mMode) {
     case XY:
-      mGraph2D->addPoint2D(Point2D(v->x(), v->y()));
+      mGraph2D->addPoint2D(Point2D(vector->x(), vector->y()));
       break;
     case XZ:
-      mGraph2D->addPoint2D(Point2D(v->x(), v->z()));
+      mGraph2D->addPoint2D(Point2D(vector->x(), vector->z()));
       break;
     case YZ:
-      mGraph2D->addPoint2D(Point2D(v->y(), v->z()));
+      mGraph2D->addPoint2D(Point2D(vector->y(), vector->z()));
       break;
     case TIME:
-      mGraph2D->addPoint2D(Point2D(v->w(), v->x(), red));
-      mGraph2D->addPoint2D(Point2D(v->w(), v->y(), green));
-      mGraph2D->addPoint2D(Point2D(v->w(), v->z(), blue));
+      mGraph2D->addPoint2D(Point2D(vector->w(), vector->x(), red));
+      mGraph2D->addPoint2D(Point2D(vector->w(), vector->y(), green));
+      mGraph2D->addPoint2D(Point2D(vector->w(), vector->z(), blue));
       break;
   }
 

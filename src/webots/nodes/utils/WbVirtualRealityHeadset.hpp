@@ -59,8 +59,8 @@ public:
   // public updates
   void applyAspectRatioToWren();
   void applyFieldOfViewToWren();
-  void setPosition(WbVector3 position);
-  void setOrientation(WbRotation orientation);
+  void setPosition(const WbVector3 &position);
+  void setOrientation(const WbRotation &orientation);
   void setNear(double nearValue);
   void setFar(double farValue);
   void setupLensFlare(WbLensFlare *lensFlare);

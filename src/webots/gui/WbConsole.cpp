@@ -271,7 +271,7 @@ void WbConsole::clear() {
   mEditor->clear();
 }
 
-QString WbConsole::htmlSpan(const QString s, WbLog::Level level) const {
+QString WbConsole::htmlSpan(const QString &s, WbLog::Level level) const {
   if (s.isEmpty() || s == "\n")
     return "";
 

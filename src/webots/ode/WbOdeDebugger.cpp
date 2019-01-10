@@ -100,6 +100,7 @@ WbOdeDebugger::~WbOdeDebugger() {
 //   return NULL;
 // }
 
+// cppcheck-suppress functionStatic
 void WbOdeDebugger::toggleDebugging(bool val) {
   // TODO_WREN
   // if (val == false)
@@ -118,6 +119,7 @@ void WbOdeDebugger::toggleDebugging(bool val) {
 
 double colorPalette[][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}};
 
+// cppcheck-suppress functionStatic
 void WbOdeDebugger::step() {
   // TODO_WREN
   // if (odeDebugNode == NULL)

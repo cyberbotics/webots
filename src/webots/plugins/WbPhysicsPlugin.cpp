@@ -128,6 +128,7 @@ WbPhysicsPlugin *WbPhysicsPlugin::instance() {
 WbPhysicsPlugin::WbPhysicsPlugin(const QString &name) : WbPlugin(name) {
   gInstance = this;
   mResetReceiverBufferFlag = false;
+  mCurrentGroupID = 0;
 }
 
 WbPhysicsPlugin::~WbPhysicsPlugin() {

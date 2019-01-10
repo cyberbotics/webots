@@ -105,7 +105,7 @@ private:
   bool mIsOverwriteEnabled;
   QString mPrefix;
 
-  QString htmlSpan(const QString, WbLog::Level) const;
+  QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);
   QRegExp **createErrorMatchingPatterns() const;

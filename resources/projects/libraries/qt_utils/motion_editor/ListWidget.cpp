@@ -22,19 +22,19 @@ ListWidget::ListWidget(bool showAddRemove, bool showUpDown, bool showReset, bool
   QHBoxLayout *hBoxLayout = new QHBoxLayout(buttonsWidget);
 
   mListWidget = new QListWidget(this);
-  connect(mListWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtons()));
+  connect(mListWidget, &QListWidget::itemSelectionChanged, this, &ListWidget::updateButtons);
 
   mUpButton = new QPushButton(this);
   mUpButton->setVisible(showUpDown);
   mUpButton->setIcon(QIcon("icons:up_button.png"));
   mUpButton->setToolTip(tr("Move the selected item(s) up"));
-  connect(mUpButton, SIGNAL(pressed()), this, SLOT(up()));
+  connect(mUpButton, &QPushButton::pressed, this, &ListWidget::up);
 
   mDownButton = new QPushButton(this);
   mDownButton->setVisible(showUpDown);
   mDownButton->setIcon(QIcon("icons:down_button.png"));
   mDownButton->setToolTip(tr("Move the selected item(s) down"));
-  connect(mDownButton, SIGNAL(pressed()), this, SLOT(down()));
+  connect(mDownButton, &QPushButton::pressed, this, &ListWidget::down);
 
   mResetButton = new QPushButton(this);
   mResetButton->setVisible(showReset);
@@ -46,19 +46,19 @@ ListWidget::ListWidget(bool showAddRemove, bool showUpDown, bool showReset, bool
   mDuplicateButton->setIcon(QIcon("icons:duplicate_button.png"));
   mDuplicateButton->setToolTip(tr("Duplicate selected item"));
   mDuplicateButton->setShortcut(Qt::CTRL + Qt::Key_D);
-  connect(mDuplicateButton, SIGNAL(pressed()), this, SLOT(duplicate()));
+  connect(mDuplicateButton, &QPushButton::pressed, this, &ListWidget::duplicate);
 
   mAddButton = new QPushButton(this);
   mAddButton->setVisible(showAddRemove);
   mAddButton->setIcon(QIcon("icons:plus.png"));
   mAddButton->setToolTip(tr("Add a new item"));
-  connect(mAddButton, SIGNAL(pressed()), this, SLOT(add()));
+  connect(mAddButton, &QPushButton::pressed, this, &ListWidget::add);
 
   mRemoveButton = new QPushButton(this);
   mRemoveButton->setVisible(showAddRemove);
   mRemoveButton->setIcon(QIcon("icons:minus.png"));
   mRemoveButton->setToolTip(tr("Remove the selected item(s)"));
-  connect(mRemoveButton, SIGNAL(pressed()), this, SLOT(remove()));
+  connect(mRemoveButton, &QPushButton::pressed, this, &ListWidget::remove);
 
   hBoxLayout->addWidget(mUpButton);
   hBoxLayout->addWidget(mDownButton);

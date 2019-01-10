@@ -26,7 +26,7 @@ namespace webotsQtUtils {
     QString toTimeString() const;
     Status status() const;
 
-    void createAndAppendState(Motor *Motor);
+    void createAndAppendState(Motor *motor);
     void deleteStateAt(int index);
     void swapStateWithNext(int index);
 

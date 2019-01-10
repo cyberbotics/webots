@@ -314,7 +314,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
   const int robotID = robot->uniqueId();
   const int size = mControllers.size();
   bool paused = WbSimulationState::instance()->isPaused();
-  const QString newControllerName = robot->controllerName();
+  const QString &newControllerName = robot->controllerName();
 
   // restart the controller if needed
   for (int i = 0; i < size; ++i) {

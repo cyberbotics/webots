@@ -54,10 +54,10 @@ namespace WbTriangleMeshCache {
     return result;
   }
 
-  TriangleMeshInfo::TriangleMeshInfo() {}
+  TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
-  IndexedFaceSetKey::IndexedFaceSetKey() {}
+  IndexedFaceSetKey::IndexedFaceSetKey() { mHash = 0;}
   IndexedFaceSetKey::IndexedFaceSetKey(WbIndexedFaceSet *indexedFaceSet) { set(indexedFaceSet); }
 
   void IndexedFaceSetKey::set(WbIndexedFaceSet *indexedFaceSet) {

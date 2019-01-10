@@ -24,6 +24,7 @@
 
 class WbTreeItemDelegate;
 
+// cppcheck-suppress noConstructor
 class WbTreeView : public QTreeView {
   Q_OBJECT
   Q_PROPERTY(QColor defaultColor MEMBER mDefaultColor READ defaultColor WRITE setDefaultColor)

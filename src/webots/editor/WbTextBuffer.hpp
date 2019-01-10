@@ -32,6 +32,7 @@ class WbSyntaxHighlighter;
 class LineNumberArea;
 class WbLanguage;
 
+// cppcheck-suppress noConstructor
 class WbTextBuffer : public QPlainTextEdit {
   Q_OBJECT
   Q_PROPERTY(QColor apiColor MEMBER mApiColor READ apiColor WRITE setApiColor)

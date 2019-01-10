@@ -13,7 +13,7 @@
 namespace webotsQtUtils {
   class Device {
   public:
-    Device(WbDeviceTag tag);
+    explicit Device(WbDeviceTag tag);
     virtual ~Device() {}
 
     WbDeviceTag tag() const { return mTag; }

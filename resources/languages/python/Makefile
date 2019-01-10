@@ -26,8 +26,8 @@ PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\)
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 INTERFACE       = controller.i
 SWIG            = swig
-SWIG_OPTS       = -c++ -python -outdir "$(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/"
-WEBOTS_INCLUDES = -I"$(WEBOTS_HOME_PATH)/include/controller/cpp" -I"$(WEBOTS_HOME_PATH)/include/controller/c"
+SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/
+WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
 WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 PYOUT           = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/,$(INTERFACE:.i=.py))
@@ -39,7 +39,7 @@ SPACE          +=
 PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
-LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L"$(WEBOTS_HOME_PATH)/msys64/mingw64/bin" -lController -lCppController
+LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
 DEF             = _controller3.def
@@ -65,7 +65,7 @@ ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
 LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-LIBS            = -L"$(PYTHON_PATH)/lib" -L"$(WEBOTS_HOME_PATH)/lib" -lController -lCppController -lpython$(PYTHON_VERSION)
+LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
 LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
@@ -75,7 +75,7 @@ endif
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
 LD_FLAGS        = -shared
-LIBS            = -L"$(WEBOTS_HOME_PATH)/lib" -lController -lCppController
+LIBS            = -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.so

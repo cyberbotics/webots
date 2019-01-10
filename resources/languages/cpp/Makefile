@@ -64,15 +64,15 @@ LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw64/lib/
 LIBCONTROLLER = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
-CPPINCLUDES   = -I"$(WEBOTS_HOME_PATH)/include/controller/c" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp"
+CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 TARGET        = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
 LDFLAGS       = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-SHAREDLIBS    = -L"$(WEBOTS_HOME_PATH)/lib" -lController
+SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
 CPPFLAGS      = -c -fPIC -Wall -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-CPPINCLUDES   = -I"$(WEBOTS_HOME_PATH)/include/controller/c" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp"
+CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LDFLAGS      += -install_name @rpath/lib/libCppController.dylib
 TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
@@ -80,9 +80,9 @@ endif
 
 ifeq ($(OSTYPE),linux)
 LDFLAGS       = -shared
-SHAREDLIBS    = -L"$(WEBOTS_HOME_PATH)/lib" -lController
+SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
 CPPFLAGS      = -c -fpic -Wall
-CPPINCLUDES   = -I"$(WEBOTS_HOME_PATH)/include/controller/c" -I"$(WEBOTS_HOME_PATH)/include/controller/cpp"
+CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
 LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.so
 TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.so
 endif
@@ -94,7 +94,7 @@ endif
 all debug profile release: $(TARGET)
 
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
-	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o $@
+	$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "Warning: $(LIBCONTROLLER) doesn't exist, rebuild it first."

@@ -38,7 +38,7 @@ public:
 
   // the addArtificialFieldChange method should be used to add a X3D field change that has no matching WBT field,
   // e.g., for example the "render" field.
-  void addArtificialFieldChange(QString fieldName, QString value);
+  void addArtificialFieldChange(const QString &fieldName, const QString &value);
   void updateAllFieldValues();
   void resetChanges();
 

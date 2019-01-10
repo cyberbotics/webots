@@ -67,7 +67,7 @@ public:
 
 private:
   explicit WbClipboard();
-  ~WbClipboard(){};
+  ~WbClipboard() { clear(); };
 
   WbNode *toNode() const override { return NULL; }
   WbClipboardNodeInfo *mNodeInfo;

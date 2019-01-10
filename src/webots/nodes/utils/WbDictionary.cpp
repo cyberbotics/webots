@@ -66,7 +66,7 @@ void WbDictionary::update(bool load) {
 
 bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index) {
   const QString &defName = node->defName();
-  const QString useName = node->useName();
+  const QString &useName = node->useName();
   const bool useCase = !useName.isEmpty();
   const int useNestingDegree = mNestedDictionaries.size() - 1;
 
@@ -279,7 +279,7 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
         lookupDegree--;
       mNestedDictionaries[lookupDegree].insertMulti(defName, node);
     } else {
-      const QString useName = node->useName();
+      const QString &useName = node->useName();
       const bool useCase = !useName.isEmpty();
       lookupDegree--;
       if (useCase && lookupDegree >= 0 && isAValidUseableNode) {
@@ -402,7 +402,7 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
 }
 
 void WbDictionary::makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary) {
-  const QString useName = node->useName();
+  const QString &useName = node->useName();
   node->makeDefNode();
   node->updateContextDependentObjects();
   assert(mNestedDictionaries.size() >= 2);

@@ -21,6 +21,7 @@
 void WbAbstractAppearance::init() {
   mName = findSFString("name");
   mTextureTransform = findSFNode("textureTransform");
+  mNameValue = mName->value();
 }
 
 WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer) :

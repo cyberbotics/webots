@@ -61,15 +61,23 @@ namespace WbHiddenKinematicParameters {
     const WbVector3 *linearVelocity() const { return mLinearVelocity; }
     const WbVector3 *angularVelocity() const { return mAngularVelocity; }
     void createTranslation(double x, double y, double z) {
+      delete mTranslation;
       mTranslation = new WbVector3(x, y, z);
       mTranslationIsCreated = true;
     }
     void createRotation(double x, double y, double z, double angle) {
+      delete mRotation;
       mRotation = new WbRotation(x, y, z, angle);
       mRotationIsCreated = true;
     }
-    void createLinearVelocity(double x, double y, double z) { mLinearVelocity = new WbVector3(x, y, z); }
-    void createAngularVelocity(double x, double y, double z) { mAngularVelocity = new WbVector3(x, y, z); }
+    void createLinearVelocity(double x, double y, double z) {
+      delete mLinearVelocity;
+      mLinearVelocity = new WbVector3(x, y, z);
+    }
+    void createAngularVelocity(double x, double y, double z) {
+      delete mAngularVelocity;
+      mAngularVelocity = new WbVector3(x, y, z);
+    }
     void insertPositions(int index, WbVector3 *positions) {
       if (mPositions == NULL)
         mPositions = new PositionMap;
