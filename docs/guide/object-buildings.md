@@ -120,6 +120,42 @@ Building {
 
 - `bottom`: Defines whether the bottom face of the building should be displayed.
 
+## BuildingFacade
+
+A facade of aligned buildings of variable length.
+
+%figure
+
+![BuildingFacade](images/objects/buildings/BuildingFacade/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+BuildingFacade {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 1 0 0
+  SFString   name                  "building facade"
+  SFFloat    length                100
+  SFInt32    randomSeed            1
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/buildings/protos/BuildingFacade.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### BuildingFacade Field Summary
+
+- `length`: Defines the length of the buildings facade.
+
+- `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
+
+- `enableBoundingObject`: Defines whether the buildings should have a bounding object.
+
 ## BuildingUnderConstruction
 
 Building under construction with scaffolding.
