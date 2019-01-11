@@ -18,45 +18,45 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Road {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              SFString             startJunction             ""
-              SFString             endJunction               ""
-              SFFloat              width                     7
-              SFInt32              numberOfLanes             2
-              SFInt32              numberOfForwardLanes      1
-              SFFloat              speedLimit                -1.0
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              MFFloat              roadBorderWidth           [ 0.8 ]
-              SFBool               road                      TRUE
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               rightBarrier              FALSE
-              SFBool               leftBarrier               FALSE
-              SFBool               bottom                    FALSE
-              MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]
-              MFFloat              roadTilt                  [ 0, 0]
-              MFFloat              startingAngle             []
-              MFFloat              endingAngle               []
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFInt32              splineSubdivision         4
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFString             turnLanesForward          ""
-              SFString             turnLanesBackward         ""
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               rightBarrierBoundingObject TRUE
-              SFBool               leftBarrierBoundingObject TRUE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         SFString             startJunction             ""
+         SFString             endJunction               ""
+         SFFloat              width                     7
+         SFInt32              numberOfLanes             2
+         SFInt32              numberOfForwardLanes      1
+         SFFloat              speedLimit                -1.0
+         MFNode               lines                     [ RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         MFFloat              roadBorderWidth           [ 0.8 ]
+         SFBool               road                      TRUE
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               rightBarrier              FALSE
+         SFBool               leftBarrier               FALSE
+         SFBool               bottom                    FALSE
+         MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]
+         MFFloat              roadTilt                  [ 0, 0]
+         MFFloat              startingAngle             []
+         MFFloat              endingAngle               []
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFInt32              splineSubdivision         4
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFString             turnLanesForward          ""
+         SFString             turnLanesBackward         ""
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               rightBarrierBoundingObject TRUE
+         SFBool               leftBarrierBoundingObject TRUE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -83,7 +83,7 @@ Road {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -153,37 +153,37 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 AddLaneRoadSegment {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              MFString             connectedRoadIDs          []
-              SFFloat              width                     7
-              SFFloat              length                    20
-              SFInt32              numberOfLanes             2
-              SFFloat              speedLimit                -1.0
-              SFBool               newLaneLeft               TRUE
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              SFFloat              roadBorderWidth           0.8
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               rightBarrier              FALSE
-              SFBool               leftBarrier               FALSE
-              SFBool               bottom                    FALSE
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               rightBarrierBoundingObject TRUE
-              SFBool               leftBarrierBoundingObject TRUE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         MFString             connectedRoadIDs          []
+         SFFloat              width                     7
+         SFFloat              length                    20
+         SFInt32              numberOfLanes             2
+         SFFloat              speedLimit                -1.0
+         SFBool               newLaneLeft               TRUE
+         MFNode               lines                     [ RoadLine { }, RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         SFFloat              roadBorderWidth           0.8
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               rightBarrier              FALSE
+         SFBool               leftBarrier               FALSE
+         SFBool               bottom                    FALSE
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               rightBarrierBoundingObject TRUE
+         SFBool               leftBarrierBoundingObject TRUE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -210,7 +210,7 @@ AddLaneRoadSegment {
 
 - `newLaneLeft`: Defines on which side is added the new lane.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -264,38 +264,38 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 AddLanesRoadSegment {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              MFString             connectedRoadIDs          []
-              SFFloat              width                     7
-              SFFloat              length                    20
-              SFInt32              numberOfLanes             2
-              SFInt32              numberOfNewLanes          2
-              SFFloat              speedLimit                -1.0
-              SFBool               newLaneLeft               TRUE
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              SFFloat              roadBorderWidth           0.8
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               rightBarrier              FALSE
-              SFBool               leftBarrier               FALSE
-              SFBool               bottom                    FALSE
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               rightBarrierBoundingObject TRUE
-              SFBool               leftBarrierBoundingObject TRUE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         MFString             connectedRoadIDs          []
+         SFFloat              width                     7
+         SFFloat              length                    20
+         SFInt32              numberOfLanes             2
+         SFInt32              numberOfNewLanes          2
+         SFFloat              speedLimit                -1.0
+         SFBool               newLaneLeft               TRUE
+         MFNode               lines                     [ RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         SFFloat              roadBorderWidth           0.8
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               rightBarrier              FALSE
+         SFBool               leftBarrier               FALSE
+         SFBool               bottom                    FALSE
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               rightBarrierBoundingObject TRUE
+         SFBool               leftBarrierBoundingObject TRUE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -324,7 +324,7 @@ AddLanesRoadSegment {
 
 - `newLaneLeft`: Defines on which side are added the new lanes.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -477,41 +477,41 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CurvedRoadSegment {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              SFString             startJunction             ""
-              SFString             endJunction               ""
-              SFFloat              width                     7
-              SFInt32              numberOfLanes             2
-              SFInt32              numberOfForwardLanes      1
-              SFFloat              speedLimit                -1.0
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              MFFloat              roadBorderWidth           [ 0.8 ]
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               rightBarrier              FALSE
-              SFBool               leftBarrier               FALSE
-              SFBool               bottom                    FALSE
-              SFFloat              curvatureRadius           10
-              SFFloat              totalAngle                1.5708
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFInt32              subdivision               16
-              SFFloat              tilt                      0
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               rightBarrierBoundingObject TRUE
-              SFBool               leftBarrierBoundingObject TRUE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         SFString             startJunction             ""
+         SFString             endJunction               ""
+         SFFloat              width                     7
+         SFInt32              numberOfLanes             2
+         SFInt32              numberOfForwardLanes      1
+         SFFloat              speedLimit                -1.0
+         MFNode               lines                     [ RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         MFFloat              roadBorderWidth           [ 0.8 ]
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               rightBarrier              FALSE
+         SFBool               leftBarrier               FALSE
+         SFBool               bottom                    FALSE
+         SFFloat              curvatureRadius           10
+         SFFloat              totalAngle                1.5708
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFInt32              subdivision               16
+         SFFloat              tilt                      0
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               rightBarrierBoundingObject TRUE
+         SFBool               leftBarrierBoundingObject TRUE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -538,7 +538,7 @@ CurvedRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -599,37 +599,37 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HelicoidalRoadSegment {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              SFString             startJunction             ""
-              SFString             endJunction               ""
-              SFFloat              width                     7
-              SFInt32              numberOfLanes             2
-              SFInt32              numberOfForwardLanes      1
-              SFFloat              speedLimit                -1.0
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              SFFloat              roadBorderWidth           0.8
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               bottom                    FALSE
-              SFFloat              height                    20
-              SFFloat              radius                    15
-              SFFloat              heigthStep                5
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFFloat              subdivision               64
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         SFString             startJunction             ""
+         SFString             endJunction               ""
+         SFFloat              width                     7
+         SFInt32              numberOfLanes             2
+         SFInt32              numberOfForwardLanes      1
+         SFFloat              speedLimit                -1.0
+         MFNode               lines                     [ RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         SFFloat              roadBorderWidth           0.8
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               bottom                    FALSE
+         SFFloat              height                    20
+         SFFloat              radius                    15
+         SFFloat              heigthStep                5
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFFloat              subdivision               64
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -656,7 +656,7 @@ HelicoidalRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -710,40 +710,40 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 LaneSeparation {
-              SFVec3f              translation                 0 0 0
-              SFRotation           rotation                    0 1 0 0
-              SFString             name                        "road"
-              SFString             id                          ""
-              MFString             connectedRoadIDs            []
-              SFFloat              width                       14
-              SFFloat              length                      5
-              SFInt32              numberOfLanes               4
-              SFInt32              numberOfleavingLanes        2
-              SFFloat              speedLimit                -1.0
-              SFBool               newLaneLeft                 TRUE
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight            0.15
-              SFFloat              roadBorderWidth             0.8
-              SFBool               rightBorder                 TRUE
-              SFBool               leftBorder                  TRUE
-              SFBool               centralBorder               TRUE
-              SFBool               rightBarrier                FALSE
-              SFBool               leftBarrier                 FALSE
-              SFBool               bottom                      FALSE
-              MFString             startLine                   []
-              MFString             endLine                     []
-              SFNode               appearance                  Asphalt { }
-              SFNode               pavementAppearance          StonePavement { }
-              MFString             bottomTexture               []
-              SFBool               locked                      TRUE
-              SFBool               roadBoundingObject          FALSE
-              SFBool               rightBorderBoundingObject   FALSE
-              SFBool               leftBorderBoundingObject    FALSE
-              SFBool               centralBorderBoundingObject FALSE
-              SFBool               rightBarrierBoundingObject  TRUE
-              SFBool               leftBarrierBoundingObject   TRUE
-              SFBool               castShadows                 FALSE
-              SFString             contactMaterial             "default"
+         SFVec3f              translation                 0 0 0
+         SFRotation           rotation                    0 1 0 0
+         SFString             name                        "road"
+         SFString             id                          ""
+         MFString             connectedRoadIDs            []
+         SFFloat              width                       14
+         SFFloat              length                      5
+         SFInt32              numberOfLanes               4
+         SFInt32              numberOfleavingLanes        2
+         SFFloat              speedLimit                -1.0
+         SFBool               newLaneLeft                 TRUE
+         MFNode               lines                       [ RoadLine { } ]
+         SFFloat              roadBorderHeight            0.15
+         SFFloat              roadBorderWidth             0.8
+         SFBool               rightBorder                 TRUE
+         SFBool               leftBorder                  TRUE
+         SFBool               centralBorder               TRUE
+         SFBool               rightBarrier                FALSE
+         SFBool               leftBarrier                 FALSE
+         SFBool               bottom                      FALSE
+         MFString             startLine                   []
+         MFString             endLine                     []
+         SFNode               appearance                  Asphalt { }
+         SFNode               pavementAppearance          StonePavement { }
+         MFString             bottomTexture               []
+         SFBool               locked                      TRUE
+         SFBool               roadBoundingObject          FALSE
+         SFBool               rightBorderBoundingObject   FALSE
+         SFBool               leftBorderBoundingObject    FALSE
+         SFBool               centralBorderBoundingObject FALSE
+         SFBool               rightBarrierBoundingObject  TRUE
+         SFBool               leftBarrierBoundingObject   TRUE
+         SFBool               castShadows                 FALSE
+         SFString             contactMaterial             "default"
 }
 ```
 
@@ -772,7 +772,7 @@ LaneSeparation {
 
 - `newLaneLeft`: Defines on which sied the lanes are leaving the road.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
@@ -828,31 +828,31 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 RoadIntersection {
-              SFVec3f              translation                    0 0 0
-              SFRotation           rotation                       0 1 0 0
-              SFString             name                           "road intersection"
-              SFString             id                             ""
-              MFString             connectedRoadIDs               []
-              SFInt32              roadNumber                     4
-              SFFloat              roadsWidth                     7
-              SFFloat              speedLimit                     -1.0
-              SFBool               startRoads                     TRUE
-              MFFloat              startRoadsLength               [5]
-              SFInt32              startRoadsNumberOfLanes        2
-              MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
+         SFVec3f              translation                    0 0 0
+         SFRotation           rotation                       0 1 0 0
+         SFString             name                           "road intersection"
+         SFString             id                             ""
+         MFString             connectedRoadIDs               []
+         SFInt32              roadNumber                     4
+         SFFloat              roadsWidth                     7
+         SFFloat              speedLimit                     -1.0
+         SFBool               startRoads                     TRUE
+         MFFloat              startRoadsLength               [5]
+         SFInt32              startRoadsNumberOfLanes        2
+         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
                                                                         "textures/road_line_triangle.png" ]
-              MFString             startRoadsEndLine              []
-  unconnectedField  MFNode ]
-              SFBool               startRoadBorder                TRUE
-              SFFloat              startRoadBorderHeight          0.15
-              SFFloat              startRoadBorderWidth           0.8
-              SFBool               startRoadBorderboundingObject  FALSE
-              SFBool               boundingObject                 FALSE
-              SFBool               castShadows                    FALSE
-              SFString             contactMaterial                "default"
-              SFBool               bottom                         FALSE
-              SFBool               locked                         TRUE
-              SFNode               appearance                     Asphalt { }
+         MFString             startRoadsEndLine              []
+         MFNode               startRoadsLine                 [ RoadLine { } ]
+         SFBool               startRoadBorder                TRUE
+         SFFloat              startRoadBorderHeight          0.15
+         SFFloat              startRoadBorderWidth           0.8
+         SFBool               startRoadBorderboundingObject  FALSE
+         SFBool               boundingObject                 FALSE
+         SFBool               castShadows                    FALSE
+         SFString             contactMaterial                "default"
+         SFBool               bottom                         FALSE
+         SFBool               locked                         TRUE
+         SFNode               appearance                     Asphalt { }
 }
 ```
 
@@ -885,7 +885,7 @@ RoadIntersection {
 
 - `startRoadsEndLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `]`: Defines the property of each line separating two lanes.
+- `startRoadsLine`: Defines the property of each line separating two lanes.
 
 - `startRoadBorder`: Defines whether the intersecting road should have a sidewalks.
 
@@ -1007,37 +1007,37 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Roundabout {
-              SFVec3f              translation              0 0 0
-              SFRotation           rotation                 0 1 0 0
-              SFString             name                     "roundabout"
-              SFString             id                       ""
-              MFString             connectedRoadIDs         []
-              SFInt32              subdivision              16
-              SFFloat              speedLimit               -1.0
-              SFBool               bottom                   FALSE
-              SFBool               border                   TRUE
-              SFFloat              borderWidth              0.8
-              SFFloat              borderHeight             0.2
-              SFFloat              innerRadius              4
-              SFFloat              outerRadius              8
-              SFBool               center                   TRUE
-              MFString             centerTexture            "textures/grass.jpg"
-              SFVec2f              centerTextureScale       4 4
-              SFInt32              roadNumber               4
-              MFFloat              startRoadsLength         [5]
-              SFFloat              startRoadsWidth          7
-              SFInt32              startRoadsNumberOfLanes  2
-              MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
+         SFVec3f              translation              0 0 0
+         SFRotation           rotation                 0 1 0 0
+         SFString             name                     "roundabout"
+         SFString             id                       ""
+         MFString             connectedRoadIDs         []
+         SFInt32              subdivision              16
+         SFFloat              speedLimit               -1.0
+         SFBool               bottom                   FALSE
+         SFBool               border                   TRUE
+         SFFloat              borderWidth              0.8
+         SFFloat              borderHeight             0.2
+         SFFloat              innerRadius              4
+         SFFloat              outerRadius              8
+         SFBool               center                   TRUE
+         MFString             centerTexture            "textures/grass.jpg"
+         SFVec2f              centerTextureScale       4 4
+         SFInt32              roadNumber               4
+         MFFloat              startRoadsLength         [5]
+         SFFloat              startRoadsWidth          7
+         SFInt32              startRoadsNumberOfLanes  2
+         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
                                                                   "textures/road_line_triangle.png" ]
-              MFString             startRoadsEndLine        []
-  unconnectedField  MFNode ]
-              SFBool               roadBoundingObject       FALSE
-              SFBool               borderBoundingObject     FALSE
-              SFBool               centerBoundingObject     FALSE
-              SFBool               castShadows              FALSE
-              SFString             contactMaterial          "default"
-              SFBool               locked                   TRUE
-              SFNode               appearance               Asphalt { }
+         MFString             startRoadsEndLine        []
+         MFNode               startRoadsLine           [ RoadLine { } ]
+         SFBool               roadBoundingObject       FALSE
+         SFBool               borderBoundingObject     FALSE
+         SFBool               centerBoundingObject     FALSE
+         SFBool               castShadows              FALSE
+         SFString             contactMaterial          "default"
+         SFBool               locked                   TRUE
+         SFNode               appearance               Asphalt { }
 }
 ```
 
@@ -1086,7 +1086,7 @@ Roundabout {
 
 - `startRoadsEndLine`: Optionally defines the texture used for the road line at the last way-point for each lane. If the string is empty, no road line will be added for the corresponding lane.
 
-- `]`: Defines the property of each line separating two lanes.
+- `startRoadsLine`: Defines the property of each line separating two lanes.
 
 - `roadBoundingObject`: Defines whether the road should have a bounding object.
 
@@ -1114,41 +1114,41 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 StraightRoadSegment {
-              SFVec3f              translation               0 0 0
-              SFRotation           rotation                  0 1 0 0
-              SFString             name                      "road"
-              SFString             id                        ""
-              SFString             startJunction             ""
-              SFString             endJunction               ""
-              SFFloat              width                     7
-              SFInt32              numberOfLanes             2
-              SFInt32              numberOfForwardLanes      1
-              SFFloat              speedLimit                -1.0
-  unconnectedField  MFNode ]
-              SFFloat              roadBorderHeight          0.15
-              SFFloat              startingRoadBorderWidth   0.8
-              SFFloat              endingRoadBorderWidth     0.8
-              SFBool               rightBorder               TRUE
-              SFBool               leftBorder                TRUE
-              SFBool               rightBarrier              FALSE
-              SFBool               leftBarrier               FALSE
-              SFBool               bottom                    FALSE
-              SFFloat              length                    10
-              MFString             startLine                 []
-              MFString             endLine                   []
-              SFFloat              startingRoadTilt          0
-              SFFloat              endingRoadTilt            0
-              SFNode               appearance                Asphalt { }
-              SFNode               pavementAppearance        StonePavement { }
-              MFString             bottomTexture             []
-              SFBool               locked                    TRUE
-              SFBool               roadBoundingObject        FALSE
-              SFBool               rightBorderBoundingObject FALSE
-              SFBool               leftBorderBoundingObject  FALSE
-              SFBool               rightBarrierBoundingObject TRUE
-              SFBool               leftBarrierBoundingObject TRUE
-              SFBool               castShadows               FALSE
-              SFString             contactMaterial           "default"
+         SFVec3f              translation               0 0 0
+         SFRotation           rotation                  0 1 0 0
+         SFString             name                      "road"
+         SFString             id                        ""
+         SFString             startJunction             ""
+         SFString             endJunction               ""
+         SFFloat              width                     7
+         SFInt32              numberOfLanes             2
+         SFInt32              numberOfForwardLanes      1
+         SFFloat              speedLimit                -1.0
+         MFNode               lines                     [ RoadLine { } ]
+         SFFloat              roadBorderHeight          0.15
+         SFFloat              startingRoadBorderWidth   0.8
+         SFFloat              endingRoadBorderWidth     0.8
+         SFBool               rightBorder               TRUE
+         SFBool               leftBorder                TRUE
+         SFBool               rightBarrier              FALSE
+         SFBool               leftBarrier               FALSE
+         SFBool               bottom                    FALSE
+         SFFloat              length                    10
+         MFString             startLine                 []
+         MFString             endLine                   []
+         SFFloat              startingRoadTilt          0
+         SFFloat              endingRoadTilt            0
+         SFNode               appearance                Asphalt { }
+         SFNode               pavementAppearance        StonePavement { }
+         MFString             bottomTexture             []
+         SFBool               locked                    TRUE
+         SFBool               roadBoundingObject        FALSE
+         SFBool               rightBorderBoundingObject FALSE
+         SFBool               leftBorderBoundingObject  FALSE
+         SFBool               rightBarrierBoundingObject TRUE
+         SFBool               leftBarrierBoundingObject TRUE
+         SFBool               castShadows               FALSE
+         SFString             contactMaterial           "default"
 }
 ```
 
@@ -1175,7 +1175,7 @@ StraightRoadSegment {
 
 - `speedLimit`: Optionally defines the speed limit. The recommended unit is meter per seconds.
 
-- `]`: Defines the property of each line separating two lanes.
+- `lines`: Defines the property of each line separating two lanes.
 
 - `roadBorderHeight`: Defines the height of the sidewalk.
 
