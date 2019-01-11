@@ -377,9 +377,7 @@ webots.View.prototype.open = function(url, mode) {
         that.editor.upload(i);
     }
     that.onrobotwindowsdestroy();
-    console.log(that.timeout);
     if (that.timeout >= 0) {
-      console.log(webots.parseMillisecondsIntoReadableTime(that.deadline));
       that.deadline = that.timeout;
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.deadline));
     } else
