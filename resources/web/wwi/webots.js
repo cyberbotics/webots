@@ -530,7 +530,8 @@ webots.View.prototype.open = function(url, mode) {
       that.progress = document.createElement('div');
       that.progress.id = 'webotsProgress';
       that.progress.innerHTML = "<div><img src='" + webots.WwiUrl + "images/load_animation.gif'>" +
-                                "</div><div id='webotsProgressMessage'>Initializing...</div>";
+                                "</div><div id='webotsProgressMessage'>Initializing...</div>" +
+                                "</div><div id='webotsProgressPercent'></div>";
       that.view3D.appendChild(that.progress);
       that.toolBar = document.createElement('div');
       that.toolBar.id = 'toolBar';
@@ -1726,6 +1727,7 @@ webots.Stream = function(url, view, onready) {
       }
     } else if (data.startsWith('model:')) {
       $('#webotsProgressMessage').html('Loading 3D scene...');
+      $('#webotsProgressPercent').html('');
       destroyWorld();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
@@ -1799,6 +1801,11 @@ webots.Stream = function(url, view, onready) {
         that.view.fastButton.style.display = 'inline';
       if (that.view.timeout >= 0)
         that.view.stream.socket.send('timeout:' + that.view.timeout);
+    } else if (data.startsWith('loading:')) {
+      data = data.substring(data.indexOf(':') + 1).trim();
+      status = data.substring(0, data.indexOf(':')).trim();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100" data-label="' + status + '"></progress>');
     } else if (data === 'scene load completed') {
       that.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));

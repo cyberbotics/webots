@@ -83,6 +83,10 @@ WbStreamingServer::WbStreamingServer() :
   mPauseTimeout(-1) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
+          &WbStreamingServer::setWorldLoadingProgress);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this,
+          &WbStreamingServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbStreamingServer::propagateNodeAddition);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
@@ -679,6 +683,13 @@ void WbStreamingServer::deleteWorld() {
   foreach (QWebSocket *client, mClients)
     client->sendTextMessage("model:");  // send an empty model to destroy the player world
   mEditableControllers.clear();
+}
+
+void WbStreamingServer::setWorldLoadingProgress(const int progress) {
+  foreach (QWebSocket *client, mClients) {
+    client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
+    client->flush();
+  }
 }
 
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
