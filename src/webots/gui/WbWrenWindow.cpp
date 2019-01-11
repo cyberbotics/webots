@@ -201,13 +201,15 @@ void WbWrenWindow::renderNow(bool culling) {
   if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
-  static int first = true;
 #ifdef __APPLE__
   // Make sure all events are processed before first render, omitting this snippet
   // causes graphical corruption on macOS due to the main framebuffer being invalid.
   // On Windows, this fix causes a crash on startup for certain worlds.
-  if (first)
+  static int first = true;
+  if (first) {
+    first = false;
     QCoreApplication::processEvents(QEventLoop::AllEvents);
+  }
 #endif
 
   WbPerformanceLog *log = WbPerformanceLog::instance();
@@ -230,9 +232,6 @@ void WbWrenWindow::renderNow(bool culling) {
   WbMultimediaStreamer *multimediaStreamer = WbMultimediaStreamer::instance();
   if (multimediaStreamer->isReady())
     feedMultimediaStreamer();
-
-  if (first)
-    first = false;
 
   if (log)
     log->stopMeasure(WbPerformanceLog::MAIN_RENDERING);
