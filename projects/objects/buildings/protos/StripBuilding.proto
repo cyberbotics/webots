@@ -7,9 +7,9 @@ PROTO StripBuilding [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 1 0 0
   field SFString   name                  "strip building"
-  field SFFloat    length                100              # Defines the length of the buildings facade.
+  field SFFloat    length                100              # Defines the length of the strip.
   field SFInt32    randomSeed            1                # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
-  field SFBool     enableBoundingObject  TRUE             # Defines whether the buildings should have a bounding object.
+  field SFBool     enableBoundingObject  TRUE             # Defines whether the buildings should have bounding objects.
 ]
 {
   %{

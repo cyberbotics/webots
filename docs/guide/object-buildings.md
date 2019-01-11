@@ -1116,11 +1116,11 @@ StripBuilding {
 
 ### StripBuilding Field Summary
 
-- `length`: Defines the length of the buildings facade.
+- `length`: Defines the length of the strip.
 
 - `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
 
-- `enableBoundingObject`: Defines whether the buildings should have a bounding object.
+- `enableBoundingObject`: Defines whether the buildings should have bounding objects.
 
 ## SuburbanHouse
 
