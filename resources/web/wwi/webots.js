@@ -1803,7 +1803,8 @@ webots.Stream = function(url, view, onready) {
       data = data.substring(data.indexOf(':') + 1).trim();
       status = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100" data-label="' + status + '"></progress>');
+      $('#webotsProgressMessage').html('Loading: ' + status);
+      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
     } else if (data === 'scene load completed') {
       that.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));

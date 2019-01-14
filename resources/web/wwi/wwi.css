@@ -127,22 +127,35 @@ button::-moz-focus-inner {
 }
 
 #webotsProgressPercent > progress {
-  text-align: center;
+  padding: 4px;
+  border: 0 none;
+  background: #ccc;
+  border-radius: 10px;
+  height: 10px;
   width: 75%;
 }
+#webotsProgressPercent > progress::-moz-progress-bar {
+  border-radius: 2px;
+  background: #666;
 
-#webotsProgressPercent > progress:before {
-  content: attr(data-label);
-  font-size: 0.8em;
-  position:absolute;
-  left:0;
-  right:0;
+}
+#webotsProgressPercent > progress::-webkit-progress-bar {
+  background: transparent;
+}
+#webotsProgressPercent > progress::-webkit-progress-value {
+  border-radius: 2px;
+  background: #666;
 }
 
 #worldSelection {
   background-color: #ccc;
   font-size: 0.8em;
   border-radius: 10px;
+  height: 32px;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .webotsView {
