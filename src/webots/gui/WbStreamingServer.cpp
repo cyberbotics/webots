@@ -414,11 +414,12 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (message == "revert")
     WbApplication::instance()->worldReload();
   else if (message.startsWith("load:")) {
-    WbWorld *world = WbWorld::instance();
-    const QString worldName = message.mid(5);
-    const QString fullPath = QFileInfo(world->fileName()).dir().absolutePath() + '/' + worldName;
+    const QString worldsPath = WbProject::current()->worldsPath();
+    const QString fullPath = worldsPath + '/' + message.mid(5);
     if (!QFile::exists(fullPath))
       WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
+    else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
+      WbLog::error(tr("Streaming server: you are not allowed to open a world in another project directory."));
     else if (gMainWindow)
       gMainWindow->loadDifferentWorld(fullPath);
   } else if (message.startsWith("get controller:")) {
