@@ -134,14 +134,17 @@ button::-moz-focus-inner {
   height: 10px;
   width: 75%;
 }
+
 #webotsProgressPercent > progress::-moz-progress-bar {
   border-radius: 2px;
   background: #666;
 
 }
+
 #webotsProgressPercent > progress::-webkit-progress-bar {
   background: transparent;
 }
+
 #webotsProgressPercent > progress::-webkit-progress-value {
   border-radius: 2px;
   background: #666;
