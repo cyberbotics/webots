@@ -1116,7 +1116,7 @@ StripBuilding {
 
 ### StripBuilding Field Summary
 
-- `length`: Defines the length of the strip.
+- `length`: Defines the minimum length of the strip (actual length is slightly bigger because buildings are not cut).
 
 - `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
 
