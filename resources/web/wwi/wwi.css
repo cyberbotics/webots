@@ -120,7 +120,29 @@ button::-moz-focus-inner {
   height: 100px;
   border: 2px solid #ddd;
   border-radius: 20px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+#webotsProgressPercent > progress {
+  text-align: center;
+  width: 75%;
+}
+
+#webotsProgressPercent > progress:before {
+  content: attr(data-label);
+  font-size: 0.8em;
+  position:absolute;
+  left:0;
+  right:0;
+}
+
+#worldSelection {
+  background-color: #ccc;
+  font-size: 0.8em;
+  border-radius: 10px;
 }
 
 .webotsView {
