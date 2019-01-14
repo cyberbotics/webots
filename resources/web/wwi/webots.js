@@ -34,8 +34,8 @@ webots.User1Authentication // password or authentication for the main user (empt
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
-webots.showRevert          // if set to true the revert button is displayed
-webots.hideQuit            // if set to true the quit button is not displayed
+webots.showRevert          // defines whether the revert button should be displayed
+webots.showQuit            // defines whether the quit button should be displayed
 
 */
 
@@ -535,7 +535,7 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.id = 'toolBar';
       that.toolBar.left = document.createElement('div');
       that.toolBar.left.className = 'toolBarLeft';
-      if (!webots.hideQuit) {
+      if (webots.showQuit) {
         that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
         that.quitButton.onclick = requestQuit;
       }
@@ -1602,8 +1602,8 @@ webots.Server = function(url, view, onready) {
         webots.CustomData = '';
       if (typeof webots.showRevert === 'undefined')
         webots.showRevert = false;
-      if (typeof webots.hideQuit === 'undefined')
-        webots.hideQuit = false;
+      if (typeof webots.showQuit === 'undefined')
+        webots.showQuit = true;
       this.send('{ "init" : [ "' + host + '", "' + that.project + '", "' + that.worldFile + '", "' +
                 webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
                 webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
