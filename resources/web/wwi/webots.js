@@ -246,13 +246,13 @@ webots.View.prototype.setWebotsDocUrl = function(url) {
 
 webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
   var that = this;
+  if (typeof this.worldSelect !== 'undefined')
+    this.worldSelectionDiv.removeChild(this.worldSelect);
   if (worlds.length <= 1)
     return;
-  if (typeof this.worldSelect !== 'undefined')
-    this.worldSelect.parentNode.removeChild(this.worldSelect);
   this.worldSelect = document.createElement("select");
   this.worldSelect.id = "worldSelection";
-  this.toolBar.left.appendChild(this.worldSelect);
+  this.worldSelectionDiv.appendChild(this.worldSelect);
   for (var i = 0; i < worlds.length; i++) {
     var option = document.createElement("option");
     option.value = worlds[i];
@@ -265,11 +265,27 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
   function loadWorld() {
     if (that.broadcast || typeof that.worldSelect === 'undefined')
       return;
+    that.enableToolBarButtons(false);
     that.followedObject = null;
     that.onrobotwindowsdestroy();
     $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
     $('#webotsProgress').show();
     that.stream.socket.send('load:' + that.worldSelect.value);
+  }
+}
+
+webots.View.prototype.enableToolBarButtons = function(enabled) {
+  var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
+  for (var i in buttons) {
+    if (buttons[i]) {
+      if ((!this.broadcast || buttons[i] === this.consoleButton) && enabled) {
+        buttons[i].disabled = false;
+        buttons[i].classList.remove('toolBarButtonDisabled');
+      } else {
+        buttons[i].disabled = true;
+        buttons[i].classList.add('toolBarButtonDisabled');
+      }
+    }
   }
 }
 
@@ -382,7 +398,7 @@ webots.View.prototype.open = function(url, mode) {
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.deadline));
     } else
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-    enableToolBarButtons(false);
+    that.enableToolBarButtons(false);
     if (revert)
       that.stream.socket.send('revert');
     else
@@ -490,20 +506,6 @@ webots.View.prototype.open = function(url, mode) {
       that.helpButton.classList.add('toolBarButtonActive');
     }
   }
-  function enableToolBarButtons(enabled) {
-    var buttons = [that.infoButton, that.revertButton, that.resetButton, that.stepButton, that.real_timeButton, that.fastButton, that.pauseButton, that.consoleButton];
-    for (var i in buttons) {
-      if (buttons[i]) {
-        if ((!that.broadcast || buttons[i] === that.consoleButton) && enabled) {
-          buttons[i].disabled = false;
-          buttons[i].classList.remove('toolBarButtonDisabled');
-        } else {
-          buttons[i].disabled = true;
-          buttons[i].classList.add('toolBarButtonDisabled');
-        }
-      }
-    }
-  }
   function initWorld() {
     // override the original x3dom function to workaround a bug with USE/DEF nodes
     x3dom.Texture.prototype.update = function() {
@@ -541,6 +543,8 @@ webots.View.prototype.open = function(url, mode) {
       }
       that.toolBar.left.appendChild(toolBarButton('info', 'Open the information window'));
       that.infoButton.onclick = toggleInfo;
+      that.worldSelectionDiv = document.createElement('div');
+      that.toolBar.left.appendChild(that.worldSelectionDiv);
       if (webots.showRevert) {
         that.toolBar.left.appendChild(toolBarButton('revert', 'Save controllers and revert the simulation'));
         that.revertButton.addEventListener('click', function() { reset(true); });
@@ -586,7 +590,7 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.appendChild(that.toolBar.left);
       that.toolBar.appendChild(that.toolBar.right);
       that.view3D.appendChild(that.toolBar);
-      enableToolBarButtons(false);
+      that.enableToolBarButtons(false);
       if (that.broadcast && that.quitButton) {
         that.quitButton.disabled = true;
         that.quitButton.classList.add('toolBarButtonDisabled');
@@ -739,7 +743,7 @@ webots.View.prototype.open = function(url, mode) {
 
   function loadFinalize() {
     $('#webotsProgress').hide();
-    enableToolBarButtons(true);
+    that.enableToolBarButtons(true);
 
     if (that.onready)
       that.onready();
