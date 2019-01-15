@@ -48,6 +48,8 @@ private slots:
   void propagateNodeDeletion(WbNode *node);
   void newWorld();
   void deleteWorld();
+  void setWorldLoadingProgress(const int progress);
+  void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
   void start(int port);
   void stop();
   void onNewConnection();
@@ -91,6 +93,7 @@ private:
 
   qint64 mLastUpdateTime;
 
+  QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
   bool mMonitorActivity;
   bool mDisableTextStreams;

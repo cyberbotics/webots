@@ -326,14 +326,16 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if n > 0:
                     host = host[:n]
                 keyFilename = os.path.join(config['keyDir'], host)
-                try:
-                    keyFile = open(keyFilename, "r")
-                except IOError:
-                    logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
-                    client.client_websocket.close()
-                    return
-                client.key = keyFile.readline().rstrip(os.linesep)
-
+                if (os.path.isfile(keyFilename)):
+                    try:
+                        keyFile = open(keyFilename, "r")
+                    except IOError:
+                        logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
+                        client.client_websocket.close()
+                        return
+                    client.key = keyFile.readline().rstrip(os.linesep)
+                else:
+                    logging.warning("No key for: " + host)
                 logging.info('[%d] Setup client %s %s '
                              '(remote ip: %s, streaming_server_port: %s)'
                              % (id(client),
