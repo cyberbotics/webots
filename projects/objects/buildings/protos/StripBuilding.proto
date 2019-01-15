@@ -1,0 +1,71 @@
+#VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A strip of buildings of variable length.
+
+PROTO StripBuilding [
+  field SFVec3f    translation           0 0 0
+  field SFRotation rotation              0 1 0 0
+  field SFString   name                  "strip building"
+  field SFFloat    length                100              # Defines the minimum length of the strip (actual length is slightly bigger because buildings are not cut).
+  field SFInt32    randomSeed            1                # Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
+  field SFBool     enableBoundingObject  TRUE             # Defines whether the buildings should have bounding objects.
+]
+{
+  %{
+    local wbcore = require('wbcore')
+    local wbrandom = require('wbrandom')
+    if fields.randomSeed.value <= 0 then
+      wbrandom.seed(os.clock() + os.time())
+    else
+      wbrandom.seed(fields.randomSeed.value)
+    end
+    local buildings = {
+      ["OldResidentialBuilding"] = { coefficient = 3, width = 11.84, xOffset = 0, zOffset = 13.94, colors = { "red grey", "dark grey", "light grey", "red", "braun" } },
+      ["ResidentialBuildingWithRoundFront"] = { coefficient = 3, width = 12.19, xOffset = 2.225, zOffset = 10.5, colors = { "dark grey", "orange", "green", "dark braun", "light grey", "light braun" } },
+      ["SmallResidentialBuilding"] = { coefficient = 3, width = 9.67, xOffset = 0, zOffset = 13.56, colors = { "white", "braun black", "red" } },
+      ["ResidentialTower"] = { coefficient = 1, width = 8.14, xOffset = 0, zOffset = 2.99, maxFloor = 3, minFloor = 1 },
+      ["SmallResidentialTower"] = { coefficient = 1, width = 5.42, xOffset = 0, zOffset = 1.72, maxFloor = 4, minFloor = 1 },
+    }
+    local buildingListFix = {"OldResidentialBuilding", "ResidentialBuildingWithRoundFront", "SmallResidentialBuilding", "ResidentialTower", "SmallResidentialTower"}
+    local buildingsList = {}
+    local i = 1
+    local j = 0
+    for k = 1, wbcore.tablelength(buildingListFix) do
+      local value = buildingListFix[k]
+      for j = 1, buildings[value].coefficient do
+        buildingsList[i] = value
+        i = i + 1
+      end
+    end
+    local currentPosition = 0
+  }%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      %{
+        while(currentPosition < fields.length.value) do
+          i = wbrandom.integer(1, wbcore.tablelength(buildingsList))
+          local building = buildings[buildingsList[i]]
+      }%
+      %{= buildingsList[i] }% {
+        translation %{= currentPosition + 0.5 * building.width + building.xOffset }% 0 %{= building.zOffset }%
+        %{ if building.colors then }%
+          type "%{= building.colors[wbrandom.integer(1, wbcore.tablelength(building.colors))] }%"
+        %{ end }%
+        %{ if building.maxFloor and building.minFloor then }%
+          numberOfFloors %{= wbrandom.integer(building.minFloor, building.maxFloor) }%
+        %{ end }%
+        name "building(%{= j }%)"
+        enableBoundingObject IS enableBoundingObject
+      }
+      %{
+        j = j + 1
+        currentPosition = currentPosition + buildings[buildingsList[i]].width
+        end
+      }%
+    ]
+  }
+}

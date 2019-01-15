@@ -1086,6 +1086,42 @@ SmallResidentialTower {
 
 - `enableBoundingObject`: Defines whether the tower should have a bounding object.
 
+## StripBuilding
+
+A strip of buildings of variable length.
+
+%figure
+
+![StripBuilding](images/objects/buildings/StripBuilding/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+StripBuilding {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 1 0 0
+  SFString   name                  "strip building"
+  SFFloat    length                100
+  SFInt32    randomSeed            1
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/buildings/protos/StripBuilding.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### StripBuilding Field Summary
+
+- `length`: Defines the minimum length of the strip (actual length is slightly bigger because buildings are not cut).
+
+- `randomSeed`: Defines the seed of the random number generator. A value smaller or equal to 0 sets a random seed.
+
+- `enableBoundingObject`: Defines whether the buildings should have bounding objects.
+
 ## SuburbanHouse
 
 A suburban house with optional boundingObject.
