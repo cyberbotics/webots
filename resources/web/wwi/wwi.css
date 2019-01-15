@@ -122,7 +122,7 @@ button::-moz-focus-inner {
   border-radius: 20px;
   padding-top: 10px;
   padding-right: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
   padding-left: 10px;
 }
 
@@ -133,15 +133,17 @@ button::-moz-focus-inner {
   border-radius: 10px;
   height: 10px;
   width: 75%;
+  margin-top: 5px;
 }
 
 #webotsProgressPercent > progress::-moz-progress-bar {
+  height: 10px;
   border-radius: 2px;
   background: #666;
-
 }
 
 #webotsProgressPercent > progress::-webkit-progress-bar {
+  height: 3px;
   background: transparent;
 }
 
