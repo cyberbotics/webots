@@ -42,9 +42,8 @@ void wr_scene_apply_pending_updates(WrScene *scene);
 
 /* The 'materialName' parameter is optional (can be set to NULL for default), and if set, force
 the renderables to use the named material */
-void wr_scene_render(WrScene *scene, const char *material_name, bool culling = true);
-void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name,
-                                  bool culling = true);
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling);
+void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling);
 
 void wr_scene_set_ambient_light(const float *ambient_light);
 
