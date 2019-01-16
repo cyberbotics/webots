@@ -22,9 +22,9 @@ class WbBallJointParameters;
 class WbVector3;
 
 #include <cassert>
-#include "WbBasicJoint.hpp"
+#include "WbHinge2Joint.hpp"
 
-class WbBallJoint : public WbBasicJoint {
+class WbBallJoint : public WbHinge2Joint {
   Q_OBJECT
 
 public:
@@ -44,22 +44,33 @@ public:
     assert(false);
   };
 
+  WbMotor *motor3() const;
+  WbPositionSensor *positionSensor3() const;
+  WbBrake *brake3() const;
+
 public slots:
   bool setJoint() override;
 
 protected:
+  WbMFNode *mDevice3;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
+  double mOdePositionOffset3;
+  double mPosition3;  // Keeps track of the joint position3 if JointParameters3 don't exist.
+
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
   void updateEndPointZeroTranslationAndRotation() override {}  // not used by ball joint
 
 protected slots:
   void updateParameters() override;
-  void updateAnchor();
+  void updateAnchor() override;
   void updateJointAxisRepresentation() override;
 
 private:
+  WbSFNode *mParameters3;
+  double mInitialPosition3;
   void setOdeJoint(dBodyID body, dBodyID parentBody) override;
   void applyToOdeAnchor();
+  void init();
 };
 
 #endif

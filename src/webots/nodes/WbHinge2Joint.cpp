@@ -47,6 +47,11 @@ void WbHinge2Joint::init() {
   mInitialPosition2 = mPosition2;
 }
 
+
+WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
+  init();
+}
+
 WbHinge2Joint::WbHinge2Joint(WbTokenizer *tokenizer) : WbHingeJoint("Hinge2Joint", tokenizer) {
   init();
 }

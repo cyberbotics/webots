@@ -15,6 +15,9 @@
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
+#include "WbPositionSensor.hpp"
+#include "WbBrake.hpp"
+#include "WbMotor.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
 #include "WbSFNode.hpp"
@@ -32,13 +35,26 @@
 
 // Constructors
 
-WbBallJoint::WbBallJoint(WbTokenizer *tokenizer) : WbBasicJoint("BallJoint", tokenizer) {
+void WbBallJoint::init() {
+  mParameters3 = findSFNode("jointParameters3");
+  mDevice3 = findMFNode("device3");
+
+  // hidden field
+  mPosition3 = findSFDouble("position3")->value();
+  mOdePositionOffset3 = mPosition3;
+  mInitialPosition3 = mPosition3;
 }
 
-WbBallJoint::WbBallJoint(const WbBallJoint &other) : WbBasicJoint(other) {
+WbBallJoint::WbBallJoint(WbTokenizer *tokenizer) : WbHinge2Joint("BallJoint", tokenizer) {
+  init();
 }
 
-WbBallJoint::WbBallJoint(const WbNode &other) : WbBasicJoint(other) {
+WbBallJoint::WbBallJoint(const WbBallJoint &other) : WbHinge2Joint(other) {
+  init();
+}
+
+WbBallJoint::WbBallJoint(const WbNode &other) : WbHinge2Joint(other) {
+  init();
 }
 
 WbBallJoint::~WbBallJoint() {
@@ -50,6 +66,40 @@ WbAnchorParameter *WbBallJoint::anchorParameter() const {
 
 WbBallJointParameters *WbBallJoint::ballJointParameters() const {
   return dynamic_cast<WbBallJointParameters *>(mParameters->value());
+}
+
+
+WbMotor *WbBallJoint::motor3() const {
+  WbMotor *motor = NULL;
+  for (int i = 0; i < mDevice3->size(); ++i) {
+    motor = dynamic_cast<WbMotor *>(mDevice3->item(i));
+    if (motor)
+      return motor;
+  }
+
+  return NULL;
+}
+
+WbPositionSensor *WbBallJoint::positionSensor3() const {
+  WbPositionSensor *sensor = NULL;
+  for (int i = 0; i < mDevice3->size(); ++i) {
+    sensor = dynamic_cast<WbPositionSensor *>(mDevice3->item(i));
+    if (sensor)
+      return sensor;
+  }
+
+  return NULL;
+}
+
+WbBrake *WbBallJoint::brake3() const {
+  WbBrake *brake = NULL;
+  for (int i = 0; i < mDevice3->size(); ++i) {
+    brake = dynamic_cast<WbBrake *>(mDevice3->item(i));
+    if (brake)
+      return brake;
+  }
+
+  return NULL;
 }
 
 WbVector3 WbBallJoint::anchor() const {
@@ -68,7 +118,7 @@ void WbBallJoint::updateParameters() {
 }
 
 bool WbBallJoint::setJoint() {
-  if (!WbBasicJoint::setJoint())
+  if (!WbHinge2Joint::setJoint())
     return false;
 
   if (mJoint == NULL)
@@ -81,12 +131,12 @@ bool WbBallJoint::setJoint() {
 }
 
 void WbBallJoint::setOdeJoint(dBodyID body, dBodyID parentBody) {
-  WbBasicJoint::setOdeJoint(body, parentBody);
+  WbHinge2Joint::setOdeJoint(body, parentBody);
   applyToOdeAnchor();
 }
 
 void WbBallJoint::preFinalize() {
-  WbBasicJoint::preFinalize();
+  WbHinge2Joint::preFinalize();
 
   WbBallJointParameters *const p = ballJointParameters();
   if (p && !p->isPreFinalizedCalled())
@@ -94,7 +144,7 @@ void WbBallJoint::preFinalize() {
 }
 
 void WbBallJoint::postFinalize() {
-  WbBasicJoint::postFinalize();
+  WbHinge2Joint::postFinalize();
 
   WbBallJointParameters *const p = ballJointParameters();
 
@@ -196,7 +246,7 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
 //////////
 
 void WbBallJoint::createWrenObjects() {
-  WbBasicJoint::createWrenObjects();
+  WbHinge2Joint::createWrenObjects();
 
   if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
     wr_node_set_visible(WR_NODE(mTransform), true);
