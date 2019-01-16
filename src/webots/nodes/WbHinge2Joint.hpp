@@ -58,6 +58,7 @@ protected:
   WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to the
                             // rotation axis of the solid endpoint
   WbQuaternion endPointRotation() const;
+  WbRotationalMotor *rotationalMotor2() const;
   WbMFNode *mDevice2;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mOdePositionOffset2;
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
@@ -78,7 +79,6 @@ protected slots:
 
 private:
   WbHinge2Joint &operator=(const WbHinge2Joint &);  // non copyable
-  WbRotationalMotor *rotationalMotor2() const;
   void updateParameters2();
   void init();
   WbSFNode *mParameters2;
