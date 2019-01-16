@@ -66,7 +66,19 @@ void WbRotationalMotor::turnOffMotor() {
       const WbJointParameters *const p2 = j->parameters2();
       dJointSetHinge2Param(jID, dParamFMax2, p2 ? p2->staticFriction() : 0.0);
     }
-  }
+  } else if (j->nodeType() == WB_NODE_HINGE_2_JOINT) {
+    if (this == j->motor()) {
+      const WbJointParameters *const p = j->parameters();
+      dJointSetBallParam(jID, dParamFMax, p ? p->staticFriction() : 0.0);
+    } else {
+      const WbJointParameters *const p2 = j->parameters2();
+      dJointSetBallParam(jID, dParamFMax2, p2 ? p2->staticFriction() : 0.0);
+    }/* else {  TODO
+      const WbJointParameters *const p3 = j->parameters3();
+      dJointSetBallParam(jID, dParamFMax3, p3 ? p3->staticFriction() : 0.0);
+    }*/
+  } else
+    assert(false);
 }
 
 double WbRotationalMotor::computeFeedback() const {

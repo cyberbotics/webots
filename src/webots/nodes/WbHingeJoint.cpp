@@ -170,6 +170,8 @@ void WbHingeJoint::applyToOdeAnchor() {
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
+  else if (nodeType() == WB_NODE_BALL_JOINT)
+    dJointSetBallAnchor(mJoint, t.x(), t.y(), t.z());
   else
     dJointSetHingeAnchor(mJoint, t.x(), t.y(), t.z());
 }
