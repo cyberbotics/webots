@@ -207,7 +207,6 @@ Here is an example of sending a Java string in a way that is compatible with a C
 
 <!-- -->
 
-
 > **Note** [Matlab]: If you want to send strings you have to convert them to unsigned integer arrays:
 
 > ```matlab
