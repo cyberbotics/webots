@@ -281,7 +281,7 @@ void WbBallJoint::setPosition(double position, int index) {
       m3->setTargetPosition(position);
     return;
   }
-  WbHinge2Joint::setPosition(double position, int index)
+  WbHinge2Joint::setPosition(position, index);
 }
 
 bool WbBallJoint::resetJointPositions() {
@@ -289,7 +289,7 @@ bool WbBallJoint::resetJointPositions() {
   return WbHinge2Joint::resetJointPositions();
 }
 
-void WbHinge2Joint::updateOdePositionOffset() {
+void WbBallJoint::updateOdePositionOffset() {
   WbHinge2Joint::updateOdePositionOffset();
   mOdePositionOffset3 = position(3);
 }
@@ -446,6 +446,19 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   }
 }
 
+double WbBallJoint::computeAngleRate(int index) const {
+  WbVector3 currentAxis = axis();
+  if (index == 2)
+    currentAxis = axis2();
+  else if (index == 3)
+    currentAxis = axis3();
+
+  currentAxis = solidParent()->rotationMatrix() * currentAxis;
+  double rate = currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 0))));
+  if (dJointGetBody(mJoint, 1))
+    rate -= currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 1))));
+  return rate;
+}
 
 void WbBallJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
@@ -532,32 +545,30 @@ void WbBallJoint::prePhysicsStep(double ms) {
 }
 
 void WbBallJoint::postPhysicsStep() {
-  // TODO: dJointGetAMotorAngleRate is probably wrong
   assert(mJoint);
-  /*if (motor() && motor()->isPIDPositionControl()) {
-    // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngleRate(mJoint, 0) + mOdePositionOffset, mPosition);
-  } else {
+  // if (motor() && motor()->isPIDPositionControl())
+  //   // if controlling in position we update position using directly the angle feedback
+  //   mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint, 0) + mOdePositionOffset, mPosition);
+  // else
     // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
     // under-estimated)
-    mPosition -= dJointGetAMotorAngleRate(mJoint, 0) * mTimeStep / 1000.0;
-  }*/
+    mPosition -= computeAngleRate(0) * mTimeStep / 1000.0;
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
 
-  /*if (motor2() && motor2()->isPIDPositionControl())
-    mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetAMotorAngleRate(mJoint, 1) + mOdePositionOffset2, mPosition2);
-  else
-    mPosition2 -= dJointGetAMotorAngleRate(mJoint, 1) * mTimeStep / 1000.0;*/
+  // if (motor2() && motor2()->isPIDPositionControl())
+  //   mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint, 1) + mOdePositionOffset2, mPosition2);
+  // else
+    mPosition2 -= computeAngleRate(1) * mTimeStep / 1000.0;
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
-  /*if (motor3() && motor3()->isPIDPositionControl())
-    mPosition3 = WbMathsUtilities::normalizeAngle(dJointGetAMotorAngleRate(mJoint, 2) + mOdePositionOffset3, mPosition3);
-  else
-    mPosition3 -= dJointGetAMotorAngleRate(mJoint, 2) * mTimeStep / 1000.0;*/
+  // if (motor3() && motor3()->isPIDPositionControl())
+  //   mPosition3 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle3(mJoint, 2) + mOdePositionOffset3, mPosition3);
+  // else
+    mPosition3 -= computeAngleRate(2) * mTimeStep / 1000.0;
   WbJointParameters *const p3 = parameters3();
   if (p3)
     p3->setPositionFromOde(mPosition3);

@@ -89,6 +89,7 @@ private:
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
   void init();
+  double computeAngleRate(int index) const;
 };
 
 #endif

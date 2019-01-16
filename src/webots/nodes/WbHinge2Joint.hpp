@@ -63,6 +63,7 @@ protected:
   double mPosition2;                       // Keeps track of the joint position2 if JointParameters2 don't exist.
   bool mSpringAndDampingConstantsAxis1On;  // defines if there is spring and dampingConstant along this axis
   bool mSpringAndDampingConstantsAxis2On;
+  double mInitialPosition2;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2);
   void updateEndPointZeroTranslationAndRotation() override;
@@ -83,7 +84,6 @@ private:
   WbSFNode *mParameters2;
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
-  double mInitialPosition2;
 };
 
 #endif
