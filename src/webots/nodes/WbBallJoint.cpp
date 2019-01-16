@@ -75,12 +75,6 @@ WbJointParameters *WbBallJoint::parameters3() const {
   return dynamic_cast<WbJointParameters *>(mParameters3->value());
 }
 
-WbVector3 WbBallJoint::axis3() const {
-  static const WbVector3 DEFAULT_AXIS_3(0.0, 1.0, 0.0);
-  const WbJointParameters *const p3 = parameters3();
-  return p3 ? p3->axis() : DEFAULT_AXIS_3;
-}
-
 WbMotor *WbBallJoint::motor3() const {
   WbMotor *motor = NULL;
   for (int i = 0; i < mDevice3->size(); ++i) {
@@ -123,6 +117,30 @@ WbRotationalMotor *WbBallJoint::rotationalMotor3() const {
   }
 
   return NULL;
+}
+
+WbJointDevice *WbBallJoint::device3(int index) const {
+  if (index >= 0 && mDevice3->size() > index)
+    return dynamic_cast<WbJointDevice *>(mDevice3->item(index));
+  else
+    return NULL;
+}
+
+int WbBallJoint::devices3Number() const {
+  return mDevice3->size();
+}
+
+QVector<WbLogicalDevice *> WbBallJoint::devices() const {
+  QVector<WbLogicalDevice *> devices;
+  int i = 0;
+  for (i = 0; i < devicesNumber(); ++i)
+    devices.append(device(i));
+  for (i = 0; i < devices2Number(); ++i)
+    devices.append(device2(i));
+  for (i = 0; i < devices3Number(); ++i)
+    devices.append(device3(i));
+
+  return devices;
 }
 
 WbVector3 WbBallJoint::anchor() const {
