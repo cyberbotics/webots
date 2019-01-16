@@ -242,6 +242,58 @@ bool WbBallJoint::setJoint() {
   return true;
 }
 
+double WbBallJoint::position(int index) const {
+  switch (index) {
+    case 1:
+      return mPosition;
+    case 2:
+      return mPosition2;
+    case 3:
+      return mPosition3;
+    default:
+      return NAN;
+  }
+}
+
+double WbBallJoint::initialPosition(int index) const {
+  switch (index) {
+    case 1:
+      return mInitialPosition;
+    case 2:
+      return mInitialPosition2;
+    case 3:
+      return mInitialPosition3;
+    default:
+      return NAN;
+  }
+}
+
+void WbBallJoint::setPosition(double position, int index) {
+  if (index == 3) {
+    mPosition3 = position;
+    mOdePositionOffset3 = position;
+    WbJointParameters *const p3 = parameters3();
+    if (p3)
+      p3->setPosition(mPosition3);
+
+    WbMotor *const m3 = motor3();
+    if (m3)
+      m3->setTargetPosition(position);
+    return;
+  }
+  WbHinge2Joint::setPosition(double position, int index)
+}
+
+bool WbBallJoint::resetJointPositions() {
+  mOdePositionOffset3 = 0.0;
+  return WbHinge2Joint::resetJointPositions();
+}
+
+void WbHinge2Joint::updateOdePositionOffset() {
+  WbHinge2Joint::updateOdePositionOffset();
+  mOdePositionOffset3 = position(3);
+}
+
 void WbBallJoint::preFinalize() {
   WbHinge2Joint::preFinalize();
 
@@ -509,6 +561,32 @@ void WbBallJoint::postPhysicsStep() {
   WbJointParameters *const p3 = parameters3();
   if (p3)
     p3->setPositionFromOde(mPosition3);
+}
+
+void WbBallJoint::reset() {
+  WbHinge2Joint::reset();
+
+  for (int i = 0; i < mDevice3->size(); ++i)
+    mDevice3->item(i)->reset();
+
+  WbNode *const p = mParameters3->value();
+  if (p)
+    p->reset();
+
+  setPosition(mInitialPosition3, 3);
+}
+
+void WbBallJoint::save() {
+  WbHinge2Joint::save();
+
+  for (int i = 0; i < mDevice3->size(); ++i)
+    mDevice3->item(i)->save();
+
+  WbNode *const p = mParameters3->value();
+  if (p)
+    p->save();
+
+  mInitialPosition3 = mPosition3;
 }
 
 void WbBallJoint::applyToOdeAxis() {

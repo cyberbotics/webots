@@ -38,13 +38,13 @@ public:
   int nodeType() const override { return WB_NODE_BALL_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  // void reset() override;
-  // void save() override;
+  void reset() override;
+  void save() override;
   QVector<WbLogicalDevice *> devices() const override;
-  // bool resetJointPositions() override;
-  // void setPosition(double position, int index = 1) override;
-  // double position(int index = 1) const override;
-  // double initialPosition(int index = 1) const override;
+  bool resetJointPositions() override;
+  void setPosition(double position, int index = 1) override;
+  double position(int index = 1) const override;
+  double initialPosition(int index = 1) const override;
   WbAnchorParameter *anchorParameter() const;
   WbBallJointParameters *ballJointParameters() const;
   WbJointParameters *parameters3() const override;
@@ -70,6 +70,7 @@ protected:
 
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;
+  void updateOdePositionOffset() override;
   void updateEndPointZeroTranslationAndRotation() override {}  // not used by ball joint
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
