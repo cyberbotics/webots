@@ -45,7 +45,7 @@ public:
   WbJointParameters *parameters2() const override;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
 
-  WbMotor *motor2() const;
+  WbMotor *motor2() const override;
   WbPositionSensor *positionSensor2() const;
   WbBrake *brake2() const;
   WbJointDevice *device2(int index) const;

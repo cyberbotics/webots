@@ -49,6 +49,8 @@ public:
 
   WbPositionSensor *positionSensor() const;
   WbMotor *motor() const;
+  virtual WbMotor *motor2() const { return NULL; }
+  virtual WbMotor *motor3() const { return NULL; }
   WbBrake *brake() const;
 
   WbJointDevice *device(int index) const;
