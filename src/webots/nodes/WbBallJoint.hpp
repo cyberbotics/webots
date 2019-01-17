@@ -17,7 +17,6 @@
 #ifndef WB_BALL_JOINT_HPP
 #define WB_BALL_JOINT_HPP
 
-class WbAnchorParameter;
 class WbBallJointParameters;
 class WbVector3;
 
@@ -45,7 +44,6 @@ public:
   void setPosition(double position, int index = 1) override;
   double position(int index = 1) const override;
   double initialPosition(int index = 1) const override;
-  WbAnchorParameter *anchorParameter() const;
   WbBallJointParameters *ballJointParameters() const;
   WbJointParameters *parameters3() const override;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;

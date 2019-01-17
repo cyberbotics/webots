@@ -21,10 +21,10 @@
 
 // Alias class for instantiation WbBallJoint's anchor parameter
 
-#include "WbAnchorParameter.hpp"
+#include "WbJointParameters.hpp"
 #include "WbSFDouble.hpp"
 
-class WbBallJointParameters : public WbAnchorParameter {
+class WbBallJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
@@ -38,20 +38,10 @@ public:
   void preFinalize() override;
   void postFinalize() override;
 
-  double position() const { return mPosition->value(); }
-  double maxStop() const { return mMaxStop->value(); }
-  double minStop() const { return mMinStop->value(); }
-  double springConstant() const { return mSpringConstant->value(); }
-  double dampingConstant() const { return mDampingConstant->value(); }
-  double staticFriction() const { return mStaticFriction->value(); }
-
-  void setPosition(double p) { mPosition->setValue(p); }
-  void setPositionFromOde(double p) { mPosition->setValueFromOde(p); }
+  virtual const WbVector3 &anchor() const { return mAnchor->value(); }
 
 signals:
-  void positionChanged();
-  void minAndMaxStopChanged(double min, double max);
-  void springAndDampingConstantsChanged();
+  void anchorChanged();;
 
 private:
   WbBallJointParameters &operator=(const WbBallJointParameters &);  // non copyable
@@ -59,18 +49,7 @@ private:
   void init();
 
   // fields
-  WbSFDouble *mPosition;
-  WbSFDouble *mMinStop;
-  WbSFDouble *mMaxStop;
-  WbSFDouble *mSpringConstant;
-  WbSFDouble *mDampingConstant;
-  WbSFDouble *mStaticFriction;
-
-private slots:
-  void updateMinAndMaxStop();
-  void updateSpringConstant();
-  void updateDampingConstant();
-  void updateStaticFriction();
+  WbSFVector3 *mAnchor;
 };
 
 #endif

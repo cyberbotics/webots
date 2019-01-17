@@ -63,10 +63,6 @@ WbBallJoint::WbBallJoint(const WbNode &other) : WbHinge2Joint(other) {
 WbBallJoint::~WbBallJoint() {
 }
 
-WbAnchorParameter *WbBallJoint::anchorParameter() const {
-  return dynamic_cast<WbAnchorParameter *>(mParameters->value());
-}
-
 WbBallJointParameters *WbBallJoint::ballJointParameters() const {
   return dynamic_cast<WbBallJointParameters *>(mParameters->value());
 }
@@ -145,7 +141,7 @@ QVector<WbLogicalDevice *> WbBallJoint::devices() const {
 
 WbVector3 WbBallJoint::anchor() const {
   static const WbVector3 ZERO(0.0, 0.0, 0.0);
-  WbAnchorParameter *const p = anchorParameter();
+  WbBallJointParameters *const p = ballJointParameters();
   return p ? p->anchor() : ZERO;
 }
 
