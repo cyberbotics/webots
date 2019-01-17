@@ -657,16 +657,29 @@ void WbBallJoint::applyToOdeAxis() {
   // compute orientation of rotation axis
   const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
   WbVector3 a2;
-  if (mPosition == 0.0)
+  WbVector3 a3;
+  if (mPosition == 0.0) {
     a2 = m4.sub3x3MatrixDot(axis2());
-  else {
+    if (mPosition2 == 0.0)
+      a3 = m4.sub3x3MatrixDot(axis3());
+    else {
+      // compute axis3 based on axis2 rotation
+      WbMatrix3 a2Matrix(axis2(), mPosition2);
+      a2 = (m4.extracted3x3Matrix() * a2Matrix) * axis3();
+    }
+  } else {
     // compute axis2 based on axis1 rotation
     WbMatrix3 a1Matrix(axis(), mPosition);
     a2 = (m4.extracted3x3Matrix() * a1Matrix) * axis2();
+    if (mPosition2 == 0.0)
+      a3 = (m4.extracted3x3Matrix() * a1Matrix) * axis3();
+    else {
+      // compute axis3 based on axis1 and axis2 rotations
+      WbMatrix3 a2Matrix(axis2(), mPosition2);
+      a2 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * axis3();
+    }
   }
   const WbVector3 &c = a1.cross(a2);
-  // TODO: axis 3
-  const WbVector3 a3 = a2;
   if (!c.isNull()) {
     /*dJointSetHinge2Axis1(mJoint, a1.x(), a1.y(), a1.z());
     dJointSetHinge2Axis2(mJoint, a2.x(), a2.y(), a2.z());*/
@@ -687,8 +700,8 @@ void WbBallJoint::applyToOdeAxis() {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
     }
   } else {
-    warn(tr("Hinge axes are aligned: using x and z axes instead."));
-    /*dJointSetHinge2Axis1(mJoint, 1.0, 0.0, 0.0);
+    /*warn(tr("Hinge axes are aligned: using x and z axes instead."));
+    dJointSetHinge2Axis1(mJoint, 1.0, 0.0, 0.0);
     dJointSetHinge2Axis2(mJoint, 0.0, 0.0, 1.0);
     dJointSetHinge2Axis2(mJoint, 0.0, 1.0, 0.0);*/
     if (mSpringAndDamperMotor) {
