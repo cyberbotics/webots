@@ -145,6 +145,32 @@ WbVector3 WbBallJoint::anchor() const {
   return p ? p->anchor() : ZERO;
 }
 
+void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
+  if (solidEndPoint() == NULL)
+    return;
+
+  WbRotation ir;
+  WbVector3 it;
+  retrieveEndPointSolidTranslationAndRotation(it, ir);
+
+  WbQuaternion qp;
+  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2) && WbMathsUtilities::isZeroAngle(mPosition3))
+    mEndPointZeroRotation = ir;  // Keeps track of the original axis if the angle is zero as it defines the second DoF axis
+  else {
+    const WbQuaternion q(axis(), -mPosition);
+    const WbQuaternion q2(axis2(), -mPosition2);
+    const WbQuaternion q3(axis2(), -mPosition3);
+    qp = q3 * q2 * q;
+    const WbQuaternion &iq = ir.toQuaternion();
+    WbQuaternion qr = qp * iq;
+    qr.normalize();
+    mEndPointZeroRotation = WbRotation(qr);
+  }
+  const WbVector3 &a = anchor();
+  const WbVector3 t(it - a);
+  mEndPointZeroTranslation = qp * t + a;
+}
+
 void WbBallJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
   WbQuaternion qp;
   const WbQuaternion q(axis(), mPosition);
