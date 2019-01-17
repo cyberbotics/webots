@@ -564,8 +564,6 @@ void WbBallJoint::prePhysicsStep(double ms) {
     if (run3 && p3)
       p3->setPosition(mPosition3);
 
-    qDebug() << run1 << rm << p << run2 << rm2 << p2 << run3 << rm3 << p3 << mPosition <<  mPosition2 << mPosition3;
-
     if (run1 || run2 || run3)
       updatePositions(mPosition, mPosition2, mPosition3);
   }
