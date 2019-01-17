@@ -508,6 +508,11 @@ double WbBallJoint::computeAngleRate(int index) const {
   return rate;
 }
 
+double WbBallJoint::computeAngle(int index) const {
+  double angle = 0.0; // TODO
+  return angle;
+}
+
 void WbBallJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
@@ -557,21 +562,21 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
     // eventually add spring and damping forces
     if (mSpringAndDamperMotor) {
-      /*if (mSpringAndDampingConstantsAxis1On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetHinge2Angle(mJoint));
+      if (mSpringAndDampingConstantsAxis1On) {
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(0));
         if (mSpringAndDampingConstantsAxis2On) {
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetHinge2Angle2(mJoint));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(1));
           if (mSpringAndDampingConstantsAxis3On)
-            dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -dJointGetHinge2Angle3(mJoint));
+            dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -computeAngle(2));
         } else if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetHinge2Angle3(mJoint));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(2));
       } else if (mSpringAndDampingConstantsAxis2On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetHinge2Angle2(mJoint));
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(1));
         if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetHinge2Angle3(mJoint));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(2));
 
       } else if (mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetHinge2Angle3(mJoint));*/
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(2));
     }
   } else {
     const bool run1 = rm && rm->runKinematicControl(ms, mPosition);
@@ -594,10 +599,10 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
 void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
-  // if (motor() && motor()->isPIDPositionControl())
-  //   // if controlling in position we update position using directly the angle feedback
-  //   mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint, 0) + mOdePositionOffset, mPosition);
-  // else
+  if (motor() && motor()->isPIDPositionControl())
+    // if controlling in position we update position using directly the angle feedback
+    mPosition = WbMathsUtilities::normalizeAngle(-computeAngle(0) + mOdePositionOffset, mPosition);
+  else
     // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
     // under-estimated)
     mPosition -= computeAngleRate(0) * mTimeStep / 1000.0;
@@ -605,17 +610,17 @@ void WbBallJoint::postPhysicsStep() {
   if (p)
     p->setPositionFromOde(mPosition);
 
-  // if (motor2() && motor2()->isPIDPositionControl())
-  //   mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint, 1) + mOdePositionOffset2, mPosition2);
-  // else
+  if (motor2() && motor2()->isPIDPositionControl())
+    mPosition2 = WbMathsUtilities::normalizeAngle(computeAngle(1) + mOdePositionOffset2, mPosition2);
+  else
     mPosition2 -= computeAngleRate(1) * mTimeStep / 1000.0;
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
-  // if (motor3() && motor3()->isPIDPositionControl())
-  //   mPosition3 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle3(mJoint, 2) + mOdePositionOffset3, mPosition3);
-  // else
+  if (motor3() && motor3()->isPIDPositionControl())
+    mPosition3 = WbMathsUtilities::normalizeAngle(computeAngle(2) + mOdePositionOffset3, mPosition3);
+  else
     mPosition3 -= computeAngleRate(2) * mTimeStep / 1000.0;
   WbJointParameters *const p3 = parameters3();
   if (p3)

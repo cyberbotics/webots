@@ -88,6 +88,7 @@ private:
   void applyToOdeMinAndMaxStop() override;
   void init();
   double computeAngleRate(int index) const;
+  double computeAngle(int index) const;
 };
 
 #endif
