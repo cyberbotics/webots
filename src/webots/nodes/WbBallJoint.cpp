@@ -502,7 +502,7 @@ double WbBallJoint::computeAngleRate(int index) const {
     currentAxis = axis3();
 
   currentAxis = solidParent()->rotationMatrix() * currentAxis;
-  double rate = currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 0))));
+  double rate = dJointGetBody(mJoint, 0) ? currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 0)))) : 0.0;
   if (dJointGetBody(mJoint, 1))
     rate -= currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 1))));
   return rate;
