@@ -300,6 +300,19 @@ void WbBallJoint::preFinalize() {
   WbBallJointParameters *const p = ballJointParameters();
   if (p && !p->isPreFinalizedCalled())
     p->preFinalize();
+
+  for (int i = 0; i < devices3Number(); ++i) {
+    if (device3(i) && !device3(i)->isPreFinalizedCalled())
+      device3(i)->preFinalize();
+  }
+  // the following code could be simplified
+  WbBaseNode *const p3 = dynamic_cast<WbBaseNode *>(mParameters3->value());
+  if (p3 && !p3->isPreFinalizedCalled())
+    p3->preFinalize();
+
+  updateParameters3();
+
+  mInitialPosition3 = mPosition3;
 }
 
 void WbBallJoint::postFinalize() {
@@ -309,6 +322,19 @@ void WbBallJoint::postFinalize() {
 
   if (p && !p->isPostFinalizedCalled())
     p->postFinalize();
+  for (int i = 0; i < devices3Number(); ++i) {
+    if (device3(i) && !device3(i)->isPostFinalizedCalled())
+      device3(i)->postFinalize();
+  }
+  // the following code could be simplified
+  WbBaseNode *const p3 = dynamic_cast<WbBaseNode *>(mParameters3->value());
+  if (p3 && !p3->isPostFinalizedCalled())
+    p3->postFinalize();
+
+  connect(mDevice3, &WbMFNode::itemInserted, this, &WbBallJoint::addDevice3);
+  connect(mParameters3, &WbSFNode::changed, this, &WbBallJoint::updateParameters);
+  if (brake3())
+    connect(brake3(), &WbBrake::brakingChanged, this, &WbBallJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
 void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) {
@@ -538,6 +564,8 @@ void WbBallJoint::prePhysicsStep(double ms) {
     if (run3 && p3)
       p3->setPosition(mPosition3);
 
+    qDebug() << run1 << rm << p << run2 << rm2 << p2 << run3 << rm3 << p3 << mPosition <<  mPosition2 << mPosition3;
+
     if (run1 || run2 || run3)
       updatePositions(mPosition, mPosition2, mPosition3);
   }
@@ -618,19 +646,25 @@ void WbBallJoint::applyToOdeAxis() {
   }
   const WbVector3 &c = a1.cross(a2);
   // TODO: axis 3
+  const WbVector3 a3 = a2;
   if (!c.isNull()) {
     /*dJointSetHinge2Axis1(mJoint, a1.x(), a1.y(), a1.z());
     dJointSetHinge2Axis2(mJoint, a2.x(), a2.y(), a2.z());*/
     if (mSpringAndDamperMotor) {
-      if (mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On) {
-        // axes 0 and 1 of the AMotorAngle are enabled
+      if (mSpringAndDampingConstantsAxis1On) {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
-      } else if (mSpringAndDampingConstantsAxis1On) {
-        // only axis 0 of the AMotorAngle is enabled
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-      } else
+        if (mSpringAndDampingConstantsAxis2On) {
+          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
+          if (mSpringAndDampingConstantsAxis3On)
+            dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, a3.x(), a3.y(), a3.z());
+        } else if (mSpringAndDampingConstantsAxis3On)
+          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
+      } else if (mSpringAndDampingConstantsAxis2On) {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
+        if(mSpringAndDampingConstantsAxis3On)
+          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
+      } else if (mSpringAndDampingConstantsAxis3On)
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
     }
   } else {
     warn(tr("Hinge axes are aligned: using x and z axes instead."));
@@ -640,7 +674,7 @@ void WbBallJoint::applyToOdeAxis() {
     if (mSpringAndDamperMotor) {
       dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
       dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 1.0, 0.0);
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, 0.0, 1.0, 0.0);
     }
   }
 }
