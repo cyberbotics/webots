@@ -53,14 +53,14 @@ public:
   WbJointDevice *device3(int index) const;
   virtual int devices3Number() const;
 
-  WbVector3 axis() const override { return WbVector3(1.0, 0.0, 0.0); }
+  WbVector3 axis() const override;
 
 public slots:
   bool setJoint() override;
 
 protected:
-  WbVector3 axis2() const override { return WbVector3(0.0, 1.0, 0.0); }
-  WbVector3 axis3() const { return WbVector3(0.0, 0.0, 1.0); }
+  WbVector3 axis2() const override;
+  WbVector3 axis3() const;
   WbMFNode *mDevice3;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mOdePositionOffset3;
   double mPosition3;  // Keeps track of the joint position3 if JointParameters3 don't exist.

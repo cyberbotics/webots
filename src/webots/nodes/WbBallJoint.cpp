@@ -150,6 +150,38 @@ WbVector3 WbBallJoint::anchor() const {
   return p ? p->anchor() : ZERO;
 }
 
+WbVector3 WbBallJoint::axis() const {
+  const WbJointParameters *const p2 = parameters2();
+  const WbJointParameters *const p3 = parameters3();
+  if (!p2 && !p3)
+    return WbVector3(1.0, 0.0, 0.0);
+  else if (p3 && !p2) {
+    if (p3->axis().cross(WbVector3(0.0, 0.0, 1.0)).isNull())
+      return p3->axis().cross(WbVector3(1.0, 0.0, 0.0));
+    else
+      return p3->axis().cross(WbVector3(0.0, 0.0, 1.0));
+  } else
+    return p2->axis();
+}
+
+WbVector3 WbBallJoint::axis2() const {
+  return axis().cross(axis3());
+}
+
+WbVector3 WbBallJoint::axis3() const {
+  const WbJointParameters *const p2 = parameters2();
+  const WbJointParameters *const p3 = parameters3();
+  if (!p2 && !p3)
+    return WbVector3(0.0, 0.0, 1.0);
+  else if (p2 && !p3) {
+    if (p2->axis().cross(WbVector3(1.0, 0.0, 0.0)).isNull())
+      return p2->axis().cross(WbVector3(0.0, 0.0, 1.0));
+    else
+      return p2->axis().cross(WbVector3(1.0, 0.0, 0.0));
+  } else
+    return p3->axis();
+}
+
 void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
   if (solidEndPoint() == NULL)
     return;
@@ -658,65 +690,72 @@ void WbBallJoint::save() {
 void WbBallJoint::applyToOdeAxis() {
   assert(mJoint);
 
+  WbVector3 referenceAxis = axis();
+  WbVector3 referenceAxis2 = axis2();
+  WbVector3 referenceAxis3 = axis3();
+
+  if (referenceAxis.cross(referenceAxis3).isNull()) {
+    warn(tr("Axes are aligned: using x and z axes instead."));
+    referenceAxis = WbVector3(1.0, 0.0, 0.0);
+    referenceAxis2 = WbVector3(0.0, 1.0, 0.0);
+    referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
+  }
+
+  dJointSetAMotorAxis(mControlMotor, 0, 1, referenceAxis.x(), referenceAxis.y(), referenceAxis.z());
+  // axis 1 is computed by ODE
+  dJointSetAMotorAxis(mControlMotor, 2, 2, referenceAxis3.x(), referenceAxis3.y(), referenceAxis3.z());
+
   updateOdePositionOffset();
+
+  if (!mSpringAndDamperMotor)
+    return;
 
   const WbMatrix4 &m4 = upperTransform()->matrix();
   // compute orientation of rotation axis
-  const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
+  const WbVector3 &a1 = m4.sub3x3MatrixDot(referenceAxis);
   WbVector3 a2;
   WbVector3 a3;
   if (mPosition == 0.0) {
-    a2 = m4.sub3x3MatrixDot(axis2());
+    a2 = m4.sub3x3MatrixDot(referenceAxis2);
     if (mPosition2 == 0.0)
-      a3 = m4.sub3x3MatrixDot(axis3());
+      a3 = m4.sub3x3MatrixDot(referenceAxis3);
     else {
       // compute axis3 based on axis2 rotation
-      WbMatrix3 a2Matrix(axis2(), mPosition2);
-      a3 = (m4.extracted3x3Matrix() * a2Matrix) * axis3();
+      WbMatrix3 a2Matrix(referenceAxis2, mPosition2);
+      a3 = (m4.extracted3x3Matrix() * a2Matrix) * referenceAxis3;
     }
   } else {
     // compute axis2 based on axis1 rotation
-    WbMatrix3 a1Matrix(axis(), mPosition);
-    a2 = (m4.extracted3x3Matrix() * a1Matrix) * axis2();
+    WbMatrix3 a1Matrix(referenceAxis, mPosition);
+    a2 = (m4.extracted3x3Matrix() * a1Matrix) * referenceAxis2;
     if (mPosition2 == 0.0)
-      a3 = (m4.extracted3x3Matrix() * a1Matrix) * axis3();
+      a3 = (m4.extracted3x3Matrix() * a1Matrix) * referenceAxis3;
     else {
       // compute axis3 based on axis1 and axis2 rotations
-      WbMatrix3 a2Matrix(axis2(), mPosition2);
-      a3 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * axis3();
+      WbMatrix3 a2Matrix(referenceAxis2, mPosition2);
+      a3 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * referenceAxis3;
     }
   }
   const WbVector3 &c = a1.cross(a2);
   if (!c.isNull()) {
-    dJointSetAMotorAxis(mControlMotor, 0, 1, axis().x(), axis().y(), axis().z());
-    // axis 1 is computed by ODE
-    dJointSetAMotorAxis(mControlMotor, 2, 2, axis3().x(), axis3().y(), axis3().z());
-    if (mSpringAndDamperMotor) {
-      if (mSpringAndDampingConstantsAxis1On) {
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-        if (mSpringAndDampingConstantsAxis2On) {
-          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
-          if (mSpringAndDampingConstantsAxis3On)
-            dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, a3.x(), a3.y(), a3.z());
-        } else if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
-      } else if (mSpringAndDampingConstantsAxis2On) {
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
-        if(mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
+    if (mSpringAndDampingConstantsAxis1On) {
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
+      if (mSpringAndDampingConstantsAxis2On) {
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
+        if (mSpringAndDampingConstantsAxis3On)
+          dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, a3.x(), a3.y(), a3.z());
       } else if (mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
-    }
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
+    } else if (mSpringAndDampingConstantsAxis2On) {
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
+      if(mSpringAndDampingConstantsAxis3On)
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
+    } else if (mSpringAndDampingConstantsAxis3On)
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
   } else {
-    warn(tr("Hinge axes are aligned: using x and z axes instead."));
-    dJointSetAMotorAxis(mControlMotor, 0, 1, 1.0, 0.0, 0.0);
-    // axis 1 is computed by ODE
-    dJointSetAMotorAxis(mControlMotor, 2, 1, 0.0, 0.0, 1.0);
-    if (mSpringAndDamperMotor) {
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, 0.0, 1.0, 0.0);
-    }
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, 0.0, 1.0, 0.0);
   }
 }
 
