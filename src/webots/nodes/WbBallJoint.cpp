@@ -496,9 +496,9 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
 
 double WbBallJoint::computeAngleRate(int index) const {
   WbVector3 currentAxis = axis();
-  if (index == 2)
+  if (index == 1)
     currentAxis = axis2();
-  else if (index == 3)
+  else if (index == 2)
     currentAxis = axis3();
 
   currentAxis = solidParent()->rotationMatrix() * currentAxis;
