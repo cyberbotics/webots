@@ -46,6 +46,8 @@ void WbBallJoint::init() {
   mPosition3 = findSFDouble("position3")->value();
   mOdePositionOffset3 = mPosition3;
   mInitialPosition3 = mPosition3;
+
+  mControlMotor = NULL;
 }
 
 WbBallJoint::WbBallJoint(WbTokenizer *tokenizer) : WbHinge2Joint("BallJoint", tokenizer) {
@@ -61,6 +63,9 @@ WbBallJoint::WbBallJoint(const WbNode &other) : WbHinge2Joint(other) {
 }
 
 WbBallJoint::~WbBallJoint() {
+  if (mControlMotor)
+    dJointDestroy(mControlMotor);
+  mControlMotor = NULL;
 }
 
 WbBallJointParameters *WbBallJoint::ballJointParameters() const {
@@ -258,8 +263,24 @@ bool WbBallJoint::setJoint() {
   if (mJoint == NULL)
     mJoint = dJointCreateBall(WbOdeContext::instance()->world(), 0);
 
+  if(mControlMotor == NULL) {
+    mControlMotor = dJointCreateAMotor(WbOdeContext::instance()->world(), 0);
+    dJointSetAMotorNumAxes(mControlMotor, 3);
+    dJointSetAMotorMode(mControlMotor, dAMotorEuler);
+    dJointSetAMotorAngle(mControlMotor, 0, 0.0);
+    dJointSetAMotorAngle(mControlMotor, 1, 0.0);
+    dJointSetAMotorAngle(mControlMotor, 2, 0.0);
+  }
+
   const WbSolid *const s = solidEndPoint();
-  setOdeJoint(s ? s->body() : NULL, upperSolid()->bodyMerger());
+  dBodyID body = s ? s->body() : NULL;
+  dBodyID parentBody = upperSolid()->bodyMerger();
+  dJointAttach(mControlMotor, parentBody, body);
+    if (parentBody == NULL && body == NULL)
+      dJointDisable(mControlMotor);
+    else
+      dJointEnable(mControlMotor);
+  setOdeJoint(body, parentBody);
 
   return true;
 }
@@ -494,42 +515,6 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   }
 }
 
-double WbBallJoint::computeAngleRate(int index) const {
-  WbVector3 currentAxis = axis();
-  if (index == 1)
-    currentAxis = axis2();
-  else if (index == 2)
-    currentAxis = axis3();
-
-  currentAxis = solidParent()->rotationMatrix() * currentAxis;
-  double rate = dJointGetBody(mJoint, 0) ? currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 0)))) : 0.0;
-  if (dJointGetBody(mJoint, 1))
-    rate -= currentAxis.dot(WbVector3(dBodyGetAngularVel(dJointGetBody(mJoint, 1))));
-  return rate;
-}
-
-double WbBallJoint::computeAngle(int index) const {
-  double angle = 0.0;
-  const dBodyID body0 = dJointGetBody(mJoint, 0);
-  const dBodyID body1 = dJointGetBody(mJoint, 1);
-
-  if (body0 && body1) {
-    const WbQuaternion quat0 = WbQuaternion(dBodyGetQuaternion(body0));
-    const WbQuaternion quat1 = WbQuaternion(dBodyGetQuaternion(body1));
-    const WbQuaternion transform = (quat0.conjugated() * quat1) * mEndPointZeroRotation.toQuaternion().conjugated();
-    const WbMatrix3 transformMatrix = WbMatrix3(transform);
-    if (index == 0)  // For now we assume the joint axis are along X, Y and Z
-      angle = atan2(-transformMatrix(1, 2), transformMatrix(1, 1));
-    else if (index == 1)
-      angle = -atan2(transformMatrix(2, 0), transformMatrix(0, 0));
-    else if (index == 2)
-      angle = asin(transformMatrix(1, 0));
-    else
-      assert(false);
-  }
-  return angle;
-}
-
 void WbBallJoint::prePhysicsStep(double ms) {
   assert(solidEndPoint());
   WbRotationalMotor *const rm = rotationalMotor();
@@ -551,8 +536,8 @@ void WbBallJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      dJointSetBallParam(mJoint, dParamFMax, s5 * fMax);
-      dJointSetBallParam(mJoint, dParamVel, currentVelocity);
+      dJointSetAMotorParam(mControlMotor, dParamFMax, s5 * fMax);
+      dJointSetAMotorParam(mControlMotor, dParamVel, currentVelocity);
     }
 
     if (rm2 && rm2->userControl())
@@ -562,8 +547,8 @@ void WbBallJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity2 = rm2 ? rm2->computeCurrentDynamicVelocity(ms, mPosition2) : 0.0;
       const double fMax2 = qMax(p2 ? p2->staticFriction() : 0.0, rm2 ? rm2->torque() : 0.0);
-      dJointSetBallParam(mJoint, dParamFMax2, s5 * fMax2);
-      dJointSetBallParam(mJoint, dParamVel2, currentVelocity2);
+      dJointSetAMotorParam(mControlMotor, dParamFMax2, s5 * fMax2);
+      dJointSetAMotorParam(mControlMotor, dParamVel2, currentVelocity2);
     }
 
     if (rm3 && rm3->userControl())
@@ -573,27 +558,27 @@ void WbBallJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity3 = rm3 ? rm3->computeCurrentDynamicVelocity(ms, mPosition3) : 0.0;
       const double fMax3 = qMax(p3 ? p3->staticFriction() : 0.0, rm3 ? rm3->torque() : 0.0);
-      dJointSetBallParam(mJoint, dParamFMax3, s5 * fMax3);
-      dJointSetBallParam(mJoint, dParamVel3, currentVelocity3);
+      dJointSetAMotorParam(mControlMotor, dParamFMax3, s5 * fMax3);
+      dJointSetAMotorParam(mControlMotor, dParamVel3, currentVelocity3);
     }
 
     // eventually add spring and damping forces
     if (mSpringAndDamperMotor) {
       if (mSpringAndDampingConstantsAxis1On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(0));
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 0));
         if (mSpringAndDampingConstantsAxis2On) {
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(1));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 1));
           if (mSpringAndDampingConstantsAxis3On)
-            dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -computeAngle(2));
+            dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -dJointGetAMotorAngle(mControlMotor, 2));
         } else if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(2));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 2));
       } else if (mSpringAndDampingConstantsAxis2On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(1));
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 1));
         if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -computeAngle(2));
+          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 2));
 
       } else if (mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -computeAngle(2));
+        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 2));
     }
   } else {
     const bool run1 = rm && rm->runKinematicControl(ms, mPosition);
@@ -618,27 +603,27 @@ void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
   if (motor() && motor()->isPIDPositionControl())
     // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-computeAngle(0) + mOdePositionOffset, mPosition);
+    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
   else
     // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
     // under-estimated)
-    mPosition -= computeAngleRate(0) * mTimeStep / 1000.0;
+    mPosition -= dJointGetAMotorAngle(mControlMotor, 0) * mTimeStep / 1000.0;
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
 
   if (motor2() && motor2()->isPIDPositionControl())
-    mPosition2 = WbMathsUtilities::normalizeAngle(computeAngle(1) + mOdePositionOffset2, mPosition2);
+    mPosition2 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 1) + mOdePositionOffset2, mPosition2);
   else
-    mPosition2 -= computeAngleRate(1) * mTimeStep / 1000.0;
+    mPosition2 -= dJointGetAMotorAngle(mControlMotor, 1) * mTimeStep / 1000.0;
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
   if (motor3() && motor3()->isPIDPositionControl())
-    mPosition3 = WbMathsUtilities::normalizeAngle(computeAngle(2) + mOdePositionOffset3, mPosition3);
+    mPosition3 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 2) + mOdePositionOffset3, mPosition3);
   else
-    mPosition3 -= computeAngleRate(2) * mTimeStep / 1000.0;
+    mPosition3 -= dJointGetAMotorAngle(mControlMotor, 2) * mTimeStep / 1000.0;
   WbJointParameters *const p3 = parameters3();
   if (p3)
     p3->setPositionFromOde(mPosition3);
@@ -703,8 +688,9 @@ void WbBallJoint::applyToOdeAxis() {
   }
   const WbVector3 &c = a1.cross(a2);
   if (!c.isNull()) {
-    /*dJointSetHinge2Axis1(mJoint, a1.x(), a1.y(), a1.z());
-    dJointSetHinge2Axis2(mJoint, a2.x(), a2.y(), a2.z());*/
+    dJointSetAMotorAxis(mControlMotor, 0, 1, a1.x(), a1.y(), a1.z());
+    // axis 1 is computed by ODE
+    dJointSetAMotorAxis(mControlMotor, 2, 2, a3.x(), a3.y(), a3.z());
     if (mSpringAndDamperMotor) {
       if (mSpringAndDampingConstantsAxis1On) {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
@@ -722,10 +708,10 @@ void WbBallJoint::applyToOdeAxis() {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
     }
   } else {
-    /*warn(tr("Hinge axes are aligned: using x and z axes instead."));
-    dJointSetHinge2Axis1(mJoint, 1.0, 0.0, 0.0);
-    dJointSetHinge2Axis2(mJoint, 0.0, 0.0, 1.0);
-    dJointSetHinge2Axis2(mJoint, 0.0, 1.0, 0.0);*/
+    warn(tr("Hinge axes are aligned: using x and z axes instead."));
+    dJointSetAMotorAxis(mControlMotor, 0, 1, 1.0, 0.0, 0.0);
+    // axis 1 is computed by ODE
+    dJointSetAMotorAxis(mControlMotor, 2, 1, 0.0, 0.0, 1.0);
     if (mSpringAndDamperMotor) {
       dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
       dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
@@ -735,7 +721,7 @@ void WbBallJoint::applyToOdeAxis() {
 }
 
 void WbBallJoint::applyToOdeMinAndMaxStop() {
-  assert(mJoint);
+  assert(mControlMotor);
   // place hard stops if defined
   const WbJointParameters *const p = parameters();
   double m = p ? p->minStop() : 0.0;
@@ -744,8 +730,8 @@ void WbBallJoint::applyToOdeMinAndMaxStop() {
     double min = -M + mOdePositionOffset;
     double max = -m + mOdePositionOffset;
     WbMathsUtilities::clampAngles(min, max);
-    dJointSetBallParam(mJoint, dParamLoStop, min);
-    dJointSetBallParam(mJoint, dParamHiStop, max);
+    dJointSetAMotorParam(mControlMotor, dParamLoStop, min);
+    dJointSetAMotorParam(mControlMotor, dParamHiStop, max);
   }
 
   const WbJointParameters *const p2 = parameters2();
@@ -755,8 +741,8 @@ void WbBallJoint::applyToOdeMinAndMaxStop() {
     double min = -M + mOdePositionOffset2;
     double max = -m + mOdePositionOffset2;
     WbMathsUtilities::clampAngles(min, max);
-    dJointSetBallParam(mJoint, dParamLoStop2, min);
-    dJointSetBallParam(mJoint, dParamHiStop2, max);
+    dJointSetAMotorParam(mControlMotor, dParamLoStop2, min);
+    dJointSetAMotorParam(mControlMotor, dParamHiStop2, max);
   }
 
   const WbJointParameters *const p3 = parameters3();
@@ -766,8 +752,8 @@ void WbBallJoint::applyToOdeMinAndMaxStop() {
     double min = -M + mOdePositionOffset3;
     double max = -m + mOdePositionOffset3;
     WbMathsUtilities::clampAngles(min, max);
-    dJointSetBallParam(mJoint, dParamLoStop3, min);
-    dJointSetBallParam(mJoint, dParamHiStop3, max);
+    dJointSetAMotorParam(mControlMotor, dParamLoStop3, min);
+    dJointSetAMotorParam(mControlMotor, dParamHiStop3, max);
   }
 }
 

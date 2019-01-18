@@ -84,11 +84,10 @@ private:
   void updateParameters3();
   WbSFNode *mParameters3;
   double mInitialPosition3;
+  dJointID mControlMotor;  // ODE angular motor used to control the ball joint
   void applyToOdeAxis() override;
   void applyToOdeMinAndMaxStop() override;
   void init();
-  double computeAngleRate(int index) const;
-  double computeAngle(int index) const;
 };
 
 #endif
