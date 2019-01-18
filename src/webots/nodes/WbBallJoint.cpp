@@ -437,15 +437,22 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   double s3 = p3 ? p3->springConstant() : 0.0;
   double d3 = p3 ? p3->dampingConstant() : 0.0;
 
+  if (p) { // homogeneous case
+    if (!p2) {
+      s2 = s;
+      d2 = d;
+    }
+    if (!p3) {
+      s3 = s;
+      d3 = d;
+    }
+  }
+
   d += brakingDampingConstant;
   d2 += brakingDampingConstant2;
   d3 += brakingDampingConstant3;
 
-  mSpringAndDampingConstantsAxis1On = s != 0.0 || d != 0.0;
-  mSpringAndDampingConstantsAxis2On = s2 != 0.0 || d2 != 0.0;
-  mSpringAndDampingConstantsAxis3On = s3 != 0.0 || d3 != 0.0;
-
-  if (!mSpringAndDampingConstantsAxis1On && !mSpringAndDampingConstantsAxis2On && !mSpringAndDampingConstantsAxis3On) {
+  if (s == 0.0 && d == 0.0 && s2 == 0.0 && d2 == 0.0 && s3 == 0.0 && d3 == 0.0) {
     if (mSpringAndDamperMotor) {
       dJointDestroy(mSpringAndDamperMotor);
       mSpringAndDamperMotor = NULL;
@@ -472,79 +479,34 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
     mSpringAndDamperMotor = dJointCreateAMotor(world, 0);
 
   dJointAttach(mSpringAndDamperMotor, parentBody, body);
-
-  int numberOfAxes =  0;
-  if (mSpringAndDampingConstantsAxis1On)
-    numberOfAxes++;
-  if (mSpringAndDampingConstantsAxis2On)
-    numberOfAxes++;
-  if (mSpringAndDampingConstantsAxis3On)
-    numberOfAxes++;
-
-  dJointSetAMotorNumAxes(mSpringAndDamperMotor, numberOfAxes);
-  dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
+  dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorEuler);
 
   // Axis dependent settings
   const WbMatrix4 &m4 = upperTransform()->matrix();
-  if (mSpringAndDampingConstantsAxis1On) {
-    const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
-    const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-    dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm);
-    dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp);
-  }
+  const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
+  const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
+  dJointSetAMotorAxis(mSpringAndDamperMotor, 0, mIsReverseJoint ? 2 : 1, a1.x(), a1.y(), a1.z());
+  dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp);
 
-  if (mSpringAndDampingConstantsAxis2On) {
-    const double clamped2 = WbMathsUtilities::normalizeAngle(mOdePositionOffset2);
-    const WbVector3 &a2 = m4.sub3x3MatrixDot(axis2());
-    if (mSpringAndDampingConstantsAxis1On) {  // axes 0 and 1 of the AMotorAngle are enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
-      dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp2);
-    } else {  // only axis 0 of the AMotorAngle is enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
-      dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm2);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp2);
-    }
-  }
+  const double clamped2 = WbMathsUtilities::normalizeAngle(mOdePositionOffset2);
+  dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped2);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped2);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm2);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp2);
 
-  if (mSpringAndDampingConstantsAxis3On) {
-    const double clamped3 = WbMathsUtilities::normalizeAngle(mOdePositionOffset3);
-    const WbVector3 &a3 = m4.sub3x3MatrixDot(axis3());
-    if (mSpringAndDampingConstantsAxis1On || mSpringAndDampingConstantsAxis2On) {
-      if (mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On) {  // axes 0, 1 and 2 of the AMotorAngle are enabled
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, a3.x(), a3.y(), a3.z());
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 2, 0.0);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop3, clamped3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop3, clamped3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM3, cfm3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP3, erp3);
-      } else {  // axes 0 and 1 of the AMotorAngle are enabled
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm3);
-        dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp3);
-      }
-    } else {  // only axis 0 of the AMotorAngle is enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
-      dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped3);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped3);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM, cfm3);
-      dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP, erp3);
-    }
-  }
+  const double clamped3 = WbMathsUtilities::normalizeAngle(mOdePositionOffset3);
+  const WbVector3 &a3 = m4.sub3x3MatrixDot(axis3());
+  dJointSetAMotorAxis(mSpringAndDamperMotor, 2, mIsReverseJoint ? 1 : 2, a3.x(), a3.y(), a3.z());
+  dJointSetAMotorAngle(mSpringAndDamperMotor, 2, 0.0);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop3, clamped3);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop3, clamped3);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM3, cfm3);
+  dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP3, erp3);
 }
 
 void WbBallJoint::prePhysicsStep(double ms) {
@@ -596,21 +558,9 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
     // eventually add spring and damping forces
     if (mSpringAndDamperMotor) {
-      if (mSpringAndDampingConstantsAxis1On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 0));
-        if (mSpringAndDampingConstantsAxis2On) {
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 1));
-          if (mSpringAndDampingConstantsAxis3On)
-            dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -dJointGetAMotorAngle(mControlMotor, 2));
-        } else if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 2));
-      } else if (mSpringAndDampingConstantsAxis2On) {
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 1));
-        if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 2));
-
-      } else if (mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 2));
+      dJointSetAMotorAngle(mSpringAndDamperMotor, 0, -dJointGetAMotorAngle(mControlMotor, 0));
+      dJointSetAMotorAngle(mSpringAndDamperMotor, 1, -dJointGetAMotorAngle(mControlMotor, 1));
+      dJointSetAMotorAngle(mSpringAndDamperMotor, 2, -dJointGetAMotorAngle(mControlMotor, 2));
     }
   } else {
     const bool run1 = rm && rm->runKinematicControl(ms, mPosition);
@@ -701,9 +651,9 @@ void WbBallJoint::applyToOdeAxis() {
     referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
   }
 
-  dJointSetAMotorAxis(mControlMotor, 0, 1, referenceAxis.x(), referenceAxis.y(), referenceAxis.z());
+  dJointSetAMotorAxis(mControlMotor, 0, mIsReverseJoint ? 2 : 1, referenceAxis.x(), referenceAxis.y(), referenceAxis.z());
   // axis 1 is computed by ODE
-  dJointSetAMotorAxis(mControlMotor, 2, 2, referenceAxis3.x(), referenceAxis3.y(), referenceAxis3.z());
+  dJointSetAMotorAxis(mControlMotor, 2, mIsReverseJoint ? 1 : 2, referenceAxis3.x(), referenceAxis3.y(), referenceAxis3.z());
 
   updateOdePositionOffset();
 
@@ -711,51 +661,14 @@ void WbBallJoint::applyToOdeAxis() {
     return;
 
   const WbMatrix4 &m4 = upperTransform()->matrix();
-  // compute orientation of rotation axis
-  const WbVector3 &a1 = m4.sub3x3MatrixDot(referenceAxis);
-  WbVector3 a2;
-  WbVector3 a3;
-  if (mPosition == 0.0) {
-    a2 = m4.sub3x3MatrixDot(referenceAxis2);
-    if (mPosition2 == 0.0)
-      a3 = m4.sub3x3MatrixDot(referenceAxis3);
-    else {
-      // compute axis3 based on axis2 rotation
-      WbMatrix3 a2Matrix(referenceAxis2, mPosition2);
-      a3 = (m4.extracted3x3Matrix() * a2Matrix) * referenceAxis3;
-    }
+  const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
+  const WbVector3 &a3 = m4.sub3x3MatrixDot(axis3());
+  if (!a1.cross(a3).isNull()) {
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, mIsReverseJoint ? 2 : 1, a1.x(), a1.y(), a1.z());
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 2, mIsReverseJoint ? 1 : 2, a3.x(), a3.y(), a3.z());
   } else {
-    // compute axis2 based on axis1 rotation
-    WbMatrix3 a1Matrix(referenceAxis, mPosition);
-    a2 = (m4.extracted3x3Matrix() * a1Matrix) * referenceAxis2;
-    if (mPosition2 == 0.0)
-      a3 = (m4.extracted3x3Matrix() * a1Matrix) * referenceAxis3;
-    else {
-      // compute axis3 based on axis1 and axis2 rotations
-      WbMatrix3 a2Matrix(referenceAxis2, mPosition2);
-      a3 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * referenceAxis3;
-    }
-  }
-  const WbVector3 &c = a1.cross(a2);
-  if (!c.isNull()) {
-    if (mSpringAndDampingConstantsAxis1On) {
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-      if (mSpringAndDampingConstantsAxis2On) {
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
-        if (mSpringAndDampingConstantsAxis3On)
-          dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, a3.x(), a3.y(), a3.z());
-      } else if (mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
-    } else if (mSpringAndDampingConstantsAxis2On) {
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
-      if(mSpringAndDampingConstantsAxis3On)
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a3.x(), a3.y(), a3.z());
-    } else if (mSpringAndDampingConstantsAxis3On)
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a3.x(), a3.y(), a3.z());
-  } else {
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 2, 1, 0.0, 1.0, 0.0);
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, mIsReverseJoint ? 2 : 1, 1.0, 0.0, 0.0);
+    dJointSetAMotorAxis(mSpringAndDamperMotor, 2, mIsReverseJoint ? 1 : 2, 0.0, 0.0, 1.0);
   }
 }
 
