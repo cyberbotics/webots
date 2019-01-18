@@ -509,7 +509,24 @@ double WbBallJoint::computeAngleRate(int index) const {
 }
 
 double WbBallJoint::computeAngle(int index) const {
-  double angle = 0.0; // TODO
+  double angle = 0.0;
+  const dBodyID body0 = dJointGetBody(mJoint, 0);
+  const dBodyID body1 = dJointGetBody(mJoint, 1);
+
+  if (body0 && body1) {
+    const WbQuaternion quat0 = WbQuaternion(dBodyGetQuaternion(body0));
+    const WbQuaternion quat1 = WbQuaternion(dBodyGetQuaternion(body1));
+    const WbQuaternion transform = (quat0.conjugated() * quat1) * mEndPointZeroRotation.toQuaternion().conjugated();
+    const WbMatrix3 transformMatrix = WbMatrix3(transform);
+    if (index == 0)  // For now we assume the joint axis are along X, Y and Z
+      angle = atan2(-transformMatrix(1, 2), transformMatrix(1, 1));
+    else if (index == 1)
+      angle = -atan2(transformMatrix(2, 0), transformMatrix(0, 0));
+    else if (index == 2)
+      angle = asin(transformMatrix(1, 0));
+    else
+      assert(false);
+  }
   return angle;
 }
 
