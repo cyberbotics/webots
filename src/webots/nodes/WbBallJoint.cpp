@@ -688,9 +688,9 @@ void WbBallJoint::applyToOdeAxis() {
   }
   const WbVector3 &c = a1.cross(a2);
   if (!c.isNull()) {
-    dJointSetAMotorAxis(mControlMotor, 0, 1, a1.x(), a1.y(), a1.z());
+    dJointSetAMotorAxis(mControlMotor, 0, 1, axis().x(), axis().y(), axis().z());
     // axis 1 is computed by ODE
-    dJointSetAMotorAxis(mControlMotor, 2, 2, a3.x(), a3.y(), a3.z());
+    dJointSetAMotorAxis(mControlMotor, 2, 2, axis3().x(), axis3().y(), axis3().z());
     if (mSpringAndDamperMotor) {
       if (mSpringAndDampingConstantsAxis1On) {
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
