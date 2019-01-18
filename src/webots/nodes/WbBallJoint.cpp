@@ -262,6 +262,37 @@ void WbBallJoint::updateParameters() {
   updateParameters3();
 }
 
+void WbBallJoint::checkMotorLimit() {
+  WbMotor *motor = motor2();
+
+  if (!motor)
+    return;
+
+  if (motor->minPosition() == 0.0 && motor->maxPosition() == 0.0) {
+    motor->setMinPosition(-M_PI_2);
+    motor->setMaxPosition(M_PI_2);
+  } else {
+    if (motor->minPosition() < -M_PI_2) {
+      motor->setMinPosition(-M_PI_2);
+      warn(tr("The lower limit of the motor associated to the second axis shouldn't be smaller than -pi/2."));
+    }
+    if (motor->maxPosition() > M_PI_2) {
+      motor->setMaxPosition(M_PI_2);
+      warn(tr("The upper limit of the motor associated to the second axis greater than pi / 2."));
+    }
+  }
+}
+
+void WbBallJoint::addDevice2(int index) {
+  WbHinge2Joint::addDevice2(index);
+  WbMotor *motor = dynamic_cast<WbMotor *>(mDevice2->item(index));
+  if (motor) {
+    checkMotorLimit();
+    connect(motor, &WbMotor::minPositionChanged, this, &WbBallJoint::checkMotorLimit, Qt::UniqueConnection);
+    connect(motor, &WbMotor::maxPositionChanged, this, &WbBallJoint::checkMotorLimit, Qt::UniqueConnection);
+  }
+}
+
 void WbBallJoint::addDevice3(int index) {
   const WbSolid *const s = upperSolid();
   if (s) {
@@ -386,6 +417,7 @@ void WbBallJoint::preFinalize() {
     p3->preFinalize();
 
   updateParameters3();
+  checkMotorLimit();
 
   mInitialPosition3 = mPosition3;
 }
@@ -410,6 +442,10 @@ void WbBallJoint::postFinalize() {
   connect(mParameters3, &WbSFNode::changed, this, &WbBallJoint::updateParameters);
   if (brake3())
     connect(brake3(), &WbBrake::brakingChanged, this, &WbBallJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
+  if (motor2()) {
+    connect(motor2(), &WbMotor::minPositionChanged, this, &WbBallJoint::checkMotorLimit, Qt::UniqueConnection);
+    connect(motor2(), &WbMotor::maxPositionChanged, this, &WbBallJoint::checkMotorLimit, Qt::UniqueConnection);
+  }
 }
 
 void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) {

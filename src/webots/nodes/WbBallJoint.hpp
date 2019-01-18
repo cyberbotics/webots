@@ -74,10 +74,12 @@ protected:
   void updatePositions(double position, double position2, double position3);
 
 protected slots:
+  void addDevice2(int index) override;
   virtual void addDevice3(int index);
   void updateParameters() override;
   void updatePosition() override;
   void updateJointAxisRepresentation() override;
+  void checkMotorLimit();
 
 private:
   WbRotationalMotor *rotationalMotor3() const;
