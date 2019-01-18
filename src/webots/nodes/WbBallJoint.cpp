@@ -672,7 +672,7 @@ void WbBallJoint::applyToOdeAxis() {
     else {
       // compute axis3 based on axis2 rotation
       WbMatrix3 a2Matrix(axis2(), mPosition2);
-      a2 = (m4.extracted3x3Matrix() * a2Matrix) * axis3();
+      a3 = (m4.extracted3x3Matrix() * a2Matrix) * axis3();
     }
   } else {
     // compute axis2 based on axis1 rotation
@@ -683,7 +683,7 @@ void WbBallJoint::applyToOdeAxis() {
     else {
       // compute axis3 based on axis1 and axis2 rotations
       WbMatrix3 a2Matrix(axis2(), mPosition2);
-      a2 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * axis3();
+      a3 = (m4.extracted3x3Matrix() * a1Matrix * a2Matrix) * axis3();
     }
   }
   const WbVector3 &c = a1.cross(a2);
