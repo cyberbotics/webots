@@ -41,7 +41,7 @@ public:
   virtual const WbVector3 &anchor() const { return mAnchor->value(); }
 
 signals:
-  void anchorChanged();;
+  void anchorChanged();
 
 private:
   WbBallJointParameters &operator=(const WbBallJointParameters &);  // non copyable

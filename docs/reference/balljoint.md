@@ -33,11 +33,12 @@ If the `jointParameters2` and/or `jointParameters3` fields are empty the default
 
 ### Field Summary
 
-- `jointParameters2` and `jointParameters3`: This fields optionally specify [JointParameters](jointparameters.md) nodes.
-It contains, among others, the joint position, the axis position expressed in relative coordinates, the stop positions and suspension parameters.
+- `jointParameters2` and `jointParameters3`: These fields optionally specify [JointParameters](jointparameters.md) nodes.
+They contain, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
 If these fields are empty, the `springConstant`, `dampingConstant` and `staticFriction` are homogeneous along each rotation axes.
 
 - `device`, `device2` and `device3`: These fields optionally specify a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for each axes.
-If no motor is specified, the corresponding axis is passive joint. The `minPosition` and `maxPosition` field of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constraint to the range [-pi/2; pi/2].
+If no motor is specified, the corresponding axis is passive.
+The `minPosition` and `maxPosition` fields of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constraint to the range [-pi/2; pi/2].
 
 - `position`, `position2` and `position3`: These fields are not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).

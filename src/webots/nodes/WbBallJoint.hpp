@@ -64,7 +64,6 @@ protected:
   WbMFNode *mDevice3;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mOdePositionOffset3;
   double mPosition3;  // Keeps track of the joint position3 if JointParameters3 don't exist.
-  bool mSpringAndDampingConstantsAxis3On;  // defines if there is spring and dampingConstant along this axis
 
   WbVector3 anchor() const override;  // defaults to the center of the Solid parent, i.e. (0, 0, 0) in relative coordinates
   void applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID parentBody) override;

@@ -260,6 +260,8 @@ void WbBallJoint::updatePosition(double position) {
 void WbBallJoint::updateParameters() {
   WbHinge2Joint::updateParameters();
   updateParameters3();
+  if (ballJointParameters())
+    connect(ballJointParameters(), &WbBallJointParameters::anchorChanged, this, &WbBallJoint::updateAnchor, Qt::UniqueConnection);
 }
 
 void WbBallJoint::checkMotorLimit() {
@@ -440,6 +442,8 @@ void WbBallJoint::postFinalize() {
 
   connect(mDevice3, &WbMFNode::itemInserted, this, &WbBallJoint::addDevice3);
   connect(mParameters3, &WbSFNode::changed, this, &WbBallJoint::updateParameters);
+  if (p)
+    connect(p, &WbBallJointParameters::anchorChanged, this, &WbBallJoint::updateAnchor, Qt::UniqueConnection);
   if (brake3())
     connect(brake3(), &WbBrake::brakingChanged, this, &WbBallJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
   if (motor2()) {
@@ -684,6 +688,9 @@ void WbBallJoint::applyToOdeAxis() {
     referenceAxis = WbVector3(1.0, 0.0, 0.0);
     referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
   }
+
+  if (mIsReverseJoint)
+    referenceAxis = -referenceAxis;
 
   dJointSetAMotorAxis(mControlMotor, 0, mIsReverseJoint ? 2 : 1, referenceAxis.x(), referenceAxis.y(), referenceAxis.z());
   // axis 1 is computed by ODE
