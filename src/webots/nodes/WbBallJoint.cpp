@@ -14,15 +14,15 @@
 
 #include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
-#include "WbMathsUtilities.hpp"
-#include "WbPositionSensor.hpp"
-#include "WbJointParameters.hpp"
 #include "WbBrake.hpp"
+#include "WbJointParameters.hpp"
+#include "WbMathsUtilities.hpp"
 #include "WbMotor.hpp"
-#include "WbRotationalMotor.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeUtilities.hpp"
+#include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
+#include "WbRotationalMotor.hpp"
 #include "WbSFNode.hpp"
 #include "WbSolid.hpp"
 #include "WbWorld.hpp"
@@ -191,7 +191,8 @@ void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
   retrieveEndPointSolidTranslationAndRotation(it, ir);
 
   WbQuaternion qp;
-  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2) && WbMathsUtilities::isZeroAngle(mPosition3))
+  if (WbMathsUtilities::isZeroAngle(mPosition) && WbMathsUtilities::isZeroAngle(mPosition2) &&
+      WbMathsUtilities::isZeroAngle(mPosition3))
     mEndPointZeroRotation = ir;  // Keeps track of the original axis if the angle is zero as it defines the second DoF axis
   else {
     const WbQuaternion q(axis(), -mPosition);
@@ -222,7 +223,6 @@ void WbBallJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translat
   qp.normalize();
   rotation.fromQuaternion(qp);
 }
-
 
 void WbBallJoint::updatePosition() {
   const WbJointParameters *const p = parameters();
@@ -256,12 +256,12 @@ void WbBallJoint::updatePosition(double position) {
   updatePositions(mPosition, mPosition2, mPosition3);
 }
 
-
 void WbBallJoint::updateParameters() {
   WbHinge2Joint::updateParameters();
   updateParameters3();
   if (ballJointParameters())
-    connect(ballJointParameters(), &WbBallJointParameters::anchorChanged, this, &WbBallJoint::updateAnchor, Qt::UniqueConnection);
+    connect(ballJointParameters(), &WbBallJointParameters::anchorChanged, this, &WbBallJoint::updateAnchor,
+            Qt::UniqueConnection);
 }
 
 void WbBallJoint::checkMotorLimit() {
@@ -328,7 +328,7 @@ bool WbBallJoint::setJoint() {
   if (mJoint == NULL)
     mJoint = dJointCreateBall(WbOdeContext::instance()->world(), 0);
 
-  if(mControlMotor == NULL) {
+  if (mControlMotor == NULL) {
     mControlMotor = dJointCreateAMotor(WbOdeContext::instance()->world(), 0);
     dJointSetAMotorNumAxes(mControlMotor, 3);
     dJointSetAMotorMode(mControlMotor, dAMotorEuler);
@@ -341,10 +341,10 @@ bool WbBallJoint::setJoint() {
   dBodyID body = s ? s->body() : NULL;
   dBodyID parentBody = upperSolid()->bodyMerger();
   dJointAttach(mControlMotor, parentBody, body);
-    if (parentBody == NULL && body == NULL)
-      dJointDisable(mControlMotor);
-    else
-      dJointEnable(mControlMotor);
+  if (parentBody == NULL && body == NULL)
+    dJointDisable(mControlMotor);
+  else
+    dJointEnable(mControlMotor);
   setOdeJoint(body, parentBody);
 
   return true;
@@ -461,7 +461,9 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   const double brakingDampingConstant2 = brake2() ? brake2()->getBrakingDampingConstant() : 0.0;
   const double brakingDampingConstant3 = brake3() ? brake3()->getBrakingDampingConstant() : 0.0;
 
-  if ((p == NULL && p2 == NULL && p3 == NULL && brakingDampingConstant == 0.0 && brakingDampingConstant2 == 0.0 && brakingDampingConstant3 == 0.0) || (body == NULL && parentBody == NULL)) {
+  if ((p == NULL && p2 == NULL && p3 == NULL && brakingDampingConstant == 0.0 && brakingDampingConstant2 == 0.0 &&
+       brakingDampingConstant3 == 0.0) ||
+      (body == NULL && parentBody == NULL)) {
     if (mSpringAndDamperMotor) {
       dJointDestroy(mSpringAndDamperMotor);
       mSpringAndDamperMotor = NULL;
@@ -477,7 +479,7 @@ void WbBallJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pare
   double s3 = p3 ? p3->springConstant() : 0.0;
   double d3 = p3 ? p3->dampingConstant() : 0.0;
 
-  if (p) { // homogeneous case
+  if (p) {  // homogeneous case
     if (!p2) {
       s2 = s;
       d2 = d;
@@ -779,13 +781,15 @@ void WbBallJoint::updateJointAxisRepresentation() {
   const WbVector3 a3 = axis3().normalized();
 
   const float scaling = 0.5f * wr_config_get_line_scale();
-  const float vertices[18] = {
-    anchorArray[0] - scaling * (float)a1.x(), anchorArray[1] - scaling * (float)a1.y(), anchorArray[2] - scaling * (float)a1.z(),
-    anchorArray[0] + scaling * (float)a1.x(), anchorArray[1] + scaling * (float)a1.y(), anchorArray[2] + scaling * (float)a1.z(),
-    anchorArray[0] - scaling * (float)a2.x(), anchorArray[1] - scaling * (float)a2.y(), anchorArray[2] - scaling * (float)a2.z(),
-    anchorArray[0] + scaling * (float)a2.x(), anchorArray[1] + scaling * (float)a2.y(), anchorArray[2] + scaling * (float)a2.z(),
-    anchorArray[0] - scaling * (float)a3.x(), anchorArray[1] - scaling * (float)a3.y(), anchorArray[2] - scaling * (float)a3.z(),
-    anchorArray[0] + scaling * (float)a3.x(), anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z()};
+  const float vertices[18] = {anchorArray[0] - scaling * (float)a1.x(), anchorArray[1] - scaling * (float)a1.y(),
+                              anchorArray[2] - scaling * (float)a1.z(), anchorArray[0] + scaling * (float)a1.x(),
+                              anchorArray[1] + scaling * (float)a1.y(), anchorArray[2] + scaling * (float)a1.z(),
+                              anchorArray[0] - scaling * (float)a2.x(), anchorArray[1] - scaling * (float)a2.y(),
+                              anchorArray[2] - scaling * (float)a2.z(), anchorArray[0] + scaling * (float)a2.x(),
+                              anchorArray[1] + scaling * (float)a2.y(), anchorArray[2] + scaling * (float)a2.z(),
+                              anchorArray[0] - scaling * (float)a3.x(), anchorArray[1] - scaling * (float)a3.y(),
+                              anchorArray[2] - scaling * (float)a3.z(), anchorArray[0] + scaling * (float)a3.x(),
+                              anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z()};
   mMesh = wr_static_mesh_line_set_new(6, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }

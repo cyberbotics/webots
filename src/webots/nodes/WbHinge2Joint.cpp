@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 #include "WbHinge2Joint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
@@ -46,7 +46,6 @@ void WbHinge2Joint::init() {
   mOdePositionOffset2 = mPosition2;
   mInitialPosition2 = mPosition2;
 }
-
 
 WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
   init();

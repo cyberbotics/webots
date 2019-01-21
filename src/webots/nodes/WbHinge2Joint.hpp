@@ -55,7 +55,8 @@ public slots:
   bool setJoint() override;
 
 protected:
-  virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to the rotation axis of the solid endpoint
+  virtual WbVector3 axis2() const;  // return the axis of the joint with coordinates relative to the parent Solid; defaults to
+                                    // the rotation axis of the solid endpoint
   WbQuaternion endPointRotation() const;
   WbRotationalMotor *rotationalMotor2() const;
   WbMFNode *mDevice2;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
