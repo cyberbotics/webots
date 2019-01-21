@@ -427,7 +427,7 @@ void WbWrenCamera::render() {
   // Depth information needs to be conserved for post-processing shaders
   wr_scene_enable_depth_reset(wr_scene_get_instance(), false);
   wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender,
-                               (mType != 'c') ? "encodeDepth" : NULL);
+                               (mType != 'c') ? "encodeDepth" : NULL, true);
 
   if (mIsSpherical)
     applySphericalPostProcessingEffect();

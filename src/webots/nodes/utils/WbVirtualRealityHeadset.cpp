@@ -406,7 +406,7 @@ void WbVirtualRealityHeadset::updateOrientationAndPosition() {
 
   if (mWrenViewports[0] && mSystem) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    wr_scene_render_to_viewports(wr_scene_get_instance(), 2, mWrenViewports, NULL);
+    wr_scene_render_to_viewports(wr_scene_get_instance(), 2, mWrenViewports, NULL, true);
     WbWrenOpenGlContext::doneWren();
     vr::VRCompositor()->Submit(vr::Eye_Left, mTextureReferences[LEFT], mTextureBounds);
     vr::VRCompositor()->Submit(vr::Eye_Right, mTextureReferences[RIGHT], mTextureBounds);

@@ -197,7 +197,7 @@ void WbWrenWindow::renderLater() {
   }
 }
 
-void WbWrenWindow::renderNow() {
+void WbWrenWindow::renderNow(bool culling) {
   if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
@@ -224,7 +224,7 @@ void WbWrenWindow::renderNow() {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_scene_render(wr_scene_get_instance(), NULL);
+  wr_scene_render(wr_scene_get_instance(), NULL, culling);
 
   WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
