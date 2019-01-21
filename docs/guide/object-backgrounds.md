@@ -17,6 +17,7 @@ Supported values for the `texture` field:
 - noon\_sunny\_empty
 - noon\_sunny\_garden
 - twilight\_cloudy\_empty
+- mountains (HDR)
 
 %figure
 
@@ -28,7 +29,7 @@ Derived from [Background](../reference/background.md).
 
 ```
 TexturedBackground {
-  SFString texture "mountains"
+   SFString texture "mountains"
 }
 ```
 
@@ -58,6 +59,7 @@ Supported values for the "texture" field:
 - noon\_sunny\_empty
 - noon\_sunny\_garden
 - twilight\_cloudy\_empty
+- mountains
 
 %figure
 
@@ -69,8 +71,8 @@ Derived from [DirectionalLight](../reference/directionallight.md).
 
 ```
 TexturedBackgroundLight {
-  SFString texture        "mountains"
-  SFBool   castShadows    TRUE
+   SFString texture        "mountains"
+   SFBool   castShadows    TRUE
 }
 ```
 

@@ -130,6 +130,9 @@
   "projects/objects/buildings/protos/SmallResidentialTower": {
     "fields": "rotation 0 1 0 4.48879"
   },
+  "projects/objects/buildings/protos/StripBuilding": {
+    "fields": "rotation 0 1 0 3.66519"
+  },
   "projects/objects/buildings/protos/SuburbanHouse": {
     "fields": "rotation 0 1 0 4.22699"
   },

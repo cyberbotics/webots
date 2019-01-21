@@ -358,7 +358,7 @@ public class Receiver extends Device {
 
 ```matlab
 size = wb_receiver_get_data_size(tag)
-data = wb_receiver_get_data(tag)
+data = wb_receiver_get_data(tag, type)
 ```
 
 %tab-end
@@ -401,7 +401,7 @@ Here is an example for getting the data:
 
 <!-- -->
 
-> **Note** [MATLAB]: The MATLAB `wb_receiver_get_data` function returns a MATLAB *libpointer*.
+> **Note** [MATLAB]: The MATLAB `wb_receiver_get_data` function returns a MATLAB *libpointer* if the `type` argument is not set (type should be `uint8`, `double` or `string`).
 The receiving code is responsible for extracting the data from the *libpointer* using MATLAB's `setdatatype` and `get` functions.
 Here is an example on how to send and receive a 2x3 MATLAB matrix.
 

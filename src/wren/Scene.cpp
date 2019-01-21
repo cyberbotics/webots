@@ -206,7 +206,7 @@ namespace wren {
   int Scene::computeNodeCount() const { return 1 + mRoot->computeChildCount(); }
   void Scene::printSceneTree() { debug::printSceneTree(); }
 
-  void Scene::render() {
+  void Scene::render(bool culling) {
     assert(glstate::isInitialized());
 
     ++mFrameCounter;
@@ -220,10 +220,10 @@ namespace wren {
     for (auto listener : mListeners)
       listener();
 
-    renderToViewports({mMainViewport});
+    renderToViewports({mMainViewport}, culling);
   }
 
-  void Scene::renderToViewports(std::vector<Viewport *> viewports) {
+  void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
     assert(glstate::isInitialized());
 
     DEBUG("\nScene::renderToViewports: viewports.size()=" << viewports.size());
@@ -263,7 +263,7 @@ namespace wren {
           mCurrentViewport->applyPostProcessing();
         }
       } else {
-        renderToViewport();
+        renderToViewport(culling);
         if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0, mCurrentViewport->width(),
@@ -346,7 +346,7 @@ namespace wren {
     updateFogUniformBuffer();
   }
 
-  void Scene::renderToViewport() {
+  void Scene::renderToViewport(bool culling) {
     DEBUG("Scene::renderToViewport, viewport = " << mCurrentViewport);
 
     LightNode::updateUniforms();
@@ -390,7 +390,8 @@ namespace wren {
     RenderQueueIterator firstInvisibleRenderable = partitionByVisibility(renderQueue->begin(), renderQueue->end());
     DEBUG("Number of visible Renderables: " << firstInvisibleRenderable - renderQueue->begin());
 
-    RenderQueueIterator firstCulledRenderable = partitionByViewability(renderQueue->begin(), firstInvisibleRenderable);
+    RenderQueueIterator firstCulledRenderable =
+      culling ? partitionByViewability(renderQueue->begin(), firstInvisibleRenderable) : renderQueue->end();
     DEBUG("Number of non-culled Renderables: " << firstCulledRenderable - renderQueue->begin());
 
     RenderQueueIterator firstOpaqueRenderable = renderQueue->begin();
@@ -485,7 +486,8 @@ namespace wren {
       DEBUG("Rendering queue " << i << ", number of Renderables: " << renderQueue->size());
 
       firstInvisibleRenderable = partitionByVisibility(renderQueue->begin(), renderQueue->end());
-      firstCulledRenderable = partitionByViewability(renderQueue->begin(), firstInvisibleRenderable);
+      firstCulledRenderable =
+        culling ? partitionByViewability(renderQueue->begin(), firstInvisibleRenderable) : renderQueue->end();
       firstOpaqueRenderable = renderQueue->begin();
 
       if (mTranslucence)
@@ -852,22 +854,22 @@ void wr_scene_terminate_frame_capture(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->terminateFrameCapture();
 }
 
-void wr_scene_render(WrScene *scene, const char *material_name) {
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
-  reinterpret_cast<wren::Scene *>(scene)->render();
+  reinterpret_cast<wren::Scene *>(scene)->render(culling);
 
   wren::Renderable::setUseMaterial(NULL);
 }
 
-void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name) {
+void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
   wren::Viewport **start = reinterpret_cast<wren::Viewport **>(viewports);
   std::vector<wren::Viewport *> viewportsVector(start, start + count);
-  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector);
+  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector, culling);
 
   wren::Renderable::setUseMaterial(NULL);
 }
