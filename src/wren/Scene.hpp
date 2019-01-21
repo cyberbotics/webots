@@ -90,8 +90,8 @@ namespace wren {
 
     int computeNodeCount() const;
     static void printSceneTree();
-    void render();
-    void renderToViewports(std::vector<Viewport *> viewports);
+    void render(bool culling);
+    void renderToViewports(std::vector<Viewport *> viewports, bool culling);
 
     void addFrameListener(void (*listener)()) { mListeners.push_back(listener); }
     void removeFrameListener(void (*listener)());
@@ -105,7 +105,7 @@ namespace wren {
     ~Scene();
 
     void prepareRender();
-    void renderToViewport();
+    void renderToViewport(bool culling);
     void updateFogUniformBuffer();
 
     RenderQueueIterator partitionByVisibility(RenderQueueIterator first, RenderQueueIterator last);
