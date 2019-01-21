@@ -1,10 +1,16 @@
 ## BallJointParameters
 
+Derived from [JointParameters](jointparameters.md).
+
 ```
 BallJointParameters {
+  SFFloat position        0       # (-inf, inf)
   SFVec3f anchor          0 0 0   # any vector
+  SFFloat minStop         0       # [-pi, pi]
+  SFFloat maxStop         0       # [-pi, pi]
   SFFloat springConstant  0       # [0, inf)
   SFFloat dampingConstant 0       # [0, inf)
+  SFFloat staticFriction  0       # [0, inf)
 }
 ```
 
@@ -17,6 +23,3 @@ It can be used in the jointParameters field of [BallJoint](balljoint.md) only.
 ### Field Summary
 
 - `anchor`: This field specifies the anchor position expressed in relative coordinates with respect to the center of the closest upper [Transform](transform.md) node's frame.
-
-- `springConstant` and `dampingConstant`: These fields specify the uniform amount of rotational spring and damping effect around each of the frame axis of the [BallJoint](balljoint.md)'s closest upper [Transform](transform.md) (see [JointParameters](jointparameters.md)'s ["Springs and Dampers"](jointparameters.md#springs-and-dampers) section for more information on these constants).
-This is can be useful to simulate a retraction force that pulls the [BallJoint](balljoint.md) solid `endPoint` back towards its initial orientation.
