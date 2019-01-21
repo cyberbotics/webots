@@ -780,7 +780,7 @@ void WbBallJoint::updateJointAxisRepresentation() {
     anchorArray[0] - scaling * (float)a2.x(), anchorArray[1] - scaling * (float)a2.y(), anchorArray[2] - scaling * (float)a2.z(),
     anchorArray[0] + scaling * (float)a2.x(), anchorArray[1] + scaling * (float)a2.y(), anchorArray[2] + scaling * (float)a2.z(),
     anchorArray[0] - scaling * (float)a3.x(), anchorArray[1] - scaling * (float)a3.y(), anchorArray[2] - scaling * (float)a3.z(),
-    anchorArray[0] + scaling * (float)a3.x(), anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z(),};
+    anchorArray[0] + scaling * (float)a3.x(), anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z()};
   mMesh = wr_static_mesh_line_set_new(6, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
