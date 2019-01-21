@@ -211,7 +211,7 @@ void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
 void WbBallJoint::computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const {
   WbQuaternion qp;
   const WbQuaternion q(axis(), mPosition);
-  const WbQuaternion q2(axis2(), mPosition2);
+  const WbQuaternion q2(-axis2(), mPosition2);
   const WbQuaternion q3(axis3(), mPosition3);
   WbQuaternion qi = mEndPointZeroRotation.toQuaternion();
   qp = q * q2 * q3;
@@ -677,13 +677,11 @@ void WbBallJoint::applyToOdeAxis() {
   assert(mJoint);
 
   WbVector3 referenceAxis = axis();
-  WbVector3 referenceAxis2 = axis2();
   WbVector3 referenceAxis3 = axis3();
 
   if (referenceAxis.cross(referenceAxis3).isNull()) {
     warn(tr("Axes are aligned: using x and z axes instead."));
     referenceAxis = WbVector3(1.0, 0.0, 0.0);
-    referenceAxis2 = WbVector3(0.0, 1.0, 0.0);
     referenceAxis3 = WbVector3(0.0, 0.0, 1.0);
   }
 
