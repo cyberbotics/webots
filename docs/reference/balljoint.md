@@ -27,7 +27,9 @@ The [BallJoint](#balljoint) node can be used to model a ball joint.
 A ball joint, also called ball-and-socket, prevents translation motion while allowing rotation around its anchor (3 degrees of freedom).
 It supports spring and damping parameters which can be used to simulate the elastic deformation of ropes and flexible beams.
 
-It's 3 perpendicular axes can be controlled independently using [RotationalMotors](rotationalmotor.md). The axes are defined in the [JointParameters](jointparameters.md) nodes in the `jointParameters2` and `jointParameters3` fields (the third axis is computed automatically to be perpendicular to the two first one). If the `jointParameters2` and/or `jointParameters3` fields are empty the default axes are defined instead (respectively `(1.0, 0.0, 0.0)` and `(0.0, 0.0, 1.0)`)
+It's 3 perpendicular axes can be controlled independently using [RotationalMotors](rotationalmotor.md).
+The axes are defined in the [JointParameters](jointparameters.md) nodes in the `jointParameters2` and `jointParameters3` fields (the third axis is computed automatically to be perpendicular to the two first one).
+If the `jointParameters2` and/or `jointParameters3` fields are empty the default axes are defined instead (respectively `(1.0, 0.0, 0.0)` and `(0.0, 0.0, 1.0)`)
 
 ### Field Summary
 
