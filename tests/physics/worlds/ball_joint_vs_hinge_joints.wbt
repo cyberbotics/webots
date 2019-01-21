@@ -461,6 +461,12 @@ DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
   controller "joint_controller"
 }
 DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
   controller "ball_joint_vs_hinge_joints"
   supervisor TRUE
+}
+TestSuiteSupervisor {
 }
