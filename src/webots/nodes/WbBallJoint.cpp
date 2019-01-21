@@ -769,13 +769,18 @@ void WbBallJoint::updateJointAxisRepresentation() {
 
   float anchorArray[3];
   anchor().toFloatArray(anchorArray);
+  WbVector3 a1 = axis().normalized();
+  WbVector3 a2 = axis2().normalized();
+  WbVector3 a3 = axis3().normalized();
 
   const float scaling = 0.5f * wr_config_get_line_scale();
   const float vertices[18] = {
-    anchorArray[0] - scaling, anchorArray[1], anchorArray[2],           anchorArray[0] + scaling, anchorArray[1],
-    anchorArray[2],           anchorArray[0], anchorArray[1] - scaling, anchorArray[2],           anchorArray[0],
-    anchorArray[1] + scaling, anchorArray[2], anchorArray[0],           anchorArray[1],           anchorArray[2] - scaling,
-    anchorArray[0],           anchorArray[1], anchorArray[2] + scaling};
+    anchorArray[0] - scaling * (float)a1.x(), anchorArray[1] - scaling * (float)a1.y(), anchorArray[2] - scaling * (float)a1.z(),
+    anchorArray[0] + scaling * (float)a1.x(), anchorArray[1] + scaling * (float)a1.y(), anchorArray[2] + scaling * (float)a1.z(),
+    anchorArray[0] - scaling * (float)a2.x(), anchorArray[1] - scaling * (float)a2.y(), anchorArray[2] - scaling * (float)a2.z(),
+    anchorArray[0] + scaling * (float)a2.x(), anchorArray[1] + scaling * (float)a2.y(), anchorArray[2] + scaling * (float)a2.z(),
+    anchorArray[0] - scaling * (float)a3.x(), anchorArray[1] - scaling * (float)a3.y(), anchorArray[2] - scaling * (float)a3.z(),
+    anchorArray[0] + scaling * (float)a3.x(), anchorArray[1] + scaling * (float)a3.y(), anchorArray[2] + scaling * (float)a3.z(),};
   mMesh = wr_static_mesh_line_set_new(6, vertices, NULL);
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
