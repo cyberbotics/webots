@@ -769,9 +769,9 @@ void WbBallJoint::updateJointAxisRepresentation() {
 
   float anchorArray[3];
   anchor().toFloatArray(anchorArray);
-  WbVector3 a1 = axis().normalized();
-  WbVector3 a2 = axis2().normalized();
-  WbVector3 a3 = axis3().normalized();
+  const WbVector3 a1 = axis().normalized();
+  const WbVector3 a2 = axis2().normalized();
+  const WbVector3 a3 = axis3().normalized();
 
   const float scaling = 0.5f * wr_config_get_line_scale();
   const float vertices[18] = {
