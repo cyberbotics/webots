@@ -13,7 +13,7 @@ JointParameters {
 ```
 
 > **Note**: The axis field may change in a derived class.
-For instance, the axis default value of an HingeJointParameters](hingejointparameters.md) is `1 0 0`, and there is no `axis` field in a [BallJointParameters](balljointparameters.md)
+For instance, the axis default value of an [HingeJointParameters](hingejointparameters.md) is `1 0 0`, and there is no `axis` field in a [BallJointParameters](balljointparameters.md)
 
 ### Description
 
