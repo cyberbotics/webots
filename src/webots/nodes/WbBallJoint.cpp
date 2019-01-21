@@ -83,7 +83,6 @@ WbMotor *WbBallJoint::motor3() const {
     if (motor)
       return motor;
   }
-
   return NULL;
 }
 
@@ -94,7 +93,6 @@ WbPositionSensor *WbBallJoint::positionSensor3() const {
     if (sensor)
       return sensor;
   }
-
   return NULL;
 }
 
@@ -105,7 +103,6 @@ WbBrake *WbBallJoint::brake3() const {
     if (brake)
       return brake;
   }
-
   return NULL;
 }
 
@@ -116,15 +113,13 @@ WbRotationalMotor *WbBallJoint::rotationalMotor3() const {
     if (motor)
       return motor;
   }
-
   return NULL;
 }
 
 WbJointDevice *WbBallJoint::device3(int index) const {
   if (index >= 0 && mDevice3->size() > index)
     return dynamic_cast<WbJointDevice *>(mDevice3->item(index));
-  else
-    return NULL;
+  return NULL;
 }
 
 int WbBallJoint::devices3Number() const {
@@ -160,8 +155,8 @@ WbVector3 WbBallJoint::axis() const {
       return p3->axis().cross(WbVector3(1.0, 0.0, 0.0));
     else
       return p3->axis().cross(WbVector3(0.0, 0.0, 1.0));
-  } else
-    return p2->axis();
+  }
+  return p2->axis();
 }
 
 WbVector3 WbBallJoint::axis2() const {
@@ -178,8 +173,8 @@ WbVector3 WbBallJoint::axis3() const {
       return p2->axis().cross(WbVector3(0.0, 0.0, 1.0));
     else
       return p2->axis().cross(WbVector3(1.0, 0.0, 0.0));
-  } else
-    return p3->axis();
+  }
+  return p3->axis();
 }
 
 void WbBallJoint::updateEndPointZeroTranslationAndRotation() {
@@ -287,7 +282,7 @@ void WbBallJoint::checkMotorLimit() {
 
 void WbBallJoint::addDevice2(int index) {
   WbHinge2Joint::addDevice2(index);
-  WbMotor *motor = dynamic_cast<WbMotor *>(mDevice2->item(index));
+  const WbMotor *const motor = dynamic_cast<WbMotor *>(mDevice2->item(index));
   if (motor) {
     checkMotorLimit();
     connect(motor, &WbMotor::minPositionChanged, this, &WbBallJoint::checkMotorLimit, Qt::UniqueConnection);
@@ -303,7 +298,7 @@ void WbBallJoint::addDevice3(int index) {
     WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice3->item(index));
     r->descendantNodeInserted(decendant);
   }
-  WbBrake *brake = dynamic_cast<WbBrake *>(mDevice3->item(index));
+  const WbBrake *const brake = dynamic_cast<WbBrake *>(mDevice3->item(index));
   if (brake)
     connect(brake, &WbBrake::brakingChanged, this, &WbBallJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
