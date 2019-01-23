@@ -253,6 +253,7 @@ namespace wren {
     mVisibilityMask(0xFFFFFFFF),
     mWidth(1),
     mHeight(1),
+    mPixelRatio(1),
     mCamera(NULL),
     mFrameBuffer(NULL),
     mAreShadowsEnabled(true),
@@ -297,6 +298,10 @@ void wr_viewport_set_visibility_mask(WrViewport *viewport, int mask) {
 
 void wr_viewport_set_size(WrViewport *viewport, int width, int height) {
   reinterpret_cast<wren::Viewport *>(viewport)->setSize(width, height);
+}
+
+void wr_viewport_set_pixel_ratio(WrViewport *viewport, int ratio) {
+  reinterpret_cast<wren::Viewport *>(viewport)->setPixelRatio(ratio);
 }
 
 void wr_viewport_set_camera(WrViewport *viewport, WrCamera *camera) {

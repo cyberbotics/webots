@@ -172,11 +172,8 @@ void WbWrenWindow::initialize() {
 }
 
 void WbWrenWindow::updateWrenViewportDimensions() {
-  // Fix rendering on display having a pixel ratio != 1.0
-  // A retina display can be simulated:
-  // http://stackoverflow.com/questions/12124576/how-to-simulate-a-retina-display-hidpi-mode-in-mac-os-x-10-8-mountain-lion-on
-
-  return;
+  const int ratio = (int)devicePixelRatio();
+  wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
 }
 
 void WbWrenWindow::blitMainFrameBufferToScreen() {
