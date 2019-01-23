@@ -112,9 +112,8 @@ namespace wren {
     if (mPremultipliedAlpha)
       glstate::setBlendFunc(GL_ONE, blendDestFactor);
 
-    mParams.mSizeInPixels =
-      glm::vec4(mParams.mPositionAndSize.z * Scene::instance()->currentViewport()->width(),
-                mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height(), 1.0f, 0.0f);
+    mParams.mSizeInPixels = glm::vec2(mParams.mPositionAndSize.z * Scene::instance()->currentViewport()->width(),
+                                      mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height());
     glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
 
     prepareTexture(mBackgroundTexture, BACKGROUND_TEXTURE_INDEX);
@@ -162,7 +161,7 @@ namespace wren {
     mParams.mBackgroundColor = glm::vec4(0.0f);
     mParams.mActiveFlags = glm::vec4(0.0f);
     mParams.mTextureFlags = glm::vec4(0.0f);
-    mParams.mSizeInPixels = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+    mParams.mSizeInPixels = glm::vec2(0.0f, 0.0f);
     mParams.mBorderSize = glm::vec2(0.0f);
 
     cOverlays.push_back(this);
