@@ -7,6 +7,7 @@
 declare -a BASE_PACKAGES=(
   "make"                      # Makefile
   "mingw-w64-x86_64-gcc"      # C/C++ compiler
+  "tar"                       # Webots dependencies
   "unzip"                     # Webots dependencies
   "zip"                       # robotbenchmark square path
   "mingw-w64-x86_64-qt5"      # Webots
