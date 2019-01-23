@@ -106,6 +106,87 @@ Using JOSM you can easily edit a map in order to add some elements, correct some
 In addition to editing map from OpenStreetmap, JOSM is also very convenient to create new environment from scratch.
 You can see in the [previous picture](#left-the-osm-file-created-in-josm-right-the-resulting-world-open-in-webots-after-conversion) a map fully created in JOSM and then exported and opened in Webots.
 
+### Supported OSM Keywords
+
+ Only a subset of the OpenStreetMap keywords are handle by the importer. Here is the list of currently supported keywords per OpenStreetMap object type.
+
+#### Node
+
+##### Tree
+
+The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in an isolated tree. The following associated keywords are taken into account:
+  - `leaf_type`: the value should be either `needleleaved` or `broadleaved`.
+  - `height`.
+  - `diameter_crown`.
+
+
+#### Way
+
+##### Building
+
+The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:part](https://wiki.openstreetmap.org/wiki/Key:building:part) keywords will result in a 3 dimensional building. The following associated keywords are taken into account:
+  - `building:material` or `material`: the value should be: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
+  - `roof:material`: the value should be: `tile`, `roof_tiles`, `concrete`, `slate`, `asbestos` or `metal`.
+  - `building:colour`.
+  - `roof:colour`.
+  - `name` or `ref`.
+  - `roof:height`.
+  - `min_height`.
+  - `height`.
+  - `roof:shape`.
+  - `layer`.
+  - `building:levels`.
+  - `building:min_level`.
+
+##### Road
+
+The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will result in a road. The following associated keywords are taken into account:
+  - `name`.
+  - `lanes`.
+  - `layer`.
+  - `lanes:forward`.
+  - `lanes:backward`.
+  - `oneway`: `yes`.
+  - `turn:lanes:forward`.
+  - `turn:lanes:backward`.
+  - `width`.
+
+##### River
+
+The [waterway](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a river of it's value is `river` or `stream`. The following associated keywords are taken into account:
+  - `name`.
+  - `width`.
+
+##### Wall and Fence
+
+The [barrier](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a wall if it's value is `wall` and in a fence if it's value is `fence`. The following associated keywords are taken into account:
+  - `height`.
+  - `width`.
+
+##### Forest
+
+The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in a forest if it's value is `forest`. The following associated keyword is taken into account:
+  - `leaf_type`: the value should be either `needleleaved` or `broadleaved`.
+
+##### Parking Lines
+
+If the value of the [name](https://wiki.openstreetmap.org/wiki/Key:name) keyword is `parking line` it will result in a parking line.
+
+##### Area
+
+The following keywords will result in a flat area:
+  - `amenity`: if the value is `parking`.
+  - `landuse`.
+  - `waterway`.
+
+#### Relation
+
+The following keywords are taken into account, they work the exact same way as for [Way](#Way):
+  - `building`
+  - `natural`
+  - `landuse`
+  - `parking`
+
 ## Graphical User Interface
 
 To ease the use of this tool, a graphical interace has been created.
