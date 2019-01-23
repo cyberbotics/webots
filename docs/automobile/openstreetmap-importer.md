@@ -138,12 +138,12 @@ The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:pa
 ##### Road
 
 The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will result in a road. The following associated keywords are taken into account:
+  - `oneway`: the value should be `yes`.
   - `name`.
   - `lanes`.
   - `layer`.
   - `lanes:forward`.
   - `lanes:backward`.
-  - `oneway`: `yes`.
   - `turn:lanes:forward`.
   - `turn:lanes:backward`.
   - `width`.
