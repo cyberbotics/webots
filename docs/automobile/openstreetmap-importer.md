@@ -178,7 +178,7 @@ The following keywords will result in a flat area:
 
 #### Relation
 
-The following keywords are taken into account, they work the exact same way as for [Way](#way):
+The following keywords are taken into account, they work the exact same way as for [way](#way):
   - `building`
   - `natural`
   - `landuse`
