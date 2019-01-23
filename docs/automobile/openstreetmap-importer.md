@@ -122,7 +122,7 @@ The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will resu
 ##### Building
 
 The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:part](https://wiki.openstreetmap.org/wiki/Key:building:part) keywords will result in a 3 dimensional building. The following associated keywords are taken into account:
-  - `building:material` or `material`: the value should be: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
+  - `building:material` or `material`: the value should be either: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
   - `roof:material`: the value should be either: `tile`, `roof_tiles`, `concrete`, `slate`, `asbestos` or `metal`.
   - `building:colour`.
   - `roof:colour`.
