@@ -191,7 +191,7 @@ In addition to the defined keywords, a configuration file can be used to define 
 It is possible to set default values for all the entities of an object in the section determined by its name (e.g. `building` section for buildings, or `road` section for roads).
 
 
-It is also possible to set default values for a specific type of the object, the name of the section should respect the following syntax:`<<name of the object>>_<<value of the associated keyword>>` (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
+It is also possible to set default values for a specific type of object, the name of the section should respect the following syntax: `<<name of the object>>_<<value of the associated keyword>>` (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
 
 A typical configuration file is provided in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
