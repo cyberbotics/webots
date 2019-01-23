@@ -114,7 +114,7 @@ namespace wren {
 
     mParams.mSizeInPixels =
       glm::vec4(mParams.mPositionAndSize.z * Scene::instance()->currentViewport()->width(),
-                mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height(), 0.0f, 0.0f);
+                mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height(), 1.0f, 0.0f);
     glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
 
     prepareTexture(mBackgroundTexture, BACKGROUND_TEXTURE_INDEX);
