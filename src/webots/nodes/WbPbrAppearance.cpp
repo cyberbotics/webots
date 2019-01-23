@@ -113,7 +113,7 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader());
+    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), 512);
     WbWrenOpenGlContext::doneWren();
   }
   ++cInstanceCounter;

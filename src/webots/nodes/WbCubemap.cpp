@@ -238,7 +238,7 @@ void WbCubemap::loadWrenTexture() {
     wr_texture_cubemap_bake_diffuse_irradiance(mDefaultCubeTexture, WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
 
   mSpecularIrradianceCubeTexture =
-    wr_texture_cubemap_bake_specular_irradiance(mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader());
+    wr_texture_cubemap_bake_specular_irradiance(mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 512);
   wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
 
   WbWrenOpenGlContext::doneWren();
