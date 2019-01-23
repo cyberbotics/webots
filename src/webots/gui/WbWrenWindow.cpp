@@ -254,8 +254,6 @@ void WbWrenWindow::resizeWren(int width, int height) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), width, height);
-
   updateFrameBuffer();
 
   WbWrenTextureOverlay::updateOverlayDimensions();
@@ -389,6 +387,8 @@ void WbWrenWindow::updateFrameBuffer() {
 
   wr_frame_buffer_setup(mWrenMainFrameBuffer);
   wr_viewport_set_frame_buffer(wr_scene_get_viewport(wr_scene_get_instance()), mWrenMainFrameBuffer);
+
+  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), width(), height());
 
   WbWrenOpenGlContext::doneWren();
 }
