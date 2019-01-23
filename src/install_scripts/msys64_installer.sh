@@ -31,12 +31,17 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-i686-gcc"        # libController (32 bit)
   "mingw-w64-i686-libtiff"    # libController (32 bit)
   "mingw-w64-i686-libpng"     # libController (32 bit)
+)
+
+declare -a DEVELOPMENT_PACKAGES=(
   "mingw-w64-x86_64-clang"    # coding style tests
   "mingw-w64-x86_64-cppcheck" # coding style tests
   "mingw-w64-x86_64-gdb"      # debugging
 )
 
-if [ "$1" == "--all" ]; then
+if [ "$1" == "--dev" ]; then
+  declare -a PACKAGES=("${BASE_PACKAGES[@]}" "${OPTIONAL_PACKAGES[@]}" "${DEVELOPMENT_PACKAGES[@]}")
+elif [ "$1" == "--all" ]; then
   declare -a PACKAGES=("${BASE_PACKAGES[@]}" "${OPTIONAL_PACKAGES[@]}")
 else
   declare -a PACKAGES=("${BASE_PACKAGES[@]}")
