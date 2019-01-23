@@ -86,9 +86,6 @@ You can use several arguments with this script:
 | --removal-radius       | Specifies the radius (in meters) around each road waypoint beyond which any object is removed. It is possible to use the road.filter field of the [configuration file](a-typical-openstreetmap-importer-configuration-file.md) to specify which roads should be taken into account. | By default this feature is disabled (radius = 0.0).                       |
 %end
 
-In addition to these arguments, a configuration file can be used to define how to handle most of the OpenStreetMap entities.
-A typical configuration file can be seen in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
-
 ## Map Edition and Creation
 
 If you want to edit a map exported from OpenStreetMap before converting it into a Webots world, we recommend using JOSM.
@@ -186,6 +183,13 @@ The following keywords are taken into account, they work the exact same way as f
   - `natural`
   - `landuse`
   - `parking`
+
+### Configuration File
+
+In addition to the defined keywords, a configuration file can be used to define the default value when a keyword is not defined (e.g. default height of the buildings or of the buildings of a specific type) or to define which object should or should not be imported.
+It is possible to set default values for all the entities of an object in the section determined by it's name (e.g. `building` section for buildings, or `road` section for roads).
+And to set more specific default values for specific type of an object in the section determined by it's name followed by `_` followed by the value of the associated keyword (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
+A typical configuration file can be seen in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
 ## Graphical User Interface
 
