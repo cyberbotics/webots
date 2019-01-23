@@ -150,19 +150,19 @@ The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will resu
 
 ##### River
 
-The [waterway](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a river of it's value is `river` or `stream`. The following associated keywords are taken into account:
+The [waterway](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a river if its value is `river` or `stream`. The following associated keywords are taken into account:
   - `name`.
   - `width`.
 
 ##### Wall and Fence
 
-The [barrier](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a wall if it's value is `wall` and in a fence if it's value is `fence`. The following associated keywords are taken into account:
+The [barrier](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a wall if its value is `wall` and in a fence if its value is `fence`. The following associated keywords are taken into account:
   - `height`.
   - `width`.
 
 ##### Forest
 
-The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in a forest if it's value is `forest`. The following associated keyword is taken into account:
+The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in a forest if its value is `forest`. The following associated keyword is taken into account:
   - `leaf_type`: the value should be either `needleleaved` or `broadleaved`.
 
 ##### Parking Lines
@@ -186,9 +186,11 @@ The following keywords are taken into account, they work the exact same way as f
 
 ### Configuration File
 
-In addition to the defined keywords, a configuration file can be used to define the default value when a keyword is not defined (e.g. default height of the buildings or of the buildings of a specific type) or to define which object should or should not be imported.
-It is possible to set default values for all the entities of an object in the section determined by it's name (e.g. `building` section for buildings, or `road` section for roads).
-And to set more specific default values for specific type of an object in the section determined by it's name followed by `_` followed by the value of the associated keyword (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
+In addition to the defined keywords, a configuration file can be used to define the default value when a keyword is not defined (e.g. the default height of the buildings or of the buildings of a specific type) or to define which objects should or should not be imported.
+
+It is possible to set default values for all the entities of an object in the section determined by its name (e.g. `building` section for buildings, or `road` section for roads).
+And to set more specific default values for a specific type of the object in the section determined by its name followed by `_` followed by the value of the associated keyword (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
+
 A typical configuration file can be seen in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
 ## Graphical User Interface
