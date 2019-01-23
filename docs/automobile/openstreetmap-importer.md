@@ -191,7 +191,9 @@ In addition to the defined keywords, a configuration file can be used to define 
 It is possible to set default values for all the entities of an object in the section determined by its name (e.g. `building` section for buildings, or `road` section for roads).
 
 
-It is also possible to set default values for a specific type of object, the name of the section should respect the following syntax: `<<name of the object>>_<<value of the associated keyword>>` (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
+It is also possible to set default values for a specific type of object, the name of the section should respect the following syntax: `<<name of the object>>_<<value of the associated keyword>>`. For example:
+  - `building_residential` for buildings whose `building` keyword value is `residential`.
+  - `road_primary` for roads whose `highway` keyword value is `primary`. In this case the name of the object is `road` and not `highway` because in Webots they are called `road` and not `highway` like in OpenStreetMap.
 
 A typical configuration file is provided in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
