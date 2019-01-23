@@ -105,7 +105,7 @@ You can see in the [previous picture](#left-the-osm-file-created-in-josm-right-t
 
 ### Supported OSM Keywords
 
- Only a subset of the OpenStreetMap keywords are handle by the importer. Here is the list of currently supported keywords per OpenStreetMap object type.
+ Only a subset of the OpenStreetMap keywords are handled by the importer. Here is the list of keywords currently supported for each OpenStreetMap object type:
 
 #### Node
 
