@@ -266,8 +266,9 @@ namespace wren {
         renderToViewport(culling);
         if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
-          mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0, mCurrentViewport->width(),
-                                                mCurrentViewport->height());
+          mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
+                                                mCurrentViewport->width() * mCurrentViewport->pixelRatio(),
+                                                mCurrentViewport->height() * mCurrentViewport->pixelRatio());
         }
       }
 
