@@ -176,14 +176,7 @@ void WbWrenWindow::updateWrenViewportDimensions() {
   // A retina display can be simulated:
   // http://stackoverflow.com/questions/12124576/how-to-simulate-a-retina-display-hidpi-mode-in-mac-os-x-10-8-mountain-lion-on
 
-  const float ratio = (float)devicePixelRatio();  // qreal => float in prevision to be sent to wren.
-  WbWrenPicker::setScreenRatio(ratio);
-  WbWrenTextureOverlay::setScreenRatio(ratio);
-  WbDragPhysicsEvent::setScreenRatio(ratio);
-  WbWrenBloom::setScreenRatio(ratio);
-  WbViewpoint *viewpoint = WbWorld::instance() ? WbWorld::instance()->viewpoint() : NULL;
-  if (viewpoint)
-    viewpoint->updatePostProcessingEffects();
+  return;
 }
 
 void WbWrenWindow::blitMainFrameBufferToScreen() {
@@ -261,16 +254,7 @@ void WbWrenWindow::resizeWren(int width, int height) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  int w = width;
-  int h = height;
-
-  const qreal ratio = devicePixelRatio();
-  if (ratio != 1.0) {
-    w *= ratio;
-    h *= ratio;
-  }
-
-  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), w, h);
+  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), width, height);
 
   updateFrameBuffer();
 
@@ -386,17 +370,8 @@ void WbWrenWindow::updateFrameBuffer() {
   if (mWrenDepthFrameBufferTexture)
     wr_texture_delete(WR_TEXTURE(mWrenDepthFrameBufferTexture));
 
-  int w = width();
-  int h = height();
-
-  const qreal ratio = devicePixelRatio();
-  if (ratio != 1.0) {
-    w *= ratio;
-    h *= ratio;
-  }
-
   mWrenMainFrameBuffer = wr_frame_buffer_new();
-  wr_frame_buffer_set_size(mWrenMainFrameBuffer, w, h);
+  wr_frame_buffer_set_size(mWrenMainFrameBuffer, width(), height());
 
   mWrenMainFrameBufferTexture = wr_texture_rtt_new();
   wr_texture_set_internal_format(WR_TEXTURE(mWrenMainFrameBufferTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB16F);

@@ -228,7 +228,6 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   const QDesktopWidget *qDesktop = QApplication::desktop();
   const int screenNumber = qDesktop->screenNumber(QCursor::pos());
   QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
-  fullScreen *= QGuiApplication::screens()[screenNumber]->devicePixelRatio();
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {

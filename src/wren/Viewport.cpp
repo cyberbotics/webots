@@ -48,8 +48,6 @@ namespace wren {
 
     mFrameBuffer = frameBuffer;
     if (mFrameBuffer) {
-      setSize(mFrameBuffer->width(), mFrameBuffer->height());
-
       for (auto postProcessingEffect : mPostProcessingEffects) {
         postProcessingEffect->firstPass()->setInputTexture(0, mFrameBuffer->outputTexture(0));
         postProcessingEffect->setResultFrameBuffer(mFrameBuffer);
