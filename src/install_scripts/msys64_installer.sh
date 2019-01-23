@@ -33,6 +33,7 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-i686-libpng"     # libController (32 bit)
   "mingw-w64-x86_64-clang"    # coding style tests
   "mingw-w64-x86_64-cppcheck" # coding style tests
+  "mingw-w64-x86_64-gdb"      # for debugging
 )
 
 if [ "$1" == "--all" ]; then
