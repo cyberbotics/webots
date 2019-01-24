@@ -115,6 +115,7 @@ namespace wren {
     const char *version();
     const char *glslVersion();
 
+    int gpuMemory();
     int maxCombinedTextureUnits();
     int maxFrameBufferDrawBuffers();
     float maxTextureAnisotropy();
