@@ -20,6 +20,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbImageTexture.hpp"
 #include "WbMaterial.hpp"
+#include "WbPreferences.hpp"
 #include "WbRgb.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFNode.hpp"
@@ -113,7 +114,9 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), 512);
+    const int quality = WbPreferences::instance()->value("OpenGL/TextureQuality", 2).toInt();
+    const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();
   }
   ++cInstanceCounter;
