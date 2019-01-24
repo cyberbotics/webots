@@ -138,6 +138,8 @@ The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:pa
 ##### Road
 
 The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will result in a road. The following associated keywords are taken into account:
+  - `maxspeed`.
+  - `addr:country`: if the `maxspeed` keyword is not defined, the `addr:country` keyword is used to determine the speed limit of the road according to [this conversion table](https://wiki.openstreetmap.org/wiki/Speed_limits#Country_code.2Fcategory_conversion_table).
   - `name`.
   - `lanes`.
   - `layer`.
