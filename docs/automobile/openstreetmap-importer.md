@@ -86,9 +86,6 @@ You can use several arguments with this script:
 | --removal-radius       | Specifies the radius (in meters) around each road waypoint beyond which any object is removed. It is possible to use the road.filter field of the [configuration file](a-typical-openstreetmap-importer-configuration-file.md) to specify which roads should be taken into account. | By default this feature is disabled (radius = 0.0).                       |
 %end
 
-In addition to these arguments, a configuration file can be used to define how to handle most of the OpenStreetMap entities.
-A typical configuration file can be seen in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
-
 ## Map Edition and Creation
 
 If you want to edit a map exported from OpenStreetMap before converting it into a Webots world, we recommend using JOSM.
@@ -105,6 +102,102 @@ Using JOSM you can easily edit a map in order to add some elements, correct some
 
 In addition to editing map from OpenStreetmap, JOSM is also very convenient to create new environment from scratch.
 You can see in the [previous picture](#left-the-osm-file-created-in-josm-right-the-resulting-world-open-in-webots-after-conversion) a map fully created in JOSM and then exported and opened in Webots.
+
+### Supported OSM Keywords
+
+ Only a subset of the OpenStreetMap keywords are handled by the importer. Here is the list of keywords currently supported for each OpenStreetMap object type:
+
+#### Node
+
+##### Tree
+
+The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in an isolated tree. The following associated keywords are taken into account:
+  - `leaf_type`: the value should be either `needleleaved` or `broadleaved`.
+  - `height`.
+  - `diameter_crown`.
+
+
+#### Way
+
+##### Building
+
+The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:part](https://wiki.openstreetmap.org/wiki/Key:building:part) keyword will result in a 3 dimensional building. The following associated keywords are taken into account:
+  - `building:material` or `material`: the value should be either: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
+  - `roof:material`: the value should be either: `tile`, `roof_tiles`, `concrete`, `slate`, `asbestos` or `metal`.
+  - `building:colour`.
+  - `roof:colour`.
+  - `name` or `ref`.
+  - `roof:height`.
+  - `min_height`.
+  - `height`.
+  - `roof:shape`.
+  - `layer`.
+  - `building:levels`.
+  - `building:min_level`.
+
+##### Road
+
+The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will result in a road. The following associated keywords are taken into account:
+  - `maxspeed`.
+  - `addr:country`: if the `maxspeed` keyword is not defined, the `addr:country` keyword is used to determine the speed limit of the road according to [this conversion table](https://wiki.openstreetmap.org/wiki/Speed_limits#Country_code.2Fcategory_conversion_table).
+  - `oneway`: the value should be `yes`.
+  - `name`.
+  - `lanes`.
+  - `layer`.
+  - `lanes:forward`.
+  - `lanes:backward`.
+  - `turn:lanes:forward`.
+  - `turn:lanes:backward`.
+  - `width`.
+
+##### River
+
+The [waterway](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a river if its value is `river` or `stream`. The following associated keywords are taken into account:
+  - `name`.
+  - `width`.
+
+##### Wall and Fence
+
+The [barrier](https://wiki.openstreetmap.org/wiki/Key:waterway) keyword will result in a wall if its value is `wall` and in a fence if its value is `fence`. The following associated keywords are taken into account:
+  - `height`.
+  - `width`.
+
+##### Forest
+
+The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will result in a forest if its value is `forest`. The following associated keyword is taken into account:
+  - `leaf_type`: the value should be either `needleleaved` or `broadleaved`.
+
+##### Parking Lines
+
+If the value of the [name](https://wiki.openstreetmap.org/wiki/Key:name) keyword is `parking line` it will result in a parking line.
+
+##### Area
+
+The following keywords will result in a flat area:
+  - `amenity`: if the value is `parking`.
+  - `landuse`.
+  - `waterway`.
+
+#### Relation
+
+The following keywords are taken into account, they work the exact same way as for [way](#way):
+  - `building`
+  - `natural`
+  - `landuse`
+  - `parking`
+
+### Configuration File
+
+In addition to the defined keywords, a configuration file can be used to define the default value when a keyword is not defined (e.g. the default height of the buildings or of the buildings of a specific type) or to define which objects should or should not be imported.
+
+It is possible to set default values for all the entities of an object in the section determined by its name (e.g. `building` section for buildings, or `road` section for roads).
+
+
+It is also possible to set default values for a specific type of object, the name of the section should respect the following syntax: `<<name of the object>>_<<value of the associated keyword>>`. For example:
+  - `building_residential` for buildings whose `building` keyword value is `residential`.
+  - `road_primary` for roads whose `highway` keyword value is `primary`. In this case the name of the object is `road` and not `highway` because in Webots they are called `road` and not `highway` like in OpenStreetMap.
+
+A typical configuration file is provided in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
 ## Graphical User Interface
 
