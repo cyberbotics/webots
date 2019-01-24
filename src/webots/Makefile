@@ -180,11 +180,6 @@ endif
 
 ifeq ($(MAKECMDGOALS),release)
 CFLAGS += -O3 -DNDEBUG
-ifeq ($(OSTYPE),darwin)
-STRIP = strip $(TARGET)
-else
-LD_FLAGS += -s
-endif
 endif
 
 OBJDIR=build/$(MAKECMDGOALS)
@@ -584,7 +579,6 @@ debug profile release: $(TARGET)
 $(TARGET): $(OBJECTS) $(LIB_WREN)
 	@echo "# linking " $@
 	@$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
-	@$(STRIP)
 	@$(EXTRA_CMD)
 	@echo "# webots compiled in `expr \`date +%s\` - $(START)` seconds"
 
