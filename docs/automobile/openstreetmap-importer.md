@@ -105,7 +105,7 @@ You can see in the [previous picture](#left-the-osm-file-created-in-josm-right-t
 
 ### Supported OSM Keywords
 
- Only a subset of the OpenStreetMap keywords are handle by the importer. Here is the list of currently supported keywords per OpenStreetMap object type.
+ Only a subset of the OpenStreetMap keywords are handled by the importer. Here is the list of keywords currently supported for each OpenStreetMap object type:
 
 #### Node
 
@@ -121,9 +121,9 @@ The [natural](https://wiki.openstreetmap.org/wiki/Key:natural) keyword will resu
 
 ##### Building
 
-The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:part](https://wiki.openstreetmap.org/wiki/Key:building:part) keywords will result in a 3 dimensional building. The following associated keywords are taken into account:
-  - `building:material` or `material`: the value should be: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
-  - `roof:material`: the value should be: `tile`, `roof_tiles`, `concrete`, `slate`, `asbestos` or `metal`.
+The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:part](https://wiki.openstreetmap.org/wiki/Key:building:part) keyword will result in a 3 dimensional building. The following associated keywords are taken into account:
+  - `building:material` or `material`: the value should be either: `wood`, `old house`, `plaster`, `cement_block`, `concrete`, `glass` or `mirror`.
+  - `roof:material`: the value should be either: `tile`, `roof_tiles`, `concrete`, `slate`, `asbestos` or `metal`.
   - `building:colour`.
   - `roof:colour`.
   - `name` or `ref`.
@@ -140,12 +140,12 @@ The [building](https://wiki.openstreetmap.org/wiki/Key:building) or [building:pa
 The [highway](https://wiki.openstreetmap.org/wiki/Key:highway) keyword will result in a road. The following associated keywords are taken into account:
   - `maxspeed`.
   - `addr:country`: if the `maxspeed` keyword is not defined, the `addr:country` keyword is used to determine the speed limit of the road according to [this conversion table](https://wiki.openstreetmap.org/wiki/Speed_limits#Country_code.2Fcategory_conversion_table).
+  - `oneway`: the value should be `yes`.
   - `name`.
   - `lanes`.
   - `layer`.
   - `lanes:forward`.
   - `lanes:backward`.
-  - `oneway`: `yes`.
   - `turn:lanes:forward`.
   - `turn:lanes:backward`.
   - `width`.
@@ -180,7 +180,7 @@ The following keywords will result in a flat area:
 
 #### Relation
 
-The following keywords are taken into account, they work the exact same way as for [Way](#way):
+The following keywords are taken into account, they work the exact same way as for [way](#way):
   - `building`
   - `natural`
   - `landuse`
@@ -191,9 +191,13 @@ The following keywords are taken into account, they work the exact same way as f
 In addition to the defined keywords, a configuration file can be used to define the default value when a keyword is not defined (e.g. the default height of the buildings or of the buildings of a specific type) or to define which objects should or should not be imported.
 
 It is possible to set default values for all the entities of an object in the section determined by its name (e.g. `building` section for buildings, or `road` section for roads).
-And to set more specific default values for a specific type of the object in the section determined by its name followed by `_` followed by the value of the associated keyword (e.g. `road_primary` for roads whose `highway` keyword value is `primary`, or `building_residential` for buildings whose `building` keyword value is `residential`).
 
-A typical configuration file can be seen in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
+
+It is also possible to set default values for a specific type of object, the name of the section should respect the following syntax: `<<name of the object>>_<<value of the associated keyword>>`. For example:
+  - `building_residential` for buildings whose `building` keyword value is `residential`.
+  - `road_primary` for roads whose `highway` keyword value is `primary`. In this case the name of the object is `road` and not `highway` because in Webots they are called `road` and not `highway` like in OpenStreetMap.
+
+A typical configuration file is provided in [appendix](a-typical-openstreetmap-importer-configuration-file.md).
 
 ## Graphical User Interface
 
