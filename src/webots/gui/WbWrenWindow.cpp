@@ -22,6 +22,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
+#include "WbVideoRecorder.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenBloom.hpp"
@@ -174,6 +175,7 @@ void WbWrenWindow::initialize() {
 void WbWrenWindow::updateWrenViewportDimensions() {
   const int ratio = (int)devicePixelRatio();
   wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
+  WbVideoRecorder::instance()->setScreenPixelRatio(ratio);
 }
 
 void WbWrenWindow::blitMainFrameBufferToScreen() {
@@ -307,7 +309,7 @@ QImage WbWrenWindow::grabWindowBufferNow() {
 void WbWrenWindow::initVideoPBO() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const qreal ratio = devicePixelRatio();
+  const int ratio = (int) devicePixelRatio();
   mVideoWidth = width() * ratio;
   mVideoHeight = height() * ratio;
   const int size = 4 * mVideoWidth * mVideoHeight;
