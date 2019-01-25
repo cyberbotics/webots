@@ -826,6 +826,8 @@ Robot {
     DEF EPUCK_EMITTER Emitter {
       channel IS emitter_channel
     }
+    DEF EPUCK_SPEAKER Speaker {
+    }
     DEF TURRET_SLOT Transform {
       translation 0 0.0486 0.0095
       rotation 0 0 1 0
