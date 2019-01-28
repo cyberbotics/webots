@@ -54,20 +54,24 @@
 
 class FrameWriterThread : public QThread {
 public:
-  FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int quality,
-                    WbView3D *view) :
+  FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int pixelRatio,
+                    int quality, WbView3D *view) :
     mFrame(frame),
     mMutexIndex(mutexIndex),
     mFileName(fileName),
     mResolution(resolution),
+    mPixelRatio(pixelRatio),
     mQuality(quality),
     mView(view),
     mSuccess(false) {}
 
   void run() override {
     mView->lockPBOMutex(mMutexIndex);
-    WbView3D::flipImageBuffer(mFrame, mResolution.width(), mResolution.height(), 4);
-    QImage img = QImage(mFrame, mResolution.width(), mResolution.height(), QImage::Format_RGB32);
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    unsigned char *destination = new unsigned char[4 * w * h];
+    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), 4, mPixelRatio);
+    QImage img = QImage(destination, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
     mSuccess = writer.write(img);
@@ -81,6 +85,7 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
+    delete[] destination;
     mView->unlockPBOMutex(mMutexIndex);
   }
 
@@ -91,6 +96,7 @@ private:
   const int mMutexIndex;
   const QString mFileName;
   const QSize mResolution;
+  const int mPixelRatio;
   const int mQuality;
   WbView3D *mView;
   bool mSuccess;
@@ -345,8 +351,8 @@ void WbVideoRecorder::stopRecording(bool canceled) {
 
 void WbVideoRecorder::writeSnapshot(unsigned char *frame, int PBOIndex) {
   QString fileName = nextFileName();
-  FrameWriterThread *thread =
-    new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution * mScreenPixelRatio, mVideoQuality, mSimulationView->view3D());
+  FrameWriterThread *thread = new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution * mScreenPixelRatio,
+                                                    mScreenPixelRatio, mVideoQuality, mSimulationView->view3D());
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -480,8 +486,8 @@ void WbVideoRecorder::createMpeg() {
   if (ffmpegScript.open(QIODevice::WriteOnly)) {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
-    long long int bitrate =
-      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256 / (mScreenPixelRatio * mScreenPixelRatio);
+    long long int bitrate = (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() /
+                            256 / (mScreenPixelRatio * mScreenPixelRatio);
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32
@@ -509,7 +515,7 @@ void WbVideoRecorder::createMpeg() {
 
     stream << "echo " + tr("Video encoding stage 2... ") + openParenthesis + tr("please wait") + closeParenthesis + "\n";
     stream << ffmpeg << " -loglevel warning -y -f image2 -r " << (float)mMovieFPS << " -i \"" << mFrameFilePrefix
-           << percentageChar << "06d.jpg\" -b:v " << bitrate << " -s " << mVideoResolution.width() << "x" << mVideoResolution.height();
+           << percentageChar << "06d.jpg\" -b:v " << bitrate;
     stream << " -vcodec libx264 -pass 2 -g 132 -an -pix_fmt yuvj420p video.mp4\n";
 #ifdef _WIN32
     stream << "IF ERRORLEVEL 1 Exit 1\n";
