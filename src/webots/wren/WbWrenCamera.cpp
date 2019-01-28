@@ -626,9 +626,11 @@ void WbWrenCamera::setupCamera(int index, int width, int height) {
     wr_frame_buffer_append_output_texture(mCameraFrameBuffer[index], texture);
     wr_frame_buffer_setup(mCameraFrameBuffer[index]);
     wr_viewport_set_frame_buffer(mCameraViewport[index], mCameraFrameBuffer[index]);
+    wr_viewport_set_size(mCameraViewport[index], width, height);
     wr_frame_buffer_set_depth_texture(mCameraFrameBuffer[index], depthRenderTexture);
   } else {  // otherwise, we use the result framebuffer directly, so no extra texture setup
     wr_viewport_set_frame_buffer(mCameraViewport[index], mResultFrameBuffer);
+    wr_viewport_set_size(mCameraViewport[index], width, height);
     wr_frame_buffer_set_depth_texture(mResultFrameBuffer, depthRenderTexture);
   }
 }
