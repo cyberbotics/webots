@@ -23,7 +23,7 @@ import urllib
 from utils.misc_utils import length2D
 
 GOOGLE_ELEVATION_BASE_URL = 'https://maps.googleapis.com/maps/api/elevation/json'
-GEAONAMES_ELEVATION_BASE_URI = 'http://ws.geonames.org/astergdemJSON'
+GEAONAMES_ELEVATION_BASE_URI = 'http://api.geonames.org/astergdemJSON'
 
 
 class Elevation(object):
@@ -75,7 +75,8 @@ class Elevation(object):
         """Create a dictionary for each results[] object."""
         elevationArray = []
 
-        print('Aquiring Elevation, please be patient\n')
+        print('Aquiring elevation data, please be patient\n')
+        sys.stdout.flush()
         for location in locations:
             elvtn_args = {
                 'lat': str(location[0]),
