@@ -115,6 +115,7 @@ WbVideoRecorder::WbVideoRecorder() :
   mIsFullScreen(false),
   mFrameFilePrefix(TEMP_FRAME_FILENAME_PREFIX + QString::number(QCoreApplication::applicationPid()) + "_"),
   mLastFileNumber(-1),
+  mScreenPixelRatio(1),
   mVideoQuality(0),
   mVideoAcceleration(1),
   mShowCaption(false),
@@ -228,7 +229,6 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   const QDesktopWidget *qDesktop = QApplication::desktop();
   const int screenNumber = qDesktop->screenNumber(QCursor::pos());
   QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
-  fullScreen *= QGuiApplication::screens()[screenNumber]->devicePixelRatio();
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {
@@ -346,7 +346,7 @@ void WbVideoRecorder::stopRecording(bool canceled) {
 void WbVideoRecorder::writeSnapshot(unsigned char *frame, int PBOIndex) {
   QString fileName = nextFileName();
   FrameWriterThread *thread =
-    new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution, mVideoQuality, mSimulationView->view3D());
+    new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution * mScreenPixelRatio, mVideoQuality, mSimulationView->view3D());
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -481,7 +481,7 @@ void WbVideoRecorder::createMpeg() {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
     long long int bitrate =
-      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256;
+      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256 / (mScreenPixelRatio * mScreenPixelRatio);
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32
@@ -509,7 +509,7 @@ void WbVideoRecorder::createMpeg() {
 
     stream << "echo " + tr("Video encoding stage 2... ") + openParenthesis + tr("please wait") + closeParenthesis + "\n";
     stream << ffmpeg << " -loglevel warning -y -f image2 -r " << (float)mMovieFPS << " -i \"" << mFrameFilePrefix
-           << percentageChar << "06d.jpg\" -b:v " << bitrate;
+           << percentageChar << "06d.jpg\" -b:v " << bitrate << " -s " << mVideoResolution.width() << "x" << mVideoResolution.height();
     stream << " -vcodec libx264 -pass 2 -g 132 -an -pix_fmt yuvj420p video.mp4\n";
 #ifdef _WIN32
     stream << "IF ERRORLEVEL 1 Exit 1\n";

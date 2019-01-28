@@ -524,9 +524,10 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
       mBaseColorMap->write(writer);
       writer << "\n";
     }
-    if (findField("textureTransform")->value()) {
+    if (mTextureTransform->value()) {
       writer.indent();
-      findField("textureTransform")->write(writer);
+      writer << "textureTransform ";
+      mTextureTransform->write(writer);
       writer << "\n";
     }
   }

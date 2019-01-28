@@ -35,7 +35,6 @@ namespace wren {
     static void deleteOverlay(Overlay *overlay) { delete overlay; }
 
     static void setDefaultSizeProgram(ShaderProgram *program) { cDefaultSizeProgram = program; }
-    static void setScreenRatio(float ratio) { cScreenRatio = ratio; }
 
     void setOrder(int order) { mOrder = order; };
     void putOnTop();
@@ -97,7 +96,6 @@ namespace wren {
     static ShaderProgram *cDefaultSizeProgram;
     static size_t cMaxOrder;
     static std::vector<Overlay *> cOverlays;
-    static float cScreenRatio;
 
     int mOrder;  // overlays are sorted in ascending order before rendering
     bool mIsVisible;

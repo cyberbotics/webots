@@ -24,16 +24,16 @@ layout(std140) uniform Overlay {
   vec4 activeFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
   vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
                       // w: overlay transparency
-  vec4 sizeInPixels;  // x,y: size in screen pixels, z: screen ratio, w: unused (std140 padding)
+  vec2 sizeInPixels;  // x,y: size in screen pixels
   vec2 borderSize;    // x: vertical size, y: horizontal size in percentage of OpenGL viewport size
 }
 overlay;
 
 void main() {
   aspectRatio = overlay.sizeInPixels.x / overlay.sizeInPixels.y;
-  closeButtonProportionX = overlay.sizeInPixels.z * closeButtonSize / overlay.sizeInPixels.x;
+  closeButtonProportionX = closeButtonSize / overlay.sizeInPixels.x;
   closeButtonProportionY = aspectRatio * closeButtonProportionX;
-  resizeButtonProportionX = overlay.sizeInPixels.z * resizeButtonSize / overlay.sizeInPixels.x;
+  resizeButtonProportionX = resizeButtonSize / overlay.sizeInPixels.x;
   resizeButtonProportionY = aspectRatio * resizeButtonProportionX;
 
   texUv = vTexCoord;
