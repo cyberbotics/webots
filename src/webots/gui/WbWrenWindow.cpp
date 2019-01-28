@@ -270,14 +270,16 @@ void WbWrenWindow::resizeWren(int width, int height) {
 }
 
 void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
-                                               int sourceHeight, int channels, int scaleDownFactor) {
+                                               int sourceHeight, int scaleDownFactor) {
   // flip vertically the image and scale it down (about 3x faster than QImage::mirrored(), QImage::scaled())
   const int h = sourceHeight / scaleDownFactor;
-  const int sourceLineSize = channels * sourceWidth;
-  const int destinationLineSize = sourceLineSize / scaleDownFactor;
+  const int w = sourceWidth / scaleDownFactor;
+  const int yFactor = scaleDownFactor * sourceWidth;
+  const uint32_t *src = (const uint32_t *)source;  // assuming a pixel is coded as four bytes (RGBA)
+  uint32_t *dst = (uint32_t *)destination;
   for (int y = 0; y < h; y++)
-    for (int x = 0; x < destinationLineSize; x++)
-      destination[(h - 1 - y) * destinationLineSize + x] = source[y * sourceLineSize + x * scaleDownFactor];
+    for (int x = 0; x < w; x++)
+      dst[(h - 1 - y) * w + x] = src[y * yFactor + x * scaleDownFactor];
 }
 
 QImage WbWrenWindow::grabWindowBufferNow() {
@@ -296,7 +298,7 @@ QImage WbWrenWindow::grabWindowBufferNow() {
   const int sourceHeight = destinationHeight * ratio;
   unsigned char *temp = new unsigned char[4 * sourceWidth * sourceHeight];
   readPixels(sourceWidth, sourceHeight, GL_BGRA, temp);
-  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, 4, ratio);
+  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, ratio);
   delete[] temp;
   WbWrenOpenGlContext::doneWren();
 

@@ -70,7 +70,7 @@ public:
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
     unsigned char *destination = new unsigned char[4 * w * h];
-    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), 4, mPixelRatio);
+    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), mPixelRatio);
     QImage img = QImage(destination, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
