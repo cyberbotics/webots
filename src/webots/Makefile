@@ -180,6 +180,9 @@ endif
 
 ifeq ($(MAKECMDGOALS),release)
 CFLAGS += -O3 -DNDEBUG
+ ifneq ($(OSTYPE),darwin)
+  LD_FLAGS += -s
+ endif
 endif
 
 OBJDIR=build/$(MAKECMDGOALS)

@@ -270,6 +270,9 @@ endif
 ifeq ($(GOAL),release)
  # -O3 has the advantage also to prevents a false positive trojan alert from avast and Kapersky antivirus
  WBCFLAGS += -O3 -DNDEBUG
+ ifneq ($(OSTYPE),darwin)
+  DYNAMIC_LINK_FLAGS += -s
+ endif
 endif
 
 ifeq ($(GOAL),profile)
