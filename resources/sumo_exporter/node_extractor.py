@@ -9,7 +9,7 @@ class NodeExtractor(object):
 
     def extractRootNodes(self, nodeName):
         nodes = []
-        # Iter on "nodeName {" and then count the curly brackets until the node is closed.
+        # Iterate on "nodeName {" and then count the curly brackets until the node is closed.
         for m in re.finditer(r'[^a-zA-Z]%s\s*\{' % (nodeName), self.wbtContent):
             nodeString = nodeName + ' {'
             curlyBracketCounter = 1
