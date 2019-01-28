@@ -35,7 +35,6 @@ public:
                    HANDLES_RESIZE = 0x7FFFFFFC;
 
   static void setPickable(WrRenderable *renderable, int uniqueId, bool pickable);
-  static void setScreenRatio(float screenRatio) { cScreenRatio = screenRatio; }
 
   WbWrenPicker();
   ~WbWrenPicker();
@@ -52,8 +51,6 @@ public:
   int pickedResizeHandle() const { return mPickedResize; }
 
 private:
-  static float cScreenRatio;
-
   void setup();
   void cleanup();
   bool hasSizeChanged();
