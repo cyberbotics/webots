@@ -7,8 +7,9 @@ import re
 
 from lxml import etree as ET
 
-from road import Road
 from crossroad import Crossroad
+from node_extractor import NodeExtractor
+from road import Road
 
 
 # Parse the options.
@@ -39,19 +40,16 @@ if os.path.exists(configFilePath):
     sys.exit('"%s" already exists. Please remove it first.' % configFilePath)
 
 # Extracts map info, roads and crossroads from the Webots file
-with open(options.input, 'r') as f:
-    wbtContent = f.read()
+nodeExtractor = NodeExtractor(options.input)
 
 roadTypes = ["Road", "StraightRoadSegment", "CurvedRoadSegment"]
 for roadType in roadTypes:
-    pattern = r'' + roadType + '\s*\{[^}]*\}'
-    for roadString in re.findall(pattern, wbtContent):
+    for roadString in nodeExtractor.extractRootNodes(roadType):
         road = Road(roadString, roadType)
         Road.roads.append(road)
 crossroadTypes = ["Crossroad", "RoadIntersection"]
 for crossroadType in crossroadTypes:
-    pattern = r'' + crossroadType + '\s*\{[^}]*\}'
-    for crossroadString in re.findall(pattern, wbtContent):
+    for crossroadString in nodeExtractor.extractRootNodes(crossroadType):
         crossroad = Crossroad(crossroadType)
         crossroad.init_from_wbt_string(crossroadString)
         Crossroad.crossroads.append(crossroad)
