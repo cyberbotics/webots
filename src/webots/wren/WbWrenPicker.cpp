@@ -20,8 +20,6 @@
 #include <wren/material.h>
 #include <wren/scene.h>
 
-float WbWrenPicker::cScreenRatio = 1.0f;
-
 // Setup & attach picking material, based on the unique ID
 // ID is encoded in the following way:
 // Most significant word: red and green channels of ambient color
@@ -83,10 +81,6 @@ void WbWrenPicker::setup() {
   WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
   mWidth = wr_viewport_get_width(viewport);
   mHeight = wr_viewport_get_height(viewport);
-  if (cScreenRatio != 1.0) {  // Typically for Retina displays.
-    mWidth /= cScreenRatio;
-    mHeight /= cScreenRatio;
-  }
   wr_viewport_set_size(mViewport, mWidth, mHeight);
 
   mFrameBuffer = wr_frame_buffer_new();

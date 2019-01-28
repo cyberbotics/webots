@@ -21,16 +21,12 @@ struct WrPostProcessingEffectPass;
 
 class WbWrenBloom : public WbWrenAbstractPostProcessingEffect {
 public:
-  static void setScreenRatio(float ratio) { cScreenRatio = ratio; }
-
   WbWrenBloom();
 
   void setup(WrViewport *viewport) override;
   void setThreshold(float threshold);
 
 private:
-  static float cScreenRatio;
-
   void applyParametersToWren() override;
 
   float mThreshold;
