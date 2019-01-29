@@ -74,7 +74,7 @@ void WbMessageBox::fatal(const QString &message, QWidget *parent, const QString 
     QMessageBox::critical(parent, title, message);
   else
     WbLog::error(message);
-  exit(-1);
+  exit(EXIT_FAILURE);
 }
 
 void WbMessageBox::about(const QString &message, QWidget *parent, const QString &title) {
