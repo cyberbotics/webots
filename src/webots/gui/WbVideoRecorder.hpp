@@ -37,6 +37,8 @@ public:
 
   static int displayRefresh() { return cDisplayRefresh; }
 
+  void setScreenPixelRatio(int ratio) { mScreenPixelRatio = ratio; }
+
   // initialize recording parameters by GUI
   bool initRecording(WbSimulationView *view, double basicTimeStep);
 
@@ -70,6 +72,7 @@ private:
   int mLastFileNumber;
 
   QSize mVideoResolution;
+  int mScreenPixelRatio;
   int mVideoQuality;
   double mVideoAcceleration;
   bool mShowCaption;

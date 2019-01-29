@@ -40,7 +40,6 @@ namespace wren {
   ShaderProgram *Overlay::cDefaultSizeProgram = NULL;
   size_t Overlay::cMaxOrder = 0;
   std::vector<Overlay *> Overlay::cOverlays;
-  float Overlay::cScreenRatio = 1.0f;
 
   void Overlay::putOnTop() {
     for (auto &o : cOverlays) {
@@ -113,9 +112,8 @@ namespace wren {
     if (mPremultipliedAlpha)
       glstate::setBlendFunc(GL_ONE, blendDestFactor);
 
-    mParams.mSizeInPixels =
-      glm::vec4(mParams.mPositionAndSize.z * Scene::instance()->currentViewport()->width(),
-                mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height(), cScreenRatio, 0.0f);
+    mParams.mSizeInPixels = glm::vec2(mParams.mPositionAndSize.z * Scene::instance()->currentViewport()->width(),
+                                      mParams.mPositionAndSize.w * Scene::instance()->currentViewport()->height());
     glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
 
     prepareTexture(mBackgroundTexture, BACKGROUND_TEXTURE_INDEX);
@@ -163,7 +161,7 @@ namespace wren {
     mParams.mBackgroundColor = glm::vec4(0.0f);
     mParams.mActiveFlags = glm::vec4(0.0f);
     mParams.mTextureFlags = glm::vec4(0.0f);
-    mParams.mSizeInPixels = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+    mParams.mSizeInPixels = glm::vec2(0.0f, 0.0f);
     mParams.mBorderSize = glm::vec2(0.0f);
 
     cOverlays.push_back(this);
@@ -284,10 +282,6 @@ void wr_overlay_set_foreground_texture(WrOverlay *overlay, WrTexture *texture) {
 
 void wr_overlay_add_additional_texture(WrOverlay *overlay, WrTexture *texture) {
   reinterpret_cast<wren::Overlay *>(overlay)->addAdditionalTexture(reinterpret_cast<wren::Texture *>(texture));
-}
-
-void wr_overlay_set_screen_ratio(float ratio) {
-  wren::Overlay::setScreenRatio(ratio);
 }
 
 void wr_overlay_set_program(WrOverlay *overlay, WrShaderProgram *program) {
