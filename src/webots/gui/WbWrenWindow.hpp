@@ -31,7 +31,8 @@ class WbWrenWindow : public QWindow {
 
 public:
   static WbWrenWindow *instance();
-  static void flipImageBuffer(unsigned char *buffer, int width, int height, int channels);
+  static void flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
+                                          int sourceHeight, int scaleDownFactor);
 
   explicit WbWrenWindow();
   virtual ~WbWrenWindow();

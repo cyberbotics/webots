@@ -269,47 +269,51 @@ void WbWrenWindow::resizeWren(int width, int height) {
   emit resized();
 }
 
-void WbWrenWindow::flipImageBuffer(unsigned char *buffer, int width, int height, int channels) {
-  // flip vertically the image (about 2x faster than QImage::mirrored())
-  const int lineSize = width * channels;
-  const int halfHeight = height / 2;
-  unsigned char *srcPtr = buffer;
-  unsigned char *dstPtr = &buffer[(height - 1) * lineSize];
-  for (int y = 0; y < halfHeight; y++) {
-    for (int x = 0; x < lineSize; x++) {
-      const uchar d = dstPtr[x];
-      dstPtr[x] = srcPtr[x];
-      srcPtr[x] = d;
-    }
-    srcPtr += lineSize;
-    dstPtr -= lineSize;
+void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
+                                               int sourceHeight, int scaleDownFactor) {
+  // flip vertically the image and scale it down (about 3x faster than QImage::mirrored(), QImage::scaled())
+  const int h = sourceHeight / scaleDownFactor;
+  const int w = sourceWidth / scaleDownFactor;
+  const int yFactor = scaleDownFactor * sourceWidth;
+
+  // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA) aligned on an `int *` boundary.
+  // - A preliminary `unsigned char *` to `void *` cast is required to by-pass "cast-align" clang warnings.
+  const uint32_t *src = (const uint32_t *)((void *)source);
+  uint32_t *dst = (uint32_t *)((void *)destination);
+
+  for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++)
+      dst[(h - 1 - y) * w + x] = src[y * yFactor + x * scaleDownFactor];
   }
 }
 
 QImage WbWrenWindow::grabWindowBufferNow() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const qreal ratio = devicePixelRatio();
-  int w = width() * ratio;
-  int h = height() * ratio;
-  if (mSnapshotBuffer == NULL || w != mSnapshotBufferWidth || h != mSnapshotBufferHeight) {
-    mSnapshotBufferWidth = h;
-    mSnapshotBufferHeight = w;
+  const int destinationWidth = width();
+  const int destinationHeight = height();
+  if (mSnapshotBuffer == NULL || destinationWidth != mSnapshotBufferWidth || destinationHeight != mSnapshotBufferHeight) {
     delete[] mSnapshotBuffer;
-    mSnapshotBuffer = new unsigned char[4 * w * h];
+    mSnapshotBufferWidth = destinationWidth;
+    mSnapshotBufferHeight = destinationHeight;
+    mSnapshotBuffer = new unsigned char[4 * destinationWidth * destinationHeight];
   }
-  readPixels(w, h, GL_BGRA, mSnapshotBuffer);
-  flipImageBuffer(mSnapshotBuffer, w, h, 4);
-
+  const qreal ratio = devicePixelRatio();
+  const int sourceWidth = destinationWidth * ratio;
+  const int sourceHeight = destinationHeight * ratio;
+  unsigned char *temp = new unsigned char[4 * sourceWidth * sourceHeight];
+  readPixels(sourceWidth, sourceHeight, GL_BGRA, temp);
+  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, ratio);
+  delete[] temp;
   WbWrenOpenGlContext::doneWren();
 
-  return QImage(mSnapshotBuffer, w, h, QImage::Format_RGB32);
+  return QImage(mSnapshotBuffer, mSnapshotBufferWidth, mSnapshotBufferHeight, QImage::Format_RGB32);
 }
 
 void WbWrenWindow::initVideoPBO() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const int ratio = (int) devicePixelRatio();
+  const int ratio = (int)devicePixelRatio();
   mVideoWidth = width() * ratio;
   mVideoHeight = height() * ratio;
   const int size = 4 * mVideoWidth * mVideoHeight;
