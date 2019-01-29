@@ -69,6 +69,14 @@ void WbMessageBox::critical(const QString &message, QWidget *parent, const QStri
     WbLog::error(message);
 }
 
+void WbMessageBox::fatal(const QString &message, QWidget *parent, const QString &title) {
+  if (gEnabled)
+    QMessageBox::critical(parent, title, message);
+  else
+    WbLog::error(message);
+  exit(-1);
+}
+
 void WbMessageBox::about(const QString &message, QWidget *parent, const QString &title) {
   if (gEnabled)
     QMessageBox::about(parent, title, message);
