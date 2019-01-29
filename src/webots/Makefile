@@ -22,7 +22,7 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/dependencies
 
 # compiler
 ifeq ($(CC),cc)
- CC = gcc
+CC = gcc
 endif
 
 # module dependencies: please keep these lists of dependencies up-to-date so that we don't break dependencies in the code
@@ -180,9 +180,7 @@ endif
 
 ifeq ($(MAKECMDGOALS),release)
 CFLAGS += -O3 -DNDEBUG
-ifeq ($(OSTYPE),darwin)
-STRIP = strip $(TARGET)
-else
+ifneq ($(OSTYPE),darwin)
 LD_FLAGS += -s
 endif
 endif
@@ -196,10 +194,10 @@ CFLAGS += -Wall -Wpointer-arith -Wcast-align -Wwrite-strings
 CXXFLAGS += -DQT_NO_DEBUG
 
 ifneq ($(OSTYPE),darwin) # Clang has these warnings by default
-  GCC_VER_GREATER_OR_EQUAL_TO_5_DOT_4 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 50400)
-  ifeq ($(GCC_VER_GREATER_OR_EQUAL_TO_5_DOT_4),1)
-    CXXFLAGS += -Wsuggest-override
-  endif
+GCC_VER_GREATER_OR_EQUAL_TO_5_DOT_4 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 50400)
+ifeq ($(GCC_VER_GREATER_OR_EQUAL_TO_5_DOT_4),1)
+CXXFLAGS += -Wsuggest-override
+endif
 endif
 
 # objects that inherit form QObject (alphabetical order)
@@ -584,7 +582,6 @@ debug profile release: $(TARGET)
 $(TARGET): $(OBJECTS) $(LIB_WREN)
 	@echo "# linking " $@
 	@$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
-	@$(STRIP)
 	@$(EXTRA_CMD)
 	@echo "# webots compiled in `expr \`date +%s\` - $(START)` seconds"
 
