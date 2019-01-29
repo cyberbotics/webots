@@ -276,10 +276,13 @@ void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsi
   const int w = sourceWidth / scaleDownFactor;
   const int yFactor = scaleDownFactor * sourceWidth;
 
+  // Notes about the following casts:
+  // - The `char *` pointer is aligned on an `int` boundary because it corresponds the beginning of the memory chunk of the rendered image.
   // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA).
   // - A preliminary `unsigned char *` to `void *` cast is required to by-pass "cast-align" clang warnings.
   const uint32_t *src = (const uint32_t *)((void *)source);
   uint32_t *dst = (uint32_t *)((void *)destination);
+
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++)
       dst[(h - 1 - y) * w + x] = src[y * yFactor + x * scaleDownFactor];
