@@ -29,7 +29,6 @@ namespace WbMessageBox {
                                        QMessageBox::StandardButton defaultButton = QMessageBox::Cancel,
                                        QMessageBox::StandardButtons buttons = QMessageBox::Ok | QMessageBox::Cancel);
   void critical(const QString &message, QWidget *parent = NULL, const QString &title = QObject::tr("Critical"));
-  void fatal(const QString &message, QWidget *parent = NULL, const QString &title = QObject::tr("Fatal"));
   void about(const QString &message, QWidget *parent = NULL, const QString &title = QObject::tr("About"));
   void disable();
   bool enabled();

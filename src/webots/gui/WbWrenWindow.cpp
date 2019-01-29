@@ -16,6 +16,7 @@
 
 #include "WbDragSolidEvent.hpp"
 #include "WbLensFlare.hpp"
+#include "WbLog.hpp"
 #include "WbLightRepresentation.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamer.hpp"
@@ -89,7 +90,7 @@ WbWrenWindow::WbWrenWindow() :
   WbWrenOpenGlContext::init(this, this, format);
 
   if (!WbWrenOpenGlContext::instance()->isValid())
-    WbMessageBox::fatal(
+    WbLog::fatal(
       tr("Webots could not initialize the rendering system.\n"
          "Please check your GPU abilities and install the latest graphics drivers.\n"
          "Please do also check that your graphics hardware meets the requirements specified in the User Guide."));
@@ -98,7 +99,7 @@ WbWrenWindow::WbWrenWindow() :
                                       WbWrenOpenGlContext::instance()->format().minorVersion());
 
   if (openGLActualVersion < openGLTargetVersion)
-    WbMessageBox::fatal(
+    WbLog::fatal(
       tr("Webots requires OpenGL %1 while only OpenGL %2 can be initialized.\n"
          "Please check your GPU abilities and install the latest graphics drivers.\n"
          "Please do also check that your graphics hardware meets the requirements specified in the User Guide.")
