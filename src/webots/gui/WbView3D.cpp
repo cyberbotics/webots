@@ -1222,16 +1222,19 @@ void WbView3D::checkRendererCapabilities() {
     if (gpuGeneration < 5) {
       disableShadows = true;
       disableCameraAntiAliasing = true;
-    } else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
-      message += tr("Webots has detected that you are using an old AMD GPU."
-                    "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
-      disableCameraAntiAliasing = true;
-      disableSMAA = true;
-      disableGTAO = true;
-      reduceTextureQuality = 1;
     }
 #endif
   }
+#ifndef __APPLE__
+  else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+    message += tr("Webots has detected that you are using an old AMD GPU."
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+    disableCameraAntiAliasing = true;
+    disableSMAA = true;
+    disableGTAO = true;
+    reduceTextureQuality = 1;
+  }
+#endif
 
   // check GPU memory
   if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
