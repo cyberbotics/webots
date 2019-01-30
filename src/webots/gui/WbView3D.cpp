@@ -1222,6 +1222,13 @@ void WbView3D::checkRendererCapabilities() {
     if (gpuGeneration < 5) {
       disableShadows = true;
       disableCameraAntiAliasing = true;
+    } else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+      message += tr("Webots has detected that you are using an old AMD GPU."
+                    "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+      disableCameraAntiAliasing = true;
+      disableSMAA = true;
+      disableGTAO = true;
+      reduceTextureQuality = 1;
     }
 #endif
   }
