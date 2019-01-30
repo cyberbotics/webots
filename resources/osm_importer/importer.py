@@ -108,17 +108,16 @@ WebotsObject.removalRadius = options.removalRadius
 Road.noIntersectionRoadLines = options.noIntersectionRoadLines
 Area.noForests = options.noForests
 
-if os.path.exists(options.outFile):
-    sys.stderr.write("Warning: file '" + options.outFile + "' already exists, remove it or change the destination using the '--output' option.\n")
-    sys.exit(0)
-
-outputFile = codecs.open(options.outFile, 'w', 'utf-8')
-
 # get settings from config file
 configFile = options.configFile
 if not configFile:
-    configFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + "config.ini"
+    configFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.ini")
 Settings.init(configFile)
+
+# open output file (if it doesn't already exists)
+if os.path.exists(options.outFile):
+    sys.exit("Warning: file '" + options.outFile + "' already exists, remove it or change the destination using the '--output' option.\n")
+outputFile = codecs.open(options.outFile, 'w', 'utf-8')
 
 # print headers and elevationGrid
 elevation = None
