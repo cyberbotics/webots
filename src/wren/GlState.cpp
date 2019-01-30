@@ -120,13 +120,11 @@ namespace wren {
       cVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
       cGlslVersion = reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-      if (GLAD_GL_ATI_meminfo) {
+      if (GLAD_GL_ATI_meminfo)
         glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &cGpuMemory);
-        std::cout << "Memory ATI: " << cGpuMemory << std::endl;
-      } else if (GLAD_GL_NVX_gpu_memory_info) {
+      else if (GLAD_GL_NVX_gpu_memory_info)
         glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
-        std::cout << "Memory NVIDIA: " << cGpuMemory << std::endl;
-      } else
+      else
         DEBUG("GL_TEXTURE_FREE_MEMORY_ATI and GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX extensions not supported by "
               "hardware, impossible to detect GPU memory"
               << std::endl);
