@@ -15,6 +15,7 @@
 """This module contains the Settings class."""
 
 import configparser
+import os
 import sys
 
 
@@ -41,6 +42,8 @@ class Settings(object):
     @staticmethod
     def init(file):
         """Initialize the settings."""
+        if not os.path.exists(file):
+            sys.exit("Error: configuration file '%s' does not exist.\n" % file)
         Settings.settings = configparser.ConfigParser()
         Settings.settings.read(file)
 
