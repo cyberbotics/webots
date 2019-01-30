@@ -88,6 +88,7 @@ namespace wren {
     std::map<unsigned int, float> cTextureAnisotropy;
     std::map<unsigned int, int> cTextureMinFilter;
     std::map<unsigned int, int> cTextureMagFilter;
+    static int cGpuMemory = 0;
     static int cMaxCombinedTextureUnits = 0;
     static int cMaxFrameBufferDrawBuffers = 0;
     static float cMaxTextureAnisotropy = 1.0f;
@@ -119,6 +120,15 @@ namespace wren {
       cVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
       cGlslVersion = reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 
+      if (GLAD_GL_ATI_meminfo)
+        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &cGpuMemory);
+      else if (GLAD_GL_NVX_gpu_memory_info)
+        glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
+      else
+        DEBUG("GL_TEXTURE_FREE_MEMORY_ATI and GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX extensions not supported by "
+              "hardware, impossible to detect GPU memory"
+              << std::endl);
+
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
       cUniformBuffers.reserve(count);
@@ -133,7 +143,7 @@ namespace wren {
       checkError();
 
       cIsGlInitialized = true;
-    }
+    }  // namespace glstate
 
     bool isInitialized() { return cIsGlInitialized; }
 
@@ -703,6 +713,8 @@ namespace wren {
 
     const char *glslVersion() { return cGlslVersion; }
 
+    int gpuMemory() { return cGpuMemory; }
+
     int maxCombinedTextureUnits() { return cMaxCombinedTextureUnits; }
 
     int maxFrameBufferDrawBuffers() { return cMaxFrameBufferDrawBuffers; }
@@ -778,6 +790,10 @@ const char *wr_gl_state_get_version() {
 
 const char *wr_gl_state_get_glsl_version() {
   return wren::glstate::glslVersion();
+}
+
+int wr_gl_state_get_gpu_memory() {
+  return wren::glstate::gpuMemory();
 }
 
 bool wr_gl_state_is_anisotropic_texture_filtering_supported() {
