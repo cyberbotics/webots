@@ -42,6 +42,7 @@
 
 #include <webots/accelerometer.h>
 #include <webots/distance_sensor.h>
+#include <webots/led.h>
 #include <webots/light_sensor.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
@@ -161,10 +162,11 @@ int main(int argc, char *argv[]) {
   wb_motor_set_position(right_motor, INFINITY);
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
-  WbDeviceTag distance_sensor[8];
-  WbDeviceTag light_sensor[8];
-  for (int i = 0; i < 8; i++) {
-    char device_name[4];
+  const int number_of_ir_sensors = 8;
+  WbDeviceTag distance_sensor[number_of_ir_sensors];
+  WbDeviceTag light_sensor[number_of_ir_sensors];
+  for (int i = 0; i < number_of_ir_sensors; i++) {
+    char device_name[8];
     sprintf(device_name, "ps%d", i); /* distance sensor */
     distance_sensor[i] = wb_robot_get_device(device_name);
     wb_distance_sensor_enable(distance_sensor[i], time_step);
@@ -176,6 +178,13 @@ int main(int argc, char *argv[]) {
   play_melody_set_speaker(speaker);
   WbDeviceTag accelerometer = wb_robot_get_device("accelerometer");
   wb_accelerometer_enable(accelerometer, time_step);
+  const int number_of_leds = 10;
+  WbDeviceTag led[number_of_leds];
+  for (int i = 0; i < number_of_leds; i++) {
+    char device_name[8];
+    sprintf(device_name, "led%d", i); /* LED */
+    led[i] = wb_robot_get_device(device_name);
+  }
   bool stream_image = false;
   bool stream_sensors = false;
   printf("Waiting for a connection on port %d...\n", SOCKET_PORT);
@@ -221,6 +230,16 @@ int main(int argc, char *argv[]) {
           wb_motor_set_velocity(right_motor, right_speed);
           stream_image = ((command_buffer[1] & 1) == 1);
           stream_sensors = ((command_buffer[1] & 2) == 2);
+          wb_led_set(led[0], (command_buffer[7] & 0x01) ? 1 : 0);
+          wb_led_set(led[2], (command_buffer[7] & 0x02) ? 1 : 0);
+          wb_led_set(led[4], (command_buffer[7] & 0x04) ? 1 : 0);
+          wb_led_set(led[6], (command_buffer[7] & 0x08) ? 1 : 0);
+          wb_led_set(led[8], (command_buffer[7] & 0x10) ? 1 : 0);
+          wb_led_set(led[9], (command_buffer[7] & 0x20) ? 1 : 0);
+          wb_led_set(led[1], ((int)command_buffer[8] << 16) + ((int)command_buffer[9] << 8) + command_buffer[10]);
+          wb_led_set(led[3], ((int)command_buffer[11] << 16) + ((int)command_buffer[12] << 8) + command_buffer[13]);
+          wb_led_set(led[5], ((int)command_buffer[14] << 16) + ((int)command_buffer[15] << 8) + command_buffer[16]);
+          wb_led_set(led[7], ((int)command_buffer[17] << 16) + ((int)command_buffer[18] << 8) + command_buffer[19]);
           switch (command_buffer[20]) {
             case 0x01:
               play_melody_set_song(MARIO);
@@ -243,7 +262,6 @@ int main(int argc, char *argv[]) {
               play_melody_stop();
               break;
           }
-
           // send(fd, "hello\n", 7, 0);
         } else if (n == 0) {
           wb_motor_set_velocity(left_motor, 0);
