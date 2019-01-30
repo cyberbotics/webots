@@ -239,7 +239,9 @@ void WbCubemap::loadWrenTexture() {
     wr_texture_cubemap_bake_diffuse_irradiance(mDefaultCubeTexture, WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
 
   const int quality = WbPreferences::instance()->value("OpenGL/TextureQuality", 2).toInt();
-  const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+  // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
+  const int offset = (mIsEquirectangular && quality < 2) ? 5 : 6;
+  const int resolution = pow(2, offset + quality);  // 0: 64, 1: 128, 2: 256
   mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
     mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
   wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
