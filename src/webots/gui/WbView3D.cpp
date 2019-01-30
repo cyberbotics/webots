@@ -1227,7 +1227,7 @@ void WbView3D::checkRendererCapabilities() {
   }
 #ifndef __APPLE__
   else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
-    message += tr("Webots has detected that you are using an old AMD GPU."
+    message += tr("Webots has detected that you are using an old AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     disableCameraAntiAliasing = true;
     disableSMAA = true;
