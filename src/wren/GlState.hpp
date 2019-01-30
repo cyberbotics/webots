@@ -115,7 +115,12 @@ namespace wren {
     const char *version();
     const char *glslVersion();
 
+    // This function returns different values for each GPU vendor:
+    //  - NVIDIA: returns the total memory.
+    //  - AMD: returns the free memory.
+    //  - intel: returns always 0 (no dedicated memory)
     int gpuMemory();
+
     int maxCombinedTextureUnits();
     int maxFrameBufferDrawBuffers();
     float maxTextureAnisotropy();
