@@ -1236,8 +1236,9 @@ void WbView3D::checkRendererCapabilities() {
   }
 #endif
 
-  // check GPU memory
-  if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
+  // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
+  if ((mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) &&
+      wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
     if (message.isEmpty()) {
       message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
                     "A minimum of 2Gb of memory is recomended to use high-resolution textures. ");
