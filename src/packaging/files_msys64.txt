@@ -1,4 +1,4 @@
-# needed to execute Webots (64 bit binary)
+# needed to execute webots.exe (64 bit binary)
 /mingw64/bin/Qt5Core.dll
 /mingw64/bin/Qt5Gui.dll
 /mingw64/bin/Qt5Multimedia.dll
@@ -53,6 +53,9 @@
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
 /mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt5/translations/*.qm
+
+# needed by webots.exe to check for updates
+/mingw64/bin/libssl-1_1-x64.dll
 
 # needed by ffmpeg.exe
 /mingw64/bin/ffmpeg.exe

@@ -551,3 +551,29 @@ int WbSysInfo::intelGPUGeneration(QOpenGLFunctions *gl) {
 }
 
 #endif
+
+bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
+  // https://pci-ids.ucw.cz/read/PC/1002
+  quint32 id = gpuDeviceId(gl);
+  if (
+    // R3
+    id == 0x9830 || id == 0x9836 || id == 0x9838 || id == 0x9850 || id == 0x9854 || id == 0x98e4 ||
+    // R4
+    id == 0x130b || id == 0x131b || id == 0x9851 ||
+    // R5
+    id == 0x130e || id == 0x1315 || id == 0x1316 || id == 0x1318 || id == 0x6607 || id == 0x6660 || id == 0x6664 ||
+    id == 0x6665 || id == 0x6667 || id == 0x666f || id == 0x6771 || id == 0x6778 || id == 0x6779 || id == 0x68fa ||
+    id == 0x6901 || id == 0x6907 || id == 0x9874 || id == 0xaa98 ||
+    // R6
+    id == 0x1309 || id == 0x130a || id == 0x130d || id == 0x131d || id == 0x9855 ||
+    // R7
+    id == 0x130c || id == 0x130f || id == 0x1313 || id == 0x131c || id == 0x6604 || id == 0x6605 || id == 0x6610 ||
+    id == 0x6611 || id == 0x6613 || id == 0x6658 || id == 0x665c || id == 0x665d || id == 0x665f || id == 0x6810 ||
+    id == 0x6819 || id == 0x682b || id == 0x683d || id == 0x683f || id == 0x6900 ||
+    // R9
+    id == 0x6646 || id == 0x6647 || id == 0x6798 || id == 0x679a || id == 0x67b0 || id == 0x67b1 || id == 0x67b9 ||
+    id == 0x6820 || id == 0x6821 || id == 0x6823 || id == 0x6835 || id == 0x6921 || id == 0x6938 || id == 0x6939 ||
+    id == 0x7300 || id == 0xaac8 || id == 0xaad8 || id == 0xaae8)
+    return true;
+  return false;
+}
