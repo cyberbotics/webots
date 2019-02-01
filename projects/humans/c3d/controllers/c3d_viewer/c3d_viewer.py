@@ -22,8 +22,6 @@ if not os.path.isfile(sys.argv[1]):
     sys.exit('\'%s\' does not exist.' % sys.argv[1])
 
 reader = c3d.Reader(open(sys.argv[1], 'rb'))
-print('Header:')
-print(reader.header)
 labels = getPointsList(reader, 'LABELS')
 angleLabels = getPointsList(reader, 'ANGLES')
 forcesLabels = getPointsList(reader, 'FORCES')
@@ -35,8 +33,6 @@ filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
 filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
 filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 
-print(filteredLabel)
-
 supervisor.wwiSendText(" ".join(filteredLabel))
 
 numberOfpoints = reader.header.point_count
@@ -44,7 +40,7 @@ numberOfpoints = reader.header.point_count
 scale = reader.header.scale_factor
 if reader.groups['POINT'].get('UNITS').string_value == 'mm':
     scale *= 0.001
-else:
+elif not reader.groups['POINT'].get('UNITS').string_value == 'm':
     print("Can't determine the size unit.")
 
 markerField = supervisor.getSelf().getField('markers')
@@ -72,7 +68,6 @@ i = 0
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
     while message:
-        print(message)
         value = message.split(':')
         marker = value[0]
         action = value[1]
