@@ -5,6 +5,7 @@ import os.path
 import sys
 
 def getPointsList(reader, name):
+    """Gets a group of points and extract it's labels as a list of strings."""
     list = reader.groups['POINT'].get_string(name)
     elementSize = reader.groups['POINT'].get(name).dimensions[0]
     newlist = [list[i:i + elementSize] for i in range(0, len(list), elementSize)]
@@ -15,6 +16,7 @@ def getPointsList(reader, name):
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 
+# parse arguments
 if len(sys.argv) < 3:
     sys.exit('C3D file not defined.')
 
@@ -23,20 +25,24 @@ if not os.path.isfile(sys.argv[1]):
 
 playbackSpeed = float(sys.argv[2])
 
+# parse C3D file
 reader = c3d.Reader(open(sys.argv[1], 'rb'))
+
+# extract point group labels
 labels = getPointsList(reader, 'LABELS')
 angleLabels = getPointsList(reader, 'ANGLES')
 forcesLabels = getPointsList(reader, 'FORCES')
 momentsLabels = getPointsList(reader, 'MOMENTS')
 powersLabels = getPointsList(reader, 'POWERS')
 
+# filter non 3D points and send the list to the robot window
 filteredLabel = [x for x in labels if x not in angleLabels]
 filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
 filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
 filteredLabel = [x for x in filteredLabel if x not in powersLabels]
-
 supervisor.wwiSendText(" ".join(filteredLabel))
 
+# get C3D files settings
 numberOfpoints = reader.header.point_count
 frameStep = 1.0 / reader.header.frame_rate
 scale = reader.header.scale_factor
@@ -45,13 +51,17 @@ if reader.groups['POINT'].get('UNITS').string_value == 'mm':
 elif not reader.groups['POINT'].get('UNITS').string_value == 'm':
     print("Can't determine the size unit.")
 
+# make one step to be sure markers are not imported before pressing play
 supervisor.step(timestep)
+
+# remove possible previous marker (at regeneration for example)
 markerField = supervisor.getSelf().getField('markers')
-pointRepresentations = {}
-j = 0
 for i in range(markerField.getCount()):
     markerField.removeMF(-1)
 
+# import the marker and initize the list of points
+pointRepresentations = {}
+j = 0
 for i in range(len(labels)):
     pointRepresentations[labels[i]] = {}
     pointRepresentations[labels[i]]['visible'] = False
@@ -66,13 +76,16 @@ for i in range(len(labels)):
         pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
         j += 1
 
+# parse the C3D frames
 frameAndPoints = []
 for i, points, analog in reader.read_frames():
     frameAndPoints.append((i, points))
 
+# main loop
 frameCoutner = 0
 totalFrameCoutner = 0
 while supervisor.step(timestep) != -1:
+    # check for messages from the robot-window
     message = supervisor.wwiReceiveText()
     while message:
         value = message.split(':')
@@ -92,6 +105,7 @@ while supervisor.step(timestep) != -1:
             pointRepresentations[marker]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
 
+    # play the required frame (if needed)
     step = int(playbackSpeed * supervisor.getTime() / frameStep - totalFrameCoutner)
     if step > 0:
         frame = frameAndPoints[frameCoutner][0]
