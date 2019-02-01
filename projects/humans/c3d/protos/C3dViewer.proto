@@ -5,11 +5,15 @@
 # A viewer to visualize C3D (www.c3d.org) files.
 
 PROTO C3dViewer [
-  field  SFString  c3dFile  ""  # Defines which file should be displayed.
-  field  MFNode    markers  []  # Slot for the insertion of all the markers (they will ba inserted automatically).
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     0 1 0 0
+  field  SFString    c3dFile      ""       # Defines which file should be displayed.
+  field  MFNode      markers      []       # Slot for the insertion of all the markers (they will ba inserted automatically).
 ]
 {
   Robot {
+    translation IS translation
+    rotation IS rotation
     children IS markers
     controller "c3d_viewer"
     controllerArgs IS c3dFile
