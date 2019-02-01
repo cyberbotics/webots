@@ -5,6 +5,7 @@ PROTO C3dMarker [
   field SFVec3f      translation              0 0 0
   field SFColor      color                    1 0 0
   field SFFloat      transparency             0
+  field SFFloat      radius                   0.005
   field SFString     name                     "marker"
 ]
 {
@@ -19,7 +20,8 @@ PROTO C3dMarker [
           transparency IS transparency
         }
         geometry Sphere {
-          radius 0.01
+          radius IS radius
+          subdivision 2
         }
         castShadows FALSE
       }

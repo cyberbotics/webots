@@ -53,6 +53,8 @@ for i in range(len(labels)):
         pointRepresentations[labels[i]]['node'] = supervisor.getFromDef('MARKER%d' % j)
         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
+        pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
+        pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
         j += 1
 
 frameAndPoints = []
@@ -73,6 +75,12 @@ while supervisor.step(timestep) != -1:
         elif action == 'enable':
             pointRepresentations[marker]['visible'] = True
             pointRepresentations[marker]['transparency'].setSFFloat(0.0)
+        elif action == 'radius':
+            pointRepresentations[marker]['radius'].setSFFloat(float(value[2]))
+        elif action == 'color':
+            h = value[2].lstrip('#')
+            color = [int(h[i:i+2], 16) / 255 for i in (0, 2 ,4)]
+            pointRepresentations[marker]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
     frame = frameAndPoints[i][0]
     points = frameAndPoints[i][1]
