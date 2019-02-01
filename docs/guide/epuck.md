@@ -78,16 +78,17 @@ The names of the simulated devices which are to be used as an argument of the `w
 
 %figure "Devices names"
 
-| Device                     | Name                                                     				|
+| Device                     | Name                                                             |
 | -------------------------- | ---------------------------------------------------------------- |
-| Motors                     | 'left wheel motor' and 'right wheel motor'               				|
-| Position sensors           | 'left wheel sensor' and 'right wheel sensor'             				|
-| Proximity sensors          | 'ps0' to 'ps7'                                              			|
-| Light sensors              | 'ls0' to 'ls7'                                               		|
+| Motors                     | 'left wheel motor' and 'right wheel motor'                       |
+| Position sensors           | 'left wheel sensor' and 'right wheel sensor'                     |
+| Proximity sensors          | 'ps0' to 'ps7'                                                   |
+| Light sensors              | 'ls0' to 'ls7'                                                   |
 | LEDs                       | 'led0' to 'led7' (e-puck ring), 'led8' (body) and 'led9' (front) |
-| Camera                     | 'camera'                                                   			|
-| Accelerometer              | 'accelerometer'                                            			|
-| Ground sensors (extension) | 'gs0', 'gs1' and 'gs2'                                         	|
+| Camera                     | 'camera'                                                         |
+| Accelerometer              | 'accelerometer'                                                  |
+| Ground sensors (extension) | 'gs0', 'gs1' and 'gs2'                                           |
+| Speaker                    | 'speaker'                                                        |
 
 %end
 
@@ -154,6 +155,7 @@ When set to "2", the e-puck model switches to the e-puck2, with the following di
 - The overall mass differs: 130 [grams] instead of 150 [grams].
 - The max speed differs: 1200 [steps / second] instead of 1000 [steps / second].
 - The e-puck2 robot windows offers Wi-Fi remote control instead of Bluetooth.
+- The LEDs of the e-puck2 are slightly different from the ones of the e-puck (some are RGB LEDs).
 
 > **Note**: Controller cross-compilation is currently not available for the e-puck2 robot. However, remote-controlling a real e-puck2 robot with Bluetooth is possible by using an e-puck 1 model in Webots (e.g., setting the `version` field of the `E-puck` PROTO to "1").
 
@@ -386,6 +388,10 @@ This is done using the distance sensors of the e-puck.
 #### e-puck2.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is the same simulation as the above one, except that it uses an "e-puck2" model.
+
+#### e-puck2_server.wbt
+
+![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol. The e-puck2 Wi-Fi protocol is available on the real e-puck2 when running the Wi-Fi enabled firmware. As a consequence, it is possible to connect the Wi-Fi version of the GCTronic `EPuckMonitor` program to this controller (running on port 1000). This allows users to test the behavior of the simulated e-puck2 robot with the TCP/IP Advance Sercom protocol commands.
 
 #### e-puck\_line.wbt
 
