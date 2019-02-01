@@ -85,6 +85,20 @@ supervisor.step(timestep)
 markerField = supervisor.getSelf().getField('markers')
 for i in range(markerField.getCount()):
     markerField.removeMF(-1)
+# array = reader.groups['FORCE_PLATFORM'].get('CORNERS').float_array
+# print(array)
+# indexedFaceSet = "Shape {"
+# indexedFaceSet += "geometry IndexedFaceSet {"
+# indexedFaceSet += "coord Coordinate {"
+# indexedFaceSet += "point ["
+# for i in range(4):
+#     indexedFaceSet += str(array[0][i][0] * scale) + " 0 " + str(array[2][i][0] * scale) +  ","
+# indexedFaceSet += "]"
+# indexedFaceSet += "}"
+# indexedFaceSet += "coordIndex [0 1 2 3 -1]"
+# indexedFaceSet += "}"
+# indexedFaceSet += "}"
+# markerField.importMFNodeFromString(-1, indexedFaceSet)
 
 # import the marker and initize the list of points
 pointRepresentations = {}
