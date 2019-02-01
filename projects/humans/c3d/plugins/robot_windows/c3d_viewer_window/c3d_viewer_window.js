@@ -19,14 +19,20 @@ function colorCallback(color) {
 
 webots.window('c3d_viewer_window').receive = function(message, robot) {
   robotWindow = this;
-  var names = message.split(" ");
+  var isVirtual = false;
+  if (message.startsWith('virtual_markers:'))
+    isVirtual = true;
+  var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
+  var names = message.slice(toSlice).split(" ");
+  var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  div.innerHTML = ''
   for (var i = 0; i < names.length; i++) {
-    document.body.innerHTML += '<div>';
-    document.body.innerHTML += '<input type="checkbox" title="Show/hide this marker." marker="' + names[i] + '" onclick="checkboxCallback(this)" checked/>';
-    document.body.innerHTML += ' ' + names[i];
-    document.body.innerHTML += '<input type="range" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + names[i] + '" onchange="sliderCallback(this)">';
-    document.body.innerHTML += '<span id = "slider_value_' + names[i] + '">0.001</div>';
-    document.body.innerHTML += '<input type="color" marker="' + names[i] + '" value="#ff0000" onchange="colorCallback(this)">';
-    document.body.innerHTML += '</div>';
+    div.innerHTML += '<div>';
+    div.innerHTML += '<input type="checkbox" title="Show/hide this marker." marker="' + names[i] + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+    div.innerHTML += ' ' + names[i];
+    div.innerHTML += '<input type="range" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + names[i] + '" onchange="sliderCallback(this)">';
+    div.innerHTML += '<span id = "slider_value_' + names[i] + '">0.001</div>';
+    div.innerHTML += '<input type="color" marker="' + names[i] + '" value="#ff0000" onchange="colorCallback(this)">';
+    div.innerHTML += '</div>';
   }
 }

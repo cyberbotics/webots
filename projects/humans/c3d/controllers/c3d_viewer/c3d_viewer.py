@@ -4,6 +4,22 @@ import c3d
 import os.path
 import sys
 
+def isVirtualMarker(name):
+    """Returns true is this is known to be a virtual marker."""
+    prefixList = [
+      'HED', 'LCL', 'LFE', 'LFO', 'LHN', 'LHU', 'LRA', 'LTI', 'LTO', 'PEL',
+      'RCL', 'RFE', 'RFO', 'RHN', 'RHU', 'RRA', 'RTI', 'RTO', 'TRX'
+    ]
+    virtualMarkers = ['CentreOfMass', 'CentreOfMassFloor']
+    for prefix in prefixList:
+        virtualMarkers.append(prefix + 'O')
+        virtualMarkers.append(prefix + 'A')
+        virtualMarkers.append(prefix + 'L')
+        virtualMarkers.append(prefix + 'P')
+    if name in virtualMarkers:
+        return True
+    return False
+
 def getPointsList(reader, name):
     """Gets a group of points and extract it's labels as a list of strings."""
     list = reader.groups['POINT'].get_string(name)
@@ -40,7 +56,18 @@ filteredLabel = [x for x in labels if x not in angleLabels]
 filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
 filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
 filteredLabel = [x for x in filteredLabel if x not in powersLabels]
-supervisor.wwiSendText(" ".join(filteredLabel))
+
+markers = ''
+virtualmarkers = ''
+for label in filteredLabel:
+    if isVirtualMarker(label):
+        virtualmarkers += label + ' '
+    else:
+        markers += label + ' '
+if markers:
+    supervisor.wwiSendText('markers:' + markers.strip())
+if virtualmarkers:
+    supervisor.wwiSendText('virtual_markers:' + virtualmarkers.strip())
 
 # get C3D files settings
 numberOfpoints = reader.header.point_count
@@ -67,13 +94,16 @@ for i in range(len(labels)):
     pointRepresentations[labels[i]]['visible'] = False
     pointRepresentations[labels[i]]['node'] = None
     if labels[i] in filteredLabel:
-        pointRepresentations[labels[i]]['visible'] = True
         markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
         pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
         pointRepresentations[labels[i]]['color'] = pointRepresentations[labels[i]]['node'].getField('color')
+        if isVirtualMarker(labels[i]):
+            pointRepresentations[labels[i]]['transparency'].setSFFloat(1.0)
+        else:
+            pointRepresentations[labels[i]]['visible'] = True
         j += 1
 
 # parse the C3D frames
