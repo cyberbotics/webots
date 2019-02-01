@@ -2,7 +2,7 @@
 # tags: static
 # TODO
 
-PROTO Marker [
+PROTO C3dMarker [
   field SFVec3f      translation              0 0 0
   field SFColor      color                    1 0 0
   field SFFloat      transparency             0
