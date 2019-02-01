@@ -391,7 +391,7 @@ This is done using the distance sensors of the e-puck.
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is the same simulation as the above one, except that it uses an "e-puck2" model.
 
-#### e-puck2_server.wbt
+#### e-puck2\_server.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.
 The e-puck2 Wi-Fi protocol is available on the real e-puck2 when running the Wi-Fi enabled firmware.
