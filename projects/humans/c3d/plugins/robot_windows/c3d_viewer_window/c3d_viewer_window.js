@@ -21,10 +21,12 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   robotWindow = this;
   var names = message.split(" ");
   for (var i = 0; i < names.length; i++) {
-    document.body.innerHTML +='<input type="checkbox" title="Show/hide this marker." marker="' + names[i] + '" onclick="checkboxCallback(this)" checked/>';
+    document.body.innerHTML += '<div>';
+    document.body.innerHTML += '<input type="checkbox" title="Show/hide this marker." marker="' + names[i] + '" onclick="checkboxCallback(this)" checked/>';
     document.body.innerHTML += ' ' + names[i];
     document.body.innerHTML += '<input type="range" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + names[i] + '" onchange="sliderCallback(this)">';
     document.body.innerHTML += '<span id = "slider_value_' + names[i] + '">0.001</div>';
-    document.body.innerHTML += '<input type="color" marker="' + names[i] + '" value="#ff0000" onchange="colorCallback(this)"></br>';
+    document.body.innerHTML += '<input type="color" marker="' + names[i] + '" value="#ff0000" onchange="colorCallback(this)">';
+    document.body.innerHTML += '</div>';
   }
 }

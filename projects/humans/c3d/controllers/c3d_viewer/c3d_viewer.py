@@ -1,6 +1,8 @@
 from controller import Supervisor
 
 import c3d
+import os.path
+import sys
 
 def getPointsList(reader, name):
     list = reader.groups['POINT'].get_string(name)
@@ -13,7 +15,13 @@ def getPointsList(reader, name):
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 
-reader = c3d.Reader(open('00021_00081_20071128-GBNNN-VDEF-07.C3D', 'rb'))
+if len(sys.argv) < 2:
+    sys.exit('C3D file not defined.')
+
+if not os.path.isfile(sys.argv[1]):
+    sys.exit('\'%s\' does not exist.' % sys.argv[1])
+
+reader = c3d.Reader(open(sys.argv[1], 'rb'))
 print('Header:')
 print(reader.header)
 labels = getPointsList(reader, 'LABELS')
@@ -39,8 +47,7 @@ if reader.groups['POINT'].get('UNITS').string_value == 'mm':
 else:
     print("Can't determine the size unit.")
 
-
-childrenField = supervisor.getSelf().getField('children')
+markerField = supervisor.getSelf().getField('markers')
 pointRepresentations = {}
 j = 0
 for i in range(len(labels)):
@@ -49,8 +56,8 @@ for i in range(len(labels)):
     pointRepresentations[labels[i]]['node'] = None
     if labels[i] in filteredLabel:
         pointRepresentations[labels[i]]['visible'] = True
-        childrenField.importMFNodeFromString(-1, 'DEF MARKER%d C3dMarker { }' % j)
-        pointRepresentations[labels[i]]['node'] = supervisor.getFromDef('MARKER%d' % j)
+        markerField.importMFNodeFromString(-1, 'C3dMarker { }')
+        pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
         pointRepresentations[labels[i]]['radius'] = pointRepresentations[labels[i]]['node'].getField('radius')
