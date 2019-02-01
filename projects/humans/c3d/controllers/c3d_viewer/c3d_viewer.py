@@ -15,11 +15,13 @@ def getPointsList(reader, name):
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
     sys.exit('C3D file not defined.')
 
 if not os.path.isfile(sys.argv[1]):
     sys.exit('\'%s\' does not exist.' % sys.argv[1])
+
+playbackSpeed = float(sys.argv[2])
 
 reader = c3d.Reader(open(sys.argv[1], 'rb'))
 labels = getPointsList(reader, 'LABELS')
@@ -36,23 +38,27 @@ filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 supervisor.wwiSendText(" ".join(filteredLabel))
 
 numberOfpoints = reader.header.point_count
-
+frameStep = 1.0 / reader.header.frame_rate
 scale = reader.header.scale_factor
 if reader.groups['POINT'].get('UNITS').string_value == 'mm':
     scale *= 0.001
 elif not reader.groups['POINT'].get('UNITS').string_value == 'm':
     print("Can't determine the size unit.")
 
+supervisor.step(timestep)
 markerField = supervisor.getSelf().getField('markers')
 pointRepresentations = {}
 j = 0
+for i in range(markerField.getCount()):
+    markerField.removeMF(-1)
+
 for i in range(len(labels)):
     pointRepresentations[labels[i]] = {}
     pointRepresentations[labels[i]]['visible'] = False
     pointRepresentations[labels[i]]['node'] = None
     if labels[i] in filteredLabel:
         pointRepresentations[labels[i]]['visible'] = True
-        markerField.importMFNodeFromString(-1, 'C3dMarker { }')
+        markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
         pointRepresentations[labels[i]]['translation'] = pointRepresentations[labels[i]]['node'].getField('translation')
         pointRepresentations[labels[i]]['transparency'] = pointRepresentations[labels[i]]['node'].getField('transparency')
@@ -64,7 +70,8 @@ frameAndPoints = []
 for i, points, analog in reader.read_frames():
     frameAndPoints.append((i, points))
 
-i = 0
+frameCoutner = 0
+totalFrameCoutner = 0
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
     while message:
@@ -84,15 +91,18 @@ while supervisor.step(timestep) != -1:
             color = [int(h[i:i+2], 16) / 255 for i in (0, 2 ,4)]
             pointRepresentations[marker]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
-    frame = frameAndPoints[i][0]
-    points = frameAndPoints[i][1]
 
-    for j in range(numberOfpoints):
-        if pointRepresentations[labels[j]]['visible']:
-            x = points[j][0] * scale
-            y = -points[j][2] * scale
-            z = points[j][1] * scale
-            pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-    i += 1
-    if i >= len(frameAndPoints):
-        i = 0
+    step = int(playbackSpeed * supervisor.getTime() / frameStep - totalFrameCoutner)
+    if step > 0:
+        frame = frameAndPoints[frameCoutner][0]
+        points = frameAndPoints[frameCoutner][1]
+        for j in range(numberOfpoints):
+            if pointRepresentations[labels[j]]['visible']:
+                x = points[j][0] * scale
+                y = -points[j][2] * scale
+                z = points[j][1] * scale
+                pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
+        totalFrameCoutner += step
+        frameCoutner += step
+        if frameCoutner >= len(frameAndPoints):
+            frameCoutner = frameCoutner % len(frameAndPoints)

@@ -5,10 +5,11 @@
 # A viewer to visualize C3D (www.c3d.org) files.
 
 PROTO C3dViewer [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     0 1 0 0
-  field  SFString    c3dFile      ""       # Defines which file should be displayed.
-  field  MFNode      markers      []       # Slot for the insertion of all the markers (they will ba inserted automatically).
+  field  SFVec3f     translation    0 0 0
+  field  SFRotation  rotation       0 1 0 0
+  field  SFString    c3dFile        ""       # Defines which file should be displayed.
+  field  SFFloat     playbackSpeed  1.0      # Defines the speed at which should be played the C3D file.
+  field  MFNode      markers        []       # The markers will be automatically inserted in this field.
 ]
 {
   Robot {
@@ -16,7 +17,7 @@ PROTO C3dViewer [
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
-    controllerArgs IS c3dFile
+    controllerArgs %{= '"' .. fields.c3dFile.value .. ' ' .. fields.playbackSpeed.value .. '"' }%
     supervisor TRUE
     showWindow TRUE
     window "c3d_viewer_window"
