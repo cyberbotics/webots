@@ -2,19 +2,54 @@ var robotWindow = null;
 
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
-    robotWindow.send(checkbox.getAttribute('marker') + ':enable');
+    robotWindow.send('enable:' + checkbox.getAttribute('marker'));
   else
-    robotWindow.send(checkbox.getAttribute('marker') + ':disable');
+    robotWindow.send('disable:' + checkbox.getAttribute('marker'));
 }
 
 function sliderCallback(slider) {
   var marker = slider.getAttribute('marker');
-  var label = document.getElementById('slider_value_' + marker).innerHTML = slider.value;
-  robotWindow.send(marker + ':radius:' + slider.value);
+  document.getElementById('slider_value_' + marker).innerHTML = slider.value;
+  robotWindow.send('radius:' + slider.value + ':' + marker);
 }
 
 function colorCallback(color) {
-  robotWindow.send(color.getAttribute('marker') + ':color:' + color.value);
+  robotWindow.send('color:' + color.value + ':' + color.getAttribute('marker'));
+}
+
+function hideShowAll(virtual, hide) {
+  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  var checkboxes = div.getElementsByClassName("visibilityCheckbox");
+  message = hide ? 'disable' : 'enable';
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = true;
+    message += ':' + checkboxes[i].getAttribute('marker');
+  }
+  robotWindow.send(message);
+}
+
+function changeColor(virtual, color) {
+  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  var colorSelectors = div.getElementsByClassName("colorSelector");
+  message = 'color:' + color;
+  for (var i = 0; i < colorSelectors.length; i++) {
+    colorSelectors[i].value = color;
+    message += ':' + colorSelectors[i].getAttribute('marker');
+  }
+  robotWindow.send(message);
+}
+
+function changeRadius(virtual, radius) {
+  var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  var radiusSliders = div.getElementsByClassName("radiusSlider");
+  message = 'radius:' + radius;
+  for (var i = 0; i < radiusSliders.length; i++) {
+    radiusSliders[i].value = radius;
+    var marker = radiusSliders[i].getAttribute('marker')
+    message += ':' + marker;
+    document.getElementById('slider_value_' + marker).innerHTML = radius;
+  }
+  robotWindow.send(message);
 }
 
 webots.window('c3d_viewer_window').receive = function(message, robot) {
@@ -38,3 +73,30 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   }
   div.innerHTML = content;
 }
+
+window.onload = function() {
+  document.getElementById('select_markers').onclick = function() {
+    hideShowAll(false, false);
+  };
+  document.getElementById('unselect_markers').onclick = function() {
+    hideShowAll(false, true);
+  };
+  document.getElementById('select_virtual_markers').onclick = function() {
+    hideShowAll(true, false);
+  };
+  document.getElementById('unselect_virtual_markers').onclick = function() {
+    hideShowAll(true, true);
+  };
+  document.getElementById('color_virtual_markers').onchange = function() {
+    changeColor(true, this.value);
+  };
+  document.getElementById('color_markers').onchange = function() {
+    changeColor(false, this.value);
+  };
+  document.getElementById('radius_virtual_markers').onchange = function() {
+    changeRadius(true, this.value);
+  };
+  document.getElementById('radius_markers').onchange = function() {
+    changeRadius(false, this.value);
+  };
+};

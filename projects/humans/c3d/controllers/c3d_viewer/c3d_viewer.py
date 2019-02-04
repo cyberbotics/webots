@@ -136,20 +136,23 @@ while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
     while message:
         value = message.split(':')
-        marker = value[0]
-        action = value[1]
+        action = value[0]
         if action == 'disable':
-            pointRepresentations[marker]['visible'] = False
-            pointRepresentations[marker]['transparency'].setSFFloat(1.0)
+            for i in range(1, len(value)):
+                pointRepresentations[value[i]]['visible'] = False
+                pointRepresentations[value[i]]['transparency'].setSFFloat(1.0)
         elif action == 'enable':
-            pointRepresentations[marker]['visible'] = True
-            pointRepresentations[marker]['transparency'].setSFFloat(0.0)
+            for i in range(1, len(value)):
+                pointRepresentations[value[i]]['visible'] = True
+                pointRepresentations[value[i]]['transparency'].setSFFloat(0.0)
         elif action == 'radius':
-            pointRepresentations[marker]['radius'].setSFFloat(float(value[2]))
+            for i in range(2, len(value)):
+                pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
         elif action == 'color':
-            h = value[2].lstrip('#')
+            h = value[1].lstrip('#')
             color = [int(h[i:i+2], 16) / 255.0 for i in (0, 2 ,4)]
-            pointRepresentations[marker]['color'].setSFColor(color)
+            for i in range(2, len(value)):
+                pointRepresentations[value[i]]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
