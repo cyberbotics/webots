@@ -123,8 +123,10 @@ for i in range(len(labels)):
 
 # parse the C3D frames
 frameAndPoints = []
+frameAndAnalog = []
 for i, points, analog in reader.read_frames():
     frameAndPoints.append((i, points))
+    # frameAndAnalog.append((i, analog))
 
 # main loop
 frameCoutner = 0
@@ -155,6 +157,8 @@ while supervisor.step(timestep) != -1:
     if step > 0:
         frame = frameAndPoints[frameCoutner][0]
         points = frameAndPoints[frameCoutner][1]
+        # print([frameAndAnalog[frameCoutner][1][0][0], frameAndAnalog[frameCoutner][1][1][0], frameAndAnalog[frameCoutner][1][2][0]])
+        # print(frameAndAnalog[frameCoutner][1])
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible']:
                 x = points[j][0] * scale
