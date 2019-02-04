@@ -14,5 +14,5 @@ addons:
     packages:
       - clang-format
 script:
-  - python -m unittest discover -s tests/sources
-  - python -m unittest discover -s docs/tests
+  - python -v -m unittest discover -s tests/sources
+  - python -v -m unittest discover -s docs/tests
