@@ -1,0 +1,8 @@
+.markerCategory {
+  display: flex;
+  flex-direction: column;
+}
+
+.radiusSlider {
+  width: 200px;
+}
