@@ -54,8 +54,6 @@ then
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/templates/x3d_playback.html
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/osm_importer/utils/misc_utils.py
 
-  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/doc.php
-  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/local_exporter.py
-  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/index.html
+  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/dependencies.txt
   ./upload_wwi_files_to_ftp.sh $new_version_without_revision
 fi
