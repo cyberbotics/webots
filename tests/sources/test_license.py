@@ -114,6 +114,7 @@ class TestLicense(unittest.TestCase):
         print("Set up for license.")
         self.sources = []
         for directory in directories:
+            print(('dir', directory))
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
                 shouldContinue = False
                 for path in skippedPathes:
@@ -126,9 +127,11 @@ class TestLicense(unittest.TestCase):
                         break
                 if fileNames == '__init__.py':
                     shouldContinue = True
+                print((rootPath, shouldContinue))
                 if shouldContinue:
                     continue
                 for extension in extensions:
+                    print(('Extension', extension))
                     for fileName in fnmatch.filter(fileNames, extension):
                         print(file)
                         file = os.path.join(rootPath, fileName)
