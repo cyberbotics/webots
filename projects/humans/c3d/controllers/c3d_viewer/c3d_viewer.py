@@ -148,7 +148,7 @@ while supervisor.step(timestep) != -1:
             pointRepresentations[marker]['radius'].setSFFloat(float(value[2]))
         elif action == 'color':
             h = value[2].lstrip('#')
-            color = [int(h[i:i+2], 16) / 255 for i in (0, 2 ,4)]
+            color = [int(h[i:i+2], 16) / 255.0 for i in (0, 2 ,4)]
             pointRepresentations[marker]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
 
