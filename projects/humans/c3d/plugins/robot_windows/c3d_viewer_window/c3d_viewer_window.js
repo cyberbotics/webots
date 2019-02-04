@@ -33,7 +33,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
     content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
     content += '<span id="slider_value_' + name + '">0.001</span>';
-    content += '<input type="color" class="colorSelector" marker="' + name + '" value="#ff0000" onchange="colorCallback(this)"/>';
+    content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
     content += '</div>';
   }
   div.innerHTML = content;

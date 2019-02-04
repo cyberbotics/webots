@@ -3,7 +3,7 @@
 
 PROTO C3dMarker [
   field SFVec3f      translation              0 0 0
-  field SFColor      color                    1 0 0
+  field SFColor      color                    0 1 0
   field SFFloat      transparency             0
   field SFFloat      radius                   0.005
   field SFString     name                     "marker"
@@ -16,6 +16,7 @@ PROTO C3dMarker [
         appearance PBRAppearance {
           baseColor IS color
           metalness 0
+          roughness 1
           emissiveColor IS color
           transparency IS transparency
         }
