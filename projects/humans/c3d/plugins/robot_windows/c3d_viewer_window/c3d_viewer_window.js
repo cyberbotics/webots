@@ -25,14 +25,16 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
   var names = message.slice(toSlice).split(" ");
   var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  div.innerHTML = ''
+  var content = '';
   for (var i = 0; i < names.length; i++) {
-    div.innerHTML += '<div class="markerDiv">';
-    div.innerHTML += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + names[i] + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
-    div.innerHTML += ' ' + names[i];
-    div.innerHTML += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + names[i] + '" onchange="sliderCallback(this)"/>';
-    div.innerHTML += '<span id = "slider_value_' + names[i] + '">0.001</span>';
-    div.innerHTML += '<input type="color" class="colorSelector" marker="' + names[i] + '" value="#ff0000" onchange="colorCallback(this)"/>';
-    div.innerHTML += '</div>';
+    var name = names[i];
+    content += '<div class="markerDiv">';
+    content += name;
+    content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+    content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
+    content += '<span id="slider_value_' + name + '">0.001</span>';
+    content += '<input type="color" class="colorSelector" marker="' + name + '" value="#ff0000" onchange="colorCallback(this)"/>';
+    content += '</div>';
   }
+  div.innerHTML = content;
 }

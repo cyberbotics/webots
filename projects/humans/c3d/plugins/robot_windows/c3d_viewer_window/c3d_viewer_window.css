@@ -1,8 +1,13 @@
-.markerCategory {
+.markerContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
 }
 
-.radiusSlider {
-  width: 200px;
+.markerDiv {
+  width: 420px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
