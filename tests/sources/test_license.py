@@ -135,6 +135,7 @@ class TestLicense(unittest.TestCase):
     def test_sources_have_license(self):
         """Test that sources have the license."""
         for source in self.sources:
+            print(source)
             with open(source, 'r') as content_file:
                 content = content_file.read()
                 if source.endswith('.c') or source.endswith('.h'):
