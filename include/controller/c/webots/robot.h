@@ -65,7 +65,12 @@ int wb_robot_init_msvc();  // internally, this function just calls wb_robot_init
 #define wb_robot_init() (setvbuf(stdout, NULL, _IONBF, 0), setvbuf(stderr, NULL, _IONBF, 0), wb_robot_init_msvc())
 #endif
 
-int wb_robot_step(int duration);                                                                // milliseconds
+int wb_robot_step(int duration);  // milliseconds
+
+#ifdef __CYGWIN__  // in that case, we need to flush explicitly the stdout/stdin streams otherwise they are buffered
+#define wb_robot_step(d) (fflush(NULL) ? wb_robot_step(d) : wb_robot_step(d))
+#endif
+
 WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type, int timeout);  // milliseconds
 void wb_robot_cleanup();
 double wb_robot_get_time();
