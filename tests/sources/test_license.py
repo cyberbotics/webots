@@ -15,7 +15,6 @@
 """Test that checks that all the source files have the Apache 2 license."""
 import unittest
 
-import difflib
 import os
 import fnmatch
 
@@ -90,6 +89,7 @@ class TestLicense(unittest.TestCase):
             'projects/default/resources/sumo',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
+            'projects/humans/c3d/controllers/c3d_viewer',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',
