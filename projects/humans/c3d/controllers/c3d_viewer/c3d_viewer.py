@@ -18,11 +18,12 @@ import c3d
 import os.path
 import sys
 
+
 def isVirtualMarker(name):
-    """Returns true is this is known to be a virtual marker."""
+    """Return true is this is known to be a virtual marker."""
     prefixList = [
-      'HED', 'LCL', 'LFE', 'LFO', 'LHN', 'LHU', 'LRA', 'LTI', 'LTO', 'PEL',
-      'RCL', 'RFE', 'RFO', 'RHN', 'RHU', 'RRA', 'RTI', 'RTO', 'TRX'
+        'HED', 'LCL', 'LFE', 'LFO', 'LHN', 'LHU', 'LRA', 'LTI', 'LTO', 'PEL',
+        'RCL', 'RFE', 'RFO', 'RHN', 'RHU', 'RRA', 'RTI', 'RTO', 'TRX'
     ]
     virtualMarkers = ['CentreOfMass', 'CentreOfMassFloor']
     for prefix in prefixList:
@@ -34,14 +35,16 @@ def isVirtualMarker(name):
         return True
     return False
 
+
 def getPointsList(reader, name):
-    """Gets a group of points and extract it's labels as a list of strings."""
+    """Get a group of points and extract it's labels as a list of strings."""
     list = reader.groups['POINT'].get_string(name)
     elementSize = reader.groups['POINT'].get(name).dimensions[0]
     newlist = [list[i:i + elementSize] for i in range(0, len(list), elementSize)]
     for i in range(len(newlist)):
         newlist[i] = newlist[i].strip()
     return newlist
+
 
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
@@ -164,7 +167,7 @@ while supervisor.step(timestep) != -1:
                 pointRepresentations[value[i]]['radius'].setSFFloat(float(value[1]))
         elif action == 'color':
             h = value[1].lstrip('#')
-            color = [int(h[i:i+2], 16) / 255.0 for i in (0, 2 ,4)]
+            color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
             for i in range(2, len(value)):
                 pointRepresentations[value[i]]['color'].setSFColor(color)
         message = supervisor.wwiReceiveText()
