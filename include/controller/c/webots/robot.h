@@ -67,7 +67,9 @@ int wb_robot_init_msvc();  // internally, this function just calls wb_robot_init
 
 int wb_robot_step(int duration);  // milliseconds
 
-#ifdef __CYGWIN__  // in that case, we need to flush explicitly the stdout/stdin streams otherwise they are buffered
+#ifdef __CYGWIN__  // In that case, we need to flush explicitly the stdout/stdin streams otherwise they are buffered
+// We cannot call fflush from the libController as libController is compiled with gcc8 and won't flush the stdout/stderr
+// of a gcc7 (cygwin) compiled binary. Therefore, we need to perform the fflush in a gcc7 compiled code, e.g., in a macro here.
 #define wb_robot_step(d) (fflush(NULL) ? wb_robot_step(d) : wb_robot_step(d))
 #endif
 
