@@ -111,7 +111,6 @@ class TestLicense(unittest.TestCase):
 
         extensions = ['*.c', '*.cpp', '*.h', '*.hpp', '*.py', '*.java', 'Makefile']
 
-        print("Set up for license.")
         self.sources = []
         for directory in directories:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
