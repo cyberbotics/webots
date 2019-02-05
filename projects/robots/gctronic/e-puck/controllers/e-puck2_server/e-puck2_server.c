@@ -29,8 +29,11 @@
 #include <winsock.h>
 #else
 #include <arpa/inet.h>  /* definition of inet_ntoa */
+#include <errno.h>
+#include <fcntl.h>
 #include <netdb.h>      /* definition of gethostbyname */
 #include <netinet/in.h> /* definition of struct sockaddr_in */
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <unistd.h> /* definition of close */
@@ -212,6 +215,7 @@ int main(int argc, char *argv[]) {
       if (number != 0) {
         n = recv(fd, (char *)command_buffer, 21, 0);
         if (n < 0) {
+#ifdef _WIN32
           int e = WSAGetLastError();
           if (e == WSAECONNABORTED)
             fprintf(stderr, "Connection aborted.\n");
@@ -219,6 +223,10 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Connection reset.\n");
           else
             fprintf(stderr, "Error reading from socket: %d.\n", e);
+#else
+          if (errno)
+            fprintf(stderr, "Error reading from socket: %d.\n", errno);
+#endif
           break;
         }
         if (n == 21 && command_buffer[0] == 0x80) {

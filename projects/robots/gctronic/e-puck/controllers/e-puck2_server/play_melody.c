@@ -10,6 +10,8 @@
 
 #include "play_melody.h"
 
+#include <stddef.h>
+
 // Mission Impossible
 static const uint16_t mission_impossible_melody[] = {NOTE_G4,  0,       0,        NOTE_G4, 0, 0, NOTE_AS4, 0, NOTE_C5,  0,
                                                      NOTE_G4,  0,       0,        NOTE_G4, 0, 0, NOTE_F4,  0, NOTE_FS4, 0,
