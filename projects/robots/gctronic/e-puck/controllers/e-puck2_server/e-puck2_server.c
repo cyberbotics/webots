@@ -302,7 +302,6 @@ int main(int argc, char *argv[]) {
         short int acc[3];
         for (int i = 0; i < 3; i++) {
           acc[i] = values[i] / calibration_k[i];
-          acc[i] += 2 - rand() % 5; /* add some random noise */
           if (acc[i] > 1500)
             acc[i] = 1500;
           else if (acc[i] < -1500)
