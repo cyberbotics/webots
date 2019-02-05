@@ -840,6 +840,7 @@ Robot {
       ]
     }
     DEF EPUCK_ACCELEROMETER Accelerometer {
+      lookupTable [ -100 -100 0.003 100 100 0.003 ]
       rotation 1 0 0 -1.57
     }
     DEF EPUCK_SMALL_LOGO Transform {
