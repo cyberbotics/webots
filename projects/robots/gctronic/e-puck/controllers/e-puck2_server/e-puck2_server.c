@@ -46,7 +46,6 @@
 
 #include "play_melody.h"
 
-#define SOCKET_PORT 1000
 #define MOTOR_RATIO 0.00628
 
 static bool socket_init() {
@@ -85,13 +84,15 @@ static int socket_accept(int server_fd) {
   cfd = accept(server_fd, (struct sockaddr *)&client, &asize);
   if (cfd == -1) {
 #ifdef _WIN32
-    if (WSAGetLastError() == WSAEWOULDBLOCK)
+    int e = WSAGetLastError();
+    if (e == WSAEWOULDBLOCK)
       return 0;
+    fprintf(stderr, "Accept error: %d.\n", e);
 #else
     if (errno == EWOULDBLOCK)
       return 0;
+    fprintf(stderr, "Accept error: %d.\n", errno);
 #endif
-    fprintf(stderr, "Accept error: %d.\n", e);
     return -1;
   }
   client_info = gethostbyname((char *)inet_ntoa(client.sin_addr));
@@ -146,7 +147,12 @@ static int create_socket_server(int port) {
 int main(int argc, char *argv[]) {
   int fd = 0;
   fd_set rfds;
-  int sfd = create_socket_server(SOCKET_PORT);
+  int port;
+  if (argc > 1)
+    sscanf(argv[1], "%d", &port);
+  else
+    port = 1000;  // default port on the e-puck2 robot
+  int sfd = create_socket_server(port);
   socket_set_non_blocking(sfd);
   wb_robot_init();
   int time_step = wb_robot_get_basic_time_step();
@@ -181,7 +187,7 @@ int main(int argc, char *argv[]) {
   }
   bool stream_image = false;
   bool stream_sensors = false;
-  printf("Waiting for a connection on port %d...\n", SOCKET_PORT);
+  printf("Waiting for a connection on port %d...\n", port);
   unsigned char command_buffer[21];
   unsigned char sensors_buffer[105] = {0};
   sensors_buffer[0] = 0x02;
@@ -218,8 +224,6 @@ int main(int argc, char *argv[]) {
         if (n == 21 && command_buffer[0] == 0x80) {
           double left_speed = MOTOR_RATIO * (command_buffer[3] + ((char)command_buffer[4] << 8));
           double right_speed = MOTOR_RATIO * (command_buffer[5] + ((char)command_buffer[6] << 8));
-          printf("Setting motor speeds: %d %d = %d\n", command_buffer[3], command_buffer[4],
-                 (command_buffer[3] + ((char)command_buffer[4] << 8)));
           wb_motor_set_velocity(left_motor, left_speed);
           wb_motor_set_velocity(right_motor, right_speed);
           stream_image = ((command_buffer[1] & 1) == 1);
@@ -256,11 +260,10 @@ int main(int argc, char *argv[]) {
               play_melody_stop();
               break;
           }
-          // send(fd, "hello\n", 7, 0);
         } else if (n == 0) {
           wb_motor_set_velocity(left_motor, 0);
           wb_motor_set_velocity(right_motor, 0);
-          printf("Connection closed, waiting for new connection on port %d...\n", SOCKET_PORT);
+          printf("Connection closed, waiting for new connection on port %d...\n", port);
           socket_close(fd);
           fd = 0;
         } else {
@@ -271,8 +274,7 @@ int main(int argc, char *argv[]) {
         }
       }
       if (stream_sensors) {
-        for (int i = 1; i < sizeof(sensors_buffer); i++)
-          sensors_buffer[i] = 0;
+        memset(sensors_buffer + 1, 0, sizeof(sensors_buffer) - 1);
         for (int i = 0; i < 8; i++) {
           double value = wb_distance_sensor_get_value(distance_sensor[i]);
           if (value < 0)
@@ -315,15 +317,9 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < sizeof(float); i++)
           sensors_buffer[15 + i] = *((const unsigned char *)&inclination + i);
         send(fd, (char *)sensors_buffer, sizeof(sensors_buffer), 0);
-
-        // 192.168.137.132
       }
-      if (stream_image) {
-        printf("Sending image buffer\n");
+      if (stream_image)
         send(fd, (char *)image_buffer, 38401, 0);
-      }
-      if (!stream_sensors && !stream_image)
-        printf("Sending nothing\n");
     }
     fflush(stdout);
   }

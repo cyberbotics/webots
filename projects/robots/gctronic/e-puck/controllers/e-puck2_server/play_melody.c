@@ -214,12 +214,12 @@ void play_melody_step(double tempo) {
   if (melody == NULL)
     return;
   if (melody_time >= next_tone) {
-    uint16_t note = melody->notes[melody_step];
-    double pitch = (double)note / (double)NOTE_A4;
+    const uint16_t note = melody->notes[melody_step];
+    const double pitch = (double)note / (double)NOTE_A4;
     // to calculate the note duration, take one second
     // divided by the note type.
     // e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    uint16_t duration = 1000 / melody->tempo[melody_step];
+    const uint16_t duration = 1000 / melody->tempo[melody_step];
     next_silence = melody_time + duration;
     // to distinguish the notes, set a minimum time between them.
     // the note's duration + 30% seems to work well:

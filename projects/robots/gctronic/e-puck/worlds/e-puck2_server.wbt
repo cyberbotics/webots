@@ -49,6 +49,7 @@ WoodenBox {
 E-puck {
   rotation 0 1 0 1.57
   controller "e-puck2_server"
+  controllerArgs "1000"
   version "2"
   name "e-puck2"
   camera_width 160
