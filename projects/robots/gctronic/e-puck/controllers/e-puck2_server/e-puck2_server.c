@@ -52,8 +52,7 @@
 static bool socket_init() {
 #ifdef _WIN32 /* initialize the socket API */
   WSADATA info;
-  int rc = WSAStartup(MAKEWORD(1, 1), &info); /* Winsock 1.1 */
-  if (rc != 0) {
+  if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {
     fprintf(stderr, "Cannot initialize Winsock.\n");
     return false;
   }
