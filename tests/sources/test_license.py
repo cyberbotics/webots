@@ -119,13 +119,16 @@ class TestLicense(unittest.TestCase):
                 shouldContinue = False
                 for path in skippedPathes:
                     if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
+                        print(("skippedPathes", path))
                         shouldContinue = True
                         break
                 for directory in skippedDirectories:
                     if directory in rootPath.split(os.sep):
+                        print(("skippedDirectories", directory))
                         shouldContinue = True
                         break
                 if fileNames == '__init__.py':
+                    print("__init__")
                     shouldContinue = True
                 print((rootPath, shouldContinue))
                 if shouldContinue:
