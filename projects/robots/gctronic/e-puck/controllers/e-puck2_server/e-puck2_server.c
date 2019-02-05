@@ -85,8 +85,7 @@ static int socket_accept(int server_fd) {
   cfd = accept(server_fd, (struct sockaddr *)&client, &asize);
   if (cfd == -1) {
 #ifdef _WIN32
-    int e = WSAGetLastError();
-    if (e == WSAEWOULDBLOCK)
+    if (WSAGetLastError() == WSAEWOULDBLOCK)
       return 0;
 #else
     if (errno == EWOULDBLOCK)
