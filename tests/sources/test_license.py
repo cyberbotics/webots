@@ -123,7 +123,8 @@ class TestLicense(unittest.TestCase):
                         shouldContinue = True
                         break
                 for directory in skippedDirectories:
-                    if directory in rootPath.split(os.sep):
+                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
+                    if directory in currentDirectories:
                         print(("skippedDirectories", directory))
                         shouldContinue = True
                         break
