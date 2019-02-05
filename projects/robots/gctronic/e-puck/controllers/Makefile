@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=e-puck.Makefile e-puck_avoid_obstacles.Makefile e-puck_cross-compilation.Makefile e-puck_line.Makefile e-puck_line_demo.Makefile
+TARGETS=e-puck.Makefile e-puck_avoid_obstacles.Makefile e-puck_cross-compilation.Makefile e-puck_line.Makefile e-puck_line_demo.Makefile e-puck_server.Makefile
 
 .PHONY: release debug profile clean
 
