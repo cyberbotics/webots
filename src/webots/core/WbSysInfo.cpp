@@ -550,8 +550,6 @@ int WbSysInfo::intelGPUGeneration(QOpenGLFunctions *gl) {
   return 0;
 }
 
-#endif
-
 bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
   // https://pci-ids.ucw.cz/read/PC/1002
   quint32 id = gpuDeviceId(gl);
@@ -577,3 +575,5 @@ bool WbSysInfo::isAmdLowEndGpu(QOpenGLFunctions *gl) {
     return true;
   return false;
 }
+
+#endif
