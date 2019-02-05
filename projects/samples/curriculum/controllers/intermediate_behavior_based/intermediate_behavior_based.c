@@ -143,12 +143,13 @@ int mean(int array[], int size) {
   return sum / size;
 }
 
-  /*****************************
-   *
-   *  Modules
-   *
-   ******************************/
+/*****************************
+ *
+ *  Modules
+ *
+ ******************************/
 
+// Obstacle avoidance module
 #define OAM_K_90 0.08
 #define OAM_K_45 0.12
 #define OAM_K_10 0.12
