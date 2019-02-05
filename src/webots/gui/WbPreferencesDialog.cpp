@@ -83,6 +83,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
 
@@ -144,6 +145,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
 
@@ -288,11 +290,20 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mDisableSaveWarningCheckBox, 6, 1);
 
   // row 7
+  mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
+  mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
+                                    "https://cyberbotics.com/telemetry"));
+  QLabel *label = new QLabel(tr("Telemetry (<a href='https://cyberbotics.com/telemetry'>info</a>):"), this);
+  label->setOpenExternalLinks(true);
+  layout->addWidget(label, 7, 0);
+  layout->addWidget(mTelemetryCheckBox, 7, 1);
+
+  // row 8
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 7, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 7, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 8, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 8, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);
