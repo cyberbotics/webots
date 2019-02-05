@@ -397,6 +397,7 @@ This is done using the distance sensors of the e-puck.
 The e-puck2 Wi-Fi protocol is available on the real e-puck2 when running the Wi-Fi enabled firmware.
 As a consequence, it is possible to connect the Wi-Fi version of the GCTronic `EPuckMonitor` program to this controller (running on port 1000).
 This allows users to test the behavior of the simulated e-puck2 robot with the TCP/IP Advance Sercom protocol commands.
+The controller folder also contains an `e-puck2.vi` LabVIEW Virtual Instrument that controls the motors of the real or simulated e-puck2 using the Advanced Sercom protocol.
 
 #### e-puck\_line.wbt
 
