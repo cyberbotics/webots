@@ -84,7 +84,7 @@ class TestLicense(unittest.TestCase):
             'resources/languages/cpp'
         ]
 
-        skippedDirectoryPathes = [
+        skippedDirectoryPaths = [
             'src/webots/external',
             'projects/default/controllers/ros/include',
             'projects/default/resources/sumo',
@@ -121,7 +121,7 @@ class TestLicense(unittest.TestCase):
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
                 shouldContinue = False
                 relativeRootPath = rootPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '')
-                for path in skippedDirectoryPathes:
+                for path in skippedDirectoryPaths:
                     if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
                         shouldContinue = True
                         break
