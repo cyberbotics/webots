@@ -28,7 +28,7 @@
 #ifdef _WIN32
 #include <winsock.h>
 #else
-#include <arpa/inet.h>  /* definition of inet_ntoa */
+#include <arpa/inet.h> /* definition of inet_ntoa */
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>      /* definition of gethostbyname */
