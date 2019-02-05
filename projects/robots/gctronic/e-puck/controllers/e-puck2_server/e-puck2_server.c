@@ -18,8 +18,6 @@
  * Description:  A simple program implementing a TCP/IP server emulating the
  *               behavior of the e-puck2 robot, so that you can connect the
  *               EPuckMonitor (Wi-Fi version) and e-puck2.vi LabVIEW panel on it.
- *
- * Author:       Olivier Michel
  */
 
 #include <math.h>
