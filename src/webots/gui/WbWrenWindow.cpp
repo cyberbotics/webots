@@ -16,8 +16,8 @@
 
 #include "WbDragSolidEvent.hpp"
 #include "WbLensFlare.hpp"
-#include "WbLog.hpp"
 #include "WbLightRepresentation.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamer.hpp"
 #include "WbPerformanceLog.hpp"
@@ -90,21 +90,19 @@ WbWrenWindow::WbWrenWindow() :
   WbWrenOpenGlContext::init(this, this, format);
 
   if (!WbWrenOpenGlContext::instance()->isValid())
-    WbLog::fatal(
-      tr("Webots could not initialize the rendering system.\n"
-         "Please check your GPU abilities and install the latest graphics drivers.\n"
-         "Please do also check that your graphics hardware meets the requirements specified in the User Guide."));
+    WbLog::fatal(tr("Webots could not initialize the rendering system.\n"
+                    "Please check your GPU abilities and install the latest graphics drivers.\n"
+                    "Please do also check that your graphics hardware meets the requirements specified in the User Guide."));
 
   const WbVersion openGLActualVersion(WbWrenOpenGlContext::instance()->format().majorVersion(),
                                       WbWrenOpenGlContext::instance()->format().minorVersion());
 
   if (openGLActualVersion < openGLTargetVersion)
-    WbLog::fatal(
-      tr("Webots requires OpenGL %1 while only OpenGL %2 can be initialized.\n"
-         "Please check your GPU abilities and install the latest graphics drivers.\n"
-         "Please do also check that your graphics hardware meets the requirements specified in the User Guide.")
-        .arg(openGLTargetVersion.toString(false))
-        .arg(openGLActualVersion.toString(false)));
+    WbLog::fatal(tr("Webots requires OpenGL %1 while only OpenGL %2 can be initialized.\n"
+                    "Please check your GPU abilities and install the latest graphics drivers.\n"
+                    "Please do also check that your graphics hardware meets the requirements specified in the User Guide.")
+                   .arg(openGLTargetVersion.toString(false))
+                   .arg(openGLActualVersion.toString(false)));
 }
 
 WbWrenWindow::~WbWrenWindow() {
@@ -290,7 +288,8 @@ void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsi
   const int w = sourceWidth / scaleDownFactor;
   const int yFactor = scaleDownFactor * sourceWidth;
 
-  // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA) aligned on an `int *` boundary.
+  // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA) aligned on an `int
+  // *` boundary.
   // - A preliminary `unsigned char *` to `void *` cast is required to by-pass "cast-align" clang warnings.
   const uint32_t *src = (const uint32_t *)((void *)source);
   uint32_t *dst = (uint32_t *)((void *)destination);
