@@ -31,7 +31,7 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   QNetworkRequest request(QUrl("https://www.cyberbotics.com/telemetry.php"));
   QByteArray data;
   data.append("id=");
-  data.append(WbPreferences::instance()->value("General/TelemetryId", 0).toString());
+  data.append(WbPreferences::instance()->value("General/telemetryId", 0).toString());
   data.append("operation=");
   data.append(QUrl::toPercentEncoding(operation));
   data.append("&file=");

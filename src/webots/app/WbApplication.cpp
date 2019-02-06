@@ -263,7 +263,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   worldName = QDir::cleanPath(worldName);
 
   QString fileName;
-  if (WbPreferences::instance()->value("General/Telemetry").toBool()) {
+  if (WbPreferences::instance()->value("General/telemetry").toBool()) {
     QFileInfo fi(worldName);
     fileName = fi.fileName();
     const QDir dir = fi.absoluteDir();
@@ -336,7 +336,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
 
-  if (WbPreferences::instance()->value("General/Telemetry").toBool() && !fileName.isEmpty()) {
+  if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty()) {
     WbWrenOpenGlContext::makeWrenCurrent();
     WbTelemetry::send(fileName, "success");
     WbWrenOpenGlContext::doneWren();
