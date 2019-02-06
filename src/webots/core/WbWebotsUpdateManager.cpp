@@ -48,7 +48,7 @@ void WbWebotsUpdateManager::cleanup() {
 
 void WbWebotsUpdateManager::sendRequest() {
   QNetworkRequest request;
-  request.setUrl(QUrl("https://www.cyberbotics.com/webots_current_version.txt"));
+  request.setUrl(QUrl("https://cyberbotics.com/webots_current_version.txt"));
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished, Qt::UniqueConnection);
 }
