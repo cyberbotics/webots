@@ -25,8 +25,8 @@ class WbTelemetry : public QObject {
   Q_OBJECT
 
 public:
-  static void send(const QString &message);
-  void sendRequest(const QString &message);
+  static void send(const QString &file, const QString &operation);
+  void sendRequest(const QString &file, const QString &operation);
 
 private slots:
   void requestReplyFinished();

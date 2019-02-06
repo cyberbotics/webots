@@ -28,8 +28,10 @@
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSysInfo.hpp"
+#include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -255,11 +257,25 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     WbLog::error(tr("Could not open file: '%1'. The world file extension must be '.wbt'.").arg(worldName));
     return false;
   }
-  if (WbPreferences::instance()->value("General/Telemetry").toBool()) {
-  }
+
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
 
   worldName = QDir::cleanPath(worldName);
+
+  QString fileName;
+  if (WbPreferences::instance()->value("General/Telemetry").toBool()) {
+    QFileInfo fi(worldName);
+    fileName = fi.fileName();
+    const QDir dir = fi.absoluteDir();
+    const QString &WEBOTS_HOME = WbStandardPaths::webotsHomePath();
+    const QString truncatedFilePath = dir.canonicalPath().mid(0, WEBOTS_HOME.length());
+    if (truncatedFilePath.compare(WEBOTS_HOME, Qt::CaseInsensitive) == 0) {
+      WbWrenOpenGlContext::makeWrenCurrent();
+      WbTelemetry::send(fileName, "trial");
+      WbWrenOpenGlContext::doneWren();
+    } else
+      fileName = "";
+  }
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
@@ -319,6 +335,12 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
+
+  if (WbPreferences::instance()->value("General/Telemetry").toBool() && !fileName.isEmpty()) {
+    WbWrenOpenGlContext::makeWrenCurrent();
+    WbTelemetry::send(fileName, "success");
+    WbWrenOpenGlContext::doneWren();
+  }
 
   return true;
 }
