@@ -138,7 +138,7 @@ void WbNewVersionDialog::startButtonPressed() {
     }
   }
   WbPreferences::instance()->setValue("General/theme", theme);
-  WbPreferences::instance()->setValue("General/telemetry", mTelemetryCheckBox->isChecked() ? 1 : 0);
+  WbPreferences::instance()->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   // force the sync in case we restart just after quitting the dialog (see #7662)
   WbPreferences::instance()->sync();
   done(QDialog::Accepted);
