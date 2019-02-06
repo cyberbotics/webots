@@ -399,7 +399,7 @@ QT_SOURCES += \
   WbStreamingServer.cpp \
   WbSupervisorUtilities.cpp \
   WbSyntaxHighlighter.cpp \
-	WbTelemetry.cpp \
+  WbTelemetry.cpp \
   WbTemplateEngine.cpp \
   WbTemplateManager.cpp \
   WbTextBuffer.cpp \
