@@ -99,8 +99,8 @@ WbNewVersionDialog::WbNewVersionDialog() {
   // telemetry
   QGroupBox *telemetryBox = new QGroupBox(tr("Telemetry:"));
   QVBoxLayout *telemetryLayout = new QVBoxLayout();
-  label = new QLabel(tr(
-    "We need your help to continue to improve Webots: more information <a href='https://cyberbotics.com/telemetry'>here</a>."));
+  label = new QLabel(tr("We need your help to continue to improve Webots: more information <a style='color: #5DADE2;' "
+                        "href='https://cyberbotics.com/telemetry'>here</a>."));
   label->setOpenExternalLinks(true);
   telemetryLayout->addWidget(label);
   telemetryLayout->addStretch();
