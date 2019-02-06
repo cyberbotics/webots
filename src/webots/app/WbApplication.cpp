@@ -31,7 +31,6 @@
 #include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
-#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -269,11 +268,9 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     const QDir dir = fi.absoluteDir();
     const QString &WEBOTS_HOME = WbStandardPaths::webotsHomePath();
     const QString truncatedFilePath = dir.canonicalPath().mid(0, WEBOTS_HOME.length());
-    if (truncatedFilePath.compare(WEBOTS_HOME, Qt::CaseInsensitive) == 0) {
-      WbWrenOpenGlContext::makeWrenCurrent();
+    if (truncatedFilePath.compare(WEBOTS_HOME, Qt::CaseInsensitive) == 0)
       WbTelemetry::send(fileName, "trial");
-      WbWrenOpenGlContext::doneWren();
-    } else
+    else
       fileName = "";
   }
 
@@ -336,11 +333,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
 
-  if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty()) {
-    WbWrenOpenGlContext::makeWrenCurrent();
+  if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty())
     WbTelemetry::send(fileName, "success");
-    WbWrenOpenGlContext::doneWren();
-  }
 
   return true;
 }

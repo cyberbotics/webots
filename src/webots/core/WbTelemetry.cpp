@@ -19,7 +19,6 @@
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
 
-#include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtNetwork/QNetworkReply>
 
 void WbTelemetry::send(const QString &file, const QString &operation) {
@@ -40,14 +39,12 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString()));
   data.append("&os=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::sysInfo()));
-  QOpenGLFunctions_3_3_Core gl;
-  gl.initializeOpenGLFunctions();
   data.append("&glVendor=");
-  data.append(QUrl::toPercentEncoding((const char *)gl.glGetString(GL_VENDOR)));
+  data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVendor()));
   data.append("&glRenderer=");
-  data.append(QUrl::toPercentEncoding((const char *)gl.glGetString(GL_RENDERER)));
+  data.append(QUrl::toPercentEncoding(WbSysInfo::openGLRenderer()));
   data.append("&glVersion=");
-  data.append(QUrl::toPercentEncoding((const char *)gl.glGetString(GL_VERSION)));
+  data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVersion()));
   data.append("&textureQuality=");
   data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString());
   data.append("&disableCameraAntiAliasing=");
