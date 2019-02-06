@@ -123,7 +123,7 @@ int main() {
         int r = wb_camera_image_get_red(image, width, x, y);
         int g = wb_camera_image_get_green(image, width, x, y);
         int b = wb_camera_image_get_blue(image, width, x, y);
-        bool is_yellow = r > 80 && g > 80 && b < 5 && abs(r - g) < 5;
+        bool is_yellow = r > 80 && g > 80 && b < 40 && abs(r - g) < 5;
         if (is_yellow) {
           if (x < minX)
             minX = x;
