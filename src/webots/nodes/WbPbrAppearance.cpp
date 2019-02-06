@@ -81,7 +81,7 @@ WbPbrAppearance::~WbPbrAppearance() {
 }
 
 void WbPbrAppearance::preFinalize() {
-  WbBaseNode::preFinalize();
+  WbAbstractAppearance::preFinalize();
 
   if (baseColorMap())
     baseColorMap()->preFinalize();
@@ -176,7 +176,7 @@ void WbPbrAppearance::postFinalize() {
 }
 
 void WbPbrAppearance::reset() {
-  WbBaseNode::reset();
+  WbAbstractAppearance::reset();
 
   if (baseColorMap())
     baseColorMap()->reset();
@@ -490,7 +490,7 @@ void WbPbrAppearance::updateEmissiveIntensity() {
 
 void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   if (writer.isWebots()) {
-    WbBaseNode::exportNodeSubNodes(writer);
+    WbAbstractAppearance::exportNodeSubNodes(writer);
     return;
   }
 
