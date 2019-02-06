@@ -10,6 +10,7 @@ Viewpoint {
   position 0.00903084 1.44368 0.747339
 }
 TexturedBackground {
+  texture "empty_office"
 }
 TexturedBackgroundLight {
 }
@@ -309,7 +310,6 @@ DEF MYBOT Robot {
             }
             roughness 1
             metalness 0
-            emissiveColor 0.686275 0.686275 0.686275
           }
           geometry IndexedFaceSet {
             coord Coordinate {
@@ -380,6 +380,7 @@ Robot {
               url [
                 "textures/white256.png"
               ]
+              filtering 0
             }
             roughness 1
             metalness 0
