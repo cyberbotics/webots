@@ -255,7 +255,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     WbLog::error(tr("Could not open file: '%1'. The world file extension must be '.wbt'.").arg(worldName));
     return false;
   }
-
+  if (WbPreferences::instance()->value("General/Telemetry").toBool()) {
+  }
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(false);
 
   worldName = QDir::cleanPath(worldName);

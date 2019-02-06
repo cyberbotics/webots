@@ -54,7 +54,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   QVBoxLayout *vBoxLayout = new QVBoxLayout(this);
 
   QLabel *label = new QLabel(tr("More details about Webots %1 are listed <a style='color: #5DADE2;' "
-                                "href='https://www.cyberbotics.com/doc/blog/Webots-%2-%3-release'>here</a>.")
+                                "href='https://cyberbotics.com/doc/blog/Webots-%2-%3-release'>here</a>.")
                                .arg(versionString)
                                .arg(version.majorNumber())
                                .arg(QChar(version.minorNumber() + 'a')));
