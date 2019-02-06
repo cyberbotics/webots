@@ -30,7 +30,8 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   QNetworkRequest request(QUrl("https://www.cyberbotics.com/telemetry.php"));
   QByteArray data;
   data.append("id=");
-  data.append(WbPreferences::instance()->value("General/telemetryId", 0).toString());
+  const QString telemetryId = WbPreferences::instance()->value("General/telemetryId", 0).toString();
+  data.append(telemetryId);
   data.append("operation=");
   data.append(QUrl::toPercentEncoding(operation));
   data.append("&file=");
@@ -56,8 +57,10 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   data.append("&SMAA=");
   data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
-  connect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished, Qt::UniqueConnection);
+  if (telemetryId == '0') {
+    QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
+    connect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished, Qt::UniqueConnection);
+  }
 }
 
 void WbTelemetry::requestReplyFinished() {
