@@ -63,11 +63,13 @@ public:
     mQuality(quality),
     mView(view),
     mSuccess(false) {
-      const int w = mResolution.width() / mPixelRatio;
-      const int h = mResolution.height() / mPixelRatio;
-      mFrame = new unsigned char[4 * w * h];
-      memcpy(mFrame, frame, 4 * w * h);
-    }
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    mFrame = new unsigned char[4 * w * h];
+    memcpy(mFrame, frame, 4 * w * h);
+  }
+
+  virtual ~FrameWriterThread() { delete[] mFrame; }
 
   void run() override {
     mView->lockPBOMutex(mMutexIndex);
@@ -567,4 +569,3 @@ void WbVideoRecorder::createMpeg() {
 
   QDir::setCurrent(initialDir);
 }
-
