@@ -72,15 +72,20 @@ WbNewVersionDialog::WbNewVersionDialog() {
     mRadioButtons[i] = new QRadioButton('&' + gThemeNamesAndDescription[i][0], this);
     mRadioButtons[i]->setMinimumWidth(80);
     mRadioButtons[i]->setObjectName(gThemeNamesAndDescription[i][0].toLower());
-    if (i == 0)
+    if (i == 0 || WbPreferences::instance()
+                    ->value("General/theme")
+                    .toString()
+                    .contains(gThemeNamesAndDescription[i][0], Qt::CaseInsensitive))
       mRadioButtons[i]->setChecked(true);
-    connect(mRadioButtons[i], &QRadioButton::toggled, this, &WbNewVersionDialog::updatePreview);
     themeLayout->addWidget(mRadioButtons[i]);
     QLabel *themeDescription = new QLabel(gThemeNamesAndDescription[i][1]);
     themeDescription->setWordWrap(true);
     themeLayout->addWidget(themeDescription, 1);
     groupBoxLayout->addLayout(themeLayout);
   }
+
+  for (int i = 0; i < NUMBER_OF_THEMES; ++i)
+    connect(mRadioButtons[i], &QRadioButton::toggled, this, &WbNewVersionDialog::updatePreview);
 
   QGroupBox *groupBox = new QGroupBox(tr("Themes:"));
   groupBox->setLayout(groupBoxLayout);

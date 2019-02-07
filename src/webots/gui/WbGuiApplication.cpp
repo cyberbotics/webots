@@ -265,7 +265,8 @@ bool WbGuiApplication::setup() {
     }
   }
 
-  if (WbMessageBox::enabled() && !WbPreferences::instance()->contains("General/theme")) {
+  if (WbMessageBox::enabled() &&
+      (!WbPreferences::instance()->contains("General/theme") || !WbPreferences::instance()->contains("General/telemetry"))) {
     if (WbNewVersionDialog::run() != QDialog::Accepted) {
       mTask = QUIT;
       return false;
