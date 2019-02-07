@@ -57,10 +57,9 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   data.append("&SMAA=");
   data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  if (telemetryId == '0') {
-    QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
+  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
+  if (telemetryId == '0')
     connect(reply, &QNetworkReply::finished, this, &WbTelemetry::requestReplyFinished, Qt::UniqueConnection);
-  }
 }
 
 void WbTelemetry::requestReplyFinished() {
