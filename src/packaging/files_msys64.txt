@@ -84,7 +84,7 @@
 /mingw64/bin/libvpx-1.dll
 /mingw64/bin/libwavpack-1.dll
 /mingw64/bin/libx265.dll
-/mingw64/bin/libx264-155.dll
+/mingw64/bin/libx264-157.dll
 /mingw64/bin/libcaca-0.dll
 /mingw64/bin/SDL2.dll
 /mingw64/bin/libass-9.dll
