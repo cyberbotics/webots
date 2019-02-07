@@ -1,8 +1,8 @@
-## Webots Telemetry Agreement
+## Webots Telemetry System
 
-If you agree (Webots will ask you the first time you start it), Webots will send anonymous data to the developers in order to help them improving the software.
-These data are mainly used to detect and fix crashes on some specific hardware.
-You can at any time switch telemetry on or off from the [preferences](preferences.md#general).
+The Webots telemetry sytem sends anonymous data to the Webots developers in order to help them improving the software.
+It can be turned off or on the first time you start Webots and from the Webots [preferences](preferences.md#general).
+This data is mainly used to detect and fix crashes on some specific hardware.
 
 ### Sent Informations
 The following table describe all the data sent:
