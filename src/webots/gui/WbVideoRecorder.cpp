@@ -56,14 +56,18 @@ class FrameWriterThread : public QThread {
 public:
   FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int pixelRatio,
                     int quality, WbView3D *view) :
-    mFrame(frame),
     mMutexIndex(mutexIndex),
     mFileName(fileName),
     mResolution(resolution),
     mPixelRatio(pixelRatio),
     mQuality(quality),
     mView(view),
-    mSuccess(false) {}
+    mSuccess(false) {
+      const int w = mResolution.width() / mPixelRatio;
+      const int h = mResolution.height() / mPixelRatio;
+      mFrame = new unsigned char[4 * w * h];
+      memcpy(mFrame, frame, 4 * w * h);
+    }
 
   void run() override {
     mView->lockPBOMutex(mMutexIndex);
@@ -563,3 +567,4 @@ void WbVideoRecorder::createMpeg() {
 
   QDir::setCurrent(initialDir);
 }
+
