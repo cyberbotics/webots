@@ -114,7 +114,7 @@ void WbImageTexture::updateWrenTexture() {
                        .arg(width)
                        .arg(height));
 
-    const int quality = WbPreferences::instance()->value("OpenGL/TextureQuality", 2).toInt();
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
     const int divider = 4 * pow(0.5, quality);      // 0: 4, 1: 2, 2: 1
     const int minResolution = pow(2, 9 + quality);  // 0: 512, 1: 1024, 2: 2048
     if (divider != 1) {

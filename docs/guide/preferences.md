@@ -26,6 +26,8 @@ On some systems, it may be useful to set it to `python3.7` for example if you wa
 Bear in mind that this value may be overridden by the content of a `runtime.ini` file of a Python controller that may redefine a specific Python command to launch that controller.
 - The **Warnings: Display save warning only for scene tree edit** checkbox prevents Webots from displaying any warning dialog window when you quit, reload or load a new world after the current world was modified by either changing the viewpoint, dragging, rotating, applying a force or torque to an object, or modifying the world from a controller.
 It will however still display a warning if the world was modified from the scene tree.
+- The **Telemetry: Send technical data to Webots developpers** checkbox allows Webots to send anonymous technical data to Webots developpers in order to help improving the software.
+A complete description of all the data sent is available [here](telemetry.md).
 - The **Update policy: Check for Webots updates on startup** checkbox allows Webots to check if a new version is available for download at every startup.
 If available, a dialog window will inform you about it.
 
