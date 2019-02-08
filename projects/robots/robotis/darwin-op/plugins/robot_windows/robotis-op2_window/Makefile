@@ -28,7 +28,6 @@ HPP_FILES_TO_MOC = TransferWidget.hpp SSH.hpp
 
 QT = core gui widgets concurrent
 USE_C_API = true
-VERBOSE = 1
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_HOME)/lib" -lssh
 INCLUDE = -I"$(QT_UTILS)"
