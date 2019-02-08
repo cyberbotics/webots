@@ -228,10 +228,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Geometry nodes are valid children of Group and Transform only if contained in a &apos;boundingObject&apos; field.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please check this geometry has no singularities and can suitably represent a bounded closed volume. Note in particular that every triangle should appear only once with its &apos;outward&apos; orientation.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,46 +404,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;%1&apos; license file: Can&apos;t open &apos;%2&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: UUID mismatch: %2 != %3.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: File name mismatch: &apos;%2.key&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Unsupported start time in the future.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Local license expired.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Negative duration: %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Base64 error.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Wrong signature.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Internet floating license</source>
-        <translation type="unfinished">Licencia flotante de Internet</translation>
-    </message>
-    <message>
-        <source>License owner:</source>
-        <translation type="unfinished">Propietario de la licencia:</translation>
-    </message>
-    <message>
         <source>Cannot insert %1 node in &apos;%2&apos; field of %3 node that doesn&apos;t have a Solid ancestor.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -549,10 +505,6 @@
     </message>
     <message>
         <source>Texture export fails, because too much textures are sharing the same name: %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Machine UUID:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -662,16 +614,6 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots requires Python version 3.x6 or 2.7 (64 bit) from python.org in your current PATH.
-To fix the problem, you should:
-1. Check the Python command set in the Webots preferences.
-2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
-3. Fix your PATH environment variable to use the required Python 64 bit version (if available).
-4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&quot;%1&quot; was not found.
 </source>
         <translation type="unfinished"></translation>
@@ -683,10 +625,6 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Only a single %1 node can be inserted in the &apos;%2&apos; field of a %3 node.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This free version of Webots allows you to run the included benchmark simulations available from the &apos;File&apos; menu under &apos;Open Sample World...&apos;. You will be able to modify, recompile and run the robot controllers, but not the supervisor controllers. Also, you will not be able to modify any world or PROTO files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -703,30 +641,6 @@ To fix the problem, you should:
     </message>
     <message>
         <source>The Dusk theme is a second modern dark theme, also featuring the same clean flat design, with a light green accent color. It&apos;s the developers&apos; favorite!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; is not a valid file name for a license file, please revert to the original file name.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; this license file is for Webots R2018a revision 1 or older: You cannot use it with Webots %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; license file: Premier service for this license expired. You can still use it with an older version of Webots.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Local licenses in use:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Floating licences in use:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -751,6 +665,24 @@ To fix the problem, you should:
     </message>
     <message>
         <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots requires Python version 3.x7 or 2.7 (64 bit) from python.org in your current PATH.
+To fix the problem, you should:
+1. Check the Python command set in the Webots preferences.
+2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
+3. Fix your PATH environment variable to use the required Python 64 bit version (if available).
+4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No previous DEF nodes match; USE node turned into DEF node. Please check that the fields are listed in the same order as in the base node definition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The default value of field &apos;%1&apos; is not in the list of accepted values</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1683,6 +1615,10 @@ Restore initial state of the simulation. (%1+Shift+F)</source>
         <source>PROTO nodes (Project)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Documentation: &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;%1&apos;&gt;%1&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbAnimationRecorder</name>
@@ -1893,17 +1829,21 @@ Note: Animations can not be viewed locally on Google Chrome.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots PRO is required to compile physics plugins.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&apos;%1&apos;
 
 The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to compile any C/C++ controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Do you want to reload the world?</source>
+        <source>Do you want to reset or reload the world?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2482,6 +2422,14 @@ Please close any running instances of the controller and reload the world.</sour
         <source>Duplicate field value.</source>
         <translation>Duplicar el valor del campo.</translation>
     </message>
+    <message>
+        <source>Invalid &apos;%1&apos; changed to %2. The value should be in the list: {%3}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid &apos;%1&apos; removed from &apos;%2&apos; field. The values should be in the list: {%3}.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbFieldChecker</name>
@@ -2899,69 +2847,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
 </context>
 <context>
-    <name>WbInternetLicense</name>
-    <message>
-        <source>Connecting to Internet license server...</source>
-        <translation>Conectando al servidor de licencia de Internet...</translation>
-    </message>
-    <message>
-        <source>Missing error message.</source>
-        <translation>Mensaje de error faltante.</translation>
-    </message>
-    <message>
-        <source>Reconnected to Internet license server.</source>
-        <translation>Reconectado al servidor de licencia de Internet.</translation>
-    </message>
-    <message>
-        <source>Connected to Internet license server.</source>
-        <translation>Conectado al servidor de licencia de Internet.</translation>
-    </message>
-    <message>
-        <source>Wrong license information.</source>
-        <translation>Información de licencia incorrecta.</translation>
-    </message>
-    <message>
-        <source>Wrong license protocol.</source>
-        <translation>Protocolo de licencia incorrecto.</translation>
-    </message>
-    <message>
-        <source>Wrong license password for %1</source>
-        <translation>Contraseña incorrecta de licencia para %1</translation>
-    </message>
-    <message>
-        <source>Reconnecting to Internet license server...</source>
-        <translation>Reconectando al servidor de licencia de Internet...</translation>
-    </message>
-    <message>
-        <source>Error reading reply from server: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wrong protocol for module license</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logged out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Can&apos;t connect to Internet floating license server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Can&apos;t connect to Internet license server, retrying in 5 seconds...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error: reconnecting to Internet license server...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wrong signature: reconnecting to Internet license server...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WbJointParameters</name>
     <message>
         <source>&apos;springConstant&apos; must be greater than or equal to zero.</source>
@@ -3006,7 +2891,7 @@ Please close any running instances of the controller and reload the world.</sour
         <translation>Demasiados colores definidos para un LED gradual.</translation>
     </message>
     <message>
-        <source>No Material and no Light found. The first child of a LED should be either a Shape, a Light or a Group containing Shape and Light nodes.</source>
+        <source>No PBRAppearance, Material and no Light found. The first child of a LED should be either a Shape, a Light or a Group containing Shape and Light nodes.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3026,216 +2911,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Invalid &apos;center.y&apos; changed to 1. The value should be in the range [0;1].</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbLicenseManager</name>
-    <message>
-        <source>Webots Benchmark cannot run modified PROTO &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots Benchmark cannot run this simulation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots Benchmark cannot run modified supervisor &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots Benchmark</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A Webots %1 license is needed for running this simulation. However, it&apos;s not available in your local license(s).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> or Webots </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>WEBOTS_LOCAL_LICENSE_DIRECTORY points to a directory that doesn&apos;t exist or is not readable.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 (expires in 1 minute)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 (expires in %2 minutes)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 (expires in 1 hour)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 (expires in %2 hours)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 (expires in %2 days)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This trial license will expire today.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This trial license will expire tomorrow.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This trial license will expire in %1 days.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbLicenseManagerDialog</name>
-    <message>
-        <source>Webots License Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>license</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>id</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>lease</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>expiration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transfer license from license server to local computer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transfer license from local computer to license server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>floating</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 hour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 day</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 days</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set lease duration:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set lease duration for &quot;%1&quot; module:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lease duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>hour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in less than one minute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in one minute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in %1 minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in one hour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in %1 hours</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> and </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>one minute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>tomorrow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancelling license transfer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transfer licenses</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to transfer licenses.
-Please check the write permissions of the directories in path:
-&quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proceed with transfer?&lt;br&gt;&lt;br&gt;Once transferred on your local computer these licenses won&apos;t be available any more from the license server. There is no possible &quot;undo&quot; for this action! The licenses will be released automatically at the expiration date.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;br&gt;&lt;font color=&quot;red&quot;&gt;WARNING:&lt;br&gt;You are running Webots as &apos;root&apos; user. All the locally transferred licenses will only be valid when running again Webots as &apos;root&apos; user.&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%1&apos;&gt;Local Computer Licenses&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use local computer licenses at restart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/administration&apos;&gt;Floating License Server&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel the transfer of licenses?
-
-The licenses marked in blue on your local computer will be restored back to the license server and the current world file will be reloaded.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3322,177 +2997,6 @@ The licenses marked in blue on your local computer will be restored back to the 
     <name>WbLinearMotor</name>
     <message>
         <source>Force feedback is available for motorized joints only</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbLoginDialog</name>
-    <message>
-        <source>30 seconds</source>
-        <translation type="unfinished">30 segundos</translation>
-    </message>
-    <message>
-        <source>1 minute</source>
-        <translation type="unfinished">1 minuto</translation>
-    </message>
-    <message>
-        <source>5 minutes</source>
-        <translation type="unfinished">5 minutos</translation>
-    </message>
-    <message>
-        <source>E-mail:</source>
-        <translation type="unfinished">E-mail:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="unfinished">Contraseña:</translation>
-    </message>
-    <message>
-        <source>Synchronization:</source>
-        <translation type="unfinished">Sincronización:</translation>
-    </message>
-    <message>
-        <source>Please enter your password.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your e-mail address is missing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos; is not a valid e-mail address.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connecting to Internet license server...</source>
-        <translation type="unfinished">Conectando al servidor de licencia de Internet...</translation>
-    </message>
-    <message>
-        <source>Connected to Internet license server.</source>
-        <translation type="unfinished">Conectado al servidor de licencia de Internet.</translation>
-    </message>
-    <message>
-        <source>UUID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to Webots %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>30 Day Trial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not Available in a Virtual Machine</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots Benchmark</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to Connect to Cyberbotics Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start Trial (will expire in 30 days)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Run Trial (last day)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Run Trial (%1 days remaining)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Trial expired %1 days ago</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Floating License</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No account? &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/buy&apos;&gt;Purchase a License&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network problems? Setup &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;webots:setupNetworkProxy()&quot;&gt;Network Proxy&lt;/a&gt; or use a &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;webots:tab(1)&apos;&gt;Local License&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Local License</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No regular license file available in your &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%1&apos;&gt;License Folder&lt;/a&gt;. You should &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/buy&apos;&gt;Purchase a License&lt;/a&gt; and either:&lt;ol&gt;
-&lt;li&gt;Log-in from the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;webots:tab(0)&apos;&gt;Floating License&lt;/a&gt; tab.&lt;/li&gt;
-&lt;li&gt;Go to the &apos;Tools / License Manager...&apos; menu of Webots and follow the instructions.&lt;/li&gt;
-&lt;/ol&gt;or download it from the web:&lt;ol&gt;
-&lt;li&gt;Visit your &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;https://cyberbotics.com/administration?uuid=%2&amp;homepath=%3&amp;version=%4&quot;&gt;License Administration Web Page&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Click on a license module in the &apos;Module Packs&apos; table and follow the instructions.&lt;/li&gt;
-&lt;li&gt;Copy the downloaded license into your &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%1&apos;&gt;License Folder&lt;/a&gt; and restart Webots.&lt;/li&gt;
-&lt;/ol&gt;
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following local licenses are available in your &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%1&apos;&gt;License Folder&lt;/a&gt;:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following local license is available in your &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%1&apos;&gt;License Folder&lt;/a&gt;:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Local licenses can be disabled from the &apos;Tools / License Manager...&apos; menu of Webots.&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots PRO</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots EDU</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select trial license: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;&lt;b&gt;Must be used for evaluation purposes only.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;To continue to use Webots after the expiration of the 30 day trial license, you must &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;https://cyberbotics.com/buy&quot;&gt;Purchase a License&lt;/a&gt; or use Webots Benchmark. Please report any abuse to &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;mailto:license@cyberbotics.com&quot;&gt;license@cyberbotics.com&lt;/a&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connecting to Cyberbotics License Server...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network problems? &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;webots:setupNetworkProxy()&quot;&gt;Setup Network Proxy&lt;/a&gt; or&lt;br&gt;&lt;a style=&apos;color: #5DADE2;&apos; href=&quot;https://cyberbotics.com/download_trial.php?uuid=%1&amp;homepath=%2&amp;version=%3&quot;&gt;Download your Trial License&lt;/a&gt; in your &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;file://%4&apos;&gt;License Folder&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Webots Benchmark can be used free of charge to modify, recompile and run robot controllers in the following benchmark simulations only:&lt;/p&gt;&lt;p&gt;&amp;nbsp;- &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;https://robotbenchmark.net&quot;&gt;robotbenchmark&lt;/a&gt;.&lt;br&gt;&amp;nbsp;- &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;http://aiworldcup.org&quot;&gt;AI World Cup&lt;/a&gt;.&lt;/p&gt;Contact &lt;a style=&apos;color: #5DADE2;&apos; href=&quot;mailto:info@cyberbotics.com&quot;&gt;info@cyberbotics.com&lt;/a&gt; to suggest new benchmarks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Trial expired yesterday</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Run Trial (will expire tomorrow)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quitting...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3643,10 +3147,6 @@ The licenses marked in blue on your local computer will be restored back to the 
         <translation>¿Le gustaría crear uno?</translation>
     </message>
     <message>
-        <source>Webots PRO is required to create plugins.</source>
-        <translation>Se requiere Webots PRO para crear complementos.</translation>
-    </message>
-    <message>
         <source>Could not find the source file of the &apos;%1&apos; physics plugin.</source>
         <translation>No se pudo encontrar el archivo fuente del complemento físico &apos;%1&apos;.</translation>
     </message>
@@ -3703,10 +3203,6 @@ The licenses marked in blue on your local computer will be restored back to the 
         <translation>No se puede abrir el documento: &apos;%1&apos;.</translation>
     </message>
     <message>
-        <source>You need a Webots PRO license to create physics plugins.</source>
-        <translation>Necesita una licencia de Webots PRO para crear complementos físicos.</translation>
-    </message>
-    <message>
         <source>Could not find the controller name of the &apos;%1&apos; robot.</source>
         <translation>No se pudo encontrar el nombre del controlador del robot &apos;%1&apos;.</translation>
     </message>
@@ -3728,10 +3224,6 @@ The licenses marked in blue on your local computer will be restored back to the 
     </message>
     <message>
         <source>Create a new physics plugin.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display information about Webots and the current license.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3784,31 +3276,6 @@ The licenses marked in blue on your local computer will be restored back to the 
     </message>
     <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt;If you have a one-button mouse, hold down also the Control key (Ctrl) to emulate the right mouse button.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout %1 and terminate the Webots application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>License Manager...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Transfer your licenses from the Internet license server to the local computer or vice versa.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quitting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout %1 and terminate Webots?
-You will have to re-enter your password at the next startup of Webots.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3944,10 +3411,6 @@ You will have to re-enter your password at the next startup of Webots.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Loging out from Internet license server...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Virtual Reality Headset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3971,10 +3434,6 @@ You will have to re-enter your password at the next startup of Webots.</source>
 Do you want to view it locally now?
 
 Note: HTML5 models can not be viewed locally on Google Chrome.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Simulation streaming will be disabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4070,10 +3529,6 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Terminate the Webots application and display the welcome dialog at next start.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Change View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4090,19 +3545,19 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Leave Webots Benchmark mode and %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout and %1...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Overlays</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>In order to move an object: first &lt;strong&gt;select the object&lt;/strong&gt; with a left mouse button click.&lt;br/&gt;&lt;br/&gt;Then &lt;strong&gt;click and drag the arrow-shaped handles&lt;/strong&gt; to translate or rotate the object along the corresponding axis.&lt;br/&gt;&lt;br/&gt;Alternatively, you can hold the shift key and use the mouse:&lt;br/&gt;&lt;em&gt;Horizontal translation:&lt;/em&gt;&lt;br/&gt;Use the left mouse button while the shift key is down to drag an object parallel to the ground.&lt;br/&gt;&lt;em&gt;Vertical rotation:&lt;/em&gt;&lt;br/&gt;Use the right mouse button while the shift key is down to rotate an object around the world&apos;s vertical axis.&lt;br/&gt;&lt;em&gt;Lift:&lt;/em&gt;&lt;br/&gt;Press both left and right mouse buttons, press the middle mouse button, or roll the mouse wheel while the shift key is down to raise or lower the selected object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information about Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available GPU memory: %1 bytes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4457,10 +3912,6 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Thank you for upgrading to Webots %1.&lt;br&gt;We have introduced some brand new themes to customize your experience with Webots.&lt;br&gt;Please select which theme you wish to use (don&apos;t worry, you will be able to change it later from the preferences).&lt;br&gt;&lt;br&gt;Read more about the new changes in Webots %1 &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://www.cyberbotics.com/doc/blog/Webots-2018-b-release&apos;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Themes:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4470,6 +3921,22 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
     </message>
     <message>
         <source>Start Webots with the selected theme.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More details about Webots %1 are listed &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/blog/Webots-%2-%3-release&apos;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telemetry:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We need your help to continue to improve Webots: more information &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://www.cyberbotics.com/doc/guide/telemetry&apos;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow to send lightweight anonymous technical data to Webots developers.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4938,6 +4405,47 @@ still display a warning if the world was modified from the scene tree.</source>
         <source>Proxy password:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The new texture quality will be applied next time the world is loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send technical data to Webots developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We need your help to continue to improve Webots: more information at:
+https://www.cyberbotics.com/doc/guide/telemetry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telemetry (&lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://www.cyberbotics.com/doc/guide/telemetry&apos;&gt;info&lt;/a&gt;):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ultra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ambient Occlusion:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Texture Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbProjectRelocationDialog</name>
@@ -5014,14 +4522,6 @@ still display a warning if the world was modified from the scene tree.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Include all PROTO files (EDU or PRO license required)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Include all plugins files (PRO license required)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Target directory is located in the Webots installation directory.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5050,23 +4550,15 @@ still display a warning if the world was modified from the scene tree.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This operation is not permitted (EDU or PRO license required).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You are trying to modify a PROTO file:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You are trying to import VRML97 nodes to a world located in the Webots installation directory:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You are trying to modify a plugin file:</source>
+        <source>Include all PROTO files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This operation is not permitted (PRO license required).</source>
+        <source>Include all plugins files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5406,10 +4898,6 @@ still display a warning if the world was modified from the scene tree.</source>
         <translation type="unfinished">¿Aún desea proseguir?</translation>
     </message>
     <message>
-        <source>Invalid pasted node: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This field contains a DEF node on which at least one external USE node depends. Deleting it will turn its first USE node into a DEF node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
@@ -5575,10 +5063,6 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>UUID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>    Display this help message and exit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5591,19 +5075,7 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>    Display the UUID of the computer and exit.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>    Choose the startup mode, overriding application preferences. The &lt;mode&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>    argument must be either pause, realtime, run or fast. Webots PRO is</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>    required to use: --mode=run or --mode=fast.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5624,10 +5096,6 @@ Do you want to open it now?</source>
     </message>
     <message>
         <source>    Redirect the stderr of the controllers to the terminal.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>    Start the Webots streaming server (Webots PRO required). Parameters may be</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5680,6 +5148,14 @@ Do you want to open it now?</source>
     </message>
     <message>
         <source>OpenGL renderer: %1 (0x%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    argument must be either pause, realtime, run or fast.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    Start the Webots streaming server. Parameters may be</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5995,25 +5471,9 @@ Please save the current world to get rid of this message.</source>
     </message>
 </context>
 <context>
-    <name>WbSupervisor</name>
+    <name>WbSupervisorUtilities</name>
     <message>
-        <source>wb_supervisor_node_get_position() can exclusively be used with Transform (or derived).</source>
-        <translation>wb_supervisor_node_get_position() se puede usar exclusivamente con Transformar (o derivada).</translation>
-    </message>
-    <message>
-        <source>wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived).</source>
-        <translation>wb_supervisor_node_get_orientation() se puede usar exclusivamente con Transformar (o derivada).</translation>
-    </message>
-    <message>
-        <source>wb_supervisor_node_get_center_of_mass() can exclusively be used with Solid</source>
-        <translation>wb_supervisor_node_get_center_of_mass() se puede usar exclusivamente con Sólido</translation>
-    </message>
-    <message>
-        <source>wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively be used with a Solid</source>
+        <source>wb_supervisor_set_label() called with an invalid &apos;%1&apos; font, &apos;Arial&apos; used instead.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6021,7 +5481,23 @@ Please save the current world to get rid of this message.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>wb_supervisor_node_reset_physics() can exclusively be used with a Solid</source>
+        <source>wb_supervisor_node_get_position() can exclusively be used with Transform (or derived).</source>
+        <translation type="unfinished">wb_supervisor_node_get_position() se puede usar exclusivamente con Transformar (o derivada).</translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived).</source>
+        <translation type="unfinished">wb_supervisor_node_get_orientation() se puede usar exclusivamente con Transformar (o derivada).</translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_get_center_of_mass() can exclusively be used with Solid</source>
+        <translation type="unfinished">wb_supervisor_node_get_center_of_mass() se puede usar exclusivamente con Sólido</translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively be used with a Solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_get_static_balance() can exclusively be used with a top Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6030,6 +5506,10 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_node_set_velocity() can exclusively be used with a Solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wb_supervisor_node_reset_physics() can exclusively be used with a Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6046,10 +5526,6 @@ Please save the current world to get rid of this message.</source>
     </message>
     <message>
         <source>wb_supervisor_virtual_reality_headset_get_orientation() called but no virtual reality headset is currently in use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>wb_supervisor_set_label() called with an invalid &apos;%1&apos; font, &apos;Arial&apos; used instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6337,14 +5813,6 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots has detected that your GPU vendor is &apos;%1&apos;. A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Webots has detected that you GPU is an Intel Graphics card. A recent nVIDIA or ATI graphics adapter is highly recommended to run Webots smoothly. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You can try to re-activate some OpenGL features from the Webots preferences.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6370,6 +5838,34 @@ Do you want to play it back?
     </message>
     <message>
         <source>Anisotropic texture filtering is not supported by the GPU.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading world</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your GPU vendor is &apos;%1&apos;. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your system features an Intel GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that you are using an old AMD GPU. A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots has detected that your GPU has less than 2Gb of memory. A minimum of 2Gb of memory is recomended to use high-resolution textures. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main 3D view global ambient occlusion has been de-activated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Texture quality has been reduced.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6402,6 +5898,10 @@ Do you want to play it back?
         <source>Error while initializing the virtual reality headset compositor system.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error while initializing the virtual reality headset overlay system.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbWebotsUpdateDialog</name>
@@ -6418,11 +5918,11 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://www.cyberbotics.com/download&quot;&gt;https://www.cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the change log: &lt;a href=&quot;https://www.cyberbotics.com/change_log&quot;&gt;https://www.cyberbotics.com/change_log&lt;/a&gt;</source>
+        <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Don&apos;t display this dialog again (you can re-enable it from the preferences)</source>
+        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the change log: &lt;a href=&quot;https://cyberbotics.com/change_log&quot;&gt;https://cyberbotics.com/change_log&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6503,6 +6003,21 @@ Do you want to play it back?
     </message>
     <message>
         <source>Cannot load %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WbWrenWindow</name>
+    <message>
+        <source>Webots could not initialize the rendering system.
+Please check your GPU abilities and install the latest graphics drivers.
+Please do also check that your graphics hardware meets the requirements specified in the User Guide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots requires OpenGL %1 while only OpenGL %2 can be initialized.
+Please check your GPU abilities and install the latest graphics drivers.
+Please do also check that your graphics hardware meets the requirements specified in the User Guide.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
