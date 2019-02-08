@@ -88,7 +88,6 @@ bool Communication::initialize(const string &ip) {
 }
 
 void Communication::cleanup() {
-  fprintf(stderr, "Communication::cleanup()\n");
   if (mFd > 0)
 #ifdef _WIN32
     closesocket(mFd);
