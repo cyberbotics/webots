@@ -22,6 +22,7 @@
 #define WB_ROBOT_H
 
 #define WB_USING_C_API
+#include <stdio.h>
 #include "types.h"
 
 #if defined(__VISUALC__) || defined(_MSC_VER)
