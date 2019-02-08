@@ -147,5 +147,7 @@ int Communication::receive(char *data, int size, bool block) {
 #endif
     n += m;
   } while (n < size);
-  return n == size;  // success
+  if (n != size)
+    return 0;
+  return size;  // success
 }
