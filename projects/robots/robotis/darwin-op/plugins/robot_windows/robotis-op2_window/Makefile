@@ -28,14 +28,14 @@ HPP_FILES_TO_MOC = TransferWidget.hpp SSH.hpp
 
 QT = core gui widgets concurrent
 USE_C_API = true
-
+VERBOSE = 1
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_HOME)/lib" -lssh
 INCLUDE = -I"$(QT_UTILS)"
 
 ifeq ($(OSTYPE),windows)
-LIBRARIES += -lpthread -lzip
-INCLUDE += -I"$(WEBOTS_HOME)/msys64/mingw64/include" -I"$(WEBOTS_HOME)/msys64/mingw64/lib/libzip/include"
+LIBRARIES += -L/mingw64/bin -lpthread -lzip
+INCLUDE += -I/mingw64/include -I/mingw64/lib/libzip/include
 else
 INCLUDE += -I"$(WEBOTS_HOME)/include/libzip" -I"$(WEBOTS_HOME)/include/libssh"
 endif
