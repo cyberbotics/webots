@@ -37,6 +37,10 @@
   #include <assert.h>
 #endif
 
+#ifndef strnicmp
+int strnicmp(const char*, const char*, size_t);
+#endif
+
 #if !defined __T
   #include <string.h>
   #include <stdlib.h>
