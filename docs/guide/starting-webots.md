@@ -129,7 +129,7 @@ This action may cause a new crash.
 2. Add a new `WEBOTS_SAFE_MODE` user environment variable. To do so, in the `user variables` panel, click on the `New` button and add a `New User Variable` named `WEBOTS_SAFE_MODE` with a value of `true`.
 3. Start Webots as usual.
 
-#### On linux and macOS
+#### On Linux and macOS
 
 ```
 export WEBOTS_SAFE_MODE=true
