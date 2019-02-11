@@ -42,13 +42,11 @@ void WbTelemetry::sendRequest(const QString &file, const QString &operation) {
   data.append("&os=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::sysInfo()));
   data.append("&glVendor=");
-  WbWrenOpenGlContext::makeWrenCurrent();
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVendor()));
   data.append("&glRenderer=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLRenderer()));
   data.append("&glVersion=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVersion()));
-  WbWrenOpenGlContext::doneWren();
   data.append("&textureQuality=");
   data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString());
   data.append("&disableCameraAntiAliasing=");
