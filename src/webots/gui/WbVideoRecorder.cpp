@@ -72,7 +72,6 @@ public:
   virtual ~FrameWriterThread() { delete[] mFrame; }
 
   void run() override {
-    mView->lockPBOMutex(mMutexIndex);
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
     QImage img = QImage(mFrame, w, h, QImage::Format_RGB32);
@@ -89,7 +88,6 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
-    mView->unlockPBOMutex(mMutexIndex);
   }
 
   bool success() const { return mSuccess; }

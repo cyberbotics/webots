@@ -47,8 +47,6 @@ public:
   void initVideoPBO();
   void completeVideoPBOProcessing(bool canceled);
   void requestGrabWindowBuffer();
-  void lockPBOMutex(int index) { mPBOMutexes[index].lock(); }
-  void unlockPBOMutex(int index) { mPBOMutexes[index].unlock(); }
 
   void updateWrenViewportDimensions();
 
@@ -80,7 +78,6 @@ private:
   int mSnapshotBufferWidth;
   int mSnapshotBufferHeight;
   GLuint mVideoPBOIds[2];
-  QMutex mPBOMutexes[2];
   int mVideoWidth;
   int mVideoHeight;
   int mVideoPBOIndex;
