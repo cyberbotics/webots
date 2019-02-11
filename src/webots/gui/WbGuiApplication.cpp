@@ -220,7 +220,7 @@ void WbGuiApplication::parseArguments() {
     mTask = NORMAL;
   }
 
-  if (qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
     WbPreferences::instance()->setValue("OpenGL/disableCameraAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/SMAA", false);
