@@ -359,7 +359,7 @@ void WbWrenWindow::processVideoPBO() {
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
   unsigned char *buffer = (unsigned char *)wr_scene_map_pixel_buffer(scene, GL_READ_ONLY);
   if (buffer) {
-    emit videoImageReady(buffer, mVideoPBOIndex);
+    emit videoImageReady(buffer);
     wr_scene_unmap_pixel_buffer(scene);
   }
 

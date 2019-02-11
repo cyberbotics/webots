@@ -56,7 +56,7 @@ public slots:
   virtual void renderLater();
 
 signals:
-  void videoImageReady(unsigned char *frame, int PBOIndex);
+  void videoImageReady(unsigned char *frame);
   void resized();
 
 protected:
