@@ -31,6 +31,7 @@
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -219,6 +220,16 @@ void WbGuiApplication::parseArguments() {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
     mTask = NORMAL;
   }
+
+  if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
+    WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
+    WbPreferences::instance()->setValue("OpenGL/disableCameraAntiAliasing", true);
+    WbPreferences::instance()->setValue("OpenGL/SMAA", false);
+    WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
+    WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
+    mStartupMode = WbSimulationState::PAUSE;
+    mStartWorldName = WbStandardPaths::resourcesPath() + "projects/worlds/empty.wbt";
+  }
 }
 
 int WbGuiApplication::exec() {
@@ -380,6 +391,10 @@ bool WbGuiApplication::setup() {
       QFile::remove(desktopFilePath);
   }
 #endif
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+  WbSysInfo::initializeOpenGlInfo();
+  WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
     mMainWindow->showGuidedTour();
