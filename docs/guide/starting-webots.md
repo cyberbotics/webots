@@ -117,7 +117,7 @@ Similarily, the `--stderr` option is redirecting the Ogre critical messages to t
 
 It may happen that Webots cannot start because it is blocked on a world causing a Webots or OpenGL crash.
 In this case, Webots can be started in safe mode.
-The safe mode forces Webots to be started on an empty world, reduce all the OpenGL options, and store those preferences.
+The safe mode forces Webots to start with an empty world, reduces all the OpenGL options, and stores those preferences.
 To do this, simply set the environment variable `WEBOTS_SAFE_MODE` in the environment running Webots.
 
 Once successfully started this way, you must unset this environment variable, open again your world and increase the OpenGL preferences.
