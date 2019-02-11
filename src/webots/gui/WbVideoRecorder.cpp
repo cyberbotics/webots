@@ -54,24 +54,24 @@
 
 class FrameWriterThread : public QThread {
 public:
-  FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int pixelRatio,
-                    int quality, WbView3D *view) :
-    mFrame(frame),
-    mMutexIndex(mutexIndex),
+  FrameWriterThread(unsigned char *frame, const QString &fileName, const QSize &resolution, int pixelRatio, int quality) :
     mFileName(fileName),
     mResolution(resolution),
     mPixelRatio(pixelRatio),
     mQuality(quality),
-    mView(view),
-    mSuccess(false) {}
-
-  void run() override {
-    mView->lockPBOMutex(mMutexIndex);
+    mSuccess(false) {
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
-    unsigned char *destination = new unsigned char[4 * w * h];
-    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), mPixelRatio);
-    QImage img = QImage(destination, w, h, QImage::Format_RGB32);
+    mFrame = new unsigned char[4 * w * h];
+    WbView3D::flipAndScaleDownImageBuffer(frame, mFrame, mResolution.width(), mResolution.height(), mPixelRatio);
+  }
+
+  virtual ~FrameWriterThread() { delete[] mFrame; }
+
+  void run() override {
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    QImage img = QImage(mFrame, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
     mSuccess = writer.write(img);
@@ -85,20 +85,16 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
-    delete[] destination;
-    mView->unlockPBOMutex(mMutexIndex);
   }
 
   bool success() const { return mSuccess; }
 
 private:
   unsigned char *mFrame;
-  const int mMutexIndex;
   const QString mFileName;
   const QSize mResolution;
   const int mPixelRatio;
   const int mQuality;
-  WbView3D *mView;
   bool mSuccess;
 };
 
@@ -349,10 +345,10 @@ void WbVideoRecorder::stopRecording(bool canceled) {
   mIsInitialized = false;
 }
 
-void WbVideoRecorder::writeSnapshot(unsigned char *frame, int PBOIndex) {
+void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
-  FrameWriterThread *thread = new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution * mScreenPixelRatio,
-                                                    mScreenPixelRatio, mVideoQuality, mSimulationView->view3D());
+  FrameWriterThread *thread =
+    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }

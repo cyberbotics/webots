@@ -95,7 +95,7 @@ private:
 
 private slots:
   void requestSnapshotIfNeeded(bool fromPhysics);
-  void writeSnapshot(unsigned char *frame, int PBOIndex);
+  void writeSnapshot(unsigned char *frame);
   void terminateSnapshotWrite();
   void terminateVideoCreation(int exitCode, QProcess::ExitStatus exitStatus);
   void readStderr();
