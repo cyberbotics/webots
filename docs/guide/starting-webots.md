@@ -120,7 +120,7 @@ In this case, Webots can be started in safe mode.
 The safe mode forces Webots to start with an empty world, reduces all the OpenGL options, and stores those preferences.
 To do this, simply set the environment variable `WEBOTS_SAFE_MODE` in the environment running Webots.
 
-Once successfully started this way, you must unset this environment variable, open again your world and increase the OpenGL preferences.
+Once successfully started this way, you must unset this environment variable, open again your world and increase [the OpenGL preferences](preferences.md#opengl).
 This action may cause a new crash.
 
 #### On Windows
