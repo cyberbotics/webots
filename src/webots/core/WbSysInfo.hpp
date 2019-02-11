@@ -47,7 +47,6 @@ namespace WbSysInfo {
   int intelGPUGeneration(QOpenGLFunctions *gl);
   bool isAmdLowEndGpu(QOpenGLFunctions *gl);
 #endif
-  void setOpenGLRenderer(const QString &);
   const QString &openGLRenderer();
   const QString &openGLVendor();
   const QString &openGLVersion();

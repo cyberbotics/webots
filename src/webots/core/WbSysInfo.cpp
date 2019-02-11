@@ -143,14 +143,11 @@ static void updateGpuIds(QOpenGLFunctions *gl) {
 
 #endif
 
-static QString gOpenGLRenderer;
-
 const QString &WbSysInfo::openGLRenderer() {
-  return gOpenGLRenderer;
-}
-
-void WbSysInfo::setOpenGLRenderer(const QString &r) {
-  gOpenGLRenderer = r;
+  static QString openGLRender;
+  if (openGLRender.isEmpty())
+    openGLRender = (const char *)glGetString(GL_RENDERER);
+  return openGLRender;
 }
 
 const QString &WbSysInfo::openGLVendor() {
