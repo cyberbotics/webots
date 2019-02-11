@@ -22,6 +22,8 @@
 
 #include <QtNetwork/QNetworkReply>
 
+#include <cassert>
+
 void WbTelemetry::send(const QString &file, const QString &operation) {
   static WbTelemetry telemetry;
   telemetry.sendRequest(file, operation);
