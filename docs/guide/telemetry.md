@@ -5,7 +5,7 @@ It can be turned off or on the first time you start Webots and from the Webots [
 This data is mainly used to detect and fix crashes on some specific hardware.
 
 ### Sent Informations
-The following table describe all the data sent:
+The following table describes all the data sent:
 
 | Data sent                 | Description                                                                                                                                                     | Value Example                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
