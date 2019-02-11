@@ -31,6 +31,7 @@
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -390,6 +391,10 @@ bool WbGuiApplication::setup() {
       QFile::remove(desktopFilePath);
   }
 #endif
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+  WbSysInfo::initializeOpenGlInfo();
+  WbWrenOpenGlContext::doneWren();
 
   if (showGuidedTour)
     mMainWindow->showGuidedTour();
