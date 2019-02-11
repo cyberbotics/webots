@@ -18,7 +18,6 @@
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
-#include "WbWrenOpenGlContext.hpp"
 
 #include <QtNetwork/QNetworkReply>
 
