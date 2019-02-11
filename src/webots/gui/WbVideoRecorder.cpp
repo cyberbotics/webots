@@ -66,7 +66,7 @@ public:
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
     mFrame = new unsigned char[4 * w * h];
-    memcpy(mFrame, frame, 4 * w * h);
+    WbView3D::flipAndScaleDownImageBuffer(frame, mFrame, mResolution.width(), mResolution.height(), mPixelRatio);
   }
 
   virtual ~FrameWriterThread() { delete[] mFrame; }
@@ -75,9 +75,7 @@ public:
     mView->lockPBOMutex(mMutexIndex);
     const int w = mResolution.width() / mPixelRatio;
     const int h = mResolution.height() / mPixelRatio;
-    unsigned char *destination = new unsigned char[4 * w * h];
-    WbView3D::flipAndScaleDownImageBuffer(mFrame, destination, mResolution.width(), mResolution.height(), mPixelRatio);
-    QImage img = QImage(destination, w, h, QImage::Format_RGB32);
+    QImage img = QImage(mFrame, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
     mSuccess = writer.write(img);
@@ -91,7 +89,6 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
-    delete[] destination;
     mView->unlockPBOMutex(mMutexIndex);
   }
 
