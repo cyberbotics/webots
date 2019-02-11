@@ -177,8 +177,6 @@ void WbWrenWindow::initialize() {
   wr_scene_set_fog_program(wr_scene_get_instance(), WbWrenShaders::fogShader());
   wr_scene_set_shadow_volume_program(wr_scene_get_instance(), WbWrenShaders::shadowVolumeShader());
 
-  WbSysInfo::setOpenGLRenderer(QString(wr_gl_state_get_renderer()));
-
   WbWrenOpenGlContext::doneWren();
   WbWrenPostProcessingEffects::loadResources();
   updateWrenViewportDimensions();
