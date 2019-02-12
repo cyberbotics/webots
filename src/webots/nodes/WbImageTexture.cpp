@@ -17,6 +17,7 @@
 #include "WbAppearance.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbImage.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
@@ -135,7 +136,9 @@ void WbImageTexture::updateWrenTexture() {
       }
 
       if (mImage->width() != width || mImage->height() != height) {
-        QImage tmp = mImage->scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        WbImage *image = new WbImage(mImage->constBits(), mImage->width(), mImage->height(), mIsMainTextureTransparent ? 4 : 3);
+        WbImage *downscaledImage = image->downscale(width, height);
+        QImage tmp(downscaledImage->data(), width, height, mImage->format());
         mImage->swap(tmp);
       }
 
