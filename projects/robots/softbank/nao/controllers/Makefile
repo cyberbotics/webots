@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=distributor.Makefile nao_demo.Makefile nao_soccer_supervisor.Makefile nao_wave_hand.Makefile
+TARGETS=distributor.Makefile nao_demo.Makefile nao_soccer_player.Makefile nao_soccer_supervisor.Makefile nao_wave_hand.Makefile
 
 .PHONY: release debug profile clean
 
