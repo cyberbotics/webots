@@ -44,12 +44,12 @@ WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRad
   for (int j = 0; j < height; ++j) {
     for (int i = 0; i < width; ++i) {
       for (int c = 0; c < mChannels; ++c) {
-        int destIndex = (i + (j * width)) * mChannels + c;
+        const int destIndex = (i + (j * width)) * mChannels + c;
         for (int u = -1; u < 2; ++u) {
-          float x = CLAMP(widthRatio * i + u * xBlurRadius, 0, mWidth - 1);
+          const float x = CLAMP(widthRatio * i + u * xBlurRadius, 0, mWidth - 1);
           for (int v = -1; v < 2; ++v) {
-            float y = CLAMP(heightRatio * j + v * yBlurRadius, 0, mHeight - 1);
-            int srcIndex = CLAMP((int)(x + y * mWidth) * mChannels + c, 0, srcSize);
+            const float y = CLAMP(heightRatio * j + v * yBlurRadius, 0, mHeight - 1);
+            const int srcIndex = CLAMP((int)(x + y * mWidth) * mChannels + c, 0, srcSize);
             pixels[destIndex] += (unsigned char)(gaussBlur[u + 1][v + 1] * mData[srcIndex]);
           }
         }
