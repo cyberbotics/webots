@@ -22,6 +22,7 @@ PROTO PlasticCrate [
   Solid {
     translation IS translation
     rotation IS rotation
+    name IS name
     children [
       Transform {
         scale IS size
