@@ -14,14 +14,13 @@
 
 #include "WbImage.hpp"
 
-// #include <cmath>
-// #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
 #define CLAMP(v, low, high) ((v) < (low) ? (low) : ((v) > (high) ? (high) : (v)))
 
 static const float gaussBlur[3][3] = {
+  // 3x3 convolution matrix to blur.
   {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
   {2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f},
   {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
@@ -36,6 +35,7 @@ WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRad
   const float widthRatio = (float)mWidth / width;
   const float heightRatio = (float)mHeight / height;
 
+  // downscale and apply the convolution matrix.
   for (int j = 0; j < height; ++j) {
     for (int i = 0; i < width; ++i) {
       for (int c = 0; c < mChannels; ++c) {
