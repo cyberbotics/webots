@@ -47,8 +47,8 @@ else
 DEF             = _controller2.def
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIBCONTROLLER   = /mingw64/bin/Controller.dll
-LIBCPPCONTROLLER= /mingw64/bin/CppController.dll
+LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
+LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
