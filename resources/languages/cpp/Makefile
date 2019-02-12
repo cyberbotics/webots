@@ -60,7 +60,7 @@ CPPOBJS        = $(CPPSRC:.cpp=.o)
 DEPENDENCIES   = $(CPPSRC:.cpp=.d)
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -shared -Wl,--out-implib,/mingw64/lib/libCppController.a
+LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a
 LIBCONTROLLER = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
