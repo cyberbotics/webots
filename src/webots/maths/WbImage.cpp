@@ -66,10 +66,13 @@ WbImage *WbImage::noFilterDownscale(int width, int height) {
   const int size = width * height * mChannels;
   unsigned char *pixels = (unsigned char *)malloc(size);
 
+  const float widthRatio = (float) mWidth / width;
+  const float heightRatio = (float) mHeight / height;
+
   for (int j = 0; j < height; ++j) {
     for (int i = 0; i < width; ++i) {
       for (int c = 0; c < mChannels; ++c) {
-        int srcIndex = (i + (j * mWidth)) * mChannels + c;
+        int srcIndex = (int)(widthRatio * i + (heightRatio * j * mWidth) + 0.5) * mChannels + c;
         int destIndex = (i + (j * width)) * mChannels + c;
         pixels[destIndex] = mData[srcIndex];
       }
