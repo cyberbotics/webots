@@ -21,8 +21,7 @@ public:
     mData(data),
     mWidth(width),
     mHeight(height),
-    mChannels(channels)
-  {}
+    mChannels(channels) {}
 
   const unsigned char *data() const { return mData; }
   int width() const { return mWidth; }
@@ -32,9 +31,6 @@ public:
   WbImage *downscale(int width, int height);
 
 private:
-  WbImage *applyConvolution(float *matrix, int matrixWidth, int matrixHeight);
-  WbImage *noFilterDownscale(int width, int height);
-
   const unsigned char *mData;
   int mWidth;
   int mHeight;
