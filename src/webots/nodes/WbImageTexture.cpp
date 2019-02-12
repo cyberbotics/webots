@@ -198,7 +198,8 @@ void WbImageTexture::updateWrenTexture() {
       if (mImage->width() != width || mImage->height() != height) {
         // Qt::SmoothTransformation alterates the alpha channel.
         // Qt::FastTransformation creates alias effects.
-        // Blurring the image before scaling it without filter (Qt::FastTransformation) is the solution given in litterature, for example here:
+        // Blurring the image before scaling it without filter (Qt::FastTransformation) is the solution given in litterature,
+        // for example here:
         // - https://stackoverflow.com/questions/49879466/downscaling-images-using-bilinear-and-bicubic-algorithms
         const int blurRatio = qMax(0, qMax(mImage->width() / width, mImage->height() / height) - 1);
         blurred(*mImage, blurRatio);
