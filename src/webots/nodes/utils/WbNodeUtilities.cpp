@@ -1454,20 +1454,6 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
 
       return UNSUITABLE;
     }
-
-    if (srcModelName == "DifferentialWheels") {
-      if (isRobotTypeName(destModelName))
-        return LOOSING_INFO;
-
-      return UNSUITABLE;
-    }
-
-    if (srcModelName == "Robot") {
-      if (isRobotTypeName(destModelName))
-        return SUITABLE;
-
-      return UNSUITABLE;
-    }
   }
 
   if (srcModelName == "Group" || srcModelName == "Transform") {
@@ -1512,7 +1498,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
         return isRobotTypeName(topNodeModelName) ? SUITABLE : UNSUITABLE;
       }
       if (srcNode->isTopLevel()) {
-        if (isRobotTypeName(destModelName) || destModelName == "Charger")
+        if (destModelName == "Robot" || destModelName == "Charger")
           return SUITABLE;
 
         return UNSUITABLE;
@@ -1523,7 +1509,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Charger") {
-    if (isRobotTypeName(destModelName) || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid")
+    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid")
       return LOOSING_INFO;
 
     return UNSUITABLE;
