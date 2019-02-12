@@ -19,36 +19,69 @@
 #include <cstdlib>
 #include <cstring>
 
-static float *createGaussianConvolutionMatix(int width, int height, float sigma) {
+static float *createGaussianConvolutionMatrix(int width, int height, float sigma) {
   const int size = width * height;
   float *kernel = (float *)malloc(sizeof(float) * size);
   double sum = 0.0;
-  int i, j;
-  for (j = 0; j < height; ++j) {
-    for (i = 0; i < width; ++i) {
-      kernel[i + j * width] = exp(-(pow(i - width / 2, 2) + pow(j - height / 2, 2)) / (2.0 * sigma * sigma)) / (2.0 * M_PI * sigma * sigma);
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
+      kernel[i + j * width] =
+        exp(-(pow(i - width / 2, 2) + pow(j - height / 2, 2)) / (2.0 * sigma * sigma)) / (2.0 * M_PI * sigma * sigma);
       sum += kernel[i + j * width];
     }
   }
-  for (j = 0; j < height; ++j) {
-    for (i = 0; i < width; ++i) {
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
       kernel[i + j * width] /= sum;
     }
   }
   return kernel;
 }
 
-WbImage *WbImage::downscale(int width, int height) {
-  float *convolutionMatrix = createGaussianConvolutionMatix(5, 5, 2.0);
-  int i, j;
-  for (j = 0; j < 5; ++j) {
-    for (i = 0; i < 5; ++i) {
-      printf("[%d, %d]: %f\n", i, j, convolutionMatrix[i + j * 5]);
-    }
-  }
+WbImage *WbImage::applyConvolution(float *matrix, int matrixWidth, int matrixHeight) {
   const int size = mWidth * mHeight * mChannels;
   unsigned char *pixels = (unsigned char *)malloc(size);
   memset(pixels, 0, size);
-  WbImage *image = new WbImage(pixels, width, height, mChannels);
-  return image;
+
+  for (int j = 0; j < mHeight; ++j) {
+    for (int i = 0; i < mWidth; ++i) {
+      for (int c = 0; c < mChannels; ++c) {
+        int pixelIndex = (i + (j * mWidth)) * mChannels + c;
+        pixels[pixelIndex] = mData[pixelIndex];
+        /*
+        for (int v = 0; v < matrixHeight; ++v) {
+          for (int u = 0; u < matrixWidth; ++u) {
+            int pixelIndex = (i - (u - matrixWidth / 2) + (j - (v - matrixHeight / 2)) * mWidth) * mChannels + c;
+            pixels[pixelIndex] += (unsigned char)((float)mData[pixelIndex] * matrix[u + v * matrixWidth]);
+          }
+        }*/
+      }
+    }
+  }
+
+  return new WbImage(pixels, mWidth, mHeight, mChannels);
+}
+
+WbImage *WbImage::noFilterDownscale(int width, int height) {
+  const int size = width * height * mChannels;
+  unsigned char *pixels = (unsigned char *)malloc(size);
+
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
+      for (int c = 0; c < mChannels; ++c) {
+        int srcIndex = (i + (j * mWidth)) * mChannels + c;
+        int destIndex = (i + (j * width)) * mChannels + c;
+        pixels[destIndex] = mData[srcIndex];
+      }
+    }
+  }
+
+  return new WbImage(pixels, width, height, mChannels);
+}
+
+WbImage *WbImage::downscale(int width, int height) {
+  float *convolutionMatrix = createGaussianConvolutionMatrix(5, 5, 2.0);
+  WbImage *blurredImage = applyConvolution(convolutionMatrix, 5, 5);
+  free(convolutionMatrix);
+  return blurredImage->noFilterDownscale(width, height);
 }

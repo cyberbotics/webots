@@ -136,7 +136,7 @@ void WbImageTexture::updateWrenTexture() {
       }
 
       if (mImage->width() != width || mImage->height() != height) {
-        WbImage *image = new WbImage(mImage->constBits(), mImage->width(), mImage->height(), mIsMainTextureTransparent ? 4 : 3);
+        WbImage *image = new WbImage(mImage->constBits(), mImage->width(), mImage->height(), 4);
         WbImage *downscaledImage = image->downscale(width, height);
         QImage tmp(downscaledImage->data(), width, height, mImage->format());
         mImage->swap(tmp);

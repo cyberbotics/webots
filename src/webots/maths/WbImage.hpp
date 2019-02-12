@@ -32,7 +32,8 @@ public:
   WbImage *downscale(int width, int height);
 
 private:
-  //WbImage *applyConvolution();
+  WbImage *applyConvolution(float *matrix, int matrixWidth, int matrixHeight);
+  WbImage *noFilterDownscale(int width, int height);
 
   const unsigned char *mData;
   int mWidth;
