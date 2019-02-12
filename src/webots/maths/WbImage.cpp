@@ -26,6 +26,11 @@ static const float gaussBlur[3][3] = {
   {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
 };
 
+WbImage::~WbImage() {
+  if (mFreeDataOnDeletion)
+    free(mData);
+}
+
 WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRadius) {
   const int dstSize = width * height * mChannels;
   const int srcSize = mWidth * mHeight * mChannels;
@@ -52,5 +57,5 @@ WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRad
     }
   }
 
-  return new WbImage(pixels, width, height, mChannels);
+  return new WbImage(pixels, width, height, mChannels, true);
 }

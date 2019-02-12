@@ -17,11 +17,13 @@
 
 class WbImage {
 public:
-  WbImage(const unsigned char *data, int width, int height, int channels) :
+  WbImage(unsigned char *data, int width, int height, int channels, bool freeDataOnDeletion) :
     mData(data),
     mWidth(width),
     mHeight(height),
-    mChannels(channels) {}
+    mChannels(channels),
+    mFreeDataOnDeletion(freeDataOnDeletion) {}
+  virtual ~WbImage();
 
   const unsigned char *data() const { return mData; }
   int width() const { return mWidth; }
@@ -31,10 +33,11 @@ public:
   WbImage *downscale(int width, int height, int xBlurRadius, int yBlurRadius);
 
 private:
-  const unsigned char *mData;
+  unsigned char *mData;
   int mWidth;
   int mHeight;
   int mChannels;
+  bool mFreeDataOnDeletion;
 };
 
 #endif
