@@ -152,7 +152,7 @@ $(WEBOTS_HOME_PATH)/lib/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
 $(WEBOTS_HOME_PATH)/lib/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
-	$^ -L/mingw64/bin -lController -lCppController -lm -o "$@"
+	$^ -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): JAVA_CLASSES
 	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
