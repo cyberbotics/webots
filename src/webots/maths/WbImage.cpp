@@ -43,18 +43,18 @@ WbImage *WbImage::applyConvolution(float *matrix, int matrixWidth, int matrixHei
   unsigned char *pixels = (unsigned char *)malloc(size);
   memset(pixels, 0, size);
 
-  for (int j = 0; j < mHeight; ++j) {
-    for (int i = 0; i < mWidth; ++i) {
+  const int halfMatrixWidth = ceil(0.5f * matrixWidth);
+  const int halfMatrixHeight = ceil(0.5f * matrixHeight);
+
+  for (int j = halfMatrixHeight; j < mHeight - halfMatrixHeight; ++j) {
+    for (int i = halfMatrixWidth; i < mWidth - halfMatrixWidth; ++i) {
       for (int c = 0; c < mChannels; ++c) {
-        int pixelIndex = (i + (j * mWidth)) * mChannels + c;
-        pixels[pixelIndex] = mData[pixelIndex];
-        /*
         for (int v = 0; v < matrixHeight; ++v) {
           for (int u = 0; u < matrixWidth; ++u) {
             int pixelIndex = (i - (u - matrixWidth / 2) + (j - (v - matrixHeight / 2)) * mWidth) * mChannels + c;
             pixels[pixelIndex] += (unsigned char)((float)mData[pixelIndex] * matrix[u + v * matrixWidth]);
           }
-        }*/
+        }
       }
     }
   }
@@ -83,7 +83,8 @@ WbImage *WbImage::noFilterDownscale(int width, int height) {
 }
 
 WbImage *WbImage::downscale(int width, int height) {
-  float *convolutionMatrix = createGaussianConvolutionMatrix(5, 5, 2.0);
+  // reference: https://stackoverflow.com/questions/49879466/downscaling-images-using-bilinear-and-bicubic-algorithms
+  float *convolutionMatrix = createGaussianConvolutionMatrix(5, 5, 10.0);
   WbImage *blurredImage = applyConvolution(convolutionMatrix, 5, 5);
   free(convolutionMatrix);
   return blurredImage->noFilterDownscale(width, height);
