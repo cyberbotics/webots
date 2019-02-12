@@ -93,8 +93,8 @@ TARGET          = $(WEBOTS_HOME_PATH)/lib/java/$(LIBNAME).dll
 CFLAGS2         = -c -Wall -Wno-unused-function -O
 JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
-LIBCONTROLLER   = /mingw64/bin/Controller.dll
-LIBCPPCONTROLLER= /mingw64/bin/CppController.dll
+LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
+LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
 ECHO_N          = -n
 else
 
