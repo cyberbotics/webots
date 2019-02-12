@@ -28,7 +28,7 @@ public:
   int height() const { return mHeight; }
   int channels() const { return mChannels; }
 
-  WbImage *downscale(int width, int height);
+  WbImage *downscale(int width, int height, int xBlurRadius, int yBlurRadius);
 
 private:
   const unsigned char *mData;
