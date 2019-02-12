@@ -134,7 +134,7 @@ QT_WEB_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebKitWidgets -isystem $(W
 QT_WEBSOCKETS_INCLUDE = -isystem $(WEBOTS_PATH)/include/qt/QtWebSockets
 QT_XML_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtXml
 FREETYPE_INCLUDE   = -I/mingw64/include/freetype2
-TARGET_PATH       = /mingw64/bin
+TARGET_PATH       = $(WEBOTS_PATH)/msys64/mingw64/bin
 TARGET            = $(TARGET_PATH)/webots.exe
 CFLAGS            = -isystem /mingw64/lib/libzip/include
 CXXFLAGS          = -std=c++11 -D_USE_MATH_DEFINES
