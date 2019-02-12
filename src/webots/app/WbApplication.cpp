@@ -269,7 +269,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     const QString &WEBOTS_HOME = WbStandardPaths::webotsHomePath();
     const QString truncatedFilePath = dir.canonicalPath().mid(0, WEBOTS_HOME.length());
     if (truncatedFilePath.compare(WEBOTS_HOME, Qt::CaseInsensitive) == 0)
-      WbTelemetry::send(fileName, "trial");
+      WbTelemetry::send(fileName);  // log attempt to open world file
     else
       fileName = "";
   }
@@ -334,7 +334,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
 
   if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty())
-    WbTelemetry::send(fileName, "success");
+    WbTelemetry::send();  // confirm the file previously sent was opened successfully
 
   return true;
 }

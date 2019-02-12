@@ -25,14 +25,15 @@ class WbTelemetry : public QObject {
   Q_OBJECT
 
 public:
-  static void send(const QString &file, const QString &operation);
-  void sendRequest(const QString &file, const QString &operation);
+  static void send(const QString &file = "");
+  void sendRequest(const QString &operation);
+  QString mFile;
 
 private slots:
   void requestReplyFinished();
 
 private:
-  WbTelemetry() {}
+  WbTelemetry() : mFile() {}
   virtual ~WbTelemetry() {}
 };
 
