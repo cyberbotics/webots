@@ -47,7 +47,7 @@ ifeq ($(OSTYPE),windows)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 CFLAGS2       = -c -Wall -Wno-unused-function -O
 LIBRARY       = $(WEBOTS_HOME_PATH)/lib/java/vehicle.dll
-LIB           = -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin
+LIB           = -L/mingw64/bin
 endif
 
 ifeq ($(OSTYPE),darwin)
