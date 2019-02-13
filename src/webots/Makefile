@@ -466,7 +466,7 @@ OTHER_SOURCES = \
   WbFieldModel.cpp \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
-  WbUrl.cpp \
+  WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \
   WbLanguage.cpp \
@@ -517,6 +517,7 @@ OTHER_SOURCES = \
   WbTranslator.cpp \
   WbTriangleMesh.cpp \
   WbTriangleMeshCache.cpp \
+  WbUrl.cpp \
   WbVector4.cpp \
   WbVersion.cpp \
   WbVrmlWriter.cpp \

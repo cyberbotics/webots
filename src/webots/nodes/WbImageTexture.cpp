@@ -17,6 +17,7 @@
 #include "WbAppearance.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbImage.hpp"
 #include "WbLog.hpp"
 #include "WbMFString.hpp"
 #include "WbMathsUtilities.hpp"
@@ -135,7 +136,15 @@ void WbImageTexture::updateWrenTexture() {
       }
 
       if (mImage->width() != width || mImage->height() != height) {
-        QImage tmp = mImage->scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        // Qt::SmoothTransformation alterates the alpha channel.
+        // Qt::FastTransformation creates ugly aliasing effects.
+        // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
+        WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height());
+        WbImage *downscaledImage =
+          image->downscale(width, height, qMax(0, mImage->width() / width - 1), qMax(0, mImage->height() / height - 1));
+        delete image;
+        QImage tmp(downscaledImage->data(), width, height, mImage->format());
+        delete downscaledImage;
         mImage->swap(tmp);
       }
 
