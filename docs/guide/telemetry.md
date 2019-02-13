@@ -22,3 +22,6 @@ The following table describes all the data sent:
 | disableShadows            | The shadows option set in the [preferences](preferences.md#opengl)                                                                                              | false                          |
 | GTAO                      | The ambient occlusion option set in the [preferences](preferences.md#opengl)                                                                                    | 2                              |
 | SMAA                      | The main 3D view anti-aliasing option set in the [preferences](preferences.md#opengl)                                                                           | true                           |
+
+
+According to our will to be as transparent as possible we do provide all the raw data [here](https://cyberbotics.com/telemetry).
