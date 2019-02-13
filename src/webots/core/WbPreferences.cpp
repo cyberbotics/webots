@@ -73,6 +73,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("OpenGL/disableCameraAntiAliasing", false);
   setDefault("OpenGL/SMAA", true);
   setDefault("OpenGL/GTAO", 2);
+  setDefault("OpenGL/textureQuality", 2);
   setDefault("VirtualRealityHeadset/enable", false);
   setDefault("VirtualRealityHeadset/trackPosition", true);
   setDefault("VirtualRealityHeadset/trackOrientation", true);

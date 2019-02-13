@@ -12,29 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_TELEMETRY_HPP
-#define WB_TELEMETRY_HPP
+#ifndef WB_IMAGE_HPP
+#define WB_IMAGE_HPP
 
-//
-// Description: this class reports telemetric information to Webots developers
-//
-
-#include <QtCore/QObject>
-
-class WbTelemetry : public QObject {
-  Q_OBJECT
-
+class WbImage {
 public:
-  static void send(const QString &file = "");
-  void sendRequest(const QString &operation);
-  QString mFile;
+  WbImage(unsigned char *data, int width, int height) : mData(data), mWidth(width), mHeight(height) {}
+  virtual ~WbImage() {}
 
-private slots:
-  void requestReplyFinished();
+  const unsigned char *data() const { return mData; }
+  int width() const { return mWidth; }
+  int height() const { return mHeight; }
+
+  WbImage *downscale(int width, int height, int xBlurRadius, int yBlurRadius);
 
 private:
-  WbTelemetry() : mFile() {}
-  virtual ~WbTelemetry() {}
+  unsigned char *mData;
+  int mWidth;
+  int mHeight;
 };
 
 #endif

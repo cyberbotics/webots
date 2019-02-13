@@ -84,7 +84,7 @@
 /mingw64/bin/libvpx-1.dll
 /mingw64/bin/libwavpack-1.dll
 /mingw64/bin/libx265.dll
-/mingw64/bin/libx264-155.dll
+/mingw64/bin/libx264-157.dll
 /mingw64/bin/libcaca-0.dll
 /mingw64/bin/SDL2.dll
 /mingw64/bin/libass-9.dll
@@ -95,7 +95,7 @@
 /mingw64/bin/libgnutls-30.dll
 /mingw64/bin/libhogweed-4.dll
 /mingw64/bin/libnettle-6.dll
-/mingw64/bin/libidn2-4.dll
+/mingw64/bin/libidn2-0.dll
 /mingw64/bin/libp11-kit-0.dll
 /mingw64/bin/libffi-6.dll
 /mingw64/bin/libtasn1-6.dll

@@ -5,7 +5,7 @@ It can be turned off or on the first time you start Webots and from the Webots [
 This data is mainly used to detect and fix crashes on some specific hardware.
 
 ### Sent Informations
-The following table describe all the data sent:
+The following table describes all the data sent:
 
 | Data sent                 | Description                                                                                                                                                     | Value Example                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
@@ -22,3 +22,6 @@ The following table describe all the data sent:
 | disableShadows            | The shadows option set in the [preferences](preferences.md#opengl)                                                                                              | false                          |
 | GTAO                      | The ambient occlusion option set in the [preferences](preferences.md#opengl)                                                                                    | 2                              |
 | SMAA                      | The main 3D view anti-aliasing option set in the [preferences](preferences.md#opengl)                                                                           | true                           |
+
+
+To be as transparent as possible, all the telemetry raw data is available [here](https://cyberbotics.com/telemetry).
