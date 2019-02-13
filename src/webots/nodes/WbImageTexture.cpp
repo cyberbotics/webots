@@ -1,4 +1,3 @@
-#include <QtCore/QDebug>
 // Copyright 1996-2018 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
