@@ -24,4 +24,4 @@ The following table describes all the data sent:
 | SMAA                      | The main 3D view anti-aliasing option set in the [preferences](preferences.md#opengl)                                                                           | true                           |
 
 
-According to our will to be as transparent as possible we do provide all the raw data [here](https://cyberbotics.com/telemetry).
+To be as transparent as possible, all the telemetry raw data is available [here](https://cyberbotics.com/telemetry).
