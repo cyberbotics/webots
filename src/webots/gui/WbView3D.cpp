@@ -1237,17 +1237,20 @@ void WbView3D::checkRendererCapabilities() {
 #endif
 
   // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
-  if ((mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) &&
-      wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
-    if (message.isEmpty()) {
-      message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
-                    "A minimum of 2Gb of memory is recomended to use high-resolution textures. ");
-      message += '\n';
+  if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
+    if (wr_gl_state_get_gpu_memory() == 2097152)
+      WbPreferences::instance()->setValue("OpenGL/limitBakingResolution", true);
+    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
+      if (message.isEmpty()) {
+        message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
+                      "A minimum of 2Gb of memory is recommended to use high-resolution textures. ");
+        message += '\n';
+      }
+      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
+        reduceTextureQuality = 2;
+      else
+        reduceTextureQuality = 1;
     }
-    if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
-      reduceTextureQuality = 2;
-    else
-      reduceTextureQuality = 1;
   }
 
   // 3. apply the parameter reducing
