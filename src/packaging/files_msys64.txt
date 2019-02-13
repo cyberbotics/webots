@@ -95,12 +95,14 @@
 /mingw64/bin/libgnutls-30.dll
 /mingw64/bin/libhogweed-4.dll
 /mingw64/bin/libnettle-6.dll
-/mingw64/bin/libidn2-4.dll
+/mingw64/bin/libidn2-0.dll
 /mingw64/bin/libp11-kit-0.dll
 /mingw64/bin/libffi-6.dll
 /mingw64/bin/libtasn1-6.dll
+/mingw64/bin/libmfx-1.dll
 /mingw64/bin/libmodplug-1.dll
 /mingw64/bin/librtmp-1.dll
+/ming64/bin/libsrt.dll
 /mingw64/bin/xvidcore.dll
 
 # needed to execute the ros.exe controller

@@ -19,36 +19,33 @@
 
 #define CLAMP(v, low, high) ((v) < (low) ? (low) : ((v) > (high) ? (high) : (v)))
 
-static const float gaussBlur[3][3] = {
-  // 3x3 convolution matrix to blur.
-  {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
-  {2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f},
-  {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
-};
-
 WbImage *WbImage::downscale(int width, int height, int xBlurRadius, int yBlurRadius) {
+  // 3x3 convolution matrix to blur.
+  static const int gaussBlur[3][3] = {
+    {1, 2, 1},
+    {2, 4, 2},
+    {1, 2, 1},
+  };
   const int channels = 4;
   const int dstSize = width * height * channels;
   const int srcSize = mWidth * mHeight * channels;
   unsigned char *pixels = (unsigned char *)malloc(dstSize);
-  memset(pixels, 0, dstSize);
-
-  const float widthRatio = (float)mWidth / width;
-  const float heightRatio = (float)mHeight / height;
 
   // downscale and apply the convolution matrix.
   for (int j = 0; j < height; ++j) {
     for (int i = 0; i < width; ++i) {
       for (int c = 0; c < channels; ++c) {
         const int destIndex = (i + (j * width)) * channels + c;
+        unsigned char acc = 0;
         for (int u = -1; u < 2; ++u) {
-          const float x = CLAMP(widthRatio * i + u * xBlurRadius, 0, mWidth - 1);
+          const int x = CLAMP(mWidth * i / width + u * xBlurRadius, 0, mWidth - 1);
           for (int v = -1; v < 2; ++v) {
-            const float y = CLAMP(heightRatio * j + v * yBlurRadius, 0, mHeight - 1);
+            const int y = CLAMP(mHeight * j / height + v * yBlurRadius, 0, mHeight - 1);
             const int srcIndex = CLAMP((int)(x + y * mWidth) * channels + c, 0, srcSize);
-            pixels[destIndex] += (unsigned char)(gaussBlur[u + 1][v + 1] * mData[srcIndex]);
+            acc += gaussBlur[u + 1][v + 1] * mData[srcIndex] / 16;
           }
         }
+        pixels[destIndex] = acc;
       }
     }
   }
