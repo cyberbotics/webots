@@ -1237,7 +1237,7 @@ void WbView3D::checkRendererCapabilities() {
 #endif
 
   // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
-  if ((mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) &&) {
+  if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
     if (wr_gl_state_get_gpu_memory() == 2097152)
       WbPreferences::instance()->setValue("OpenGL/limitBackingResolution", true);
     else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
