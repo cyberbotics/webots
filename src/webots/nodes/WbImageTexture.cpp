@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2018 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -137,15 +138,15 @@ void WbImageTexture::updateWrenTexture() {
 
       if (mImage->width() != width || mImage->height() != height) {
         // Qt::SmoothTransformation alterates the alpha channel.
-        // Qt::FastTransformation creates alias effects.
+        // Qt::FastTransformation creates ugly aliasing effects.
         // A custom scale with gaussian blur is the best tradeoff found between quality and loading performance.
-        WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height(), 4, false);
+        WbImage *image = new WbImage((unsigned char *)mImage->constBits(), mImage->width(), mImage->height());
         WbImage *downscaledImage =
           image->downscale(width, height, qMax(0, mImage->width() / width - 1), qMax(0, mImage->height() / height - 1));
-        QImage tmp(downscaledImage->data(), width, height, mImage->format());
-        mImage->swap(tmp);
         delete image;
+        QImage tmp(downscaledImage->data(), width, height, mImage->format());
         delete downscaledImage;
+        mImage->swap(tmp);
       }
 
       WbWrenOpenGlContext::makeWrenCurrent();
