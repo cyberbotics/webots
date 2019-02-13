@@ -244,7 +244,7 @@ void WbCubemap::loadWrenTexture() {
     (mIsEquirectangular && (quality < 2 || WbPreferences::instance()->value("OpenGL/limitBakingResolution", false).toBool())) ?
       5 :
       6;
-  const int resolution = pow(2, offset + quality);
+  const int resolution = 1 << (offset + quality);
   mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
     mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
   wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
