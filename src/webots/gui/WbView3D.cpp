@@ -1243,7 +1243,7 @@ void WbView3D::checkRendererCapabilities() {
     else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
       if (message.isEmpty()) {
         message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
-                      "A minimum of 2Gb of memory is recomended to use high-resolution textures. ");
+                      "A minimum of 2Gb of memory is recommended to use high-resolution textures. ");
         message += '\n';
       }
       if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
