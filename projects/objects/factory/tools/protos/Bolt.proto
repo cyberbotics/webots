@@ -8,9 +8,10 @@ PROTO Bolt [
   field SFVec3f    translation      0 0.0131 0
   field SFRotation rotation         0 1 0 0
   field SFString   name             "bolt"
-  field SFFloat    screwRadius      0.0055      # Defines the radius of the screw.
-  field SFFloat    screwLength      0.035       # Defines the length of the screw.
-  field SFString   contactMaterial  "default"   # Is `Solid.contactMaterial`.
+  field SFNode     appearance       OldSteel {}  # Defines the appearance of the bolt.
+  field SFFloat    screwRadius      0.0055       # Defines the radius of the screw.
+  field SFFloat    screwLength      0.035        # Defines the length of the screw.
+  field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
 ]
 {
   %{
@@ -313,8 +314,7 @@ PROTO Bolt [
         scale %{= screwRadius / 0.0042 }% %{= screwRadius / 0.0042 }% %{= screwLength / 0.027 }%
         children [
           DEF TOP_AND_TIP Shape {
-            appearance OldSteel {
-            }
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [

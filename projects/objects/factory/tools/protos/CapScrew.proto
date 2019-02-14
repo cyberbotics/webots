@@ -8,6 +8,7 @@ PROTO CapScrew [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 0 1 0
   field SFString   name             "cap screw"
+  field SFNode     appearance       OldSteel {}  # Defines the appearance of the screw.
   field SFFloat    screwRadius      0.006        # Defines the radius of the screw.
   field SFFloat    screwLength      0.05         # Defines the length of the screw.
   field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
@@ -37,8 +38,7 @@ PROTO CapScrew [
         scale %{= 250 * screwRadius }% %{= 250 * screwRadius }% %{= 250 * screwRadius }%
         children [
           Shape {
-            appearance OldSteel {
-            }
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [

@@ -8,9 +8,10 @@ PROTO Washer [
   field SFVec3f    translation     0 0.004 0
   field SFRotation rotation        0 1 0 0
   field SFString   name            "washer"
-  field SFFloat    innerRadius      0.006     # Defines the inner radius of the washer.
-  field SFFloat    thickness        0.0017    # Defines the thickness of the washer.
-  field SFString   contactMaterial "default"  # Is `Solid.contactMaterial`.
+  field SFNode     appearance       OldSteel {}  # Defines the appearance of the washer.
+  field SFFloat    innerRadius      0.006        # Defines the inner radius of the washer.
+  field SFFloat    thickness        0.0017       # Defines the thickness of the washer.
+  field SFString   contactMaterial "default"     # Is `Solid.contactMaterial`.
 ]
 {
   %{
@@ -37,8 +38,7 @@ PROTO Washer [
         scale %{= innerRadius / 0.006 }% %{= thickness / 0.0017 }% %{= innerRadius / 0.006 }%
         children [
           Shape {
-            appearance OldSteel {
-            }
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [

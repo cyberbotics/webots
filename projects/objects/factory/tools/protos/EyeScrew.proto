@@ -8,9 +8,10 @@ PROTO EyeScrew [
   field SFVec3f    translation      0 0 0
   field SFRotation rotation         0 0 1 0
   field SFString   name             "eye screw"
-  field SFFloat    screwRadius      0.006        # Defines the radius of the screw.
-  field SFFloat    screwLength      0.05         # Defines the length of the screw.
-  field SFString   contactMaterial  "default"    # Is `Solid.contactMaterial`.
+  field SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }  # Defines the appearance of the screw.
+  field SFFloat    screwRadius      0.006                                      # Defines the radius of the screw.
+  field SFFloat    screwLength      0.05                                       # Defines the length of the screw.
+  field SFString   contactMaterial  "default"                                  # Is `Solid.contactMaterial`.
 ]
 {
   %{
@@ -37,9 +38,7 @@ PROTO EyeScrew [
         scale %{= screwRadius / 0.006 }% %{= screwRadius / 0.006 }% %{= screwRadius / 0.006 }%
         children [
           Shape {
-            appearance OldSteel {
-              colorOverride 0.7294117647058823 0.7411764705882353 0.7137254901960784
-            }
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
