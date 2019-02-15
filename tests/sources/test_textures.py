@@ -15,8 +15,23 @@
 """Test textures."""
 import unittest
 import os
+import filecmp
 import fnmatch
 from PIL import Image
+
+duplicatedTextures = [
+    'mybot.png',
+    'l1.png',
+    'l2.png',
+    'l3.png',
+    'l4.png',
+    'soccer_quarter.jpg',
+    'irobot_create.jpg'
+]
+
+duplicatedTexurePaths = [
+    'projects/samples/robotbenchmark'
+]
 
 
 class TestTextures(unittest.TestCase):
@@ -74,6 +89,20 @@ class TestTextures(unittest.TestCase):
                 im.info.get("icc_profile") is None,
                 msg='texture "%s" contains an ICC profile' % (texture)
             )
+
+    def test_textures_uniqueness(self):
+        """Test that the released textures are unique."""
+        for texture in self.textures:
+            if any(path in texture for path in duplicatedTexurePaths):
+                continue
+            if os.path.basename(texture) in duplicatedTextures:
+                continue
+            for comparedTexture in self.textures:
+                if not texture == comparedTexture:
+                    self.assertTrue(
+                        filecmp.cmp(texture, comparedTexture) is False,
+                        msg='texture "%s" and "%s" are equal' % (texture, comparedTexture)
+                    )
 
 
 if __name__ == '__main__':
