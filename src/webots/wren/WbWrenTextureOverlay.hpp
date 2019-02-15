@@ -33,7 +33,6 @@ public:
 
   static void updateOverlayDimensions();
   static void setElementsVisible(OverlayType type, bool visible);
-  static void setScreenRatio(float screenRatio);
 
   WbWrenTextureOverlay(void *data, int width, int height, TextureType textureType, OverlayType overlayType,
                        WrTexture *texture = NULL, double maxRange = 1.0, bool rangeCamera = false,
@@ -116,8 +115,6 @@ private:
 
   // Cleanup methods
   void deleteWren();
-
-  static float cScreenRatio;
 
   TextureType mTextureType;
   OverlayType mOverlayType;

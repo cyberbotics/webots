@@ -102,8 +102,6 @@ class WbDragPhysicsEvent : public WbDragView3DEvent {
   Q_OBJECT;
 
 public:
-  static void setScreenRatio(float screenRatio) { cScreenRatio = screenRatio; }
-
   WbDragPhysicsEvent(const QSize &widgetSize, WbViewpoint *viewpoint, WbSolid *selectedSolid);
   virtual ~WbDragPhysicsEvent();
   void apply(const QPoint &currentMousePosition) override;
@@ -118,8 +116,6 @@ public slots:
   void updateRenderingAndPhysics();
 
 protected:
-  static float cScreenRatio;
-
   void init();
   void applyChangesToWren();
   virtual void applyToOde() = 0;

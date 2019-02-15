@@ -1188,7 +1188,7 @@ void WbView3D::checkRendererCapabilities() {
   bool disableCameraAntiAliasing = false;
   bool disableSMAA = false;
   bool disableGTAO = false;
-  bool reduceTextureQuality = false;
+  int reduceTextureQuality = 0;
 
   // 2. determine what has to be reduced
   if (!mWrenRenderingContext->isNvidiaRenderer() && !mWrenRenderingContext->isAmdRenderer() &&
@@ -1209,7 +1209,7 @@ void WbView3D::checkRendererCapabilities() {
     disableCameraAntiAliasing = true;
     disableSMAA = true;
     disableGTAO = true;
-    reduceTextureQuality = true;
+    reduceTextureQuality = 1;
   }
 
   if (mWrenRenderingContext->isIntelRenderer()) {
@@ -1224,6 +1224,33 @@ void WbView3D::checkRendererCapabilities() {
       disableCameraAntiAliasing = true;
     }
 #endif
+  }
+#ifndef __APPLE__
+  else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
+    message += tr("Webots has detected that you are using an old AMD GPU. "
+                  "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
+    disableCameraAntiAliasing = true;
+    disableSMAA = true;
+    disableGTAO = true;
+    reduceTextureQuality = 1;
+  }
+#endif
+
+  // check GPU memory (not for Intel GPU, because the texture size has no impact on the rendring speed)
+  if (mWrenRenderingContext->isNvidiaRenderer() || mWrenRenderingContext->isAmdRenderer()) {
+    if (wr_gl_state_get_gpu_memory() == 2097152)
+      WbPreferences::instance()->setValue("OpenGL/limitBakingResolution", true);
+    else if (wr_gl_state_get_gpu_memory() < 2097152) {  // Less than 2Gb of GPU memory
+      if (message.isEmpty()) {
+        message += tr("Webots has detected that your GPU has less than 2Gb of memory. "
+                      "A minimum of 2Gb of memory is recommended to use high-resolution textures. ");
+        message += '\n';
+      }
+      if (wr_gl_state_get_gpu_memory() < 1048576)  // Less than 1Gb of GPU memory
+        reduceTextureQuality = 2;
+      else
+        reduceTextureQuality = 1;
+    }
   }
 
   // 3. apply the parameter reducing
@@ -1251,10 +1278,10 @@ void WbView3D::checkRendererCapabilities() {
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
   }
 
-  if (reduceTextureQuality) {
+  if (reduceTextureQuality != 0) {
     message += "\n - ";
     message += tr("Texture quality has been reduced.");
-    WbPreferences::instance()->setValue("OpenGL/TextureQuality", 1);
+    WbPreferences::instance()->setValue("OpenGL/textureQuality", 2 - reduceTextureQuality);
   }
 
   // 4. check OpenGL capabilities.

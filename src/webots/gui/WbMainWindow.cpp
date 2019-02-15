@@ -100,6 +100,8 @@
 #include <QtWebEngineWidgets/QWebEngineProfile>
 #endif
 
+#include <wren/gl_state.h>
+
 WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
   QMainWindow(parent),
   mExitStatus(0),
@@ -1608,6 +1610,7 @@ void WbMainWindow::showOpenGlInfo() {
   info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
   info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
   info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
+  info += tr("Available GPU memory: %1 bytes").arg(wr_gl_state_get_gpu_memory()) + "\n";
   WbMessageBox::info(info, this, tr("OpenGL information"));
 }
 

@@ -50,13 +50,14 @@ protected:
   WbAbstractAppearance(const WbAbstractAppearance &other);
   WbAbstractAppearance(const WbNode &other);
 
+  WbSFNode *mTextureTransform;
+
 private:
   WbAbstractAppearance &operator=(const WbAbstractAppearance &);  // non copyable
   void init();
 
   WbSFString *mName;
   QString mNameValue;
-  WbSFNode *mTextureTransform;
 
 private slots:
   void updateName();

@@ -113,7 +113,7 @@ namespace wren {
       glm::vec4 mActiveFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
       glm::vec4 mTextureFlags;  // x: flip vertically, y: additional texture count, z:  maxRange (depth textures only),
                                 // w: overlay transparency
-      glm::vec4 mSizeInPixels;  // x,y: size in screen pixels, z: screen ratio, w: unused (std140 padding)
+      glm::vec2 mSizeInPixels;  // x,y: size in screen pixels
       glm::vec2 mBorderSize;    // x: vertical size, y: horizontal size
     };
 

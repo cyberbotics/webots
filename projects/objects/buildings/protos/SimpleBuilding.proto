@@ -95,7 +95,7 @@ PROTO SimpleBuilding [
       ["windowed building"]      = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 3, colors = {{0.76, 0.79, 0.84}} },
       ["old brick building"]     = { textureFloorNumber = 8,   textureWidth = 20,  textureLateralWindowNumber = 5, colors = {{0.53, 0.48, 0.42}, {0.85, 0.86, 0.84}} },
       ["red and white building"] = { textureFloorNumber = 3,   textureWidth = 15,  textureLateralWindowNumber = 5, colors = {{0.75, 0.8, 0.77}, {0.62, 0.12, 0.12}} },
-      ["construction building"]  = { textureFloorNumber = 8,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.38, 0.38, 0.40}} },
+      ["construction building"]  = { textureFloorNumber = 8,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.38, 0.38, 0.40}}, pbr = true},
       ["red brick wall"]         = { textureFloorNumber = 0.3, textureWidth = 0.3, textureLateralWindowNumber = 1, colors = {{0.77, 0.33, 0.23}} },
       ["old brick wall"]         = { textureFloorNumber = 0.3, textureWidth = 0.6, textureLateralWindowNumber = 1, colors = {{0.53, 0.48, 0.33}} },
       ["stone brick"]            = { textureFloorNumber = 0.5, textureWidth = 1,   textureLateralWindowNumber = 1, colors = {{0.7, 0.6, 0.51}} },
@@ -110,7 +110,7 @@ PROTO SimpleBuilding [
       ["factory building"]       = { textureFloorNumber = 5,   textureWidth = 16,  textureLateralWindowNumber = 4, colors = {{0.88, 0.87, 0.86}} },
       ["tall house"]             = { textureFloorNumber = 2,   textureWidth = 6,   textureLateralWindowNumber = 2, colors = {{0.72, 0.72, 0.72}} },
       ["office building"]        = { textureFloorNumber = 2,   textureWidth = 8,   textureLateralWindowNumber = 4, colors = {{0.77, 0.81, 0.82}} },
-      ["concrete building"]      = { textureFloorNumber = 3,   textureWidth = 8,  textureLateralWindowNumber = 2, colors = {{0.92, 0.87, 0.86}} }
+      ["concrete building"]      = { textureFloorNumber = 3,   textureWidth = 8,   textureLateralWindowNumber = 2, colors = {{0.92, 0.87, 0.86}} }
     }
 
     local availableWallColors = {
@@ -224,7 +224,11 @@ PROTO SimpleBuilding [
     if wallColorPrefix ~= "" then
       wallTexture = string.gsub("colored_textures/" .. wallType .. wallColorPrefix .. ".jpg"," ","_")
     else
-      wallTexture = string.gsub(wallType .. ".jpg"," ","_")
+      if wallTypes[wallType].pbr then
+        wallTexture = string.gsub(wallType .. "_base_color.jpg"," ","_")
+      else
+        wallTexture = string.gsub(wallType .. ".jpg"," ","_")
+      end
     end
     wallTextureWidth = wallTypes[wallType].textureWidth
     wallTextureFloorNumber = wallTypes[wallType].textureFloorNumber

@@ -32,8 +32,6 @@
 
 #include <QtCore/QSize>
 
-float WbDragPhysicsEvent::cScreenRatio = 1.0f;
-
 WbDragHorizontalSolidEvent::WbDragHorizontalSolidEvent(const QPoint &initialPosition, WbViewpoint *viewpoint,
                                                        WbSolid *selectedSolid) :
   WbDragHorizontalEvent(initialPosition, viewpoint, selectedSolid),
@@ -167,7 +165,7 @@ void WbDragPhysicsEvent::apply(const QPoint &currentMousePosition) {
     return;
 
   // Updates the World Coordinates of Force or the Torque's end
-  mViewpoint->viewpointRay(currentMousePosition.x() * cScreenRatio, currentMousePosition.y() * cScreenRatio, mMouseRay);
+  mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   mEnd = mMouseRay.point(mIntersectionOutput.second);
 

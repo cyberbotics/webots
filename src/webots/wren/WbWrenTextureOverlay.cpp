@@ -49,8 +49,6 @@ static float cBorderColors[WbWrenTextureOverlay::OVERLAY_TYPE_COUNT][4] = {{1.0f
 // FALSE: overlay disabled, i.e. already open in an external window
 static QHash<WrOverlay *, QPair<WbWrenTextureOverlay *, bool>> cOverlayStatusMap;
 
-float WbWrenTextureOverlay::cScreenRatio = 1.0f;
-
 ////////////////////////////////////////
 //  Constructor  and initializations  //
 ////////////////////////////////////////
@@ -115,7 +113,6 @@ WbWrenTextureOverlay::WbWrenTextureOverlay(void *data, int width, int height, Te
   wr_overlay_set_texture(mWrenOverlay, mWrenTexture);
   wr_overlay_add_additional_texture(mWrenOverlay, WR_TEXTURE(mWrenCloseIconTexture));
   wr_overlay_add_additional_texture(mWrenOverlay, WR_TEXTURE(mWrenResizeIconTexture));
-  wr_overlay_set_screen_ratio(cScreenRatio);
   wr_overlay_set_program(mWrenOverlay, WbWrenShaders::overlayShader());
   wr_overlay_set_border_active(mWrenOverlay, true);
   wr_overlay_set_border_color(mWrenOverlay, cBorderColors[overlayType]);
@@ -365,24 +362,21 @@ int WbWrenTextureOverlay::foregroundTextureGLId() const {
 /////////////////////////////////////
 
 int WbWrenTextureOverlay::left() const {
-  return wr_overlay_get_x(mWrenOverlay) * wr_viewport_get_width(wr_scene_get_viewport(wr_scene_get_instance())) / cScreenRatio +
+  return wr_overlay_get_x(mWrenOverlay) * wr_viewport_get_width(wr_scene_get_viewport(wr_scene_get_instance())) +
          cBorderSizeHorizontal;
 }
 
 int WbWrenTextureOverlay::top() const {
-  return wr_overlay_get_y(mWrenOverlay) * wr_viewport_get_height(wr_scene_get_viewport(wr_scene_get_instance())) /
-           cScreenRatio +
+  return wr_overlay_get_y(mWrenOverlay) * wr_viewport_get_height(wr_scene_get_viewport(wr_scene_get_instance())) +
          cBorderSizeVertical;
 }
 
 int WbWrenTextureOverlay::width() const {
-  return wr_overlay_get_width(mWrenOverlay) * wr_viewport_get_width(wr_scene_get_viewport(wr_scene_get_instance())) /
-         cScreenRatio;
+  return wr_overlay_get_width(mWrenOverlay) * wr_viewport_get_width(wr_scene_get_viewport(wr_scene_get_instance()));
 }
 
 int WbWrenTextureOverlay::height() const {
-  return wr_overlay_get_height(mWrenOverlay) * wr_viewport_get_height(wr_scene_get_viewport(wr_scene_get_instance())) /
-         cScreenRatio;
+  return wr_overlay_get_height(mWrenOverlay) * wr_viewport_get_height(wr_scene_get_viewport(wr_scene_get_instance()));
 }
 
 bool WbWrenTextureOverlay::isTransparent() const {
@@ -474,8 +468,8 @@ void WbWrenTextureOverlay::restorePerspective(QStringList &perspective, bool glo
 
   bool isVisible = perspective.takeFirst() == "1";
   double pixelSize = perspective.takeFirst().toDouble();
-  double x = pixelSize;
-  double y = pixelSize;
+  double x = perspective.takeFirst().toDouble();
+  double y = perspective.takeFirst().toDouble();
   resize(pixelSize);
   updatePercentagePosition(x, y);
   setVisible(isVisible, globalOverlaysEnabled);
@@ -533,9 +527,4 @@ void WbWrenTextureOverlay::setElementsVisible(OverlayType type, bool visible) {
     if (p.first->mOverlayType == type && p.second)  // skip explicitly closed overlays
       wr_overlay_set_visible(p.first->mWrenOverlay, visible);
   }
-}
-
-void WbWrenTextureOverlay::setScreenRatio(float screenRatio) {
-  cScreenRatio = screenRatio;
-  wr_overlay_set_screen_ratio(cScreenRatio);
 }

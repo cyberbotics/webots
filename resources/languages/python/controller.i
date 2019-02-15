@@ -215,7 +215,11 @@ using namespace std;
 %typemap(out) unsigned char * {
   int width = arg1->getWidth();
   int height = arg1->getHeight();
-  $result = PyBytes_FromStringAndSize((const char*)$1, 4 * width * height);
+  if ($1)
+    $result = PyBytes_FromStringAndSize((const char*)$1, 4 * width * height);
+  else
+    $result = Py_None;
+
 }
 
 %extend webots::Camera {
@@ -223,15 +227,18 @@ using namespace std;
     const unsigned char *im = $self->getImage();
     int width = $self->getWidth();
     int height = $self->getHeight();
-    PyObject *ret = PyList_New(width);
-    for (int x = 0; x < width; ++x) {
-      PyObject *dim2 = PyList_New(height);
-      PyList_SetItem(ret, x, dim2);
-      for (int y = 0; y < height; ++y) {
-        PyObject *dim3 = PyList_New(3);
-        PyList_SetItem(dim2, y, dim3);
-        for (int ch = 0; ch < 3; ++ch)
-          PyList_SetItem(dim3, ch, PyInt_FromLong((unsigned int)(im[4 * (x + y * width) + 2 - ch])));
+    PyObject *ret = Py_None;
+    if (im) {
+      ret = PyList_New(width);
+      for (int x = 0; x < width; ++x) {
+        PyObject *dim2 = PyList_New(height);
+        PyList_SetItem(ret, x, dim2);
+        for (int y = 0; y < height; ++y) {
+          PyObject *dim3 = PyList_New(3);
+          PyList_SetItem(dim2, y, dim3);
+          for (int ch = 0; ch < 3; ++ch)
+            PyList_SetItem(dim3, ch, PyInt_FromLong((unsigned int)(im[4 * (x + y * width) + 2 - ch])));
+        }
       }
     }
     return ret;
@@ -443,9 +450,12 @@ using namespace std;
   int width = arg1->getHorizontalResolution();
   int height = arg1->getNumberOfLayers();
   int len = width * height;
-  $result = PyList_New(len);
-  for (int x = 0; x < len; ++x)
-    PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
+  if ($1) {
+    $result = PyList_New(len);
+    for (int x = 0; x < len; ++x)
+      PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
+  } else
+    $result = Py_None;
 }
 
 %ignore webots::Lidar::getPointCloud();
@@ -481,13 +491,16 @@ using namespace std;
     const float *im = $self->getRangeImage();
     int width = $self->getHorizontalResolution();
     int height = $self->getNumberOfLayers();
-    PyObject *ret = PyList_New(width);
-    for (int x = 0; x < width; ++x) {
-      PyObject *dim2 = PyList_New(height);
-      PyList_SetItem(ret, x, dim2);
-      for (int y = 0; y < height; ++y) {
-        PyObject *v = PyFloat_FromDouble(im[x + y * width]);
-        PyList_SetItem(dim2, y, v);
+    PyObject *ret = Py_None;
+    if (im) {
+      ret = PyList_New(width);
+      for (int x = 0; x < width; ++x) {
+        PyObject *dim2 = PyList_New(height);
+        PyList_SetItem(ret, x, dim2);
+        for (int y = 0; y < height; ++y) {
+          PyObject *v = PyFloat_FromDouble(im[x + y * width]);
+          PyList_SetItem(dim2, y, v);
+        }
       }
     }
     return ret;
@@ -632,9 +645,12 @@ using namespace std;
   int width = arg1->getWidth();
   int height = arg1->getHeight();
   int len = width * height;
-  $result = PyList_New(len);
-  for (int x = 0; x < len; ++x)
-    PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
+  if ($1) {
+    $result = PyList_New(len);
+    for (int x = 0; x < len; ++x)
+      PyList_SetItem($result, x, PyFloat_FromDouble($1[x]));
+  } else
+    $result = Py_None;
 }
 
 %extend webots::RangeFinder {
@@ -643,13 +659,16 @@ using namespace std;
     const float *im = $self->getRangeImage();
     int width = $self->getWidth();
     int height = $self->getHeight();
-    PyObject *ret = PyList_New(width);
-    for (int x = 0; x < width; ++x) {
-      PyObject *dim2 = PyList_New(height);
-      PyList_SetItem(ret, x, dim2);
-      for (int y = 0; y < height; ++y) {
-        PyObject *v = PyFloat_FromDouble(im[x + y * width]);
-        PyList_SetItem(dim2, y, v);
+    PyObject *ret = Py_None;
+    if (im) {
+      PyObject *ret = PyList_New(width);
+      for (int x = 0; x < width; ++x) {
+        PyObject *dim2 = PyList_New(height);
+        PyList_SetItem(ret, x, dim2);
+        for (int y = 0; y < height; ++y) {
+          PyObject *v = PyFloat_FromDouble(im[x + y * width]);
+          PyList_SetItem(dim2, y, v);
+        }
       }
     }
     return ret;
