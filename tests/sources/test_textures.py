@@ -28,6 +28,8 @@ duplicatedTextures = [
     'l3.png',
     'l4.png',
     'conveyor_belt.png',
+    'street_light_base_color.png',
+    'light_support_roughness.jpg',
     'car_leather_occlusion.jpg',  # TODO: remove
     'car_leather_roughness.jpg',
     'car_leather_normal.jpg',
@@ -36,11 +38,15 @@ duplicatedTextures = [
     'pavement.jpg',
     'picket_fence_occlusion.jpg',
     'picket_fence_metalness.jpg',
-    'picket_fence_roughness.jpg'
+    'picket_fence_roughness.jpg',
+    'street_light_normal.png',
+    'small_residential_tower_balcony_base_color.jpg',
+    'gas_station_store_cover_metalness.jpg'
 ]
 
 duplicatedTexurePaths = [
     'projects/samples/robotbenchmark',
+    'projects/objects/buildings/protos/textures/colored_textures',
     'projects/vehicles/protos/tesla/textures'  # filecmp.cmp fail
 ]
 

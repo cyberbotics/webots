@@ -84,6 +84,7 @@ PROTO SimpleBuilding [
     }
 
     -- the wallType is the texture's name (ex. "glass building"'s texture name is "glass_building.jpg")
+    -- TODO: various lines should be updated
     local wallTypes = {
       ["glass building"]         = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 4, colors = {{0.44, 0.56, 0.7}} },
       ["classic building"]       = { textureFloorNumber = 4,   textureWidth = 12,  textureLateralWindowNumber = 8, colors = {{0.62, 0.56, 0.49}} },

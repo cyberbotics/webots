@@ -37,11 +37,6 @@ PROTO MotelReception [
               "textures/motel_receptio_neon_metalness.jpg"
             ]
           }
-          normalMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_normal.jpg"
-            ]
-          }
           occlusionMap ImageTexture {
             url [
               "textures/motel_receptio_neon_occlusion.jpg"
