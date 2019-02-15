@@ -34,6 +34,8 @@ webots.User1Authentication // password or authentication for the main user (empt
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
+webots.showRevert          // defines whether the revert button should be displayed
+webots.showQuit            // defines whether the quit button should be displayed
 
 */
 
@@ -242,6 +244,51 @@ webots.View.prototype.setWebotsDocUrl = function(url) {
   this.webotsDocUrl = url;
 };
 
+webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
+  var that = this;
+  if (typeof this.worldSelect !== 'undefined')
+    this.worldSelectionDiv.removeChild(this.worldSelect);
+  if (worlds.length <= 1)
+    return;
+  this.worldSelect = document.createElement("select");
+  this.worldSelect.id = "worldSelection";
+  this.worldSelectionDiv.appendChild(this.worldSelect);
+  for (var i = 0; i < worlds.length; i++) {
+    var option = document.createElement("option");
+    option.value = worlds[i];
+    option.text = worlds[i];
+    this.worldSelect.appendChild(option);
+    if (currentWorld == worlds[i])
+      this.worldSelect.selectedIndex = i
+  }
+  this.worldSelect.onchange = loadWorld;
+  function loadWorld() {
+    if (that.broadcast || typeof that.worldSelect === 'undefined')
+      return;
+    that.enableToolBarButtons(false);
+    that.followedObject = null;
+    that.onrobotwindowsdestroy();
+    $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
+    $('#webotsProgress').show();
+    that.stream.socket.send('load:' + that.worldSelect.value);
+  }
+}
+
+webots.View.prototype.enableToolBarButtons = function(enabled) {
+  var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
+  for (var i in buttons) {
+    if (buttons[i]) {
+      if ((!this.broadcast || buttons[i] === this.consoleButton) && enabled) {
+        buttons[i].disabled = false;
+        buttons[i].classList.remove('toolBarButtonDisabled');
+      } else {
+        buttons[i].disabled = true;
+        buttons[i].classList.add('toolBarButtonDisabled');
+      }
+    }
+  }
+}
+
 webots.View.prototype.open = function(url, mode) {
   if (mode === undefined)
     mode = 'x3dom';
@@ -329,11 +376,14 @@ webots.View.prototype.open = function(url, mode) {
     that.quitting = true;
     that.onquit();
   }
-  function reset() {
+  function reset(revert = false) {
     if (that.broadcast)
       return;
     that.time = 0; // reset time to correctly compute the initial deadline
-    $('#webotsProgressMessage').html('Restarting simulation...');
+    if (revert)
+      $('#webotsProgressMessage').html('Reverting simulation...');
+    else
+      $('#webotsProgressMessage').html('Restarting simulation...');
     $('#webotsProgress').show();
     that.runOnLoad = that.pauseButton.style.display === 'inline';
     pause();
@@ -346,9 +396,13 @@ webots.View.prototype.open = function(url, mode) {
     if (that.timeout >= 0) {
       that.deadline = that.timeout;
       $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.deadline));
-    }
-    enableToolBarButtons(false);
-    that.stream.socket.send('reset');
+    } else
+      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
+    that.enableToolBarButtons(false);
+    if (revert)
+      that.stream.socket.send('revert');
+    else
+      that.stream.socket.send('reset');
   }
   function pause() {
     if (that.broadcast)
@@ -363,6 +417,17 @@ webots.View.prototype.open = function(url, mode) {
     that.stream.socket.send('real-time:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'none';
+    if (that.fastButton !== undefined)
+      that.fastButton.style.display = 'inline';
+  }
+  function fast() {
+    if (that.broadcast)
+      return;
+    $('#contextMenu').css('display', 'none');
+    that.stream.socket.send('fast:' + that.timeout);
+    that.pauseButton.style.display = 'inline';
+    that.real_timeButton.style.display = 'inline';
+    that.fastButton.style.display = 'none';
   }
   function step() {
     if (that.broadcast)
@@ -370,6 +435,8 @@ webots.View.prototype.open = function(url, mode) {
     $('#contextMenu').css('display', 'none');
     that.pauseButton.style.display = 'none';
     that.real_timeButton.style.display = 'inline';
+    if (that.fastButton !== undefined)
+      that.fastButton.style.display = 'inline';
     that.stream.socket.send('step');
   }
   function requestFullscreen() {
@@ -439,20 +506,6 @@ webots.View.prototype.open = function(url, mode) {
       that.helpButton.classList.add('toolBarButtonActive');
     }
   }
-  function enableToolBarButtons(enabled) {
-    var buttons = [that.infoButton, that.resetButton, that.stepButton, that.real_timeButton, that.pauseButton, that.consoleButton];
-    for (var i in buttons) {
-      if (buttons[i]) {
-        if ((!that.broadcast || buttons[i] === that.consoleButton) && enabled) {
-          buttons[i].disabled = false;
-          buttons[i].classList.remove('toolBarButtonDisabled');
-        } else {
-          buttons[i].disabled = true;
-          buttons[i].classList.add('toolBarButtonDisabled');
-        }
-      }
-    }
-  }
   function initWorld() {
     // override the original x3dom function to workaround a bug with USE/DEF nodes
     x3dom.Texture.prototype.update = function() {
@@ -477,18 +530,27 @@ webots.View.prototype.open = function(url, mode) {
       that.progress = document.createElement('div');
       that.progress.id = 'webotsProgress';
       that.progress.innerHTML = "<div><img src='" + webots.WwiUrl + "images/load_animation.gif'>" +
-                                "</div><div id='webotsProgressMessage'>Initializing...</div>";
+                                "</div><div id='webotsProgressMessage'>Initializing...</div>" +
+                                "</div><div id='webotsProgressPercent'></div>";
       that.view3D.appendChild(that.progress);
       that.toolBar = document.createElement('div');
       that.toolBar.id = 'toolBar';
       that.toolBar.left = document.createElement('div');
       that.toolBar.left.className = 'toolBarLeft';
-      that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
-      that.quitButton.onclick = requestQuit;
+      if (webots.showQuit) {
+        that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
+        that.quitButton.onclick = requestQuit;
+      }
       that.toolBar.left.appendChild(toolBarButton('info', 'Open the information window'));
       that.infoButton.onclick = toggleInfo;
+      that.worldSelectionDiv = document.createElement('div');
+      that.toolBar.left.appendChild(that.worldSelectionDiv);
+      if (webots.showRevert) {
+        that.toolBar.left.appendChild(toolBarButton('revert', 'Save controllers and revert the simulation'));
+        that.revertButton.addEventListener('click', function() { reset(true); });
+      }
       that.toolBar.left.appendChild(toolBarButton('reset', 'Save controllers and reset the simulation'));
-      that.resetButton.onclick = reset;
+      that.resetButton.addEventListener('click', function() { reset(false); });
       that.toolBar.left.appendChild(toolBarButton('step', 'Perform one simulation step'));
       that.stepButton.onclick = step;
       that.toolBar.left.appendChild(toolBarButton('real_time', 'Run the simulation in real time'));
@@ -496,17 +558,19 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.left.appendChild(toolBarButton('pause', 'Pause the simulation'));
       that.pauseButton.onclick = pause;
       that.pauseButton.style.display = 'none';
+      that.toolBar.left.appendChild(toolBarButton('fast', 'Run the simulation as fast as possible'));
+      that.fastButton.onclick = fast;
       var div = document.createElement('div');
       div.className = 'webotsTime';
       var clock = document.createElement('span');
       clock.id = 'webotsClock';
       clock.title = 'Current simulation time';
       clock.innerHTML = webots.parseMillisecondsIntoReadableTime(0);
+      div.appendChild(clock);
       var timeout = document.createElement('span');
       timeout.id = 'webotsTimeout';
       timeout.title = 'Simulation time out';
       timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(that.deadline);
-      div.appendChild(clock);
       div.appendChild(document.createElement('br'));
       div.appendChild(timeout);
       that.toolBar.left.appendChild(div);
@@ -526,8 +590,8 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.appendChild(that.toolBar.left);
       that.toolBar.appendChild(that.toolBar.right);
       that.view3D.appendChild(that.toolBar);
-      enableToolBarButtons(false);
-      if (that.broadcast) {
+      that.enableToolBarButtons(false);
+      if (that.broadcast && that.quitButton) {
         that.quitButton.disabled = true;
         that.quitButton.classList.add('toolBarButtonDisabled');
         $('#contextMenuRobotWindowDiv').addClass('ui-state-disabled');
@@ -653,6 +717,8 @@ webots.View.prototype.open = function(url, mode) {
             loadFinalize();
         });
       }).fail(function() {
+        if (windowName === infoWindowName)
+          that.infoWindow = null;
         pendingRequestsCount--;
         if (pendingRequestsCount === 0)
           loadFinalize();
@@ -677,7 +743,7 @@ webots.View.prototype.open = function(url, mode) {
 
   function loadFinalize() {
     $('#webotsProgress').hide();
-    enableToolBarButtons(true);
+    that.enableToolBarButtons(true);
 
     if (that.onready)
       that.onready();
@@ -1538,6 +1604,10 @@ webots.Server = function(url, view, onready) {
         webots.User2Name = '';
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
+      if (typeof webots.showRevert === 'undefined')
+        webots.showRevert = false;
+      if (typeof webots.showQuit === 'undefined')
+        webots.showQuit = true;
       this.send('{ "init" : [ "' + host + '", "' + that.project + '", "' + that.worldFile + '", "' +
                 webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
                 webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
@@ -1659,6 +1729,7 @@ webots.Stream = function(url, view, onready) {
       }
     } else if (data.startsWith('model:')) {
       $('#webotsProgressMessage').html('Loading 3D scene...');
+      $('#webotsProgressPercent').html('');
       destroyWorld();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
@@ -1666,6 +1737,11 @@ webots.Stream = function(url, view, onready) {
       var scene = data.substring(data.indexOf('<Scene>') + 8, data.lastIndexOf('</Scene>'));
       $(that.view.x3dScene).append(scene);
       that.view.onresize();
+    } else if (data.startsWith('world:')) {
+      data = data.substring(data.indexOf(':') + 1).trim();
+      var currentWorld = data.substring(0, data.indexOf(':')).trim();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      that.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('image')) {
       // extract texture url: the url should only contains escaped ']' characters
       var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
@@ -1712,6 +1788,8 @@ webots.Stream = function(url, view, onready) {
     } else if (data === 'pause') {
       that.view.pauseButton.style.display = 'none';
       that.view.real_timeButton.style.display = 'inline';
+      if (that.view.fastButton !== undefined)
+        that.view.fastButton.style.display = 'inline';
       if (that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
         that.view.deadline = that.view.timeout;
         if (that.view.time !== undefined)
@@ -1720,9 +1798,17 @@ webots.Stream = function(url, view, onready) {
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
       that.view.pauseButton.style.display = 'inline';
-      that.view.real_timeButton.style.display = 'none';
+      that.view.real_timeButton.style.display = 'inline';
+      if (that.view.fastButton !== undefined)
+        that.view.fastButton.style.display = 'inline';
       if (that.view.timeout >= 0)
         that.view.stream.socket.send('timeout:' + that.view.timeout);
+    } else if (data.startsWith('loading:')) {
+      data = data.substring(data.indexOf(':') + 1).trim();
+      status = data.substring(0, data.indexOf(':')).trim();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      $('#webotsProgressMessage').html('Loading: ' + status);
+      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
     } else if (data === 'scene load completed') {
       that.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
@@ -1739,7 +1825,10 @@ webots.Stream = function(url, view, onready) {
       if (that.onready)
         that.onready();
       that.view.deadline = that.view.timeout;
-      $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
+      if (that.view.deadline >= 0)
+        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
+      else
+        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
       // restore viewpoint
       var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
       viewpoint.setAttribute('position', that.view.initialViewpointPosition);

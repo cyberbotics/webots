@@ -355,7 +355,7 @@ void WbViewpoint::updateAmbientOcclusionRadius() {
 }
 
 void WbViewpoint::updateBloomThreshold() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 10.0, -1.0);
+  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 21.0, -1.0);
 }
 
 WbLensFlare *WbViewpoint::lensFlare() const {
