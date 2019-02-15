@@ -83,6 +83,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
 
@@ -95,7 +96,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
     mAntiAliasingCombo->setCurrentIndex(0);
 
   mAmbientOcclusionCombo->setCurrentIndex(prefs->value("OpenGL/GTAO", 2).toInt());
-  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/TextureQuality", 2).toInt());
+  mTextureQualityCombo->setCurrentIndex(prefs->value("OpenGL/textureQuality", 2).toInt());
 
   mDisableShadowsCheckBox->setChecked(prefs->value("OpenGL/disableShadows").toBool());
   mDisableCameraAntiAliasingCheckBox->setChecked(prefs->value("OpenGL/disableCameraAntiAliasing").toBool());
@@ -127,7 +128,7 @@ void WbPreferencesDialog::accept() {
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
                     tr("Restart Now?"), QMessageBox::Yes, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes;
   }
-  if (!willRestart && prefs->value("OpenGL/TextureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
+  if (!willRestart && prefs->value("OpenGL/textureQuality", 2).toInt() != mTextureQualityCombo->currentIndex())
     WbMessageBox::info(tr("The new texture quality will be applied next time the world is loaded."), this);
   // Inform the user about possible issues with multi-threading
   if (mNumberOfThreadsCombo->currentIndex() + 1 != mNumberOfThreads && mNumberOfThreadsCombo->currentIndex() != 0)
@@ -144,13 +145,14 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
 
   // openGL
   prefs->setValue("OpenGL/SMAA", static_cast<bool>(mAntiAliasingCombo->currentIndex()));
   prefs->setValue("OpenGL/GTAO", mAmbientOcclusionCombo->currentIndex());
-  prefs->setValue("OpenGL/TextureQuality", mTextureQualityCombo->currentIndex());
+  prefs->setValue("OpenGL/textureQuality", mTextureQualityCombo->currentIndex());
   prefs->setValue("OpenGL/disableShadows", mDisableShadowsCheckBox->isChecked());
   prefs->setValue("OpenGL/disableCameraAntiAliasing", mDisableCameraAntiAliasingCheckBox->isChecked());
 
@@ -288,11 +290,21 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mDisableSaveWarningCheckBox, 6, 1);
 
   // row 7
+  mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
+  mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
+                                    "https://www.cyberbotics.com/doc/guide/telemetry"));
+  QLabel *label = new QLabel(
+    tr("Telemetry (<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
+  label->setOpenExternalLinks(true);
+  layout->addWidget(label, 7, 0);
+  layout->addWidget(mTelemetryCheckBox, 7, 1);
+
+  // row 8
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 7, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 7, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 8, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 8, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);

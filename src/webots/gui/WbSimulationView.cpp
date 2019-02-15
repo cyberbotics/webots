@@ -1014,14 +1014,13 @@ void WbSimulationView::setView3DResizeStretch(bool isSizeFixed) {
 }
 
 void WbSimulationView::enableView3DFixedSize(const QSize &size) {
-  QSize fixedSize(size / devicePixelRatio());
   setView3DResizeStretch(true);
-  mView3DContainer->setMinimumSize(fixedSize);
-  mView3DContainer->setMaximumSize(fixedSize);
+  mView3DContainer->setMinimumSize(size);
+  mView3DContainer->setMaximumSize(size);
   // manually update the WREN render window size
   // on Jenkins machine the resize event is processed too late after the first
   // scene screenshot has already been taken
-  mView3D->resizeWren(fixedSize.width(), fixedSize.height());
+  mView3D->resizeWren(size.width(), size.height());
 }
 
 void WbSimulationView::disableView3DFixedSize() {

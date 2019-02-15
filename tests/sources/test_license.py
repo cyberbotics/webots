@@ -84,7 +84,7 @@ class TestLicense(unittest.TestCase):
             'resources/languages/cpp'
         ]
 
-        skippedPathes = [
+        skippedDirectoryPaths = [
             'src/webots/external',
             'projects/default/controllers/ros/include',
             'projects/default/resources/sumo',
@@ -105,6 +105,11 @@ class TestLicense(unittest.TestCase):
             'projects/vehicles/controllers/ros_automobile/include'
         ]
 
+        skippedFilePaths = [
+            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
+            'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h'
+        ]
+
         skippedDirectories = [
             'build'
         ]
@@ -115,12 +120,14 @@ class TestLicense(unittest.TestCase):
         for directory in directories:
             for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
                 shouldContinue = False
-                for path in skippedPathes:
+                relativeRootPath = rootPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '')
+                for path in skippedDirectoryPaths:
                     if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
                         shouldContinue = True
                         break
+                currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
                 for directory in skippedDirectories:
-                    if directory in rootPath.split(os.sep):
+                    if directory in currentDirectories:
                         shouldContinue = True
                         break
                 if fileNames == '__init__.py':
@@ -129,6 +136,8 @@ class TestLicense(unittest.TestCase):
                     continue
                 for extension in extensions:
                     for fileName in fnmatch.filter(fileNames, extension):
+                        if os.path.join(relativeRootPath, fileName) in skippedFilePaths:
+                            continue
                         file = os.path.join(rootPath, fileName)
                         self.sources.append(file)
 

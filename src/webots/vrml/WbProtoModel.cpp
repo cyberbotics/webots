@@ -307,7 +307,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     if (mBaseType == "Robot") {
       // check for robot doc
       if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + mName + ".md"))
-        mDocumentationUrl = "https://www.cyberbotics.com/doc/guide/" + mName;
+        mDocumentationUrl = "https://cyberbotics.com/doc/guide/" + mName;
     } else {
       // check for object doc
       const QDir objectsDir(WbStandardPaths::projectsPath() + "objects");
@@ -316,7 +316,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       while (!dir.isRoot()) {
         if (dir == objectsDir) {
           if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md"))
-            mDocumentationUrl = "https://www.cyberbotics.com/doc/guide/object-" + name;
+            mDocumentationUrl = "https://cyberbotics.com/doc/guide/object-" + name;
           break;
         }
         name = dir.dirName();

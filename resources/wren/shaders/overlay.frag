@@ -29,7 +29,7 @@ layout(std140) uniform Overlay {
   vec4 activeFlags;   // x: bg texture, y: main texture, z: fg texture, w: border
   vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
                       // w: overlay transparency
-  vec4 sizeInPixels;  // x,y: size in screen pixels, z: screen ratio, w: unused (std140 padding)
+  vec2 sizeInPixels;  // x,y: size in screen pixels
   vec2 borderSize;    // x: vertical size, y: horizontal size
 }
 overlay;

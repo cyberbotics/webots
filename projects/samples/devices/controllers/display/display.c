@@ -85,8 +85,8 @@ int main() {
   wb_display_set_color(camera_display, 0xFFFF00);
   wb_display_set_font(camera_display, "Palatino Linotype", 16, true);
 
-  // init a variable which counts the time steps
-  int counter = 0;
+  int counter = 0;      // "time steps counter"
+  int nop_counter = 0;  // "no operation counter": if positive the robot won't actuate the motors until the counter reaches 0.
 
   // initialize random seed:
   srand(time(NULL));
@@ -123,7 +123,7 @@ int main() {
         int r = wb_camera_image_get_red(image, width, x, y);
         int g = wb_camera_image_get_green(image, width, x, y);
         int b = wb_camera_image_get_blue(image, width, x, y);
-        bool is_yellow = r > 80 && g > 80 && b < 5 && abs(r - g) < 5;
+        bool is_yellow = r > 80 && g > 80 && b < 40 && abs(r - g) < 5;
         if (is_yellow) {
           if (x < minX)
             minX = x;
@@ -144,15 +144,19 @@ int main() {
 
     // compute motor's speed with a collision avoidance
     // algorithm having a random factor for a better exploration
-    int left_speed, right_speed;
-    if (ds0_value > 600 && ds1_value > 600) {  // front obstacle
+    double left_speed, right_speed;
+    if (nop_counter > 0) {
+      nop_counter--;
+      continue;
+    } else if (ds0_value > 100.0 && ds1_value > 100.0) {  // front obstacle
       left_speed = -SPEED;
       right_speed = SPEED;
+      nop_counter = rand() % 20;  // give enough time to turn.
     } else {
-      left_speed = SPEED + (ds0_value - ds1_value) / 7 + (rand() % SPEED - SPEED / 2);
+      left_speed = SPEED + (ds0_value - ds1_value) / 7.0 + (rand() % SPEED - SPEED / 2.0);
       left_speed = (left_speed <= MAX_SPEED) ? left_speed : MAX_SPEED;
       left_speed = (left_speed >= -MAX_SPEED) ? left_speed : -MAX_SPEED;
-      right_speed = SPEED - (ds0_value - ds1_value) / 11 + (rand() % SPEED - SPEED / 2);
+      right_speed = SPEED - (ds0_value - ds1_value) / 11.0 + (rand() % SPEED - SPEED / 2.0);
       right_speed = (right_speed <= MAX_SPEED) ? right_speed : MAX_SPEED;
       right_speed = (right_speed >= -MAX_SPEED) ? right_speed : -MAX_SPEED;
     }

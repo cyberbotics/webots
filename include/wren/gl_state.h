@@ -14,6 +14,8 @@ const char *wr_gl_state_get_renderer();
 const char *wr_gl_state_get_version();
 const char *wr_gl_state_get_glsl_version();
 
+int wr_gl_state_get_gpu_memory();
+
 bool wr_gl_state_is_anisotropic_texture_filtering_supported();
 float wr_gl_state_max_texture_anisotropy();
 

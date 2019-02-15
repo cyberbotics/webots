@@ -20,6 +20,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbImageTexture.hpp"
 #include "WbMaterial.hpp"
+#include "WbPreferences.hpp"
 #include "WbRgb.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFNode.hpp"
@@ -80,7 +81,7 @@ WbPbrAppearance::~WbPbrAppearance() {
 }
 
 void WbPbrAppearance::preFinalize() {
-  WbBaseNode::preFinalize();
+  WbAbstractAppearance::preFinalize();
 
   if (baseColorMap())
     baseColorMap()->preFinalize();
@@ -113,7 +114,9 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader());
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+    const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
+    cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();
   }
   ++cInstanceCounter;
@@ -173,7 +176,7 @@ void WbPbrAppearance::postFinalize() {
 }
 
 void WbPbrAppearance::reset() {
-  WbBaseNode::reset();
+  WbAbstractAppearance::reset();
 
   if (baseColorMap())
     baseColorMap()->reset();
@@ -487,7 +490,7 @@ void WbPbrAppearance::updateEmissiveIntensity() {
 
 void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   if (writer.isWebots()) {
-    WbBaseNode::exportNodeSubNodes(writer);
+    WbAbstractAppearance::exportNodeSubNodes(writer);
     return;
   }
 
@@ -524,9 +527,10 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
       mBaseColorMap->write(writer);
       writer << "\n";
     }
-    if (findField("textureTransform")->value()) {
+    if (mTextureTransform->value()) {
       writer.indent();
-      findField("textureTransform")->write(writer);
+      writer << "textureTransform ";
+      mTextureTransform->write(writer);
       writer << "\n";
     }
   }

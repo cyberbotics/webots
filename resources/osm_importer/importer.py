@@ -49,7 +49,7 @@ def add_height_to_coordinates(elevation):
 optParser = optparse.OptionParser(usage="usage: %prog --input=file.osm [options]")
 optParser.add_option("--input", dest="inFile", default="map.osm", help="specifies the osm file to open")
 optParser.add_option("--output", dest="outFile", default="map.wbt", help="specifies the name of the generated world")
-optParser.add_option("--config-file", dest="configFile", default="config.ini", help="specifies the config file to use")
+optParser.add_option("--config-file", dest="configFile", default="", help="specifies the config file to use")
 optParser.add_option("--layer-height", type="float", dest="layer", default=5.0, help="specifies the height of a layer (the 'layer' tag is ignored if set to 0)")
 optParser.add_option("--no-forests", dest="noForests", action="store_true", default=False, help="does not generate forests")
 optParser.add_option("--no-roads", dest="noRoads", action="store_true", default=False, help="does not generate roads")
@@ -108,14 +108,16 @@ WebotsObject.removalRadius = options.removalRadius
 Road.noIntersectionRoadLines = options.noIntersectionRoadLines
 Area.noForests = options.noForests
 
-if os.path.exists(options.outFile):
-    sys.stderr.write("Warning: file '" + options.outFile + "' already exists, remove it or change the destination using the '--output' option.\n")
-    sys.exit(0)
-
-outputFile = codecs.open(options.outFile, 'w', 'utf-8')
-
 # get settings from config file
-Settings.init(options.configFile)
+configFile = options.configFile
+if not configFile:
+    configFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.ini")
+Settings.init(configFile)
+
+# open output file (if it doesn't already exists)
+if os.path.exists(options.outFile):
+    sys.exit("Warning: file '" + options.outFile + "' already exists, remove it or change the destination using the '--output' option.\n")
+outputFile = codecs.open(options.outFile, 'w', 'utf-8')
 
 # print headers and elevationGrid
 elevation = None

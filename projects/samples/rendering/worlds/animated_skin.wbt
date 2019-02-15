@@ -204,6 +204,7 @@ DEF WATER Fluid {
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
+        baseColor 0.0626841 0.552224 0.723339
         transparency 0.7
         roughness 1
         metalness 0

@@ -27,7 +27,7 @@ USE_C_API = true
 ifeq ($(OSTYPE),windows)
   OPENCV_VERSION := $(subst .,,$(shell opencv_version))
   INCLUDE = -I/mingw64/include/opencv4
-  LIBRARIES = -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -L/mingw64/bin -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
+  LIBRARIES = -L/mingw64/bin -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
 else
   INCLUDE = -I"$(WEBOTS_HOME)/include"
   LIBRARIES = -L"$(WEBOTS_HOME)/lib" -lopencv_core -lopencv_imgproc
