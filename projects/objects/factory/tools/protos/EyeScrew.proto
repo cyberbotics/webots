@@ -57,27 +57,7 @@ PROTO EyeScrew [
         translation 0 %{= -screwLength / 2 }% 0
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/screw_thread_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/screw_thread_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "textures/screw_thread_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/screw_thread_occlusion.jpg"
-                ]
-              }
+            appearance ScrewThread {
               textureTransform TextureTransform {
                 rotation 1.5708
                 scale %{= 2 * screwLength / 0.05 }% 2

@@ -66,27 +66,7 @@ PROTO CapScrew [
         rotation 1 0 0 1.5707963220000003
         children [
           Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/screw_thread_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/screw_thread_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "textures/screw_thread_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/screw_thread_occlusion.jpg"
-                ]
-              }
+            appearance ScrewThread {
               textureTransform TextureTransform {
                 rotation 1.5708
                 scale %{= 40 * screwLength }% 2

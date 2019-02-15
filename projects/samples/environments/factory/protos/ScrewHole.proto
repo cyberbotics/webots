@@ -12,10 +12,23 @@ PROTO ScrewHole [
   field SFNode     appearance      OldSteel {}
 ]
 {
+  %{
+    local radius = fields.radius.value
+    if radius <= 0.0 then
+      radius = fields.radius.defaultValue
+      io.stderr:write("'radius' should be positive.\n")
+    end
+
+    local depth = fields.depth.value
+    if depth <= 0.0 then
+      depth = fields.depth.defaultValue
+      io.stderr:write("'depth' should be positive.\n")
+    end
+  }%
   Transform {
     translation IS translation
     rotation IS rotation
-    scale %{= fields.radius.value }% %{= fields.depth.value }% %{= fields.radius.value }%
+    scale %{= radius }% %{= depth }% %{= radius }%
     children [
       Shape {
         appearance IS appearance
@@ -40,29 +53,10 @@ PROTO ScrewHole [
         }
       }
       Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/screw_thread_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/screw_thread_roughness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/screw_thread_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/screw_thread_occlusion.jpg"
-            ]
-          }
+        appearance ScrewThread {
           textureTransform TextureTransform {
             rotation 1.5708
+            scale %{= 3 * depth / 0.1 }% 1
           }
         }
         geometry IndexedFaceSet {

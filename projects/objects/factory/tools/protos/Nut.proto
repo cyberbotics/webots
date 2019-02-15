@@ -35,27 +35,7 @@ PROTO Nut [
         scale %{= 50 * innerRadius }% %{= 3 * thickness / 0.07 }% %{= 50 * innerRadius }%
         children [
           DEF THREAD Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/screw_thread_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/screw_thread_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "textures/screw_thread_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/screw_thread_occlusion.jpg"
-                ]
-              }
+            appearance ScrewThread {
             }
             geometry IndexedFaceSet {
               coord Coordinate {

@@ -35,27 +35,7 @@ PROTO Bolt [
         scale %{= screwRadius / 0.0042 }% %{= screwRadius / 0.0042 }% %{= screwLength / 0.027 }%
         children [
           DEF SCREW Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/screw_thread_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/screw_thread_roughness.jpg"
-                ]
-              }
-              normalMap ImageTexture {
-                url [
-                  "textures/screw_thread_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/screw_thread_occlusion.jpg"
-                ]
-              }
+            appearance ScrewThread {
               textureTransform TextureTransform {
                 scale %{= screwLength / 0.035 }% 1
               }
