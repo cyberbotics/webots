@@ -74,7 +74,7 @@ Robot {
             rotation 0 0 1 1.57
             children [
               Shape {
-                appearance DEF EPUCK_TRANSPARENT_APPEARANCE_1 PBRAppearance {
+                appearance DEF EPUCK_TRANSPARENT_APPEARANCE PBRAppearance {
                   metalness 0.5
                   baseColor 0.8 0.8 0.8
                   transparency 0.3
@@ -138,7 +138,7 @@ Robot {
                 translation 0 0.0035 0
                 children [
                   Shape {
-                    appearance USE EPUCK_TRANSPARENT_APPEARANCE_1
+                    appearance USE EPUCK_TRANSPARENT_APPEARANCE
                     geometry Cylinder {
                       height 0.004
                       radius 0.005
@@ -479,8 +479,7 @@ Robot {
           }
         ]
       }
-    %{ end }%
-    %{ if v2 then }%
+    %{ else }%
       DEF EPUCK_CONNECTOR Transform {
         translation 0.012 0.0396 -0.001
         children [
@@ -642,16 +641,15 @@ Robot {
       }
     }
     DEF EPUCK_LED0 LED {
-      translation 0 0.041 -0.0335
+      translation 0 0.041 -0.0337
       children [
-        DEF EPUCK_LED_SHAPE Shape {
-          appearance DEF EPUCK_TRANSPARENT_APPEARANCE_2 PBRAppearance {
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
             metalness 0.5
-            transparency 0.05
             roughness 0.2
             baseColor 0.8 0.8 0.8
           }
-          geometry Box {
+          geometry DEF EPUCK_LED_GEOMETRY Box {
             size 0.005 0.0045 0.0035
           }
         }
@@ -662,39 +660,78 @@ Robot {
       translation 0.025 0.041 -0.022
       rotation 0 1 0 5.5
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led1"
+      %{ if v2 then }% # RGB LED
+        gradual TRUE
+        color []
+      %{ end }%
     }
     DEF EPUCK_LED2 LED {
-      translation 0.0335 0.041 0
+      translation 0.0337 0.041 0
       rotation 0 1 0 1.57
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led2"
     }
     DEF EPUCK_LED3 LED {
-      translation 0.02 0.041 0.027
-      rotation 0 1 0 -5.7
+      translation 0.0201 0.041 0.027
+      rotation 0 1 0 -5.65
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led3"
+      %{ if v2 then }% # RGB LED
+        gradual TRUE
+        color []
+      %{ end }%
     }
     DEF EPUCK_LED4 LED {
       translation 0 0.041 0.033
       children [
         Shape {
-          appearance USE EPUCK_TRANSPARENT_APPEARANCE_2
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
-                0.0075 0.00225 0.001 0.0025 0.00225 0.002 0.0025 -0.00225 0.002 0.0075 -0.00225 0.001 0.0075 0.00225 -0.002 0.0025 0.00225 -0.001 0.0025 -0.00225 -0.001 0.0075 -0.00225 -0.002 -0.0075 0.00225 0.001 -0.0025 0.00225 0.002 -0.0025 -0.00225 0.002 -0.0075 -0.00225 0.001 -0.0075 0.00225 -0.002 -0.0025 0.00225 -0.001 -0.0025 -0.00225 -0.001 -0.0075 -0.00225 -0.002
+                   0.0075 0.00225 0.0013  0.0025 0.00225 0.002  0.0025 -0.00225 0.002  0.0075 -0.00225 0.0013  0.0075 0.00225 -0.0017  0.0025 0.00225 -0.001  0.0025 -0.00225 -0.001  0.0075 -0.00225 -0.0017
+                %{ if v1 then }% # two LEDs
+                  -0.0075 0.00225 0.0013 -0.0025 0.00225 0.002 -0.0025 -0.00225 0.002 -0.0075 -0.00225 0.0013 -0.0075 0.00225 -0.0017 -0.0025 0.00225 -0.001 -0.0025 -0.00225 -0.001 -0.0075 -0.00225 -0.0017
+                %{ end }%
               ]
             }
             coordIndex [
-              0, 1, 2, 3, -1, 7, 6, 5, 4, -1, 4, 5, 1, 0, -1, 0, 3, 7, 4, -1, 5, 6, 2, 1, -1, 11, 10, 9, 8, -1, 12, 13, 14, 15, -1, 8, 9, 13, 12, -1, 12, 15, 11, 8, -1, 9, 10, 14, 13, -1
+                0, 1, 2, 3, -1, 7, 6, 5, 4, -1, 4, 5, 1, 0, -1, 0, 3, 7, 4, -1, 5, 6, 2, 1, -1
+              %{ if v1 then }% # two LEDs
+                11, 10, 9, 8, -1, 12, 13, 14, 15, -1, 8, 9, 13, 12, -1, 12, 15, 11, 8, -1, 9, 10, 14, 13, -1
+              %{ end }%
             ]
           }
         }
@@ -702,18 +739,36 @@ Robot {
       name "led4"
     }
     DEF EPUCK_LED5 LED {
-      translation -0.02 0.041 0.027
-      rotation 0 1 0 5.7
+      translation -0.0201 0.041 0.027
+      rotation 0 1 0 5.65
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led5"
+      %{ if v2 then }% # RGB LED
+        gradual TRUE
+        color []
+      %{ end }%
     }
     DEF EPUCK_LED6 LED {
-      translation -0.0335 0.041 0
+      translation -0.0337 0.041 0
       rotation 0 1 0 1.57
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led6"
     }
@@ -721,15 +776,31 @@ Robot {
       translation -0.025 0.041 -0.022
       rotation 0 1 0 -5.5
       children [
-        USE EPUCK_LED_SHAPE
+        Shape {
+          appearance PBRAppearance { # Don't use DEF/USE here!
+            metalness 0.5
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
+          geometry USE EPUCK_LED_GEOMETRY
+        }
       ]
       name "led7"
+      %{ if v2 then }% # RGB LED
+        gradual TRUE
+        color []
+      %{ end }%
     }
     DEF EPUCK_BODY_LED LED {
       rotation 0 1 0 3.14159
       children [
         Shape {
-          appearance USE EPUCK_TRANSPARENT_APPEARANCE_1
+          appearance PBRAppearance { # Dont' use USE/DEF here!
+            metalness 0.5
+            baseColor 0.8 0.8 0.8
+            transparency 0.3
+            roughness 0.2
+          }
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
@@ -752,7 +823,12 @@ Robot {
       translation 0.0125 0.0285 -0.031
       children [
         Shape {
-          appearance USE EPUCK_TRANSPARENT_APPEARANCE_1
+          appearance PBRAppearance { # Don't use USE/DEF here
+            metalness 0.5
+            baseColor 0.8 0.8 0.8
+            transparency 0.3
+            roughness 0.2
+          }
           geometry Sphere {
             radius 0.0025
           }
@@ -764,6 +840,7 @@ Robot {
       ]
     }
     DEF EPUCK_ACCELEROMETER Accelerometer {
+      lookupTable [ -100 -100 0.003 100 100 0.003 ]
       rotation 1 0 0 -1.57
     }
     DEF EPUCK_SMALL_LOGO Transform {
@@ -805,7 +882,12 @@ Robot {
       translation 0 0.035 0
       children [
         Shape {
-          appearance USE EPUCK_TRANSPARENT_APPEARANCE_2
+          appearance PBRAppearance {
+            metalness 0.5
+            transparency 0.05
+            roughness 0.2
+            baseColor 0.8 0.8 0.8
+          }
           geometry IndexedFaceSet {
             coord Coordinate {
               point [
@@ -826,6 +908,8 @@ Robot {
     DEF EPUCK_EMITTER Emitter {
       channel IS emitter_channel
     }
+    DEF EPUCK_SPEAKER Speaker {
+    }
     DEF TURRET_SLOT Transform {
       translation 0 0.0486 0.0095
       rotation 0 0 1 0
@@ -839,9 +923,9 @@ Robot {
   ]
   name IS name
   %{ if v2 then }%
-  model "GCtronic e-puck2"
+    model "GCtronic e-puck2"
   %{ else }%
-  model "GCtronic e-puck"
+    model "GCtronic e-puck"
   %{ end }%
   description "Educational robot designed at EPFL"
   boundingObject Group {
@@ -887,9 +971,9 @@ Robot {
   cpuConsumption 1.11 # 100% to 0% in 90[s] (calibrated for the rat's life contest)
   window IS window
   %{ if v2 then }%
-  remoteControl "e-puck_wifi"
+    remoteControl "e-puck_wifi"
   %{ else }%
-  remoteControl "e-puck_bluetooth"
+    remoteControl "e-puck_bluetooth"
   %{ end }%
 }
 }

@@ -54,20 +54,24 @@
 
 class FrameWriterThread : public QThread {
 public:
-  FrameWriterThread(unsigned char *frame, int mutexIndex, const QString &fileName, const QSize &resolution, int quality,
-                    WbView3D *view) :
-    mFrame(frame),
-    mMutexIndex(mutexIndex),
+  FrameWriterThread(unsigned char *frame, const QString &fileName, const QSize &resolution, int pixelRatio, int quality) :
     mFileName(fileName),
     mResolution(resolution),
+    mPixelRatio(pixelRatio),
     mQuality(quality),
-    mView(view),
-    mSuccess(false) {}
+    mSuccess(false) {
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    mFrame = new unsigned char[4 * w * h];
+    WbView3D::flipAndScaleDownImageBuffer(frame, mFrame, mResolution.width(), mResolution.height(), mPixelRatio);
+  }
+
+  virtual ~FrameWriterThread() { delete[] mFrame; }
 
   void run() override {
-    mView->lockPBOMutex(mMutexIndex);
-    WbView3D::flipImageBuffer(mFrame, mResolution.width(), mResolution.height(), 4);
-    QImage img = QImage(mFrame, mResolution.width(), mResolution.height(), QImage::Format_RGB32);
+    const int w = mResolution.width() / mPixelRatio;
+    const int h = mResolution.height() / mPixelRatio;
+    QImage img = QImage(mFrame, w, h, QImage::Format_RGB32);
     QImageWriter writer(mFileName);
     writer.setQuality(mQuality);
     mSuccess = writer.write(img);
@@ -81,18 +85,16 @@ public:
         supportedFormatsLog.append(QString::fromUtf8(supportedFormats[i]) + " ");
       WbLog::info(supportedFormatsLog, false);
     }
-    mView->unlockPBOMutex(mMutexIndex);
   }
 
   bool success() const { return mSuccess; }
 
 private:
   unsigned char *mFrame;
-  const int mMutexIndex;
   const QString mFileName;
   const QSize mResolution;
+  const int mPixelRatio;
   const int mQuality;
-  WbView3D *mView;
   bool mSuccess;
 };
 
@@ -115,6 +117,7 @@ WbVideoRecorder::WbVideoRecorder() :
   mIsFullScreen(false),
   mFrameFilePrefix(TEMP_FRAME_FILENAME_PREFIX + QString::number(QCoreApplication::applicationPid()) + "_"),
   mLastFileNumber(-1),
+  mScreenPixelRatio(1),
   mVideoQuality(0),
   mVideoAcceleration(1),
   mShowCaption(false),
@@ -228,7 +231,6 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   const QDesktopWidget *qDesktop = QApplication::desktop();
   const int screenNumber = qDesktop->screenNumber(QCursor::pos());
   QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
-  fullScreen *= QGuiApplication::screens()[screenNumber]->devicePixelRatio();
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {
@@ -343,10 +345,10 @@ void WbVideoRecorder::stopRecording(bool canceled) {
   mIsInitialized = false;
 }
 
-void WbVideoRecorder::writeSnapshot(unsigned char *frame, int PBOIndex) {
+void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
   FrameWriterThread *thread =
-    new FrameWriterThread(frame, PBOIndex, fileName, mVideoResolution, mVideoQuality, mSimulationView->view3D());
+    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -480,8 +482,8 @@ void WbVideoRecorder::createMpeg() {
   if (ffmpegScript.open(QIODevice::WriteOnly)) {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
-    long long int bitrate =
-      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256;
+    long long int bitrate = (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() /
+                            256 / (mScreenPixelRatio * mScreenPixelRatio);
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32

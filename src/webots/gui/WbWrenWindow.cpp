@@ -17,11 +17,13 @@
 #include "WbDragSolidEvent.hpp"
 #include "WbLensFlare.hpp"
 #include "WbLightRepresentation.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamer.hpp"
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbSysInfo.hpp"
+#include "WbVideoRecorder.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenBloom.hpp"
@@ -68,8 +70,10 @@ WbWrenWindow::WbWrenWindow() :
 
   setSurfaceType(QWindow::OpenGLSurface);
 
+  const WbVersion openGLTargetVersion(3, 3);
+
   QSurfaceFormat format = requestedFormat();
-  format.setVersion(3, 3);
+  format.setVersion(openGLTargetVersion.majorNumber(), openGLTargetVersion.minorNumber());
   format.setProfile(QSurfaceFormat::CoreProfile);
   format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
   format.setRedBufferSize(8);
@@ -84,12 +88,21 @@ WbWrenWindow::WbWrenWindow() :
   setFormat(format);
 
   WbWrenOpenGlContext::init(this, this, format);
+
   if (!WbWrenOpenGlContext::instance()->isValid())
-    WbMessageBox::critical(
-      "Webots could not initialize the rendering system.\n"
-      "We strongly recommend you to install the latest graphics drivers.\n"
-      "Please do also check that your graphics hardware meets the requirements specified in the User Guide.");
-  assert(WbWrenOpenGlContext::instance()->isValid());
+    WbLog::fatal(tr("Webots could not initialize the rendering system.\n"
+                    "Please check your GPU abilities and install the latest graphics drivers.\n"
+                    "Please do also check that your graphics hardware meets the requirements specified in the User Guide."));
+
+  const WbVersion openGLActualVersion(WbWrenOpenGlContext::instance()->format().majorVersion(),
+                                      WbWrenOpenGlContext::instance()->format().minorVersion());
+
+  if (openGLActualVersion < openGLTargetVersion)
+    WbLog::fatal(tr("Webots requires OpenGL %1 while only OpenGL %2 can be initialized.\n"
+                    "Please check your GPU abilities and install the latest graphics drivers.\n"
+                    "Please do also check that your graphics hardware meets the requirements specified in the User Guide.")
+                   .arg(openGLTargetVersion.toString(false))
+                   .arg(openGLActualVersion.toString(false)));
 }
 
 WbWrenWindow::~WbWrenWindow() {
@@ -164,26 +177,15 @@ void WbWrenWindow::initialize() {
   wr_scene_set_fog_program(wr_scene_get_instance(), WbWrenShaders::fogShader());
   wr_scene_set_shadow_volume_program(wr_scene_get_instance(), WbWrenShaders::shadowVolumeShader());
 
-  WbSysInfo::setOpenGLRenderer(QString(wr_gl_state_get_renderer()));
-
   WbWrenOpenGlContext::doneWren();
   WbWrenPostProcessingEffects::loadResources();
   updateWrenViewportDimensions();
 }
 
 void WbWrenWindow::updateWrenViewportDimensions() {
-  // Fix rendering on display having a pixel ratio != 1.0
-  // A retina display can be simulated:
-  // http://stackoverflow.com/questions/12124576/how-to-simulate-a-retina-display-hidpi-mode-in-mac-os-x-10-8-mountain-lion-on
-
-  const float ratio = (float)devicePixelRatio();  // qreal => float in prevision to be sent to wren.
-  WbWrenPicker::setScreenRatio(ratio);
-  WbWrenTextureOverlay::setScreenRatio(ratio);
-  WbDragPhysicsEvent::setScreenRatio(ratio);
-  WbWrenBloom::setScreenRatio(ratio);
-  WbViewpoint *viewpoint = WbWorld::instance() ? WbWorld::instance()->viewpoint() : NULL;
-  if (viewpoint)
-    viewpoint->updatePostProcessingEffects();
+  const int ratio = (int)devicePixelRatio();
+  wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
+  WbVideoRecorder::instance()->setScreenPixelRatio(ratio);
 }
 
 void WbWrenWindow::blitMainFrameBufferToScreen() {
@@ -261,17 +263,6 @@ void WbWrenWindow::resizeWren(int width, int height) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  int w = width;
-  int h = height;
-
-  const qreal ratio = devicePixelRatio();
-  if (ratio != 1.0) {
-    w *= ratio;
-    h *= ratio;
-  }
-
-  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), w, h);
-
   updateFrameBuffer();
 
   WbWrenTextureOverlay::updateOverlayDimensions();
@@ -288,47 +279,52 @@ void WbWrenWindow::resizeWren(int width, int height) {
   emit resized();
 }
 
-void WbWrenWindow::flipImageBuffer(unsigned char *buffer, int width, int height, int channels) {
-  // flip vertically the image (about 2x faster than QImage::mirrored())
-  const int lineSize = width * channels;
-  const int halfHeight = height / 2;
-  unsigned char *srcPtr = buffer;
-  unsigned char *dstPtr = &buffer[(height - 1) * lineSize];
-  for (int y = 0; y < halfHeight; y++) {
-    for (int x = 0; x < lineSize; x++) {
-      const uchar d = dstPtr[x];
-      dstPtr[x] = srcPtr[x];
-      srcPtr[x] = d;
-    }
-    srcPtr += lineSize;
-    dstPtr -= lineSize;
+void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
+                                               int sourceHeight, int scaleDownFactor) {
+  // flip vertically the image and scale it down (about 3x faster than QImage::mirrored(), QImage::scaled())
+  const int h = sourceHeight / scaleDownFactor;
+  const int w = sourceWidth / scaleDownFactor;
+  const int yFactor = scaleDownFactor * sourceWidth;
+
+  // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA)
+  //   aligned on an `int *` boundary.
+  // - A preliminary `unsigned char *` to `void *` cast is required to by-pass "cast-align" clang warnings.
+  const uint32_t *src = (const uint32_t *)((void *)source);
+  uint32_t *dst = (uint32_t *)((void *)destination);
+
+  for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++)
+      dst[(h - 1 - y) * w + x] = src[y * yFactor + x * scaleDownFactor];
   }
 }
 
 QImage WbWrenWindow::grabWindowBufferNow() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const qreal ratio = devicePixelRatio();
-  int w = width() * ratio;
-  int h = height() * ratio;
-  if (mSnapshotBuffer == NULL || w != mSnapshotBufferWidth || h != mSnapshotBufferHeight) {
-    mSnapshotBufferWidth = h;
-    mSnapshotBufferHeight = w;
+  const int destinationWidth = width();
+  const int destinationHeight = height();
+  if (mSnapshotBuffer == NULL || destinationWidth != mSnapshotBufferWidth || destinationHeight != mSnapshotBufferHeight) {
     delete[] mSnapshotBuffer;
-    mSnapshotBuffer = new unsigned char[4 * w * h];
+    mSnapshotBufferWidth = destinationWidth;
+    mSnapshotBufferHeight = destinationHeight;
+    mSnapshotBuffer = new unsigned char[4 * destinationWidth * destinationHeight];
   }
-  readPixels(w, h, GL_BGRA, mSnapshotBuffer);
-  flipImageBuffer(mSnapshotBuffer, w, h, 4);
-
+  const qreal ratio = devicePixelRatio();
+  const int sourceWidth = destinationWidth * ratio;
+  const int sourceHeight = destinationHeight * ratio;
+  unsigned char *temp = new unsigned char[4 * sourceWidth * sourceHeight];
+  readPixels(sourceWidth, sourceHeight, GL_BGRA, temp);
+  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, ratio);
+  delete[] temp;
   WbWrenOpenGlContext::doneWren();
 
-  return QImage(mSnapshotBuffer, w, h, QImage::Format_RGB32);
+  return QImage(mSnapshotBuffer, mSnapshotBufferWidth, mSnapshotBufferHeight, QImage::Format_RGB32);
 }
 
 void WbWrenWindow::initVideoPBO() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const qreal ratio = devicePixelRatio();
+  const int ratio = (int)devicePixelRatio();
   mVideoWidth = width() * ratio;
   mVideoHeight = height() * ratio;
   const int size = 4 * mVideoWidth * mVideoHeight;
@@ -342,9 +338,7 @@ void WbWrenWindow::completeVideoPBOProcessing(bool canceled) {
   WbWrenOpenGlContext::makeWrenCurrent();
 
   // process last frame
-  if (canceled)
-    mPBOMutexes[mVideoPBOIndex].unlock();
-  else
+  if (!canceled)
     processVideoPBO();
   mVideoPBOIndex = -1;
   wr_scene_terminate_frame_capture(wr_scene_get_instance());
@@ -362,9 +356,8 @@ void WbWrenWindow::processVideoPBO() {
   WrScene *scene = wr_scene_get_instance();
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
   unsigned char *buffer = (unsigned char *)wr_scene_map_pixel_buffer(scene, GL_READ_ONLY);
-  mPBOMutexes[mVideoPBOIndex].unlock();
   if (buffer) {
-    emit videoImageReady(buffer, mVideoPBOIndex);
+    emit videoImageReady(buffer);
     wr_scene_unmap_pixel_buffer(scene);
   }
 
@@ -386,17 +379,8 @@ void WbWrenWindow::updateFrameBuffer() {
   if (mWrenDepthFrameBufferTexture)
     wr_texture_delete(WR_TEXTURE(mWrenDepthFrameBufferTexture));
 
-  int w = width();
-  int h = height();
-
-  const qreal ratio = devicePixelRatio();
-  if (ratio != 1.0) {
-    w *= ratio;
-    h *= ratio;
-  }
-
   mWrenMainFrameBuffer = wr_frame_buffer_new();
-  wr_frame_buffer_set_size(mWrenMainFrameBuffer, w, h);
+  wr_frame_buffer_set_size(mWrenMainFrameBuffer, width(), height());
 
   mWrenMainFrameBufferTexture = wr_texture_rtt_new();
   wr_texture_set_internal_format(WR_TEXTURE(mWrenMainFrameBufferTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB16F);
@@ -415,6 +399,8 @@ void WbWrenWindow::updateFrameBuffer() {
   wr_frame_buffer_setup(mWrenMainFrameBuffer);
   wr_viewport_set_frame_buffer(wr_scene_get_viewport(wr_scene_get_instance()), mWrenMainFrameBuffer);
 
+  wr_viewport_set_size(wr_scene_get_viewport(wr_scene_get_instance()), width(), height());
+
   WbWrenOpenGlContext::doneWren();
 }
 
@@ -431,7 +417,6 @@ void WbWrenWindow::requestGrabWindowBuffer() {
   mVideoPBOIndex = (mVideoPBOIndex + 1) % PBO_COUNT;
   // Request pixels copy
   // read pixels from framebuffer to PBO: wr_scene_get_main_buffer() should return immediately
-  mPBOMutexes[mVideoPBOIndex].lock();
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
   readPixels(mVideoWidth, mVideoHeight, GL_BGRA, 0);
   wr_scene_bind_pixel_buffer(scene, 0);

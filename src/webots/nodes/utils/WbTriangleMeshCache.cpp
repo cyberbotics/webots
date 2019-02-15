@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbTriangleMeshCache.hpp"
+
 #include "WbCoordinate.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMFInt.hpp"
@@ -57,7 +58,7 @@ namespace WbTriangleMeshCache {
   TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
-  IndexedFaceSetKey::IndexedFaceSetKey() { mHash = 0;}
+  IndexedFaceSetKey::IndexedFaceSetKey() { mHash = 0; }
   IndexedFaceSetKey::IndexedFaceSetKey(WbIndexedFaceSet *indexedFaceSet) { set(indexedFaceSet); }
 
   void IndexedFaceSetKey::set(WbIndexedFaceSet *indexedFaceSet) {

@@ -40,7 +40,6 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   const QDesktopWidget *qDesktop = QApplication::desktop();
   const int screenNumber = qDesktop->screenNumber(QCursor::pos());
   QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
-  fullScreen *= QGuiApplication::screens()[screenNumber]->devicePixelRatio();
 
   tryToAddResolution(WbResolution(352, 288, "CIF"), fullScreen);
   tryToAddResolution(WbResolution(426, 240, "240p"), fullScreen);

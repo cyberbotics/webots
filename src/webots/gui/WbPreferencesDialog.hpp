@@ -59,7 +59,7 @@ private:
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAntiAliasingCombo, *mAmbientOcclusionCombo,
     *mTextureQualityCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername, *mHttpProxyPassword;
-  QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mDisableShadowsCheckBox,
+  QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableCameraAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;
 
   QStringList mValidThemeFilenames;

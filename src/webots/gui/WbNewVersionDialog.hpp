@@ -23,6 +23,7 @@
 
 #define NUMBER_OF_THEMES 3
 
+class QCheckBox;
 class QLabel;
 class QPushButton;
 class QRadioButton;
@@ -40,7 +41,7 @@ public:
   void setBackgroundColor(QColor &color) { mBackgroundColor = color; }
 
 private slots:
-  void selectTheme();
+  void startButtonPressed();
   void updatePreview();
 
 private:
@@ -48,10 +49,9 @@ private:
   virtual ~WbNewVersionDialog() {}
 
   QColor mBackgroundColor;
-
   QRadioButton *mRadioButtons[NUMBER_OF_THEMES];
-  QPushButton *mStartButton;
   QLabel *mPreviewLabel;
+  QCheckBox *mTelemetryCheckBox;
 };
 
 #endif

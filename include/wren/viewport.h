@@ -36,6 +36,7 @@ void wr_viewport_set_clear_color_rgba(WrViewport *viewport, const float *color);
 void wr_viewport_set_polygon_mode(WrViewport *viewport, WrViewportPolygonMode mode);
 void wr_viewport_set_visibility_mask(WrViewport *viewport, int mask);
 void wr_viewport_set_size(WrViewport *viewport, int width, int height);
+void wr_viewport_set_pixel_ratio(WrViewport *viewport, int ratio);
 void wr_viewport_set_camera(WrViewport *viewport, WrCamera *camera);
 void wr_viewport_set_frame_buffer(WrViewport *viewport, WrFrameBuffer *frame_buffer);
 

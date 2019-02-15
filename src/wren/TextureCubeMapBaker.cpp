@@ -213,7 +213,7 @@ namespace wren {
       return irradianceMap;
     }
 
-    TextureCubeMap *bakeSpecularIrradiance(TextureCubeMap *inputCube, ShaderProgram *irradianceShader) {
+    TextureCubeMap *bakeSpecularIrradiance(TextureCubeMap *inputCube, ShaderProgram *irradianceShader, unsigned int size) {
       glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
       glm::mat4 captureViews[] = {
         glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)),
@@ -244,11 +244,11 @@ namespace wren {
       prefilteredCube->setGlName(prefilteredCubeGlName);
       prefilteredCube->setTextureUnit(14);
       glstate::activateTextureUnit(14);
-      prefilteredCube->setSize(512, 512);
+      prefilteredCube->setSize(size, size);
       glBindTexture(GL_TEXTURE_CUBE_MAP, prefilteredCubeGlName);
 
       for (unsigned int i = 0; i < 6; ++i)
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, size, size, 0, GL_RGB, GL_FLOAT, nullptr);
 
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -274,10 +274,10 @@ namespace wren {
       glUniform1i(irradianceShader->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0),
                   WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);
 
-      unsigned int maxMipLevels = 10;
+      unsigned int maxMipLevels = log2(size) + 1;
       for (unsigned int mip = 0; mip < maxMipLevels; ++mip) {
         // reisze framebuffer according to mip-level size.
-        unsigned int mipWidth = 512 * std::pow(0.5, mip);
+        unsigned int mipWidth = size * std::pow(0.5, mip);
         unsigned int mipHeight = mipWidth;
         glstate::bindRenderBuffer(captureRBO);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mipWidth, mipHeight);
@@ -307,7 +307,7 @@ namespace wren {
       return prefilteredCube;
     }
 
-    TextureRtt *bakeBrdf(ShaderProgram *brdfShader) {
+    TextureRtt *bakeBrdf(ShaderProgram *brdfShader, unsigned int size) {
       unsigned int captureFBO = 0;
       unsigned int captureRBO = 0;
       glGenFramebuffers(1, &captureFBO);
@@ -330,11 +330,11 @@ namespace wren {
       brdfTexture->setTextureUnit(5);
       brdfTexture->setGlName(brdfTextureGlName);
       glstate::activateTextureUnit(5);
-      brdfTexture->setSize(512, 512);
+      brdfTexture->setSize(size, size);
 
       // pre-allocate enough memory for the LUT texture.
       glBindTexture(GL_TEXTURE_2D, brdfTextureGlName);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 512, 512, 0, GL_RGB, GL_FLOAT, 0);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, size, size, 0, GL_RGB, GL_FLOAT, 0);
       // be sure to set wrapping mode to GL_CLAMP_TO_EDGE
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -345,10 +345,10 @@ namespace wren {
       glstate::bindFrameBuffer(captureFBO);
       glstate::bindRenderBuffer(captureRBO);
       glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
-      glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
+      glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, size, size);
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, brdfTextureGlName, 0);
 
-      glViewport(0, 0, 512, 512);
+      glViewport(0, 0, size, size);
       brdfShader->bind();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       renderQuad();
@@ -460,13 +460,15 @@ WrTextureCubeMap *wr_texture_cubemap_bake_diffuse_irradiance(WrTextureCubeMap *i
     reinterpret_cast<wren::TextureCubeMap *>(input_cubemap), reinterpret_cast<wren::ShaderProgram *>(shader), size));
 }
 
-WrTextureCubeMap *wr_texture_cubemap_bake_specular_irradiance(WrTextureCubeMap *input_cubemap, WrShaderProgram *shader) {
+WrTextureCubeMap *wr_texture_cubemap_bake_specular_irradiance(WrTextureCubeMap *input_cubemap, WrShaderProgram *shader,
+                                                              unsigned int size) {
   return reinterpret_cast<WrTextureCubeMap *>(wren::texturecubemapbaker::bakeSpecularIrradiance(
-    reinterpret_cast<wren::TextureCubeMap *>(input_cubemap), reinterpret_cast<wren::ShaderProgram *>(shader)));
+    reinterpret_cast<wren::TextureCubeMap *>(input_cubemap), reinterpret_cast<wren::ShaderProgram *>(shader), size));
 }
 
-WrTextureRtt *wr_texture_cubemap_bake_brdf(WrShaderProgram *shader) {
-  return reinterpret_cast<WrTextureRtt *>(wren::texturecubemapbaker::bakeBrdf(reinterpret_cast<wren::ShaderProgram *>(shader)));
+WrTextureRtt *wr_texture_cubemap_bake_brdf(WrShaderProgram *shader, unsigned int size) {
+  return reinterpret_cast<WrTextureRtt *>(
+    wren::texturecubemapbaker::bakeBrdf(reinterpret_cast<wren::ShaderProgram *>(shader), size));
 }
 
 WrTextureCubeMap *wr_texture_cubemap_bake_equirectangular_to_cube(WrTexture2d *equirectangular_map, WrShaderProgram *shader,

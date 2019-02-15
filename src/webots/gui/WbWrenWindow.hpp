@@ -31,7 +31,8 @@ class WbWrenWindow : public QWindow {
 
 public:
   static WbWrenWindow *instance();
-  static void flipImageBuffer(unsigned char *buffer, int width, int height, int channels);
+  static void flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
+                                          int sourceHeight, int scaleDownFactor);
 
   explicit WbWrenWindow();
   virtual ~WbWrenWindow();
@@ -46,8 +47,6 @@ public:
   void initVideoPBO();
   void completeVideoPBOProcessing(bool canceled);
   void requestGrabWindowBuffer();
-  void lockPBOMutex(int index) { mPBOMutexes[index].lock(); }
-  void unlockPBOMutex(int index) { mPBOMutexes[index].unlock(); }
 
   void updateWrenViewportDimensions();
 
@@ -57,7 +56,7 @@ public slots:
   virtual void renderLater();
 
 signals:
-  void videoImageReady(unsigned char *frame, int PBOIndex);
+  void videoImageReady(unsigned char *frame);
   void resized();
 
 protected:
@@ -79,7 +78,6 @@ private:
   int mSnapshotBufferWidth;
   int mSnapshotBufferHeight;
   GLuint mVideoPBOIds[2];
-  QMutex mPBOMutexes[2];
   int mVideoWidth;
   int mVideoHeight;
   int mVideoPBOIndex;
