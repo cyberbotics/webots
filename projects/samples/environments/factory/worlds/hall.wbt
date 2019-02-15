@@ -1,0 +1,4226 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "tube insertion exercise"
+      material2 "tube insertion exercise"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 1e-05
+    }
+  ]
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.10625661855582516 0.9729499245405863 0.20512916747637167 1.9508899277482388
+  position -3.86703243296223 4.233476985440807 -2.3754702147604903
+  ambientOcclusionRadius 1
+  bloomThreshold 210
+}
+Background {
+  skyColor [
+    0.33 0.66 1
+  ]
+  cubemap Cubemap {
+    textureBaseName "khg_background2"
+  }
+}
+TexturedBackgroundLight {
+  texture "noon_building_overcast"
+}
+Floor {
+  size 22.26 6.95
+  tileSize 2 2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/floor_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/floor_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/floor_normal.png"
+      ]
+    }
+  }
+}
+Floor {
+  translation -3.2 0 -4.984999999999999
+  name "floor(1)"
+  size 6.3 3.0199999999999996
+  tileSize 2 2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/floor_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/floor_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/floor_normal.png"
+      ]
+    }
+  }
+}
+DEF ROOF Transform {
+  translation 5.719999999999994 4.76 0
+  rotation 1.2246467991473532e-16 5.872054701297541e-25 -1 3.1415926631795865
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 5.6 3.55
+        }
+      }
+      geometry Plane {
+        size 11.17 7.1000000000000005
+      }
+    }
+  ]
+}
+DEF ROOF Transform {
+  translation -5.545 3.6520000132339168 -1.5200000000000031
+  rotation -1 9.957992380241759e-17 -1.8380329780749066e-16 3.141592644
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 5.699999999999999 5.05
+        }
+      }
+      geometry Plane {
+        size 11.36 10.1
+      }
+    }
+  ]
+}
+DEF ROOF Transform {
+  translation 0.13490000000000002 4.202 5.657977869675926e-09
+  rotation 0.7071067761007919 0.7071067862723032 3.3905039551432823e-09 3.1415926603708004
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.55 3.55
+        }
+      }
+      geometry Plane {
+        size 1.0999999999999999 7.1
+      }
+    }
+  ]
+}
+Desk {
+  translation -1.660221126749137 -1.5276668818842154e-13 -4.473002625577433
+  rotation 0 0.9999999999999999 0 4.712388966
+}
+Desk {
+  translation -3.2155311059102663 -1.5276668818842154e-13 -4.3792571049033056
+  rotation 0 0.9999999999999999 0 4.712388966
+  name "desk(1)"
+}
+DEF PLATFORM Transform {
+  translation -1.310000000000001 0 1.8500000000000012
+  children [
+    DEF STAIRS Transform {
+      children [
+        StraightStairs {
+          translation 0 0 0.6699999999999999
+          name "straight stairs(1)"
+          stepSize 0.30000000000000004 0.03 1.2
+          stepRise 0.16670000000000001
+          nSteps 14
+          stepAppearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 0.30000000000000004 1
+            }
+          }
+          stringerAppearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 3.9999999999999996 8
+            }
+          }
+          leftRail [
+            StraightStairsRail {
+              run 4.2
+              rise 2.338
+              balusterHeight 0.5
+              balusterRadius 0.019
+              nBalusters 3
+              appearance GalvanizedMetal {
+                textureTransform TextureTransform {
+                  scale 3.9999999999999996 8
+                }
+              }
+            }
+          ]
+          rightRail [
+            StraightStairsRail {
+              run 4.2
+              rise 2.338
+              balusterHeight 0.5
+              balusterRadius 0.019
+              nBalusters 3
+              appearance GalvanizedMetal {
+                textureTransform TextureTransform {
+                  scale 3.9999999999999996 8
+                }
+              }
+            }
+          ]
+        }
+        StraightStairs {
+          translation 0 0 -0.6499999999999999
+          stepSize 0.30000000000000004 0.03 1.4
+          stepRise 0.16670000000000001
+          nSteps 14
+          stepAppearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 0.30000000000000004 1
+            }
+          }
+          stringerAppearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 3.9999999999999996 8
+            }
+          }
+          leftRail [
+            StraightStairsRail {
+              run 4.2
+              rise 2.338
+              balusterHeight 0.5
+              balusterRadius 0.019
+              nBalusters 3
+              appearance GalvanizedMetal {
+                textureTransform TextureTransform {
+                  scale 3.9999999999999996 8
+                }
+              }
+            }
+          ]
+          rightRail []
+        }
+        Solid {
+          translation 1.823472431941421 1.254671277331213 -0.6600000000000001
+          rotation 0 0 1 0.5069999999999998
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 3 1
+                }
+              }
+              geometry Box {
+                size 5.1899999999999995 0.02 1.4
+              }
+            }
+          ]
+          name "box(1)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+      ]
+    }
+    Transform {
+      translation 4.15000000000002 0 0
+      children [
+        Solid {
+          translation 0 1.25 0
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 2 1.6
+                }
+              }
+              geometry Box {
+                size 0.04 2.5 3.24
+              }
+            }
+          ]
+          name "box(2)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 3.21 1.25 0
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 2 1.6
+                }
+              }
+              geometry Box {
+                size 0.04 2.5 3.24
+              }
+            }
+          ]
+          name "box(4)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 1.609999976984496 1.25 1.6000000231593525
+          rotation 0 -1 0 1.5707963603591728
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 2 1.6
+                }
+              }
+              geometry Box {
+                size 0.04 2.5 3.24
+              }
+            }
+          ]
+          name "box(3)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 1.6000000000000008 2.479999999999998 5.399053564414761e-08
+          rotation -0.5773502747262953 -0.57735027749463 0.5773502553479516 2.094395119003205
+          children [
+            DEF SHAPE Shape {
+              appearance ThreadMetalPlate {
+                textureTransform TextureTransform {
+                  scale 3 3
+                }
+              }
+              geometry Box {
+                size 0.042 3.238 3.234
+              }
+            }
+          ]
+          name "box(8)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 1.610000023015505 2.249999999999997 -1.5999999768406457
+          rotation 0 0.9999999999999999 0 4.712388966
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 2 0.30000000000000004
+                }
+              }
+              geometry Box {
+                size 0.04 0.5 3.24
+              }
+            }
+          ]
+          name "box(5)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 0.1400000230155051 0.9999999999999976 -1.5999999979861395
+          rotation 0 0.9999999999999999 0 4.712388966
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                  scale 0.15 1
+                }
+              }
+              geometry Box {
+                size 0.04 2 0.24
+              }
+            }
+          ]
+          name "box(6)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Solid {
+          translation 2.270000023015507 0.9999999999999976 -1.5999999673467493
+          rotation 0 0.9999999999999999 0 4.712388966
+          children [
+            DEF SHAPE Shape {
+              appearance OsbWood {
+                textureTransform TextureTransform {
+                }
+              }
+              geometry Box {
+                size 0.04 2 1.84
+              }
+            }
+          ]
+          name "box(7)"
+          model "box"
+          boundingObject USE SHAPE
+        }
+        Door {
+          translation 0.8100000140969965 0 -1.4700000103569737
+          rotation 0 1 0 3.141592644
+          size 1.1 2 0.2
+          jointAtLeft FALSE
+          doorHandle DoorLever {
+            jointAtLeft FALSE
+          }
+        }
+        StraightStairsRail {
+          translation 0 2.5000000000000018 -1.6000000000000008
+          run 3.21
+          rise 0
+          balusterHeight 0.5
+          balusterRadius 0.019
+          nBalusters 3
+          appearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 8 13
+            }
+          }
+        }
+        StraightStairsRail {
+          translation 3.2099999999999898 2.5000000000000018 -1.6000000000000008
+          rotation 0 0.9999999999999999 0 4.712388966
+          name "straight stairs rail(1)"
+          run 3.21
+          rise 0
+          balusterHeight 0.5
+          balusterRadius 0.019
+          nBalusters 3
+          appearance GalvanizedMetal {
+            textureTransform TextureTransform {
+              scale 8 13
+            }
+          }
+        }
+        StraightStairsRail {
+          translation -4.1284068153922823e-08 2.5000000000000018 1.2699999538251452
+          rotation 0 0.9999999999999999 0 4.712388966
+          name "straight stairs rail(2)"
+          run 0.33
+          rise 0
+          balusterHeight 0.5
+          nBalusters 0
+          appearance GalvanizedMetal {
+          }
+        }
+        StraightStairsRail {
+          translation -7.660538903000805e-15 2.5000000000000018 -1.6000000461748531
+          rotation 0 0.9999999999999999 0 4.712388966
+          name "straight stairs rail(3)"
+          run 0.22999999999999998
+          rise 0
+          balusterHeight 0.5
+          nBalusters 0
+          appearance GalvanizedMetal {
+          }
+        }
+        PipeSection {
+          translation -2.620006320484327 1.5999999999999999 -1.7
+          rotation -1.8342051035168622e-06 0.9999999999983179 4.794896541089248e-09 3.141592653589811
+          height 3.25
+          radius 0.06
+          appearance DEF GREEN_PIPE_APPEARANCE PBRAppearance {
+            baseColor 0.1552605477988861 0.4566720073243305 0.1888761730373083
+            roughnessMap ImageTexture {
+              url [
+                "textures/plastic_roughness.png"
+              ]
+            }
+            metalness 0
+          }
+        }
+        PipeSection {
+          translation 3.432 1.58 -1.7
+          rotation -1.8342051035168622e-06 0.9999999999983179 4.794896541089248e-09 3.141592653589811
+          name "pipe section(2)"
+          height 3.25
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -2.535000002781041 3.3439999989451255 -1.7
+          rotation 0 0 1 3.141592644
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 0.39999999999281177 3.4299999999999997 -1.7000000000000002
+          rotation 0.7071080832499715 -0.7071054791207261 -3.390510071978532e-09 3.1415926603707884
+          name "pipe section(1)"
+          height 5.6
+          radius 0.06
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 3.334999993047406 3.343999944235351 -1.7
+          rotation 0 0 -1 4.712389004359173
+          name "L joint pipe(1)"
+          scale 2 2 2
+          appearance USE GREEN_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 3.035 1.39 -1.7000000225360146
+          rotation -0.9999999999982915 -1.8485897936848517e-06 8.785119140217825e-15 3.141592644
+          name "pipe section(4)"
+          height 2.87
+          radius 0.06
+          appearance DEF ORANGE_PIPE_APPEARANCE PBRAppearance {
+            baseColor 0.6633401998931868 0.38129243915465016 0.09729152361333639
+            roughnessMap ImageTexture {
+              url [
+                "textures/plastic_roughness.png"
+              ]
+            }
+            metalness 0
+          }
+        }
+        PipeSection {
+          translation -2.236 1.396 -1.7000000225360146
+          rotation -0.9999999999982915 -1.8485897936848517e-06 8.785119140217825e-15 3.141592644
+          name "pipe section(5)"
+          height 2.87
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        PipeSection {
+          translation 0.39999999999999997 3.0500039028081476 -1.7000000064251628
+          rotation 0.7071080832499715 -0.7071054791207261 -3.390510071978532e-09 3.1415926603707884
+          name "pipe section(3)"
+          height 4.84
+          radius 0.06
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation 2.947 2.966 -1.701
+          rotation 0 0 -1 4.712389004359173
+          name "L joint pipe(2)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+        LJoint {
+          translation -2.152999999999995 2.966000122461659 -1.701
+          rotation 0 0 -1 3.1415926823591733
+          name "L joint pipe(3)"
+          scale 2 2 2
+          appearance USE ORANGE_PIPE_APPEARANCE
+        }
+      ]
+    }
+    Cabinet {
+      translation 6.219999984656356 2.5 1.6000000000000008
+      rotation 0 1 0 3.141592644
+      layout [
+        "RightSidedDoor (1, 1, 1, 5, 1.5)"
+        "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+      ]
+      primaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+      secondaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+    }
+    Cabinet {
+      translation 5.409999984656366 2.5 1.5999999922322663
+      rotation 0 1 0 3.141592644
+      name "cabinet(1)"
+      layout [
+        "RightSidedDoor (1, 1, 1, 5, 1.5)"
+        "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+      ]
+      primaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+      secondaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+    }
+    CardboardBox {
+      translation 0.2490720438088847 0.19999999999999837 -8.012526079552135
+      size 0.4 0.4 0.4
+    }
+    CardboardBox {
+      translation -0.05415299973866228 0.5899999999999977 -8.033739107741605
+      rotation 0 1 0 3.141592644
+      name "cardboard box(6)"
+      size 0.4 0.4 0.4
+    }
+    CardboardBox {
+      translation -0.26803436073219844 0.1999999999999966 -8.0301943377606
+      rotation 0 0.9999999999999999 0 4.712388966
+      name "cardboard box(7)"
+      size 0.4 0.4 0.4
+    }
+    CardboardBox {
+      translation 5.918553548679483 4.199999999999997 1.2825321910776144
+      name "cardboard box(5)"
+      size 0.4 0.4 0.4
+    }
+    CardboardBox {
+      translation 4.751872851818582 3.7400000000000064 1.3555212676767618
+      name "cardboard box(4)"
+      size 0.4 0.4 0.4
+      mass 2
+    }
+    CardboardBox {
+      translation 6.358553548679474 4.199999999999997 1.2825321910776144
+      name "cardboard box(1)"
+      size 0.4 0.4 0.4
+    }
+    CardboardBox {
+      translation 4.657382075138472 2.7500000000000013 1.3162440039696657
+      rotation 0 0.9999999999999999 0 4.712388966
+      name "cardboard box(2)"
+      mass 10
+    }
+    CardboardBox {
+      translation 4.70337754042788 3.299999999776614 1.3148496652623118
+      rotation 0.9914448614259653 -4.753875513067635e-09 -0.13052619182389522 3.1415926548415127
+      name "cardboard box(3)"
+      size 0.5 0.5 0.5
+      mass 4
+    }
+  ]
+}
+Cabinet {
+  translation -11.113797104648352 -9.769962616701378e-14 2.7051145170159736
+  rotation 0 -1 0 4.712389004359172
+  name "cabinet(2)"
+  rowsHeights [
+    2
+  ]
+  columnsWidths [
+    0.5, 0.17, 0.4
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 1, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+DEF EXERCISES_BOARD Robot {
+  children [
+    SmallValve {
+      translation -10.953797037567758 2.2699999999999085 -0.6148854847101892
+      rotation 0 1 0 3.141592644
+    }
+    LeverValve {
+      translation -10.963797034978503 1.869999999999905 0.2951145115497911
+      rotation 3.3905038511692746e-09 0.7071067828817994 -0.7071067794912956 3.1415926468087854
+    }
+    LargeValve {
+      translation -10.603797043033936 1.2499999999999045 0.2800000015343671
+      rotation 0 1 0 3.141592644
+    }
+    Cabinet {
+      translation -11.113797045910868 -9.769962616701378e-14 0.2551145170159741
+      rotation 0 -1 0 4.712389004359172
+      name "cabinet(10)"
+      rowsHeights [
+        0.65
+      ]
+      columnsWidths [
+        0.67, 0.17, 0.5, 0.67, 0.17, 0.5
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 1, 1.5)"
+        "LeftSidedDoor (2, 1, 2, 1, 1.5)"
+        "RightSidedDoor (4, 1, 1, 1, 1.5)"
+        "LeftSidedDoor (5, 1, 2, 1, 1.5)"
+      ]
+      primaryAppearance RoughOak {
+        colorOverride 0.8274509803921568 0.8431372549019608 0.8117647058823529
+        textureTransform TextureTransform {
+          rotation 1.5708
+          scale 2 2
+        }
+      }
+      secondaryAppearance GlossyCarPaint {
+        baseColor 0.8066681925688564 0.6946822308690013 0.41947051194018464
+      }
+    }
+    SolidBox {
+      translation -11.05379704591087 1.6999999999999034 0.2551145170159741
+      size 0.1 2 2.75
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/tread_plate_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/tread_plate_roughness.png"
+          ]
+        }
+        metalnessMap ImageTexture {
+          url [
+            "textures/tread_plate_metalness.png"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "textures/tread_plate_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/tread_plate_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 2 2.75
+        }
+      }
+    }
+    WallPlug {
+      translation -11.003797033348237 2.4399999999999005 0.1251145111661991
+      rotation 0 1 0 3.141592644
+      name "wall plug(1)"
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -10.950000000000001 2.4730000000000003 0.1251145111661991
+      }
+      endPoint Solid {
+        translation -10.950000000000001 2.441 0.1251145111661991
+        children [
+          DEF SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.002 0.073 0.058
+            }
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE SHAPE
+        physics Physics {
+          density -1
+          mass 0.02
+        }
+      }
+    }
+    WallPlug {
+      translation -11.003797036704674 2.4399999999999005 0.4751145111661993
+      rotation 0 1 0 3.141592644
+      name "wall plug(2)"
+    }
+    Solid {
+      translation -11.003797034978502 1.869999999999905 1.0051145115497917
+      children [
+        DEF BOX_SHAPE Shape {
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.6431372549019608 0 0
+          }
+          geometry Box {
+            size 0.01 0.2 0.2
+          }
+        }
+        Solid {
+          children [
+            Transform {
+              translation 0.06999999999999997 -1.0069283047166809e-09 0
+              rotation 0 0 0.9999999999999999 4.712388966
+              children [
+                DEF SHAPE Shape {
+                  appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+                    colorOverride 0.6431372549019608 0 0
+                  }
+                  geometry Cylinder {
+                    height 0.30000000000000004
+                    radius 0.04
+                  }
+                }
+              ]
+            }
+            SolidPipe {
+              translation 0.22000000000000003 0 0
+              rotation 0.9999999999999999 0 0 4.712388966
+              height 0.19999999999999998
+              radius 0.04
+              thickness 0.006
+              contactMaterial "tube insertion exercise"
+              appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+                colorOverride 0.6431372549019608 0 0
+              }
+            }
+          ]
+          boundingObject Transform {
+            translation 0.02999999999999998 -4.315407020214348e-10 0
+            rotation 0 0 0.9999999999999999 4.712388966
+            children [
+              Cylinder {
+                height 0.30000000000000004
+                radius 0.04
+              }
+            ]
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE BOX_SHAPE
+    }
+    Solid {
+      translation -11.003797034978502 2.539999999999906 0.8251145115497915
+      children [
+        DEF BOX_SHAPE Shape {
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+          geometry Box {
+            size 0.01 0.15 0.15
+          }
+        }
+        PipeSection {
+          translation 0.0799999999994603 2.93856408267726e-07 0
+          height 0.15
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        PipeSection {
+          translation 0.08000143254945079 -0.38999970614096097 0
+          name "pipe section(2)"
+          height 0.15
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        LJoint {
+          translation 0.195 -0.030000000000000002 1.2466731006853017e-09
+          rotation 1 0 0 3.141592644
+          scale 0.6666 0.6666 0.6666
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        PipeSection {
+          translation 0.2239998902367884 -0.19400000000020082 0
+          rotation 0 0 -1 6.283181648405866
+          name "pipe section(1)"
+          height 0.25
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        LJoint {
+          translation 0.19500000158231606 -0.36000000000000004 4.411304851159126e-09
+          rotation 0.7071067828817994 -0.7071067794912956 3.3905038511692746e-09 3.1415926468087854
+          name "L joint pipe(1)"
+          scale 0.6666 0.6666 0.6666
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        Solid {
+          translation 0 -0.3900000000000002 0
+          children [
+            USE BOX_SHAPE
+          ]
+          boundingObject USE BOX_SHAPE
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE BOX_SHAPE
+    }
+    Solid {
+      translation -11.003797034978502 2.350000001006837 1.1151145142828836
+      rotation 0.9999999999999999 0 0 4.712388966
+      children [
+        DEF BOX_SHAPE Shape {
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+          geometry Box {
+            size 0.01 0.15 0.15
+          }
+        }
+        PipeSection {
+          translation 0.0799999999994603 2.93856408267726e-07 0
+          height 0.15
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        PipeSection {
+          translation 0.08000143254945079 -0.38999970614096097 0
+          name "pipe section(2)"
+          height 0.15
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        LJoint {
+          translation 0.195 -0.030000000000000002 1.2466731006853017e-09
+          rotation 1 0 0 3.141592644
+          scale 0.6666 0.6666 0.6666
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        PipeSection {
+          translation 0.2239998902367884 -0.19400000000020082 0
+          rotation 0 0 -1 6.283181648405866
+          name "pipe section(1)"
+          height 0.25
+          radius 0.019999999999999997
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        LJoint {
+          translation 0.19500000158231606 -0.36000000000000004 4.411304851159126e-09
+          rotation 0.7071067828817994 -0.7071067794912956 3.3905038511692746e-09 3.1415926468087854
+          name "L joint pipe(1)"
+          scale 0.6666 0.6666 0.6666
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+            colorOverride 0.39859616998550396 0.546669718471046 0.3863126573586633
+          }
+        }
+        Solid {
+          translation 0 -0.3900000000000002 0
+          children [
+            USE BOX_SHAPE
+          ]
+          boundingObject USE BOX_SHAPE
+        }
+      ]
+      name "solid(4)"
+      boundingObject USE BOX_SHAPE
+    }
+    Solid {
+      translation -11.003797034978502 1.2299999843205947 -0.04488546960626168
+      rotation 0.9999999999999999 0 0 4.712388966
+      children [
+        DEF BOX_SHAPE Shape {
+          appearance DEF OLD_STEEL_APPEARANCE OldSteel {
+          }
+          geometry Box {
+            size 0.01 0.15 0.15
+          }
+        }
+        PipeSection {
+          translation 0.0799999999994603 2.93856408267726e-07 0
+          height 0.15
+          radius 0.06
+          appearance HammeredCopper {
+            textureTransform TextureTransform {
+              scale 2 1
+            }
+          }
+        }
+        PipeSection {
+          translation 0.08000257124303298 -0.702 0
+          name "pipe section(2)"
+          height 0.15
+          radius 0.06
+          appearance HammeredCopper {
+            textureTransform TextureTransform {
+              scale 2 1
+            }
+          }
+        }
+        LJoint {
+          translation 0.2850000000000001 -0.09 1.8220606856169798e-09
+          rotation 1 0 0 3.141592644
+          scale 2 2 2
+          appearance HammeredCopper {
+          }
+        }
+        PipeSection {
+          translation 0.3670006219906626 -0.3639994877707421 0
+          rotation 0 0 -1 6.283181648405866
+          name "pipe section(1)"
+          height 0.28
+          radius 0.06
+          appearance HammeredCopper {
+          }
+        }
+        LJoint {
+          translation 0.28500000282898896 -0.6199999995684595 6.904651065571438e-09
+          rotation 0.7071067828817994 -0.7071067794912956 3.3905038511692746e-09 3.1415926468087854
+          name "L joint pipe(1)"
+          scale 2 2 2
+          appearance HammeredCopper {
+          }
+        }
+        Solid {
+          translation 0 -0.7000000000000004 0
+          children [
+            USE BOX_SHAPE
+          ]
+          boundingObject USE BOX_SHAPE
+        }
+      ]
+      name "solid(5)"
+      boundingObject USE BOX_SHAPE
+    }
+    Solid {
+      translation -10.643797043129839 0.8599999999999042 1.0451145115497917
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2899977111467155 0.11406118867780575 0.11406118867780575
+            roughness 0.05
+            metalness 0
+          }
+          geometry Box {
+            size 0.02 0.6 0.25
+          }
+        }
+        Slot {
+          endPoint DoorLever {
+            translation 0 0.19999999999999998 0.060000000000000005
+            rotation 0 1 0 -1.5707996938995747
+            canTurn TRUE
+          }
+        }
+        Slot {
+          endPoint DoorLever {
+            translation 0 0.1 0.060000000000000005
+            rotation 0 1 0 -1.5707996938995747
+            name "door lever(1)"
+            canTurn TRUE
+          }
+        }
+        Slot {
+          endPoint DoorLever {
+            translation 0 0 0.060000000000000005
+            rotation 0 1 0 -1.5707996938995747
+            name "door lever(2)"
+            canTurn TRUE
+          }
+        }
+      ]
+    }
+  ]
+  name "solid"
+  controller ""
+}
+Robot {
+  translation -10.963797043033926 1.2499999999999045 -0.5399999984656332
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 1 0 0
+      }
+      device [
+        LinearMotor {
+          minPosition -0.0413
+          maxPosition 0.008
+        }
+      ]
+      endPoint Solid {
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              dampingConstant 0.019999999999999997
+              staticFriction 0.019999999999999997
+            }
+            device [
+              PositionSensor {
+              }
+            ]
+            endPoint EyeScrew {
+              translation 0.08999999999999997 0 0
+              rotation 0 0 0.9999999999999999 4.712388966
+            }
+          }
+        ]
+      }
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0.024 0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0.024 0
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0.024 -0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0 0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0 0
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 0 -0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 -0.024 0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 -0.024 0
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+    ScrewHole {
+      translation -0.04999999999999999 -0.024 -0.024
+      rotation 0 0 0.9999999999999999 4.712388966
+      radius 0.006
+      depth 0.02
+    }
+  ]
+  name "robot(2)"
+  controller "screw_controller"
+}
+ElectricalPlug {
+  translation -10.709555940446258 0.7300000002777995 -0.49548886570340245
+  rotation 0.5199879474258308 0.5199879449325424 -0.6776614727551674 4.332744290826959
+}
+EyeScrew {
+  translation -10.742264077286166 0.7600000002777996 -0.6131851716533006
+  rotation 0 1 0 0.5235987740000014
+}
+CapScrew {
+  translation -10.758156222908662 0.7400000002777996 -0.7244440339789165
+  rotation 0 1 0 5.7595865139999995
+}
+Washer {
+  translation -10.742264077286166 0.7200000002777995 -0.8131851716533007
+  appearance MetalPipePaint {
+  }
+  innerRadius 0.013999999999999999
+}
+Solid {
+  translation -10.783797034978507 1.869999999999905 1.0051145115497917
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.8274509803921568 0.8431372549019608 0.8117647058823529
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.019999999999999997 0.049999999999999996 0.7
+      }
+    }
+  ]
+  name "solid(6)"
+  contactMaterial "tube insertion exercise"
+  boundingObject USE SHAPE
+  physics Physics {
+    density -1
+    mass 20
+  }
+}
+Cabinet {
+  translation 11.11174870702473 0 3.0077109491351406
+  rotation 0 0.9999999999999999 0 4.712388966000001
+  name "cabinet(9)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+Cabinet {
+  translation 11.111748718820202 0 2.18771094913515
+  rotation 0 0.9999999999999999 0 4.712388966000001
+  name "cabinet(3)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+Cabinet {
+  translation -4.347013218400333 -2.6645352591003757e-15 -6.468667801240305
+  rotation 0 -1 0 4.2146848510894035e-08
+  name "cabinet(5)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+Cabinet {
+  translation -3.4337269544230535 -2.6645352591003757e-15 -6.466608144039099
+  rotation 0 -1 0 4.2146848510894035e-08
+  name "cabinet(8)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+Cabinet {
+  translation -2.550738820246521 -2.6645352591003757e-15 -6.480310095405102
+  rotation 0 -1 0 4.2146848510894035e-08
+  name "cabinet(7)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+Cabinet {
+  translation -0.047861748245114466 -2.6645352591003757e-15 -5.670436768365539
+  rotation 0 -1 0 1.5707963603591728
+  name "cabinet(6)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+  secondaryAppearance GlossyCarPaint {
+    baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+  }
+}
+DEF FIRST_AID_BOX Transform {
+  translation 9.921748706353455 1.2599999999999998 3.4877109540259403
+  rotation 0 1 0 3.141592644
+  children [
+    Cabinet {
+      name "cabinet(4)"
+      depth 0.19999999999999998
+      rowsHeights [
+        0.35
+      ]
+      columnsWidths [
+        0.3
+      ]
+      layout [
+        "LeftSidedDoor (1, 1, 1, 1, 1.5)"
+      ]
+      primaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+      secondaryAppearance GlossyCarPaint {
+        baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
+      }
+    }
+    Transform {
+      translation -2.0138565788302806e-09 0.20000000302078494 0.202
+      rotation 3.3905039331649797e-09 -0.7071067862723035 -0.7071067761007916 3.1415926603708013
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/first_aid.png"
+              ]
+            }
+            roughness 1
+            metalness 0
+          }
+          geometry Plane {
+            size 0.15000000000000002 0.15000000000000002
+          }
+        }
+      ]
+    }
+  ]
+}
+FireExtinguisher {
+  translation -6.384510097773154 8.881784197001252e-16 -3.373858183070541
+  rotation 0 -1 0 2.8797932953591734
+}
+DEF FIRE_EXTINGUISHER_PANEL Transform {
+  translation -6.07451009777316 1.9800000000000018 -3.572
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/fire_extinguisher_panel.png"
+          ]
+        }
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+}
+FireExtinguisher {
+  translation -11.084697768307299 0.579999999999991 -3.249084203571666
+  rotation 0 1 0 4.974188353
+  name "fire extinguisher(2)"
+  enablePhysics FALSE
+}
+FireExtinguisher {
+  translation 9.653742769265888 0 3.380528379034876
+  name "fire extinguisher(1)"
+}
+PlatformCart {
+  translation -3.2965996949563046 0 -3.1465366103793553
+}
+PlasticCrate {
+  translation -3.4291860648190284 0.102 -3.1835299464516438
+  size 0.4 0.3 0.6
+  mass 2
+}
+PlasticCrate {
+  translation -3.0391860648190367 0.102 -3.1835299464516438
+  name "plastic crate(1)"
+  size 0.35 0.3 0.6
+  mass 2
+}
+PlatformCart {
+  translation -2.260429574178671 -2.7533531010703882e-14 -2.8873724406438392
+  rotation 0 -1 0 1.5707963603591728
+  name "platform cart(1)"
+}
+WoodenBox {
+  translation -2.2777084034889716 0.4000000000000001 -2.8624329131284094
+  name "wooden box(1)"
+  mass 12
+}
+Transform {
+  translation 9.921748706353455 2.4299999999999984 3.477710954025928
+  rotation 0 1 0 0.7853981610000004
+  children [
+    TexturedBoxShape {
+      size 0.15 0.15 0.15
+      textureUrl [
+        "textures/first_aid.png"
+      ]
+      textureMapping "default"
+    }
+  ]
+}
+Wall {
+  translation 3.834999999999997 0 3.575
+  size 7.4 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 3.7 2.4
+    }
+  }
+}
+Wall {
+  translation 0.6819999999999807 0 -3.575
+  name "wall(8)"
+  size 1.1 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.55 2.4
+    }
+  }
+}
+Wall {
+  translation 7.082 0 -3.575
+  name "wall(11)"
+  size 8.1 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 4.05 2.4
+    }
+  }
+}
+DEF DOUBLE_DOOR Solid {
+  translation 2.132 0 -3.575
+  rotation 0 1 0 6.283185307179586
+  children [
+    Solid {
+      translation 0 3.38 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/plaster_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "textures/plaster_roughness.png"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "textures/plaster_normal.png"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "textures/plaster_occlusion.png"
+              ]
+            }
+            textureTransform TextureTransform {
+              scale 0.9 1.35
+            }
+          }
+          geometry Box {
+            size 1.8 2.76 0.2
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 1.8 2.76 0.2
+      }
+    }
+    Solid {
+      translation 0 1.975 0
+      children [
+        Shape {
+          appearance DEF DOUBLE_DOOR_APPEARANCE PBRAppearance {
+            baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+            baseColorMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.png"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.png"
+              ]
+            }
+            normalMapFactor 0.5
+            textureTransform TextureTransform {
+              scale 10 10
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.85 0.025 0.15
+                0.85 0.025 0.15
+                0.85 0.025 -0.15
+                -0.85 0.025 -0.15
+                -0.85 -0.025 -0.15
+                0.85 -0.025 -0.15
+                0.85 -0.025 0.15
+                -0.85 -0.025 0.15
+                -0.85 -0.025 0.15
+                0.85 -0.025 0.15
+                0.85 0.025 0.15
+                -0.85 0.025 0.15
+                0.85 -0.025 -0.15
+                -0.85 -0.025 -0.15
+                -0.85 0.025 -0.15
+                0.85 0.025 -0.15
+                -0.85 -0.025 -0.15
+                -0.85 -0.025 0.15
+                -0.85 0.025 0.15
+                -0.85 0.025 -0.15
+                0.85 -0.025 0.15
+                0.85 -0.025 -0.15
+                0.85 0.025 -0.15
+                0.85 0.025 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                1 0
+                1 0.17647058823529
+                0 0.17647058823529
+                0 0
+                1 0
+                1 0.17647058823529
+                0 0.17647058823529
+                0 0
+                1 0
+                1 0.029411764705882
+                0 0.029411764705882
+                0 0
+                1 0
+                1 0.029411764705882
+                0 0.029411764705882
+                0 0
+                0.17647058823529 0
+                0.17647058823529 0.029411764705882
+                0 0.029411764705882
+                0 0
+                0.17647058823529 0
+                0.17647058823529 0.029411764705882
+                0 0.029411764705882
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 1.7 0.05 0.3
+      }
+    }
+    Solid {
+      translation -0.875 1 0
+      children [
+        Shape {
+          appearance USE DOUBLE_DOOR_APPEARANCE
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.025 1 0.15
+                0.025 1 0.15
+                0.025 1 -0.15
+                -0.025 1 -0.15
+                -0.025 -1 -0.15
+                0.025 -1 -0.15
+                0.025 -1 0.15
+                -0.025 -1 0.15
+                -0.025 -1 0.15
+                0.025 -1 0.15
+                0.025 1 0.15
+                -0.025 1 0.15
+                0.025 -1 -0.15
+                -0.025 -1 -0.15
+                -0.025 1 -0.15
+                0.025 1 -0.15
+                -0.025 -1 -0.15
+                -0.025 -1 0.15
+                -0.025 1 0.15
+                -0.025 1 -0.15
+                0.025 -1 0.15
+                0.025 -1 -0.15
+                0.025 1 -0.15
+                0.025 1 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.05 2 0.3
+      }
+    }
+    Solid {
+      translation 0.875 1 0
+      children [
+        Shape {
+          appearance USE DOUBLE_DOOR_APPEARANCE
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.025 1 0.15
+                0.025 1 0.15
+                0.025 1 -0.15
+                -0.025 1 -0.15
+                -0.025 -1 -0.15
+                0.025 -1 -0.15
+                0.025 -1 0.15
+                -0.025 -1 0.15
+                -0.025 -1 0.15
+                0.025 -1 0.15
+                0.025 1 0.15
+                -0.025 1 0.15
+                0.025 -1 -0.15
+                -0.025 -1 -0.15
+                -0.025 1 -0.15
+                0.025 1 -0.15
+                -0.025 -1 -0.15
+                -0.025 -1 0.15
+                -0.025 1 0.15
+                -0.025 1 -0.15
+                0.025 -1 0.15
+                0.025 -1 -0.15
+                0.025 1 -0.15
+                0.025 1 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.05 2 0.3
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.875 0 0.15
+        minStop -0.01
+        maxStop 1.57
+        dampingConstant 10
+      }
+      endPoint Solid {
+        translation 0 0 0.001
+        children [
+          DEF BOX Transform {
+            translation 0.42999999999709954 1 0.1750015794781947
+            rotation 0 1 0 -1.5708
+            children [
+              Shape {
+                appearance USE DOUBLE_DOOR_APPEARANCE
+                geometry Box {
+                  size 0.05 1.97 0.875
+                }
+              }
+            ]
+          }
+          Solid {
+            translation 0.09000000000000015 1 0.175
+            children [
+              DEF HANDLE_SUPPORT Transform {
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.075
+                      radius 0.0375
+                    }
+                  }
+                ]
+              }
+              DEF HANDLE_AXIS Transform {
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.18
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+              DEF BACK_HANDLE Transform {
+                translation 0.06 0 -0.09
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.12
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+              DEF FRONT_HANDLE Transform {
+                translation 0.06 0 0.09
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.12
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+            ]
+            name "door lever(1)"
+            model "door lever"
+            boundingObject Group {
+              children [
+                USE HANDLE_SUPPORT
+                USE HANDLE_AXIS
+                USE BACK_HANDLE
+                USE FRONT_HANDLE
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.7
+            }
+          }
+        ]
+        boundingObject USE BOX
+        physics Physics {
+          density 200
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 -1 0
+        anchor -0.875 0 0.15
+        minStop -0.01
+        maxStop 1.57
+        dampingConstant 10
+      }
+      endPoint Solid {
+        translation -0.8800000000000003 0 0.001
+        children [
+          DEF BOX Transform {
+            translation 0.42999999999709954 1 0.1750015794781947
+            rotation 0 1 0 -1.5708
+            children [
+              Shape {
+                appearance USE DOUBLE_DOOR_APPEARANCE
+                geometry Box {
+                  size 0.05 1.97 0.875
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.09000000000000015 1 0.175
+            children [
+              Solid {
+                translation 0.6900000000000004 -6.616957226714284e-09 0
+                rotation 0 0 1 3.141592644
+                children [
+                  DEF HANDLE_SUPPORT Transform {
+                    rotation 1 0 0 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Cylinder {
+                          height 0.075
+                          radius 0.0375
+                        }
+                      }
+                    ]
+                  }
+                  DEF HANDLE_AXIS Transform {
+                    rotation 1 0 0 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.18
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                  DEF BACK_HANDLE Transform {
+                    translation 0.06 0 -0.09
+                    rotation 0 0 1 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.12
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                  DEF FRONT_HANDLE Transform {
+                    translation 0.06 0 0.09
+                    rotation 0 0 1 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.12
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "door lever(1)"
+                model "door lever"
+                boundingObject Group {
+                  children [
+                    USE HANDLE_SUPPORT
+                    USE HANDLE_AXIS
+                    USE BACK_HANDLE
+                    USE FRONT_HANDLE
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 0.7
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.23000000000000004 1.3599999999999999 0.2100000001917958
+            rotation 1 0 0 1.5707963220000003
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/ears_protection_pannel.png"
+                    ]
+                  }
+                  roughness 0.2
+                  metalness 0
+                }
+                geometry Plane {
+                  size 0.2 0.2
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.5100000000000002 1.3599999999999999 0.2100000001917958
+            rotation 1 0 0 1.5707963220000003
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/glasses_panel.png"
+                    ]
+                  }
+                  roughness 0.2
+                  metalness 0
+                }
+                geometry Plane {
+                  size 0.2 0.2
+                }
+              }
+            ]
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE BOX
+        physics Physics {
+          density 200
+        }
+      }
+    }
+  ]
+  name "door(3)"
+  model "door"
+}
+Window {
+  translation -0.6649999999999963 0 3.575
+  size 1.6 3.652 0.2
+  windowSillSize 0.1 0
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.8 0.8
+    }
+  }
+  frameAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+}
+Window {
+  translation -9.529 0 3.575
+  name "window(1)"
+  size 1.6 3.652 0.2
+  windowSillSize 0.1 0
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.8 0.8
+    }
+  }
+  frameAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+}
+Wall {
+  translation -0.19299999999999998 0 -3.575
+  name "wall(9)"
+  size 0.65 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.325 1.8
+    }
+  }
+}
+Wall {
+  translation -6.468 0 -3.5749999999999957
+  name "wall(10)"
+  size 0.5 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.25 1.8
+    }
+  }
+}
+Door {
+  translation -7.218 0 -3.5749999999999957
+  name "door(1)"
+  size 1 3.652 0.2
+  jointAtLeft FALSE
+  doorAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.5 0.7000000000000001
+    }
+  }
+  frameAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+  doorHandle DoorLever {
+    jointAtLeft FALSE
+  }
+}
+Wall {
+  translation -9.518 0 -3.5749999999999957
+  name "wall(3)"
+  size 3.6 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.8 1.8
+    }
+  }
+}
+DEF WINDOW_DOOR_BLOCK Transform {
+  translation -5.218000000000013 0 -3.5749999608736442
+  rotation 0 1 0 3.141592644
+  children [
+    Door {
+      name "door(4)"
+      size 1 3 0.2
+      jointAtLeft FALSE
+      doorAppearance GlossyCarPaint {
+        baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+      }
+      wallAppearance DEF WALL_PLASTIC_APPEARANCE PBRAppearance {
+        baseColor 0.8133363851377127 0.7811245899137865 0.7536888685435263
+        roughnessMap ImageTexture {
+          url [
+            "textures/plastic_roughness.png"
+          ]
+        }
+        metalness 0
+        textureTransform TextureTransform {
+          scale 0.5 0.7000000000000001
+        }
+      }
+      frameAppearance BrushedAluminium {
+      }
+      doorHandle DoorLever {
+        jointAtLeft FALSE
+      }
+    }
+    Wall {
+      translation 0.75 0 0
+      name "wall(13)"
+      size 0.5 3 0.2
+      appearance USE WALL_PLASTIC_APPEARANCE
+    }
+    Window {
+      translation -1 0 0
+      name "window(2)"
+      size 1 3 0.2
+      bottomWallHeight 0.7000000000000001
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation -2 0 0
+      name "window(3)"
+      size 1 3 0.2
+      bottomWallHeight 0.7000000000000001
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation -3 0 0
+      name "window(4)"
+      size 1 3 0.2
+      bottomWallHeight 0.7000000000000001
+      windowHeight 1.6
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Window {
+      translation -4 0 0
+      name "window(5)"
+      size 1 3 0.2
+      bottomWallHeight 0.7000000000000001
+      windowHeight 1.5999999999999999
+      windowSillSize 0.1 0
+      wallAppearance USE WALL_PLASTIC_APPEARANCE
+      frameAppearance BrushedAluminium {
+      }
+    }
+    Wall {
+      translation -4.6 0 0
+      name "wall(14)"
+      size 0.2 3 0.2
+      appearance USE WALL_PLASTIC_APPEARANCE
+    }
+    Wall {
+      translation -1.85 3 0
+      name "wall(15)"
+      size 5.7 0.652 0.2
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 2.85 0.3
+        }
+      }
+    }
+    Transform {
+      translation -1.85 2.999999999999997 -0.09999999999999999
+      children [
+        Shape {
+          appearance DEF WALL_JOINT_APPEARANCE PBRAppearance {
+            baseColor 0.06334019989318684 0.004638742656595712 0.004638742656595712
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 5.7 0.02 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -1.85 2.405 -0.09999999999999999
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 5.7 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.505 1.5 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.4950000000000003 1.5000000047948978 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.9950000000000004 1.4999999976505 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -1.5 1.5000000095418458 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -2.5 1.5000000095418458 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -3.5 1.5000000095418458 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -4.5 1.5000000095418458 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -4.694999999999999 1.5000000095418458 -0.09999999999999999
+      rotation 0 0 1 1.5707963220000003
+      children [
+        Shape {
+          appearance USE WALL_JOINT_APPEARANCE
+          geometry Box {
+            size 3 0.01 0.02
+          }
+        }
+      ]
+    }
+  ]
+}
+Wall {
+  translation -10.829 0 3.575
+  name "wall(7)"
+  size 1 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.5 1.8
+    }
+  }
+}
+Wall {
+  translation -7.669 0 3.575
+  name "wall(4)"
+  size 2.12 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.06 1.8
+    }
+  }
+}
+Wall {
+  translation -5.099 0 3.4950000000000014
+  name "wall(16)"
+  size 3.0500000000000003 3.652 0.1
+  appearance PBRAppearance {
+    baseColor 0.37244220645456627 0.7199969481956207 0.295201037613489
+    baseColorMap ImageTexture {
+      url [
+        "textures/corrugated_metal_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/corrugated_metal_roughness.png"
+      ]
+    }
+    metalnessMap ImageTexture {
+      url [
+        "textures/corrugated_metal__metalness.png"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/corrugated_metal__normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/corrugated_metal_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.76 0.94
+    }
+  }
+}
+Wall {
+  translation -2.525 0 3.575
+  name "wall(12)"
+  size 2.12 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.06 1.8
+    }
+  }
+}
+Wall {
+  translation 10.235000000000001 0 3.575
+  name "wall(2)"
+  size 1.8 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.9 2.4
+    }
+  }
+}
+DEF DOUBLE_DOOR Solid {
+  translation 8.435 0 3.574999982930164
+  rotation 0 -1 0 3.1415926631795865
+  children [
+    Solid {
+      translation 0 3.38 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/plaster_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "textures/plaster_roughness.png"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "textures/plaster_normal.png"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "textures/plaster_occlusion.png"
+              ]
+            }
+            textureTransform TextureTransform {
+              scale 0.9 1.35
+            }
+          }
+          geometry Box {
+            size 1.8 2.76 0.2
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 1.8 2.76 0.2
+      }
+    }
+    Solid {
+      translation 0 1.975 0
+      children [
+        Shape {
+          appearance DEF DOUBLE_DOOR_APPEARANCE PBRAppearance {
+            baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+            baseColorMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.png"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.png"
+              ]
+            }
+            normalMapFactor 0.5
+            textureTransform TextureTransform {
+              scale 10 10
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.85 0.025 0.15
+                0.85 0.025 0.15
+                0.85 0.025 -0.15
+                -0.85 0.025 -0.15
+                -0.85 -0.025 -0.15
+                0.85 -0.025 -0.15
+                0.85 -0.025 0.15
+                -0.85 -0.025 0.15
+                -0.85 -0.025 0.15
+                0.85 -0.025 0.15
+                0.85 0.025 0.15
+                -0.85 0.025 0.15
+                0.85 -0.025 -0.15
+                -0.85 -0.025 -0.15
+                -0.85 0.025 -0.15
+                0.85 0.025 -0.15
+                -0.85 -0.025 -0.15
+                -0.85 -0.025 0.15
+                -0.85 0.025 0.15
+                -0.85 0.025 -0.15
+                0.85 -0.025 0.15
+                0.85 -0.025 -0.15
+                0.85 0.025 -0.15
+                0.85 0.025 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                1 0
+                1 0.17647058823529
+                0 0.17647058823529
+                0 0
+                1 0
+                1 0.17647058823529
+                0 0.17647058823529
+                0 0
+                1 0
+                1 0.029411764705882
+                0 0.029411764705882
+                0 0
+                1 0
+                1 0.029411764705882
+                0 0.029411764705882
+                0 0
+                0.17647058823529 0
+                0.17647058823529 0.029411764705882
+                0 0.029411764705882
+                0 0
+                0.17647058823529 0
+                0.17647058823529 0.029411764705882
+                0 0.029411764705882
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 1.7 0.05 0.3
+      }
+    }
+    Solid {
+      translation -0.875 1 0
+      children [
+        Shape {
+          appearance USE DOUBLE_DOOR_APPEARANCE
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.025 1 0.15
+                0.025 1 0.15
+                0.025 1 -0.15
+                -0.025 1 -0.15
+                -0.025 -1 -0.15
+                0.025 -1 -0.15
+                0.025 -1 0.15
+                -0.025 -1 0.15
+                -0.025 -1 0.15
+                0.025 -1 0.15
+                0.025 1 0.15
+                -0.025 1 0.15
+                0.025 -1 -0.15
+                -0.025 -1 -0.15
+                -0.025 1 -0.15
+                0.025 1 -0.15
+                -0.025 -1 -0.15
+                -0.025 -1 0.15
+                -0.025 1 0.15
+                -0.025 1 -0.15
+                0.025 -1 0.15
+                0.025 -1 -0.15
+                0.025 1 -0.15
+                0.025 1 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.05 2 0.3
+      }
+    }
+    Solid {
+      translation 0.875 1 0
+      children [
+        Shape {
+          appearance USE DOUBLE_DOOR_APPEARANCE
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.025 1 0.15
+                0.025 1 0.15
+                0.025 1 -0.15
+                -0.025 1 -0.15
+                -0.025 -1 -0.15
+                0.025 -1 -0.15
+                0.025 -1 0.15
+                -0.025 -1 0.15
+                -0.025 -1 0.15
+                0.025 -1 0.15
+                0.025 1 0.15
+                -0.025 1 0.15
+                0.025 -1 -0.15
+                -0.025 -1 -0.15
+                -0.025 1 -0.15
+                0.025 1 -0.15
+                -0.025 -1 -0.15
+                -0.025 -1 0.15
+                -0.025 1 0.15
+                -0.025 1 -0.15
+                0.025 -1 0.15
+                0.025 -1 -0.15
+                0.025 1 -0.15
+                0.025 1 0.15
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 0.15
+                0 0.15
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+                0 0
+                0.15 0
+                0.15 1
+                0 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.05 2 0.3
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.875 0 0.15
+        minStop -0.01
+        maxStop 1.57
+        dampingConstant 10
+      }
+      endPoint Solid {
+        translation 0 0 0.001
+        children [
+          DEF BOX Transform {
+            translation 0.42999999999709954 1 0.1750015794781947
+            rotation 0 1 0 -1.5708
+            children [
+              Shape {
+                appearance USE DOUBLE_DOOR_APPEARANCE
+                geometry Box {
+                  size 0.05 1.97 0.875
+                }
+              }
+            ]
+          }
+          Solid {
+            translation 0.09000000000000015 1 0.175
+            children [
+              DEF HANDLE_SUPPORT Transform {
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.075
+                      radius 0.0375
+                    }
+                  }
+                ]
+              }
+              DEF HANDLE_AXIS Transform {
+                rotation 1 0 0 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.18
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+              DEF BACK_HANDLE Transform {
+                translation 0.06 0 -0.09
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.12
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+              DEF FRONT_HANDLE Transform {
+                translation 0.06 0 0.09
+                rotation 0 0 1 1.57
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      baseColorMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                        ]
+                      }
+                      roughnessMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                        ]
+                      }
+                      normalMap ImageTexture {
+                        url [
+                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                        ]
+                      }
+                    }
+                    geometry Capsule {
+                      height 0.12
+                      radius 0.0125
+                    }
+                  }
+                ]
+              }
+            ]
+            name "door lever(1)"
+            model "door lever"
+            boundingObject Group {
+              children [
+                USE HANDLE_SUPPORT
+                USE HANDLE_AXIS
+                USE BACK_HANDLE
+                USE FRONT_HANDLE
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.7
+            }
+          }
+        ]
+        boundingObject USE BOX
+        physics Physics {
+          density 200
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 -1 0
+        anchor -0.875 0 0.15
+        minStop -0.01
+        maxStop 1.57
+        dampingConstant 10
+      }
+      endPoint Solid {
+        translation -0.8800000000000003 0 0.001
+        children [
+          DEF BOX Transform {
+            translation 0.42999999999709954 1 0.1750015794781947
+            rotation 0 1 0 -1.5708
+            children [
+              Shape {
+                appearance USE DOUBLE_DOOR_APPEARANCE
+                geometry Box {
+                  size 0.05 1.97 0.875
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.09000000000000015 1 0.175
+            children [
+              Solid {
+                translation 0.6900000000000004 -6.616957226714284e-09 0
+                rotation 0 0 1 3.141592644
+                children [
+                  DEF HANDLE_SUPPORT Transform {
+                    rotation 1 0 0 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Cylinder {
+                          height 0.075
+                          radius 0.0375
+                        }
+                      }
+                    ]
+                  }
+                  DEF HANDLE_AXIS Transform {
+                    rotation 1 0 0 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.18
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                  DEF BACK_HANDLE Transform {
+                    translation 0.06 0 -0.09
+                    rotation 0 0 1 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.12
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                  DEF FRONT_HANDLE Transform {
+                    translation 0.06 0 0.09
+                    rotation 0 0 1 1.57
+                    children [
+                      Shape {
+                        appearance PBRAppearance {
+                          baseColorMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
+                            ]
+                          }
+                          roughnessMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
+                            ]
+                          }
+                          normalMap ImageTexture {
+                            url [
+                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
+                            ]
+                          }
+                        }
+                        geometry Capsule {
+                          height 0.12
+                          radius 0.0125
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "door lever(1)"
+                model "door lever"
+                boundingObject Group {
+                  children [
+                    USE HANDLE_SUPPORT
+                    USE HANDLE_AXIS
+                    USE BACK_HANDLE
+                    USE FRONT_HANDLE
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 0.7
+                }
+              }
+            ]
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE BOX
+        physics Physics {
+          density 200
+        }
+      }
+    }
+  ]
+  name "door(5)"
+  model "door"
+}
+Wall {
+  translation 11.2255 0 1.9000000000000001
+  rotation 0 1 0 1.5707963219999999
+  name "wall(1)"
+  size 3.6 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.8 2.4
+    }
+  }
+}
+Wall {
+  translation 11.225500025940361 0 -3.4852999999999996
+  rotation 0 1 0 1.5707963219999999
+  name "wall(17)"
+  size 0.37 4.76 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.17 2.4
+    }
+  }
+}
+DEF WINDOWS Transform {
+  translation 11.225470304854307 0 -0.32533977579324536
+  rotation 0 1 0 1.5707963219999999
+  children [
+    Window {
+      name "window(7)"
+      size 0.85 4.76 0.2
+      bottomWallHeight 1.2
+      windowHeight 1.0999999999999999
+      windowSillSize 0.1 0
+      wallAppearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.42 1.4
+        }
+      }
+      frameAppearance GlossyCarPaint {
+        baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+      }
+    }
+    Window {
+      translation 0.8500000000000004 0 0
+      name "window(6)"
+      size 0.85 4.76 0.2
+      bottomWallHeight 1.2
+      windowHeight 1.0999999999999999
+      windowSillSize 0.1 0
+      wallAppearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.42 1.4
+        }
+      }
+      frameAppearance GlossyCarPaint {
+        baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+      }
+    }
+    Window {
+      translation 1.700000000000001 0 0
+      name "window(8)"
+      size 0.85 4.76 0.2
+      bottomWallHeight 1.2
+      windowHeight 1.0999999999999999
+      windowSillSize 0.1 0
+      wallAppearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.42 1.4
+        }
+      }
+      frameAppearance GlossyCarPaint {
+        baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+      }
+    }
+    Window {
+      translation 2.5500000000000083 0 0
+      name "window(9)"
+      size 0.85 4.76 0.2
+      bottomWallHeight 1.2
+      windowHeight 1.0999999999999999
+      windowSillSize 0.1 0
+      wallAppearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.42 1.4
+        }
+      }
+      frameAppearance GlossyCarPaint {
+        baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+      }
+    }
+  ]
+}
+DEF BLACK_TILES Transform {
+  translation 11.129999999999997 3.35 6.233365792084495e-10
+  rotation 0 1 0 1.5707963219999999
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/black_tiles_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/black_tiles_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/black_tiles_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/black_tiles_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 12.6 2
+        }
+      }
+      geometry Box {
+        size 6.3 1 0.1
+      }
+    }
+  ]
+}
+Door {
+  translation -11.23 -4.1167069753100805e-13 -2.4249
+  rotation 0 -1 0 1.570796360359173
+  name "door(2)"
+  size 1 3.652 0.2
+  jointAtLeft FALSE
+  doorAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+  wallAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.5 0.7000000000000001
+    }
+  }
+  frameAppearance GlossyCarPaint {
+    baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
+  }
+  doorHandle DoorLever {
+    jointAtLeft FALSE
+  }
+}
+Wall {
+  translation -11.23 -4.1167069753100805e-13 0.7751
+  rotation 0 -1 0 1.570796360359173
+  name "wall(5)"
+  size 5.3999999999999995 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 2.7 1.8
+    }
+  }
+}
+Wall {
+  translation 0.03162123853721087 -4.1522341120980855e-13 -5.165844975962777
+  rotation 0 -1 0 1.570796360359173
+  name "wall(19)"
+  size 3 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.5 1.8
+    }
+  }
+}
+Wall {
+  translation -6.368378761462796 -4.1522341120980855e-13 -5.165845190774155
+  rotation 0 -1 0 1.570796360359173
+  name "wall(18)"
+  size 3 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 1.5 1.8
+    }
+  }
+}
+Wall {
+  translation -3.178378694334249 -4.1522341120980855e-13 -6.565845037816945
+  rotation 0 1 0 3.1415926056408265
+  name "wall(20)"
+  size 6.3 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 3.15 1.8
+    }
+  }
+}
+Wall {
+  translation -11.23 -4.1167069753100805e-13 -3.1997999999999998
+  rotation 0 -1 0 1.570796360359173
+  name "wall(6)"
+  size 0.55 3.652 0.2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/plaster_base_color.png"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/plaster_roughness.png"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/plaster_normal.png"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/plaster_occlusion.png"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.25 1.8
+    }
+  }
+}
+DEF POLE Solid {
+  translation 0.38188284383056703 2.38 0.28845316228928497
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.6 3
+        }
+      }
+      geometry Box {
+        size 0.5 4.76 0.19999999999999998
+      }
+    }
+  ]
+  name "pole"
+  boundingObject USE SHAPE
+}
+WoodenPallet {
+  translation 2.6595075019443777 0.582787403220995 1.1695526622031776
+  rotation -0.5199879428876736 0.6776614835460036 -0.5199879354078081 4.3327442878028455
+}
+WoodenPallet {
+  translation 2.5068540575063474 0.5926324888644641 0.9495526617716366
+  rotation -0.5199879428876736 0.6776614835460036 -0.5199879354078081 4.3327442878028455
+  name "wooden pallet(1)"
+}
+WoodenPallet {
+  translation 2.185728275909678 0.5284855028465798 0.9495526596847821
+  rotation 0.4472135915400251 -0.7745966790665659 0.44721358244234816 1.823476581027718
+  name "wooden pallet(2)"
+}
+WoodenPallet {
+  translation 1.897164207280758 0.34867788816821044 0.949552651796697
+  rotation -0.49999999031082765 0.8660254093784849 8.681928509446381e-09 3.141592630960774
+  name "wooden pallet(3)"
+}
+DEF POLE Solid {
+  translation 11.071882843830542 2.38 0.25845316228928494
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.6 3
+        }
+      }
+      geometry Box {
+        size 0.4 4.76 0.25
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE SHAPE
+}
+DEF GIRDER Solid {
+  translation 5.882 4.3269 0.28845316228928497
+  rotation 0 0 1 1.5707963220000003
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.9 13
+        }
+      }
+      geometry Box {
+        size 0.866 10.5 0.19999999999999998
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE SHAPE
+}
+DEF GIRDER Solid {
+  translation 9.952000003835915 4.3268999804847725 0.01845322083497408
+  rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.9 13
+        }
+      }
+      geometry Box {
+        size 0.866 7.1000000000000005 0.15
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject USE SHAPE
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.9068999528661683 -2.8615467819460614
+  rotation 1 0 0 3.141592644
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.9068999528661683 -2.8615467819460614
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(6)"
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.9068999638944333 -1.7115467819460657
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(8)"
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.9068999749226982 -0.5615467819460647
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(9)"
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.906899985950963 0.5884532180539357
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(10)"
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.906899996979228 1.7384532180539367
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(11)"
+}
+DoubleFluorescentLamp {
+  translation 8.05200000383592 3.906900007911595 2.8784532180539317
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(12)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.9068999528661683 -2.8615467819460614
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(7)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.906899963894433 -1.7115467819460641
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(13)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.906899974922698 -0.5615467819460631
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(14)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.9068999860468607 0.598453218053937
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(15)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.9068999970751257 1.748453218053938
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(16)"
+}
+DoubleFluorescentLamp {
+  translation 6.152000003835928 3.9069000081033907 2.898453218053935
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(17)"
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.9068999638944333 -1.711546781946063
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(1)"
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.906899974922698 -0.5615467819460622
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(2)"
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.906899985855065 0.5784532180539381
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(3)"
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.9068999969792224 1.738453218053941
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(4)"
+}
+DoubleFluorescentLamp {
+  translation 9.952000003835915 3.9069000079115894 2.8784532180539304
+  rotation 1 0 0 3.141592644
+  name "double fuorescent lamp(5)"
+}
+DEF GIRDER Solid {
+  translation 8.052000003835929 4.326899989595068 0.018453193504062687
+  rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.9 13
+        }
+      }
+      geometry Box {
+        size 0.866 7.1000000000000005 0.15
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject USE SHAPE
+}
+DEF GIRDER Solid {
+  translation 6.152000003835939 4.326899998705368 0.018453166173151278
+  rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
+  children [
+    DEF SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/plaster_base_color.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/plaster_roughness.png"
+          ]
+        }
+        metalness 0
+        normalMap ImageTexture {
+          url [
+            "textures/plaster_normal.png"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/plaster_occlusion.png"
+          ]
+        }
+        textureTransform TextureTransform {
+          scale 0.9 13
+        }
+      }
+      geometry Box {
+        size 0.866 7.1000000000000005 0.15
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject USE SHAPE
+}
+WoodenBox {
+  translation -0.39646550044301554 0.30000000000001553 -3.994357743583512
+}
+WoodenChair {
+  translation -3.208797450519712 1.0658141036401503e-14 -4.981278647836605
+  rotation 0 -0.9999999999999999 0 5.16191365590357e-08
+}
+WoodenChair {
+  translation -2.064613278539627 1.0658141036401503e-14 -4.600086126861827
+  rotation 0 -1 0 5.235987778359173
+  name "wooden chair(2)"
+}
+WoodenChair {
+  translation -1.252108715194556 2.4868995751603507e-14 -4.505250725518746
+  rotation 0 1 0 4.974188353
+  name "wooden chair(1)"
+}
