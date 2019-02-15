@@ -199,8 +199,8 @@ void WbRenderingDeviceWindow::initialize() {
 void WbRenderingDeviceWindow::render() {
   QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
-  const qreal retinaScale = devicePixelRatio();
-  f->glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+  const int ratio = (int)devicePixelRatio();
+  f->glViewport(0, 0, width() * ratio, height() * ratio);
 
   f->glClear(GL_COLOR_BUFFER_BIT);
 

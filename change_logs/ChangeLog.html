@@ -32,12 +32,32 @@ Released on xx xxth, 2019
 </ul>
 
 <h2>Webots R2019a revision 1</h2>
-Released on XXX XXth, 2019
+Released on February 14th, 2019
 
 <ul>
+<li><b>Dependency Updates</b></li>
+<ul>
+<li>Windows: upgraded to Qt 5.12.1.</li>
+</ul>
 <li><b>Enhancements</b></li>
 <ul>
 <li>Added a StripBuilding PROTO.</li>
+<li>Improved the SUMO exporter to support more cases.</li>
+<li>Improved rendering speed on Retina displays.</li>
+<li>Added a controller emulating the e-puck2 Wi-Fi protocol and a simple LabVIEW VI communicating with it.</li>
+<li>Added a safe mode.</li>
+</ul>
+<li><b>Bug fixes</b></li>
+<ul>
+<li>Fixed possible communication hangs with a Wi-Fi remote controlled e-puck2 robot.</li>
+<li>Fixed the LEDs of the e-puck robot which were turned on wrongly when the 'led0' LED was turned on.</li>
+<li>Windows: fixed flush of stdout and stderr for robot controllers.</li>
+<li>Fixed crash with the Python API when getting a Camera, Lidar or RangeFinder image at first step (thanks to Farinaz).</li>
+<li>Fixed crash when exporting some worlds to VRML97.</li>
+<li>Fixed crash at startup when using a low-end GPU.</li>
+<li>Fixed OpenStreetMap importer not working when launched from another directory because of missing configuration file.</li>
+<li>Fixed TextureTransform field changes applied only at revert.</li>
+<li>Fixed crash while recording a movie with some low-end GPU.</li>
 </ul>
 </ul>
 

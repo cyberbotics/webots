@@ -132,7 +132,7 @@ const QString &WbStandardPaths::resourcesWebPath() {
 }
 
 const QString &WbStandardPaths::cyberboticsUrl() {
-  static QString url("https://www.cyberbotics.com");
+  static QString url("https://cyberbotics.com");
   return url;
 };
 

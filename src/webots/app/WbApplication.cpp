@@ -28,6 +28,7 @@
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSysInfo.hpp"
+#include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
 #include "WbWorld.hpp"
 
@@ -260,6 +261,19 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   worldName = QDir::cleanPath(worldName);
 
+  QString fileName;
+  if (WbPreferences::instance()->value("General/telemetry").toBool()) {
+    QFileInfo fi(worldName);
+    fileName = fi.fileName();
+    const QDir dir = fi.absoluteDir();
+    const QString &WEBOTS_HOME = WbStandardPaths::webotsHomePath();
+    const QString truncatedFilePath = dir.canonicalPath().mid(0, WEBOTS_HOME.length());
+    if (truncatedFilePath.compare(WEBOTS_HOME, Qt::CaseInsensitive) == 0)
+      WbTelemetry::send(fileName);  // log attempt to open world file
+    else
+      fileName = "";
+  }
+
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
@@ -318,6 +332,9 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
+
+  if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty())
+    WbTelemetry::send();  // confirm the file previously sent was opened successfully
 
   return true;
 }

@@ -63,7 +63,7 @@ namespace {
 
     return true;  // it turns right or the three points are aligned
   }
-};
+};  // namespace
 
 bool WbMathsUtilities::isPowerOf2(unsigned int n) {
   return (n != 0) && ((n & (n - 1)) == 0);

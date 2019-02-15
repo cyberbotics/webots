@@ -1374,12 +1374,12 @@ PROTO IprHd6ms90 [
                                               0 249 0, 0.015 220 0.005
                                               0.03 50 0.03, 0.2 33 0.1
                                             ]
-                                            type "ds8"
+                                            type "infra-red"
                                           }
                                           DistanceSensor {
                                             translation -0.0988 0 0
                                             rotation 0 0 1 -3.1415
-                                            name "ds9"
+                                            name "ds8"
                                             lookupTable [
                                               0 249 0, 0.015 220 0.005
                                               0.03 50 0.03, 0.2 33 0.1

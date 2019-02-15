@@ -1,0 +1,57 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "The model of the e-puck 2 robot"
+  ]
+  title "e-puck simulation"
+}
+Viewpoint {
+  orientation 0.04913069345659068 0.9922428678493876 0.11419398479121845 3.8679
+  position -0.189716 0.0926762 -0.198126
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+WoodenBox {
+  translation -0.2 0.05 0.683174
+  rotation 0 1 0 0.5
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.75 0.05 -0.35
+  rotation 0 1 0 4.96782
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.5 0.05 0.35471
+  rotation 0 1 0 5.36782
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.3 0.05 -0.36
+  rotation 0 1 0 5.36782
+  name "wooden box(3)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.65 0.05 0.66
+  rotation 0 1 0 5.36782
+  name "wooden box(4)"
+  size 0.1 0.1 0.1
+}
+E-puck {
+  rotation 0 1 0 1.57
+  controller "e-puck2_server"
+  controllerArgs "1000"
+  version "2"
+  name "e-puck2"
+  camera_width 160
+  camera_height 120
+}

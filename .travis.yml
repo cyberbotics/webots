@@ -12,7 +12,7 @@ install:
 addons:
   apt:
     packages:
-      - clang-format
+      - clang-format-5.0
 script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests

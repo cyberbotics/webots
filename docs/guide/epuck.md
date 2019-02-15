@@ -78,16 +78,17 @@ The names of the simulated devices which are to be used as an argument of the `w
 
 %figure "Devices names"
 
-| Device                     | Name                                                     				|
+| Device                     | Name                                                             |
 | -------------------------- | ---------------------------------------------------------------- |
-| Motors                     | 'left wheel motor' and 'right wheel motor'               				|
-| Position sensors           | 'left wheel sensor' and 'right wheel sensor'             				|
-| Proximity sensors          | 'ps0' to 'ps7'                                              			|
-| Light sensors              | 'ls0' to 'ls7'                                               		|
+| Motors                     | 'left wheel motor' and 'right wheel motor'                       |
+| Position sensors           | 'left wheel sensor' and 'right wheel sensor'                     |
+| Proximity sensors          | 'ps0' to 'ps7'                                                   |
+| Light sensors              | 'ls0' to 'ls7'                                                   |
 | LEDs                       | 'led0' to 'led7' (e-puck ring), 'led8' (body) and 'led9' (front) |
-| Camera                     | 'camera'                                                   			|
-| Accelerometer              | 'accelerometer'                                            			|
-| Ground sensors (extension) | 'gs0', 'gs1' and 'gs2'                                         	|
+| Camera                     | 'camera'                                                         |
+| Accelerometer              | 'accelerometer'                                                  |
+| Ground sensors (extension) | 'gs0', 'gs1' and 'gs2'                                           |
+| Speaker                    | 'speaker'                                                        |
 
 %end
 
@@ -110,9 +111,11 @@ The `wb_motor_set_velocity` and `wb_position_sensor_get_value` functions allow y
 %end
 
 The forward direction of the e-puck is given by the negative *z*-axis of the world coordinates.
-This is also the direction in which the camera eye is looking; the direction vector of the camera is pointing in the opposite direction, namely the direction of the positive *z*-axis.
+This is also the direction in which the camera eye is looking.
+The direction vector of the camera is pointing in the opposite direction, namely the direction of the positive *z*-axis.
 The axle's direction is given by the positive *x*-axis.
-Proximity sensors, light sensors and [LEDs](../reference/led.md) are numbered clockwise; their location and orientation are shown in [this figure](#sensors-leds-and-camera).
+Proximity sensors, light sensors and [LEDs](../reference/led.md) are numbered clockwise.
+Their location and orientation are shown in [this figure](#sensors-leds-and-camera).
 The last column of the latter lists the angles between the negative *x*-axis and the direction of the devices, the plane *zOx* being oriented counter-clockwise.
 Note that the proximity sensors and the light sensors are actually the same devices of the real robot used in a different mode, so their direction coincides.
 Proximity sensor responses are simulated in accordance to the lookup table in [this figure](#proximity-sensor-response-against-distance); this table is the outcome of calibrations performed on the real robot.
@@ -154,6 +157,7 @@ When set to "2", the e-puck model switches to the e-puck2, with the following di
 - The overall mass differs: 130 [grams] instead of 150 [grams].
 - The max speed differs: 1200 [steps / second] instead of 1000 [steps / second].
 - The e-puck2 robot windows offers Wi-Fi remote control instead of Bluetooth.
+- The LEDs of the e-puck2 are slightly different from the ones of the e-puck (some are RGB LEDs).
 
 > **Note**: Controller cross-compilation is currently not available for the e-puck2 robot. However, remote-controlling a real e-puck2 robot with Bluetooth is possible by using an e-puck 1 model in Webots (e.g., setting the `version` field of the `E-puck` PROTO to "1").
 
@@ -386,6 +390,14 @@ This is done using the distance sensors of the e-puck.
 #### e-puck2.wbt
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is the same simulation as the above one, except that it uses an "e-puck2" model.
+
+#### e-puck2\_server.wbt
+
+![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.png) This is a simulation of an e-puck2 robot running a controller that implements a TCP/IP server emulating the e-puck2 Wi-Fi protocol.
+The e-puck2 Wi-Fi protocol is available on the real e-puck2 when running the Wi-Fi enabled firmware.
+As a consequence, it is possible to connect the Wi-Fi version of the GCTronic `EPuckMonitor` program to this controller (running on port 1000).
+This allows users to test the behavior of the simulated e-puck2 robot with the TCP/IP Advance Sercom protocol commands.
+The controller folder also contains an `e-puck2.vi` LabVIEW Virtual Instrument that controls the motors of the real or simulated e-puck2 using the Advanced Sercom protocol.
 
 #### e-puck\_line.wbt
 
