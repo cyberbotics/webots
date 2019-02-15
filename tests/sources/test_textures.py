@@ -26,7 +26,7 @@ duplicatedTextures = [
     'l3.png',
     'l4.png',
     'soccer_quarter.jpg',
-    'irobot_create.jpg'
+    'pingpong_logo.jpg'
 ]
 
 duplicatedTexurePaths = [
