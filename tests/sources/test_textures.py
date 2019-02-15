@@ -30,6 +30,7 @@ duplicatedTextures = [
     'conveyor_belt.png',
     'street_light_base_color.png',
     'light_support_roughness.jpg',
+    'small_residential_tower_ground_floor_occlusion.jpg',
     'car_leather_occlusion.jpg',  # TODO: remove
     'car_leather_roughness.jpg',
     'car_leather_normal.jpg',
@@ -41,7 +42,12 @@ duplicatedTextures = [
     'picket_fence_roughness.jpg',
     'street_light_normal.png',
     'small_residential_tower_balcony_base_color.jpg',
-    'gas_station_store_cover_metalness.jpg'
+    'gas_station_store_cover_metalness.jpg',
+    'small_residential_tower_ground_floor_windows_base_color.jpg',
+    'residential_building_with_round_front_windows_dark_braun_base_color.jpg',
+    'residential_building_with_round_front_frames_dark_braun_base_color.jpg',
+    'residential_building_with_round_front_stair_dark_braun_metalness.jpg',
+    'residential_building_with_round_front_stair_dark_braun_occlusion.jpg'
 ]
 
 duplicatedTexurePaths = [
@@ -109,7 +115,10 @@ class TestTextures(unittest.TestCase):
 
     def test_textures_uniqueness(self):
         """Test that the released textures are unique."""
+        i = 0
         for texture in self.textures:
+            i += 1
+            print((i, len(self.textures)))
             if any(path in texture for path in duplicatedTexurePaths):
                 continue
             if os.path.basename(texture) in duplicatedTextures:
