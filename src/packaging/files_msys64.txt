@@ -102,7 +102,7 @@
 /mingw64/bin/libmfx-1.dll
 /mingw64/bin/libmodplug-1.dll
 /mingw64/bin/librtmp-1.dll
-/ming64/bin/libsrt.dll
+/mingw64/bin/libsrt.dll
 /mingw64/bin/xvidcore.dll
 
 # needed to execute the ros.exe controller
