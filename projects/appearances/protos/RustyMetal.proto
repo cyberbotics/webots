@@ -40,6 +40,13 @@ PROTO RustyMetal [
         %{= "\"textures/rusty_metal/rusty_metal_normal." .. extension }%
       ]
     }
+    %{ if fields.rustLevel.value == 2 then }%
+    occlusionMap ImageTexture {
+      url [
+        %{= "\"textures/rusty_metal/rusty_metal_normal." .. extension }%
+      ]
+    }
+    %{ end }%
     normalMapFactor 1
     environmentMap IS environmentMap
     IBLStrength IS IBLStrength
