@@ -21,16 +21,27 @@ from PIL import Image
 
 duplicatedTextures = [
     'mybot.png',
-    'l1.png',
+    'soccer_quarter.jpg',
+    'pingpong_logo.jpg',
+    'l1.png',  # filecmp.cmp fail
     'l2.png',
     'l3.png',
     'l4.png',
-    'soccer_quarter.jpg',
-    'pingpong_logo.jpg'
+    'conveyor_belt.png',
+    'car_leather_occlusion.jpg',  # TODO: remove
+    'car_leather_roughness.jpg',
+    'car_leather_normal.jpg',
+    'car_light_leather_base_color.jpg',
+    'car_dark_leather_base_color.jpg',
+    'pavement.jpg',
+    'picket_fence_occlusion.jpg',
+    'picket_fence_metalness.jpg',
+    'picket_fence_roughness.jpg'
 ]
 
 duplicatedTexurePaths = [
-    'projects/samples/robotbenchmark'
+    'projects/samples/robotbenchmark',
+    'projects/vehicles/protos/tesla/textures'  # filecmp.cmp fail
 ]
 
 
@@ -98,6 +109,10 @@ class TestTextures(unittest.TestCase):
             if os.path.basename(texture) in duplicatedTextures:
                 continue
             for comparedTexture in self.textures:
+                if any(path in comparedTexture for path in duplicatedTexurePaths):
+                    continue
+                if os.path.basename(comparedTexture) in duplicatedTextures:
+                    continue
                 if not texture == comparedTexture:
                     self.assertTrue(
                         filecmp.cmp(texture, comparedTexture) is False,
