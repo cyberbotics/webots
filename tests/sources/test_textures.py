@@ -24,6 +24,7 @@ duplicatedTextures = [
     'mybot.png',
     'soccer_quarter.jpg',
     'pingpong_logo.jpg',
+    'conveyor_belt.png',
     # these textures are duplicated but very small and removing them would complexify the PROTO a lot.
     'small_residential_tower_balcony_base_color.jpg',
     'small_residential_tower_ground_floor_windows_base_color.jpg',
@@ -48,8 +49,6 @@ duplicatedTextures = [
     'car_dark_leather_base_color.jpg',
     # TODO: remove
     'floor.png',
-    'conveyor_belt.png',
-    'matte_car_paint_base_color.png',
     'line.png'
 ]
 
