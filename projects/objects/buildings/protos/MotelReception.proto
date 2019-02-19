@@ -22,24 +22,11 @@ PROTO MotelReception [
     children [
       Shape {
         appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "textures/motel_receptio_neon_metalness.jpg"
-            ]
-          }
+          baseColor 0.324 0.05 0.046
+          roughness 0.12
           occlusionMap ImageTexture {
             url [
-              "textures/motel_receptio_neon_occlusion.jpg"
+              "textures/motel_reception_neon_occlusion.jpg"
             ]
           }
         }
