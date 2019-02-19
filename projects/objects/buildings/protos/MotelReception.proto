@@ -24,6 +24,7 @@ PROTO MotelReception [
         appearance PBRAppearance {
           baseColor 0.324 0.05 0.046
           roughness 0.12
+          metalness 0
           occlusionMap ImageTexture {
             url [
               "textures/motel_reception_neon_occlusion.jpg"
