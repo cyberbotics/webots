@@ -16116,28 +16116,8 @@ PROTO BmwX5RearInterior [
       }
       %{ end }%
       DEF CENTER Shape {
-        appearance DEF LIGHT_LEATHER PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/bmw_light_leather_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/bmw_leather_roughness.jpg"
-            ]
-          }
-          metalness 0
-          normalMap ImageTexture {
-            url [
-              "textures/bmw_leather_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/bmw_leather_occlusion.jpg"
-            ]
-          }
+        appearance DEF LIGHT_LEATHER CarLeather {
+          tone "light"
           textureTransform TextureTransform {
             scale 4 4
           }
