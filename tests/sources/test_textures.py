@@ -27,15 +27,24 @@ duplicatedTextures = [
     'l2.png',
     'l3.png',
     'l4.png',
+    'landmark1.png',
+    'landmark2.png',
+    'landmark3.png',
+    'landmark4.png',
     'conveyor_belt.png',
     'street_light_base_color.png',
     'light_support_roughness.jpg',
     'small_residential_tower_ground_floor_occlusion.jpg',
+    'matte_car_paint_base_color.png',
+    'dawn_cloudy_empty_bottom.jpg',
+    'noon_stormy_empty_bottom.jpg',
+    'dawn_cloudy_empty_bottom.jpg',
     'car_leather_occlusion.jpg',  # TODO: remove
     'car_leather_roughness.jpg',
     'car_leather_normal.jpg',
     'car_light_leather_base_color.jpg',
     'car_dark_leather_base_color.jpg',
+    'bmw_leather_occlusion.jpg',
     'pavement.jpg',
     'picket_fence_occlusion.jpg',
     'picket_fence_metalness.jpg',
@@ -47,7 +56,24 @@ duplicatedTextures = [
     'residential_building_with_round_front_windows_dark_braun_base_color.jpg',
     'residential_building_with_round_front_frames_dark_braun_base_color.jpg',
     'residential_building_with_round_front_stair_dark_braun_metalness.jpg',
-    'residential_building_with_round_front_stair_dark_braun_occlusion.jpg'
+    'residential_building_with_round_front_stair_dark_braun_occlusion.jpg',
+    'old_residential_building_roof_braun_black_base_color.jpg',
+    'residential_building_with_round_front_stair_dark_braun_roughness.jpg',
+    'residential_building_with_round_front_stair_green_base_color.jpg',
+    'small_residential_building_windows_medium_grey_base_color.jpg',
+    'residential_building_with_round_front_windows_dark_braun_normal.jpg',
+    'small_residential_building_windows_light_grey_normal.jpg',
+    'residential_building_with_round_front_frames_dark_braun_normal.jpg',
+    'residential_building_with_round_front_windows_dark_grey_normal.jpg',
+    'small_residential_building_windows_braun_normal.jpg',
+    'small_residential_building_wall_light_grey_base_color.jpg',
+    'small_residential_building_stair_medium_grey_normal.jpg',
+    'small_residential_building_windows_medium_grey_normal.jpg',
+    'small_residential_building_wall_light_grey_occlusion.jpg',
+    'glossy_car_paint_normal.png',
+    'light_sensor_metalness.png',
+    'floor.png',
+    'line.png'
 ]
 
 duplicatedTexurePaths = [
@@ -116,23 +142,24 @@ class TestTextures(unittest.TestCase):
     def test_textures_uniqueness(self):
         """Test that the released textures are unique."""
         i = 0
+        toCompare = list(self.textures)  # copy
         for texture in self.textures:
+            toCompare.remove(texture)
             i += 1
             print((i, len(self.textures)))
             if any(path in texture for path in duplicatedTexurePaths):
                 continue
             if os.path.basename(texture) in duplicatedTextures:
                 continue
-            for comparedTexture in self.textures:
+            for comparedTexture in toCompare:
                 if any(path in comparedTexture for path in duplicatedTexurePaths):
                     continue
                 if os.path.basename(comparedTexture) in duplicatedTextures:
                     continue
-                if not texture == comparedTexture:
-                    self.assertTrue(
-                        filecmp.cmp(texture, comparedTexture) is False,
-                        msg='texture "%s" and "%s" are equal' % (texture, comparedTexture)
-                    )
+                self.assertTrue(
+                    filecmp.cmp(texture, comparedTexture) is False,
+                    msg='texture "%s" and "%s" are equal' % (texture, comparedTexture)
+                )
 
 
 if __name__ == '__main__':
