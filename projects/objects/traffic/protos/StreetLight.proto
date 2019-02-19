@@ -39,11 +39,6 @@ Solid {
             }
             roughness 0.35
             metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/street_light_normal.png"
-              ]
-            }
             normalMapFactor 5
             textureTransform TextureTransform {
               scale 8 8
