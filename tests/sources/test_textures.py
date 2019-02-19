@@ -23,34 +23,8 @@ duplicatedTextures = [
     'mybot.png',
     'soccer_quarter.jpg',
     'pingpong_logo.jpg',
-    'l1.png',  # filecmp.cmp fail
-    'l2.png',
-    'l3.png',
-    'l4.png',
-    'landmark1.png',
-    'landmark2.png',
-    'landmark3.png',
-    'landmark4.png',
-    'conveyor_belt.png',
-    'street_light_base_color.png',
-    'light_support_roughness.jpg',
-    'small_residential_tower_ground_floor_occlusion.jpg',
-    'matte_car_paint_base_color.png',
-    'dawn_cloudy_empty_bottom.jpg',
-    'noon_stormy_empty_bottom.jpg',
-    'dawn_cloudy_empty_bottom.jpg',
-    'car_leather_occlusion.jpg',  # TODO: remove
-    'car_leather_roughness.jpg',
-    'car_leather_normal.jpg',
-    'car_light_leather_base_color.jpg',
-    'car_dark_leather_base_color.jpg',
-    'bmw_leather_occlusion.jpg',
-    'pavement.jpg',
-    'picket_fence_occlusion.jpg',
-    'picket_fence_metalness.jpg',
-    'picket_fence_roughness.jpg',
+    # these textures are duplicated but very small and removing them would complexify the PROTO a lot.
     'small_residential_tower_balcony_base_color.jpg',
-    'gas_station_store_cover_metalness.jpg',
     'small_residential_tower_ground_floor_windows_base_color.jpg',
     'residential_building_with_round_front_windows_dark_braun_base_color.jpg',
     'residential_building_with_round_front_frames_dark_braun_base_color.jpg',
@@ -62,14 +36,38 @@ duplicatedTextures = [
     'small_residential_building_windows_medium_grey_base_color.jpg',
     'small_residential_building_wall_light_grey_base_color.jpg',
     'small_residential_building_wall_light_grey_occlusion.jpg',
+    # filecmp.cmp fail
+    'l1.png',
+    'l2.png',
+    'l3.png',
+    'l4.png',
+    'landmark1.png',
+    'landmark2.png',
+    'landmark3.png',
+    'landmark4.png',
+    'conveyor_belt.png',
+    'light_support_roughness.jpg',
+    'small_residential_tower_ground_floor_occlusion.jpg',
+    'matte_car_paint_base_color.png',
+    'dawn_cloudy_empty_bottom.jpg',
+    'noon_stormy_empty_bottom.jpg',
+    'dawn_cloudy_empty_bottom.jpg',
+    # to fix on develop
+    'pavement.jpg',
+    # TODO: remove
+    'car_leather_occlusion.jpg',
+    'car_leather_roughness.jpg',
+    'car_leather_normal.jpg',
+    'car_light_leather_base_color.jpg',
+    'car_dark_leather_base_color.jpg',
+    'bmw_leather_occlusion.jpg',
     'glossy_car_paint_normal.png',
-    'light_sensor_metalness.png',
     'floor.png',
     'line.png'
 ]
 
 duplicatedTexurePaths = [
-    'projects/samples/robotbenchmark',
+    'projects/samples/robotbenchmark',  # we don't want to change anything to robotbenchmark
     'projects/objects/buildings/protos/textures/colored_textures',
     'projects/vehicles/protos/tesla/textures'  # filecmp.cmp fail
 ]
