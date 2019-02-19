@@ -36,11 +36,6 @@ If available, a dialog window will inform you about it.
 The **OpenGL** tab contains preferences about setting the 3D rendering abilities.
 The default parameters of these settings may vary from one computer to another depending on the system's hardware & OpenGL capabilities.
 
-- The **Main 3D view anti-aliasing** option allows you to enable Anti-Aliasing, specifically [SMAA 1x](http://www.iryoku.com/smaa/) on the 3D scene in Webots.
-This option can lead to marginally reduced performance, but it improves graphical fidelity somewhat.
-
-> **Note** This option does not apply to any [Camera](../reference/camera.md) rendering, this is managed by the `Disable camera anti-aliasing` setting in the same tab of the preferences dialog.
-
 - The **Ambient Occlusion** option allows you to enable [GTAO](http://iryoku.com/downloads/Practical-Realtime-Strategies-for-Accurate-Indirect-Occlusion.pdf), a modern form of Screen-Space Ambient Occlusion on the 3D view.
 This option enables a much higher level of realism in the scene, but at a non-negligible performance cost.
 To mitigate this, it is set to "medium" quality by default.
@@ -52,8 +47,11 @@ Ultra quality gives the best results, but is the most performance-heavy.
 
 Globally speaking, performance can be improved by disabling this feature, but on the other hand the rendering is more difficult to understand, and less pretty.
 
-- The **Disable camera anti-aliasing** option allows you to bypass all the *Camera.antialiasing* fields and to disable this feature.
-We observed that some hardware doesn't support the OpenGL feature about anti-aliasing when rendering into a texture (RTT).
+- The **Disable anti-aliasing** option allows you to disable the anti-aliasing in the 3D view and in the [Camera](../reference/camera.md) rendering.
+The anti-aliasing algorithm used by Webots is [SMAA 1x](http://www.iryoku.com/smaa/).
+We observed that some old graphics hardware doesn't support the OpenGL feature about anti-aliasing.
+In such a case, it is better to disable anti-aliasing.
+Otherwise, disabling anti-aliasing can lead to marginally increase performance at the cost of degrading graphical fidelity.
 
 ### Network
 
