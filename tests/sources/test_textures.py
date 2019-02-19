@@ -25,6 +25,8 @@ duplicatedTextures = [
     'soccer_quarter.jpg',
     'pingpong_logo.jpg',
     'conveyor_belt.png',
+    'line.png',
+    'floor.png',
     # these textures are duplicated but very small and removing them would complexify the PROTO a lot.
     'small_residential_tower_balcony_base_color.jpg',
     'small_residential_tower_ground_floor_windows_base_color.jpg',
@@ -47,9 +49,6 @@ duplicatedTextures = [
     'car_leather_normal.jpg',
     'car_light_leather_base_color.jpg',
     'car_dark_leather_base_color.jpg',
-    # TODO: remove
-    'floor.png',
-    'line.png'
 ]
 
 duplicatedTexurePaths = [
@@ -129,12 +128,9 @@ class TestTextures(unittest.TestCase):
 
     def test_textures_uniqueness(self):
         """Test that the released textures are unique."""
-        i = 0
         toCompare = list(self.textures)  # copy
         for texture in self.textures:
             toCompare.remove(texture)
-            i += 1
-            print((i, len(self.textures)))
             if any(path in texture for path in duplicatedTexurePaths):
                 continue
             if os.path.basename(texture) in duplicatedTextures:
