@@ -13,6 +13,7 @@
 # limitations under the License.
 
 """Test textures."""
+import hashlib
 import unittest
 import os
 import filecmp
@@ -36,41 +37,39 @@ duplicatedTextures = [
     'small_residential_building_windows_medium_grey_base_color.jpg',
     'small_residential_building_wall_light_grey_base_color.jpg',
     'small_residential_building_wall_light_grey_occlusion.jpg',
-    # filecmp.cmp fail
-    'l1.png',
-    'l2.png',
-    'l3.png',
-    'l4.png',
-    'landmark1.png',
-    'landmark2.png',
-    'landmark3.png',
-    'landmark4.png',
-    'conveyor_belt.png',
-    'light_support_roughness.jpg',
-    'small_residential_tower_ground_floor_occlusion.jpg',
-    'matte_car_paint_base_color.png',
     'dawn_cloudy_empty_bottom.jpg',
     'noon_stormy_empty_bottom.jpg',
-    'dawn_cloudy_empty_bottom.jpg',
     # to fix on develop
     'pavement.jpg',
-    # TODO: remove
     'car_leather_occlusion.jpg',
     'car_leather_roughness.jpg',
     'car_leather_normal.jpg',
     'car_light_leather_base_color.jpg',
     'car_dark_leather_base_color.jpg',
-    'bmw_leather_occlusion.jpg',
-    'glossy_car_paint_normal.png',
+    # TODO: remove
     'floor.png',
+    'conveyor_belt.png',
+    'matte_car_paint_base_color.png',
     'line.png'
 ]
 
 duplicatedTexurePaths = [
     'projects/samples/robotbenchmark',  # we don't want to change anything to robotbenchmark
-    'projects/objects/buildings/protos/textures/colored_textures',
-    'projects/vehicles/protos/tesla/textures'  # filecmp.cmp fail
+    'projects/objects/buildings/protos/textures/colored_textures'
 ]
+
+
+def cmpHash(file1, file2):
+    """Compare the hash of two files."""
+    hash1 = hashlib.md5()
+    with open(file1) as f:
+        hash1.update(f.read())
+        hash1 = hash1.hexdigest()
+    hash2 = hashlib.md5()
+    with open(file2) as f:
+        hash2.update(f.read())
+        hash2 = hash2.hexdigest()
+    return hash1 == hash2
 
 
 class TestTextures(unittest.TestCase):
@@ -146,8 +145,10 @@ class TestTextures(unittest.TestCase):
                     continue
                 if os.path.basename(comparedTexture) in duplicatedTextures:
                     continue
+
                 self.assertTrue(
-                    filecmp.cmp(texture, comparedTexture) is False,
+                    # filecmp is fast but gives false positive, this is why we check the hash too (if needed)
+                    (filecmp.cmp(texture, comparedTexture) and cmpHash(texture, comparedTexture)) is False,
                     msg='texture "%s" and "%s" are equal' % (texture, comparedTexture)
                 )
 
