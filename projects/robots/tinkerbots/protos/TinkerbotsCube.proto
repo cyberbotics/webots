@@ -190,56 +190,6 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation 0 -0.02 0.02
-          rotation 1 0 0 1.57
-          children [
-            Slot {
-              type "tinkerbots"
-              endPoint IS backSlot
-            }
-          ]
-        }
-        Transform {
-          translation 0.01 -0.015 0.03
-          rotation 0.57735 -0.57735 0.577352 2.0944
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS backASlot
-            }
-          ]
-        }
-        Transform {
-          translation 0.01 -0.015 0.01
-          rotation 1 0 0 1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS backBSlot
-            }
-          ]
-        }
-        Transform {
-          translation -0.01 -0.015 0.01
-          rotation 0.57735 0.57735 -0.577352 2.0944
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS backCSlot
-            }
-          ]
-        }
-        Transform {
-          translation -0.01 -0.015 0.03
-          rotation 0 0.7071 -0.7071 3.14153
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS backDSlot
-            }
-          ]
-        }
-        Transform {
           translation 0 0.02 0.02
           rotation 1 0 0 -1.57
           children [
@@ -276,6 +226,56 @@ PROTO TinkerbotsCube [
             Slot {
               type "lego cross female"
               endPoint IS frontCSlot
+            }
+          ]
+        }
+        Transform {
+          translation 0.01 0.015 0.03
+          rotation 1 0 0 -1.57
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS frontDSlot
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.02 0.02
+          rotation 1 0 0 1.57
+          children [
+            Slot {
+              type "tinkerbots"
+              endPoint IS backSlot
+            }
+          ]
+        }
+        Transform {
+          translation 0.01 -0.015 0.03
+          rotation 0.57735 -0.57735 0.577352 2.0944
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS backASlot
+            }
+          ]
+        }
+        Transform {
+          translation 0.01 -0.015 0.01
+          rotation 1 0 0 1.57
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS backBSlot
+            }
+          ]
+        }
+        Transform {
+          translation -0.01 -0.015 0.01
+          rotation 0.57735 0.57735 -0.577352 2.0944
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS backCSlot
             }
           ]
         }
