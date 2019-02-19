@@ -75,26 +75,6 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             }
           }
         }
-        Transform {
-          translation -0.01 0.005 0.015
-          rotation 1 0 0 -1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS rightSlot
-            }
-          ]
-        }
-        Transform {
-          translation -0.01 -0.005 0.015
-          rotation 1 0 0 1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS leftSlot
-            }
-          ]
-        }
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
