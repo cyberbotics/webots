@@ -1,12 +1,14 @@
 #VRML_SIM R2019a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A telephone.
+# tags: static
+# A telephone with optional physics.
 
 PROTO Telephone [
-  field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
-  field SFString   name         "telephone"
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   name           "telephone"
+  field SFBool     enablePhysics  TRUE         # Defines whether the telephone should have physics.
 ]
 {
   Solid {
@@ -122,5 +124,42 @@ PROTO Telephone [
         }
       }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0.003 0.034 -0.13470000000000001
+          rotation 1 0 0 4.056900306100426
+          children [
+            Box {
+              size 0.13 0.11 0.01
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.07685 -0.07464291894006045
+          rotation 1 0 0 5.628690306100426
+          children [
+            Box {
+              size 0.18000000000000002 0.18 0.03
+            }
+          ]
+        }
+        Transform {
+          translation -0.055 0.09793355451725996 -0.04608758677323488
+          rotation 1 0 0 5.628690306100426
+          children [
+            Box {
+              size 0.049999999999999996 0.18 0.04
+            }
+          ]
+        }
+      ]
+    }
+    %{ if fields.enablePhysics.value then }%
+    physics Physics {
+      density -1
+      mass 1
+    }
+    %{ end }%
   }
 }
