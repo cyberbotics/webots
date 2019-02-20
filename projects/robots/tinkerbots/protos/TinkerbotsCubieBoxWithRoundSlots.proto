@@ -9,9 +9,9 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
   field SFRotation rotation    0 0 1 0                      # Is `Transform.rotation`.
   field SFString   name        "box with round slots cubie" # Is `Solid.name`.
   field SFNode     upSlot      NULL                         # Type: "lego cross female"
+  field SFNode     frontSlot   NULL                         # Type: "lego cross female"
+  field SFNode     backSlot    NULL                         # Type: "lego cross female"
   field SFNode     axisSlot    NULL                         # Mounted on an HingeJoint. Type: "lego cross female"
-  field SFNode     leftSlot    NULL                         # Type: "lego cross female"
-  field SFNode     rightSlot   NULL                         # Type: "lego cross female"
 ]
 {
   Slot {
@@ -26,6 +26,26 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             Slot {
               type "lego cross female"
               endPoint IS upSlot
+            }
+          ]
+        }
+        Transform {
+          translation 0.005 0 0.015
+          rotation 0 1 0 1.57
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS frontSlot
+            }
+          ]
+        }
+        Transform {
+          translation -0.025 0 0.015
+          rotation 0 1 0 -1.57
+          children [
+            Slot {
+              type "lego cross female"
+              endPoint IS backSlot
             }
           ]
         }
@@ -54,26 +74,6 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             physics Physics {
             }
           }
-        }
-        Transform {
-          translation -0.01 0.005 0.015
-          rotation 1 0 0 -1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS rightSlot
-            }
-          ]
-        }
-        Transform {
-          translation -0.01 -0.005 0.015
-          rotation 1 0 0 1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS leftSlot
-            }
-          ]
         }
         Shape {
           appearance TinkerbotsPlasticAppearance {
