@@ -20,13 +20,13 @@ PROTO Telephone [
           baseColor 0.53 0.54 0.52
           roughnessMap ImageTexture {
             url [
-              "textures/plastic_roughness.png"
+              "textures/plastic_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "textures/plastic_normal.png"
+              "textures/plastic_normal.jpg"
             ]
           }
           textureTransform TextureTransform {
@@ -82,19 +82,19 @@ PROTO Telephone [
         appearance PBRAppearance {
           baseColorMap ImageTexture {
             url [
-              "textures/plastic_polymer_base_color.png"
+              "textures/plastic_polymer_base_color.jpg"
             ]
           }
           roughness 1
           roughnessMap ImageTexture {
             url [
-              "textures/plastic_polymer_roughness.png"
+              "textures/plastic_polymer_roughness.jpg"
             ]
           }
           metalness 0
           normalMap ImageTexture {
             url [
-              "textures/plastic_polymer_normal.png"
+              "textures/plastic_polymer_normal.jpg"
             ]
           }
           textureTransform TextureTransform {
