@@ -15,7 +15,6 @@
 """Test that checks that all the source files have the Apache 2 license."""
 import unittest
 
-import difflib
 import os
 import fnmatch
 

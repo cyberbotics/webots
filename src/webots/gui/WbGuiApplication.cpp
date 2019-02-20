@@ -119,6 +119,7 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false;
+  bool batch = false, stream = false;
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -144,9 +145,10 @@ void WbGuiApplication::parseArguments() {
       mTask = SYSINFO;
     else if (arg == "--version")
       mTask = VERSION;
-    else if (arg == "--batch")
+    else if (arg == "--batch") {
+      batch = true;
       WbMessageBox::disable();
-    else if (arg.startsWith("--update-proto-cache")) {
+    } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
         mTaskArgument = items[1];
@@ -158,6 +160,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--stream")) {
+      stream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
@@ -216,6 +219,9 @@ void WbGuiApplication::parseArguments() {
     }
   }
 
+  if (stream && !batch)
+    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
     mTask = NORMAL;
@@ -223,8 +229,7 @@ void WbGuiApplication::parseArguments() {
 
   if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
-    WbPreferences::instance()->setValue("OpenGL/disableCameraAntiAliasing", true);
-    WbPreferences::instance()->setValue("OpenGL/SMAA", false);
+    WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
     mStartupMode = WbSimulationState::PAUSE;
