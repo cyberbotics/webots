@@ -69,28 +69,7 @@ DEF ROOF Transform {
   rotation 1.2246467991473532e-16 5.872054701297541e-25 -1 3.1415926631795865
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 5.6 3.55
         }
@@ -106,28 +85,7 @@ DEF ROOF Transform {
   rotation -1 9.957992380241759e-17 -1.8380329780749066e-16 3.141592644
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 5.699999999999999 5.05
         }
@@ -143,28 +101,7 @@ DEF ROOF Transform {
   rotation 0.7071067761007919 0.7071067862723032 3.3905039551432823e-09 3.1415926603708004
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.55 3.55
         }
@@ -1442,28 +1379,7 @@ Transform {
 Wall {
   translation 3.834999999999997 0 3.575
   size 7.4 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 3.7 2.4
     }
@@ -1473,28 +1389,7 @@ Wall {
   translation 0.6819999999999807 0 -3.575
   name "wall(8)"
   size 1.1 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.55 2.4
     }
@@ -1504,28 +1399,7 @@ Wall {
   translation 7.082 0 -3.575
   name "wall(11)"
   size 8.1 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 4.05 2.4
     }
@@ -1539,28 +1413,7 @@ DEF DOUBLE_DOOR Solid {
       translation 0 3.38 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/plaster_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/plaster_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/plaster_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/plaster_occlusion.jpg"
-              ]
-            }
+          appearance Plaster {
             textureTransform TextureTransform {
               scale 0.9 1.35
             }
@@ -1579,28 +1432,8 @@ DEF DOUBLE_DOOR Solid {
       translation 0 1.975 0
       children [
         Shape {
-          appearance DEF DOUBLE_DOOR_APPEARANCE PBRAppearance {
+          appearance DEF DOUBLE_DOOR_APPEARANCE GlossyCarPaint {
             baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
-            baseColorMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.png"
-              ]
-            }
-            normalMapFactor 0.5
-            textureTransform TextureTransform {
-              scale 10 10
-            }
           }
           geometry IndexedFaceSet {
             coord Coordinate {
@@ -1852,22 +1685,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 1 0 0 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Cylinder {
                       height 0.075
@@ -1880,22 +1698,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 1 0 0 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.18
@@ -1909,22 +1712,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 0 0 1 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.12
@@ -1938,22 +1726,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 0 0 1 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.12
@@ -2019,22 +1792,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 1 0 0 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Cylinder {
                           height 0.075
@@ -2047,22 +1805,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 1 0 0 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.18
@@ -2076,22 +1819,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 0 0 1 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.12
@@ -2105,22 +1833,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 0 0 1 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.12
@@ -2203,28 +1916,7 @@ Window {
   translation -0.6649999999999963 0 3.575
   size 1.6 3.652 0.2
   windowSillSize 0.1 0
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  wallAppearance Plaster {
     textureTransform TextureTransform {
       scale 0.8 0.8
     }
@@ -2238,28 +1930,7 @@ Window {
   name "window(1)"
   size 1.6 3.652 0.2
   windowSillSize 0.1 0
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  wallAppearance Plaster {
     textureTransform TextureTransform {
       scale 0.8 0.8
     }
@@ -2272,28 +1943,7 @@ Wall {
   translation -0.19299999999999998 0 -3.575
   name "wall(9)"
   size 0.65 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.325 1.8
     }
@@ -2303,28 +1953,7 @@ Wall {
   translation -6.468 0 -3.5749999999999957
   name "wall(10)"
   size 0.5 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.25 1.8
     }
@@ -2338,28 +1967,7 @@ Door {
   doorAppearance GlossyCarPaint {
     baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
   }
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  wallAppearance Plaster {
     textureTransform TextureTransform {
       scale 0.5 0.7000000000000001
     }
@@ -2375,28 +1983,7 @@ Wall {
   translation -9.518 0 -3.5749999999999957
   name "wall(3)"
   size 3.6 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.8 1.8
     }
@@ -2491,28 +2078,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
       translation -1.85 3 0
       name "wall(15)"
       size 5.7 0.652 0.2
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 2.85 0.3
         }
@@ -2646,28 +2212,7 @@ Wall {
   translation -10.829 0 3.575
   name "wall(7)"
   size 1 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.5 1.8
     }
@@ -2677,28 +2222,7 @@ Wall {
   translation -7.669 0 3.575
   name "wall(4)"
   size 2.12 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.06 1.8
     }
@@ -2708,33 +2232,8 @@ Wall {
   translation -5.099 0 3.4950000000000014
   name "wall(16)"
   size 3.0500000000000003 3.652 0.1
-  appearance PBRAppearance {
-    baseColor 0.37244220645456627 0.7199969481956207 0.295201037613489
-    baseColorMap ImageTexture {
-      url [
-        "textures/corrugated_metal_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/corrugated_metal_roughness.jpg"
-      ]
-    }
-    metalnessMap ImageTexture {
-      url [
-        "textures/corrugated_metal_metalness.jpg"
-      ]
-    }
-    normalMap ImageTexture {
-      url [
-        "textures/corrugated_metal_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/corrugated_metal_occlusion.jpg"
-      ]
-    }
+  appearance CorrugatedMetal {
+    colorOverride 0.37244220645456627 0.7199969481956207 0.295201037613489
     textureTransform TextureTransform {
       scale 0.76 0.94
     }
@@ -2744,28 +2243,7 @@ Wall {
   translation -2.525 0 3.575
   name "wall(12)"
   size 2.12 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.06 1.8
     }
@@ -2775,28 +2253,7 @@ Wall {
   translation 10.235000000000001 0 3.575
   name "wall(2)"
   size 1.8 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.9 2.4
     }
@@ -2810,28 +2267,7 @@ DEF DOUBLE_DOOR Solid {
       translation 0 3.38 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/plaster_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/plaster_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/plaster_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/plaster_occlusion.jpg"
-              ]
-            }
+          appearance Plaster {
             textureTransform TextureTransform {
               scale 0.9 1.35
             }
@@ -2850,28 +2286,8 @@ DEF DOUBLE_DOOR Solid {
       translation 0 1.975 0
       children [
         Shape {
-          appearance DEF DOUBLE_DOOR_APPEARANCE PBRAppearance {
+          appearance DEF DOUBLE_DOOR_APPEARANCE GlossyCarPaint {
             baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
-            baseColorMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "/home/david/webots/projects/appearances/protos/textures/glossy_car_paint/glossy_car_paint_normal.png"
-              ]
-            }
-            normalMapFactor 0.5
-            textureTransform TextureTransform {
-              scale 10 10
-            }
           }
           geometry IndexedFaceSet {
             coord Coordinate {
@@ -3123,22 +2539,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 1 0 0 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Cylinder {
                       height 0.075
@@ -3151,22 +2552,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 1 0 0 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.18
@@ -3180,22 +2566,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 0 0 1 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.12
@@ -3209,22 +2580,7 @@ DEF DOUBLE_DOOR Solid {
                 rotation 0 0 1 1.57
                 children [
                   Shape {
-                    appearance PBRAppearance {
-                      baseColorMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                        ]
-                      }
-                      roughnessMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                        ]
-                      }
-                      normalMap ImageTexture {
-                        url [
-                          "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                        ]
-                      }
+                    appearance BrushedAluminium {
                     }
                     geometry Capsule {
                       height 0.12
@@ -3290,22 +2646,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 1 0 0 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Cylinder {
                           height 0.075
@@ -3318,22 +2659,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 1 0 0 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.18
@@ -3347,22 +2673,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 0 0 1 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.12
@@ -3376,22 +2687,7 @@ DEF DOUBLE_DOOR Solid {
                     rotation 0 0 1 1.57
                     children [
                       Shape {
-                        appearance PBRAppearance {
-                          baseColorMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.png"
-                            ]
-                          }
-                          roughnessMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.png"
-                            ]
-                          }
-                          normalMap ImageTexture {
-                            url [
-                              "/home/david/webots/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.png"
-                            ]
-                          }
+                        appearance BrushedAluminium {
                         }
                         geometry Capsule {
                           height 0.12
@@ -3435,28 +2731,7 @@ Wall {
   rotation 0 1 0 1.5707963219999999
   name "wall(1)"
   size 3.6 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.8 2.4
     }
@@ -3467,28 +2742,7 @@ Wall {
   rotation 0 1 0 1.5707963219999999
   name "wall(17)"
   size 0.37 4.76 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.17 2.4
     }
@@ -3504,28 +2758,7 @@ DEF WINDOWS Transform {
       bottomWallHeight 1.2
       windowHeight 1.0999999999999999
       windowSillSize 0.1 0
-      wallAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      wallAppearance Plaster {
         textureTransform TextureTransform {
           scale 0.42 1.4
         }
@@ -3541,28 +2774,7 @@ DEF WINDOWS Transform {
       bottomWallHeight 1.2
       windowHeight 1.0999999999999999
       windowSillSize 0.1 0
-      wallAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      wallAppearance Plaster {
         textureTransform TextureTransform {
           scale 0.42 1.4
         }
@@ -3578,28 +2790,7 @@ DEF WINDOWS Transform {
       bottomWallHeight 1.2
       windowHeight 1.0999999999999999
       windowSillSize 0.1 0
-      wallAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      wallAppearance Plaster {
         textureTransform TextureTransform {
           scale 0.42 1.4
         }
@@ -3615,28 +2806,7 @@ DEF WINDOWS Transform {
       bottomWallHeight 1.2
       windowHeight 1.0999999999999999
       windowSillSize 0.1 0
-      wallAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      wallAppearance Plaster {
         textureTransform TextureTransform {
           scale 0.42 1.4
         }
@@ -3693,28 +2863,7 @@ Door {
   doorAppearance GlossyCarPaint {
     baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
   }
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  wallAppearance Plaster {
     textureTransform TextureTransform {
       scale 0.5 0.7000000000000001
     }
@@ -3731,28 +2880,7 @@ Wall {
   rotation 0 -1 0 1.570796360359173
   name "wall(5)"
   size 5.3999999999999995 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 2.7 1.8
     }
@@ -3763,28 +2891,7 @@ Wall {
   rotation 0 -1 0 1.570796360359173
   name "wall(19)"
   size 3 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.5 1.8
     }
@@ -3795,28 +2902,7 @@ Wall {
   rotation 0 -1 0 1.570796360359173
   name "wall(18)"
   size 3 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 1.5 1.8
     }
@@ -3827,28 +2913,7 @@ Wall {
   rotation 0 1 0 3.1415926056408265
   name "wall(20)"
   size 6.3 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 3.15 1.8
     }
@@ -3859,28 +2924,7 @@ Wall {
   rotation 0 -1 0 1.570796360359173
   name "wall(6)"
   size 0.55 3.652 0.2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/plaster_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/plaster_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/plaster_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/plaster_occlusion.jpg"
-      ]
-    }
+  appearance Plaster {
     textureTransform TextureTransform {
       scale 0.25 1.8
     }
@@ -3890,28 +2934,7 @@ DEF POLE Solid {
   translation 0.38188284383056703 2.38 0.28845316228928497
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.6 3
         }
@@ -3947,28 +2970,7 @@ DEF POLE Solid {
   translation 11.071882843830542 2.38 0.25845316228928494
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.6 3
         }
@@ -3986,28 +2988,7 @@ DEF GIRDER Solid {
   rotation 0 0 1 1.5707963220000003
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.9 13
         }
@@ -4025,28 +3006,7 @@ DEF GIRDER Solid {
   rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.9 13
         }
@@ -4153,28 +3113,7 @@ DEF GIRDER Solid {
   rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.9 13
         }
@@ -4192,28 +3131,7 @@ DEF GIRDER Solid {
   rotation 0.5773502738035171 0.5773502710351824 -0.5773502627301778 4.188790199249721
   children [
     DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/plaster_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/plaster_roughness.jpg"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/plaster_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/plaster_occlusion.jpg"
-          ]
-        }
+      appearance Plaster {
         textureTransform TextureTransform {
           scale 0.9 13
         }
