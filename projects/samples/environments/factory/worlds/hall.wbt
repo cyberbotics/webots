@@ -34,20 +34,15 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/floor_base_color.png"
+        "textures/floor_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/floor_roughness.png"
+        "textures/floor_roughness.jpg"
       ]
     }
     metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/floor_normal.png"
-      ]
-    }
   }
 }
 Floor {
@@ -58,20 +53,15 @@ Floor {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/floor_base_color.png"
+        "textures/floor_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/floor_roughness.png"
+        "textures/floor_roughness.jpg"
       ]
     }
     metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/floor_normal.png"
-      ]
-    }
   }
 }
 DEF ROOF Transform {
@@ -82,23 +72,23 @@ DEF ROOF Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -119,23 +109,23 @@ DEF ROOF Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -156,23 +146,23 @@ DEF ROOF Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -753,27 +743,27 @@ DEF EXERCISES_BOARD Robot {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/tread_plate_base_color.png"
+            "textures/tread_plate_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/tread_plate_roughness.png"
+            "textures/tread_plate_roughness.jpg"
           ]
         }
         metalnessMap ImageTexture {
           url [
-            "textures/tread_plate_metalness.png"
+            "textures/tread_plate_metalness.jpg"
           ]
         }
         normalMap ImageTexture {
           url [
-            "textures/tread_plate_normal.png"
+            "textures/tread_plate_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/tread_plate_occlusion.png"
+            "textures/tread_plate_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -1366,7 +1356,7 @@ DEF FIRST_AID_BOX Transform {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/first_aid.png"
+                "textures/first_aid.jpg"
               ]
             }
             roughness 1
@@ -1391,7 +1381,7 @@ DEF FIRE_EXTINGUISHER_PANEL Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/fire_extinguisher_panel.png"
+            "textures/fire_extinguisher_panel.jpg"
           ]
         }
         metalness 0
@@ -1443,7 +1433,7 @@ Transform {
     TexturedBoxShape {
       size 0.15 0.15 0.15
       textureUrl [
-        "textures/first_aid.png"
+        "textures/first_aid.jpg"
       ]
       textureMapping "default"
     }
@@ -1455,23 +1445,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1486,23 +1476,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1517,23 +1507,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -1552,23 +1542,23 @@ DEF DOUBLE_DOOR Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/plaster_base_color.png"
+                "textures/plaster_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/plaster_roughness.png"
+                "textures/plaster_roughness.jpg"
               ]
             }
             metalness 0
             normalMap ImageTexture {
               url [
-                "textures/plaster_normal.png"
+                "textures/plaster_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/plaster_occlusion.png"
+                "textures/plaster_occlusion.jpg"
               ]
             }
             textureTransform TextureTransform {
@@ -2216,23 +2206,23 @@ Window {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2251,23 +2241,23 @@ Window {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2285,23 +2275,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2316,23 +2306,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2351,23 +2341,23 @@ Door {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2388,23 +2378,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2504,23 +2494,23 @@ DEF WINDOW_DOOR_BLOCK Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -2659,23 +2649,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2690,23 +2680,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2722,27 +2712,27 @@ Wall {
     baseColor 0.37244220645456627 0.7199969481956207 0.295201037613489
     baseColorMap ImageTexture {
       url [
-        "textures/corrugated_metal_base_color.png"
+        "textures/corrugated_metal_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/corrugated_metal_roughness.png"
+        "textures/corrugated_metal_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "textures/corrugated_metal__metalness.png"
+        "textures/corrugated_metal_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "textures/corrugated_metal__normal.png"
+        "textures/corrugated_metal_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/corrugated_metal_occlusion.png"
+        "textures/corrugated_metal_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2757,23 +2747,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2788,23 +2778,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -2823,23 +2813,23 @@ DEF DOUBLE_DOOR Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/plaster_base_color.png"
+                "textures/plaster_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/plaster_roughness.png"
+                "textures/plaster_roughness.jpg"
               ]
             }
             metalness 0
             normalMap ImageTexture {
               url [
-                "textures/plaster_normal.png"
+                "textures/plaster_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/plaster_occlusion.png"
+                "textures/plaster_occlusion.jpg"
               ]
             }
             textureTransform TextureTransform {
@@ -3448,23 +3438,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3480,23 +3470,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3517,23 +3507,23 @@ DEF WINDOWS Transform {
       wallAppearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3554,23 +3544,23 @@ DEF WINDOWS Transform {
       wallAppearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3591,23 +3581,23 @@ DEF WINDOWS Transform {
       wallAppearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3628,23 +3618,23 @@ DEF WINDOWS Transform {
       wallAppearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3665,23 +3655,23 @@ DEF BLACK_TILES Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/black_tiles_base_color.png"
+            "textures/black_tiles_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/black_tiles_roughness.png"
+            "textures/black_tiles_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/black_tiles_normal.png"
+            "textures/black_tiles_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/black_tiles_occlusion.png"
+            "textures/black_tiles_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3706,23 +3696,23 @@ Door {
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3744,23 +3734,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3776,23 +3766,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3808,23 +3798,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3840,23 +3830,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3872,23 +3862,23 @@ Wall {
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/plaster_base_color.png"
+        "textures/plaster_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/plaster_roughness.png"
+        "textures/plaster_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/plaster_normal.png"
+        "textures/plaster_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/plaster_occlusion.png"
+        "textures/plaster_occlusion.jpg"
       ]
     }
     textureTransform TextureTransform {
@@ -3903,23 +3893,23 @@ DEF POLE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3960,23 +3950,23 @@ DEF POLE Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -3999,23 +3989,23 @@ DEF GIRDER Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -4038,23 +4028,23 @@ DEF GIRDER Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -4166,23 +4156,23 @@ DEF GIRDER Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
@@ -4205,23 +4195,23 @@ DEF GIRDER Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/plaster_base_color.png"
+            "textures/plaster_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/plaster_roughness.png"
+            "textures/plaster_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/plaster_normal.png"
+            "textures/plaster_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/plaster_occlusion.png"
+            "textures/plaster_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {
