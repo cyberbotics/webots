@@ -14,18 +14,18 @@ PROTO OsbWood [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/osb_wood/osb_wood_base_color.png"
+        "textures/osb_wood/osb_wood_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/osb_wood/osb_wood_roughness.png"
+        "textures/osb_wood/osb_wood_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/osb_wood/osb_wood_normal.png"
+        "textures/osb_wood/osb_wood_normal.jpg"
       ]
     }
     normalMapFactor 1

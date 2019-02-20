@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.23750534508346915 0.944305313436718 0.22776893131409323 4.743737856256987
-  position -19.467043808203684 10.681869187076279 1.434218280395277
+  orientation -0.030640868401443817 0.9885841233456172 0.1475214162506003 3.8333167049306427
+  position -1.4059920997428952 1.9057832176850382 -2.027827805959825
   ambientOcclusionRadius 1
   bloomThreshold 210
 }
@@ -181,6 +181,35 @@ DEF ROOF Transform {
       }
       geometry Plane {
         size 1.0999999999999999 7.1
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 1.4100000000000006 -0.6300000000000001
+  children [
+    Shape {
+      appearance FlexibleAluminiumDuct {
+      }
+      geometry Cylinder {
+        height 0.30000000000000004
+        radius 0.05
+      }
+    }
+  ]
+}
+Transform {
+  translation -0.19999999999999998 1.4100000000000006 -0.6300000000000001
+  children [
+    Shape {
+      appearance ElectricConduit {
+        textureTransform TextureTransform {
+          scale 1 0.7
+        }
+      }
+      geometry Cylinder {
+        height 0.30000000000000004
+        radius 0.05
       }
     }
   ]

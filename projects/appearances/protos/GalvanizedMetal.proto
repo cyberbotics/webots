@@ -14,22 +14,22 @@ PROTO GalvanizedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/metal_galvanized/metal_galvanized_base_color.png"
+        "textures/metal_galvanized/metal_galvanized_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/metal_galvanized/metal_galvanized_roughness.png"
+        "textures/metal_galvanized/metal_galvanized_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "textures/metal_galvanized/metal_galvanized_metalness.png"
+        "textures/metal_galvanized/metal_galvanized_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "textures/metal_galvanized/metal_galvanized_normal.png"
+        "textures/metal_galvanized/metal_galvanized_normal.jpg"
       ]
     }
     normalMapFactor 1
