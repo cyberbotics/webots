@@ -516,7 +516,7 @@ DEF PLATFORM Transform {
             baseColor 0.1552605477988861 0.4566720073243305 0.1888761730373083
             roughnessMap ImageTexture {
               url [
-                "textures/plastic_roughness.png"
+                "textures/plastic_roughness.jpg"
               ]
             }
             metalness 0
@@ -561,7 +561,7 @@ DEF PLATFORM Transform {
             baseColor 0.6633401998931868 0.38129243915465016 0.09729152361333639
             roughnessMap ImageTexture {
               url [
-                "textures/plastic_roughness.png"
+                "textures/plastic_roughness.jpg"
               ]
             }
             metalness 0
@@ -2417,7 +2417,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         baseColor 0.8133363851377127 0.7811245899137865 0.7536888685435263
         roughnessMap ImageTexture {
           url [
-            "textures/plastic_roughness.png"
+            "textures/plastic_roughness.jpg"
           ]
         }
         metalness 0
