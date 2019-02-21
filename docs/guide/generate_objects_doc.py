@@ -162,12 +162,15 @@ for proto in prioritaryProtoList + fileList:
 
         file.write(description + '\n')
 
-        if os.path.isfile('images' + os.sep + 'objects' + os.sep + category + os.sep + protoName + '/model.png'):
+        imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
+        if upperCategory == 'projects':
+            imagePath = 'images/%s/%s.png' % (category, protoName)
+        if os.path.isfile(imagePath):
             file.write('%figure\n\n')
-            file.write('![%s](images/objects/%s/%s/model.png)\n\n' % (protoName, category, protoName))
+            file.write('![%s](%s)\n\n' % (protoName, imagePath))
             file.write('%end\n\n')
         else:
-            sys.stderr.write('Please add a "%s" file.\n' % ('images' + os.sep + 'objects' + os.sep + category + os.sep + protoName + '/model.png'))
+            sys.stderr.write('Please add a "%s" file.\n' % imagePath)
 
         if baseType:
             file.write('Derived from [%s](../reference/%s.md).\n\n' % (baseType, baseType.lower()))
