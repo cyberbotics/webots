@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# A threaded bolt.
+# A threaded bolt with variable radius and length.
 
 PROTO Bolt [
   field SFVec3f    translation      0 0.0131 0

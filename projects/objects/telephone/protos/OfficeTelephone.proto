@@ -8,7 +8,7 @@ PROTO OfficeTelephone [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 1 0 0
   field SFString   name           "office telephone"
-  field SFBool     enablePhysics  TRUE         # Defines whether the telephone should have physics.
+  field SFBool     enablePhysics  TRUE                # Defines whether the telephone should have physics.
 ]
 {
   Solid {

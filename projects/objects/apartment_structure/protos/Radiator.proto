@@ -2,15 +2,15 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# A radiator with a variable number of fins.
+# A radiator with a variable number of fins and optional bounding object.
 
 PROTO Radiator [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 1 0 0
   field SFString   name                  "radiator"
   field SFInt32    numberOfFins          10
-  field SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }  #
-  field SFNode     tubeAppearance        HammeredCopper { }                                             #
+  field SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }  # Defines the appearance of the fins.
+  field SFNode     tubeAppearance        HammeredCopper { }                                             # Defines the appearance of the input and ouput tubes.
   field SFBool     enableBoundingObject  TRUE                                                           # Defines whether the radiator should have a bounding object.
 ]
 {

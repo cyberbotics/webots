@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# TODO
+# This bounding object with a pipe shape is formed by a group of boxes.
 
 PROTO PipeBoundingObject [
   field SFFloat    height          2       # Defines the height of the pipe.

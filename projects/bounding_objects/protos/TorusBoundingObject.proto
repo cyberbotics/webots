@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# TODO
+# This bounding object with a torus shape is formed by a group of spheres.
 
 PROTO TorusBoundingObject [
   field SFFloat    majorRadius     2   # Defines the major radius of the torus.
