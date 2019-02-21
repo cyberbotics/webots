@@ -210,7 +210,7 @@ elif options.appearance:
                     os.makedirs(objectDirectory)
                 else:
                     sys.exit('Multiple definition of ' + protoName)
-                process_object(controller, 'appearances', nodeString, background=[0, 1, 1], colorThreshold=0.05, alphaRejectionThreshold=0.4)
+                process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1, alphaRejectionThreshold=0.6)
 
 else:
     with open(options.file) as json_data:
