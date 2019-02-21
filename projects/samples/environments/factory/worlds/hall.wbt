@@ -12,7 +12,7 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation 0.6194133701821005 0.7578625515097385 0.2048692994540697 5.183045418463622
+  orientation -0.6194124592215913 -0.7578633391834623 -0.20486913989850405 1.1001402956150341
   position -9.205331434997612 12.884953450832477 5.069918853724144
   ambientOcclusionRadius 1
   bloomThreshold 210
@@ -2886,6 +2886,45 @@ Wall {
       scale 0.17 2.4
     }
   }
+}
+Transform {
+  translation 12.895470325999755 1.4700000097815877 -0.9853397919040984
+  rotation 0.7071067761007915 -0.7071067862723036 -1.0171512077050694e-08 3.1415926332467694
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/hedges.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 1.5 3
+        }
+      }
+      geometry Plane {
+        size 3 6
+      }
+    }
+  ]
+}
+Transform {
+  translation 11.875470325999778 1.4700000244539753 -0.9853397625593315
+  rotation 0.7071067761007915 -0.7071067862723036 -1.0171512077050694e-08 3.1415926332467694
+  children [
+    Shape {
+      appearance WireFence {
+        textureTransform TextureTransform {
+          scale 3 5
+        }
+      }
+      geometry Plane {
+        size 3 6
+      }
+    }
+  ]
 }
 DEF WINDOWS Transform {
   translation 11.225470304854307 0 -0.32533977579324536
