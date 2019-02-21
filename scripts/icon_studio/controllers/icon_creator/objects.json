@@ -618,7 +618,7 @@
   },
   "projects/objects/tables/protos/Table": {
   },
-  "projects/objects/television/protos/Telephone": {
+  "projects/objects/telephone/protos/Telephone": {
     "fields": "rotation 0 1 0 1.3"
   },
   "projects/objects/television/protos/Television": {
