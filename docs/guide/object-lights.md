@@ -54,6 +54,37 @@ CeilingLight {
 
 - `pointLightCastShadows`: Defines whether the point light should cast shadows.
 
+## DoubleFluorescentLamp
+
+A double fluorescent lamp.
+It does not contain any actual Light node, it only use emissive color.
+
+%figure
+
+![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+DoubleFluorescentLamp {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "double fuorescent lamp"
+  SFBool     on              TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### DoubleFluorescentLamp Field Summary
+
+- `on`: Defines if the lamp is enabled
+
 ## FloorLight
 
 A floor light (0.19 x 1.6 x 0.19 m).

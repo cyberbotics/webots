@@ -137,6 +137,38 @@ ConveyorBelt {
 
 - `speed`: Defines the rubber band speed in meters per second.
 
+## Fire Extinguisher
+
+### FireExtinguisher
+
+A simple fire extenguisher with optional physics.
+
+%figure
+
+![FireExtinguisher](images/objects/fire_extinguisher/FireExtinguisher/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+FireExtinguisher {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "fire extinguisher"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+
+> **License**: Attribution-NonCommercial 4.0 International (original model by 3DHaupt)
+[More information.](https://creativecommons.org/licenses/by-nc/4.0)
+
+#### FireExtinguisher Field Summary
+
+- `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
 ## Pallet
 
 ### WoodenPallet
@@ -254,6 +286,7 @@ LJoint {
   SFRotation rotation    0 1 0 0
   SFString   name        "L joint pipe"
   SFVec3f    scale       1 1 1
+  SFNode     appearance  OldSteel { textureTransform TextureTransform { rotation 0.78 scale 2 2 } }
 }
 ```
 
@@ -261,6 +294,10 @@ LJoint {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### LJoint Field Summary
+
+- `appearance`: Defines the appearance of the pipe.
 
 ### PipeSection
 
@@ -276,13 +313,13 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PipeSection {
-  SFVec3f    translation 0 0.03 0
-  SFRotation rotation    0 0 1 1.5708
-  SFString   name        "pipe section"
-  SFFloat    height      0.5
-  SFFloat    radius      0.03
-  SFInt32    subdivision 24
-  SFVec2f    materialScale 1 1.5
+  SFVec3f    translation   0 0.03 0
+  SFRotation rotation      0 0 1 1.5708
+  SFString   name          "pipe section"
+  SFFloat    height        0.5
+  SFFloat    radius        0.03
+  SFInt32    subdivision   24
+  SFNode     appearance    MetalPipePaint { textureTransform TextureTransform { scale 1 1.5 } }
 }
 ```
 
@@ -299,7 +336,7 @@ PipeSection {
 
 - `subdivision`: Defines the number of polygons used to represent the pipe cylinder and so its resolution.
 
-- `materialScale`: Defines the scale of the pipe appearance.
+- `appearance`: Defines the appearance of the pipe.
 
 ### TJoint
 
@@ -319,6 +356,7 @@ TJoint {
   SFRotation rotation    0 1 0 0
   SFString   name        "T joint pipe"
   SFVec3f    scale       1 1 1
+  SFNode     appearance  OldSteel { textureTransform TextureTransform { scale 3 3 } }
 }
 ```
 
@@ -327,11 +365,15 @@ TJoint {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+#### TJoint Field Summary
+
+- `appearance`: Defines the appearance of the pipe.
+
 ## Tools
 
 ### Bolt
 
-A threaded bolt.
+A threaded bolt with variable radius and length.
 
 %figure
 
@@ -343,10 +385,13 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation     0 0.0131 0
-  SFRotation rotation        0 0 1 0
-  SFString   name            "bolt"
-  SFString   contactMaterial "default"
+  SFVec3f    translation      0 0.0131 0
+  SFRotation rotation         0 1 0 0
+  SFString   name             "bolt"
+  SFNode     appearance       OldSteel {}
+  SFFloat    screwRadius      0.0055
+  SFFloat    screwLength      0.035
+  SFString   contactMaterial  "default"
 }
 ```
 
@@ -354,6 +399,128 @@ Bolt {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Bolt Field Summary
+
+- `appearance`: Defines the appearance of the bolt.
+
+- `screwRadius`: Defines the radius of the screw.
+
+- `screwLength`: Defines the length of the screw.
+
+### CapScrew
+
+A cap screw with variable radius and length.
+
+%figure
+
+![CapScrew](images/objects/tools/CapScrew/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+CapScrew {
+  SFVec3f    translation      0 0 0
+  SFRotation rotation         0 0 1 0
+  SFString   name             "cap screw"
+  SFNode     appearance       OldSteel {}
+  SFFloat    screwRadius      0.006
+  SFFloat    screwLength      0.05
+  SFString   contactMaterial  "default"
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/CapScrew.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### CapScrew Field Summary
+
+- `appearance`: Defines the appearance of the screw.
+
+- `screwRadius`: Defines the radius of the screw.
+
+- `screwLength`: Defines the length of the screw.
+
+### ElectricalPlug
+
+An electrical plug with a cable of variable path.
+The bounding object and physics are optional.
+
+%figure
+
+![ElectricalPlug](images/objects/tools/ElectricalPlug/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+ElectricalPlug {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 0 1 0
+  SFString   name                  "electrical plug"
+  SFColor    color                 1 1 1
+  MFVec3f    cablePath             [0 0 0, 0 0.03 0, 0 0.03 0.1]
+  SFBool     enablePhysics         TRUE
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/ElectricalPlug.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### ElectricalPlug Field Summary
+
+- `color`: Defines the color of the plug.
+
+- `cablePath`: Defines the path followed by the cable.
+
+- `enablePhysics`: Defines whether the plug should have physics.
+
+- `enableBoundingObject`: Defines whether the plug should have a bounding object.
+
+### EyeScrew
+
+An eye screw with variable radius and length.
+
+%figure
+
+![EyeScrew](images/objects/tools/EyeScrew/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+EyeScrew {
+  SFVec3f    translation      0 0 0
+  SFRotation rotation         0 0 1 0
+  SFString   name             "eye screw"
+  SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }
+  SFFloat    screwRadius      0.006
+  SFFloat    screwLength      0.05
+  SFString   contactMaterial  "default"
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/EyeScrew.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### EyeScrew Field Summary
+
+- `appearance`: Defines the appearance of the screw.
+
+- `screwRadius`: Defines the radius of the screw.
+
+- `screwLength`: Defines the length of the screw.
 
 ### Hammer
 
@@ -398,6 +565,9 @@ Nut {
   SFVec3f    translation     0 0.004 0
   SFRotation rotation        0 1 0 0
   SFString   name            "nut"
+  SFNode     appearance    OldSteel {}
+  SFFloat    innerRadius      0.006
+  SFFloat    thickness        0.007
   SFString   contactMaterial "default"
 }
 ```
@@ -406,6 +576,14 @@ Nut {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Nut Field Summary
+
+- `appearance`: Defines the appearance of the nut.
+
+- `innerRadius`: Defines the inner radius of the nut.
+
+- `thickness`: Defines the thickness of the nut.
 
 ### PaintBucket
 
@@ -464,6 +642,33 @@ PlatformCart {
 
 - `slot`: Extends the cart with new nodes in the slot.
 
+### ScrewHole
+
+A screw hole with variable radius and depth.
+
+%figure
+
+![ScrewHole](images/objects/tools/ScrewHole/model.png)
+
+%end
+
+Derived from [Transform](../reference/transform.md).
+
+```
+ScrewHole {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFFloat    radius          0.06
+  SFFloat    depth           0.1
+  SFNode     appearance      OldSteel {}
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/ScrewHole.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
 ### Screwdriver
 
 A Philips screwdriver. The blade and handle are balanced.
@@ -490,6 +695,43 @@ Screwdriver {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### Washer
+
+A washer with variable radius and thickness.
+
+%figure
+
+![Washer](images/objects/tools/Washer/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Washer {
+  SFVec3f    translation     0 0.004 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "washer"
+  SFNode     appearance       OldSteel {}
+  SFFloat    innerRadius      0.006
+  SFFloat    thickness        0.0017
+  SFString   contactMaterial "default"
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/Washer.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Washer Field Summary
+
+- `appearance`: Defines the appearance of the washer.
+
+- `innerRadius`: Defines the inner radius of the washer.
+
+- `thickness`: Defines the thickness of the washer.
+
 ### Wrench
 
 A 15cm Open-End wrench.
@@ -507,6 +749,7 @@ Wrench {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 1 0 0
   SFString   name            "wrench"
+  SFNode     appearance       OldSteel {}
   SFString   contactMaterial "default"
 }
 ```
@@ -515,6 +758,10 @@ Wrench {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Wrench Field Summary
+
+- `appearance`: Defines the appearance of the wrench.
 
 ## Valves
 

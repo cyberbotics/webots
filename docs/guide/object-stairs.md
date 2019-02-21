@@ -20,6 +20,7 @@ StraightStairs {
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
   SFInt32    nSteps             5
+  SFFloat    stringerWidth      0.02
   SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   MFNode     leftRail           StraightStairsRail {}
@@ -41,6 +42,8 @@ StraightStairs {
 - `stepRise`: Defines the height difference between two consecutives steps.
 
 - `nSteps`: Defines the number of steps.
+
+- `stringerWidth`: Defines the width of the stringers.
 
 - `stepAppearance`: Defines the appearance of the steps.
 
