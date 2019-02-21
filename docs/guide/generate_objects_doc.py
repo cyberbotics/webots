@@ -28,13 +28,21 @@ FIELDS_STATE = 1
 BODY_STATE = 2
 
 fileList = []
-upperCategories = {}
+upperCategories = {'projects': ['appearances']}
 
 # look for all the PROTO files in the 'projects/objects' directory
 for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects' + os.sep + 'objects'):
     for fileName in fnmatch.filter(fileNames, '*.proto'):
         fileList.append(os.path.join(rootPath, fileName))
+# look for all the PROTO files in the 'projects/appearances' directory
+for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects' + os.sep + 'appearances'):
+    for fileName in fnmatch.filter(fileNames, '*.proto'):
+        fileList.append(os.path.join(rootPath, fileName))
 fileList = sorted(fileList)
+
+# create the 'appearances' page
+with open('appearances.md', 'wb') as file:
+    file.write('# Appearances\n\n')
 
 # make sure that if a PROTO has the same name than the title it appears first
 prioritaryProtoList = []
@@ -130,15 +138,17 @@ for proto in prioritaryProtoList + fileList:
         sys.stderr.write('Could not find cache file: "%s"\n' % cacheFile)
 
     # add documentation for this PROTO file
-    exist = os.path.isfile('object-' + upperCategoryName + '.md')
     mode = 'ab'
-    if upperCategory not in upperCategories:
+    filename = 'object-' + upperCategoryName + '.md'
+    if upperCategory == 'projects':
+        filename = 'appearances.md'
+    elif upperCategory not in upperCategories:
         mode = 'wb'
-    with open('object-' + upperCategoryName + '.md', mode) as file:
-        if upperCategory not in upperCategories and not upperCategory == category:
+    with open(filename, mode) as file:
+        if upperCategory not in upperCategories and not upperCategory == category and not upperCategory == 'projects':
             file.write('# %s\n\n' % upperCategory.replace('_', ' ').title())
         headerPrefix = '#'
-        if not upperCategory == category:
+        if not upperCategory == category and not upperCategory == 'projects':
             headerPrefix = '##'
 
         if upperCategory not in upperCategories or category not in upperCategories[upperCategory]:
@@ -188,6 +198,7 @@ for proto in prioritaryProtoList + fileList:
         upperCategories[upperCategory].append(category)
 
 # write the menu in 'object.md'
+del upperCategories['projects']
 upperCategoriesList = sorted(upperCategories.keys())
 categoriesList = []
 with open('objects.md', 'wb') as file:
