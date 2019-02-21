@@ -25,7 +25,13 @@
   "projects/objects/apartment_structure/protos/GenericDoorAppearance": {
     "nodeString": "Door { rotation 0 1 0 1.08 }"
   },
+  "projects/objects/apartment_structure/protos/Radiator": {
+    "fields": "translation 0 0.29 0"
+  },
   "projects/objects/apartment_structure/protos/Wall": {
+  },
+  "projects/objects/apartment_structure/protos/WallPlug": {
+    "fields": "translation 0 0.04 0 rotation 0 1 0 2.88"
   },
   "projects/objects/apartment_structure/protos/Window": {
     "fields": "rotation 0 1 0 1.09"
@@ -222,6 +228,15 @@
   },
   "projects/objects/factory/tools/protos/Bolt": {
   },
+  "projects/objects/factory/tools/protos/CapScrew": {
+    "fields": "translation 0 0.01 0 rotation 0 1 0 3.93"
+  },
+  "projects/objects/factory/tools/protos/ElectricalPlug": {
+    "fields": "translation 0 0.1 0"
+  },
+  "projects/objects/factory/tools/protos/EyeScrew": {
+    "fields": "translation 0 0.05 0 rotation 0 1 0 4.71"
+  },
   "projects/objects/factory/tools/protos/Hammer": {
   },
   "projects/objects/factory/tools/protos/Nut": {
@@ -231,6 +246,8 @@
   "projects/objects/factory/tools/protos/PlatformCart": {
   },
   "projects/objects/factory/tools/protos/Screwdriver": {
+  },
+  "projects/objects/factory/tools/protos/Wahser": {
   },
   "projects/objects/factory/tools/protos/Wrench": {
   },
@@ -595,6 +612,9 @@
   },
   "projects/objects/tables/protos/Table": {
   },
+  "projects/objects/television/protos/Telephone": {
+    "fields": "rotation 0 1 0 1.3"
+  },
   "projects/objects/television/protos/Television": {
     "colorThreshold": 0.01,
     "fields": "rotation 0 1 0 1.3472"
@@ -810,5 +830,11 @@
   },
   "projects/robots/tinkerbots/protos/TinkerbotsWheel": {
     "nodeString": "Robot { translation 0 0.027 0 rotation -0.6087598420165832 1.0122819105744343e-6 -0.7933545580299642 3.1415961372248167 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
+  },
+  "projects/samples/environments/factory/protos/DoubleFluorescentLamp": {
+    "nodeString": "DoubleFluorescentLamp { rotation 0 1 0 1.3 }"
+  },
+  "projects/samples/environments/factory/protos/ScrewHole": {
+    "nodeString": "ScrewHole { translation 0 0.1 0 rotation 0 0 1 -1.44 }"
   }
 }
