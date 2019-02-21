@@ -2049,6 +2049,11 @@ Window {
     baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
   }
 }
+Radiator {
+  translation -0.984999998945119 0.3700000000000001 3.354999998465634
+  rotation 0 1 0 1.5707963220000003
+  numberOfFins 30
+}
 Window {
   translation -9.529 0 3.575
   name "window(1)"
@@ -2062,6 +2067,11 @@ Window {
   frameAppearance GlossyCarPaint {
     baseColor 0.579995422293431 0.5203479056992447 0.4736705577172503
   }
+}
+Radiator {
+  translation -9.248999998993073 0.3300000000000001 3.365000001342568
+  rotation 0 1 0 1.5707963220000003
+  name "radiator(2)"
 }
 Wall {
   translation -0.19299999999999998 0 -3.575
@@ -2945,6 +2955,11 @@ DEF WINDOWS Transform {
       }
     }
   ]
+}
+Radiator {
+  translation 11.015470323746214 0.40000000000000013 -2.2953397762727303
+  rotation 0 1 0 3.141592644
+  name "radiator(1)"
 }
 DEF BLACK_TILES Transform {
   translation 11.129999999999997 3.35 6.233365792084495e-10
