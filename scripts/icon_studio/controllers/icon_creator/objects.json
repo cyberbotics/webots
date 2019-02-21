@@ -6,6 +6,12 @@
     "fields": "rotation 0 1 0 0.3",
     "nodeString": ""
   },
+  "projects/bounding_objects/protos/PipeBoundingObject": {
+    "nodeString": "SolidPipe { translation 0 1 0 appearance PBRAppearance { baseColor 0.93 0.16 0.16 roughness 1 metalness 0 } }"
+  },
+  "projects/bounding_objects/protos/TorusBoundingObject": {
+    "nodeString": "SolidTorus { translation 0 1 0 appearance PBRAppearance { baseColor 0.93 0.16 0.16 roughness 1 metalness 0 } }"
+  },
   "projects/objects/advertising_board/protos/AdvertisingBoard": {
     "fields": "translation 0 1.63 0 rotation 0 1 0 1.0854"
   },

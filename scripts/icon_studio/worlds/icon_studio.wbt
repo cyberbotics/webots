@@ -4,7 +4,7 @@ WorldInfo {
 }
 DEF VIEWPOINT Viewpoint {
   orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
-  position 54.32519512629353 36.85193472314329 -3.1707126958688465
+  position 54.325195126293536 36.85193472314329 -3.170712695868847
   near 0.2
 }
 Background {
@@ -28,7 +28,7 @@ Solid {
       appearance Appearance {
         material DEF FLOOR_MATERIAL Material {
           ambientIntensity 0.4
-          diffuseColor 0 1 1
+          diffuseColor 1 1 1
         }
       }
       geometry DEF P Plane {
@@ -50,3 +50,4 @@ DEF SUPERVISOR Robot {
   controller "icon_creator"
   supervisor TRUE
 }
+SolidTorus { translation 0 1 0 appearance PBRAppearance { baseColor 0.93 0.16 0.16 roughness 1 metalness 0 } }
