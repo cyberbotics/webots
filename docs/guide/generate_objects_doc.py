@@ -42,7 +42,8 @@ fileList = sorted(fileList)
 
 # create the 'appearances' page
 with open('appearances.md', 'wb') as file:
-    file.write('# Appearances\n\n')
+    file.write('# Appearances\n')
+    file.write('This chapter describes the list of available appearance PROTO nodes based on the [PBRAppearance](../reference/pbrappearance.md) node.\n\n')
 
 # make sure that if a PROTO has the same name than the title it appears first
 prioritaryProtoList = []
