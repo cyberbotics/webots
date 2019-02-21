@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# A car leather material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
+# A car leather material. The color can be overridden using the `colorOverride` field.
 
 PROTO CarLeather [
   field SFColor                    colorOverride     1 1 1   # Defines the default color multiplied with the texture color.
