@@ -1510,6 +1510,38 @@ Wall {
   }
 }
 Wall {
+  translation 0.23500000000000001 0 7.375
+  rotation 0 0.9999999999999999 0 4.712388966
+  name "wall(21)"
+  size 7.4 4.76 0.2
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 3.7 2.4
+    }
+  }
+}
+TruckSimple {
+  translation -6.859079141676036 0.4999999999999858 8.81339839438023
+  rotation 0 1 0 4.188790192
+  trailer TruckTankSimple {
+  }
+}
+Transform {
+  translation -6.2 0 7.98
+  children [
+    Shape {
+      appearance Asphalt {
+        textureTransform TextureTransform {
+          scale 3.25 2.25
+        }
+      }
+      geometry Plane {
+        size 13 9
+      }
+    }
+  ]
+}
+Wall {
   translation 0.6819999999999807 0 -3.575
   name "wall(8)"
   size 1.1 4.76 0.2
