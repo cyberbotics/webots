@@ -1,7 +1,7 @@
 #VRML_SIM R2019a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A galvanized metal steel material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
+# A galvanized metal material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
 
 PROTO GalvanizedMetal [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
