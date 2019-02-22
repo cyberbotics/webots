@@ -117,7 +117,7 @@ The default value -1 indicates an infinitely strong docking mechanism that does 
 This can be used to simulate the rupture of the docking mechanism.
 The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *xy*-plane).
 Note that if both connectors are locked, the effective shear strength corresponds to the sum of both connectors' `shearStrength` fields.
-The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied.
+The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `shearStrength` field of one of the connectors to -1)..
 
 ### Connector Axis System
 
