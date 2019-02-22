@@ -724,6 +724,322 @@ Cabinet {
 }
 DEF EXERCISES_BOARD Robot {
   children [
+    Robot {
+      translation -10.963797043033926 1.2499999999999045 -0.5399999984656332
+      children [
+        ScrewHole {
+          translation -0.050000001150775186 -0.06 0.012
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.012
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.050000001150775186 -0.06 -0.036
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.012
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.050000001150775186 -0.06 -0.084
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.012
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 0.030000000000000002
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 0.018000000000000002
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 0.006
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.006
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.018
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.03
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.041999999999999996
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.054
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.066
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.078
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.09
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.041999999999999996 -0.102
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.003
+          depth 0.02
+        }
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+          }
+          device [
+            LinearMotor {
+              name "linear motor 0"
+              minPosition -0.0413
+              maxPosition 0.008
+            }
+          ]
+          endPoint Solid {
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  anchor 0.08999999999999997 0 0
+                  dampingConstant 0.005
+                  staticFriction 0.005
+                }
+                device [
+                  PositionSensor {
+                    name "position sensor 0"
+                  }
+                ]
+                endPoint EyeScrew {
+                  translation 0.08999999999999997 0 0
+                  rotation 0 0 0.9999999999999999 4.712388966
+                }
+              }
+            ]
+          }
+        }
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+          }
+          device [
+            LinearMotor {
+              name "linear motor 1"
+              minPosition -0.021
+              maxPosition 0.013000000000000001
+            }
+          ]
+          endPoint Solid {
+            translation -0.05 0.024 -0.048
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  dampingConstant 0.005
+                  staticFriction 0.005
+                }
+                device [
+                  PositionSensor {
+                    name "position sensor 1"
+                  }
+                ]
+                endPoint Bolt {
+                  translation 0.09999999999999996 0 0
+                  rotation 0 0.9999999999999999 0 4.712388966
+                  appearance RustyMetal {
+                    rustLevel 2
+                  }
+                }
+              }
+            ]
+            name "solid(1)"
+          }
+        }
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+          }
+          device [
+            LinearMotor {
+              name "linear motor 2"
+              minPosition -0.021
+              maxPosition 0.028
+            }
+          ]
+          endPoint Solid {
+            translation -0.04999999999999999 -0.024 -0.096
+            children [
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  dampingConstant 0.005
+                  staticFriction 0.005
+                }
+                device [
+                  PositionSensor {
+                    name "position sensor 3"
+                  }
+                ]
+                endPoint CapScrew {
+                  translation 0.11999999999999995 0 0
+                  rotation 0 0.9999999999999999 0 4.712388966
+                  appearance RustyMetal {
+                  }
+                }
+              }
+            ]
+            name "solid(2)"
+          }
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.024 0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.024 0
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.024 -0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0 0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0 0
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0 -0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 -0.024 0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 -0.024 0
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 -0.024 -0.024
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.05 -0.024 -0.048
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 -0.024 -0.072
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 -0.024 -0.096
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999956845929 0 -0.096
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0 -0.072
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.05 0 -0.048
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.05 0.024 -0.048
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999999999999 0.024 -0.072
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+        ScrewHole {
+          translation -0.04999999956845929 0.024 -0.096
+          rotation 0 0 0.9999999999999999 4.712388966
+          radius 0.006
+          depth 0.02
+        }
+      ]
+      name "robot(2)"
+      boundingObject Transform {
+        translation -0.001 -0.018000000000000002 -0.036
+        children [
+          Box {
+            size 0.1 0.132 0.144
+          }
+        ]
+      }
+      controller "screw_controller"
+    }
     SmallValve {
       translation -10.953797037567758 2.2699999999999085 -0.6148854847101892
       rotation 0 1 0 3.141592644
@@ -1130,96 +1446,6 @@ DEF EXERCISES_BOARD Robot {
   ]
   name "solid"
   controller ""
-}
-Robot {
-  translation -10.963797043033926 1.2499999999999045 -0.5399999984656332
-  children [
-    SliderJoint {
-      jointParameters JointParameters {
-        axis 1 0 0
-      }
-      device [
-        LinearMotor {
-          minPosition -0.0413
-          maxPosition 0.008
-        }
-      ]
-      endPoint Solid {
-        children [
-          HingeJoint {
-            jointParameters HingeJointParameters {
-              dampingConstant 0.019999999999999997
-              staticFriction 0.019999999999999997
-            }
-            device [
-              PositionSensor {
-              }
-            ]
-            endPoint EyeScrew {
-              translation 0.08999999999999997 0 0
-              rotation 0 0 0.9999999999999999 4.712388966
-            }
-          }
-        ]
-      }
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0.024 0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0.024 0
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0.024 -0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0 0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0 0
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 0 -0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 -0.024 0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 -0.024 0
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-    ScrewHole {
-      translation -0.04999999999999999 -0.024 -0.024
-      rotation 0 0 0.9999999999999999 4.712388966
-      radius 0.006
-      depth 0.02
-    }
-  ]
-  name "robot(2)"
-  controller "screw_controller"
 }
 ElectricalPlug {
   translation -10.709555940446258 0.7300000002777995 -0.49548886570340245
