@@ -87,7 +87,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     pilImage.thumbnail((128, 128), Image.ANTIALIAS)
     iconImage = Image.new('RGBA', (128, 128))
-    iconImage.paste(pilImage, ((128 - pilImage.size[0]) / 2, (128 - pilImage.size[1]) / 2, ((128 - pilImage.size[0]) / 2) + pilImage.size[0], ((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
+    iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2), int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
     iconImage.save(os.path.join(directory, 'icon.png'))
 
     if not options.disableIconCopy:
