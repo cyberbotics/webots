@@ -45,6 +45,24 @@ These objects are Webots PROTO nodes, and can be easily moved and resized to cre
 The tools and valves are interactive.
 This means that a robot could grab a hammer, or turn a valve handle.
 
+### hall.wbt
+
+**Keywords**: hall, workbench, tools, industrial pipes, industrial stairs
+
+%figure "Screenshots of the hall environment."
+
+|                                          |                                          |
+|------------------------------------------|------------------------------------------|
+| ![hall_a.png](images/samples/hall_a.png) | ![hall_b.png](images/samples/hall_b.png) |
+| ![hall_c.png](images/samples/hall_c.png) | ![hall_d.png](images/samples/hall_d.png) |
+
+%end
+
+This example uses some of the industrial objects included in Webots to create a training hall.
+These objects are Webots PROTO nodes, and can be easily moved and resized to create other layouts.
+The tools, valves and doors are interactive.
+This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door.
+
 ### kitchen.wbt
 
 **Keywords**: kitchen, utensil
