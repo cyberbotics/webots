@@ -105,6 +105,7 @@ If you don't wish to check the rotational alignment criterion this field should 
 The alignment is threefold: 1) the two bodies are rotated such that their z-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their y-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
 Note that when the `numberOfRotations` field is 0, step 2 is omitted, and therefore the rotational alignment remains free.
 As a result of steps 1 and 3, the connector surfaces always become superimposed.
+It is recommended to set the same `snap` value for both connectors.
 
 - `tensileStrength`: maximum tensile force [in Newtons] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
