@@ -193,25 +193,31 @@ if options.singleShot:
     take_original_screenshot(camera, '.' + os.sep + 'images')
     take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(), None)
 elif options.appearance:
-    appearanceFolder = os.path.join(os.environ['WEBOTS_HOME'], 'projects')
-    appearanceFolder = os.path.join(appearanceFolder, 'appearances')
-    appearanceFolder = os.path.join(appearanceFolder, 'protos')
-    for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
-            for fileName in fnmatch.filter(fileNames, '*.proto'):
-                protoName = fileName.split('.')[0]
-                protoPath = rootPath + os.sep + protoName
-                protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
-                nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
-                nodeString += 'Shape { appearance %s { } ' % protoName
-                nodeString += 'geometry Sphere { subdivision 6 } } ] }'
+    with open('appearances.json') as json_data:
+        data = json.load(json_data)
+        appearanceFolder = os.path.join(os.environ['WEBOTS_HOME'], 'projects')
+        appearanceFolder = os.path.join(appearanceFolder, 'appearances')
+        appearanceFolder = os.path.join(appearanceFolder, 'protos')
+        for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
+                for fileName in fnmatch.filter(fileNames, '*.proto'):
+                    protoName = fileName.split('.')[0]
+                    protoPath = rootPath + os.sep + protoName
+                    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
+                    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+                    nodeString += 'Shape { appearance %s { ' % protoName
+                    if protoName in data:
+                        parameters = data[protoName]
+                        if 'fields' in parameters:
+                            nodeString += parameters['fields']
+                    nodeString += ' } '
+                    nodeString += 'geometry Sphere { subdivision 6 } } ] }'
 
-                objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
-                if not os.path.exists(objectDirectory):
-                    os.makedirs(objectDirectory)
-                else:
-                    sys.exit('Multiple definition of ' + protoName)
-                process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1, alphaRejectionThreshold=0.6)
-
+                    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+                    if not os.path.exists(objectDirectory):
+                        os.makedirs(objectDirectory)
+                    else:
+                        sys.exit('Multiple definition of ' + protoName)
+                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1, alphaRejectionThreshold=0.6)
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
