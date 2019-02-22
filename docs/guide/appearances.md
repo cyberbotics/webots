@@ -33,7 +33,7 @@ Asphalt {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -69,7 +69,7 @@ BrushedAluminium {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -105,7 +105,7 @@ CarpetFibers {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -138,13 +138,13 @@ ChequeredParquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
 ## GlossyCarPaint
 
-A glossy car paint material. The color can be selected `baseColor` field. Useful with any of the vehicle PROTOs.
+A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
 
 %figure
 
@@ -174,13 +174,13 @@ GlossyCarPaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
 ## MatteCarPaint
 
-A matte car paint material. The color can be selected `baseColor` field. Useful with any of the vehicle PROTOs.
+A matte car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
 
 %figure
 
@@ -210,7 +210,7 @@ MatteCarPaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -243,7 +243,7 @@ MetalPipePaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -279,7 +279,7 @@ OldSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -315,7 +315,7 @@ PaintedWood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -351,7 +351,7 @@ Parquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -384,7 +384,7 @@ RedBricks {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -420,7 +420,7 @@ RoughConcrete {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -456,7 +456,7 @@ RoughOak {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -492,7 +492,7 @@ RoughPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -528,7 +528,7 @@ Roughcast {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -564,7 +564,7 @@ SandyGround {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines a `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -600,7 +600,7 @@ ShinyLeather {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines a `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -636,7 +636,7 @@ StonePavement {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -672,7 +672,7 @@ ThreadMetalPlate {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -708,7 +708,7 @@ VarnishedPine {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
