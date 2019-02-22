@@ -101,6 +101,9 @@ If you don't wish to check the rotational alignment criterion this field should 
 
 %end
 
+    > **Note**:
+For the `distanceTolerance`, `axisTolerance`, `rotationTolerance` and `numberOfRotations` fields, the value of these fields for the other connector doesn't matter, each connector will check independently if it does satisfy the conditions or not.
+
 - `snap`: when TRUE: the two connectors do automatically snap (align, adjust, etc.) when they become docked.
 The alignment is threefold: 1) the two bodies are rotated such that their z-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their y-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
 Note that when the `numberOfRotations` field is 0, step 2 is omitted, and therefore the rotational alignment remains free.
