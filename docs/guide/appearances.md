@@ -249,7 +249,7 @@ MetalPipePaint {
 
 ## OldSteel
 
-A an old battered steel material.
+An old battered steel material.
 
 %figure
 
@@ -390,7 +390,7 @@ RedBricks {
 
 ## RoughConcrete
 
-A rough concrete material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
+A rough concrete material. The color can be overridden using the `colorOverride` field.
 
 %figure
 

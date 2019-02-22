@@ -1,7 +1,7 @@
 #VRML_SIM R2019a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# A an old battered steel material.
+# An old battered steel material.
 
 PROTO OldSteel [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
