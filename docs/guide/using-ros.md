@@ -87,4 +87,6 @@ In this case, you can build your own custom ROS controller.
 It is possible to implement such a ROS node in C++ using the "roscpp" library on Linux and macOS.
 However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.
 
-On Windows, Linux and macOS, such a controller can be implemented in Python by importing both ROS libraries (including [rospy](http://wiki.ros.org/rospy)) and Webots libraries (controller) in a Webots robot or supervisor controller. A simple example of a Python custom ROS controller is provided in the `WEBOTS_HOME/projects/languages/ros/controllers/ros_python/` folder. A `README.md` file provides all the necessary details to understand it and further extend it.
+On Windows, Linux and macOS, such a controller can be implemented in Python by importing both ROS libraries (including [rospy](http://wiki.ros.org/rospy)) and Webots libraries (controller) in a Webots robot or supervisor controller.
+A simple example of a Python custom ROS controller is provided in the `WEBOTS_HOME/projects/languages/ros/controllers/ros_python/` folder.
+A `README.md` file provides all the necessary details to understand it and further extend it.
