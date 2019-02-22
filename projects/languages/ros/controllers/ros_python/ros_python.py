@@ -55,7 +55,7 @@ print('Running the control loop')
 while robot.step(timeStep) != -1 and not rospy.is_shutdown():
     pub.publish(sensor.getValue())
     print('Published sensor value: ', sensor.getValue())
-    if message != '':
+    if message:
         print(message)
         message = ''
     left.setVelocity(velocity)
