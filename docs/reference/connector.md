@@ -101,7 +101,7 @@ If you don't wish to check the rotational alignment criterion this field should 
 
 %end
 
-    > **Note**:
+> **Note**:
 For the `autoLock`, `distanceTolerance`, `axisTolerance`, `rotationTolerance` and `numberOfRotations` fields, the value of these fields for the other connector doesn't matter, each connector will check independently if it does satisfy the conditions or not.
 
 - `snap`: when TRUE: the two connectors do automatically snap (align, adjust, etc.) when they become docked.
