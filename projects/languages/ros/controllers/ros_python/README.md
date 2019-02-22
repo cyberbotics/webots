@@ -41,4 +41,8 @@ It publishes a ROS topic named "motor" on which it publishes the value of 9 (mot
 When it reads a sensor value greater than 100 on the "sensor" topic, it will publish a value of 0 on the "motor" topic.
 Thus, the robot will move forward until it faces an obstacle.
 
+The `kinetic` folder contains a minimal subset of the ROS kinetic distribution allowing to run the `rospy` package on Windows.
+Similarly, the `python` folder contains a couple of Python modules needed to run `rospy`.
+Both folders were copied and adapted from [here](https://github.com/Wei1234c/ROS_node_on_Windows).
+
 Once you understood the principles behind this very simple example, you will be able to extend it to a more complex setup that will fit the requirements of your ROS project.
