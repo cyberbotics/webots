@@ -1,11 +1,9 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
   info [
-    "Benchmark objective: "
-    "learn how to program a robot."
+    "Simple Thymio II simulation controlled by a ROS node written in Python."
   ]
-  title "Robot Programming"
-  window "robot_programming"
+  title "ROS Python"
   basicTimeStep 20
   contactProperties [
     ContactProperties {
