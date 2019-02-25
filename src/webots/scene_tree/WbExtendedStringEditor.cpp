@@ -112,8 +112,8 @@ const QStringList &WbExtendedStringEditor::defaultControllersEntryList() const {
     QDir defaultDir(WbStandardPaths::projectsPath() + "default/controllers");
     QDir resourcesDir(WbStandardPaths::resourcesControllersPath());
     mDefaultControllersEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
-    if (WbProject::additionalDefaultProject())
-      mDefaultControllersEntryList << QDir(WbProject::additionalDefaultProject()->controllersPath()).entryList(FILTERS);
+    if (WbProject::extraDefaultProject())
+      mDefaultControllersEntryList << QDir(WbProject::extraDefaultProject()->controllersPath()).entryList(FILTERS);
     firstCall = false;
   }
   return mDefaultControllersEntryList;
@@ -126,8 +126,8 @@ const QStringList &WbExtendedStringEditor::defaultPhysicsPluginsEntryList() cons
     QDir defaultDir(WbStandardPaths::projectsPath() + "default/plugins/physics");
     QDir resourcesDir(WbStandardPaths::resourcesPhysicsPluginsPath());
     mDefaultPhysicsPluginsEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
-    if (WbProject::additionalDefaultProject())
-      mDefaultPhysicsPluginsEntryList << QDir(WbProject::additionalDefaultProject()->physicsPluginsPath()).entryList(FILTERS);
+    if (WbProject::extraDefaultProject())
+      mDefaultPhysicsPluginsEntryList << QDir(WbProject::extraDefaultProject()->physicsPluginsPath()).entryList(FILTERS);
     firstCall = false;
   }
   return mDefaultPhysicsPluginsEntryList;
@@ -184,7 +184,7 @@ void WbExtendedStringEditor::editInTextEditor() {
     return;
   }
 
-  enum { projectFile, additionalProjectFile, protoFile, externalProtoFile, resourcesFile, webotsProjectsFile, noFile };
+  enum { projectFile, extraProjectFile, protoFile, externalProtoFile, resourcesFile, webotsProjectsFile, noFile };
   int dirLocation = noFile;
   const QString &fileType = ITEM_LIST_INFO[mStringType].at(0);
 
@@ -240,12 +240,12 @@ void WbExtendedStringEditor::editInTextEditor() {
     }
   }
 
-  // Look into the additional default project directory
-  if (dirLocation == noFile && WbProject::additionalDefaultProject()) {
-    const QString &projectDirPath = WbProject::additionalDefaultProject()->path() + fileType + stringValue();
+  // Look into the extra default project directory
+  if (dirLocation == noFile && WbProject::extraDefaultProject()) {
+    const QString &projectDirPath = WbProject::extraDefaultProject()->path() + fileType + stringValue();
     QDir projectDir(projectDirPath);
     if (projectDir.exists()) {
-      dirLocation = additionalProjectFile;
+      dirLocation = extraProjectFile;
       matchingSourceFiles = projectDir.entryList(filterNames, QDir::Files);
       if (!matchingSourceFiles.isEmpty()) {
         emit editRequested(projectDirPath + "/" + matchingSourceFiles[0]);
@@ -302,8 +302,8 @@ void WbExtendedStringEditor::editInTextEditor() {
     case projectFile:
       dirPath = WbProject::current()->path();
       break;
-    case additionalProjectFile:
-      dirPath = WbProject::additionalDefaultProject()->path();
+    case extraProjectFile:
+      dirPath = WbProject::extraDefaultProject()->path();
       break;
     case protoFile:
       dirPath = node()->proto()->path() + "../";

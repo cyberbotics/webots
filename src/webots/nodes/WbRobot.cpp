@@ -465,8 +465,8 @@ void WbRobot::updateControllerDir() {
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
-    if (WbProject::additionalDefaultProject())
-      path << WbProject::additionalDefaultProject()->controllersPath() + controllerName + '/';
+    if (WbProject::extraDefaultProject())
+      path << WbProject::extraDefaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::system()->controllersPath() + controllerName + '/';
     path.removeDuplicates();

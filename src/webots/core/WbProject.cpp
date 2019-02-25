@@ -37,7 +37,7 @@ static QString gPreviousPath = QString();
 static WbProject *gCurrentProject = NULL;
 static WbProject *gSystemProject = NULL;
 static WbProject *gDefaultProject = NULL;
-static WbProject *gAdditionalDefaultProject = NULL;
+static WbProject *gextraDefaultProject = NULL;
 
 void WbProject::cleanupCurrentProject() {
   delete gCurrentProject;
@@ -47,8 +47,8 @@ void WbProject::cleanupDefaultProject() {
   delete gDefaultProject;
 }
 
-void WbProject::cleanupAdditionalDefaultProject() {
-  delete gAdditionalDefaultProject;
+void WbProject::cleanupextraDefaultProject() {
+  delete gextraDefaultProject;
 }
 
 void WbProject::cleanupSystemProject() {
@@ -73,15 +73,15 @@ WbProject *WbProject::defaultProject() {
   return gDefaultProject;
 }
 
-WbProject *WbProject::additionalDefaultProject() {
-  if (gAdditionalDefaultProject == NULL &&
+WbProject *WbProject::extraDefaultProject() {
+  if (gextraDefaultProject == NULL &&
       !WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty() &&
       QDir(WbPreferences::instance()->value("General/extraProjectPath").toString() + "/default/").exists()) {
-    gAdditionalDefaultProject =
+    gextraDefaultProject =
       new WbProject(WbPreferences::instance()->value("General/extraProjectPath").toString() + "/default/");
-    qAddPostRoutine(WbProject::cleanupAdditionalDefaultProject);
+    qAddPostRoutine(WbProject::cleanupextraDefaultProject);
   }
-  return gAdditionalDefaultProject;
+  return gextraDefaultProject;
 }
 
 WbProject *WbProject::system() {

@@ -27,7 +27,7 @@
 WbProtoList *gCurrent = NULL;
 QFileInfoList WbProtoList::gResourcesProtoCache;
 QFileInfoList WbProtoList::gProjectsProtoCache;
-QFileInfoList WbProtoList::gAdditionalProtoCache;
+QFileInfoList WbProtoList::gExtraProtoCache;
 
 WbProtoList *WbProtoList::current() {
   return gCurrent;
@@ -41,7 +41,7 @@ WbProtoList::WbProtoList(const QString &primarySearchPath) {
   if (firstCall) {
     updateResourcesProtoCache();
     updateProjectsProtoCache();
-    updateAdditionalProtoCache();
+    updateExtraProtoCache();
     firstCall = false;
   }
 
@@ -106,12 +106,12 @@ void WbProtoList::updateProjectsProtoCache() {
   gProjectsProtoCache << protosInfo;
 }
 
-void WbProtoList::updateAdditionalProtoCache() {
-  gAdditionalProtoCache.clear();
+void WbProtoList::updateExtraProtoCache() {
+  gExtraProtoCache.clear();
   QFileInfoList protosInfo;
   if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty())
     findProtosRecursively(WbPreferences::instance()->value("General/extraProjectPath").toString(), protosInfo);
-  gAdditionalProtoCache << protosInfo;
+  gExtraProtoCache << protosInfo;
 }
 
 void WbProtoList::updatePrimaryProtoCache() {
@@ -170,7 +170,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
       return model;
 
   QFileInfoList availableProtoFiles;
-  availableProtoFiles << mPrimaryProtoCache << gAdditionalProtoCache << gProjectsProtoCache << gResourcesProtoCache;
+  availableProtoFiles << mPrimaryProtoCache << gExtraProtoCache << gProjectsProtoCache << gResourcesProtoCache;
 
   foreach (const QFileInfo &fi, availableProtoFiles) {
     if (fi.baseName() == modelName) {
@@ -188,7 +188,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
 
 QString WbProtoList::findModelPath(const QString &modelName) const {
   QFileInfoList availableProtoFiles;
-  availableProtoFiles << mPrimaryProtoCache << gAdditionalProtoCache << gProjectsProtoCache << gResourcesProtoCache;
+  availableProtoFiles << mPrimaryProtoCache << gExtraProtoCache << gProjectsProtoCache << gResourcesProtoCache;
 
   foreach (const QFileInfo &fi, availableProtoFiles) {
     if (fi.baseName() == modelName)

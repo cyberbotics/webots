@@ -74,12 +74,12 @@ private:
 
   static QFileInfoList gResourcesProtoCache;
   static QFileInfoList gProjectsProtoCache;
-  static QFileInfoList gAdditionalProtoCache;
+  static QFileInfoList gExtraProtoCache;
   QFileInfoList mPrimaryProtoCache;
 
   static void updateProjectsProtoCache();
   static void updateResourcesProtoCache();
-  static void updateAdditionalProtoCache();
+  static void updateExtraProtoCache();
   void updatePrimaryProtoCache();
 };
 

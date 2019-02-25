@@ -66,8 +66,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   QStringList searchPaths;
   searchPaths << projectPROTOSearchPath;
   searchPaths.append(WbProject::current()->worldsPath());
-  if (WbProject::additionalDefaultProject())
-    searchPaths.append(WbProject::additionalDefaultProject()->worldsPath());
+  if (WbProject::extraDefaultProject())
+    searchPaths.append(WbProject::extraDefaultProject()->worldsPath());
   searchPaths << webotsPROTOSearchPath;
   searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
   return searchPaths;

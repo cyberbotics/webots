@@ -37,7 +37,7 @@ public:
   static WbProject *defaultProject();
 
   // TODO
-  static WbProject *additionalDefaultProject();
+  static WbProject *extraDefaultProject();
 
   // e.g. /home/yvan/project/worlds/ghostdog.wbt -> /home/yvan/project
   static QString projectPathFromWorldFile(const QString &fileName, bool &valid);
@@ -85,7 +85,7 @@ private:
 
   static void cleanupCurrentProject();
   static void cleanupDefaultProject();
-  static void cleanupAdditionalDefaultProject();
+  static void cleanupextraDefaultProject();
   static void cleanupSystemProject();
 };
 
