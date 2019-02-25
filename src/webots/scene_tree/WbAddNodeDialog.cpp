@@ -217,7 +217,7 @@ void WbAddNodeDialog::updateItemInfo() {
         break;
       case PROTO_EXTRA:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the extra projects located in: '%1'.")
-                                  .arg(WbPreferences::instance()->value("General/extraProjectPath").toString()));
+                                  .arg(WbPreferences::instance()->value("General/extraProjectsPath").toString()));
         break;
       case PROTO_PROJECT:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
@@ -390,7 +390,7 @@ void WbAddNodeDialog::buildTree() {
   QStringList basicNodes;
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
   QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), PROTO_PROJECT);
-  QTreeWidgetItem *aprotosItem = WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty() ?
+  QTreeWidgetItem *aprotosItem = WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() ?
                                    NULL :
                                    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
   basicNodes = WbNodeModel::baseModelNames();
@@ -462,8 +462,8 @@ void WbAddNodeDialog::buildTree() {
   // add extra PROTO
   if (aprotosItem) {
     mIsAddingExtraProtos = true;
-    const QString &extraProjectPath = WbPreferences::instance()->value("General/extraProjectPath").toString();
-    addProtosFromDirectory(aprotosItem, extraProjectPath, mFindLineEdit->text(), QDir(extraProjectPath));
+    const QString &extraProjectsPath = WbPreferences::instance()->value("General/extraProjectsPath").toString();
+    addProtosFromDirectory(aprotosItem, extraProjectsPath, mFindLineEdit->text(), QDir(extraProjectsPath));
     mIsAddingExtraProtos = false;
   }
 

@@ -85,7 +85,7 @@ private:
 
   static void cleanupCurrentProject();
   static void cleanupDefaultProject();
-  static void cleanupextraDefaultProject();
+  static void cleanupExtraDefaultProject();
   static void cleanupSystemProject();
 };
 

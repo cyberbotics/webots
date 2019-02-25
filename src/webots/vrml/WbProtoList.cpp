@@ -109,8 +109,8 @@ void WbProtoList::updateProjectsProtoCache() {
 void WbProtoList::updateExtraProtoCache() {
   gExtraProtoCache.clear();
   QFileInfoList protosInfo;
-  if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty())
-    findProtosRecursively(WbPreferences::instance()->value("General/extraProjectPath").toString(), protosInfo);
+  if (!WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty())
+    findProtosRecursively(WbPreferences::instance()->value("General/extraProjectsPath").toString(), protosInfo);
   gExtraProtoCache << protosInfo;
 }
 

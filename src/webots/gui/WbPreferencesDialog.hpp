@@ -57,7 +57,7 @@ private:
 
   QDialogButtonBox *mButtonBox;
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo;
-  WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
+  WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectsPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
     *mHttpProxyPassword;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
     *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;

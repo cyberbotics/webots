@@ -83,7 +83,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
-  mExtraProjectPath->setText(prefs->value("General/extraProjectPath").toString());
+  mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
@@ -117,7 +117,7 @@ void WbPreferencesDialog::accept() {
   const QString &languageKey = WbTranslator::instance()->findKey(mLanguageCombo->currentText());
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
-      prefs->value("General/extraProjectPath").toString() != mExtraProjectPath->text() ||
+      prefs->value("General/extraProjectsPath").toString() != mExtraProjectsPath->text() ||
       prefs->value("OpenGL/disableAntiAliasing").toBool() != mDisableAntiAliasingCheckBox->isChecked()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
@@ -140,7 +140,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   prefs->setValue("General/pythonCommand", mPythonCommand->text());
-  prefs->setValue("General/extraProjectPath", mExtraProjectPath->text());
+  prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
@@ -244,8 +244,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   mEditorFontEdit = new WbLineEdit(this);
   mPythonCommand = new WbLineEdit(this);
-  mExtraProjectPath = new WbLineEdit(this);
-  mExtraProjectPath->setToolTip(
+  mExtraProjectsPath = new WbLineEdit(this);
+  mExtraProjectsPath->setToolTip(
     tr("Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project."));
 
   // row 0
@@ -280,7 +280,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   // row 6
   layout->addWidget(new QLabel(tr("Extra projects path:"), this), 6, 0);
-  layout->addWidget(mExtraProjectPath, 6, 1);
+  layout->addWidget(mExtraProjectsPath, 6, 1);
 
   // row 7
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
