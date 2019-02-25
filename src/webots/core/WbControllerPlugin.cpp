@@ -14,6 +14,7 @@
 
 #include "WbControllerPlugin.hpp"
 #include "WbFileUtil.hpp"
+#include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
