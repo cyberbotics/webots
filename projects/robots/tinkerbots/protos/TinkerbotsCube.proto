@@ -190,12 +190,12 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation 0 -0.02 0.02
-          rotation 1 0 0 1.57
+          translation 0 0.02 0.02
+          rotation 1 0 0 -1.57
           children [
             Slot {
               type "tinkerbots"
-              endPoint IS backSlot
+              endPoint IS frontSlot
             }
           ]
         }
@@ -240,12 +240,12 @@ PROTO TinkerbotsCube [
           ]
         }
         Transform {
-          translation 0 0.02 0.02
-          rotation 1 0 0 -1.57
+          translation 0 -0.02 0.02
+          rotation 1 0 0 1.57
           children [
             Slot {
               type "tinkerbots"
-              endPoint IS frontSlot
+              endPoint IS backSlot
             }
           ]
         }

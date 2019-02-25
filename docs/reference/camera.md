@@ -4,21 +4,23 @@ Derived from [Device](device.md) and [Solid](solid.md).
 
 ```
 Camera {
-  SFFloat  fieldOfView  0.7854  # [0, pi]
-  SFInt32  width        64      # [0, inf)
-  SFInt32  height       64      # [0, inf)
-  SFBool   spherical    FALSE   # {TRUE, FALSE}
-  SFFloat  near         0.01    # [0, inf)
-  SFFloat  far          0.0     # [0, inf)
-  SFBool   antiAliasing FALSE   # {TRUE, FALSE}
-  SFFloat  motionBlur   0.0     # [0, inf)
-  SFFloat  noise        0.0     # [0, 1]
-  SFString noiseMaskUrl ""      # any string
-  SFNode   lens         NULL    # {Lens, PROTO}
-  SFNode   focus        NULL    # {Focus, PROTO}
-  SFNode   zoom         NULL    # {Zoom, PROTO}
-  SFNode   recognition  NULL    # {Recognition, PROTO}
-  SFNode   lensFlare    NULL    # {LensFlare, PROTO}
+  SFFloat  fieldOfView            0.7854  # [0, pi]
+  SFInt32  width                  64      # [0, inf)
+  SFInt32  height                 64      # [0, inf)
+  SFBool   spherical              FALSE   # {TRUE, FALSE}
+  SFFloat  near                   0.01    # [0, inf)
+  SFFloat  far                    0.0     # [0, inf)
+  SFBool   antiAliasing           FALSE   # {TRUE, FALSE}
+  SFFloat  ambientOcclusionRadius 0       # [0, inf)
+  SFFloat  bloomThreshold         -1.0    # [-1, inf)
+  SFFloat  motionBlur             0.0     # [0, inf)
+  SFFloat  noise                  0.0     # [0, 1]
+  SFString noiseMaskUrl           ""      # any string
+  SFNode   lens                   NULL    # {Lens, PROTO}
+  SFNode   focus                  NULL    # {Focus, PROTO}
+  SFNode   zoom                   NULL    # {Zoom, PROTO}
+  SFNode   recognition            NULL    # {Recognition, PROTO}
+  SFNode   lensFlare              NULL    # {LensFlare, PROTO}
 }
 ```
 
@@ -55,6 +57,19 @@ More information on frustums in the corresponding subsection below.
 - The `antiAliasing` field switches on or off (the default) anti-aliasing effect on the camera images.
 Aliasing artifacts can appear as jagged edges (or moiré patterns, strobing, etc.).
 Anti-aliasing is a technique that selectively blurs these jagged edges (and thus makes them look more smooth) in the rendered camera image, similar to an anti-aliasing filter in real camera sensors.
+
+- The `ambientOcclusionRadius` field denotes the radius of geometric occlusion searches in the scene.
+Increasing the radius can increase occlusion from further objects.
+However, at lower quality levels, near-field occlusion can start to disappear as the radius increases.
+This effect is disabled by default on cameras for performance reasons, with a value of `0`.
+Setting this field to any positive non-zero value enables the effect.
+
+- The `bloomThreshold` field denotes the luminosity above which pixels start to "bloom" - i.e. overexpose the camera and leak light around themselves.
+Decreasing the threshold means pixels bloom more easily, as if the camera were more easily overexposed.
+The effect is disabled by default, with a default threshold of `-1`.
+Setting this value to 0 or any positive value enables the effect.
+Please note this effect is not physically based, like with Ambient Occlusion (GTAO) or PBR.
+It serves as a good approximation of camera overexposure, however.
 
 - If the `motionBlur` field is greater than 0.0, the image is blurred by the motion of the camera or objects in the field of view.
 It means the image returned is a mix between the current view and the previous images returned by the camera.

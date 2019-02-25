@@ -56,12 +56,11 @@ private:
   QButtonGroup *mThreadingPolicyGroup;
 
   QDialogButtonBox *mButtonBox;
-  QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAntiAliasingCombo, *mAmbientOcclusionCombo,
-    *mTextureQualityCombo;
+  QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort, *mHttpProxyUsername,
     *mHttpProxyPassword;
   QCheckBox *mDisableSaveWarningCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox, *mDisableShadowsCheckBox,
-    *mDisableCameraAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;
+    *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox;
 
   QStringList mValidThemeFilenames;
 
