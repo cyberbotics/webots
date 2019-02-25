@@ -2,7 +2,7 @@
 WorldInfo {
   info [
     "Uneven terrain demo using an ElevationGrid to model the terrain and a"
-    "simple robot model roughly inspired from the Dagu Wild Thumper 6WD"
+    "Clearpath moose."
   ]
   title "Uneven Terrain"
   CFM 0.0001
