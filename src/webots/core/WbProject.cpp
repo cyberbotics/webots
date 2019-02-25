@@ -74,9 +74,11 @@ WbProject *WbProject::defaultProject() {
 }
 
 WbProject *WbProject::additionalDefaultProject() {
-  if (gAdditionalDefaultProject == NULL && !qgetenv("WEBOTS_EXTERNAL_PROJECT").isEmpty() &&
-      QDir(QString(qgetenv("WEBOTS_EXTERNAL_PROJECT")) + "/default/").exists()) {
-    gAdditionalDefaultProject = new WbProject(QString(qgetenv("WEBOTS_EXTERNAL_PROJECT")) + "/default/");
+  if (gAdditionalDefaultProject == NULL &&
+      !WbPreferences::instance()->value("General/additionalProjectPath").toString().isEmpty() &&
+      QDir(WbPreferences::instance()->value("General/additionalProjectPath").toString() + "/default/").exists()) {
+    gAdditionalDefaultProject =
+      new WbProject(WbPreferences::instance()->value("General/additionalProjectPath").toString() + "/default/");
     qAddPostRoutine(WbProject::cleanupAdditionalDefaultProject);
   }
   return gAdditionalDefaultProject;

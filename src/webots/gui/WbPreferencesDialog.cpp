@@ -83,6 +83,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
   mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  mAdditionalProjectPath->setText(prefs->value("General/additionalProjectPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
   mDisableSaveWarningCheckBox->setChecked(prefs->value("General/disableSaveWarning").toBool());
@@ -123,6 +124,7 @@ void WbPreferencesDialog::accept() {
   const QString &languageKey = WbTranslator::instance()->findKey(mLanguageCombo->currentText());
   if (languageKey != prefs->value("General/language") ||
       prefs->value("General/theme").toString() != mValidThemeFilenames.at(mThemeCombo->currentIndex()) ||
+      prefs->value("General/additionalProjectPath").toString() != mAdditionalProjectPath->text() ||
       prefs->value("OpenGL/disableCameraAntiAliasing").toBool() != mDisableCameraAntiAliasingCheckBox->isChecked()) {
     willRestart = WbMessageBox::question(
                     tr("You have changed some settings which require Webots to be restarted. Restart Webots Now?"), this,
@@ -145,6 +147,7 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
   prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  prefs->setValue("General/additionalProjectPath", mAdditionalProjectPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
   prefs->setValue("General/disableSaveWarning", mDisableSaveWarningCheckBox->isChecked());
@@ -249,6 +252,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   mEditorFontEdit = new WbLineEdit(this);
   mPythonCommand = new WbLineEdit(this);
+  mAdditionalProjectPath = new WbLineEdit(this);
+  mAdditionalProjectPath->setToolTip(tr("TODO."));
 
   // row 0
   layout->addWidget(new QLabel(tr("Language:"), this), 0, 0);
@@ -281,30 +286,34 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mPythonCommand, 5, 1);
 
   // row 6
+  layout->addWidget(new QLabel(tr("Additional project path:"), this), 6, 0);
+  layout->addWidget(mAdditionalProjectPath, 6, 1);
+
+  // row 7
   mDisableSaveWarningCheckBox = new QCheckBox(tr("Display save warning only for scene tree edit"), this);
   mDisableSaveWarningCheckBox->setToolTip(
     tr("If this option is enabled, Webots will not display any warning when you quit, reload\nor load a new world after the "
        "current world was modified by either changing the viewpoint,\ndragging, rotating, applying a force or applying a "
        "torque to an object. It will however\nstill display a warning if the world was modified from the scene tree."));
-  layout->addWidget(new QLabel(tr("Warnings:"), this), 6, 0);
-  layout->addWidget(mDisableSaveWarningCheckBox, 6, 1);
+  layout->addWidget(new QLabel(tr("Warnings:"), this), 7, 0);
+  layout->addWidget(mDisableSaveWarningCheckBox, 7, 1);
 
-  // row 7
+  // row 8
   mTelemetryCheckBox = new QCheckBox(tr("Send technical data to Webots developers"), this);
   mTelemetryCheckBox->setToolTip(tr("We need your help to continue to improve Webots: more information at:\n"
                                     "https://www.cyberbotics.com/doc/guide/telemetry"));
   QLabel *label = new QLabel(
     tr("Telemetry (<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
   label->setOpenExternalLinks(true);
-  layout->addWidget(label, 7, 0);
-  layout->addWidget(mTelemetryCheckBox, 7, 1);
+  layout->addWidget(label, 8, 0);
+  layout->addWidget(mTelemetryCheckBox, 8, 1);
 
-  // row 8
+  // row 9
   mCheckWebotsUpdateCheckBox = new QCheckBox(tr("Check for Webots updates on startup"), this);
   mCheckWebotsUpdateCheckBox->setToolTip(tr("If this option is enabled, Webots will check if a new version is available for "
                                             "download\nat every startup. If available, it will inform you about it."));
-  layout->addWidget(new QLabel(tr("Update policy:"), this), 8, 0);
-  layout->addWidget(mCheckWebotsUpdateCheckBox, 8, 1);
+  layout->addWidget(new QLabel(tr("Update policy:"), this), 9, 0);
+  layout->addWidget(mCheckWebotsUpdateCheckBox, 9, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);

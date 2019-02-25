@@ -16,6 +16,7 @@
 
 #include "WbNode.hpp"
 #include "WbParser.hpp"
+#include "WbPreferences.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTokenizer.hpp"
@@ -108,8 +109,8 @@ void WbProtoList::updateProjectsProtoCache() {
 void WbProtoList::updateAdditionalProtoCache() {
   gAdditionalProtoCache.clear();
   QFileInfoList protosInfo;
-  if (!qgetenv("WEBOTS_EXTERNAL_PROJECT").isEmpty())
-    findProtosRecursively(qgetenv("WEBOTS_EXTERNAL_PROJECT"), protosInfo);
+  if (!WbPreferences::instance()->value("General/additionalProjectPath").toString().isEmpty())
+    findProtosRecursively(WbPreferences::instance()->value("General/additionalProjectPath").toString(), protosInfo);
   gAdditionalProtoCache << protosInfo;
 }
 
