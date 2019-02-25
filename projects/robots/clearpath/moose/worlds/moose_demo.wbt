@@ -75,17 +75,10 @@ Sassafras {
 DEF PLANE Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.643137 0.556863 0.517647
-        baseColorMap ImageTexture {
-          url [
-            "textures/sand.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance SandyGround {
         textureTransform TextureTransform {
-          scale 20 20
+          rotation 0.2
+          scale 200 200
         }
       }
       geometry DEF PLANE_SHAPE Plane {
