@@ -26,8 +26,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.05310727289440676 0.9905852949191066 0.12617603201775615 4.119796163494606
-  position -12.02933868672596 9.684134359356282 -10.474386724065477
+  orientation 0.05311111677792896 0.9905847591422149 0.12617862033546534 4.119803439837652
+  position -12.02933868672596 9.684134359356282 -10.474386724065475
   near 1
   follow "moose"
 }
@@ -96,129 +96,6 @@ DEF PLANE Solid {
   name "plane"
   boundingObject USE PLANE_SHAPE
 }
-DEF SPHERE Solid {
-  translation 12.566 5.61426 4.6169
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 1"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF SPHERE Solid {
-  translation 12.2924 5.56306 4.5937
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 2"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF SPHERE Solid {
-  translation 12.0534 5.53567 4.3383
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 3"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 5.8025 8.07067 -8.83484
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 1"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 6.1078 8.20828 -8.73148
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 2"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 6.1664 8.20828 -8.58627
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 3"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
 Moose {
   translation -6.96 7.77 -7.02
   rotation -0.24937733402690823 0.9476338693022512 -0.1995018672215266 0.298
@@ -231,6 +108,36 @@ Moose {
       rotation 1 0 0 1.5707996938995747
     }
   ]
+}
+CardboardBox {
+  translation -7.172107545746874 8.489916757502604 -7.043660166796276
+  rotation 0.12041429719471503 -0.9847728548646564 0.1253906749037472 5.730779302602722
+  size 1.2000000000000002 0.6 1
+  mass 5
+}
+CardboardBox {
+  translation -0.5054160679276615 0.3085113796201058 34.962109644968024
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box #1"
+  size 1.2000000000000002 0.6 1
+}
+CardboardBox {
+  translation 0.37456796387561053 0.30908350988383304 34.074344036015866
+  rotation 5.8520417805463954e-05 0.9999996902797917 0.000784866664750261 3.931392842462711
+  name "cardboard box #2"
+  size 1.2000000000000002 0.6 1
+}
+CardboardBox {
+  translation -0.1600549005205327 0.9287350002620774 34.61490894732346
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box #3"
+  size 1.2000000000000002 0.6 1
+}
+CardboardBox {
+  translation -0.011882441662218815 1.4388305798319985 34.46642520363706
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box #4"
+  size 0.30000000000000004 0.4 0.4
 }
 Sassafras {
   translation 7.560552369423128 4.899999999999982 11.745177237218291
