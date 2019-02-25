@@ -710,7 +710,8 @@ void WbConnector::writeAnswer(QDataStream &stream) {
 }
 
 void WbConnector::writeConfigure(QDataStream &) {
-  mSensor->connectToRobotSignal(robot());
+  if (robot())
+    mSensor->connectToRobotSignal(robot());
 }
 
 // converts a rotation from quaternion to euler axis/angle representation
@@ -746,12 +747,12 @@ static inline void quaternionToAxesAndAngle(const double q[4], double aa[4]) {
 // ---------- below: auto-assembly mechanism ------------------------------------------------------------
 
 void WbConnector::assembleAxes(WbConnector *other) {
-  // we need to apply the rotation to the whole robot not only the Connector
-  WbRobot *bot = robot();
+  // we need to apply the rotation to the whole solid not only the Connector
+  WbSolid *solid = topSolid();
 
-  // find current roation of the robot: q
+  // find current roation of the solid: q
   dQuaternion q;
-  dQFromAxisAndAngle(q, bot->rotation().x(), bot->rotation().y(), bot->rotation().z(), bot->rotation().angle());
+  dQFromAxisAndAngle(q, solid->rotation().x(), solid->rotation().y(), solid->rotation().z(), solid->rotation().angle());
 
   // z-axes of both connectors
   WbVector3 z1 = zAxis();
@@ -773,9 +774,9 @@ void WbConnector::assembleAxes(WbConnector *other) {
     double e[4];
     quaternionToAxesAndAngle(k, e);
 
-    // move recursively all the robot parts
-    bot->setRotation(e[0], e[1], e[2], e[3]);
-    bot->resetPhysics();
+    // move recursively all the solid parts
+    solid->setRotation(e[0], e[1], e[2], e[3]);
+    solid->resetPhysics();
 
     // q = k
     memcpy(q, k, sizeof(dQuaternion));
@@ -820,8 +821,8 @@ void WbConnector::assembleAxes(WbConnector *other) {
 
       double e[4];
       quaternionToAxesAndAngle(k, e);
-      bot->setRotation(e[0], e[1], e[2], e[3]);
-      bot->resetPhysics();
+      solid->setRotation(e[0], e[1], e[2], e[3]);
+      solid->resetPhysics();
     }
   }
 
@@ -832,12 +833,12 @@ void WbConnector::assembleAxes(WbConnector *other) {
   // translation from connector 1 to connector
   WbVector3 t = p2 - p1;
 
-  // if necessary translate whole robot
+  // if necessary translate whole solid
   if (!t.isNull())
-    bot->translate(t[0], t[1], t[2]);
+    solid->translate(t[0], t[1], t[2]);
 
   // update ODE bodies
-  // bot->setBody();
+  // solid->setBody();
 }
 
 void WbConnector::assembleWith(WbConnector *other) {
