@@ -8,7 +8,7 @@ PROTO Moose [
   field SFString   controller      ""            # Is `Robot.controller`.
   field SFString   controllerArgs  ""            # Is `Robot.controllerArgs`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
-  field SFColor    color           0.8 0.5 0.1   # Is `Material.diffuseColor`.
+  field SFColor    color           0.8 0.5 0.1   # Set the bumper color.
   field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
 ]
 {
@@ -16,22 +16,18 @@ PROTO Moose [
     translation IS translation
     rotation IS rotation
     name IS name
-    model "ClearPath Moose"
+    model "Clearpath Moose"
     controller IS controller
     controllerArgs IS controllerArgs
     synchronization IS synchronization
     children [
-      GPS {
-      }
-      Compass {
-      }
       Transform {
         translation 0 0.4 0
         rotation 1 0 0 4.712388966
         children IS bodySlot
       }
       DEF MOOSE_BODY_SHAPE Transform {
-        translation 0 -0.060000000000000005 0
+        translation 0 -0.06 0
         rotation 0 1 0 1.5707996938995747
         children [
           Shape {
