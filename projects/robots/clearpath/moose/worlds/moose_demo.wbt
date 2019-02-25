@@ -5,7 +5,6 @@ WorldInfo {
     "Clearpath moose."
   ]
   title "Uneven Terrain"
-  CFM 0.0001
   basicTimeStep 4
   defaultDamping Damping {
   }
@@ -13,16 +12,20 @@ WorldInfo {
   contactProperties [
     ContactProperties {
       material1 "wheel"
-      material2 "floor"
+      material2 "moose wheel"
       coulombFriction [
-        10
+        8
       ]
+      softCFM 1e-06
+      bumpSound ""
+      rollSound ""
+      slideSound ""
     }
   ]
 }
 Viewpoint {
-  orientation 0.16226060291238334 0.9419606281776991 0.2939075904184588 4.179530540092131
-  position -11.994599099691218 11.508384387051546 -9.442712240961116
+  orientation 0.053106819212332484 0.9905851287048921 0.1261775278798117 4.119774835190764
+  position -12.029338686725964 9.684134359356282 -10.474386724065475
   near 1
   follow "moose"
 }
