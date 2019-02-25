@@ -18,22 +18,12 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: release debug profile clean
 
-TARGETS = libraries.Makefile controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.Makefile
+TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.Makefile
 
-ROS_MAKEFILE = controllers/ros.Makefile
 
 ifneq ($(OSTYPE),windows)
-TARGETS += $(ROS_MAKEFILE)
-else
-ifeq ($(MAKECMDGOALS),clean)
-TARGETS += $(ROS_MAKEFILE)
-else
-ifneq (,$(wildcard /mingw64/include/boost))
-TARGETS += $(ROS_MAKEFILE)
-else
-MESSAGE = '\043 \033[0;33mboost not installed, skipping ros controller\033[0m'
-endif
-endif
+TARGETS += controllers/ros.Makefile
+ROS_DEPENDENCIES = libraries.Makefile controllers/ros/include.Makefile
 endif
 
 release debug profile: $(TARGETS)
@@ -44,11 +34,11 @@ endif
 clean: $(TARGETS)
 	@-rm -rf controllers/sumo_supervisor/*.pyc
 
-controllers/%.Makefile libraries/%.Makefile: libraries.Makefile controllers/ros/include.Makefile
+controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
- %.Makefile controllers/ros/%.Makefile:
+%.Makefile controllers/ros/%.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
