@@ -385,14 +385,14 @@ void WbAddNodeDialog::buildTree() {
 
   // basic tree items
   QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots)"), PROTO_WEBOTS);
+  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
 
   QStringList basicNodes;
   mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
-  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Project)")), PROTO_PROJECT);
+  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), PROTO_PROJECT);
   QTreeWidgetItem *aprotosItem = WbPreferences::instance()->value("General/additionalProjectPath").toString().isEmpty() ?
                                    NULL :
-                                   new QTreeWidgetItem(QStringList(tr("PROTO nodes (Additional)")), PROTO_ADDITIONAL);
+                                   new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_ADDITIONAL);
   basicNodes = WbNodeModel::baseModelNames();
 
   QTreeWidgetItem *item = NULL;

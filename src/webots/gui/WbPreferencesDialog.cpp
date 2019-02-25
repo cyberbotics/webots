@@ -286,7 +286,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   layout->addWidget(mPythonCommand, 5, 1);
 
   // row 6
-  layout->addWidget(new QLabel(tr("Additional project path:"), this), 6, 0);
+  layout->addWidget(new QLabel(tr("Extra projects path:"), this), 6, 0);
   layout->addWidget(mAdditionalProjectPath, 6, 1);
 
   // row 7
