@@ -41,7 +41,7 @@ typedef struct _Vector {
   double v;
 } Vector;
 
-static WbDeviceTag motors[6];
+static WbDeviceTag motors[8];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 
@@ -69,9 +69,9 @@ static double modulus_double(double a, double m) {
 // set left and right motor speed [rad/s]
 static void robot_set_speed(double left, double right) {
   int i;
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < 4; i++) {
     wb_motor_set_velocity(motors[i + 0], left);
-    wb_motor_set_velocity(motors[i + 3], right);
+    wb_motor_set_velocity(motors[i + 4], right);
   }
 }
 
@@ -219,11 +219,12 @@ int main(int argc, char *argv[]) {
   printf("Press 'P' to get the robot position\n");
   printf("\n");
 
-  const char *names[6] = {"fl_motor", "ml_motor", "bl_motor", "fr_motor", "mr_motor", "br_motor"};
+  const char *names[8] = {"left motor 1",  "left motor 2",  "left motor 3",  "left motor 4",
+                          "right motor 1", "right motor 2", "right motor 3", "right motor 4"};
 
   // get motor tags
   int i;
-  for (i = 0; i < 6; i++) {
+  for (i = 0; i < 8; i++) {
     motors[i] = wb_robot_get_device(names[i]);
     wb_motor_set_position(motors[i], INFINITY);
   }
