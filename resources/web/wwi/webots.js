@@ -537,7 +537,7 @@ webots.View.prototype.open = function(url, mode) {
       that.toolBar.id = 'toolBar';
       that.toolBar.left = document.createElement('div');
       that.toolBar.left.className = 'toolBarLeft';
-      if (webots.showQuit) {
+      if (typeof webots.showQuit === 'undefined' || webots.showQuit) { // enabled by default
         that.toolBar.left.appendChild(toolBarButton('quit', 'Quit the simulation'));
         that.quitButton.onclick = requestQuit;
       }
@@ -545,7 +545,7 @@ webots.View.prototype.open = function(url, mode) {
       that.infoButton.onclick = toggleInfo;
       that.worldSelectionDiv = document.createElement('div');
       that.toolBar.left.appendChild(that.worldSelectionDiv);
-      if (webots.showRevert) {
+      if (webots.showRevert) { // disabled by default
         that.toolBar.left.appendChild(toolBarButton('revert', 'Save controllers and revert the simulation'));
         that.revertButton.addEventListener('click', function() { reset(true); });
       }
