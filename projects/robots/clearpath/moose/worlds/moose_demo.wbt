@@ -36,17 +36,9 @@ DEF ELEVATION_GRID Solid {
   translation -25 0.01 -25
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 1 0.752941 0.796078
-        baseColorMap ImageTexture {
-          url [
-            "textures/sand.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance SandyGround {
         textureTransform TextureTransform {
-          scale 20 20
+          scale 13 13
         }
       }
       geometry DEF EG ElevationGrid {
