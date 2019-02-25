@@ -74,11 +74,9 @@ WbProject *WbProject::defaultProject() {
 }
 
 WbProject *WbProject::extraDefaultProject() {
-  if (gextraDefaultProject == NULL &&
-      !WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty() &&
+  if (gextraDefaultProject == NULL && !WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty() &&
       QDir(WbPreferences::instance()->value("General/extraProjectPath").toString() + "/default/").exists()) {
-    gextraDefaultProject =
-      new WbProject(WbPreferences::instance()->value("General/extraProjectPath").toString() + "/default/");
+    gextraDefaultProject = new WbProject(WbPreferences::instance()->value("General/extraProjectPath").toString() + "/default/");
     qAddPostRoutine(WbProject::cleanupextraDefaultProject);
   }
   return gextraDefaultProject;
