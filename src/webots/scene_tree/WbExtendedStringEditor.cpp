@@ -112,6 +112,8 @@ const QStringList &WbExtendedStringEditor::defaultControllersEntryList() const {
     QDir defaultDir(WbStandardPaths::projectsPath() + "default/controllers");
     QDir resourcesDir(WbStandardPaths::resourcesControllersPath());
     mDefaultControllersEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
+    if (WbProject::additionalDefaultProject())
+      mDefaultControllersEntryList << QDir(WbProject::additionalDefaultProject()->controllersPath()).entryList(FILTERS);
     firstCall = false;
   }
   return mDefaultControllersEntryList;

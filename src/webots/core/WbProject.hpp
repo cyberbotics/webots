@@ -36,6 +36,9 @@ public:
   // the special "default" project: "WEBOTS_HOME/projects/default"
   static WbProject *defaultProject();
 
+  // TODO
+  static WbProject *additionalDefaultProject();
+
   // e.g. /home/yvan/project/worlds/ghostdog.wbt -> /home/yvan/project
   static QString projectPathFromWorldFile(const QString &fileName, bool &valid);
   static QString projectNameFromWorldFile(const QString &fileName);
@@ -82,6 +85,7 @@ private:
 
   static void cleanupCurrentProject();
   static void cleanupDefaultProject();
+  static void cleanupAdditionalDefaultProject();
   static void cleanupSystemProject();
 };
 

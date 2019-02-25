@@ -471,6 +471,8 @@ void WbRobot::updateControllerDir() {
       for (int i = 0; i < list.size(); ++i)
         path << list[i] + '/' + controllerName + '/';
     }
+    if (WbProject::additionalDefaultProject())
+      path << WbProject::additionalDefaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::system()->controllersPath() + controllerName + '/';
     path.removeDuplicates();

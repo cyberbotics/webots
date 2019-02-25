@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbProject.hpp"
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <cassert>
@@ -36,6 +37,7 @@ static QString gPreviousPath = QString();
 static WbProject *gCurrentProject = NULL;
 static WbProject *gSystemProject = NULL;
 static WbProject *gDefaultProject = NULL;
+static WbProject *gAdditionalDefaultProject = NULL;
 
 void WbProject::cleanupCurrentProject() {
   delete gCurrentProject;
@@ -43,6 +45,10 @@ void WbProject::cleanupCurrentProject() {
 
 void WbProject::cleanupDefaultProject() {
   delete gDefaultProject;
+}
+
+void WbProject::cleanupAdditionalDefaultProject() {
+  delete gAdditionalDefaultProject;
 }
 
 void WbProject::cleanupSystemProject() {
@@ -65,6 +71,15 @@ WbProject *WbProject::defaultProject() {
   }
 
   return gDefaultProject;
+}
+
+WbProject *WbProject::additionalDefaultProject() {
+  if (gAdditionalDefaultProject == NULL && !qgetenv("WEBOTS_EXTERNAL_PROJECT").isEmpty() &&
+      QDir(QString(qgetenv("WEBOTS_EXTERNAL_PROJECT")) + "/default/").exists()) {
+    gAdditionalDefaultProject = new WbProject(QString(qgetenv("WEBOTS_EXTERNAL_PROJECT")) + "/default/");
+    qAddPostRoutine(WbProject::cleanupAdditionalDefaultProject);
+  }
+  return gAdditionalDefaultProject;
 }
 
 WbProject *WbProject::system() {
