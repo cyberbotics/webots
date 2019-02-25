@@ -250,16 +250,16 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
     this.worldSelectionDiv.removeChild(this.worldSelect);
   if (worlds.length <= 1)
     return;
-  this.worldSelect = document.createElement("select");
-  this.worldSelect.id = "worldSelection";
+  this.worldSelect = document.createElement('select');
+  this.worldSelect.id = 'worldSelection';
   this.worldSelectionDiv.appendChild(this.worldSelect);
   for (var i = 0; i < worlds.length; i++) {
-    var option = document.createElement("option");
+    var option = document.createElement('option');
     option.value = worlds[i];
     option.text = worlds[i];
     this.worldSelect.appendChild(option);
-    if (currentWorld == worlds[i])
-      this.worldSelect.selectedIndex = i
+    if (currentWorld === worlds[i])
+      this.worldSelect.selectedIndex = i;
   }
   this.worldSelect.onchange = loadWorld;
   function loadWorld() {
@@ -272,7 +272,7 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
     $('#webotsProgress').show();
     that.stream.socket.send('load:' + that.worldSelect.value);
   }
-}
+};
 
 webots.View.prototype.enableToolBarButtons = function(enabled) {
   var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
@@ -287,7 +287,7 @@ webots.View.prototype.enableToolBarButtons = function(enabled) {
       }
     }
   }
-}
+};
 
 webots.View.prototype.open = function(url, mode) {
   if (mode === undefined)
@@ -1805,9 +1805,9 @@ webots.Stream = function(url, view, onready) {
         that.view.stream.socket.send('timeout:' + that.view.timeout);
     } else if (data.startsWith('loading:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      status = data.substring(0, data.indexOf(':')).trim();
+      var loadingStatus = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
-      $('#webotsProgressMessage').html('Loading: ' + status);
+      $('#webotsProgressMessage').html('Loading: ' + loadingStatus);
       $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
     } else if (data === 'scene load completed') {
       that.view.time = 0;
