@@ -184,7 +184,7 @@ void WbExtendedStringEditor::editInTextEditor() {
     return;
   }
 
-  enum { projectFile, protoFile, externalProtoFile, resourcesFile, webotsProjectsFile, noFile };
+  enum { projectFile, additionalProjectFile, protoFile, externalProtoFile, resourcesFile, webotsProjectsFile, noFile };
   int dirLocation = noFile;
   const QString &fileType = ITEM_LIST_INFO[mStringType].at(0);
 
@@ -240,6 +240,20 @@ void WbExtendedStringEditor::editInTextEditor() {
     }
   }
 
+  // Look into the additional default project directory
+  if (dirLocation == noFile && WbProject::additionalDefaultProject()) {
+    const QString &projectDirPath = WbProject::additionalDefaultProject()->path() + fileType + stringValue();
+    QDir projectDir(projectDirPath);
+    if (projectDir.exists()) {
+      dirLocation = additionalProjectFile;
+      matchingSourceFiles = projectDir.entryList(filterNames, QDir::Files);
+      if (!matchingSourceFiles.isEmpty()) {
+        emit editRequested(projectDirPath + "/" + matchingSourceFiles[0]);
+        return;
+      }
+    }
+  }
+
   // Look into the default project directory
   if (dirLocation == noFile) {
     bool matchingWebotsLocalDefaultDirectory = false;
@@ -287,6 +301,9 @@ void WbExtendedStringEditor::editInTextEditor() {
   switch (dirLocation) {
     case projectFile:
       dirPath = WbProject::current()->path();
+      break;
+    case additionalProjectFile:
+      dirPath = WbProject::additionalDefaultProject()->path();
       break;
     case protoFile:
       dirPath = node()->proto()->path() + "../";
