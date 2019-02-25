@@ -465,12 +465,6 @@ void WbRobot::updateControllerDir() {
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
-    const QString additionalControllerPaths = qgetenv("WEBOTS_CONTROLLER_PATH");
-    if (!additionalControllerPaths.isEmpty()) {
-      const QStringList list = additionalControllerPaths.split(':');
-      for (int i = 0; i < list.size(); ++i)
-        path << list[i] + '/' + controllerName + '/';
-    }
     if (WbProject::additionalDefaultProject())
       path << WbProject::additionalDefaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
