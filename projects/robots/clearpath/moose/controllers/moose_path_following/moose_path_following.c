@@ -29,9 +29,9 @@
 
 #define TIME_STEP 16
 #define TARGET_POINTS_SIZE 21
-#define DISTANCE_TOLERANCE 1.0
-#define ANGLE_TOLERANCE 0.1
-#define MAX_SPEED 10.0
+#define DISTANCE_TOLERANCE 1.5
+#define ANGLE_TOLERANCE 0.2
+#define MAX_SPEED 7.0
 
 enum XYZAComponents { X, Y, Z, ALPHA };
 enum Sides { LEFT, RIGHT };
