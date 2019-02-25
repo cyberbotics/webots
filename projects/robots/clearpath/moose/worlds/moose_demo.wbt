@@ -40,7 +40,7 @@ DEF ELEVATION_GRID Solid {
         baseColor 1 0.752941 0.796078
         baseColorMap ImageTexture {
           url [
-            "uneven_terrain/sand.jpg"
+            "textures/sand.jpg"
           ]
         }
         roughness 0.5
@@ -72,7 +72,7 @@ DEF PLANE Solid {
         baseColor 0.643137 0.556863 0.517647
         baseColorMap ImageTexture {
           url [
-            "uneven_terrain/sand.jpg"
+            "textures/sand.jpg"
           ]
         }
         roughness 0.5
