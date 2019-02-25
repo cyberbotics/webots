@@ -48,6 +48,8 @@ const QStringList &WbControllerPlugin::defaultList(Type type) {
     QStringList pluginsList;
     WbFileUtil::searchDirectoryNameRecursively(pluginsList, "plugins", WbStandardPaths::projectsPath() + "default/");
     WbFileUtil::searchDirectoryNameRecursively(pluginsList, "plugins", WbStandardPaths::resourcesProjectsPath());
+    if (WbProject::additionalDefaultProject())
+      WbFileUtil::searchDirectoryNameRecursively(pluginsList, "plugins", WbProject::additionalDefaultProject()->path());
 
     searchPossibleControllerPlugins(lists[ROBOT_WINDOW], pluginsList, ROBOT_WINDOW);
     lists[ROBOT_WINDOW].sort();

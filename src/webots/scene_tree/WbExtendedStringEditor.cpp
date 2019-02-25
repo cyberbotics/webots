@@ -126,6 +126,8 @@ const QStringList &WbExtendedStringEditor::defaultPhysicsPluginsEntryList() cons
     QDir defaultDir(WbStandardPaths::projectsPath() + "default/plugins/physics");
     QDir resourcesDir(WbStandardPaths::resourcesPhysicsPluginsPath());
     mDefaultPhysicsPluginsEntryList << defaultDir.entryList(FILTERS) << resourcesDir.entryList(FILTERS);
+    if (WbProject::additionalDefaultProject())
+      mDefaultPhysicsPluginsEntryList << QDir(WbProject::additionalDefaultProject()->physicsPluginsPath()).entryList(FILTERS);
     firstCall = false;
   }
   return mDefaultPhysicsPluginsEntryList;
