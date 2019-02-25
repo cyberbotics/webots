@@ -5,6 +5,8 @@ WorldInfo {
     "Clearpath moose."
   ]
   title "Uneven Terrain"
+  CFM 0.0003
+  ERP 0.6
   basicTimeStep 4
   defaultDamping Damping {
   }
