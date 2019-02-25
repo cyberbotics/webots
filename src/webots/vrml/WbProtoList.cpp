@@ -26,6 +26,7 @@
 WbProtoList *gCurrent = NULL;
 QFileInfoList WbProtoList::gResourcesProtoCache;
 QFileInfoList WbProtoList::gProjectsProtoCache;
+QFileInfoList WbProtoList::gAdditionalProtoCache;
 
 WbProtoList *WbProtoList::current() {
   return gCurrent;
@@ -39,6 +40,7 @@ WbProtoList::WbProtoList(const QString &primarySearchPath) {
   if (firstCall) {
     updateResourcesProtoCache();
     updateProjectsProtoCache();
+    updateAdditionalProtoCache();
     firstCall = false;
   }
 
@@ -103,6 +105,14 @@ void WbProtoList::updateProjectsProtoCache() {
   gProjectsProtoCache << protosInfo;
 }
 
+void WbProtoList::updateAdditionalProtoCache() {
+  gAdditionalProtoCache.clear();
+  QFileInfoList protosInfo;
+  if (!qgetenv("WEBOTS_EXTERNAL_PROJECT").isEmpty())
+    findProtosRecursively(qgetenv("WEBOTS_EXTERNAL_PROJECT"), protosInfo);
+  gAdditionalProtoCache << protosInfo;
+}
+
 void WbProtoList::updatePrimaryProtoCache() {
   mPrimaryProtoCache.clear();
 
@@ -159,7 +169,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
       return model;
 
   QFileInfoList availableProtoFiles;
-  availableProtoFiles << mPrimaryProtoCache << gProjectsProtoCache << gResourcesProtoCache;
+  availableProtoFiles << mPrimaryProtoCache << gAdditionalProtoCache << gProjectsProtoCache << gResourcesProtoCache;
 
   foreach (const QFileInfo &fi, availableProtoFiles) {
     if (fi.baseName() == modelName) {
@@ -177,7 +187,7 @@ WbProtoModel *WbProtoList::findModel(const QString &modelName, const QString &wo
 
 QString WbProtoList::findModelPath(const QString &modelName) const {
   QFileInfoList availableProtoFiles;
-  availableProtoFiles << mPrimaryProtoCache << gProjectsProtoCache << gResourcesProtoCache;
+  availableProtoFiles << mPrimaryProtoCache << gAdditionalProtoCache << gProjectsProtoCache << gResourcesProtoCache;
 
   foreach (const QFileInfo &fi, availableProtoFiles) {
     if (fi.baseName() == modelName)
