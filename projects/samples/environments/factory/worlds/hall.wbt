@@ -1150,6 +1150,16 @@ DEF EXERCISES_BOARD Robot {
       rotation 0 1 0 3.141592644
       name "wall plug(2)"
     }
+    Connector {
+      translation -10.957 2.4399999999999005 0.475
+      rotation 0 1 0 1.5707963220000003
+      type "active"
+      isLocked TRUE
+      autoLock TRUE
+      numberOfRotations 2
+      snap FALSE
+      tensileStrength 5
+    }
     Solid {
       translation -11.003797034978502 1.869999999999905 1.0051145115497917
       children [
@@ -1447,9 +1457,37 @@ DEF EXERCISES_BOARD Robot {
   name "solid"
   controller ""
 }
+DEF ELECTRIC_PLUG Robot {
+  translation -10.747000000000005 2.439999998992974 0.4750000050346415
+  rotation -4.794896624534196e-09 1 -9.589793249068392e-09 1.5707963028204133
+  children [
+    ElectricalPlug {
+      rotation 0 1 0 6.283185307179586
+    }
+    Connector {
+      rotation 0 1 0 3.141592644
+      type "passive"
+      autoLock TRUE
+      numberOfRotations 2
+      tensileStrength 5
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0 0.01
+    children [
+      Sphere {
+        radius 0.01
+      }
+    ]
+  }
+  physics Physics {
+  }
+  controller ""
+}
 ElectricalPlug {
   translation -10.709555940446258 0.7300000002777995 -0.49548886570340245
   rotation 0.5199879474258308 0.5199879449325424 -0.6776614727551674 4.332744290826959
+  name "electrical plug(1)"
 }
 EyeScrew {
   translation -10.742264077286166 0.7600000002777996 -0.6131851716533006
