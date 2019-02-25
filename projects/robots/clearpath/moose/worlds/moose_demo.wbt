@@ -21,7 +21,7 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.18629392293385275 0.9417966103971879 0.27984588423323864 4.34489
+  orientation 0.18629401796589878 0.9417965589409529 0.2798459941416014 4.344890004239875
   position -15.6442 14.2831 -10.0043
   near 1
   follow "robot"
@@ -214,14 +214,16 @@ DEF BOX Solid {
 }
 Moose {
   translation -6.96 7.77 -7.02
-  rotation -0.25 0.95 -0.2 0.298
+  rotation -0.24937733402690823 0.9476338693022512 -0.1995018672215266 0.298
+  controller "moose_path_following"
   bodySlot [
     Compass {
+      rotation 1 0 0 1.5707996938995747
     }
     GPS {
+      rotation 1 0 0 1.5707996938995747
     }
   ]
-  controller "moose_path_following"
 }
 SimpleTree {
   translation -4.7 7.4 -3.9
