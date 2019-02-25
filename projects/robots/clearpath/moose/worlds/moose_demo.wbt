@@ -24,16 +24,16 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.053106819212332484 0.9905851287048921 0.1261775278798117 4.119774835190764
+  orientation 0.053105973939654834 0.9905853693049682 0.12617599474884403 4.1197781172663115
   position -12.029338686725964 9.684134359356282 -10.474386724065475
   near 1
   follow "moose"
 }
 TexturedBackground {
-  texture "noon_stormy_empty"
+  texture "noon_cloudy_empty"
 }
 TexturedBackgroundLight {
-  texture "noon_stormy_empty"
+  texture "noon_cloudy_empty"
 }
 DEF ELEVATION_GRID Solid {
   translation -25 0.01 -25
