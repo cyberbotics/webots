@@ -253,7 +253,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   mEditorFontEdit = new WbLineEdit(this);
   mPythonCommand = new WbLineEdit(this);
   mExtraProjectPath = new WbLineEdit(this);
-  mExtraProjectPath->setToolTip(tr("TODO."));
+  mExtraProjectPath->setToolTip(
+    tr("Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project."));
 
   // row 0
   layout->addWidget(new QLabel(tr("Language:"), this), 0, 0);

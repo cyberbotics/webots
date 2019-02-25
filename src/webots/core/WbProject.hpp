@@ -36,7 +36,7 @@ public:
   // the special "default" project: "WEBOTS_HOME/projects/default"
   static WbProject *defaultProject();
 
-  // TODO
+  // the special "default" project in the 'extra projects': "EXTRA_PROJECT_PATH/default"
   static WbProject *extraDefaultProject();
 
   // e.g. /home/yvan/project/worlds/ghostdog.wbt -> /home/yvan/project

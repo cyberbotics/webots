@@ -216,7 +216,7 @@ void WbAddNodeDialog::updateItemInfo() {
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
       case PROTO_EXTRA:
-        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the TODO: '%1'.")
+        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the extra projects located in: '%1'.")
                                   .arg(WbPreferences::instance()->value("General/extraProjectPath").toString()));
         break;
       case PROTO_PROJECT:
