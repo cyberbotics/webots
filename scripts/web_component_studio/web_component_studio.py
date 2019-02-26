@@ -1,4 +1,4 @@
-"""Create a robot component scene foreach robot of the robots.json file."""
+"""Create a web component scene foreach component of the components.json file."""
 
 # Usage:
 # `python web_component_studio.py`
@@ -10,7 +10,7 @@ from shutil import copyfile
 # Paths.
 WORLD = 'worlds/web_component_studio.wbt'
 TEMPLATE = 'worlds/web_component_studio_template.wbt'
-ROBOTS = 'robots.json'
+ROBOTS = 'components.json'
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
 
@@ -30,16 +30,16 @@ def run_webots():
 
 
 # Script logics.
-for robot in json.load(open(ROBOTS))['robots']:
-    print ('Export ' + robot['name'] + ' robot component...')
+for component in json.load(open(ROBOTS))['components']:
+    print ('Export ' + component['name'] + ' web component...')
 
     copyfile(TEMPLATE, WORLD)
 
-    search_and_replace(WORLD, '%ROBOT%', robot['proto'])
-    search_and_replace(WORLD, '%ROBOT_TRANSLATION%', robot['translation'])
-    search_and_replace(WORLD, '%ROBOT_ROTATION%', robot['rotation'])
-    search_and_replace(WORLD, '%ROBOT_NAME%', robot['name'])
-    search_and_replace(WORLD, '%VIEWPOINT_POSITION%', robot['viewpoint']['position'])
-    search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', robot['viewpoint']['orientation'])
+    search_and_replace(WORLD, '%ROBOT%', component['proto'])
+    search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
+    search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
+    search_and_replace(WORLD, '%ROBOT_NAME%', component['name'])
+    search_and_replace(WORLD, '%VIEWPOINT_POSITION%', component['viewpoint']['position'])
+    search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
 
     run_webots()
