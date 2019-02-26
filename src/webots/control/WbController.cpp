@@ -462,6 +462,11 @@ void WbController::setProcessEnvironment() {
   if (searchDefaultLibraries) {
     // this search is cached because it takes significant time
     WbFileUtil::searchDirectoryNameRecursively(defaultLibrariesPaths, "libraries", WbStandardPaths::resourcesProjectsPath());
+    if (WbProject::extraDefaultProject()) {
+      const QString extraDefaultLibrariesPath = WbProject::extraDefaultProject()->librariesPath();
+      if (QDir(extraDefaultLibrariesPath).exists())
+        defaultLibrariesPaths << extraDefaultLibrariesPath;
+    }
     const QString defaultLibrariesPath = WbProject::defaultProject()->librariesPath();
     if (QDir(defaultLibrariesPath).exists())
       defaultLibrariesPaths << defaultLibrariesPath;
