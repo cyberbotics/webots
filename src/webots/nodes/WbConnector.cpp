@@ -264,8 +264,10 @@ void WbConnector::snapZAxes(WbConnector *other, dQuaternion q) {
   if (w.isNull())
     return;  // nothing to do
 
-  // rotate b1 and b2 towards each other halfway
-  dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2) / 2.0);
+  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())  // rotate b1 and b2 towards each other halfway
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2) / 2.0);
+  else  // rotate only one body (the other one is static)
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2));
   rotateBodies(other, q);
 }
 
@@ -322,9 +324,11 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const Wb
   const double beta = findClosestRotationalAlignment(alpha);
   assert(beta != -1.0);
 
-  // rotate b1 and b2 towards each other halfway
   dQuaternion q;
-  dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);
+  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);  // rotate b1 and b2 towards each other halfway
+  else
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], alpha - beta);  // rotate b1 or b2 towards the other
   rotateBodies(other, q);
 }
 
@@ -353,16 +357,29 @@ void WbConnector::snapOrigins(WbConnector *other) {
   dVector3 p1, p2;
   if (b1)
     getOriginInWorldCoordinates(p1);
+  else {
+    const WbVector3 translation = matrix().translation();
+    for (int i = 0; i < 3; ++i)
+      p1[i] = translation[i];
+  }
   if (b2)
     other->getOriginInWorldCoordinates(p2);
+  else {
+    const WbVector3 translation = other->matrix().translation();
+    for (int i = 0; i < 3; ++i)
+      p2[i] = translation[i];
+  }
 
   // retrieve current body positions
-  const dReal *d1 = b1 ? dBodyGetPosition(b1) : NULL;
-  const dReal *d2 = b2 ? dBodyGetPosition(b2) : NULL;
+  const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
+  const dReal *d2 = b2 ? dBodyGetPosition(b2) : other->matrix().translation().ptr();
 
   // each body must be shifted towards the other by half the distance
-  dReal h[3] = {(p2[0] - p1[0]) / 2.0, (p2[1] - p1[1]) / 2.0, (p2[2] - p1[2]) / 2.0};
-  // TODO: not half in case 1 is NULL
+  dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
+  if (b1 && b2) {
+    for (int i = 0; i < 3; ++i)
+      h[i] /= 2.0;
+  }
 
   // shift bodies
   if (b1)
