@@ -2,7 +2,7 @@
 
 The Web Component Studio is a script used to create the 3D web components displayed in the online documentation.
 
-A Web component is a view of a Webots model, typically a robot.
+A web component is an interactive 3D view of a Webots model, typically a robot.
 In addition of a 3D view of the Webots model, the Web component displays the list of the robot devices.
 Motors can be moved using sliders.
 The device origin location are displayed when the mouse is over an item of the device list.
