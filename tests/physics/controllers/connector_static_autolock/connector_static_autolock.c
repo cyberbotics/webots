@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include <webots/connector.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
@@ -9,7 +10,6 @@
 #define TIME_STEP 32
 
 int main(int argc, char **argv) {
-  double previous_distance = 0;
   ts_setup(argv[0]);
 
   WbNodeRef solid = wb_supervisor_node_get_from_def("SOLID");
@@ -28,9 +28,7 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
 
   const double *position = wb_supervisor_node_get_position(solid);
-  const double expected_position[3] = {0.25, 0.2, 0.0};
-  ts_assert_vec3_in_delta(position[0], position[1 position[2], 0.25, 0.2, 0.0, 0.001,
-                          "Solid not at teh expected position.")
+  ts_assert_vec3_in_delta(position[0], position[1], position[2], 0.25, 0.2, 0.0, 0.001, "Solid not at teh expected position.");
 
   ts_send_success();
   return EXIT_SUCCESS;
