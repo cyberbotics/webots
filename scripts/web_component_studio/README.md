@@ -1,6 +1,6 @@
 # Web Component Studio
 
-The Web Component Studio is a script to create the Web components displayed in the online documentation.
+The Web Component Studio is a script used to create the 3D web components displayed in the online documentation.
 
 A Web component is a view of a Webots model, typically a robot.
 In addition of a 3D view of the Webots model, the Web component displays the list of the robot devices.
