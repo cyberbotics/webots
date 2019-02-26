@@ -2,7 +2,7 @@
 # tags: static
 
 PROTO Moose [
-  field SFVec3f    translation     0 0.016 0     # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
   field SFRotation rotation        0 1 0 1.5708  # Is `Transform.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
   field SFString   controller      ""            # Is `Robot.controller`.
