@@ -1,5 +1,7 @@
 #VRML_SIM R2019a utf8
-# tags: static
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static, hidden
 
 PROTO MooseWheel [
   field SFString name "moose wheel"

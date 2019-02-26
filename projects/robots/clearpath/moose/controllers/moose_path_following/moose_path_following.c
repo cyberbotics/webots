@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-/*
- * Description:  Uneven terrain demo using an ElevationGrid as ground and a
- *               simple robot model roughly inspired from the Dagu Wild Thumper 6WD
- */
-
 #include <math.h>
 #include <stdio.h>
 #include <webots/compass.h>
