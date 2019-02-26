@@ -22,10 +22,13 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <dirent.h>
+#include <locale.h>  // LC_NUMERIC
 #include <stdarg.h>
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
+#include <sys/stat.h>
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
@@ -930,6 +933,7 @@ int wb_robot_init() {  // API initialization
   static bool already_done = false;
   if (already_done)
     return true;
+  setlocale(LC_NUMERIC, "C");
   // the robot.configuration points to a data structure is made up of the following:
   // one uint8 saying if the robot is synchronized (1) or not (0)
   // one uint8 giving the number of devices n
@@ -952,8 +956,63 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  if (!scheduler_init())
-    exit(EXIT_FAILURE);  // failed to initialize
+  char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
+  char *pipe;
+  if (WEBOTS_SERVER && WEBOTS_SERVER[0])
+    pipe = strdup(WEBOTS_SERVER);
+  else {
+    const char *WEBOTS_PID = getenv("WEBOTS_PID");
+    int webots_pid = 0;
+    if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
+      sscanf(WEBOTS_PID, "%d", &webots_pid);
+    const char *tmp;
+#ifdef _WIN32
+    char *t = getenv("TEMP");
+    tmp = (t && t[0]) ? t : getenv("TMP");
+#elif defined(__linux__)
+    tmp = "/tmp";
+#elif defined(__APPLE__)
+    tmp = "/var/tmp";
+#endif
+    char buffer[1024];
+    if (webots_pid == 0) {  // get the webots pid from the most recent "webots-xxx" folder
+      DIR *dir;
+      struct dirent *entry;
+      dir = opendir(tmp);
+      if (dir) {
+        time_t most_recent = 0;
+        while ((entry = readdir(dir))) {
+          if (strncmp(entry->d_name, "webots-", 7) == 0) {
+            struct stat s;
+            snprintf(buffer, sizeof(buffer), "%s/%s", tmp, entry->d_name);
+            if (stat(buffer, &s) < 0)
+              break;
+            if (s.st_mtime < most_recent)
+              continue;
+            sscanf(entry->d_name, "webots-%d", &webots_pid);
+            most_recent = s.st_mtime;
+          }
+        }
+        closedir(dir);
+      }
+    }
+    snprintf(buffer, sizeof(buffer), "%s/webots-%d/WEBOTS_SERVER", tmp, webots_pid);
+    FILE *fd = fopen(buffer, "r");
+    if (fd) {
+      fscanf(fd, "%1023s", buffer);
+      fclose(fd);
+      pipe = strdup(buffer);
+    } else
+      pipe = NULL;
+  }
+
+  if (!pipe || !scheduler_init(pipe)) {
+    if (!pipe)
+      fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
+    free(pipe);
+    exit(EXIT_FAILURE);
+  }
+  free(pipe);
 
   // robot device
   robot.n_device = 1;

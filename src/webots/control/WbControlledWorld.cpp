@@ -19,6 +19,7 @@
 #include "WbProtoList.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
@@ -46,7 +47,7 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
   // during the mServer->listen() call ("Address in use")
   const unsigned int seed = WbRandom::getSeed();
   WbRandom::setSeed(QDateTime::currentMSecsSinceEpoch());
-  static QString serverName = QString("webots_%1_%2").arg(QCoreApplication::applicationPid()).arg(WbRandom::nextUniform());
+  static QString serverName = QString("webots_%1_%2").arg(QCoreApplication::applicationPid()).arg(WbRandom::nextUInt());
   WbRandom::setSeed(seed);
 
   // recover from a crash, when the previous server instance has not been cleaned up
@@ -66,7 +67,12 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
   }
   mNeedToYield = false;
   qputenv("WEBOTS_SERVER", mServer->fullServerName().toUtf8());
-
+  QFile file(WbStandardPaths::webotsTmpPath() + "WEBOTS_SERVER");
+  if (file.open(QIODevice::WriteOnly)) {
+    QTextStream stream(&file);
+    stream << mServer->fullServerName().toUtf8() << endl;
+    file.close();
+  }
   foreach (WbRobot *const robot, robots())
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
 }
@@ -176,8 +182,21 @@ void WbControlledWorld::addControllerConnection() {
   int robotId = 0;
   stream >> robotId;
 
-  // qDebug() << "WbControlledWorld: received" << bytes.size() << "bytes for robot_id =" << robotId << ":";
+  qDebug() << "WbControlledWorld: received" << bytes.size() << "bytes for robot_id =" << robotId << ":";
+
+  foreach (WbRobot *const robot, robots()) {
+    qDebug() << "checking" << robot->uniqueId();
+    if (robotId == robot->uniqueId()) {
+      if (robot->controller()) {
+        qDebug() << "setting socket";
+        robot->controller()->setSocket(socket);
+        return;
+      }
+    }
+  }
+
   foreach (WbController *const controller, mControllers) {
+    qDebug() << "checking" << controller->robotId();
     if (controller->robotId() == robotId) {
       controller->setSocket(socket);
       return;
