@@ -37,7 +37,7 @@ Solid {
   boundingObject USE P
 }
 Supervisor {
-  controller "robot_component_supervisor"
+  controller "web_component_studio_supervisor"
 }
 DEF ROBOT %ROBOT% {
   translation %ROBOT_TRANSLATION%

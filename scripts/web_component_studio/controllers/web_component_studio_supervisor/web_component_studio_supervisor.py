@@ -1,13 +1,14 @@
-"""Create a robot component scene foreach robot of the robots.json file."""
+"""Create a web component scene foreach robot of the robots.json file."""
 
 # Typical command to run:
-# `./webots --enable-x3d-meta-file-export --mode=fast --minimize private_projects/robot_component_studio/worlds/robot_component_studio.wbt`
+# `./webots --enable-x3d-meta-file-export --mode=fast --minimize private_projects/web_component_studio/worlds/web_component_studio.wbt`
 
 from controller import Supervisor
 import json
 import os
 import shutil
 from lxml import etree
+
 
 def _compareDevice(d1, d2):
     priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']  # Device types appearing first.

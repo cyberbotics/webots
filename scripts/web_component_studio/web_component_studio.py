@@ -1,15 +1,15 @@
 """Create a robot component scene foreach robot of the robots.json file."""
 
 # Usage:
-# `python robot_component_studio.py`
+# `python web_component_studio.py`
 
 import json
 import os
 from shutil import copyfile
 
 # Paths.
-WORLD = 'worlds/robot_component_studio.wbt'
-TEMPLATE = 'worlds/robot_component_studio_template.wbt'
+WORLD = 'worlds/web_component_studio.wbt'
+TEMPLATE = 'worlds/web_component_studio_template.wbt'
 ROBOTS = 'robots.json'
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 assert WEBOTS_HOME, 'WEBOTS_HOME is undefined'
