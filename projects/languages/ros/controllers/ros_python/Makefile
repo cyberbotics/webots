@@ -17,7 +17,9 @@ ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencie
 
 release debug profile: kinetic python
 
-kinetic python:
+kinetic: python
+
+python:
 	@echo "# downloading and installing rospy dependencies"
 	@wget -q $(ROS_PYTHON_DEPENDENCY_URL)
 	@unzip -q -o $(ROS_PYTHON_ZIP)
