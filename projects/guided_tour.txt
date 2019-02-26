@@ -22,7 +22,7 @@ projects/robots/bluebotics/shrimp/worlds/shrimp.wbt 25
 projects/robots/epfl/biorob/worlds/ghostdog.wbt 20
 projects/robots/surveyor/worlds/srv-1.wbt 20
 projects/robots/neuronics/ipr/worlds/ipr_factory.wbt 40
-projects/samples/demos/worlds/uneven_terrain.wbt 60
+projects/robots/clearpath/moose/worlds/moose_demo.wbt 60
 projects/robots/fujitsu/hoap2/worlds/hoap2_walk.wbt 30
 projects/robots/micromagic/mantis/worlds/mantis.wbt 30
 projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 60

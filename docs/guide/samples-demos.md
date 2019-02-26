@@ -55,11 +55,3 @@ A Stewart platform is a kind of parallel manipulator that uses an octahedral ass
 It has six degrees of freedom (*x*, *y*, *z*, pitch, roll, and yaw).
 In this example, the Stewart platform is loaded with a few stacked boxes, then the platform moves and the boxes stumble apart.
 This simulation attaches both ends of the linear actuators (hydraulic pistons) to the lower and the upper parts of the Stewart platform.
-
-### uneven\_terrain.wbt
-
-**Keywords**: ElevationGrid, uneven terrain
-
-![uneven_terrain.png](images/samples/uneven_terrain.png) This example demonstrates the creation of an uneven terrain based on the [ElevationGrid](../reference/elevationgrid.md) primitive.
-In this world, a six-wheeled robots with rotational suspensions is moving along a predefined path (composed of a list of [GPS](../reference/gps.md) coordinates).
-To do so, it uses its [GPS](../reference/gps.md) and [Compass](../reference/compass.md) sensors.

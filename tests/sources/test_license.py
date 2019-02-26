@@ -80,7 +80,8 @@ class TestLicense(unittest.TestCase):
             'projects',
             'include/controller',
             'include/plugins',
-            'resources/languages/cpp'
+            'resources/languages/cpp',
+            'scripts'
         ]
 
         skippedDirectoryPaths = [
