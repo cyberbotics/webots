@@ -59,6 +59,7 @@ void WbConnector::init() {
   mFixedJoint = 0;
   mStartup = true;
   mSensor = NULL;
+  mIsJointInversed = false;
 
   // init fields
   mType = findSFString("type");
@@ -228,17 +229,21 @@ void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q) {
   dBodyID b2 = other->upperSolid()->bodyMerger();
 
   // get current quaternions of bodies
-  const dReal *q1 = dBodyGetQuaternion(b1);
-  const dReal *q2 = dBodyGetQuaternion(b2);
+  const dReal *q1 = b1 ? dBodyGetQuaternion(b1) : NULL;
+  const dReal *q2 = b2 ? dBodyGetQuaternion(b2) : NULL;
 
   // multiply quaternions (rotation)
   dQuaternion q1n, q2n;
-  dQMultiply0(q1n, q, q1);  // q
-  dQMultiply1(q2n, q, q2);  // inverse of q
+  if (q1)
+    dQMultiply0(q1n, q, q1);  // q
+  if (q2)
+    dQMultiply1(q2n, q, q2);  // inverse of q
 
   // change current bodies orientation
-  dBodySetQuaternion(b1, q1n);
-  dBodySetQuaternion(b2, q2n);
+  if (q1)
+    dBodySetQuaternion(b1, q1n);
+  if (q2)
+    dBodySetQuaternion(b2, q2n);
 }
 
 // rotate both (parent) bodies such that the connectors z-axes
@@ -257,8 +262,10 @@ void WbConnector::snapZAxes(WbConnector *other, dQuaternion q) {
   if (w.isNull())
     return;  // nothing to do
 
-  // rotate b1 and b2 towards each other halfway
-  dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2) / 2.0);
+  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())  // rotate b1 and b2 towards each other halfway
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2) / 2.0);
+  else  // rotate only one body (the other one is static)
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2));
   rotateBodies(other, q);
 }
 
@@ -315,9 +322,11 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const Wb
   const double beta = findClosestRotationalAlignment(alpha);
   assert(beta != -1.0);
 
-  // rotate b1 and b2 towards each other halfway
   dQuaternion q;
-  dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);
+  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);  // rotate b1 and b2 towards each other halfway
+  else
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], alpha - beta);  // rotate b1 or b2 towards the other
   rotateBodies(other, q);
 }
 
@@ -344,19 +353,37 @@ void WbConnector::snapOrigins(WbConnector *other) {
 
   // get positions of connector 1 and 2
   dVector3 p1, p2;
-  getOriginInWorldCoordinates(p1);
-  other->getOriginInWorldCoordinates(p2);
+  if (b1)
+    getOriginInWorldCoordinates(p1);
+  else {
+    const WbVector3 translation = matrix().translation();
+    for (int i = 0; i < 3; ++i)
+      p1[i] = translation[i];
+  }
+  if (b2)
+    other->getOriginInWorldCoordinates(p2);
+  else {
+    const WbVector3 translation = other->matrix().translation();
+    for (int i = 0; i < 3; ++i)
+      p2[i] = translation[i];
+  }
 
   // retrieve current body positions
-  const dReal *d1 = dBodyGetPosition(b1);
-  const dReal *d2 = dBodyGetPosition(b2);
+  const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
+  const dReal *d2 = b2 ? dBodyGetPosition(b2) : other->matrix().translation().ptr();
 
   // each body must be shifted towards the other by half the distance
-  dReal h[3] = {(p2[0] - p1[0]) / 2.0, (p2[1] - p1[1]) / 2.0, (p2[2] - p1[2]) / 2.0};
+  dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
+  if (b1 && b2) {
+    for (int i = 0; i < 3; ++i)
+      h[i] /= 2.0;
+  }
 
   // shift bodies
-  dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
-  dBodySetPosition(b2, d2[0] - h[0], d2[1] - h[1], d2[2] - h[2]);
+  if (b1)
+    dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
+  if (b2)
+    dBodySetPosition(b2, d2[0] - h[0], d2[1] - h[1], d2[2] - h[2]);
 }
 
 // temporarily change body position and orientation so that the fixed joint
@@ -390,8 +417,8 @@ void WbConnector::snapNow(WbConnector *other) {
 void WbConnector::createFixedJoint(WbConnector *other) {
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
-  if (!b1 || !b2) {
-    warn(tr("Connectors could not be attached because their parent nodes do not have Physics nodes."));
+  if (!b1 && !b2) {
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
     return;
   }
 
@@ -400,8 +427,16 @@ void WbConnector::createFixedJoint(WbConnector *other) {
   other->mPeer = this;
 
   // create fixed joint: now the "snapped" relationship between the dBodies is registered
-  mFixedJoint = dJointCreateFixed(dBodyGetWorld(b1), 0);
-  dJointAttach(mFixedJoint, b1, b2);
+  mFixedJoint = b1 ? dJointCreateFixed(dBodyGetWorld(b1), 0) : dJointCreateFixed(dBodyGetWorld(b2), 0);
+  if (b1 && b2)
+    dJointAttach(mFixedJoint, b1, b2);
+  else if (b1)
+    dJointAttach(mFixedJoint, NULL, b1);
+  else if (b2) {
+    mIsJointInversed = true;
+    dJointAttach(mFixedJoint, NULL, b2);
+  } else
+    assert(0);
   dJointSetFixed(mFixedJoint);
 
   // if necessary add feedback structure to joint
@@ -423,8 +458,8 @@ void WbConnector::attachTo(WbConnector *other) {
 
   dBodyID b1 = upperSolid()->bodyMerger();
   dBodyID b2 = other->upperSolid()->bodyMerger();
-  if (!b1 || !b2) {
-    warn(tr("Connectors could not be attached because their parent nodes do not have Physics nodes."));
+  if (!b1 && !b2) {
+    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
     return;
   }
 
@@ -432,19 +467,28 @@ void WbConnector::attachTo(WbConnector *other) {
     // store current position and orientation
     dReal p1[3], p2[3];
     dQuaternion q1, q2;
-    memcpy(p1, dBodyGetPosition(b1), 3 * sizeof(dReal));
-    memcpy(p2, dBodyGetPosition(b2), 3 * sizeof(dReal));
-    memcpy(q1, dBodyGetQuaternion(b1), sizeof(dQuaternion));
-    memcpy(q2, dBodyGetQuaternion(b2), sizeof(dQuaternion));
+    if (b1) {
+      memcpy(p1, dBodyGetPosition(b1), 3 * sizeof(dReal));
+      memcpy(q1, dBodyGetQuaternion(b1), sizeof(dQuaternion));
+    }
+    if (b2) {
+      memcpy(p2, dBodyGetPosition(b2), 3 * sizeof(dReal));
+      memcpy(q2, dBodyGetQuaternion(b2), sizeof(dQuaternion));
+    }
+
     // move the bodies to the snapped position
     snapNow(other);
     // attach now !
     createFixedJoint(other);
     // restore original position and orientation
-    dBodySetPosition(b1, p1[0], p1[1], p1[2]);
-    dBodySetPosition(b2, p2[0], p2[1], p2[2]);
-    dBodySetQuaternion(b1, q1);
-    dBodySetQuaternion(b2, q2);
+    if (b1) {
+      dBodySetPosition(b1, p1[0], p1[1], p1[2]);
+      dBodySetQuaternion(b1, q1);
+    }
+    if (b2) {
+      dBodySetPosition(b2, p2[0], p2[1], p2[2]);
+      dBodySetQuaternion(b2, q2);
+    }
   } else
     createFixedJoint(other);
 }
@@ -501,8 +545,8 @@ void WbConnector::detachIfForceExceedStrength() {
 
   // the tensile direction corresponds to the positive z-axis
   // compute how much of the measured force is aligned with the z-axis
-  WbVector3 f1(fb->f1);
-  double zforce = zAxis().dot(f1);
+  const WbVector3 f1(fb->f1);
+  const double zforce = mIsJointInversed ? -zAxis().dot(f1) : zAxis().dot(f1);
 
   // check for tensile rupture
   double maxTension = getEffectiveTensileStrength() + mPeer->getEffectiveTensileStrength();
@@ -710,7 +754,8 @@ void WbConnector::writeAnswer(QDataStream &stream) {
 }
 
 void WbConnector::writeConfigure(QDataStream &) {
-  mSensor->connectToRobotSignal(robot());
+  if (robot())
+    mSensor->connectToRobotSignal(robot());
 }
 
 // converts a rotation from quaternion to euler axis/angle representation
@@ -746,12 +791,12 @@ static inline void quaternionToAxesAndAngle(const double q[4], double aa[4]) {
 // ---------- below: auto-assembly mechanism ------------------------------------------------------------
 
 void WbConnector::assembleAxes(WbConnector *other) {
-  // we need to apply the rotation to the whole robot not only the Connector
-  WbRobot *bot = robot();
+  // we need to apply the rotation to the whole solid not only the Connector
+  WbSolid *solid = topSolid();
 
-  // find current roation of the robot: q
+  // find current roation of the solid: q
   dQuaternion q;
-  dQFromAxisAndAngle(q, bot->rotation().x(), bot->rotation().y(), bot->rotation().z(), bot->rotation().angle());
+  dQFromAxisAndAngle(q, solid->rotation().x(), solid->rotation().y(), solid->rotation().z(), solid->rotation().angle());
 
   // z-axes of both connectors
   WbVector3 z1 = zAxis();
@@ -773,9 +818,9 @@ void WbConnector::assembleAxes(WbConnector *other) {
     double e[4];
     quaternionToAxesAndAngle(k, e);
 
-    // move recursively all the robot parts
-    bot->setRotation(e[0], e[1], e[2], e[3]);
-    bot->resetPhysics();
+    // move recursively all the solid parts
+    solid->setRotation(e[0], e[1], e[2], e[3]);
+    solid->resetPhysics();
 
     // q = k
     memcpy(q, k, sizeof(dQuaternion));
@@ -820,8 +865,8 @@ void WbConnector::assembleAxes(WbConnector *other) {
 
       double e[4];
       quaternionToAxesAndAngle(k, e);
-      bot->setRotation(e[0], e[1], e[2], e[3]);
-      bot->resetPhysics();
+      solid->setRotation(e[0], e[1], e[2], e[3]);
+      solid->resetPhysics();
     }
   }
 
@@ -832,12 +877,12 @@ void WbConnector::assembleAxes(WbConnector *other) {
   // translation from connector 1 to connector
   WbVector3 t = p2 - p1;
 
-  // if necessary translate whole robot
+  // if necessary translate whole solid
   if (!t.isNull())
-    bot->translate(t[0], t[1], t[2]);
+    solid->translate(t[0], t[1], t[2]);
 
   // update ODE bodies
-  // bot->setBody();
+  // solid->setBody();
 }
 
 void WbConnector::assembleWith(WbConnector *other) {
