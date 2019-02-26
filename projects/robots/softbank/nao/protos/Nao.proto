@@ -625,7 +625,7 @@ PROTO Nao [
         translation 0.053 0 0.058
         children [
           Shape {
-            appearance DEF LED_APP_CHEST PBRAppearance {
+            appearance PBRAppearance {
               metalness 0
               baseColor 0.74902 0.74902 0.74902
             }
