@@ -12,25 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-space :=
-space +=
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+ROS_PYTHON_ZIP = ros_python.zip
+ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/common/$(ROS_PYTHON_ZIP)
 
-TARGETS = autonomous_vehicle.Makefile \
-	boomer.Makefile \
-	radar_target_tracker.Makefile \
-	racing_wheel.Makefile \
-	VehicleDriver.Makefile
+release debug profile: kinetic python
 
-ifneq ($(OSTYPE),window)
-TARGETS += ros_automobile.Makefile
-endif
+kinetic: python
 
-.PHONY: release debug profile clean
+python:
+	@echo "# downloading and installing rospy dependencies"
+	@wget -q $(ROS_PYTHON_DEPENDENCY_URL)
+	@unzip -q -o $(ROS_PYTHON_ZIP)
+	@rm $(ROS_PYTHON_ZIP)
 
-release debug profile clean: $(TARGETS)
-
-%.Makefile:
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+clean:
+	@rm -fr kinetic python
