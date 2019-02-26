@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-/*
- * Description:  Uneven terrain demo using an ElevationGrid as ground and a
- *               simple robot model roughly inspired from the Dagu Wild Thumper 6WD
- */
-
 #include <math.h>
 #include <stdio.h>
 #include <webots/compass.h>
@@ -28,10 +23,10 @@
 #include <webots/robot.h>
 
 #define TIME_STEP 16
-#define TARGET_POINTS_SIZE 21
-#define DISTANCE_TOLERANCE 1.0
-#define ANGLE_TOLERANCE 0.1
-#define MAX_SPEED 10.0
+#define TARGET_POINTS_SIZE 13
+#define DISTANCE_TOLERANCE 1.5
+#define MAX_SPEED 7.0
+#define TURN_COEFFICIENT 4.0
 
 enum XYZAComponents { X, Y, Z, ALPHA };
 enum Sides { LEFT, RIGHT };
@@ -41,16 +36,15 @@ typedef struct _Vector {
   double v;
 } Vector;
 
-static WbDeviceTag motors[6];
+static WbDeviceTag motors[8];
 static WbDeviceTag gps;
 static WbDeviceTag compass;
 
 static Vector targets[TARGET_POINTS_SIZE] = {
-  {-5.249221, -8.424513},  {-2.106474, -9.751115},  {0.677940, -6.350612},   {3.223842, -2.823133},   {3.040568, 0.011992},
-  {2.719525, 2.328923},    {-0.492668, 3.550746},   {-2.437844, 6.687284},   {-2.712516, 10.254326},  {-4.484720, 14.424054},
-  {-4.773997, 19.284453},  {-5.343820, 23.436261},  {-8.612387, 26.601104},  {-12.014438, 24.465281}, {-12.341359, 20.264592},
-  {-14.303188, 17.351689}, {-18.310514, 17.182606}, {-18.818657, 13.878546}, {-16.761405, 11.331454}, {-12.979788, 10.293418},
-  {-8.729821, 8.581928},
+  {-4.209318, -9.147717}, {0.946812, -9.404304},  {0.175989, 1.784311},   {-2.805353, 8.829694},  {-3.846730, 15.602851},
+  {-4.394915, 24.550777}, {-1.701877, 33.617226}, {-4.394915, 24.550777}, {-3.846730, 15.602851}, {-2.805353, 8.829694},
+  {0.175989, 1.784311},   {0.946812, -9.404304},  {-7.930821, -6.421292}
+
 };
 static int current_target_index = 0;
 static bool autopilot = true;
@@ -69,9 +63,9 @@ static double modulus_double(double a, double m) {
 // set left and right motor speed [rad/s]
 static void robot_set_speed(double left, double right) {
   int i;
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < 4; i++) {
     wb_motor_set_velocity(motors[i + 0], left);
-    wb_motor_set_velocity(motors[i + 3], right);
+    wb_motor_set_velocity(motors[i + 4], right);
   }
 }
 
@@ -188,19 +182,8 @@ static void run_autopilot() {
   }
   // move the robot to the next target
   else {
-    // big turn
-    if (beta > ANGLE_TOLERANCE) {
-      speeds[LEFT] = MAX_SPEED;
-      speeds[RIGHT] = -MAX_SPEED;
-    } else if (beta < -ANGLE_TOLERANCE) {
-      speeds[LEFT] = -MAX_SPEED;
-      speeds[RIGHT] = MAX_SPEED;
-    }
-    // go forward with small rectifications
-    else {
-      speeds[LEFT] = MAX_SPEED - M_PI + beta;
-      speeds[RIGHT] = MAX_SPEED - M_PI - beta;
-    }
+    speeds[LEFT] = MAX_SPEED - M_PI + TURN_COEFFICIENT * beta;
+    speeds[RIGHT] = MAX_SPEED - M_PI - TURN_COEFFICIENT * beta;
   }
 
   // set the motor speeds
@@ -219,11 +202,14 @@ int main(int argc, char *argv[]) {
   printf("Press 'P' to get the robot position\n");
   printf("\n");
 
-  const char *names[6] = {"fl_motor", "ml_motor", "bl_motor", "fr_motor", "mr_motor", "br_motor"};
+  wb_robot_step(1000);
+
+  const char *names[8] = {"left motor 1",  "left motor 2",  "left motor 3",  "left motor 4",
+                          "right motor 1", "right motor 2", "right motor 3", "right motor 4"};
 
   // get motor tags
   int i;
-  for (i = 0; i < 6; i++) {
+  for (i = 0; i < 8; i++) {
     motors[i] = wb_robot_get_device(names[i]);
     wb_motor_set_position(motors[i], INFINITY);
   }
