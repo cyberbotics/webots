@@ -2,10 +2,11 @@
 WorldInfo {
   info [
     "Uneven terrain demo using an ElevationGrid to model the terrain and a"
-    "simple robot model roughly inspired from the Dagu Wild Thumper 6WD"
+    "Clearpath moose."
   ]
   title "Uneven Terrain"
-  CFM 0.0001
+  CFM 0.0003
+  ERP 0.4
   basicTimeStep 4
   defaultDamping Damping {
   }
@@ -13,40 +14,36 @@ WorldInfo {
   contactProperties [
     ContactProperties {
       material1 "wheel"
-      material2 "floor"
+      material2 "moose wheel"
       coulombFriction [
-        10
+        4
       ]
+      softCFM 1e-05
+      bumpSound ""
+      rollSound ""
+      slideSound ""
     }
   ]
 }
 Viewpoint {
-  orientation 0.18629392293385275 0.9417966103971879 0.27984588423323864 4.34489
-  position -15.6442 14.2831 -10.0043
+  orientation -0.05297605396726527 0.9819112398568539 0.18177968739337574 2.707007801628518
+  position -3.6948526333661675 11.380042630713353 -13.504773882923997
   near 1
-  follow "robot"
+  follow "moose"
 }
 TexturedBackground {
-  texture "noon_stormy_empty"
+  texture "noon_cloudy_empty"
 }
 TexturedBackgroundLight {
-  texture "noon_stormy_empty"
+  texture "noon_cloudy_empty"
 }
 DEF ELEVATION_GRID Solid {
   translation -25 0.01 -25
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 1 0.752941 0.796078
-        baseColorMap ImageTexture {
-          url [
-            "uneven_terrain/sand.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance SandyGround {
         textureTransform TextureTransform {
-          scale 20 20
+          scale 13 13
         }
       }
       geometry DEF EG ElevationGrid {
@@ -65,20 +62,23 @@ DEF ELEVATION_GRID Solid {
   boundingObject USE EG
   locked TRUE
 }
+Sassafras {
+  translation -11.291784554659246 5.539999999999956 13.202242590856223
+  rotation 0 1 0 2.094395096
+  name "sassafras tree(3)"
+}
+Sassafras {
+  translation -15.879514927124884 5.5199999999999605 14.02532598320656
+  rotation 0 -1 0 4.712389004359173
+  name "sassafras tree(4)"
+}
 DEF PLANE Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.643137 0.556863 0.517647
-        baseColorMap ImageTexture {
-          url [
-            "uneven_terrain/sand.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance SandyGround {
         textureTransform TextureTransform {
-          scale 20 20
+          rotation 0.2
+          scale 200 200
         }
       }
       geometry DEF PLANE_SHAPE Plane {
@@ -89,460 +89,94 @@ DEF PLANE Solid {
   name "plane"
   boundingObject USE PLANE_SHAPE
 }
-DEF SPHERE Solid {
-  translation 12.566 5.61426 4.6169
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 1"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF SPHERE Solid {
-  translation 12.2924 5.56306 4.5937
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 2"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF SPHERE Solid {
-  translation 12.0534 5.53567 4.3383
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "sphere 3"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 5.8025 8.07067 -8.83484
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 1"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 6.1078 8.20828 -8.73148
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 2"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-DEF BOX Solid {
-  translation 6.1664 8.20828 -8.58627
-  children [
-    DEF SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        roughness 1
-        metalness 0
-        emissiveColor 1 0.647059 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "box 3"
-  boundingObject USE SHAPE
-  physics Physics {
-  }
-}
-Robot {
-  translation -7 7.5 -7
-  children [
+Moose {
+  translation -7.334202170180788 7.717722754844717 -6.427717293600236
+  rotation -0.24470655790626383 0.9522324249327 -0.1826803476689766 0.3586029853467997
+  controller "moose_path_following"
+  bodySlot [
     Compass {
+      rotation 1 0 0 1.5707996938995747
     }
     GPS {
-    }
-    DEF CHASSIS_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 0.901961 0.901961 0.980392
-        roughness 1.1102230246251565e-16
-        metalness 0
-      }
-      geometry Box {
-        size 0.4 0.07 0.13
-      }
-    }
-    DEF FL_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0.17 -0.02 -0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "fl_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation 0.17 -0.02 -0.03
-        rotation 1 0 0 1.5708
-        children [
-          DEF LEFT_MOTOR_TRANS Transform {
-            translation 0 -0.06 0
-            children [
-              DEF MOTOR_SHAPE Shape {
-                appearance PBRAppearance {
-                  baseColor 0.8 0.8 0.8
-                  roughness 1
-                  metalness 0
-                }
-                geometry Cylinder {
-                  height 0.13
-                  radius 0.02
-                }
-              }
-            ]
-          }
-          DEF FL_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 -0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "fl_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.09 0
-              rotation 0 -1 0 0
-              children [
-                DEF WHEEL_SHAPE Shape {
-                  appearance DEF WHEEL_APP PBRAppearance {
-                    baseColor 0 0 0
-                    roughness 1
-                    metalness 0
-                  }
-                  geometry Cylinder {
-                    height 0.06
-                    radius 0.065
-                  }
-                }
-              ]
-              name "fl_wheel"
-              contactMaterial "wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics DEF WHEEL_PHYSICS Physics {
-              }
-            }
-          }
-        ]
-        name "fl_suspension"
-        boundingObject USE LEFT_MOTOR_TRANS
-        physics DEF SUSPENSION_PHYSICS Physics {
-        }
-      }
-    }
-    DEF ML_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0 -0.02 -0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "ml_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.02 -0.03
-        rotation 1 0 0 1.5708
-        children [
-          USE LEFT_MOTOR_TRANS
-          DEF ML_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 -0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "ml_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.09 0
-              rotation 0 -1 0 0
-              children [
-                USE WHEEL_SHAPE
-              ]
-              name "ml_wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics Physics {
-              }
-            }
-          }
-        ]
-        name "ml_suspension"
-        boundingObject USE LEFT_MOTOR_TRANS
-        physics USE SUSPENSION_PHYSICS
-      }
-    }
-    DEF BL_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor -0.17 -0.02 -0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "bl_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation -0.17 -0.02 -0.03
-        rotation 1 0 0 1.5708
-        children [
-          USE LEFT_MOTOR_TRANS
-          DEF BL_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 -0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "bl_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 -0.09 0
-              rotation 0 -1 0 0
-              children [
-                USE WHEEL_SHAPE
-              ]
-              name "bl_wheel"
-              contactMaterial "wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics USE WHEEL_PHYSICS
-            }
-          }
-        ]
-        name "bl_suspension"
-        boundingObject USE LEFT_MOTOR_TRANS
-        physics USE SUSPENSION_PHYSICS
-      }
-    }
-    DEF FR_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0.17 -0.02 0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "fr_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation 0.17 -0.02 0.03
-        rotation 1 0 0 1.5708
-        children [
-          DEF RIGHT_MOTOR_TRANS Transform {
-            translation 0 0.06 0
-            children [
-              USE MOTOR_SHAPE
-            ]
-          }
-          DEF FR_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "fr_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 0.09 0
-              rotation 0 -1 0 0
-              children [
-                USE WHEEL_SHAPE
-              ]
-              name "fr_wheel"
-              contactMaterial "wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics USE WHEEL_PHYSICS
-            }
-          }
-        ]
-        name "fr_suspension"
-        boundingObject USE RIGHT_MOTOR_TRANS
-        physics USE SUSPENSION_PHYSICS
-      }
-    }
-    DEF MR_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0 -0.02 0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "mr_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation 0 -0.02 0.03
-        rotation 1 0 0 1.5708
-        children [
-          USE RIGHT_MOTOR_TRANS
-          DEF MR_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "mr_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 0.09 0
-              rotation 0 -1 0 0
-              children [
-                USE WHEEL_SHAPE
-              ]
-              name "mr_wheel"
-              contactMaterial "wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics USE WHEEL_PHYSICS
-            }
-          }
-        ]
-        name "mr_suspension"
-        boundingObject USE RIGHT_MOTOR_TRANS
-        physics USE SUSPENSION_PHYSICS
-      }
-    }
-    DEF BR_SUSPENSION HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor -0.17 -0.02 0.03
-        minStop -0.7
-        maxStop 0.7
-        springConstant 8
-        dampingConstant 0.1
-      }
-      device [
-        RotationalMotor {
-          name "br_suspension"
-        }
-      ]
-      endPoint Solid {
-        translation -0.17 -0.02 0.03
-        rotation 1 0 0 1.5708
-        children [
-          USE RIGHT_MOTOR_TRANS
-          DEF BR_MOTOR HingeJoint {
-            jointParameters HingeJointParameters {
-              axis 0 -1 0
-              anchor 0 0.09 0
-            }
-            device [
-              RotationalMotor {
-                name "br_motor"
-              }
-            ]
-            endPoint Solid {
-              translation 0 0.09 0
-              rotation 0 -1 0 0
-              children [
-                USE WHEEL_SHAPE
-              ]
-              name "br_wheel"
-              contactMaterial "wheel"
-              boundingObject USE WHEEL_SHAPE
-              physics USE WHEEL_PHYSICS
-            }
-          }
-        ]
-        name "br_suspension"
-        boundingObject USE RIGHT_MOTOR_TRANS
-        physics USE SUSPENSION_PHYSICS
-      }
+      rotation 1 0 0 1.5707996938995747
     }
   ]
-  boundingObject USE CHASSIS_SHAPE
-  physics Physics {
-  }
-  controller "uneven_terrain"
 }
-SimpleTree {
-  translation -4.7 7.4 -3.9
+CardboardBox {
+  translation -7.423119324430362 8.417623063656727 -6.514719319010767
+  rotation 0.12644213723285935 -0.9841270075176133 0.12452477266156407 -0.6234781549798755
+  name "robot cardboard payload"
+  size 1.2 0.6 1
+  mass 5
+}
+CardboardBox {
+  translation -0.5054160679276615 0.3085113796201058 34.962109644968024
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box(1)"
+  size 1.2 0.6 1
+}
+CardboardBox {
+  translation 0.37456796387561053 0.30908350988383304 34.074344036015866
+  rotation 5.8520417805463954e-05 0.9999996902797917 0.000784866664750261 3.931392842462711
+  name "cardboard box(2)"
+  size 1.2 0.6 1
+}
+CardboardBox {
+  translation -0.1600549005205327 0.9287350002620774 34.61490894732346
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box(3)"
+  size 1.2 0.6 1
+}
+CardboardBox {
+  translation -0.011882441662218815 1.4388305798319985 34.46642520363706
+  rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
+  name "cardboard box(4)"
+  size 0.3 0.4 0.4
+}
+Sassafras {
+  translation 7.560552369423128 4.899999999999982 11.745177237218291
+  rotation 0 1 0 6.021385901
+}
+Sassafras {
+  translation 12.752428163035134 5.539999999999988 6.737294208026306
+  name "sassafras tree(2)"
+}
+Sassafras {
+  translation 8.196694630499223 5.539999999999988 7.277750821462874
+  name "sassafras tree(1)"
+}
+Oak {
+  translation 7.828813618757364 4.749999999999991 9.126541612854037
+}
+Oak {
+  translation 8.728868630130902 4.749999999999998 5.9989481605745745
+  name "oak tree(2)"
+}
+Oak {
+  translation -14.025916084607276 4.750000000000007 9.748843924353633
+  name "oak tree(3)"
+}
+Oak {
+  translation -15.915481975056919 4.750000000000005 11.82755861197884
+  name "oak tree(5)"
+}
+Oak {
+  translation -14.025916084607276 4.750000000000007 9.748843924353633
+  name "oak tree(6)"
+}
+Oak {
+  translation -13.24362402067612 4.750000000000018 12.491739505832822
+  name "oak tree(8)"
+}
+Oak {
+  translation -10.714498315372008 4.750000000000014 10.823431383737727
+  name "oak tree(7)"
+}
+Oak {
+  translation 5.460435876151285 4.750000000000005 12.16163713962354
+  name "oak tree(4)"
+}
+Oak {
+  translation 8.613348102469539 5.0299999999999905 4.14079710434962
+  name "oak tree(1)"
 }
