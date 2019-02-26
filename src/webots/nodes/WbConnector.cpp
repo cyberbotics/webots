@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <QtCore/QDebug>
-
 #include "WbConnector.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
