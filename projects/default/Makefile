@@ -21,7 +21,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.Makefile
 
 ifneq ($(OSTYPE),windows)
-TARGETS += controllers/ros.Makefile libraries.Makefile
+TARGETS += controllers/ros.Makefile
 ROS_DEPENDENCIES = libraries.Makefile controllers/ros/include.Makefile
 endif
 
@@ -30,7 +30,7 @@ ifneq ($(MESSAGE),)
 	+@echo -e $(MESSAGE)
 endif
 
-clean: $(TARGETS)
+clean: $(TARGETS) libraries.Makefile
 	@-rm -rf controllers/sumo_supervisor/*.pyc
 
 controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
