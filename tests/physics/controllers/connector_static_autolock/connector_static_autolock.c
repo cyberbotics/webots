@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
   WbDeviceTag connector = wb_robot_get_device("connector");
   wb_connector_enable_presence(connector, TIME_STEP);
-  
+
   wb_robot_step(TIME_STEP);
 
   ts_assert_boolean_equal(wb_connector_get_presence(connector) == 1,
