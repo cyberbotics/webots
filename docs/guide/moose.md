@@ -2,7 +2,7 @@
 
 %robot moose images/robots/moose/model.png
 
-The [Clearpath's Moose robot](https://www.clearpathrobotics.com/moose-ugv/) is a largest all-terrain unmanned ground vehicle yet. It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
+The [Clearpath's Moose robot](https://www.clearpathrobotics.com/moose-ugv/) is a large all-terrain unmanned ground vehicle yet. It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
 With a large payload mounting area and accessible power and communication ports, Moose can be easily customized with sensors, manipulators and other payloads to accommodate a wide variety of robotics applications in mining, agriculture, construction and environmental monitoring.
 
 ### Movie Presentation
