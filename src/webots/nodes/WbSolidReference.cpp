@@ -56,7 +56,7 @@ void WbSolidReference::updateName() {
   WbSolid *const ts = topSolid();
   assert(ts);
   const QString &name = mName->value();
-  const bool linkToStaticEnvironment = name == "<static environment>";
+  const bool linkToStaticEnvironment = name == STATIC_ENVIRONMENT;
   if (!linkToStaticEnvironment)
     mSolid = QPointer<WbSolid>(ts->findSolid(name, upperSolid()));
   if (!name.isEmpty() && !linkToStaticEnvironment && mSolid.isNull())
