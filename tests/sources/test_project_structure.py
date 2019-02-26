@@ -54,7 +54,7 @@ class TestTextures(unittest.TestCase):
                 )
 
     def test_wbproj(self):
-        """Test that each world has an associated '.wproj' file."""
+        """Test that each world has an associated '.wbproj' file."""
         for world in self.worlds:
             worldFile = os.path.basename(world)
             projFile = '.' + worldFile.replace('wbt', 'wbproj')
