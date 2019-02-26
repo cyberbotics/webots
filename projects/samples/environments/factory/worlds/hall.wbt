@@ -1156,8 +1156,8 @@ DEF EXERCISES_BOARD Robot {
       type "active"
       isLocked TRUE
       autoLock TRUE
+      distanceTolerance 0.005
       numberOfRotations 2
-      snap FALSE
       tensileStrength 5
     }
     Solid {
@@ -1457,8 +1457,8 @@ DEF EXERCISES_BOARD Robot {
   name "solid"
   controller ""
 }
-DEF ELECTRIC_PLUG Robot {
-  translation -10.747000000000005 2.439999998992974 0.4750000050346415
+DEF ELECTRIC_PLUG Solid {
+  translation -10.947000000000001 2.4399999999519495 0.4750000002397448
   rotation -4.794896624534196e-09 1 -9.589793249068392e-09 1.5707963028204133
   children [
     ElectricalPlug {
@@ -1468,6 +1468,7 @@ DEF ELECTRIC_PLUG Robot {
       rotation 0 1 0 3.141592644
       type "passive"
       autoLock TRUE
+      distanceTolerance 0.005
       numberOfRotations 2
       tensileStrength 5
     }
@@ -1481,8 +1482,10 @@ DEF ELECTRIC_PLUG Robot {
     ]
   }
   physics Physics {
+    centerOfMass [
+      0 0 0.0191
+    ]
   }
-  controller ""
 }
 ElectricalPlug {
   translation -10.709555940446258 0.7300000002777995 -0.49548886570340245
@@ -1691,6 +1694,7 @@ FireExtinguisher {
 OfficeTelephone {
   translation -11.076203752540808 1.0990896532157706 -1.6958743708182242
   rotation 0.25056280751134824 0.9351131266248623 -0.2505628063099255 1.6378338201155782
+  enablePhysics FALSE
 }
 FireExtinguisher {
   translation 9.653742769265888 0 3.380528379034876
@@ -2693,6 +2697,7 @@ OfficeTelephone {
   translation 7.33079528597318 0.8825128836022171 3.4193524275078744
   rotation 1.2410105404309143e-09 0.9659258264959034 -0.25881904433060166 3.1415926443267645
   name "telephone(1)"
+  enablePhysics FALSE
 }
 DEF DOUBLE_DOOR Solid {
   translation 8.435 0 3.574999982930164
