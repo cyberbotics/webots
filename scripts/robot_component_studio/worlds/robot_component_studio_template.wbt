@@ -1,0 +1,46 @@
+#VRML_SIM R2018a utf8
+WorldInfo {
+}
+DEF VIEWPOINT Viewpoint {
+  orientation %VIEWPOINT_ORIENTATION%
+  position %VIEWPOINT_POSITION%
+}
+Background {
+  skyColor [
+    0.94 0.94 0.94
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -1 -1 -0.6
+  intensity 0.6
+  castShadows TRUE
+}
+DirectionalLight {
+  direction -0.2 -0.3 0.3
+  intensity 0.3
+}
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material DEF FLOOR_MATERIAL Material {
+          ambientIntensity 0.4
+          diffuseColor 0.94 0.94 0.94
+        }
+      }
+      geometry DEF P Plane {
+        size 10 10
+      }
+    }
+  ]
+  boundingObject USE P
+}
+Supervisor {
+  controller "robot_component_supervisor"
+}
+DEF ROBOT %ROBOT% {
+  translation %ROBOT_TRANSLATION%
+  rotation %ROBOT_ROTATION%
+  name "%ROBOT_NAME%"
+}
