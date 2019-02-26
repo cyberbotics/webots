@@ -32,7 +32,7 @@ Moose {
 #### Moose Field Summary
 
 - `color`: Defines the bumper color.
-- `bodySlot`: Extends the robot with new nodes in the base slot.
+- `bodySlot`: Extends the robot with new nodes.
 
 ### Samples
 
