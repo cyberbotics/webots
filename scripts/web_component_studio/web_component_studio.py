@@ -1,8 +1,5 @@
 """Create a web component scene foreach component of the components.json file."""
 
-# Usage:
-# `python web_component_studio.py`
-
 import json
 import os
 from shutil import copyfile

@@ -1,8 +1,5 @@
 """Create a web component scene foreach robot of the robots.json file."""
 
-# Typical command to run:
-# `./webots --enable-x3d-meta-file-export --mode=fast --minimize private_projects/web_component_studio/worlds/web_component_studio.wbt`
-
 from controller import Supervisor
 import json
 import os
