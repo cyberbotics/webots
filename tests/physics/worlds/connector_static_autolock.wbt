@@ -3,8 +3,8 @@ WorldInfo {
   title "Auto lock static connectors"
 }
 Viewpoint {
-  orientation 0.08313203082605419 0.9703121504923099 0.22711978350140405 3.6169593856461826
-  position 0.07326164488789383 0.42592285413551 -0.37118779346601494
+  orientation 0.387631156364664 0.6858343851601281 0.6159328557135287 3.879097929207008
+  position 0.2785011144783714 0.7406239922153397 -0.10554663363418308
 }
 Background {
   skyColor [
@@ -34,9 +34,10 @@ DEF ACTIVE_ROBOT Robot {
     }
     Connector {
       translation 0 0.2 -0.20000000000000007
-      isLocked TRUE
       autoLock TRUE
       distanceTolerance 0.1
+      axisTolerance 0.4
+      rotationTolerance 0.6
     }
   ]
   name "MyBot 1"
@@ -44,8 +45,9 @@ DEF ACTIVE_ROBOT Robot {
   controller "connector_static_autolock"
   supervisor TRUE
 }
-Solid {
+DEF SOLID Solid {
   translation 0.247 0.19999999999999996 0
+  rotation 0.8913161249534984 -0.43793373078283837 0.1173439936277272 5.699130699799398
   children [
     DEF BODY Transform {
       children [
