@@ -20,9 +20,8 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.Makefile
 
-
 ifneq ($(OSTYPE),windows)
-TARGETS += controllers/ros.Makefile
+TARGETS += controllers/ros.Makefile libraries.Makefile
 ROS_DEPENDENCIES = libraries.Makefile controllers/ros/include.Makefile
 endif
 
