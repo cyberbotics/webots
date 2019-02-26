@@ -6,7 +6,7 @@ WorldInfo {
   ]
   title "Uneven Terrain"
   CFM 0.0003
-  ERP 0.6
+  ERP 0.4
   basicTimeStep 4
   defaultDamping Damping {
   }
@@ -16,9 +16,9 @@ WorldInfo {
       material1 "wheel"
       material2 "moose wheel"
       coulombFriction [
-        8
+        4
       ]
-      softCFM 1e-06
+      softCFM 1e-05
       bumpSound ""
       rollSound ""
       slideSound ""
@@ -90,8 +90,8 @@ DEF PLANE Solid {
   boundingObject USE PLANE_SHAPE
 }
 Moose {
-  translation -6.96 7.77 -7.02
-  rotation -0.24937733402690823 0.9476338693022512 -0.1995018672215266 0.298
+  translation -7.334202170180788 7.717722754844717 -6.427717293600236
+  rotation -0.24470655790626383 0.9522324249327 -0.1826803476689766 0.3586029853467997
   controller "moose_path_following"
   bodySlot [
     Compass {
@@ -103,34 +103,35 @@ Moose {
   ]
 }
 CardboardBox {
-  translation -7.172107545746874 8.489916757502604 -7.043660166796276
-  rotation 0.12041429719471503 -0.9847728548646564 0.1253906749037472 5.730779302602722
-  size 1.2000000000000002 0.6 1
+  translation -7.423119324430362 8.417623063656727 -6.514719319010767
+  rotation 0.12644213723285935 -0.9841270075176133 0.12452477266156407 -0.6234781549798755
+  name "robot cardboard payload"
+  size 1.2 0.6 1
   mass 5
 }
 CardboardBox {
   translation -0.5054160679276615 0.3085113796201058 34.962109644968024
   rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
-  name "cardboard box #1"
-  size 1.2000000000000002 0.6 1
+  name "cardboard box(1)"
+  size 1.2 0.6 1
 }
 CardboardBox {
   translation 0.37456796387561053 0.30908350988383304 34.074344036015866
   rotation 5.8520417805463954e-05 0.9999996902797917 0.000784866664750261 3.931392842462711
-  name "cardboard box #2"
-  size 1.2000000000000002 0.6 1
+  name "cardboard box(2)"
+  size 1.2 0.6 1
 }
 CardboardBox {
   translation -0.1600549005205327 0.9287350002620774 34.61490894732346
   rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
-  name "cardboard box #3"
-  size 1.2000000000000002 0.6 1
+  name "cardboard box(3)"
+  size 1.2 0.6 1
 }
 CardboardBox {
   translation -0.011882441662218815 1.4388305798319985 34.46642520363706
   rotation -0.0018830985811123574 -0.9999982171114054 0.00014040564284185914 -0.7898016846621656
-  name "cardboard box #4"
-  size 0.30000000000000004 0.4 0.4
+  name "cardboard box(4)"
+  size 0.3 0.4 0.4
 }
 Sassafras {
   translation 7.560552369423128 4.899999999999982 11.745177237218291

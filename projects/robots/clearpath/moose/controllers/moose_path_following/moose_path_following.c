@@ -30,8 +30,8 @@
 #define TIME_STEP 16
 #define TARGET_POINTS_SIZE 13
 #define DISTANCE_TOLERANCE 1.5
-#define ANGLE_TOLERANCE 0.2
 #define MAX_SPEED 7.0
+#define TURN_COEFFICIENT 4.0
 
 enum XYZAComponents { X, Y, Z, ALPHA };
 enum Sides { LEFT, RIGHT };
@@ -47,7 +47,7 @@ static WbDeviceTag compass;
 
 static Vector targets[TARGET_POINTS_SIZE] = {
   {-4.209318, -9.147717}, {0.946812, -9.404304},  {0.175989, 1.784311},   {-2.805353, 8.829694},  {-3.846730, 15.602851},
-  {-6.542340, 24.056644}, {-1.701877, 33.617226}, {-6.542340, 24.056644}, {-3.846730, 15.602851}, {-2.805353, 8.829694},
+  {-4.394915, 24.550777}, {-1.701877, 33.617226}, {-4.394915, 24.550777}, {-3.846730, 15.602851}, {-2.805353, 8.829694},
   {0.175989, 1.784311},   {0.946812, -9.404304},  {-7.930821, -6.421292}
 
 };
@@ -187,19 +187,8 @@ static void run_autopilot() {
   }
   // move the robot to the next target
   else {
-    // big turn
-    if (beta > ANGLE_TOLERANCE) {
-      speeds[LEFT] = MAX_SPEED;
-      speeds[RIGHT] = -MAX_SPEED;
-    } else if (beta < -ANGLE_TOLERANCE) {
-      speeds[LEFT] = -MAX_SPEED;
-      speeds[RIGHT] = MAX_SPEED;
-    }
-    // go forward with small rectifications
-    else {
-      speeds[LEFT] = MAX_SPEED - M_PI + beta;
-      speeds[RIGHT] = MAX_SPEED - M_PI - beta;
-    }
+    speeds[LEFT] = MAX_SPEED - M_PI + TURN_COEFFICIENT * beta;
+    speeds[RIGHT] = MAX_SPEED - M_PI - TURN_COEFFICIENT * beta;
   }
 
   // set the motor speeds
@@ -217,6 +206,8 @@ int main(int argc, char *argv[]) {
   printf("Press 'A' to return to the autopilot mode\n");
   printf("Press 'P' to get the robot position\n");
   printf("\n");
+
+  wb_robot_step(1000);
 
   const char *names[8] = {"left motor 1",  "left motor 2",  "left motor 3",  "left motor 4",
                           "right motor 1", "right motor 2", "right motor 3", "right motor 4"};
