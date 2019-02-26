@@ -12,18 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller import Robot, Node
+TARGETS=moose_path_following.Makefile
 
-robot = Robot()
+.PHONY: release debug profile clean
 
-timestep = int(robot.getBasicTimeStep())
+release debug profile clean: $(TARGETS)
 
-print('LEDS:')
-for d in range(robot.getNumberOfDevices()):
-    device = robot.getDeviceByIndex(d)
-    if device.getNodeType() == Node.LED:
-        print(device.getName())
-        device.set(1)
-
-while robot.step(timestep) != -1:
-    pass
+%.Makefile:
+	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
+	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
