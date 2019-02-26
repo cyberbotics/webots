@@ -95,6 +95,7 @@
     - [Mantis](mantis.md)
     - [Microbot](microbot.md)
     - [Mindstorms](mindstorms.md)
+    - [Moose](moose.md)
     - [Nao](nao.md)
     - [PR2](pr2.md)
     - [Pioneer 2](pioneer2.md)
