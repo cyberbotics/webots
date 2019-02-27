@@ -17,7 +17,9 @@ class TextureManager { // eslint-disable-line no-unused-vars
   loadTexture(uri, name) {
     var image = new Image();
     image.src = uri;
-    var texture = new THREE.Texture();
+    var texture = this.textures[name];
+    if (!texture)
+      texture = new THREE.Texture();
     texture.image = image;
     image.onload = function() {
       texture.needsUpdate = true;

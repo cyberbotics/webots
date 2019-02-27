@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureManager */
+/* global THREE, ActiveXObject, MeshManager, TextureManager */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
@@ -79,6 +79,11 @@ THREE.X3DLoader.prototype = {
 
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
+
+    var id = getNodeAttribute(transform, 'id', null);
+    console.log('Parse Transform id' + id);
+    if (id)
+      object.name = String(id);
 
     var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
     object.position.copy(position);
@@ -232,6 +237,11 @@ THREE.X3DLoader.prototype = {
   parseIndexedFaceSet: function(ifs) {
     console.log('Parse IndexedFaceSet');
 
+    var meshManager = new MeshManager();
+    var useName = getNodeAttribute(ifs, 'USE', null);
+    if (useName)
+      return meshManager.getGeometry(useName);
+
     var coordinate = ifs.getElementsByTagName('Coordinate')[0];
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
 
@@ -328,6 +338,12 @@ THREE.X3DLoader.prototype = {
     else
       geometry.computeFaceNormals();
 
+    var defName = getNodeAttribute(ifs, 'DEF', null);
+    if (defName) {
+      meshManager = new MeshManager();
+      meshManager.addGeometry(defName, geometry);
+    }
+
     return geometry;
   },
 
@@ -342,14 +358,14 @@ THREE.X3DLoader.prototype = {
   },
 
   parseDirectionalLight: function(light, scene) {
-    // TODO shadows
+    // TODO shadows and direction
     console.log('Parse DirectionalLight');
 
     var intensity = getNodeAttribute(light, 'intensity', '1');
     var direction = getNodeAttribute(light, 'direction', '0,0,-1').split(',');
     var lightObject = new THREE.DirectionalLight(0xffffff, intensity);
     // TODO fix position
-    //lightObject.position.copy(direction);
+    // lightObject.position.copy(direction);
     lightObject.target.position.copy(direction);
     scene.add(lightObject.target);
     return lightObject;
