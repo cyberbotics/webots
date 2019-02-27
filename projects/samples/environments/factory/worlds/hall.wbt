@@ -15,7 +15,6 @@ DEF VIEWPOINT Viewpoint {
   orientation -0.6194124592215913 -0.7578633391834623 -0.20486913989850405 1.1001402956150341
   position -9.205331434997612 12.884953450832477 5.069918853724144
   ambientOcclusionRadius 1
-  bloomThreshold 210
 }
 Background {
   skyColor [
@@ -29,7 +28,8 @@ TexturedBackgroundLight {
   texture "noon_building_overcast"
 }
 Floor {
-  size 22.26 6.95
+  translation -0.14 0 0
+  size 22.540000000000003 6.95
   tileSize 2 2
   appearance PBRAppearance {
     baseColorMap ImageTexture {
@@ -721,6 +721,65 @@ Cabinet {
   secondaryAppearance GlossyCarPaint {
     baseColor 0.7294117647058823 0.7411764705882353 0.7137254901960784
   }
+}
+Robot {
+  translation -11.1304 2.339089653215764 -2.425874370818222
+  children [
+    SolidRoundedBox {
+      translation 0 0 0.04
+      size 0.009999999999999998 0.085 0.165
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.926665140764477 0.9125505455100328 0.6980849927519646
+        metalness 0
+      }
+    }
+    SolidRoundedBox {
+      name "rounded box(1)"
+      size 0.011 0.08 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.7686274509803922 0.6274509803921569 0
+        metalness 0
+      }
+    }
+    EmergencyButton {
+      translation 0.004 0 0
+      rotation 0 1 0 1.5707963220000003
+      includePositionSensor TRUE
+    }
+    SolidRoundedBox {
+      translation 0 0 0.08
+      name "rounded box(2)"
+      size 0.011 0.08 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.8117647058823529 0.792156862745098 0.49411764705882355
+        metalness 0
+      }
+    }
+    LED {
+      translation 0 0 0.08
+      rotation 0 0 0.9999999999999999 4.712388966
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.6431372549019608 0 0
+            roughness 1
+            metalness 0
+            emissiveIntensity 100
+          }
+          geometry Cylinder {
+            bottom FALSE
+            height 0.013000000000000001
+            radius 0.024
+            subdivision 64
+          }
+        }
+      ]
+    }
+  ]
+  controller "led_controller"
 }
 DEF EXERCISES_BOARD Robot {
   children [
@@ -1432,28 +1491,28 @@ DEF EXERCISES_BOARD Robot {
       boundingObject USE BOX_SHAPE
     }
     Solid {
-      translation -10.643797043129839 0.8599999999999042 1.0451145115497917
+      translation -10.643797043129839 0.94 1.0451145115497917
       children [
-        Shape {
+        DEF SHAPE Shape {
           appearance PBRAppearance {
             baseColor 0.2899977111467155 0.11406118867780575 0.11406118867780575
             roughness 0.05
             metalness 0
           }
           geometry Box {
-            size 0.02 0.6 0.25
+            size 0.02 0.46 0.25
           }
         }
         Slot {
           endPoint DoorLever {
-            translation 0 0.19999999999999998 0.060000000000000005
+            translation 0 0.15 0.060000000000000005
             rotation 0 1 0 -1.5707996938995747
             canTurn TRUE
           }
         }
         Slot {
           endPoint DoorLever {
-            translation 0 0.1 0.060000000000000005
+            translation 0 0.05 0.060000000000000005
             rotation 0 1 0 -1.5707996938995747
             name "door lever(1)"
             canTurn TRUE
@@ -1461,17 +1520,30 @@ DEF EXERCISES_BOARD Robot {
         }
         Slot {
           endPoint DoorLever {
-            translation 0 0 0.060000000000000005
+            translation 0 -0.049999999999999996 0.06
             rotation 0 1 0 -1.5707996938995747
             name "door lever(2)"
             canTurn TRUE
           }
         }
       ]
+      boundingObject USE SHAPE
     }
   ]
   name "solid"
-  controller ""
+}
+PaintBucket {
+  translation -10.81419821161768 0.02999999999998923 -0.6287043245941685
+}
+PaintBucket {
+  translation -10.874198211617678 0.02999999999998923 -0.36870432459416824
+  rotation 0 1 0 5.497787127
+  name "paint bucket(1)"
+}
+PaintBucket {
+  translation -10.874198211617678 0.02999999999998923 0.9212956754058321
+  rotation 0 1 0 2.356194483
+  name "paint bucket(2)"
 }
 DEF ELECTRIC_PLUG Solid {
   translation -10.959 2.4399999999999005 0.125
@@ -1720,6 +1792,36 @@ FireExtinguisher {
 Table {
   translation -0.01217296171177562 -8.881784197001252e-16 -3.019460271112181
   size 1.8 0.7 0.8
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926665140764477 0.9125505455100328 0.6980849927519646
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.3333333333333333 0.3411764705882353 0.3254901960784314
+  }
+}
+Table {
+  translation 10.739284174964688 5.950795411990839e-14 -0.7117178214408084
+  rotation 0 0.9999999999999999 0 4.712388966
+  name "table(3)"
+  size 1.5999999999999999 0.7 0.7000000000000001
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926665140764477 0.9125505455100328 0.6980849927519646
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.3333333333333333 0.3411764705882353 0.3254901960784314
+  }
+}
+Table {
+  translation 10.759479238460036 5.950795411990839e-14 1.0769924642441946
+  rotation 0 0.9999999999999999 0 4.712388966
+  name "table(2)"
+  size 1.3 0.7 0.7000000000000001
   feetSize 0.05 0.05
   trayAppearance PBRAppearance {
     baseColor 0.926665140764477 0.9125505455100328 0.6980849927519646
@@ -3483,6 +3585,67 @@ DEF POLE Solid {
   ]
   name "solid(2)"
   boundingObject USE SHAPE
+}
+Robot {
+  translation 10.871882843830546 0.8100000000000012 0.2584531418150773
+  rotation 3.3905038836835057e-09 -0.7071067761007915 -0.7071067862723035 3.141592660370801
+  children [
+    SolidRoundedBox {
+      translation 0 0 0.04
+      size 0.009999999999999998 0.085 0.165
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.926665140764477 0.9125505455100328 0.6980849927519646
+        metalness 0
+      }
+    }
+    SolidRoundedBox {
+      name "rounded box(1)"
+      size 0.011 0.08 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.7686274509803922 0.6274509803921569 0
+        metalness 0
+      }
+    }
+    EmergencyButton {
+      translation 0.004 0 0
+      rotation 0 1 0 1.5707963220000003
+      includePositionSensor TRUE
+    }
+    SolidRoundedBox {
+      translation 0 0 0.08
+      name "rounded box(2)"
+      size 0.011 0.08 0.08
+      borderRadius 0.005
+      appearance PBRAppearance {
+        baseColor 0.8117647058823529 0.792156862745098 0.49411764705882355
+        metalness 0
+      }
+    }
+    LED {
+      translation 0 0 0.08
+      rotation 0 0 0.9999999999999999 4.712388966
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.6431372549019608 0 0
+            roughness 1
+            metalness 0
+            emissiveIntensity 100
+          }
+          geometry Cylinder {
+            bottom FALSE
+            height 0.013000000000000001
+            radius 0.024
+            subdivision 64
+          }
+        }
+      ]
+    }
+  ]
+  name "robot(1)"
+  controller "led_controller"
 }
 DEF GIRDER Solid {
   translation 5.882 4.3269 0.28845316228928497
