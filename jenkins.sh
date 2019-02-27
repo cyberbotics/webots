@@ -2,7 +2,7 @@
 
 # use the display of the open session
 export DISPLAY=:0
-
+ 
 # environment variables
 export WEBOTS_HOME=$WORKSPACE
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
