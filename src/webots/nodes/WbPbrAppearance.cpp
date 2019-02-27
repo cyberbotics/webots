@@ -81,7 +81,7 @@ WbPbrAppearance::~WbPbrAppearance() {
 }
 
 void WbPbrAppearance::preFinalize() {
-  WbBaseNode::preFinalize();
+  WbAbstractAppearance::preFinalize();
 
   if (baseColorMap())
     baseColorMap()->preFinalize();
@@ -114,7 +114,7 @@ void WbPbrAppearance::preFinalize() {
 
   if (cInstanceCounter == 0) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    const int quality = WbPreferences::instance()->value("OpenGL/TextureQuality", 2).toInt();
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
     const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
     cBrdfTexture = wr_texture_cubemap_bake_brdf(WbWrenShaders::iblBrdfBakingShader(), resolution);
     WbWrenOpenGlContext::doneWren();
@@ -176,7 +176,7 @@ void WbPbrAppearance::postFinalize() {
 }
 
 void WbPbrAppearance::reset() {
-  WbBaseNode::reset();
+  WbAbstractAppearance::reset();
 
   if (baseColorMap())
     baseColorMap()->reset();
@@ -490,7 +490,7 @@ void WbPbrAppearance::updateEmissiveIntensity() {
 
 void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   if (writer.isWebots()) {
-    WbBaseNode::exportNodeSubNodes(writer);
+    WbAbstractAppearance::exportNodeSubNodes(writer);
     return;
   }
 

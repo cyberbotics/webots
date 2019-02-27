@@ -24,6 +24,10 @@
 #define WB_USING_C_API
 #include "types.h"
 
+#ifdef __CYGWIN__
+#include <stdio.h>
+#endif
+
 #if defined(__VISUALC__) || defined(_MSC_VER)
 #include "stdio.h"
 #endif

@@ -7,6 +7,7 @@
     - [Verifying Your Graphics Driver Installation](verifying-your-graphics-driver-installation.md)
     - [Installation Procedure](installation-procedure.md)
     - [Webots license agreement](webots-license-agreement.md)
+    - [Telemetry](telemetry.md)
     - [Translating Webots to Your Own Language](translating-webots-to-your-own-language.md)
 - [Building Webots](building-webots.md)
 - [Getting Started with Webots](getting-started-with-webots.md)

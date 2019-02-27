@@ -13,8 +13,12 @@
 // limitations under the License.
 
 /*
- * Description:  This controller demonstrates how to use openCV to process
-                 the camera image.
+ * Description: This controller demonstrates how to use openCV to process the camera image.
+ *              In order to execute and recompile this example, opencv must be installed.
+ *              To run this controller, it is recommended to install the Webots development
+ *              environment as explained here:
+ * https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment
+ *
  */
 
 #include <stdio.h>

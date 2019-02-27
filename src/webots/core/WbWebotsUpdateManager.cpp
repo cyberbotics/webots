@@ -17,7 +17,6 @@
 #include "WbNetwork.hpp"
 
 #include <QtCore/QCoreApplication>
-#include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
 #include <cassert>
