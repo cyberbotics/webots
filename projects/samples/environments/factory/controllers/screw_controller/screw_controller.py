@@ -28,6 +28,7 @@ for i in range(robot.getNumberOfDevices()):
 numberOfScrews = 0
 motors = []
 sensors = []
+previousPosition = []
 for i in range(robot.getNumberOfDevices()):
     linearMotorName = 'linear motor %d' % i
     positionSensorName = 'position sensor %d' % i
@@ -35,6 +36,7 @@ for i in range(robot.getNumberOfDevices()):
         numberOfScrews += 1
         motors.append(robot.getMotor(linearMotorName))
         sensors.append(robot.getPositionSensor(positionSensorName))
+        previousPosition.append(0)
     else:
         break
 
@@ -47,4 +49,6 @@ while robot.step(timestep) != -1:
         maxPosition = motors[i].getMaxPosition()
         minPosition = motors[i].getMinPosition()
         targetPosition = max(min(targetPosition, maxPosition), minPosition)
-        motors[i].setPosition(targetPosition)
+        if previousPosition[i] != targetPosition:
+            previousPosition[i] = targetPosition
+            motors[i].setPosition(targetPosition)
