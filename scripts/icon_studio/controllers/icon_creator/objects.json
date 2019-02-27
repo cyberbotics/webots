@@ -240,6 +240,9 @@
   "projects/objects/factory/tools/protos/ElectricalPlug": {
     "fields": "translation 0 0.1 0"
   },
+  "projects/objects/factory/tools/protos/EmergencyButton": {
+    "nodeString": "Robot { translation 0 0.02 0 rotation 0 1 0 2.1 children [ EmergencyButton { } ] }"
+  },
   "projects/objects/factory/tools/protos/EyeScrew": {
     "fields": "translation 0 0.05 0 rotation 0 1 0 4.71"
   },

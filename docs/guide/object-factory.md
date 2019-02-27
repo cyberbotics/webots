@@ -485,6 +485,36 @@ ElectricalPlug {
 
 - `enableBoundingObject`: Defines whether the plug should have a bounding object.
 
+### EmergencyButton
+
+An emergency button with an optional positoon sensor.
+
+%figure
+
+![EmergencyButton](images/objects/tools/EmergencyButton/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+EmergencyButton {
+  SFVec3f    translation            0 0 0
+  SFRotation rotation               0 0 1 0
+  SFString   name                   "emergency button"
+  SFBool     includePositionSensor  FALSE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/EmergencyButton.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### EmergencyButton Field Summary
+
+- `includePositionSensor`: Defines if a PositionSensor node should be included to retrieve the button position.
+
 ### EyeScrew
 
 An eye screw with variable radius and length.
@@ -565,9 +595,9 @@ Nut {
   SFVec3f    translation     0 0.004 0
   SFRotation rotation        0 1 0 0
   SFString   name            "nut"
-  SFNode     appearance    OldSteel {}
-  SFFloat    innerRadius      0.006
-  SFFloat    thickness        0.007
+  SFNode     appearance      OldSteel {}
+  SFFloat    innerRadius     0.006
+  SFFloat    thickness       0.007
   SFString   contactMaterial "default"
 }
 ```
