@@ -331,18 +331,14 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const Wb
 }
 
 // return the vrml origin ([0 0 0] point) of the connector in world (global) coordinate system
-// this requires to translate by physics->centeroOfMass and rotate by current matrix
-// (in fact we would also need to rotate according to
-// physics->orientation but this was left out for the moment)
 void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
   dBodyID b = upperSolid()->bodyMerger();
   assert(upperSolid()->physics() && b);
 
-  // translate from VRLM to body coordinate system
-  WbVector3 origin = translation() - upperSolid()->centerOfMass();
-
-  // transform from dBody CS to global CS (world)
-  dBodyGetRelPointPos(b, origin[0], origin[1], origin[2], out);
+  const WbVector3 &globalTranslation = matrix().translation();
+  out[0] = globalTranslation[0];
+  out[1] = globalTranslation[1];
+  out[2] = globalTranslation[2];
 }
 
 // shift both connectors (parent) bodies such that the connectors VRML origins match
