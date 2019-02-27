@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
 
   const double *position = wb_supervisor_node_get_position(solid);
-  ts_assert_vec3_in_delta(position[0], position[1], position[2], 0.25, 0.2, 0.0, 0.02,
+  ts_assert_vec3_in_delta(position[0], position[1], position[2], 0.25, 0.2, 0.0, 0.001,
                           "Solid is not at the expected position ([%lf, %lf, %lf] instead of [0.25, 0.2, 0.0]).", position[0],
                           position[1], position[2]);
 
