@@ -332,9 +332,6 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const Wb
 
 // return the vrml origin ([0 0 0] point) of the connector in world (global) coordinate system
 void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
-  dBodyID b = upperSolid()->bodyMerger();
-  assert(upperSolid()->physics() && b);
-
   const WbVector3 &globalTranslation = matrix().translation();
   out[0] = globalTranslation[0];
   out[1] = globalTranslation[1];
@@ -349,20 +346,8 @@ void WbConnector::snapOrigins(WbConnector *other) {
 
   // get positions of connector 1 and 2
   dVector3 p1, p2;
-  if (b1)
-    getOriginInWorldCoordinates(p1);
-  else {
-    const WbVector3 translation = matrix().translation();
-    for (int i = 0; i < 3; ++i)
-      p1[i] = translation[i];
-  }
-  if (b2)
-    other->getOriginInWorldCoordinates(p2);
-  else {
-    const WbVector3 translation = other->matrix().translation();
-    for (int i = 0; i < 3; ++i)
-      p2[i] = translation[i];
-  }
+  getOriginInWorldCoordinates(p1);
+  other->getOriginInWorldCoordinates(p2);
 
   // retrieve current body positions
   const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
