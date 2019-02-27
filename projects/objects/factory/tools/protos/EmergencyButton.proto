@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
-# An emergency button with an optional positoon sensor.
+# An emergency button with an optional position sensor.
 
 PROTO EmergencyButton [
   field SFVec3f    translation            0 0 0

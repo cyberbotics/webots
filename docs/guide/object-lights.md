@@ -72,7 +72,7 @@ DoubleFluorescentLamp {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 1 0 0
   SFString   name            "double fuorescent lamp"
-  SFBool     on              TRUE
+  SFFloat    intensity       10
 }
 ```
 
@@ -83,7 +83,7 @@ DoubleFluorescentLamp {
 
 ### DoubleFluorescentLamp Field Summary
 
-- `on`: Defines if the lamp is enabled
+- `intensity`: Defines the intensity of the emissive color.
 
 ## FloorLight
 

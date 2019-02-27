@@ -487,7 +487,7 @@ ElectricalPlug {
 
 ### EmergencyButton
 
-An emergency button with an optional positoon sensor.
+An emergency button with an optional position sensor.
 
 %figure
 

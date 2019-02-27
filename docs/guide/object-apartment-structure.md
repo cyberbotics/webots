@@ -298,7 +298,7 @@ Wall {
 
 ## WallPlug
 
-An enelctrical wall plug with optional bounding object.
+An electrical wall plug with optional bounding object.
 
 %figure
 

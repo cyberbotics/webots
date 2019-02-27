@@ -9,7 +9,7 @@ PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 1 0 0
   field SFString   name            "double fuorescent lamp"
-  field SFBool     on              TRUE                      # Defines if the lamp is enabled
+  field SFFloat    intensity       10                        # Defines the intensity of the emissive color.
 ]
 {
   Solid {
@@ -26,8 +26,9 @@ PROTO DoubleFluorescentLamp [
             appearance PBRAppearance {
               baseColor 0.873334859235523 0.720683604180972 0.5793087663080797
               metalness 0
-              %{ if fields.on.value then }%
+              %{ if fields.intensity.value > 0 then }%
                 emissiveColor 0.9333333333333333 0.9333333333333333 0.9254901960784314
+                emissiveIntensity IS intensity
               %{ end }%
             }
             geometry Cylinder {
