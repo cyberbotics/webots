@@ -1113,6 +1113,17 @@ DEF EXERCISES_BOARD Robot {
         }
       }
     }
+    Connector {
+      translation -10.959 2.4399999999999005 0.125
+      rotation 0 -1 0 4.7123890043591725
+      name "connector(1)"
+      type "active"
+      isLocked TRUE
+      autoLock TRUE
+      distanceTolerance 0.005
+      numberOfRotations 2
+      tensileStrength 5
+    }
     WallPlug {
       translation -11.003797033348237 2.4399999999999005 0.1251145111661991
       rotation 0 1 0 3.141592644
@@ -1120,11 +1131,16 @@ DEF EXERCISES_BOARD Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 2
         axis 0 0 1
         anchor -10.950000000000001 2.4730000000000003 0.1251145111661991
+        maxStop 2
+        springConstant 1
+        dampingConstant 1
       }
       endPoint Solid {
-        translation -10.950000000000001 2.441 0.1251145111661991
+        translation -10.920902482341578 2.486316698769509 0.1251145111661991
+        rotation 0 0 1 1.9999999999999998
         children [
           DEF SHAPE Shape {
             appearance PBRAppearance {
@@ -1458,7 +1474,7 @@ DEF EXERCISES_BOARD Robot {
   controller ""
 }
 DEF ELECTRIC_PLUG Solid {
-  translation -10.947000000000001 2.4399999999519495 0.4750000002397448
+  translation -10.959 2.4399999999999005 0.125
   rotation -4.794896624534196e-09 1 -9.589793249068392e-09 1.5707963028204133
   children [
     ElectricalPlug {
@@ -1473,6 +1489,7 @@ DEF ELECTRIC_PLUG Solid {
       tensileStrength 5
     }
   ]
+  name "plug"
   boundingObject Transform {
     translation 0 0 0.01
     children [
