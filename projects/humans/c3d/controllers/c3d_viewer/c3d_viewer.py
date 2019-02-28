@@ -50,6 +50,7 @@ def getPointsList(reader, name):
 
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
+enableGraphs = False
 
 # parse arguments
 if len(sys.argv) < 3:
@@ -87,6 +88,7 @@ if markers:
     supervisor.wwiSendText('markers:' + markers.strip())
 if virtualmarkers:
     supervisor.wwiSendText('virtual_markers:' + virtualmarkers.strip())
+supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 
 # get C3D files settings
 numberOfpoints = reader.header.point_count
@@ -172,11 +174,16 @@ while supervisor.step(timestep) != -1:
             color = [int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)]
             for i in range(2, len(value)):
                 pointRepresentations[value[i]]['color'].setSFColor(color)
+        elif action == 'graphs':
+            enableGraphs = value[1] == 'true'
+        else:
+            print(message)
         message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
     step = int(playbackSpeed * supervisor.getTime() / frameStep - totalFrameCoutner)
     if step > 0:
+        toSend = ''
         frame = frameAndPoints[frameCoutner][0]
         points = frameAndPoints[frameCoutner][1]
         # print([frameAndAnalog[frameCoutner][1][0][0], frameAndAnalog[frameCoutner][1][1][0], frameAndAnalog[frameCoutner][1][2][0]])
@@ -187,6 +194,11 @@ while supervisor.step(timestep) != -1:
                 y = -points[j][2] * scale
                 z = points[j][1] * scale
                 pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
+                if enableGraphs:
+                    toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+        if toSend:
+            toSend = toSend[:-1]  # remove last ':'
+            supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
         totalFrameCoutner += step
         frameCoutner += step
         if frameCoutner >= len(frameAndPoints):

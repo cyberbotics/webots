@@ -1,5 +1,10 @@
 var robotWindow = null;
+var basicTimeStep = 0.032;
 var graphs = {};
+
+function enableGraphs(checkbox) {
+  robotWindow.send('graphs:' + checkbox.checked);
+}
 
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
@@ -55,38 +60,55 @@ function changeRadius(virtual, radius) {
 
 webots.window('c3d_viewer_window').receive = function(message, robot) {
   robotWindow = this;
-  var isVirtual = false;
-  if (message.startsWith('virtual_markers:'))
-    isVirtual = true;
-  var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
-  var names = message.slice(toSlice).split(' ');
-  var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  // options
-  var content = '';
-  for (var i = 0; i < names.length; i++) {
-    var name = names[i];
-    content += '<div class="markerDiv">';
-    content += name;
-    content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
-    content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
-    content += '<span id="slider_value_' + name + '">0.001</span>';
-    content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
-    content += '</div>';
-  }
-  div.innerHTML = content;
-  // graph
-  for (var i = 0; i < names.length; i++) {
-    var name = names[i];
-    var tmp = document.createElement('tmp');
-    var div = '<div id="' + name + '-graph-container" class="device">';
-    div += '<h3>' + name + '</h3>';
-    div += '<div id="' + name + '-graph" class="device-content"/></div>';
-    div += '</div>';
-    tmp.innerHTML = div;
-    document.getElementById('graphs').appendChild(tmp.firstChild);
-    graphs[name] = new TimeplotWidget(document.getElementById(name + '-graph'), 32, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': 'Raw'}, null);
-    graphs[name].refresh();
-  }
+  if (message.startsWith('configure:')) {
+    var values = message.split(':');
+    basicTimeStep = 0.001 * values[1];
+  } else if (message.startsWith('virtual_markers:') || message.startsWith('markers:')) {
+    var isVirtual = message.startsWith('virtual_markers:');
+    var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
+    var names = message.slice(toSlice).split(' ');
+    var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+    // options
+    var content = '';
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+      content += '<div class="markerDiv">';
+      content += name;
+      content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+      content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
+      content += '<span id="slider_value_' + name + '">0.001</span>';
+      content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
+      content += '</div>';
+    }
+    div.innerHTML = content;
+    // graph
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+      var tmp = document.createElement('tmp');
+      var div = '<div id="' + name + '-graph-container" class="device">';
+      div += '<h3>' + name + '</h3>';
+      div += '<div id="' + name + '-graph" class="device-content"/></div>';
+      div += '</div>';
+      tmp.innerHTML = div;
+      document.getElementById('graphs').appendChild(tmp.firstChild);
+      graphs[name] = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[m]'}, null);
+      graphs[name].refresh();
+    }
+  } else if (message.startsWith('positions:')) {
+    var positions = message.split(':');
+    var n = positions.length / 2;
+    time = parseFloat(positions[1]);
+    for (var i = 1; i < n; i++) {  // start at 1 because 0 is 'positions:' and time
+      var name = positions[i * 2];
+      var coordinates = positions[i * 2 + 1].split(',');
+      var x = parseFloat(coordinates[0]);
+      var y = parseFloat(coordinates[1]);
+      var z = parseFloat(coordinates[2]);
+      graphs[name].addValue({'x': time, 'y': [x, y, z]});
+      graphs[name].refresh();
+    }
+  } else
+    console.log(message);
 }
 
 window.onload = function() {
