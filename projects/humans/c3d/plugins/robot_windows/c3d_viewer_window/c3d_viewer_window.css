@@ -4,10 +4,85 @@
   flex-wrap: wrap;
   align-content: space-around;
 }
-
 .markerDiv {
   width: 420px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+.device {
+  position: relative;
+  padding: 10px;
+  margin: 10px;
+  width: 350px;
+  height: 250px;
+  display: inline-block;
+  background-color: lightgrey;
+  overflow: hidden;
+}
+.device > h3 {
+  position: absolute;
+  top: 5px;
+  margin: 0px;
+  padding: 0px;
+}
+.device-content {
+  position: absolute;
+  overflow: hidden;
+  top: 30px;
+  left: 10px;
+  width: 350px;
+  height: 230px;
+  margin: 0px;
+  padding: 0px;
+}
+.plot-canvas {
+  position: absolute;
+  top: 5px;
+  left: 20px;
+  width: 320px;
+  height: 200px;
+  background-color: white;
+  border: 1px solid darkgrey;
+}
+.plot-axis-label {
+  font-size: 0.8em;
+  position: absolute;
+  display: flex;
+}
+.plot-axis-label-x,
+.plot-axis-label-x-min,
+.plot-axis-label-x-max {
+  top: 200px;
+  left: 21px;
+  width: 320px;
+  height: 16px;
+}
+.plot-axis-label-x {
+  justify-content: center;
+}
+.plot-axis-label-x-min {
+  justify-content: flex-start;
+}
+.plot-axis-label-x-max {
+  justify-content: flex-end;
+}
+.plot-axis-label-y,
+.plot-axis-label-y-min,
+.plot-axis-label-y-max {
+  /* Fill the overall left part of the plot, use `justify-content` to align text. */
+  -webkit-writing-mode: vertical-lr;
+  top: 5px;
+  left: -10px;
+  width: 16px;
+  height: 202px;
+}
+.plot-axis-label-y {
+  justify-content: center;
+}
+.plot-axis-label-y-min {
+  justify-content: flex-end;
+}
+.plot-axis-label-y-max {
+  justify-content: flex-start;
 }

@@ -1,4 +1,5 @@
 var robotWindow = null;
+var graphs = {};
 
 function checkboxCallback(checkbox) {
   if (checkbox.checked)
@@ -19,7 +20,7 @@ function colorCallback(color) {
 
 function hideShowAll(virtual, hide) {
   var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var checkboxes = div.getElementsByClassName("visibilityCheckbox");
+  var checkboxes = div.getElementsByClassName('visibilityCheckbox');
   message = hide ? 'disable' : 'enable';
   for (var i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = true;
@@ -30,7 +31,7 @@ function hideShowAll(virtual, hide) {
 
 function changeColor(virtual, color) {
   var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var colorSelectors = div.getElementsByClassName("colorSelector");
+  var colorSelectors = div.getElementsByClassName('colorSelector');
   message = 'color:' + color;
   for (var i = 0; i < colorSelectors.length; i++) {
     colorSelectors[i].value = color;
@@ -41,7 +42,7 @@ function changeColor(virtual, color) {
 
 function changeRadius(virtual, radius) {
   var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-  var radiusSliders = div.getElementsByClassName("radiusSlider");
+  var radiusSliders = div.getElementsByClassName('radiusSlider');
   message = 'radius:' + radius;
   for (var i = 0; i < radiusSliders.length; i++) {
     radiusSliders[i].value = radius;
@@ -58,8 +59,9 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   if (message.startsWith('virtual_markers:'))
     isVirtual = true;
   var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
-  var names = message.slice(toSlice).split(" ");
+  var names = message.slice(toSlice).split(' ');
   var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
+  // options
   var content = '';
   for (var i = 0; i < names.length; i++) {
     var name = names[i];
@@ -72,6 +74,19 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     content += '</div>';
   }
   div.innerHTML = content;
+  // graph
+  for (var i = 0; i < names.length; i++) {
+    var name = names[i];
+    var tmp = document.createElement('tmp');
+    var div = '<div id="' + name + '-graph-container" class="device">';
+    div += '<h3>' + name + '</h3>';
+    div += '<div id="' + name + '-graph" class="device-content"/></div>';
+    div += '</div>';
+    tmp.innerHTML = div;
+    document.getElementById('graphs').appendChild(tmp.firstChild);
+    graphs[name] = new TimeplotWidget(document.getElementById(name + '-graph'), 32, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': 'Raw'}, null);
+    graphs[name].refresh();
+  }
 }
 
 window.onload = function() {
