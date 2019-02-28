@@ -41,8 +41,6 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
     return NULL;
   int robot_id = 0;
   sscanf(WEBOTS_ROBOT_ID, "%d", &robot_id);
-  if (robot_id == 0)
-    return NULL;
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
@@ -84,6 +82,11 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
   }
 #endif
   g_pipe_send(p, (const char *)&robot_id, sizeof(int));
+  if (robot_id == 0) {
+    const int size = strlen("NAO");
+    g_pipe_send(p, (const char *)&size, sizeof(int));
+    g_pipe_send(p, "NAO", size);
+  }
   return p;
 }
 

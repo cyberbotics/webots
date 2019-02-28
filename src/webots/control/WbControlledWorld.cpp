@@ -184,14 +184,24 @@ void WbControlledWorld::deleteController(WbController *controller) {
 void WbControlledWorld::addControllerConnection() {
   QLocalSocket *socket = mServer->nextPendingConnection();
   socket->waitForReadyRead();
-
-  QByteArray bytes = socket->read(sizeof(int));
-  QDataStream stream(bytes);
-  stream.setByteOrder(QDataStream::LittleEndian);
   int robotId = 0;
-  stream >> robotId;
+  socket->read((char *)&robotId, sizeof(int));
 
-  qDebug() << "WbControlledWorld: received" << bytes.size() << "bytes for robot_id =" << robotId << ":";
+  if (robotId == 0) {  // the Robot.name should be sent
+    int size = 0;
+    socket->waitForReadyRead();
+    int n = socket->read((char *)&size, sizeof(int));
+    qDebug() << "received" << n << "bytes: " << size;
+
+    /*
+    char *buffer = new char[size + 1];
+    int n = stream.readRawData(buffer, size);
+    buffer[size] = '\0';
+    const QString robotName(buffer);
+    qDebug() << "received" << n << "bytes: " << robotName;
+    delete[] buffer;
+    */
+  }
 
   foreach (WbRobot *const robot, robots()) {
     qDebug() << "checking" << robot->uniqueId();
