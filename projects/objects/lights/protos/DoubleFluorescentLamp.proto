@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # A double fluorescent lamp.
-# It does not contain any actual Light node, it only use emissive color.
+# It does not contain any actual Light node, it only uses emissive color.
 
 PROTO DoubleFluorescentLamp [
   field SFVec3f    translation     0 0 0
