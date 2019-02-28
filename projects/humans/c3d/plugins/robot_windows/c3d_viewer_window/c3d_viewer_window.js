@@ -93,7 +93,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
       var tmp = document.createElement('tmp');
-      var div = '<div id="' + name + '-graph-container" class="device">';
+      var div = '<div id="' + name + '-graph-container" class="marker-plot">';
       div += '<h3>' + name;
       div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
              '  <option>Time</option>' +
@@ -102,7 +102,7 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
              '  <option>XZ</option>' +
              '</select>'
       div += '</h3>';
-      div += '<div id="' + name + '-graph" class="device-content"/></div>';
+      div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
       div += '</div>';
       tmp.innerHTML = div;
       document.getElementById('graphs').appendChild(tmp.firstChild);

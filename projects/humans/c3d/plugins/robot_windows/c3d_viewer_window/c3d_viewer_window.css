@@ -10,7 +10,7 @@
   flex-direction: row;
   justify-content: flex-end;
 }
-.device {
+.marker-plot {
   position: relative;
   padding: 10px;
   margin: 10px;
@@ -20,13 +20,13 @@
   background-color: lightgrey;
   overflow: hidden;
 }
-.device > h3 {
+.marker-plot > h3 {
   position: absolute;
   top: 5px;
   margin: 0px;
   padding: 0px;
 }
-.device-content {
+.marker-plot-content {
   position: absolute;
   overflow: hidden;
   top: 30px;
