@@ -20,7 +20,7 @@
  *   }
  */
 
-/* global Animation, View */
+/* global Animation, X3dScene, TextureManager */
 /* global ace: false */
 /* global MathJax: false */
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
@@ -207,6 +207,7 @@ webots.View = function(view3D, mobile) {
   this.editor = new webots.Editor(view3D, this);
   this.infoWindow = null;
   this.selection = null;
+  this.x3dScene = null;
   this.initialViewpointPosition = null;
   this.initialViewpointOrientation = null;
   this.mouseState = {
@@ -314,28 +315,26 @@ webots.View.prototype.open = function(url, mode) {
   }
   if (this.broadcast)
     this.setTimeout(-1);
-  if (!this.viewThree) {
-    this.viewThree = new View(this.view3D);
+  if (!this.x3dScene) {
+    this.x3dScene = new X3dScene(this.view3D);
+    that.x3dScene.init();
     var param = document.createElement('param');
     param.name = 'showProgress';
     param.value = false;
-    this.viewThree.domElement.appendChild(param);
+    this.x3dScene.domElement.appendChild(param);
   }
-  // TODO if THREE js library is already loaded the if is useless
-  // only used in video mode
+
+
   this.url = url;
   this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-  initWorld();
-  /* if (this.url === undefined) {
-    this.url = url;
+  // TODO if THREE js library is already loaded the if is useless
+  /* if (this.url === undefined)
     //loadTHREEjs(); TODO
-    that.viewThree.init();
-    //initWorld(); TODO
-  } else {
-    this.url = url;
+  else
     initWorld();
-  } */
+  */
+  initWorld();
 
   function requestQuit() {
     if (that.unloggedFileModified || that.editor.hasUnsavedChanges()) {
@@ -596,14 +595,13 @@ webots.View.prototype.open = function(url, mode) {
         if (that.mode === 'video')
           callback = videoFinalize;
         else
-          callback = x3domFinalize; // TODO rename
+          callback = finalizeWorld;
         that.server = new webots.Server(that.url, that, callback);
       } else // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
-        that.stream = new webots.Stream(that.url, that, x3domFinalize);
+        that.stream = new webots.Stream(that.url, that, finalizeWorld);
     } else { // assuming it's an URL to a .x3d file
-      that.viewThree.init(); // TODO is it required?
-      that.viewThree.loadWorldFile(that.url);
-      x3domFinalize();
+      that.x3dScene.loadWorldFile(that.url);
+      finalizeWorld();
     }
   }
 
@@ -630,7 +628,7 @@ webots.View.prototype.open = function(url, mode) {
   }
 */
 
-  function x3domFinalize() {
+  function finalizeWorld() {
     $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
     /* // TODO:
     if (that.followedObject == null || that.broadcast) {
@@ -1364,41 +1362,13 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     gui = 'play';
   if (loop === undefined)
     loop = true;
-  var that = this;
-  this.animation = new Animation(url, this.viewThree, this, gui, loop);
-  this.animation.init(function() {
+  this.animation = new Animation(url, this.x3dScene, this, gui, loop);
+  this.animation.init(() => {
     $('#webotsProgress').hide();
-    that.enableToolBarButtons(true);
-
-    if (that.onready)
-      that.onready();
+    this.enableToolBarButtons(true);
+    if (this.onready)
+      this.onready();
   });
-};
-
-webots.View.prototype.applyPose = function(pose) {
-  var id = pose.id;
-  //var el = document.getElementById('n' + id);
-  //if (el && !el.getAttribute('blockWebotsUpdate')) {
-  if (true) {
-    for (var key in pose) {
-      if (key !== 'id') {
-        var value = pose[key];
-        this.viewThree.applyPose(id, key, value);
-        /*if (key === 'translation' && this.followedObject &&
-            (id === this.followedObject || // animation case
-             el.id === this.followedObject || // streaming case
-             el.getAttribute('DEF') === this.followedObject)) {
-          var objectPosition = x3dom.fields.SFVec3f.parse(el.getAttribute('translation'));
-          el.setAttribute(key, value);
-          // If this is the followed object, we save a vector with the translation applied
-          // to the object to compute the new position of the viewpoint.
-          var objectNewPosition = x3dom.fields.SFVec3f.parse(value);
-          this.followedObjectDeltaPosition = objectNewPosition.subtract(objectPosition);
-        } else
-          el.setAttribute(key, value);*/
-      }
-    }
-  }
 };
 
 webots.Server = function(url, view, onready) {
@@ -1443,7 +1413,6 @@ webots.Server = function(url, view, onready) {
         webots.User2Name = '';
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
-      // TODO why here?
       if (typeof webots.showRevert === 'undefined')
         webots.showRevert = false;
       if (typeof webots.showQuit === 'undefined')
@@ -1544,7 +1513,7 @@ webots.Stream = function(url, view, onready) {
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
         if (frame.hasOwnProperty('poses')) {
           for (i = 0; i < frame.poses.length; i++)
-            that.view.applyPose(frame.poses[i]);
+            that.view.x3dScene.applyPose(frame.poses[i]);
         }
         if (that.view.followedObject != null && that.view.followedObject !== 'none')
           that.view.updateViewpointPosition();
@@ -1553,25 +1522,10 @@ webots.Stream = function(url, view, onready) {
       data = data.substring(data.indexOf(':') + 1);
       var parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      // TODO
-      that.view.viewThree.loadObject(data);
-
-      /*var parser = new DOMParser();
-      var x3d = parser.parseFromString(data, 'text/xml').children[0];
-      if (parentId === '0')
-        that.view.x3dScene.appendChild(x3d);
-      else
-        document.getElementById('n' + parentId).appendChild(x3d);*/
+      that.view.x3dScene.loadObject(data, parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      // TODO
-      that.view.viewThree.deleteObject(data);
-      /*var itemToDelete = document.getElementById('n' + data);
-      if (itemToDelete) {
-        if (that.selection === itemToDelete)
-          that.selection = null;
-        itemToDelete.parentElement.removeChild(itemToDelete);
-      }*/
+      that.view.x3dScene.deleteObject(data);
     } else if (data.startsWith('model:')) {
       $('#webotsProgressMessage').html('Loading 3D scene...');
       $('#webotsProgressPercent').html('');
@@ -1579,17 +1533,14 @@ webots.Stream = function(url, view, onready) {
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return;
-      //var scene = data.substring(data.indexOf('<Scene>') + 8, data.lastIndexOf('</Scene>'));
-      that.view.viewThree.loadObject(data);
+      that.view.x3dScene.loadObject(data);
       // TODO
-      //$(that.view.x3dScene).append(scene);
-      //that.view.onresize();
+      // that.view.onresize();
     } else if (data.startsWith('world:')) {
-      // TODO
-      //data = data.substring(data.indexOf(':') + 1).trim();
-      //var currentWorld = data.substring(0, data.indexOf(':')).trim();
-      //data = data.substring(data.indexOf(':') + 1).trim();
-      //that.view.updateWorldList(currentWorld, data.split(';'));
+      data = data.substring(data.indexOf(':') + 1).trim();
+      var currentWorld = data.substring(0, data.indexOf(':')).trim();
+      data = data.substring(data.indexOf(':') + 1).trim();
+      that.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('image')) {
       // extract texture url: the url should only contains escaped ']' characters
       var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
@@ -1600,9 +1551,8 @@ webots.Stream = function(url, view, onready) {
 
       var textureManager = new TextureManager();
       textureManager.loadTexture(data, textureUrl);
-
-      // TODO need to replace in ImageTexture and Background?
-} else if (data.startsWith('video: ')) {
+      // TODO need to replace in ImageTexture and Background as before?
+    } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');
       var url = list[1];
@@ -1663,12 +1613,13 @@ webots.Stream = function(url, view, onready) {
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
       else
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-      // restore viewpoint
-      // TODO
-      /*var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
+      // TODO restore viewpoint
+      /*
+      var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
       viewpoint.setAttribute('position', that.view.initialViewpointPosition);
       viewpoint.setAttribute('orientation', that.view.initialViewpointOrientation);
-      that.view.updateViewpointPosition(true);*/
+      that.view.updateViewpointPosition(true);
+      */
     } else if (data.startsWith('label')) {
       var semiColon = data.indexOf(';');
       var id = data.substring(data.indexOf(':'), semiColon);
@@ -1703,8 +1654,8 @@ webots.Stream = function(url, view, onready) {
   };
   function destroyWorld() {
     that.view.selection = null;
-    if (that.view.viewThree)
-      that.view.viewThree.destroyWorld();
+    if (that.view.x3dScene)
+      that.view.x3dScene.destroyWorld();
 
     // remove labels
     var labels = document.getElementsByClassName('webotsLabel');

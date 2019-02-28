@@ -61,8 +61,11 @@ THREE.X3DLoader.prototype = {
     } else
       this.parseChildren(node, parentObject);
 
-    if (object)
-      parentObject.add(object);
+    if (!object)
+      return;
+
+    this.setName(node, object);
+    parentObject.add(object);
   },
 
   parseChildren: function(node, currentObject) {
@@ -79,11 +82,6 @@ THREE.X3DLoader.prototype = {
 
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
-
-    var id = getNodeAttribute(transform, 'id', null);
-    console.log('Parse Transform id' + id);
-    if (id)
-      object.name = String(id);
 
     var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
     object.position.copy(position);
@@ -128,6 +126,7 @@ THREE.X3DLoader.prototype = {
 
     var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
+    this.setName(appearance, mat); // TODO set name for image transform, material etc.
 
     // Get the Material tag
     var material = appearance.getElementsByTagName('Material')[0];
@@ -229,8 +228,6 @@ THREE.X3DLoader.prototype = {
         console.error('An error happened when loading' + filename + ': ' + err);
       }
     );
-    if (loadedTexture)
-      return loadedTexture;
     return texture;
   },
 
@@ -247,6 +244,7 @@ THREE.X3DLoader.prototype = {
 
     var geometry = new THREE.Geometry();
     geometry.userData = { 'x3dType': 'IndexedFaceSet' };
+    this.setName(ifs, geometry);
 
     var indices = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
     var verticesStr = getNodeAttribute(coordinate, 'point', '');
@@ -354,6 +352,7 @@ THREE.X3DLoader.prototype = {
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
     var sphereGeometry = new THREE.SphereGeometry(radius, subdivision[0], subdivision[1]);
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
+    this.setName(sphere, sphereGeometry);
     return sphereGeometry;
   },
 
@@ -364,15 +363,23 @@ THREE.X3DLoader.prototype = {
     var intensity = getNodeAttribute(light, 'intensity', '1');
     var direction = getNodeAttribute(light, 'direction', '0,0,-1').split(',');
     var lightObject = new THREE.DirectionalLight(0xffffff, intensity);
+    lightObject.userData = { 'x3dType': 'DirectionalLight' };
+    this.setName(light, lightObject);
     // TODO fix position
     // lightObject.position.copy(direction);
     lightObject.target.position.copy(direction);
-    scene.add(lightObject.target);
+    // scene.add(lightObject.target);
     return lightObject;
   },
 
   parseBackground: function(background) {
     console.log('Parse Background');
+  },
+
+  setName: function(node, object) {
+    var id = getNodeAttribute(node, 'id', null);
+    if (id)
+      object.name = String(id);
   }
 };
 

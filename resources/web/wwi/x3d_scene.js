@@ -2,7 +2,7 @@
 /* global convertStringToVec3, convertStringToQuaternion */
 'use strict';
 
-class View { // eslint-disable-line no-unused-vars
+class X3dScene { // eslint-disable-line no-unused-vars
   constructor(parentElement) {
     this.domElement = document.createElement('x3d');
     this.domElement.className = 'webots3DView';
@@ -55,7 +55,7 @@ class View { // eslint-disable-line no-unused-vars
     ] );
     */
 
-    this.initLight(); // TODO remove
+    this.destroyWorld(); // TODO remove
     this.render();
   }
 
@@ -78,7 +78,7 @@ class View { // eslint-disable-line no-unused-vars
 
   resize() {
     // TODO
-    var width = 800; //this.domElement.clientWidth;
+    var width = 800; // this.domElement.clientWidth;
     var height = 800;// this.domElement.clientHeight;
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
@@ -102,54 +102,65 @@ class View { // eslint-disable-line no-unused-vars
 
   loadObject(x3dObject, parentId) {
     var loader = new THREE.X3DLoader(this.scene);
-    var object3d = loader.parse(x3dObject);
-    if (!parentId)
-      this.scene.add(object3d);
-    // TODO check for parent
-    //document.getElementById('n' + parentId).appendChild(x3d);
+    var object = loader.parse(x3dObject);
+    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
+    if (parentObject)
+      parentObject.add(object);
+    else
+      this.scene.add(object);
   }
 
   destroyWorld() {
-    while (this.scene.lastChild)
-      this.scene.removeChild(this.scene.lastChild);
+    if (!this.scene)
+      return;
+    for (var i = this.scene.children.length - 1; i >= 0; i--)
+      this.scene.remove(this.scene.children[i]);
     this.initLight(); // TODO remove
     this.render();
   }
 
-  destroyObject(id) {
-    // TODO
-    var itemToDelete = document.getElementById('n' + id);
-    if (itemToDelete) {
-      // TODO if (that.selection === itemToDelete)
-      //  that.selection = null;
-      itemToDelete.parentElement.removeChild(itemToDelete);
-    }
-    this.render();
+  deleteObject(id) {
+    var object = this.scene.getObjectByName('n' + id);
+    if (object)
+      object.parent.remove(object);
+    this.render(); // TODO is required?
   }
 
-  applyPose(objectId, key, newValue) {
-    var object = this.scene.getObjectByName('n' + objectId);
-    /* TODO update viewpoint
-    if (key === 'translation' && this.followedObject &&
-        (id === this.followedObject || // animation case
-         el.id === this.followedObject || // streaming case
-         el.getAttribute('DEF') === this.followedObject)) {
-      var objectPosition = x3dom.fields.SFVec3f.parse(el.getAttribute('translation'));
-      el.setAttribute(key, value);
-      // If this is the followed object, we save a vector with the translation applied
-      // to the object to compute the new position of the viewpoint.
-      var objectNewPosition = x3dom.fields.SFVec3f.parse(value);
-      this.followedObjectDeltaPosition = objectNewPosition.subtract(objectPosition);
-    } else
-    */
+  applyPose(pose) {
+    var id = pose.id;
+    // TODO if (el.getAttribute('blockWebotsUpdate')) return;
+    for (var key in pose) {
+      if (key === 'id')
+        continue;
+      var newValue = pose[key];
+      var object = this.scene.getObjectByName('n' + id);
+      if (!object)
+        // error
+        continue;
+      /* TODO update viewpoint
+      if (key === 'translation' && this.followedObject &&
+         (id === this.followedObject || // animation case
+          el.id === this.followedObject || // streaming case
+          el.getAttribute('DEF') === this.followedObject)) {
+        var objectPosition = x3dom.fields.SFVec3f.parse(el.getAttribute('translation'));
+        el.setAttribute(key, value);
+        // If this is the followed object, we save a vector with the translation applied
+        // to the object to compute the new position of the viewpoint.
+        var objectNewPosition = x3dom.fields.SFVec3f.parse(value);
+        this.followedObjectDeltaPosition = objectNewPosition.subtract(objectPosition);
+      }
+      */
 
-    if (key === 'translation') {
-      var position = convertStringToVec3(newValue);
-      object.position.copy(position);
-    } else if (key === 'rotation') {
-      var quaternion = convertStringToQuaternion(newValue);
-      object.quaternion.copy(quaternion);
+      if (key === 'translation') { // Transform node
+        var position = convertStringToVec3(newValue);
+        object.position.copy(position);
+      } else if (key === 'rotation') { // Transform node
+        var quaternion = convertStringToQuaternion(newValue);
+        object.quaternion.copy(quaternion);
+      }
+      // TODO extend with other animation attributes
+      // texture transform: translation
+      // materials: emissiveColor, diffuseColor
     }
-    // TODO extend with other animation attributes
   }
 }

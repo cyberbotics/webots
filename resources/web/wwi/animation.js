@@ -146,7 +146,7 @@ class Animation { // eslint-disable-line no-unused-vars
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
       var poses = this.data.frames[this.step].poses;
       for (p = 0; p < poses.length; p++) {
-        this._applyPose(poses[p]);
+        this.scene.applyPose(poses[p]);
         appliedIds[appliedIds.length] = poses[p].id;
       }
     }
@@ -191,17 +191,6 @@ class Animation { // eslint-disable-line no-unused-vars
     if (this.gui === 'play') {
       this._updateAnimationState(true);
       window.requestAnimationFrame(() => this._updateAnimation());
-    }
-  }
-
-  _applyPose(pose) {
-    var id = pose.id;
-    // TODO if (el.getAttribute('blockWebotsUpdate')) return;
-    for (var key in pose) {
-      if (key === 'id')
-        continue;
-      var value = pose[key];
-      this.scene.applyPose(id, key, value);
     }
   }
 }
