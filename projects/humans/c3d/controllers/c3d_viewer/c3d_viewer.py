@@ -50,7 +50,8 @@ def getPointsList(reader, name):
 
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
-enableGraphs = False
+enableMarkerGraph = False
+enableValueGraphs = []
 
 # parse arguments
 if len(sys.argv) < 3:
@@ -71,23 +72,39 @@ forcesLabels = getPointsList(reader, 'FORCES')
 momentsLabels = getPointsList(reader, 'MOMENTS')
 powersLabels = getPointsList(reader, 'POWERS')
 
+units = {
+    'markers': 'm',
+    'virtual_markers': 'm',
+    'angles': reader.groups['POINT'].get('ANGLE_UNITS').string_value,
+    'forces': reader.groups['POINT'].get('FORCE_UNITS').string_value,
+    'moments': reader.groups['POINT'].get('MOMENT_UNITS').string_value,
+    'powers': reader.groups['POINT'].get('POWER_UNITS').string_value
+}
+
 # filter non 3D points and send the list to the robot window
 filteredLabel = [x for x in labels if x not in angleLabels]
 filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
 filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
 filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 
-markers = ''
-virtualmarkers = ''
+markers = []
+virtualmarkers = []
 for label in filteredLabel:
     if isVirtualMarker(label):
-        virtualmarkers += label + ' '
+        virtualmarkers.append(label)
     else:
-        markers += label + ' '
-if markers:
-    supervisor.wwiSendText('markers:' + markers.strip())
-if virtualmarkers:
-    supervisor.wwiSendText('virtual_markers:' + virtualmarkers.strip())
+        markers.append(label)
+
+labelsAndCategory = {
+    'markers': markers,
+    'virtual_markers': virtualmarkers,
+    'angles': angleLabels,
+    'forces': forcesLabels,
+    'moments': momentsLabels,
+    'powers': powersLabels
+}
+for key in labelsAndCategory:
+    supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
 supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 
 # get C3D files settings
@@ -175,7 +192,13 @@ while supervisor.step(timestep) != -1:
             for i in range(2, len(value)):
                 pointRepresentations[value[i]]['color'].setSFColor(color)
         elif action == 'graphs':
-            enableGraphs = value[1] == 'true'
+            if value[1] == 'markers':
+                enableMarkerGraph = value[2] == 'true'
+            else:
+                if value[2] == 'true':
+                    enableValueGraphs.append(value[1])
+                else:
+                    enableValueGraphs.remove(value[1])
         else:
             print(message)
         message = supervisor.wwiReceiveText()
@@ -194,8 +217,15 @@ while supervisor.step(timestep) != -1:
                 y = -points[j][2] * scale
                 z = points[j][1] * scale
                 pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-                if enableGraphs:
+                if enableMarkerGraph:
                     toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+            else:
+                for categoryName in labelsAndCategory:
+                    if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
+                        x = points[j][0]
+                        y = points[j][2]
+                        z = points[j][1]
+                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
             supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)

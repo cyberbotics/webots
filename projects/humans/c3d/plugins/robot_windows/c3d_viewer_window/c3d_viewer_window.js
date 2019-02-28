@@ -3,7 +3,7 @@ var basicTimeStep = 0.032;
 var graphs = {};
 
 function enableGraphs(checkbox) {
-  robotWindow.send('graphs:' + checkbox.checked);
+  robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
 }
 
 function checkboxCallback(checkbox) {
@@ -71,24 +71,29 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
   if (message.startsWith('configure:')) {
     var values = message.split(':');
     basicTimeStep = 0.001 * values[1];
-  } else if (message.startsWith('virtual_markers:') || message.startsWith('markers:')) {
-    var isVirtual = message.startsWith('virtual_markers:');
-    var toSlice = isVirtual ? 'virtual_markers:'.length : 'markers:'.length;
-    var names = message.slice(toSlice).split(' ');
-    var div = isVirtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
-    // options
-    var content = '';
-    for (var i = 0; i < names.length; i++) {
-      var name = names[i];
-      content += '<div class="markerDiv">';
-      content += name;
-      content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
-      content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
-      content += '<span id="slider_value_' + name + '">0.001</span>';
-      content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
-      content += '</div>';
+  } else if (message.startsWith('labels:')) {
+    message = message.slice('labels:'.length).split(':');
+    var type = message[0];
+    var unit = message[1];
+    var names = message[2].split(' ');
+    if (type == 'virtual_markers' || type == 'markers') {
+      var isVirtual = type == 'virtual_markers';
+      var div = document.getElementById(type);
+      // options
+      var content = '';
+      for (var i = 0; i < names.length; i++) {
+        var name = names[i];
+        content += '<div class="markerDiv">';
+        content += name;
+        content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+        content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
+        content += '<span id="slider_value_' + name + '">0.001</span>';
+        content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
+        content += '</div>';
+      }
+      div.innerHTML = content;
+      type = 'markers';
     }
-    div.innerHTML = content;
     // graph
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
@@ -105,12 +110,12 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
       div += '</div>';
       tmp.innerHTML = div;
-      document.getElementById('graphs').appendChild(tmp.firstChild);
+      document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -0.1, 'max': 0.1}, {'x': 'Time [s]', 'y': '[m]'}, null);
-      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'x [m]', 'y': 'y [m]'}, null);
-      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'y [m]', 'y': 'z [m]'}, null);
-      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'x [m]', 'y': 'z [m]'}, null);
+      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -0.001, 'max': 0.001}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
+      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
+      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
 
       widgetXY.show(false);
       widgetYZ.show(false);
@@ -129,10 +134,12 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       var x = parseFloat(coordinates[0]);
       var y = parseFloat(coordinates[1]);
       var z = parseFloat(coordinates[2]);
-      graphs[name].forEach(function(widget) {
-        widget.addValue({'x': time, 'y': [x, y, z]});
-        widget.refresh();
-      });
+      if (name in graphs) {
+        graphs[name].forEach(function(widget) {
+          widget.addValue({'x': time, 'y': [x, y, z]});
+          widget.refresh();
+        });
+      }
     }
   } else
     console.log(message);
