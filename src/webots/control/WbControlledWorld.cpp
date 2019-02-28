@@ -120,7 +120,11 @@ void WbControlledWorld::startControllers() {
 }
 
 void WbControlledWorld::startController(WbRobot *robot) {
-  if (robot->controllerName().isEmpty()) {
+  startControllerFromSocket(robot, NULL);
+}
+
+void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *socket) {
+  if (robot->controllerName().isEmpty() || (socket == NULL && robot->controllerName() == "<extern>")) {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
   }
@@ -152,6 +156,11 @@ void WbControlledWorld::startController(WbRobot *robot) {
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
   }
   mControllers.append(controller);
+  if (socket && robot->controllerName() == "<extern>") {
+    controller->setSocket(socket);
+    robot->setControllerStarted(true);
+    return;
+  }
   controller->start();
 }
 
@@ -187,9 +196,8 @@ void WbControlledWorld::addControllerConnection() {
   foreach (WbRobot *const robot, robots()) {
     qDebug() << "checking" << robot->uniqueId();
     if (robotId == robot->uniqueId()) {
-      if (robot->controller()) {
-        qDebug() << "setting socket";
-        robot->controller()->setSocket(socket);
+      if (robot->controllerName() == "<extern>") {
+        startControllerFromSocket(robot, socket);
         return;
       }
     }

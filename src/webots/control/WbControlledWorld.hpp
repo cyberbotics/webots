@@ -19,6 +19,7 @@
 #include "WbSimulationWorld.hpp"  // TODO: should we rename WbSimulationWorld to WbSimulatedWorld ?
 
 class QLocalServer;
+class QLocalSocket;
 class WbController;
 
 class WbControlledWorld : public WbSimulationWorld {
@@ -53,6 +54,7 @@ protected:
   void setUpControllerForNewRobot(WbRobot *robot) override;
 
 private:
+  void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
 
   QLocalServer *mServer;
