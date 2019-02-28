@@ -1604,10 +1604,6 @@ webots.Server = function(url, view, onready) {
         webots.User2Name = '';
       if (typeof webots.CustomData === 'undefined')
         webots.CustomData = '';
-      if (typeof webots.showRevert === 'undefined')
-        webots.showRevert = false;
-      if (typeof webots.showQuit === 'undefined')
-        webots.showQuit = true;
       this.send('{ "init" : [ "' + host + '", "' + that.project + '", "' + that.worldFile + '", "' +
                 webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
                 webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
