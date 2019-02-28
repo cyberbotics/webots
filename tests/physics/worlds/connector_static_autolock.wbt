@@ -1,6 +1,7 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
   title "Auto lock static connectors"
+  basicTimeStep 8
 }
 Viewpoint {
   orientation 0.10833828102060336 0.9839846395851807 0.1415522727684823 4.121503424005624
@@ -47,7 +48,6 @@ DEF ACTIVE_ROBOT Robot {
 }
 DEF SOLID Solid {
   translation 0.247 0.19999999999999996 0
-  rotation 0.8913161249534984 -0.43793373078283837 0.1173439936277272 5.699130699799398
   children [
     DEF BODY Transform {
       children [
