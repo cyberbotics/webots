@@ -23,6 +23,14 @@ function colorCallback(color) {
   robotWindow.send('color:' + color.value + ':' + color.getAttribute('marker'));
 }
 
+function comboboxCallback(combobox) {
+  var markerGraphs = graphs[combobox.getAttribute('marker')];
+  markerGraphs.forEach(function(widget) {
+    widget.show(false);
+  });
+  markerGraphs[combobox.selectedIndex].show(true);
+}
+
 function hideShowAll(virtual, hide) {
   var div = virtual ? document.getElementById('virtual_markers') : document.getElementById('markers');
   var checkboxes = div.getElementsByClassName('visibilityCheckbox');
@@ -86,13 +94,30 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       var name = names[i];
       var tmp = document.createElement('tmp');
       var div = '<div id="' + name + '-graph-container" class="device">';
-      div += '<h3>' + name + '</h3>';
+      div += '<h3>' + name;
+      div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
+             '  <option>Time</option>' +
+             '  <option>XY</option>' +
+             '  <option>YZ</option>' +
+             '  <option>XZ</option>' +
+             '</select>'
+      div += '</h3>';
       div += '<div id="' + name + '-graph" class="device-content"/></div>';
       div += '</div>';
       tmp.innerHTML = div;
       document.getElementById('graphs').appendChild(tmp.firstChild);
-      graphs[name] = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[m]'}, null);
-      graphs[name].refresh();
+
+      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -0.1, 'max': 0.1}, {'x': 'Time [s]', 'y': '[m]'}, null);
+      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'x [m]', 'y': 'y [m]'}, null);
+      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'y [m]', 'y': 'z [m]'}, null);
+      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -0.1, 'max': 0.1}, {'min': -0.1, 'max': 0.1}, {'x': 'x [m]', 'y': 'z [m]'}, null);
+
+      widgetXY.show(false);
+      widgetYZ.show(false);
+      widgetXZ.show(false);
+
+      widgetTime.refresh();
+      graphs[name] = [widgetTime, widgetXY, widgetYZ, widgetXZ];
     }
   } else if (message.startsWith('positions:')) {
     var positions = message.split(':');
@@ -104,8 +129,10 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       var x = parseFloat(coordinates[0]);
       var y = parseFloat(coordinates[1]);
       var z = parseFloat(coordinates[2]);
-      graphs[name].addValue({'x': time, 'y': [x, y, z]});
-      graphs[name].refresh();
+      graphs[name].forEach(function(widget) {
+        widget.addValue({'x': time, 'y': [x, y, z]});
+        widget.refresh();
+      });
     }
   } else
     console.log(message);
