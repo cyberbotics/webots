@@ -1,4 +1,4 @@
-# Running extern robot controllers
+# Running Extern Robot Controllers
 
 This chapter describes extern robot controllers and how to use them.
 
