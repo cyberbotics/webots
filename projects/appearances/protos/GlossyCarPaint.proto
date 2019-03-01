@@ -1,6 +1,6 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
-# license url: https://cyberbotics.com/webots_assets_license
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
 
 PROTO GlossyCarPaint [
