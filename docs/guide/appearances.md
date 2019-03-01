@@ -24,8 +24,8 @@ Asphalt {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Asphalt Field Summary
 
@@ -60,8 +60,8 @@ BrushedAluminium {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedAluminium Field Summary
 
@@ -97,8 +97,8 @@ CarLeather {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarLeather.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarLeather Field Summary
 
@@ -135,8 +135,8 @@ CarpetFibers {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarpetFibers Field Summary
 
@@ -170,8 +170,8 @@ ChequeredParquetry {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ChequeredParquetry.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ChequeredParquetry Field Summary
 
@@ -204,8 +204,8 @@ CorrodedMetal {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrodedMetal Field Summary
 
@@ -240,8 +240,8 @@ CorrugatedMetal {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedMetal Field Summary
 
@@ -276,8 +276,8 @@ DamascusSteel {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### DamascusSteel Field Summary
 
@@ -312,8 +312,8 @@ ElectricConduit {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ElectricConduit Field Summary
 
@@ -348,8 +348,8 @@ FlexibleAluminiumDuct {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### FlexibleAluminiumDuct Field Summary
 
@@ -384,8 +384,8 @@ GalvanizedMetal {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### GalvanizedMetal Field Summary
 
@@ -420,8 +420,8 @@ GlossyCarPaint {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyCarPaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### GlossyCarPaint Field Summary
 
@@ -456,8 +456,8 @@ HammeredCopper {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### HammeredCopper Field Summary
 
@@ -492,8 +492,8 @@ MatteCarPaint {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/MatteCarPaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### MatteCarPaint Field Summary
 
@@ -527,8 +527,8 @@ MetalPipePaint {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalPipePaint Field Summary
 
@@ -561,8 +561,8 @@ OldSteel {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldSteel Field Summary
 
@@ -597,8 +597,8 @@ OsbWood {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### OsbWood Field Summary
 
@@ -633,8 +633,8 @@ PaintedWood {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### PaintedWood Field Summary
 
@@ -669,8 +669,8 @@ Parquetry {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Parquetry Field Summary
 
@@ -705,8 +705,8 @@ Plaster {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Plaster.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Plaster Field Summary
 
@@ -740,8 +740,8 @@ RedBricks {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RedBricks Field Summary
 
@@ -774,8 +774,8 @@ RoughConcrete {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughConcrete Field Summary
 
@@ -810,8 +810,8 @@ RoughOak {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughOak Field Summary
 
@@ -846,8 +846,8 @@ RoughPine {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPine Field Summary
 
@@ -882,8 +882,8 @@ Roughcast {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Roughcast Field Summary
 
@@ -920,8 +920,8 @@ RustyMetal {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RustyMetal Field Summary
 
@@ -958,8 +958,8 @@ SandyGround {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### SandyGround Field Summary
 
@@ -994,8 +994,8 @@ ScrewThread {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScrewThread Field Summary
 
@@ -1030,8 +1030,8 @@ ShinyLeather {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ShinyLeather Field Summary
 
@@ -1066,8 +1066,8 @@ SquarePavement {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### SquarePavement Field Summary
 
@@ -1102,8 +1102,8 @@ StonePavement {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/StonePavement.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### StonePavement Field Summary
 
@@ -1138,8 +1138,8 @@ ThreadMetalPlate {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ThreadMetalPlate Field Summary
 
@@ -1174,8 +1174,8 @@ VarnishedPine {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### VarnishedPine Field Summary
 
@@ -1210,8 +1210,8 @@ WireFence {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/WireFence.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### WireFence Field Summary
 
@@ -1222,4 +1222,3 @@ WireFence {
 - `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
-

@@ -20,6 +20,8 @@ import os
 import fnmatch
 import re
 
+from PIL import Image
+
 ignoredProtos = [
     "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
 ]
@@ -65,6 +67,12 @@ class TestIcons(unittest.TestCase):
             self.assertTrue(
                 os.path.isfile(icon),
                 msg='missing icon: "%s"' % proto
+            )
+            image = Image.open(icon)
+            width, height = image.size
+            self.assertTrue(
+                width == 128 and height == 128,
+                msg='wrong resolution (icons should be 128x128) for icon: "%s"' % icon
             )
 
 
