@@ -956,7 +956,7 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
+  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
   char *pipe;
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
@@ -967,7 +967,7 @@ int wb_robot_init() {  // API initialization
       sscanf(WEBOTS_PID, "%d", &webots_pid);
     const char *tmp;
 #ifdef _WIN32
-    char *t = getenv("TEMP");
+    const char *t = getenv("TEMP");
     tmp = (t && t[0]) ? t : getenv("TMP");
 #elif defined(__linux__)
     tmp = "/tmp";
