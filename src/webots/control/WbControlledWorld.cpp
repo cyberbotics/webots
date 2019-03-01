@@ -379,10 +379,14 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       mNewControllers.removeOne(controller);
       mWaitingControllers.removeOne(controller);
       mControllers.removeOne(controller);
-      if (newControllerName.isEmpty())
-        WbLog::info(tr("%1: Terminating.").arg(controller->name()));
+      if (newControllerName.isEmpty() || newControllerName == "<extern>") {
+        if (controller->name() == "<extern>")
+          WbLog::info(tr("Terminating extern controller for robot \"%1\".").arg(controller->robot()->name()));
+        else
+          WbLog::info(tr("Terminating controller \"%1\".").arg(controller->name()));
+      }
       delete controller;
-      if (newControllerName.isEmpty())
+      if (newControllerName.isEmpty() || newControllerName == "<extern>")
         return;
       controller = new WbController(robot);
       if (paused)  // step finished
@@ -394,7 +398,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
     }
   }
 
-  if (newControllerName.isEmpty())
+  if (newControllerName.isEmpty() || newControllerName == "<extern>")
     return;
 
   // The controller has never been created. Creates a new one

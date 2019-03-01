@@ -363,6 +363,7 @@ void WbExtendedStringEditor::select() {
   items += defaultEntryList();
   items.sort();
   items.prepend("none");
+  items.prepend("<extern>");
   items.removeDuplicates();
 
   // let the user choose from an item list
