@@ -16,7 +16,8 @@ function menuTabCallback(category) {
   // force widgets graphs when they are shown.
   Object.keys(graphs).forEach(function(name) {
     graphs[name].forEach(function(widget) {
-      widget.refresh();
+      if (widget.shown)
+        widget.refresh();
     });
   });
 }
@@ -131,10 +132,10 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       tmp.innerHTML = div;
       document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -0.001, 'max': 0.001}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
-      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
-      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
-      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -0.001, 'max': 0.001}, {'min': -0.001, 'max': 0.001}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
+      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
+      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
 
       widgetXY.show(false);
       widgetYZ.show(false);
@@ -156,7 +157,8 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
       if (name in graphs) {
         graphs[name].forEach(function(widget) {
           widget.addValue({'x': time, 'y': [x, y, z]});
-          widget.refresh();
+          if (widget.shown)
+            widget.refresh();
         });
       }
     }
