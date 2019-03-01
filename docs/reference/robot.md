@@ -31,7 +31,9 @@ This program is located in a directory whose name is equal to the field's value.
 This directory is in turn located in the "controllers" subdirectory of the current project directory.
 For example, if the field value is "my\_controller" then the controller program should be located in "my\_project/controllers/my\_controller/my\_controller[.exe]".
 The ".exe" extension is added on the Windows platforms only.
-Setting this field's value to the empty string runs no controller at all. Doing so may lead to better performance than using the `void` controller.
+If this field is left empty, the robot will run no controller at all.
+Doing so may lead to better performance than using the `void` controller.
+Setting the value of this field to "<extern>" will make this robot runnable from an [extern robot controller](../guide/running-extern-robot-controllers).
 
 > **Note**: If the controller is not started the robot window will not work.
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.
