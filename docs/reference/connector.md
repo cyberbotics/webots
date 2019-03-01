@@ -101,23 +101,26 @@ If you don't wish to check the rotational alignment criterion this field should 
 
 %end
 
+> **Note**: For the `autoLock`, `distanceTolerance`, `axisTolerance`, `rotationTolerance` and `numberOfRotations` fields, the value of these fields in the other connector doesn't matter, each connector will check independently if it does satisfy the conditions or not.
+
 - `snap`: when TRUE: the two connectors do automatically snap (align, adjust, etc.) when they become docked.
 The alignment is threefold: 1) the two bodies are rotated such that their z-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their y-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
 Note that when the `numberOfRotations` field is 0, step 2 is omitted, and therefore the rotational alignment remains free.
 As a result of steps 1 and 3, the connector surfaces always become superimposed.
+It is recommended to set the same `snap` value for both connectors.
 
 - `tensileStrength`: maximum tensile force [in Newtons] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The tensile force corresponds to a force that pulls the two connectors apart (in the negative *z*-axes direction).
 When the tensile force exceeds the tensile strength, the link breaks.
 Note that if both connectors are locked, the effective tensile strength corresponds to the sum of both connectors' `tensileStrength` fields.
-The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied.
+The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `tensileStrength` field of one of the connectors to -1).
 
 - `shearStrength`: indicates the maximum shear force [in Newtons] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
 The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *xy*-plane).
 Note that if both connectors are locked, the effective shear strength corresponds to the sum of both connectors' `shearStrength` fields.
-The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied.
+The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `shearStrength` field of one of the connectors to -1)..
 
 ### Connector Axis System
 
