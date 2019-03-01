@@ -23,7 +23,7 @@ TARGETS = autonomous_vehicle.Makefile \
 	racing_wheel.Makefile \
 	VehicleDriver.Makefile
 
-ifneq ($(OSTYPE),window)
+ifneq ($(OSTYPE),windows)
 TARGETS += ros_automobile.Makefile
 endif
 
