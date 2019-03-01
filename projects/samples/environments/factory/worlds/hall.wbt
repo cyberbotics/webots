@@ -1,5 +1,11 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
+  info [
+    "This example uses some of the industrial objects included in Webots to create a factory hall."
+    "The tools, valves and doors are interactive."
+    "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
+  ]
+  title "A factory hall environment"
   contactProperties [
     ContactProperties {
       material1 "tube insertion exercise"
@@ -12,8 +18,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.6194124592215913 -0.7578633391834623 -0.20486913989850405 1.1001402956150341
-  position -9.205331434997612 12.884953450832477 5.069918853724144
+  orientation -0.2652116046044996 -0.9466678810592469 -0.1829828619130813 1.2979835674974551
+  position -16.514890700512094 7.528133705321302 3.4202975550301327
   ambientOcclusionRadius 1
 }
 Background {
@@ -1507,7 +1513,7 @@ DEF EXERCISES_BOARD Robot {
           }
         }
         PipeSection {
-          translation 0.367 -0.364
+          translation 0.367 -0.364 0
           rotation 0 0 -1 6.283181648405866
           name "pipe section(1)"
           height 0.28
@@ -2622,7 +2628,6 @@ DEF WINDOW_DOOR_BLOCK Transform {
       translation -1 0 0
       name "window(2)"
       size 1 3 0.2
-      bottomWallHeight 0.7
       windowHeight 1.6
       windowSillSize 0.1 0
       wallAppearance USE WALL_PLASTIC_APPEARANCE
@@ -2633,7 +2638,6 @@ DEF WINDOW_DOOR_BLOCK Transform {
       translation -2 0 0
       name "window(3)"
       size 1 3 0.2
-      bottomWallHeight 0.7
       windowHeight 1.6
       windowSillSize 0.1 0
       wallAppearance USE WALL_PLASTIC_APPEARANCE
@@ -2644,7 +2648,6 @@ DEF WINDOW_DOOR_BLOCK Transform {
       translation -3 0 0
       name "window(4)"
       size 1 3 0.2
-      bottomWallHeight 0.7
       windowHeight 1.6
       windowSillSize 0.1 0
       wallAppearance USE WALL_PLASTIC_APPEARANCE
@@ -2655,7 +2658,6 @@ DEF WINDOW_DOOR_BLOCK Transform {
       translation -4 0 0
       name "window(5)"
       size 1 3 0.2
-      bottomWallHeight 0.7
       windowHeight 1.6
       windowSillSize 0.1 0
       wallAppearance USE WALL_PLASTIC_APPEARANCE
