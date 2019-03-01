@@ -183,38 +183,55 @@ void WbControlledWorld::deleteController(WbController *controller) {
 
 void WbControlledWorld::addControllerConnection() {
   QLocalSocket *socket = mServer->nextPendingConnection();
-  socket->waitForReadyRead();
   int robotId = 0;
-  socket->read((char *)&robotId, sizeof(int));
-
+  char *buffer = (char *)&robotId;
+  int n, i = 0;
+  while ((n = socket->read(&buffer[i], sizeof(robotId) - i)) != (int)sizeof(robotId) - i) {
+    i = n;
+    socket->waitForReadyRead();
+  }
+  QString robotName;
   if (robotId == 0) {  // the Robot.name should be sent
     int size = 0;
-    socket->waitForReadyRead();
-    int n = socket->read((char *)&size, sizeof(int));
-    qDebug() << "received" << n << "bytes: " << size;
-
-    /*
-    char *buffer = new char[size + 1];
-    int n = stream.readRawData(buffer, size);
-    buffer[size] = '\0';
-    const QString robotName(buffer);
-    qDebug() << "received" << n << "bytes: " << robotName;
-    delete[] buffer;
-    */
+    buffer = (char *)&size;
+    i = 0;
+    while ((n = socket->read(&buffer[i], sizeof(size) - i)) != (int)sizeof(size) - i) {
+      i = n;
+      socket->waitForReadyRead();
+    }
+    if (size) {
+      buffer = new char[size + 1];
+      i = 0;
+      while ((n = socket->read(&buffer[i], size - i)) != size - i) {
+        i = n;
+        socket->waitForReadyRead();
+      }
+      buffer[size] = '\0';
+      robotName = buffer;
+      delete[] buffer;
+    }
   }
-
-  foreach (WbRobot *const robot, robots()) {
-    qDebug() << "checking" << robot->uniqueId();
-    if (robotId == robot->uniqueId()) {
-      if (robot->controllerName() == "<extern>") {
+  if (robotId == 0) {
+    foreach (WbRobot *const robot, robots()) {
+      if (robot->isControllerStarted())
+        continue;
+      if ((robotName == robot->name() || robotName.isEmpty()) && robot->controllerName() == "<extern>") {
+        WbLog::info(tr("Starting extern controller for robot \"%1\".").arg(robot->name()));
         startControllerFromSocket(robot, socket);
         return;
       }
     }
+    socket->close();
+    if (robotName.isEmpty())
+      WbLog::warning(tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller found."), true);
+    else
+      WbLog::warning(
+        tr("Failed to attach extern robot controller: no available \"<extern>\" robot controller named \"%1\" found.")
+          .arg(robotName),
+        true);
+    return;
   }
-
   foreach (WbController *const controller, mControllers) {
-    qDebug() << "checking" << controller->robotId();
     if (controller->robotId() == robotId) {
       controller->setSocket(socket);
       return;

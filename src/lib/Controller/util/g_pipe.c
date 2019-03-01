@@ -35,12 +35,9 @@
 
 GPipe *g_pipe_new(const char *name) {  // used by Webots 7
   const char *WEBOTS_ROBOT_ID = getenv("WEBOTS_ROBOT_ID");
-  if (WEBOTS_ROBOT_ID == NULL)
-    return NULL;
-  if (strlen(WEBOTS_ROBOT_ID) < 1)
-    return NULL;
   int robot_id = 0;
-  sscanf(WEBOTS_ROBOT_ID, "%d", &robot_id);
+  if (WEBOTS_ROBOT_ID && WEBOTS_ROBOT_ID[0])
+    sscanf(WEBOTS_ROBOT_ID, "%d", &robot_id);
   GPipe *p = malloc(sizeof(GPipe));
 #ifdef _WIN32
   p->fd[0] = 0;
@@ -61,7 +58,6 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
       return NULL;
     }
   }
-
 #else
   p->handle = socket(PF_UNIX, SOCK_STREAM, 0);
   if (p->handle < 0) {
@@ -83,9 +79,13 @@ GPipe *g_pipe_new(const char *name) {  // used by Webots 7
 #endif
   g_pipe_send(p, (const char *)&robot_id, sizeof(int));
   if (robot_id == 0) {
-    const int size = strlen("NAO");
-    g_pipe_send(p, (const char *)&size, sizeof(int));
-    g_pipe_send(p, "NAO", size);
+    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+    if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0]) {
+      const int size = strlen(WEBOTS_ROBOT_NAME);
+      g_pipe_send(p, (const char *)&size, sizeof(int));
+      g_pipe_send(p, WEBOTS_ROBOT_NAME, size);
+    } else  // send another 0: Webots will select the first available robot with an "<extern>" controller
+      g_pipe_send(p, (const char *)&robot_id, sizeof(int));
   }
   return p;
 }

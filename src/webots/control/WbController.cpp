@@ -225,7 +225,7 @@ void WbController::start() {
   if (mCommandLine.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting: \"%1\"").arg(mCommandLine));
+  info(tr("Starting controller: \"%1\"").arg(mCommandLine));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {
