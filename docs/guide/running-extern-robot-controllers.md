@@ -20,12 +20,12 @@ It is even possible to read the standard input stream (`stdin`) like with any st
 
 Different use cases are detailed here from the most simple to the most complex:
 
-### Single simulation and single extern robot controller
+### Single Simulation and Single Extern Robot Controller
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an external controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
 
-### Single simulation and multiple extern robot controllers
+### Single Simulation and Multiple Extern Robot Controllers
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from external controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
@@ -35,7 +35,7 @@ You can repeat this for the other controllers, e.g., set a different value to th
 
 > **Note**: if the `WEBOTS_ROBOT_NAME` is not set, the controller will connect to the first extern robot found which is not already connected to an extern controller.
 
-### Multiple concurrent simulations
+### Multiple Concurrent Simulations
 
 If you are running multiple simulations simultaneously on the same machine, then you need to indicate to your controller to which instance of Webots it should try to connect.
 This can be achieved by setting an environment variable named `WEBOTS_PID` with the PID (Process ID) of the running Webots instance to which you want to connect your controller.
@@ -43,7 +43,7 @@ If that simulation has more than one extern controller, you may also set the `WE
 
 > **Note**: the environment variables can be set inside the controller program, before calling the `wb_robot_init()` function.
 
-## Example usage
+## Example Usage
 
 1. Open for example the "WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao_demo.wbt" world file.
 2. If the simulation was running, stop it and revert it.
