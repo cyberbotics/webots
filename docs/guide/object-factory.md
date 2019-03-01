@@ -141,7 +141,7 @@ ConveyorBelt {
 
 ### FireExtinguisher
 
-A simple fire extenguisher with optional physics.
+A simple fire extinguisher with optional physics.
 
 %figure
 
@@ -900,4 +900,3 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
-

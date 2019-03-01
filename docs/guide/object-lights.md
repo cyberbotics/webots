@@ -57,7 +57,7 @@ CeilingLight {
 ## DoubleFluorescentLamp
 
 A double fluorescent lamp.
-It does not contain any actual Light node, it only use emissive color.
+It does not contain any actual Light node, it only uses emissive color.
 
 %figure
 
@@ -139,4 +139,3 @@ FloorLight {
 - `pointLightIntensity`: Defines the intensity of the point light.
 
 - `pointLightCastShadows`: Defines whether the point light should cast shadows.
-
