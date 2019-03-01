@@ -150,6 +150,10 @@ public:
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
 
+  WbVector3 rounded(double precision) const {
+    return WbVector3(round(mX * precision) / precision, round(mY * precision) / precision, round(mZ * precision) / precision);
+  }
+
   // dot product
   double dot(const WbVector3 &v) const { return mX * v.mX + mY * v.mY + mZ * v.mZ; }
 
