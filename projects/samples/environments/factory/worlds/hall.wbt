@@ -3854,7 +3854,6 @@ WoodenBox {
 }
 WoodenChair {
   translation -3.208797 0 -4.9812786
-  rotation 0 -1 0 5.16191365590357e-08
 }
 WoodenChair {
   translation -2.06461 0 -4.6
