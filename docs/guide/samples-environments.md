@@ -58,7 +58,7 @@ This means that a robot could grab a hammer, or turn a valve handle.
 
 %end
 
-This example uses some of the industrial objects included in Webots to create a training hall.
+This example uses some of the industrial objects included in Webots to create a factory hall.
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other configurations.
 The tools, valves and doors are interactive.
 This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door.
