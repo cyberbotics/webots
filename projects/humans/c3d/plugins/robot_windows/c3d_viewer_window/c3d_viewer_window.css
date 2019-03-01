@@ -36,6 +36,33 @@
   margin: 0px;
   padding: 0px;
 }
+#menu {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  z-index: 2;
+  color: white;
+  background-color: #444;
+}
+.menu-button {
+  font-size: 1em;
+  text-align: left;
+  padding: 8px 16px;
+  margin: 0px;
+  color: inherit;
+  background-color: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.menu-button-selected {
+  color: white;
+  background-color: #5B5;
+}
+.menu-button:hover {
+  color: black;
+  background-color: #ccc
+}
 .plot-canvas {
   position: absolute;
   top: 5px;

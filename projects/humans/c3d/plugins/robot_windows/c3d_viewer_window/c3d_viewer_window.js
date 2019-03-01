@@ -2,6 +2,25 @@ var robotWindow = null;
 var basicTimeStep = 0.032;
 var graphs = {};
 
+function menuTabCallback(category) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName('content');
+  for (i = 0; i < x.length; ++i)
+    x[i].style.display = 'none';
+  tablinks = document.getElementsByClassName('menu-button');
+  for (i = 0; i < x.length; ++i)
+    tablinks[i].className = tablinks[i].className.replace(' menu-button-selected', '');
+  document.getElementById(category + '-tab').style.display = 'block';
+  document.getElementById(category + '-menu-button').className += ' menu-button-selected';
+
+  // force widgets graphs when they are shown.
+  Object.keys(graphs).forEach(function(name) {
+    graphs[name].forEach(function(widget) {
+      widget.refresh();
+    });
+  });
+}
+
 function enableGraphs(checkbox) {
   robotWindow.send('graphs:' + checkbox.getAttribute('graphtype') + ':' + checkbox.checked);
 }
@@ -170,4 +189,5 @@ window.onload = function() {
   document.getElementById('radius_markers').onchange = function() {
     changeRadius(false, this.value);
   };
+  menuTabCallback('config');
 };
