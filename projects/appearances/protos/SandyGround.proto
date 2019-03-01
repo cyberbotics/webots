@@ -1,5 +1,5 @@
 #VRML_SIM R2019a utf8
-# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license: Apache License 2.0
 # license url: https://cyberbotics.com/webots_assets_license
 # A sandy ground material. The color can be selected using the `colorOverride` field. Useful with the UnevenTerrain PROTO.
 
