@@ -20,14 +20,14 @@ PROTO DoubleFluorescentLamp [
     children [
       DEF CYLINDER_RIGHT Transform {
         translation 0.015 0.055 0
-        rotation 0.9999999999999999 0 0 4.712388966
+        rotation 1 0 0 4.712388966
         children [
           DEF LIGHT_SHAPE Shape {
             appearance PBRAppearance {
-              baseColor 0.873334859235523 0.720683604180972 0.5793087663080797
+              baseColor 0.87 0.72 0.58
               metalness 0
               %{ if fields.intensity.value > 0 then }%
-                emissiveColor 0.9333333333333333 0.9333333333333333 0.9254901960784314
+                emissiveColor 0.93 0.93 0.93
                 emissiveIntensity IS intensity
               %{ end }%
             }
@@ -40,14 +40,14 @@ PROTO DoubleFluorescentLamp [
       }
       DEF CYLINDER_LEFT Transform {
         translation -0.015 0.055 0
-        rotation 0.9999999999999999 0 0 4.712388966
+        rotation 1 0 0 4.712388966
         children [
           USE LIGHT_SHAPE
         ]
       }
       Transform {
-        translation -0.015 0.055 0.4999999991369187
-        rotation 0.9999999999999999 0 0 4.712388966
+        translation -0.015 0.055 0.5
+        rotation 1 0 0 4.712388966
         children [
           DEF CONNECTOR Shape {
             appearance BrushedAluminium {
@@ -60,28 +60,28 @@ PROTO DoubleFluorescentLamp [
         ]
       }
       Transform {
-        translation 0.014999999999999986 0.055 0.4999999991369187
-        rotation 0.9999999999999999 0 0 4.712388966
+        translation 0.015 0.055 0.5
+        rotation 1 0 0 4.712388966
         children [
           USE CONNECTOR
         ]
       }
       Transform {
-        translation 0.014999999999999986 0.055 -0.5
-        rotation 0.9999999999999999 0 0 4.712388966
+        translation 0.015 0.055 -0.5
+        rotation 1 0 0 4.712388966
         children [
           USE CONNECTOR
         ]
       }
       Transform {
         translation -0.015 0.055 -0.5
-        rotation 0.9999999999999999 0 0 4.712388966
+        rotation 1 0 0 4.712388966
         children [
           USE CONNECTOR
         ]
       }
       DEF BASE Transform {
-        translation 0 0.019999999999999997 0
+        translation 0 0.02 0
         children [
           Shape {
             appearance BrushedAluminium {
@@ -93,7 +93,7 @@ PROTO DoubleFluorescentLamp [
         ]
       }
       Transform {
-        translation 0 0.040000007192344963 -0.5
+        translation 0 0.04 -0.5
         children [
           DEF BOX_CONNECTOR Shape {
             appearance BrushedAluminium {
@@ -105,7 +105,7 @@ PROTO DoubleFluorescentLamp [
         ]
       }
       Transform {
-        translation 0 0.040000007192344963 0.5
+        translation 0 0.04 0.5
         children [
           USE BOX_CONNECTOR
         ]

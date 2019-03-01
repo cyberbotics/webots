@@ -127,7 +127,7 @@ PROTO OfficeTelephone [
     boundingObject Group {
       children [
         Transform {
-          translation 0.003 0.034 -0.13470000000000001
+          translation 0.003 0.034 -0.1347
           rotation 1 0 0 4.056900306100426
           children [
             Box {
@@ -136,7 +136,7 @@ PROTO OfficeTelephone [
           ]
         }
         Transform {
-          translation 0 0.07685 -0.07464291894006045
+          translation 0 0.07685 -0.07464
           rotation 1 0 0 5.628690306100426
           children [
             Box {
@@ -145,11 +145,11 @@ PROTO OfficeTelephone [
           ]
         }
         Transform {
-          translation -0.055 0.09793355451725996 -0.04608758677323488
+          translation -0.055 0.0979 -0.0461
           rotation 1 0 0 5.628690306100426
           children [
             Box {
-              size 0.049999999999999996 0.18 0.04
+              size 0.05 0.18 0.04
             }
           ]
         }

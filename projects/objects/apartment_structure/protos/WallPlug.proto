@@ -22,8 +22,8 @@ PROTO WallPlug [
     children [
       %{ if fields.enableBoundingObject.value then }%
         Solid {
-          translation -0.039999999999999994 0.0008000005753876025 0
-          rotation 0 0 0.9999999999999999 4.712388966
+          translation -0.04 0.0008 0
+          rotation 0 0 1 4.712388966
           name "central hole"
           boundingObject PipeBoundingObject {
             height 0.025
@@ -34,7 +34,7 @@ PROTO WallPlug [
       %{ end }%
       Shape {
         appearance PBRAppearance {
-          baseColor 0.7568627450980392 0.49019607843137253 0.06666666666666667
+          baseColor 0.76 0.49 0.07
           roughness 0.4
         }
         geometry IndexedFaceSet {

@@ -70,19 +70,19 @@ PROTO Radiator [
         }
       }
       DEF HANDLE Transform {
-        translation 0.062 0.24999999913691856 0.07
-        rotation 0 0 0.9999999999999999 4.712388966
+        translation 0.062 0.25 0.07
+        rotation 0 0 1 4.712388966
         children [
           Shape {
             appearance RustyMetal {
-              colorOverride 0.1803921568627451 0.20392156862745098 0.21176470588235294
+              colorOverride 0.18 0.2 0.21
               textureTransform TextureTransform {
                 scale 2 3
               }
             }
             geometry Cylinder {
               height 0.008
-              radius 0.019999999999999997
+              radius 0.02
             }
           }
         ]

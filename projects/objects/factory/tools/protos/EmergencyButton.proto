@@ -119,8 +119,8 @@ PROTO EmergencyButton [
       rotation 1 0 0 1.5707963220000003
       children [
         Cylinder {
-          height 0.022000000000000002
-          radius 0.013999999999999999
+          height 0.022
+          radius 0.014
         }
       ]
     }

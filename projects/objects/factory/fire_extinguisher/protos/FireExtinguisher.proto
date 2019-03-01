@@ -80,7 +80,7 @@ PROTO FireExtinguisher [
         }
         Transform {
           translation -0.042 0.774 -0.01
-          rotation -9.589793082194567e-09 0.9999999999999936 1.1254925331649026e-07 6.113185307179585
+          rotation 0 1 0 6.113
           children [
             Box {
               size 0.192 0.084 0.048
@@ -88,7 +88,7 @@ PROTO FireExtinguisher [
           ]
         }
         Transform {
-          translation 0.11290657692269511 0.7123391880580812 0.013090547073102142
+          translation 0.1129 0.7123391880580812 0.013090547073102142
           rotation 0.08438277258311663 0.10996977289949737 -0.9903465033712286 4.964806896107718
           children [
             Capsule {

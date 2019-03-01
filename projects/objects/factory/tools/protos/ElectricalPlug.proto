@@ -27,7 +27,7 @@ PROTO ElectricalPlug [
     children [
       Shape {
         appearance PBRAppearance {
-          baseColor 0.706660563057908 0.704905775539788 0.7019607843137254
+          baseColor 0.71 0.7 0.7
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -103,7 +103,7 @@ PROTO ElectricalPlug [
       boundingObject Group {
         children [
           Transform {
-            translation -0.009000000000000001 0 0
+            translation -0.009 0 0
             rotation 1 0 0 1.5707963220000003
             children [
               Capsule {
@@ -124,7 +124,7 @@ PROTO ElectricalPlug [
           }
           Transform {
             translation 0 0 0.012
-            rotation 0.9999999999999999 0 0 4.712388966
+            rotation 1 0 0 4.712388966
             children [
               Cylinder {
                 height 0.025
@@ -133,8 +133,8 @@ PROTO ElectricalPlug [
             ]
           }
           Transform {
-            translation 0 0 0.043000000000000003
-            rotation 0.9999999999999999 0 0 4.712388966
+            translation 0 0 0.043
+            rotation 1 0 0 4.712388966
             children [
               Cylinder {
                 height 0.025
@@ -144,10 +144,10 @@ PROTO ElectricalPlug [
           }
           Transform {
             translation 0 0 0.031
-            rotation 0.9999999999999999 0 0 4.712388966
+            rotation 1 0 0 4.712388966
             children [
               Box {
-                size 0.022000000000000002 0.015 0.013999999999999999
+                size 0.022 0.015 0.014
               }
             ]
           }
