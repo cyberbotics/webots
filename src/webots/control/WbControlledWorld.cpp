@@ -386,6 +386,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
           WbLog::info(tr("Terminating controller \"%1\".").arg(controller->name()));
       }
       delete controller;
+      robot->setControllerStarted(false);
       if (newControllerName.isEmpty() || newControllerName == "<extern>")
         return;
       controller = new WbController(robot);
