@@ -25,13 +25,16 @@
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
 
-void WbTelemetry::send(const QString &file) {
+void WbTelemetry::send(const QString &operation, const QString &file) {
   static WbTelemetry telemetry;
-  if (!file.isEmpty()) {
+  if (!file.isEmpty()) {  // operation: trial
+    assert(telemetry.mFile.isEmpty());
     telemetry.mFile = file;
-    telemetry.sendRequest("trial");
-  } else
-    telemetry.sendRequest("success");
+  } else {  // operation: success or cancel
+    assert(!telemetry.mFile.isEmpty());
+    telemetry.mFile = "";
+  }
+  telemetry.sendRequest(operation);
 }
 
 void WbTelemetry::sendRequest(const QString &operation) {
