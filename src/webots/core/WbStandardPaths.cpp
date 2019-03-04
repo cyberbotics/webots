@@ -188,7 +188,8 @@ const QString &WbStandardPaths::webotsTmpPath() {
   static QString webotsTmpPath;
   if (webotsTmpPath.isEmpty()) {
 #ifdef _WIN32
-    webotsTmpPath = QDir::tempPath() + QString("/webots-%1/").arg(QCoreApplication::applicationPid());
+    webotsTmpPath = QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) +
+                    QString("/Temp/webots-%1/").arg(QCoreApplication::applicationPid());
 #elif defined(__APPLE__)
     webotsTmpPath = QString("/var/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
 #else  // __linux__

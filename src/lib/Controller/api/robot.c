@@ -967,8 +967,9 @@ int wb_robot_init() {  // API initialization
       sscanf(WEBOTS_PID, "%d", &webots_pid);
     const char *tmp;
 #ifdef _WIN32
-    const char *t = getenv("TEMP");
-    tmp = (t && t[0]) ? t : getenv("TMP");
+    char tmp_buffer[1024];
+    snprintf(tmp_buffer, sizeof(tmp_buffer), "%s/Temp", getenv("LOCALAPPDATA"));
+    tmp = tmp_buffer;
 #elif defined(__linux__)
     tmp = "/tmp";
 #elif defined(__APPLE__)
@@ -1002,10 +1003,11 @@ int wb_robot_init() {  // API initialization
       fscanf(fd, "%1023s", buffer);
       fclose(fd);
       pipe = strdup(buffer);
-    } else
+    } else {
+      fprintf(stderr, "Cannot open file: %s\n", buffer);
       pipe = NULL;
+    }
   }
-
   if (!pipe || !scheduler_init(pipe)) {
     if (!pipe)
       fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
