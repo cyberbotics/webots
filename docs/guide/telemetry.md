@@ -22,6 +22,7 @@ The following table describes all the data sent:
 | disableShadows            | The shadows option set in the [preferences](preferences.md#opengl)                                                                                              | false                          |
 | GTAO                      | The ambient occlusion option set in the [preferences](preferences.md#opengl)                                                                                    | 2                              |
 | SMAA                      | The main 3D view anti-aliasing option set in the [preferences](preferences.md#opengl)                                                                           | true                           |
+| build                     | Build date of the current version of Webots                                                                                                                     | Mar 4 2019 15:29:20            |
 
 
 To be as transparent as possible, all the telemetry raw data is available [here](https://cyberbotics.com/telemetry).
