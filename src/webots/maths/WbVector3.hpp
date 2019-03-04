@@ -150,9 +150,8 @@ public:
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
 
-  WbVector3 rounded(double precision) const {
-    return WbVector3(WbPrecision::rounded(mX, WbPrecision::GUI_MEDIUM), WbPrecision::rounded(mY, WbPrecision::GUI_MEDIUM),
-                     WbPrecision::rounded(mZ, WbPrecision::GUI_MEDIUM));
+  WbVector3 rounded(WbPrecision::Level level) const {
+    return WbVector3(WbPrecision::rounded(mX, level), WbPrecision::rounded(mY, level), WbPrecision::rounded(mZ, level));
   }
 
   // dot product
