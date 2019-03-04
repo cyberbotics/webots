@@ -93,8 +93,8 @@ void WbVector2Editor::applyIfNeeded() {
 }
 
 void WbVector2Editor::apply() {
-  mVector2.setXy(WbPrecision::rounded(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
-                 WbPrecision::rounded(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM));
+  mVector2.setXy(WbPrecision::round(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
+                 WbPrecision::round(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM));
   if (field()->hasRestrictedValues())
     mVector2 = WbVector2(mComboBox->currentText());
 

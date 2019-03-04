@@ -151,7 +151,7 @@ public:
   WbVector3 normalized() const { return *this / length(); }
 
   WbVector3 rounded(WbPrecision::Level level) const {
-    return WbVector3(WbPrecision::rounded(mX, level), WbPrecision::rounded(mY, level), WbPrecision::rounded(mZ, level));
+    return WbVector3(WbPrecision::round(mX, level), WbPrecision::round(mY, level), WbPrecision::round(mZ, level));
   }
 
   // dot product
