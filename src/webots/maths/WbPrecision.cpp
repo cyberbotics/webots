@@ -68,3 +68,8 @@ const double WbPrecision::epsilon(Level level) {
       return 0;
   }
 }
+
+double WbPrecision::rounded(double value, Level level) {
+  const double epsilon = WbPrecision::epsilon(level);
+  return round(value / epsilon) * epsilon;
+}
