@@ -52,3 +52,19 @@ QString WbPrecision::doubleToString(double value, Level level) {
       return QString::number(value, 'g', 6);
   }
 }
+
+const double WbPrecision::epsilon(Level level) {
+  switch (level) {
+    case DOUBLE_MAX:
+      return std::numeric_limits<double>::epsilon();
+    case FLOAT_MAX:
+      return std::numeric_limits<float>::epsilon();
+    case GUI_MEDIUM:
+      return 1e-6;
+    case GUI_LOW:
+      return 1e-3;
+    default:
+      assert(false);
+      return 0;
+  }
+}
