@@ -151,7 +151,7 @@ public:
   WbVector3 normalized() const { return *this / length(); }
 
   WbVector3 rounded(double precision) const {
-    return WbVector3(round(mX * precision) / precision, round(mY * precision) / precision, round(mZ * precision) / precision);
+    return WbVector3(round(mX / precision) * precision, round(mY / precision) * precision, round(mZ / precision) * precision);
   }
 
   // dot product
