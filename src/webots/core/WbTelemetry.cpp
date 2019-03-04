@@ -21,6 +21,8 @@
 
 #include <cassert>
 
+#include <compilation_timestamp.h>
+
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
@@ -68,7 +70,7 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append("&SMAA=");
   data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
   data.append("&build=");
-  data.append(QUrl::toPercentEncoding(QString(__DATE__) + " " + QString(__TIME__)));
+  data.append(QString::number(UNIX_TIMESTAMP));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
   if (id == 0) {
