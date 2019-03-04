@@ -273,6 +273,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     else
       fileName = "";
   }
+  const bool useTelemetry = WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty();
 
   bool isValidProject = true;
   QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
@@ -281,7 +282,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
     delete protoList;
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
   }
 
@@ -290,14 +292,16 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
     delete protoList;
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(false);
   }
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
     delete protoList;
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
   }
 
@@ -305,7 +309,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     delete protoList;
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(true);
   }
 
@@ -316,7 +321,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   if (wasWorldLoadingCanceled()) {
     delete protoList;
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(true, true);
   }
 
@@ -327,7 +333,8 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   linkLibraries(WbProject::current()->librariesPath());
   mWorld = new WbControlledWorld(protoList, &tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
-    WbTelemetry::send("cancel");
+    if (useTelemetry)
+      WbTelemetry::send("cancel");
     return cancelWorldLoading(true, true);
   }
   WbSimulationState::instance()->setEnabled(true);
@@ -340,7 +347,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbNodeOperations::instance()->enableSolidNameClashCheckOnNodeRegeneration(true);
   WbBoundingSphere::enableUpdates(WbSimulationState::instance()->isRayTracingEnabled(), mWorld->root()->boundingSphere());
 
-  if (WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty())
+  if (useTelemetry)
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
   return true;

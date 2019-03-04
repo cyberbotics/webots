@@ -36,7 +36,7 @@ void WbTelemetry::send(const QString &operation, const QString &file) {
   } else {  // operation: success or cancel
     assert(!telemetry.mFile.isEmpty());
     telemetry.sendRequest(operation);
-    telemetry.mFile = "";
+    telemetry.mFile.clear();
   }
 }
 
