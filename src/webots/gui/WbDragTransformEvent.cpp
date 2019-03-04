@@ -210,7 +210,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
     // convert local translation to parent transform coordinate system
     mTranslationOffset += translationOffset[mCoordinate];
     translationOffset = mSelectedTransform->rotation().toMatrix3() * translationOffset;
-    mSelectedTransform->setTranslation((mSelectedTransform->translation() + translationOffset).rounded(0.000001));
+    mSelectedTransform->setTranslation(
+      (mSelectedTransform->translation() + translationOffset).rounded(WbPrecision::epsilon(WbPrecision::GUI_MEDIUM)));
     mSelectedTransform->emitTranslationOrRotationChangedByUser();
   }
 
