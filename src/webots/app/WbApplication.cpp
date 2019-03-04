@@ -281,6 +281,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
     delete protoList;
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(true);
   }
 
@@ -289,12 +290,14 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (errors) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
     delete protoList;
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(false);
   }
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
     delete protoList;
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(true);
   }
 
@@ -302,6 +305,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     delete protoList;
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(true);
   }
 
@@ -312,6 +316,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
 
   if (wasWorldLoadingCanceled()) {
     delete protoList;
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(true, true);
   }
 
@@ -321,8 +326,10 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   WbProject::setCurrent(new WbProject(newProjectPath));
   linkLibraries(WbProject::current()->librariesPath());
   mWorld = new WbControlledWorld(protoList, &tokenizer);
-  if (mWorld->wasWorldLoadingCanceled())
+  if (mWorld->wasWorldLoadingCanceled()) {
+    WbTelemetry::send();  // confirm the file previously sent did not crash
     return cancelWorldLoading(true, true);
+  }
   WbSimulationState::instance()->setEnabled(true);
   emit postWorldLoaded(reloading, isFirstLoad);
 
