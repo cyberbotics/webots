@@ -151,9 +151,9 @@ void WbColorEditor::applyIfNeeded() {
 }
 
 void WbColorEditor::apply() {
-  mRgb.setValue(WbPrecision::round(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
-                WbPrecision::round(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
-                WbPrecision::round(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
+  mRgb.setValue(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
+                WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
+                WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
   if (field()->hasRestrictedValues())
     mRgb = WbRgb(mComboBox->currentText());
   updateButton();

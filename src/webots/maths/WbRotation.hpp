@@ -75,8 +75,8 @@ public:
   }
 
   WbRotation rounded(WbPrecision::Level level) const {
-    WbRotation rotation(WbPrecision::round(mX, level), WbPrecision::round(mY, level), WbPrecision::round(mZ, level),
-                        WbPrecision::round(mAngle, level));
+    WbRotation rotation(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),
+                        WbPrecision::roundValue(mZ, level), WbPrecision::roundValue(mAngle, level));
     rotation.normalize();
     return rotation;
   }

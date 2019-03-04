@@ -39,7 +39,7 @@ namespace WbPrecision {
   QString doubleToString(double value, Level level);
 
   const double epsilon(Level level);
-  double round(double value, Level level);
+  double roundValue(double value, Level level);
 
 };  // namespace WbPrecision
 
