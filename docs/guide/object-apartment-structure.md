@@ -226,6 +226,43 @@ GenericDoorAppearance {
 
 - `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
 
+## Radiator
+
+A radiator with a variable number of fins and optional bounding object.
+
+%figure
+
+![Radiator](images/objects/apartment_structure/Radiator/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Radiator {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 1 0 0
+  SFString   name                  "radiator"
+  SFInt32    numberOfFins          10
+  SFNode     finAppearance         Roughcast { textureTransform TextureTransform { scale 3 3 } }
+  SFNode     tubeAppearance        HammeredCopper { }
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Radiator.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Radiator Field Summary
+
+- `finAppearance`: Defines the appearance of the fins.
+
+- `tubeAppearance`: Defines the appearance of the input and ouput tubes.
+
+- `enableBoundingObject`: Defines whether the radiator should have a bounding object.
+
 ## Wall
 
 A customizable wall.
@@ -258,6 +295,42 @@ Wall {
 - `size`: Defines the size of the wall.
 
 - `appearance`: Defines the appearance of the wall.
+
+## WallPlug
+
+An electrical wall plug with optional bounding object.
+
+%figure
+
+![WallPlug](images/objects/apartment_structure/WallPlug/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+WallPlug {
+  SFVec3f    translation            0 0 0
+  SFRotation rotation               0 1 0 0
+  SFString   name                   "wall plug"
+  SFColor    mainColor              1 1 1
+  SFColor    secondaryColor         0 0 0
+  SFBool     enableBoundingObject   TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/WallPlug.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### WallPlug Field Summary
+
+- `mainColor`: Defines the main color of the plug.
+
+- `secondaryColor`: Defines the secondary color of the plug.
+
+- `enableBoundingObject`: Defines whether the plug should have a bounding object.
 
 ## Window
 

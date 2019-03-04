@@ -149,8 +149,6 @@ PROTO DoorLever [
       %{ end }%
     %{ else }%
       ]
-      name IS name
-      model "door lever"
       boundingObject Group {
         children [
           USE HANDLE_SUPPORT
@@ -166,6 +164,8 @@ PROTO DoorLever [
       }
       %{ end }%
     %{ end }%
+      name IS name
+      model "door lever"
     }
   }
 }

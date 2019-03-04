@@ -73,6 +73,45 @@ BrushedAluminium {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## CarLeather
+
+A car leather material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CarLeather](images/appearances/CarLeather.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CarLeather {
+  SFColor                    colorOverride     1 1 1
+  SFString                   tone              "dark"
+  SFNode                     textureTransform  NULL
+  SFNode                     environmentMap    NULL
+  SFFloat                    IBLStrength       1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarLeather.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CarLeather Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `tone`: Defines the tone of the leather (either `dark` or `light`)
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## CarpetFibers
 
 A woolen carpet material. Useful with the `Floor` PROTO.
@@ -142,6 +181,222 @@ ChequeredParquetry {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## CorrodedMetal
+
+A corroded metal material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrodedMetal](images/appearances/CorrodedMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CorrodedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrodedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## CorrugatedMetal
+
+A corrugated metal material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrugatedMetal](images/appearances/CorrugatedMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CorrugatedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrugatedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## DamascusSteel
+
+A damascus steel material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![DamascusSteel](images/appearances/DamascusSteel.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+DamascusSteel {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### DamascusSteel Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## ElectricConduit
+
+An electric conduit material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![ElectricConduit](images/appearances/ElectricConduit.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ElectricConduit {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ElectricConduit Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## FlexibleAluminiumDuct
+
+A flexible aluminium duct material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+FlexibleAluminiumDuct {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### FlexibleAluminiumDuct Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## GalvanizedMetal
+
+A galvanized metal material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![GalvanizedMetal](images/appearances/GalvanizedMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+GalvanizedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### GalvanizedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## GlossyCarPaint
 
 A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
@@ -175,6 +430,42 @@ GlossyCarPaint {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## HammeredCopper
+
+An hammered copper steel material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![HammeredCopper](images/appearances/HammeredCopper.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+HammeredCopper {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### HammeredCopper Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -283,6 +574,42 @@ OldSteel {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## OsbWood
+
+An OSB wood steel material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![OsbWood](images/appearances/OsbWood.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+OsbWood {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### OsbWood Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## PaintedWood
 
 A painted wood material. The color can be overridden using the `colorOverride` field.
@@ -352,6 +679,42 @@ Parquetry {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## Plaster
+
+A plaster material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![Plaster](images/appearances/Plaster.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Plaster {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Plaster.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Plaster Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -532,6 +895,46 @@ Roughcast {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## RustyMetal
+
+An old battered steel material.
+The color can be overridden using the `colorOverride` field and the amount of rust can be set using the `rustLevel` field.
+
+%figure
+
+![RustyMetal](images/appearances/RustyMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+RustyMetal {
+  SFInt32        rustLevel        1
+  SFColor        colorOverride    1 1 1
+  SFNode         textureTransform NULL
+  SFNode         environmentMap   NULL
+  SFFloat        IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### RustyMetal Field Summary
+
+- `rustLevel`: Defines how much the metal is rusted.
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## SandyGround
 
 A sandy ground material. The color can be selected using the `colorOverride` field. Useful with the UnevenTerrain PROTO.
@@ -565,6 +968,42 @@ SandyGround {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## ScrewThread
+
+A screw thread material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![ScrewThread](images/appearances/ScrewThread.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ScrewThread {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ScrewThread Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -604,9 +1043,45 @@ ShinyLeather {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## SquarePavement
+
+A square pavement material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![SquarePavement](images/appearances/SquarePavement.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+SquarePavement {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### SquarePavement Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## StonePavement
 
-A stone pavement material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
+A stone pavement material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
@@ -709,5 +1184,41 @@ VarnishedPine {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## WireFence
+
+A wire fence material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![WireFence](images/appearances/WireFence.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+WireFence {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/WireFence.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### WireFence Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.

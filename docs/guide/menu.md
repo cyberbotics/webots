@@ -155,6 +155,7 @@
     - [Stairs](object-stairs.md)
     - [Street Furniture](object-street-furniture.md)
     - [Tables](object-tables.md)
+    - [Telephone](object-telephone.md)
     - [Television](object-television.md)
     - [Toys](object-toys.md)
     - [Traffic](object-traffic.md)
