@@ -5,11 +5,13 @@
 # A viewer to visualize C3D (www.c3d.org) files.
 
 PROTO C3dViewer [
-  field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
-  field  SFString    c3dFile        ""       # Defines which file should be displayed.
-  field  SFFloat     playbackSpeed  1.0      # Defines the speed at which should be played the C3D file.
-  field  MFNode      markers        []       # The markers will be automatically inserted in this field.
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 1 0 0
+  field  SFString    c3dFile         ""            # Defines which file should be displayed.
+  field  SFFloat     playbackSpeed   1.0           # Defines the speed at which should be played the C3D file.
+  field  MFNode      markers         []            # The markers will be automatically inserted in this field.
+  field  SFVec3f     leftGrfOffset   -0.12 0 0.07  # Defines the offset of the left Ground Reaction Force position.
+  field  SFVec3f     rightGrfOffset  0.03 0 0.15   # Defines the offset of the right Ground Reaction Force position.
 ]
 {
   Robot {
@@ -17,7 +19,14 @@ PROTO C3dViewer [
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
-    controllerArgs %{= '"' .. fields.c3dFile.value .. ' ' .. fields.playbackSpeed.value .. '"' }%
+    controllerArgs %{= '"' .. fields.c3dFile.value .. ' ' ..
+                              fields.playbackSpeed.value .. ' ' ..
+                              fields.leftGrfOffset.value.x .. ' ' ..
+                              fields.leftGrfOffset.value.y .. ' ' ..
+                              fields.leftGrfOffset.value.z .. ' ' ..
+                              fields.rightGrfOffset.value.x .. ' ' ..
+                              fields.rightGrfOffset.value.y .. ' ' ..
+                              fields.rightGrfOffset.value.z .. '"' }%
     supervisor TRUE
     showWindow TRUE
     window "c3d_viewer_window"
