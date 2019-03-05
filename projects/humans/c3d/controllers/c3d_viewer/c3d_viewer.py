@@ -147,6 +147,17 @@ for i in range(markerField.getCount()):
 #     indexedFaceSet += "}"
 #     markerField.importMFNodeFromString(-1, indexedFaceSet)
 
+# ground reaction forces (GRF)
+grfList = []
+names = ['LGroundReaction', 'RGroundReaction']
+for name in names:
+    if name + 'Force' in labels and name + 'Moment' in labels:
+        grfList.append({'name': name})
+        markerField.importMFNodeFromString(-1, 'C3dGrf {}')
+        grfList[-1]['node'] = markerField.getMFNode(-1)
+        grfList[-1]['translation'] = grfList[-1]['node'].getField('translation')
+        grfList[-1]['point'] = grfList[-1]['node'].getField('point')
+
 # import the marker and initialize the list of points
 pointRepresentations = {}
 j = 0
@@ -220,13 +231,23 @@ while supervisor.step(timestep) != -1:
         points = frameAndPoints[frameCoutner][1]
         # print([frameAndAnalog[frameCoutner][1][0][0], frameAndAnalog[frameCoutner][1][1][0], frameAndAnalog[frameCoutner][1][2][0]])
         # print(frameAndAnalog[frameCoutner][1])
+        for grf in grfList:
+            index1 = labels.index(grf['name'] + 'Force')
+            index2 = labels.index(grf['name'] + 'Moment')
+            COPX = 0
+            COPY = 0
+            if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
+                COPX = 0.001 * points[index2][1] / points[index1][2]
+                COPY = 0.001 * points[index2][0] / points[index1][2]
+            grf['point'].setMFVec3f(0, [COPX, 0.0, COPY]);
+            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0], 0.02 * points[index1][2], COPY + 0.02 * points[index1][1]]);
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible']:
                 x = points[j][0] * scale
                 y = points[j][2] * scale
                 if inverseY:
                     y = -y
-                z = points[j][1] * scale
+                z = -points[j][1] * scale
                 pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
                 if enableMarkerGraph:
                     toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
