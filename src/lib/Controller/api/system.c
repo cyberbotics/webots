@@ -17,6 +17,7 @@
 #include <assert.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <string.h>  // strlen
 #include <sys/stat.h>
 
 #include <webots/utils/system.h>

@@ -965,9 +965,12 @@ int wb_robot_init() {  // API initialization
     snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
     FILE *fd = fopen(buffer, "r");
     if (fd) {
-      fscanf(fd, "%1023s", buffer);
+      if (!fscanf(fd, "%1023s", buffer)) {
+        fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
+        pipe = NULL;
+      } else
+        pipe = strdup(buffer);
       fclose(fd);
-      pipe = strdup(buffer);
     } else {
       fprintf(stderr, "Cannot open file: %s\n", buffer);
       pipe = NULL;
