@@ -3,6 +3,18 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
+// TODO missing nodes/attributes:
+// - shadows
+// - lights
+// - texture transform
+// - viewpoint
+// - geometry primitives:
+//   - ElevationGrid
+//   - IndexedLineSet
+//   - PointSet
+//   - Orientation/Texture mapping mismatch: Cone, Sphere, Cylinder, Capsule
+// - USE/DEF dictionary
+
 THREE.X3DLoader = function(scene, manager) {
   this.manager = (typeof manager !== 'undefined') ? manager : THREE.DefaultLoadingManager;
   this.scene = scene;
@@ -39,13 +51,12 @@ THREE.X3DLoader.prototype = {
     var scene = xml.getElementsByTagName('Scene')[0];
     this.parseNode(object, scene);
     object.userData.x3dType = 'Group';
+    object.name = 'n0';
 
     return object;
   },
 
   parseNode: function(parentObject, node) {
-    console.log('Parse Node');
-
     var object = null;
     if (node.tagName === 'Transform')
       object = this.parseTransform(node);
@@ -58,7 +69,11 @@ THREE.X3DLoader.prototype = {
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       this.parseChildren(node, object);
-    } else
+    } else if (node.tagName === 'Viewpoint')
+      object = this.parseViewpoint(node);
+    else if (node.tagName === 'Background')
+      object = this.parseBackground(node);
+    else
       this.parseChildren(node, parentObject);
 
     if (!object)
@@ -78,8 +93,6 @@ THREE.X3DLoader.prototype = {
   },
 
   parseTransform: function(transform) {
-    console.log('Parse Transform');
-
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
 
@@ -95,8 +108,6 @@ THREE.X3DLoader.prototype = {
   },
 
   parseShape: function(shape) {
-    console.log('Parse Shape');
-
     var geometry = new THREE.Geometry();
     var material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
@@ -108,12 +119,20 @@ THREE.X3DLoader.prototype = {
         material = this.parseAppearance(child);
       else if (child.tagName === 'PBRAppearance')
         material = this.parsePBRAppearance(child);
+      else if (child.tagName === 'Box')
+        geometry = this.parseBox(child);
+      else if (child.tagName === 'Cone')
+        geometry = this.parseCone(child);
+      else if (child.tagName === 'Cylinder')
+        geometry = this.parseCylinder(child);
       else if (child.tagName === 'IndexedFaceSet')
         geometry = this.parseIndexedFaceSet(child);
+      else if (child.tagName === 'Plane')
+        geometry = this.parsePlane(child);
       else if (child.tagName === 'Sphere')
         geometry = this.parseSphere(child);
       else
-        console.log('Unknown node: ' + child.tagName);
+        console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
 
     var mesh = new THREE.Mesh(geometry, material);
@@ -122,8 +141,6 @@ THREE.X3DLoader.prototype = {
   },
 
   parseAppearance: function(appearance) {
-    console.log('Parse Appearance');
-
     var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
     this.setName(appearance, mat); // TODO set name for image transform, material etc.
@@ -141,9 +158,10 @@ THREE.X3DLoader.prototype = {
 
     // Check to see if there is a texture
     var imageTexture = appearance.getElementsByTagName('ImageTexture');
+    var textureTransform = appearance.getElementsByTagName('TextureTransform');
     var colorMap;
     if (imageTexture.length > 0)
-      colorMap = this.parseImageTexture(imageTexture[0]);
+      colorMap = this.parseImageTexture(imageTexture[0], textureTransform);
 
     var materialSpecifications = {color: diffuse, specular: specular, emissive: emissive, shininess: shininess};
     if (colorMap)
@@ -156,8 +174,6 @@ THREE.X3DLoader.prototype = {
   },
 
   parsePBRAppearance: function(pbrAppearance) {
-    console.log('Parse PBRAppearance');
-
     var baseColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
     var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0'));
     var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
@@ -170,32 +186,34 @@ THREE.X3DLoader.prototype = {
       emissive: emissiveColor
     };
 
+    var textureTransform = pbrAppearance.getElementsByTagName('TextureTransform');
     var imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
     for (let t = 0; t < imageTextures.length; t++) {
       var imageTexture = imageTextures[t];
       var type = getNodeAttribute(imageTexture, 'type', '');
       if (type === 'baseColor')
-        materialSpecifications.map = this.parseImageTexture(imageTexture);
+        materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
       // else if (type === 'occlusion')  // Not working as expected.
-      //   materialSpecifications.aoMap = this.parseImageTexture(imageTexture);
+      //   materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'roughness') {
-        materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture);
+        materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
         materialSpecifications.roughness = 1.0;
       } else if (type === 'metalness')
-        materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture);
+        materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'normal')
-        materialSpecifications.normalMap = this.parseImageTexture(imageTexture);
+        materialSpecifications.normalMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'emissive')
-        materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture);
+        materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture, textureTransform);
     }
 
-    var loader = new THREE.CubeTextureLoader();
+    // TODO -> asynchronous texture load
+    /* var loader = new THREE.CubeTextureLoader();
     loader.setPath('/robot-designer/assets/common/textures/cubic/');
     materialSpecifications.envMap = loader.load([
       'noon_sunny_empty_right.jpg', 'noon_sunny_empty_left.jpg',
       'noon_sunny_empty_top.jpg', 'noon_sunny_empty_bottom.jpg',
       'noon_sunny_empty_front.jpg', 'noon_sunny_empty_back.jpg'
-    ]);
+    ]); */
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
@@ -203,37 +221,72 @@ THREE.X3DLoader.prototype = {
     return mat;
   },
 
-  parseImageTexture: function(imageTexture) {
-    console.log('Parse ImageTexture');
-    // Possible improvement: load the texture in an asynchronous way.
+  parseImageTexture: function(imageTexture, textureTransform) {
+    var texture = new THREE.Texture();
 
     var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter(n => n);
 
-    // look for already loaded textures
+    // look for already loaded texture.
     var textureManager = new TextureManager();
-    var loadedTexture = textureManager.getTexture(filename);
-    if (loadedTexture)
-      return loadedTexture;
+    // load the texture in an asynchronous way.
+    var image = textureManager.loadOrRetrieveTexture(filename[0], texture);
+    if (image) // else it could be updated later
+      texture.image = image;
 
-    var loader = new THREE.TextureLoader();
-    var texture = loader.load(
-      filename[0],
-      (texture) => { // onLoad callback
-        if (typeof this.ontextureload !== 'undefined')
-          this.ontextureload();
-      },
-      undefined, // onProgress callback
-      (err) => { // onError callback
-        console.error('An error happened when loading' + filename + ': ' + err);
-      }
-    );
+    var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true');
+    var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true');
+    texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+    texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+
+    if (textureTransform && textureTransform[0]) {
+      texture.matrixAutoUpdate = false;
+
+      var center = convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0'));
+      // texture.center.set(center.x, -center.y - 1.0);
+      var rotation = parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0'));
+      // texture.rotation = rotation;
+      var scale = convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1'));
+      // texture.repeat.set(scale.x, scale.y); // TODO differences with X3D -> not scaled around center
+      var translation = convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'));
+      // texture.offset.set(-translation.x, -translation.y);
+      texture.onUpdate = () => {
+        // X3D UV transform matrix differs from THREE.js default one
+        /*var tM = new THREE.Matrix4();
+        tM.makeTranslation(translation.x, translation.y, 0.0);
+        var cM = new THREE.Matrix4();
+        cM.makeTranslation(center.x, -center.y - 1.0);
+        var minusCM = new THREE.Matrix4();
+        minusCM.makeTranslation(-center.x, center.y + 1.0, 0.0);
+        var sM = new THREE.Matrix4();
+        sM.makeScale(scale.x, scale.y, 1.0);
+        var rM = new THREE.Matrix4();
+        rM.makeRotationZ(rotation);
+        var transform = new THREE.Matrix4();
+        transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
+        texture.matrix.getNormalMatrix(transform);*/
+
+        var c = Math.cos(rotation);
+        var s = Math.sin(rotation);
+        var sx = scale.x;
+        var sy = scale.y;
+        var cx = center.x;
+        var cy = center.y;
+        var tx = -translation.x;
+        var ty = 1.0 - translation.y;
+        texture.matrix.set(
+          sx * c, sx * s, -sx * (c * tx + s * ty - c * cx + s * (cy + 1)) - cx,
+          -sy * s, sy * c, -sy * (-s * tx + c * ty + s * cx + c * (cy - 1)) + cy + 1,
+          0, 0, 1
+        );
+      };
+      texture.needsUpdate = true;
+    }
+
     return texture;
   },
 
   parseIndexedFaceSet: function(ifs) {
-    console.log('Parse IndexedFaceSet');
-
     var meshManager = new MeshManager();
     var useName = getNodeAttribute(ifs, 'USE', null);
     if (useName)
@@ -345,35 +398,141 @@ THREE.X3DLoader.prototype = {
     return geometry;
   },
 
-  parseSphere: function(sphere) {
-    console.log('Parse Sphere');
+  parseBox: function(box) {
+    var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
+    var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
+    boxGeometry.userData = { 'x3dType': 'Box' };
+    this.setName(box, boxGeometry);
+    return boxGeometry;
+  },
 
+  parseCone: function(cone) {
+    var radius = getNodeAttribute(cone, 'bottomRadius', '0');
+    var height = getNodeAttribute(cone, 'height', '0');
+    var subdivision = getNodeAttribute(cone, 'subdivision', '32');
+    var openEnded = getNodeAttribute(cone, 'bottom', 'true') !== 'true';
+    // TODO var openSided = getNodeAttribute(cone, 'side', 'true') === 'true' ? false : true;
+    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded);
+    coneGeometry.userData = { 'x3dType': 'Cone' };
+    this.setName(cone, coneGeometry);
+    return coneGeometry;
+  },
+
+  parseCylinder: function(cylinder) {
+    var radius = getNodeAttribute(cylinder, 'radius', '0');
+    var height = getNodeAttribute(cylinder, 'height', '0');
+    var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
+    var openEnded = getNodeAttribute(cylinder, 'bottom', 'true') !== 'true';
+    // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true') === 'true' ? false : true;
+    // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true') === 'true' ? false : true;
+    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded);
+    cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
+    this.setName(cylinder, cylinderGeometry);
+    return cylinderGeometry;
+  },
+
+  parsePlane: function(plane) {
+    var size = getNodeAttribute(plane, 'size', '2,2').split(',');
+    var planeGeometry = new THREE.PlaneBufferGeometry(size[0], size[1]);
+    planeGeometry.userData = { 'x3dType': 'Plane' };
+    this.setName(plane, planeGeometry);
+    return planeGeometry;
+  },
+
+  parseSphere: function(sphere) {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    var sphereGeometry = new THREE.SphereGeometry(radius, subdivision[0], subdivision[1]);
+    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1]);
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     this.setName(sphere, sphereGeometry);
     return sphereGeometry;
   },
 
   parseDirectionalLight: function(light, scene) {
-    // TODO shadows and direction
-    console.log('Parse DirectionalLight');
-
+    // TODO shadows
+    var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
+    var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
+    var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = getNodeAttribute(light, 'intensity', '1');
-    var direction = getNodeAttribute(light, 'direction', '0,0,-1').split(',');
-    var lightObject = new THREE.DirectionalLight(0xffffff, intensity);
+    // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
+
+    if (ambientIntensity > 0) {
+      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
+      this.scene.add(ambientLightObject);
+    }
+
+    var lightObject = new THREE.DirectionalLight(color, intensity);
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
     this.setName(light, lightObject);
-    // TODO fix position
-    // lightObject.position.copy(direction);
-    lightObject.target.position.copy(direction);
-    // scene.add(lightObject.target);
+    lightObject.position.set(-direction.x, -direction.y, -direction.z);
     return lightObject;
   },
 
   parseBackground: function(background) {
-    console.log('Parse Background');
+    var color = getNodeAttribute(background, 'skyColor', '0 0 0');
+    this.scene.background = convertStringTorgb(color);
+
+    var cubeTextureEnabled = false;
+    var attributeNames = ['rightUrl', 'leftUrl', 'topUrl', 'bottomUrl', 'frontUrl', 'backUrl'];
+    var urls = [];
+    for (var i = 0; i < 6; i++) {
+      var url = getNodeAttribute(background, attributeNames[i], null);
+      if (url) {
+        cubeTextureEnabled = true;
+        url = url.split(/['"\s]/).filter(n => n)[0];
+      }
+      urls.push(url);
+    }
+
+    if (cubeTextureEnabled) {
+      var cubeTexture = new THREE.CubeTexture();
+      var textureManager = new TextureManager();
+      var missing = 0;
+      for (i = 0; i < 6; i++) {
+        if (urls[i] === null)
+          continue;
+        // look for already loaded texture or load the texture in an asynchronous way.
+        missing++;
+        var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
+        if (image) {
+          cubeTexture.images[i] = image;
+          missing--;
+        }
+      }
+      this.scene.background = cubeTexture;
+      if (missing === 0)
+        cubeTexture.needsUpdate = true;
+    }
+
+    return null;
+  },
+
+  parseViewpoint: function(viewpoint) {
+    var fov = getNodeAttribute(viewpoint, 'fieldOfView', '0.785');
+    var near = getNodeAttribute(viewpoint, 'zNear', '0.1');
+    var far = getNodeAttribute(viewpoint, 'zFar', '2000');
+    // set default aspect ratio 1 that will be updated on window resize.
+    var camera = this.scene.camera;
+    if (camera) {
+      // TODO set fov, near, far from Viewpoint node
+      // camera.fov = fov;
+      // camera.near = near;
+      // camera.far = far;
+    } else {
+      console.log('Parse Viewpoint:: error camera');
+      camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+    }
+
+    if ('position' in viewpoint.attributes) {
+      var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
+      camera.position.copy(convertStringToVec3(position));
+    }
+    if ('orientation' in viewpoint.attributes) {
+      var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
+      camera.quaternion.copy(quaternion);
+    }
+    camera.updateProjectionMatrix();
+    return null;
   },
 
   setName: function(node, object) {
@@ -384,11 +543,17 @@ THREE.X3DLoader.prototype = {
 };
 
 function getNodeAttribute(node, attributeName, defaultValue) {
-  if (node === undefined)
+  if (!node || !node.attributes)
     console.log('error');
   if (attributeName in node.attributes)
     return node.attributes.getNamedItem(attributeName).value;
   return defaultValue;
+}
+
+function convertStringToVec2(s) {
+  s = s.split(/\s/);
+  var v = new THREE.Vector2(parseFloat(s[0]), parseFloat(s[1]));
+  return v;
 }
 
 function convertStringToVec3(s) {

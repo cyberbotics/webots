@@ -4,7 +4,7 @@
 
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(parentElement) {
-    this.domElement = document.createElement('x3d');
+    this.domElement = document.createElement('div');
     this.domElement.className = 'webots3DView';
     parentElement.appendChild(this.domElement);
   }
@@ -16,8 +16,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.scene = new THREE.Scene();
 
-    // TODO remove and load from world file
-    this.camera = new THREE.PerspectiveCamera(45, 0.3, 0.001, 400);
+    // init default camera
+    this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
     this.camera.position.x = 10;
     this.camera.position.y = 10;
     this.camera.position.z = 10;
@@ -45,30 +45,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       return object instanceof THREE.Mesh && 'x3dType' in object.userData;
     });
 
-    /* // how to set a textured background.
-    var loader = new THREE.CubeTextureLoader();
-    loader.setPath( '/robot-designer/assets/common/textures/cubic/' );
-    this.scene.background = loader.load( [
-      'noon_sunny_empty_right.jpg', 'noon_sunny_empty_left.jpg',
-      'noon_sunny_empty_top.jpg', 'noon_sunny_empty_bottom.jpg',
-      'noon_sunny_empty_front.jpg', 'noon_sunny_empty_back.jpg'
-    ] );
-    */
-
-    this.destroyWorld(); // TODO remove
-    this.render();
-  }
-
-  initLight() {
-    var light = new THREE.DirectionalLight(0xdfebff, 1);
-    light.position.set(50, 200, 100);
-    this.scene.add(light);
-    var light2 = new THREE.AmbientLight(0x404040);
-    this.scene.add(light2);
-
-    var grid = new THREE.GridHelper(5, 50, 0x880088, 0x440044);
-    grid.matrixAutoUpdate = false;
-    this.scene.add(grid);
+    this.destroyWorld();
   }
 
   render() {
@@ -77,17 +54,27 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   resize() {
-    // TODO
-    var width = 800; // this.domElement.clientWidth;
-    var height = 800;// this.domElement.clientHeight;
+    var width = this.domElement.clientWidth;
+    var height = this.domElement.clientHeight;
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
   }
 
-  initWorld() {
+  destroyWorld() {
+    if (!this.scene)
+      return;
+    for (var i = this.scene.children.length - 1; i >= 0; i--)
+      this.scene.remove(this.scene.children[i]);
+    this.render();
+  }
 
+  deleteObject(id) {
+    var object = this.scene.getObjectByName('n' + id);
+    if (object)
+      object.parent.remove(object);
+    this.render();
   }
 
   loadWorldFile(url) {
@@ -108,22 +95,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
       parentObject.add(object);
     else
       this.scene.add(object);
-  }
-
-  destroyWorld() {
-    if (!this.scene)
-      return;
-    for (var i = this.scene.children.length - 1; i >= 0; i--)
-      this.scene.remove(this.scene.children[i]);
-    this.initLight(); // TODO remove
-    this.render();
-  }
-
-  deleteObject(id) {
-    var object = this.scene.getObjectByName('n' + id);
-    if (object)
-      object.parent.remove(object);
-    this.render(); // TODO is required?
   }
 
   applyPose(pose) {
