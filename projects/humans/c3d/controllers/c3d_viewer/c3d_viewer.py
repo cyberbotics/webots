@@ -40,6 +40,8 @@ def isVirtualMarker(name):
 
 def getPointsList(reader, name):
     """Get a group of points and extract it's labels as a list of strings."""
+    if name not in reader.groups['POINT'].params:
+        return None
     list = reader.groups['POINT'].get_string(name)
     elementSize = reader.groups['POINT'].get(name).dimensions[0]
     newlist = [list[i:i + elementSize] for i in range(0, len(list), elementSize)]
@@ -75,17 +77,22 @@ powersLabels = getPointsList(reader, 'POWERS')
 units = {
     'markers': 'm',
     'virtual_markers': 'm',
-    'angles': reader.groups['POINT'].get('ANGLE_UNITS').string_value,
-    'forces': reader.groups['POINT'].get('FORCE_UNITS').string_value,
-    'moments': reader.groups['POINT'].get('MOMENT_UNITS').string_value,
-    'powers': reader.groups['POINT'].get('POWER_UNITS').string_value
+    'angles': reader.groups['POINT'].get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in reader.groups['POINT'].params else 'raw',
+    'forces': reader.groups['POINT'].get('FORCE_UNITS').string_value if 'FORCE_UNITS' in reader.groups['POINT'].params else 'raw',
+    'moments': reader.groups['POINT'].get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in reader.groups['POINT'].params else 'raw',
+    'powers': reader.groups['POINT'].get('POWER_UNITS').string_value if 'POWER_UNITS' in reader.groups['POINT'].params else 'raw'
 }
 
 # filter non 3D points and send the list to the robot window
-filteredLabel = [x for x in labels if x not in angleLabels]
-filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
-filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
-filteredLabel = [x for x in filteredLabel if x not in powersLabels]
+filteredLabel = labels[:]
+if angleLabels:
+    filteredLabel = [x for x in filteredLabel if x not in angleLabels]
+if forcesLabels:
+    filteredLabel = [x for x in filteredLabel if x not in forcesLabels]
+if momentsLabels:
+    filteredLabel = [x for x in filteredLabel if x not in momentsLabels]
+if powersLabels:
+    filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 
 markers = []
 virtualmarkers = []
@@ -104,7 +111,8 @@ labelsAndCategory = {
     'powers': powersLabels
 }
 for key in labelsAndCategory:
-    supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
+    if labelsAndCategory[key]:
+        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
 supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 
 # get C3D files settings
@@ -139,7 +147,7 @@ for i in range(markerField.getCount()):
 #     indexedFaceSet += "}"
 #     markerField.importMFNodeFromString(-1, indexedFaceSet)
 
-# import the marker and initize the list of points
+# import the marker and initialize the list of points
 pointRepresentations = {}
 j = 0
 for i in range(len(labels)):
