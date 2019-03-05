@@ -32,7 +32,6 @@ function init() {
 
 function connect() {
   var playerDiv = document.getElementById('playerDiv');
-  playerDiv.style.height = '100%';
   view = new webots.View(playerDiv, mobileDevice);
   view.broadcast = true;
   view.open('ws://' + ipInput.value + ':' + portInput.value);
