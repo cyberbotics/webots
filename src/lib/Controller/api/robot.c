@@ -22,19 +22,18 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
-#include <dirent.h>
 #include <locale.h>  // LC_NUMERIC
 #include <stdarg.h>
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
-#include <sys/stat.h>
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 #include <webots/types.h>
+#include <webots/utils/system.h>
 #include "device_private.h"
 #include "differential_wheels_private.h"
 #include "joystick_private.h"
@@ -961,48 +960,9 @@ int wb_robot_init() {  // API initialization
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
   else {
-    const char *WEBOTS_PID = getenv("WEBOTS_PID");
-    int webots_pid = 0;
-    if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
-      sscanf(WEBOTS_PID, "%d", &webots_pid);
-    const char *tmp;
-#ifdef _WIN32
-    char tmp_buffer[1024];
-    snprintf(tmp_buffer, sizeof(tmp_buffer), "%s/Temp", getenv("LOCALAPPDATA"));
-    tmp = tmp_buffer;
-#elif defined(__linux__)
-    tmp = "/tmp";
-#elif defined(__APPLE__)
-    tmp = "/var/tmp";
-#endif
+    const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
     char buffer[1024];
-    const char *WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
-    if (WEBOTS_TMP_PATH == NULL || WEBOTS_TMP_PATH[0] == '\0') {
-      snprintf(buffer, sizeof(buffer), "WEBOTS_TMP_PATH=%s", tmp);
-      putenv(buffer);
-    }
-    if (webots_pid == 0) {  // get the webots pid from the most recent "webots-xxx" folder
-      DIR *dir;
-      struct dirent *entry;
-      dir = opendir(tmp);
-      if (dir) {
-        time_t most_recent = 0;
-        while ((entry = readdir(dir))) {
-          if (strncmp(entry->d_name, "webots-", 7) == 0) {
-            struct stat s;
-            snprintf(buffer, sizeof(buffer), "%s/%s", tmp, entry->d_name);
-            if (stat(buffer, &s) < 0)
-              break;
-            if (s.st_mtime < most_recent)
-              continue;
-            sscanf(entry->d_name, "webots-%d", &webots_pid);
-            most_recent = s.st_mtime;
-          }
-        }
-        closedir(dir);
-      }
-    }
-    snprintf(buffer, sizeof(buffer), "%s/webots-%d/WEBOTS_SERVER", tmp, webots_pid);
+    snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
     FILE *fd = fopen(buffer, "r");
     if (fd) {
       fscanf(fd, "%1023s", buffer);
