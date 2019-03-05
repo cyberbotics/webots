@@ -313,9 +313,9 @@ void wb_robot_window_step(int time_step) {
     const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
     const char *filename = "camera.jpg";
     int pid = getpid();
-    int l = strlen(path) + strlen(filename) + 1 + 11;  // 11 = max length of an integer: -2147483648
+    int l = strlen(path) + strlen(filename) + 2 + 11;  // 11 = max length of an integer: -2147483648
     char *full_path = (char *)malloc(l);
-    snprintf(full_path, l, "%s%d%s", path, pid, filename);
+    snprintf(full_path, l, "%s/%d%s", path, pid, filename);
     wb_camera_save_image(camera, full_path, 90);
     for (i = 0; i < l; i++)
       if (full_path[i] == '\\')
