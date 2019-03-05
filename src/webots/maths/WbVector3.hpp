@@ -150,6 +150,11 @@ public:
   void normalize() { *this /= length(); }
   WbVector3 normalized() const { return *this / length(); }
 
+  WbVector3 rounded(WbPrecision::Level level) const {
+    return WbVector3(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),
+                     WbPrecision::roundValue(mZ, level));
+  }
+
   // dot product
   double dot(const WbVector3 &v) const { return mX * v.mX + mY * v.mY + mZ * v.mZ; }
 
