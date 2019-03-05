@@ -128,13 +128,13 @@ const char *wbu_system_webots_tmp_path() {
     if (dir) {
       time_t most_recent = 0;
       while ((entry = readdir(dir))) {
-        if (entry->d_type != DT_DIR)
-          continue;
         if (strncmp(entry->d_name, "webots-", 7) == 0) {
           struct stat s;
           snprintf(buffer, buffer_size, "%s/%s", tmp, entry->d_name);
           if (stat(buffer, &s) < 0)
-            break;
+            continue;
+          if (!S_ISDIR(s.st_mode))
+            continue;
           if (s.st_mtime < most_recent)
             continue;
           sscanf(entry->d_name, "webots-%d", &webots_pid);
