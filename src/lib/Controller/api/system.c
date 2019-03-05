@@ -128,6 +128,8 @@ const char *wbu_system_webots_tmp_path() {
     if (dir) {
       time_t most_recent = 0;
       while ((entry = readdir(dir))) {
+        if (entry->d_type != DT_DIR)
+          continue;
         if (strncmp(entry->d_name, "webots-", 7) == 0) {
           struct stat s;
           snprintf(buffer, buffer_size, "%s/%s", tmp, entry->d_name);
