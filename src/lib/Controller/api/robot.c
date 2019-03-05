@@ -976,6 +976,11 @@ int wb_robot_init() {  // API initialization
     tmp = "/var/tmp";
 #endif
     char buffer[1024];
+    const char *WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
+    if (WEBOTS_TMP_PATH == NULL || WEBOTS_TMP_PATH[0] == '\0') {
+      snprintf(buffer, sizeof(buffer), "WEBOTS_TMP_PATH=%s", tmp);
+      putenv(buffer);
+    }
     if (webots_pid == 0) {  // get the webots pid from the most recent "webots-xxx" folder
       DIR *dir;
       struct dirent *entry;
