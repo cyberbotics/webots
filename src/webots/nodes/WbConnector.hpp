@@ -79,6 +79,7 @@ private:
   bool mStartup;         // do once flag
   WbSensor *mSensor;     // presence sensor
   int mValue;
+  bool mIsJointInversed;
   bool mIsInitiallyLocked;
 
   WrTransform *mTransform;

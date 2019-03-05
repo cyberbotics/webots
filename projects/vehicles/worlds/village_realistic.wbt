@@ -1406,12 +1406,7 @@ SolidBox {
   translation 567.756 0.077 -353.743
   rotation 0 -1 0 0.1791
   size 0.8 0.15 3.3
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/pavement.jpg"
-      ]
-    }
+  appearance StonePavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1429,12 +1424,7 @@ SolidBox {
   rotation 0 1 0 5
   name "box(1)"
   size 0.9 0.15 3.3
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/pavement.jpg"
-      ]
-    }
+  appearance StonePavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }
@@ -1445,12 +1435,7 @@ SolidBox {
   rotation 0 -1 0 2.0792
   name "box(2)"
   size 0.8 0.15 3.3
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/pavement.jpg"
-      ]
-    }
+  appearance StonePavement {
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1461,12 +1446,7 @@ SolidBox {
   rotation 0 -1 0 2.0792
   name "box(3)"
   size 0.8 0.15 3.3
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/pavement.jpg"
-      ]
-    }
+  appearance StonePavement {
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -1477,12 +1457,7 @@ SolidBox {
   rotation 0 -1 0 0.3
   name "box(4)"
   size 0.8 0.15 3.25
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/pavement.jpg"
-      ]
-    }
+  appearance StonePavement {
     textureTransform TextureTransform {
       scale 4.5 4.5
     }

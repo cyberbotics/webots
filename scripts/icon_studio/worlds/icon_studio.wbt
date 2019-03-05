@@ -6,21 +6,11 @@ DEF VIEWPOINT Viewpoint {
   orientation -0.22829072045121848 0.9421103491030215 0.2455838697244722 1.70306075886739
   position 54.32519512629353 36.85193472314329 -3.1707126958688465
   near 0.2
+  bloomThreshold 2100
 }
-Background {
-  cubemap Cubemap {
-    textureBaseName "studio"
-  }
+TexturedBackground {
 }
-DirectionalLight {
-  ambientIntensity 1
-  direction -1 -1 -0.6
-  intensity 0.6
-  castShadows TRUE
-}
-DirectionalLight {
-  direction 0.2 -0.3 0.1
-  intensity 0.3
+TexturedBackgroundLight {
 }
 Solid {
   children [
@@ -45,6 +35,7 @@ DEF SUPERVISOR Robot {
       height 2048
       near 0.8
       antiAliasing TRUE
+      ambientOcclusionRadius 2
     }
   ]
   controller "icon_creator"

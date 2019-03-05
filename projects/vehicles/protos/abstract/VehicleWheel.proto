@@ -220,7 +220,7 @@ PROTO VehicleWheel [
                 %{ end }%
               %{ end }%
             ]
-            creaseAngle %{= 2 * math.pi / subdivision + 0.01 }%
+            creaseAngle 1.5
           }
         }
         DEF RIM Group {

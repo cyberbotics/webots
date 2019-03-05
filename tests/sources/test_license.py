@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2018 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +16,6 @@
 
 """Test that checks that all the source files have the Apache 2 license."""
 import unittest
-
-import difflib
 import os
 import fnmatch
 
@@ -81,7 +81,8 @@ class TestLicense(unittest.TestCase):
             'projects',
             'include/controller',
             'include/plugins',
-            'resources/languages/cpp'
+            'resources/languages/cpp',
+            'scripts'
         ]
 
         skippedDirectoryPaths = [
@@ -90,6 +91,8 @@ class TestLicense(unittest.TestCase):
             'projects/default/resources/sumo',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
+            'projects/languages/ros/controllers/ros_python/kinetic',
+            'projects/languages/ros/controllers/ros_python/python',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',

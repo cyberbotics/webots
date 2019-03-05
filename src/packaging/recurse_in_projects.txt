@@ -1,4 +1,6 @@
 projects/default/resources/sumo
+projects/languages/ros/controllers/ros_python/kinetic
+projects/languages/ros/controllers/ros_python/python
 projects/robots/gctronic/e-puck/transfer/xc16
 projects/robots/robotis/darwin-op/libraries/python
 projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba

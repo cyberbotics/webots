@@ -457,6 +457,8 @@ namespace {
           return true;
         if (nodeName == "Charger")
           return true;
+        if (nodeName == "Connector")
+          return true;
         if (nodeName == "Skin" && WbNodeUtilities::isRobotTypeName(node->nodeModelName()) && WbNodeReader::current())
           return true;  // this node is still experimental
         if (nodeName == "TrackWheel")
@@ -1459,7 +1461,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (isRobotTypeName(srcModelName)) {
-    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger") {
+    if (destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" || destModelName == "Charger" ||
+        destModelName == "Connector") {
       if (!hasSolidChildren(srcNode))
         return LOOSING_INFO;
 
@@ -1509,7 +1512,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
         return isRobotTypeName(topNodeModelName) ? SUITABLE : UNSUITABLE;
       }
       if (srcNode->isTopLevel()) {
-        if (destModelName == "Robot" || destModelName == "Charger")
+        if (destModelName == "Robot" || destModelName == "Charger" || destModelName == "Connector")
           return SUITABLE;
 
         return UNSUITABLE;
@@ -1520,7 +1523,8 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   }
 
   if (srcModelName == "Charger") {
-    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid")
+    if (destModelName == "Robot" || destModelName == "Group" || destModelName == "Transform" || destModelName == "Solid" ||
+        destModelName == "Connector")
       return LOOSING_INFO;
 
     return UNSUITABLE;

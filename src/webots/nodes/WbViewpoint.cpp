@@ -1115,7 +1115,7 @@ void WbViewpoint::updatePostProcessingEffects() {
     lensFlare()->setup(mWrenViewport);
 
   if (mWrenSmaa) {
-    if (!WbPreferences::instance()->value("OpenGL/SMAA", true).toBool())
+    if (WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool())
       mWrenSmaa->detachFromViewport();
     else
       mWrenSmaa->setup(mWrenViewport);

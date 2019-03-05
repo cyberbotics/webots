@@ -117,7 +117,7 @@ DEF ACTIVE_ROBOT Robot {
   controller "connector_detach"
   supervisor TRUE
 }
-DEF PASSIVE_ROBOT Robot {
+DEF PASSIVE_ROBOT Solid {
   translation -0.0081323259 0 0.0038990259
   rotation 0 1 0 -1.57
   children [
