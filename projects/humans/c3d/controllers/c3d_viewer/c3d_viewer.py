@@ -119,9 +119,9 @@ supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 numberOfpoints = reader.header.point_count
 frameStep = 1.0 / reader.header.frame_rate
 scale = reader.header.scale_factor
-if reader.groups['POINT'].get('UNITS').string_value == 'mm':
+if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
     scale *= 0.001
-elif not reader.groups['POINT'].get('UNITS').string_value == 'm':
+elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
     print("Can't determine the size unit.")
 
 # make one step to be sure markers are not imported before pressing play
@@ -177,6 +177,7 @@ for i, points, analog in reader.read_frames():
 # main loop
 frameCoutner = 0
 totalFrameCoutner = 0
+inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
 while supervisor.step(timestep) != -1:
     # check for messages from the robot-window
     message = supervisor.wwiReceiveText()
@@ -222,7 +223,9 @@ while supervisor.step(timestep) != -1:
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible']:
                 x = points[j][0] * scale
-                y = -points[j][2] * scale
+                y = points[j][2] * scale
+                if inverseY:
+                    y = -y
                 z = points[j][1] * scale
                 pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
                 if enableMarkerGraph:
