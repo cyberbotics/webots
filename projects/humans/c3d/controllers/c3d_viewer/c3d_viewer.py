@@ -67,6 +67,15 @@ playbackSpeed = float(sys.argv[2])
 # parse C3D file
 reader = c3d.Reader(open(sys.argv[1], 'rb'))
 
+# get C3D files settings
+numberOfpoints = reader.header.point_count
+frameStep = 1.0 / reader.header.frame_rate
+scale = reader.header.scale_factor
+if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
+    scale *= 0.001
+elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
+    print("Can't determine the size unit.")
+
 # extract point group labels
 labels = getPointsList(reader, 'LABELS')
 angleLabels = getPointsList(reader, 'ANGLES')
@@ -74,6 +83,7 @@ forcesLabels = getPointsList(reader, 'FORCES')
 momentsLabels = getPointsList(reader, 'MOMENTS')
 powersLabels = getPointsList(reader, 'POWERS')
 
+# get unit for each label group
 units = {
     'markers': 'm',
     'virtual_markers': 'm',
@@ -84,7 +94,7 @@ units = {
 }
 
 # filter non 3D points and send the list to the robot window
-filteredLabel = filteredLabel = [x for x in labels[:] if x.strip()]
+filteredLabel = labels[:numberOfpoints]
 if angleLabels:
     filteredLabel = [x for x in filteredLabel if x not in angleLabels]
 if forcesLabels:
@@ -94,6 +104,7 @@ if momentsLabels:
 if powersLabels:
     filteredLabel = [x for x in filteredLabel if x not in powersLabels]
 
+# split between actual and virtual markers
 markers = []
 virtualmarkers = []
 for label in filteredLabel:
@@ -102,6 +113,7 @@ for label in filteredLabel:
     else:
         markers.append(label)
 
+# categorize each labels and send the lists to the robot window
 labelsAndCategory = {
     'markers': markers,
     'virtual_markers': virtualmarkers,
@@ -114,15 +126,6 @@ for key in labelsAndCategory:
     if labelsAndCategory[key]:
         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
 supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
-
-# get C3D files settings
-numberOfpoints = reader.header.point_count
-frameStep = 1.0 / reader.header.frame_rate
-scale = reader.header.scale_factor
-if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
-    scale *= 0.001
-elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
-    print("Can't determine the size unit.")
 
 # make one step to be sure markers are not imported before pressing play
 supervisor.step(timestep)
@@ -232,6 +235,7 @@ while supervisor.step(timestep) != -1:
         points = frameAndPoints[frameCoutner][1]
         # print([frameAndAnalog[frameCoutner][1][0][0], frameAndAnalog[frameCoutner][1][1][0], frameAndAnalog[frameCoutner][1][2][0]])
         # print(frameAndAnalog[frameCoutner][1])
+        # update the GRF visualization
         for grf in grfList:
             index1 = labels.index(grf['name'] + 'Force')
             index2 = labels.index(grf['name'] + 'Moment')
@@ -242,6 +246,7 @@ while supervisor.step(timestep) != -1:
                 COPY = 0.001 * points[index2][0] / points[index1][2]
             grf['point'].setMFVec3f(0, [COPX, 0.0, COPY])
             grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0], 0.02 * points[index1][2], COPY + 0.02 * points[index1][1]])
+        # update the marker visualization
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
                 x = points[j][0] * scale
@@ -262,6 +267,7 @@ while supervisor.step(timestep) != -1:
                         y = points[j][2]
                         z = points[j][1]
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+        # send marker position to the robot window
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
             supervisor.wwiSendText('positions:' + str(supervisor.getTime()) + ':' + toSend)
