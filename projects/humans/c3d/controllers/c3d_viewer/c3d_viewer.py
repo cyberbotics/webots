@@ -165,6 +165,7 @@ for i in range(len(labels)):
     pointRepresentations[labels[i]] = {}
     pointRepresentations[labels[i]]['visible'] = False
     pointRepresentations[labels[i]]['node'] = None
+    pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i])
     if labels[i] in filteredLabel:
         markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
@@ -239,18 +240,21 @@ while supervisor.step(timestep) != -1:
             if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
                 COPX = 0.001 * points[index2][1] / points[index1][2]
                 COPY = 0.001 * points[index2][0] / points[index1][2]
-            grf['point'].setMFVec3f(0, [COPX, 0.0, COPY]);
-            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0], 0.02 * points[index1][2], COPY + 0.02 * points[index1][1]]);
+            grf['point'].setMFVec3f(0, [COPX, 0.0, COPY])
+            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0], 0.02 * points[index1][2], COPY + 0.02 * points[index1][1]])
         for j in range(numberOfpoints):
-            if pointRepresentations[labels[j]]['visible']:
+            if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
                 x = points[j][0] * scale
                 y = points[j][2] * scale
                 if inverseY:
                     y = -y
                 z = -points[j][1] * scale
-                pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-                if enableMarkerGraph:
-                    toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                if pointRepresentations[labels[j]]['visible']:
+                    pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
+                    if enableMarkerGraph:
+                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                if pointRepresentations[labels[j]]['solid']:
+                    pointRepresentations[labels[j]]['solid'].getField('translation').setSFVec3f([x, y, z])
             else:
                 for categoryName in labelsAndCategory:
                     if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
