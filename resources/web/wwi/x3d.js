@@ -7,17 +7,18 @@
 // - shadows
 // - lights
 // - texture transform
-// - viewpoint
 // - geometry primitives:
 //   - ElevationGrid
 //   - IndexedLineSet
 //   - PointSet
-//   - Orientation/Texture mapping mismatch: Cone, Sphere, Cylinder, Capsule
+//   - Texture mapping mismatch: Cone (bottom), Sphere, Cylinder (caps)
 // - USE/DEF dictionary
+// some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(scene, manager) {
   this.manager = (typeof manager !== 'undefined') ? manager : THREE.DefaultLoadingManager;
-  this.scene = scene;
+  this.scene = scene.scene;
+  this.camera = scene.camera;
 };
 
 THREE.X3DLoader.prototype = {
@@ -52,6 +53,7 @@ THREE.X3DLoader.prototype = {
     this.parseNode(object, scene);
     object.userData.x3dType = 'Group';
     object.name = 'n0';
+    this.scene.root = object;
 
     return object;
   },
@@ -95,6 +97,7 @@ THREE.X3DLoader.prototype = {
   parseTransform: function(transform) {
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
+    object.userData.solid = getNodeAttribute(transform, 'solid', 'false') === 'true';
 
     var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
     object.position.copy(position);
@@ -252,7 +255,7 @@ THREE.X3DLoader.prototype = {
       // texture.offset.set(-translation.x, -translation.y);
       texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
-        /*var tM = new THREE.Matrix4();
+        /* var tM = new THREE.Matrix4();
         tM.makeTranslation(translation.x, translation.y, 0.0);
         var cM = new THREE.Matrix4();
         cM.makeTranslation(center.x, -center.y - 1.0);
@@ -264,7 +267,7 @@ THREE.X3DLoader.prototype = {
         rM.makeRotationZ(rotation);
         var transform = new THREE.Matrix4();
         transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
-        texture.matrix.getNormalMatrix(transform);*/
+        texture.matrix.getNormalMatrix(transform); */
 
         var c = Math.cos(rotation);
         var s = Math.sin(rotation);
@@ -412,7 +415,7 @@ THREE.X3DLoader.prototype = {
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var openEnded = getNodeAttribute(cone, 'bottom', 'true') !== 'true';
     // TODO var openSided = getNodeAttribute(cone, 'side', 'true') === 'true' ? false : true;
-    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded);
+    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI); // thetaStart: Math.PI
     coneGeometry.userData = { 'x3dType': 'Cone' };
     this.setName(cone, coneGeometry);
     return coneGeometry;
@@ -425,7 +428,7 @@ THREE.X3DLoader.prototype = {
     var openEnded = getNodeAttribute(cylinder, 'bottom', 'true') !== 'true';
     // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true') === 'true' ? false : true;
     // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true') === 'true' ? false : true;
-    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded);
+    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI); // thetaStart: Math.PI
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     this.setName(cylinder, cylinderGeometry);
     return cylinderGeometry;
@@ -442,7 +445,7 @@ THREE.X3DLoader.prototype = {
   parseSphere: function(sphere) {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1]);
+    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     this.setName(sphere, sphereGeometry);
     return sphereGeometry;
@@ -512,7 +515,7 @@ THREE.X3DLoader.prototype = {
     var near = getNodeAttribute(viewpoint, 'zNear', '0.1');
     var far = getNodeAttribute(viewpoint, 'zFar', '2000');
     // set default aspect ratio 1 that will be updated on window resize.
-    var camera = this.scene.camera;
+    var camera = this.camera;
     if (camera) {
       // TODO set fov, near, far from Viewpoint node
       // camera.fov = fov;
