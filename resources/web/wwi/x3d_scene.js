@@ -1,4 +1,4 @@
-/* global THREE */
+/* global THREE, Selector */
 /* global convertStringToVec3, convertStringToQuaternion */
 'use strict';
 
@@ -6,6 +6,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   constructor(parentElement) {
     this.domElement = document.createElement('div');
     this.domElement.className = 'webots3DView';
+    this.camera = null;
+    this.root = null;
     parentElement.appendChild(this.domElement);
   }
 
@@ -35,12 +37,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.selectionOutlinePass.renderToScreen = true;
     this.composer.addPass(this.selectionOutlinePass);
 
+    this.selector = new Selector(this.selectionOutlinePass);
+
     window.onresize = () => this.resize(); // when the window has been resized.
 
     this.domElement.appendChild(this.renderer.domElement);
     this.resize();
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
+    this.gpuPicker.setScene(this.scene);
+    this.gpuPicker.setCamera(this.camera);
     this.gpuPicker.setFilter(function(object) {
       return object instanceof THREE.Mesh && 'x3dType' in object.userData;
     });
@@ -79,7 +85,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   loadWorldFile(url) {
     var object = new THREE.Object3D();
-    var loader = new THREE.X3DLoader(this.scene);
+    var loader = new THREE.X3DLoader(this);
     loader.load(url, (object3d) => {
       if (object)
         object.add(object3d);
@@ -88,7 +94,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadObject(x3dObject, parentId) {
-    var loader = new THREE.X3DLoader(this.scene);
+    var loader = new THREE.X3DLoader(this);
     var object = loader.parse(x3dObject);
     var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
     if (parentObject)
@@ -133,5 +139,48 @@ class X3dScene { // eslint-disable-line no-unused-vars
       // texture transform: translation
       // materials: emissiveColor, diffuseColor
     }
+  }
+
+  getObjectAt(relativePosition, screenPosition) {
+    // if (this.handle.control.pointerHover(screenPosition))
+    //  return;
+    // this.handle.hideHandle();
+    // TODO are really needed?
+    // gpuPicker.setScene(this.scene);
+    // gpuPicker.setCamera(this.camera);
+
+    var raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(screenPosition, this.camera);
+    var intersection = raycaster.intersectObject(this.scene.root, true); // this.gpuPicker.pick(relativePosition, raycaster);
+    var pickedObject = null;
+    if (intersection && intersection.length > 0)
+      pickedObject = this.getTopX3dNode(intersection[0].object);
+    return pickedObject;
+    /* if (intersection && intersection.faceIndex > 0) {
+      var parent = intersection.object;
+      do {
+        if (parent.userData.isPartContainer) {
+          this.handle.showHandle();
+          return parent;
+        }
+        parent = parent.parent;
+      } while (parent);
+    }
+    this.handle.showHandle(); */
+  }
+
+  getTopX3dNode(node) {
+    // If it exists, return the upmost Solid, otherwise the top node
+    var upmostSolid = null;
+    while (node) {
+      if (node.userData && node.userData.solid)
+        upmostSolid = node;
+      if (node.parent === this.scene)
+        break;
+      node = node.parent;
+    }
+    if (upmostSolid)
+      return upmostSolid;
+    return node;
   }
 }
