@@ -21,12 +21,12 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  synchronization FALSE
   controller "<extern>"
 }
 Robot {
   name "launcher"
   controller "extern"
-  synchronization FALSE
 }
 TestSuiteSupervisor {
 }
