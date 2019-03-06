@@ -150,7 +150,8 @@ void WbControlledWorld::startControllerFromSocket(WbRobot *robot, QLocalSocket *
     }
   }
   if (!controller) {
-    assert(mFirstStep);  // if not first step the controller should be created when inserting the Robot node
+    // if not first step and not an extern controller, the controller should be created when inserting the Robot node
+    assert(mFirstStep || robot->controllerName() == "<extern>");
     controller = new WbController(robot);
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     connect(controller, &WbController::hasTerminatedByItself, this, &WbControlledWorld::deleteController, Qt::UniqueConnection);
