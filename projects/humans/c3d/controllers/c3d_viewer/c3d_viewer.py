@@ -84,7 +84,7 @@ units = {
 }
 
 # filter non 3D points and send the list to the robot window
-filteredLabel = labels[:]
+filteredLabel = filteredLabel = [x for x in labels[:] if x.strip()]
 if angleLabels:
     filteredLabel = [x for x in filteredLabel if x not in angleLabels]
 if forcesLabels:
@@ -165,7 +165,7 @@ for i in range(len(labels)):
     pointRepresentations[labels[i]] = {}
     pointRepresentations[labels[i]]['visible'] = False
     pointRepresentations[labels[i]]['node'] = None
-    pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i])
+    pointRepresentations[labels[i]]['solid'] = supervisor.getFromDef(labels[i]) if labels[i] else None
     if labels[i] in filteredLabel:
         markerField.importMFNodeFromString(-1, 'C3dMarker { name "%s" }' % labels[i])
         pointRepresentations[labels[i]]['node'] = markerField.getMFNode(-1)
