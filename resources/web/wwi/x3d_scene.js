@@ -1,5 +1,5 @@
 /* global THREE, Selector */
-/* global convertStringToVec3, convertStringToQuaternion */
+/* global convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
 'use strict';
 
 class X3dScene { // eslint-disable-line no-unused-vars
@@ -103,6 +103,26 @@ class X3dScene { // eslint-disable-line no-unused-vars
       this.scene.add(object);
   }
 
+  getObjectByCustomId(object, id) {
+    if (object.name && object.name.includes(id))
+      return object;
+
+    var childrenLength = object.children ? object.children.length : 0;
+    for (var i = 0; i < childrenLength; i++) {
+      var child = object.children[i];
+      var childObject = this.getObjectByCustomId(child, id);
+      if (childObject !== undefined)
+        return childObject;
+    }
+    if (object instanceof THREE.Mesh) {
+      if (this.getObjectByCustomId(object.material, id))
+        return object.material;
+      if (this.getObjectByCustomId(object.geometry, id))
+        return object.geometry;
+    }
+    return undefined;
+  }
+
   applyPose(pose) {
     var id = pose.id;
     // TODO if (el.getAttribute('blockWebotsUpdate')) return;
@@ -110,7 +130,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (key === 'id')
         continue;
       var newValue = pose[key];
-      var object = this.scene.getObjectByName('n' + id);
+      var object = this.getObjectByCustomId(this.scene, 'n' + id);
       if (!object)
         // error
         continue;
@@ -134,10 +154,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
       } else if (key === 'rotation') { // Transform node
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
+      } else if (key === 'diffuseColor') {
+        var diffuseColor = convertStringTorgb(newValue);
+        object.color = diffuseColor;
+      } else if (key === 'emissiveColor') {
+        var emissiveColor = convertStringTorgb(newValue);
+        object.emissive = emissiveColor;
       }
       // TODO extend with other animation attributes
       // texture transform: translation
-      // materials: emissiveColor, diffuseColor
     }
   }
 

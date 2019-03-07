@@ -7,12 +7,12 @@
 // - shadows
 // - lights
 // - texture transform
+// - Cubemap
 // - geometry primitives:
 //   - ElevationGrid
 //   - IndexedLineSet
 //   - PointSet
 //   - Texture mapping mismatch: Cone (bottom), Sphere, Cylinder (caps)
-// - USE/DEF dictionary
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(scene, manager) {
@@ -86,17 +86,22 @@ THREE.X3DLoader.prototype = {
   },
 
   parseNode: function(parentObject, node) {
-    var object = null;
+    var object = this.getDefNode(node);
+    if (object) {
+      parentObject.add(object);
+      return;
+    }
+
     if (node.tagName === 'Transform')
       object = this.parseTransform(node);
     else if (node.tagName === 'Shape')
       object = this.parseShape(node);
     else if (node.tagName === 'DirectionalLight')
-      object = this.parseDirectionalLight(node, this.scene);
+      object = this.parseDirectionalLight(node, parentObject);
     else if (node.tagName === 'PointLight')
-      object = this.parsePointLight(node, this.scene);
+      object = this.parsePointLight(node, parentObject);
     else if (node.tagName === 'SpotLight')
-      object = this.parseSpotLight(node, this.scene);
+      object = this.parseSpotLight(node, parentObject);
     else if (node.tagName === 'Group') {
       console.log('Parse Group', object);
       object = new THREE.Object3D();
@@ -112,7 +117,8 @@ THREE.X3DLoader.prototype = {
     if (!object)
       return;
 
-    this.setName(node, object);
+    this.setDefNode(node, object);
+    this.setCustomId(node, object);
     parentObject.add(object);
   },
 
@@ -168,7 +174,7 @@ THREE.X3DLoader.prototype = {
           material = this.parsePBRAppearance(child);
         if (material) {
           this.setDefNode(child, material);
-          this.setName(child, material);
+          this.setCustomId(child, material);
           continue;
         }
       }
@@ -188,7 +194,7 @@ THREE.X3DLoader.prototype = {
           geometry = this.parseSphere(child);
         if (geometry) {
           this.setDefNode(child, geometry);
-          this.setName(child, geometry);
+          this.setCustomId(child, geometry);
           continue;
         }
       }
@@ -217,25 +223,38 @@ THREE.X3DLoader.prototype = {
     if (typeof material === 'undefined')
       return mat;
 
-    // Pull out the standard colors
-    var diffuse = convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8'));
-    var specular = convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0'));
-    var emissive = convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0'));
-    var shininess = parseFloat(getNodeAttribute(material, 'shininess', '0.2'));
+    var materialSpecifications = {};
+    var defMaterial = this.getDefNode(material);
+    if (defMaterial) {
+      materialSpecifications = {
+        color: defMaterial.color,
+        specular: defMaterial.specular,
+        emissive: defMaterial.emissive,
+        shininess: defMaterial.shininess
+      };
+    } else {
+      // Pull out the standard colors
+      var diffuse = convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8'));
+      var specular = convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0'));
+      var emissive = convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0'));
+      var shininess = parseFloat(getNodeAttribute(material, 'shininess', '0.2'));
+      materialSpecifications = {color: diffuse, specular: specular, emissive: emissive, shininess: shininess};
+      this.setDefNode(material, mat);
+    }
 
     // Check to see if there is a texture
     var imageTexture = appearance.getElementsByTagName('ImageTexture');
-    var textureTransform = appearance.getElementsByTagName('TextureTransform');
     var colorMap;
-    if (imageTexture.length > 0)
-      colorMap = this.parseImageTexture(imageTexture[0], textureTransform);
-
-    var materialSpecifications = {color: diffuse, specular: specular, emissive: emissive, shininess: shininess};
-    if (colorMap)
-      materialSpecifications.map = colorMap;
+    if (imageTexture.length > 0) {
+      colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
+      if (colorMap)
+        materialSpecifications.map = colorMap;
+    }
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
     mat.userData.x3dType = 'Appearance';
+    if (material)
+      this.setCustomId(material, mat);
 
     return mat;
   },
@@ -289,7 +308,12 @@ THREE.X3DLoader.prototype = {
   },
 
   parseImageTexture: function(imageTexture, textureTransform) {
-    var texture = new THREE.Texture();
+    // TODO issues with DEF and USE textures with different image transform!
+    var texture = this.getDefNode(imageTexture);
+    if (texture)
+      return texture;
+
+    texture = new THREE.Texture();
 
     var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter(n => n);
@@ -306,41 +330,48 @@ THREE.X3DLoader.prototype = {
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
 
+    var transformObject = null;
     if (textureTransform && textureTransform[0]) {
-      texture.matrixAutoUpdate = false;
+      transformObject = this.getDefNode(textureTransform[0]);
+      if (!transformObject) {
+        transformObject = {
+          center: convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
+          rotation: parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
+          scale: convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
+          translation: convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
+        };
+        this.setDefNode(textureTransform[0], transformObject);
+      }
 
-      var center = convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0'));
-      // texture.center.set(center.x, -center.y - 1.0);
-      var rotation = parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0'));
-      // texture.rotation = rotation;
-      var scale = convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1'));
-      // texture.repeat.set(scale.x, scale.y); // TODO differences with X3D -> not scaled around center
-      var translation = convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'));
-      // texture.offset.set(-translation.x, -translation.y);
+      texture.matrixAutoUpdate = false;
+      // texture.center.set(transformObject.center.x, -transformObject.center.y - 1.0);
+      // texture.rotation = transformObject.rotation;
+      // texture.repeat.set(transformObject.scale.x, transformObject.scale.y); // TODO differences with X3D -> not scaled around center
+      // texture.offset.set(-transformObject.translation.x, -transformObject.translation.y);
       texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
         /* var tM = new THREE.Matrix4();
-        tM.makeTranslation(translation.x, translation.y, 0.0);
+        tM.makeTranslation(transformObject.translation.x, transformObject.translation.y, 0.0);
         var cM = new THREE.Matrix4();
-        cM.makeTranslation(center.x, -center.y - 1.0);
+        cM.makeTranslation(transformObject.center.x, -transformObject.center.y - 1.0);
         var minusCM = new THREE.Matrix4();
-        minusCM.makeTranslation(-center.x, center.y + 1.0, 0.0);
+        minusCM.makeTranslation(-transformObject.center.x, transformObject.center.y + 1.0, 0.0);
         var sM = new THREE.Matrix4();
-        sM.makeScale(scale.x, scale.y, 1.0);
+        sM.makeScale(transformObject.scale.x, transformObject.scale.y, 1.0);
         var rM = new THREE.Matrix4();
-        rM.makeRotationZ(rotation);
+        rM.makeRotationZ(transformObject.rotation);
         var transform = new THREE.Matrix4();
         transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
         texture.matrix.getNormalMatrix(transform); */
 
-        var c = Math.cos(rotation);
-        var s = Math.sin(rotation);
-        var sx = scale.x;
-        var sy = scale.y;
-        var cx = center.x;
-        var cy = center.y;
-        var tx = -translation.x;
-        var ty = 1.0 - translation.y;
+        var c = Math.cos(transformObject.rotation);
+        var s = Math.sin(transformObject.rotation);
+        var sx = transformObject.scale.x;
+        var sy = transformObject.scale.y;
+        var cx = transformObject.center.x;
+        var cy = transformObject.center.y;
+        var tx = -transformObject.translation.x;
+        var ty = 1.0 - transformObject.translation.y;
         texture.matrix.set(
           sx * c, sx * s, -sx * (c * tx + s * ty - c * cx + s * (cy + 1)) - cx,
           -sy * s, sy * c, -sy * (-s * tx + c * ty + s * cx + c * (cy - 1)) + cy + 1,
@@ -348,8 +379,12 @@ THREE.X3DLoader.prototype = {
         );
       };
       texture.needsUpdate = true;
+
+      this.setCustomId(textureTransform[0], texture);
     }
 
+    this.setCustomId(imageTexture, texture);
+    this.setDefNode(imageTexture, texture);
     return texture;
   },
 
@@ -359,6 +394,8 @@ THREE.X3DLoader.prototype = {
 
     var geometry = new THREE.Geometry();
     geometry.userData = { 'x3dType': 'IndexedFaceSet' };
+    if (!coordinate)
+      return geometry;
 
     var indices = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
     var verticesStr = getNodeAttribute(coordinate, 'point', '');
@@ -450,6 +487,10 @@ THREE.X3DLoader.prototype = {
     else
       geometry.computeFaceNormals();
 
+    this.setCustomId(coordinate, geometry);
+    if (hasTexCoord)
+      this.setCustomId(textureCoordinate, geometry);
+
     return geometry;
   },
 
@@ -498,7 +539,7 @@ THREE.X3DLoader.prototype = {
     return sphereGeometry;
   },
 
-  parseDirectionalLight: function(light, scene) {
+  parseDirectionalLight: function(light, parentObject) {
     // TODO shadows
     var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
@@ -508,19 +549,18 @@ THREE.X3DLoader.prototype = {
     // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
 
     if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity / 4);
-      this.scene.add(ambientLightObject);
+      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
+      parentObject.add(ambientLightObject);
     }
 
-    var lightObject = new THREE.DirectionalLight(color, intensity / 10);
+    var lightObject = new THREE.DirectionalLight(color, intensity);
     lightObject.castShadows = castShadows;
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
-    this.setName(light, lightObject);
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
     return lightObject;
   },
 
-  parsePointLight: function(light, scene) {
+  parsePointLight: function(light, parentObject) {
     // TODO shadows
     var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
@@ -533,18 +573,17 @@ THREE.X3DLoader.prototype = {
 
     if (ambientIntensity > 0) {
       var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
-      this.scene.add(ambientLightObject);
+      parentObject.add(ambientLightObject);
     }
 
     var lightObject = new THREE.PointLight(color, intensity);
     lightObject.castShadows = castShadows;
-    lightObject.userData = { 'x3dType': 'DirectionalLight' };
-    this.setName(light, lightObject);
+    lightObject.userData = { 'x3dType': 'PointLight' };
     lightObject.position.set(location.x, location.y, location.z);
     return lightObject;
   },
 
-  parseSpotLight: function(light, scene) {
+  parseSpotLight: function(light, parentObject) {
     // TODO shadows
     var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
     // var attenuation = getNodeAttribute(light, 'attenuation', '1 0 0');
@@ -559,7 +598,7 @@ THREE.X3DLoader.prototype = {
     var castShadows = convertStringToVec3(getNodeAttribute(light, 'castShadows', 'true')) === 'true';
     if (ambientIntensity > 0) {
       var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
-      this.scene.add(ambientLightObject);
+      parentObject.add(ambientLightObject);
     }
 
     var lightObject = new THREE.SpotLight(color, intensity);
@@ -567,8 +606,7 @@ THREE.X3DLoader.prototype = {
     lightObject.angle = beamWidth;
     lightObject.penumbra = cutOffAngle;
     lightObject.castShadows = castShadows;
-    lightObject.userData = { 'x3dType': 'DirectionalLight' };
-    this.setName(light, lightObject);
+    lightObject.userData = { 'x3dType': 'SpotLight' };
     return lightObject;
   },
 
@@ -639,10 +677,18 @@ THREE.X3DLoader.prototype = {
     return null;
   },
 
-  setName: function(node, object) {
+  setCustomId: function(node, object) {
+    // Some THREE.js nodes, like the material and IndexedFaceSet, merges multiple X3D nodes.
+    // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
+    if (!node || !object)
+      return;
     var id = getNodeAttribute(node, 'id', null);
-    if (id)
-      object.name = String(id);
+    if (id) {
+      if (object.name !== '')
+        object.name = object.name + ';' + String(id);
+      else
+        object.name = String(id);
+    }
   }
 };
 
