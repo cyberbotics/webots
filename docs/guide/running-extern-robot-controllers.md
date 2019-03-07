@@ -50,5 +50,10 @@ If that simulation has more than one extern controller, you may also set the `WE
 3. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
 4. Save the simulation, restart it and run it.
 5. Open the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder from a terminal.
-6. Start the `nao_demo` controller manually from the terminal.
-7. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
+6. Add the path to the libController in the OS specific library path environment variable:
+On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
+On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/lib`.
+On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+You may need to add extra paths to these variables if your controller relies on other shared libraries (for example if it has specific robot window).
+7. Start the `nao_demo` controller manually from the terminal.
+8. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
