@@ -28,7 +28,7 @@ if ispc
   installed_addons = matlab.addons.installedAddons;
   installed = sum(installed_addons.Identifier == "ML_MINGW");
   if installed <= 0 || matlab.addons.isAddonEnabled("ML_MINGW") <= 0
-    disp('The Matlab "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
+    disp('The MATLAB "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
   end
   addpath([WEBOTS_HOME '/msys64/mingw64/bin']);
 else
