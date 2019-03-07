@@ -27,8 +27,10 @@ int main(int argc, char **argv) {
 #else
     pid_t pid = fork();
     if (pid == 0) {
-      execvp(argv[0], "2");
-      return EXIT_SUCCESS;
+      if (system("./extern 2") != -1)
+        return EXIT_SUCCESS;
+      else
+        return EXIT_FAILURE;
     }
 #endif
     wb_robot_step(TIME_STEP);
