@@ -8,8 +8,13 @@ class TextureManager { // eslint-disable-line no-unused-vars
       this.textures = [];
       this.loadingTextures = [];
       this.loadingCubeTextureObjects = [];
+      this.streamingMode = false;
     }
     return TextureManager.instance;
+  }
+
+  setStreamingMode(enabled) {
+    this.streamingMode = enabled;
   }
 
   getTexture(name) {
@@ -47,6 +52,7 @@ class TextureManager { // eslint-disable-line no-unused-vars
     console.log('loadOrRetrieveTexture ' + name);
     this.loadingTextures[name] = {data: null, objects: [texture]};
 
+    // load from url.
     var loader = new THREE.ImageLoader();
     loader.load(
       name,
@@ -56,7 +62,9 @@ class TextureManager { // eslint-disable-line no-unused-vars
       },
       undefined, // onProgress callback
       (err) => { // onError callback
-        console.error('An error happened when loading the texure "' + name + '": ' + err);
+        if (!this.streamingMode)
+          console.error('An error happened when loading the texure "' + name + '": ' + err);
+        // else image could be received later
       }
     );
   }
@@ -73,7 +81,6 @@ class TextureManager { // eslint-disable-line no-unused-vars
   }
 
   _onImageLoaded(name) {
-    console.log('_onImageLoaded ' + name);
     this.textures[name] = this.loadingTextures[name].data;
     var textures = this.loadingTextures[name].objects;
     for (var i = 0; i < textures.length; i++) {

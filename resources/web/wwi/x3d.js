@@ -15,10 +15,12 @@
 //   - Texture mapping mismatch: Cone (bottom), Sphere, Cylinder (caps)
 // some node attributes are also missing (see TODOs)
 
-THREE.X3DLoader = function(scene, manager) {
-  this.manager = (typeof manager !== 'undefined') ? manager : THREE.DefaultLoadingManager;
-  this.scene = scene.scene;
-  this.camera = scene.camera;
+THREE.X3DLoader = function(sceneManager, loadManager) {
+  this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
+  this.scene = sceneManager.scene;
+  this.camera = sceneManager.camera;
+  this.worldInfo = sceneManager.worldInfo;
+  this.root = sceneManager.root;
   this.defDictionary = [];
 };
 
@@ -54,7 +56,7 @@ THREE.X3DLoader.prototype = {
     this.parseNode(object, scene);
     object.userData.x3dType = 'Group';
     object.name = 'n0';
-    this.scene.root = object;
+    this.root = object;
 
     return object;
   },
@@ -111,6 +113,8 @@ THREE.X3DLoader.prototype = {
       object = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
       object = this.parseBackground(node);
+    else if (node.tagName === 'WorldInfo')
+      this.worldInfo = this.parseWorldInfo(node);
     else
       this.parseChildren(node, parentObject);
 
@@ -135,6 +139,8 @@ THREE.X3DLoader.prototype = {
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false') === 'true';
+    object.userData.window = getNodeAttribute(transform, 'window', '');
+    object.userData.name = getNodeAttribute(transform, 'name', '');
 
     var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));
     object.position.copy(position);
@@ -343,12 +349,12 @@ THREE.X3DLoader.prototype = {
         this.setDefNode(textureTransform[0], transformObject);
       }
 
-      texture.matrixAutoUpdate = false;
-      // texture.center.set(transformObject.center.x, -transformObject.center.y - 1.0);
-      // texture.rotation = transformObject.rotation;
-      // texture.repeat.set(transformObject.scale.x, transformObject.scale.y); // TODO differences with X3D -> not scaled around center
-      // texture.offset.set(-transformObject.translation.x, -transformObject.translation.y);
-      texture.onUpdate = () => {
+      // texture.matrixAutoUpdate = false;
+      texture.center.set(transformObject.center.x, -transformObject.center.y - 1.0);
+      texture.rotation = transformObject.rotation;
+      texture.repeat.set(transformObject.scale.x, transformObject.scale.y); // TODO differences with X3D -> not scaled around center
+      texture.offset.set(-transformObject.translation.x, -transformObject.translation.y);
+      /* texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
         /* var tM = new THREE.Matrix4();
         tM.makeTranslation(transformObject.translation.x, transformObject.translation.y, 0.0);
@@ -362,7 +368,7 @@ THREE.X3DLoader.prototype = {
         rM.makeRotationZ(transformObject.rotation);
         var transform = new THREE.Matrix4();
         transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
-        texture.matrix.getNormalMatrix(transform); */
+        texture.matrix.getNormalMatrix(transform);
 
         var c = Math.cos(transformObject.rotation);
         var s = Math.sin(transformObject.rotation);
@@ -377,7 +383,7 @@ THREE.X3DLoader.prototype = {
           -sy * s, sy * c, -sy * (-s * tx + c * ty + s * cx + c * (cy - 1)) + cy + 1,
           0, 0, 1
         );
-      };
+      }; */
       texture.needsUpdate = true;
 
       this.setCustomId(textureTransform[0], texture);
@@ -674,7 +680,18 @@ THREE.X3DLoader.prototype = {
       camera.quaternion.copy(quaternion);
     }
     camera.updateProjectionMatrix();
+
+    // set Webots specific attributes.
+    camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
+    camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     return null;
+  },
+
+  parseWorldInfo: function(worldInfo) {
+    return {
+      title: getNodeAttribute(worldInfo, 'title', ''),
+      window: getNodeAttribute(worldInfo, 'window', '')
+    };
   },
 
   setCustomId: function(node, object) {

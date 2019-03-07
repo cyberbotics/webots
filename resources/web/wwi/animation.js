@@ -150,6 +150,7 @@ class Animation { // eslint-disable-line no-unused-vars
         appliedIds[appliedIds.length] = poses[p].id;
       }
     }
+    var sceneManager = this.view.x3dSceneManager;
     // lookback mechanism: search in history
     if (this.step !== this.previousStep + 1) {
       var previousPoseStep;
@@ -167,7 +168,7 @@ class Animation { // eslint-disable-line no-unused-vars
             if (this.data.frames[f].poses) {
               for (p = 0; p < this.data.frames[f].poses.length; p++) {
                 if (this.data.frames[f].poses[p].id === id) {
-                  this._applyPose(this.data.frames[f].poses[p]);
+                  sceneManager.applyPose(this.data.frames[f].poses[p]);
                   break outer;
                 }
               }
@@ -183,8 +184,7 @@ class Animation { // eslint-disable-line no-unused-vars
     }
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    if (this.view.followedObject != null && this.view.followedObject !== 'none')
-      this.view.updateViewpointPosition(!moveSlider | this.step === 0);
+    sceneManager.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
   }
 
   _updateAnimation() {

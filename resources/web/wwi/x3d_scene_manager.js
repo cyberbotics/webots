@@ -1,14 +1,14 @@
-/* global THREE, Selector */
-/* global convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
+/* global THREE, Selector, Viewpoint */
+/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
 'use strict';
 
-class X3dScene { // eslint-disable-line no-unused-vars
-  constructor(parentElement) {
-    this.domElement = document.createElement('div');
-    this.domElement.className = 'webots3DView';
+class X3dSceneManager { // eslint-disable-line no-unused-vars
+  constructor(domElement) {
+    this.domElement = domElement;
     this.camera = null;
     this.root = null;
-    parentElement.appendChild(this.domElement);
+    this.worldInfo = {};
+    this.viewpoint = null;
   }
 
   init() {
@@ -24,6 +24,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.camera.position.y = 10;
     this.camera.position.z = 10;
     this.camera.lookAt(this.scene.position);
+    this.viewpoint = new Viewpoint(this.camera);
 
     this.controls = new THREE.OrbitControls(this.camera, this.robotViewerElement);
 
@@ -104,53 +105,82 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   getObjectByCustomId(object, id) {
+    if (!object)
+      return undefined;
+
     if (object.name && object.name.includes(id))
       return object;
 
+    var childObject;
     var childrenLength = object.children ? object.children.length : 0;
     for (var i = 0; i < childrenLength; i++) {
       var child = object.children[i];
-      var childObject = this.getObjectByCustomId(child, id);
+      childObject = this.getObjectByCustomId(child, id);
       if (childObject !== undefined)
         return childObject;
     }
     if (object instanceof THREE.Mesh) {
-      if (this.getObjectByCustomId(object.material, id))
-        return object.material;
-      if (this.getObjectByCustomId(object.geometry, id))
-        return object.geometry;
+      childObject = this.getObjectByCustomId(object.material, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.geometry, id);
+      if (childObject)
+        return childObject;
+    } else if (object instanceof THREE.Material) {
+      childObject = this.getObjectByCustomId(object.map, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.aoMap, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.roughnessMap, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.metalnessMap, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.normalMap, id);
+      if (childObject)
+        return childObject;
+      childObject = this.getObjectByCustomId(object.emissiveMap, id);
+      if (childObject)
+        return childObject;
+      // only fields set in x3d.js are checked
     }
     return undefined;
   }
 
   applyPose(pose) {
-    var id = pose.id;
-    // TODO if (el.getAttribute('blockWebotsUpdate')) return;
+    var id = 'n' + pose.id;
     for (var key in pose) {
       if (key === 'id')
         continue;
       var newValue = pose[key];
-      var object = this.getObjectByCustomId(this.scene, 'n' + id);
+      var object = this.getObjectByCustomId(this.scene, id);
       if (!object)
         // error
         continue;
-      /* TODO update viewpoint
-      if (key === 'translation' && this.followedObject &&
-         (id === this.followedObject || // animation case
-          el.id === this.followedObject || // streaming case
-          el.getAttribute('DEF') === this.followedObject)) {
-        var objectPosition = x3dom.fields.SFVec3f.parse(el.getAttribute('translation'));
-        el.setAttribute(key, value);
-        // If this is the followed object, we save a vector with the translation applied
-        // to the object to compute the new position of the viewpoint.
-        var objectNewPosition = x3dom.fields.SFVec3f.parse(value);
-        this.followedObjectDeltaPosition = objectNewPosition.subtract(objectPosition);
-      }
-      */
 
       if (key === 'translation') { // Transform node
-        var position = convertStringToVec3(newValue);
-        object.position.copy(position);
+        if (object instanceof THREE.Texture) {
+          var translation = convertStringToVec2(newValue);
+          object.offset.set(-translation.x, -translation.y);
+          object.needsUpdate = true;
+        } else {
+          var newPosition = convertStringToVec3(newValue);
+          /* TODO this is the old condition
+          if (key === 'translation' && this.followedObject &&
+             (id === this.followedObject || // animation case
+              el.id === this.followedObject || // streaming case
+              el.getAttribute('DEF') === this.followedObject)) { */
+          // followed object moved.
+          if (id === this.viewpoint.followedObject) {
+            // If this is the followed object, we save a vector with the translation applied
+            // to the object to compute the new position of the viewpoint.
+            this.viewpoint.setFollowedObjectDeltaPosition(newPosition, object.position);
+          }
+          object.position.copy(newPosition);
+        }
       } else if (key === 'rotation') { // Transform node
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
@@ -161,8 +191,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
         var emissiveColor = convertStringTorgb(newValue);
         object.emissive = emissiveColor;
       }
-      // TODO extend with other animation attributes
-      // texture transform: translation
     }
   }
 

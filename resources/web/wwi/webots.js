@@ -20,7 +20,7 @@
  *   }
  */
 
-/* global Animation, X3dScene, TextureManager */
+/* global THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream */
 /* global ace: false */
 /* global MathJax: false */
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
@@ -87,8 +87,8 @@ webots.View = function(view3D, mobile) {
     window.location = quitDestination;
   };
   this.onresize = function() {
-    /*
-    var viewpoint = that.x3dScene.getElementsByTagName('Viewpoint')[0];
+    /* TODO
+    var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
     var viewHeight = parseFloat($(that.x3dNode).css('height').slice(0, -2));
     var viewWidth = parseFloat($(that.x3dNode).css('width').slice(0, -2));
     if (that.viewpointFieldOfView == null) {
@@ -125,15 +125,6 @@ webots.View = function(view3D, mobile) {
   window.onresize = this.onresize;
   this.robotWindowNames = {}; // map robot name to robot window name used as key in robotWindows lists
   this.robotWindows = {};
-  this.followedObject = null; // after initialization contains the id of the followed node or -1 if no object is followed
-  // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
-  // vector with the translation applied to the object.
-  this.followedObjectDeltaPosition = null;
-  this.viewpointMass = 1.0; // Mass of the viewpoint used during the object following algorithm.
-  this.viewpointFriction = 0.05; // Friction applied to the viewpoint whenever it is going faster than the followed object.
-  this.viewpointForce = null; // Vector with the force that will be applied to the viewpoint for the next delta T.
-  this.viewpointVelocity = null; // Current velocity of the viewpoint.
-  this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
   this.onmousedown = null;
   this.onworldloaded = null;
   this.view3D = view3D;
@@ -176,9 +167,9 @@ webots.View = function(view3D, mobile) {
       return;
     var id = ui.item.attr('id');
     if (id === 'contextMenuFollow')
-      that.follow(that.selection.id);
+      that.x3dSceneManager.viewpoint.follow(that.selection.id);
     else if (id === 'contextMenuUnfollow')
-      that.follow('none');
+      that.x3dSceneManager.viewpoint.that.follow('none');
     else if (id === 'contextMenuEditController') {
       var controller = that.selection.getAttribute('controller');
       $('#webotsEditor').dialog('open');
@@ -207,7 +198,7 @@ webots.View = function(view3D, mobile) {
   this.editor = new webots.Editor(view3D, this);
   this.infoWindow = null;
   this.selection = null;
-  this.x3dScene = null;
+  this.x3dSceneManager = null;
   this.initialViewpointPosition = null;
   this.initialViewpointOrientation = null;
   this.mouseState = {
@@ -267,7 +258,7 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
     if (that.broadcast || typeof that.worldSelect === 'undefined')
       return;
     that.enableToolBarButtons(false);
-    that.followedObject = null;
+    that.x3dSceneManager.viewpoint.resetFollow();
     that.onrobotwindowsdestroy();
     $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
     $('#webotsProgress').show();
@@ -315,15 +306,20 @@ webots.View.prototype.open = function(url, mode) {
   }
   if (this.broadcast)
     this.setTimeout(-1);
-  if (!this.x3dScene) {
-    this.x3dScene = new X3dScene(this.view3D);
-    that.x3dScene.init();
+  if (!this.x3dSceneManager) {
+    var x3dDiv = document.createElement('div');
+    x3dDiv.className = 'webots3DView';
+    this.view3D.appendChild(x3dDiv);
+    this.x3dSceneManager = new X3dSceneManager(x3dDiv);
+    that.x3dSceneManager.init();
     var param = document.createElement('param');
     param.name = 'showProgress';
     param.value = false;
-    this.x3dScene.domElement.appendChild(param);
-  }
+    this.x3dSceneManager.domElement.appendChild(param);
 
+    this.mouseEvents = new MouseEvents(this.x3dSceneManager);
+    this.view3D.addEventListener('mousedown', (e) => { this.mouseEvents.mousedown(e); });
+  }
 
   this.url = url;
   this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
@@ -596,11 +592,14 @@ webots.View.prototype.open = function(url, mode) {
           callback = videoFinalize;
         else
           callback = finalizeWorld;
-        that.server = new webots.Server(that.url, that, callback);
-      } else // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
-        that.stream = new webots.Stream(that.url, that, finalizeWorld);
+        that.server = new Server(that.url, that, callback);
+        that.server.connect();
+      } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
+        that.stream = new Stream(that.url, that, finalizeWorld);
+        that.stream.connect();
+      }
     } else { // assuming it's an URL to a .x3d file
-      that.x3dScene.loadWorldFile(that.url);
+      that.x3dSceneManager.loadWorldFile(that.url);
       finalizeWorld();
     }
   }
@@ -608,46 +607,14 @@ webots.View.prototype.open = function(url, mode) {
   function toggleInfo() {
     that.toggleInfo();
   }
-/* TODO
-  function initX3Dom() { // load x3dom.css, x3dom-full.js and calls initWorld
-    var head = document.getElementsByTagName('head')[0];
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'https://www.cyberbotics.com/x3dom/dev_13062018/x3dom.css';
-    link.media = 'all';
-    head.appendChild(link);
-    // source http://stackoverflow.com/questions/950087/include-a-javascript-file-in-another-javascript-file
-    var script = document.createElement('script');
-    script.src = 'https://www.cyberbotics.com/x3dom/dev_13062018/x3dom-full.js';
-    script.onload = initWorld;
-    script.onerror = function() {
-      that.onerror('Error when loading the X3DOM library');
-    };
-    head.appendChild(script); // fire the loading
-  }
-*/
 
   function finalizeWorld() {
     $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
-    /* // TODO:
-    if (that.followedObject == null || that.broadcast) {
-      var viewpoint = that.x3dScene.getElementsByTagName('Viewpoint')[0];
-      that.initialViewpointPosition = viewpoint.getAttribute('position');
-      that.initialViewpointOrientation = viewpoint.getAttribute('orientation');
-      var viewpointFollowSmoothness = viewpoint.getAttribute('followSmoothness');
-      if (viewpointFollowSmoothness !== null)
-        that.setViewpointMass(viewpointFollowSmoothness);
-      var viewpointFollowedId = viewpoint.getAttribute('followedId');
-      if (viewpointFollowedId != null) {
-        that.followedObject = viewpointFollowedId;
-        that.follow(viewpointFollowedId);
-      } else
-        that.followedObject = 'none';
-    } else
+    if (that.x3dSceneManager.viewpoint.followedObject == null || that.broadcast)
+      that.x3dSceneManager.viewpoint.initFollowParameters();
+    else
       // reset follow parameters
-      that.follow(that.followedObject);
-      */
+      that.x3dSceneManager.viewpoint.follow(that.followedObject);
 
     if (!that.isWebSocketProtocol) { // skip robot windows initialization
       if (that.animation != null)
@@ -676,7 +643,7 @@ webots.View.prototype.open = function(url, mode) {
           user += ']';
         } else
           user = '';
-        win.setProperties({title: worldInfo.getAttribute('title') + user, close: closeInfoWindow});
+        win.setProperties({title: that.x3dSceneManager.worldInfo.title + user, close: closeInfoWindow});
         that.infoWindow = win;
       } else
         win.setProperties({title: 'Robot: ' + node.getAttribute('name')});
@@ -705,19 +672,15 @@ webots.View.prototype.open = function(url, mode) {
       });
     }
 
-    var pendingRequestsCount = 0;
-    /* // TODO:
-    var worldInfo = that.x3dScene.getElementsByTagName('WorldInfo')[0];
-    var infoWindowName = worldInfo.getAttribute('window');
+    var infoWindowName = that.x3dSceneManager.worldInfo.window;
     var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-    var nodes = that.x3dScene.childNodes;
+    var nodes = that.x3dSceneManager.root ? that.x3dSceneManager.root.children : [];
     for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i].nodeType !== 1 || nodes[i].nodeName.toUpperCase() !== 'TRANSFORM' || !nodes[i].hasAttribute('window') || !nodes[i].hasAttribute('name'))
-        continue;
-      loadRobotWindow(nodes[i]);
+      if (nodes[i] instanceof THREE.Transform && nodes[i].userData.window && nodes[i].userData.name)
+        loadFinalize();
     }
     pendingRequestsCount--; // notify that loop is completed
-    */
+
     if (pendingRequestsCount === 0)
       // if no pending requests execute loadFinalize
       // otherwise it will be executed when the last request will be handled
@@ -751,9 +714,9 @@ webots.View.prototype.open = function(url, mode) {
     if (that.runOnLoad)
       realTime();
   }
-
+  /*
   function rotateViewpoint(viewpoint, params) {
-    /* // TODO:
+    // TODO:
     var halfYawAngle = -0.005 * params.dx;
     var halfPitchAngle = -0.005 * params.dy;
     if (that.mouseState.pickPosition == null) {
@@ -776,11 +739,11 @@ webots.View.prototype.open = function(url, mode) {
     var currentOrientation = deltaRotation.multiply(voq);
     var aa = currentOrientation.toAxisAngle();
     viewpoint.setAttribute('orientation', aa[0].toString() + ' ' + aa[1]);
-    */
+
   }
 
   function translateViewpoint(viewpoint, params) {
-    /*var targetRight = -params.distanceToPickPosition * params.scaleFactor * params.dx;
+    var targetRight = -params.distanceToPickPosition * params.scaleFactor * params.dx;
     var targetUp = params.distanceToPickPosition * params.scaleFactor * params.dy;
     var tx = (1 - params.c) * params.vo.x;
     var pitch = new x3dom.fields.SFVec3f(tx * params.vo.x + params.c, tx * params.vo.y + params.s * params.vo.z, tx * params.vo.z - params.s * params.vo.y);
@@ -788,11 +751,11 @@ webots.View.prototype.open = function(url, mode) {
     var yaw = new x3dom.fields.SFVec3f(ty * params.vo.x - params.s * params.vo.z, ty * params.vo.y + params.c, ty * params.vo.z + params.s * params.vo.x);
     var target = params.vp.add(pitch.multiply(targetRight).add(yaw.multiply(targetUp)));
     viewpoint.setAttribute('position', target.toString());
-  */
+
   }
 
   function zoomAndTiltViewpoint(viewpoint, params) {
-    /*var tz = (1 - params.c) * params.vo.z;
+    var tz = (1 - params.c) * params.vo.z;
     var roll = new x3dom.fields.SFVec3f(tz * params.vo.x + params.s * params.vo.y, tz * params.vo.y - params.s * params.vo.x, tz * params.vo.z + params.c);
     var target = params.vp.add(roll.multiply(params.zoomScale));
     viewpoint.setAttribute('position', target.toString());
@@ -800,11 +763,10 @@ webots.View.prototype.open = function(url, mode) {
     var voq = x3dom.fields.Quaternion.axisAngle(new x3dom.fields.SFVec3f(params.vo.x, params.vo.y, params.vo.z), params.vo.w);
     var aa = zRotation.multiply(voq).toAxisAngle();
     viewpoint.setAttribute('orientation', aa[0].toString() + ' ' + aa[1]);
-  */
-  }
+  } */
 
   function initMouseMove(event) {
-    /*that.mouseState.x = event.clientX;
+    /* that.mouseState.x = event.clientX;
     that.mouseState.y = event.clientY;
     that.mouseState.initialX = null;
     that.mouseState.initialY = null;
@@ -818,11 +780,11 @@ webots.View.prototype.open = function(url, mode) {
       $('#contextMenu').css('display', 'none');
       that.contextMenu = true;
     } else
-      that.contextMenu = false;*/
+      that.contextMenu = false; */
   }
 
   function clearMouseMove() {
-    /*if (that.mouseState.mobileDevice)
+    /* if (that.mouseState.mobileDevice)
       that.mouseState.longClick = Date.now() - that.mouseState.initialTimeStamp >= 100;
     else
       that.mouseState.longClick = Date.now() - that.mouseState.initialTimeStamp >= 1000;
@@ -835,11 +797,11 @@ webots.View.prototype.open = function(url, mode) {
     that.mouseState.mouseDown = 0;
     that.mouseState.initialTimeStamp = null;
     that.mouseState.initialX = null;
-    that.mouseState.initialY = null;*/
+    that.mouseState.initialY = null; */
   }
 
   function addX3domMouseNavigation() {
-    /*if (that.mobileDevice) {
+    /* if (that.mobileDevice) {
       that.x3dNode.addEventListener('touchmove', function(event) {
         if (!that.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
           return;
@@ -853,7 +815,7 @@ webots.View.prototype.open = function(url, mode) {
         var touch = event.targetTouches['0'];
 
         var params = {};
-        var viewpoint = that.x3dScene.getElementsByTagName('Viewpoint')[0];
+        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
         params.vp = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
         params.vo = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
         params.c = Math.cos(params.vo.w);
@@ -949,7 +911,7 @@ webots.View.prototype.open = function(url, mode) {
       }, true);
     } else {
       that.x3dNode.addEventListener('wheel', function(event) {
-        var viewpoint = that.x3dScene.getElementsByTagName('Viewpoint')[0];
+        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
         var vp = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
         var vo = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
         var mousePosition = that.x3dNode.runtime.mousePosition(event);
@@ -1023,7 +985,7 @@ webots.View.prototype.open = function(url, mode) {
           // prevent applying mouse move action before drag initialization in mousedrag event
           return;
 
-        var viewpoint = that.x3dScene.getElementsByTagName('Viewpoint')[0];
+        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
         var params = {};
         params.dx = event.clientX - that.mouseState.x;
         params.dy = event.clientY - that.mouseState.y;
@@ -1084,7 +1046,7 @@ webots.View.prototype.open = function(url, mode) {
       }, true);
     }
 
-    that.x3dScene.addEventListener('mouseup', function(event) {
+    that.x3dSceneManager.addEventListener('mouseup', function(event) {
       if (that.mouseState.moved === false && (!that.mouseState.longClick || that.mobileDevice)) {
         var s = getTopX3dElement(event.target);
         if (that.previousSelection == null || that.previousSelection.id !== s.id || (that.mouseState.previousMouseDown === 2 && (!that.mobileDevice || that.mouseState.longClick)))
@@ -1144,28 +1106,13 @@ webots.View.prototype.open = function(url, mode) {
       }
       if (that.onmouseup)
         that.onmouseup(event);
-    }, false);*/
+    }, false); */
   }
   function wheelTimeoutCallback(event) {
     that.mouseState.wheelTimeout = null;
     that.mouseState.wheelFocus = true;
   }
-  function getTopX3dElement(el) {
-    // If it exists, return the upmost Solid, otherwise the top node
-    /* TODO
-    var upmostSolid = null;
-    while (el) {
-      if (el.getAttribute('solid'))
-        upmostSolid = el;
-      if (el.parentNode === that.x3dScene)
-        break;
-      el = el.parentNode;
-    }
-    if (upmostSolid)
-      return upmostSolid;
-    return el;*/
-  }
-
+  /*
   function unselect() {
     if (that.selection) {
       var selectors = that.selection.getElementsByClassName('selector');
@@ -1185,7 +1132,7 @@ webots.View.prototype.open = function(url, mode) {
     }
     that.selection = el;
   }
-
+  */
   function videoFinalize() {
     console.log('video finalize');
     addVideoMouseNavigation();
@@ -1256,73 +1203,6 @@ webots.View.prototype.toggleInfo = function() {
   }
 };
 
-webots.View.prototype.follow = function(id) {
-  /*this.followedObject = id;
-  this.viewpointForce = new x3dom.fields.SFVec3f(0.0, 0.0, 0.0);
-  this.viewpointVelocity = new x3dom.fields.SFVec3f(0.0, 0.0, 0.0);*/
-};
-
-webots.View.prototype.setViewpointMass = function(mass) {
-  this.viewpointMass = mass;
-  if (this.viewpointMass <= 0.05)
-    this.viewpointMass = 0.0;
-  else {
-    if (this.viewpointMass > 1.0)
-      this.viewpointMass = 1.0;
-    this.friction = 0.05 / this.viewpointMass;
-  }
-};
-
-webots.View.prototype.updateViewpointPosition = function(forcePosition) {
-  /*if (this.time === undefined)
-    return;
-  if (this.viewpointLastUpdate === undefined)
-    this.viewpointLastUpdate = this.time;
-
-  var timeInterval = Math.abs(this.time - this.viewpointLastUpdate) / 1000;
-  var viewpoints = this.x3dScene.getElementsByTagName('Viewpoint');
-
-  if (timeInterval > 0 && viewpoints[0]) {
-    this.viewpointLastUpdate = this.time;
-    var viewpointPosition = x3dom.fields.SFVec3f.parse(viewpoints[0].getAttribute('position'));
-    var viewpointDeltaPosition;
-    if (this.followedObjectDeltaPosition != null)
-      this.viewpointForce = this.viewpointForce.add(this.followedObjectDeltaPosition);
-
-    // Special case: if the mass is 0 we simply move the viewpoint to its equilibrium position.
-    // If timeInterval is too large (longer than 1/10 of a second), the progression won't be smooth either way,
-    // so in this case we simply move the viewpoint to the equilibrium position as well.
-    if (forcePosition || this.viewpointMass === 0 || (timeInterval > 0.1 && this.animation == null)) {
-      viewpointDeltaPosition = this.viewpointForce;
-      this.viewpointVelocity = new x3dom.fields.SFVec3f(0.0, 0.0, 0.0);
-    } else {
-      var acceleration = this.viewpointForce.divide(this.viewpointMass);
-      this.viewpointVelocity = this.viewpointVelocity.add(acceleration.multiply(timeInterval));
-      var scalarVelocity = this.viewpointVelocity.length();
-
-      // Velocity of the object projected onto the velocity of the viewpoint.
-      var scalarObjectVelocityProjection;
-      if (this.followedObjectDeltaPosition != null) {
-        var objectVelocity = this.followedObjectDeltaPosition.divide(timeInterval);
-        scalarObjectVelocityProjection = objectVelocity.dot(this.viewpointVelocity) / scalarVelocity;
-      } else
-        scalarObjectVelocityProjection = 0;
-
-      // The viewpoint is going "faster" than the object, to prevent oscillations we apply a slowing force.
-      if (this.viewpointFriction > 0 && scalarVelocity > scalarObjectVelocityProjection) {
-        // We apply a friction based on the extra velocity.
-        var velocityFactor = (scalarVelocity - (scalarVelocity - scalarObjectVelocityProjection) * this.viewpointFriction) / scalarVelocity;
-        this.viewpointVelocity = this.viewpointVelocity.multiply(velocityFactor);
-      }
-      viewpointDeltaPosition = this.viewpointVelocity.multiply(timeInterval);
-    }
-    var viewpointNewPosition = viewpointPosition.add(viewpointDeltaPosition);
-    this.viewpointForce = this.viewpointForce.subtract(viewpointDeltaPosition);
-    viewpoints[0].setAttribute('position', viewpointNewPosition.toString());
-    this.followedObjectDeltaPosition = null;
-  }*/
-};
-
 webots.View.prototype.close = function() {
   if (this.server)
     this.server.socket.close();
@@ -1362,7 +1242,7 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     gui = 'play';
   if (loop === undefined)
     loop = true;
-  this.animation = new Animation(url, this.x3dScene, this, gui, loop);
+  this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
   this.animation.init(() => {
     $('#webotsProgress').hide();
     this.enableToolBarButtons(true);
@@ -1371,319 +1251,17 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
   });
 };
 
-webots.Server = function(url, view, onready) {
-  var that = this;
-  this.view = view;
-  this.onready = onready;
-  // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
-  var n = url.indexOf('/', 6);
-  var m = url.lastIndexOf('/');
-  this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
-  this.project = url.substring(n + 1, m - 7); // e.g., "simple"
-  this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
-  this.controllers = [];
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', this.url + '/session', true);
-  $('#webotsProgressMessage').html('Connecting to session server...');
-  xhr.onreadystatechange = function(e) {
-    if (xhr.readyState !== 4)
-      return;
-    if (xhr.status !== 200)
-      return;
-    var data = xhr.responseText;
-    if (data.startsWith('Error:')) {
-      $('#webotsProgress').hide();
-      var errorMessage = data.substring(6).trim();
-      errorMessage = errorMessage.charAt(0).toUpperCase() + errorMessage.substring(1);
-      webots.alert('Session server error', errorMessage);
-      return;
-    }
-    that.socket = new WebSocket(data + '/client');
-    that.socket.onopen = function(event) {
-      var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
-      if (typeof webots.User1Id === 'undefined')
-        webots.User1Id = '';
-      if (typeof webots.User1Name === 'undefined')
-        webots.User1Name = '';
-      if (typeof webots.User1Authentication === 'undefined')
-        webots.User1Authentication = '';
-      if (typeof webots.User2Id === 'undefined')
-        webots.User2Id = '';
-      if (typeof webots.User2Name === 'undefined')
-        webots.User2Name = '';
-      if (typeof webots.CustomData === 'undefined')
-        webots.CustomData = '';
-      if (typeof webots.showRevert === 'undefined')
-        webots.showRevert = false;
-      if (typeof webots.showQuit === 'undefined')
-        webots.showQuit = true;
-      this.send('{ "init" : [ "' + host + '", "' + that.project + '", "' + that.worldFile + '", "' +
-                webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
-                webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
-      $('#webotsProgressMessage').html('Starting simulation...');
-    };
-    that.socket.onclose = function(event) {
-      view.console.info('Disconnected to the Webots server.');
-    };
-    that.socket.onmessage = function(event) {
-      var message = event.data;
-      if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0)
-        view.stream = new webots.Stream(message.substring(7), view, that.onready);
-      else if (message.indexOf('controller:') === 0) {
-        var n = message.indexOf(':', 11);
-        var controller = {};
-        controller.name = message.substring(11, n);
-        controller.port = message.substring(n + 1);
-        view.console.info('Using controller ' + controller.name + ' on port ' + controller.port);
-        that.controllers.push(controller);
-      } else if (message.indexOf('queue:') === 0)
-        view.console.error('The server is saturated. Queue to wait: ' + message.substring(6) + ' client(s).');
-      else if (message === '.') { // received every 5 seconds when Webots is running
-        // nothing to do
-      } else if (message.indexOf('reset controller:') === 0)
-        view.stream.socket.send('sync controller:' + message.substring(18).trim());
-      else
-        console.log('Received an unknown message from the Webots server socket: "' + message + '"');
-    };
-    that.socket.onerror = function(event) {
-      view.console.error('Cannot connect to the simulation server');
-    };
-  };
-  xhr.send();
-};
+webots.View.prototype.destroyWorld = function() {
+  // this.selection = null;
+  if (this.x3dSceneManager)
+    this.x3dSceneManager.destroyWorld();
 
-webots.Server.prototype.resetController = function(filename) {
-  this.socket.send('{ "reset controller" : "' + filename + '" }');
-};
-
-webots.Stream = function(url, view, onready) {
-  var that = this;
-  this.view = view;
-  this.onready = onready;
-
-  this.socket = new WebSocket(url);
-  $('#webotsProgressMessage').html('Connecting to Webots instance...');
-  this.socket.onopen = function() {
-    var mode = that.view.mode;
-    if (mode === 'video')
-      mode += ': ' + that.view.video.width + 'x' + that.view.video.height;
-    else if (that.view.broadcast)
-      mode += ';broadcast';
-    that.socket.send(mode);
-  };
-  this.socket.onclose = function(event) {
-    view.onerror('Disconnected from ' + url + ' (' + event.code + ')');
-    if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
-      webots.alert('Streaming server error',
-        'Connection closed abnormally.<br>(Error code: ' + event.code + ')<br><br>' +
-        'Please reset the simulation by clicking ' +
-        '<a href="' + window.location.href + '">here</a>.');
-    }
-    destroyWorld();
-    if (view.onclose)
-      view.onclose();
-  };
-  this.socket.onmessage = function(event) {
-    var lines, i;
-    var data = event.data;
-    if (data.startsWith('robot:') ||
-        data.startsWith('stdout:') ||
-        data.startsWith('stderr:')) {
-      lines = data.split('\n'); // in that case, we support one message per line
-      for (i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        if (line === '') // FIXME: should not happen
-          continue;
-        if (line.startsWith('stdout:'))
-          view.console.stdout(line.substring(7));
-        else if (line.startsWith('stderr:'))
-          view.console.stderr(line.substring(7));
-        else if (line.startsWith('robot:')) {
-          var secondColonIndex = line.indexOf(':', 6);
-          var robot = line.substring(6, secondColonIndex);
-          var message = line.substring(secondColonIndex + 1);
-          that.view.onrobotmessage(robot, message);
-        }
-      }
-    } else if (data.startsWith('application/json:')) {
-      if (that.view.time !== undefined) { // otherwise ignore late updates until the scene loading is completed
-        data = data.substring(data.indexOf(':') + 1);
-        var frame = JSON.parse(data);
-        that.view.time = frame.time;
-        $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
-        if (frame.hasOwnProperty('poses')) {
-          for (i = 0; i < frame.poses.length; i++)
-            that.view.x3dScene.applyPose(frame.poses[i]);
-        }
-        if (that.view.followedObject != null && that.view.followedObject !== 'none')
-          that.view.updateViewpointPosition();
-      }
-    } else if (data.startsWith('node:')) {
-      data = data.substring(data.indexOf(':') + 1);
-      var parentId = data.split(':')[0];
-      data = data.substring(data.indexOf(':') + 1);
-      that.view.x3dScene.loadObject(data, parentId);
-    } else if (data.startsWith('delete:')) {
-      data = data.substring(data.indexOf(':') + 1).trim();
-      that.view.x3dScene.deleteObject(data);
-    } else if (data.startsWith('model:')) {
-      $('#webotsProgressMessage').html('Loading 3D scene...');
-      $('#webotsProgressPercent').html('');
-      destroyWorld();
-      data = data.substring(data.indexOf(':') + 1).trim();
-      if (!data) // received an empty model case: just destroy the view
-        return;
-      that.view.x3dScene.loadObject(data);
-      // TODO
-      // that.view.onresize();
-    } else if (data.startsWith('world:')) {
-      data = data.substring(data.indexOf(':') + 1).trim();
-      var currentWorld = data.substring(0, data.indexOf(':')).trim();
-      data = data.substring(data.indexOf(':') + 1).trim();
-      that.view.updateWorldList(currentWorld, data.split(';'));
-    } else if (data.startsWith('image')) {
-      // extract texture url: the url should only contains escaped ']' characters
-      var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
-      var match = urlPattern.exec(data);
-      var textureUrlEndIndex = match.index + 1;
-      var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
-      data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
-
-      var textureManager = new TextureManager();
-      textureManager.loadTexture(data, textureUrl);
-      // TODO need to replace in ImageTexture and Background as before?
-    } else if (data.startsWith('video: ')) {
-      console.log('Received data = ' + data);
-      var list = data.split(' ');
-      var url = list[1];
-      var streamId = list[2];
-      console.log('Received video message on ' + url + ' stream = ' + streamId);
-      that.VideoStream = new webots.VideoStream(url, view.video, document.getElementById('BitrateViewer'), streamId);
-      if (that.onready)
-        that.onready();
-    } else if (data.startsWith('set controller:')) {
-      var slash = data.indexOf('/', 15);
-      var dirname = data.substring(15, slash);
-      var filename = data.substring(slash + 1, data.indexOf(':', slash + 1));
-      if (that.view.editor.dirname === dirname)
-        that.view.editor.addFile(filename, data.substring(data.indexOf('\n') + 1)); // remove the first line
-      else
-        console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + that.view.editor.dirname);
-    } else if (data === 'pause') {
-      that.view.pauseButton.style.display = 'none';
-      that.view.real_timeButton.style.display = 'inline';
-      if (that.view.fastButton !== undefined)
-        that.view.fastButton.style.display = 'inline';
-      if (that.view.timeout > 0 && !that.view.isAutomaticallyPaused) {
-        that.view.deadline = that.view.timeout;
-        if (that.view.time !== undefined)
-          that.view.deadline += that.view.time;
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
-      }
-    } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      that.view.pauseButton.style.display = 'inline';
-      that.view.real_timeButton.style.display = 'inline';
-      if (that.view.fastButton !== undefined)
-        that.view.fastButton.style.display = 'inline';
-      if (that.view.timeout >= 0)
-        that.view.stream.socket.send('timeout:' + that.view.timeout);
-    } else if (data.startsWith('loading:')) {
-      data = data.substring(data.indexOf(':') + 1).trim();
-      var loadingStatus = data.substring(0, data.indexOf(':')).trim();
-      data = data.substring(data.indexOf(':') + 1).trim();
-      $('#webotsProgressMessage').html('Loading: ' + loadingStatus);
-      $('#webotsProgressPercent').html('<progress value="' + data + '" max="100"></progress>');
-    } else if (data === 'scene load completed') {
-      that.view.time = 0;
-      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
-      if (that.onready)
-        that.onready();
-    } else if (data === 'reset finished') {
-      // remove labels
-      var labels = document.getElementsByClassName('webotsLabel');
-      for (i = labels.length - 1; i >= 0; i--) {
-        var element = labels.item(i);
-        element.parentNode.removeChild(element);
-      }
-      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
-      if (that.onready)
-        that.onready();
-      that.view.deadline = that.view.timeout;
-      if (that.view.deadline >= 0)
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(that.view.deadline));
-      else
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-      // TODO restore viewpoint
-      /*
-      var viewpoint = that.view.x3dScene.getElementsByTagName('Viewpoint')[0];
-      viewpoint.setAttribute('position', that.view.initialViewpointPosition);
-      viewpoint.setAttribute('orientation', that.view.initialViewpointOrientation);
-      that.view.updateViewpointPosition(true);
-      */
-    } else if (data.startsWith('label')) {
-      var semiColon = data.indexOf(';');
-      var id = data.substring(data.indexOf(':'), semiColon);
-      var previousSemiColon;
-      var labelProperties = []; // ['font', 'color', 'size', 'x', 'y', 'text']
-      for (i = 0; i < 5; i++) {
-        previousSemiColon = semiColon + 1;
-        semiColon = data.indexOf(';', previousSemiColon);
-        labelProperties.push(data.substring(previousSemiColon, semiColon));
-      }
-      var text = data.substring(semiColon + 1, data.length);
-      var labelElement = document.getElementById('label' + id);
-      if (labelElement == null) {
-        labelElement = document.createElement('div');
-        labelElement.id = 'label' + id;
-        labelElement.className = 'webotsLabel';
-        // TODO
-        //that.view.x3dNode.appendChild(labelElement);
-      }
-      labelElement.style.fontFamily = labelProperties[0];
-      labelElement.style.color = labelProperties[1];
-      //labelElement.style.fontSize = $(that.view.x3dNode).height() * labelProperties[2] / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
-      //labelElement.style.left = $(that.view.x3dNode).width() * labelProperties[3] + 'px';
-      //labelElement.style.top = $(that.view.x3dNode).height() * labelProperties[4] + 'px';
-      labelElement.innerHTML = text;
-    } else
-      console.log('WebSocket error: Unknown message received: "' + data + '"');
-  };
-  this.socket.onerror = function(event) {
-    destroyWorld();
-    view.onerror('WebSocket error: ' + event.data);
-  };
-  function destroyWorld() {
-    that.view.selection = null;
-    if (that.view.x3dScene)
-      that.view.x3dScene.destroyWorld();
-
-    // remove labels
-    var labels = document.getElementsByClassName('webotsLabel');
-    for (var i = labels.length - 1; i >= 0; i--) {
-      var element = labels.item(i);
-      element.parentNode.removeChild(element);
-    }
+  // remove labels
+  var labels = document.getElementsByClassName('webotsLabel');
+  for (var i = labels.length - 1; i >= 0; i--) {
+    var element = labels.item(i);
+    element.parentNode.removeChild(element);
   }
-};
-
-webots.Stream.prototype.compareTextureUrl = function(attributeUrl, textureUrl) {
-  // url attribute is an array (x3dom.field.MFString)
-  if (!attributeUrl || !textureUrl || (typeof attributeUrl !== 'object') || !(attributeUrl instanceof Array))
-    return false;
-
-  var length = attributeUrl.length;
-  for (var i = 0; i < length; i++) {
-    if (attributeUrl[i] === textureUrl)
-      return true;
-  }
-  return false;
-};
-
-webots.Stream.prototype.close = function() {
-  if (this.socket)
-    this.socket.close();
-  if (this.videoStream)
-    this.videoStream.close();
 };
 
 function webotsClampDialogSize(preferredGeometry) {
