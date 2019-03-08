@@ -203,7 +203,6 @@ lib/python37/_*.so [mac]
 
 lib/matlab/
 lib/matlab/allincludes.h
-lib/matlab/mex_mingw64_c.xml [windows]
 lib/matlab/*.m
 
 resources/
