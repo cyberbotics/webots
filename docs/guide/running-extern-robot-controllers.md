@@ -18,7 +18,7 @@ It is even possible to read the standard input stream (`stdin`) like with any st
 
 ## Environment Variables
 
-In order to be able to run an extern Webots controller, a number of environment variables should be set et extended.
+In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
 Please refer to the documentation of your operating system to set environment variables.
 
 | Operating System | Controller Language  | Environment Variable   | Typical Value                                    |
