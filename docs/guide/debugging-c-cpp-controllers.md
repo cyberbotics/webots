@@ -68,6 +68,7 @@ In `gdb`, type for example:
 (gdb) run
 ```
 
+Then, run the Webots simulation, using the `Run` button (you may also use the `Step`, `Real-Time` or `Fast` button).
 Your controller program will start controlling the extern robot in Webots.
 Once the break point is reached, you will be able to query variables, setup new break points, etc.
 

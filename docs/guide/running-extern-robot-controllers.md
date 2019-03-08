@@ -16,6 +16,33 @@ For example, it may run it within a debugging environment, like *gdb*, a command
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
 
+## Environment Variables
+
+In order to be able to run an extern Webots controller, a number of environment variables should be set et extended.
+Please refer to the documentation of your operating system to set environment variables.
+
+| Operating System | Controller Language  | Environment Variable   | Typical Value                                    |
+|------------------|----------------------|------------------------|--------------------------------------------------|
+| Windows          | all                  | WEBOTS_HOME            | `C:\Program Files\Webots`                        |
+| Linux            | all                  | WEBOTS_HOME            | `/usr/local/webots`                              |
+| macOS            | all                  | WEBOTS_HOME            | `/Applications/Webots`                           |
+| Windows          | all                  | PATH                   | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
+| Linux            | all                  | LD_LIBRAY_PATH         | add `${WEBOTS_HOME}/lib`                         |
+| macOS            | all                  | DYLD_LIBRARY_PATH      | add `${WEBOTS_HOME}/lib`                         |
+| all              | Python 2.7           | PYTHONPATH             | add `${WEBOTS_HOME}/lib/python27`                |
+| all              | Python 3.7           | PYTHONPATH             | add `${WEBOTS_HOME}/lib/python37`                |
+| all              | Python               | PYTHONIOENCODING       | `UTF-8`                                          |
+| all              | MATLAB               | WEBOTS_PROJECT         | `/my_folder/my_webots_project`                   |
+| all              | MATLAB               | WEBOTS_CONTROLLER_NAME | `my_robot_controller.m`                          |
+| all              | MATLAB               | WEBOTS_VERSION         | `R2019a-rev1`                                    |
+
+If a C/C++ controller is launched from a Terminal running the bash shell, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
+- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
+- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
+- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+
+For a Java controller, the `-Djava.library.path=${WEBOTS_HOME}/lib/java` option should be added to the `java` command line launching the Java controller.
+
 ## Setup
 
 Different use cases are detailed here from the most simple to the most complex:
@@ -50,10 +77,6 @@ If that simulation has more than one extern controller, you may also set the `WE
 3. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
 4. Save the simulation, restart it and run it.
 5. Open the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder from a terminal.
-6. Add the path to the Webots `libController` in the OS specific library path environment variable:
-On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WEBOTS_HOME}/lib`.
-On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
-You may need to add extra paths to these variables if your controller relies on other shared libraries (for example if it has specific robot window).
+6. Setup environment variables needed for a C/C++ controller as explained in the above section.
 7. Start the `nao_demo` controller manually from the terminal.
 8. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
