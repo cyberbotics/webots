@@ -55,7 +55,6 @@ Note that, the *-g* flag should now appear in the compilation line.
 Once you have recompiled the controller, you will need to change controller of the [Robot](../reference/robot.md) node to be [extern](running-extern-robot-controllers.md).
 This can be done from the scene tree:
 Hit the `Pause` and `Reset` buttons, set the `controller` field of the Robot node to `<extern>` and save the world file.
-Press the `Run` button in Webots.
 From a terminal, go to the folder containing your controller program and start it with `gdb`:
 
 ```sh
