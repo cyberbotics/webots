@@ -362,7 +362,10 @@ void WbExtendedStringEditor::select() {
   // add webots resources and default controllers/plugins
   items += defaultEntryList();
   items.sort();
-  items.prepend("none");
+  if (mStringType == CONTROLLER) {
+    items.prepend("none");
+    items.prepend("<extern>");
+  }
   items.removeDuplicates();
 
   // let the user choose from an item list
