@@ -680,6 +680,7 @@ THREE.X3DLoader.prototype = {
     camera.updateProjectionMatrix();
 
     // set Webots specific attributes.
+    camera.userData.x3dType = 'Viewpoint';
     camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
     camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     return null;

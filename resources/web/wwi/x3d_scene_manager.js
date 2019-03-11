@@ -24,7 +24,12 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.camera.position.y = 10;
     this.camera.position.z = 10;
     this.camera.lookAt(this.scene.position);
+
     this.viewpoint = new Viewpoint(this.camera);
+    this.viewpoint.onCameraPositionChanged = () => {
+      if (this.gpuPicker)
+        this.gpuPicker.needUpdate = true;
+    };
 
     this.controls = new THREE.OrbitControls(this.camera, this.robotViewerElement);
 
@@ -40,17 +45,17 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
 
     this.selector = new Selector(this.selectionOutlinePass);
 
-    window.onresize = () => this.resize(); // when the window has been resized.
-
     this.domElement.appendChild(this.renderer.domElement);
-    this.resize();
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
-    this.gpuPicker.setScene(this.scene);
-    this.gpuPicker.setCamera(this.camera);
     this.gpuPicker.setFilter(function(object) {
       return object instanceof THREE.Mesh && 'x3dType' in object.userData;
     });
+    this.gpuPicker.setScene(this.scene);
+    this.gpuPicker.setCamera(this.camera);
+
+    window.onresize = () => this.resize(); // when the window has been resized.
+    this.resize();
 
     this.destroyWorld();
   }
@@ -67,6 +72,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.composer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+    this.gpuPicker.resizeTexture(width, height);
   }
 
   destroyWorld() {
@@ -198,16 +204,17 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     // if (this.handle.control.pointerHover(screenPosition))
     //  return;
     // this.handle.hideHandle();
-    // TODO are really needed?
-    // gpuPicker.setScene(this.scene);
-    // gpuPicker.setCamera(this.camera);
+
+    // make sure that scene is up to date
+    // TODO: update the scene on change instead of on picking
+    this.gpuPicker.setScene(this.scene);
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.camera);
-    var intersection = raycaster.intersectObject(this.scene.root, true); // this.gpuPicker.pick(relativePosition, raycaster);
+    var intersection = this.gpuPicker.pick(relativePosition, raycaster);
     var pickedObject = null;
-    if (intersection && intersection.length > 0)
-      pickedObject = this.getTopX3dNode(intersection[0].object);
+    if (intersection && intersection.object)
+      pickedObject = this.getTopX3dNode(intersection.object);
     return pickedObject;
     /* if (intersection && intersection.faceIndex > 0) {
       var parent = intersection.object;

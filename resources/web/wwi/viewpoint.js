@@ -3,6 +3,7 @@
 
 function Viewpoint(camera) {
   this.camera = camera;
+  this.onCameraPositionChanged = null;
   // after initialization 'followedObject' contains the id ('n<id>') of the followed node or 'none' if no object is followed
   this.followedObject = null;
   // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
@@ -111,6 +112,8 @@ Viewpoint.prototype = {
       viewpointNewPosition.addVectors(viewpointPosition, viewpointDeltaPosition);
       this.viewpointForce.sub(viewpointDeltaPosition);
       this.camera.position.copy(viewpointNewPosition);
+      if (this.onCameraPositionChanged)
+        this.onCameraPositionChanged();
       this.followedObjectDeltaPosition = null;
     }
   }
