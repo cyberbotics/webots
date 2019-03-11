@@ -16,30 +16,35 @@ armChain = Chain(name='arm', links=[
     OriginLink(),
     URDFLink(
         name="A motor",
+        bounds=[-3.1415, 3.1415],
         translation_vector=[0, 0, 0.159498],
         orientation=[0, 0, 0],
         rotation=[0, 0, -1],
     ),
     URDFLink(
         name="B motor",
+        bounds=[-1.5708, 2.61799],
         translation_vector=[0.178445, -0.122498, 0.334888],
         orientation=[0, 0, 0],
         rotation=[0, -1, 0],
     ),
     URDFLink(
         name="C motor",
+        bounds=[-3.1415, 1.309],
         translation_vector=[-0.003447, -0.0267, 1.095594],
         orientation=[0, 0, 0],
         rotation=[0, -1, 0],
     ),
     URDFLink(
         name="D motor",
+        bounds=[-6.98132, 6.98132],
         translation_vector=[0.340095, 0.149198, 0.174998],
         orientation=[0, 0, 0],
         rotation=[1, 0, 0],
     ),
     URDFLink(
         name="E motor",
+        bounds=[-2.18166, 2.0944],
         translation_vector=[0.929888, 0, 0],
         orientation=[0, 0, 0],
         rotation=[0, 1, 0],
@@ -82,6 +87,4 @@ while supervisor.step(32) != -1:
 
     # Actuate the 3 first arm motors with the IK results.
     for i in range(3):
-        motors[i].setPosition(
-            max(motors[i].getMinPosition(), min(motors[i].getMaxPosition(), ikResults[i + 1]))
-        )
+        motors[i].setPosition(ikResults[i + 1])
