@@ -12,7 +12,7 @@
 //   - ElevationGrid
 //   - IndexedLineSet
 //   - PointSet
-//   - Texture mapping mismatch: Cone (bottom), Sphere, Cylinder (caps)
+//   - Texture mapping mismatch: Sphere
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
@@ -197,8 +197,6 @@ THREE.X3DLoader.prototype = {
           angle = Math.PI / 2;
         } else if (child.tagName === 'IndexedFaceSet')
           geometry = this.parseIndexedFaceSet(child);
-        else if (child.tagName === 'Plane')
-          geometry = this.parsePlane(child);
         else if (child.tagName === 'Sphere')
           geometry = this.parseSphere(child);
         if (geometry) {
@@ -535,13 +533,6 @@ THREE.X3DLoader.prototype = {
     var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     return cylinderGeometry;
-  },
-
-  parsePlane: function(plane) {
-    var size = getNodeAttribute(plane, 'size', '2,2').split(',');
-    var planeGeometry = new THREE.PlaneBufferGeometry(size[0], size[1]);
-    planeGeometry.userData = { 'x3dType': 'Plane' };
-    return planeGeometry;
   },
 
   parseSphere: function(sphere) {
