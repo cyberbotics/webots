@@ -166,7 +166,7 @@ THREE.X3DLoader.prototype = {
       // check if USE node and return the DEF node
       var defObject = this.getDefNode(child);
       if (defObject) {
-        if (defObject instanceof THREE.Geometry)
+        if (defObject instanceof THREE.Geometry || defObject instanceof THREE.BufferGeometry)
           geometry = defObject;
         else if (defObject instanceof THREE.Material)
           material = defObject;
