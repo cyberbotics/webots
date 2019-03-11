@@ -63,6 +63,8 @@ public:
   WbRgb baseColor() const;
   double transparency() const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 

@@ -535,3 +535,10 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
     }
   }
 }
+
+QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "baseColor"
+         << "emissiveColor";
+  return fields;
+}

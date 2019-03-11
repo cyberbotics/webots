@@ -184,7 +184,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
       } else if (key === 'rotation') { // Transform node
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
-      } else if (key === 'diffuseColor') {
+      } else if (key === 'diffuseColor' || key === 'baseColor') {
         var diffuseColor = convertStringTorgb(newValue);
         object.color = diffuseColor;
       } else if (key === 'emissiveColor') {
