@@ -43,15 +43,15 @@ Robot {
       }
     }
     DEF ARM Irb4600-40 {
-      translation 0 0.74 -1.0644670649862058e-08
-      rotation 0.9999999999999999 0 0 4.712388966
+      translation 0 0.74 0
+      rotation 1 0 0 4.712388966
     }
   ]
   controller "inverse_kinematics"
   supervisor TRUE
 }
 DEF TARGET Solid {
-  translation 1.1400000000000003 1.6400000000000006 4.369999999999999
+  translation 1.14 1.64 4.37
   children [
     Shape {
       appearance PBRAppearance {
@@ -91,7 +91,7 @@ OilBarrel {
   rotation 0 -1 0 0.3403392
 }
 Door {
-  translation -10.05 0.02 -4.8188708e-08
+  translation -10.05 0.02 0
   rotation 0 1 0 1.5707963
   doorAppearance GlossyCarPaint {
     baseColor 0.16 0.16 0.16
@@ -116,12 +116,12 @@ Floor {
   }
 }
 LJoint {
-  translation -7.571 0.71199999 -3.19
+  translation -7.571 0.712 -3.19
   rotation 0 1 0 1.5707963
   name "L joint pipe(1)"
 }
 LJoint {
-  translation -7.5709999 2.422 -3.277
+  translation -7.571 2.422 -3.277
   rotation 0.7071067761865476 0 0.7071067861865474 3.1415926
 }
 WoodenPallet {
@@ -132,13 +132,13 @@ CardboardBox {
   translation 2.2324987 0.31 11.807743
 }
 WoodenPalletStack {
-  translation -6.8424942 6.5725203e-14 11.754332
+  translation -6.8424942 0 11.754332
   rotation 0 1 0 1.5707963
   name "wooden pallet stack(1)"
   palletNumber 6
 }
 WoodenPalletStack {
-  translation -5.2560137 5.1395241e-23 11.74814
+  translation -5.2560137 0 11.74814
   rotation 0 1 0 1.5707963
   palletNumber 20
 }
@@ -199,27 +199,27 @@ PipeSection {
   height 1.2
 }
 PipeSection {
-  translation -5.2940471 0.70000845 -3
+  translation -5.2940471 0.7 -3
   rotation 0 0 -1 1.5707926
   name "pipe section(2)"
   height 0.9
   radius 0.02
 }
 PipeSection {
-  translation -7.5720026 1.5599963 -3.234
+  translation -7.5720026 1.56 -3.234
   rotation 0 0 -1 6.2831816
   name "pipe section(3)"
   height 1.6
 }
 PipeSection {
-  translation -4.8579962 0.3500063 -3
+  translation -4.8579962 0.35 -3
   rotation 0 0 -1 6.2831816
   name "pipe section(4)"
   height 0.7
   radius 0.02
 }
 PipeSection {
-  translation -6.6249962 0.70600102 -3
+  translation -6.6249962 0.706 -3
   name "pipe section(5)"
   height 1.7
 }
@@ -272,19 +272,19 @@ Wall {
   size 20 7 0.2
 }
 Wall {
-  translation -9.9999705 0 4.3
+  translation -10 0 4.3
   rotation 0 1 0 1.57085
   name "wall(3)"
   size 16.5 7 0.2
 }
 Wall {
-  translation 10.000231 8.247222e-08 4.3
-  rotation 9.5897931e-09 -1 9.5892784e-09 4.7123353
+  translation 10.000231 0 4.3
+  rotation 0 -1 0 4.7123353
   size 16.5 7 0.2
 }
 Solid {
-  translation -9.8700002 4.1300007 6.3599998
-  rotation 0.7071067911865474 0.7071067711865474 3.3905038056893724e-09 3.1415926
+  translation -9.87 4.13 6.36
+  rotation 0.7071067911865474 0.7071067711865474 0 3.1415926
   children [
     Shape {
       appearance PBRAppearance {
@@ -295,7 +295,7 @@ Solid {
           ]
           filtering 5
         }
-        transparency 0.6000000238418579
+        transparency 0.6
         roughness 0.5
         metalness 0
         textureTransform TextureTransform {
@@ -334,7 +334,7 @@ Solid {
   name "ladybug"
 }
 StraightStairsRail {
-  translation 8.52 3.27 2.7300001
+  translation 8.52 3.27 2.73
   rotation 0 1 0 4.712389
   name "straight stairs rail(1)"
   run 2.5
@@ -352,7 +352,7 @@ StraightStairsRail {
   }
 }
 StraightStairsRail {
-  translation 8.57 3.27 5.2300001
+  translation 8.57 3.27 5.23
   rotation 0 -1 0 6.2831853
   run 1.3
   rise 0
