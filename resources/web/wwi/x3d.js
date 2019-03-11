@@ -90,7 +90,7 @@ THREE.X3DLoader.prototype = {
   parseNode: function(parentObject, node) {
     var object = this.getDefNode(node);
     if (object) {
-      parentObject.add(object);
+      parentObject.add(object.clone());
       return;
     }
 
