@@ -156,6 +156,7 @@ THREE.X3DLoader.prototype = {
   parseShape: function(shape) {
     var geometry = null;
     var material = null;
+    var angle = 0; // mesh rotation to match Webots appearance
 
     for (let i = 0; i < shape.childNodes.length; i++) {
       var child = shape.childNodes[i];
@@ -188,11 +189,13 @@ THREE.X3DLoader.prototype = {
       if (!geometry) {
         if (child.tagName === 'Box')
           geometry = this.parseBox(child);
-        else if (child.tagName === 'Cone')
+        else if (child.tagName === 'Cone') {
           geometry = this.parseCone(child);
-        else if (child.tagName === 'Cylinder')
+          angle = Math.PI / 2;
+        } else if (child.tagName === 'Cylinder') {
           geometry = this.parseCylinder(child);
-        else if (child.tagName === 'IndexedFaceSet')
+          angle = Math.PI / 2;
+        } else if (child.tagName === 'IndexedFaceSet')
           geometry = this.parseIndexedFaceSet(child);
         else if (child.tagName === 'Plane')
           geometry = this.parsePlane(child);
@@ -215,6 +218,8 @@ THREE.X3DLoader.prototype = {
       material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
     var mesh = new THREE.Mesh(geometry, material);
+    if (angle !== 0)
+      mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
     return mesh;
   },
@@ -513,7 +518,8 @@ THREE.X3DLoader.prototype = {
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var openEnded = getNodeAttribute(cone, 'bottom', 'true') !== 'true';
     // TODO var openSided = getNodeAttribute(cone, 'side', 'true') === 'true' ? false : true;
-    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI); // thetaStart: Math.PI
+    // set thetaStart = Math.PI / 2 to match X3D texture mapping
+    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
     coneGeometry.userData = { 'x3dType': 'Cone' };
     return coneGeometry;
   },
@@ -525,7 +531,8 @@ THREE.X3DLoader.prototype = {
     var openEnded = getNodeAttribute(cylinder, 'bottom', 'true') !== 'true';
     // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true') === 'true' ? false : true;
     // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true') === 'true' ? false : true;
-    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI); // thetaStart: Math.PI
+    // set thetaStart = Math.PI / 2 to match X3D texture mapping
+    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     return cylinderGeometry;
   },
