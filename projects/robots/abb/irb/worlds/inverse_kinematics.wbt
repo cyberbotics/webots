@@ -3,8 +3,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation -0.0031276730944215653 0.9896458792889903 0.14349652005305227 2.409624845771589
-  position 3.8493064194343827 3.01071166896669 0.1123319603163126
+  orientation 0.0031265637022785597 -0.98964611827345 -0.14349489602668203 3.873575542200271
+  position 3.8493064194343827 3.01071166896669 0.11233196031631287
 }
 TexturedBackground {
   texture "empty_office"
@@ -281,56 +281,6 @@ Wall {
   size 16.5 7 0.2
 }
 Solid {
-  translation 9.89 5.44 4.01
-  rotation 0 0 1 1.5707963
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "textures/fire_exit.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          rotation 1.5708
-        }
-      }
-      geometry Plane {
-        size 0.3 0.6
-      }
-    }
-  ]
-  name "solid(1)"
-}
-Solid {
-  translation -9.87 2.3100005 0.0099998176
-  rotation 0.7071067911865474 0.7071067711865474 3.3905038056893724e-09 3.1415926
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        baseColorMap ImageTexture {
-          url [
-            "textures/fire_exit.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          rotation 1.5708
-        }
-      }
-      geometry Plane {
-        size 0.3 0.6
-      }
-    }
-  ]
-  name "solid(2)"
-}
-Solid {
   translation -9.8700002 4.1300007 6.3599998
   rotation 0.7071067911865474 0.7071067711865474 3.3905038056893724e-09 3.1415926
   children [
@@ -355,7 +305,7 @@ Solid {
       }
     }
   ]
-  name "solid(3)"
+  name "stair platform"
 }
 Solid {
   translation 9.25 3.21 3.95
@@ -379,6 +329,7 @@ Solid {
       }
     }
   ]
+  name "ladybug"
 }
 StraightStairsRail {
   translation 8.52 3.27 2.7300001
