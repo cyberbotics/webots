@@ -19,8 +19,10 @@ PROTO Irb4600-40 [
     name IS name
     children [
       Shape {
-        appearance GlossyCarPaint {
+        appearance DEF IRB_APPEARANCE PBRAppearance {
           baseColor IS color
+          metalness 0
+          roughness 0.1
         }
         geometry IndexedFaceSet {
           coord DEF COORDS_ME_BASE Coordinate {
@@ -63,9 +65,7 @@ PROTO Irb4600-40 [
           rotation 0 0 -1 0
           children [
             Shape {
-              appearance GlossyCarPaint {
-                baseColor IS color
-              }
+              appearance USE IRB_APPEARANCE
               geometry IndexedFaceSet {
                 coord DEF COORDS_ME_LINK Coordinate {
                   point [
@@ -107,9 +107,7 @@ PROTO Irb4600-40 [
                 rotation 0 -1 0 0
                 children [
                   Shape {
-                    appearance GlossyCarPaint {
-                      baseColor IS color
-                    }
+                    appearance USE IRB_APPEARANCE
                     geometry IndexedFaceSet {
                       coord DEF COORDS_ME_LINK_000 Coordinate {
                         point [
@@ -151,9 +149,7 @@ PROTO Irb4600-40 [
                       rotation 0 -1 0 0
                       children [
                         Shape {
-                          appearance GlossyCarPaint {
-                            baseColor IS color
-                          }
+                          appearance USE IRB_APPEARANCE
                           geometry IndexedFaceSet {
                             coord DEF COORDS_ME_LINK_001 Coordinate {
                               point [
@@ -193,9 +189,7 @@ PROTO Irb4600-40 [
                             translation 0.340095 0.149198 0.174998
                             children [
                               Shape {
-                                appearance GlossyCarPaint {
-                                  baseColor IS color
-                                }
+                                appearance USE IRB_APPEARANCE
                                 geometry IndexedFaceSet {
                                   coord DEF COORDS_ME_LINK_002 Coordinate {
                                     point [
@@ -236,9 +230,7 @@ PROTO Irb4600-40 [
                                   translation 0.929888 0 0
                                   children [
                                     Shape {
-                                      appearance GlossyCarPaint {
-                                        baseColor IS color
-                                      }
+                                      appearance USE IRB_APPEARANCE
                                       geometry IndexedFaceSet {
                                         coord DEF COORDS_ME_LINK_003 Coordinate {
                                           point [

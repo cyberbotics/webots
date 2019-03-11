@@ -1,24 +1,24 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
-  basicTimeStep 8
+  basicTimeStep 16
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation 0.011694448769536863 0.9952738840782911 0.09640091047126507 2.3137677721897703
-  position 4.655380720135817 2.7437016140050505 0.2565887897385397
+  orientation -0.0541080725690391 0.9636883651927861 0.2614900596101484 2.3802586418382794
+  position 3.56344859121676 3.855513904170304 1.4527590551506093
 }
 TexturedBackground {
   texture "empty_office"
 }
 PointLight {
   attenuation 0 0 1
-  intensity 10.8
+  intensity 10
   location -4 6 5
   castShadows TRUE
 }
 PointLight {
   attenuation 0 0 1
-  intensity 9.6
+  intensity 10
   location 5 6 5
 }
 Floor {
@@ -30,20 +30,22 @@ Floor {
   }
 }
 Robot {
-  translation -0.24 0 4.84
+  translation -1 0 4.84
   children [
     Table {
-      size 2 0.74 2
+      size 3 0.74 3
       feetPadding 0.05
-      trayAppearance GlossyCarPaint {
-        baseColor 0.30907148851758603 0.30460059510185394 0.30649271381704435
+      frameThickness 0.1
+      trayAppearance OldSteel {
+        textureTransform TextureTransform {
+          scale 2 2
+        }
       }
-      legAppearance GlossyCarPaint {
-        baseColor 0.1645685511558709 0.16327153429465172 0.16554512855725947
+      legAppearance GalvanizedMetal {
       }
     }
     DEF ARM Irb4600-40 {
-      translation 0 0.74 0
+      translation 1 0.74 0
       rotation 1 0 0 4.712388966
     }
   ]
