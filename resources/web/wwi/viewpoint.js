@@ -4,8 +4,8 @@
 function Viewpoint(camera) {
   this.camera = camera;
   this.onCameraPositionChanged = null;
-  // after initialization 'followedObject' contains the id ('n<id>') of the followed node or 'none' if no object is followed
-  this.followedObject = null;
+  // after initialization 'followedObjectId' contains the id ('n<id>') of the followed node or 'none' if no object is followed
+  this.followedObjectId = null;
   // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
   // vector with the translation applied to the object.
   this.followedObjectDeltaPosition = null;
@@ -25,8 +25,13 @@ Viewpoint.prototype = {
     this.updateViewpointPosition(true, time);
   },
 
+  isFollowedObject: function(object) {
+    return this.followedObjectId &&
+           (object.name === this.followedObjectId || object.userData.name === this.followedObjectId);
+  },
+
   resetFollow: function() {
-    this.followedObject = null;
+    this.followedObjectId = null;
   },
 
   initFollowParameters: function() {
@@ -35,14 +40,14 @@ Viewpoint.prototype = {
     if (this.camera.userData.followSmoothness !== null)
       this.setViewpointMass(this.camera.userData.followSmoothness);
     if (this.camera.userData.followedId != null) {
-      this.followedObject = this.camera.userData.followedId;
+      this.followedObjectId = this.camera.userData.followedId;
       this.follow(this.camera.userData.followedId);
     } else
-      this.follow.followedObject = 'none';
+      this.follow.followedObjectId = 'none';
   },
 
-  follow: function(object) {
-    this.followedObject = object;
+  follow: function(objectId) {
+    this.followedObjectId = objectId;
     this.viewpointForce = new THREE.Vector3(0.0, 0.0, 0.0);
     this.viewpointVelocity = new THREE.Vector3(0.0, 0.0, 0.0);
   },
@@ -64,7 +69,7 @@ Viewpoint.prototype = {
   },
 
   updateViewpointPosition: function(forcePosition, time) {
-    if (this.followedObject == null || this.followedObject === 'none' || time === undefined)
+    if (this.followedObjectId == null || this.followedObjectId === 'none' || time === undefined)
       return;
     if (this.viewpointLastUpdate === undefined)
       this.viewpointLastUpdate = time;
@@ -116,5 +121,88 @@ Viewpoint.prototype = {
         this.onCameraPositionChanged();
       this.followedObjectDeltaPosition = null;
     }
+  },
+
+  startRotateViewpoint: function() {
+
+  },
+
+  rotate: function(params) {
+    var vo = this.camera.quaternion;
+    var vp = this.camera.position.clone();
+    var cosW = Math.cos(vo.w);
+    var sinW = Math.sin(vo.w);
+    var halfYawAngle = -0.005 * params.dx;
+    var halfPitchAngle = -0.005 * params.dy;
+    if (params.pickPosition == null) {
+      halfYawAngle /= -8;
+      halfPitchAngle /= -8;
+    }
+    var sinusYaw = Math.sin(halfYawAngle);
+    var sinusPitch = Math.sin(halfPitchAngle);
+    var tx = (1 - cosW) * vo.x;
+    var pitch = new THREE.Vector3(tx * vo.x + cosW, tx * vo.y + sinW * vo.z, tx * vo.z - sinW * vo.y);
+    var pitchRotation = new THREE.Quaternion(sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z, Math.cos(halfPitchAngle));
+    var worldUp = new THREE.Vector3(0, 1, 0);
+    var yawRotation = new THREE.Quaternion(sinusYaw * worldUp.x, sinusYaw * worldUp.y, sinusYaw * worldUp.z, Math.cos(halfYawAngle));
+    var deltaRotation = yawRotation.multiply(pitchRotation);
+    if (params.pickPosition) {
+      var rotationMatrix = new THREE.Matrix4();
+      rotationMatrix.makeRotationFromQuaternion(deltaRotation);
+      var currentPosition = vp.sub(params.pickPosition).applyMatrix(rotationMatrix).add(params.pickPosition);
+      this.camera.position.copy(currentPosition);
+    }
+    var voq = new THREE.Quaternion();
+    voq.setFromAxisAngle(new THREE.Vector3(vo.x, vo.y, vo.z), vo.w);
+    var currentOrientation = deltaRotation.multiply(voq);
+    this.camera.quaternion.copy(currentOrientation);
+
+    if (this.onCameraPositionChanged)
+      this.onCameraPositionChanged();
+  },
+
+  translate: function(params) {
+    var vo = this.camera.quaternion;
+    var vp = this.camera.position.clone();
+    var cosW = Math.cos(vo.w);
+    var sinW = Math.sin(vo.w);
+    var targetRight = -params.distanceToPickPosition * params.scaleFactor * params.dx;
+    var targetUp = params.distanceToPickPosition * params.scaleFactor * params.dy;
+    var tx = (1 - cosW) * vo.x;
+    var pitch = new THREE.Vector3(tx * vo.x + cosW, tx * vo.y + sinW * vo.z, tx * vo.z - sinW * vo.y);
+    var ty = (1 - cosW) * vo.y;
+    var yaw = new THREE.Vector3(ty * vo.x - sinW * vo.z, ty * vo.y + cosW, ty * vo.z + sinW * vo.x);
+    var target = vp.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
+    this.camera.position.copy(target);
+  },
+
+  zoomAndTilt: function(params) {
+    var vo = this.camera.quaternion;
+    var vp = this.camera.position.clone();
+    var cosW = Math.cos(vo.w);
+    var sinW = Math.sin(vo.w);
+    var tz = (1 - cosW) * vo.z;
+    var roll = new THREE.Vector3(tz * vo.x + sinW * vo.y, tz * vo.y - sinW * vo.x, tz * vo.z + cosW);
+    var target = vp.add(roll.multiplyScalar(params.zoomScale));
+    this.camera.position.copy(target);
+
+    var zRotation = new THREE.Quaternion();
+    zRotation.setFromAxisAngle(roll, params.tiltAngle);
+    var voq = new THREE.Quaternion();
+    voq.setFromAxisAngle(new THREE.Vector3(vo.x, vo.y, vo.z), vo.w);
+    var orientation = zRotation.multiply(voq);
+    this.camera.quaternion.copy(orientation);
+  },
+
+  zoom: function(distance, deltaY) {
+    var vo = this.camera.quaternion;
+    var vp = this.camera.position.clone();
+    var scaleFactor = 0.02 * distance * ((deltaY < 0) ? -1 : 1);
+    var c = Math.cos(vo.w);
+    var s = Math.sin(vo.w);
+    var tz = (1 - c) * vo.z;
+    var roll = new THREE.Vector3(tz * vo.x + s * vo.y, tz * vo.y - s * vo.x, tz * vo.z + c);
+    var target = vp.add(roll.multiplyScalar(scaleFactor));
+    this.camera.position.copy(target);
   }
 };

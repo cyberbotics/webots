@@ -83,8 +83,13 @@ THREE.X3DLoader.prototype = {
 
   setDefNode: function(node, object) {
     var defName = getNodeAttribute(node, 'DEF', '');
-    if (defName !== '')
+    if (defName !== '') {
       this.defDictionary.push({name: defName, tagName: node.tagName, def: object, use: []});
+      if (object.userData)
+        object.userData.defName = defName;
+      else
+        object.userData = {defName: defName};
+    }
   },
 
   parseNode: function(parentObject, node) {
@@ -140,6 +145,9 @@ THREE.X3DLoader.prototype = {
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false') === 'true';
     object.userData.window = getNodeAttribute(transform, 'window', '');
+    var controller = getNodeAttribute(transform, 'controller', '');
+    if (controller !== '')
+      object.userData.controller = controller;
     object.userData.name = getNodeAttribute(transform, 'name', '');
 
     var position = convertStringToVec3(getNodeAttribute(transform, 'translation', '0 0 0'));

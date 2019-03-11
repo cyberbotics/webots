@@ -9,7 +9,7 @@ class Selector extends Observable { // eslint-disable-line no-unused-vars
     this.selectedRepresentations = [];
   }
 
-  selectObject(object) {
+  select(object) {
     //if (this.selectedObject === object)
     //  return;
 

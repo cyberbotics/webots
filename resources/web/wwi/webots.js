@@ -20,7 +20,7 @@
  *   }
  */
 
-/* global THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream */
+/* global THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream, ContextMenu, VideoManager */
 /* global ace: false */
 /* global MathJax: false */
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
@@ -147,53 +147,12 @@ webots.View = function(view3D, mobile) {
     }
   });
   this.view3D.className = view3D.className + ' webotsView';
-  $(this.view3D).append(
-    "<ul id='contextMenu'>" +
-    "<li class='ui-widget-header'><div id='contextMenuTitle'>Object</div></li>" +
-    "<li id='contextMenuFollow'><div>Follow</div></li>" +
-    "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
-    "<li><div class='ui-state-disabled'>Zoom</div></li>" +
-    "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
-    "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
-    "<li><div class='ui-state-disabled'>Delete</div></li>" +
-    "<li><div class='ui-state-disabled'>Properties</div></li>" +
-    '</ul>');
-  $('#contextMenu').menu({items: '> :not(.ui-widget-header)'});
-  $('#contextMenu').css('position', 'absolute');
-  $('#contextMenu').css('z-index', 1);
-  $('#contextMenu').css('display', 'none');
-  $('#contextMenu').on('menuselect', function(event, ui) {
-    if (ui.item.children().hasClass('ui-state-disabled'))
-      return;
-    var id = ui.item.attr('id');
-    if (id === 'contextMenuFollow')
-      that.x3dSceneManager.viewpoint.follow(that.selection.id);
-    else if (id === 'contextMenuUnfollow')
-      that.x3dSceneManager.viewpoint.that.follow('none');
-    else if (id === 'contextMenuEditController') {
-      var controller = that.selection.getAttribute('controller');
-      $('#webotsEditor').dialog('open');
-      $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
-      if (that.editor.dirname !== controller) {
-        that.editor.closeAllTabs();
-        that.editor.dirname = controller;
-        that.stream.socket.send('get controller:' + controller);
-      }
-    } else if (id === 'contextMenuRobotWindow') {
-      var robotName = that.selection.getAttribute('name');
-      var win = that.robotWindows[that.robotWindowNames[robotName]];
-      if (win) {
-        if (win === that.infoWindow) {
-          if (!that.infoWindow.isOpen())
-            that.toggleInfo();
-        } else
-          win.open();
-      } else
-        console.log('No valid robot window for robot: ' + that.selection.getAttribute('name'));
-    } else
-      console.log('Unknown menu item: ' + id);
-    $('#contextMenu').css('display', 'none');
-  });
+  this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
+  this.contextMenu.onEditController = function(controller) { that.editController(controller); };
+  this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
+  this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
+  this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindowValid(robotName); };
+  this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
   this.console = new webots.Console(view3D, this.mobileDevice);
   this.editor = new webots.Editor(view3D, this);
   this.infoWindow = null;
@@ -210,7 +169,6 @@ webots.View = function(view3D, mobile) {
     'wheelTimeout': null
   };
   this.animation = null;
-  this.enableNavigation = true;
   this.debug = false;
   this.timeout = 60 * 1000; // default to one minute
   this.time = undefined;
@@ -289,14 +247,7 @@ webots.View.prototype.open = function(url, mode) {
   this.videoStream = null;
   if (mode === 'video') {
     this.url = url;
-    this.video = document.createElement('video');
-    this.video.style.background = 'grey';
-    this.video.id = 'remoteVideo';
-    this.video.class = 'rounded centered';
-    this.video.autoplay = 'true';
-    this.video.width = 800;
-    this.video.height = 600;
-    this.view3D.appendChild(this.video);
+    this.video = new VideoManager(this.view3D, this.mouseEvents);
     initWorld();
     return;
   }
@@ -317,8 +268,7 @@ webots.View.prototype.open = function(url, mode) {
     param.value = false;
     this.x3dSceneManager.domElement.appendChild(param);
 
-    this.mouseEvents = new MouseEvents(this.x3dSceneManager);
-    this.view3D.addEventListener('mousedown', (e) => { this.mouseEvents.mousedown(e); });
+    this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, x3dDiv);
   }
 
   this.url = url;
@@ -406,13 +356,13 @@ webots.View.prototype.open = function(url, mode) {
   function pause() {
     if (that.broadcast)
       return;
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     that.stream.socket.send('pause');
   }
   function realTime() {
     if (that.broadcast)
       return;
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     that.stream.socket.send('real-time:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'none';
@@ -422,7 +372,7 @@ webots.View.prototype.open = function(url, mode) {
   function fast() {
     if (that.broadcast)
       return;
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     that.stream.socket.send('fast:' + that.timeout);
     that.pauseButton.style.display = 'inline';
     that.real_timeButton.style.display = 'inline';
@@ -431,7 +381,7 @@ webots.View.prototype.open = function(url, mode) {
   function step() {
     if (that.broadcast)
       return;
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     that.pauseButton.style.display = 'none';
     that.real_timeButton.style.display = 'inline';
     if (that.fastButton !== undefined)
@@ -439,7 +389,7 @@ webots.View.prototype.open = function(url, mode) {
     that.stream.socket.send('step');
   }
   function requestFullscreen() {
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     var elem = that.view3D;
     if (elem.requestFullscreen)
       elem.requestFullscreen();
@@ -451,7 +401,7 @@ webots.View.prototype.open = function(url, mode) {
       elem.webkitRequestFullscreen();
   }
   function exitFullscreen() {
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     if (document.exitFullscreen)
       document.exitFullscreen();
     else if (document.msExitFullscreen)
@@ -481,7 +431,7 @@ webots.View.prototype.open = function(url, mode) {
     return that[buttonName];
   }
   function toggleConsole() {
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     if ($('#webotsConsole').is(':visible')) {
       $('#webotsConsole').dialog('close');
       that.consoleButton.classList.remove('toolBarButtonActive');
@@ -491,7 +441,7 @@ webots.View.prototype.open = function(url, mode) {
     }
   }
   function toggleHelp() {
-    $('#contextMenu').css('display', 'none');
+    that.contextMenu.hide();
     if (!that.helpWindow) {
       if (!that.broadcast && that.webotsDocUrl)
         var webotsDocUrl = that.webotsDocUrl;
@@ -579,8 +529,7 @@ webots.View.prototype.open = function(url, mode) {
       if (that.broadcast && that.quitButton) {
         that.quitButton.disabled = true;
         that.quitButton.classList.add('toolBarButtonDisabled');
-        $('#contextMenuRobotWindowDiv').addClass('ui-state-disabled');
-        $('#contextMenuEditControllerDiv').addClass('ui-state-disabled');
+        that.contextMenu.disableEdit();
       }
       document.addEventListener('fullscreenchange', fullscreenchange);
       document.addEventListener('webkitfullscreenchange', fullscreenchange);
@@ -589,7 +538,7 @@ webots.View.prototype.open = function(url, mode) {
       if (that.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
         var callback;
         if (that.mode === 'video')
-          callback = videoFinalize;
+          callback = that.video.finalize;
         else
           callback = finalizeWorld;
         that.server = new Server(that.url, that, callback);
@@ -610,11 +559,11 @@ webots.View.prototype.open = function(url, mode) {
 
   function finalizeWorld() {
     $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
-    if (that.x3dSceneManager.viewpoint.followedObject == null || that.broadcast)
+    if (that.x3dSceneManager.viewpoint.followedObjectId == null || that.broadcast)
       that.x3dSceneManager.viewpoint.initFollowParameters();
     else
       // reset follow parameters
-      that.x3dSceneManager.viewpoint.follow(that.followedObject);
+      that.x3dSceneManager.viewpoint.follow(that.x3dSceneManager.viewpoint.followedObjectId);
 
     if (!that.isWebSocketProtocol) { // skip robot windows initialization
       if (that.animation != null)
@@ -714,484 +663,10 @@ webots.View.prototype.open = function(url, mode) {
     if (that.runOnLoad)
       realTime();
   }
-  /*
-  function rotateViewpoint(viewpoint, params) {
-    // TODO:
-    var halfYawAngle = -0.005 * params.dx;
-    var halfPitchAngle = -0.005 * params.dy;
-    if (that.mouseState.pickPosition == null) {
-      halfYawAngle /= -8;
-      halfPitchAngle /= -8;
-    }
-    var sinusYaw = Math.sin(halfYawAngle);
-    var sinusPitch = Math.sin(halfPitchAngle);
-    var tx = (1 - params.c) * params.vo.x;
-    var pitch = new x3dom.fields.SFVec3f(tx * params.vo.x + params.c, tx * params.vo.y + params.s * params.vo.z, tx * params.vo.z - params.s * params.vo.y);
-    var pitchRotation = new x3dom.fields.Quaternion(sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z, Math.cos(halfPitchAngle));
-    var worldUp = new x3dom.fields.SFVec3f(0, 1, 0);
-    var yawRotation = new x3dom.fields.Quaternion(sinusYaw * worldUp.x, sinusYaw * worldUp.y, sinusYaw * worldUp.z, Math.cos(halfYawAngle));
-    var deltaRotation = yawRotation.multiply(pitchRotation);
-    if (that.mouseState.pickPosition) {
-      var currentPosition = deltaRotation.toMatrix().multMatrixVec(params.vp.subtract(that.mouseState.pickPosition)).add(that.mouseState.pickPosition);
-      viewpoint.setAttribute('position', currentPosition.toString());
-    }
-    var voq = x3dom.fields.Quaternion.axisAngle(new x3dom.fields.SFVec3f(params.vo.x, params.vo.y, params.vo.z), params.vo.w);
-    var currentOrientation = deltaRotation.multiply(voq);
-    var aa = currentOrientation.toAxisAngle();
-    viewpoint.setAttribute('orientation', aa[0].toString() + ' ' + aa[1]);
-
-  }
-
-  function translateViewpoint(viewpoint, params) {
-    var targetRight = -params.distanceToPickPosition * params.scaleFactor * params.dx;
-    var targetUp = params.distanceToPickPosition * params.scaleFactor * params.dy;
-    var tx = (1 - params.c) * params.vo.x;
-    var pitch = new x3dom.fields.SFVec3f(tx * params.vo.x + params.c, tx * params.vo.y + params.s * params.vo.z, tx * params.vo.z - params.s * params.vo.y);
-    var ty = (1 - params.c) * params.vo.y;
-    var yaw = new x3dom.fields.SFVec3f(ty * params.vo.x - params.s * params.vo.z, ty * params.vo.y + params.c, ty * params.vo.z + params.s * params.vo.x);
-    var target = params.vp.add(pitch.multiply(targetRight).add(yaw.multiply(targetUp)));
-    viewpoint.setAttribute('position', target.toString());
-
-  }
-
-  function zoomAndTiltViewpoint(viewpoint, params) {
-    var tz = (1 - params.c) * params.vo.z;
-    var roll = new x3dom.fields.SFVec3f(tz * params.vo.x + params.s * params.vo.y, tz * params.vo.y - params.s * params.vo.x, tz * params.vo.z + params.c);
-    var target = params.vp.add(roll.multiply(params.zoomScale));
-    viewpoint.setAttribute('position', target.toString());
-    var zRotation = x3dom.fields.Quaternion.axisAngle(roll, params.tiltAngle);
-    var voq = x3dom.fields.Quaternion.axisAngle(new x3dom.fields.SFVec3f(params.vo.x, params.vo.y, params.vo.z), params.vo.w);
-    var aa = zRotation.multiply(voq).toAxisAngle();
-    viewpoint.setAttribute('orientation', aa[0].toString() + ' ' + aa[1]);
-  } */
-
-  function initMouseMove(event) {
-    /* that.mouseState.x = event.clientX;
-    that.mouseState.y = event.clientY;
-    that.mouseState.initialX = null;
-    that.mouseState.initialY = null;
-    that.mouseState.moved = false;
-    that.mouseState.initialTimeStamp = Date.now();
-    that.mouseState.longClick = false;
-    var mousePosition = that.x3dNode.runtime.mousePosition(event);
-    var shootRay = that.x3dNode.runtime.shootRay(mousePosition[0], mousePosition[1]);
-    that.mouseState.pickPosition = shootRay.pickPosition;
-    if ($('#contextMenu').css('display') === 'block') {
-      $('#contextMenu').css('display', 'none');
-      that.contextMenu = true;
-    } else
-      that.contextMenu = false; */
-  }
-
-  function clearMouseMove() {
-    /* if (that.mouseState.mobileDevice)
-      that.mouseState.longClick = Date.now() - that.mouseState.initialTimeStamp >= 100;
-    else
-      that.mouseState.longClick = Date.now() - that.mouseState.initialTimeStamp >= 1000;
-    if (that.mouseState.moved === false) {
-      that.previousSelection = that.selection;
-      unselect();
-    } else
-      that.previousSelection = null;
-    that.mouseState.previousMouseDown = that.mouseState.mouseDown;
-    that.mouseState.mouseDown = 0;
-    that.mouseState.initialTimeStamp = null;
-    that.mouseState.initialX = null;
-    that.mouseState.initialY = null; */
-  }
-
-  function addX3domMouseNavigation() {
-    /* if (that.mobileDevice) {
-      that.x3dNode.addEventListener('touchmove', function(event) {
-        if (!that.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
-          return;
-        if (that.mouseState.initialTimeStamp === null)
-          // prevent applying mouse move action before drag initialization in mousedrag event
-          return;
-        if ((that.mouseState.mouseDown !== 2) !== (event.targetTouches.length > 1))
-          // gesture single/multi touch changed after initialization
-          return;
-
-        var touch = event.targetTouches['0'];
-
-        var params = {};
-        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
-        params.vp = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
-        params.vo = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
-        params.c = Math.cos(params.vo.w);
-        params.s = Math.sin(params.vo.w);
-        params.scaleFactor = 1.90 * Math.tan(that.viewpointFieldOfView / 2);
-        var viewHeight = parseFloat($(that.x3dNode).css('height').slice(0, -2));
-        var viewWidth = parseFloat($(that.x3dNode).css('width').slice(0, -2));
-        params.scaleFactor /= Math.max(viewHeight, viewWidth);
-
-        if (that.mouseState.pickPosition == null)
-          params.distanceToPickPosition = params.vp.length();
-        else
-          params.distanceToPickPosition = params.vp.subtract(that.mouseState.pickPosition).length() - 0.05; // FIXME this is different from webots.
-        if (params.distanceToPickPosition < 0.001) // 1 mm
-          params.distanceToPickPosition = 0.001;
-        var x = Math.round(touch.clientX); // discard decimal values returned on android
-        var y = Math.round(touch.clientY);
-
-        if (that.mouseState.mouseDown === 2) { // translation
-          params.dx = x - that.mouseState.x;
-          params.dy = y - that.mouseState.y;
-          translateViewpoint(viewpoint, params);
-
-          // on small phone screens (Android) this is needed to correctly detect clicks and longClicks
-          if (that.mouseState.initialX == null && that.mouseState.initialY == null) {
-            that.mouseState.initialX = Math.round(that.mouseState.x);
-            that.mouseState.initialY = Math.round(that.mouseState.y);
-          }
-          if (Math.abs(params.dx) < 2 && Math.abs(params.dy) < 2 &&
-              Math.abs(that.mouseState.initialX - x) < 5 && Math.abs(that.mouseState.initialY - y) < 5)
-            that.mouseState.moved = false;
-          else
-            that.mouseState.moved = true;
-        } else {
-          var touch1 = event.targetTouches['1'];
-          var x1 = Math.round(touch1.clientX);
-          var y1 = Math.round(touch1.clientY);
-          var distanceX = x - x1;
-          var distanceY = y - y1;
-          var newTouchDistance = distanceX * distanceX + distanceY * distanceY;
-          var pinchSize = that.mouseState.touchDistance - newTouchDistance;
-
-          var moveX1 = x - that.mouseState.x;
-          var moveX2 = x1 - that.mouseState.x1;
-          var moveY1 = y - that.mouseState.y;
-          var moveY2 = y1 - that.mouseState.y1;
-          var ratio = window.devicePixelRatio || 1;
-
-          if (Math.abs(pinchSize) > 500 * ratio) { // zoom and tilt
-            var d;
-            if (Math.abs(moveX2) < Math.abs(moveX1))
-              d = moveX1;
-            else
-              d = moveX2;
-            params.tiltAngle = 0.0004 * d;
-            params.zoomScale = params.scaleFactor * 0.015 * pinchSize;
-            zoomAndTiltViewpoint(viewpoint, params);
-          } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
-            params.dx = moveX1 * 0.8;
-            params.dy = moveY1 * 0.5;
-            rotateViewpoint(viewpoint, params);
-          }
-
-          that.mouseState.touchDistance = newTouchDistance;
-          that.mouseState.moved = true;
-        }
-
-        that.mouseState.x = x;
-        that.mouseState.y = y;
-        that.mouseState.x1 = x1;
-        that.mouseState.y1 = y1;
-        if (that.ontouchmove)
-          that.ontouchmove(event);
-      }, true);
-      that.x3dNode.addEventListener('touchstart', function(event) {
-        initMouseMove(event.targetTouches['0']);
-        if (event.targetTouches.length === 2) {
-          var touch1 = event.targetTouches['1'];
-          that.mouseState.x1 = touch1.clientX;
-          that.mouseState.y1 = touch1.clientY;
-          var distanceX = that.mouseState.x - that.mouseState.x1;
-          var distanceY = that.mouseState.y - that.mouseState.y1;
-          that.mouseState.touchDistance = distanceX * distanceX + distanceY * distanceY;
-          that.mouseState.touchOrientation = Math.atan2(that.mouseState.y1 - that.mouseState.y, that.mouseState.x1 - that.mouseState.x);
-          that.mouseState.mouseDown = 3; // two fingers: rotation, tilt, zoom
-        } else
-          that.mouseState.mouseDown = 2; // 1 finger: translation or single click
-      }, true);
-      that.x3dNode.addEventListener('touchend', function(event) {
-        clearMouseMove();
-        if (that.ontouchend)
-          that.ontouchend(event);
-      }, true);
-    } else {
-      that.x3dNode.addEventListener('wheel', function(event) {
-        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
-        var vp = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
-        var vo = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
-        var mousePosition = that.x3dNode.runtime.mousePosition(event);
-        var shootRay = that.x3dNode.runtime.shootRay(mousePosition[0], mousePosition[1]);
-        var distanceToPickPosition;
-        that.mouseState.pickPosition = shootRay.pickPosition;
-        if (that.mouseState.pickPosition == null)
-          distanceToPickPosition = vp.length();
-        else
-          distanceToPickPosition = vp.subtract(that.mouseState.pickPosition).length();
-        if (distanceToPickPosition < 0.001) // 1 mm
-          distanceToPickPosition = 0.001;
-        if (!that.enableNavigation || that.mouseState.wheelFocus === false) {
-          var offset = event.deltaY;
-          if (event.deltaMode === 1)
-            offset *= 40; // standard line height in pixel
-          window.scroll(0, window.pageYOffset + offset);
-          if (that.mouseState.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
-            clearTimeout(that.mouseState.wheelTimeout); // so that the wheel focus will get enabled and
-            that.mouseState.wheelTimeout = setTimeout(wheelTimeoutCallback, 1500); // allow you to zoom in/out.
-          }
-          return;
-        }
-        var scaleFactor = 0.02 * distanceToPickPosition * ((event.deltaY < 0) ? -1 : 1);
-        var c = Math.cos(vo.w);
-        var s = Math.sin(vo.w);
-        var tz = (1 - c) * vo.z;
-        var roll = new x3dom.fields.SFVec3f(tz * vo.x + s * vo.y, tz * vo.y - s * vo.x, tz * vo.z + c);
-        var target = vp.add(roll.multiply(scaleFactor));
-        viewpoint.setAttribute('position', target.toString());
-        if (that.onmousewheel)
-          that.onmousewheel(event);
-      }, true);
-      that.x3dNode.addEventListener('mousemove', function(event) {
-        if (!that.enableNavigation && event.button === 0)
-          return;
-        if (that.mouseState.x === undefined)
-          // mousedown event has not been called yet
-          // this could happen for example when another application has focus while loading the scene
-          return;
-        if ('buttons' in event)
-          that.mouseState.mouseDown = event.buttons;
-        else if ('which' in event) { // Safari only
-          switch (event.which) {
-            case 0: that.mouseState.mouseDown = 0; break;
-            case 1: that.mouseState.mouseDown = 1; break;
-            case 2: that.mouseState.pressedButton = 4; break;
-            case 3: that.mouseState.pressedButton = 2; break;
-            default: that.mouseState.pressedButton = 0; break;
-          }
-        }
-        if (that.mouseState.mouseDown === 0) {
-          if (that.animation && that.animation.playSlider && that.animation.sliding) {
-            var w = event.target.clientWidth - 66; // size of the borders of the slider
-            var x = event.clientX - event.target.getBoundingClientRect().left - 48; // size of the left border (including play button) of the slider
-            var value = 100 * x / w;
-            if (value < 0)
-              value = 0;
-            else if (value >= 100)
-              value = 99.999;
-            that.animation.playSlider.slider('value', value);
-            // setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
-            // therefore, we need to trigger this event manually:
-            var ui = {};
-            ui.value = value;
-            that.animation.playSlider.slider('option', 'change').call(that.animation.playSlider, event, ui);
-          }
-          return;
-        }
-        if (that.mouseState.initialTimeStamp === null)
-          // prevent applying mouse move action before drag initialization in mousedrag event
-          return;
-
-        var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
-        var params = {};
-        params.dx = event.clientX - that.mouseState.x;
-        params.dy = event.clientY - that.mouseState.y;
-        params.vp = x3dom.fields.SFVec3f.parse(viewpoint.getAttribute('position'));
-        params.vo = x3dom.fields.SFVec4f.parse(viewpoint.getAttribute('orientation'));
-        params.c = Math.cos(params.vo.w);
-        params.s = Math.sin(params.vo.w);
-
-        if (that.mouseState.pickPosition == null)
-          params.distanceToPickPosition = params.vp.length();
-        else
-          params.distanceToPickPosition = params.vp.subtract(that.mouseState.pickPosition).length() - 0.05; // FIXME this is different from webots.
-        if (params.distanceToPickPosition < 0.001) // 1 mm
-          params.distanceToPickPosition = 0.001;
-
-        // FIXME this is different from webots. We need to understand why the same formula doesn't work.
-        params.scaleFactor = 1.90 * Math.tan(that.viewpointFieldOfView / 2);
-        var viewHeight = parseFloat($(that.x3dNode).css('height').slice(0, -2));
-        var viewWidth = parseFloat($(that.x3dNode).css('width').slice(0, -2));
-        params.scaleFactor /= Math.max(viewHeight, viewWidth);
-
-        if (that.mouseState.mouseDown === 1) { // left mouse button to rotate viewpoint
-          params.distanceToPickPosition = 0;
-          rotateViewpoint(viewpoint, params);
-        } else if (that.mouseState.mouseDown === 2) // right mouse button to translate viewpoint {}
-          translateViewpoint(viewpoint, params);
-        else if (that.mouseState.mouseDown === 3 || that.mouseState.mouseDown === 4) { // both left and right button or middle button to zoom
-          params.tiltAngle = 0.01 * params.dx;
-          params.zoomScale = params.distanceToPickPosition * params.scaleFactor * 10 * params.dy; // FIXME this is different from webots.
-          zoomAndTiltViewpoint(viewpoint, params, true);
-        }
-        that.mouseState.moved = event.clientX !== that.mouseState.x || event.clientY !== that.mouseState.y;
-        that.mouseState.x = event.clientX;
-        that.mouseState.y = event.clientY;
-        if (that.onmousedrag)
-          that.onmousedrag(event);
-      }, true);
-      that.x3dNode.addEventListener('mousedown', function(event) {
-        that.mouseState.wheelFocus = true;
-        if (event.button === 0)
-          that.mouseState.mouseDown |= 1;
-        else if (event.button === 1)
-          that.mouseState.mouseDown |= 4;
-        else if (event.button === 2)
-          that.mouseState.mouseDown |= 2;
-        initMouseMove(event);
-      }, true);
-      that.x3dNode.addEventListener('mouseup', clearMouseMove, true);
-      that.x3dNode.addEventListener('mouseover', function(event) {
-        that.mouseState.wheelTimeout = setTimeout(wheelTimeoutCallback, 1500);
-      }, true);
-      that.x3dNode.addEventListener('mouseleave', function(event) {
-        if (that.mouseState.wheelTimeout != null) {
-          clearTimeout(that.mouseState.wheelTimeout);
-          that.mouseState.wheelTimeout = null;
-        }
-        that.mouseState.wheelFocus = false;
-      }, true);
-    }
-
-    that.x3dSceneManager.addEventListener('mouseup', function(event) {
-      if (that.mouseState.moved === false && (!that.mouseState.longClick || that.mobileDevice)) {
-        var s = getTopX3dElement(event.target);
-        if (that.previousSelection == null || that.previousSelection.id !== s.id || (that.mouseState.previousMouseDown === 2 && (!that.mobileDevice || that.mouseState.longClick)))
-          select(s);
-        if (((that.mobileDevice && that.mouseState.longClick) || (!that.mobileDevice && that.mouseState.previousMouseDown === 2)) &&
-            that.contextMenu === false && that.isWebSocketProtocol) {
-          // right click: show popup menu
-          $(function() {
-            var title = that.selection.getAttribute('name');
-            if (title == null || title === '') {
-              title = that.selection.getAttribute('DEF');
-              if (title == null || title === '')
-                title = 'Object';
-            }
-            $('#contextMenuTitle').html(title);
-            var controller = that.selection.getAttribute('controller');
-            if (controller) { // the current selection is a robot
-              $('#contextMenuEditController').css('display', 'inline');
-              if (controller === 'void' || controller.length === 0 || (webots.User1Id && !webots.User1Authentication))
-                $('#contextMenuEditController').children().addClass('ui-state-disabled');
-              var robotName = that.selection.getAttribute('name');
-              if (that.robotWindows[that.robotWindowNames[robotName]])
-                $('#contextMenuRobotWindow').css('display', 'inline');
-              else
-                $('#contextMenuRobotWindow').css('display', 'none');
-            } else {
-              $('#contextMenuEditController').css('display', 'none');
-              $('#contextMenuRobotWindow').css('display', 'none');
-            }
-            if (that.followedObject != null && (that.selection.id === that.followedObject || that.selection.getAttribute('DEF') === that.followedObject)) {
-              $('#contextMenuFollow').css('display', 'none');
-              $('#contextMenuUnfollow').css('display', 'inline');
-            } else {
-              $('#contextMenuFollow').css('display', 'inline');
-              $('#contextMenuUnfollow').css('display', 'none');
-            }
-            // ensure that the context menu is completely visible
-            var w = $('#contextMenu').width();
-            var h = $('#contextMenu').height();
-            var maxWidth = $('#playerDiv').width();
-            var maxHeight = $('#playerDiv').height();
-            var left;
-            var top;
-            if (maxWidth != null && (w + that.mouseState.x) > maxWidth)
-              left = maxWidth - w;
-            else
-              left = that.mouseState.x;
-            if (maxHeight != null && (h + that.mouseState.y) > maxHeight)
-              top = maxHeight - h - $('#toolBar').height();
-            else
-              top = that.mouseState.y;
-            $('#contextMenu').css('left', left + 'px');
-            $('#contextMenu').css('top', top + 'px');
-            $('#contextMenu').css('display', 'block');
-          });
-        }
-      }
-      if (that.onmouseup)
-        that.onmouseup(event);
-    }, false); */
-  }
-  function wheelTimeoutCallback(event) {
-    that.mouseState.wheelTimeout = null;
-    that.mouseState.wheelFocus = true;
-  }
-  /*
-  function unselect() {
-    if (that.selection) {
-      var selectors = that.selection.getElementsByClassName('selector');
-      for (var i = 0; i < selectors.length; i++) {
-        var selector = selectors[i];
-        selector.setAttribute('whichChoice', '-1');
-      }
-      that.selection = null;
-    }
-  }
-
-  function select(el) {
-    var selectors = el.getElementsByClassName('selector');
-    for (var i = 0; i < selectors.length; i++) {
-      var selector = selectors[i];
-      selector.setAttribute('whichChoice', '0');
-    }
-    that.selection = el;
-  }
-  */
-  function videoFinalize() {
-    console.log('video finalize');
-    addVideoMouseNavigation();
-    if (that.onready)
-      that.onready();
-  }
-
-  function sendVideoMouseEvent(type, event, wheel) {
-    var socket = that.stream.socket;
-    if (!socket || socket.readyState !== 1)
-      return;
-    var modifier = (event.shiftKey ? 1 : 0) + (event.ctrlKey ? 2 : 0) + (event.altKey ? 4 : 0);
-    socket.send('mouse ' + type + ' ' + event.button + ' ' + that.mouseState.mouseDown + ' ' +
-                event.offsetX + ' ' + event.offsetY + ' ' + modifier + ' ' + wheel);
-  }
-
-  function onVideoMouseDown(event) {
-    event.target.addEventListener('mousemove', onVideoMouseMove, false);
-    sendVideoMouseEvent(-1, event, 0);
-    event.preventDefault();
-    return false;
-  }
-
-  function onVideoMouseMove(event) {
-    if (that.mouseState.mouseDown === 0) {
-      event.target.removeEventListener('mousemove', onVideoMouseMove, false);
-      return false;
-    }
-    sendVideoMouseEvent(0, event, 0);
-    return false;
-  }
-
-  function onVideoMouseUp(event) {
-    event.target.removeEventListener('mousemove', onVideoMouseMove, false);
-    sendVideoMouseEvent(1, event, 0);
-    event.preventDefault();
-    return false;
-  }
-
-  function onVideoWheel(event) {
-    sendVideoMouseEvent(2, event, Math.sign(event.deltaY));
-    return false;
-  }
-
-  function onVideoContextMenu(event) {
-    event.preventDefault();
-    return false;
-  }
-
-  function addVideoMouseNavigation() {
-    that.video.addEventListener('mousedown', onVideoMouseDown, false);
-    that.video.addEventListener('mouseup', onVideoMouseUp, false);
-    that.video.addEventListener('wheel', onVideoWheel, false);
-    that.video.addEventListener('contextmenu', onVideoContextMenu, false);
-  }
 };
 
 webots.View.prototype.toggleInfo = function() {
-  $('#contextMenu').css('display', 'none');
+  this.contextMenu.hide();
   if (!this.infoWindow)
     return;
   if (this.infoWindow.isOpen()) {
@@ -1215,11 +690,8 @@ webots.View.prototype.sendRobotMessage = function(robot, message) {
 };
 
 webots.View.prototype.resize = function(width, height) {
-  if (this.mode !== 'video')
-    return;
-  this.video.width = width;
-  this.video.height = height;
-  this.stream.socket.send('resize: ' + width + 'x' + height);
+  if (this.video)
+    this.video.resize(width, height);
 };
 
 webots.View.prototype.getControllerUrl = function(name) {
@@ -1262,6 +734,26 @@ webots.View.prototype.destroyWorld = function() {
     var element = labels.item(i);
     element.parentNode.removeChild(element);
   }
+};
+
+webots.View.prototype.editController = function(controller) {
+  if (this.editor.dirname !== controller) {
+    this.editor.closeAllTabs();
+    this.editor.dirname = controller;
+    this.stream.socket.send('get controller:' + controller);
+  }
+};
+
+webots.View.prototype.openRobotWindowValid = function(robotName) {
+  var win = this.robotWindows[this.robotWindowNames[robotName]];
+  if (win) {
+    if (win === this.infoWindow) {
+      if (!this.infoWindow.isOpen())
+        this.toggleInfo();
+    } else
+      win.open();
+  } else
+    console.log('No valid robot window for robot: ' + robotName);
 };
 
 function webotsClampDialogSize(preferredGeometry) {

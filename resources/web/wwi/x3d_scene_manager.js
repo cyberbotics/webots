@@ -31,8 +31,6 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
         this.gpuPicker.needUpdate = true;
     };
 
-    this.controls = new THREE.OrbitControls(this.camera, this.robotViewerElement);
-
     this.composer = new THREE.EffectComposer(this.renderer);
     var renderPass = new THREE.RenderPass(this.scene, this.camera);
     this.composer.addPass(renderPass);
@@ -157,12 +155,12 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
   }
 
   applyPose(pose) {
-    var id = 'n' + pose.id;
+    var id = pose.id;
     for (var key in pose) {
       if (key === 'id')
         continue;
       var newValue = pose[key];
-      var object = this.getObjectByCustomId(this.scene, id);
+      var object = this.getObjectByCustomId(this.scene, 'n' + id);
       if (!object)
         // error
         continue;
@@ -174,13 +172,11 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
           object.needsUpdate = true;
         } else {
           var newPosition = convertStringToVec3(newValue);
-          /* TODO this is the old condition
-          if (key === 'translation' && this.followedObject &&
-             (id === this.followedObject || // animation case
-              el.id === this.followedObject || // streaming case
-              el.getAttribute('DEF') === this.followedObject)) { */
           // followed object moved.
-          if (id === this.viewpoint.followedObject) {
+          if (this.viewpoint.followedObjectId &&
+              (id === this.viewpoint.followedObjectId || // animation case
+               ('n' + id) === this.viewpoint.followedObjectId || // streaming case
+               object.userData.name === this.viewpoint.followedObjectId)) {
             // If this is the followed object, we save a vector with the translation applied
             // to the object to compute the new position of the viewpoint.
             this.viewpoint.setFollowedObjectDeltaPosition(newPosition, object.position);
@@ -200,7 +196,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     }
   }
 
-  getObjectAt(relativePosition, screenPosition) {
+  pick(relativePosition, screenPosition) {
     // if (this.handle.control.pointerHover(screenPosition))
     //  return;
     // this.handle.hideHandle();
@@ -211,22 +207,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.camera);
-    var intersection = this.gpuPicker.pick(relativePosition, raycaster);
-    var pickedObject = null;
-    if (intersection && intersection.object)
-      pickedObject = this.getTopX3dNode(intersection.object);
-    return pickedObject;
-    /* if (intersection && intersection.faceIndex > 0) {
-      var parent = intersection.object;
-      do {
-        if (parent.userData.isPartContainer) {
-          this.handle.showHandle();
-          return parent;
-        }
-        parent = parent.parent;
-      } while (parent);
-    }
-    this.handle.showHandle(); */
+    return this.gpuPicker.pick(relativePosition, raycaster);
   }
 
   getTopX3dNode(node) {
