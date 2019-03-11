@@ -1,5 +1,6 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
+  basicTimeStep 8
 }
 Viewpoint {
   fieldOfView 0.85
@@ -46,6 +47,7 @@ Robot {
       rotation 0.9999999999999999 0 0 4.712388966
     }
   ]
+  controller "inverse_kinematics"
   supervisor TRUE
 }
 DEF TARGET Solid {
