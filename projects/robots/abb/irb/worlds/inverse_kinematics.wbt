@@ -4,8 +4,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation 0.0031265637022785597 -0.98964611827345 -0.14349489602668203 3.873575542200271
-  position 3.8493064194343827 3.01071166896669 0.11233196031631287
+  orientation 0.011694448769536863 0.9952738840782911 0.09640091047126507 2.3137677721897703
+  position 4.655380720135817 2.7437016140050505 0.2565887897385397
 }
 TexturedBackground {
   texture "empty_office"
@@ -73,7 +73,7 @@ Door {
     baseColor 0.16 0.16 0.16
   }
   frameAppearance GlossyCarPaint {
-    baseColor 0.35342946517128254 0.3503166247043564 0.3557488364995804
+    baseColor 0.35 0.35 0.35
   }
 }
 OilBarrel {
@@ -97,7 +97,7 @@ Door {
     baseColor 0.16 0.16 0.16
   }
   frameAppearance GlossyCarPaint {
-    baseColor 0.35342946517128254 0.3503166247043564 0.3557488364995804
+    baseColor 0.35 0.3503166247043564 0.35
   }
 }
 Floor {
@@ -242,6 +242,11 @@ Wall {
   translation 0 0 -3.82
   name "wall(1)"
   size 20 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 5 1.725
+    }
+  }
 }
 Cabinet {
   translation -0.46 0 -3.84
@@ -270,17 +275,32 @@ Wall {
   translation 0 0 12.5
   name "wall(2)"
   size 20 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 5 1.725
+    }
+  }
 }
 Wall {
   translation -10 0 4.3
   rotation 0 1 0 1.57085
   name "wall(3)"
   size 16.5 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
 }
 Wall {
   translation 10.000231 0 4.3
   rotation 0 -1 0 4.7123353
   size 16.5 7 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 4.125 1.725
+    }
+  }
 }
 Solid {
   translation -9.87 4.13 6.36
