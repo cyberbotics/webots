@@ -5,13 +5,13 @@ try:
     from ikpy.link import OriginLink, URDFLink
 except ImportError:
     import sys
-    sys.exit('The Python module "ikpy" is not installed. Please install it with "pip". Typically: "pip install ikpy"')
+    sys.exit('The Python module "ikpy" is not installed. Please install it with "pip" to run this example. Typically: "pip install ikpy"')
 
 from controller import Supervisor
 
 # Create the arm chain.
 # The values below are taken from the Irb4600-40.proto file looking at the HingeJoint node fields.
-# Note: it's necessary to give up to the "E motor" bone to ikpy, because it defines the hand position.
+# Note: it's necessary to give up to the "E motor" bone to ikpy, because this bone defines the hand position.
 armChain = Chain(name='arm', links=[
     OriginLink(),
     URDFLink(
