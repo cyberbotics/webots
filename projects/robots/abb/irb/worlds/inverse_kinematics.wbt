@@ -47,7 +47,7 @@ Robot {
     DEF ARM Irb4600-40 {
       translation 1 0.74 0
       rotation 1 0 0 4.712388966
-      armSlot [
+      handSlot [
         Pen {
           translation 0 0 0.02
           rotation 1 0 0 -1.5708
