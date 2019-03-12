@@ -56,9 +56,6 @@ armChain = Chain(name='arm', links=[
 supervisor = Supervisor()
 timeStep = int(4 * supervisor.getBasicTimeStep())
 
-# Initialize the Pen device.
-supervisor.getPen('pen').write(False)
-
 # Initialize the arm motors.
 motors = []
 for motorName in ['A motor', 'B motor', 'C motor', 'D motor', 'E motor', 'F motor']:
@@ -98,7 +95,6 @@ while supervisor.step(timeStep) != -1:
 
     # Conditions to start/stop drawing and leave this loop.
     if supervisor.getTime() > 2 * math.pi + 1:
-        supervisor.getPen('pen').write(False)
         break
     elif supervisor.getTime() > 1:
         # Note: start to draw at 1 second to be sure the arm is well located.
