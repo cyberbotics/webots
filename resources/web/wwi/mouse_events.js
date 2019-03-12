@@ -38,31 +38,31 @@ MouseEvents.prototype = {
   constructor: MouseEvents,
 
   onMouseDown: function(event) {
+    this.state.wheelFocus = true;
+    this._initMouseMove(event);
+
     switch (event.button) {
       case this.MOUSE_BUTTONS.LEFT:
         if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          //this.handleMouseDownPan(event);
+          // this.handleMouseDownPan(event);
           this.action = this.ACTION.PAN;
         } else {
-          //this.handleMouseDownRotate(event);
+          // this.handleMouseDownRotate(event);
           this.action = this.ACTION.ROTATE;
         }
         this.state.mouseDown |= 1;
         break;
       case this.MOUSE_BUTTONS.MIDDLE:
-        //this.handleMouseDownDolly(event);
+        // this.handleMouseDownDolly(event);
         this.action = this.ACTION.DOLLY;
         this.state.mouseDown |= 4;
         break;
       case this.MOUSE_BUTTONS.RIGHT:
-        //this.handleMouseDownPan(event);
+        // this.handleMouseDownPan(event);
         this.action = this.ACTION.PAN;
         this.state.mouseDown |= 2;
         break;
     }
-
-    this.state.wheelFocus = true;
-    this._initMouseMove(event);
 
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.sceneManager.renderer, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.sceneManager.renderer, event.clientX, event.clientY);
@@ -120,9 +120,10 @@ MouseEvents.prototype = {
     var params = {};
     params.dx = event.clientX - this.state.x;
     params.dy = event.clientY - this.state.y;
+    params.pickPosition = this.intersection ? this.intersection.point : null;
 
     if (this.intersection == null)
-      params.distanceToPickPosition = this.sceneManager.viewpoint.camera.position;
+      params.distanceToPickPosition = this.sceneManager.viewpoint.camera.position.length();
     else
       params.distanceToPickPosition = this.intersection.distance;
 
@@ -130,7 +131,7 @@ MouseEvents.prototype = {
       params.distanceToPickPosition = 0.001;
 
     // FIXME this is different from webots. We need to understand why the same formula doesn't work.
-    params.scaleFactor = 1.90 * Math.tan(this.sceneManager.viewpoint.camera.fov / 2);
+    params.scaleFactor = params.distanceToPickPosition * 3.35 * Math.tan(this.sceneManager.viewpoint.camera.fov / 2);
     var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
     var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
     params.scaleFactor /= Math.max(viewHeight, viewWidth);
@@ -139,10 +140,10 @@ MouseEvents.prototype = {
       params.distanceToPickPosition = 0;
       this.sceneManager.viewpoint.rotate(params);
     } else if (this.state.mouseDown === 2) // right mouse button to translate viewpoint {}
-      this.sceneManager.viewpoint.translateViewpoint(params);
+      this.sceneManager.viewpoint.translate(params);
     else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
       params.tiltAngle = 0.01 * params.dx;
-      params.zoomScale = params.distanceToPickPosition * params.scaleFactor * 10 * params.dy; // FIXME this is different from webots.
+      params.zoomScale = params.scaleFactor * 5 * params.dy;
       this.sceneManager.viewpoint.zoomAndTilt(params, true);
     }
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
@@ -163,6 +164,9 @@ MouseEvents.prototype = {
         this.hiddenContextMenu === false && this.enabledContextMenu)
         // right click: show popup menu
         this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
+    } else if (this.state.moved) {
+      if (this.sceneManager.viewpoint.onCameraPositionChanged)
+        this.sceneManager.viewpoint.onCameraPositionChanged();
     }
   },
 
@@ -198,6 +202,8 @@ MouseEvents.prototype = {
     if (this.state.wheelTimeout != null) {
       clearTimeout(this.state.wheelTimeout);
       this.state.wheelTimeout = null;
+      if (this.sceneManager.viewpoint.onCameraPositionChanged)
+        this.sceneManager.viewpoint.onCameraPositionChanged();
     }
     this.state.wheelFocus = false;
   },

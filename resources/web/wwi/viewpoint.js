@@ -128,81 +128,62 @@ Viewpoint.prototype = {
   },
 
   rotate: function(params) {
+    var vp = this.camera.position;
     var vo = this.camera.quaternion;
-    var vp = this.camera.position.clone();
-    var cosW = Math.cos(vo.w);
-    var sinW = Math.sin(vo.w);
-    var halfYawAngle = -0.005 * params.dx;
-    var halfPitchAngle = -0.005 * params.dy;
+    var yawAngle = -0.01 * params.dx;
+    var pitchAngle = -0.01 * params.dy;
     if (params.pickPosition == null) {
-      halfYawAngle /= -8;
-      halfPitchAngle /= -8;
+      yawAngle /= -8;
+      pitchAngle /= -8;
     }
-    var sinusYaw = Math.sin(halfYawAngle);
-    var sinusPitch = Math.sin(halfPitchAngle);
-    var tx = (1 - cosW) * vo.x;
-    var pitch = new THREE.Vector3(tx * vo.x + cosW, tx * vo.y + sinW * vo.z, tx * vo.z - sinW * vo.y);
-    var pitchRotation = new THREE.Quaternion(sinusPitch * pitch.x, sinusPitch * pitch.y, sinusPitch * pitch.z, Math.cos(halfPitchAngle));
-    var worldUp = new THREE.Vector3(0, 1, 0);
-    var yawRotation = new THREE.Quaternion(sinusYaw * worldUp.x, sinusYaw * worldUp.y, sinusYaw * worldUp.z, Math.cos(halfYawAngle));
-    var deltaRotation = yawRotation.multiply(pitchRotation);
-    if (params.pickPosition) {
-      var rotationMatrix = new THREE.Matrix4();
-      rotationMatrix.makeRotationFromQuaternion(deltaRotation);
-      var currentPosition = vp.sub(params.pickPosition).applyMatrix(rotationMatrix).add(params.pickPosition);
-      this.camera.position.copy(currentPosition);
-    }
-    var voq = new THREE.Quaternion();
-    voq.setFromAxisAngle(new THREE.Vector3(vo.x, vo.y, vo.z), vo.w);
-    var currentOrientation = deltaRotation.multiply(voq);
-    this.camera.quaternion.copy(currentOrientation);
-
-    if (this.onCameraPositionChanged)
-      this.onCameraPositionChanged();
+    var voMatrix = new THREE.Matrix4();
+    var pitch = new THREE.Vector3();
+    var yaw = new THREE.Vector3();
+    voMatrix.makeRotationFromQuaternion(vo).extractBasis(pitch, yaw, new THREE.Vector3());
+    var pitchRotation = new THREE.Quaternion();
+    pitchRotation.setFromAxisAngle(pitch, pitchAngle * 2);
+    var worldYawRotation = new THREE.Quaternion();
+    worldYawRotation.setFromAxisAngle(new THREE.Vector3(0, 1, 0), yawAngle * 2); // axis: world up
+    var deltaRotation = worldYawRotation.multiply(pitchRotation);
+    if (params.pickPosition)
+      vp.sub(params.pickPosition).applyQuaternion(deltaRotation).add(params.pickPosition);
+    vo.premultiply(deltaRotation);
   },
 
   translate: function(params) {
+    var vp = this.camera.position;
     var vo = this.camera.quaternion;
-    var vp = this.camera.position.clone();
-    var cosW = Math.cos(vo.w);
-    var sinW = Math.sin(vo.w);
-    var targetRight = -params.distanceToPickPosition * params.scaleFactor * params.dx;
-    var targetUp = params.distanceToPickPosition * params.scaleFactor * params.dy;
-    var tx = (1 - cosW) * vo.x;
-    var pitch = new THREE.Vector3(tx * vo.x + cosW, tx * vo.y + sinW * vo.z, tx * vo.z - sinW * vo.y);
-    var ty = (1 - cosW) * vo.y;
-    var yaw = new THREE.Vector3(ty * vo.x - sinW * vo.z, ty * vo.y + cosW, ty * vo.z + sinW * vo.x);
-    var target = vp.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
-    this.camera.position.copy(target);
+    var voMatrix = new THREE.Matrix4();
+    var pitch = new THREE.Vector3();
+    var yaw = new THREE.Vector3();
+    voMatrix.makeRotationFromQuaternion(vo).extractBasis(pitch, yaw, new THREE.Vector3());
+    var targetRight = -params.scaleFactor * params.dx;
+    var targetUp = params.scaleFactor * params.dy;
+    vp.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
   },
 
   zoomAndTilt: function(params) {
+    var vp = this.camera.position;
     var vo = this.camera.quaternion;
-    var vp = this.camera.position.clone();
-    var cosW = Math.cos(vo.w);
-    var sinW = Math.sin(vo.w);
-    var tz = (1 - cosW) * vo.z;
-    var roll = new THREE.Vector3(tz * vo.x + sinW * vo.y, tz * vo.y - sinW * vo.x, tz * vo.z + cosW);
-    var target = vp.add(roll.multiplyScalar(params.zoomScale));
-    this.camera.position.copy(target);
+    var voMatrix = new THREE.Matrix4();
+    var roll = new THREE.Vector3();
+    voMatrix.makeRotationFromQuaternion(vo).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
+
+    vp.add(roll.clone().multiplyScalar(params.zoomScale));
 
     var zRotation = new THREE.Quaternion();
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
-    var voq = new THREE.Quaternion();
-    voq.setFromAxisAngle(new THREE.Vector3(vo.x, vo.y, vo.z), vo.w);
-    var orientation = zRotation.multiply(voq);
-    this.camera.quaternion.copy(orientation);
+    vo.premultiply(zRotation);
   },
 
   zoom: function(distance, deltaY) {
+    var vp = this.camera.position;
     var vo = this.camera.quaternion;
-    var vp = this.camera.position.clone();
     var scaleFactor = 0.02 * distance * ((deltaY < 0) ? -1 : 1);
-    var c = Math.cos(vo.w);
-    var s = Math.sin(vo.w);
-    var tz = (1 - c) * vo.z;
-    var roll = new THREE.Vector3(tz * vo.x + s * vo.y, tz * vo.y - s * vo.x, tz * vo.z + c);
-    var target = vp.add(roll.multiplyScalar(scaleFactor));
-    this.camera.position.copy(target);
+    var voMatrix = new THREE.Matrix4();
+    var roll = new THREE.Vector3();
+    voMatrix.makeRotationFromQuaternion(vo).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
+
+    vp.add(roll.multiplyScalar(scaleFactor));
   }
 };
