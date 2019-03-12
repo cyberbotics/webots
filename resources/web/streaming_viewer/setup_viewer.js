@@ -46,7 +46,6 @@ function disconnect() {
   view = null;
   var playerDiv = document.getElementById('playerDiv');
   playerDiv.innerHTML = null;
-  playerDiv.style.height = '0px';
   connectButton.value = 'Connect';
   connectButton.onclick = connect;
   ipInput.disabled = false;
