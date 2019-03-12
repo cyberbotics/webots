@@ -4,8 +4,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.85
-  orientation -0.042513110667731564 0.9935934509932641 0.10471241361294961 2.3747286429556036
-  position 4.5316583819284135 2.739996525256871 0.004022912973749099
+  orientation -0.19920439348268226 0.9317411666006877 0.30360501985109906 2.0441652655580613
+  position 5.148494876214645 4.7654983941899225 2.9358087594478057
 }
 TexturedBackground {
   texture "empty_office"
@@ -47,10 +47,79 @@ Robot {
     DEF ARM Irb4600-40 {
       translation 1 0.74 0
       rotation 1 0 0 4.712388966
+      armSlot [
+        Pen {
+          translation 0 0 0.02
+          rotation 1 0 0 -1.5708
+          children [
+            Transform {
+              translation 0 0.05 0
+              children [
+                Shape {
+                  appearance BrushedAluminium {
+                    colorOverride 0 0.4131074998092622 0.9919279774166476
+                  }
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.04
+                    subdivision 24
+                  }
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.04 0
+              children [
+                Shape {
+                  appearance BrushedAluminium {
+                    colorOverride 0 0 0
+                  }
+                  geometry Cylinder {
+                    height 0.07
+                    radius 0.01
+                    subdivision 12
+                  }
+                }
+              ]
+            }
+          ]
+          leadSize 0.01
+          maxDistance 0.05
+        }
+      ]
     }
   ]
   controller "inverse_kinematics"
   supervisor TRUE
+}
+DEF TABLE_WITH_PAPER_SHEET Transform {
+  translation 1.1 0 5.8
+  children [
+    DEF PAPER Transform {
+      translation 0 0.741 0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+              url [
+                "textures/plastic.jpg"
+              ]
+            }
+          }
+          geometry Plane {
+            size 0.8 0.8
+          }
+        }
+      ]
+    }
+    Table {
+      size 1 0.74 1
+      feetPadding 0.05
+      frameThickness 0.1
+    }
+  ]
 }
 DEF TARGET Solid {
   translation 1.14 1.64 4.37
@@ -295,7 +364,7 @@ Wall {
   }
 }
 Wall {
-  translation 10.000231 0 4.3
+  translation 10 0 4.3
   rotation 0 -1 0 4.7123353
   size 16.5 7 0.2
   appearance Roughcast {
