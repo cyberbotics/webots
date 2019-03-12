@@ -101,7 +101,7 @@ while supervisor.step(timeStep) != -1:
         supervisor.getPen('pen').write(True)
 
 # Loop 2: Move the arm hand to the target.
-print('Move the green sphere to move the arm...')
+print('Move the yellow and black sphere to move the arm...')
 while supervisor.step(timeStep) != -1:
     # Get the absolute postion of the target and the arm base.
     targetPosition = target.getPosition()
