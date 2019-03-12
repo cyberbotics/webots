@@ -1,5 +1,5 @@
 {
-  "robots": [
+  "components": [
     {
       "name": "aibo-ers7",
       "proto": "AiboErs7",

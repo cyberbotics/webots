@@ -42,10 +42,12 @@ def run_webots():
 
 # Script logics.
 for component in json.load(open(ROBOTS))['components']:
-    print ('Export ' + component['name'] + ' web component...')
+    print('Export ' + component['name'] + ' web component...')
 
     copyfile(TEMPLATE, WORLD)
 
+    search_and_replace(WORLD, '%ROBOT_HEADER%', 'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
+    search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
     search_and_replace(WORLD, '%ROBOT%', component['proto'])
     search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
     search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
