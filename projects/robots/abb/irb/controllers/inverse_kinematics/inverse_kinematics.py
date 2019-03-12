@@ -63,6 +63,7 @@ supervisor.getPen('pen').write(False)
 motors = []
 for motorName in ['A motor', 'B motor', 'C motor', 'D motor', 'E motor', 'F motor']:
     motor = supervisor.getMotor(motorName)
+    motor.setVelocity(1.0)
     motors.append(motor)
 
 # Get the arm and target nodes.
