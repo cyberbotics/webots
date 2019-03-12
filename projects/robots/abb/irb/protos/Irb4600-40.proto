@@ -10,7 +10,7 @@ PROTO Irb4600-40 [
   field SFRotation rotation     0 1 0 0       # Is `Transform.rotation`.
   field SFString   name         "IRB 4600/40" # Is `Solid.name`.
   field MFNode     armSlot      []            # Extends the arm with new nodes in the arm slot.
-  field SFColor    color        0.9 0.9 0.9   # Is `PBRAppearance.baseColor`.
+  field SFColor    color        1 0.45 0      # Is `PBRAppearance.baseColor`.
 ]
 {
   Solid {
