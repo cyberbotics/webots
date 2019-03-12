@@ -45,13 +45,13 @@ MouseEvents.prototype = {
     this._initMouseMove(event);
 
     switch (event.button) {
-      case this.MOUSE_BUTTONS.LEFT:
+      case THREE.MOUSE.LEFT:
         this.state.mouseDown |= 1;
         break;
-      case this.MOUSE_BUTTONS.MIDDLE:
+      case THREE.MOUSE.MIDDLE:
         this.state.mouseDown |= 4;
         break;
-      case this.MOUSE_BUTTONS.RIGHT:
+      case THREE.MOUSE.RIGHT:
         this.state.mouseDown |= 2;
         break;
     }
