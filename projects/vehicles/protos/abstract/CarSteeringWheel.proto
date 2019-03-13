@@ -63,7 +63,7 @@ PROTO CarSteeringWheel [
             }
           }
           DEF LEATHER_PARTS Shape {
-            appearance CarLeather {
+            appearance Leather {
               textureTransform TextureTransform {
                 scale 4 4
               }
