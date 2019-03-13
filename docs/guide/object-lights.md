@@ -139,3 +139,4 @@ FloorLight {
 - `pointLightIntensity`: Defines the intensity of the point light.
 
 - `pointLightCastShadows`: Defines whether the point light should cast shadows.
+

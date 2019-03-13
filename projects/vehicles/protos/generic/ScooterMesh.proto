@@ -27,7 +27,7 @@ PROTO ScooterMesh [
         }
       }
       DEF COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS primaryColor
         }
         geometry IndexedFaceSet {
@@ -1679,7 +1679,7 @@ PROTO ScooterMesh [
         }
       }
       DEF SECONDARY_COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS secondaryColor
         }
         geometry IndexedFaceSet {

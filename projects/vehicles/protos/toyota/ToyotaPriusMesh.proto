@@ -158,7 +158,7 @@ PROTO ToyotaPriusMesh [
         }
       }
       DEF COACHWORK Shape {
-        appearance DEF VEHICLE_COLOR GlossyCarPaint {
+        appearance DEF VEHICLE_COLOR GlossyPaint {
           baseColor IS color
         }
         geometry IndexedFaceSet {

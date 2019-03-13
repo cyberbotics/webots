@@ -83,7 +83,7 @@ PROTO BusShape [
         }
       }
       DEF COACHWORK Shape {
-        appearance DEF APPEARANCE MatteCarPaint {
+        appearance DEF APPEARANCE MattePaint {
           baseColor IS color
         }
         geometry IndexedFaceSet {
