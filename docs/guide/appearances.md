@@ -360,15 +360,13 @@ GalvanizedMetal {
 
 ## GlossyPaint
 
-A glossy paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+A glossy paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
 ![GlossyPaint](images/appearances/GlossyPaint.png)
 
 %end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 GlossyPaint {
@@ -436,11 +434,9 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![CarLeather](images/appearances/Leather.png)
+![Leather](images/appearances/Leather.png)
 
 %end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 Leather {
@@ -471,15 +467,13 @@ Leather {
 
 ## MattePaint
 
-A matte paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+A matte paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
 ![MattePaint](images/appearances/MattePaint.png)
 
 %end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 MattePaint {
@@ -576,7 +570,7 @@ OldSteel {
 
 ## OsbWood
 
-An OSB wood steel material. The color can be overridden using the `colorOverride` field.
+An OSB wood material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
@@ -1222,3 +1216,4 @@ WireFence {
 - `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
