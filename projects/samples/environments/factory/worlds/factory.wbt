@@ -245,7 +245,7 @@ Wall {
   size 20 7 0.2
   appearance Roughcast {
     textureTransform TextureTransform {
-      scale 7.5 1.75
+      scale 5 1.75
     }
   }
 }
@@ -278,7 +278,7 @@ Wall {
   size 20 7 0.2
   appearance Roughcast {
     textureTransform TextureTransform {
-      scale 7.5 1.75
+      scale 5 1.75
     }
   }
 }
