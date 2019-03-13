@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureManager */
+/* global THREE, ActiveXObject, TextureManager, ShaderManager */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
@@ -9,8 +9,6 @@
 // - texture transform
 // - Cubemap
 // - geometry primitives:
-//   - ElevationGrid
-//   - IndexedLineSet
 //   - PointSet
 //   - Texture mapping mismatch: Sphere
 // some node attributes are also missing (see TODOs)
@@ -207,6 +205,16 @@ THREE.X3DLoader.prototype = {
           geometry = this.parseIndexedFaceSet(child);
         else if (child.tagName === 'Sphere')
           geometry = this.parseSphere(child);
+        else if (child.tagName === 'ElevationGrid')
+          geometry = this.parseElevationGrid(child);
+        else if (child.tagName === 'IndexedLineSet') {
+          geometry = this.parseIndexedLineSet(child);
+          var isLine = true;
+        } else if (child.tagName === 'PointSet') {
+          geometry = this.parsePointSet(child);
+          var isPointSet = true;
+        }
+
         if (geometry) {
           this.setDefNode(child, geometry);
           this.setCustomId(child, geometry);
@@ -220,10 +228,31 @@ THREE.X3DLoader.prototype = {
     // apply default geometry and/or material
     if (!geometry)
       geometry = new THREE.Geometry();
-    if (!material)
-      material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    if (!material) {
+      if (isPointSet) {
+        material = new THREE.ShaderMaterial({
+          uniforms: {
+            colorPerVertex: isPointSet.colorPerVertex,
+            size: 4
+          }
+        });
+        ShaderManager("shader/point_set.frag", "shader/point_set.vert",
+          function(vertex, fragment) {
+            material.vertexShader = vertex;
+            material.fragmentShader = fragment;
+          }
+        );
+      } else
+        material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    }
 
-    var mesh = new THREE.Mesh(geometry, material);
+    var mesh = null;
+    if (isLine)
+      mesh = new THREE.LineSegments(geometry, material);
+    else if (isPointSet)
+      mesh = new THREE.Points(geometry, material);
+    else
+      mesh = new THREE.Mesh(geometry, material);
     if (angle !== 0)
       mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
@@ -511,6 +540,113 @@ THREE.X3DLoader.prototype = {
     return geometry;
   },
 
+  parseIndexedLineSet: function(ils) {
+    var coordinate = ils.getElementsByTagName('Coordinate')[0];
+
+    var geometry = new THREE.BufferGeometry();
+    geometry.userData = { 'x3dType': 'IndexedLineSet' };
+    if (!coordinate)
+      return geometry;
+
+    var indicesStr = getNodeAttribute(ils, 'coordIndex', '').trim().split(/\s/);
+    var verticesStr = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+
+    var positions = new Float32Array(verticesStr.length * 3);
+    for (let i = 0; i < verticesStr.length; i += 3) {
+      positions[i] = parseFloat(verticesStr[i + 0]);
+      positions[i + 1] = parseFloat(verticesStr[i + 1]);
+      positions[i + 2] = parseFloat(verticesStr[i + 2]);
+    }
+
+    var indices = [];
+    for (let i = 0; i < indicesStr.length; i++) {
+      while (parseFloat(indicesStr[i]) >= 0) {
+        indices.push(parseFloat(indicesStr[i]));
+        i++;
+      }
+    }
+
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.computeBoundingSphere();
+
+    this.setCustomId(coordinate, geometry);
+
+    return geometry;
+  },
+
+  parseElevationGrid: function(eg) {
+    var heightStr = getNodeAttribute(eg, 'height', '');
+
+    var geometry = new THREE.BufferGeometry();
+    geometry.userData = { 'x3dType': 'ElevationGrid' };
+    if (heightStr === '')
+      return geometry;
+
+    var heightArray = heightStr.trim().split(/\s/);
+    var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
+    var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '0'));
+    var zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
+    var zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '0'));
+    // TODO add color functionality
+    // var color = getNodeAttribute(eg, 'color', null);
+    // var isColorPerVertex = getNodeAttribute(eg, 'colorPerVertex', 'false') === 'true';
+
+    var vertexCount = xDimension * zDimension;
+    var heightData = new Float32Array(vertexCount);
+    var availableValues = Math.min(vertexCount, heightArray.length);
+    for (let i = 0; i < availableValues; i++)
+      heightData[i] = parseFloat(heightArray[i]);
+    for (let i = availableValues; i < vertexCount; i++)
+      heightData[i] = 0;
+
+    var stepsX = xDimension - 1;
+    var stepsZ = zDimension - 1;
+    var du = 1.0 / stepsX;
+    var dv = 1.0 / stepsZ;
+
+    var coords = new Float32Array(vertexCount * 3);
+    var texCoords = new Float32Array(vertexCount * 2);
+    var ci = 0;
+    var ti = 0;
+    for (let zi = 0; zi < zDimension; zi++) {
+      for (let xi = 0; xi < xDimension; xi++) {
+        coords[ci] = xSpacing * xi;
+        coords[ci + 1] = heightData[xDimension * zi + xi];
+        coords[ci + 2] = zSpacing * zi;
+        texCoords[ti] = du * xi;
+        texCoords[ti + 1] = dv * (stepsZ - zi);
+        ci = ci + 3;
+        ti = ti + 2;
+      }
+    }
+
+    var indices = new Uint16Array(stepsX * stepsZ * 6);
+    var i = 0;
+    for (let zi = 0; zi < stepsZ; zi++) {
+      for (let xi = 0; xi < stepsX; xi++) {
+        // first triangle
+        indices[i] = xDimension * zi + xi;
+        indices[i + 1] = xDimension * (zi + 1) + xi;
+        indices[i + 2] = xDimension * zi + (xi + 1);
+        i = i + 3;
+        // second triangle
+        indices[i] = xDimension * zi + (xi + 1);
+        indices[i + 1] = xDimension * (zi + 1) + xi;
+        indices[i + 2] = xDimension * (zi + 1) + (xi + 1);
+        i = i + 3;
+      }
+    }
+
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
+    geometry.addAttribute('position', new THREE.BufferAttribute(coords, 3));
+    geometry.addAttribute('uv', new THREE.BufferAttribute(texCoords, 2));
+    geometry.computeFaceNormals();
+    geometry.computeBoundingSphere();
+
+    return geometry;
+  },
+
   parseBox: function(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
     var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
@@ -549,6 +685,48 @@ THREE.X3DLoader.prototype = {
     var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
+  },
+
+  parsePointSet: function(pointSet) {
+    var coordinate = pointSet.getElementsByTagName('Coordinate')[0];
+    var geometry = new THREE.BufferGeometry();
+    geometry.userData = { 'x3dType': 'PointSet' };
+    if (!coordinate)
+      return geometry;
+
+    var coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
+    var color = pointSet.getElementsByTagName('Color')[0];
+
+    var count = coordStrArray.length;
+    var colorStrArray = null;
+    if (color)
+      colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
+    if (colorStrArray && count !== colorStrArray.length) {
+      count = Math.min(count, colorStrArray.length);
+      console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
+    }
+
+    var positions = new Float32Array(count);
+    var colors = new Float32Array(count);
+    var sizes = new Float32Array(count / 3);
+    for (let i = 0, v = 0; i < count; i = i + 3, v++) {
+      positions[i + 0] = parseFloat(coordStrArray[i]);
+      positions[i + 1] = parseFloat(coordStrArray[i + 1]);
+      positions[i + 2] = parseFloat(coordStrArray[i + 2]);
+      if (colorStrArray) {
+        colors[i + 0] = parseFloat(colorStrArray[i]);
+        colors[i + 1] = parseFloat(colorStrArray[i + 1]);
+        colors[i + 2] = parseFloat(colorStrArray[i + 2]);
+      }
+      sizes[v] = 4;
+    }
+
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    if (colorStrArray)
+      geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+
+    return geometry;
   },
 
   parseDirectionalLight: function(light, parentObject) {
