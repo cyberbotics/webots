@@ -46,7 +46,7 @@ PROTO Irb4600-40 [
       }
       DEF LINK1_TRANSFORM HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 0 -1
+          axis 0 0 1
           anchor 0 0 0.159498
         }
         device [
@@ -62,7 +62,6 @@ PROTO Irb4600-40 [
         ]
         endPoint Solid {
           translation 0 0 0.159498
-          rotation 0 0 -1 0
           children [
             Shape {
               appearance USE IRB_APPEARANCE
@@ -88,7 +87,7 @@ PROTO Irb4600-40 [
             }
             DEF LINK2_TRANSFORM HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 -1 0
+                axis 0 1 0
                 anchor 0.178445 -0.122498 0.334888
               }
               device [
@@ -104,7 +103,6 @@ PROTO Irb4600-40 [
               ]
               endPoint Solid {
                 translation 0.178445 -0.122498 0.334888
-                rotation 0 -1 0 0
                 children [
                   Shape {
                     appearance USE IRB_APPEARANCE
@@ -130,7 +128,7 @@ PROTO Irb4600-40 [
                   }
                   DEF LINK3_TRANSFORM HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 -1 0
+                      axis 0 1 0
                       anchor -0.003447 -0.0267 1.095594
                     }
                     device [
@@ -146,7 +144,6 @@ PROTO Irb4600-40 [
                     ]
                     endPoint Solid {
                       translation -0.003447 -0.0267 1.095594
-                      rotation 0 -1 0 0
                       children [
                         Shape {
                           appearance USE IRB_APPEARANCE

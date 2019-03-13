@@ -34,21 +34,21 @@ armChain = Chain(name='arm', links=[
         bounds=[-3.1415, 3.1415],
         translation_vector=[0, 0, 0.159498],
         orientation=[0, 0, 0],
-        rotation=[0, 0, -1]
+        rotation=[0, 0, 1]
     ),
     URDFLink(
         name="B motor",
         bounds=[-1.5708, 2.61799],
         translation_vector=[0.178445, -0.122498, 0.334888],
         orientation=[0, 0, 0],
-        rotation=[0, -1, 0]
+        rotation=[0, 1, 0]
     ),
     URDFLink(
         name="C motor",
         bounds=[-3.1415, 1.309],
         translation_vector=[-0.003447, -0.0267, 1.095594],
         orientation=[0, 0, 0],
-        rotation=[0, -1, 0]
+        rotation=[0, 1, 0]
     ),
     URDFLink(
         name="D motor",
@@ -103,15 +103,15 @@ while supervisor.step(timeStep) != -1:
     for i in range(3):
         motors[i].setPosition(ikResults[i + 1])
     # Keep the hand orientation down.
-    motors[4].setPosition(ikResults[2] + ikResults[3] + math.pi / 2)
+    motors[4].setPosition(-ikResults[2] - ikResults[3] + math.pi / 2)
     # Keep the hand orientation perpendicular.
-    motors[5].setPosition(-ikResults[1])
+    motors[5].setPosition(ikResults[1])
 
     # Conditions to start/stop drawing and leave this loop.
-    if supervisor.getTime() > 2 * math.pi + 1:
+    if supervisor.getTime() > 2 * math.pi + 1.5:
         break
-    elif supervisor.getTime() > 1:
-        # Note: start to draw at 1 second to be sure the arm is well located.
+    elif supervisor.getTime() > 1.5:
+        # Note: start to draw at 1.5 second to be sure the arm is well located.
         supervisor.getPen('pen').write(True)
 
 # Loop 2: Move the arm hand to the target.
