@@ -73,45 +73,6 @@ BrushedAluminium {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
-## CarLeather
-
-A car leather material. The color can be overridden using the `colorOverride` field.
-
-%figure
-
-![CarLeather](images/appearances/CarLeather.png)
-
-%end
-
-Derived from [PBRAppearance](../reference/pbrappearance.md).
-
-```
-CarLeather {
-  SFColor                    colorOverride     1 1 1
-  SFString                   tone              "dark"
-  SFNode                     textureTransform  NULL
-  SFNode                     environmentMap    NULL
-  SFFloat                    IBLStrength       1
-}
-```
-
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarLeather.proto"
-
-> **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
-
-### CarLeather Field Summary
-
-- `colorOverride`: Defines the default color multiplied with the texture color.
-
-- `tone`: Defines the tone of the leather (either `dark` or `light`)
-
-- `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
-
 ## CarpetFibers
 
 A woolen carpet material. Useful with the `Floor` PROTO.
@@ -462,6 +423,45 @@ HammeredCopper {
 ### HammeredCopper Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## Leather
+
+A leather material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CarLeather](images/appearances/Leather.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Leather {
+  SFColor                    colorOverride     1 1 1
+  SFString                   tone              "dark"
+  SFNode                     textureTransform  NULL
+  SFNode                     environmentMap    NULL
+  SFFloat                    IBLStrength       1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Leather.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Leather Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `tone`: Defines the tone of the leather (either `dark` or `light`)
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
