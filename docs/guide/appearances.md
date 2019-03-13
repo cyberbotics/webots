@@ -397,20 +397,20 @@ GalvanizedMetal {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
-## GlossyCarPaint
+## GlossyPaint
 
-A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+A glossy paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
 
 %figure
 
-![GlossyCarPaint](images/appearances/GlossyCarPaint.png)
+![GlossyPaint](images/appearances/GlossyPaint.png)
 
 %end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
-GlossyCarPaint {
+GlossyPaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
   SFNode  environmentMap   NULL
@@ -418,12 +418,12 @@ GlossyCarPaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyCarPaint.proto"
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
-### GlossyCarPaint Field Summary
+### GlossyPaint Field Summary
 
 - `baseColor`: Defines the paint's color.
 
@@ -469,20 +469,20 @@ HammeredCopper {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
-## MatteCarPaint
+## MattePaint
 
-A matte car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+A matte paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
 
 %figure
 
-![MatteCarPaint](images/appearances/MatteCarPaint.png)
+![MattePaint](images/appearances/MattePaint.png)
 
 %end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
-MatteCarPaint {
+MattePaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
   SFNode  environmentMap   NULL
@@ -490,12 +490,12 @@ MatteCarPaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MatteCarPaint.proto"
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
-### MatteCarPaint Field Summary
+### MattePaint Field Summary
 
 - `baseColor`: Defines the paint's color.
 

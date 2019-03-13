@@ -26,13 +26,13 @@
   "GalvanizedMetal": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
-  "GlossyCarPaint": {
+  "GlossyPaint": {
     "fields": "baseColor 0.8 0 0 textureTransform TextureTransform { scale 0.5 0.5 }"
   },
   "HammeredCopper": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
-  "MatteCarPaint": {
+  "MattePaint": {
     "fields": "baseColor 0.8 0 0"
   },
   "OldSteel": {
