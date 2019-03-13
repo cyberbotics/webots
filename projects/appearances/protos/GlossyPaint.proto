@@ -1,7 +1,7 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+# A glossy paint material. The color can be selected in the `baseColor` field.
 
 PROTO GlossyPaint [
   field SFColor baseColor        1 1 1                             # Defines the paint's color.
