@@ -11,7 +11,7 @@ PROTO MotorbikeMesh [
   Group {
     children [
       DEF COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS primaryColor
         }
         geometry IndexedFaceSet {

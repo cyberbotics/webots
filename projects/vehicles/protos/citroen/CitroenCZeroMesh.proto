@@ -11,7 +11,7 @@ PROTO CitroenCZeroMesh [
   Group {
     children [
       DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyCarPaint {
+        appearance DEF VEHICLE_APP GlossyPaint {
           baseColor IS color       
         }
         geometry IndexedFaceSet {

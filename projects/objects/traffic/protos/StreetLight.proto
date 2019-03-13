@@ -30,7 +30,7 @@ Solid {
       scale 0.125 0.125 0.125
       children [
         DEF POLE Shape {
-          appearance MatteCarPaint {
+          appearance MattePaint {
             baseColor 0.0157 0.051 0.008
             textureTransform TextureTransform {
               scale 8 8

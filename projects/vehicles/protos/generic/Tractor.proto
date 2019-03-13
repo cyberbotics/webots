@@ -214,7 +214,7 @@ Car {
           }
         }
         DEF MUDGUARD Shape {
-          appearance DEF BLUE_MATERIAL MatteCarPaint {
+          appearance DEF BLUE_MATERIAL MattePaint {
             baseColor IS color
           }
           geometry IndexedFaceSet {

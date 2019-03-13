@@ -219,7 +219,7 @@ PROTO LincolnMKZ [
       }
       # vehicle shape
       DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyCarPaint {
+        appearance DEF VEHICLE_APP GlossyPaint {
           baseColor IS color
         }
         geometry LincolnMKZCoachworkMesh {

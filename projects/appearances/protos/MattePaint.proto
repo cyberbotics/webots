@@ -1,9 +1,9 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+# A matte paint material. The color can be selected in the `baseColor` field.
 
-PROTO GlossyCarPaint [
+PROTO MattePaint [
   field SFColor baseColor        1 1 1                             # Defines the paint's color.
   field SFNode  textureTransform TextureTransform { scale 10 10 }  # Defines an optional 2d texture transform.
   field SFNode  environmentMap   NULL                              # Defines an optional `Cubemap` node overriding the skybox for this object.
@@ -12,25 +12,19 @@ PROTO GlossyCarPaint [
 {
   PBRAppearance {
     baseColor IS baseColor
-    metalness 0
     baseColorMap ImageTexture {
       url [
-        "textures/glossy_car_paint/glossy_car_paint_base_color.png"
+        "textures/matte_car_paint/matte_car_paint_base_color.png"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "textures/glossy_car_paint/glossy_car_paint_roughness.png"
+        "textures/matte_car_paint/matte_car_paint_roughness.png"
       ]
       filtering 5
     }
-    normalMap ImageTexture {
-      url [
-        "textures/glossy_car_paint/glossy_car_paint_normal.png"
-      ]
-      filtering 5
-    }
+    metalness 0
     normalMapFactor 0.5
     environmentMap IS environmentMap
     IBLStrength IS IBLStrength
