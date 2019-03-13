@@ -368,6 +368,8 @@ A glossy paint material. The color can be selected in the `baseColor` field.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 GlossyPaint {
   SFColor baseColor        1 1 1
@@ -438,6 +440,8 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 %end
 
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
 ```
 Leather {
   SFColor                    colorOverride     1 1 1
@@ -474,6 +478,8 @@ A matte paint material. The color can be selected in the `baseColor` field.
 ![MattePaint](images/appearances/MattePaint.png)
 
 %end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
 MattePaint {
