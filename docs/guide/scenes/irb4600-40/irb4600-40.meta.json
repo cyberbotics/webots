@@ -8,7 +8,7 @@
       "position": 0, 
       "type": "RotationalMotor", 
       "minPosition": -3.1415, 
-      "axis": "0 0 -1"
+      "axis": "0 0 1"
     }, 
     {
       "transformID": "n34", 
@@ -17,7 +17,7 @@
       "position": 0, 
       "type": "RotationalMotor", 
       "minPosition": -1.5708, 
-      "axis": "0 -1 0"
+      "axis": "0 1 0"
     }, 
     {
       "transformID": "n44", 
@@ -26,7 +26,7 @@
       "position": 0, 
       "type": "RotationalMotor", 
       "minPosition": -3.1415, 
-      "axis": "0 -1 0"
+      "axis": "0 1 0"
     }, 
     {
       "transformID": "n54", 
