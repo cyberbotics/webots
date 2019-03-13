@@ -31,10 +31,10 @@ Door {
   translation 10.04 3.27 4
   rotation 0 1 0 4.7123889
   name "door(1)"
-  doorAppearance GlossyCarPaint {
+  doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
   }
-  frameAppearance GlossyCarPaint {
+  frameAppearance GlossyPaint {
     baseColor 0.35 0.3503166247043564 0.35
   }
 }
@@ -55,10 +55,10 @@ OilBarrel {
 Door {
   translation -10.05 0.02 0
   rotation 0 1 0 1.5707963
-  doorAppearance GlossyCarPaint {
+  doorAppearance GlossyPaint {
     baseColor 0.16 0.16 0.16
   }
-  frameAppearance GlossyCarPaint {
+  frameAppearance GlossyPaint {
     baseColor 0.35 0.3503166247043564 0.35
   }
 }
