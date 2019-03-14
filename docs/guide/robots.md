@@ -24,6 +24,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/hoap2/icon.png)       | [HOAP-2](hoap2.md)             | Fujitsu              | *Small size humanoid*           |
 | ![icon.png](images/robots/icub/icon.png)        | [iCub](icub.md)                | RobotCup             | *Human-size humanoid*           |
 | ![icon.png](images/robots/ipr/icon.png)         | [IPR](ipr.md)                  | Neuronics            | *Robotics arm*                  |
+| ![icon.png](images/robots/irb4600-40/icon.png)  | [IRB 4600/40](irb4600-40.md)   | ABB                  | *Robotics arm*                  |
 | ![icon.png](images/robots/khepera1/icon.png)    | [Khepera I](khepera1.md)       | K-Team               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/khepera2/icon.png)    | [Khepera II](khepera2.md)      | K-Team               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/khepera3/icon.png)    | [Khepera III](khepera3.md)     | K-Team               | *Two-wheeled robot*             |

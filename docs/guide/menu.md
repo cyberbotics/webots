@@ -85,6 +85,7 @@
     - [Hemisson](hemisson.md)
     - [HOAP-2](hoap2.md)
     - [iCub](icub.md)
+    - [IRB 4600/40](irb4600-40.md)
     - [IPR](ipr.md)
     - [KHR-2HV](khr-2hv.md)
     - [KHR-3HV](khr-3hv.md)
