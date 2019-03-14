@@ -9,8 +9,7 @@
 // - texture transform
 // - Cubemap
 // - geometry primitives:
-//   - PointSet
-//   - Texture mapping mismatch: Sphere
+//   - PointSet: mising shader
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
@@ -228,30 +227,30 @@ THREE.X3DLoader.prototype = {
     // apply default geometry and/or material
     if (!geometry)
       geometry = new THREE.Geometry();
-    if (!material) {
-      if (isPointSet) {
-        material = new THREE.ShaderMaterial({
-          uniforms: {
-            colorPerVertex: isPointSet.colorPerVertex,
-            size: 4
-          }
-        });
-        ShaderManager("shader/point_set.frag", "shader/point_set.vert",
-          function(vertex, fragment) {
-            material.vertexShader = vertex;
-            material.fragmentShader = fragment;
-          }
-        );
-      } else
-        material = new THREE.MeshBasicMaterial({color: 0xffffff});
-    }
+    if (!material && !isPointSet)
+      material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
     var mesh = null;
     if (isLine)
       mesh = new THREE.LineSegments(geometry, material);
-    else if (isPointSet)
-      mesh = new THREE.Points(geometry, material);
-    else
+    else if (isPointSet) {
+      mesh = new THREE.Points(geometry);
+      if (!material) {
+        var shaderManager = new ShaderManager();
+        shaderManager.load('shader/point_set.frag', 'shader/point_set.vert',
+          function(vertex, fragment) {
+            mesh.material = new THREE.ShaderMaterial({
+              uniforms: {
+                colorPerVertex: isPointSet.colorPerVertex,
+                size: 20
+              },
+              vertexShader: vertex,
+              fragmentShader: fragment
+            });
+          }
+        );
+      }
+    } else
       mesh = new THREE.Mesh(geometry, material);
     if (angle !== 0)
       mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
@@ -368,8 +367,10 @@ THREE.X3DLoader.prototype = {
     var textureManager = new TextureManager();
     // load the texture in an asynchronous way.
     var image = textureManager.loadOrRetrieveTexture(filename[0], texture);
-    if (image) // else it could be updated later
+    if (image) { // else it could be updated later
       texture.image = image;
+      texture.needsUpdate = true;
+    }
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true');
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true');

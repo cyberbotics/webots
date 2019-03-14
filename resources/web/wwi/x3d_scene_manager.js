@@ -15,6 +15,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
+    this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
 
@@ -42,8 +43,6 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.composer.addPass(this.selectionOutlinePass);
 
     this.selector = new Selector(this.selectionOutlinePass);
-
-    this.domElement.appendChild(this.renderer.domElement);
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
     this.gpuPicker.setFilter(function(object) {

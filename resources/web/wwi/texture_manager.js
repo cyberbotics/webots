@@ -24,7 +24,7 @@ class TextureManager { // eslint-disable-line no-unused-vars
   loadOrRetrieveTexture(name, texture, cubeTextureIndex) {
     console.assert(typeof name === 'string', 'TextureManager.loadOrRetrieveTexture: name is not a string.');
     if (name === undefined || name === '')
-      return;
+      return null;
 
     if (this.textures[name])
       return this.textures[name];
@@ -46,7 +46,7 @@ class TextureManager { // eslint-disable-line no-unused-vars
 
     if (this.loadingTextures[name]) {
       this.loadingTextures[name].objects.push(texture);
-      return; // texture is already loading
+      return null; // texture is already loading
     }
 
     console.log('loadOrRetrieveTexture ' + name);
@@ -67,6 +67,7 @@ class TextureManager { // eslint-disable-line no-unused-vars
         // else image could be received later
       }
     );
+    return null;
   }
 
   loadTexture(uri, name) {
