@@ -30,7 +30,6 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 
 ## Sections
 
-- [Prerequisites](prerequisites.md)
 - [Tutorial 1: Your first Simulation in Webots (20 minutes)](tutorial-1-your-first-simulation-in-webots-20-minutes.md)
 - [Tutorial 2: Modification of the Environment (20 minutes)](tutorial-2-modification-of-the-environment-20-minutes.md)
 - [Tutorial 3: Appearance (15 minutes)](tutorial-3-appearance-15-minutes.md)

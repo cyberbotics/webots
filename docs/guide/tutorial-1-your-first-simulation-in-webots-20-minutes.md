@@ -1,154 +1,134 @@
 ## Tutorial 1: Your First Simulation in Webots (20 Minutes)
 
-In this first tutorial, you will create your first simulation.
-This simulation will contain a simple environment (a light and an arena with floor and walls), a predefined robot (e-puck) and a controller program that will make the robot move (see [this figure](#what-you-should-see-at-the-end-of-the-tutorial)).
-The objective of this tutorial is to familiarize yourself with the user interface and with the basic concepts of Webots.
+The objective of this first tutorial is to familiarize yourself with the user interface and with the basic concepts of Webots.
+You will create your first simulation containing a simple environment: a light, an arena with floor and walls, a predefined robot (e-puck) and a controller program that will make the robot move (see [figure](#what-you-should-see-at-the-end-of-the-first-tutorial)).
 
-%figure "What you should see at the end of the tutorial."
-
+%figure "What you should see at the end of the first tutorial."
 ![tutorial_e-puck.png](images/tutorial_e-puck.png)
-
 %end
+
+### Start Webots
+
+If not already done, download and install Webots, following these [installation instructions](installing-webots.md).
+
+> **Hands on #1**: Start Webots by double-clicking on its icon (or invoking it from a command line in a Terminal).
+If you are running Webots for the first time on this computer, you may be prompted to select a graphical theme.
+You may also be invited to follow the Webots guided tour, go ahead and close the guided tour.
+
+If you never saw it, please take some time to view the demos featured in the guided tour.
+They are telling a lot about the possibilities of Webots.
+The guided tour is also available from the *Help* menu of Webots.
 
 ### Create a New World
 
-A World contains information like where the objects are, what they look like, how they interact with each other, what is the sky color, where is the gravity vector, etc.
-
-> **Theory**: A **World** defines the initial state of a simulation.
+A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, how is defined the gravity, friction, masses of the objects, etc.
+It defines the initial state of a simulation.
 The different objects are called **Nodes** and are organized hierarchically in a **Scene Tree**.
-It means that a node can have some sub-nodes.
-
-<!-- -->
-
-> **Note**: A world is stored in a file having the ".wbt" extension.
+Therefore, a node may contain sub-nodes.
+A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
-The world files must be stored directly in the project subdirectory called "worlds".
+The world files must be stored directly in a directory called `worlds`.
 
-Webots is currently open and runs an arbitrary simulation.
+> **Hands on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view.
+The simulation is paused if the virtual time counter on the main toolbar is stopped.
+Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item.
+Follow the instructions.
+Name the project directory `my_first_simulation` instead of the proposed `my_project`.
+Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
+Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 
-> **Hands on**: Pause the current simulation by clicking on the `Pause` button of the 3D view.
-The simulation is paused if the virtual time counter on the main toolbar is stable.
+Webots displays a list of directories and files it just created.
+This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
 
-<!-- -->
+Congratulation, you just created your very first Webots world!
+The 3D view should display a square arena with a checkered floor.
+You can change the viewpoint of the 3D view by using the mouse buttons (left button, right button and the wheel).
 
-> **Hands on**: Create a new world by selecting the `File / New World` menu item.
-
-A new world is now open.
-For now, the 3D window displays nothing.
-The Scene Tree view (on the left hand side) currently lists the fundamental nodes:
-
-- [WorldInfo](../reference/worldinfo.md): containing misc global parameters.
-- [Viewpoint](../reference/viewpoint.md): defining the main camera parameters.
-
-As no light and no 3D object are defined, the entire scene is empty, and thus nothing is displayed.
-
-Each node has some customizable properties called **fields**.
-The first step is about modifying the background color.
-
-> **Hands on**: Create a [Background](../reference/background.md) node by clicking on the plus icon above the Scene Tree view, and select "Background" from the "New Node" option.
-Modify the background color, by setting up the `skyColor` field of the [Background](../reference/background.md) node.
-Choose a dark gray color (e.g. red = 0.2, green = 0.2 and blue = 0.2) using the color picker at the bottom of the Scene Tree view.
-The background of the 3D view should be modified accordingly.
-
-Now, we would like to add some environment object (a floor and some walls).
-A predefined node called `RectangleArena` is designed to accomplish this task quickly.
-
-> **Hands on**: Select the last node of the Scene Tree view ([Background](../reference/background.md)).
-Click on the `Add` button at the top of the Scene Tree view.
-In the open dialog box, choose `PROTO (Webots) / objects / floors / RectangleArena`.
-The new node has been added and appears far away.
-Use the left click and the wheel of the mouse in the 3D view to choose a better viewpoint.
-
-However, the rectangle arena appears black because the scene is still unlit.
-Now we would like to add some light to the scene.
-
-> **Hands on**: Select the last node of the Scene Tree view (`RectangleArena`).
-Click on the `Add` button.
-In the open dialog box, choose `New node / DirectionalLight`.
-The new node has been added and we can admire our rectangle arena's colors.
-
-It's a good time to improve the scene light.
-
-> **Hands on**: Modify the following fields of the `DirectionalLight` node:
-
-    - `intensity` to 2.3.
-    - `direction` to [-0.33 -1 0.5].
-    - `castShadows` to TRUE.
-
-<!-- -->
-
-> **Note**: In the Scene Tree view, the fields are displayed in a different color (depending on the theme) if they differ from their default values.
-
-Now your environment should look like the one depicted in the [figure](prerequisites.md#the-webots-main-window-splits-into-four-dockable-subwindows-the-scene-tree-view-on-the-left-hand-side-including-a-panel-at-the-bottom-for-editing-fields-values-the-3d-view-in-the-center-the-text-editor-on-the-right-hand-side-and-the-console-at-bottom-of-the-window-note-that-some-of-these-subwindows-have-a-toolbar-with-buttons-the-main-menus-appear-on-the-top-of-the-main-window-the-virtual-time-counter-and-the-speedometer-are-displayed-in-the-right-part-of-the-main-toolbar-the-status-text-is-displayed-in-the-bottom-left-of-the-main-window).
-
-> **Hands on**: Save the new world into your project by selecting the `File / Save World As...` menu item.
-Using the dialog box save the world into the "my\_webots\_projects/tutorials/worlds/my\_first\_simulation.wbt" file location.
-
-<!-- -->
-
-> **Hands on**: Reload the simulation by selecting the `File / Reload World` menu item.
-
-<!-- -->
-
-> **Note**: You can change the viewpoint of the 3D view by using the mouse buttons (left button, right button and the wheel).
-
-<!-- -->
-
-> **Theory**: Webots nodes stored in world files are organized in a tree structure called the **scene tree**.
+Webots nodes stored in world files are organized in a tree structure called the **scene tree**.
 The scene tree can be viewed in two subwindows of the main window: the 3D view (at the center of the main window) is the 3D representation of the scene tree and the scene tree view (on the left) is the hierarchical representation of the scene tree.
-The scene tree view is where the nodes and the fields can be modified.
+The scene tree view is where the nodes and fields can be modified.
+It should currently list the following nodes:
 
-<!-- -->
+- [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
+- [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
+- [TexturedBackground](object-backgrounds.md#texturedbackground): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
+- [TexturedBackroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
+- [RectangleArena](object-floors.md#rectanglearena): define the only object you see so far in this scene.
 
-> **Hands on**: In the 3D view, click on the floor to selected it.
-When it is selected, the floor is surrounded by white lines and the corresponding node is selected in the Scene Tree view.
-Now click on the blue sky to unselect the floor.
+Each node has some customizable properties called **Fields**.
+Let's modify these fields to change the rectangle arena:
+
+> **Hands on #3**: Double-click on the `RectangleArena` node in the scene tree.
+This should open the node and display its fields.
+Select the `floorTileSize` field and set its value to `0.25 0.25` instead of `0.5 0.5`.
+You should see the effect immediately in the 3D view.
+Select the `wallHeight` field and change its value to `0.05` instead of `0.1`.
+The wall of the arena should now be lower.
+
+In the Scene Tree view, the fields are displayed in a different color (depending on the theme) if they differ from their default values.
+Now, we would like to add some objects:
+
+> **Hands on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
+Click on the `Add` button (plus sign) at the top of the scene tree.
+In the open dialog box, choose `PROTO (Webots) / objects / factory / containers / WoodenBox (Solid)`.
+A big box should appear in the middle of the arena.
+Double-click on it in the scene tree to open its fields.
+Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
+Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
+Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
+Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
+Select the box and press Ctrl-C, Ctrl-V to copy and paste it.
+Shift-click and drag the new box to move it at some different location.
+Create a third box this way.
+Move the boxes, so that no box is at the center of the arena.
+You may also use the green rotation arrows to rotate the boxes along the vertical axis.
+This can be done also by shift-click and drag with the right mouse button.
+Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
+Once you are satisfied with the result, save the world using the save button.
+
+Using the translation and rotation handles to move objects is explained in [this section](the-3d-window.md#axis-aligned-handles).
+Now your world should look like this:
+
+%figure "What you should at this point of the tutorial."
+![tutorial_1.4.png](images/tutorial_1.4.png)
+%end
 
 ### Add an e-puck Robot
 
 The e-puck is a small robot having differential wheels, 10 [LEDs](../reference/led.md), and several sensors including 8 [DistanceSensors](../reference/distancesensor.md) and a [Camera](../reference/camera.md).
 In this tutorial we are only interested in using its wheels.
-We will learn how to use some other e-puck features in the other tutorials.
+We will learn how to use other capabilities in the next tutorials.
 
 Now, we are going to add an e-puck model to the world.
 Make sure that the simulation is paused and that the virtual time elapsed is 0.
+If this is not the case, reset the simulation with the `Reset` button (rewind).
 
-> **Theory**: When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
+When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
 Otherwise at each save, the position of each 3D objects can accumulate errors.
-Therefore, any modification of the world should be performed in that order: **pause, reload, modify and save the simulation**.
+Therefore, any modification of the world should be performed in that order: **pause, reset, modify and save the simulation**.
 
-As we don't need to create the e-puck robot from scratch, we will just have to import a special E-puck node (in fact: a PROTO node as the `RectangleArena` we introduced before).
-A PROTO is an abstract assemblage of several nodes.
-PROTO nodes are defined in separate ".proto", but this will be explained in more details later.
-For now, consider the E-puck node as a black box that contains all the necessary nodes to define a e-puck robot.
+We don't need to create the e-puck robot from scratch, we will just have to import a `E-puck` node.
+This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before.
 
-> **Hands on**: Select the last node of the Scene Tree view (called `RectangleArena`).
-In order to add the E-puck node, click on the `Add` button at the top of the Scene Tree view.
-In the open dialog box, and choose `PROTO (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
-Then save the simulation.
+> **Hands on #5**: Select the last node `WoodenBox` of the scene tree view.
+Click on the `Add` button (plus sign) at the top of the scene tree view.
+In the dialog box, choose `PROTO (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
+An e-puck robot should appear in the middle of the arena.
+Move and rotate this robot, the same way you did it with the boxes.
+Save the simulation and press the `Run real-time` button (right arrow).
 
-<!-- -->
+The robot should move, blink LEDs and avoid obstacles.
+That's because it has a default controller with that behavior.
+Now, while the simulation is running, let's play with the physics:
 
-> **Note**: Now if you run the simulation, the robot moves: that's because the robot uses a default controller with that behavior.
-Please pause and reload the world before going on.
+> **Hands on #6**: Apply a force to the robot by pressing *Alt + left-click + drag*.
+On Linux, you should also press the *Ctrl* key in addition to *Alt + left-click + drag*.
+It is not possible to apply a force to a `WoodenBox` node, because by default, they have no mass and are considered as glued on the floor.
+To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
+Once this is done, should be able to apply a force on them as well.
 
-<!-- -->
-
-> **Note**: You can change the robot's position in the 3D view using the translation and rotation handles (see [this section](the-3d-window.md#axis-aligned-handles)).
-
-> Alternatively, the following keyboard shortcuts are available:
-
-> *SHIFT + left-click + drag* to move the robot parallel to the floor;
-
-> *SHIFT + mouse-wheel* to move the robot up or down.
-
-> Finally, it is possible to apply a force to the robot: *ALT + left-click + drag*.
-
-> **Note**: On Linux, you should also press the *CTRL* key in addition to *ALT + left-click + drag*.
-
-<!-- -->
-
-> **Note**: Starting the simulation by pressing the `Run` button will make Webots running the simulation as fast as possible.
+The simulation may be paused (pause button), run step-by-step (step button), in real time (right arrow button), in run (double right arrow button) or in fast (triple right arrow button) modes.
+Starting the simulation by pressing the `Run` button will make Webots running the simulation as fast as possible.
 In order to obtain a real-time simulation speed, the `Real-Time` button needs to be pressed.
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy of the simulation.
@@ -171,24 +151,16 @@ We will now program a simple controller that will just make the robot move forwa
 As there is no obstacle, the robot will move forwards for ever.
 Firstly we will create and edit the C controller, then we will link it to the robot.
 
-> **Theory**: A **controller** is a program that defines the behavior of a robot.
+A **controller** is a program that defines the behavior of a robot.
 Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, etc.
 Note that C, C++ and Java controllers need to be compiled before they can be run as robot controllers.
 Python and MATLAB controllers are interpreted languages so they will run without being compiled.
 The `controller` field of a robot specifies which controller is currently linked with to it.
 Please take notice that a controller can be used by several robots, but a robot can only use one controller at a time.
-
-<!-- -->
-
-> **Note**: Each robot controller is executed in a separate child process spawned by Webots.
+Each robot controller is executed in a separate child process spawned by Webots.
 Controllers don't share the same address space, and they can run on different processor cores.
-
-<!-- -->
-
-> **Note**: Other languages than C are available but may require a setup.
+Other languages than C are available but may require a setup.
 Please refer to the language chapter to setup other languages (see [this chapter](language-setup.md)).
-
-<!-- -->
 
 > **Hands on**: Create a new C controller called *e-puck\_go\_forward* using the `Wizards / New Robot Controller...` menu.
 This will create a new "e-puck\_go\_forward" directory in "my\_webots\_projects/tutorials/controllers".
@@ -201,10 +173,7 @@ We will now link the E-puck node with the new controller before modifying it.
 > **Hands on**: Link the `E-puck` node with the *e-puck\_go\_forward* controller.
 This can be done in the Scene Tree view by selecting the `controller` field of the E-puck node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select *e-puck\_go\_forward* in the list.
 Once the controller is linked, save the world.
-
-<!-- -->
-
-> **Hands on**: Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
+Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
 
 > ```c
 > #include <webots/robot.h>
@@ -232,17 +201,14 @@ Once the controller is linked, save the world.
 >   return 0;
 > }
 > ```
-
-<!-- -->
-
-> **Hands on**: Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 Fix any compilation errors if necessary.
 When Webots proposes to reload the world, choose `Yes`.
 
 If everything is ok, your robot should move forwards.
 The robot will move using it's maximum speed for a while and then stop once the wheels have rotated of 10 radians.
 
-> **Note**: In the "controllers" directory of your project, a directory containing the *e-puck\_go\_forward* controller has been created.
+In the "controllers" directory of your project, a directory containing the *e-puck\_go\_forward* controller has been created.
 The "e-puck\_go\_forward" directory contains an "e-puck\_go\_forward" binary file generated after the compilation of the controller.
 Note that the controller directory name should match with the binary name.
 
