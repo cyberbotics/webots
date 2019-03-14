@@ -45,8 +45,8 @@ Solid {
       size.z = min_size
     end
 
-    -- we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive
-    -- following min_mass and max_mass values:
+    -- we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive,
+    -- hence the following min_mass and max_mass values:
     local epsilon = 0.000001  -- one milligram
     local min_mass = volume^(2/3)
     local max_mass = min_mass*1000 + epsilon
