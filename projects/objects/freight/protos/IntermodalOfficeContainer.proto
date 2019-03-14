@@ -1,12 +1,16 @@
 #VRML_SIM R2019a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
 # tags: static
+# An intermodal container is a large standardized shipping container, designed and built for intermodal freight transport, meaning these containers can be used across different modes of transport – from ship to rail to truck – without unloading and reloading their cargo.
+# This container contains an office.
 
 PROTO IntermodalOfficeContainer [
-  field SFVec3f    translation    0 0 0    # Is `Transform.translation`.
-  field SFRotation rotation       0 1 0 0  # Is `Transform.rotation`.
-  field SFString   name           "office" # Is `Solid.name`.
-  field SFColor    primaryColor   0.9 0.1 0.1
-  field SFColor    secondaryColor 0.6 0.6 0.6
+  field SFVec3f    translation    0 0 0       # Is `Transform.translation`.
+  field SFRotation rotation       0 1 0 0     # Is `Transform.rotation`.
+  field SFString   name           "office"    # Is `Solid.name`.
+  field SFColor    primaryColor   0.9 0.1 0.1 # Defines the primary color.
+  field SFColor    secondaryColor 0.6 0.6 0.6 # Defines the secondary color.
 ]
 {
   Solid {
