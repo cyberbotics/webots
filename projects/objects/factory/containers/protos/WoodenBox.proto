@@ -46,7 +46,6 @@ Solid {
     end
 
     -- we want the mass for a 1000cm3 box be comprised between 0.01 and 10 kg inclusive
-    -- and the mass for a 27m3 box be comprised between 9 and 9000 kg, hence the
     -- following min_mass and max_mass values:
     local epsilon = 0.000001  -- one milligram
     local min_mass = volume^(2/3)
