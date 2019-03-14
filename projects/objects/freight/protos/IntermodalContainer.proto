@@ -5,10 +5,10 @@
 # An intermodal container is a large standardized shipping container, designed and built for intermodal freight transport, meaning these containers can be used across different modes of transport – from ship to rail to truck – without unloading and reloading their cargo.
 
 PROTO IntermodalContainer [
-  field SFVec3f    translation  0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation     0 1 0 0     # Is `Transform.rotation`.
-  field SFString   name         "container" # Is `Solid.name`.
-  field SFColor    color        0.9 0.1 0.1 # Defines the color.
+  field SFVec3f    translation  0 0 0        # Is `Transform.translation`.
+  field SFRotation rotation     0 1 0 0      # Is `Transform.rotation`.
+  field SFString   name         "container"  # Is `Solid.name`.
+  field SFColor    color        0.9 0.1 0.1  # Defines the color.
 ]
 {
   Solid {
