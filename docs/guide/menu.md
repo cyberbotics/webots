@@ -136,6 +136,7 @@
     - [Drinks](object-drinks.md)
     - [Factory](object-factory.md)
     - [Floors](object-floors.md)
+    - [Freight](object-freight.md)
     - [Fruits](object-fruits.md)
     - [Garden](object-garden.md)
     - [Geometries](object-geometries.md)
