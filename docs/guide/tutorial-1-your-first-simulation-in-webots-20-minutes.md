@@ -1,7 +1,7 @@
 ## Tutorial 1: Your First Simulation in Webots (20 Minutes)
 
 The objective of this first tutorial is to familiarize yourself with the user interface and with the basic concepts of Webots.
-You will create your first simulation containing a simple environment: an arena with floor and walls, a few objects, an e-puck robot and a controller program that will make the robot move.
+You will create your first simulation containing a simple environment: an arena with floor and walls, a few boxes, an e-puck robot and a controller program that will make the robot move.
 
 %figure "What you should see at the end of the first tutorial."
 ![tutorial_e-puck.png](images/tutorial_e-puck.png)
@@ -87,11 +87,6 @@ Alternatively, you can change the angle of the `rotation` field of the `WoodenBo
 Once you are satisfied with the result, save the world using the save button.
 
 Using the translation and rotation handles to move objects is explained in [this section](the-3d-window.md#axis-aligned-handles).
-Now your world should look like this:
-
-%figure "What you should at this point of the tutorial."
-![tutorial_1.4.png](images/tutorial_1.4.png)
-%end
 
 ### Add an e-puck Robot
 
