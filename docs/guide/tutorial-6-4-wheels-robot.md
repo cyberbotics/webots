@@ -41,7 +41,7 @@ A joint node is used to add one (or two) degree(s) of freedom (DOF), between its
 The direct parent and child of a joint node are both solid nodes.
 
 The nodes derived from Joint allow to create different kinds of constraints between the linked solid nodes.
-The most used one in robotics, is the [HingeJoint](../reference.hingejoint.md) allowing to model amongst others rotational motors including wheels.
+The most used one in robotics, is the [HingeJoint](../reference/hingejoint.md) allowing to model amongst others rotational motors including wheels.
 
 A joint node can be monitored or actuated by adding respectively a [PositionSensor](../reference/positionsensor.md) node, or a motor node to its `device` field.
 
