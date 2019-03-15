@@ -44,9 +44,9 @@ A texture on a rolling object can help to appreciate its movement.
 
 > **Hands on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-Then set the value of the newly added `url` item to `WEBOTS_HOME/projects/default/worlds/textures/red_brick_wall.jpg` using the file selection dialog.
+Then set the value of the newly added `url` item to [`WEBOTS_HOME/projects/default/worlds/textures/red_brick_wall.jpg`](https://github.com/omichel/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg) using the file selection dialog.
 
-The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory `WEBOTS_HOME/projects/default/worlds`.
+The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`](https://github.com/omichel/webots/tree/master/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.
 
 Open the `red_brick_wall.jpg` texture in an image viewer while you observe how it is mapped onto the [Sphere](../reference/sphere.md) node in Webots.
