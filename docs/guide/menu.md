@@ -112,6 +112,7 @@
     - [Shrimp](shrimp.md)
     - [Sojourner](sojourner.md)
     - [Surveyor SRV-1](surveyor.md)
+    - [Telemax](telemax.md)
     - [Thymio II](thymio2.md)
     - [Tinkerbots](tinkerbots.md)
     - [Yamor](yamor.md)
