@@ -2,9 +2,7 @@
 
 %robot telemax images/robots/telemax/model.png
 
-The [Moose robot](https://www.clearpathrobotics.com/moose-ugv/) from [Clearpath Robotics](https://www.clearpathrobotics.com) is a large all-terrain unmanned ground vehicle yet.
-It can handle tough environments with its rugged build, low ground pressure, and 8x8 traction tires, which allow effortless mobility through soft soils, vegetation, thick muds, and steep grades.
-With a large payload mounting area and accessible power and communication ports, Moose can be easily customized with sensors, manipulators and other payloads to accommodate a wide variety of robotics applications in mining, agriculture, construction and environmental monitoring.
+The [Telemax robot](https://www.telerob.com/en/products/telemax-family) from [Telerob](https://www.telerob.com) is a tracked robot equipped with a 7-axis manipulator.
 
 ### Movie Presentation
 
@@ -16,7 +14,17 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Telemax {
-  TODO
+  SFVec3f     translation      0 0.2 0
+  SFRotation  rotation         0 1 0 0
+  SFColor     color            0.187 0.257 0.953
+  SFString    name             "telemax"
+  SFString    controller       "telemax_keyboard_controller"
+  SFString    controllerArgs   ""
+  SFString    customData       ""
+  SFBool      supervisor       FALSE
+  SFBool      selfCollision    TRUE
+  SFBool      synchronization  TRUE
+  MFNode      traySlot         [ TelemaxBox { } ]
 }
 ```
 
@@ -24,7 +32,8 @@ Telemax {
 
 #### Moose Field Summary
 
-- `color`: TODO
+- `color`: Defines the color of the painted part of the robot.
+- `traySlot`: Extends the robot with new nodes located on top of its tray.
 
 ### Samples
 
@@ -32,4 +41,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### telemax\_hall.wbt
 
-![telemax_hall.wbt.png](images/robots/moose/telemax_hall.wbt.png) This simulation shows TODO.
+![telemax_hall.wbt.png](images/robots/telemax/telemax_hall.wbt.png) This simulation shows the Telemax robot in an indoor environment.
