@@ -30,7 +30,7 @@ Telemax {
 
 > **File location**: "WEBOTS\_HOME/projects/robots/telerob/telemax/protos/Telemax.proto"
 
-#### Moose Field Summary
+#### Telemax Field Summary
 
 - `color`: Defines the color of the painted part of the robot.
 - `traySlot`: Extends the robot with new nodes located on top of its tray.
