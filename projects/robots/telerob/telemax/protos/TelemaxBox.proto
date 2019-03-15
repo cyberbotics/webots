@@ -1,7 +1,7 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# TODO
+# Box to be stacked on top of the telemax robot, it usually contains the battery.
 
 PROTO TelemaxBox [
   field  SFVec3f     translation  0 0 0
