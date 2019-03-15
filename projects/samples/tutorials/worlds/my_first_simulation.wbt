@@ -3,21 +3,36 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.964988043047881 0.2609340116402026 0.026674301189934066 5.53317
-  position -0.319918 0.968445 1.19138
+  orientation -0.68571632032162 0.6744234166128046 0.2737630054789887 1.0463020768764322
+  position 1.5811995636203142 2.0509846781297107 1.6038617059819977
 }
-Background {
-  skyColor [
-    0.1 0.1 0.1
-  ]
+TexturedBackground {
 }
-DirectionalLight {
-  direction -0.33 -1 0.5
-  intensity 2.3
-  castShadows TRUE
+TexturedBackgroundLight {
 }
 RectangleArena {
+  floorTileSize 0.25 0.25
+  wallHeight 0.05
+}
+WoodenBox {
+  translation -0.19992739577174534 0.05000000000000031 0.15418519105302114
+  rotation 0 -1 0 0.34688418883387256
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation -0.2923141848486477 0.05000000000000031 -0.34064970511704634
+  rotation 0 -1 0 0.34688418883387256
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+  mass 0.2
+}
+WoodenBox {
+  translation 0.2295939377915328 0.05000000000000031 -0.2316064972806225
+  rotation 0 -1 0 0.34688418883387256
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+  mass 0.2
 }
 E-puck {
-  controller "e-puck_go_forward"
 }
