@@ -111,7 +111,7 @@ graph TD
 %end
 %end
 
-### `HingeJoint` nodes
+### `HingeJoint`
 
 The initial position of the Wheel is defined by the translation and the rotation fields of the [Solid](../reference/solid.md) node.
 While the rotation origin (anchor) and the rotation axis (axis) are defined by the optional [HingeJointParameters](../reference/hingejointparameters.md) child of the [HingeJoint](../reference/hingejoint.md) node.
