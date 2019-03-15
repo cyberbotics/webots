@@ -119,6 +119,15 @@ Save the simulation and press the `Run real-time` button (right arrow).
 
 The robot should move, blink LEDs and avoid obstacles.
 That's because it has a default controller with that behavior.
+You may have noticed a small black window appearing in the upper-left corner of the 3D view.
+It shows the image taken by the [Camera](../reference/camera.md) of the e-puck robot.
+This image will remain black until the camera is explicitly enabled by the controller of the robot.
+This small image window can be moved around by dragging it.
+It can also be resized by dragging the bottom-right corner.
+Finally, it can be closed by clicking the "x" in the top-right corner.
+You can make it visible again from the **Overlays** menu, by selecting it in the **Camera Devices** submenu.
+Because we won't need it, you can actually close it.
+
 Now, while the simulation is running, let's play with the physics:
 
 > **Hands on #6**: Apply a force to the robot by pressing *Alt + left-click + drag*.
@@ -128,53 +137,41 @@ To enable physics on the `WoodenBox` nodes, you should set their `mass` field to
 Once this is done, should be able to apply a force on them as well.
 
 The simulation may be paused (pause button), run step-by-step (step button), in real time (right arrow button), in run (double right arrow button) or in fast (triple right arrow button) modes.
-Starting the simulation by pressing the `Run` button will make Webots running the simulation as fast as possible.
-In order to obtain a real-time simulation speed, the `Real-Time` button needs to be pressed.
 
-Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy of the simulation.
+Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation.
 
-> **Hands on**: In the Scene Tree view, expand the [WorldInfo](../reference/worldinfo.md) node (the first node).
+> **Hands on #7**: Pause the simulation and revert it.
+In the Scene Tree view, expand the [WorldInfo](../reference/worldinfo.md) node (the first node).
 Set its `basicTimeStep` field to *16*.
 Then save the simulation.
-
-Just after you add the E-puck node, a black window appears in the upper-left corner of the 3D view.
-It shows the content of [Camera](../reference/camera.md) nodes, but it will stay black until not explicitly used during a simulation.
-The camera can be resized by dragging the marked corner or hidden by clicking the "x" in the top-right of the camera window.
-
-> **Hands on**: In this tutorial we will not use the [Camera](../reference/camera.md) devices of the E-puck.
-So we can hide the window by clicking the "x" on the camera window.
-Don't forget to reload the world before hiding the camera and to save it after the modifications.
 
 ### Create a New Controller
 
 We will now program a simple controller that will just make the robot move forwards.
-As there is no obstacle, the robot will move forwards for ever.
-Firstly we will create and edit the C controller, then we will link it to the robot.
 
 A **controller** is a program that defines the behavior of a robot.
 Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, etc.
-Note that C, C++ and Java controllers need to be compiled before they can be run as robot controllers.
+C, C++ and Java controllers need to be compiled before they can be run as robot controllers.
 Python and MATLAB controllers are interpreted languages so they will run without being compiled.
-The `controller` field of a robot specifies which controller is currently linked with to it.
-Please take notice that a controller can be used by several robots, but a robot can only use one controller at a time.
-Each robot controller is executed in a separate child process spawned by Webots.
-Controllers don't share the same address space, and they can run on different processor cores.
-Other languages than C are available but may require a setup.
-Please refer to the language chapter to setup other languages (see [this chapter](language-setup.md)).
+In this tutorial, we are going to create and compile a controller written in C language.
+Refer to the [language chapter](language-setup.md) to setup a controller using a different programming language.
 
-> **Hands on**: Create a new C controller called *e-puck\_go\_forward* using the `Wizards / New Robot Controller...` menu.
-This will create a new "e-puck\_go\_forward" directory in "my\_webots\_projects/tutorials/controllers".
+The `controller` field of a `Robot` node specifies which controller is currently associated to the robot.
+Note that the same controller can be used by several robots, but a robot can only use one controller at a time.
+Each controller is executed in a separate child process usually spawned by Webots.
+Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
+
+> **Hands on #8**: Create a new C controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
+This will create a new `e-puck_go_forward` directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
 The new C source file is displayed in Webots text editor window.
-This C file can be compiled without any modification, however the code has no real effect.
-We will now link the E-puck node with the new controller before modifying it.
+This C file can be compiled without any modification, however the current code has no real effect.
+We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 
-> **Hands on**: Link the `E-puck` node with the *e-puck\_go\_forward* controller.
-This can be done in the Scene Tree view by selecting the `controller` field of the E-puck node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select *e-puck\_go\_forward* in the list.
-Once the controller is linked, save the world.
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+Once the controller is associated with the robot, save the world.
 Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
-
 > ```c
 > #include <webots/robot.h>
 >
@@ -203,20 +200,21 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 > ```
 Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 Fix any compilation errors if necessary.
-When Webots proposes to reload the world, choose `Yes`.
+When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 
-If everything is ok, your robot should move forwards.
+If everything is fine, your robot should move forwards.
 The robot will move using it's maximum speed for a while and then stop once the wheels have rotated of 10 radians.
 
-In the "controllers" directory of your project, a directory containing the *e-puck\_go\_forward* controller has been created.
-The "e-puck\_go\_forward" directory contains an "e-puck\_go\_forward" binary file generated after the compilation of the controller.
-Note that the controller directory name should match with the binary name.
+In the `controllers` directory of your project, a directory containing the `e-puck_go_forward` controller has been created.
+The `e-puck_go_forward` directory contains a `e-puck_go_forward` binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
+The controller directory name should match with the binary name.
 
 ### Extend the Controller to Speed Control
 
 The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and the set the desired speed:
 
+> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 > ```c
 > #include <webots/robot.h>
 >
@@ -250,18 +248,17 @@ In order to control the motors of the wheels in speed you need to set the target
 > }
 > ```
 
-Try to change your previous controller by this one, and then recompile and reload the world.
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
 
 ### Conclusion
 
-We hope you enjoyed creating your first simulation.
-You have been able to set up your environment, to add a robot and to program it.
+We hope you enjoyed creating your first Webots simulation.
+You have been able to set up a world, add a robot and program it.
 The important thing is that you learnt the fundamental concepts summarized below:
 
-A Webots world is made up of nodes organized in a VRML97-like tree structure.
-A world is saved in a ".wbt" file stored in a Webots project.
-The project also contains the robot controllers which are the programs that define the robots' behavior.
-Robot controllers can be written in C (or other languages).
-C controllers have to be compiled before they can be executed.
-Controllers are linked to robots via the `controller` fields of the robot nodes.
+- A world is made up of nodes organized in a tree structure.
+- A world is saved in a `.wbt` file stored in a Webots project.
+- The project also contains the robot controller programs which define the behavior of the robots.
+- Controllers may be written in C or other languages.
+- C, C++ and Java controllers have to be explicitly compiled before they can be executed.
+- Controllers are associated with robots via the `controller` fields of the `Robot` node.
