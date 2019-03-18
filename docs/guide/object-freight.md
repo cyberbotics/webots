@@ -33,7 +33,7 @@ IntermodalContainer {
 ## IntermodalOfficeContainer
 
 An intermodal container is a large standardized shipping container, designed and built for intermodal freight transport, meaning these containers can be used across different modes of transport – from ship to rail to truck – without unloading and reloading their cargo.
-This container contains an office.
+An intermodal container with an office room.
 
 %figure
 
