@@ -1,4 +1,4 @@
-/* global webots */
+/* global webots, Stream */
 'use strict';
 
 function Server(url, view, onready) {
@@ -36,8 +36,8 @@ Server.prototype = {
         return;
       }
       that.socket = new WebSocket(data + '/client');
-      that.socket.onopen = that.onopen;
-      that.socket.onmessage = that.onmessage;
+      that.socket.onopen = function(event) { that.onOpen(event); };
+      that.socket.onmessage = function(event) { that.onMessage(event); };
       that.socket.onclose = function(event) {
         that.view.console.info('Disconnected to the Webots server.');
       };
@@ -48,7 +48,7 @@ Server.prototype = {
     xhr.send();
   },
 
-  onopen: function() {
+  onOpen: function(event) {
     var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
     if (typeof webots.User1Id === 'undefined')
       webots.User1Id = '';
@@ -62,17 +62,18 @@ Server.prototype = {
       webots.User2Name = '';
     if (typeof webots.CustomData === 'undefined')
       webots.CustomData = '';
-    this.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
+    this.socket.send('{ "init" : [ "' + host + '", "' + this.project + '", "' + this.worldFile + '", "' +
               webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
               webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
     $('#webotsProgressMessage').html('Starting simulation...');
   },
 
-  onmessage: function(event) {
+  onMessage: function(event) {
     var message = event.data;
-    if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0)
-      this.view.stream = new webots.Stream(message.substring(7), this.view, this.onready);
-    else if (message.indexOf('controller:') === 0) {
+    if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
+      this.view.stream = new Stream(message.substring(7), this.view, this.onready);
+      this.view.stream.connect();
+    } else if (message.indexOf('controller:') === 0) {
       var n = message.indexOf(':', 11);
       var controller = {};
       controller.name = message.substring(11, n);

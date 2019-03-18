@@ -140,10 +140,8 @@ Stream.prototype = {
       else
         console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + this.view.editor.dirname);
     } else if (data === 'pause') {
-      this.view.pauseButton.style.display = 'none';
-      this.view.real_timeButton.style.display = 'inline';
-      if (this.view.fastButton !== undefined)
-        this.view.fastButton.style.display = 'inline';
+      this.view.toolBar.setMode(data);
+      // update timeout
       if (this.view.timeout > 0 && !this.view.isAutomaticallyPaused) {
         this.view.deadline = this.view.timeout;
         if (this.view.time !== undefined)
@@ -151,10 +149,7 @@ Stream.prototype = {
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
       }
     } else if (data === 'real-time' || data === 'run' || data === 'fast') {
-      this.view.pauseButton.style.display = 'inline';
-      this.view.real_timeButton.style.display = 'inline';
-      if (this.view.fastButton !== undefined)
-        this.view.fastButton.style.display = 'inline';
+      this.view.toolBar.setMode(data);
       if (this.view.timeout >= 0)
         this.view.stream.socket.send('timeout:' + this.view.timeout);
     } else if (data.startsWith('loading:')) {

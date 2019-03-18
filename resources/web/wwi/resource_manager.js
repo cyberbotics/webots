@@ -1,23 +1,31 @@
 'use strict';
 
-class ResourceManager { // eslint-disable-line no-unused-vars
-  constructor() {
-    if (!ResourceManager.instance) {
-      var scripts = document.getElementsByTagName('script');
-      this.wwiUrl = scripts[scripts.length - 1].src;
-      this.wwiUrl = this.wwiUrl.substr(0, this.wwiUrl.lastIndexOf('/') + 1); // remove "webots.js"
-      ResourceManager.instance = this;
+function ResourceManager() {
+  if (!ResourceManager.instance) {
+    ResourceManager.instance = this;
+    this.wwiUrl = '';
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length - 1; i >= 0; i--) {
+      var src = scripts[i].src;
+      if (src.endsWith('webots.js')) {
+        this.wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
+        break;
+      }
     }
-    return ResourceManager.instance;
   }
+  return ResourceManager.instance;
+};
 
-  getImageUrl(name) {
+ResourceManager.prototype = {
+  constructor: ResourceManager,
+
+  getImageUrl: function(name) {
     return 'url(' + this.wwiUrl + name + '.png)';
-  }
+  },
 
   // get the directory path to the currently executing script file
   // for example: https://cyberbotics.com/wwi/8.6/
-  currentScriptPath() {
+  currentScriptPath: function() {
     var scripts = document.querySelectorAll('script[src]');
     for (var i = 0; i < scripts.length; i++) {
       var src = scripts[i].src;
@@ -31,4 +39,4 @@ class ResourceManager { // eslint-disable-line no-unused-vars
     }
     return '';
   }
-}
+};

@@ -1,27 +1,29 @@
 /* global THREE */
 'use strict';
 
-class TextureManager { // eslint-disable-line no-unused-vars
-  constructor() {
-    if (!TextureManager.instance) {
-      TextureManager.instance = this;
-      this.textures = [];
-      this.loadingTextures = [];
-      this.loadingCubeTextureObjects = [];
-      this.streamingMode = false;
-    }
-    return TextureManager.instance;
+function TextureManager() {
+  if (!TextureManager.instance) {
+    TextureManager.instance = this;
+    this.textures = [];
+    this.loadingTextures = [];
+    this.loadingCubeTextureObjects = [];
+    this.streamingMode = false;
   }
+  return TextureManager.instance;
+};
 
-  setStreamingMode(enabled) {
+TextureManager.prototype = {
+  constructor: TextureManager,
+
+  setStreamingMode: function(enabled) {
     this.streamingMode = enabled;
-  }
+  },
 
-  getTexture(name) {
+  getTexture: function(name) {
     return this.textures[name];
-  }
+  },
 
-  loadOrRetrieveTexture(name, texture, cubeTextureIndex) {
+  loadOrRetrieveTexture: function(name, texture, cubeTextureIndex) {
     console.assert(typeof name === 'string', 'TextureManager.loadOrRetrieveTexture: name is not a string.');
     if (name === undefined || name === '')
       return null;
@@ -68,9 +70,9 @@ class TextureManager { // eslint-disable-line no-unused-vars
       }
     );
     return null;
-  }
+  },
 
-  loadTexture(uri, name) {
+  loadTexture: function(uri, name) {
     var image = new Image();
     if (this.loadingTextures[name])
       this.loadingTextures[name].data = image;
@@ -79,9 +81,9 @@ class TextureManager { // eslint-disable-line no-unused-vars
     image.src = '';
     image.onload = () => { this._onImageLoaded(name); };
     image.src = uri;
-  }
+  },
 
-  _onImageLoaded(name) {
+  _onImageLoaded: function(name) {
     this.textures[name] = this.loadingTextures[name].data;
     var textures = this.loadingTextures[name].objects;
     for (var i = 0; i < textures.length; i++) {
@@ -106,4 +108,4 @@ class TextureManager { // eslint-disable-line no-unused-vars
     }
     delete this.loadingTextures[name];
   }
-}
+};

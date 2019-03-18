@@ -2,16 +2,18 @@
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
 'use strict';
 
-class X3dSceneManager { // eslint-disable-line no-unused-vars
-  constructor(domElement) {
-    this.domElement = domElement;
-    this.camera = null;
-    this.root = null;
-    this.worldInfo = {};
-    this.viewpoint = null;
-  }
+function X3dSceneManager(domElement) {
+  this.domElement = domElement;
+  this.camera = null;
+  this.root = null;
+  this.worldInfo = {};
+  this.viewpoint = null;
+}
 
-  init() {
+X3dSceneManager.prototype = {
+  constructor: X3dSceneManager,
+
+  init: function() {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -55,14 +57,14 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.resize();
 
     this.destroyWorld();
-  }
+  },
 
-  render() {
+  render: function() {
     requestAnimationFrame(() => this.render());
     this.composer.render();
-  }
+  },
 
-  resize() {
+  resize: function() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
     this.renderer.setSize(width, height);
@@ -70,44 +72,44 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
-  }
+  },
 
-  destroyWorld() {
+  destroyWorld: function() {
     if (!this.scene)
       return;
     for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.render();
-  }
+  },
 
-  deleteObject(id) {
+  deleteObject: function(id) {
     var object = this.scene.getObjectByName('n' + id);
     if (object)
       object.parent.remove(object);
     this.render();
-  }
+  },
 
-  loadWorldFile(url) {
-    var object = new THREE.Object3D();
+  loadWorldFile: function(url) {
     var loader = new THREE.X3DLoader(this);
     loader.load(url, (object3d) => {
-      if (object)
-        object.add(object3d);
+      this.scene.add(object3d);
+      this.root = object3d;
     });
-    this.scene.add(object);
-  }
+  },
 
-  loadObject(x3dObject, parentId) {
+  loadObject: function(x3dObject, parentId) {
+    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
     var loader = new THREE.X3DLoader(this);
     var object = loader.parse(x3dObject);
-    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
     if (parentObject)
       parentObject.add(object);
-    else
+    else {
       this.scene.add(object);
-  }
+      this.root = object;
+    }
+  },
 
-  getObjectByCustomId(object, id) {
+  getObjectByCustomId: function(object, id) {
     if (!object)
       return undefined;
 
@@ -151,9 +153,9 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
       // only fields set in x3d.js are checked
     }
     return undefined;
-  }
+  },
 
-  applyPose(pose) {
+  applyPose: function(pose) {
     var id = pose.id;
     for (var key in pose) {
       if (key === 'id')
@@ -169,7 +171,7 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
           var translation = convertStringToVec2(newValue);
           object.offset.set(-translation.x, -translation.y);
           object.needsUpdate = true;
-        } else {
+        } else if (object instanceof THREE.Object3D) {
           var newPosition = convertStringToVec3(newValue);
           // followed object moved.
           if (this.viewpoint.followedObjectId &&
@@ -182,20 +184,20 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
           }
           object.position.copy(newPosition);
         }
-      } else if (key === 'rotation') { // Transform node
+      } else if (key === 'rotation' && object instanceof THREE.Object3D) { // Transform node
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
-      } else if (key === 'diffuseColor' || key === 'baseColor') {
+      } else if ((key === 'diffuseColor' || key === 'baseColor') && object instanceof THREE.Material) {
         var diffuseColor = convertStringTorgb(newValue);
         object.color = diffuseColor;
-      } else if (key === 'emissiveColor') {
+      } else if (key === 'emissiveColor' && object instanceof THREE.Material) {
         var emissiveColor = convertStringTorgb(newValue);
         object.emissive = emissiveColor;
       }
     }
-  }
+  },
 
-  pick(relativePosition, screenPosition) {
+  pick: function(relativePosition, screenPosition) {
     // if (this.handle.control.pointerHover(screenPosition))
     //  return;
     // this.handle.hideHandle();
@@ -207,9 +209,9 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
-  }
+  },
 
-  getTopX3dNode(node) {
+  getTopX3dNode: function(node) {
     // If it exists, return the upmost Solid, otherwise the top node
     var upmostSolid = null;
     while (node) {
@@ -223,4 +225,4 @@ class X3dSceneManager { // eslint-disable-line no-unused-vars
       return upmostSolid;
     return node;
   }
-}
+};

@@ -1,18 +1,20 @@
 /* global ResourceManager */
 'use strict';
 
-class Animation { // eslint-disable-line no-unused-vars
-  constructor(url, scene, view, gui, loop) {
-    this.url = url;
-    this.scene = scene;
-    this.view = view;
-    this.gui = gui === undefined || gui === 'play' ? 'play' : 'pause';
-    this.loop = loop === undefined ? true : loop;
-    this.sliding = false;
-    this.onReady = null;
-  }
+function Animation(url, scene, view, gui, loop) {
+  this.url = url;
+  this.scene = scene;
+  this.view = view;
+  this.gui = gui === undefined || gui === 'play' ? 'play' : 'pause';
+  this.loop = loop === undefined ? true : loop;
+  this.sliding = false;
+  this.onReady = null;
+};
 
-  init(onReady) {
+Animation.prototype = {
+  constructor: Animation,
+
+  init: function(onReady) {
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
@@ -22,9 +24,9 @@ class Animation { // eslint-disable-line no-unused-vars
         this._setup(JSON.parse(xmlhttp.responseText));
     };
     xmlhttp.send();
-  }
+  },
 
-  moveSlider(event) {
+  moveSlider: function(event) {
     if (!this.playSlider || !this.sliding)
       return;
 
@@ -41,10 +43,10 @@ class Animation { // eslint-disable-line no-unused-vars
     var ui = {};
     ui.value = value;
     this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
-  }
+  },
 
   // private methods
-  _setup(data) {
+  _setup: function(data) {
     this.data = data;
 
     // create play bar.
@@ -80,14 +82,14 @@ class Animation { // eslint-disable-line no-unused-vars
     // notify creation completed.
     if (this.onReady)
       this.onReady();
-  }
+  },
 
-  _elapsedTime() {
+  _elapsedTime: function() {
     var end = new Date().getTime();
     return end - this.start;
-  }
+  },
 
-  _triggerPlayPauseButton() {
+  _triggerPlayPauseButton: function() {
     var resourceManager = new ResourceManager();
     this.button.style.backgroundImage = resourceManager.getImageUrl(this.gui);
     if (this.gui === 'play') {
@@ -102,28 +104,28 @@ class Animation { // eslint-disable-line no-unused-vars
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
       window.requestAnimationFrame(this._updateAnimation);
     }
-  }
+  },
 
-  _connectSliderEvents() {
+  _connectSliderEvents: function() {
     this.playSlider = this.playSlider.slider({
       change: (e, ui) => this._updateSlider(ui.value),
       slide: (e, ui) => this._updateSlider(ui.value),
       start: this.sliding = (e, ui) => true,
       stop: this.sliding = (e, ui) => false
     });
-  }
+  },
 
-  _disconnectSliderEvents() {
+  _disconnectSliderEvents: function() {
     this.playSlider.slider({change: null, slide: null});
-  }
+  },
 
-  _updateSlider(value) {
+  _updateSlider: function(value) {
     this.step = Math.floor(this.data.frames.length * value / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(false);
-  }
+  },
 
-  _updateAnimationState(moveSlider) {
+  _updateAnimationState: function(moveSlider) {
     if (moveSlider) {
       this.step = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -185,9 +187,9 @@ class Animation { // eslint-disable-line no-unused-vars
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
     sceneManager.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
-  }
+  },
 
-  _updateAnimation() {
+  _updateAnimation: function() {
     if (this.gui === 'play') {
       this._updateAnimationState(true);
       window.requestAnimationFrame(() => this._updateAnimation());

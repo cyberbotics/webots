@@ -17,7 +17,6 @@ THREE.X3DLoader = function(sceneManager, loadManager) {
   this.scene = sceneManager.scene;
   this.camera = sceneManager.camera;
   this.worldInfo = sceneManager.worldInfo;
-  this.root = sceneManager.root;
   this.defDictionary = [];
 };
 
@@ -53,8 +52,6 @@ THREE.X3DLoader.prototype = {
     this.parseNode(object, scene);
     object.userData.x3dType = 'Group';
     object.name = 'n0';
-    this.root = object;
-
     return object;
   },
 
@@ -107,7 +104,6 @@ THREE.X3DLoader.prototype = {
     else if (node.tagName === 'SpotLight')
       object = this.parseSpotLight(node, parentObject);
     else if (node.tagName === 'Group') {
-      console.log('Parse Group', object);
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       this.parseChildren(node, object);
@@ -116,7 +112,7 @@ THREE.X3DLoader.prototype = {
     else if (node.tagName === 'Background')
       object = this.parseBackground(node);
     else if (node.tagName === 'WorldInfo')
-      this.worldInfo = this.parseWorldInfo(node);
+      this.parseWorldInfo(node);
     else
       this.parseChildren(node, parentObject);
 
@@ -852,7 +848,7 @@ THREE.X3DLoader.prototype = {
       // camera.near = near;
       // camera.far = far;
     } else {
-      console.log('Parse Viewpoint:: error camera');
+      console.log('Parse Viewpoint: error camera');
       camera = new THREE.PerspectiveCamera(fov, 1, near, far);
     }
 
@@ -874,10 +870,8 @@ THREE.X3DLoader.prototype = {
   },
 
   parseWorldInfo: function(worldInfo) {
-    return {
-      title: getNodeAttribute(worldInfo, 'title', ''),
-      window: getNodeAttribute(worldInfo, 'window', '')
-    };
+    this.worldInfo.title = getNodeAttribute(worldInfo, 'title', '');
+    this.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
   },
 
   setCustomId: function(node, object) {
@@ -896,8 +890,7 @@ THREE.X3DLoader.prototype = {
 };
 
 function getNodeAttribute(node, attributeName, defaultValue) {
-  if (!node || !node.attributes)
-    console.log('error');
+  console.assert(node && node.attributes);
   if (attributeName in node.attributes)
     return node.attributes.getNamedItem(attributeName).value;
   return defaultValue;
