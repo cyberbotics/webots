@@ -285,10 +285,10 @@
     "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
   },
   "projects/objects/freight/protos/IntermodalContainer.proto": {
-    "fields": "rotation 0 1 0 0.4854"
+    "fields": "rotation 0 1 0 -0.6"
   },
   "projects/objects/freight/protos/IntermodalOfficeContainer.proto": {
-    "fields": "rotation 0 1 0 0.4854"
+    "fields": "rotation 0 1 0 2.5"
   },
   "projects/objects/fruits/protos/Apple": {
   },
