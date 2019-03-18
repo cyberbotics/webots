@@ -22,6 +22,7 @@
   - [Tools](object-factory.md#tools)
   - [Valves](object-factory.md#valves)
 - [Floors](object-floors.md)
+- [Freight](object-freight.md)
 - [Fruits](object-fruits.md)
 - [Garden](object-garden.md)
 - [Geometries](object-geometries.md)
