@@ -20,7 +20,7 @@
  *   }
  */
 
-/* global webots THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream, ContextMenu, VideoManager, Console, Editor, RobotWindow, Toolbar */
+/* global webots THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream, ContextMenu, VideoManager, Console, Editor, RobotWindow, Toolbar, ResourceManager */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
