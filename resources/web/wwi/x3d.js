@@ -303,8 +303,10 @@ THREE.X3DLoader.prototype = {
     }
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
-    if (isTransparent)
+    if (isTransparent) {
       mat.transparent = true;
+      mat.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+    }
     mat.userData.x3dType = 'Appearance';
     if (material)
       this.setCustomId(material, mat);

@@ -77,7 +77,7 @@ function Toolbar(parent, view) {
   parent.appendChild(this.domElement);
 
   this.enableToolBarButtons(false);
-  if (webots.broadcast && this.quitButton) {
+  if (this.view.broadcast && this.quitButton) {
     this.quitButton.disabled = true;
     this.quitButton.classList.add('toolBarButtonDisabled');
     this.view.contextMenu.disableEdit();
