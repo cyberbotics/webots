@@ -15,13 +15,14 @@ Animation.prototype = {
   constructor: Animation,
 
   init: function(onReady) {
+    var that = this;
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
     xmlhttp.overrideMimeType('application/json');
-    xmlhttp.onreadystatechange = () => {
+    xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
-        this._setup(JSON.parse(xmlhttp.responseText));
+        that._setup(JSON.parse(xmlhttp.responseText));
     };
     xmlhttp.send();
   },
@@ -47,6 +48,7 @@ Animation.prototype = {
 
   // private methods
   _setup: function(data) {
+    var that = this;
     this.data = data;
 
     // create play bar.
@@ -60,17 +62,17 @@ Animation.prototype = {
     var resourceManager = new ResourceManager();
     this.button.style.backgroundImage = resourceManager.getImageUrl(action);
     this.button.style.padding = '0';
-    this.button.addEventListener('click', () => this._triggerPlayPauseButton());
+    this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
     this.playSlider = $('#playSlider').slider({
-      change: function(e, ui) { this._updateSlider(ui.value); },
-      slide: function(e, ui) { this._updateSlider(ui.value); },
-      start: function(e, ui) { this.sliding = true; },
-      stop: function(e, ui) { this.sliding = false; }
+      change: function(e, ui) { that._updateSlider(ui.value); },
+      slide: function(e, ui) { that._updateSlider(ui.value); },
+      start: function(e, ui) { that.sliding = true; },
+      stop: function(e, ui) { that.sliding = false; }
     });
 
     // init animation data.
@@ -102,16 +104,18 @@ Animation.prototype = {
     } else {
       this.gui = 'play';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
-      window.requestAnimationFrame(this._updateAnimation);
+      var that = this;
+      window.requestAnimationFrame(function() { that._updateAnimation(); });
     }
   },
 
   _connectSliderEvents: function() {
+    var that = this;
     this.playSlider = this.playSlider.slider({
-      change: (e, ui) => this._updateSlider(ui.value),
-      slide: (e, ui) => this._updateSlider(ui.value),
-      start: this.sliding = (e, ui) => true,
-      stop: this.sliding = (e, ui) => false
+      change: function(e, ui) { that._updateSlider(ui.value); },
+      slide: function(e, ui) { that._updateSlider(ui.value); },
+      start: function(e, ui) { that.sliding = true; },
+      stop: function(e, ui) { that.sliding = false; }
     });
   },
 
@@ -191,8 +195,9 @@ Animation.prototype = {
 
   _updateAnimation: function() {
     if (this.gui === 'play') {
+      var that = this;
       this._updateAnimationState(true);
-      window.requestAnimationFrame(() => this._updateAnimation());
+      window.requestAnimationFrame(function() { that._updateAnimation(); });
     }
   }
 };

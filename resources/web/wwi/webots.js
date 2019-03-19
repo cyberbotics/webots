@@ -144,20 +144,8 @@ webots.View = function(view3D, mobile) {
     }
   });
 
-  this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
-  this.contextMenu.onEditController = function(controller) { that.editController(controller); };
-  this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
-  this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
-  this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindowValid(robotName); };
-  this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
-
-  this.console = new Console(this.view3D, this.mobileDevice);
-  this.editor = new Editor(this.view3D, this.mobileDevice, this);
-
-  this.infoWindow = null;
   this.selection = null;
   this.x3dSceneManager = null;
-  this.animation = null;
   this.debug = false;
   this.timeout = 60 * 1000; // default to one minute
   this.time = undefined;
@@ -235,6 +223,22 @@ webots.View.prototype.open = function(url, mode) {
   }
   if (this.broadcast)
     this.setTimeout(-1);
+
+  this.url = url;
+  this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
+
+  if (that.isWebSocketProtocol) {
+    this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
+    this.contextMenu.onEditController = function(controller) { that.editController(controller); };
+    this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
+    this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
+    this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindowValid(robotName); };
+    this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
+
+    this.console = new Console(this.view3D, this.mobileDevice);
+    this.editor = new Editor(this.view3D, this.mobileDevice, this);
+  }
+
   if (!this.x3dSceneManager) {
     var x3dDiv = document.createElement('div');
     x3dDiv.className = 'webots3DView';
@@ -248,9 +252,6 @@ webots.View.prototype.open = function(url, mode) {
 
     this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, x3dDiv);
   }
-
-  this.url = url;
-  this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
   // TODO if THREE js library is already loaded the if is useless
   /* if (this.url === undefined)

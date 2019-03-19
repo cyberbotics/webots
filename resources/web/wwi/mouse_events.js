@@ -5,7 +5,6 @@ function MouseEvents(sceneManager, contextMenu, domElement) {
   this.sceneManager = sceneManager;
   this.contextMenu = contextMenu;
   this.domElement = domElement;
-  this.enabledContextMenu = true;
 
   this.state = {
     'initialized': false,
@@ -134,7 +133,7 @@ MouseEvents.prototype = {
       this.sceneManager.selector.select(object);
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
-        this.hiddenContextMenu === false && this.enabledContextMenu)
+        this.hiddenContextMenu === false && this.contextMenu)
         // right click: show popup menu
         this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
     } else if (this.state.moved) {
@@ -147,6 +146,8 @@ MouseEvents.prototype = {
   },
 
   onMouseWheel: function(event) {
+    event.preventDefault(); // do not scroll page
+
     if (this.intersection.distance < 0.001) // 1 mm
       this.intersection.distance = 0.001;
     if (!this.enableNavigation || this.state.wheelFocus === false) {
@@ -156,7 +157,7 @@ MouseEvents.prototype = {
       window.scroll(0, window.pageYOffset + offset);
       if (this.state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
         clearTimeout(this.state.wheelTimeout); // so that the wheel focus will get enabled and
-        var that;
+        var that = this;
         this.state.wheelTimeout = setTimeout(function(event) { that.wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
       }
       return;
@@ -303,7 +304,8 @@ MouseEvents.prototype = {
     this.state.moved = false;
     this.state.initialTimeStamp = Date.now();
     this.state.longClick = false;
-    this.hiddenContextMenu = this.contextMenu.toggle();
+    if (this.contextMenu)
+      this.hiddenContextMenu = this.contextMenu.toggle();
   },
 
   _clearMouseMove: function() {
