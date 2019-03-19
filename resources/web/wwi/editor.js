@@ -59,7 +59,7 @@ function Editor(parent, mobile, view) {
   this.params.open = function() { DialogWindow.resizeDialogOnOpen(that.panel); };
   this.params.title = 'Editor';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: mobile});
+  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
   this.editor.commands.addCommand({
     name: 'save',

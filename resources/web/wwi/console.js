@@ -13,7 +13,7 @@ function Console(parent, mobile) {
   this.params.close = function() { $('#consoleButton').removeClass('toolBarButtonActive'); };
   this.params.title = 'Console';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: mobile});
+  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 }
 
 Console.prototype = {

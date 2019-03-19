@@ -22,11 +22,7 @@ function DialogWindow(parent, mobile) {
 }
 
 DialogWindow.prototype = {
-  constructor: DialogWindow,
-
-  setup: function(params, clampedSize) {
-    $(this.panel).dialog(params).dialogExtend({maximizable: this.mobile});
-  }
+  constructor: DialogWindow
 };
 
 DialogWindow.clampDialogSize = function(preferredGeometry) {

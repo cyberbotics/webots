@@ -2,7 +2,7 @@
 'use strict';
 
 function RobotWindow(parent, mobile, name) {
-  DialogWindow.call(this, parent, name);
+  DialogWindow.call(this, parent, mobile);
   this.name = name;
   this.panel.id = name;
   this.panel.className = 'webotsTabContainer';
@@ -14,7 +14,7 @@ function RobotWindow(parent, mobile, name) {
   this.params.position = {at: 'left+5 top+5', my: 'left top', of: this.parent};
   this.params.title = 'Robot Window';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: mobile});
+  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 }
 
 RobotWindow.prototype = {

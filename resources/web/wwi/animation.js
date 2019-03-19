@@ -195,4 +195,4 @@ Animation.prototype = {
       window.requestAnimationFrame(() => this._updateAnimation());
     }
   }
-}
+};

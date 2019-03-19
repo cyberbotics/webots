@@ -32,7 +32,7 @@ function HelpWindow(parent, mobile, webotsDocUrl) {
   this.params.position = {at: 'right-5 top+5', my: 'right top', of: this.parent};
   this.params.title = 'Help';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: mobile});
+  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
   var that = this;
   function finalize() {
