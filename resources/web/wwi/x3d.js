@@ -289,15 +289,20 @@ THREE.X3DLoader.prototype = {
     }
 
     // Check to see if there is a texture
+    var isTransparent = false;
     var imageTexture = appearance.getElementsByTagName('ImageTexture');
     var colorMap;
     if (imageTexture.length > 0) {
       colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
-      if (colorMap)
+      if (colorMap) {
         materialSpecifications.map = colorMap;
+        isTransparent = colorMap.userData.isTransparent;
+      }
     }
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
+    if (isTransparent)
+      mat.transparent = true;
     mat.userData.x3dType = 'Appearance';
     if (material)
       this.setCustomId(material, mat);
@@ -318,16 +323,17 @@ THREE.X3DLoader.prototype = {
       emissive: emissiveColor
     };
 
+    var isTransparent = false;
     var textureTransform = pbrAppearance.getElementsByTagName('TextureTransform');
     var imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
     for (let t = 0; t < imageTextures.length; t++) {
       var imageTexture = imageTextures[t];
       var type = getNodeAttribute(imageTexture, 'type', '');
-      if (type === 'baseColor')
+      if (type === 'baseColor') {
         materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
-      // else if (type === 'occlusion')  // Not working as expected.
-      //   materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
-      else if (type === 'roughness') {
+        if (materialSpecifications.map && materialSpecifications.map.userData.isTransparent)
+          isTransparent = true;
+      } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
         materialSpecifications.roughness = 1.0;
       } else if (type === 'metalness')
@@ -336,6 +342,8 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.normalMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'emissive')
         materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture, textureTransform);
+      // else if (type === 'occlusion')  // Not working as expected.
+      //   materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
     }
 
     // TODO -> asynchronous texture load
@@ -349,11 +357,13 @@ THREE.X3DLoader.prototype = {
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
+    if (isTransparent)
+      mat.transparent = true;
 
     return mat;
   },
 
-  parseImageTexture: function(imageTexture, textureTransform) {
+  parseImageTexture: function(imageTexture, textureTransform, mat) {
     // TODO issues with DEF and USE textures with different image transform!
     var texture = this.getDefNode(imageTexture);
     if (texture)
@@ -372,6 +382,7 @@ THREE.X3DLoader.prototype = {
       texture.image = image;
       texture.needsUpdate = true;
     }
+    texture.userData = { 'isTransparent': filename[0].endsWith('.png') };
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true');
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true');

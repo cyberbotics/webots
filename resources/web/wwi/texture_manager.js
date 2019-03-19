@@ -54,18 +54,23 @@ TextureManager.prototype = {
     console.log('loadOrRetrieveTexture ' + name);
     this.loadingTextures[name] = {data: null, objects: [texture]};
 
+    if (this.streamingMode)
+      return; // textures will be sent throug socket
+
     // load from url.
+    var that = this;
     var loader = new THREE.ImageLoader();
     loader.load(
       name,
-      (image) => {
-        this.loadingTextures[name].data = image;
-        this._onImageLoaded(name);
+      function(image) {
+        if (that.loadingTextures[name]) {
+          that.loadingTextures[name].data = image;
+          that._onImageLoaded(name);
+        } // else image already loaded
       },
       undefined, // onProgress callback
-      (err) => { // onError callback
-        if (!this.streamingMode)
-          console.error('An error happened when loading the texure "' + name + '": ' + err);
+      function(err) { // onError callback
+        console.error('An error happened when loading the texure "' + name + '": ' + err);
         // else image could be received later
       }
     );
@@ -73,37 +78,39 @@ TextureManager.prototype = {
   },
 
   loadTexture: function(uri, name) {
+    var that = this;
     var image = new Image();
     if (this.loadingTextures[name])
       this.loadingTextures[name].data = image;
     else
       this.loadingTextures[name] = {data: image, objects: []};
     image.src = '';
-    image.onload = () => { this._onImageLoaded(name); };
+    image.onload = function() { that._onImageLoaded(name); };
     image.src = uri;
   },
 
   _onImageLoaded: function(name) {
-    this.textures[name] = this.loadingTextures[name].data;
-    var textures = this.loadingTextures[name].objects;
-    for (var i = 0; i < textures.length; i++) {
-      if (textures[i] instanceof THREE.CubeTexture) {
-        var missingImages = this.loadingCubeTextureObjects[textures[i]];
+    var image = this.loadingTextures[name].data;
+    this.textures[name] = image;
+    var textureObjects = this.loadingTextures[name].objects;
+    // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
+    var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
+    for (var i = 0; i < textureObjects.length; i++) {
+      if (textureObjects[i] instanceof THREE.CubeTexture) {
+        var missingImages = this.loadingCubeTextureObjects[textureObjects[i]];
         console.log(missingImages);
         var indices = missingImages[name];
         for (var j = 0; j < indices.length; j++)
-          textures[i].images[j] = this.textures[name];
+          textureObjects[i].images[j] = image;
         delete missingImages[name];
         if (Object.keys(missingImages).length === 0) {
-          textures[i].needsUpdate = true;
-          delete this.loadingCubeTextureObjects[textures[i]];
+          textureObjects[i].needsUpdate = true;
+          delete this.loadingCubeTextureObjects[textureObjects[i]];
         }
       } else {
-        textures[i].image = this.textures[name];
-        // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
-        var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
-        textures[i].format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
-        textures[i].needsUpdate = true;
+        textureObjects[i].image = image;
+        textureObjects[i].format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
+        textureObjects[i].needsUpdate = true;
       }
     }
     delete this.loadingTextures[name];

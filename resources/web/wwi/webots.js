@@ -314,7 +314,7 @@ webots.View.prototype.open = function(url, mode) {
 
     function loadRobotWindow(windowName, nodeName) {
       that.robotWindowNames[nodeName] = windowName;
-      var win = new RobotWindow(that.view3D, windowName, that.mobileDevice);
+      var win = new RobotWindow(that.view3D, that.mobileDevice, windowName);
       that.robotWindows[windowName] = win;
       // init robot windows dialogs
       function closeInfoWindow() {
