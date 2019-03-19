@@ -38,6 +38,9 @@ namespace WbPrecision {
   //     - the result is the shortest possible string.
   QString doubleToString(double value, Level level);
 
+  const double epsilon(Level level);
+  double roundValue(double value, Level level);
+
 };  // namespace WbPrecision
 
 #endif

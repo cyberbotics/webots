@@ -80,8 +80,8 @@ void WbDoubleEditor::takeKeyboardFocus() {
 }
 
 void WbDoubleEditor::apply() {
-  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() : mSpinBox->value();
-
+  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() :
+                                             WbPrecision::roundValue(mSpinBox->value(), WbPrecision::GUI_MEDIUM);
   if (singleValue()) {
     WbSFDouble *const sfDouble = static_cast<WbSFDouble *>(singleValue());
     if (sfDouble->value() == mDouble)
