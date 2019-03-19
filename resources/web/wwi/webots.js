@@ -375,7 +375,7 @@ webots.View.prototype.open = function(url, mode) {
 
   function loadFinalize() {
     $('#webotsProgress').hide();
-    if (that.toolBar)
+    if (that.toolBar && !that.broadcast)
       that.toolBar.enableToolBarButtons(true);
 
     if (that.onready)

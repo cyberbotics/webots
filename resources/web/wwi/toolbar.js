@@ -51,7 +51,7 @@ function Toolbar(parent, view) {
   var timeout = document.createElement('span');
   timeout.id = 'webotsTimeout';
   timeout.title = 'Simulation time out';
-  timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout);
+  timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout >= 0 ? this.view.timeout : 0);
   div.appendChild(document.createElement('br'));
   div.appendChild(timeout);
   this.domElement.left.appendChild(div);
