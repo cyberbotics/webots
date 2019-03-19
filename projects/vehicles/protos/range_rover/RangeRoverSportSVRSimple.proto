@@ -191,7 +191,7 @@ PROTO RangeRoverSportSVRSimple [
       }
       # vehicle shape
       DEF COACHWORK_PRIMARY Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color
         }
         geometry RangeRoverSportSVRCoachworkPrimaryMesh {

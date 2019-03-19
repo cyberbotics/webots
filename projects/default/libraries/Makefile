@@ -34,17 +34,8 @@ ifeq ($(OSTYPE),darwin)
  WGET=curl -O --silent
 endif
 
-ifeq ($(OSTYPE),windows)
- OS_TAG=windows
- ROS_PACKAGE=$(ROS_TARGET)_windows.zip
- EXTRACT=unzip -q
- WGET=wget --quiet
- # remove .zip
- ROS_SOURCE=$(basename $(ROS_PACKAGE))
-else
- # remove .tar.gz
- ROS_SOURCE=$(basename $(basename $(ROS_PACKAGE)))
-endif
+# remove .tar.gz
+ROS_SOURCE=$(basename $(basename $(ROS_PACKAGE)))
 
 release debug profile: $(ROS_TARGET)
 
@@ -57,11 +48,9 @@ $(ROS_PACKAGE):
 	@echo "#" removing old $(ROS_TARGET)
 	@rm -rf $(ROS_TARGET)/*$(SHARED_LIB_EXTENSION).* $(ROS_TARGET)/*$(SHARED_LIB_EXTENSION)
 	@echo "#" installing $(ROS_PACKAGE)
-ifeq ($(OSTYPE),windows)
-	@mv *.dll $(ROS_TARGET)
-else ifeq ($(OSTYPE),darwin)
+ifeq ($(OSTYPE),darwin)
 	@mv *.dylib $(ROS_TARGET)
-else
+else ifeq ($(OSTYPE),linux)
 	@mv $(ROS_SOURCE)/* $(ROS_TARGET)
 endif
 	@rm -rf $(ROS_SOURCE)

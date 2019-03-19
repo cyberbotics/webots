@@ -8,6 +8,7 @@ PROTO LJoint [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "L joint pipe"
   field SFVec3f    scale       1 1 1
+  field SFNode     appearance  OldSteel { textureTransform TextureTransform { rotation 0.78 scale 2 2 } }  # Defines the appearance of the pipe.
 ]
 {
   Solid {
@@ -16,12 +17,7 @@ PROTO LJoint [
     scale IS scale
     children [
       Shape {
-        appearance OldSteel {
-          textureTransform TextureTransform {
-            rotation 0.78
-            scale 2 2
-          }
-        }
+        appearance IS appearance
         geometry IndexedFaceSet {
           coord Coordinate {
             point [

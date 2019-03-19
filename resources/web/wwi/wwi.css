@@ -120,7 +120,47 @@ button::-moz-focus-inner {
   height: 100px;
   border: 2px solid #ddd;
   border-radius: 20px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 25px;
+  padding-left: 10px;
+}
+
+#webotsProgressPercent > progress {
+  padding: 4px;
+  border: 0 none;
+  background: #ccc;
+  border-radius: 10px;
+  height: 10px;
+  width: 75%;
+  margin-top: 5px;
+}
+
+#webotsProgressPercent > progress::-moz-progress-bar {
+  height: 10px;
+  border-radius: 2px;
+  background: #666;
+}
+
+#webotsProgressPercent > progress::-webkit-progress-bar {
+  height: 3px;
+  background: transparent;
+}
+
+#webotsProgressPercent > progress::-webkit-progress-value {
+  border-radius: 2px;
+  background: #666;
+}
+
+#worldSelection {
+  background-color: #ccc;
+  font-size: 0.8em;
+  border-radius: 10px;
+  height: 32px;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .webotsView {

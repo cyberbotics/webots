@@ -34,6 +34,7 @@ WbWrenGtao::WbWrenGtao() :
   mFov(0.78f),
   mRadius(2.0),
   mHalfResolution(false),
+  mFlipNormalY(0.0f),
   mFrameCounter(0) {
   mClipInfo[0] = mClipInfo[1] = mClipInfo[2] = mClipInfo[3] = 0.0f;
   mParams[0] = mParams[1] = mParams[2] = mParams[3] = 0.0f;
@@ -145,6 +146,12 @@ void WbWrenGtao::setQualityLevel(int qualityLevel) {
   applyParametersToWren();
 }
 
+void WbWrenGtao::setFlipNormalY(float flip) {
+  mFlipNormalY = flip;
+
+  applyParametersToWren();
+}
+
 void WbWrenGtao::copyNewInverseViewMatrix(const float *inverseViewMatrix) {
   memcpy(mPreviousInverseViewMatrix, inverseViewMatrix, sizeof(float) * 16);
 }
@@ -171,6 +178,8 @@ void WbWrenGtao::applyParametersToWren() {
   wr_post_processing_effect_pass_set_program_parameter(mGtaoPass, "params", reinterpret_cast<const char *>(&mParams));
 
   wr_post_processing_effect_pass_set_program_parameter(mGtaoPass, "radius", reinterpret_cast<const char *>(&mRadius));
+
+  wr_post_processing_effect_pass_set_program_parameter(mGtaoPass, "flipNormalY", reinterpret_cast<const char *>(&mFlipNormalY));
 
   ++mFrameCounter;
 

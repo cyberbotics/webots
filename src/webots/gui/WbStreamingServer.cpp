@@ -83,6 +83,10 @@ WbStreamingServer::WbStreamingServer() :
   mPauseTimeout(-1) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
+          &WbStreamingServer::setWorldLoadingProgress);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this,
+          &WbStreamingServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbStreamingServer::propagateNodeAddition);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
@@ -352,18 +356,24 @@ void WbStreamingServer::processTextMessage(QString message) {
     printf("pause\n");
     fflush(stdout);
     client->sendTextMessage("pause");
-  } else if (message.startsWith("real-time:")) {
-    const double timeout = message.mid(10).toDouble();
+  } else if (message.startsWith("real-time:") or message.startsWith("fast:")) {
+    const bool realTime = message.startsWith("real-time:");
+    const double timeout = realTime ? message.mid(10).toDouble() : message.mid(5).toDouble();
     if (timeout >= 0)
       mPauseTimeout = WbSimulationState::instance()->time() + timeout;
     else
       mPauseTimeout = -1.0;
     disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
                &WbStreamingServer::propagateSimulationStateChange);
-    WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+    if (realTime) {
+      printf("real-time\n");
+      WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+    } else {
+      printf("fast\n");
+      WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+    }
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
             &WbStreamingServer::propagateSimulationStateChange);
-    printf("real-time\n");
     fflush(stdout);
   } else if (message == "step") {
     disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
@@ -401,6 +411,17 @@ void WbStreamingServer::processTextMessage(QString message) {
         sendWorldStateToClient(client, state);
     }
     sendToClients("reset finished");
+  } else if (message == "revert")
+    WbApplication::instance()->worldReload();
+  else if (message.startsWith("load:")) {
+    const QString worldsPath = WbProject::current()->worldsPath();
+    const QString fullPath = worldsPath + '/' + message.mid(5);
+    if (!QFile::exists(fullPath))
+      WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
+    else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
+      WbLog::error(tr("Streaming server: you are not allowed to open a world in another project directory."));
+    else if (gMainWindow)
+      gMainWindow->loadDifferentWorld(fullPath);
   } else if (message.startsWith("get controller:")) {
     const QString controller = message.mid(15);
     if (!isControllerEditAllowed(controller))
@@ -665,6 +686,13 @@ void WbStreamingServer::deleteWorld() {
   mEditableControllers.clear();
 }
 
+void WbStreamingServer::setWorldLoadingProgress(const int progress) {
+  foreach (QWebSocket *client, mClients) {
+    client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
+    client->flush();
+  }
+}
+
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
   if (mServer == NULL || WbWorld::instance() == NULL)
     return;
@@ -750,6 +778,14 @@ void WbStreamingServer::generateX3dWorld() {
 }
 
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
+  WbWorld *world = WbWorld::instance();
+  const QDir dir = QFileInfo(world->fileName()).dir();
+  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  QString worlds;
+  for (int i = 0; i < worldList.size(); ++i)
+    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
+  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+
   qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot sent the entire world");

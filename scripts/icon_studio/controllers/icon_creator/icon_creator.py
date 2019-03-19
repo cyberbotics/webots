@@ -1,3 +1,17 @@
+# Copyright 1996-2018 Cyberbotics Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Setup the studio, and generate continuously icons in the target directory."""
 
 import colorsys
@@ -228,7 +242,9 @@ else:
                 continue
 
             itemCounter += 1
-            protoName = os.path.basename(key).split('.')[0].encode('utf-8')
+            protoName = os.path.basename(key).split('.')[0]
+            if sys.version_info[0] < 3:
+                protoName = protoName.encode('utf-8')
             protoPath = key
             print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
 
@@ -256,9 +272,14 @@ else:
                 fields = data['default']['fields']
 
             nodeString = protoName + '{ '
-            nodeString += fields.encode('utf-8')
+            if sys.version_info[0] < 3:
+                nodeString += fields.encode('utf-8')
+            else:
+                nodeString += fields
             nodeString += ' }'
             if 'nodeString' in value:
-                nodeString = value['nodeString'].encode('utf-8')
-
+                if sys.version_info[0] < 3:
+                    nodeString = value['nodeString'].encode('utf-8')
+                else:
+                    nodeString = value['nodeString']
             process_object(controller, key.split('/')[1], nodeString, background=[0, 1, 1], colorThreshold=0.05, alphaRejectionThreshold=0.4)

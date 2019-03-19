@@ -63,28 +63,7 @@ PROTO CarSteeringWheel [
             }
           }
           DEF LEATHER_PARTS Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "textures/car_dark_leather_base_color.jpg"
-                ]
-              }
-              roughnessMap ImageTexture {
-                url [
-                  "textures/car_leather_roughness.jpg"
-                ]
-              }
-              metalness 0
-              normalMap ImageTexture {
-                url [
-                  "textures/car_leather_normal.jpg"
-                ]
-              }
-              occlusionMap ImageTexture {
-                url [
-                  "textures/car_leather_occlusion.jpg"
-                ]
-              }
+            appearance Leather {
               textureTransform TextureTransform {
                 scale 4 4
               }

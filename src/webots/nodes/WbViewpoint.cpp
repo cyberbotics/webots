@@ -355,7 +355,7 @@ void WbViewpoint::updateAmbientOcclusionRadius() {
 }
 
 void WbViewpoint::updateBloomThreshold() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 10.0, -1.0);
+  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 21.0, -1.0);
 }
 
 WbLensFlare *WbViewpoint::lensFlare() const {
@@ -1115,7 +1115,7 @@ void WbViewpoint::updatePostProcessingEffects() {
     lensFlare()->setup(mWrenViewport);
 
   if (mWrenSmaa) {
-    if (!WbPreferences::instance()->value("OpenGL/SMAA", true).toBool())
+    if (WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool())
       mWrenSmaa->detachFromViewport();
     else
       mWrenSmaa->setup(mWrenViewport);
