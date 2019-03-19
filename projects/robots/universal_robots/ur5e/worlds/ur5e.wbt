@@ -1,0 +1,167 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.16567045488904755 -0.9260949586930227 -0.33897113130799894 4.1768965464026255
+  position 2.387779868617955 2.50087469724675 -1.1638523158611809
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 15 15
+  appearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 0.5 0.5
+    }
+  }
+}
+SolidRoundedBox {
+  translation -0.26 0.11 0
+  size 1 1 0.5
+  borderRadius 0.11
+  appearance CorrodedMetal {
+  }
+}
+UR5e {
+  translation 0 0.61 0
+  rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
+  controller "ur5e_can_grasper"
+  toolSlot [
+    Robotiq3fGripper {
+      translation 0 0.04 0
+    }
+    DistanceSensor {
+      translation 0 0.09999999999999999 0
+      rotation 0 0 1 1.5707959999999999
+    }
+  ]
+}
+UR5e {
+  translation -0.53 0.61 0
+  rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
+  name "UR5e(1)"
+  controller "ur5e_can_grasper"
+  toolSlot [
+    Robotiq3fGripper {
+      translation 0 0.04 0
+    }
+    DistanceSensor {
+      translation 0 0.09999999999999999 0
+      rotation 0 0 1 1.5707959999999999
+    }
+  ]
+}
+ConveyorBelt {
+  translation 4.18 0 0.85
+  rotation 0 1 0 3.1415919999999997
+  size 10 0.6 0.5
+  borderHeight 0
+}
+ConveyorBelt {
+  translation 0 0 -0.85
+  name "conveyor belt(1)"
+  size 10 0.15 0.5
+  borderHeight 0
+  speed 0.09999999999999999
+}
+PlasticCrate {
+  translation 0.13 0.15 -0.85
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -0.48 0.15 -0.85
+  name "plastic crate(1)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -1.0899999999999999 0.15 -0.85
+  name "plastic crate(2)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -1.7 0.15 -0.85
+  name "plastic crate(3)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -2.31 0.15 -0.85
+  name "plastic crate(4)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -2.92 0.15 -0.85
+  name "plastic crate(5)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -3.53 0.15 -0.85
+  name "plastic crate(6)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+PlasticCrate {
+  translation -4.14 0.15 -0.85
+  name "plastic crate(7)"
+  size 0.6 0.39999999999999997 0.44999999999999996
+  mass 1
+}
+Can {
+  translation 0.7 0.6599999999999999 0.83
+}
+Can {
+  translation 1.4 0.6599999999999999 0.83
+  name "can(4)"
+}
+Can {
+  translation 2.1 0.6599999999999999 0.83
+  name "can(1)"
+}
+Can {
+  translation 2.8 0.6599999999999999 0.83
+  name "can(5)"
+}
+Can {
+  translation 3.5 0.6599999999999999 0.83
+  name "can(2)"
+}
+Can {
+  translation 4.2 0.6599999999999999 0.83
+  name "can(6)"
+}
+Can {
+  translation 4.8999999999999995 0.6599999999999999 0.83
+  name "can(3)"
+}
+Can {
+  translation 5.6 0.6599999999999999 0.83
+  name "can(7)"
+}
+Can {
+  translation 6.3 0.6599999999999999 0.83
+  name "can(8)"
+}
+Can {
+  translation 7 0.6599999999999999 0.83
+  name "can(9)"
+}
+Can {
+  translation 7.699999999999999 0.6599999999999999 0.83
+  name "can(10)"
+}
+Can {
+  translation 8.4 0.6599999999999999 0.83
+  name "can(11)"
+}
+Can {
+  translation 9.1 0.6599999999999999 0.83
+  name "can(12)"
+}
