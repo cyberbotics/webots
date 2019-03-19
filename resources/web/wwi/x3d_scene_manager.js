@@ -34,17 +34,7 @@ X3dSceneManager.prototype = {
         this.gpuPicker.needUpdate = true;
     };
 
-    this.composer = new THREE.EffectComposer(this.renderer);
-    var renderPass = new THREE.RenderPass(this.scene, this.camera);
-    this.composer.addPass(renderPass);
-    this.highlightOutlinePass = new THREE.OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
-    this.composer.addPass(this.highlightOutlinePass);
-    this.selectionOutlinePass = new THREE.OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
-    this.selectionOutlinePass.visibleEdgeColor.set(0x00BFFF);
-    this.selectionOutlinePass.renderToScreen = true;
-    this.composer.addPass(this.selectionOutlinePass);
-
-    this.selector = new Selector(this.selectionOutlinePass);
+    this.selector = new Selector();
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
     this.gpuPicker.setFilter(function(object) {
@@ -61,14 +51,13 @@ X3dSceneManager.prototype = {
 
   render: function() {
     requestAnimationFrame(() => this.render());
-    this.composer.render();
+    this.renderer.render(this.scene, this.camera);
   },
 
   resize: function() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
     this.renderer.setSize(width, height);
-    this.composer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);

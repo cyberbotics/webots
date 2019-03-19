@@ -107,6 +107,11 @@ THREE.X3DLoader.prototype = {
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       this.parseChildren(node, object);
+    } else if (node.tagName === 'Switch') {
+      object = new THREE.Object3D();
+      object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
+      object.userData.x3dType = 'Switch';
+      this.parseChildren(node, object);
     } else if (node.tagName === 'Viewpoint')
       object = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
