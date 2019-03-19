@@ -40,4 +40,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### ur5e.wbt
 
-![bur5e.wbt.png](images/robots/ur5e/ur5e.wbt.png) This simulation shows TODO.
+TODO.
