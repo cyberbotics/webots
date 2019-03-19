@@ -114,6 +114,7 @@
     - [Yamor](yamor.md)
     - [youBot](youbot.md)
 - [Actuators](actuators.md)
+    - [Grippers](gripper-actuators.md)
 - [Sensors](sensors.md)
     - [Camera Sensors](camera-sensors.md)
     - [Lidar Sensors](lidar-sensors.md)
