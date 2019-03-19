@@ -111,6 +111,7 @@
     - [Surveyor SRV-1](surveyor.md)
     - [Thymio II](thymio2.md)
     - [Tinkerbots](tinkerbots.md)
+    - [UR5e](ur5e.md)
     - [Yamor](yamor.md)
     - [youBot](youbot.md)
 - [Actuators](actuators.md)
