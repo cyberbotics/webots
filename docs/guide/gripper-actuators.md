@@ -9,19 +9,19 @@ The `ROBOTIQ 3F Gripper` is a 3-fingers adaptive robot gripper.
 
 %figure "Internal motor and position-sensor names"
 
-| Motor Name             | Position Sensor Name           |
-| ---------------------- | ---------------------------    |
-| palm_finger_1_joint    |  palm_finger_1_joint_sensor    |
-| finger_1_joint_1       |  palm_finger_1_joint_sensor    |
-| finger_1_joint_2       |  finger_1_joint_2_sensor       |
-| finger_1_joint_3       |  finger_1_joint_3_sensor       |
-| palm_finger_2_joint    |  palm_finger_2_joint_sensor    |
-| finger_2_joint_1       |  finger_2_joint_1_sensor       |
-| finger_2_joint_2       |  finger_2_joint_2_sensor       |
-| finger_2_joint_3       |  finger_2_joint_3_sensor       |
-| finger_middle_joint_1  |  finger_middle_joint_1_sensor  |
-| finger_middle_joint_2  |  finger_middle_joint_2_sensor  |
-| finger_middle_joint_3  |  finger_middle_joint_3_sensor  |
+| Motor Name                | Position Sensor Name               |
+| ------------------------- | -------------------------------    |
+| palm\_finger\_1\_joint    |  palm\_finger\_1\_joint\_sensor    |
+| finger\_1\_joint\_1       |  palm\_finger\_1\_joint\_sensor    |
+| finger\_1\_joint\_2       |  finger\_1\_joint\_2\_sensor       |
+| finger\_1\_joint\_3       |  finger\_1\_joint\_3\_sensor       |
+| palm\_finger\_2\_joint    |  palm\_finger\_2\_joint\_sensor    |
+| finger\_2\_joint\_1       |  finger\_2\_joint\_1\_sensor       |
+| finger\_2\_joint\_2       |  finger\_2\_joint\_2\_sensor       |
+| finger\_2\_joint\_3       |  finger\_2\_joint\_3\_sensor       |
+| finger\_middle\_joint\_1  |  finger\_middle\_joint\_1\_sensor  |
+| finger\_middle\_joint\_2  |  finger\_middle\_joint\_2\_sensor  |
+| finger\_middle\_joint\_3  |  finger\_middle\_joint\_3\_sensor  |
 
 
 %end
