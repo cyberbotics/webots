@@ -159,6 +159,7 @@
     - [Toys](object-toys.md)
     - [Traffic](object-traffic.md)
     - [Trees](object-trees.md)
+- [Appearances](appearances.md)
 - [Webots FAQ](webots-faq.md)
     - [General FAQ](general-faq.md)
     - [Programming](programming.md)

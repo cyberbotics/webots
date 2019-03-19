@@ -356,6 +356,6 @@ void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   computeRatio(currentMousePosition);
   const WbVector3 &s = mScaleRatio * mTransform->scale();
   mTotalScale *= mScaleRatio;
-  mTransform->setScale(s);
+  mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
   mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }
