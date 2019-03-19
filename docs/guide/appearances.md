@@ -24,8 +24,8 @@ Asphalt {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Asphalt Field Summary
 
@@ -60,8 +60,8 @@ BrushedAluminium {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedAluminium Field Summary
 
@@ -96,8 +96,8 @@ CarpetFibers {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarpetFibers Field Summary
 
@@ -131,8 +131,8 @@ ChequeredParquetry {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ChequeredParquetry.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ChequeredParquetry Field Summary
 
@@ -142,20 +142,236 @@ ChequeredParquetry {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
-## GlossyCarPaint
+## CorrodedMetal
 
-A glossy car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+A corroded metal material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![GlossyCarPaint](images/appearances/GlossyCarPaint.png)
+![CorrodedMetal](images/appearances/CorrodedMetal.png)
 
 %end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
-GlossyCarPaint {
+CorrodedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrodedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## CorrugatedMetal
+
+A corrugated metal material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![CorrugatedMetal](images/appearances/CorrugatedMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+CorrugatedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### CorrugatedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## DamascusSteel
+
+A damascus steel material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![DamascusSteel](images/appearances/DamascusSteel.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+DamascusSteel {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### DamascusSteel Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## ElectricConduit
+
+An electric conduit material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![ElectricConduit](images/appearances/ElectricConduit.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ElectricConduit {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ElectricConduit Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## FlexibleAluminiumDuct
+
+A flexible aluminium duct material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+FlexibleAluminiumDuct {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### FlexibleAluminiumDuct Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## GalvanizedMetal
+
+A galvanized metal material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![GalvanizedMetal](images/appearances/GalvanizedMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+GalvanizedMetal {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### GalvanizedMetal Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## GlossyPaint
+
+A glossy paint material. The color can be selected in the `baseColor` field.
+
+%figure
+
+![GlossyPaint](images/appearances/GlossyPaint.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+GlossyPaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
   SFNode  environmentMap   NULL
@@ -163,12 +379,12 @@ GlossyCarPaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyCarPaint.proto"
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
-### GlossyCarPaint Field Summary
+### GlossyPaint Field Summary
 
 - `baseColor`: Defines the paint's color.
 
@@ -178,20 +394,95 @@ GlossyCarPaint {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
-## MatteCarPaint
+## HammeredCopper
 
-A matte car paint material. The color can be selected in the `baseColor` field. Useful with any of the vehicle PROTOs.
+An hammered copper steel material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![MatteCarPaint](images/appearances/MatteCarPaint.png)
+![HammeredCopper](images/appearances/HammeredCopper.png)
 
 %end
 
 Derived from [PBRAppearance](../reference/pbrappearance.md).
 
 ```
-MatteCarPaint {
+HammeredCopper {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### HammeredCopper Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## Leather
+
+A leather material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![Leather](images/appearances/Leather.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Leather {
+  SFColor                    colorOverride     1 1 1
+  SFString                   tone              "dark"
+  SFNode                     textureTransform  NULL
+  SFNode                     environmentMap    NULL
+  SFFloat                    IBLStrength       1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Leather.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Leather Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `tone`: Defines the tone of the leather (either `dark` or `light`)
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## MattePaint
+
+A matte paint material. The color can be selected in the `baseColor` field.
+
+%figure
+
+![MattePaint](images/appearances/MattePaint.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+MattePaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
   SFNode  environmentMap   NULL
@@ -199,12 +490,12 @@ MatteCarPaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MatteCarPaint.proto"
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
-### MatteCarPaint Field Summary
+### MattePaint Field Summary
 
 - `baseColor`: Defines the paint's color.
 
@@ -236,8 +527,8 @@ MetalPipePaint {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalPipePaint Field Summary
 
@@ -270,8 +561,8 @@ OldSteel {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldSteel Field Summary
 
@@ -280,6 +571,42 @@ OldSteel {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## OsbWood
+
+An OSB wood material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![OsbWood](images/appearances/OsbWood.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+OsbWood {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### OsbWood Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -306,8 +633,8 @@ PaintedWood {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### PaintedWood Field Summary
 
@@ -342,8 +669,8 @@ Parquetry {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Parquetry Field Summary
 
@@ -352,6 +679,42 @@ Parquetry {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## Plaster
+
+A plaster material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![Plaster](images/appearances/Plaster.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Plaster {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Plaster.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Plaster Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -377,8 +740,8 @@ RedBricks {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RedBricks Field Summary
 
@@ -411,8 +774,8 @@ RoughConcrete {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughConcrete Field Summary
 
@@ -447,8 +810,8 @@ RoughOak {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughOak Field Summary
 
@@ -483,8 +846,8 @@ RoughPine {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPine Field Summary
 
@@ -519,8 +882,8 @@ Roughcast {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Roughcast Field Summary
 
@@ -529,6 +892,46 @@ Roughcast {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## RustyMetal
+
+An old battered steel material.
+The color can be overridden using the `colorOverride` field and the amount of rust can be set using the `rustLevel` field.
+
+%figure
+
+![RustyMetal](images/appearances/RustyMetal.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+RustyMetal {
+  SFInt32        rustLevel        1
+  SFColor        colorOverride    1 1 1
+  SFNode         textureTransform NULL
+  SFNode         environmentMap   NULL
+  SFFloat        IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### RustyMetal Field Summary
+
+- `rustLevel`: Defines how much the metal is rusted.
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -555,8 +958,8 @@ SandyGround {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### SandyGround Field Summary
 
@@ -565,6 +968,42 @@ SandyGround {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## ScrewThread
+
+A screw thread material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![ScrewThread](images/appearances/ScrewThread.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ScrewThread {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### ScrewThread Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -591,8 +1030,8 @@ ShinyLeather {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ShinyLeather Field Summary
 
@@ -604,9 +1043,45 @@ ShinyLeather {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## SquarePavement
+
+A square pavement material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![SquarePavement](images/appearances/SquarePavement.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+SquarePavement {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### SquarePavement Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## StonePavement
 
-A stone pavement material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
+A stone pavement material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
@@ -627,8 +1102,8 @@ StonePavement {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/StonePavement.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### StonePavement Field Summary
 
@@ -663,8 +1138,8 @@ ThreadMetalPlate {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### ThreadMetalPlate Field Summary
 
@@ -699,8 +1174,8 @@ VarnishedPine {
 
 > **File location**: "WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto"
 
-> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-[More information.](https://cyberbotics.com/webots_assets_license)
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
 ### VarnishedPine Field Summary
 
@@ -709,6 +1184,42 @@ VarnishedPine {
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## WireFence
+
+A wire fence material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![WireFence](images/appearances/WireFence.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+WireFence {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/WireFence.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### WireFence Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 

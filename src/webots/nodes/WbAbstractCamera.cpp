@@ -461,8 +461,9 @@ void WbAbstractCamera::createWrenCamera() {
           &WbAbstractCamera::updatePostProcessingEffect, Qt::UniqueConnection);
 
   // create the camera
+  bool enableAntiAliasing = antiAliasing() && !WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool();
   mWrenCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(), mCharType,
-                                 antiAliasing(), mSpherical->value());
+                                 enableAntiAliasing, mSpherical->value());
   updateBackground();
 
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::applyCameraSettingsToWren);

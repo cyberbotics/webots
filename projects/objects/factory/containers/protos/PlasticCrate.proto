@@ -22,12 +22,13 @@ PROTO PlasticCrate [
   Solid {
     translation IS translation
     rotation IS rotation
+    name IS name
     children [
       Transform {
         scale IS size
         children [
           Shape {
-            appearance MatteCarPaint {
+            appearance MattePaint {
               baseColor 0.9 0.2 0.2
             }
             geometry IndexedFaceSet {

@@ -459,12 +459,14 @@ void WbRobot::updateRemoteControl() {
 
 void WbRobot::updateControllerDir() {
   const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty()) {
+  if (!controllerName.isEmpty() && controllerName != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
+    if (WbProject::extraDefaultProject())
+      path << WbProject::extraDefaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::system()->controllersPath() + controllerName + '/';
     path.removeDuplicates();

@@ -22,6 +22,7 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <locale.h>  // LC_NUMERIC
 #include <stdarg.h>
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
@@ -32,6 +33,7 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 #include <webots/types.h>
+#include <webots/utils/system.h>
 #include "device_private.h"
 #include "differential_wheels_private.h"
 #include "joystick_private.h"
@@ -930,6 +932,7 @@ int wb_robot_init() {  // API initialization
   static bool already_done = false;
   if (already_done)
     return true;
+  setlocale(LC_NUMERIC, "C");
   // the robot.configuration points to a data structure is made up of the following:
   // one uint8 saying if the robot is synchronized (1) or not (0)
   // one uint8 giving the number of devices n
@@ -952,8 +955,34 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  if (!scheduler_init())
-    exit(EXIT_FAILURE);  // failed to initialize
+  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
+  char *pipe;
+  if (WEBOTS_SERVER && WEBOTS_SERVER[0])
+    pipe = strdup(WEBOTS_SERVER);
+  else {
+    const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
+    char buffer[1024];
+    snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
+    FILE *fd = fopen(buffer, "r");
+    if (fd) {
+      if (!fscanf(fd, "%1023s", buffer)) {
+        fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
+        pipe = NULL;
+      } else
+        pipe = strdup(buffer);
+      fclose(fd);
+    } else {
+      fprintf(stderr, "Cannot open file: %s\n", buffer);
+      pipe = NULL;
+    }
+  }
+  if (!pipe || !scheduler_init(pipe)) {
+    if (!pipe)
+      fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
+    free(pipe);
+    exit(EXIT_FAILURE);
+  }
+  free(pipe);
 
   // robot device
   robot.n_device = 1;

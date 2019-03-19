@@ -10,7 +10,7 @@ PROTO TruckCab [
   Group {
     children [
       DEF COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color
         }
         geometry IndexedFaceSet {
