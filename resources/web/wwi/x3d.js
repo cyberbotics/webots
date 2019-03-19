@@ -256,6 +256,8 @@ THREE.X3DLoader.prototype = {
     if (angle !== 0)
       mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     return mesh;
   },
 
@@ -748,16 +750,24 @@ THREE.X3DLoader.prototype = {
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = getNodeAttribute(light, 'intensity', '1');
-    var castShadows = convertStringToVec3(getNodeAttribute(light, 'castShadows', 'true'));
+    var castShadow = getNodeAttribute(light, 'shadowIntensity', '0') !== '0';
     // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
 
     if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
+      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity / 2);
       parentObject.add(ambientLightObject);
     }
 
-    var lightObject = new THREE.DirectionalLight(color, intensity);
-    lightObject.castShadows = castShadows;
+    var lightObject = new THREE.DirectionalLight(convertrgbToHex(color), intensity / 4);
+    if (castShadow) {
+      lightObject.castShadow = true;
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
+      lightObject.shadow.mapSize.width = shadowMapSize;
+      lightObject.shadow.mapSize.height = shadowMapSize;
+      lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.5'));
+      lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '500'));
+      lightObject.shadowCameraVisible = true;
+    }
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
     return lightObject;
@@ -775,11 +785,11 @@ THREE.X3DLoader.prototype = {
     // var radius = convertStringToVec3(getNodeAttribute(light, 'radius', '100'));
 
     if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
+      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity);
       parentObject.add(ambientLightObject);
     }
 
-    var lightObject = new THREE.PointLight(color, intensity);
+    var lightObject = new THREE.PointLight(convertrgbToHex(color), intensity);
     lightObject.castShadows = castShadows;
     lightObject.userData = { 'x3dType': 'PointLight' };
     lightObject.position.set(location.x, location.y, location.z);
@@ -800,11 +810,11 @@ THREE.X3DLoader.prototype = {
     // var radius = convertStringToVec3(getNodeAttribute(light, 'radius', '100'));
     var castShadows = convertStringToVec3(getNodeAttribute(light, 'castShadows', 'true')) === 'true';
     if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(color, ambientIntensity);
+      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity);
       parentObject.add(ambientLightObject);
     }
 
-    var lightObject = new THREE.SpotLight(color, intensity);
+    var lightObject = new THREE.SpotLight(convertrgbToHex(color), intensity);
     lightObject.position.set(location.x, location.y, location.z);
     lightObject.angle = beamWidth;
     lightObject.penumbra = cutOffAngle;
@@ -937,6 +947,10 @@ function convertStringToQuaternion(s) {
 function convertStringTorgb(s) {
   var v = convertStringToVec3(s);
   return new THREE.Color(v.x, v.y, v.z);
+}
+
+function convertrgbToHex(color) {
+  return (color.b * 255.0) | ((color.g * 255.0) << 8) | ((color.r * 255.0) << 16);
 }
 
 // Source: https://gist.github.com/Ni55aN/90c017fafbefd3e31ef8d98ab6566cfa
