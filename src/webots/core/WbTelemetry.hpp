@@ -25,8 +25,7 @@ class WbTelemetry : public QObject {
   Q_OBJECT
 
 public:
-  static void send(const QString &file = "");
-  void sendRequest(const QString &operation);
+  static void send(const QString &operation, const QString &file = "");
   QString mFile;
 
 private slots:
@@ -35,6 +34,8 @@ private slots:
 private:
   WbTelemetry() : mFile() {}
   virtual ~WbTelemetry() {}
+
+  void sendRequest(const QString &operation);
 };
 
 #endif
