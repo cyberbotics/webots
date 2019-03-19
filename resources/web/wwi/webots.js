@@ -107,10 +107,10 @@ webots.View = function(view3D, mobile) {
     // Pause the simulation if needed when a pop-up dialog window is open
     // and restart running the simulation when it is closed
     if (opening && that.isAutomaticallyPaused === undefined) {
-      that.isAutomaticallyPaused = webots.currentView.pauseButton.style.display === 'inline';
-      that.pauseButton.click();
+      that.isAutomaticallyPaused = that.toolBar && that.toolBar.pauseButton && that.toolBar.pauseButton.style.display === 'inline';
+      that.toolBar.pauseButton.click();
     } else if (!opening && that.isAutomaticallyPaused) {
-      that.realTimeButton.click();
+      that.toolBar.realTimeButton.click();
       that.isAutomaticallyPaused = undefined;
     }
   };
@@ -194,7 +194,7 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
     return;
   this.worldSelect = document.createElement('select');
   this.worldSelect.id = 'worldSelection';
-  this.worldSelectionDiv.appendChild(this.worldSelect);
+  this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
   for (var i = 0; i < worlds.length; i++) {
     var option = document.createElement('option');
     option.value = worlds[i];
