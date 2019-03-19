@@ -26,7 +26,7 @@ The `ROBOTIQ 3F Gripper` is a 3-fingers adaptive robot gripper.
 
 %end
 
-%figure "ROBOTIQ 3F Gripper"
+%figure "ROBOTIQ 3F Gripper in Webots"
 
 ![robotiq_3f_gripper.png](images/actuators/robotiq_3f_gripper.png)
 
