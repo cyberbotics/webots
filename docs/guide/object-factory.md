@@ -114,13 +114,14 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorBelt {
-  SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
-  SFString   name            "conveyor belt"
-  SFVec3f    size            1.5 0.6 0.5
-  SFFloat    borderThickness 0.03
-  SFFloat    borderHeight    0.01
-  SFFloat    speed           0.5
+  SFVec3f    translation      0 0 0
+  SFRotation rotation         0 1 0 0
+  SFString   name             "conveyor belt"
+  SFVec3f    size             1.5 0.6 0.5
+  SFFloat    borderThickness  0.03
+  SFFloat    borderHeight     0.01
+  SFFloat    speed            0.5
+  SFFloat    textureAnimation 0.008
 }
 ```
 
@@ -136,6 +137,8 @@ ConveyorBelt {
 - `borderHeight`: Defines the height of the border around the conveyor.
 
 - `speed`: Defines the rubber band speed in meters per second.
+
+- `textureAnimation`: defines the speed of the texture animation.
 
 ## Fire Extinguisher
 
@@ -168,6 +171,41 @@ FireExtinguisher {
 #### FireExtinguisher Field Summary
 
 - `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
+## Manhole
+
+### SquareManhole
+
+A simple square manhole.
+
+%figure
+
+![SquareManhole](images/objects/manhole/SquareManhole/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+SquareManhole {
+  SFVec3f    translation           0 0 0
+  SFRotation rotation              0 1 0 0
+  SFString   name                  "manhole"
+  SFVec3f    size                  1 0.1 1
+  SFBool     enableBoundingObject  TRUE
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/objects/factory/manhole/protos/SquareManhole.proto"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### SquareManhole Field Summary
+
+- `size`: Defines the size of the manhole.
+
+- `enableBoundingObject`: Defines whether the fire extinguisher should have physics.
 
 ## Pallet
 
