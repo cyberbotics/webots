@@ -70,7 +70,7 @@ Now, we would like to add some objects:
 
 > **Hands on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
 Click on the `Add` button (plus sign) at the top of the scene tree.
-In the open dialog box, choose `PROTO (Webots) / objects / factory / containers / WoodenBox (Solid)`.
+In the open dialog box, choose `PROTO nodes (Webots) / objects / factory / containers / WoodenBox (Solid)`.
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
 Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
