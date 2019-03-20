@@ -17,6 +17,8 @@ X3dSceneManager.prototype = {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
+    this.renderer.gammaInput = true;
+    this.renderer.gammaOutput = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
