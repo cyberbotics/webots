@@ -326,10 +326,13 @@ THREE.X3DLoader.prototype = {
   },
 
   parsePBRAppearance: function(pbrAppearance) {
+    var isTransparent = false;
+
     var baseColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
     var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0'));
     var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
     var emissiveColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
+    var transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
 
     var materialSpecifications = {
       color: baseColor,
@@ -338,7 +341,11 @@ THREE.X3DLoader.prototype = {
       emissive: emissiveColor
     };
 
-    var isTransparent = false;
+    if (transparency) {
+      materialSpecifications.opacity = 1.0 - transparency;
+      isTransparent = true;
+    }
+
     var textureTransform = pbrAppearance.getElementsByTagName('TextureTransform');
     var imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
     for (let t = 0; t < imageTextures.length; t++) {
