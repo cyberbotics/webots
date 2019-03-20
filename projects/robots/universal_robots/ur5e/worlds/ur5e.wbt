@@ -3,12 +3,12 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.6186663250344054 -0.732882017805401 -0.28308289642065476 1.181875867119226
+  orientation -0.6186655182052692 -0.7328824259006612 -0.28308360318069914 1.1818788223616903
   position -3.4092618203132083 4.501463236768075 2.314888428319895
+  exposure 1.7
 }
 TexturedBackground {
-}
-TexturedBackgroundLight {
+  texture "factory"
 }
 Floor {
   size 15 5
@@ -87,6 +87,11 @@ CardboardBox {
 }
 Wall {
   translation 0 0 -2.58
+  size 15 2.4 0.2
+}
+Wall {
+  translation 0 0 2.42
+  name "wall(1)"
   size 15 2.4 0.2
 }
 SolidBox {
