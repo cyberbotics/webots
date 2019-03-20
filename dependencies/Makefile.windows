@@ -17,9 +17,9 @@ space :=
 space +=
 TARGET_PATH = $(subst $(space),\ ,$(WEBOTS_HOME_PATH)/msys64/mingw64/bin)
 
-.PHONY: release debug distrib clean cleanse msys64 $(PACKAGES) $(PACKAGES_CLEAN)
+.PHONY: release debug distrib profile clean cleanse msys64 $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib: msys64 $(PACKAGES)
+release debug distrib profile: msys64 $(PACKAGES)
 
 clean:
 
