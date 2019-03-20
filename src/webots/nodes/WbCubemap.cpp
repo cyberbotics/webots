@@ -56,6 +56,7 @@ void WbCubemap::init() {
   mSpecularIrradianceCubeTexture = NULL;
   mIsValid = false;
   mIsEquirectangular = false;
+  mRole = "";
 
   for (int i = 0; i < 6; ++i) {
     mQImages[i] = NULL;
@@ -274,4 +275,12 @@ void WbCubemap::modifyWrenMaterial(WrMaterial *material) {
   wr_material_set_texture_cubemap_anisotropy(material, 8, 1);
   wr_material_set_texture_cubemap_enable_interpolation(material, true, 1);
   wr_material_set_texture_cubemap_enable_mip_maps(material, true, 1);
+}
+
+void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d()) {
+    if (!mRole.isEmpty())
+      writer << " role=\'" << mRole << "\'";
+  }
 }

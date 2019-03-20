@@ -63,6 +63,8 @@ public:
   QString path();
   void setContainerField(QString &field);
 
+  void setRole(const QString &role) { mRole = role; }
+
 signals:
   void changed();
 
@@ -91,6 +93,7 @@ private:
   QString mContainerField;
   QImage *mImage;
   bool mIsMainTextureTransparent;
+  QString mRole;  // Role in a PBR appearance.
 
   WbImageTexture &operator=(const WbImageTexture &);  // non copyable
   WbNode *clone() const override { return new WbImageTexture(*this); }

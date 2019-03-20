@@ -47,6 +47,7 @@ void WbImageTexture::init() {
   mImage = NULL;
   mWrenTextureIndex = 0;
   mIsMainTextureTransparent = true;
+  mRole = "";
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -395,8 +396,11 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
 
-  if (writer.isX3d())
+  if (writer.isX3d()) {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\'";
+    if (!mRole.isEmpty())
+      writer << " role=\'" << mRole << "\'";
+  }
 }
 
 void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {

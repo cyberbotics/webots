@@ -550,20 +550,34 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
 
   writer << ">";
 
-  if (baseColorMap())
+  if (baseColorMap()) {
+    baseColorMap()->setRole("baseColorMap");
     baseColorMap()->write(writer);
-  if (roughnessMap())
+  }
+  if (roughnessMap()) {
+    roughnessMap()->setRole("roughnessMap");
     roughnessMap()->write(writer);
-  if (metalnessMap())
+  }
+  if (metalnessMap()) {
+    metalnessMap()->setRole("metalnessMap");
     metalnessMap()->write(writer);
-  if (environmentMap())
+  }
+  if (environmentMap()) {
+    environmentMap()->setRole("environmentMap");
     environmentMap()->write(writer);
-  if (normalMap())
+  }
+  if (normalMap()) {
+    normalMap()->setRole("normalMap");
     normalMap()->write(writer);
-  if (occlusionMap())
+  }
+  if (occlusionMap()) {
+    occlusionMap()->setRole("occlusionMap");
     occlusionMap()->write(writer);
-  if (emissiveColorMap())
+  }
+  if (emissiveColorMap()) {
+    emissiveColorMap()->setRole("emissiveColorMap");
     emissiveColorMap()->write(writer);
+  }
 
   if (textureTransform())
     textureTransform()->write(writer);

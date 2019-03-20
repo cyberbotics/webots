@@ -48,12 +48,17 @@ public:
   WrTextureCubeMap *diffuseIrradianceMap() const { return mDiffuseIrradianceCubeTexture; }
   WrTextureCubeMap *specularIrradianceMap() const { return mSpecularIrradianceCubeTexture; }
 
+  void setRole(const QString &role) { mRole = role; }
+
   static const QString *textureSuffixes();
 
 signals:
   void changed();
   void bakeCompleted();
   void cubeTexturesDestroyed();
+
+protected:
+  void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private:
   WbCubemap &operator=(const WbCubemap &);  // non copyable
@@ -67,8 +72,8 @@ private:
   WbSFString *mTextureBaseName;
   WbSFString *mDirectory;
 
+  QString mRole;  // Role in a PBR appearance.
   QString mTextureUrls[6];
-
   QImage *mQImages[6];
 
   // skybox related fields
