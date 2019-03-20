@@ -65,10 +65,6 @@ WREN_INCLUDE = -I$(WEBOTS_PATH)/include
 GLM_IMCLUDE  = -I$(WEBOTS_PATH)/src/glm
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
 
-ifeq ($(MAKECMDGOALS), profile)
-LIB_ODE = ../ode/libode.a
-endif
-
 ifeq ($(OSTYPE),darwin)
 EXECUTABLE_PATH    = $(WEBOTS_PATH)/Contents/MacOS
 EXECUTABLE_PATH_SETUP := $(shell mkdir -p $(EXECUTABLE_PATH))
@@ -99,6 +95,7 @@ EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 75
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
 ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE)
 LD_FLAGS += -lpthread
 else
@@ -128,6 +125,7 @@ EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
 ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
 else
 LIBS += -lode
@@ -171,6 +169,7 @@ else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
 ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/ode.a
 LIBS += $(LIB_ODE) -lpthread
 else
 LIBS += -lode
