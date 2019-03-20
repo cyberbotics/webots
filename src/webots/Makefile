@@ -64,7 +64,6 @@ PICO_INCLUDE = -I$(WEBOTS_PATH)/include/libpico
 WREN_INCLUDE = -I$(WEBOTS_PATH)/include
 GLM_IMCLUDE  = -I$(WEBOTS_PATH)/src/glm
 OPEN_VR_INCLUDE = -isystem $(WEBOTS_PATH)/include/openvr
-LIB_WREN = ../wren/libwren.a ../glad/libglad.a
 
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
@@ -77,7 +76,7 @@ FRAMEWORKS         = $(EXECUTABLE_PATH)/../Frameworks
 PLUGINS            = $(EXECUTABLE_PATH)/../Plugins
 TARGET             = $(EXECUTABLE_PATH)/webots
 ODE                = $(WEBOTS_PATH)/src/ode
-LIB_WREN          += $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
+LIB_WREN           = ../wren/libwren.a ../glad/libglad.a $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 QT_CORE_INCLUDE    = -isystem $(FRAMEWORKS)/QtCore.framework/Headers
 QT_GUI_INCLUDE     = -isystem $(FRAMEWORKS)/QtGui.framework/Headers
@@ -107,6 +106,7 @@ LD_FLAGS += -lode
 endif
 
 else ifeq ($(OSTYPE),linux)
+LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
 OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
@@ -137,6 +137,7 @@ else ifeq ($(OSTYPE),windows)
 vpath %.c ../lib/Controller/api
 WB_NODES_INCLUDE  += $(OPEN_VR_INCLUDE)
 C_SOURCES         += system.c
+LIB_WREN           = ../wren/wren.a ../glad/glad.a
 OPENAL_INCLUDE     = -isystem /mingw64/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui -isystem $(WEBOTS_PATH)/include/qt/QtPlatformHeaders
