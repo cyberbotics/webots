@@ -396,8 +396,10 @@ THREE.X3DLoader.prototype = {
     var transformObject = null;
     if (textureTransform && textureTransform[0]) {
       transformObject = this.getDefNode(textureTransform[0]);
-      if (!transformObject) {
-        transformObject = {
+      if (transformObject)
+        texture.userData.transform = transformObject;
+      else {
+        texture.userData.transform = {
           center: convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
           rotation: parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
           scale: convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
@@ -407,17 +409,18 @@ THREE.X3DLoader.prototype = {
       }
 
       texture.matrixAutoUpdate = false;
-      texture.onUpdate = () => {
+      texture.onUpdate = function() {
         // X3D UV transform matrix differs from THREE.js default one
         // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
-        var c = Math.cos(-transformObject.rotation);
-        var s = Math.sin(-transformObject.rotation);
-        var sx = transformObject.scale.x;
-        var sy = transformObject.scale.y;
-        var cx = transformObject.center.x;
-        var cy = transformObject.center.y;
-        var tx = transformObject.translation.x;
-        var ty = transformObject.translation.y;
+        var transform = texture.userData.transform;
+        var c = Math.cos(-transform.rotation);
+        var s = Math.sin(-transform.rotation);
+        var sx = transform.scale.x;
+        var sy = transform.scale.y;
+        var cx = transform.center.x;
+        var cy = transform.center.y;
+        var tx = transform.translation.x;
+        var ty = transform.translation.y;
         texture.matrix.set(
           sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
           -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,

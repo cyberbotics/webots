@@ -155,11 +155,13 @@ X3dSceneManager.prototype = {
         // error
         continue;
 
-      if (key === 'translation') { // Transform node
+      if (key === 'translation') {
         if (object instanceof THREE.Texture) {
           var translation = convertStringToVec2(newValue);
-          object.offset.set(-translation.x, -translation.y);
-          object.needsUpdate = true;
+          if (object.userData && object.userData.transform) {
+            object.userData.transform.translation = translation;
+            object.needsUpdate = true;
+          }
         } else if (object instanceof THREE.Object3D) {
           var newPosition = convertStringToVec3(newValue);
           // followed object moved.
