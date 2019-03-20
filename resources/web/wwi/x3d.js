@@ -355,10 +355,11 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'normal')
         materialSpecifications.normalMap = this.parseImageTexture(imageTexture, textureTransform);
-      else if (type === 'emissive')
+      else if (type === 'emissiveColor') {
         materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture, textureTransform);
-      // else if (type === 'occlusion')  // Not working as expected.
-      //   materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
+        materialSpecifications.emissive = new THREE.Color(0xffffff);
+      } else if (type === 'occlusion')
+        materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
     }
 
     // TODO -> asynchronous texture load
