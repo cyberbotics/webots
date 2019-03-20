@@ -181,10 +181,24 @@ THREE.X3DLoader.prototype = {
       }
 
       if (!material) {
-        if (child.tagName === 'Appearance')
-          material = this.parseAppearance(child);
-        else if (child.tagName === 'PBRAppearance')
+        if (child.tagName === 'Appearance') {
+          // If a sibling PBRAppearance is detected, prefer it.
+          var pbrAppearanceChild = false;
+          for (let j = 0; j < shape.childNodes.length; j++) {
+            var child0 = shape.childNodes[j];
+            if (child0.tagName === 'PBRAppearance') {
+              pbrAppearanceChild = true;
+              break;
+            }
+          }
+          if (pbrAppearanceChild)
+            continue;
+          else
+            material = this.parseAppearance(child);
+        } else if (child.tagName === 'PBRAppearance') {
           material = this.parsePBRAppearance(child);
+        }
+
         if (material) {
           this.setDefNode(child, material);
           this.setCustomId(child, material);
