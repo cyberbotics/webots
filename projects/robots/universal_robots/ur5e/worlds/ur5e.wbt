@@ -60,6 +60,7 @@ ConveyorBelt {
   size 10 0.6 0.5
   borderHeight 0
   speed 0.2
+  textureAnimation 0.016
 }
 ConveyorBelt {
   translation 0 0 -0.69
@@ -67,6 +68,7 @@ ConveyorBelt {
   size 10 0.25 0.5
   borderHeight 0
   speed 0.031
+  textureAnimation 0.016
 }
 PlasticCrate {
   translation 0.13 0.25 -0.68

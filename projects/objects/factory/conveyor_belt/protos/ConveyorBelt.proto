@@ -5,13 +5,14 @@
 # A customizable conveyor belt moving at a constant speed.
 
 PROTO ConveyorBelt [
-  field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
-  field SFString   name            "conveyor belt"
-  field SFVec3f    size            1.5 0.6 0.5
-  field SFFloat    borderThickness 0.03            # Defines the thickness of the metal part around the conveyor belt.
-  field SFFloat    borderHeight    0.01            # Defines the height of the border around the conveyor.
-  field SFFloat    speed           0.5             # Defines the rubber band speed in meters per second.
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "conveyor belt"
+  field SFVec3f    size             1.5 0.6 0.5
+  field SFFloat    borderThickness  0.03            # Defines the thickness of the metal part around the conveyor belt.
+  field SFFloat    borderHeight     0.01            # Defines the height of the border around the conveyor.
+  field SFFloat    speed            0.5             # Defines the rubber band speed in meters per second.
+  field SFFloat    textureAnimation 0.008           # defines the speed of the texture animation.
 ]
 {
   %{
@@ -88,7 +89,7 @@ PROTO ConveyorBelt [
             sound ""
           }
         ]
-        textureAnimation %{=-0.008 / size.x}% 0
+        textureAnimation %{=-fields.textureAnimation.value / size.x}% 0
       }
       Shape {
         appearance DEF BORDER_APPERANCE_A PBRAppearance {
