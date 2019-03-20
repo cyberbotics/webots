@@ -399,7 +399,7 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isX3d()) {
     writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\'";
     if (!mRole.isEmpty())
-      writer << " role=\'" << mRole << "\'";
+      writer << " type=\'" << mRole << "\'";
   }
 }
 

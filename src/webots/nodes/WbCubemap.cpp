@@ -281,6 +281,6 @@ void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
   if (writer.isX3d()) {
     if (!mRole.isEmpty())
-      writer << " role=\'" << mRole << "\'";
+      writer << " type=\'" << mRole << "\'";
   }
 }
