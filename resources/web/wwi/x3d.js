@@ -406,41 +406,24 @@ THREE.X3DLoader.prototype = {
         this.setDefNode(textureTransform[0], transformObject);
       }
 
-      // texture.matrixAutoUpdate = false;
-      texture.center.set(transformObject.center.x, -transformObject.center.y - 1.0);
-      texture.rotation = transformObject.rotation;
-      texture.repeat.set(transformObject.scale.x, transformObject.scale.y); // TODO differences with X3D -> not scaled around center
-      texture.offset.set(-transformObject.translation.x, -transformObject.translation.y);
-      /* texture.onUpdate = () => {
+      texture.matrixAutoUpdate = false;
+      texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
-        /* var tM = new THREE.Matrix4();
-        tM.makeTranslation(transformObject.translation.x, transformObject.translation.y, 0.0);
-        var cM = new THREE.Matrix4();
-        cM.makeTranslation(transformObject.center.x, -transformObject.center.y - 1.0);
-        var minusCM = new THREE.Matrix4();
-        minusCM.makeTranslation(-transformObject.center.x, transformObject.center.y + 1.0, 0.0);
-        var sM = new THREE.Matrix4();
-        sM.makeScale(transformObject.scale.x, transformObject.scale.y, 1.0);
-        var rM = new THREE.Matrix4();
-        rM.makeRotationZ(transformObject.rotation);
-        var transform = new THREE.Matrix4();
-        transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
-        texture.matrix.getNormalMatrix(transform);
-
-        var c = Math.cos(transformObject.rotation);
-        var s = Math.sin(transformObject.rotation);
+        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
+        var c = Math.cos(-transformObject.rotation);
+        var s = Math.sin(-transformObject.rotation);
         var sx = transformObject.scale.x;
         var sy = transformObject.scale.y;
         var cx = transformObject.center.x;
         var cy = transformObject.center.y;
-        var tx = -transformObject.translation.x;
-        var ty = 1.0 - transformObject.translation.y;
+        var tx = transformObject.translation.x;
+        var ty = transformObject.translation.y;
         texture.matrix.set(
-          sx * c, sx * s, -sx * (c * tx + s * ty - c * cx + s * (cy + 1)) - cx,
-          -sy * s, sy * c, -sy * (-s * tx + c * ty + s * cx + c * (cy - 1)) + cy + 1,
+          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
+          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
           0, 0, 1
         );
-      }; */
+      };
       texture.needsUpdate = true;
 
       this.setCustomId(textureTransform[0], texture);
