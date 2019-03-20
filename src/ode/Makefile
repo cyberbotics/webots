@@ -30,12 +30,15 @@ default:
 	@echo "  make clean                 remove build directory"
 else
 
+ifeq ($(MAKECMDGOALS),profile)
+  STATIC_LIBRARY = true
+endif
+
 CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
 ifneq ($(OSTYPE),darwin)
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
 INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
-LIBRARIES = -lpthread
 
 # define the source files
 
