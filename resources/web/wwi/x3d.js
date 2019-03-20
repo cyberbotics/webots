@@ -760,17 +760,15 @@ THREE.X3DLoader.prototype = {
 
   parseDirectionalLight: function(light, parentObject) {
     // TODO shadows
-    var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
+
+    var on = getNodeAttribute(light, 'on', 'true') === 'true';
+    if (!on)
+      return;
+
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = getNodeAttribute(light, 'intensity', '1');
     var castShadow = getNodeAttribute(light, 'shadowIntensity', '0') !== '0';
-    // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
-
-    if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity / 2);
-      parentObject.add(ambientLightObject);
-    }
 
     var lightObject = new THREE.DirectionalLight(convertrgbToHex(color), intensity / 4);
     if (castShadow) {
@@ -789,19 +787,17 @@ THREE.X3DLoader.prototype = {
 
   parsePointLight: function(light, parentObject) {
     // TODO shadows
-    var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
+
+    var on = getNodeAttribute(light, 'on', 'true') === 'true';
+    if (!on)
+      return;
+
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var intensity = getNodeAttribute(light, 'intensity', '1');
     var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
     var castShadows = convertStringToVec3(getNodeAttribute(light, 'castShadows', 'true'));
-    // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
     // var attenuation = getNodeAttribute(light, 'attenuation', '1 0 0');
     // var radius = convertStringToVec3(getNodeAttribute(light, 'radius', '100'));
-
-    if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity);
-      parentObject.add(ambientLightObject);
-    }
 
     var lightObject = new THREE.PointLight(convertrgbToHex(color), intensity);
     lightObject.castShadows = castShadows;
@@ -812,7 +808,10 @@ THREE.X3DLoader.prototype = {
 
   parseSpotLight: function(light, parentObject) {
     // TODO shadows
-    var ambientIntensity = getNodeAttribute(light, 'ambientIntensity', '0');
+    var on = getNodeAttribute(light, 'on', 'true') === 'true';
+    if (!on)
+      return;
+
     // var attenuation = getNodeAttribute(light, 'attenuation', '1 0 0');
     var beamWidth = getNodeAttribute(light, 'beamWidth', '5707963');
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
@@ -820,13 +819,8 @@ THREE.X3DLoader.prototype = {
     // TODO var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = getNodeAttribute(light, 'intensity', '1');
     var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
-    // TODO var on = getNodeAttribute(light, 'on', 'true') === 'true';
     // var radius = convertStringToVec3(getNodeAttribute(light, 'radius', '100'));
     var castShadows = convertStringToVec3(getNodeAttribute(light, 'castShadows', 'true')) === 'true';
-    if (ambientIntensity > 0) {
-      var ambientLightObject = new THREE.AmbientLight(convertrgbToHex(color), ambientIntensity);
-      parentObject.add(ambientLightObject);
-    }
 
     var lightObject = new THREE.SpotLight(convertrgbToHex(color), intensity);
     lightObject.position.set(location.x, location.y, location.z);
@@ -872,6 +866,9 @@ THREE.X3DLoader.prototype = {
       if (missing === 0)
         cubeTexture.needsUpdate = true;
     }
+
+    var light = new THREE.AmbientLight(color);
+    this.scene.add(light);
 
     return null;
   },
