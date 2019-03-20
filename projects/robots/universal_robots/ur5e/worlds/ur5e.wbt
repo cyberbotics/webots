@@ -13,9 +13,6 @@ TexturedBackgroundLight {
 Floor {
   size 15 5
   appearance ThreadMetalPlate {
-    textureTransform TextureTransform {
-      scale 0.5 0.5
-    }
   }
 }
 SquareManhole {
