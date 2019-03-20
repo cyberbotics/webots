@@ -133,7 +133,7 @@ Once this is done, should be able to apply a force on them as well.
 
 The simulation may be paused (pause button), run step-by-step (step button), in real time (right arrow button), in run (double right arrow button) or in fast (triple right arrow button) modes.
 
-Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation.
+Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
 > **Hands on #7**: Pause the simulation and revert it.
 In the Scene Tree view, expand the [WorldInfo](../reference/worldinfo.md) node (the first node).
