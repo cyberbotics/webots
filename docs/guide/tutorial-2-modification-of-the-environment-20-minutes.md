@@ -41,7 +41,7 @@ The distance between any two given points of a rigid body remains constant in ti
 For example a table, a robot finger phalanx or a wheel are rigid bodies.
 Soft bodies and articulated objects are not rigid bodies.
 For example, a rope, a tire, a sponge or an articulated robot arm are not rigid bodies.
-However, an articulated entity can be broken into of several rigid bodies.
+However, an articulated entity can be broken into several rigid bodies.
 
 The physics engine of Webots is designed for simulating rigid bodies only.
 An important step, when designing a simulation, is to break up the various entities into separate rigid bodies.
