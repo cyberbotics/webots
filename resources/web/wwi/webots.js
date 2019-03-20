@@ -439,11 +439,12 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     gui = 'play';
   if (loop === undefined)
     loop = true;
+  var that = this;
   this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
-  this.animation.init(() => {
+  this.animation.init(function() {
     $('#webotsProgress').hide();
-    if (this.onready)
-      this.onready();
+    if (that.onready)
+      that.onready();
   });
 };
 

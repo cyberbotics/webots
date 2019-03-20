@@ -14,6 +14,7 @@ X3dSceneManager.prototype = {
   constructor: X3dSceneManager,
 
   init: function() {
+    var that = this;
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -29,9 +30,9 @@ X3dSceneManager.prototype = {
     this.camera.lookAt(this.scene.position);
 
     this.viewpoint = new Viewpoint(this.camera);
-    this.viewpoint.onCameraPositionChanged = () => {
-      if (this.gpuPicker)
-        this.gpuPicker.needUpdate = true;
+    this.viewpoint.onCameraPositionChanged = function() {
+      if (that.gpuPicker)
+        that.gpuPicker.needUpdate = true;
     };
 
     this.selector = new Selector();
@@ -43,14 +44,15 @@ X3dSceneManager.prototype = {
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.camera);
 
-    window.onresize = () => this.resize(); // when the window has been resized.
+    window.onresize = function() { that.resize(); }; // when the window has been resized.
     this.resize();
 
     this.destroyWorld();
   },
 
   render: function() {
-    requestAnimationFrame(() => this.render());
+    var that = this;
+    requestAnimationFrame(function() { that.render(); });
     this.renderer.render(this.scene, this.camera);
   },
 
@@ -79,10 +81,11 @@ X3dSceneManager.prototype = {
   },
 
   loadWorldFile: function(url) {
+    var that = this;
     var loader = new THREE.X3DLoader(this);
-    loader.load(url, (object3d) => {
-      this.scene.add(object3d);
-      this.root = object3d;
+    loader.load(url, function(object3d) {
+      that.scene.add(object3d);
+      that.root = object3d;
     });
   },
 

@@ -73,7 +73,7 @@ DialogWindow.mobileCreateDialog = function() {
 DialogWindow.addMobileDialogAttributes = function(params, panel) {
   params.dialogClass = 'mobile-no-default-buttons';
   params.create = function() { DialogWindow.mobileCreateDialog(); };
-  params.buttons = { 'WbClose': () => $(panel).dialog('close') };
+  params.buttons = { 'WbClose': function() { $(panel).dialog('close'); } };
 };
 
 // the following two functions are used to make the resize and drag of the dialog

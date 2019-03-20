@@ -376,7 +376,9 @@ THREE.X3DLoader.prototype = {
     texture = new THREE.Texture();
 
     var filename = getNodeAttribute(imageTexture, 'url', '');
-    filename = filename.split(/['"\s]/).filter(n => n);
+    filename = filename.split(/['"\s]/).filter(function(n) { return n != null; });
+    if (filename[0] == null)
+      return null;
 
     // look for already loaded texture.
     var textureManager = new TextureManager();
@@ -822,7 +824,7 @@ THREE.X3DLoader.prototype = {
       var url = getNodeAttribute(background, attributeNames[i], null);
       if (url) {
         cubeTextureEnabled = true;
-        url = url.split(/['"\s]/).filter(n => n)[0];
+        url = url.split(/['"\s]/).filter(function(n) { return n != null; })[0];
       }
       urls.push(url);
     }
