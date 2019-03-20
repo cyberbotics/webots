@@ -559,31 +559,31 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
   writer << ">";
 
   if (baseColorMap()) {
-    baseColorMap()->setRole("baseColorMap");
+    baseColorMap()->setRole("baseColor");
     baseColorMap()->write(writer);
   }
   if (roughnessMap()) {
-    roughnessMap()->setRole("roughnessMap");
+    roughnessMap()->setRole("roughness");
     roughnessMap()->write(writer);
   }
   if (metalnessMap()) {
-    metalnessMap()->setRole("metalnessMap");
+    metalnessMap()->setRole("metalness");
     metalnessMap()->write(writer);
   }
   if (environmentMap()) {
-    environmentMap()->setRole("environmentMap");
+    environmentMap()->setRole("environment");
     environmentMap()->write(writer);
   }
   if (normalMap()) {
-    normalMap()->setRole("normalMap");
+    normalMap()->setRole("normal");
     normalMap()->write(writer);
   }
   if (occlusionMap()) {
-    occlusionMap()->setRole("occlusionMap");
+    occlusionMap()->setRole("occlusion");
     occlusionMap()->write(writer);
   }
   if (emissiveColorMap()) {
-    emissiveColorMap()->setRole("emissiveColorMap");
+    emissiveColorMap()->setRole("emissiveColor");
     emissiveColorMap()->write(writer);
   }
 
