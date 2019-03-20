@@ -465,10 +465,10 @@ webots.View.prototype.resetSimulation = function() {
     this.onready();
   this.deadline = this.timeout;
   if (this.deadline >= 0)
-    $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
+    $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
   else
     $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-  this.x3dSceneManager.viewpoint.reset(this.view.time);
+  this.x3dSceneManager.viewpoint.reset(this.time);
 };
 
 webots.View.prototype.destroyWorld = function() {

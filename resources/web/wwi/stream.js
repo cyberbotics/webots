@@ -89,6 +89,7 @@ Stream.prototype = {
             this.view.x3dSceneManager.applyPose(frame.poses[i]);
         }
         this.view.x3dSceneManager.viewpoint.updateViewpointPosition(null, this.view.time);
+        this.view.x3dSceneManager.onSceneUpdateCompleted();
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);
