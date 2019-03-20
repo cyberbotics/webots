@@ -3,27 +3,139 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.3068194956118561 -0.8743426486028694 -0.37601426827529505 4.341449608131196
-  position 2.536352443726623 3.5803956998777373 -0.46127367998472757
+  orientation -0.6186663250344054 -0.732882017805401 -0.28308289642065476 1.181875867119226
+  position -3.4092618203132083 4.501463236768075 2.314888428319895
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 Floor {
-  size 15 15
+  size 15 5
   appearance ThreadMetalPlate {
     textureTransform TextureTransform {
       scale 0.5 0.5
     }
   }
 }
-SolidRoundedBox {
-  translation -0.26 0.11 0
-  size 1 1 0.5
-  borderRadius 0.11
-  appearance CorrodedMetal {
+Solid {
+  translation 0.560459 -0.03 1.782
+  rotation 0 1 0 -1.5707963071795863
+  children [
+    DEF MANHOLE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/manhole_base_color.jpg"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "textures/manhole_roughness.jpg"
+          ]
+        }
+        metalnessMap ImageTexture {
+          url [
+            "textures/manhole_metalness.jpg"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "textures/manhole_normal.jpg"
+          ]
+        }
+        occlusionMap ImageTexture {
+          url [
+            "textures/manhole_occlusion.jpg"
+          ]
+        }
+      }
+      geometry Box {
+        size 1 0.1 1
+      }
+    }
+  ]
+  boundingObject USE MANHOLE_SHAPE
+}
+Table {
+  translation -1.419911 0 0.81333
+  rotation 0 1 0 -1.5707963071795863
+  size 1.8 0.7 0.8
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
   }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+OfficeTelephone {
+  translation -1.343811 0.7 0.209288
+  rotation 0 1 0 -0.7853983071795865
+}
+Wrench {
+  translation -1.238859 0.71 0.5886
+  rotation 0 1 0 2.094395
+}
+Hammer {
+  translation -1.60381 0.71 0.359288
+}
+PlatformCart {
+  translation 0.927687 0 -1.793317
+  rotation 0 1 0 -2.8797933071795865
+}
+LeverValve {
+  translation -0.73 0.502 0.83
+}
+Radiator {
+  translation 0.528902 0.33 -2.341308
+  rotation 0 1 0 -1.5707963071795863
+  numberOfFins 16
+}
+WoodenPalletStack {
+  translation 0.96 0 0.09
+  rotation 0 1 0 -1.5707963071795863
+  palletNumber 5
+  palletSize 0.8 0.11 1
+}
+Cabinet {
+  translation -0.4 0 -2.47
+  name "cabinet(1)"
+  layout [
+    "RightSidedDoor (1, 1, 1, 5, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 5, 1.5)"
+  ]
+  primaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+  secondaryAppearance GlossyPaint {
+    baseColor 0.729 0.741 0.713
+  }
+}
+CardboardBox {
+  translation -1.21 0.3 -2.18
+}
+CardboardBox {
+  translation -1.198389 0.75 -2.100678
+  rotation 0 1 0 2.094395
+  name "cardboard box(1)"
+  size 0.4 0.3 0.6
+}
+Wall {
+  translation 0 0 -2.58
+  size 15 2.4 0.2
+}
+SolidBox {
+  translation -0.25 0.3 0
+  size 0.8 0.6 0.3
+  appearance GalvanizedMetal {
+  }
+}
+FireExtinguisher {
+  translation -0.75771 0 -1.79
+  rotation 0 1 0 -2.8797933071795865
 }
 UR5e {
   translation 0 0.61 0
