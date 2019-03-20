@@ -165,20 +165,7 @@ Stream.prototype = {
         this.onready();
     } else if (data === 'reset finished') {
       // remove labels
-      var labels = document.getElementsByClassName('webotsLabel');
-      for (i = labels.length - 1; i >= 0; i--) {
-        var element = labels.item(i);
-        element.parentNode.removeChild(element);
-      }
-      $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
-      if (this.onready)
-        this.onready();
-      this.view.deadline = this.view.timeout;
-      if (this.view.deadline >= 0)
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
-      else
-        $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-      this.view.x3dSceneManager.viewpoint.reset(this.view.time);
+      this.view.reset();
     } else if (data.startsWith('label')) {
       var semiColon = data.indexOf(';');
       var id = data.substring(data.indexOf(':'), semiColon);
@@ -189,26 +176,20 @@ Stream.prototype = {
         semiColon = data.indexOf(';', previousSemiColon);
         labelProperties.push(data.substring(previousSemiColon, semiColon));
       }
-      var text = data.substring(semiColon + 1, data.length);
-      var labelElement = document.getElementById('label' + id);
-      if (labelElement == null) {
-        labelElement = document.createElement('div');
-        labelElement.id = 'label' + id;
-        labelElement.className = 'webotsLabel';
-        // TODO
-        // this.view.x3dNode.appendChild(labelElement);
-      }
-      labelElement.style.fontFamily = labelProperties[0];
-      labelElement.style.color = labelProperties[1];
-      // labelElement.style.fontSize = $(this.view.x3dNode).height() * labelProperties[2] / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
-      // labelElement.style.left = $(this.view.x3dNode).width() * labelProperties[3] + 'px';
-      // labelElement.style.top = $(this.view.x3dNode).height() * labelProperties[4] + 'px';
-      labelElement.innerHTML = text;
+      this.view.setLabel({
+        id: id,
+        text: data.substring(semiColon + 1, data.length),
+        font: labelProperties[0],
+        color: labelProperties[1],
+        size: labelProperties[2],
+        x: labelProperties[3],
+        y: labelProperties[4]
+      });
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
 
-  /* remove or move in x3d related class
+  /* TODO check if needed: remove or move in x3d related class
   compareTextureUrl: function(attributeUrl, textureUrl) {
     // url attribute is an array (x3dom.field.MFString)
     if (!attributeUrl || !textureUrl || (typeof attributeUrl !== 'object') || !(attributeUrl instanceof Array))

@@ -66,6 +66,7 @@ X3dSceneManager.prototype = {
   },
 
   destroyWorld: function() {
+    this.selector.clearSelection();
     if (!this.scene)
       return;
     for (var i = this.scene.children.length - 1; i >= 0; i--)

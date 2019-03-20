@@ -79,33 +79,20 @@ webots.View = function(view3D, mobile) {
     window.location = quitDestination;
   };
   this.onresize = function() {
-    /* TODO
-    var viewpoint = that.x3dSceneManager.getElementsByTagName('Viewpoint')[0];
-    var viewHeight = parseFloat($(that.x3dNode).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(that.x3dNode).css('width').slice(0, -2));
-    if (that.viewpointFieldOfView == null) {
-      var fieldOfView = viewpoint.getAttribute('fieldOfView');
-      // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
-      // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-      if (fieldOfView == null) {
-        setTimeout(that.onresize, 0);
-        return;
-      }
-      that.viewpointFieldOfView = fieldOfView;
+    // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
+    // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
+    if (this.x3dSceneManager.root === null) {
+      setTimeout(that.onresize, 0);
+      return;
     }
 
-    var fieldOfViewY = that.viewpointFieldOfView;
-    if (viewWidth > viewHeight) {
-      var tanHalfFieldOfViewY = Math.tan(0.5 * that.viewpointFieldOfView) * viewHeight / viewWidth;
-      fieldOfViewY = 2.0 * Math.atan(tanHalfFieldOfViewY);
-    }
-
-    viewpoint.setAttribute('fieldOfView', fieldOfViewY);
-*/
+    var viewHeight = parseFloat($(that.x3dDiv).css('height').slice(0, -2));
+    var viewWidth = parseFloat($(that.x3dDiv).css('width').slice(0, -2));
+    that.x3dSceneManager.viewpoint.resetFov(viewWidth, viewHeight);
   };
   this.ondialogwindow = function(opening) {
     // Pause the simulation if needed when a pop-up dialog window is open
-    // and restart running the simulation when it is closed
+    // and restart running the simulation when it is closed.
     if (opening && that.isAutomaticallyPaused === undefined) {
       that.isAutomaticallyPaused = that.toolBar && that.toolBar.pauseButton && that.toolBar.pauseButton.style.display === 'inline';
       that.toolBar.pauseButton.click();
@@ -144,7 +131,6 @@ webots.View = function(view3D, mobile) {
     }
   });
 
-  this.selection = null;
   this.x3dSceneManager = null;
   this.debug = false;
   this.timeout = 60 * 1000; // default to one minute
@@ -206,11 +192,12 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
 };
 
 webots.View.prototype.open = function(url, mode) {
+  var that = this;
+  this.url = url;
   if (mode === undefined)
     mode = 'x3dom';
-  var that = this;
   this.mode = mode;
-  this.videoStream = null;
+
   if (mode === 'video') {
     this.url = url;
     this.video = new VideoManager(this.view3D, this.mouseEvents);
@@ -221,37 +208,40 @@ webots.View.prototype.open = function(url, mode) {
     console.log('Error: webots.View.open: wrong mode argument: ' + mode);
     return;
   }
+
   if (this.broadcast)
     this.setTimeout(-1);
-
-  this.url = url;
   this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-  if (that.isWebSocketProtocol) {
-    this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
-    this.contextMenu.onEditController = function(controller) { that.editController(controller); };
-    this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
-    this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
-    this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindowValid(robotName); };
-    this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
-
-    this.console = new Console(this.view3D, this.mobileDevice);
-    this.editor = new Editor(this.view3D, this.mobileDevice, this);
-  }
-
   if (!this.x3dSceneManager) {
-    var x3dDiv = document.createElement('div');
-    x3dDiv.className = 'webots3DView';
-    this.view3D.appendChild(x3dDiv);
-    this.x3dSceneManager = new X3dSceneManager(x3dDiv);
+    this.x3dDiv = document.createElement('div');
+    this.x3dDiv.className = 'webots3DView';
+    this.view3D.appendChild(this.x3dDiv);
+    this.x3dSceneManager = new X3dSceneManager(this.x3dDiv);
     that.x3dSceneManager.init();
     var param = document.createElement('param');
     param.name = 'showProgress';
     param.value = false;
     this.x3dSceneManager.domElement.appendChild(param);
-
-    this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, x3dDiv);
   }
+
+  if (!that.contextMenu) {
+    this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
+    this.contextMenu.onEditController = function(controller) { that.editController(controller); };
+    this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
+    this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
+    this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindow(robotName); };
+    this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
+  }
+
+  if (!this.mouseEvents)
+    this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, this.x3dDiv);
+
+  if (!this.console)
+    this.console = new Console(this.view3D, this.mobileDevice);
+
+  if (!this.editor)
+    this.editor = new Editor(this.view3D, this.mobileDevice, this);
 
   // TODO if THREE js library is already loaded the if is useless
   /* if (this.url === undefined)
@@ -262,11 +252,6 @@ webots.View.prototype.open = function(url, mode) {
   initWorld();
 
   function initWorld() {
-    if (that.mode === 'x3dom') {
-      // TODO redirect the THREE js log entirely to the JS console (is it needed?)
-      // TODO
-      // x3dom.runtime.ready = addX3domMouseNavigation;
-    }
     if (that.isWebSocketProtocol) {
       var resourceManager = new ResourceManager();
       that.progress = document.createElement('div');
@@ -276,7 +261,8 @@ webots.View.prototype.open = function(url, mode) {
                                 "</div><div id='webotsProgressPercent'></div>";
       that.view3D.appendChild(that.progress);
 
-      that.toolBar = new Toolbar(that.view3D, that);
+      if (!that.toolBar)
+        that.toolBar = new Toolbar(that.view3D, that);
 
       if (that.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
         var callback;
@@ -396,7 +382,6 @@ webots.View.prototype.open = function(url, mode) {
       }
     } else if (that.infoWindow && !that.broadcast) // at first load
       that.toolBar.toggleInfo();
-    that.viewpointLastUpdate = undefined;
 
     if (that.runOnLoad && that.toolBar)
       that.toolBar.realTime();
@@ -448,17 +433,49 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
   });
 };
 
-webots.View.prototype.destroyWorld = function() {
-  // this.selection = null;
-  if (this.x3dSceneManager)
-    this.x3dSceneManager.destroyWorld();
+webots.View.prototype.setLabel = function(properties) {
+  var labelElement = document.getElementById('label' + properties.id);
+  if (labelElement == null) {
+    labelElement = document.createElement('div');
+    labelElement.id = 'label' + properties.id;
+    labelElement.className = 'webotsLabel';
+    this.x3dDiv.appendChild(labelElement);
+  }
+  labelElement.style.fontFamily = properties.font;
+  labelElement.style.color = properties.color;
+  labelElement.style.fontSize = $(this.x3dDiv).height() * properties.size / 2.25 + 'px'; // 2.25 is an empirical value to match with Webots appearance
+  labelElement.style.left = $(this.x3dDiv).width() * properties.x + 'px';
+  labelElement.style.top = $(this.x3dDiv).height() * properties.y + 'px';
+  labelElement.innerHTML = properties.text;
+};
 
+webots.View.prototype.removeLabels = function() {
   // remove labels
   var labels = document.getElementsByClassName('webotsLabel');
   for (var i = labels.length - 1; i >= 0; i--) {
     var element = labels.item(i);
     element.parentNode.removeChild(element);
   }
+};
+
+webots.View.prototype.resetSimulation = function() {
+  this.removeLabels();
+  $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
+  if (this.onready)
+    this.onready();
+  this.deadline = this.timeout;
+  if (this.deadline >= 0)
+    $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
+  else
+    $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
+  this.x3dSceneManager.viewpoint.reset(this.view.time);
+};
+
+webots.View.prototype.destroyWorld = function() {
+  if (this.x3dSceneManager)
+    this.x3dSceneManager.destroyWorld();
+
+  this.removeLabels();
 };
 
 webots.View.prototype.editController = function(controller) {
@@ -469,7 +486,7 @@ webots.View.prototype.editController = function(controller) {
   }
 };
 
-webots.View.prototype.openRobotWindowValid = function(robotName) {
+webots.View.prototype.openRobotWindow = function(robotName) {
   var win = this.robotWindows[this.robotWindowNames[robotName]];
   if (win) {
     if (win === this.infoWindow) {
