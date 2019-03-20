@@ -544,6 +544,14 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
 
   writer << "<PBRAppearance ";
 
+  if (isUseNode()) {
+    writer << " USE=\'" + useName() + "\'></PBRAppearance>";
+    return;
+  }
+
+  if (!defName().isEmpty())
+    writer << " DEF=\'" << defName() << "\'";
+
   foreach (WbField *field, fields())
     if (field->singleType() != WB_SF_NODE)
       field->write(writer);
