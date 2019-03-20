@@ -18,44 +18,9 @@ Floor {
     }
   }
 }
-Solid {
+SquareManhole {
   translation 0.560459 -0.03 1.782
   rotation 0 1 0 -1.5707963071795863
-  children [
-    DEF MANHOLE_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/manhole_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/manhole_roughness.jpg"
-          ]
-        }
-        metalnessMap ImageTexture {
-          url [
-            "textures/manhole_metalness.jpg"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "textures/manhole_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/manhole_occlusion.jpg"
-          ]
-        }
-      }
-      geometry Box {
-        size 1 0.1 1
-      }
-    }
-  ]
-  boundingObject USE MANHOLE_SHAPE
 }
 Table {
   translation -1.419911 0 0.81333
