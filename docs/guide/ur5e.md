@@ -40,4 +40,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### ur5e.wbt
 
-![ur5e.wbt.png](images/robots/ur5e/ur5e.wbt.png) This simulation shows two UR5e robots equipped with a [ROBOTIQ 3F Gripper](gripper-actuators#robotiq-3f-gripper) grabbing can on a conveyor belt and putting them in crates.
+![ur5e.wbt.png](images/robots/ur5e/ur5e.wbt.png) This simulation shows two UR5e robots equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper) grabbing can on a conveyor belt and putting them in crates.
