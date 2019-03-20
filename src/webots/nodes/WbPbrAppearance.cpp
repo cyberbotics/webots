@@ -536,6 +536,41 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
   }
 }
 
+void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
+  WbAbstractAppearance::exportNodeFooter(writer);
+
+  if (!writer.isX3d())
+    return;
+
+  writer << "<PBRAppearance ";
+
+  foreach (WbField *field, fields())
+    if (field->singleType() != WB_SF_NODE)
+      field->write(writer);
+
+  writer << ">";
+
+  if (baseColorMap())
+    baseColorMap()->write(writer);
+  if (roughnessMap())
+    roughnessMap()->write(writer);
+  if (metalnessMap())
+    metalnessMap()->write(writer);
+  if (environmentMap())
+    environmentMap()->write(writer);
+  if (normalMap())
+    normalMap()->write(writer);
+  if (occlusionMap())
+    occlusionMap()->write(writer);
+  if (emissiveColorMap())
+    emissiveColorMap()->write(writer);
+
+  if (textureTransform())
+    textureTransform()->write(writer);
+
+  writer << "</PBRAppearance>";
+}
+
 QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "baseColor"

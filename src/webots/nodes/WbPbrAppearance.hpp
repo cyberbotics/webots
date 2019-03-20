@@ -67,6 +67,7 @@ public:
 
 protected:
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  void exportNodeFooter(WbVrmlWriter &writer) const override;
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
