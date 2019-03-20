@@ -195,9 +195,8 @@ THREE.X3DLoader.prototype = {
             continue;
           else
             material = this.parseAppearance(child);
-        } else if (child.tagName === 'PBRAppearance') {
+        } else if (child.tagName === 'PBRAppearance')
           material = this.parsePBRAppearance(child);
-        }
 
         if (material) {
           this.setDefNode(child, material);
