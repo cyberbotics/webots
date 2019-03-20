@@ -198,7 +198,7 @@ Fix any compilation errors if necessary.
 When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 
 If everything is fine, your robot should move forwards.
-The robot will move using it's maximum speed for a while and then stop once the wheels have rotated of 10 radians.
+The robot will move using its maximum speed for a while and then stop once the wheels have rotated of 10 radians.
 
 In the `controllers` directory of your project, a directory containing the `e-puck_go_forward` controller has been created.
 The `e-puck_go_forward` directory contains a `e-puck_go_forward` binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
