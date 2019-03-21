@@ -21,7 +21,7 @@ Viewpoint.prototype = {
 
   reset: function(time) {
     this.camera.position.copy(this.initialViewpointPosition);
-    this.camera.quaternion.copy(this.view.initialViewpointOrientation);
+    this.camera.quaternion.copy(this.initialViewpointOrientation);
     this.updateViewpointPosition(true, time);
   },
 

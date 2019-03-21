@@ -165,8 +165,9 @@ Stream.prototype = {
       if (this.onready)
         this.onready();
     } else if (data === 'reset finished') {
-      // remove labels
-      this.view.reset();
+      this.view.resetSimulation();
+      if (this.onready)
+        this.onready();
     } else if (data.startsWith('label')) {
       var semiColon = data.indexOf(';');
       var id = data.substring(data.indexOf(':'), semiColon);

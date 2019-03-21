@@ -81,7 +81,7 @@ webots.View = function(view3D, mobile) {
   this.onresize = function() {
     // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
     // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-    if (this.x3dSceneManager.root === null) {
+    if (that.x3dSceneManager.root === null) {
       setTimeout(that.onresize, 0);
       return;
     }
@@ -97,7 +97,7 @@ webots.View = function(view3D, mobile) {
       that.isAutomaticallyPaused = that.toolBar && that.toolBar.pauseButton && that.toolBar.pauseButton.style.display === 'inline';
       that.toolBar.pauseButton.click();
     } else if (!opening && that.isAutomaticallyPaused) {
-      that.toolBar.realTimeButton.click();
+      that.toolBar.real_timeButton.click();
       that.isAutomaticallyPaused = undefined;
     }
   };
@@ -461,14 +461,21 @@ webots.View.prototype.removeLabels = function() {
 webots.View.prototype.resetSimulation = function() {
   this.removeLabels();
   $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
-  if (this.onready)
-    this.onready();
   this.deadline = this.timeout;
   if (this.deadline >= 0)
     $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
   else
     $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
   this.x3dSceneManager.viewpoint.reset(this.time);
+};
+
+webots.View.prototype.quitSimulation = function() {
+  if (this.broadcast)
+    return;
+  $('#webotsProgressMessage').html('Bye bye...');
+  $('#webotsProgress').show();
+  this.quitting = true;
+  this.onquit();
 };
 
 webots.View.prototype.destroyWorld = function() {

@@ -177,6 +177,7 @@ Toolbar.prototype = {
         text = 'Your unsaved changes to the robot controller will be lost.';
       var quitDialog = document.getElementById('quitDialog');
       if (!quitDialog) {
+        var that = this;
         quitDialog = document.createElement('div');
         quitDialog.id = 'quitDialog';
         $(quitDialog).html(text);
@@ -193,7 +194,7 @@ Toolbar.prototype = {
             },
             'Quit': function() {
               $(this).dialog('close');
-              this.quit();
+              that.view.quitSimulation();
             }
           }
         });
@@ -201,16 +202,7 @@ Toolbar.prototype = {
         $(quitDialog).dialog('open');
       return;
     }
-    this.quit();
-  },
-
-  quit: function() {
-    if (webots.broadcast)
-      return;
-    $('#webotsProgressMessage').html('Bye bye...');
-    $('#webotsProgress').show();
-    this.quitting = true;
-    this.onquit();
+    this.view.quitSimulation();
   },
 
   reset: function(revert = false) {

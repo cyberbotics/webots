@@ -64,7 +64,7 @@ function Editor(parent, mobile, view) {
   this.editor.commands.addCommand({
     name: 'save',
     bindKey: {win: 'Ctrl-S', mac: 'Cmd-S'},
-    exec: function(editor) { that.save(this.currentSession); }
+    exec: function(editor) { that.save(that.currentSession); }
   });
   $('#webotsEditorSaveAction').click(function() {
     that.save(that.currentSession);
