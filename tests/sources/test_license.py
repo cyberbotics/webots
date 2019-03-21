@@ -1,4 +1,4 @@
-# Copyright 1996-2019 Cyberbotics Ltd.
+# Copyright 1996-20XX Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 """Test that checks that all the source files have the Apache 2 license."""
 import unittest
 
+import datetime
 import difflib
 import os
 import fnmatch
 
 
 APACHE2_LICENSE_C = """/*
- * Copyright 1996-2019 Cyberbotics Ltd.
+ * Copyright 1996-20XX Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +37,7 @@ APACHE2_LICENSE_C = """/*
  * limitations under the License.
  */"""
 
-APACHE2_LICENSE_CPP = """// Copyright 1996-2019 Cyberbotics Ltd.
+APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +51,7 @@ APACHE2_LICENSE_CPP = """// Copyright 1996-2019 Cyberbotics Ltd.
 // See the License for the specific language governing permissions and
 // limitations under the License."""
 
-APACHE2_LICENSE_PYTHON = """# Copyright 1996-2019 Cyberbotics Ltd.
+APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -148,17 +149,17 @@ class TestLicense(unittest.TestCase):
                 content = content_file.read()
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_C),
+                        content.startswith(APACHE2_LICENSE_C.replace('20XX', str(datetime.datetime.now().year))),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
                     )
                 elif source.endswith('.cpp') or source.endswith('.hpp') or source.endswith('.java'):
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_CPP),
+                        content.startswith(APACHE2_LICENSE_CPP.replace('20XX', str(datetime.datetime.now().year))),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_PYTHON) or content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
+                        content.startswith(APACHE2_LICENSE_PYTHON.replace('20XX', str(datetime.datetime.now().year))) or content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON.replace('20XX', str(datetime.datetime.now().year))),
                         msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
                     )
                 else:
