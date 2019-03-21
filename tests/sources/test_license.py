@@ -37,7 +37,7 @@ APACHE2_LICENSE_C = """/*
  * limitations under the License.
  */""".replace('20XX', str(datetime.datetime.now().year))
 
-APACHE2_LICENSE_CPP = """// Copyright 1996-201X Cyberbotics Ltd.
+APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
