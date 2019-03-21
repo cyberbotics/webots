@@ -6,7 +6,6 @@
 // TODO missing nodes/attributes:
 // - shadows
 // - lights
-// - texture transform
 // - Cubemap
 // - geometry primitives:
 //   - PointSet: mising shader
@@ -56,12 +55,32 @@ THREE.X3DLoader.prototype = {
   },
 
   getDefNode: function(node) {
+    function isNodeTypeMatching(dictionaryEntry, tagName) {
+      if (dictionaryEntry.tagName === tagName)
+        return true;
+
+      // simplified check for mathing types
+      if (dictionaryEntry.tagName === 'Transform' || dictionaryEntry.tagName === 'Group')
+        return tagName === 'Transform' || tagName === 'Group';
+      if (dictionaryEntry.def.isMesh || dictionaryEntry.def.isPoints || dictionaryEntry.def.isLineSegments)
+        return tagName === 'Shape';
+      if (dictionaryEntry.def.isMaterial)
+        return tagName === 'Appearance' || tagName === 'PBRAppearance';
+      if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
+        const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
+        return geometries.includes(tagName);
+      }
+      if (dictionaryEntry.def instanceof THREE.Texture)
+        return tagName === 'ImageTexture';
+      return false;
+    };
+
     var useName = getNodeAttribute(node, 'USE', '');
     if (useName !== '') {
       // look for DEF nodes
       var entry = null;
       for (var i = this.defDictionary.length - 1; i >= 0; i--) {
-        if (this.defDictionary[i].name === useName && this.defDictionary[i].tagName === node.tagName) {
+        if (this.defDictionary[i].name === useName && isNodeTypeMatching(this.defDictionary[i], node.tagName)) {
           entry = this.defDictionary[i];
           break;
         }
