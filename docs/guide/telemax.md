@@ -25,6 +25,9 @@ Telemax {
   SFBool      selfCollision    TRUE
   SFBool      synchronization  TRUE
   MFNode      traySlot         [ TelemaxBox { } ]
+  MFNode      cameraSlot0      [ ]
+  MFNode      cameraSlot1      [ ]
+  MFNode      cameraSlot2      [ ]
 }
 ```
 
@@ -34,6 +37,9 @@ Telemax {
 
 - `color`: Defines the color of the painted part of the robot.
 - `traySlot`: Extends the robot with new nodes located on top of its tray.
+- `cameraSlot0`: Extends the robot with new nodes located at the beginning of the arm.
+- `cameraSlot1`: Extends the robot with new nodes located at the middle of the arm.
+- `cameraSlot2`: Extends the robot with new nodes located at the extremity of the arm.
 
 ### Samples
 
