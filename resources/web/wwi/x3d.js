@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureManager, ShaderManager */
+/* global THREE, ActiveXObject, TextureManager */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
@@ -7,8 +7,6 @@
 // - shadows
 // - lights
 // - Cubemap
-// - geometry primitives:
-//   - PointSet: mising shader
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
@@ -226,13 +224,10 @@ THREE.X3DLoader.prototype = {
           geometry = this.parseSphere(child);
         else if (child.tagName === 'ElevationGrid')
           geometry = this.parseElevationGrid(child);
-        else if (child.tagName === 'IndexedLineSet') {
+        else if (child.tagName === 'IndexedLineSet')
           geometry = this.parseIndexedLineSet(child);
-          var isLine = true;
-        } else if (child.tagName === 'PointSet') {
+        else if (child.tagName === 'PointSet')
           geometry = this.parsePointSet(child);
-          var isPointSet = true;
-        }
 
         if (geometry) {
           this.setDefNode(child, geometry);
@@ -247,29 +242,16 @@ THREE.X3DLoader.prototype = {
     // apply default geometry and/or material
     if (!geometry)
       geometry = new THREE.Geometry();
-    if (!material && !isPointSet)
+    if (!material && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
       material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
     var mesh = null;
-    if (isLine)
+    if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
-    else if (isPointSet) {
-      mesh = new THREE.Points(geometry);
-      if (!material) {
-        var shaderManager = new ShaderManager();
-        shaderManager.load('shader/point_set.frag', 'shader/point_set.vert',
-          function(vertex, fragment) {
-            mesh.material = new THREE.ShaderMaterial({
-              uniforms: {
-                colorPerVertex: isPointSet.colorPerVertex,
-                size: 20
-              },
-              vertexShader: vertex,
-              fragmentShader: fragment
-            });
-          }
-        );
-      }
+    else if (geometry.userData.x3dType === 'PointSet') {
+      if (!material)
+        material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
+      mesh = new THREE.Points(geometry, material);
     } else
       mesh = new THREE.Mesh(geometry, material);
     if (angle !== 0)
@@ -728,28 +710,23 @@ THREE.X3DLoader.prototype = {
     if (colorStrArray && count !== colorStrArray.length) {
       count = Math.min(count, colorStrArray.length);
       console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
-    }
+      geometry.userData.isColorPerVertex = false;
+    } else
+      geometry.userData.isColorPerVertex = true;
 
     var positions = new Float32Array(count);
-    var colors = new Float32Array(count);
-    var sizes = new Float32Array(count / 3);
-    for (let i = 0, v = 0; i < count; i = i + 3, v++) {
-      positions[i + 0] = parseFloat(coordStrArray[i]);
-      positions[i + 1] = parseFloat(coordStrArray[i + 1]);
-      positions[i + 2] = parseFloat(coordStrArray[i + 2]);
-      if (colorStrArray) {
-        colors[i + 0] = parseFloat(colorStrArray[i]);
-        colors[i + 1] = parseFloat(colorStrArray[i + 1]);
-        colors[i + 2] = parseFloat(colorStrArray[i + 2]);
-      }
-      sizes[v] = 4;
+    for (let i = 0; i < count; i++)
+      positions[i] = parseFloat(coordStrArray[i]);
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    if (geometry.userData.isColorPerVertex) {
+      var colors = new Float32Array(count);
+      for (let i = 0; i < count; i++)
+        colors[i] = parseFloat(colorStrArray[i]);
+      geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
     }
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
-    if (colorStrArray)
-      geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-
+    geometry.computeBoundingBox();
     return geometry;
   },
 
@@ -872,16 +849,15 @@ THREE.X3DLoader.prototype = {
   },
 
   parseViewpoint: function(viewpoint) {
-    var fov = getNodeAttribute(viewpoint, 'fieldOfView', '0.785');
-    var near = getNodeAttribute(viewpoint, 'zNear', '0.1');
-    var far = getNodeAttribute(viewpoint, 'zFar', '2000');
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')) * (180 / Math.PI); // convert to degrees
+    var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
+    var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     // set default aspect ratio 1 that will be updated on window resize.
     var camera = this.camera;
     if (camera) {
-      // TODO set fov, near, far from Viewpoint node
-      // camera.fov = fov;
-      // camera.near = near;
-      // camera.far = far;
+      camera.fov = fov;
+      camera.near = near;
+      camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       camera = new THREE.PerspectiveCamera(fov, 1, near, far);

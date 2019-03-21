@@ -67,10 +67,10 @@ X3dSceneManager.prototype = {
   resize: function() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
-    this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
+    this.renderer.setSize(width, height);
   },
 
   destroyWorld: function() {
