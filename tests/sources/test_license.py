@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import fnmatch
 
 
 APACHE2_LICENSE_C = """/*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ APACHE2_LICENSE_C = """/*
  * limitations under the License.
  */"""
 
-APACHE2_LICENSE_CPP = """// Copyright 1996-2018 Cyberbotics Ltd.
+APACHE2_LICENSE_CPP = """// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ APACHE2_LICENSE_CPP = """// Copyright 1996-2018 Cyberbotics Ltd.
 // See the License for the specific language governing permissions and
 // limitations under the License."""
 
-APACHE2_LICENSE_PYTHON = """# Copyright 1996-2018 Cyberbotics Ltd.
+APACHE2_LICENSE_PYTHON = """# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
