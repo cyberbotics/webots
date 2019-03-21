@@ -379,6 +379,9 @@ endif
 
 ifdef USE_ODE
  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ ifeq ($(GOAL),profile)
+  DYNAMIC_LIBRARIES += -lstdc++
+ endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
  endif
