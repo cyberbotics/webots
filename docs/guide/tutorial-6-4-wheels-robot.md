@@ -163,7 +163,7 @@ The following note explain how to proceed.
 To program the rotational motors, the first step is to include the API module corresponding to the [RotationalMotor](../reference/rotationalmotor.md) node:
 
 ```c
->  #include <webots/motor.h>
+#include <webots/motor.h>
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
