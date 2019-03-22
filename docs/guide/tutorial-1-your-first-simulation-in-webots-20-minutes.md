@@ -118,7 +118,7 @@ That's because it has a default controller with that behavior.
 You may have noticed a small black window appearing in the upper-left corner of the 3D view.
 It shows the image taken by the [Camera](../reference/camera.md) of the e-puck robot.
 This image will remain black until the camera is explicitly enabled by the controller of the robot.
-This small image window can be [moved](the-user-interface.md#moving-and-resizing-overlays) around by dragging it.
+This small image window can be [moved](the-3d-window.md#moving-and-resizing-overlays) around by dragging it.
 It can also be [resized](the-user-interface.md#moving-and-resizing-overlays) by dragging the bottom-right corner.
 Finally, it can be closed by clicking the "x" in the top-right corner.
 You can make it visible again from the **Overlays** menu, by selecting it in the **Camera Devices** submenu.
