@@ -43,7 +43,7 @@ The direct parent and child of a [Joint](../reference/joint.md) node are both [S
 The nodes derived from [Joint](../reference/joint.md) allow creating different kinds of constraints between the linked [Solid](../reference/solid.md) nodes.
 The most used one in robotics, is the [HingeJoint](../reference/hingejoint.md) allowing to model amongst others rotational motors including wheels.
 
-A joint node can be monitored or actuated by adding respectively a [PositionSensor](../reference/positionsensor.md) node, or a motor node to its `device` field.
+A [Joint](../reference/joint.md) node can be monitored or actuated by adding respectively a [PositionSensor](../reference/positionsensor.md) node, or a motor node to its `device` field.
 
 Having these rules in mind, we can start to design the node hierarchy used to model the robot.
 The first step is to determine which part of the robot should be modeled as a solid node.
