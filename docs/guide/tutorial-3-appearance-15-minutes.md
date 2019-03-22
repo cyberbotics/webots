@@ -20,7 +20,6 @@ You can find their complete documentation in the [Reference Manual](../reference
 
 Lights are costly in term of performance.
 Minimizing the number of lights increases the rendering speed.
-A maximum of 8 lights is allowed if the shaders are disabled in the Webots preferences.
 A [PointLight](../reference/pointlight.md) is more efficient than a [SpotLight](../reference/spotlight.md), but less than a [DirectionalLight](../reference/directionallight.md).
 Note finally that casting shadows can reduce the simulation speed drastically.
 

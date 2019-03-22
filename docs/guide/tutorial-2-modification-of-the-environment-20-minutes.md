@@ -81,8 +81,8 @@ In the dialog, open the `Bases nodes` section and select the [Solid](../referenc
 In the scene tree view, expand the [Solid](../reference/solid.md) node and select its `children` field.
 Add a [Shape](../reference/shape.md) node to it by using the `Add` button.
 Select the `appearance` field of the [Shape](../reference/shape.md) node and use the `Add` button to add a `PBRAppearance` node.
-Expand this node and change its `metalness` field to 0 and its `roughness` field to 1.
 Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly created [Shape](../reference/shape.md) node.
+Expand the `PBRAppearance` node and change its `metalness` field to 0 and its `roughness` field to 1.
 Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
 Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
 By modifying the `translation` field of the [Solid](../reference/solid.md) node, place the ball in front of the robot (at `{0, 0.1, -0.2}` for example).
@@ -96,7 +96,7 @@ The result is depicted in [this figure](#your-first-rigid-body-in-webots).
 %end
 
 When the simulation is started, the ball hits the floor.
-You can move the ball by adding a force to it (Ctrl + Alt + left-click + drag).
+You can move the ball by [applying a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to it (Ctrl + Alt + left-click + drag).
 The contact points between the ball and the floor can be displayed as cyan lines by enabling the `View / Optional Rendering / Show Contact Points` menu item.
 
 ### Geometries
@@ -126,7 +126,7 @@ The two [Sphere](../reference/sphere.md) definitions that we have used earlier t
 We will now merge these two [Spheres](../reference/sphere.md) into only once using the DEF-USE mechanism.
 
 > **Hands on #6**: Select the first [Sphere](../reference/sphere.md) node (the child of the [Shape](../reference/shape.md)) in the scene tree view.
-The field editor of the scene tree view allows you to enter the DEF string.
+The [field editor](the-scene-tree.md#field-editor) of the scene tree view allows you to enter the DEF string.
 Enter `BALL_GEOMETRY`.
 Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Delete` entry in the context menu that pops up.
 Then, click on the `Add` button, and select the `USE / BALL_GEOMETRY` in the dialog box.
@@ -163,7 +163,7 @@ Later this mechanism will turn out to be very useful for some sensors.
 
 In order to verify your progression, implement by yourself four walls to surround the environment.
 The walls have to be defined statically to the environment, and use as much as possible the DEF-USE mechanism at the [Shape](../reference/shape.md) level rather than at the Geometry level.
-Indeed it's more convenient to add an intermediate[Shape](../reference/shape.md) node in the `boundingObject` field of the [Solid](../reference/solid.md) node.
+Indeed it's more convenient to add an intermediate [Shape](../reference/shape.md) node in the `boundingObject` field of the [Solid](../reference/solid.md) node.
 The best Geometry primitive to implement the walls is the Box node.
 Only one [Shape](../reference/shape.md) has to be defined for all the walls.
 The expected result is shown in [this figure](#the-simulation-state-at-the-end-of-this-second-tutorial).

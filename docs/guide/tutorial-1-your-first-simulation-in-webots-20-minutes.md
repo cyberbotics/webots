@@ -11,7 +11,7 @@ You will create your first simulation containing a simple environment: an arena 
 
 If not already done, download and install Webots, following these [installation instructions](installing-webots.md).
 
-> **Hands on #1**: Start Webots by double-clicking on its icon (or invoking it from a command line in a Terminal).
+> **Hands on #1**: [Start Webots](starting-webots.md) by double-clicking on its icon (or invoking it from a command line in a Terminal).
 If you are running Webots for the first time on this computer, you may be prompted to select a graphical theme.
 You may also be invited to follow the Webots guided tour, go ahead and close the guided tour.
 
@@ -29,7 +29,7 @@ A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
 The world files must be stored directly in a directory called `worlds`.
 
-> **Hands on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view.
+> **Hands on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item.
 Follow the instructions.
@@ -39,14 +39,15 @@ Click all the tick boxes, including the "Add a rectangle arena" which is not tic
 
 Webots displays a list of directories and files it just created.
 This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
+Click on the `Finish` button to close this window.
 
 Congratulation, you just created your very first Webots world!
 The 3D view should display a square arena with a checkered floor.
-You can change the viewpoint of the 3D view by using the mouse buttons (left button, right button and the wheel).
+You can move the viewpoint in the 3D view [using the mouse](the-3d-window.md#navigation-in-the-scene): left button, right button and the wheel.
 
 Webots nodes stored in world files are organized in a tree structure called the **scene tree**.
-The scene tree can be viewed in two subwindows of the main window: the 3D view (at the center of the main window) is the 3D representation of the scene tree and the scene tree view (on the left) is the hierarchical representation of the scene tree.
-The scene tree view is where the nodes and fields can be modified.
+The scene tree can be viewed in two sub-windows of the main window: the [3D view](the-3d-window.md) (at the center of the main window) is the 3D representation of the scene tree and the [scene tree view](the-scene-tree.md) (on the left) is the hierarchical representation of the scene tree.
+The [scene tree view](the-scene-tree.md) is where the nodes and fields can be modified.
 It should currently list the following nodes:
 
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
@@ -65,7 +66,7 @@ You should see the effect immediately in the 3D view.
 Select the `wallHeight` field and change its value to `0.05` instead of `0.1`.
 The wall of the arena should now be lower.
 
-In the Scene Tree view, the fields are displayed in a different color (depending on the theme) if they differ from their default values.
+In the [scene tree view](the-scene-tree.md), the fields are displayed in a different color (depending on the theme) if they differ from their default values.
 Now, we would like to add some objects:
 
 > **Hands on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
@@ -96,7 +97,7 @@ We will learn how to use other capabilities in the next tutorials.
 
 Now, we are going to add an e-puck model to the world.
 Make sure that the simulation is paused and that the virtual time elapsed is 0.
-If this is not the case, reset the simulation with the `Reset` button (rewind).
+If this is not the case, reset the simulation with the `Reset` button ([rewind](the-user-interface.md)).
 
 When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
 Otherwise at each save, the position of each 3D objects can accumulate errors.
@@ -117,15 +118,15 @@ That's because it has a default controller with that behavior.
 You may have noticed a small black window appearing in the upper-left corner of the 3D view.
 It shows the image taken by the [Camera](../reference/camera.md) of the e-puck robot.
 This image will remain black until the camera is explicitly enabled by the controller of the robot.
-This small image window can be moved around by dragging it.
-It can also be resized by dragging the bottom-right corner.
+This small image window can be [moved](the-user-interface.md#moving-and-resizing-overlays) around by dragging it.
+It can also be [resized](the-user-interface.md#moving-and-resizing-overlays) by dragging the bottom-right corner.
 Finally, it can be closed by clicking the "x" in the top-right corner.
 You can make it visible again from the **Overlays** menu, by selecting it in the **Camera Devices** submenu.
 Because we won't need it, you can actually close it.
 
 Now, while the simulation is running, let's play with the physics:
 
-> **Hands on #6**: Apply a force to the robot by pressing *Alt + left-click + drag*.
+> **Hands on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing *Alt + left-click + drag*.
 On Linux, you should also press the *Ctrl* key in addition to *Alt + left-click + drag*.
 It is not possible to apply a force to a `WoodenBox` node, because by default, they have no mass and are considered as glued on the floor.
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).

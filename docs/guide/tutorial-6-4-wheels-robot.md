@@ -57,7 +57,7 @@ For example, when modeling a caster wheel, a realistic approach implies to model
 But if this degree of precision is useless for the simulation, a more efficient approach can be found.
 For example, to model the caster wheel as a [Sphere](../reference/sphere.md) having a null friction coefficient with the ground.
 
-The second step is to determine which solid node is the robot node (the root node).
+The second step is to determine which [Solid](../reference/solid.md) node is the [Robot](../reference/robot.md) node (the root node).
 This choice is arbitrary, but a solution is often much easier to implement.
 For example, in the case of an humanoid robot, the robot node would be typically the robot chest, because the robot symmetry facilitates the computation of the joint parameters.
 
@@ -157,9 +157,7 @@ Set their `name` field according to the labels of [this figure](#top-view-of-the
 ### Controller
 
 In the previous tutorials, you have learnt how to setup a feedback loop and how to read the distance sensor values.
-However, actuating the [RotationalMotor](../reference/rotationalmotor.md) nodes is new.
-The following note explain how to proceed.
-
+However, actuating a [RotationalMotor](../reference/rotationalmotor.md) node is something new.
 To program the rotational motors, the first step is to include the API module corresponding to the [RotationalMotor](../reference/rotationalmotor.md) node:
 
 ```c

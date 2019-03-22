@@ -90,8 +90,8 @@ A unit axis (`1, 0, 0`) and an angle of &pi;/2 (~ `1.5708`) is a possible soluti
 As said before, minimizing the number of bounding objects increases the simulation speed.
 However, choosing the bounding objects primitives carefully is also crucial to increase the simulation speed.
 
-Using a combination of [Sphere](../reference/sphere.md), Box, Capsule and [Cylinder](../reference/cylinder.md) nodes for defining objects is very efficient.
-Generally speaking, the efficiency of these primitives can be sorted like this: [Sphere](../reference/sphere.md) > Box > Capsule > [Cylinder](../reference/cylinder.md), where the [Sphere](../reference/sphere.md) is the most efficient.
+Using a combination of [Sphere](../reference/sphere.md), [Box](../reference/box.md), [Capsule](../reference/capsule.md) and [Cylinder](../reference/cylinder.md) nodes for defining objects is very efficient.
+Generally speaking, the efficiency of these primitives can be sorted like this: [Sphere](../reference/sphere.md) > [Box](../reference/box.md) > [Capsule](../reference/capsule.md) > [Cylinder](../reference/cylinder.md), where the [Sphere](../reference/sphere.md) is the most efficient.
 But this can be neglected under common usage.
 
 The [IndexedFaceSet](../reference/indexedfaceset.md) geometry primitive can also be used in a bounding object.

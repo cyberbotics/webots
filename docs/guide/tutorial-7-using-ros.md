@@ -26,7 +26,7 @@ Unless you need older version for some other application, you should choose the 
 If you never used the ROS framework before, it is strongly recommended to follow some tutorials from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
 These tutorials will also help you set up your ROS environment and initialize your catkin workspace.
 
-### `webots_ros` Package Installation
+### "webots\_ros" Package Installation
 
 If you haven't created any catkin workspace yet, you can create one with the following commands:
 
