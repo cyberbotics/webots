@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 """Test that checks that all the source files have the Apache 2 license."""
 import unittest
 
+import datetime
 import difflib
 import os
 import fnmatch
 
 
 APACHE2_LICENSE_C = """/*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-20XX Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +35,9 @@ APACHE2_LICENSE_C = """/*
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */"""
+ */""".replace('20XX', str(datetime.datetime.now().year))
 
-APACHE2_LICENSE_CPP = """// Copyright 1996-2018 Cyberbotics Ltd.
+APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,9 +49,9 @@ APACHE2_LICENSE_CPP = """// Copyright 1996-2018 Cyberbotics Ltd.
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License."""
+// limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
 
-APACHE2_LICENSE_PYTHON = """# Copyright 1996-2018 Cyberbotics Ltd.
+APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,7 +63,7 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-2018 Cyberbotics Ltd.
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License."""
+# limitations under the License.""".replace('20XX', str(datetime.datetime.now().year))
 
 PYTHON_OPTIONAL_HEADER = """#!/usr/bin/env python
 
@@ -149,17 +150,17 @@ class TestLicense(unittest.TestCase):
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_C),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_C)
                     )
                 elif source.endswith('.cpp') or source.endswith('.hpp') or source.endswith('.java'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_CPP),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_CPP)
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_PYTHON) or content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License.' % source
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_PYTHON)
                     )
                 else:
                     self.assertTrue(
