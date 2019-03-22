@@ -46,7 +46,7 @@ The most used one in robotics, is the [HingeJoint](../reference/hingejoint.md) a
 A [Joint](../reference/joint.md) node can be monitored or actuated by adding respectively a [PositionSensor](../reference/positionsensor.md) node, or a motor node to its `device` field.
 
 Having these rules in mind, we can start to design the node hierarchy used to model the robot.
-The first step is to determine which part of the robot should be modeled as a solid node.
+The first step is to determine which part of the robot should be modeled as a [Solid](../reference/solid.md) node.
 
 In our example, this operation is quite obvious.
 The robot has 4 DOF corresponding to the wheel motors.
