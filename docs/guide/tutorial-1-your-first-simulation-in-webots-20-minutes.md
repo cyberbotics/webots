@@ -107,7 +107,7 @@ This node is actually a [PROTO](../reference/proto.md) node, like the `Rectangle
 
 > **Hands on #5**: Select the last node `WoodenBox` of the scene tree view.
 Click on the `Add` button (plus sign) at the top of the scene tree view.
-In the dialog box, choose `PROTO (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
+In the dialog box, choose `PROTO nodes (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
 An e-puck robot should appear in the middle of the arena.
 Move and rotate this robot, the same way you did it with the boxes.
 Save the simulation and press the `Run real-time` button (right arrow).
