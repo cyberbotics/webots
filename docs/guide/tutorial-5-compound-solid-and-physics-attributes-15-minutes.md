@@ -20,7 +20,7 @@ In fact, both the physical and the graphical properties of a [Solid](../referenc
 Moreover each [Shape](../reference/shape.md) node can be placed in a [Transform](../reference/transform.md) node in order to change its relative position and orientation.
 Group nodes can also be used to group several sub-nodes.
 
-We want to implement a dumbbell made of a handle (Cylinder) and of two weights (Sphere) located at each end of the handle.
+We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylinder.md)) and of two weights ([Sphere](../reference/sphere.md)) located at each end of the handle.
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.
 
 > **Hands on #2**: Create the dumbbell by following the [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries).
