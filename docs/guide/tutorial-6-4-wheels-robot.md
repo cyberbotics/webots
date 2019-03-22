@@ -187,7 +187,6 @@ This can be achieved by setting its position at infinity, and by bounding its ve
 >  double speed = -1.5; // [rad/s]
 >  wb_motor_set_position(wheels[0], INFINITY);
 >  wb_motor_set_velocity(wheels[0], speed);
-> ```
 
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
