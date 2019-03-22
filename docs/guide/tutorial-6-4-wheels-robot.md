@@ -32,7 +32,7 @@ A similar definition is applied for the [Device](../reference/device.md), [Robot
 You can get more information about the node hierarchy in the [nodes chart diagram](../reference/node-chart.md).
 Note that most of the sensors and actuators are [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
 
-The main structure of a robot model is a tree of solid nodes linked together.
+The main structure of a [Robot](../reference/robot.md) model is a tree of [Solid](../reference/solid.md) nodes linked together.
 The root node of this tree should be a robot node.
 The solids are linked together by joint nodes.
 A [Device](../reference/device.md) node should be the direct child of either a [Robot](../reference/robot.md) node, a [Solid](../reference/solid.md) node or a [Joint](../reference/joint.md) node.
