@@ -38,7 +38,7 @@ The solids are linked together by [Joint](../reference/joint.md) nodes.
 A [Device](../reference/device.md) node should be the direct child of either a [Robot](../reference/robot.md) node, a [Solid](../reference/solid.md) node or a [Joint](../reference/joint.md) node.
 
 A [Joint](../reference/joint.md) node is used to add one (or two) degree(s) of freedom (DOF), between its parent and its child.
-The direct parent and child of a joint node are both solid nodes.
+The direct parent and child of a [Joint](../reference/joint.md) node are both [Solid](../reference/solid.md) nodes.
 
 The nodes derived from [Joint](../reference/joint.md) allow creating different kinds of constraints between the linked [Solid](../reference/solid.md) nodes.
 The most used one in robotics, is the [HingeJoint](../reference/hingejoint.md) allowing to model amongst others rotational motors including wheels.
