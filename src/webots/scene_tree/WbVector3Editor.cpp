@@ -103,7 +103,9 @@ void WbVector3Editor::applyIfNeeded() {
 }
 
 void WbVector3Editor::apply() {
-  mVector3.setXyz(mSpinBoxes[0]->value(), mSpinBoxes[1]->value(), mSpinBoxes[2]->value());
+  mVector3.setXyz(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
+                  WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
+                  WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
   if (field()->hasRestrictedValues())
     mVector3 = WbVector3(mComboBox->currentText());
 

@@ -74,6 +74,13 @@ public:
     normalizeAngle();
   }
 
+  WbRotation rounded(WbPrecision::Level level) const {
+    WbRotation rotation(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),
+                        WbPrecision::roundValue(mZ, level), WbPrecision::roundValue(mAngle, level));
+    rotation.normalize();
+    return rotation;
+  }
+
   // invalid only if |axis| == 0.0
   bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0); }
 
