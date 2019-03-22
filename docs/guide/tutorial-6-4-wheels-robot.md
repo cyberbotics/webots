@@ -64,7 +64,7 @@ For example, in the case of an humanoid robot, the robot node would be typically
 In our case, the body box is obviously the better choice.
 The [figure](#high-level-representation-of-the-4-wheels-robot) depicts the solid nodes hierarchy of the robot.
 
-> **Hands on #2**: At the end of the scene tree, add a [Robot](../reference/robot.md) node having four [HingeJoint](../reference/hingejoint.md) nodes having a [Solid](../reference/solid.md) as `endPoint`.
+> **Hands on #2**: At the end of the scene tree, add a [Robot](../reference/robot.md) node having four [HingeJoint](../reference/hingejoint.md) nodes having a [Solid](../reference/solid.md) node as `endPoint`.
 Please refer to [this figure](#high-level-representation-of-the-4-wheels-robot).
 Add a [Shape](../reference/shape.md) node containing a Box geometry to the [Robot](../reference/robot.md) node.
 Set the color of the [Shape](../reference/shape.md) to red.
