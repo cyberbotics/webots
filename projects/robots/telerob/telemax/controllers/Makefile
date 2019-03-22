@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=telemax_keyboard_controller.Makefile
+TARGETS=telemax_keyboard_controller.Makefile telemax_demo.Makefile
 
 .PHONY: release debug profile clean
 

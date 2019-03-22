@@ -1,0 +1,285 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+  info [
+    "This example uses some of the industrial objects included in Webots to create a factory hall."
+    "The tools, valves and doors are interactive."
+    "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
+  ]
+  title "A factory hall environment"
+  basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "telemax track"
+      coulombFriction [
+        20, 10
+      ]
+      forceDependentSlip [
+        0, 9.999999999999999e-06
+      ]
+      softCFM 9.999999999999999e-06
+    }
+  ]
+}
+DEF VIEWPOINT Viewpoint {
+  orientation -0.9499672352524483 0.3123482973024576 0.0008905723301072804 0.2856228136736679
+  position -4.127163138090809 1.7499827055561041 1.3094477689197657
+  follow "telemax"
+  ambientOcclusionRadius 1
+}
+Background {
+  skyColor [
+    0.33 0.66 1
+  ]
+  cubemap Cubemap {
+    textureBaseName "khg_background2"
+  }
+}
+TexturedBackgroundLight {
+  texture "noon_building_overcast"
+}
+Floor {
+  size 9.7 7.14
+  tileSize 2 2
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/floor_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/floor_roughness.jpg"
+      ]
+    }
+    metalness 0
+  }
+}
+StraightStairs {
+  translation -1.7999999999999998 0 -2.85
+  name "straight stairs(2)"
+  stepSize 0.3 0.03 1.2
+  stepRise 0.1667
+  nSteps 14
+  stepAppearance GalvanizedMetal {
+    textureTransform TextureTransform {
+      scale 0.3 1
+    }
+  }
+  stringerAppearance GalvanizedMetal {
+    textureTransform TextureTransform {
+      scale 4 8
+    }
+  }
+  leftRail [
+    StraightStairsRail {
+      run 4.2
+      rise 2.338
+      balusterHeight 0.5
+      balusterRadius 0.019
+      nBalusters 3
+      appearance GalvanizedMetal {
+        textureTransform TextureTransform {
+          scale 4 8
+        }
+      }
+    }
+  ]
+  rightRail [
+    StraightStairsRail {
+      run 4.2
+      rise 2.338
+      balusterHeight 0.5
+      balusterRadius 0.019
+      nBalusters 3
+      appearance GalvanizedMetal {
+        textureTransform TextureTransform {
+          scale 4 8
+        }
+      }
+    }
+  ]
+}
+StraightStairsLanding {
+  translation 3.5 0 -2.85
+  landingSize 2.5 0.09999999999999999 1.2
+  height 2.335
+  stringerSize 0.32999999999999996 0.02
+  appearance GalvanizedMetal {
+    textureTransform TextureTransform {
+      scale 1.9 0.39999999999999997
+    }
+  }
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 2 1
+    }
+  }
+  rail [
+    StraightStairsRail {
+      translation -1.17 0.15 0.61
+      run 2.4
+      rise 0
+      newelHeight 0.97
+      balusterHeight 0.6
+      balusterRadius 0.019
+      nBalusters 3
+      appearance GalvanizedMetal {
+        textureTransform TextureTransform {
+          scale 4 8
+        }
+      }
+    }
+  ]
+}
+DEF BOX Solid {
+  translation -0.028709 0 -0.053947999999999996
+  children [
+    Solid {
+      translation -4.069154 0.6 -2.158112
+      children [
+        DEF SHAPE Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_base_color.png"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_roughness.png"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_normal.png"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_occlusion.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 1.2 1.2 0.02
+          }
+        }
+      ]
+      name "wooden box"
+      model "wooden box"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -4.069154 1.19 -2.748112
+      rotation 1 0 0 1.5707959999999999
+      children [
+        USE SHAPE
+      ]
+      name "wooden box(1)"
+      model "wooden box"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -4.069154 0.01 -2.748112
+      rotation 1 0 0 1.5707959999999999
+      children [
+        USE SHAPE
+      ]
+      name "wooden box(2)"
+      model "wooden box"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -4.069154 0.6 -3.3381119999999997
+      rotation 1 0 0 -3.0717958665604783e-07
+      children [
+        USE SHAPE
+      ]
+      name "wooden box(3)"
+      model "wooden box"
+      boundingObject USE SHAPE
+    }
+    Solid {
+      translation -4.669154 0.6 -2.748112
+      rotation 0 1 0 -1.5707963071795863
+      children [
+        USE SHAPE
+      ]
+      name "wooden box(4)"
+      model "wooden box"
+      boundingObject USE SHAPE
+    }
+  ]
+}
+Telemax {
+  hidden position_0_1 1.9300013301854284
+  hidden position_0_2 1.9800472233445046
+  hidden position_4_0 3.1100327096104774
+  hidden rotation_5 0 0.9999999999999999 0 3.1100327096104774
+  hidden translation_6 -0.0899973661160475 0.044891 0.000707
+  hidden position_6_0 -2.700015584681051
+  hidden rotation_7 0 -1 0 2.700015584681051
+  hidden position_7_0 0.0600000602246678
+  hidden rotation_8 1 0 0 0.06000006022467078
+  hidden position_8_0 1.2300001026671397
+  hidden rotation_9 0 1 0 1.2300001026671397
+  hidden translation_12 -0.042639 -0.007087050800855706 -0.00119
+  hidden translation_13 -0.042639 0.006912949199144301 -0.00119
+  hidden rotation_14 0 0 -1 1.9300013301854284
+  hidden rotation_17 0 0 1 1.9800472233445046
+  translation -4.067507 0.16318 -2.780113
+  rotation 0 1 0 -3.1410398309444907
+  controller "telemax_demo"
+}
+Wall {
+  translation 0 0 -3.5749999999999997
+  name "wall(22)"
+  size 9.5 6 0.19999999999999998
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 4.75 3
+    }
+  }
+}
+Door {
+  translation 4.81 2.33 -2.84
+  rotation 0 -1 0 1.5707963071795863
+  size 1 2 0.01
+  canBeOpen FALSE
+  doorHandle DoorLever {
+    hasStaticParent TRUE
+  }
+}
+Wall {
+  translation 0 0 3.5749999999999997
+  name "wall(2)"
+  size 9.5 6 0.19999999999999998
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 4.75 3
+    }
+  }
+}
+Wall {
+  translation 4.85 0 0
+  rotation 0 1 0 -1.5707963071795863
+  name "wall(1)"
+  size 7.34 6 0.19999999999999998
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 3.65 3
+    }
+  }
+}
+Wall {
+  translation -4.85 0 0
+  rotation 0 1 0 -1.5707963071795863
+  name "wall(3)"
+  size 7.34 6 0.19999999999999998
+  appearance Plaster {
+    textureTransform TextureTransform {
+      scale 3.65 3
+    }
+  }
+}
