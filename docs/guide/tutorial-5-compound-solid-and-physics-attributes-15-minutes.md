@@ -16,7 +16,7 @@ The expected result is depicted in [this figure](#expected-result-at-the-end-of-
 ### Compound Solid
 
 It is possible to build [Solid](../reference/solid.md) nodes more complex than what we have seen before by aggregating [Shape](../reference/shape.md) nodes.
-In fact, both the physical and the graphical properties of a [Solid](../reference/solid.md) can be made of several[Shape](../reference/shape.md) nodes.
+In fact, both the physical and the graphical properties of a [Solid](../reference/solid.md) can be made of several [Shape](../reference/shape.md) nodes.
 Moreover each[Shape](../reference/shape.md) node can be placed in a [Transform](../reference/transform.md) node in order to change its relative position and orientation.
 Group nodes can also be used to group several sub-nodes.
 
