@@ -75,7 +75,7 @@ Note that when the solid is selected, the center of mass is represented in the 3
 
 ### The Rotation Field
 
-The `rotation` field of the [Transform](../reference/transform.md) node determines the rotation of this node (and of its children) using the **Euler axis and angle** representation.
+The `rotation` field of the [Transform](../reference/transform.md) node determines the rotation of this node (and of its children) using the [Euler axis and angle](https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation) representation.
 A **Euler axis and angle** rotation is defined by four components.
 The first three components are a unit vector that defines the rotation axis.
 The fourth component defines the rotation angle about the axis (in [rad]).
