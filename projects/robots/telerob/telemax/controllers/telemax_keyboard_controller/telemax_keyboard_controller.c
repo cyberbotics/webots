@@ -20,7 +20,21 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
+#include <stdio.h>
+
 #define TIME_STEP 32
+
+void set_motor_position_in_limit(WbDeviceTag motor, double *postion) {
+  double max = wb_motor_get_max_position(motor);
+  double min = wb_motor_get_min_position(motor);
+  if (max != 0.0 || min != 0.0) {
+    if (*postion > max)
+      *postion = max;
+    else if (*postion < min)
+      *postion = min;
+  }
+  wb_motor_set_position(motor, *postion);
+}
 
 int main(int argc, char **argv) {
   wb_robot_init();
@@ -42,6 +56,17 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, 0.0);
   wb_motor_set_velocity(rear_left_track, 0.0);
   wb_motor_set_velocity(rear_right_track, 0.0);
+
+  WbDeviceTag arm_motors[9];
+  double arm_position[9] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  char buffer[32];
+  int i;
+  for (i = 0; i < 7; ++i) {
+    sprintf(buffer, "arm %d motor", i);
+    arm_motors[i] = wb_robot_get_device(buffer);
+  }
+  arm_motors[7] = wb_robot_get_device("left gripper motor");
+  arm_motors[8] = wb_robot_get_device("right gripper motor");
 
   WbDeviceTag central_led = wb_robot_get_device("central led");
   WbDeviceTag left_led = wb_robot_get_device("left led");
@@ -85,17 +110,59 @@ int main(int argc, char **argv) {
         case WB_KEYBOARD_LEFT:
           angle += 0.002;
           break;
+        case '1':
+        case 'Q':
+          arm_position[0] += key == '1' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[0], &arm_position[0]);
+          break;
+        case '2':
+        case 'W':
+          arm_position[1] += key == '2' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[1], &arm_position[1]);
+          break;
+        case '3':
+        case 'E':
+          arm_position[2] += key == '3' ? 0.002 : -0.002;
+          set_motor_position_in_limit(arm_motors[2], &arm_position[2]);
+          break;
+        case '4':
+        case 'R':
+          arm_position[3] += key == '4' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[3], &arm_position[3]);
+          break;
+        case '5':
+        case 'T':
+          arm_position[4] += key == '5' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[4], &arm_position[4]);
+          break;
+        case '6':
+        case 'Z':
+          arm_position[5] += key == '6' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[5], &arm_position[5]);
+          break;
+        case '7':
+        case 'U':
+          arm_position[6] += key == '7' ? 0.01 : -0.01;
+          set_motor_position_in_limit(arm_motors[6], &arm_position[6]);
+          break;
+        case '8':
         case 'I':
+          arm_position[7] += key == '8' ? 0.0002 : -0.0002;
+          arm_position[8] += key == '8' ? 0.0002 : -0.0002;
+          set_motor_position_in_limit(arm_motors[7], &arm_position[7]);
+          set_motor_position_in_limit(arm_motors[8], &arm_position[8]);
+          break;
+        case 'B':
           current_led_key_pressed[0] = true;
           if (!led_key_pressed[0])
             wb_led_set(left_led, !wb_led_get(left_led));
           break;
-        case 'O':
+        case 'N':
           current_led_key_pressed[1] = true;
           if (!led_key_pressed[1])
             wb_led_set(central_led, !wb_led_get(central_led));
           break;
-        case 'P':
+        case 'M':
           current_led_key_pressed[2] = true;
           if (!led_key_pressed[2])
             wb_led_set(right_led, !wb_led_get(right_led));
@@ -109,6 +176,8 @@ int main(int argc, char **argv) {
               wb_camera_enable(camera, 32);
           }
           break;
+        default:
+          printf("Unrecognized key: %d %d %d\n", key, '+', '+' + WB_KEYBOARD_SHIFT);
       }
       key = wb_keyboard_get_key();
     }
