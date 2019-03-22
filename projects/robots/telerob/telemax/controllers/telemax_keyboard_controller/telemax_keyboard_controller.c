@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <webots/camera.h>
 #include <webots/keyboard.h>
 #include <webots/led.h>
 #include <webots/motor.h>
@@ -46,39 +47,43 @@ int main(int argc, char **argv) {
   WbDeviceTag left_led = wb_robot_get_device("left led");
   WbDeviceTag right_led = wb_robot_get_device("right led");
 
+  WbDeviceTag camera = wb_robot_get_device("gripper camera");
+
   double position[2] = {0.0, 0.0};
   double speed = 0.0;
   double angle = 0.0;
   bool led_key_pressed[3] = {false, false, false};
+  bool camera_key_pressed = false;
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
     bool current_led_key_pressed[3] = {false, false, false};
+    bool current_camera_key_pressed = false;
     while (key != -1) {
       switch (key) {
-        case 'Q':
+        case WB_KEYBOARD_HOME:
           position[0] += 0.01;
           break;
-        case 'A':
+        case WB_KEYBOARD_END:
           position[0] -= 0.01;
           break;
-        case 'W':
+        case WB_KEYBOARD_PAGEUP:
           position[1] += 0.01;
           break;
-        case 'S':
+        case WB_KEYBOARD_PAGEDOWN:
           position[1] -= 0.01;
           break;
         case WB_KEYBOARD_UP:
-          speed += 0.005;
-          break;
-        case WB_KEYBOARD_DOWN:
           speed -= 0.005;
           break;
+        case WB_KEYBOARD_DOWN:
+          speed += 0.005;
+          break;
         case WB_KEYBOARD_RIGHT:
-          angle += 0.002;
+          angle -= 0.002;
           break;
         case WB_KEYBOARD_LEFT:
-          angle -= 0.002;
+          angle += 0.002;
           break;
         case 'I':
           current_led_key_pressed[0] = true;
@@ -95,6 +100,15 @@ int main(int argc, char **argv) {
           if (!led_key_pressed[2])
             wb_led_set(right_led, !wb_led_get(right_led));
           break;
+        case 'C':
+          current_camera_key_pressed = true;
+          if (!camera_key_pressed) {
+            if (wb_camera_get_sampling_period(camera) > 0)
+              wb_camera_disable(camera);
+            else
+              wb_camera_enable(camera, 32);
+          }
+          break;
       }
       key = wb_keyboard_get_key();
     }
@@ -102,13 +116,14 @@ int main(int argc, char **argv) {
     led_key_pressed[0] = current_led_key_pressed[0];
     led_key_pressed[1] = current_led_key_pressed[1];
     led_key_pressed[2] = current_led_key_pressed[2];
+    camera_key_pressed = current_camera_key_pressed;
 
     wb_motor_set_position(front_motor, position[0]);
     wb_motor_set_position(rear_motor, position[1]);
     wb_motor_set_velocity(front_left_track, speed + angle);
     wb_motor_set_velocity(front_right_track, speed - angle);
-    wb_motor_set_velocity(rear_left_track, speed - angle);
-    wb_motor_set_velocity(rear_right_track, speed + angle);
+    wb_motor_set_velocity(rear_left_track, -speed - angle);
+    wb_motor_set_velocity(rear_right_track, -speed + angle);
   };
 
   wb_robot_cleanup();
