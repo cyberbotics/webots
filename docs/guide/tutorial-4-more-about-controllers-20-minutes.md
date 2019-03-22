@@ -79,7 +79,7 @@ The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.
 The Webots API has to be initialized using the `wb_robot_init` function and it has to be cleaned up using the `wb_robot_cleanup` function.
 
-**Hands on #3**: Write the prototype of the `main` function as follows:
+> **Hands on #3**: Write the prototype of the `main` function as follows:
 > ```c
 > // entry point of the controller
 > int main(int argc, char **argv)

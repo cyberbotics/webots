@@ -164,28 +164,30 @@ To program the rotational motors, the first step is to include the API module co
 
 ```c
 #include <webots/motor.h>
+```
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
 ```c
->  // initialize motors
->  WbDeviceTag wheels[4];
->  char wheels_names[4][8] = {
->    "wheel1", "wheel2", "wheel3", "wheel4"
->  };
->  int i;
->  for (i=0; i<4 ; i++)
->    wheels[i] = wb_robot_get_device(wheels_names[i]);
-> ```
+  // initialize motors
+  WbDeviceTag wheels[4];
+  char wheels_names[4][8] = {
+    "wheel1", "wheel2", "wheel3", "wheel4"
+  };
+  int i;
+  for (i=0; i<4 ; i++)
+    wheels[i] = wb_robot_get_device(wheels_names[i]);
+```
 
 A [Motor](../reference/motor.md) can be actuated by setting its position, its velocity, its acceleration or its force.
 Here we are interested in setting its velocity.
 This can be achieved by setting its position at infinity, and by bounding its velocity:
 
-> ```c
->  double speed = -1.5; // [rad/s]
->  wb_motor_set_position(wheels[0], INFINITY);
->  wb_motor_set_velocity(wheels[0], speed);
+```c
+  double speed = -1.5; // [rad/s]
+  wb_motor_set_position(wheels[0], INFINITY);
+  wb_motor_set_velocity(wheels[0], speed);
+```
 
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
