@@ -168,7 +168,7 @@ To program the rotational motors, the first step is to include the API module co
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
-> ```c
+```c
 >  // initialize motors
 >  WbDeviceTag wheels[4];
 >  char wheels_names[4][8] = {
