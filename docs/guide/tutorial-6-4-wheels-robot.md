@@ -35,7 +35,7 @@ Note that the solid nodes and device nodes are close but don't match perfectly.
 The main structure of a robot model is a tree of solid nodes linked together.
 The root node of this tree should be a robot node.
 The solids are linked together by joint nodes.
-A device node should be the direct child of either a robot node, a solid node or a joint node.
+A [Device](../reference/device.md) node should be the direct child of either a [Robot](../reference/robot.md) node, a [Solid](../reference/solid.md) node or a [Joint](../reference/joint.md) node.
 
 A joint node is used to add one (or two) degree(s) of freedom (DOF), between its parent and its child.
 The direct parent and child of a joint node are both solid nodes.
