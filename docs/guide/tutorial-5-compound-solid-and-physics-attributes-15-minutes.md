@@ -105,7 +105,7 @@ The [Plane](../reference/plane.md) node is much more efficient than the [Elevati
 ### Contacts
 
 When two solids collide, **contacts** are created at the collision points.
-ContactProperties nodes can be used to specify the desired behavior of the contacts (e.g. the friction between the two solids).
+[ContactProperties](../reference/contactproperties.md) nodes can be used to specify the desired behavior of the contacts (e.g. the friction between the two solids).
 
 Each solid belongs to a material category referenced by their `contactMaterial` field (`default` by default).
 The [WorldInfo](../reference/worldinfo.md) node has a `contactProperties` field that stores a list of [ContactProperties](../reference/contactproperties.md) nodes.
