@@ -29,7 +29,7 @@ void wait(int time) {
     counter += TIME_STEP;
     if (wb_robot_step(TIME_STEP) == -1) {
       wb_robot_cleanup();
-      return 0;
+      exit(0);
     }
   }
 }
@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-
   wait(20000);
 
   // look around with camera
@@ -92,9 +91,12 @@ int main(int argc, char **argv) {
   wb_motor_set_position(camera_tilt, -0.1);
 
   // prepare tracks for stairs
+  wb_motor_set_velocity(front_left_track, 0.02);
+  wb_motor_set_velocity(front_right_track, 0.02);
+  wb_motor_set_velocity(rear_left_track, 0.02);
+  wb_motor_set_velocity(rear_right_track, 0.02);
   wb_motor_set_position(front_motor, 1.0);
   wb_motor_set_position(rear_motor, -0.2);
-
   wait(7000);
 
   // climb stairs
@@ -102,18 +104,15 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-
   wait(13000);
 
   // align fron tracks with stairs
   wb_motor_set_position(front_motor, 0.25);
-
   wait(60000);
 
   // put tracks in 'flat' position
   wb_motor_set_position(front_motor, 0.0);
   wb_motor_set_position(rear_motor, 0.0);
-
   wait(5000);
 
   // go in 'high' position
@@ -123,7 +122,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_right_track, 0.1);
   wb_motor_set_position(front_motor, -1.2);
   wb_motor_set_position(rear_motor, -1.2);
-
   wait(4500);
 
   // stop tracks and move arm
@@ -138,7 +136,6 @@ int main(int argc, char **argv) {
   wb_motor_set_position(arm_motors[4], -0.0);
   wb_motor_set_position(arm_motors[5], -0.75);
   wb_motor_set_position(arm_motors[6], 0.0);
-
   wait(5000);
 
   // actuate gripper
@@ -157,7 +154,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-
   wait(10000);
 
   // rotate gripper camera to see in the other room
