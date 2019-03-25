@@ -42,18 +42,7 @@ Floor {
   translation -0.3 0 0
   size 10.3 7.14
   tileSize 2 2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/floor_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/floor_roughness.jpg"
-      ]
-    }
-    metalness 0
+  appearance BakelitePlastic {
   }
 }
 DEF ROOF Transform {

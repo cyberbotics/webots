@@ -37,6 +37,37 @@ Asphalt {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## BakelitePlastic
+
+A bakelite plastic.
+
+%figure
+
+![BakelitePlastic](images/appearances/BakelitePlastic.png)
+
+%end
+
+```
+BakelitePlastic {
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### BakelitePlastic Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## BrushedAluminium
 
 A brushed aluminum material.

@@ -37,36 +37,14 @@ Floor {
   translation -0.14 0 0
   size 22.54 6.95
   tileSize 2 2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/floor_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/floor_roughness.jpg"
-      ]
-    }
-    metalness 0
+  appearance BakelitePlastic {
   }
 }
 Solid {
   translation -3.2 0 -4.985
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "/home/david/webots/projects/samples/environments/factory/worlds/textures/floor_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "/home/david/webots/projects/samples/environments/factory/worlds/textures/floor_roughness.jpg"
-          ]
-        }
-        metalness 0
+      appearance BakelitePlastic {
       }
       geometry IndexedFaceSet {
         coord Coordinate {
