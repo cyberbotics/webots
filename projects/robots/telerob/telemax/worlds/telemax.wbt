@@ -141,98 +141,33 @@ StraightStairsLanding {
 DEF BOX Solid {
   translation -0.028709 0 -0.053948
   children [
-    Solid {
+    WoodenBox {
       translation -4.069154 0.6 -2.158112
-      children [
-        DEF SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_normal.png"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "/home/david/webots/projects/objects/factory/containers/protos/textures/wooden_box_occlusion.png"
-              ]
-            }
-          }
-          geometry Box {
-            size 1.2 1.2 0.02
-          }
-        }
-      ]
-      name "wooden box"
-      model "wooden box"
-      boundingObject USE SHAPE
+      name "wooden box(5)"
+      size 1.2 1.2 0.02
     }
-    Solid {
+    WoodenBox {
       translation -4.069154 1.19 -2.748112
       rotation 1 0 0 1.570796
-      children [
-        Transform {
-          translation 0.006 0 0
-          scale 0.99 0.967 1
-          children [
-            USE SHAPE
-          ]
-        }
-      ]
-      name "wooden box(1)"
-      model "wooden box"
-      boundingObject USE SHAPE
+      name "wooden box(6)"
+      size 1.2 1.16 0.02
     }
-    Solid {
-      translation -4.069154 0.01 -2.748112
-      rotation 1 0 0 1.570796
-      children [
-        Transform {
-          translation 0.006 0 0
-          scale 0.99 0.967 1
-          children [
-            USE SHAPE
-          ]
-        }
-      ]
-      name "wooden box(2)"
-      model "wooden box"
-      boundingObject USE SHAPE
-    }
-    Solid {
+    WoodenBox {
       translation -4.069154 0.6 -3.338112
-      children [
-        USE SHAPE
-      ]
-      name "wooden box(3)"
-      model "wooden box"
-      boundingObject USE SHAPE
+      name "wooden box(1)"
+      size 1.19 1.19 0.02
     }
-    Solid {
+    WoodenBox {
+      translation -4.0649999999999995 0.01 -2.748112
+      rotation 1 0 0 1.570796
+      name "wooden box(2)"
+      size 1.19 1.19 0.02
+    }
+    WoodenBox {
       translation -4.669154 0.6 -2.748112
       rotation 0 1 0 -1.5707963071795863
-      children [
-        Transform {
-          translation 0.006 0 0
-          scale 0.989 0.999 1
-          children [
-            USE SHAPE
-          ]
-        }
-      ]
-      name "wooden box(4)"
-      model "wooden box"
-      boundingObject USE SHAPE
+      name "wooden box(3)"
+      size 1.198 1.19 0.02
     }
   ]
 }
