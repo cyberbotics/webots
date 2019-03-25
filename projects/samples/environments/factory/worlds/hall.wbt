@@ -23,7 +23,7 @@ DEF VIEWPOINT Viewpoint {
   ambientOcclusionRadius 1
 }
 TexturedBackground {
-  texture "TexturedBackground"
+  texture "factory"
 }
 Floor {
   translation -0.14 0 0
