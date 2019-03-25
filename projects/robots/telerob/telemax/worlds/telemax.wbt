@@ -23,20 +23,12 @@ WorldInfo {
 DEF VIEWPOINT Viewpoint {
   orientation -0.45933989163346123 -0.8706403581644189 -0.1760461038747875 0.6844954522981941
   position -5.555431826185187 1.7461753815362933 0.6181989792620806
-  near 0.19999999999999998
+  near 0.2
   follow "telemax"
   ambientOcclusionRadius 1
 }
-Background {
-  skyColor [
-    0.33 0.66 1
-  ]
-  cubemap Cubemap {
-    textureBaseName "khg_background2"
-  }
-}
-TexturedBackgroundLight {
-  texture "noon_building_overcast"
+TexturedBackground {
+  texture "TexturedBackground"
 }
 Floor {
   translation -0.3 0 0

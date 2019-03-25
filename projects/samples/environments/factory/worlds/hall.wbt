@@ -22,16 +22,8 @@ DEF VIEWPOINT Viewpoint {
   position -16.514890700512094 7.528133705321302 3.4202975550301327
   ambientOcclusionRadius 1
 }
-Background {
-  skyColor [
-    0.33 0.66 1
-  ]
-  cubemap Cubemap {
-    textureBaseName "khg_background2"
-  }
-}
-TexturedBackgroundLight {
-  texture "noon_building_overcast"
+TexturedBackground {
+  texture "TexturedBackground"
 }
 Floor {
   translation -0.14 0 0
@@ -75,9 +67,6 @@ Solid {
   name "floor(1)"
   model "floor"
   locked TRUE
-}
-Telemax {
-  translation -3.800208 0.19999999999999998 1.063211
 }
 Solid {
   translation 8.06 -0.048 -1.45
