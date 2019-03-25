@@ -230,21 +230,21 @@ DEF BOX Solid {
   ]
 }
 Telemax {
-  hidden position_0_1 1.9300013301854284
-  hidden position_0_2 1.9800472233445046
-  hidden position_4_0 3.1100327096104774
-  hidden rotation_9 0 0.9999999999999999 0 3.1100327096104774
-  hidden translation_10 -0.0899973661160475 0.044891 0.000707
+  hidden position_0_1 1.93
+  hidden position_0_2 1.98
+  hidden position_4_0 3.11
+  hidden rotation_9 0 1 0 3.11
+  hidden translation_10 -0.09 0.0449 0
   hidden position_10_0 -2.5
   hidden rotation_11 0 -1 0 2.5
-  hidden position_11_0 0.0600000602246678
-  hidden rotation_16 1 0 0 0.06000006022467078
-  hidden position_16_0 1.2300001026671397
-  hidden rotation_17 0 1 0 2.4999999999999996
-  hidden translation_20 -0.042639 -0.007087050800855706 -0.00119
-  hidden translation_21 -0.042639 0.006912949199144301 -0.00119
-  hidden rotation_22 0 0 -1 1.9300013301854284
-  hidden rotation_25 0 0 1 1.9800472233445046
+  hidden position_11_0 0.06
+  hidden rotation_16 1 0 0 0.06
+  hidden position_16_0 1.23
+  hidden rotation_17 0 1 0 2.5
+  hidden translation_20 -0.042639 -0.007 -0.0012
+  hidden translation_21 -0.042639 0.007 -0.0012
+  hidden rotation_22 0 0 -1 1.93
+  hidden rotation_25 0 0 1 1.98
   translation -4.067507 0.16318 -2.780113
   rotation 0 1 0 -3.1410398309444907
   controller "telemax_demo"

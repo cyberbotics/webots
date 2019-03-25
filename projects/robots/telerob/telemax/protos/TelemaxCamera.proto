@@ -5,9 +5,10 @@
 # An articulated camera to be inserted in the camera fields of the Telemax robot.
 
 PROTO TelemaxCamera [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     0 0 1 4.712389225333682
-  field  SFString    name         "camera"
+  field  SFVec3f     translation             0 0 0
+  field  SFRotation  rotation                0 0 1 4.712389225333682
+  field  SFString    name                    "camera"
+  field  SFFloat     ambientOcclusionRadius  1.0                      # Defines the ambient occlusion radius of the camera.
 ]
 {
   Solid {
@@ -147,7 +148,7 @@ PROTO TelemaxCamera [
                     translation 0.0198 -0.03 0.124
                     rotation 0 -0.7071067862723035 -0.7071067761007916 3.141592660370801
                     name IS name
-                    # TODO occlusion
+                    ambientOcclusionRadius IS ambientOcclusionRadius
                     width 256
                     height 256
                   }
