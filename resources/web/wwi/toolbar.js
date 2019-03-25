@@ -51,7 +51,7 @@ function Toolbar(parent, view) {
   var timeout = document.createElement('span');
   timeout.id = 'webotsTimeout';
   timeout.title = 'Simulation time out';
-  timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout);
+  timeout.innerHTML = webots.parseMillisecondsIntoReadableTime(this.view.timeout >= 0 ? this.view.timeout : 0);
   div.appendChild(document.createElement('br'));
   div.appendChild(timeout);
   this.domElement.left.appendChild(div);
@@ -77,7 +77,7 @@ function Toolbar(parent, view) {
   parent.appendChild(this.domElement);
 
   this.enableToolBarButtons(false);
-  if (webots.broadcast && this.quitButton) {
+  if (this.view.broadcast && this.quitButton) {
     this.quitButton.disabled = true;
     this.quitButton.classList.add('toolBarButtonDisabled');
     this.view.contextMenu.disableEdit();
@@ -177,6 +177,7 @@ Toolbar.prototype = {
         text = 'Your unsaved changes to the robot controller will be lost.';
       var quitDialog = document.getElementById('quitDialog');
       if (!quitDialog) {
+        var that = this;
         quitDialog = document.createElement('div');
         quitDialog.id = 'quitDialog';
         $(quitDialog).html(text);
@@ -193,7 +194,7 @@ Toolbar.prototype = {
             },
             'Quit': function() {
               $(this).dialog('close');
-              this.quit();
+              that.view.quitSimulation();
             }
           }
         });
@@ -201,16 +202,7 @@ Toolbar.prototype = {
         $(quitDialog).dialog('open');
       return;
     }
-    this.quit();
-  },
-
-  quit: function() {
-    if (webots.broadcast)
-      return;
-    $('#webotsProgressMessage').html('Bye bye...');
-    $('#webotsProgress').show();
-    this.quitting = true;
-    this.onquit();
+    this.view.quitSimulation();
   },
 
   reset: function(revert = false) {

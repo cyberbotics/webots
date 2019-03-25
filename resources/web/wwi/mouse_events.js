@@ -57,7 +57,7 @@ MouseEvents.prototype = {
 
     if (this.state.mouseDown !== 0) {
       var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.sceneManager.renderer, event.clientX, event.clientY);
-      var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.sceneManager.renderer, event.clientX, event.clientY);
+      var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
       this.intersection = this.sceneManager.pick(relativePosition, screenPosition);
 
       document.addEventListener('mousemove', this.onmousemove, false);
@@ -324,12 +324,11 @@ MouseEvents.prototype = {
   }
 };
 
-MouseEvents.convertMouseEventPositionToScreenPosition = function(renderer, eventX, eventY) {
-  var rect = renderer.domElement.getBoundingClientRect();
-  var pos = new THREE.Vector2();
-  pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  pos.y = ((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-  return pos;
+MouseEvents.convertMouseEventPositionToScreenPosition = function(eventX, eventY) {
+  return new THREE.Vector2(
+    (eventX / window.innerWidt) * 2 - 1,
+    -(eventY / window.innerHeight) * 2 + 1
+  );
 };
 
 MouseEvents.convertMouseEventPositionToRelativePosition = function(renderer, eventX, eventY) {

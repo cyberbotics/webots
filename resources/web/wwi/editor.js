@@ -64,7 +64,7 @@ function Editor(parent, mobile, view) {
   this.editor.commands.addCommand({
     name: 'save',
     bindKey: {win: 'Ctrl-S', mac: 'Cmd-S'},
-    exec: (editor) => this.save(this.currentSession)
+    exec: function(editor) { that.save(that.currentSession); }
   });
   $('#webotsEditorSaveAction').click(function() {
     that.save(that.currentSession);
@@ -122,7 +122,7 @@ Editor.prototype = {
       data: formData,
       processData: false,
       contentType: false,
-      success: (data) => {
+      success: function(data) {
         if (data !== 'OK')
           DialogWindow.alert('File saving error', data);
       }

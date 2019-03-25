@@ -44,19 +44,19 @@ function HelpWindow(parent, mobile, webotsDocUrl) {
   var path = resourceManager.currentScriptPath();
   $.ajax({
     url: path + 'help.php',
-    success: (data) => {
+    success: function(data) {
       // we need to fix the img src relative URLs
       var html = data.replace(/ src="images/g, ' src="' + path + '/images');
       var header = document.createElement('li');
       header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';
-      $(this.tabsHeader).prepend(header);
+      $(that.tabsHeader).prepend(header);
       var page = document.createElement('div');
       page.id = 'webotsHelpGuide';
       page.innerHTML = html;
       if (document.getElementById('webotsHelpReference'))
         $('#webotsHelpReference').before(page);
       else {
-        this.tabs.appendChild(page);
+        that.tabs.appendChild(page);
         $('#webotsHelpTabs').tabs();
       }
       finalize();

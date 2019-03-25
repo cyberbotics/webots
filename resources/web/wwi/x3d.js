@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureManager, ShaderManager */
+/* global THREE, ActiveXObject, TextureManager */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
@@ -6,10 +6,7 @@
 // TODO missing nodes/attributes:
 // - shadows
 // - lights
-// - texture transform
 // - Cubemap
-// - geometry primitives:
-//   - PointSet: mising shader
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
@@ -56,12 +53,32 @@ THREE.X3DLoader.prototype = {
   },
 
   getDefNode: function(node) {
+    function isNodeTypeMatching(dictionaryEntry, tagName) {
+      if (dictionaryEntry.tagName === tagName)
+        return true;
+
+      // simplified check for mathing types
+      if (dictionaryEntry.tagName === 'Transform' || dictionaryEntry.tagName === 'Group')
+        return tagName === 'Transform' || tagName === 'Group';
+      if (dictionaryEntry.def.isMesh || dictionaryEntry.def.isPoints || dictionaryEntry.def.isLineSegments)
+        return tagName === 'Shape';
+      if (dictionaryEntry.def.isMaterial)
+        return tagName === 'Appearance' || tagName === 'PBRAppearance';
+      if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
+        const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
+        return geometries.includes(tagName);
+      }
+      if (dictionaryEntry.def instanceof THREE.Texture)
+        return tagName === 'ImageTexture';
+      return false;
+    };
+
     var useName = getNodeAttribute(node, 'USE', '');
     if (useName !== '') {
       // look for DEF nodes
       var entry = null;
       for (var i = this.defDictionary.length - 1; i >= 0; i--) {
-        if (this.defDictionary[i].name === useName && this.defDictionary[i].tagName === node.tagName) {
+        if (this.defDictionary[i].name === useName && isNodeTypeMatching(this.defDictionary[i], node.tagName)) {
           entry = this.defDictionary[i];
           break;
         }
@@ -220,13 +237,10 @@ THREE.X3DLoader.prototype = {
           geometry = this.parseSphere(child);
         else if (child.tagName === 'ElevationGrid')
           geometry = this.parseElevationGrid(child);
-        else if (child.tagName === 'IndexedLineSet') {
+        else if (child.tagName === 'IndexedLineSet')
           geometry = this.parseIndexedLineSet(child);
-          var isLine = true;
-        } else if (child.tagName === 'PointSet') {
+        else if (child.tagName === 'PointSet')
           geometry = this.parsePointSet(child);
-          var isPointSet = true;
-        }
 
         if (geometry) {
           this.setDefNode(child, geometry);
@@ -241,29 +255,16 @@ THREE.X3DLoader.prototype = {
     // apply default geometry and/or material
     if (!geometry)
       geometry = new THREE.Geometry();
-    if (!material && !isPointSet)
+    if (!material && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
       material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
     var mesh = null;
-    if (isLine)
+    if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
-    else if (isPointSet) {
-      mesh = new THREE.Points(geometry);
-      if (!material) {
-        var shaderManager = new ShaderManager();
-        shaderManager.load('shader/point_set.frag', 'shader/point_set.vert',
-          function(vertex, fragment) {
-            mesh.material = new THREE.ShaderMaterial({
-              uniforms: {
-                colorPerVertex: isPointSet.colorPerVertex,
-                size: 20
-              },
-              vertexShader: vertex,
-              fragmentShader: fragment
-            });
-          }
-        );
-      }
+    else if (geometry.userData.x3dType === 'PointSet') {
+      if (!material)
+        material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
+      mesh = new THREE.Points(geometry, material);
     } else
       mesh = new THREE.Mesh(geometry, material);
     if (angle !== 0)
@@ -316,8 +317,10 @@ THREE.X3DLoader.prototype = {
     }
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
-    if (isTransparent)
+    if (isTransparent) {
       mat.transparent = true;
+      mat.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+    }
     mat.userData.x3dType = 'Appearance';
     if (material)
       this.setCustomId(material, mat);
@@ -395,7 +398,9 @@ THREE.X3DLoader.prototype = {
     texture = new THREE.Texture();
 
     var filename = getNodeAttribute(imageTexture, 'url', '');
-    filename = filename.split(/['"\s]/).filter(n => n);
+    filename = filename.split(/['"\s]/).filter(function(n) { return n; });
+    if (filename[0] == null)
+      return null;
 
     // look for already loaded texture.
     var textureManager = new TextureManager();
@@ -415,8 +420,10 @@ THREE.X3DLoader.prototype = {
     var transformObject = null;
     if (textureTransform && textureTransform[0]) {
       transformObject = this.getDefNode(textureTransform[0]);
-      if (!transformObject) {
-        transformObject = {
+      if (transformObject)
+        texture.userData.transform = transformObject;
+      else {
+        texture.userData.transform = {
           center: convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
           rotation: parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
           scale: convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
@@ -425,41 +432,25 @@ THREE.X3DLoader.prototype = {
         this.setDefNode(textureTransform[0], transformObject);
       }
 
-      // texture.matrixAutoUpdate = false;
-      texture.center.set(transformObject.center.x, -transformObject.center.y - 1.0);
-      texture.rotation = transformObject.rotation;
-      texture.repeat.set(transformObject.scale.x, transformObject.scale.y); // TODO differences with X3D -> not scaled around center
-      texture.offset.set(-transformObject.translation.x, -transformObject.translation.y);
-      /* texture.onUpdate = () => {
+      texture.matrixAutoUpdate = false;
+      texture.onUpdate = function() {
         // X3D UV transform matrix differs from THREE.js default one
-        /* var tM = new THREE.Matrix4();
-        tM.makeTranslation(transformObject.translation.x, transformObject.translation.y, 0.0);
-        var cM = new THREE.Matrix4();
-        cM.makeTranslation(transformObject.center.x, -transformObject.center.y - 1.0);
-        var minusCM = new THREE.Matrix4();
-        minusCM.makeTranslation(-transformObject.center.x, transformObject.center.y + 1.0, 0.0);
-        var sM = new THREE.Matrix4();
-        sM.makeScale(transformObject.scale.x, transformObject.scale.y, 1.0);
-        var rM = new THREE.Matrix4();
-        rM.makeRotationZ(transformObject.rotation);
-        var transform = new THREE.Matrix4();
-        transform.multiply(minusCM).multiply(sM).multiply(rM).multiply(cM).multiply(tM);
-        texture.matrix.getNormalMatrix(transform);
-
-        var c = Math.cos(transformObject.rotation);
-        var s = Math.sin(transformObject.rotation);
-        var sx = transformObject.scale.x;
-        var sy = transformObject.scale.y;
-        var cx = transformObject.center.x;
-        var cy = transformObject.center.y;
-        var tx = -transformObject.translation.x;
-        var ty = 1.0 - transformObject.translation.y;
+        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
+        var transform = texture.userData.transform;
+        var c = Math.cos(-transform.rotation);
+        var s = Math.sin(-transform.rotation);
+        var sx = transform.scale.x;
+        var sy = transform.scale.y;
+        var cx = transform.center.x;
+        var cy = transform.center.y;
+        var tx = transform.translation.x;
+        var ty = transform.translation.y;
         texture.matrix.set(
-          sx * c, sx * s, -sx * (c * tx + s * ty - c * cx + s * (cy + 1)) - cx,
-          -sy * s, sy * c, -sy * (-s * tx + c * ty + s * cx + c * (cy - 1)) + cy + 1,
+          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
+          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
           0, 0, 1
         );
-      }; */
+      };
       texture.needsUpdate = true;
 
       this.setCustomId(textureTransform[0], texture);
@@ -740,28 +731,23 @@ THREE.X3DLoader.prototype = {
     if (colorStrArray && count !== colorStrArray.length) {
       count = Math.min(count, colorStrArray.length);
       console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
-    }
+      geometry.userData.isColorPerVertex = false;
+    } else
+      geometry.userData.isColorPerVertex = true;
 
     var positions = new Float32Array(count);
-    var colors = new Float32Array(count);
-    var sizes = new Float32Array(count / 3);
-    for (let i = 0, v = 0; i < count; i = i + 3, v++) {
-      positions[i + 0] = parseFloat(coordStrArray[i]);
-      positions[i + 1] = parseFloat(coordStrArray[i + 1]);
-      positions[i + 2] = parseFloat(coordStrArray[i + 2]);
-      if (colorStrArray) {
-        colors[i + 0] = parseFloat(colorStrArray[i]);
-        colors[i + 1] = parseFloat(colorStrArray[i + 1]);
-        colors[i + 2] = parseFloat(colorStrArray[i + 2]);
-      }
-      sizes[v] = 4;
+    for (let i = 0; i < count; i++)
+      positions[i] = parseFloat(coordStrArray[i]);
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    if (geometry.userData.isColorPerVertex) {
+      var colors = new Float32Array(count);
+      for (let i = 0; i < count; i++)
+        colors[i] = parseFloat(colorStrArray[i]);
+      geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
     }
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
-    if (colorStrArray)
-      geometry.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-
+    geometry.computeBoundingBox();
     return geometry;
   },
 
@@ -849,7 +835,7 @@ THREE.X3DLoader.prototype = {
       var url = getNodeAttribute(background, attributeNames[i], null);
       if (url) {
         cubeTextureEnabled = true;
-        url = url.split(/['"\s]/).filter(n => n)[0];
+        url = url.split(/['"\s]/).filter(function(n) { return n; })[0];
       }
       urls.push(url);
     }
@@ -881,16 +867,15 @@ THREE.X3DLoader.prototype = {
   },
 
   parseViewpoint: function(viewpoint) {
-    var fov = getNodeAttribute(viewpoint, 'fieldOfView', '0.785');
-    var near = getNodeAttribute(viewpoint, 'zNear', '0.1');
-    var far = getNodeAttribute(viewpoint, 'zFar', '2000');
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')) * (180 / Math.PI); // convert to degrees
+    var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
+    var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     // set default aspect ratio 1 that will be updated on window resize.
     var camera = this.camera;
     if (camera) {
-      // TODO set fov, near, far from Viewpoint node
-      // camera.fov = fov;
-      // camera.near = near;
-      // camera.far = far;
+      camera.fov = fov;
+      camera.near = near;
+      camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       camera = new THREE.PerspectiveCamera(fov, 1, near, far);
