@@ -20,6 +20,7 @@
 #include <webots/robot.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TIME_STEP 32
 
