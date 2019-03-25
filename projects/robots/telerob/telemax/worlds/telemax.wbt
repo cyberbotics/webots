@@ -21,8 +21,8 @@ WorldInfo {
   ]
 }
 DEF VIEWPOINT Viewpoint {
-  orientation -0.4593389836551033 -0.8706407680387419 -0.17604644592722185 0.6844954014939943
-  position -5.555431826185187 1.7461753815362933 0.6181989792620799
+  orientation -0.45933989163346123 -0.8706403581644189 -0.1760461038747875 0.6844954522981941
+  position -5.555431826185187 1.7461753815362933 0.6181989792620806
   near 0.19999999999999998
   follow "telemax"
   ambientOcclusionRadius 1
@@ -192,7 +192,13 @@ DEF BOX Solid {
       translation -4.069154 1.19 -2.748112
       rotation 1 0 0 1.570796
       children [
-        USE SHAPE
+        Transform {
+          translation 0.006 0 0
+          scale 0.99 0.967 1
+          children [
+            USE SHAPE
+          ]
+        }
       ]
       name "wooden box(1)"
       model "wooden box"
@@ -202,7 +208,13 @@ DEF BOX Solid {
       translation -4.069154 0.01 -2.748112
       rotation 1 0 0 1.570796
       children [
-        USE SHAPE
+        Transform {
+          translation 0.006 0 0
+          scale 0.99 0.967 1
+          children [
+            USE SHAPE
+          ]
+        }
       ]
       name "wooden box(2)"
       model "wooden box"
@@ -221,7 +233,13 @@ DEF BOX Solid {
       translation -4.669154 0.6 -2.748112
       rotation 0 1 0 -1.5707963071795863
       children [
-        USE SHAPE
+        Transform {
+          translation 0.006 0 0
+          scale 0.989 0.999 1
+          children [
+            USE SHAPE
+          ]
+        }
       ]
       name "wooden box(4)"
       model "wooden box"
