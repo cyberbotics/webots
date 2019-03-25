@@ -47,6 +47,7 @@ PROTO TelemaxCamera [
         device [
           RotationalMotor {
             name %{= "\"" .. fields.name.value .. " pan motor\"" }%
+            maxVelocity 0.2
           }
           PositionSensor {
             name %{= "\"" .. fields.name.value .. " pan sensor\"" }%
@@ -86,10 +87,11 @@ PROTO TelemaxCamera [
               }
               device [
                 RotationalMotor {
-                  name %{= "\"" .. fields.name.value .. " tilt  motor\"" }%
+                  name %{= "\"" .. fields.name.value .. " tilt motor\"" }%
+                  maxVelocity 0.2
                 }
                 PositionSensor {
-                  name %{= "\"" .. fields.name.value .. " tilt  sensor\"" }%
+                  name %{= "\"" .. fields.name.value .. " tilt sensor\"" }%
                 }
               ]
               endPoint Solid {
@@ -145,6 +147,7 @@ PROTO TelemaxCamera [
                     translation 0.0198 -0.03 0.124
                     rotation 0 -0.7071067862723035 -0.7071067761007916 3.141592660370801
                     name IS name
+                    # TODO occlusion
                     width 256
                     height 256
                   }
