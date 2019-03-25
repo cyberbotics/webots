@@ -6,7 +6,7 @@ The [Telemax robot](https://www.telerob.com/en/products/telemax-family) from [Te
 
 ### Movie Presentation
 
-![youtube video](https://www.youtube.com/watch?v=joPAnZcOouc)  TODO
+![youtube video](https://youtu.be/vU086Fd22-0)  TODO: update
 
 ### Telemax PROTO
 
@@ -45,6 +45,6 @@ Telemax {
 
 You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/telerob/telemax/worlds".
 
-#### telemax\_hall.wbt
+#### telemax.wbt
 
-![telemax_hall.wbt.png](images/robots/telemax/telemax_hall.wbt.png) This simulation shows the Telemax robot in an indoor environment.
+![telemax.wbt.png](images/robots/telemax/telemax.wbt.png) This simulation shows the Telemax robot climbing stairs and opening a door.
