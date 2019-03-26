@@ -178,8 +178,9 @@
     },
     {
       "transformID": "n422",
-      "type": "Track",
-      "name": "left front track"
+      "type": "LinearMotor",
+      "name": "left front track",
+      "track": true
     },
     {
       "transformID": "n324",
@@ -188,8 +189,9 @@
     },
     {
       "transformID": "n661",
-      "type": "Track",
-      "name": "left rear track"
+      "type": "LinearMotor",
+      "name": "left rear track",
+      "track": true
     },
     {
       "transformID": "n583",
@@ -198,8 +200,9 @@
     },
     {
       "transformID": "n499",
-      "type": "Track",
-      "name": "right front track"
+      "type": "LinearMotor",
+      "name": "right front track",
+      "track": true
     },
     {
       "transformID": "n351",
@@ -208,8 +211,9 @@
     },
     {
       "transformID": "n584",
-      "type": "Track",
-      "name": "right rear track"
+      "type": "LinearMotor",
+      "name": "right rear track",
+      "track": true
     }
   ]
 }
