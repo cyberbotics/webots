@@ -8,6 +8,7 @@ Supported values for the `texture` field:
 
 - dawn\_cloudy\_empty
 - empty\_office
+- factory (HDR)
 - morning\_cloudy\_empty
 - noon\_building\_overcast (HDR)
 - noon\_cloudy\_empty
@@ -50,6 +51,7 @@ Supported values for the "texture" field:
 
 - dawn\_cloudy\_empty
 - empty\_office
+- factory
 - morning\_cloudy\_empty
 - noon\_building\_overcast
 - noon\_cloudy\_empty

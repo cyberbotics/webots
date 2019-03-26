@@ -205,7 +205,7 @@ SquareManhole {
 
 - `size`: Defines the size of the manhole.
 
-- `enableBoundingObject`: Defines whether the fire extinguisher should have physics.
+- `enableBoundingObject`: Defines whether the fire manhole should have a bounding object.
 
 ## Pallet
 
