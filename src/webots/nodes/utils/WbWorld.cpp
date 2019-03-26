@@ -419,10 +419,12 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
       QJsonObject deviceObject;
       deviceObject.insert("name", device->deviceName());
       const WbBaseNode *deviceBaseNode = dynamic_cast<const WbBaseNode *>(device);
-      if (deviceBaseNode)
+      const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
+      if (deviceBaseNode && jointDevice && !jointDevice->joint())  // special Track case
+        deviceObject.insert("type", "Track");
+      else if (deviceBaseNode)
         deviceObject.insert("type", deviceBaseNode->nodeModelName());
 
-      const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
       if (jointDevice && jointDevice->joint()) {  // case: joint devices.
         deviceObject.insert("transformID", QString("n%1").arg(jointDevice->joint()->solidEndPoint()->uniqueId()));
         const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
