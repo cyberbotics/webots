@@ -20,7 +20,7 @@ Using the nodes described [below](#generic-actuator-list) and their correspondin
 | ![Speaker.png](images/actuators/Speaker.png) | [Speaker](../reference/speaker.md) | *Simulates a loudspeaker device.* |
 | ![Track.png](images/actuators/Track.png) | [Track](../reference/track.md) | *Simulates a track for conveyor belts or tank robots.* |
 
-### Commercially Available Sensors
+### Commercially Available Actuators
 
 Please [contact us](https://www.cyberbotics.com/contact) if you would like to see your favorite actuator here.
 
