@@ -95,8 +95,8 @@ Wall {
   size 15 2.4 0.2
 }
 SolidBox {
-  translation -0.25 0.3 0
-  size 0.8 0.6 0.3
+  translation -0.25 0.305 0
+  size 0.8 0.61 0.3
   appearance GalvanizedMetal {
   }
 }
