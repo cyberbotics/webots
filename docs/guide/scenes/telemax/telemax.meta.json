@@ -178,7 +178,7 @@
     },
     {
       "transformID": "n422",
-      "type": "Track",
+      "type": "Track Motor",
       "name": "left front track"
     },
     {
@@ -188,7 +188,7 @@
     },
     {
       "transformID": "n661",
-      "type": "Track",
+      "type": "Track Motor",
       "name": "left rear track"
     },
     {
@@ -198,7 +198,7 @@
     },
     {
       "transformID": "n499",
-      "type": "Track",
+      "type": "Track Motor",
       "name": "right front track"
     },
     {
@@ -208,7 +208,7 @@
     },
     {
       "transformID": "n584",
-      "type": "Track",
+      "type": "Track Motor",
       "name": "right rear track"
     }
   ]
