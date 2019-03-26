@@ -2,7 +2,7 @@
 
 %robot ur5e images/robots/ur5e/model.png
 
-The [Universal Robot UR5e](https://www.universal-robots.com/products/ur5-robot/) is a flexible collaborative robot arm with 6 degree of freedom.
+The [Universal Robot UR5e](https://www.universal-robots.com/products/ur5-robot/) is a flexible collaborative robot arm with 6 degrees of freedom.
 
 ### Movie Presentation
 
