@@ -421,9 +421,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
       const WbBaseNode *deviceBaseNode = dynamic_cast<const WbBaseNode *>(device);
       const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
       const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
-      if (motor && !jointDevice->joint())  // special Track motor case
-        deviceObject.insert("type", "Track");
-      else if (deviceBaseNode)
+      if (deviceBaseNode)
         deviceObject.insert("type", deviceBaseNode->nodeModelName());
 
       if (jointDevice && jointDevice->joint()) {  // case: joint devices.
@@ -447,6 +445,8 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             WbVector3 v = m.translation();
             if (!v.almostEquals(WbVector3()))
               deviceObject.insert("transformOffset", v.toString(WbPrecision::FLOAT_MAX));
+            if (motor)
+              deviceObject.insert("track", "true");
             break;
           } else {
             const WbAbstractTransform *transform = dynamic_cast<const WbAbstractTransform *>(parent);
