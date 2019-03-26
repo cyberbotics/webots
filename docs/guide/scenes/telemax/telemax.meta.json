@@ -2,7 +2,7 @@
   "name": "telemax", 
   "devices": [
     {
-      "transformID": "n131", 
+      "transformID": "n134", 
       "name": "arm 0 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n201", 
+      "transformID": "n204", 
       "name": "arm 1 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n233", 
+      "transformID": "n236", 
       "name": "arm 3 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n255", 
+      "transformID": "n258", 
       "name": "arm 4 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n271", 
+      "transformID": "n274", 
       "name": "arm 5 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n288", 
+      "transformID": "n291", 
       "name": "arm 6 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n418", 
+      "transformID": "n421", 
       "name": "front motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n580", 
+      "transformID": "n583", 
       "name": "rear motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -74,7 +74,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n217", 
+      "transformID": "n220", 
       "name": "arm 2 motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -83,12 +83,12 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n490", 
+      "transformID": "n493", 
       "type": "LinearMotor", 
       "name": "left front track"
     }, 
     {
-      "transformID": "n321", 
+      "transformID": "n324", 
       "name": "left gripper motor", 
       "maxPosition": 0.012, 
       "position": 0, 
@@ -97,17 +97,17 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n729", 
+      "transformID": "n732", 
       "type": "LinearMotor", 
       "name": "left rear track"
     }, 
     {
-      "transformID": "n567", 
+      "transformID": "n570", 
       "type": "LinearMotor", 
       "name": "right front track"
     }, 
     {
-      "transformID": "n348", 
+      "transformID": "n351", 
       "name": "right gripper motor", 
       "maxPosition": 0.012, 
       "position": 0, 
@@ -116,7 +116,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n652", 
+      "transformID": "n655", 
       "type": "LinearMotor", 
       "name": "right rear track"
     }, 
@@ -132,7 +132,7 @@
     }, 
     {
       "ledMaterialsIDs": [], 
-      "transformID": "n108", 
+      "transformID": "n110", 
       "name": "left led", 
       "ledColors": [
         "1 0.8901961 0.79607844"
@@ -142,7 +142,7 @@
     }, 
     {
       "ledMaterialsIDs": [], 
-      "transformID": "n100", 
+      "transformID": "n101", 
       "name": "right led", 
       "ledColors": [
         "1 0.8901961 0.79607844"
@@ -151,63 +151,63 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n131", 
+      "transformID": "n134", 
       "type": "PositionSensor", 
       "name": "arm 0 sensor"
     }, 
     {
-      "transformID": "n201", 
+      "transformID": "n204", 
       "type": "PositionSensor", 
       "name": "arm 1 sensor"
     }, 
     {
-      "transformID": "n217", 
+      "transformID": "n220", 
       "type": "PositionSensor", 
       "name": "arm 2 sensor"
     }, 
     {
-      "transformID": "n233", 
+      "transformID": "n236", 
       "type": "PositionSensor", 
       "name": "arm 3 sensor"
     }, 
     {
-      "transformID": "n255", 
+      "transformID": "n258", 
       "type": "PositionSensor", 
       "name": "arm 4 sensor"
     }, 
     {
-      "transformID": "n271", 
+      "transformID": "n274", 
       "type": "PositionSensor", 
       "name": "arm 5 sensor"
     }, 
     {
-      "transformID": "n288", 
+      "transformID": "n291", 
       "type": "PositionSensor", 
       "name": "arm 6 sensor"
     }, 
     {
-      "transformID": "n418", 
+      "transformID": "n421", 
       "type": "PositionSensor", 
       "name": "front sensor"
     }, 
     {
-      "transformID": "n288", 
+      "transformID": "n291", 
       "transformOffset": "-0.06716311 0 0.02921661", 
       "type": "Camera", 
       "name": "gripper camera"
     }, 
     {
-      "transformID": "n321", 
+      "transformID": "n324", 
       "type": "PositionSensor", 
       "name": "left gripper sensor"
     }, 
     {
-      "transformID": "n580", 
+      "transformID": "n583", 
       "type": "PositionSensor", 
       "name": "rear sensor"
     }, 
     {
-      "transformID": "n348", 
+      "transformID": "n351", 
       "type": "PositionSensor", 
       "name": "right gripper sensor"
     }
