@@ -35,6 +35,7 @@ WbTriangleMesh::~WbTriangleMesh() {
 
 void WbTriangleMesh::cleanup() {
   mValid = false;
+  mNormalsValid = false;
   mTextureCoordinatesValid = false;
   mNTriangles = 0;
 
@@ -129,8 +130,8 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mNormals.reserve(3 * estimateSize);
 
   // passes to create the final arrays
-  indicesPass(coord, coordIndex, (isNormalDefined && !isNormalIndexDefined) ? normalIndex : coordIndex,
-              (isTexCoordDefined && !isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
+  indicesPass(coord, coordIndex, (isNormalDefined && isNormalIndexDefined) ? normalIndex : coordIndex,
+              (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
   if (!counterClockwise)
     reverseIndexOrder();
