@@ -120,15 +120,17 @@ namespace wren {
       cVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
       cGlslVersion = reinterpret_cast<const char *>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-      if (GLAD_GL_ATI_meminfo)
-        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &cGpuMemory);
-      else if (GLAD_GL_NVX_gpu_memory_info)
+      if (GLAD_GL_NVX_gpu_memory_info)
         glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &cGpuMemory);
-      else
-        DEBUG("GL_TEXTURE_FREE_MEMORY_ATI and GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX extensions not supported by "
-              "hardware, impossible to detect GPU memory"
-              << std::endl);
-
+      else {
+        // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
+        // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
+        GLint array[4];
+        array[0] = -1;
+        glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
+        cGpuMemory = array[0];
+        while(glGetError()) {}  // skip any possible GL_INVALID_ENUM error
+      }
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
       cUniformBuffers.reserve(count);
