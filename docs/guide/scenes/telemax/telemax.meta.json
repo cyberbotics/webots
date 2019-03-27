@@ -91,10 +91,10 @@
     {
       "transformID": "n324",
       "name": "left gripper motor",
-      "maxPosition": 0.02,
+      "maxPosition": 0.012,
       "position": 0,
       "type": "LinearMotor",
-      "minPosition": -0.005,
+      "minPosition": -0.01,
       "axis": "0 1 0"
     },
     {
@@ -112,10 +112,10 @@
     {
       "transformID": "n351",
       "name": "right gripper motor",
-      "maxPosition": 0.02,
+      "maxPosition": 0.012,
       "position": 0,
       "type": "LinearMotor",
-      "minPosition": -0.005,
+      "minPosition": -0.01,
       "axis": "0 -1 0"
     },
     {
