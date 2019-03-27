@@ -21,6 +21,7 @@
 #include <unordered_map>
 
 class WbCoordinate;
+class WbNormal;
 class WbTextureCoordinate;
 class WbTriangleMesh;
 class WbVector3;
@@ -57,6 +58,7 @@ public:
 
   // field accessors
   WbCoordinate *coord() const;
+  WbNormal *normal() const;
   WbTextureCoordinate *texCoord() const;
   const WbMFInt *coordIndex() const { return static_cast<const WbMFInt *>(mCoordIndex); }
   const WbMFInt *normalIndex() const { return static_cast<const WbMFInt *>(mNormalIndex); }

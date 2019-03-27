@@ -20,8 +20,8 @@
 //
 
 #include <QtCore/QList>
-#include <QtCore/QPair>
 #include <QtCore/QString>
+#include <QtCore/QVector>
 
 class WbVector3;
 

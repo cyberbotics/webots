@@ -21,6 +21,7 @@
 #include "WbMFInt.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbNormal.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -138,9 +139,9 @@ WbTriangleMeshCache::TriangleMeshInfo WbIndexedFaceSet::createTriangleMesh() {
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
-  mTriangleMeshError =
-    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, texCoord() ? &(texCoord()->point()) : NULL,
-                        mTexCoordIndex, mCreaseAngle->value(), mCcw->value());
+  mTriangleMeshError = mTriangleMesh->init(
+    coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL, mNormalIndex,
+    texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mCcw->value());
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())

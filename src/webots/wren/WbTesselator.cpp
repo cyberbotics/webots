@@ -124,7 +124,7 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
     data->pos[1] = (GLdouble)currentVertex.y();
     data->pos[2] = (GLdouble)currentVertex.z();
     data->coordIndex = indexes[i][0];
-    data->normal = indexes[i][1];
+    data->normalIndex = indexes[i][1];
     data->texIndex = indexes[i][2];
 
     gluTessVertex(tesselator, data->pos, data);
