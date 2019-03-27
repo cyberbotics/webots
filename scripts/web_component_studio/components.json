@@ -402,8 +402,8 @@
       }
     },
     {
-      "name": "telemax",
-      "proto": "Telemax",
+      "name": "telemax-pro",
+      "proto": "TelemaxPro",
       "translation": "0 0.22 0",
       "rotation": "0 1 0 -1.8326",
       "viewpoint": {
