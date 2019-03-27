@@ -51,9 +51,11 @@ void WbIndexedFaceSet::init() {
   mIsOdeDataApplied = false;
 
   mCoord = findSFNode("coord");
+  mNormal = findSFNode("normal");
   mTexCoord = findSFNode("texCoord");
   mCcw = findSFBool("ccw");
   mCoordIndex = findMFInt("coordIndex");
+  mNormalIndex = findMFInt("normalIndex");
   mTexCoordIndex = findMFInt("texCoordIndex");
   mCreaseAngle = findSFDouble("creaseAngle");
 }
@@ -95,14 +97,19 @@ void WbIndexedFaceSet::postFinalize() {
   WbGeometry::postFinalize();
 
   connect(mCoord, &WbSFNode::changed, this, &WbIndexedFaceSet::updateCoord);
+  connect(mNormal, &WbSFNode::changed, this, &WbIndexedFaceSet::updateNormal);
   connect(mTexCoord, &WbSFNode::changed, this, &WbIndexedFaceSet::updateTexCoord);
   connect(mCcw, &WbSFBool::changed, this, &WbIndexedFaceSet::updateCcw);
   connect(mCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateCoordIndex);
+  connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateNormalIndex);
   connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateTexCoordIndex);
   connect(mCreaseAngle, &WbSFDouble::changed, this, &WbIndexedFaceSet::updateCreaseAngle);
 
   if (coord())
     connect(coord(), &WbCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateCoord, Qt::UniqueConnection);
+
+  if (normal())
+    connect(normal(), &WbNormal::fieldChanged, this, &WbIndexedFaceSet::updateNormal, Qt::UniqueConnection);
 
   if (texCoord())
     connect(texCoord(), &WbTextureCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateTexCoord, Qt::UniqueConnection);
@@ -114,6 +121,9 @@ void WbIndexedFaceSet::reset() {
   WbNode *const coord = mCoord->value();
   if (coord)
     coord->reset();
+  WbNode *const normal = mNormal->value();
+  if (normal)
+    normal->reset();
   WbNode *const texCoord = mTexCoord->value();
   if (texCoord)
     texCoord->reset();
@@ -150,6 +160,10 @@ void WbIndexedFaceSet::clearTrimeshResources() {
 
 WbCoordinate *WbIndexedFaceSet::coord() const {
   return static_cast<WbCoordinate *>(mCoord->value());
+}
+
+WbNormal *WbIndexedFaceSet::normal() const {
+  return static_cast<WbNormal *>(mNormal->value());
 }
 
 WbTextureCoordinate *WbIndexedFaceSet::texCoord() const {
@@ -259,6 +273,15 @@ void WbIndexedFaceSet::updateCoord() {
   emit changed();
 }
 
+void WbIndexedFaceSet::updateNormal() {
+  if (normal())
+    connect(normal(), &WbNormal::fieldChanged, this, &WbIndexedFaceSet::updateNormal, Qt::UniqueConnection);
+
+  buildWrenMesh(true);
+
+  emit changed();
+}
+
 void WbIndexedFaceSet::updateTexCoord() {
   if (texCoord())
     connect(texCoord(), &WbTextureCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateTexCoord, Qt::UniqueConnection);
@@ -285,6 +308,12 @@ void WbIndexedFaceSet::updateCoordIndex() {
 
   if (resizeManipulator() && resizeManipulator()->isAttached())
     setResizeManipulatorDimensions();  // Must be called after updateTriangleMesh()
+
+  emit changed();
+}
+
+void WbIndexedFaceSet::updateNormalIndex() {
+  buildWrenMesh(true);
 
   emit changed();
 }

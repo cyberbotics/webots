@@ -59,6 +59,7 @@ public:
   WbCoordinate *coord() const;
   WbTextureCoordinate *texCoord() const;
   const WbMFInt *coordIndex() const { return static_cast<const WbMFInt *>(mCoordIndex); }
+  const WbMFInt *normalIndex() const { return static_cast<const WbMFInt *>(mNormalIndex); }
   const WbMFInt *texCoordIndex() const { return static_cast<const WbMFInt *>(mTexCoordIndex); }
   const WbSFDouble *creaseAngle() const { return static_cast<const WbSFDouble *>(mCreaseAngle); }
   const WbSFBool *ccw() const { return static_cast<const WbSFBool *>(mCcw); }
@@ -113,9 +114,11 @@ private:
 
   // user accessible fields
   WbSFNode *mCoord;
+  WbSFNode *mNormal;
   WbSFNode *mTexCoord;
   WbSFBool *mCcw;
   WbMFInt *mCoordIndex;
+  WbMFInt *mNormalIndex;
   WbMFInt *mTexCoordIndex;
   WbSFDouble *mCreaseAngle;
 
@@ -151,9 +154,11 @@ private:
 
 private slots:
   void updateCoord();
+  void updateNormal();
   void updateTexCoord();
   void updateCcw();
   void updateCoordIndex();
+  void updateNormalIndex();
   void updateTexCoordIndex();
   void updateCreaseAngle();
 };

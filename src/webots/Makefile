@@ -327,6 +327,7 @@ QT_SOURCES += \
   WbNodeOperations.cpp \
   WbNodePane.cpp \
   WbNodeReader.cpp \
+	WbNormal.cpp \
   WbOdeContext.cpp \
   WbOpenSampleWorldDialog.cpp \
   WbPaintTexture.cpp \

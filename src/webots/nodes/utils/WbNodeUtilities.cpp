@@ -277,6 +277,8 @@ namespace {
               << "LensFlare"
               << "material"
               << "Material"
+              << "normal"
+              << "Normal"
               << "recognition"
               << "Recognition"
               << "textureTransform"
