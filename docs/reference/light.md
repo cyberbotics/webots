@@ -2,7 +2,7 @@
 
 ```
 Light {
-  SFFloat ambientIntensity 0       # [0, inf)
+  SFFloat ambientIntensity 0       # [0, 1]
   SFColor color            1 1 1   # any color
   SFFloat intensity        1       # [0, inf)
   SFBool  on               TRUE    # {TRUE, FALSE}
