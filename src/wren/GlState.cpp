@@ -129,7 +129,8 @@ namespace wren {
         array[0] = -1;
         glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
         cGpuMemory = array[0];
-        while(glGetError()) {}  // skip any possible GL_INVALID_ENUM error
+        while(glGetError()) {  // skip any possible GL_INVALID_ENUM error
+        }
       }
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
