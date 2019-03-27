@@ -166,8 +166,8 @@ DEF BOX Solid {
 Telemax {
   hidden position_0_1 1.93
   hidden position_0_2 1.98
-  hidden position_4_0 3.11
-  hidden rotation_9 0 1 0 3.11
+  hidden position_4_0 2.61
+  hidden rotation_9 0 1 0 2.61
   hidden translation_10 -0.09 0.0449 0
   hidden position_10_0 -2.5
   hidden rotation_11 0 -1 0 2.5

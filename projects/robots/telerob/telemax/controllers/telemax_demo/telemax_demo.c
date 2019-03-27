@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
   // put tracks in 'flat' position
   wb_motor_set_position(front_motor, 0.0);
   wb_motor_set_position(rear_motor, 0.0);
-  wait(5000);
+  wait(3000);
 
   // go in 'high' position
   wb_motor_set_velocity(front_left_track, 0.1);
