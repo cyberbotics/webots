@@ -27,8 +27,7 @@ class WbVector3;
 
 class WbTesselator {
 public:
-  static QString tesselate(const QList<QPair<int, int>> &indexes, const QList<WbVector3> &vertices,
-                           QList<QPair<int, int>> &results);
+  static QString tesselate(const QList<QVector<int>> &indexes, const QList<WbVector3> &vertices, QList<QVector<int>> &results);
 
 private:
   WbTesselator() {}
