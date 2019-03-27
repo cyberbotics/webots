@@ -83,7 +83,7 @@ PROTO TelemaxBattery [
     }
     physics Physics {
       density -1
-      mass  10
+      mass 10
     }
   }
 }
