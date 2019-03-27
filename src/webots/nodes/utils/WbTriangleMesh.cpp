@@ -102,7 +102,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
     mTextureCoordinatesValid = false;
   }
 
-  // determine if the texture coordinate seems valid or not
+  // determine if the normal seems valid or not
   // this value will be used to determine the content of mNormals
   const bool isNormalDefined = normal && normal->size() > 0;
   const bool isNormalIndexDefined = normalIndex && normalIndex->size() > 0;
