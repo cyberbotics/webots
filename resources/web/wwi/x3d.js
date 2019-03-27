@@ -15,6 +15,7 @@ THREE.X3DLoader = function(sceneManager, loadManager) {
   this.camera = sceneManager.camera;
   this.worldInfo = sceneManager.worldInfo;
   this.defDictionary = [];
+  this.directionalLights = []
 };
 
 THREE.X3DLoader.prototype = {
@@ -31,6 +32,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parse: function(text) {
+    this.directionalLights = [];
     var object = new THREE.Object3D();
 
     console.log('X3D: Parsing');
@@ -752,8 +754,6 @@ THREE.X3DLoader.prototype = {
   },
 
   parseDirectionalLight: function(light, parentObject) {
-    // TODO shadows
-
     var on = getNodeAttribute(light, 'on', 'true') === 'true';
     if (!on)
       return;
@@ -770,10 +770,13 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.5'));
-      lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '500'));
+      lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '200'));
     }
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
+    // Position of the directional light will be adjusted at the end of the load
+    // based on the size of the scene so that all the objects are illuminated by this light.
+    this.directionalLights.push(lightObject);
     return lightObject;
   },
 
@@ -824,8 +827,8 @@ THREE.X3DLoader.prototype = {
   },
 
   parseBackground: function(background) {
-    var color = getNodeAttribute(background, 'skyColor', '0 0 0');
-    this.scene.background = convertStringTorgb(color);
+    var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
+    this.scene.background = color;
 
     var cubeTextureEnabled = false;
     var attributeNames = ['rightUrl', 'leftUrl', 'topUrl', 'bottomUrl', 'frontUrl', 'backUrl'];
@@ -859,7 +862,7 @@ THREE.X3DLoader.prototype = {
         cubeTexture.needsUpdate = true;
     }
 
-    var light = new THREE.AmbientLight(color);
+    var light = new THREE.AmbientLight(color.getHex());
     this.scene.add(light);
 
     return null;

@@ -19,7 +19,7 @@ X3dSceneManager.prototype = {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
-    this.renderer.shadowMapEnabled = true;
+    this.renderer.shadowMap.enabled = true;
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
     this.domElement.appendChild(this.renderer.domElement);
@@ -94,6 +94,22 @@ X3dSceneManager.prototype = {
     this.render();
   },
 
+  setupDirectionalLights: function(lights) {
+    if (!this.root || lights.length === 0)
+      return;
+
+    var sceneBox = new THREE.Box3();
+    sceneBox.setFromObject(this.root);
+    var boxSize = sceneBox.getSize();
+    var boxCenter = sceneBox.getCenter();
+    var maxSize = Math.max(boxSize.x + boxCenter.x, boxSize.y + boxCenter.y, boxSize.z + boxCenter.z);
+    lights.forEach(function(light) {
+      light.position.multiplyScalar(maxSize);
+      if (light.castShadow)
+        light.shadow.camera.far = maxSize * 2;
+    });
+  },
+
   loadWorldFile: function(url) {
     var that = this;
     var loader = new THREE.X3DLoader(this);
@@ -101,6 +117,7 @@ X3dSceneManager.prototype = {
       that.scene.add(object3d);
       that.root = object3d;
     });
+    this.setupDirectionalLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 
@@ -114,6 +131,7 @@ X3dSceneManager.prototype = {
       this.scene.add(object);
       this.root = object;
     }
+    this.setupDirectionalLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 
