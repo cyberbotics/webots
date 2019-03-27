@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbMFVector3.hpp"
 #include "WbNormal.hpp"
+
+#include "WbMFVector3.hpp"
 
 void WbNormal::init() {
   mVector = findMFVector3("vector");
