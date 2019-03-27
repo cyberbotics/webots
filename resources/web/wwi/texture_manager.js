@@ -84,12 +84,14 @@ TextureManager.prototype = {
       this.loadingTextures[name].data = image;
     else
       this.loadingTextures[name] = {data: image, objects: []};
-    image.src = '';
     image.onload = function() { that._onImageLoaded(name); };
     image.src = uri;
   },
 
   _onImageLoaded: function(name) {
+    if (!this.loadingTextures[name])
+      return;
+
     var image = this.loadingTextures[name].data;
     this.textures[name] = image;
     var textureObjects = this.loadingTextures[name].objects;

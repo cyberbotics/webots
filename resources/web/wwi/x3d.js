@@ -33,7 +33,7 @@ THREE.X3DLoader.prototype = {
 
   parse: function(text) {
     this.directionalLights = [];
-    var object = new THREE.Object3D();
+    var object;
 
     console.log('X3D: Parsing');
 
@@ -47,11 +47,27 @@ THREE.X3DLoader.prototype = {
       xml.loadXML(text);
     }
 
+    // Parse scene.
     var scene = xml.getElementsByTagName('Scene')[0];
-    this.parseNode(object, scene);
-    object.userData.x3dType = 'Group';
-    object.name = 'n0';
-    return object;
+    if (scene) {
+      object = new THREE.Object3D();
+      this.parseNode(object, scene);
+      object.userData.x3dType = 'Group';
+      object.name = 'n0';
+      return [object];
+    }
+
+    // Parse objects.
+    var rootObjects = [];
+    var objects = [];
+    xml.childNodes.forEach(function(n) { rootObjects.push(n); });
+    while (rootObjects.length > 0) {
+      var node = rootObjects.pop();
+      object = new THREE.Object3D();
+      this.parseNode(object, node);
+      objects.push(object);
+    }
+    return objects;
   },
 
   getDefNode: function(node) {
@@ -101,7 +117,7 @@ THREE.X3DLoader.prototype = {
       if (object.userData)
         object.userData.defName = defName;
       else
-        object.userData = {defName: defName};
+        object.userData = { 'defName': defName};
     }
   },
 
@@ -131,7 +147,9 @@ THREE.X3DLoader.prototype = {
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
       this.parseChildren(node, object);
-    } else if (node.tagName === 'Viewpoint')
+    } else if (node.tagName === 'Fog')
+      this.parseFog(node);
+    else if (node.tagName === 'Viewpoint')
       object = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
       object = this.parseBackground(node);
@@ -291,10 +309,10 @@ THREE.X3DLoader.prototype = {
     var defMaterial = this.getDefNode(material);
     if (defMaterial) {
       materialSpecifications = {
-        color: defMaterial.color,
-        specular: defMaterial.specular,
-        emissive: defMaterial.emissive,
-        shininess: defMaterial.shininess
+        'color': defMaterial.color,
+        'specular': defMaterial.specular,
+        'emissive': defMaterial.emissive,
+        'shininess': defMaterial.shininess
       };
     } else {
       // Pull out the standard colors
@@ -302,7 +320,12 @@ THREE.X3DLoader.prototype = {
       var specular = convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0'));
       var emissive = convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0'));
       var shininess = parseFloat(getNodeAttribute(material, 'shininess', '0.2'));
-      materialSpecifications = {color: diffuse, specular: specular, emissive: emissive, shininess: shininess};
+      materialSpecifications = {
+        'color': diffuse,
+        'specular': specular,
+        'emissive': emissive,
+        'shininess': shininess
+      };
       this.setDefNode(material, mat);
     }
 
@@ -426,10 +449,10 @@ THREE.X3DLoader.prototype = {
         texture.userData.transform = transformObject;
       else {
         texture.userData.transform = {
-          center: convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
-          rotation: parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
-          scale: convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
-          translation: convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
+          'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
+          'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
+          'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
+          'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
         };
         this.setDefNode(textureTransform[0], transformObject);
       }
@@ -763,7 +786,7 @@ THREE.X3DLoader.prototype = {
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadow = getNodeAttribute(light, 'shadowIntensity', '0') !== '0';
 
-    var lightObject = new THREE.DirectionalLight(convertrgbToHex(color), intensity);
+    var lightObject = new THREE.DirectionalLight(color.toHex(), intensity);
     if (castShadow) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
@@ -794,7 +817,7 @@ THREE.X3DLoader.prototype = {
     // var attenuation = getNodeAttribute(light, 'attenuation', '1 0 0');
     // var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
 
-    var lightObject = new THREE.PointLight(convertrgbToHex(color), intensity);
+    var lightObject = new THREE.PointLight(color.toHex(), intensity);
     lightObject.castShadows = castShadows;
     lightObject.userData = { 'x3dType': 'PointLight' };
     lightObject.position.set(location.x, location.y, location.z);
@@ -817,7 +840,7 @@ THREE.X3DLoader.prototype = {
     // var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'true') === 'true';
 
-    var lightObject = new THREE.SpotLight(convertrgbToHex(color), intensity);
+    var lightObject = new THREE.SpotLight(color.toHex(), intensity);
     lightObject.position.set(location.x, location.y, location.z);
     lightObject.angle = beamWidth;
     lightObject.penumbra = cutOffAngle;
@@ -831,7 +854,7 @@ THREE.X3DLoader.prototype = {
     this.scene.background = color;
 
     var cubeTextureEnabled = false;
-    var attributeNames = ['rightUrl', 'leftUrl', 'topUrl', 'bottomUrl', 'frontUrl', 'backUrl'];
+    var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
     var urls = [];
     for (var i = 0; i < 6; i++) {
       var url = getNodeAttribute(background, attributeNames[i], null);
@@ -905,6 +928,21 @@ THREE.X3DLoader.prototype = {
     this.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
   },
 
+  parseFog: function(fog) {
+    var colorInt = convertStringTorgb(getNodeAttribute(fog, 'color', '1 1 1')).getHex();
+    var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
+
+    var fogObject = null;
+    // TODO add LINEAR fog
+    // var fogType = getNodeAttribute(fog, 'forType', 'LINEAR');
+    // if (fogType === 'LINEAR')
+    //  fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
+    // else
+    fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
+    this.scene.fog = fogObject;
+    return null;
+  },
+
   setCustomId: function(node, object) {
     // Some THREE.js nodes, like the material and IndexedFaceSet, merges multiple X3D nodes.
     // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
@@ -952,10 +990,6 @@ function convertStringToQuaternion(s) {
 function convertStringTorgb(s) {
   var v = convertStringToVec3(s);
   return new THREE.Color(v.x, v.y, v.z);
-}
-
-function convertrgbToHex(color) {
-  return (color.b * 255.0) | ((color.g * 255.0) << 8) | ((color.r * 255.0) << 16);
 }
 
 // Source: https://gist.github.com/Ni55aN/90c017fafbefd3e31ef8d98ab6566cfa
