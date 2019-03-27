@@ -4,46 +4,46 @@
     {
       "transformID": "n134",
       "name": "arm 0 motor",
-      "maxPosition": 0,
+      "maxPosition": 3.665,
       "position": 0,
       "type": "RotationalMotor",
-      "minPosition": 0,
+      "minPosition": -3.665,
       "axis": "0 0 1"
     },
     {
       "transformID": "n204",
       "name": "arm 1 motor",
-      "maxPosition": 0,
+      "maxPosition": 2.618,
       "position": 0,
       "type": "RotationalMotor",
-      "minPosition": 0,
+      "minPosition": -1.152,
       "axis": "0 1 0"
     },
     {
       "transformID": "n236",
       "name": "arm 3 motor",
-      "maxPosition": 0,
+      "maxPosition": 2.967,
       "position": 0,
       "type": "RotationalMotor",
-      "minPosition": 0,
+      "minPosition": -2.967,
       "axis": "0 1 0"
     },
     {
       "transformID": "n258",
       "name": "arm 4 motor",
-      "maxPosition": 0,
+      "maxPosition": 3.665,
       "position": 0,
       "type": "RotationalMotor",
-      "minPosition": 0,
+      "minPosition": -3.665,
       "axis": "1 0 0"
     },
     {
       "transformID": "n274",
       "name": "arm 5 motor",
-      "maxPosition": 0,
+      "maxPosition": 2.269,
       "position": 0,
       "type": "RotationalMotor",
-      "minPosition": 0,
+      "minPosition": -2.269,
       "axis": "0 1 0"
     },
     {
@@ -79,26 +79,50 @@
       "maxPosition": 0,
       "position": 0,
       "type": "LinearMotor",
-      "minPosition": -0.38,
+      "minPosition": -0.29,
       "axis": "1 0 0"
+    },
+    {
+      "track": "true",
+      "transformID": "n422",
+      "type": "LinearMotor",
+      "name": "left front track"
     },
     {
       "transformID": "n324",
       "name": "left gripper motor",
-      "maxPosition": 0.012,
+      "maxPosition": 0.02,
       "position": 0,
       "type": "LinearMotor",
       "minPosition": -0.005,
       "axis": "0 1 0"
     },
     {
+      "track": "true",
+      "transformID": "n661",
+      "type": "LinearMotor",
+      "name": "left rear track"
+    },
+    {
+      "track": "true",
+      "transformID": "n499",
+      "type": "LinearMotor",
+      "name": "right front track"
+    },
+    {
       "transformID": "n351",
       "name": "right gripper motor",
-      "maxPosition": 0.012,
+      "maxPosition": 0.02,
       "position": 0,
       "type": "LinearMotor",
       "minPosition": -0.005,
       "axis": "0 -1 0"
+    },
+    {
+      "track": "true",
+      "transformID": "n584",
+      "type": "LinearMotor",
+      "name": "right rear track"
     },
     {
       "ledMaterialsIDs": [],
@@ -177,21 +201,9 @@
       "name": "gripper camera"
     },
     {
-      "transformID": "n422",
-      "type": "LinearMotor",
-      "name": "left front track",
-      "track": true
-    },
-    {
       "transformID": "n324",
       "type": "PositionSensor",
       "name": "left gripper sensor"
-    },
-    {
-      "transformID": "n661",
-      "type": "LinearMotor",
-      "name": "left rear track",
-      "track": true
     },
     {
       "transformID": "n583",
@@ -199,21 +211,9 @@
       "name": "rear sensor"
     },
     {
-      "transformID": "n499",
-      "type": "LinearMotor",
-      "name": "right front track",
-      "track": true
-    },
-    {
       "transformID": "n351",
       "type": "PositionSensor",
       "name": "right gripper sensor"
-    },
-    {
-      "transformID": "n584",
-      "type": "LinearMotor",
-      "name": "right rear track",
-      "track": true
     }
   ]
 }
