@@ -183,9 +183,9 @@ Telemax {
   rotation 0 1 0 -3.1410398309444907
   controller "telemax_demo"
   traySlot [
-    TelemaxBox {
+    TelemaxBattery {
       upperSlot [
-        TelemaxBox {
+        TelemaxBattery {
         }
       ]
     }

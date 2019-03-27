@@ -1,13 +1,13 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# Box to be stacked on top of the telemax robot, it usually contains the battery.
+# Battery to be stacked on top of the telemax robot.
 
-PROTO TelemaxBox [
+PROTO TelemaxBattery [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 1 0 0
-  field  SFString    name         "box"
-  field  MFNode      upperSlot    [ ]      # Another upper box can be added here.
+  field  SFString    name         "battery"
+  field  MFNode      upperSlot    [ ]        # Another upper box can be added here.
 ]
 {
   Solid {
@@ -83,7 +83,7 @@ PROTO TelemaxBox [
     }
     physics Physics {
       density -1
-      mass 20
+      mass  10
     }
   }
 }

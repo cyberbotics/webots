@@ -24,7 +24,7 @@ Telemax {
   SFBool      supervisor       FALSE
   SFBool      selfCollision    TRUE
   SFBool      synchronization  TRUE
-  MFNode      traySlot         [ TelemaxBox { } ]
+  MFNode      traySlot         [ TelemaxBattery { } ]
   MFNode      cameraSlot0      [ ]
   MFNode      cameraSlot1      [ ]
   MFNode      cameraSlot2      [ ]
