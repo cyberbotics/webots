@@ -95,21 +95,25 @@ X3dSceneManager.prototype = {
     var that = this;
     var loader = new THREE.X3DLoader(this);
     loader.load(url, function(object3d) {
-      that.scene.add(object3d);
-      that.root = object3d;
+      if (object3d.length > 0) {
+        that.scene.add(object3d[0]);
+        that.root = object3d[0];
+      }
     });
     this.onSceneUpdateCompleted(true);
   },
 
   loadObject: function(x3dObject, parentId) {
+    var that = this;
     var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
     var loader = new THREE.X3DLoader(this);
-    var object = loader.parse(x3dObject);
+    var objects = loader.parse(x3dObject);
     if (parentObject)
-      parentObject.add(object);
+      objects.forEach(function(o) { parentObject.add(o); });
     else {
-      this.scene.add(object);
-      this.root = object;
+      console.assert(objects.length <= 1); // only one root object is supported
+      objects.forEach(function(o) { that.scene.add(o); });
+      this.root = objects[0];
     }
     this.onSceneUpdateCompleted(true);
   },

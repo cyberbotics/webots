@@ -22,8 +22,8 @@ Stream.prototype = {
     this.socket.onmessage = function(event) { that.onSocketMessage(event); };
     this.socket.onclose = function(event) { that.onSocketClose(event); };
     this.socket.onerror = function(event) {
-      this.view.destroyWorld();
-      this.view.onerror('WebSocket error: ' + event.data);
+      that.view.destroyWorld();
+      that.view.onerror('WebSocket error: ' + event.data);
     };
   },
 
