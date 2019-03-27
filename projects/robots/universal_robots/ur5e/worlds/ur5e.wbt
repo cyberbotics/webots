@@ -143,6 +143,11 @@ ConveyorBelt {
   translation 4.18 0 0.85
   rotation 0 1 0 3.141592
   size 10 0.6 0.5
+  appearance CorrugatedMetal {
+    textureTransform TextureTransform {
+      scale 6 3.1
+    }
+  }
   borderHeight 0
   speed 0.2
   textureAnimation 0.016
@@ -151,6 +156,11 @@ ConveyorBelt {
   translation 0 0 -0.69
   name "conveyor belt(1)"
   size 10 0.25 0.5
+  appearance CorrugatedMetal {
+    textureTransform TextureTransform {
+      scale 6 3.1
+    }
+  }
   borderHeight 0
   speed 0.06
   acceleration 0.012
