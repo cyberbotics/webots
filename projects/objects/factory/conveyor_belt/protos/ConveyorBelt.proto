@@ -12,6 +12,8 @@ PROTO ConveyorBelt [
   field SFFloat    borderThickness  0.03            # Defines the thickness of the metal part around the conveyor belt.
   field SFFloat    borderHeight     0.01            # Defines the height of the border around the conveyor.
   field SFFloat    speed            0.5             # Defines the rubber band speed in meters per second.
+  field SFFloat    acceleration     -1              # Defines the acceleration of the conveyor belt.
+  field SFFloat    timer            0.0             # Defines for how long the conveyor belt should move (it will move forever if set to 0).
   field SFFloat    textureAnimation 0.008           # defines the speed of the texture animation.
 ]
 {
@@ -35,7 +37,7 @@ PROTO ConveyorBelt [
     rotation IS rotation
     name IS name
     controller "conveyor_belt"
-    controllerArgs "%{=fields.speed.value}%"
+    controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
     children [
       Track {
         translation 0 %{=0.75 * size.y}% 0
@@ -85,6 +87,7 @@ PROTO ConveyorBelt [
         device [
           LinearMotor {
             name "belt_motor"
+            acceleration IS acceleration
             maxVelocity %{= math.abs(fields.speed.value) }%
             sound ""
           }

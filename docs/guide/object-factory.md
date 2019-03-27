@@ -121,6 +121,8 @@ ConveyorBelt {
   SFFloat    borderThickness  0.03
   SFFloat    borderHeight     0.01
   SFFloat    speed            0.5
+  SFFloat    acceleration     -1
+  SFFloat    timer            0.0
   SFFloat    textureAnimation 0.008
 }
 ```
@@ -137,6 +139,10 @@ ConveyorBelt {
 - `borderHeight`: Defines the height of the border around the conveyor.
 
 - `speed`: Defines the rubber band speed in meters per second.
+
+- `acceleration`: Defines the acceleration of the conveyor belt.
+
+- `timer`: Defines for how long the conveyor belt should move (it will move forever if set to 0).
 
 - `textureAnimation`: defines the speed of the texture animation.
 

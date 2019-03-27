@@ -1,6 +1,12 @@
 #VRML_SIM R2019a utf8
 WorldInfo {
   basicTimeStep 16
+  physicsDisableAngularThreshold 0.1
+  contactProperties [
+    ContactProperties {
+      bounce 0.1
+    }
+  ]
 }
 Viewpoint {
   orientation -0.6186655182052692 -0.7328824259006612 -0.28308360318069914 1.1818788223616903
@@ -146,7 +152,9 @@ ConveyorBelt {
   name "conveyor belt(1)"
   size 10 0.25 0.5
   borderHeight 0
-  speed 0.031
+  speed 0.06
+  acceleration 0.012
+  timer 70
   textureAnimation 0.016
 }
 PlasticCrate {
