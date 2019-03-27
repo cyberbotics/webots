@@ -2,9 +2,9 @@
 
 ```
 Light {
-  SFFloat ambientIntensity 0       # [0, 1]
+  SFFloat ambientIntensity 0       # [0, inf)
   SFColor color            1 1 1   # any color
-  SFFloat intensity        1       # [0, 1]
+  SFFloat intensity        1       # [0, inf)
   SFBool  on               TRUE    # {TRUE, FALSE}
   SFBool  castShadows      FALSE   # {TRUE, FALSE}
 }
@@ -21,8 +21,6 @@ Except for `castShadows`, every field of a [Light](#light) node affects the ligh
 ### Field Summary
 
 - The `intensity` field specifies the brightness of the direct emission from the light, and the `ambientIntensity` specifies the intensity of the ambient emission from the light.
-Light intensity usually ranges from 0.0 (no light emission) to 1.0 (full intensity).
-However, when used together with `LightSensors`, and if real physical quantities such as Watts or lumen (lm) are desired, larger values of `intensity` and `ambientIntensity` can also be used.
 The `color` field specifies the spectral color properties of both the direct and ambient light emission as an RGB value.
 
 - The `on` boolean value allows the user to turn the light on (TRUE) or off (FALSE).
