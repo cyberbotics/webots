@@ -165,35 +165,45 @@ The new C source file is displayed in Webots text editor window.
 This C file can be compiled without any modification, however the current code has no real effect.
 We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 
+%tab-component
+%tab "C"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
-Once the controller is associated with the robot, save the world.
-Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
->%tab-component %tab "C" ```c
-> #include <webots/robot.h>
+>Once the controller is associated with the robot, save the world.
+>Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
+>```c
+>#include <webots/robot.h>
 >
-> // Added a new include file
-> #include <webots/motor.h>
+>// Added a new include file
+>#include <webots/motor.h>
 >
-> #define TIME_STEP 640
+>#define TIME_STEP 640
 >
-> int main(int argc, char **argv)
-> {
->   wb_robot_init();
+>int main(int argc, char **argv)
+>{
+>  wb_robot_init();
 >
->   // get the motor devices
->   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
->   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
->   // set the target position of the motors
->   wb_motor_set_position(left_motor, 10.0);
->   wb_motor_set_position(right_motor, 10.0);
+>  // get the motor devices
+>  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+>  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+>  // set the target position of the motors
+>  wb_motor_set_position(left_motor, 10.0);
+>  wb_motor_set_position(right_motor, 10.0);
 >
->   while (wb_robot_step(TIME_STEP) != -1);
+>  while (wb_robot_step(TIME_STEP) != -1);
 >
->   wb_robot_cleanup();
+>  wb_robot_cleanup();
 >
->   return 0;
-> }
->``` %tab-end %tab "Python"
+>  return 0;
+>}
+>```
+>Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+>Fix any compilation errors if necessary.
+>When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+%tab-end
+%tab "Python"
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+>Once the controller is associated with the robot, save the world.
+>Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
 >```python
 >from controller import Accelerometer
 >
@@ -203,16 +213,12 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 >    def getSamplingPeriod(self):
 >    def getValues(self):
 >    # ...
->``` %tab-end %tab "MATLAB"
->```matlab
->wb_accelerometer_enable(tag, sampling_period)
->wb_accelerometer_disable(tag)
->period = wb_accelerometer_get_sampling_period(tag)
->[x y z] = wb_accelerometer_get_values(tag)
->``` %tab-end %end
+>```
 >Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 >Fix any compilation errors if necessary.
 >When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+%tab-end
+%end
 
 If everything is fine, your robot should move forwards.
 The robot will move using its maximum speed for a while and then stop once the wheels have rotated of 10 radians.
