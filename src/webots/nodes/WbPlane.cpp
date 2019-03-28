@@ -100,7 +100,7 @@ void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
   else if (writer.isX3d())
-    writer << " coordIndex=\'0 1 2 3 -1\' texCoordIndex=\'0 1 2 3 -1\'";
+    writer << " x3dType=\'Plane\' coordIndex=\'0 1 2 3 -1\' texCoordIndex=\'0 1 2 3 -1\'";
   else {  // VRML
     writer.indent();
     writer << "coordIndex [ 0 1 2 3 -1 ]\n";

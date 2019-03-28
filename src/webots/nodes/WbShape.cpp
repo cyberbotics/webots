@@ -449,6 +449,9 @@ bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
     if (!mIsPickable->value())
       writer << " isPickable='false'";
 
+    if (mCastShadows->value())
+      writer << " castShadows='true'";
+
     return false;
   } else
     return WbBaseNode::exportNodeHeader(writer);

@@ -15,7 +15,7 @@ THREE.X3DLoader = function(sceneManager, loadManager) {
   this.camera = sceneManager.camera;
   this.worldInfo = sceneManager.worldInfo;
   this.defDictionary = [];
-  this.directionalLights = []
+  this.lights = [];
 };
 
 THREE.X3DLoader.prototype = {
@@ -32,7 +32,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parse: function(text) {
-    this.directionalLights = [];
+    this.lights = [];
     var object;
 
     console.log('X3D: Parsing');
@@ -128,16 +128,17 @@ THREE.X3DLoader.prototype = {
       return;
     }
 
+    var helperNodes = [];
     if (node.tagName === 'Transform')
       object = this.parseTransform(node);
     else if (node.tagName === 'Shape')
       object = this.parseShape(node);
     else if (node.tagName === 'DirectionalLight')
-      object = this.parseDirectionalLight(node, parentObject);
+      object = this.parseDirectionalLight(node);
     else if (node.tagName === 'PointLight')
-      object = this.parsePointLight(node, parentObject);
+      object = this.parsePointLight(node);
     else if (node.tagName === 'SpotLight')
-      object = this.parseSpotLight(node, parentObject);
+      object = this.parseSpotLight(node, helperNodes);
     else if (node.tagName === 'Group') {
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
@@ -164,6 +165,9 @@ THREE.X3DLoader.prototype = {
     this.setDefNode(node, object);
     this.setCustomId(node, object);
     parentObject.add(object);
+    helperNodes.forEach(function(o) {
+      parentObject.add(o);
+    });
   },
 
   parseChildren: function(node, currentObject) {
@@ -290,8 +294,16 @@ THREE.X3DLoader.prototype = {
     if (angle !== 0)
       mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
-    mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false') === 'true';
+    if (!material.userData.hasTransparentTexture) {
+      // Webots transparent object don't cast shadows
+      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false') === 'true';
+      if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
+        // otherwise by default single-face objects don't cast shadows
+        // set shadowSize or add a back face
+        material.shadowSide = THREE.FrontSide;
+    }
     mesh.receiveShadow = true;
+    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true') === 'true';
     return mesh;
   },
 
@@ -345,6 +357,7 @@ THREE.X3DLoader.prototype = {
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
     mat.userData.x3dType = 'Appearance';
+    mat.userData.hasTransparentTexture = colorMap && mat.transparent;
     if (material)
       this.setCustomId(material, mat);
 
@@ -379,8 +392,10 @@ THREE.X3DLoader.prototype = {
       var type = getNodeAttribute(imageTexture, 'type', '');
       if (type === 'baseColor') {
         materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
-        if (materialSpecifications.map && materialSpecifications.map.userData.isTransparent)
+        if (materialSpecifications.map && materialSpecifications.map.userData.isTransparent) {
           isTransparent = true;
+          materialSpecifications.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+        }
       } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
         materialSpecifications.roughness = 1.0;
@@ -408,7 +423,7 @@ THREE.X3DLoader.prototype = {
     mat.userData.x3dType = 'PBRAppearance';
     if (isTransparent) {
       mat.transparent = true;
-      mat.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+      mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
     }
 
     return mat;
@@ -491,7 +506,8 @@ THREE.X3DLoader.prototype = {
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
 
     var geometry = new THREE.Geometry();
-    geometry.userData = { 'x3dType': 'IndexedFaceSet' };
+    var x3dType = getNodeAttribute(ifs, 'x3dType', '');
+    geometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
     if (!coordinate)
       return geometry;
 
@@ -637,9 +653,9 @@ THREE.X3DLoader.prototype = {
 
     var heightArray = heightStr.trim().split(/\s/);
     var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
-    var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '0'));
+    var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
     var zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
-    var zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '0'));
+    var zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '1'));
     // TODO add color functionality
     // var color = getNodeAttribute(eg, 'color', null);
     // var isColorPerVertex = getNodeAttribute(eg, 'colorPerVertex', 'false') === 'true';
@@ -693,7 +709,7 @@ THREE.X3DLoader.prototype = {
     geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
     geometry.addAttribute('position', new THREE.BufferAttribute(coords, 3));
     geometry.addAttribute('uv', new THREE.BufferAttribute(texCoords, 2));
-    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
     geometry.computeBoundingSphere();
 
     return geometry;
@@ -776,17 +792,18 @@ THREE.X3DLoader.prototype = {
     return geometry;
   },
 
-  parseDirectionalLight: function(light, parentObject) {
+  parseDirectionalLight: function(light) {
     var on = getNodeAttribute(light, 'on', 'true') === 'true';
     if (!on)
       return;
 
+    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadow = getNodeAttribute(light, 'shadowIntensity', '0') !== '0';
 
-    var lightObject = new THREE.DirectionalLight(color.toHex(), intensity);
+    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
     if (castShadow) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
@@ -795,57 +812,86 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.5'));
       lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '200'));
     }
-    lightObject.userData = { 'x3dType': 'DirectionalLight' };
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
+    lightObject.userData = { 'x3dType': 'DirectionalLight' };
+    if (ambientIntensity > 0)
+      lightObject.userData.ambientIntensity = ambientIntensity;
     // Position of the directional light will be adjusted at the end of the load
     // based on the size of the scene so that all the objects are illuminated by this light.
-    this.directionalLights.push(lightObject);
+    this.lights.push(lightObject);
     return lightObject;
   },
 
-  parsePointLight: function(light, parentObject) {
-    // TODO shadows
-
+  parsePointLight: function(light) {
     var on = getNodeAttribute(light, 'on', 'true') === 'true';
     if (!on)
       return;
 
+    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
+    var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
+    var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'true') === 'true';
-    // var attenuation = getNodeAttribute(light, 'attenuation', '1 0 0');
-    // var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
 
-    var lightObject = new THREE.PointLight(color.toHex(), intensity);
-    lightObject.castShadows = castShadows;
+    var lightObject = new THREE.PointLight(color.getHex(), intensity);
+    lightObject.decay = attenuation.x;
+    lightObject.distance = radius;
+    if (castShadows) {
+      lightObject.castShadow = true;
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
+      lightObject.shadow.mapSize.width = shadowMapSize;
+      lightObject.shadow.mapSize.height = shadowMapSize;
+      lightObject.shadow.camera.near = 0.01;
+      lightObject.shadow.camera.far = radius;
+    }
+    lightObject.position.copy(location);
     lightObject.userData = { 'x3dType': 'PointLight' };
-    lightObject.position.set(location.x, location.y, location.z);
+    if (ambientIntensity > 0)
+      lightObject.userData.ambientIntensity = ambientIntensity;
+    this.lights.push(lightObject);
     return lightObject;
   },
 
-  parseSpotLight: function(light, parentObject) {
-    // TODO shadows
+  parseSpotLight: function(light, helperNodes) {
     var on = getNodeAttribute(light, 'on', 'true') === 'true';
     if (!on)
       return;
 
-    // var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
-    var beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '5707963'));
+    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
+    var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
+    var beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '0.785'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
-    var cutOffAngle = getNodeAttribute(light, 'cutOffAngle', '5707963');
-    // TODO var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
+    var cutOffAngle = parseFloat(getNodeAttribute(light, 'cutOffAngle', '0.785'));
+    var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
-    // var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
+    var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'true') === 'true';
 
-    var lightObject = new THREE.SpotLight(color.toHex(), intensity);
-    lightObject.position.set(location.x, location.y, location.z);
-    lightObject.angle = beamWidth;
-    lightObject.penumbra = cutOffAngle;
-    lightObject.castShadows = castShadows;
+    var lightObject = new THREE.SpotLight(color.getHex(), intensity);
+    lightObject.angle = cutOffAngle;
+    lightObject.penumbra = 1 - (beamWidth / cutOffAngle);
+    lightObject.decay = attenuation.x;
+    lightObject.distance = radius;
+    if (castShadows) {
+      lightObject.castShadow = true;
+      var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
+      lightObject.shadow.mapSize.width = shadowMapSize;
+      lightObject.shadow.mapSize.height = shadowMapSize;
+      lightObject.shadow.camera.near = 0.0;
+      lightObject.shadow.camera.far = radius;
+    }
+    lightObject.position.copy(location);
+    lightObject.target = new THREE.Object3D();
+    lightObject.target.position.addVectors(lightObject.position, direction);
+    lightObject.target.userData.x3dType = 'LightTarget';
+    helperNodes.push(lightObject.target);
     lightObject.userData = { 'x3dType': 'SpotLight' };
+    if (ambientIntensity > 0)
+      lightObject.userData.ambientIntensity = ambientIntensity;
+    this.lights.push(lightObject);
     return lightObject;
   },
 
@@ -884,9 +930,6 @@ THREE.X3DLoader.prototype = {
       if (missing === 0)
         cubeTexture.needsUpdate = true;
     }
-
-    var light = new THREE.AmbientLight(color.getHex());
-    this.scene.add(light);
 
     return null;
   },
