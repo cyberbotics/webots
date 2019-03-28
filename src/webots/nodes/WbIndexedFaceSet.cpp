@@ -278,8 +278,15 @@ void WbIndexedFaceSet::updateCoord() {
 }
 
 void WbIndexedFaceSet::updateNormal() {
-  if (normal())
+  if (normal()) {
     connect(normal(), &WbNormal::fieldChanged, this, &WbIndexedFaceSet::updateNormal, Qt::UniqueConnection);
+    for (int i = 0; i < normal()->vector().size(); ++i) {
+      if (normal()->vector(i).isNull()) {
+        normal()->setVector(i, WbVector3(0.0, 1.0, 0.0));
+        warn(tr("Normal values can't be null."));
+      }
+    }
+  }
 
   buildWrenMesh(true);
 
