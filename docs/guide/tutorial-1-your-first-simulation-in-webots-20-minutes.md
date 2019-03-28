@@ -41,7 +41,7 @@ Webots displays a list of directories and files it just created.
 This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
 Click on the `Finish` button to close this window.
 
-Congratulation, you just created your very first Webots world!
+Congratulations, you just created your very first Webots world!
 The 3D view should display a square arena with a checkered floor.
 You can move the viewpoint in the 3D view [using the mouse](the-3d-window.md#navigation-in-the-scene): left button, right button and the wheel.
 
