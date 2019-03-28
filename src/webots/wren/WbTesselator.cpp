@@ -71,7 +71,7 @@ static void tessEnd() {
 static void tessVertexData(void *vertex, void *r) {
   QList<QVector<int>> *results = (QList<QVector<int>> *)r;
   TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
-  results->append(QVector<int>(tesselatorData->coordIndex, tesselatorData->texIndex));
+  results->append(QVector<int>() << tesselatorData->coordIndex << tesselatorData->normalIndex << tesselatorData->texIndex);
 }
 
 // used to force triangle list (and disable strips and fans)
