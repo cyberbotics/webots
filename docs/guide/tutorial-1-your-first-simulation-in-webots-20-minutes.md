@@ -315,7 +315,6 @@ In order to control the motors of the wheels in speed you need to set the target
 ># get a handler to the motors and set target position to infinity (speed control)
 >leftMotor = robot.getMotor('left wheel motor')
 >rightMotor = robot.getMotor('right wheel motor')
-># set the target position of the motors
 >leftMotor.setPosition(float('inf'))
 >rightMotor.setPosition(float('inf'))
 >
@@ -335,10 +334,9 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 >MAX_SPEED = 6.28
 >
->% get the motor devices
+>% get a handler to the motors and set target position to infinity (speed control)
 >left_motor = wb_robot_get_device('left wheel motor')
 >right_motor = wb_robot_get_device('right wheel motor')
->% set the target position of the motors
 >wb_motor_set_position(left_motor, inf)
 >wb_motor_set_position(right_motor, inf)
 >
