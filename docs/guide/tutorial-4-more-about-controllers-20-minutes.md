@@ -79,11 +79,12 @@ The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.
 The Webots API has to be initialized using the `wb_robot_init` function and it has to be cleaned up using the `wb_robot_cleanup` function.
 
+%tab-component
+%tab "C"
 > **Hands on #3**: Write the prototype of the `main` function as follows:
 > ```c
 > // entry point of the controller
-> int main(int argc, char **argv)
-> {
+> int main(int argc, char **argv) {
 >   // initialize the Webots API
 >   wb_robot_init();
 >   // initialize devices
@@ -98,6 +99,75 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 >   return 0; //EXIT_SUCCESS
 > }
 > ```
+%tab-end
+
+%tab "C++"
+> **Hands on #3**: Write the prototype of the `main` function as follows:
+>```cpp
+> // entry point of the controller
+> int main(int argc, char **argv) {
+>   // create the Robot instance.
+>   Robot *robot = new Robot();
+>   // initialize devices
+>   // feedback loop: step simulation until receiving an exit event
+>   while (wb_robot_step(TIME_STEP) != -1) {
+>     // read sensors outputs
+>     // process behavior
+>     // write actuators inputs
+>   }
+>   delete robot;
+>   return 0; //EXIT_SUCCESS
+>}
+>```
+%tab-end
+
+%tab "Python"
+> **Hands on #3**: In Python there is no main function, the program starts it's execution from the start of the file:
+>```python
+> # create the Robot instance.
+> robot = Robot()
+> # initialize devices
+> # feedback loop: step simulation until receiving an exit event
+> while robot.step(TIME_STEP) != -1:
+>     # read sensors outputs
+>     # process behavior
+>     # write actuators inputs
+>```
+%tab-end
+
+%tab "Java"
+> **Hands on #3**: Write the prototype of the `main` function as follows:
+>```java
+> // entry point of the controller
+> public static void main(String[] args) {
+>   // create the Robot instance.
+>   Robot robot = new Robot();
+>   // initialize devices
+>   // feedback loop: step simulation until receiving an exit event
+>   while (robot.step(timeStep) != -1) {
+>     // read sensors outputs
+>     // process behavior
+>     // write actuators inputs
+>   };
+> }
+>```
+%tab-end
+
+%tab "MATLAB"
+> **Hands on #3**: In Matlab there is no main function, the program starts it's execution from the start of the file:
+>```matlab
+> % initialize devices
+> % feedback loop: step simulation until receiving an exit event
+> while wb_robot_step(TIME_STEP) ~= -1
+>   % read sensors outputs
+>   % process behavior
+>   % write actuators inputs
+>   % if your code plots some graphics, it needs to flushed like this:
+>   drawnow;
+> end
+>```
+%tab-end
+%end
 
 A robot device is referenced by a `WbDeviceTag`.
 The `WbDeviceTag` is retrieved by the `wb_robot_get_device` function.
