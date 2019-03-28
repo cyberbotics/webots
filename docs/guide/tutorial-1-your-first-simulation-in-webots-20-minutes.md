@@ -157,7 +157,7 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands on #8**: Create a new C controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
+> **Hands on #8**: Create a new C (or any other language) controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
 This will create a new `e-puck_go_forward` directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
@@ -200,10 +200,11 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >Fix any compilation errors if necessary.
 >When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 %tab-end
+
 %tab "Python"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
->Modify the program by inserting an import statement (`from controller import Robot`), getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
+>Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
 >from controller import Robot
 >
@@ -226,6 +227,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >Fix any compilation errors if necessary.
 >When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 %tab-end
+
 %tab "MATLAB"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
@@ -261,6 +263,8 @@ The controller directory name should match with the binary name.
 The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and the set the desired speed:
 
+%tab-component
+%tab "C"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 > ```c
 > #include <webots/robot.h>
@@ -294,6 +298,59 @@ In order to control the motors of the wheels in speed you need to set the target
 >   return 0;
 > }
 > ```
+%tab-end
+
+%tab "Python"
+> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
+>```python
+>from controller import Robot
+>
+>TIME_STEP = 64
+>
+>MAX_SPEED = 6.28
+>
+># create the Robot instance.
+>robot = Robot()
+>
+># get a handler to the motors and set target position to infinity (speed control)
+>leftMotor = robot.getMotor('left wheel motor')
+>rightMotor = robot.getMotor('right wheel motor')
+># set the target position of the motors
+>leftMotor.setPosition(float('inf'))
+>rightMotor.setPosition(float('inf'))
+>
+># set up the motor speeds at 10% of the MAX_SPEED.
+>leftMotor.setVelocity(0.1 * MAX_SPEED)
+>rightMotor.setVelocity(0.1 * MAX_SPEED)
+>
+>while robot.step(TIME_STEP) != -1:
+>    pass
+>```
+%tab-end
+
+%tab "MATLAB"
+> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
+>```matlab
+>TIME_STEP = 64;
+>
+>MAX_SPEED = 6.28
+>
+>% get the motor devices
+>left_motor = wb_robot_get_device('left wheel motor')
+>right_motor = wb_robot_get_device('right wheel motor')
+>% set the target position of the motors
+>wb_motor_set_position(left_motor, inf)
+>wb_motor_set_position(right_motor, inf)
+>
+>% set up the motor speeds at 10% of the MAX_SPEED.
+>wb_motor_set_velocity(left_motor, 0.1 * MAX_SPEED)
+>wb_motor_set_velocity(right_motor, 0.1 * MAX_SPEED)
+>
+>while wb_robot_step(TIME_STEP) ~= -1
+>end
+>```
+%tab-end
+%end
 
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
 
