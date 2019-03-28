@@ -69,7 +69,7 @@ The wall of the arena should now be lower.
 In the [scene tree view](the-scene-tree.md), the fields are displayed in a different color (depending on the theme) if they differ from their default values.
 Now, we would like to add some objects:
 
-> **Hands on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
+> **Hands-on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
 Click on the `Add` button (plus sign) at the top of the scene tree.
 In the open dialog box, choose `PROTO nodes (Webots) / objects / factory / containers / WoodenBox (Solid)`.
 A big box should appear in the middle of the arena.
@@ -106,7 +106,7 @@ Therefore, any modification of the world should be performed in that order: **pa
 We don't need to create the e-puck robot from scratch, we will just have to import a `E-puck` node.
 This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before.
 
-> **Hands on #5**: Select the last node `WoodenBox` of the scene tree view.
+> **Hands-on #5**: Select the last node `WoodenBox` of the scene tree view.
 Click on the `Add` button (plus sign) at the top of the scene tree view.
 In the dialog box, choose `PROTO nodes (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
 An e-puck robot should appear in the middle of the arena.
@@ -126,7 +126,7 @@ Because we won't need it, you can actually close it.
 
 Now, while the simulation is running, let's play with the physics:
 
-> **Hands on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing *Alt + left-click + drag*.
+> **Hands-on #6**: [Apply a force](the-3d-window.md#applying-a-force-to-a-solid-object-with-physics) to the robot by pressing *Alt + left-click + drag*.
 On Linux, you should also press the *Ctrl* key in addition to *Alt + left-click + drag*.
 It is not possible to apply a force to a `WoodenBox` node, because by default, they have no mass and are considered as glued on the floor.
 To enable physics on the `WoodenBox` nodes, you should set their `mass` field to a certain value (for example 0.2 kg).
@@ -136,7 +136,7 @@ The simulation may be paused (pause button), run step-by-step (step button), in 
 
 Now we are going to modify the world and decrease the step of the physics simulation: this will increase the accuracy and stability of the simulation (but reduce the maximum simulation speed).
 
-> **Hands on #7**: Pause the simulation and revert it.
+> **Hands-on #7**: Pause the simulation and revert it.
 In the Scene Tree view, expand the [WorldInfo](../reference/worldinfo.md) node (the first node).
 Set its `basicTimeStep` field to *16*.
 Then save the simulation.
@@ -157,7 +157,7 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands on #8**: Create a new C controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
+> **Hands-on #8**: Create a new C controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
 This will create a new `e-puck_go_forward` directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
@@ -165,7 +165,7 @@ The new C source file is displayed in Webots text editor window.
 This C file can be compiled without any modification, however the current code has no real effect.
 We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 
-> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands-on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 Once the controller is associated with the robot, save the world.
 Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
 > ```c
@@ -210,7 +210,7 @@ The controller directory name should match with the binary name.
 The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and to set the desired speed:
 
-> **Hands on #10**: Modify the controller program as shown below, save it, recompile it and run it:
+> **Hands-on #10**: Modify the controller program as shown below, save it, recompile it and run it:
 > ```c
 > #include <webots/robot.h>
 >
