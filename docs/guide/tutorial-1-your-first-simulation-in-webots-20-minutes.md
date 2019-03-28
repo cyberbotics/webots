@@ -168,9 +168,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 Once the controller is associated with the robot, save the world.
 Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
->%tab-component
->%tab "C"
->```c
+>%tab-component %tab "C" ```c
 > #include <webots/robot.h>
 >
 > // Added a new include file
@@ -195,9 +193,7 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 >
 >   return 0;
 > }
->```
->%tab-end
->%tab "Python"
+>``` %tab-end %tab "Python"
 >```python
 >from controller import Accelerometer
 >
@@ -207,17 +203,13 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 >    def getSamplingPeriod(self):
 >    def getValues(self):
 >    # ...
->```
->%tab-end
->%tab "MATLAB"
+>``` %tab-end %tab "MATLAB"
 >```matlab
 >wb_accelerometer_enable(tag, sampling_period)
 >wb_accelerometer_disable(tag)
 >period = wb_accelerometer_get_sampling_period(tag)
 >[x y z] = wb_accelerometer_get_values(tag)
->```
->%tab-end
->%end
+>``` %tab-end %end
 >Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 >Fix any compilation errors if necessary.
 >When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
