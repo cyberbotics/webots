@@ -178,8 +178,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >
 >#define TIME_STEP 64
 >
->int main(int argc, char **argv)
->{
+>int main(int argc, char **argv) {
 >  wb_robot_init();
 >
 >  // get the motor devices
@@ -192,6 +191,40 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >  while (wb_robot_step(TIME_STEP) != -1);
 >
 >  wb_robot_cleanup();
+>
+>  return 0;
+>}
+>```
+>Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+>Fix any compilation errors if necessary.
+>When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+%tab-end
+
+%tab "C++"
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+>Once the controller is associated with the robot, save the world.
+>Modify the program by inserting an include statement (`#include <webots/Motor.hpp>`), getting the motor devices (`Motor *leftMotor = robot->getMotor("left wheel motor");`), and by applying a motor command (`leftMotor->setPosition(10.0);`):
+>```cpp
+>#include <webots/Robot.hpp>
+>
+>// Added a new include file
+>#include <webots/Motor.hpp>
+>
+>#define TIME_STEP 64
+>
+>int main(int argc, char **argv) {
+>  Robot *robot = new Robot();
+>
+>  // get the motor devices
+>  Motor *leftMotor = robot->getMotor("left wheel motor");
+>  Motor *rightMotor = robot->getMotor("right wheel motor");
+>  // set the target position of the motors
+>  leftMotor->setPosition(10.0);
+>  rightMotor->setPosition(10.0);
+>
+>  while (robot->step(timeStep) != -1);
+>
+>  delete robot;
 >
 >  return 0;
 >}
@@ -222,6 +255,40 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >
 >while robot.step(TIME_STEP) != -1:
 >    pass
+>```
+>Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+>Fix any compilation errors if necessary.
+>When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+%tab-end
+
+%tab "Java"
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+>Once the controller is associated with the robot, save the world.
+>Modify the program by inserting an import statement (`import com.cyberbotics.webots.controller.Motor;`), getting the motor devices (`Motor leftMotor = robot.getMotor("left wheel motor");`), and by applying a motor command (`leftMotor.setPosition(10.0);`):
+>```java
+>#import com.cyberbotics.webots.controller.Robot;
+>
+>// Added a new include file
+>import com.cyberbotics.webots.controller.Motor;
+>
+>public class template {
+>
+>  public static void main(String[] args) {
+>
+>    int TIME_STEP = 64;
+>
+>    Robot robot = new Robot();
+>
+>    // get the motor devices
+>    Motor leftMotor = robot.getMotor("left wheel motor");
+>    Motor rightMotor = robot.getMotor("right wheel motor");
+>    // set the target position of the motors
+>    leftMotor.setPosition(10.0);
+>    rightMotor.setPosition(10.0);
+>
+>    while (robot.step(TIME_STEP) != -1);
+>  }
+>}
 >```
 >Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 >Fix any compilation errors if necessary.
@@ -276,8 +343,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 > #define MAX_SPEED 6.28
 >
-> int main(int argc, char **argv)
-> {
+> int main(int argc, char **argv) {
 >   wb_robot_init();
 >
 >   // get a handler to the motors and set target position to infinity (speed control)
@@ -298,6 +364,40 @@ In order to control the motors of the wheels in speed you need to set the target
 >   return 0;
 > }
 > ```
+%tab-end
+
+%tab "C++"
+> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
+>```cpp
+>#include <webots/Robot.hpp>
+>
+>// Added a new include file
+>#include <webots/Motor.hpp>
+>
+>#define TIME_STEP 64
+>
+>#define MAX_SPEED 6.28
+>
+>int main(int argc, char **argv) {
+>  Robot *robot = new Robot();
+>
+>  // get a handler to the motors and set target position to infinity (speed control)
+>  Motor *leftMotor = robot->getMotor("left wheel motor");
+>  Motor *rightMotor = robot->getMotor("right wheel motor");
+>  leftMotor->setPosition(INFINITY);
+>  rightMotor->setPosition(INFINITY);
+>
+>  // set up the motor speeds at 10% of the MAX_SPEED.
+>  leftMotor->setVelocity(0.1 * MAX_SPEED);
+>  rightMotor->setVelocity(0.1 * MAX_SPEED);
+>
+>  while (robot->step(timeStep) != -1);
+>
+>  delete robot;
+>
+>  return 0;
+>}
+>```
 %tab-end
 
 %tab "Python"
@@ -324,6 +424,40 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 >while robot.step(TIME_STEP) != -1:
 >    pass
+>```
+%tab-end
+
+%tab "Java"
+> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
+>```java
+>#import com.cyberbotics.webots.controller.Robot;
+>
+>// Added a new include file
+>import com.cyberbotics.webots.controller.Motor;
+>
+>public class template {
+>
+>  public static void main(String[] args) {
+>
+>    int TIME_STEP = 64;
+>
+>    double MAX_SPEED = 6.28;
+>
+>    Robot robot = new Robot();
+>
+>    // get a handler to the motors and set target position to infinity (speed control)
+>    Motor leftMotor = robot.getMotor("left wheel motor");
+>    Motor rightMotor = robot.getMotor("right wheel motor");
+>    leftMotor.setPosition(Double.POSITIVE_INFINITY);
+>    rightMotor.setPosition(Double.POSITIVE_INFINITY);
+>
+>    // set up the motor speeds at 10% of the MAX_SPEED.
+>    leftMotor.setVelocity(0.1 * MAX_SPEED);
+>    rightMotor.setVelocity(0.1 * MAX_SPEED);
+>
+>    while (robot.step(TIME_STEP) != -1);
+>  }
+>}
 >```
 %tab-end
 
