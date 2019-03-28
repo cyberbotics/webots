@@ -218,9 +218,9 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 >```
 >%tab-end
 >%end
-Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
-Fix any compilation errors if necessary.
-When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+>Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+>Fix any compilation errors if necessary.
+>When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 
 If everything is fine, your robot should move forwards.
 The robot will move using its maximum speed for a while and then stop once the wheels have rotated of 10 radians.
