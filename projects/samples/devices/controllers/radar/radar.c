@@ -64,7 +64,7 @@ int main() {
     if (radar) {
       int targets_number = wb_radar_get_number_of_targets(radar);
       const WbRadarTarget *targets = wb_radar_get_targets(radar);
-      printf("%s see %d targets.\n", wb_robot_get_name(), targets_number);
+      printf("\f%s see %d targets.\n", wb_robot_get_name(), targets_number);
       for (i = 0; i < targets_number; ++i)
         printf("---target %d: distance=%lf azimuth=%lf\n", i + 1, targets[i].distance, targets[i].azimuth);
     }

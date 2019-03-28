@@ -271,7 +271,7 @@ PROTO TinkerbotsLightSensor [
             }
             metalnessMap ImageTexture {
               url [
-                "textures/light_sensor_metalness.png"
+                "textures/sensor_metalness.png"
               ]
             }
             normalMap ImageTexture {

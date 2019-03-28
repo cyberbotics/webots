@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

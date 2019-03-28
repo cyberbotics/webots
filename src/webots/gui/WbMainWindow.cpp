@@ -1610,7 +1610,13 @@ void WbMainWindow::showOpenGlInfo() {
   info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
   info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
   info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
-  info += tr("Available GPU memory: %1 bytes").arg(wr_gl_state_get_gpu_memory()) + "\n";
+  const int gpu_memory = wr_gl_state_get_gpu_memory();
+  info += tr("Available GPU memory: ");
+  if (gpu_memory > 0)
+    info += tr("%1 bytes").arg(gpu_memory);
+  else
+    info += tr("N/A");
+  info += "\n";
   WbMessageBox::info(info, this, tr("OpenGL information"));
 }
 
