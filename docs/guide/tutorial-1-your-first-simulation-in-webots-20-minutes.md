@@ -226,6 +226,27 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >Fix any compilation errors if necessary.
 >When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
 %tab-end
+%tab "MATLAB"
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+>Once the controller is associated with the robot, save the world.
+>Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
+>```matlab
+>TIME_STEP = 64;
+>
+>% get the motor devices
+>left_motor = wb_robot_get_device('left wheel motor')
+>right_motor = wb_robot_get_device('right wheel motor')
+>% set the target position of the motors
+>wb_motor_set_position(left_motor, 10.0)
+>wb_motor_set_position(right_motor, 10.0)
+>
+>while wb_robot_step(TIME_STEP) ~= -1
+>end
+>```
+>Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
+>Fix any compilation errors if necessary.
+>When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+%tab-end
 %end
 
 If everything is fine, your robot should move forwards.
