@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -142,13 +142,15 @@ void WbFog::updateVisibilityRange() {
 void WbFog::applyChangesToWren() {
   assert(isFirstInstance());
 
+  WrSceneFogType fogType = mWrenFogType;
   float density = 0.0f;
   if (mVisibilityRange->value() > 0.0)
     density = 1.0 / mVisibilityRange->value();
-
+  else
+    fogType = WR_SCENE_FOG_TYPE_NONE;
   const float color[] = {static_cast<float>(mColor->red()), static_cast<float>(mColor->green()),
                          static_cast<float>(mColor->blue())};
 
-  wr_scene_set_fog(wr_scene_get_instance(), mWrenFogType, WR_SCENE_FOG_DEPTH_TYPE_POINT, color, density, 0.0f,
+  wr_scene_set_fog(wr_scene_get_instance(), fogType, WR_SCENE_FOG_DEPTH_TYPE_POINT, color, density, 0.0f,
                    mVisibilityRange->value());
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,12 +64,6 @@ int main() {
     robot_type = RECEIVER;
     communication = wb_robot_get_device("receiver");
     wb_receiver_enable(communication, TIME_STEP);
-
-    printf("Example usage of signalStrengthNoise and directionNoise in a Receiver.\n");
-    printf("The real position of the emitter robot obtained from a noise-free GPS is\n");
-    printf("compared to the position computed from the direction and signal strenght\n");
-    printf("information. Changing the 'signalStrengthNoise' or 'directionNoise' of the\n");
-    printf("Receiver should affect the results.\n\n");
   } else {
     printf("Unrecognized robot name '%s'. Exiting...\n", wb_robot_get_name());
     wb_robot_cleanup();
@@ -101,7 +95,7 @@ int main() {
       wb_emitter_send(communication, message, strlen(message) + 1);
       const double *gpsPosition = wb_gps_get_values(gps);
       /* print real position measured from the GPS */
-      printf("GPS position:     time = %.3lf   X = %.3lf Z = %.3lf\n\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[2]);
+      printf("GPS position:     time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[2]);
 
     } else {
       /* is there at least one packet in the receiver's queue ? */
@@ -110,7 +104,7 @@ int main() {
         double signalStrength = wb_receiver_get_signal_strength(communication);
         const double *direction = wb_receiver_get_emitter_direction(communication);
         double dist = 1 / sqrt(signalStrength);
-        printf("Emitter position: time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
+        printf("\fEmitter position: time = %.3lf   X = %.3lf Z = %.3lf\n", wb_robot_get_time(), direction[0] * dist,
                direction[2] * dist);
 
         wb_receiver_next_packet(communication);

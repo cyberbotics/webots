@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,17 +21,23 @@
 
 #include <cassert>
 
+#include <compilation_timestamp.h>
+
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkReply>
 
-void WbTelemetry::send(const QString &file) {
+void WbTelemetry::send(const QString &operation, const QString &file) {
   static WbTelemetry telemetry;
-  if (!file.isEmpty()) {
+  if (!file.isEmpty()) {  // operation: trial
+    assert(telemetry.mFile.isEmpty());
     telemetry.mFile = file;
-    telemetry.sendRequest("trial");
-  } else
-    telemetry.sendRequest("success");
+    telemetry.sendRequest(operation);
+  } else {  // operation: success or cancel
+    assert(!telemetry.mFile.isEmpty());
+    telemetry.sendRequest(operation);
+    telemetry.mFile.clear();
+  }
 }
 
 void WbTelemetry::sendRequest(const QString &operation) {
@@ -64,6 +70,8 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append(WbPreferences::instance()->value("OpenGL/GTAO", 0).toString());
   data.append("&SMAA=");
   data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
+  data.append("&build=");
+  data.append(QString::number(UNIX_TIMESTAMP));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
   if (id == 0) {
