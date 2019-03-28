@@ -11,7 +11,7 @@ You will create your first simulation containing a simple environment: an arena 
 
 If not already done, download and install Webots, following these [installation instructions](installing-webots.md).
 
-> **Hands on #1**: [Start Webots](starting-webots.md) by double-clicking on its icon (or invoking it from a command line in a Terminal).
+> **Hands-on #1**: [Start Webots](starting-webots.md) by double-clicking on its icon (or invoking it from a command line in a Terminal).
 If you are running Webots for the first time on this computer, you may be prompted to select a graphical theme.
 You may also be invited to follow the Webots guided tour, go ahead and close the guided tour.
 
