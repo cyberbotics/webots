@@ -436,7 +436,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             deviceObject.insert("axis", motor->joint()->parameters()->axis().toString(WbPrecision::FLOAT_MAX));
         }
       } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent = deviceBaseNode;
+        const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {
@@ -445,7 +445,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             WbVector3 v = m.translation();
             if (!v.almostEquals(WbVector3()))
               deviceObject.insert("transformOffset", v.toString(WbPrecision::FLOAT_MAX));
-            if (motor)
+            if (motor && parent->nodeType() == WB_NODE_TRACK)
               deviceObject.insert("track", "true");
             break;
           } else {
