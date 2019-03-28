@@ -109,7 +109,12 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 
   mNormalsValid = isNormalDefined;
   if (isNormalDefined && isNormalIndexDefined && normalIndex->size() != coordIndex->size()) {
-    mWarnings.append(QObject::tr("Invalid texture mapping: size of 'coordIndex' and 'normalIndex' mismatch. The normals will "
+    mWarnings.append(QObject::tr("Invalid normal definition: size of 'coordIndex' and 'normalIndex' mismatch. The normals will "
+                                 "be computed using the creaseAngle."));
+    mNormalsValid = false;
+  }
+  if (mNormalsValid && normal->size() != coord->size()) {
+    mWarnings.append(QObject::tr("Invalid normal definition: size of 'coord' and 'normal' mismatch. The normals will "
                                  "be computed using the creaseAngle."));
     mNormalsValid = false;
   }
@@ -525,7 +530,7 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
 void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord,
                                double creaseAngle) {
   assert(coord && coord->size() > 0);
-  assert(mTmpTriangleNormals.size() == mNTriangles);
+  assert(mTmpTriangleNormals.size() == mNTriangles || mNormalsValid);
   assert(mNTriangles == mCoordIndices.size() / 3);
   assert(mCoordIndices.size() % 3 == 0);
   assert(mCoordIndices.size() == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
