@@ -305,12 +305,6 @@ void WbImageTexture::unsetBackgroundTexture() {
   emit changed();
 }
 
-bool WbImageTexture::isTransparent() const {
-  if (mWrenTexture)
-    return wr_texture_is_translucent(WR_TEXTURE(mWrenTexture));
-  return false;
-}
-
 int WbImageTexture::width() const {
   if (mWrenTexture)
     return wr_texture_get_width(WR_TEXTURE(mWrenTexture));
