@@ -176,7 +176,7 @@ Modify the program by inserting an include statement (`#include <webots/motor.h>
 > // Added a new include file
 > #include <webots/motor.h>
 >
-> #define TIME_STEP 64
+> #define TIME_STEP 640
 >
 > int main(int argc, char **argv)
 > {
