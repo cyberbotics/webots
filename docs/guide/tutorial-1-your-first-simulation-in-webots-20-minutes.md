@@ -39,7 +39,7 @@ Click all the tick boxes, including the "Add a rectangle arena" which is not tic
 
 Webots displays a list of directories and files it just created.
 This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
-Click on the `Finish` button to close this window.
+Click on the `Done` button to close this window.
 
 Congratulations, you just created your very first Webots world!
 The 3D view should display a square arena with a checkered floor.
