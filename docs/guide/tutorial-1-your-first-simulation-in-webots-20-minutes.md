@@ -29,7 +29,7 @@ A world is stored in a file having the `.wbt` extension.
 The file format is derived from the **VRML97** language, and is human readable.
 The world files must be stored directly in a directory called `worlds`.
 
-> **Hands on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
+> **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item.
 Follow the instructions.
@@ -59,7 +59,7 @@ It should currently list the following nodes:
 Each node has some customizable properties called **Fields**.
 Let's modify these fields to change the rectangle arena:
 
-> **Hands on #3**: Double-click on the `RectangleArena` node in the scene tree.
+> **Hands-on #3**: Double-click on the `RectangleArena` node in the scene tree.
 This should open the node and display its fields.
 Select the `floorTileSize` field and set its value to `0.25 0.25` instead of `0.5 0.5`.
 You should see the effect immediately in the 3D view.
