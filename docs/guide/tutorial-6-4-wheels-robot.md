@@ -160,32 +160,139 @@ In the previous tutorials, you have learnt how to setup a feedback loop and how 
 However, actuating a [RotationalMotor](../reference/rotationalmotor.md) node is something new.
 To program the rotational motors, the first step is to include the API module corresponding to the [RotationalMotor](../reference/rotationalmotor.md) node:
 
+%tab-component
+%tab "C"
 ```c
 #include <webots/motor.h>
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Motor.hpp>
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Motor
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Motor;
+```
+%tab-end
+
+%tab "MATLAB"
+In MATLAB controller you don't need to include the API, Webots will do this for you.
+%tab-end
+%end
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
+%tab-component
+%tab "C"
 ```c
-  // initialize motors
-  WbDeviceTag wheels[4];
-  char wheels_names[4][8] = {
-    "wheel1", "wheel2", "wheel3", "wheel4"
-  };
-  int i;
-  for (i=0; i<4 ; i++)
-    wheels[i] = wb_robot_get_device(wheels_names[i]);
+// initialize motors
+WbDeviceTag wheels[4];
+char wheels_names[4][8] = {
+  "wheel1", "wheel2", "wheel3", "wheel4"
+};
+int i;
+for (i = 0; i < 4 ; i++)
+  wheels[i] = wb_robot_get_device(wheels_names[i]);
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+// initialize motors
+Motor *wheels[4];
+char wheelsNames[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
+for (int i = 0; i < 4 ; i++)
+  wheels[i] = robot->getMotor(wheelsNames[i]);
+```
+%tab-end
+
+%tab "Python"
+```python
+# initialize motors
+Motor wheels = []
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+for name in wheelsNames:
+    wheels.append(robot.getMotor(name))
+```
+%tab-end
+
+%tab "Java"
+```java
+// initialize motors
+Motor[4] wheels;
+String[] wheelsNames = {"wheel1", "wheel2", "wheel3", "wheel4"};
+for (int i = 0; i < wheelsNames.length; i++)
+  wheels[i] = robot.getMotor(wheelsNames[i]);
+```
+%tab-end
+
+%tab "MATLAB"
+```matlab
+// initialize motors
+wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
+wheels = []
+for i = 1:4
+  wheels[i] = wb_robot_get_device(wheels_names[i]);
+end
+```
+%tab-end
+%end
 
 A [Motor](../reference/motor.md) can be actuated by setting its position, its velocity, its acceleration or its force.
 Here we are interested in setting its velocity.
 This can be achieved by setting its position at infinity, and by bounding its velocity:
 
+%tab-component
+%tab "C"
 ```c
-  double speed = -1.5; // [rad/s]
-  wb_motor_set_position(wheels[0], INFINITY);
-  wb_motor_set_velocity(wheels[0], speed);
+double speed = -1.5; // [rad/s]
+wb_motor_set_position(wheels[0], INFINITY);
+wb_motor_set_velocity(wheels[0], speed);
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+double speed = -1.5; // [rad/s]
+wheels[0]->setPosition(INFINITY);
+wheels[0]->setVelocity(speed);
+```
+%tab-end
+
+%tab "Python"
+```python
+speed = -1.5  # [rad/s]
+wheels[0].setPosition(float('inf'))
+wheels[0].setVelocity(speed)
+```
+%tab-end
+
+%tab "Java"
+```java
+double speed = -1.5; // [rad/s]
+wheels[0].setPosition(Double.POSITIVE_INFINIT);
+wheels[0].setVelocity(speed);
+```
+%tab-end
+
+%tab "MATLAB"
+```matlab
+speed = -1.5; // [rad/s]
+wb_motor_set_position(wheels[0], inf);
+wb_motor_set_velocity(wheels[0], speed);
+```
+%tab-end
+%end
 
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 

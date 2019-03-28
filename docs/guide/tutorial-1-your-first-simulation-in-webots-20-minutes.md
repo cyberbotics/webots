@@ -239,7 +239,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
->from controller import Robot
+>from controller import Robot, Motor
 >
 >TIME_STEP = 64
 >
@@ -403,7 +403,7 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab "Python"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 >```python
->from controller import Robot
+>from controller import Robot, Motor
 >
 >TIME_STEP = 64
 >
