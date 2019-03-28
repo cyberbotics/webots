@@ -1,4 +1,3 @@
-#include <QtCore/QDebug>
 // Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,7 +144,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex) ? normalIndex : coordIndex,
               (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
-  if (mNormalsValid && mNormalPerVertex && mNTriangles > normal->size()) {
+  if (mNormalsValid && !mNormalPerVertex && mNTriangles > normal->size()) {
     mWarnings.append(QObject::tr("Invalid normal definition: size of 'normal' should equal the number of triangles when "
                                  "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
     mNormalsValid = false;
