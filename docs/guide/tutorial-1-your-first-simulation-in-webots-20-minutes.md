@@ -210,7 +210,7 @@ The controller directory name should match with the binary name.
 The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and to set the desired speed:
 
-> **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
+> **Hands on #10**: Modify the controller program as shown below, save it, recompile it and run it:
 > ```c
 > #include <webots/robot.h>
 >
