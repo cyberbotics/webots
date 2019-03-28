@@ -100,7 +100,7 @@ Make sure that the simulation is paused and that the virtual time elapsed is 0.
 If this is not the case, reset the simulation with the `Reset` button ([rewind](the-user-interface.md)).
 
 When a Webots world is modified with the intention of being saved, it is fundamental that the simulation is first paused and reloaded to its initial state, i.e. the virtual time counter on the main toolbar should show 0:00:00:000.
-Otherwise at each save, the position of each 3D objects can accumulate errors.
+Otherwise at each save, the position of each 3D object can accumulate errors.
 Therefore, any modification of the world should be performed in that order: **pause, reset, modify and save the simulation**.
 
 We don't need to create the e-puck robot from scratch, we will just have to import a `E-puck` node.
