@@ -176,7 +176,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >// Added a new include file
 >#include <webots/motor.h>
 >
->#define TIME_STEP 640
+>#define TIME_STEP 64
 >
 >int main(int argc, char **argv)
 >{
@@ -203,16 +203,24 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 %tab "Python"
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
->Modify the program by inserting an include statement (`#include <webots/motor.h>`), getting the motor devices (`WbDeviceTag motor = wb_robot_get_device("motor_name");`), and by applying a motor command (`wb_motor_set_position(motor, 10);`):
+>Modify the program by inserting an import statement (`from controller import Robot`), getting the motor devices (`leftMotor = robot.getMotor('left wheel motor')`), and by applying a motor command (`leftMotor.setPosition(10.0)`):
 >```python
->from controller import Accelerometer
+>from controller import Robot
 >
->class Accelerometer (Device):
->    def enable(self, samplingPeriod):
->    def disable(self):
->    def getSamplingPeriod(self):
->    def getValues(self):
->    # ...
+>TIME_STEP = 64
+>
+># create the Robot instance.
+>robot = Robot()
+>
+># get the motor devices
+>leftMotor = robot.getMotor('left wheel motor')
+>rightMotor = robot.getMotor('right wheel motor')
+># set the target position of the motors
+>leftMotor.setPosition(10.0)
+>rightMotor.setPosition(10.0)
+>
+>while robot.step(TIME_STEP) != -1:
+>    pass
 >```
 >Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
 >Fix any compilation errors if necessary.
