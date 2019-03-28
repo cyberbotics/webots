@@ -38,7 +38,8 @@ public:
 
   // to be initialized from a WbIndexedFaceSet
   QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
-               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise);
+               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
+               bool normalPerVertex);
   void cleanup();
 
   bool isValid() const { return mValid; }
@@ -86,6 +87,7 @@ private:
   bool mValid;
   bool mTextureCoordinatesValid;
   bool mNormalsValid;
+  bool mNormalPerVertex;
   int mNTriangles;
 
   // populate mTmpCoordIndices and mTmpTexIndices
@@ -98,7 +100,7 @@ private:
   // contains doublet of texture indices (match with the mTmpCoordIndices order) or nothing
   QVarLengthArray<int, 1> mTmpTexIndices;
   // populate mTmpTriangleNormals and mTmpVertexNormals
-  QString tmpNormalsPass(const WbMFVector3 *coord);
+  QString tmpNormalsPass(const WbMFVector3 *coord, const WbMFVector3 *normal);
   // contains normal vectors for each triangle (match with the mTmpCoordIndices order)
   QVarLengthArray<WbVector3, 1> mTmpTriangleNormals;
   // contains a map coordIndex->triangleIndex

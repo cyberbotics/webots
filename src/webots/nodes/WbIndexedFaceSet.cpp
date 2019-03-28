@@ -55,6 +55,7 @@ void WbIndexedFaceSet::init() {
   mNormal = findSFNode("normal");
   mTexCoord = findSFNode("texCoord");
   mCcw = findSFBool("ccw");
+  mNormalPerVertex = findSFBool("normalPerVertex");
   mCoordIndex = findMFInt("coordIndex");
   mNormalIndex = findMFInt("normalIndex");
   mTexCoordIndex = findMFInt("texCoordIndex");
@@ -101,6 +102,7 @@ void WbIndexedFaceSet::postFinalize() {
   connect(mNormal, &WbSFNode::changed, this, &WbIndexedFaceSet::updateNormal);
   connect(mTexCoord, &WbSFNode::changed, this, &WbIndexedFaceSet::updateTexCoord);
   connect(mCcw, &WbSFBool::changed, this, &WbIndexedFaceSet::updateCcw);
+  connect(mNormalPerVertex, &WbSFBool::changed, this, &WbIndexedFaceSet::updateNormalPerVertex);
   connect(mCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateCoordIndex);
   connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateNormalIndex);
   connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateTexCoordIndex);
@@ -139,9 +141,10 @@ WbTriangleMeshCache::TriangleMeshInfo WbIndexedFaceSet::createTriangleMesh() {
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
-  mTriangleMeshError = mTriangleMesh->init(
-    coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL, mNormalIndex,
-    texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mCcw->value());
+  mTriangleMeshError =
+    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL,
+                        mNormalIndex, texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(),
+                        mCcw->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
@@ -293,6 +296,12 @@ void WbIndexedFaceSet::updateTexCoord() {
 }
 
 void WbIndexedFaceSet::updateCcw() {
+  buildWrenMesh(true);
+
+  emit changed();
+}
+
+void WbIndexedFaceSet::updateNormalPerVertex() {
   buildWrenMesh(true);
 
   emit changed();

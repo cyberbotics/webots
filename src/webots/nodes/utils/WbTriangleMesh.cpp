@@ -1,3 +1,4 @@
+#include <QtCore/QDebug>
 // Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +37,7 @@ WbTriangleMesh::~WbTriangleMesh() {
 void WbTriangleMesh::cleanup() {
   mValid = false;
   mNormalsValid = false;
+  mNormalPerVertex = true;
   mTextureCoordinatesValid = false;
   mNTriangles = 0;
 
@@ -78,8 +80,10 @@ void WbTriangleMesh::cleanupTmpArrays() {
 
 QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal,
                              const WbMFInt *normalIndex, const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex,
-                             double creaseAngle, bool counterClockwise) {
+                             double creaseAngle, bool counterClockwise, bool normalPerVertex) {
   cleanup();
+
+  mNormalPerVertex = normalPerVertex;
 
   // initial obvious check
   if (!coord || coord->size() == 0)
@@ -108,15 +112,18 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   const bool isNormalIndexDefined = normalIndex && normalIndex->size() > 0;
 
   mNormalsValid = isNormalDefined;
-  if (isNormalDefined && isNormalIndexDefined && normalIndex->size() != coordIndex->size()) {
-    mWarnings.append(QObject::tr("Invalid normal definition: size of 'coordIndex' and 'normalIndex' mismatch. The normals will "
-                                 "be computed using the creaseAngle."));
-    mNormalsValid = false;
-  }
-  if (mNormalsValid && normal->size() != coord->size()) {
-    mWarnings.append(QObject::tr("Invalid normal definition: size of 'coord' and 'normal' mismatch. The normals will "
-                                 "be computed using the creaseAngle."));
-    mNormalsValid = false;
+  if (mNormalPerVertex) {
+    if (isNormalDefined && isNormalIndexDefined && normalIndex->size() != coordIndex->size()) {
+      mWarnings.append(
+        QObject::tr("Invalid normal definition: size of 'coordIndex' and 'normalIndex' mismatch. The normals will "
+                    "be computed using the creaseAngle."));
+      mNormalsValid = false;
+    }
+    if (mNormalsValid && normal->size() != coord->size()) {
+      mWarnings.append(QObject::tr("Invalid normal definition: size of 'coord' and 'normal' mismatch. The normals will "
+                                   "be computed using the creaseAngle."));
+      mNormalsValid = false;
+    }
   }
 
   // memory allocation of the tmp arrays (overestimated)
@@ -135,12 +142,17 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mNormals.reserve(3 * estimateSize);
 
   // passes to create the final arrays
-  indicesPass(coord, coordIndex, (isNormalDefined && isNormalIndexDefined) ? normalIndex : coordIndex,
+  indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex) ? normalIndex : coordIndex,
               (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
+  if (mNormalsValid && mNormalPerVertex && mNTriangles > normal->size()) {
+    mWarnings.append(QObject::tr("Invalid normal definition: size of 'normal' should equal the number of triangles when "
+                                 "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
+    mNormalsValid = false;
+  }
   if (!counterClockwise)
     reverseIndexOrder();
-  const QString error = tmpNormalsPass(coord);
+  const QString error = tmpNormalsPass(coord, normal);
   if (!error.isEmpty())
     return error;
   finalPass(coord, normal, texCoord, creaseAngle);
@@ -418,41 +430,44 @@ QList<QVector<int>> WbTriangleMesh::cutTriangleIfNeeded(const WbMFVector3 *coord
 }
 
 // populate mTmpTriangleNormals from coord and mCoordIndices
-QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord) {
+QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVector3 *normal) {
   assert(mNTriangles == mCoordIndices.size() / 3);
   assert(mCoordIndices.size() % 3 == 0);
 
-  if (mNormalsValid) {  // in case normal are already per vertex
-    return "";
-  }
+  if (mNormalsValid && mNormalPerVertex)
+    return "";  // normal are already defined per vertex
 
   // 1. compute normals per triangle
   for (int i = 0; i < mNTriangles; ++i) {
-    const int j = 3 * i;
-    const int indexA = mCoordIndices[j];
-    const int indexB = mCoordIndices[j + 1];
-    const int indexC = mCoordIndices[j + 2];
+    if (mNormalsValid)
+      mTmpTriangleNormals.append(normal->item(i).normalized());
+    else {
+      const int j = 3 * i;
+      const int indexA = mCoordIndices[j];
+      const int indexB = mCoordIndices[j + 1];
+      const int indexC = mCoordIndices[j + 2];
 
-    assert(indexA >= 0 && indexA < coord->size());
-    assert(indexB >= 0 && indexB < coord->size());
-    assert(indexC >= 0 && indexC < coord->size());
+      assert(indexA >= 0 && indexA < coord->size());
+      assert(indexB >= 0 && indexB < coord->size());
+      assert(indexC >= 0 && indexC < coord->size());
 
-    const WbVector3 &posA = coord->item(indexA);
-    const WbVector3 &posB = coord->item(indexB);
-    const WbVector3 &posC = coord->item(indexC);
+      const WbVector3 &posA = coord->item(indexA);
+      const WbVector3 &posB = coord->item(indexB);
+      const WbVector3 &posC = coord->item(indexC);
 
-    const WbVector3 &v1 = posB - posA;
-    const WbVector3 &v2 = posC - posA;
-    WbVector3 normal(v1.cross(v2));
-    const double length = normal.length();
-    if (length == 0.0)
-      return QObject::tr("Null normal for face %1 %2 %3.\n This can be caused by duplicate vertices in your mesh. "
-                         "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.")
-        .arg(indexA)
-        .arg(indexB)
-        .arg(indexC);
-    normal /= length;
-    mTmpTriangleNormals.append(normal);
+      const WbVector3 &v1 = posB - posA;
+      const WbVector3 &v2 = posC - posA;
+      WbVector3 normal(v1.cross(v2));
+      const double length = normal.length();
+      if (length == 0.0)
+        return QObject::tr("Null normal for face %1 %2 %3.\n This can be caused by duplicate vertices in your mesh. "
+                           "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.")
+          .arg(indexA)
+          .arg(indexB)
+          .arg(indexC);
+      normal /= length;
+      mTmpTriangleNormals.append(normal);
+    }
   }
 
   assert(mTmpTriangleNormals.size() == mNTriangles);
@@ -530,7 +545,7 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
 void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord,
                                double creaseAngle) {
   assert(coord && coord->size() > 0);
-  assert(mTmpTriangleNormals.size() == mNTriangles || mNormalsValid);
+  assert(mTmpTriangleNormals.size() == mNTriangles || (mNormalsValid && mNormalPerVertex));
   assert(mNTriangles == mCoordIndices.size() / 3);
   assert(mCoordIndices.size() % 3 == 0);
   assert(mCoordIndices.size() == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
@@ -579,7 +594,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       const int indexCoord = mCoordIndices[index];
 
       // compute the normal
-      if (!mNormalsValid) {
+      if (!mNormalsValid || !mNormalPerVertex) {
         WbVector3 normal;
         const WbVector3 &faceNormal = mTmpTriangleNormals[t];
         const QList<int> &linkedTriangles = mTmpVertexToTriangle.values(indexCoord);

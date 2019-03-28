@@ -65,6 +65,7 @@ public:
   const WbMFInt *texCoordIndex() const { return static_cast<const WbMFInt *>(mTexCoordIndex); }
   const WbSFDouble *creaseAngle() const { return static_cast<const WbSFDouble *>(mCreaseAngle); }
   const WbSFBool *ccw() const { return static_cast<const WbSFBool *>(mCcw); }
+  const WbSFBool *normalPerVertex() const { return static_cast<const WbSFBool *>(mNormalPerVertex); }
 
   // Rescaling and translating
   void rescale(const WbVector3 &v) override;
@@ -119,6 +120,7 @@ private:
   WbSFNode *mNormal;
   WbSFNode *mTexCoord;
   WbSFBool *mCcw;
+  WbSFBool *mNormalPerVertex;
   WbMFInt *mCoordIndex;
   WbMFInt *mNormalIndex;
   WbMFInt *mTexCoordIndex;
@@ -159,6 +161,7 @@ private slots:
   void updateNormal();
   void updateTexCoord();
   void updateCcw();
+  void updateNormalPerVertex();
   void updateCoordIndex();
   void updateNormalIndex();
   void updateTexCoordIndex();
