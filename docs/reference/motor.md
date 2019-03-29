@@ -159,7 +159,7 @@ wb_motor_set_velocity(motor, 6.28);  // 1 rotation per second
 ```
 
 `INFINITY` is a C macro corresponding to the IEEE 754 floating point standard.
-It is implemented in the C99 specifications as well as in C++.
+It is implemented in the C99 specifications as well as in C++ (you may have to include `<math.h>`).
 In Java, this value is defined as `Double.POSITIVE_INFINITY`.
 In Python, you should use `float('inf')`.
 Finally, in MATLAB you should use the `inf` constant.

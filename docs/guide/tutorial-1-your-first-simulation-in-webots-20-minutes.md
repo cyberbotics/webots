@@ -377,6 +377,8 @@ In order to control the motors of the wheels in speed you need to set the target
 >// Added a new include file
 >#include <webots/Motor.hpp>
 >
+>#include <math.h>
+>
 >#define TIME_STEP 64
 >
 >#define MAX_SPEED 6.28
