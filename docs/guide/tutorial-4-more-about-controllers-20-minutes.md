@@ -422,7 +422,7 @@ In the main loop, just after the comment `# read sensors outputs`, read the dist
 > for i in range(8):
 >     psValues.append(ps[i].getValue())
 > ```
-In the main loop, just after the comment `% process behavior`, detect if a collision occurs (i.e., the value returned by a distance sensor is bigger than a threshold) as follows:
+In the main loop, just after the comment `# process behavior`, detect if a collision occurs (i.e., the value returned by a distance sensor is bigger than a threshold) as follows:
 > ```python
 > # detect obstacles
 > right_obstacle = psValues[0] > 70.0 or psValues[1] > 70.0 or psValues[2] > 70.0
