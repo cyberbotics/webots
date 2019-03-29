@@ -85,10 +85,6 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > #include <webots/DistanceSensor.hpp>
 > #include <webots/Motor.hpp>
 > ```
-Add the `math.h` include too which defines the `INFINITY` value that you will need later:
-> ```cpp
-> #include <math.h>
-> ```
 Just after the include statements add a macro that defines the duration of each physics step.
 This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
@@ -692,8 +688,6 @@ int main(int argc, char **argv) {
 #include <webots/Robot.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
-
-#include <math.h>
 
 // time in [ms] of a simulation step
 #define TIME_STEP 64
