@@ -25,7 +25,7 @@ def reorder_traj_joints(traj, joint_names):
 
 
 def within_tolerance(a_vec, b_vec, tol_vec):
-    """TODO."""
+    """Check if two vectors are equals with a given tolerance."""
     for a, b, tol in zip(a_vec, b_vec, tol_vec):
         if abs(a - b) > tol:
             return False
@@ -33,7 +33,7 @@ def within_tolerance(a_vec, b_vec, tol_vec):
 
 
 def interp_cubic(p0, p1, t_abs):
-    """TODO."""
+    """Perform a cubic interpolation between two trajectory points."""
     T = (p1.time_from_start - p0.time_from_start).to_sec()
     t = t_abs - p0.time_from_start.to_sec()
     q = [0] * 6
@@ -68,7 +68,7 @@ def sample_traj(traj, t):
 
 
 class TrajectoryFollower(object):
-    """TODO."""
+    """Create and handle the action 'follow_joint_trajectory' server."""
 
     jointNames = [
         'shoulder_pan_joint',
@@ -98,7 +98,7 @@ class TrajectoryFollower(object):
                                              self.on_goal, self.on_cancel, auto_start=False)
 
     def init_traj(self):
-        """TODO."""
+        """Initialize a new target trajectory."""
         state = self.jointStatePublisher.last_joint_states
         self.traj_t0 = time.time()  #TODO: Webots time
         self.traj = JointTrajectory()
@@ -110,13 +110,13 @@ class TrajectoryFollower(object):
             time_from_start=rospy.Duration(0.0))]
 
     def start(self):
-        """TODO."""
+        """Initialize and start the action server."""
         self.init_traj()
         self.server.start()
         print("The action server for this driver has been started")
 
     def on_goal(self, goal_handle):
-        """TODO."""
+        """Handle a new goal trajectory command."""
         print("on_goal")
 
         # Checks if the joints are just incorrect
@@ -154,6 +154,7 @@ class TrajectoryFollower(object):
         goal_handle.set_accepted()
 
     def on_cancel(self, goal_handle):
+        """Handle a trajectory cancel command."""
         print("on_cancel")
 
         if goal_handle == self.goal_handle:
@@ -173,7 +174,7 @@ class TrajectoryFollower(object):
                 setpoint = sample_traj(self.traj, now - self.traj_t0)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
-                    #self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
+                    self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             elif not self.last_point_sent:
                 # All intermediate points sent, sending last point to make sure we reach the goal.
                 last_point = self.traj.points[-1]
@@ -188,6 +189,7 @@ class TrajectoryFollower(object):
                 setpoint = sample_traj(self.traj, self.traj.points[-1].time_from_start.to_sec())
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
+                    self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             else:  # Off the end
                 if self.goal_handle:
                     last_point = self.traj.points[-1]
