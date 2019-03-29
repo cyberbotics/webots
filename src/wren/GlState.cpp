@@ -125,13 +125,11 @@ namespace wren {
       else {
         // Try to use GL_TEXTURE_FREE_MEMORY_ATI:
         // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
-        GLint array[4];
+        int array[4];
         array[0] = -1;
-        checkError();  // display any previous error before possibly causing a GL_INVALID_ENUM error
         glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
         cGpuMemory = array[0];
-        while (glGetError() != GL_NO_ERROR) {  // skip any possible GL_INVALID_ENUM error
-        }
+        checkError(GL_INVALID_ENUM);  // check errors skipping any possible GL_INVALID_ENUM error
       }
       // setup uniform buffers
       size_t count = GlslLayout::gUniformBufferNames.size();
@@ -733,13 +731,13 @@ namespace wren {
       return cUniformBuffers[buffer].get();
     }
 
-    bool checkError() {
+    bool checkError(int ignore) {
       bool hasError = false;
-      unsigned int error;
+      int error;
 
       do {
         error = glGetError();
-        if (error != GL_NO_ERROR) {
+        if (error != GL_NO_ERROR && error != ignore) {
           hasError = true;
           std::cerr << "OpenGL error: ";
           switch (error) {
