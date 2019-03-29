@@ -212,6 +212,9 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >
 >#define TIME_STEP 64
 >
+>// All the webots classes are defined in the "webots" namespace
+>using namespace webots;
+>
 >int main(int argc, char **argv) {
 >  Robot *robot = new Robot();
 >
@@ -222,7 +225,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >  leftMotor->setPosition(10.0);
 >  rightMotor->setPosition(10.0);
 >
->  while (robot->step(timeStep) != -1);
+>  while (robot->step(TIME_STEP) != -1);
 >
 >  delete robot;
 >
@@ -266,12 +269,12 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by inserting an import statement (`import com.cyberbotics.webots.controller.Motor;`), getting the motor devices (`Motor leftMotor = robot.getMotor("left wheel motor");`), and by applying a motor command (`leftMotor.setPosition(10.0);`):
 >```java
->#import com.cyberbotics.webots.controller.Robot;
+>import com.cyberbotics.webots.controller.Robot;
 >
 >// Added a new include file
 >import com.cyberbotics.webots.controller.Motor;
 >
->public class template {
+>public class e-puck_go_forward {
 >
 >  public static void main(String[] args) {
 >
@@ -378,6 +381,9 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 >#define MAX_SPEED 6.28
 >
+>// All the webots classes are defined in the "webots" namespace
+>using namespace webots;
+>
 >int main(int argc, char **argv) {
 >  Robot *robot = new Robot();
 >
@@ -391,7 +397,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >  leftMotor->setVelocity(0.1 * MAX_SPEED);
 >  rightMotor->setVelocity(0.1 * MAX_SPEED);
 >
->  while (robot->step(timeStep) != -1);
+>  while (robot->step(TIME_STEP) != -1);
 >
 >  delete robot;
 >
@@ -430,12 +436,12 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab "Java"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 >```java
->#import com.cyberbotics.webots.controller.Robot;
+>import com.cyberbotics.webots.controller.Robot;
 >
 >// Added a new include file
 >import com.cyberbotics.webots.controller.Motor;
 >
->public class template {
+>public class e-puck_go_forward {
 >
 >  public static void main(String[] args) {
 >

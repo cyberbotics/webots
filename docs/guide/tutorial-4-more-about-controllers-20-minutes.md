@@ -88,8 +88,13 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 Just after the include statements add a macro that defines the duration of each physics step.
 This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```c
+> ```cpp
 > #define TIME_STEP 64
+> ```
+Finally, use the `webots` namespace which is required to use the webots classes.
+> ```cpp
+>// All the webots classes are defined in the "webots" namespace
+>using namespace webots;
 > ```
 %tab-end
 
@@ -113,12 +118,12 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > import com.cyberbotics.webots.controller.DistanceSensor;
 > import com.cyberbotics.webots.controller.Motor;
 > ```
-Just after the import statements create the `template class` and the `main` funcion.
+Just after the import statements create the `e-puck_avoid_collision class` (the name of the class should match exactly the name of the file) and the `main` funcion.
 In the `main function`, define a variable that defines the duration of each physics step.
 This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
 > ```c
-> public class template {
+> public class e-puck_avoid_collision {
 >
 >   public static void main(String[] args) {
 >
@@ -211,7 +216,7 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 >   Robot robot = new Robot();
 >   // initialize devices
 >   // feedback loop: step simulation until receiving an exit event
->   while (robot.step(timeStep) != -1) {
+>   while (robot.step(TIME_STEP) != -1) {
 >     // read sensors outputs
 >     // process behavior
 >     // write actuators inputs
@@ -403,8 +408,8 @@ Reload the world.
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
-> leftMotor = robt.getMotor('left wheel motor')
-> rightMotor = robt.getMotor'right wheel motor')
+> leftMotor = robot.getMotor('left wheel motor')
+> rightMotor = robot.getMotor('right wheel motor')
 > leftMotor.setPosition(float('inf'))
 > rightMotor.setPosition(float('inf'))
 > leftMotor.setVelocity(0.0)
@@ -414,20 +419,14 @@ In the main loop, just after the comment `# read sensors outputs`, read the dist
 > ```python
 > # read sensors outputs
 > psValues = []
-> for i in range(6):
+> for i in range(8):
 >     psValues.append(ps[i].getValue())
 > ```
 In the main loop, just after the comment `% process behavior`, detect if a collision occurs (i.e., the value returned by a distance sensor is bigger than a threshold) as follows:
 > ```python
 > # detect obstacles
-> right_obstacle =
->     ps_values[0] > 70.0 or
->     ps_values[1] > 70.0 or
->     ps_values[2] > 70.0;
-> left_obstacle =
->     ps_values[5] > 70.0 or
->     ps_values[6] > 70.0 or
->     ps_values[7] > 70.0;
+> right_obstacle = psValues[0] > 70.0 or psValues[1] > 70.0 or psValues[2] > 70.0
+> left_obstacle = psValues[5] > 70.0 or psValues[6] > 70.0 or psValues[7] > 70.0
 > ```
 Finally, use the information about the obstacle to actuate the wheels as follows:
 > ```python
@@ -457,7 +456,7 @@ Reload the world.
 > **Hands on #4**: Just after the comment `// initialize devices`, get and enable the distance sensors as follows:
 > ```java
 > // initialize devices
-> DistanceSensors ps[8];
+> DistanceSensor[] ps = new DistanceSensor[8];
 > String[] psNames = {
 >   "ps0", "ps1", "ps2", "ps3",
 >   "ps4", "ps5", "ps6", "ps7"
@@ -480,21 +479,21 @@ After initialization of the devices, initialize the motors:
 In the main loop, just after the comment `// read sensors outputs`, read the distance sensor values as follows:
 > ```java
 > // read sensors outputs
-> double psValues[8];
+> double[] psValues = {0, 0, 0, 0, 0, 0, 0, 0};
 > for (int i = 0; i < 8 ; i++)
->   psValues[i] = ps[i].getValue(ps[i]);
+>   psValues[i] = ps[i].getValue();
 > ```
 In the main loop, just after the comment `// process behavior`, detect if a collision occurs (i.e., the value returned by a distance sensor is bigger than a threshold) as follows:
 > ```java
 > // detect obstacles
 >  boolean right_obstacle =
->   ps_values[0] > 70.0 ||
->   ps_values[1] > 70.0 ||
->   ps_values[2] > 70.0;
+>   psValues[0] > 70.0 ||
+>   psValues[1] > 70.0 ||
+>   psValues[2] > 70.0;
 >  boolean left_obstacle =
->   ps_values[5] > 70.0 ||
->   ps_values[6] > 70.0 ||
->   ps_values[7] > 70.0;
+>   psValues[5] > 70.0 ||
+>   psValues[6] > 70.0 ||
+>   psValues[7] > 70.0;
 > ```
 Finally, use the information about the obstacle to actuate the wheels as follows:
 > ```java
@@ -695,6 +694,9 @@ int main(int argc, char **argv) {
 
 #define MAX_SPEED 6.28
 
+// All the webots classes are defined in the "webots" namespace
+using namespace webots;
+
 // entry point of the controller
 int main(int argc, char **argv) {
   // create the Robot instance.
@@ -784,8 +786,8 @@ for i in range(8):
     ps.append(robot.getDistanceSensor(psNames[i]))
     ps[i].enable(TIME_STEP)
 
-leftMotor = robt.getMotor('left wheel motor')
-rightMotor = robt.getMotor'right wheel motor')
+leftMotor = robot.getMotor('left wheel motor')
+rightMotor = robot.getMotor('right wheel motor')
 leftMotor.setPosition(float('inf'))
 rightMotor.setPosition(float('inf'))
 leftMotor.setVelocity(0.0)
@@ -795,18 +797,12 @@ rightMotor.setVelocity(0.0)
 while robot.step(TIME_STEP) != -1:
     # read sensors outputs
     psValues = []
-    for i in range(6):
-    psValues.append(ps[i].getValue())
+    for i in range(8):
+        psValues.append(ps[i].getValue())
 
     # detect obstacles
-    right_obstacle =
-        ps_values[0] > 70.0 or
-        ps_values[1] > 70.0 or
-        ps_values[2] > 70.0;
-    left_obstacle =
-        ps_values[5] > 70.0 or
-        ps_values[6] > 70.0 or
-        ps_values[7] > 70.0;
+    right_obstacle = psValues[0] > 70.0 or psValues[1] > 70.0 or psValues[2] > 70.0
+    left_obstacle = psValues[5] > 70.0 or psValues[6] > 70.0 or psValues[7] > 70.0
 
     # initialize motor speeds at 50% of MAX_SPEED.
     leftSpeed  = 0.5 * MAX_SPEED
@@ -832,19 +828,19 @@ import com.cyberbotics.webots.controller.Robot;
 import com.cyberbotics.webots.controller.DistanceSensor;
 import com.cyberbotics.webots.controller.Motor;
 
-public class template {
+public class e-puck_avoid_collision {
 
   public static void main(String[] args) {
     // time in [ms] of a simulation step
     int TIME_STEP = 64;
 
-    double MAX_SPEED = 6.28
+    double MAX_SPEED = 6.28;
 
     // create the Robot instance.
     Robot robot = new Robot();
 
     // initialize devices
-    DistanceSensors ps[8];
+    DistanceSensor[] ps = new DistanceSensor[8];
     String[] psNames = {
       "ps0", "ps1", "ps2", "ps3",
       "ps4", "ps5", "ps6", "ps7"
@@ -863,21 +859,21 @@ public class template {
     rightMotor.setVelocity(0.0);
 
     // feedback loop: step simulation until receiving an exit event
-    while (robot.step(timeStep) != -1) {
+    while (robot.step(TIME_STEP) != -1) {
       // read sensors outputs
-      double psValues[8];
+      double[] psValues = {0, 0, 0, 0, 0, 0, 0, 0};
       for (int i = 0; i < 8 ; i++)
-        psValues[i] = ps[i].getValue(ps[i]);
+        psValues[i] = ps[i].getValue();
 
       // detect obstacles
       boolean right_obstacle =
-        ps_values[0] > 70.0 ||
-        ps_values[1] > 70.0 ||
-        ps_values[2] > 70.0;
+        psValues[0] > 70.0 ||
+        psValues[1] > 70.0 ||
+        psValues[2] > 70.0;
       boolean left_obstacle =
-        ps_values[5] > 70.0 ||
-        ps_values[6] > 70.0 ||
-        ps_values[7] > 70.0;
+        psValues[5] > 70.0 ||
+        psValues[6] > 70.0 ||
+        psValues[7] > 70.0;
 
       // initialize motor speeds at 50% of MAX_SPEED.
       double leftSpeed  = 0.5 * MAX_SPEED;
