@@ -731,14 +731,11 @@ namespace wren {
       return cUniformBuffers[buffer].get();
     }
 
-    bool checkError(int ignore) {
-      bool hasError = false;
+    void checkError(int ignore) {
       int error;
-
       do {
         error = glGetError();
         if (error != GL_NO_ERROR && error != ignore) {
-          hasError = true;
           std::cerr << "OpenGL error: ";
           switch (error) {
             case GL_INVALID_ENUM:
@@ -762,8 +759,6 @@ namespace wren {
           std::cerr << std::endl;
         }
       } while (error != GL_NO_ERROR);
-
-      return hasError;
     }
 
   }  // namespace glstate
