@@ -259,9 +259,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >while robot.step(TIME_STEP) != -1:
 >    pass
 >```
->Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
->Fix any compilation errors if necessary.
->When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+>Save the modified source code (`File / Save Text File`), reset and run the simulation.
 %tab-end
 
 %tab "Java"
@@ -315,9 +313,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >while wb_robot_step(TIME_STEP) ~= -1
 >end
 >```
->Save the modified source code (`File / Save Text File`), and compile it (`Build / Build`).
->Fix any compilation errors if necessary.
->When Webots proposes to reset or reload the world, choose `Reset` and run the simulation.
+>Save the modified source code (`File / Save Text File`), reset and run the simulation.
 %tab-end
 %end
 

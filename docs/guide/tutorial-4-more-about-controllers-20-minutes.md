@@ -183,7 +183,7 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 >   Robot *robot = new Robot();
 >   // initialize devices
 >   // feedback loop: step simulation until receiving an exit event
->   while (wb_robot_step(TIME_STEP) != -1) {
+>   while (robot->step(TIME_STEP) != -1) {
 >     // read sensors outputs
 >     // process behavior
 >     // write actuators inputs
