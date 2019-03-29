@@ -77,6 +77,7 @@ class TrajectoryFollower(object):
         self.goal_handle = None
         self.last_point_sent = True
         self.traj = None
+        self.joint_goal_tolerances = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
         self.server = actionlib.ActionServer("follow_joint_trajectory",
                                              FollowJointTrajectoryAction,
                                              self.on_goal, self.on_cancel, auto_start=False)
@@ -88,7 +89,7 @@ class TrajectoryFollower(object):
         self.traj = JointTrajectory()
         self.traj.joint_names = TrajectoryFollower.jointNames
         self.traj.points = [JointTrajectoryPoint(
-            positions=state.position,
+            positions=state.position if state else [0] * 6,
             velocities=[0] * 6,
             accelerations=[0] * 6,
             time_from_start=rospy.Duration(0.0))]
@@ -152,12 +153,12 @@ class TrajectoryFollower(object):
             if (now - self.traj_t0) <= self.traj.points[-1].time_from_start.to_sec():
                 self.last_point_sent = False  # Sending intermediate points
                 setpoint = sample_traj(self.traj, now - self.traj_t0)
-                #TODO: send command to motors
-                print(setpoint.positions)
+                for i in range(len(setpoint.positions)):
+                    self.motors[i].setPosition(setpoint.positions[i])
             elif not self.last_point_sent:
                 # All intermediate points sent, sending last point to make sure we reach the goal.
                 last_point = self.traj.points[-1]
-                state = self.robot.get_joint_states()
+                state = self.jointStatePublisher.last_joint_states
                 position_in_tol = within_tolerance(state.position, last_point.positions, self.joint_goal_tolerances)
                 # Performing this check to try and catch our error condition.  We will always
                 # send the last point just in case.
@@ -166,12 +167,13 @@ class TrajectoryFollower(object):
                     rospy.logwarn("Current trajectory time: %s, last point time: %s" % (now - self.traj_t0, self.traj.points[-1].time_from_start.to_sec()))
                     rospy.logwarn("Desired: %s\nactual: %s\nvelocity: %s" % (last_point.positions, state.position, state.velocity))
                 setpoint = sample_traj(self.traj, self.traj.points[-1].time_from_start.to_sec())
-                #TODO: send command to motors
                 print(setpoint.positions)
+                for i in range(len(setpoint.positions)):
+                    self.motors[i].setPosition(setpoint.positions[i])
             else:  # Off the end
                 if self.goal_handle:
                     last_point = self.traj.points[-1]
-                    state = self.robot.get_joint_states()
+                    state = self.jointStatePublisher.last_joint_states
                     position_in_tol = within_tolerance(state.position, last_point.positions, [0.1] * 6)
                     velocity_in_tol = within_tolerance(state.velocity, last_point.velocities, [0.05] * 6)
                     if position_in_tol and velocity_in_tol:

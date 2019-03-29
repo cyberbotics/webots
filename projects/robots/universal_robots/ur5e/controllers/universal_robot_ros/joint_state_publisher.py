@@ -21,7 +21,7 @@ class JointStatePublisher(object):
         self.motors = []
         self.sensors = []
         self.timestep = int(robot.getBasicTimeStep())
-        self.last_joint_states= None
+        self.last_joint_states = None
         for name in JointStatePublisher.jointNames:
             self.motors.append(robot.getMotor(name))
             self.sensors.append(robot.getPositionSensor(name + '_sensor'))
