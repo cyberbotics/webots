@@ -161,7 +161,7 @@ Because they are independent processes, controllers don't share the same address
 This will create a new `e-puck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
-The new C source file is displayed in Webots text editor window.
+The new source file is displayed in Webots text editor window.
 This C file can be compiled without any modification, however the current code has no real effect.
 We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
 
