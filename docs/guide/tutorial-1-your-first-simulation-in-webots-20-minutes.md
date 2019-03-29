@@ -162,7 +162,7 @@ This will create a new `e-puck_go_forward` (or `EPuckGoForward`) directory in `m
 Select the option offering you to open the source file in the text editor.
 
 The new source file is displayed in Webots text editor window.
-This C file can be compiled without any modification, however the current code has no real effect.
+This source file may be compiled (if written in C, C++ or Java) without any modification, however the current code has no real effect.
 We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
 
 %tab-component
