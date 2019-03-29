@@ -287,7 +287,7 @@ wheels[0].setVelocity(speed);
 
 %tab "MATLAB"
 ```matlab
-speed = -1.5; // [rad/s]
+speed = -1.5; % [rad/s]
 wb_motor_set_position(wheels[0], inf);
 wb_motor_set_velocity(wheels[0], speed);
 ```
