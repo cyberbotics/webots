@@ -127,6 +127,7 @@ namespace wren {
         // it seems to be working even if the corresponding GLAD_GL_ATI_meminfo is not available
         GLint array[4];
         array[0] = -1;
+        checkError();  // display any previous error before possibly causing a GL_INVALID_ENUM error
         glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, array);
         cGpuMemory = array[0];
         while (glGetError() != GL_NO_ERROR) {  // skip any possible GL_INVALID_ENUM error
