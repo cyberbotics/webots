@@ -14,7 +14,7 @@ At the end of the chapter, links to further robotics algorithms are given.
 ### New World and New Controller
 
 > **Hands on #1**: Save the previous world as `collision_avoidance.wbt`.
-Create a new C controller called `e-puck_avoid_collision` using the wizard.
+Create a new C (or any other language) controller called `e-puck_avoid_collision` using the wizard.
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
 
 ### Understand the e-puck Model
@@ -390,21 +390,21 @@ Reload the world.
 %tab "Python"
 > **Hands on #4**: Just after the comment `// initialize devices`, get and enable the distance sensors as follows:
 > ```python
-> % initialize devices
-> DistanceSensor ps[8];
+> # initialize devices
+> ps = []
 > psNames = [
 >     'ps0', 'ps1', 'ps2', 'ps3',
 >     'ps4', 'ps5', 'ps6', 'ps7'
 > ]
 >
 > for i in range(8):
->     ps[i] = robot.getDistanceSensor(psNames[i])
+>     ps.append(robot.getDistanceSensor(psNames[i]))
 >     ps[i].enable(TIME_STEP)
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
-> Motor leftMotor = robt.getMotor('left wheel motor')
-> Motor rightMotor = robt.getMotor'right wheel motor')
+> leftMotor = robt.getMotor('left wheel motor')
+> rightMotor = robt.getMotor'right wheel motor')
 > leftMotor.setPosition(float('inf'))
 > rightMotor.setPosition(float('inf'))
 > leftMotor.setVelocity(0.0)
@@ -600,6 +600,9 @@ Reload the world.
 
 Here is the complete code of the controller detailed in the previous subsection.
 
+
+%tab-component
+%tab "C"
 ```c
 #include <webots/robot.h>
 #include <webots/distance_sensor.h>
@@ -611,8 +614,7 @@ Here is the complete code of the controller detailed in the previous subsection.
 #define MAX_SPEED 6.28
 
 // entry point of the controller
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   // initialize the Webots API
   wb_robot_init();
 
@@ -680,6 +682,295 @@ int main(int argc, char **argv)
   return 0; //EXIT_SUCCESS
 }
 ```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/Robot.hpp>
+#include <webots/DistanceSensor.hpp>
+#include <webots/Motor.hpp>
+
+// time in [ms] of a simulation step
+#define TIME_STEP 64
+
+#define MAX_SPEED 6.28
+
+// entry point of the controller
+int main(int argc, char **argv) {
+  // create the Robot instance.
+  Robot *robot = new Robot();
+
+  // initialize devices
+  DistanceSensor *ps[8];
+  char psNames[8][4] = {
+    "ps0", "ps1", "ps2", "ps3",
+    "ps4", "ps5", "ps6", "ps7"
+  };
+
+  for (int i = 0; i < 8; i++) {
+    ps[i] = robot->getDistanceSensor(psNames[i]);
+    ps[i]->enable(TIME_STEP);
+  }
+
+  Motor *leftMotor = wb_robot_get_device("left wheel motor");
+  Motor *rightMotor = wb_robot_get_device("right wheel motor");
+  leftMotor->setPosition(INFINITY);
+  rightMotor->setPosition(INFINITY);
+  leftMotor->setVelocity(0.0);
+  rightMotor->setVelocity(0.0);
+
+  // feedback loop: step simulation until an exit event is received
+  while (robot->step(TIME_STEP) != -1) {
+    // read sensors outputs
+    double psValues[8];
+    for (int i = 0; i < 8 ; i++)
+      psValues[i] = ps[i]->getValue();
+
+    // detect obstacles
+    bool right_obstacle =
+      psValues[0] > 70.0 ||
+      psValues[1] > 70.0 ||
+      psValues[2] > 70.0;
+    bool left_obstacle =
+      psValues[5] > 70.0 ||
+      psValues[6] > 70.0 ||
+      psValues[7] > 70.0;
+
+    // initialize motor speeds at 50% of MAX_SPEED.
+    double leftSpeed  = 0.5 * MAX_SPEED;
+    double rightSpeed = 0.5 * MAX_SPEED;
+    // modify speeds according to obstacles
+    if (left_obstacle) {
+      // turn right
+      leftSpeed  += 0.5 * MAX_SPEED;
+      rightSpeed -= 0.5 * MAX_SPEED;
+    }
+    else if (right_obstacle) {
+      // turn left
+      leftSpeed  -= 0.5 * MAX_SPEED;
+      rightSpeed += 0.5 * MAX_SPEED;
+    }
+    // write actuators inputs
+    leftMotor->setVelocity(leftSpeed);
+    rightMotor->setVelocity(rightSpeed);
+  }
+
+  delete robot;
+  return 0; //EXIT_SUCCESS
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot, DistanceSensor, Motor
+
+# time in [ms] of a simulation step
+TIME_STEP = 64
+
+MAX_SPEED = 6.28
+
+# create the Robot instance.
+robot = Robot()
+
+# initialize devices
+ps = []
+psNames = [
+    'ps0', 'ps1', 'ps2', 'ps3',
+    'ps4', 'ps5', 'ps6', 'ps7'
+]
+
+for i in range(8):
+    ps.append(robot.getDistanceSensor(psNames[i]))
+    ps[i].enable(TIME_STEP)
+
+leftMotor = robt.getMotor('left wheel motor')
+rightMotor = robt.getMotor'right wheel motor')
+leftMotor.setPosition(float('inf'))
+rightMotor.setPosition(float('inf'))
+leftMotor.setVelocity(0.0)
+rightMotor.setVelocity(0.0)
+
+# feedback loop: step simulation until receiving an exit event
+while robot.step(TIME_STEP) != -1:
+    # read sensors outputs
+    psValues = []
+    for i in range(6):
+    psValues.append(ps[i].getValue())
+
+    # detect obstacles
+    right_obstacle =
+        ps_values[0] > 70.0 or
+        ps_values[1] > 70.0 or
+        ps_values[2] > 70.0;
+    left_obstacle =
+        ps_values[5] > 70.0 or
+        ps_values[6] > 70.0 or
+        ps_values[7] > 70.0;
+
+    # initialize motor speeds at 50% of MAX_SPEED.
+    leftSpeed  = 0.5 * MAX_SPEED
+    rightSpeed = 0.5 * MAX_SPEED
+    # modify speeds according to obstacles
+    if left_obstacle:
+        # turn right
+        leftSpeed  += 0.5 * MAX_SPEED
+        rightSpeed -= 0.5 * MAX_SPEED
+    elif right_obstacle:
+        # turn left
+        leftSpeed  -= 0.5 * MAX_SPEED
+        rightSpeed += 0.5 * MAX_SPEED
+    # write actuators inputs
+    leftMotor.setVelocity(leftSpeed)
+    rightMotor.setVelocity(rightSpeed)
+```
+%tab-end
+
+%tab "Java"
+```java
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Motor;
+
+public class template {
+
+  public static void main(String[] args) {
+    // time in [ms] of a simulation step
+    int TIME_STEP = 64;
+
+    double MAX_SPEED = 6.28
+
+    // create the Robot instance.
+    Robot robot = new Robot();
+
+    // initialize devices
+    DistanceSensors ps[8];
+    String[] psNames = {
+      "ps0", "ps1", "ps2", "ps3",
+      "ps4", "ps5", "ps6", "ps7"
+    };
+
+    for (int i = 0; i < 8; i++) {
+      ps[i] = robot.getDistanceSensor(psNames[i]);
+      ps[i].enable(TIME_STEP);
+    }
+
+    Motor leftMotor = robot.getMotor("left wheel motor");
+    Motor rightMotor = robot.getMotor("right wheel motor");
+    leftMotor.setPosition(Double.POSITIVE_INFINITY);
+    rightMotor.setPosition(Double.POSITIVE_INFINITY);
+    leftMotor.setVelocity(0.0);
+    rightMotor.setVelocity(0.0);
+
+    // feedback loop: step simulation until receiving an exit event
+    while (robot.step(timeStep) != -1) {
+      // read sensors outputs
+      double psValues[8];
+      for (int i = 0; i < 8 ; i++)
+        psValues[i] = ps[i].getValue(ps[i]);
+
+      // detect obstacles
+      boolean right_obstacle =
+        ps_values[0] > 70.0 ||
+        ps_values[1] > 70.0 ||
+        ps_values[2] > 70.0;
+      boolean left_obstacle =
+        ps_values[5] > 70.0 ||
+        ps_values[6] > 70.0 ||
+        ps_values[7] > 70.0;
+
+      // initialize motor speeds at 50% of MAX_SPEED.
+      double leftSpeed  = 0.5 * MAX_SPEED;
+      double rightSpeed = 0.5 * MAX_SPEED;
+      // modify speeds according to obstacles
+      if (left_obstacle) {
+        // turn right
+        leftSpeed  += 0.5 * MAX_SPEED;
+        rightSpeed -= 0.5 * MAX_SPEED;
+      }
+      else if (right_obstacle) {
+        // turn left
+        leftSpeed  -= 0.5 * MAX_SPEED;
+        rightSpeed += 0.5 * MAX_SPEED;
+      }
+      // write actuators inputs
+      leftMotor.setVelocity(leftSpeed);
+      rightMotor.setVelocity(rightSpeed);
+    };
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```matlab
+// time in [ms] of a simulation step
+TIME_STEP = 64;
+
+MAX_SPEED = 6.28;
+
+% initialize devices
+ps = [];
+ps_names = [
+  "ps0", "ps1", "ps2", "ps3",
+  "ps4", "ps5", "ps6", "ps7"
+]
+
+for i = 1:8
+  ps[i] = wb_robot_get_device(ps_names[i]);
+  wb_distance_sensor_enable(ps[i], TIME_STEP);
+end
+
+left_motor = wb_robot_get_device("left wheel motor");
+right_motor = wb_robot_get_device("right wheel motor");
+wb_motor_set_position(left_motor, inf);
+wb_motor_set_position(right_motor, inf);
+wb_motor_set_velocity(left_motor, 0.0);
+wb_motor_set_velocity(right_motor, 0.0);
+
+% feedback loop: step simulation until receiving an exit event
+while wb_robot_step(TIME_STEP) ~= -1
+  % read sensors outputs
+  ps_values = [];
+  for i = 1:8
+  ps_values[i] = wb_distance_sensor_get_value(ps[i]);
+  end
+
+  % detect obstacles
+  right_obstacle =
+    ps_values[0] > 70.0 |
+    ps_values[1] > 70.0 |
+    ps_values[2] > 70.0;
+  left_obstacle =
+    ps_values[5] > 70.0 |
+    ps_values[6] > 70.0 |
+    ps_values[7] > 70.0;
+
+    % initialize motor speeds at 50% of MAX_SPEED.
+  left_speed  = 0.5 * MAX_SPEED;
+  right_speed = 0.5 * MAX_SPEED;
+  % modify speeds according to obstacles
+  if (left_obstacle) {
+    % turn right
+    left_speed  += 0.5 * MAX_SPEED;
+    right_speed -= 0.5 * MAX_SPEED;
+  }
+  else if (right_obstacle) {
+    % turn left
+    left_speed  -= 0.5 * MAX_SPEED;
+    right_speed += 0.5 * MAX_SPEED;
+  }
+  % write actuators inputs
+  wb_motor_set_velocity(left_motor, left_speed);
+  wb_motor_set_velocity(right_motor, right_speed);
+
+  % if your code plots some graphics, it needs to flushed like this:
+  drawnow;
+end
+```
+%tab-end
+%end
+
 
 ### Conclusion
 
