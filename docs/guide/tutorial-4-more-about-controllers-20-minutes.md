@@ -62,6 +62,8 @@ In order to do that, we will use the simple feedback loop depicted in the UML st
 
 The complete code of this controller is given in the next subsection.
 
+%tab-component
+%tab "C"
 > **Hands on #2**: At the beginning of the controller file, add the include directives corresponding to the [Robot](../reference/robot.md), the [DistanceSensor](../reference/distancesensor.md) and the [Motor](../reference/motor.md) nodes in order to be able to use the corresponding API:
 > ```c
 > #include <webots/robot.h>
@@ -74,6 +76,68 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > ```c
 > #define TIME_STEP 64
 > ```
+%tab-end
+
+%tab "C++"
+> **Hands on #2**: At the beginning of the controller file, add the include directives corresponding to the [Robot](../reference/robot.md), the [DistanceSensor](../reference/distancesensor.md) and the [Motor](../reference/motor.md) nodes in order to be able to use the corresponding API:
+> ```cpp
+> #include <webots/Robot.hpp>
+> #include <webots/DistanceSensor.hpp>
+> #include <webots/Motor.hpp>
+> ```
+Just after the include statements add a macro that defines the duration of each physics step.
+This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
+This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+> ```c
+> #define TIME_STEP 64
+> ```
+%tab-end
+
+%tab "Python"
+> **Hands on #2**: At the beginning of the controller file, add the import directives corresponding to the [Robot](../reference/robot.md), the [DistanceSensor](../reference/distancesensor.md) and the [Motor](../reference/motor.md) nodes in order to be able to use the corresponding API:
+>```python
+> from controller import Robot, DistanceSensor, Motor
+>```
+Just after the import statements define a variable that defines the duration of each physics step.
+This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
+This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+> ```python
+> TIME_STEP = 64
+> ```
+%tab-end
+
+%tab "Java"
+> **Hands on #2**: At the beginning of the controller file, add the import directives corresponding to the [Robot](../reference/robot.md), the [DistanceSensor](../reference/distancesensor.md) and the [Motor](../reference/motor.md) nodes in order to be able to use the corresponding API:
+> ```java
+> import com.cyberbotics.webots.controller.Robot;
+> import com.cyberbotics.webots.controller.DistanceSensor;
+> import com.cyberbotics.webots.controller.Motor;
+> ```
+Just after the import statements create the `template class` and the `main` funcion.
+In the `main function`, define a variable that defines the duration of each physics step.
+This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
+This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+> ```c
+> public class template {
+>
+>   public static void main(String[] args) {
+>
+>     int TIME_STEP = 64;
+>   }
+> }
+> ```
+%tab-end
+
+%tab "MATLAB"
+> **Hands on #2**: At the beginning of the controller file, define a variable that defines the duration of each physics step.
+This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
+This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+> ```matlab
+> TIME_STEP = 64;
+> ```
+%tab-end
+%end
+
 
 The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.

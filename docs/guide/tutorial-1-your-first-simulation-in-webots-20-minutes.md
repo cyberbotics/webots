@@ -303,11 +303,11 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >TIME_STEP = 64;
 >
 >% get the motor devices
->left_motor = wb_robot_get_device('left wheel motor')
->right_motor = wb_robot_get_device('right wheel motor')
+>left_motor = wb_robot_get_device('left wheel motor');
+>right_motor = wb_robot_get_device('right wheel motor');
 >% set the target position of the motors
->wb_motor_set_position(left_motor, 10.0)
->wb_motor_set_position(right_motor, 10.0)
+>wb_motor_set_position(left_motor, 10.0);
+>wb_motor_set_position(right_motor, 10.0);
 >
 >while wb_robot_step(TIME_STEP) ~= -1
 >end
@@ -466,17 +466,17 @@ In order to control the motors of the wheels in speed you need to set the target
 >```matlab
 >TIME_STEP = 64;
 >
->MAX_SPEED = 6.28
+>MAX_SPEED = 6.28;
 >
 >% get a handler to the motors and set target position to infinity (speed control)
->left_motor = wb_robot_get_device('left wheel motor')
->right_motor = wb_robot_get_device('right wheel motor')
->wb_motor_set_position(left_motor, inf)
->wb_motor_set_position(right_motor, inf)
+>left_motor = wb_robot_get_device('left wheel motor');
+>right_motor = wb_robot_get_device('right wheel motor');
+>wb_motor_set_position(left_motor, inf);
+>wb_motor_set_position(right_motor, inf);
 >
 >% set up the motor speeds at 10% of the MAX_SPEED.
->wb_motor_set_velocity(left_motor, 0.1 * MAX_SPEED)
->wb_motor_set_velocity(right_motor, 0.1 * MAX_SPEED)
+>wb_motor_set_velocity(left_motor, 0.1 * MAX_SPEED);
+>wb_motor_set_velocity(right_motor, 0.1 * MAX_SPEED);
 >
 >while wb_robot_step(TIME_STEP) ~= -1
 >end

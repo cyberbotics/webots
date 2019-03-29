@@ -240,7 +240,7 @@ for (int i = 0; i < wheelsNames.length; i++)
 ```matlab
 // initialize motors
 wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
-wheels = []
+wheels = [];
 for i = 1:4
   wheels[i] = wb_robot_get_device(wheels_names[i]);
 end
