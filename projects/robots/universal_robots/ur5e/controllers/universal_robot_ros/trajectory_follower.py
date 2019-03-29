@@ -2,11 +2,26 @@
 
 import actionlib
 import copy
+import math
 import rospy
 import time
 
 from control_msgs.msg import FollowJointTrajectoryAction
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+
+
+def reorder_traj_joints(traj, joint_names):
+    """Reorder the JointTrajectory traj according to the order in joint_names."""
+    order = [traj.joint_names.index(j) for j in joint_names]
+    new_points = []
+    for p in traj.points:
+        new_points.append(JointTrajectoryPoint(
+            positions=[p.positions[i] for i in order],
+            velocities=[p.velocities[i] for i in order] if p.velocities else [],
+            accelerations=[p.accelerations[i] for i in order] if p.accelerations else [],
+            time_from_start=p.time_from_start))
+    traj.joint_names = joint_names
+    traj.points = new_points
 
 
 def within_tolerance(a_vec, b_vec, tol_vec):
@@ -98,7 +113,7 @@ class TrajectoryFollower(object):
         """TODO."""
         self.init_traj()
         self.server.start()
-        print "The action server for this driver has been started"
+        print("The action server for this driver has been started")
 
     def on_goal(self, goal_handle):
         """TODO."""
@@ -129,6 +144,9 @@ class TrajectoryFollower(object):
         #     goal_handle.set_rejected(text=message)
         #     return
 
+        # Orders the joints of the trajectory according to joint_names
+        reorder_traj_joints(goal_handle.get_goal().trajectory, TrajectoryFollower.jointNames)
+
         #TODO Inserts the current setpoint at the head of the trajectory
         self.traj_t0 = time.time()
         self.goal_handle = goal_handle
@@ -155,6 +173,7 @@ class TrajectoryFollower(object):
                 setpoint = sample_traj(self.traj, now - self.traj_t0)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
+                    #self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             elif not self.last_point_sent:
                 # All intermediate points sent, sending last point to make sure we reach the goal.
                 last_point = self.traj.points[-1]
@@ -167,7 +186,6 @@ class TrajectoryFollower(object):
                     rospy.logwarn("Current trajectory time: %s, last point time: %s" % (now - self.traj_t0, self.traj.points[-1].time_from_start.to_sec()))
                     rospy.logwarn("Desired: %s\nactual: %s\nvelocity: %s" % (last_point.positions, state.position, state.velocity))
                 setpoint = sample_traj(self.traj, self.traj.points[-1].time_from_start.to_sec())
-                print(setpoint.positions)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
             else:  # Off the end
