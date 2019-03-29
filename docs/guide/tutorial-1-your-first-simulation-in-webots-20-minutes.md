@@ -157,13 +157,13 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands on #8**: Create a new C (or any other language) controller called `e-puck_go_forward` using the `Wizards / New Robot Controller...` menu.
-This will create a new `e-puck_go_forward` directory in `my_first_simulation/controllers`.
+> **Hands on #8**: Create a new C (or any other language) controller called `e-puck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
+This will create a new `e-puck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
 The new C source file is displayed in Webots text editor window.
 This C file can be compiled without any modification, however the current code has no real effect.
-We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
+We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
 
 %tab-component
 %tab "C"
@@ -201,7 +201,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 %tab-end
 
 %tab "C++"
-> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `EPuckGoForward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by inserting an include statement (`#include <webots/Motor.hpp>`), getting the motor devices (`Motor *leftMotor = robot->getMotor("left wheel motor");`), and by applying a motor command (`leftMotor->setPosition(10.0);`):
 >```cpp
@@ -263,7 +263,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 %tab-end
 
 %tab "Java"
-> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
+> **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `EPuckGoForward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by inserting an import statement (`import com.cyberbotics.webots.controller.Motor;`), getting the motor devices (`Motor leftMotor = robot.getMotor("left wheel motor");`), and by applying a motor command (`leftMotor.setPosition(10.0);`):
 >```java
@@ -272,7 +272,7 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 >// Added a new include file
 >import com.cyberbotics.webots.controller.Motor;
 >
->public class e-puck_go_forward {
+>public class EPuckGoForward {
 >
 >  public static void main(String[] args) {
 >
@@ -320,8 +320,8 @@ We will now associate new `e-puck_go_forward` controller to the `E-puck` node.
 If everything is fine, your robot should move forwards.
 The robot will move using its maximum speed for a while and then stop once the wheels have rotated of 10 radians.
 
-In the `controllers` directory of your project, a directory containing the `e-puck_go_forward` controller has been created.
-The `e-puck_go_forward` directory contains a `e-puck_go_forward` binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
+In the `controllers` directory of your project, a directory containing the `e-puck_go_forward` (or `EPuckGoForward`) controller has been created.
+The `e-puck_go_forward` (or `EPuckGoForward`) directory contains a `e-puck_go_forward` (or `EPuckGoForward`) binary file generated after the compilation of the controller (on Windows, this file has the `.exe` extension).
 The controller directory name should match with the binary name.
 
 ### Extend the Controller to Speed Control
@@ -437,7 +437,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >// Added a new include file
 >import com.cyberbotics.webots.controller.Motor;
 >
->public class e-puck_go_forward {
+>public class EPuckGoForward {
 >
 >  public static void main(String[] args) {
 >

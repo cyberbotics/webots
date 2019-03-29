@@ -14,7 +14,7 @@ At the end of the chapter, links to further robotics algorithms are given.
 ### New World and New Controller
 
 > **Hands on #1**: Save the previous world as `collision_avoidance.wbt`.
-Create a new C (or any other language) controller called `e-puck_avoid_collision` using the wizard.
+Create a new C (or any other language) controller called `e-puck_avoid_collision` (for C++ and Java call it `EPuckAvoidCollision` instead) using the wizard.
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
 
 ### Understand the e-puck Model
@@ -118,12 +118,12 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > import com.cyberbotics.webots.controller.DistanceSensor;
 > import com.cyberbotics.webots.controller.Motor;
 > ```
-Just after the import statements create the `e-puck_avoid_collision class` (the name of the class should match exactly the name of the file) and the `main` funcion.
+Just after the import statements create the `EPuckAvoidCollision class` (the name of the class should match exactly the name of the file) and the `main` function.
 In the `main function`, define a variable that defines the duration of each physics step.
 This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
 > ```c
-> public class e-puck_avoid_collision {
+> public class EPuckAvoidCollision {
 >
 >   public static void main(String[] args) {
 >
@@ -828,7 +828,7 @@ import com.cyberbotics.webots.controller.Robot;
 import com.cyberbotics.webots.controller.DistanceSensor;
 import com.cyberbotics.webots.controller.Motor;
 
-public class e-puck_avoid_collision {
+public class EPuckAvoidCollision {
 
   public static void main(String[] args) {
     // time in [ms] of a simulation step
