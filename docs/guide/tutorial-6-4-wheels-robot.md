@@ -238,7 +238,7 @@ for (int i = 0; i < wheelsNames.length; i++)
 
 %tab "MATLAB"
 ```matlab
-// initialize motors
+% initialize motors
 wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
 wheels = [];
 for i = 1:4
