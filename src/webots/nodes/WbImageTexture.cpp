@@ -397,7 +397,8 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   findField("repeatT", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\'";
+    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
+           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " type=\'" << mRole << "\'";
   }

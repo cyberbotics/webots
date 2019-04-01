@@ -294,7 +294,7 @@ THREE.X3DLoader.prototype = {
     if (angle !== 0)
       mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
-    if (!material.userData.hasTransparentTexture) {
+    if (!material.transparent && !material.userData.hasTransparentTexture) {
       // Webots transparent object don't cast shadows
       mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false') === 'true';
       if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
@@ -357,7 +357,7 @@ THREE.X3DLoader.prototype = {
 
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
     mat.userData.x3dType = 'Appearance';
-    mat.userData.hasTransparentTexture = colorMap && mat.transparent;
+    mat.userData.hasTransparentTexture = colorMap && colorMap.userData.isTransparent;
     if (material)
       this.setCustomId(material, mat);
 
@@ -421,10 +421,9 @@ THREE.X3DLoader.prototype = {
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
-    if (isTransparent) {
+    if (isTransparent)
       mat.transparent = true;
-      mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
-    }
+    mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
 
     return mat;
   },
@@ -450,7 +449,7 @@ THREE.X3DLoader.prototype = {
       texture.image = image;
       texture.needsUpdate = true;
     }
-    texture.userData = { 'isTransparent': filename[0].endsWith('.png') };
+    texture.userData = { 'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false') === 'true' };
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true');
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true');
@@ -809,7 +808,7 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.5'));
-      lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '200'));
+      lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));
     }
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
@@ -928,7 +927,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parseViewpoint: function(viewpoint) {
-    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')) * (180 / Math.PI); // convert to degrees
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')) * 90 / Math.PI; // convert to degrees
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     // set default aspect ratio 1 that will be updated on window resize.
@@ -970,11 +969,11 @@ THREE.X3DLoader.prototype = {
 
     var fogObject = null;
     // TODO add LINEAR fog
-    // var fogType = getNodeAttribute(fog, 'forType', 'LINEAR');
-    // if (fogType === 'LINEAR')
-    //  fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
-    // else
-    fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
+    var fogType = getNodeAttribute(fog, 'forType', 'LINEAR');
+    if (fogType === 'LINEAR')
+      fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
+    else
+      fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
     this.scene.fog = fogObject;
     return null;
   },
