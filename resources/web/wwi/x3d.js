@@ -15,7 +15,7 @@ THREE.X3DLoader = function(sceneManager, loadManager) {
   this.camera = sceneManager.camera;
   this.worldInfo = sceneManager.worldInfo;
   this.defDictionary = [];
-  this.lights = [];
+  this.directionalLights = [];
 };
 
 THREE.X3DLoader.prototype = {
@@ -32,7 +32,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parse: function(text) {
-    this.lights = [];
+    this.directionalLights = [];
     var object;
 
     console.log('X3D: Parsing');
@@ -797,7 +797,6 @@ THREE.X3DLoader.prototype = {
     if (!on)
       return;
 
-    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
@@ -814,11 +813,9 @@ THREE.X3DLoader.prototype = {
     }
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
     lightObject.userData = { 'x3dType': 'DirectionalLight' };
-    if (ambientIntensity > 0)
-      lightObject.userData.ambientIntensity = ambientIntensity;
     // Position of the directional light will be adjusted at the end of the load
     // based on the size of the scene so that all the objects are illuminated by this light.
-    this.lights.push(lightObject);
+    this.directionalLights.push(lightObject);
     return lightObject;
   },
 
@@ -827,7 +824,6 @@ THREE.X3DLoader.prototype = {
     if (!on)
       return;
 
-    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
     var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
@@ -848,9 +844,6 @@ THREE.X3DLoader.prototype = {
     }
     lightObject.position.copy(location);
     lightObject.userData = { 'x3dType': 'PointLight' };
-    if (ambientIntensity > 0)
-      lightObject.userData.ambientIntensity = ambientIntensity;
-    this.lights.push(lightObject);
     return lightObject;
   },
 
@@ -859,7 +852,6 @@ THREE.X3DLoader.prototype = {
     if (!on)
       return;
 
-    var ambientIntensity = parseFloat(getNodeAttribute(light, 'ambientIntensity', '0'));
     var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
     var beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '0.785'));
     var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
@@ -889,8 +881,6 @@ THREE.X3DLoader.prototype = {
     lightObject.target.userData.x3dType = 'LightTarget';
     helperNodes.push(lightObject.target);
     lightObject.userData = { 'x3dType': 'SpotLight' };
-    if (ambientIntensity > 0)
-      lightObject.userData.ambientIntensity = ambientIntensity;
     this.lights.push(lightObject);
     return lightObject;
   },
@@ -930,6 +920,9 @@ THREE.X3DLoader.prototype = {
       if (missing === 0)
         cubeTexture.needsUpdate = true;
     }
+
+    var light = new THREE.AmbientLight(color);
+    this.scene.add(light);
 
     return null;
   },

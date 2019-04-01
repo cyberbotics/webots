@@ -8,7 +8,6 @@ function X3dSceneManager(domElement) {
   this.root = null;
   this.worldInfo = {};
   this.viewpoint = null;
-  this.lights = [];
   this.sceneModified = false;
 }
 
@@ -26,8 +25,6 @@ X3dSceneManager.prototype = {
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.ambientLight = new THREE.AmbientLight(0x666666, 0.3);
-    this.scene.add(this.ambientLight);
 
     // init default camera
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
@@ -85,11 +82,8 @@ X3dSceneManager.prototype = {
     this.selector.clearSelection();
     if (!this.scene)
       return;
-    for (var i = this.scene.children.length - 1; i >= 0; i--) {
-      if (this.scene.children[i].isAmbientLight)
-        continue;
+    for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
-    }
     this.onSceneUpdateCompleted(true);
     this.render();
   },
@@ -102,11 +96,10 @@ X3dSceneManager.prototype = {
     this.render();
   },
 
-  setupLights: function(lights) {
-    if (!this.root || lights.length === 0)
+  setupLights: function(directionalLights) {
+    if (!this.root)
       return;
 
-    var that = this;
     var sceneBox = new THREE.Box3();
     sceneBox.setFromObject(this.root);
     var boxSize = new THREE.Vector3();
@@ -114,30 +107,11 @@ X3dSceneManager.prototype = {
     var boxCenter = new THREE.Vector3();
     sceneBox.getCenter(boxCenter);
     var maxSize = Math.max(boxSize.x + boxCenter.x, boxSize.y + boxCenter.y, boxSize.z + boxCenter.z);
-    lights.forEach(function(light) {
-      if (light.isDirectionalLight) {
-        light.position.multiplyScalar(maxSize);
-        if (light.castShadow)
-          light.shadow.camera.far = maxSize * 2;
-      }
-      light.intensity = light.intensity;
-      if (that.lights.indexOf(light) === -1)
-        that.lights.push(light);
+    directionalLights.forEach(function(light) {
+      light.position.multiplyScalar(maxSize);
+      if (light.castShadow)
+        light.shadow.camera.far = maxSize * 2;
     });
-
-    // Compute ambient light color.
-    var r = 0;
-    var g = 0;
-    var b = 0;
-    that.lights.forEach(function(light) {
-      var i = light.userData.ambientIntensity;
-      if (i && i > 0) {
-        r += light.color.r * i;
-        g += light.color.g * i;
-        b += light.color.b * i;
-      }
-    });
-    this.ambientLight.color = new THREE.Color(r, g, b);
   },
 
   loadWorldFile: function(url) {
@@ -149,7 +123,7 @@ X3dSceneManager.prototype = {
         that.root = object3d[0];
       }
     });
-    this.setupLights(loader.lights);
+    this.setupLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 
@@ -165,7 +139,7 @@ X3dSceneManager.prototype = {
       objects.forEach(function(o) { that.scene.add(o); });
       this.root = objects[0];
     }
-    this.setupLights(loader.lights);
+    this.setupLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 
