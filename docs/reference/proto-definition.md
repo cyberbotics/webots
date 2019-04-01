@@ -2,7 +2,7 @@
 
 ### Interface
 
-The PROTO definition defines exactly what the PROTO does in terms of the built-in nodes or of the instances of other PROTO nodes.
+FIXME: The PROTO definition defines exactly what the PROTO does in terms of the built-in nodes or of the instances of other PROTO nodes.
 Here is the syntax for a PROTO definition:
 
 ```
