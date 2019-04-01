@@ -348,9 +348,6 @@ body {
   line-height: 140%;
   word-wrap: break-word;
 }
-.webots-doc p > a {
-  font-size: 15px;
-}
 .webots-doc img {
   max-width: 100%;
   max-height: 500px;
