@@ -78,7 +78,7 @@ Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
 Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
 Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
 Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
-Select the box and press Ctrl-C, Ctrl-V to copy and paste it.
+Select the box and press Ctrl-C, Ctrl-V (Windows, Linux) or Cmd-C, Cmd-V (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 Move the boxes, so that no box is at the center of the arena.
