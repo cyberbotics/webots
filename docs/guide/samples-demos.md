@@ -14,7 +14,7 @@ A stereoscopic camera is mounted on a `iRobot Create` robot.
 At each step, both [Camera](../reference/camera.md) images are merged into a [Display](../reference/display.md) device, one is filtered in red, and the other one is filtered in cyan.
 This produces an anaglyph 3D image that can be seen with low cost red/cyan 3D glassed.
 
-### [gantry.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/gantry.wbt)
+### gantry.wbt [file](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/gantry.wbt)
 
 **Keywords**: Gantry robot, gripper, Hanoi towers, linear motors, recursive algorithm
 
@@ -22,14 +22,14 @@ This produces an anaglyph 3D image that can be seen with low cost red/cyan 3D gl
 The gantry robot is modeled using a combination of [LinearMotor](../reference/linearmotor.md) and [RotationalMotor](../reference/rotationalmotor.md) devices.
 A recursive algorithm is used to solve the Hanoi Towers problem.
 
-### [hexapod.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/hexapod.wbt)
+### hexapod.wbt [file](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/hexapod.wbt)
 
 **Keywords**: Legged robot, alternating tripod gait, linear motor
 
 ![hexapod.png](images/samples/hexapod.png) In this example, an insect-shaped robot is made of a combination of [LinearMotor](../reference/linearmotor.md) and [RotationalMotor](../reference/rotationalmotor.md) devices.
 The robot moves using an alternating tripod gait.
 
-### [moon.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/moon.wbt)
+### moon.wbt [file](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/moon.wbt)
 
 **Keywords**: differential wheels, Koala, keyboard, texture
 
@@ -38,7 +38,7 @@ You can modify their trajectories with the arrow keys on your keyboard.
 The moon-like scenery is made of [IndexedFaceSet](../reference/indexedfaceset.md) nodes.
 Both robots use the same controller code.
 
-### [soccer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/soccer.wbt)
+### soccer.wbt [link](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/soccer.wbt)
 
 **Keywords**: Soccer, Supervisor, differential wheels, label
 
@@ -46,7 +46,7 @@ Both robots use the same controller code.
 A [Supervisor](../reference/supervisor.md) controller is used as the referee; it counts the goals and displays the current score and the remaining time in the 3D view.
 This example shows how a [Supervisor](../reference/supervisor.md) controller can be used to read and change the position of objects.
 
-### [stewart\_platform.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/stewart_platform.wbt)
+### stewart\_platform.wbt [file](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/stewart_platform.wbt)
 
 **Keywords**: Stewart platform, linear motion, physics plugin, ball joint, universal joint
 
@@ -56,7 +56,7 @@ It has six degrees of freedom (*x*, *y*, *z*, pitch, roll, and yaw).
 In this example, the Stewart platform is loaded with a few stacked boxes, then the platform moves and the boxes stumble apart.
 This simulation attaches both ends of the linear actuators (hydraulic pistons) to the lower and the upper parts of the Stewart platform.
 
-### [uneven\_terrain.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/uneven_terrain.wbt)
+### uneven\_terrain.wbt [link](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/uneven_terrain.wbt)
 
 **Keywords**: ElevationGrid, uneven terrain
 

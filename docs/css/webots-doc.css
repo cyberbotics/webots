@@ -212,7 +212,6 @@ body {
   color: #317589;
   text-decoration: none;
   outline: 0;
-  font-size: 15px;
 }
 .webots-doc a:hover {
   color: black;
@@ -348,6 +347,9 @@ body {
   text-align: justify;
   line-height: 140%;
   word-wrap: break-word;
+}
+.webots-doc p > a {
+  font-size: 15px;
 }
 .webots-doc img {
   max-width: 100%;
