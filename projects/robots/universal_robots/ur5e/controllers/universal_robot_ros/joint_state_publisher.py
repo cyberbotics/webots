@@ -30,29 +30,36 @@ class JointStatePublisher(object):
         'wrist_3_joint'
     ]
 
-    def __init__(self, robot):
+    def __init__(self, robot, jointPrefix):
         """Initialize the object."""
+        self.robot = robot
+        self.jointPrefix = jointPrefix
         self.motors = []
         self.sensors = []
         self.timestep = int(robot.getBasicTimeStep())
         self.last_joint_states = None
+        self.previousTime = 0
+        self.previousPosition = []
         for name in JointStatePublisher.jointNames:
             self.motors.append(robot.getMotor(name))
             self.sensors.append(robot.getPositionSensor(name + '_sensor'))
             self.sensors[-1].enable(self.timestep)
+            self.previousPosition.append(0)
         self.publisher = rospy.Publisher('joint_states', JointState, queue_size=1)
 
     def publish(self):
         msg = JointState()
         msg.header.stamp = rospy.get_rostime()
-        msg.header.frame_id = "From real-time state data"  #TODO
-        msg.name = JointStatePublisher.jointNames
+        msg.header.frame_id = "From simulation state data"
+        msg.name = [s + self.jointPrefix for s in JointStatePublisher.jointNames]
         msg.position = []
-        for sensor in self.sensors:
-            msg.position.append(sensor.getValue())
-        # for i, q in enumerate(stateRT.q_actual):
-        #     msg.position.append(q + joint_offsets.get(joint_names[i], 0.0))
-        msg.velocity = [0] * 6  #TODO stateRT.qd_actual
+        timeDifference = self.robot.getTime() - self.previousTime
+        for i in range(len(self.sensors)):
+            value = self.sensors[i].getValue()
+            msg.position.append(value)
+            msg.velocity.append((value - self.previousPosition[i]) / timeDifference if timeDifference > 0 else 0.0)
+            self.previousPosition[i] = value
         msg.effort = [0] * 6
         self.publisher.publish(msg)
         self.last_joint_states = msg
+        self.previousTime = self.robot.getTime()

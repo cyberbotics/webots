@@ -18,16 +18,31 @@ import rospy
 from controller import Robot
 from joint_state_publisher import JointStatePublisher
 from trajectory_follower import TrajectoryFollower
+from rosgraph_msgs.msg import Clock
 
 rospy.init_node('ur_driver', disable_signals=True)
 
+jointPrefix = rospy.get_param('~prefix', '')
+if jointPrefix:
+    print('Setting prefix to %s' % jointPrefix)
+
 robot = Robot()
-jointStatePublisher = JointStatePublisher(robot)
-trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher)
+jointStatePublisher = JointStatePublisher(robot, jointPrefix)
+trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix)
 trajectoryFollower.start()
+
+clockPublisher = rospy.Publisher('clock', Clock, queue_size=1)
+if not rospy.get_param('use_sim_time', False):
+    rospy.logwarn('use_sim_time is not set!')
 
 timestep = int(robot.getBasicTimeStep())
 
 while robot.step(timestep) != -1 and not rospy.is_shutdown():
     jointStatePublisher.publish()
     trajectoryFollower.update()
+    # pulish simulation clock
+    msg = Clock()
+    time = robot.getTime()
+    msg.clock.secs = int(time)
+    msg.clock.nsecs = (time - int(time)) * 1000000000
+    clockPublisher.publish(msg)

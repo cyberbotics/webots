@@ -18,10 +18,29 @@ import actionlib
 import copy
 import math
 import rospy
-import time
 
 from control_msgs.msg import FollowJointTrajectoryAction
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+
+
+def traj_is_finite(traj):
+    """Check if trajectory contains infinite or NaN value."""
+    for pt in traj.points:
+        for p in pt.positions:
+            if math.isinf(p) or math.isnan(p):
+                return False
+        for v in pt.velocities:
+            if math.isinf(v) or math.isnan(v):
+                return False
+    return True
+
+
+def has_velocities(traj):
+    """Check that velocities are defined for this trajectory."""
+    for p in traj.points:
+        if len(p.velocities) != len(p.positions):
+            return False
+    return True
 
 
 def reorder_traj_joints(traj, joint_names):
@@ -93,8 +112,10 @@ class TrajectoryFollower(object):
         'wrist_3_joint'
     ]
 
-    def __init__(self, robot, jointStatePublisher, goal_time_tolerance=None):
+    def __init__(self, robot, jointStatePublisher, jointPrefix, goal_time_tolerance=None):
         self.robot = robot
+        self.jointPrefix = jointPrefix
+        self.prefixedJointNames = [s + self.jointPrefix for s in TrajectoryFollower.jointNames]
         self.jointStatePublisher = jointStatePublisher
         self.timestep = int(robot.getBasicTimeStep())
         self.motors = []
@@ -114,9 +135,9 @@ class TrajectoryFollower(object):
     def init_traj(self):
         """Initialize a new target trajectory."""
         state = self.jointStatePublisher.last_joint_states
-        self.traj_t0 = time.time()  #TODO: Webots time
+        self.traj_t0 = self.robot.getTime()
         self.traj = JointTrajectory()
-        self.traj.joint_names = TrajectoryFollower.jointNames
+        self.traj.joint_names = self.prefixedJointNames
         self.traj.points = [JointTrajectoryPoint(
             positions=state.position if state else [0] * 6,
             velocities=[0] * 6,
@@ -131,46 +152,41 @@ class TrajectoryFollower(object):
 
     def on_goal(self, goal_handle):
         """Handle a new goal trajectory command."""
-        print("on_goal")
-
         # Checks if the joints are just incorrect
-        if set(goal_handle.get_goal().trajectory.joint_names) != set(TrajectoryFollower.jointNames):
+        if set(goal_handle.get_goal().trajectory.joint_names) != set(self.prefixedJointNames):
             rospy.logerr("Received a goal with incorrect joint names: (%s)" %
                          ', '.join(goal_handle.get_goal().trajectory.joint_names))
             goal_handle.set_rejected()
             return
 
-        # if not traj_is_finite(goal_handle.get_goal().trajectory):
-        #     rospy.logerr("Received a goal with infinites or NaNs")
-        #     goal_handle.set_rejected(text="Received a goal with infinites or NaNs")
-        #     return
-        #
-        # # Checks that the trajectory has velocities
-        # if not has_velocities(goal_handle.get_goal().trajectory):
-        #     rospy.logerr("Received a goal without velocities")
-        #     goal_handle.set_rejected(text="Received a goal without velocities")
-        #     return
-        #
-        # # Checks that the velocities are withing the specified limits
-        # if not has_limited_velocities(goal_handle.get_goal().trajectory):
-        #     message = "Received a goal with velocities that are higher than %f" % max_velocity
-        #     rospy.logerr(message)
-        #     goal_handle.set_rejected(text=message)
-        #     return
+        if not traj_is_finite(goal_handle.get_goal().trajectory):
+            rospy.logerr("Received a goal with infinites or NaNs")
+            goal_handle.set_rejected(text="Received a goal with infinites or NaNs")
+            return
+
+        # Checks that the trajectory has velocities
+        if not has_velocities(goal_handle.get_goal().trajectory):
+            rospy.logerr("Received a goal without velocities")
+            goal_handle.set_rejected(text="Received a goal without velocities")
+            return
 
         # Orders the joints of the trajectory according to joint_names
-        reorder_traj_joints(goal_handle.get_goal().trajectory, TrajectoryFollower.jointNames)
+        reorder_traj_joints(goal_handle.get_goal().trajectory, self.prefixedJointNames)
 
-        #TODO Inserts the current setpoint at the head of the trajectory
-        self.traj_t0 = time.time()
+        # Inserts the current setpoint at the head of the trajectory
+        now = self.robot.getTime()
+        point0 = sample_traj(self.traj, now - self.traj_t0)
+        point0.time_from_start = rospy.Duration(0.0)
+        goal_handle.get_goal().trajectory.points.insert(0, point0)
+        self.traj_t0 = now
+
+        # Replaces the goal
         self.goal_handle = goal_handle
         self.traj = goal_handle.get_goal().trajectory
         goal_handle.set_accepted()
 
     def on_cancel(self, goal_handle):
         """Handle a trajectory cancel command."""
-        print("on_cancel")
-
         if goal_handle == self.goal_handle:
             # stop the motors
             for i in range(len(TrajectoryFollower.jointNames)):
@@ -182,28 +198,27 @@ class TrajectoryFollower(object):
 
     def update(self):
         if self.robot and self.traj:
-            now = time.time()
+            now = self.robot.getTime()
             if (now - self.traj_t0) <= self.traj.points[-1].time_from_start.to_sec():
                 self.last_point_sent = False  # Sending intermediate points
                 setpoint = sample_traj(self.traj, now - self.traj_t0)
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
-                    self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
+                    # self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             elif not self.last_point_sent:
                 # All intermediate points sent, sending last point to make sure we reach the goal.
                 last_point = self.traj.points[-1]
                 state = self.jointStatePublisher.last_joint_states
                 position_in_tol = within_tolerance(state.position, last_point.positions, self.joint_goal_tolerances)
-                # Performing this check to try and catch our error condition.  We will always
-                # send the last point just in case.
-                if not position_in_tol:
-                    rospy.logwarn("Trajectory time exceeded and current robot state not at goal, last point required")
-                    rospy.logwarn("Current trajectory time: %s, last point time: %s" % (now - self.traj_t0, self.traj.points[-1].time_from_start.to_sec()))
-                    rospy.logwarn("Desired: %s\nactual: %s\nvelocity: %s" % (last_point.positions, state.position, state.velocity))
+                # Performing this check to try and catch our error condition.  We will always send the last point just in case.
+                # if not position_in_tol:
+                #     rospy.logwarn("Trajectory time exceeded and current robot state not at goal, last point required")
+                #     rospy.logwarn("Current trajectory time: %s, last point time: %s" % (now - self.traj_t0, self.traj.points[-1].time_from_start.to_sec()))
+                #     rospy.logwarn("Desired: %s\nactual: %s\nvelocity: %s" % (last_point.positions, state.position, state.velocity))
                 setpoint = sample_traj(self.traj, self.traj.points[-1].time_from_start.to_sec())
                 for i in range(len(setpoint.positions)):
                     self.motors[i].setPosition(setpoint.positions[i])
-                    self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
+                    # self.motors[i].setVelocity(math.fabs(setpoint.velocities[i]))
             else:  # Off the end
                 if self.goal_handle:
                     last_point = self.traj.points[-1]
