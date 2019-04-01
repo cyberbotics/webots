@@ -107,9 +107,6 @@ private:
   int width() const;
   int height() const;
 
-  // Accessors for mWrenTexture
-  bool isTransparent() const;
-
   WrTexture2d *createIconTexture(QString filePath);
   void copyDataToTexture(void *data, TextureType type, int x, int y, int width, int height);
 
