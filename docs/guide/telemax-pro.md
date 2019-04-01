@@ -24,6 +24,7 @@ TelemaxPro {
   SFBool      supervisor       FALSE
   SFBool      selfCollision    TRUE
   SFBool      synchronization  TRUE
+  SFBool      wheels           FALSE
   MFNode      traySlot         [ TelemaxBattery { } ]
   MFNode      cameraSlot0      [ ]
   MFNode      cameraSlot1      [ ]
@@ -36,6 +37,7 @@ TelemaxPro {
 #### TelemaxPro Field Summary
 
 - `color`: Defines the color of the painted part of the robot.
+- `wheels`: Defines if the wheels should be included or not.
 - `traySlot`: Extends the robot with new nodes located on top of its tray.
 - `cameraSlot0`: Extends the robot with new nodes located at the beginning of the arm.
 - `cameraSlot1`: Extends the robot with new nodes located at the middle of the arm.
