@@ -166,8 +166,8 @@ for proto in prioritaryProtoList + fileList:
         file.write(fields)
         file.write('}\n')
         file.write('```\n\n')
-
-        file.write('> **File location**: "WEBOTS\_HOME%s"\n\n' % proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/'))
+        location = proto.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
+        file.write('> **File location**: "[WEBOTS\_HOME%s](https://github.com/omichel/webots/tree/master/%s)"\n\n' % (location, location))
         if license:
             file.write('> **License**: %s\n' % license)
             if licenseUrl:
