@@ -4,6 +4,8 @@
 
 The [Universal Robot UR5e](https://www.universal-robots.com/products/ur5-robot/) is a flexible collaborative robot arm with 6 degrees of freedom.
 
+The Universal Robot UR5e model in Webots comes with a controller called `universal_robot_ros` which is an interface allowing to control the robot with ROS.
+
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=WIY9ebqSXUc)
