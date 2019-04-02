@@ -48,7 +48,7 @@ An important step, when designing a simulation, is to break up the various entit
 
 To define a rigid body, you will have to create a [Solid](../reference/solid.md) node.
 Inside this node you will set up different sub-nodes corresponding to the characteristics of the rigid body.
-The following [figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-shape-a-physical-bound-boundingobject-and-being-in-the-dynamical-environment-physics) depicts a rigid body and its sub-nodes.
+The following [figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-a-physical-bounding-object-and-being-in-the-dynamical-environment) depicts a rigid body and its sub-nodes.
 The graphical representation of the [Solid](../reference/solid.md) node is defined by the [Shape](../reference/shape.md) nodes populating its `children` list.
 The collision bounds are defined in its `boundingObject` field.
 The graphical representation and the collision shape are often but not necessarily identical.
@@ -67,13 +67,13 @@ graph TD
 %end
 %end
 
-The Geometry box (in [this figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-shape-a-physical-bound-boundingobject-and-being-in-the-dynamical-environment-physics)) stands for any kind of geometrical primitive.
+The Geometry box (in [this figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-a-physical-bounding-object-and-being-in-the-dynamical-environment)) stands for any kind of geometrical primitive.
 In fact, it can be substituted by a [Sphere](../reference/sphere.md), a [Box](../reference/box.md), a [Cylinder](../reference/cylinder.md), etc.
 
 ### Create a Ball
 
 We will now add a ball to the simulation.
-That ball will be modeled as a rigid body as shown in this [figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-shape-a-physical-bound-boundingobject-and-being-in-the-dynamical-environment-physics).
+That ball will be modeled as a rigid body as shown in this [figure](#the-simplest-model-of-a-rigid-body-in-webots-having-a-graphical-representation-a-physical-bounding-object-and-being-in-the-dynamical-environment).
 A [Sphere](../reference/sphere.md) node will be used to define the geometry of our ball.
 
 > **Hands on #4**: In the scene tree view, select the last node and press the `Add` button.
@@ -140,7 +140,7 @@ Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) n
 
 %end
 
-%figure "The simplest model of a rigid body in Webots having a graphical representation (`Shape`), a physical bound (`boundingObject`) and being in the dynamical environment (`Physics`)."
+%figure "The simplest model of a rigid body in Webots having a graphical representation, a physical bounding object and being in the dynamical environment."
 %chart
 graph TD
   Solid[[Solid](../reference/solid.md)] -->|physics| Physics[[Physics](../reference/physics.md)]
