@@ -587,7 +587,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
       const int index = k + v;
       const int indexCoord = mCoordIndices[index];
 
-      // compute the normal
+      // compute the normal per vertex (from normal per triangle)
       if (!mNormalsValid || !mNormalPerVertex) {
         WbVector3 normal;
         const WbVector3 &faceNormal = mTmpTriangleNormals[t];
@@ -629,11 +629,10 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
           normal.normalize();
 
         // populate the remaining two final arrays
-
         mNormals.append(normal[X]);
         mNormals.append(normal[Y]);
         mNormals.append(normal[Z]);
-      } else {
+      } else {  // normal already defined per vertex
         const int indexNormal = mTmpNormalIndices[index];
         if (indexNormal >= 0 && indexNormal < normalSize) {
           const WbVector3 nor(normal->item(indexNormal));
