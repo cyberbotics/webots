@@ -118,11 +118,6 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
                     "be computed using the creaseAngle."));
       mNormalsValid = false;
     }
-    if (mNormalsValid && normal->size() != coord->size()) {
-      mWarnings.append(QObject::tr("Invalid normal definition: size of 'coord' and 'normal' mismatch. The normals will "
-                                   "be computed using the creaseAngle."));
-      mNormalsValid = false;
-    }
   }
 
   // memory allocation of the tmp arrays (overestimated)
