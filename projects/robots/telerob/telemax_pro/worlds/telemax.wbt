@@ -18,6 +18,13 @@ WorldInfo {
       ]
       softCFM 1e-05
     }
+    ContactProperties {
+      material1 "telemax wheel"
+      coulombFriction [
+        10
+      ]
+      softCFM 1e-05
+    }
   ]
 }
 DEF VIEWPOINT Viewpoint {

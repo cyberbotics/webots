@@ -15,6 +15,7 @@
  */
 
 #include <webots/camera.h>
+#include <webots/device.h>
 #include <webots/keyboard.h>
 #include <webots/led.h>
 #include <webots/motor.h>
@@ -23,6 +24,7 @@
 #include <stdio.h>
 
 #define TIME_STEP 32
+#define WHEELS_TO_TRACK_RATION 0.155  // radius of the wheels
 
 void set_motor_position_in_limit(WbDeviceTag motor, double *postion) {
   double max = wb_motor_get_max_position(motor);
@@ -57,10 +59,41 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_left_track, 0.0);
   wb_motor_set_velocity(rear_right_track, 0.0);
 
+  // check if the wheel motor are present
+  WbDeviceTag front_left_motor = (WbDeviceTag)0;
+  WbDeviceTag front_right_motor = (WbDeviceTag)0;
+  WbDeviceTag rear_left_motor = (WbDeviceTag)0;
+  WbDeviceTag rear_right_motor = (WbDeviceTag)0;
+  int i = 0;
+  int nuber_of_devices = wb_robot_get_number_of_devices();
+  for (i = 0; i < nuber_of_devices; i++) {
+    WbDeviceTag tag = wb_robot_get_device_by_index(i);
+    const char *name = wb_device_get_name(tag);
+    WbNodeType type = wb_device_get_node_type(tag);
+    if (type == WB_NODE_ROTATIONAL_MOTOR) {
+      if (strcmp(name, "left front wheel") == 0) {
+        front_left_motor = tag;
+        wb_motor_set_position(tag, INFINITY);
+        wb_motor_set_velocity(tag, 0.0);
+      } else if (strcmp(name, "right front wheel") == 0) {
+        front_right_motor = tag;
+        wb_motor_set_position(tag, INFINITY);
+        wb_motor_set_velocity(tag, 0.0);
+      } else if (strcmp(name, "left rear wheel") == 0) {
+        rear_left_motor = tag;
+        wb_motor_set_position(tag, INFINITY);
+        wb_motor_set_velocity(tag, 0.0);
+      } else if (strcmp(name, "right rear wheel") == 0) {
+        rear_right_motor = tag;
+        wb_motor_set_position(tag, INFINITY);
+        wb_motor_set_velocity(tag, 0.0);
+      }
+    }
+  }
+
   WbDeviceTag arm_motors[9];
   double arm_position[9] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   char buffer[32];
-  int i;
   for (i = 0; i < 7; ++i) {
     sprintf(buffer, "arm %d motor", i);
     arm_motors[i] = wb_robot_get_device(buffer);
@@ -190,9 +223,17 @@ int main(int argc, char **argv) {
     wb_motor_set_position(front_motor, position[0]);
     wb_motor_set_position(rear_motor, position[1]);
     wb_motor_set_velocity(front_left_track, speed + angle);
+    if (front_left_motor)
+      wb_motor_set_velocity(front_left_motor, (speed + angle) / WHEELS_TO_TRACK_RATION);
     wb_motor_set_velocity(front_right_track, speed - angle);
+    if (front_right_motor)
+      wb_motor_set_velocity(front_right_motor, (speed - angle) / WHEELS_TO_TRACK_RATION);
     wb_motor_set_velocity(rear_left_track, -speed - angle);
+    if (rear_left_motor)
+      wb_motor_set_velocity(rear_left_motor, (-speed - angle) / WHEELS_TO_TRACK_RATION);
     wb_motor_set_velocity(rear_right_track, -speed + angle);
+    if (rear_right_motor)
+      wb_motor_set_velocity(rear_right_motor, (-speed + angle) / WHEELS_TO_TRACK_RATION);
   };
 
   wb_robot_cleanup();
