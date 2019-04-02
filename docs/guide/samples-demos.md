@@ -40,7 +40,7 @@ Both robots use the same controller code.
 
 ### [soccer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/soccer.wbt)
 
-**Keywords**: Soccer, Supervisor, differential wheels, label
+**Keywords**: Soccer, supervisor, differential wheels, label
 
 ![soccer.png](images/samples/soccer.png) In this example, two teams of simple robots play soccer.
 A [Supervisor](../reference/supervisor.md) controller is used as the referee; it counts the goals and displays the current score and the remaining time in the 3D view.
@@ -58,7 +58,7 @@ This simulation attaches both ends of the linear actuators (hydraulic pistons) t
 
 ### [uneven\_terrain.wbt](https://github.com/omichel/webots/tree/master/projects/samples/demos/worlds/uneven_terrain.wbt)
 
-**Keywords**: ElevationGrid, uneven terrain
+**Keywords**: [ElevationGrid](../reference/elevationgrid.md), uneven terrain
 
 ![uneven_terrain.png](images/samples/uneven_terrain.png) This example demonstrates the creation of an uneven terrain based on the [ElevationGrid](../reference/elevationgrid.md) primitive.
 In this world, a six-wheeled robots with rotational suspensions is moving along a predefined path (composed of a list of [GPS](../reference/gps.md) coordinates).
