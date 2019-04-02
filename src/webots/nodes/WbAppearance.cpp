@@ -158,11 +158,6 @@ WrMaterial *WbAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   return wrenMaterial;
 }
 
-bool WbAppearance::isTransparent() {
-  return (material() && material()->transparency() > 0.0) ||
-         (texture() && texture()->wrenTexture() && wr_texture_is_translucent(texture()->wrenTexture()));
-}
-
 bool WbAppearance::isTextureLoaded() const {
   return (texture() && texture()->wrenTexture());
 }

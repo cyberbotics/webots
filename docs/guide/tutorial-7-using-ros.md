@@ -23,7 +23,7 @@ rosdep update
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
 Unless you need older version for some other application, you should choose the latest distribution (Melodic Morenia or Kinetic Kame).
 
-> **Note**: If you never used the ROS framework before, it is strongly recommended to follow some tutorials from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
+If you never used the ROS framework before, it is strongly recommended to follow some tutorials from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
 These tutorials will also help you set up your ROS environment and initialize your catkin workspace.
 
 ### "webots\_ros" Package Installation
@@ -85,7 +85,7 @@ For example, if you opened the world "projects/languages/ros/worlds/panoramic\_v
 rosrun webots_ros panoramic_view_recorder
 ```
 
-> **Note**: The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
+The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.
 However, we cannot guarantee how long it will run before the ROS nodes connect.
 Therefore, the sensor measurements and motor commands will slightly differ from one run to another, due to the noise being slightly different at the time of the connection of the ROS nodes.
@@ -93,9 +93,7 @@ This may have consequences on the behavior of the robots, thus making such simul
 You can use the '--synchronize' argument in order to make sure that Webots will not run before the ROS node connects.
 This is useful to make ROS-based simulation reproducible.
 
-<!-- -->
-
-> **Note**: If you want to use different computers for the ROS master, the Webots simulation and/or the nodes, you must be able to connect to each of them with SSH in both ways.
+If you want to use different computers for the ROS master, the Webots simulation and/or the nodes, you must be able to connect to each of them with SSH in both ways.
 The hostname and IP addresses of these computers should be listed in the known hosts list of each computer and the `ROS_MASTER_URI` variable should be adjusted accordingly.
 
 ### Creating New Nodes
