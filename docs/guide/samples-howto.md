@@ -90,8 +90,7 @@ Note that more completed Ackermann steering geometry can be achieved using the [
 A [Supervisor](../reference/supervisor.md) controller is getting the position of five e-pucks moving randomly, and this information is sent to the custom robot window plugin called `tracking window`.
 This window is based on Qt (embedded in Webots) and the `Qt utils` helper library.
 
-> **Note**:
-Please refer to [the HTML robot window example](#custom_html_robot_window-wbt) instead.
+> **Note**: Please refer to the above HTML robot window example instead.
 
 ### [inverted\_pendulum.wbt](https://github.com/omichel/webots/tree/master/projects/samples/howto/worlds/inverted_pendulum.wbt)
 
