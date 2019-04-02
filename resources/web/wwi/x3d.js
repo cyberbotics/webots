@@ -3,10 +3,9 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
-// TODO missing nodes/attributes:
-// - shadows
-// - lights
-// - Cubemap
+// TODO:
+// - shadows calibration
+// - HDR Cubemap
 // some node attributes are also missing (see TODOs)
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
@@ -203,7 +202,6 @@ THREE.X3DLoader.prototype = {
   parseShape: function(shape) {
     var geometry = null;
     var material = null;
-    var angle = 0; // mesh rotation to match Webots appearance
 
     for (let i = 0; i < shape.childNodes.length; i++) {
       var child = shape.childNodes[i];
@@ -249,13 +247,11 @@ THREE.X3DLoader.prototype = {
       if (!geometry) {
         if (child.tagName === 'Box')
           geometry = this.parseBox(child);
-        else if (child.tagName === 'Cone') {
+        else if (child.tagName === 'Cone')
           geometry = this.parseCone(child);
-          angle = Math.PI / 2;
-        } else if (child.tagName === 'Cylinder') {
+        else if (child.tagName === 'Cylinder')
           geometry = this.parseCylinder(child);
-          angle = Math.PI / 2;
-        } else if (child.tagName === 'IndexedFaceSet')
+        else if (child.tagName === 'IndexedFaceSet')
           geometry = this.parseIndexedFaceSet(child);
         else if (child.tagName === 'Sphere')
           geometry = this.parseSphere(child);
@@ -291,16 +287,16 @@ THREE.X3DLoader.prototype = {
       mesh = new THREE.Points(geometry, material);
     } else
       mesh = new THREE.Mesh(geometry, material);
-    if (angle !== 0)
-      mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), angle);
     mesh.userData.x3dType = 'Shape';
+
     if (!material.transparent && !material.userData.hasTransparentTexture) {
       // Webots transparent object don't cast shadows
       mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false') === 'true';
-      if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
+      /* if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
         // otherwise by default single-face objects don't cast shadows
         // set shadowSize or add a back face
         material.shadowSide = THREE.FrontSide;
+      */
     }
     mesh.receiveShadow = true;
     mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true') === 'true';
@@ -644,72 +640,38 @@ THREE.X3DLoader.prototype = {
 
   parseElevationGrid: function(eg) {
     var heightStr = getNodeAttribute(eg, 'height', '');
-
-    var geometry = new THREE.BufferGeometry();
-    geometry.userData = { 'x3dType': 'ElevationGrid' };
-    if (heightStr === '')
-      return geometry;
-
-    var heightArray = heightStr.trim().split(/\s/);
     var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
     var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
     var zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
     var zSpacing = parseFloat(getNodeAttribute(eg, 'zSpacing', '1'));
-    // TODO add color functionality
-    // var color = getNodeAttribute(eg, 'color', null);
-    // var isColorPerVertex = getNodeAttribute(eg, 'colorPerVertex', 'false') === 'true';
 
-    var vertexCount = xDimension * zDimension;
-    var heightData = new Float32Array(vertexCount);
-    var availableValues = Math.min(vertexCount, heightArray.length);
-    for (let i = 0; i < availableValues; i++)
-      heightData[i] = parseFloat(heightArray[i]);
-    for (let i = availableValues; i < vertexCount; i++)
-      heightData[i] = 0;
+    var width = (xDimension - 1) * xSpacing;
+    var depth = (zDimension - 1) * zSpacing;
 
-    var stepsX = xDimension - 1;
-    var stepsZ = zDimension - 1;
-    var du = 1.0 / stepsX;
-    var dv = 1.0 / stepsZ;
+    var geometry = new THREE.PlaneBufferGeometry(width, depth, xDimension - 1, zDimension - 1);
+    geometry.userData = { 'x3dType': 'ElevationGrid' };
+    geometry.rotateX(-Math.PI / 2);
+    geometry.translate(width / 2, 0, depth / 2); // center located in the corner
+    if (heightStr === '')
+      return geometry;
 
-    var coords = new Float32Array(vertexCount * 3);
-    var texCoords = new Float32Array(vertexCount * 2);
-    var ci = 0;
-    var ti = 0;
-    for (let zi = 0; zi < zDimension; zi++) {
-      for (let xi = 0; xi < xDimension; xi++) {
-        coords[ci] = xSpacing * xi;
-        coords[ci + 1] = heightData[xDimension * zi + xi];
-        coords[ci + 2] = zSpacing * zi;
-        texCoords[ti] = du * xi;
-        texCoords[ti + 1] = 1.0 - dv * (stepsZ - zi);
-        ci = ci + 3;
-        ti = ti + 2;
-      }
-    }
-
-    var indices = new Uint16Array(stepsX * stepsZ * 6);
+    // set height and adjust uv mappings
+    var heightArray = heightStr.trim().split(/\s/);
+    var vertices = geometry.getAttribute('position').array;
+    var uv = geometry.getAttribute('uv').array;
+    var maxIndex = heightArray.length;
     var i = 0;
-    for (let zi = 0; zi < stepsZ; zi++) {
-      for (let xi = 0; xi < stepsX; xi++) {
-        // first triangle
-        indices[i] = xDimension * zi + xi;
-        indices[i + 1] = xDimension * (zi + 1) + xi;
-        indices[i + 2] = xDimension * zi + (xi + 1);
-        i = i + 3;
-        // second triangle
-        indices[i] = xDimension * zi + (xi + 1);
-        indices[i + 1] = xDimension * (zi + 1) + xi;
-        indices[i + 2] = xDimension * (zi + 1) + (xi + 1);
-        i = i + 3;
+    var v = 1;
+    for (var dx = 0; dx < xDimension; dx++) {
+      for (var dz = 0; dz < zDimension; dz++) {
+        var index = xDimension * dx + dz;
+        if (index < maxIndex)
+          vertices[i + 1] = parseFloat(heightArray[index]);
+        uv[v] = -uv[v];
+        i += 3;
+        v += 2;
       }
     }
-
-    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
-    geometry.addAttribute('position', new THREE.BufferAttribute(coords, 3));
-    geometry.addAttribute('uv', new THREE.BufferAttribute(texCoords, 2));
-    geometry.computeVertexNormals();
-    geometry.computeBoundingSphere();
 
     return geometry;
   },
@@ -730,6 +692,7 @@ THREE.X3DLoader.prototype = {
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
     coneGeometry.userData = { 'x3dType': 'Cone' };
+    coneGeometry.rotateY(Math.PI / 2);
     return coneGeometry;
   },
 
@@ -743,6 +706,7 @@ THREE.X3DLoader.prototype = {
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
+    cylinderGeometry.rotateY(Math.PI / 2);
     return cylinderGeometry;
   },
 
@@ -801,7 +765,7 @@ THREE.X3DLoader.prototype = {
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadow = getNodeAttribute(light, 'shadowIntensity', '0') !== '0';
 
-    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
+    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity * 0.5);
     if (castShadow) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
@@ -920,8 +884,7 @@ THREE.X3DLoader.prototype = {
         cubeTexture.needsUpdate = true;
     }
 
-    var light = new THREE.AmbientLight(color);
-    this.scene.add(light);
+    this.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
 
     return null;
   },
