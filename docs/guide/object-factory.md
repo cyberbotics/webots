@@ -124,7 +124,7 @@ ConveyorBelt {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/factory/conveyor_belt/protos/ConveyorBelt.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/conveyor_belt/protos/ConveyorBelt.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/conveyor\_belt/protos/ConveyorBelt.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/conveyor_belt/protos/ConveyorBelt.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
