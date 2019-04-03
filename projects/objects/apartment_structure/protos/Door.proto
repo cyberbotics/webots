@@ -20,6 +20,7 @@ PROTO Door [
   field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
   field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
   field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
+  field SFBool     castShadows            TRUE                      # Defines if this object cast shadows.
 ]
 {
   %{
@@ -82,6 +83,7 @@ PROTO Door [
               geometry Box {
                 size %{= size.x }% %{= topWallHeight }% %{= size.z }%
               }
+              castShadows IS castShadows
             }
           ]
           name "mobile part"
@@ -95,18 +97,21 @@ PROTO Door [
         name "top frame"
         size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= 2 * frameSize.z + size.z }%
         appearance IS frameAppearance
+        castShadows IS castShadows
       }
       SolidBox { # left frame
         translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
         name "left frame"
         size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
         appearance IS frameAppearance
+        castShadows IS castShadows
       }
       SolidBox { # right frame
         translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= 0.5 * frameHeight }% 0
         name "right frame"
         size %{= frameSize.x }% %{= frameHeight }% %{= 2 * frameSize.z + size.z }%
         appearance IS frameAppearance
+        castShadows IS castShadows
       }
       %{ if fields.canBeOpen.value then }%
         Solid {
@@ -141,6 +146,7 @@ PROTO Door [
                         geometry TexturedBox { # texture is mirrored on the back face of the door
                           size %{= doorThickness }% %{= frameHeight - 0.5 * frameSize.y }% %{= size.x - frameSize.x }%
                         }
+                        castShadows IS castShadows
                       }
                     ]
                   }

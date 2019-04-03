@@ -13,7 +13,8 @@ PROTO SolidBox [
   field SFVec3f    size            2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
   field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
   field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the box.
-  field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
+  field SFNode     physics         NULL      
+  field SFBool     castShadows     TRUE              # Defines if this object cast shadows.                                                                                                    # Is `Solid.physics`.
 ]
 {
   %{
@@ -117,6 +118,7 @@ PROTO SolidBox [
           ]
           creaseAngle 1.5
         }
+        castShadows IS castShadows
       }
     ]
     name IS name
