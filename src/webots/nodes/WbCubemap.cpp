@@ -114,6 +114,10 @@ void WbCubemap::updateWrenTexture() {
     emit changed();
 }
 
+QString WbCubemap::equirectangularTextureUrl() const {
+  return WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+}
+
 void WbCubemap::loadWrenTexture() {
   // silently exit, not all name fields have values
   if (mDirectory->value().isEmpty() || mTextureBaseName->value().isEmpty()) {
@@ -121,8 +125,7 @@ void WbCubemap::loadWrenTexture() {
     return;
   }
 
-  QString expectedEquirectangularPath =
-    WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+  QString expectedEquirectangularPath = equirectangularTextureUrl();
 
   if (!expectedEquirectangularPath.isEmpty()) {
     mIsEquirectangular = true;

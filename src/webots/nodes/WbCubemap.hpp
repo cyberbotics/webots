@@ -43,6 +43,7 @@ public:
   bool isEquirectangular() const { return mIsEquirectangular; }
 
   QString textureUrls(int index) const { return mTextureUrls[index]; }
+  QString equirectangularTextureUrl() const;
 
   WrTextureCubeMap *skyboxMap() const { return mDefaultCubeTexture; }
   WrTextureCubeMap *diffuseIrradianceMap() const { return mDiffuseIrradianceCubeTexture; }

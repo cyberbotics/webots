@@ -852,36 +852,44 @@ THREE.X3DLoader.prototype = {
     var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.background = color;
 
-    var cubeTextureEnabled = false;
-    var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
-    var urls = [];
-    for (var i = 0; i < 6; i++) {
-      var url = getNodeAttribute(background, attributeNames[i], null);
-      if (url) {
-        cubeTextureEnabled = true;
-        url = url.split(/['"\s]/).filter(function(n) { return n; })[0];
-      }
-      urls.push(url);
-    }
-
-    if (cubeTextureEnabled) {
-      var cubeTexture = new THREE.CubeTexture();
-      var textureManager = new TextureManager();
-      var missing = 0;
-      for (i = 0; i < 6; i++) {
-        if (urls[i] === null)
-          continue;
-        // look for already loaded texture or load the texture in an asynchronous way.
-        missing++;
-        var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
-        if (image) {
-          cubeTexture.images[i] = image;
-          missing--;
+    var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', '');
+    var cubeTexture;
+    var textureManager;
+    if (hdrCubeMapUrl !== '') {
+      // TODO load HDR cube map
+      cubeTexture = new THREE.CubeTexture();
+    } else {
+      var cubeTextureEnabled = false;
+      var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+      var urls = [];
+      for (var i = 0; i < 6; i++) {
+        var url = getNodeAttribute(background, attributeNames[i], null);
+        if (url) {
+          cubeTextureEnabled = true;
+          url = url.split(/['"\s]/).filter(function(n) { return n; })[0];
         }
+        urls.push(url);
       }
-      this.scene.background = cubeTexture;
-      if (missing === 0)
-        cubeTexture.needsUpdate = true;
+
+      if (cubeTextureEnabled) {
+        cubeTexture = new THREE.CubeTexture();
+        textureManager = new TextureManager();
+        var missing = 0;
+        for (i = 0; i < 6; i++) {
+          if (urls[i] === null)
+            continue;
+          // look for already loaded texture or load the texture in an asynchronous way.
+          missing++;
+          var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
+          if (image) {
+            cubeTexture.images[i] = image;
+            missing--;
+          }
+        }
+        this.scene.background = cubeTexture;
+        if (missing === 0)
+          cubeTexture.needsUpdate = true;
+      }
     }
 
     this.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
