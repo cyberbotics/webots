@@ -205,6 +205,24 @@ for i in range(len(names)):
         grfList[-1]['translation'] = grfList[-1]['node'].getField('translation')
         grfList[-1]['point'] = grfList[-1]['node'].getField('point')
 
+# get body visualization
+bodyNode = None
+markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { }')
+bodyNode = markerField.getMFNode(-1)
+bodyRotations = {}
+bodyTranslations = {}
+for label in labelsAndCategory['virtual_markers']:
+    node = supervisor.getFromDef(label + '_body')
+    if node:
+        field = node.getField('translation')
+        if field:
+            bodyTranslations[label] = field
+if bodyNode:
+    for label in labelsAndCategory['angles']:
+        field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+        if field:
+            bodyRotations[label] = field
+
 # import the marker and initialize the list of points
 pointRepresentations = {}
 j = 0
@@ -225,22 +243,6 @@ for i in range(len(labels)):
         else:
             pointRepresentations[labels[i]]['visible'] = True
         j += 1
-
-# get body visualization
-bodyRotations = {}
-bodyTranslations = {}
-for label in labelsAndCategory['virtual_markers']:
-    node = supervisor.getFromDef(label + '_body')
-    if node:
-        field = node.getField('translation')
-        if field:
-            bodyTranslations[label] = field
-for label in labelsAndCategory['angles']:
-    node = supervisor.getFromDef(label + '_body')
-    if node:
-        field = node.getField('rotation')
-        if field:
-            bodyRotations[label] = field
 
 # parse the C3D frames
 frameAndPoints = []
