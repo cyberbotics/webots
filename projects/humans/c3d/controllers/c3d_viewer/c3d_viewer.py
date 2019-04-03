@@ -226,8 +226,15 @@ for i in range(len(labels)):
             pointRepresentations[labels[i]]['visible'] = True
         j += 1
 
-# get body visualization rotation
+# get body visualization
 bodyRotations = {}
+bodyTranslations = {}
+for label in labelsAndCategory['virtual_markers']:
+    node = supervisor.getFromDef(label + '_body')
+    if node:
+        field = node.getField('translation')
+        if field:
+            bodyTranslations[label] = field
 for label in labelsAndCategory['angles']:
     node = supervisor.getFromDef(label + '_body')
     if node:
@@ -322,6 +329,13 @@ while supervisor.step(timestep) != -1:
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
             if labels[j] in bodyRotations:
                 bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
+            if labels[j] in bodyTranslations:
+                x = points[j][0] * scale
+                y = points[j][2] * scale
+                if inverseY:
+                    y = -y
+                z = -points[j][1] * scale
+                bodyTranslations[labels[j]].setSFVec3f([x, y + 0.08, z]) #TODO: cleanup offset
         # send marker position to the robot window
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
