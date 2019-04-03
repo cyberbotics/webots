@@ -282,8 +282,6 @@ void WbCubemap::modifyWrenMaterial(WrMaterial *material) {
 
 void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!mRole.isEmpty())
-      writer << " type=\'" << mRole << "\'";
-  }
+  if (writer.isX3d() && !mRole.isEmpty())
+    writer << " type=\'" << mRole << "\'";
 }
