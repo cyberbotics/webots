@@ -69,6 +69,7 @@ signals:
   void changed();
 
 protected:
+  bool exportNodeHeader(WbVrmlWriter &writer) const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 

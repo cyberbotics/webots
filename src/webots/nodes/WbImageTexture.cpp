@@ -381,6 +381,17 @@ void WbImageTexture::setContainerField(QString &field) {
     mContainerField = QString(field);
 }
 
+bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (!isUseNode() || mRole.isEmpty())
+    return WbBaseNode::exportNodeHeader(writer);
+
+  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  if (isInvisibleNode())
+    writer << " render=\'false\'";
+  writer << " USE=\'" + useName() + "\' type=\'" << mRole << "\' ></" + vrmlName() + ">";
+  return true;
+}
+
 void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));

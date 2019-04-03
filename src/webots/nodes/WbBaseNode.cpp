@@ -228,12 +228,16 @@ WbBaseNode *WbBaseNode::getSingleFinalizedProtoInstance() {
   return finalizedInstance;
 }
 
+bool WbBaseNode::isInvisibleNode() const {
+  return WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this));
+}
+
 bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
   writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (WbWorld::instance()->viewpoint()->getInvisibleNodes().contains(const_cast<WbBaseNode *>(this)))
+  if (isInvisibleNode())
     writer << " render=\'false\'";
   if (isUseNode()) {
     writer << " USE=\'" + useName() + "\'></" + vrmlName() + ">";
