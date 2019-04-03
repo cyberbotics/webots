@@ -25,19 +25,23 @@ Viewpoint {
 TexturedBackground {
   texture "noon_cloudy_empty"
 }
+DirectionalLight {
+  direction -0.6 -1 0.55
+  intensity 1.7
+  castShadows TRUE
+}
 CeilingLight {
   translation -1.5 2.32 0
-  pointLightAmbientIntensity 0.6
   pointLightColor 1 0.992157 0.929412
-  pointLightIntensity 0.5
+  pointLightIntensity 0.2
+  castShadows FALSE
 }
 CeilingLight {
   translation 1.5 2.32 0
   name "ceiling light(1)"
-  pointLightAmbientIntensity 0.6
   pointLightColor 1 1 0.870588
-  pointLightIntensity 0.5
-  pointLightCastShadows TRUE
+  pointLightIntensity 0.2
+  castShadows FALSE
 }
 DEF THYMIO2 Thymio2 {
   translation 2.68 0 0
@@ -3171,6 +3175,4 @@ DEF CUBE_OBSTACLES Group {
       }
     }
   ]
-}
-TexturedBackgroundLight {
 }
