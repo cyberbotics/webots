@@ -5,13 +5,16 @@
 # A viewer to visualize C3D (www.c3d.org) files.
 
 PROTO C3dViewer [
-  field  SFVec3f     translation     0 0 0
-  field  SFRotation  rotation        0 1 0 0
-  field  SFString    c3dFile         ""            # Defines which file should be displayed.
-  field  SFFloat     playbackSpeed   1.0           # Defines the speed at which should be played the C3D file.
-  field  MFNode      markers         []            # The markers will be automatically inserted in this field.
-  field  SFVec3f     leftGrfOffset   -0.12 0 0.07  # Defines the offset of the left Ground Reaction Force position.
-  field  SFVec3f     rightGrfOffset  0.03 0 0.15   # Defines the offset of the right Ground Reaction Force position.
+  field  SFVec3f     translation         0 0 0
+  field  SFRotation  rotation            0 1 0 0
+  field  SFString    c3dFile             ""            # Defines which file should be displayed.
+  field  SFFloat     playbackSpeed       1.0           # Defines the speed at which should be played the C3D file.
+  field  MFNode      markers             []            # The markers will be automatically inserted in this field.
+  field  SFVec3f     leftGrfOffset       -0.12 0 0.07  # Defines the offset of the left Ground Reaction Force position.
+  field  SFVec3f     rightGrfOffset      0.03 0 0.15   # Defines the offset of the right Ground Reaction Force position.
+  field  SFFloat     bodyTransparency    1             # Defines the transparency of the body representation (transparency to 1 disable body representation).
+  field  SFFloat     bodyScale           1             # Defines the scale fo the body representation.
+  field  SFFloat     bodyOffset          0             # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker
 ]
 {
   Robot {
@@ -26,7 +29,10 @@ PROTO C3dViewer [
                               fields.leftGrfOffset.value.z .. ' ' ..
                               fields.rightGrfOffset.value.x .. ' ' ..
                               fields.rightGrfOffset.value.y .. ' ' ..
-                              fields.rightGrfOffset.value.z .. '"' }%
+                              fields.rightGrfOffset.value.z .. ' ' ..
+                              fields.bodyTransparency.value .. ' ' ..
+                              fields.bodyScale.value .. ' ' ..
+                              fields.bodyOffset.value .. '"' }%
     supervisor TRUE
     showWindow TRUE
     window "c3d_viewer_window"

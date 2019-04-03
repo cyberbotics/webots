@@ -206,22 +206,23 @@ for i in range(len(names)):
         grfList[-1]['point'] = grfList[-1]['node'].getField('point')
 
 # get body visualization
-bodyNode = None
-markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { }')
-bodyNode = markerField.getMFNode(-1)
 bodyRotations = {}
 bodyTranslations = {}
-for label in labelsAndCategory['virtual_markers']:
-    node = supervisor.getFromDef(label + '_body')
-    if node:
-        field = node.getField('translation')
-        if field:
-            bodyTranslations[label] = field
-if bodyNode:
-    for label in labelsAndCategory['angles']:
-        field = bodyNode.getField(label.replace('Angles', 'Rotation'))
-        if field:
-            bodyRotations[label] = field
+if sys.argv[9] > 0.0:  # body transparency is not 0
+    bodyNode = None
+    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %s %s %s }' % (sys.argv[9], sys.argv[10], sys.argv[10], sys.argv[10]))
+    bodyNode = markerField.getMFNode(-1)
+    for label in labelsAndCategory['virtual_markers']:
+        node = supervisor.getFromDef(label + '_body')
+        if node:
+            field = node.getField('translation')
+            if field:
+                bodyTranslations[label] = field
+    if bodyNode:
+        for label in labelsAndCategory['angles']:
+            field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+            if field:
+                bodyRotations[label] = field
 
 # import the marker and initialize the list of points
 pointRepresentations = {}
@@ -337,7 +338,7 @@ while supervisor.step(timestep) != -1:
                 if inverseY:
                     y = -y
                 z = -points[j][1] * scale
-                bodyTranslations[labels[j]].setSFVec3f([x, y + 0.08, z]) #TODO: cleanup offset
+                bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
