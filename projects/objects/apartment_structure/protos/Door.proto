@@ -20,7 +20,7 @@ PROTO Door [
   field SFNode     wallAppearance         Roughcast {}              # Defines the wall's appearance.
   field SFNode     frameAppearance        VarnishedPine {}          # Defines the frame's appearance
   field SFNode     doorHandle             DoorLever {}              # Defines an optional door handle.
-  field SFBool     castShadows            TRUE                      # Defines if this object cast shadows.
+  field SFBool     castShadows            TRUE                      # Defines whether this object should cast shadows.
 ]
 {
   %{
