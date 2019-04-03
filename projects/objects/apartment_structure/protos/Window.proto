@@ -16,7 +16,7 @@ PROTO Window [
   field SFVec2f    windowSillSize         0.1 0.05          # Defines the size of the sill below the window.
   field SFNode     wallAppearance         Roughcast {}      # Defines the appearance of the wall.
   field SFNode     frameAppearance        VarnishedPine {}  # Defines the appearance of the frame.
-  field SFBool     castShadows            TRUE              # Defines if this object cast shadows.
+  field SFBool     castShadows            TRUE              # Defines whether this object should cast shadows.
 ]
 {
   %{
