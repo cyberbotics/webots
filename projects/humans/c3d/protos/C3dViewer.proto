@@ -14,7 +14,7 @@ PROTO C3dViewer [
   field  SFVec3f     rightGrfOffset      0.03 0 0.15   # Defines the offset of the right Ground Reaction Force position.
   field  SFFloat     bodyTransparency    1             # Defines the transparency of the body representation (transparency to 1 disable body representation).
   field  SFFloat     bodyScale           1             # Defines the scale fo the body representation.
-  field  SFFloat     bodyOffset          0             # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker
+  field  SFFloat     bodyOffset          0             # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 ]
 {
   Robot {
