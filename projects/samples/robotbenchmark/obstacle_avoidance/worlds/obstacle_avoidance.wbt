@@ -1021,7 +1021,7 @@ DEF CARPET Solid {
             "textures/carpet.jpg"
           ]
         }
-        roughness 0.5
+        roughness 1
         metalness 0
       }
       geometry IndexedFaceSet {
