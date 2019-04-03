@@ -35,7 +35,6 @@ DirectionalLight {
 }
 CeilingLight {
   translation -1.99 2.32 0
-  pointLightAmbientIntensity 0.6
   pointLightColor 1 0.992157 0.929412
   pointLightIntensity 0.2
   castShadows FALSE
