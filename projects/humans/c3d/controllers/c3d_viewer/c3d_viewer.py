@@ -17,6 +17,7 @@
 from controller import Supervisor
 
 import c3d
+import math
 import os.path
 import sys
 
@@ -48,6 +49,49 @@ def getPointsList(reader, name):
     for i in range(len(newlist)):
         newlist[i] = newlist[i].strip()
     return newlist
+
+
+def rotationFromQuaternion(q):
+    """Convert quaternion to euler-axes-angle (vrml)."""
+    v = [0.0, 0.0, 0.0, 0.0]
+    v[3] = 2.0 * math.acos(q[0])
+    if (v[3] < 0.0001):
+        # if v[3] close to zero then direction of axis not important
+        v[0] = 0.0
+        v[1] = 1.0
+        v[2] = 0.0
+    else:
+        # normalise axes
+        n = math.sqrt(q[1] * q[1] + q[2] * q[2] + q[3] * q[3])
+        v[0] = q[1] / n
+        v[1] = q[2] / n
+        v[2] = q[3] / n
+    return v
+
+
+def convertRPYtoQuaternions(rpy):
+    """Convert RPY to quaternions."""
+    cy = math.cos(rpy[2] * 0.5)
+    sy = math.sin(rpy[2] * 0.5)
+    cp = math.cos(rpy[1] * 0.5)
+    sp = math.sin(rpy[1] * 0.5)
+    cr = math.cos(rpy[0] * 0.5)
+    sr = math.sin(rpy[0] * 0.5)
+
+    q = [0, 0, 0, 0]
+    q[0] = cy * cp * cr + sy * sp * sr
+    q[1] = cy * cp * sr - sy * sp * cr
+    q[2] = sy * cp * sr + cy * sp * cr
+    q[3] = sy * cp * cr - cy * sp * sr
+    return q
+
+
+def convertRPYtoEulerAxis(rpy):
+    """Convert RPY angles to Euler angles."""
+    roll = - math.pi * rpy[0] / 180.0
+    pitch = math.pi * rpy[2] / 180.0
+    yaw = math.pi * rpy[1] / 180.0
+    return rotationFromQuaternion(convertRPYtoQuaternions([roll, pitch, yaw]))
 
 
 supervisor = Supervisor()
@@ -182,6 +226,15 @@ for i in range(len(labels)):
             pointRepresentations[labels[i]]['visible'] = True
         j += 1
 
+# get body visualization rotation
+bodyRotations = {}
+for label in labelsAndCategory['angles']:
+    node = supervisor.getFromDef(label + '_body')
+    if node:
+        field = node.getField('rotation')
+        if field:
+            bodyRotations[label] = field
+
 # parse the C3D frames
 frameAndPoints = []
 frameAndAnalog = []
@@ -267,6 +320,8 @@ while supervisor.step(timestep) != -1:
                         y = points[j][2]
                         z = points[j][1]
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+            if labels[j] in bodyRotations:
+                bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
         # send marker position to the robot window
         if toSend:
             toSend = toSend[:-1]  # remove last ':'
