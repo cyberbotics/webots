@@ -61,7 +61,6 @@ public:
   void unsetBackgroundTexture();
 
   QString path();
-  void setContainerField(QString &field);
 
   void setRole(const QString &role) { mRole = role; }
 

@@ -376,11 +376,6 @@ QString WbImageTexture::path() {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-void WbImageTexture::setContainerField(QString &field) {
-  if (mContainerField.isEmpty())
-    mContainerField = QString(field);
-}
-
 bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
