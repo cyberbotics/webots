@@ -7,7 +7,7 @@ PROTO Khepera4InfraredSensor [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 1 0 0
   field SFString   name        "infrared sensor"
-  field SFBool     shortRange   FALSE
+  field SFBool     shortRange  FALSE
 ]
 {
   DistanceSensor {
