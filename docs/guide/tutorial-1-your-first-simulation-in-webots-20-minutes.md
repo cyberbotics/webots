@@ -104,7 +104,7 @@ Otherwise at each save, the position of each 3D object can accumulate errors.
 Therefore, any modification of the world should be performed in that order: **pause, reset, modify and save the simulation**.
 
 We don't need to create the e-puck robot from scratch, we will just have to import a `E-puck` node.
-This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before.
+This node is actually a [PROTO](../reference/proto.md) node, like the `RectangleArena` or the `WoodenBox` we introduced before. Prototyping allows you to create custom objects and to reuse them.
 
 > **Hands-on #5**: Select the last node `WoodenBox` of the scene tree view.
 Click on the `Add` button (plus sign) at the top of the scene tree view.
