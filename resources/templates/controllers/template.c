@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
     /*
      * Enter here functions to send actuator commands, like:
-     * wb_motor_set_postion(my_actuator, 10.0);
+     * wb_motor_set_position(my_actuator, 10.0);
      */
   };
 
