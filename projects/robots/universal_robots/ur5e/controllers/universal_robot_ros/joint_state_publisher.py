@@ -31,7 +31,7 @@ class JointStatePublisher(object):
     ]
 
     def __init__(self, robot, jointPrefix):
-        """Initialize the object."""
+        """Initialize the motors, position sensors and the topic."""
         self.robot = robot
         self.jointPrefix = jointPrefix
         self.motors = []

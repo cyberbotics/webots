@@ -31,6 +31,7 @@ jointStatePublisher = JointStatePublisher(robot, jointPrefix)
 trajectoryFollower = TrajectoryFollower(robot, jointStatePublisher, jointPrefix)
 trajectoryFollower.start()
 
+# we want to use simulation time for ROS
 clockPublisher = rospy.Publisher('clock', Clock, queue_size=1)
 if not rospy.get_param('use_sim_time', False):
     rospy.logwarn('use_sim_time is not set!')
