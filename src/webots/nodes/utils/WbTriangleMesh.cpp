@@ -100,8 +100,8 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 
   mTextureCoordinatesValid = isTexCoordDefined;
   if (isTexCoordDefined && isTexCoordIndexDefined && texCoordIndex->size() != coordIndex->size()) {
-    mWarnings.append(QObject::tr(
-      "Invalid texture mapping: size of 'coordIndex' and 'texCoordIndex' mismatch. The default texture mapping is applied."));
+    mWarnings.append(QObject::tr("Invalid texture mapping: the sizes of 'coordIndex' and 'texCoordIndex' mismatch. The default "
+                                 "texture mapping is applied."));
     mTextureCoordinatesValid = false;
   }
 
@@ -114,7 +114,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   if (mNormalPerVertex) {
     if (isNormalDefined && isNormalIndexDefined && normalIndex->size() != coordIndex->size()) {
       mWarnings.append(
-        QObject::tr("Invalid normal definition: size of 'coordIndex' and 'normalIndex' mismatch. The normals will "
+        QObject::tr("Invalid normal definition: the sizes of 'coordIndex' and 'normalIndex' mismatch. The normals will "
                     "be computed using the creaseAngle."));
       mNormalsValid = false;
     }
@@ -140,7 +140,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
               (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
   if (mNormalsValid && !mNormalPerVertex && mNTriangles > normal->size()) {
-    mWarnings.append(QObject::tr("Invalid normal definition: size of 'normal' should equal the number of triangles when "
+    mWarnings.append(QObject::tr("Invalid normal definition: the size of 'normal' should equal the number of triangles when "
                                  "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
     mNormalsValid = false;
   }
@@ -455,7 +455,8 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
       const double length = normal.length();
       if (length == 0.0)
         return QObject::tr("Null normal for face %1 %2 %3.\nThis can be caused by duplicate vertices in your mesh. "
-                           "Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the model in Webots.")
+                           "Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the "
+                           "model in Webots.")
           .arg(indexA)
           .arg(indexB)
           .arg(indexC);
