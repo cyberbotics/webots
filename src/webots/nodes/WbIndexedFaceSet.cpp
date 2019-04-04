@@ -645,9 +645,9 @@ bool WbIndexedFaceSet::exportNodeHeader(WbVrmlWriter &writer) const {
 
   // reduce the number of exported IndexedFaceSets by automatically
   // using a def-use based on the mesh hash
-  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
-    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + vrmlName() + ">";
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
     return true;
   }
 

@@ -68,6 +68,11 @@ protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  const QString &vrmlName() const override {
+    static const QString name("IndexedFaceSet");
+    return name;
+  }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   // user accessible fields

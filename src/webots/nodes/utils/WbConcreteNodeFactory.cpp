@@ -476,25 +476,6 @@ bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, cons
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
 }
 
-const QString &WbConcreteNodeFactory::modelToVrmlName(const QString &modelName) {
-  static const QString indexedFaceSetString("IndexedFaceSet");
-  static const QString transformString("Transform");
-  static const QString appearanceString("Appearance");
-
-  if (modelName == "Plane")
-    return indexedFaceSetString;
-  if (modelName == "Capsule")
-    return indexedFaceSetString;
-  if (modelName == "PBRAppearance")
-    return appearanceString;
-  if (WbNodeUtilities::isMatterTypeName(modelName))
-    return transformString;
-  if (modelName == "TrackWheel")
-    return transformString;
-
-  return modelName;
-}
-
 void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &writer) {
   if (node->nodeModelName() == "Plane") {
     WbPlane plane(*node);

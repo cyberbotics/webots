@@ -47,6 +47,7 @@ void WbImageTexture::init() {
   mImage = NULL;
   mWrenTextureIndex = 0;
   mIsMainTextureTransparent = true;
+  mRole = "";
 
   mUrl = findMFString("url");
   mRepeatS = findSFBool("repeatS");
@@ -375,9 +376,15 @@ QString WbImageTexture::path() {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-void WbImageTexture::setContainerField(QString &field) {
-  if (mContainerField.isEmpty())
-    mContainerField = QString(field);
+bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
+  if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
+    return WbBaseNode::exportNodeHeader(writer);
+
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  if (isInvisibleNode())
+    writer << " render=\'false\'";
+  writer << " USE=\'" + useName() + "\' type=\'" << mRole << "\' ></" + x3dName() + ">";
+  return true;
 }
 
 void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
@@ -395,8 +402,12 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   findField("repeatS", true)->write(writer);
   findField("repeatT", true)->write(writer);
 
-  if (writer.isX3d())
-    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\'";
+  if (writer.isX3d()) {
+    writer << " containerField=\'" << mContainerField << "\' origChannelCount=\'3\' isTransparent=\'"
+           << (mIsMainTextureTransparent ? "true" : "false") << "\'";
+    if (!mRole.isEmpty())
+      writer << " type=\'" << mRole << "\'";
+  }
 }
 
 void WbImageTexture::exportNodeSubNodes(WbVrmlWriter &writer) const {
