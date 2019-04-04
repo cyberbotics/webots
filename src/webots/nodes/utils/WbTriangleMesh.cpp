@@ -455,7 +455,7 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
       const double length = normal.length();
       if (length == 0.0)
         return QObject::tr("Null normal for face %1 %2 %3.\n This can be caused by duplicate vertices in your mesh. "
-                           "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.")
+                           "Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the model in Webots.")
           .arg(indexA)
           .arg(indexB)
           .arg(indexC);
