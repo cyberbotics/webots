@@ -19,6 +19,10 @@ X3dSceneManager.prototype = {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    this.renderer.gammaInput = true;
+    this.renderer.gammaOutput = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -40,7 +44,9 @@ X3dSceneManager.prototype = {
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
     this.gpuPicker.setFilter(function(object) {
-      return object instanceof THREE.Mesh && 'x3dType' in object.userData;
+      return object instanceof THREE.Mesh &&
+             'x3dType' in object.userData &&
+             object.userData.isPickable !== false; // true or undefined
     });
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.camera);
@@ -91,6 +97,29 @@ X3dSceneManager.prototype = {
     this.render();
   },
 
+  setupLights: function(directionalLights) {
+    if (!this.root)
+      return;
+
+    var sceneBox = new THREE.Box3();
+    sceneBox.setFromObject(this.root);
+    var boxSize = new THREE.Vector3();
+    sceneBox.getSize(boxSize);
+    var boxCenter = new THREE.Vector3();
+    sceneBox.getCenter(boxCenter);
+    var halfWidth = boxSize.x / 2 + boxCenter.x;
+    var halfDepth = boxSize.z / 2 + boxCenter.z;
+    var maxSize = Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
+    directionalLights.forEach(function(light) {
+      light.position.multiplyScalar(maxSize);
+      light.shadow.camera.far = Math.max(maxSize * 2, light.shadow.camera.far);
+      light.shadow.camera.left = -maxSize;
+      light.shadow.camera.right = maxSize;
+      light.shadow.camera.top = maxSize;
+      light.shadow.camera.bottom = -maxSize;
+    });
+  },
+
   loadWorldFile: function(url) {
     var that = this;
     var loader = new THREE.X3DLoader(this);
@@ -100,6 +129,7 @@ X3dSceneManager.prototype = {
         that.root = object3d[0];
       }
     });
+    this.setupLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 
@@ -115,6 +145,7 @@ X3dSceneManager.prototype = {
       objects.forEach(function(o) { that.scene.add(o); });
       this.root = objects[0];
     }
+    this.setupLights(loader.directionalLights);
     this.onSceneUpdateCompleted(true);
   },
 

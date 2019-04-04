@@ -56,6 +56,7 @@ void WbCubemap::init() {
   mSpecularIrradianceCubeTexture = NULL;
   mIsValid = false;
   mIsEquirectangular = false;
+  mRole = "";
 
   for (int i = 0; i < 6; ++i) {
     mQImages[i] = NULL;
@@ -113,6 +114,10 @@ void WbCubemap::updateWrenTexture() {
     emit changed();
 }
 
+QString WbCubemap::equirectangularTextureUrl() const {
+  return WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+}
+
 void WbCubemap::loadWrenTexture() {
   // silently exit, not all name fields have values
   if (mDirectory->value().isEmpty() || mTextureBaseName->value().isEmpty()) {
@@ -120,8 +125,7 @@ void WbCubemap::loadWrenTexture() {
     return;
   }
 
-  QString expectedEquirectangularPath =
-    WbUrl::computePath(this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + ".hdr", false);
+  QString expectedEquirectangularPath = equirectangularTextureUrl();
 
   if (!expectedEquirectangularPath.isEmpty()) {
     mIsEquirectangular = true;
@@ -274,4 +278,10 @@ void WbCubemap::modifyWrenMaterial(WrMaterial *material) {
   wr_material_set_texture_cubemap_anisotropy(material, 8, 1);
   wr_material_set_texture_cubemap_enable_interpolation(material, true, 1);
   wr_material_set_texture_cubemap_enable_mip_maps(material, true, 1);
+}
+
+void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+  if (writer.isX3d() && !mRole.isEmpty())
+    writer << " type=\'" << mRole << "\'";
 }
