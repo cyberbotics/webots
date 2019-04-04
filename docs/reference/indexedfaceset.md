@@ -40,7 +40,7 @@ Otherwise, the results are undefined.
 When used for collision detection (boundingObject), each face of the [IndexedFaceSet](#indexedfaceset) must contain exactly three vertices, hence defining a triangle mesh (or trimesh).
 
 If the `normal` field is not NULL, then it must contain a [Normal](normal.md) node.
-The normal in that node are applied to the vertices or faces of the [IndexedFaceSet](#indexedfaceset) as follows:
+The normals in that node are applied to the vertices or faces of the [IndexedFaceSet](#indexedfaceset) as follows:
 
 If the `normalPerVertex` field is TRUE, the `normalIndex` is used to determine the normal at each vertex.
 The `normalCoordIndex` field must contain at least as many indices as the `coordIndex` field, and must contain end-of-face markers (-1) in exactly the same places as the `coordIndex` field.
