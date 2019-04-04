@@ -436,10 +436,10 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
   // In order to let the X3Dom picking work well, the USE shapes should be written explicitly
   if (writer.isX3d()) {
-    writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
 
     // if (isUseNode()) {
-    //   writer << " USE=\'" + mUseName + "\'></" + vrmlName() + ">";
+    //   writer << " USE=\'" + mUseName + "\'></" + x3dName() + ">";
     //   return true;
     // }
 

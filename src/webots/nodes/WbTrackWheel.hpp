@@ -52,6 +52,12 @@ public:
 signals:
   void changed();
 
+protected:
+  const QString &vrmlName() const override {
+    static const QString name("Transform");
+    return name;
+  }
+
 private:
   WbTrackWheel &operator=(const WbTrackWheel &);  // non copyable
   WbNode *clone() const override { return new WbTrackWheel(*this); }

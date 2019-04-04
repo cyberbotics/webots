@@ -377,13 +377,13 @@ QString WbImageTexture::path() {
 }
 
 bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
-  if (!isUseNode() || mRole.isEmpty())
+  if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
 
-  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
-  writer << " USE=\'" + useName() + "\' type=\'" << mRole << "\' ></" + vrmlName() + ">";
+  writer << " USE=\'" + useName() + "\' type=\'" << mRole << "\' ></" + x3dName() + ">";
   return true;
 }
 

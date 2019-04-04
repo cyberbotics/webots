@@ -181,7 +181,7 @@ THREE.X3DLoader.prototype = {
   parseTransform: function(transform) {
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
-    object.userData.solid = getNodeAttribute(transform, 'solid', 'false') === 'true';
+    object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
     object.userData.window = getNodeAttribute(transform, 'window', '');
     var controller = getNodeAttribute(transform, 'controller', '');
     if (controller !== '')
@@ -255,6 +255,8 @@ THREE.X3DLoader.prototype = {
           geometry = this.parseIndexedFaceSet(child);
         else if (child.tagName === 'Sphere')
           geometry = this.parseSphere(child);
+        else if (child.tagName === 'Plane')
+          geometry = this.parsePlane(child);
         else if (child.tagName === 'ElevationGrid')
           geometry = this.parseElevationGrid(child);
         else if (child.tagName === 'IndexedLineSet')
@@ -684,8 +686,8 @@ THREE.X3DLoader.prototype = {
     var radius = getNodeAttribute(cone, 'bottomRadius', '0');
     var height = getNodeAttribute(cone, 'height', '0');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cone, 'bottom', 'true') !== 'true';
-    // TODO var openSided = getNodeAttribute(cone, 'side', 'true') === 'true' ? false : true;
+    var openEnded = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() !== 'true';
+    // TODO var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
     coneGeometry.userData = { 'x3dType': 'Cone' };
@@ -697,9 +699,9 @@ THREE.X3DLoader.prototype = {
     var radius = getNodeAttribute(cylinder, 'radius', '0');
     var height = getNodeAttribute(cylinder, 'height', '0');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cylinder, 'bottom', 'true') !== 'true';
-    // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true') === 'true' ? false : true;
-    // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true') === 'true' ? false : true;
+    var openEnded = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() !== 'true';
+    // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true' ? false : true;
+    // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
@@ -713,6 +715,14 @@ THREE.X3DLoader.prototype = {
     var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
+  },
+
+  parsePlane: function(plane) {
+    var size = convertStringToVec2(getNodeAttribute(plane, 'size', '1,1'));
+    var planeGeometry = new THREE.PlaneBufferGeometry(size.x, size.y);
+    planeGeometry.userData = { 'x3dType': 'Plane' };
+    planeGeometry.rotateX(-Math.PI / 2);
+    return planeGeometry;
   },
 
   parsePointSet: function(pointSet) {

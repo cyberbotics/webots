@@ -236,11 +236,11 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return WbNode::exportNodeHeader(writer);
 
-  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
   if (isUseNode()) {
-    writer << " USE=\'" + useName() + "\'></" + vrmlName() + ">";
+    writer << " USE=\'" + useName() + "\'></" + x3dName() + ">";
     return true;
   }
   if (!defName().isEmpty())
