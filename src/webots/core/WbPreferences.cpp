@@ -64,7 +64,6 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/startupMode", "Real-time");
   setDefault("General/language", "");
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
-  setDefault("General/threadingPolicy", 0);
   setDefault("General/checkWebotsUpdateOnStartup", true);
   setDefault("General/disableSaveWarning", false);
   setDefault("Sound/mute", true);
