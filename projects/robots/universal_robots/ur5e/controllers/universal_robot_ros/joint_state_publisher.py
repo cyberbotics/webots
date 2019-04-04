@@ -48,6 +48,7 @@ class JointStatePublisher(object):
         self.publisher = rospy.Publisher('joint_states', JointState, queue_size=1)
 
     def publish(self):
+        """Publish the 'joint_states' topic with up to date value."""
         msg = JointState()
         msg.header.stamp = rospy.get_rostime()
         msg.header.frame_id = "From simulation state data"
