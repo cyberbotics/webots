@@ -2,8 +2,9 @@
 
 ### Interface
 
-PROTO defines a new node name with custom fields that can be specified.
-Here is the syntax for a PROTO definition:
+A PROTO node is defined in a PROTO file.
+A PROTO file ends with a `.proto` extension.
+It lists the fields of the PROTO and defines how these fields impact the underlying object which is defined using base nodes and/or PROTO nodes.
 
 ```
 PROTO protoName [ protoInterface ] { protoBody }
