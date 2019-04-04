@@ -20,6 +20,7 @@ X3dSceneManager.prototype = {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
     this.domElement.appendChild(this.renderer.domElement);
