@@ -293,7 +293,7 @@ THREE.X3DLoader.prototype = {
 
     if (!material.transparent && !material.userData.hasTransparentTexture) {
       // Webots transparent object don't cast shadows
-      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false') === 'true';
+      mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
       /* if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
         // otherwise by default single-face objects don't cast shadows
         // set shadowSize or add a back face
@@ -301,7 +301,7 @@ THREE.X3DLoader.prototype = {
       */
     }
     mesh.receiveShadow = true;
-    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true') === 'true';
+    mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
   },
 
@@ -444,10 +444,10 @@ THREE.X3DLoader.prototype = {
       texture.image = image;
       texture.needsUpdate = true;
     }
-    texture.userData = { 'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false') === 'true' };
+    texture.userData = { 'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true' };
 
-    var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true');
-    var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true');
+    var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
+    var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
 
@@ -792,7 +792,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parsePointLight: function(light) {
-    var on = getNodeAttribute(light, 'on', 'true') === 'true';
+    var on = getNodeAttribute(light, 'on', 'true').toLowerCase() === 'true';
     if (!on)
       return;
 
