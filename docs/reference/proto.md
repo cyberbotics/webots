@@ -1,7 +1,7 @@
 # PROTO
 
 The PROTO mechanism allows users to extend the set of nodes by adding their own nodes.
-Thus, users can build and re-use complex objects.
+Thus, users can build and reuse complex objects.
 
 A PROTO defines a new node type in terms of built-in nodes or other PROTO nodes.
 The PROTO interface defines the fields for the PROTO.
