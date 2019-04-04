@@ -13,7 +13,7 @@ Having the [nodes chart diagram](../reference/node-chart.md) in front of you, wi
 
 First we create a new simulation based on the one created in Tutorial 1.
 
-> **Hands on #1**: Make sure the `my_first_simulation.wbt` world file is open, and that the simulation is paused and is at a virtual time of 0.
+> **Hands-on #1**: Make sure the `my_first_simulation.wbt` world file is open, and that the simulation is paused and is at a virtual time of 0.
 Using the `File / Save World As...` menu, save the simulation as `obstacles.wbt`.
 
 ### Modifying the Floor
