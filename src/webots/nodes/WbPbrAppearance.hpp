@@ -59,9 +59,12 @@ public:
 
   // specific functions
   bool isBaseColorTextureLoaded() const;
+  bool isRoughnessTextureLoaded() const;
   void pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const;
   WbRgb baseColor() const;
   double transparency() const;
+  double roughness() const;
 
 protected:
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;

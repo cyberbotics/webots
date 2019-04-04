@@ -349,12 +349,20 @@ bool WbPbrAppearance::isBaseColorTextureLoaded() const {
   return (baseColorMap() && baseColorMap()->wrenTexture());
 }
 
+bool WbPbrAppearance::isRoughnessTextureLoaded() const {
+  return (roughnessMap() && roughnessMap()->wrenTexture());
+}
+
 WbRgb WbPbrAppearance::baseColor() const {
   return mBaseColor->value();
 }
 
 double WbPbrAppearance::transparency() const {
   return mTransparency->value();
+}
+
+double WbPbrAppearance::roughness() const {
+  return mRoughness->value();
 }
 
 void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVector2 &uv) const {
@@ -364,6 +372,17 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
     tex->pickColor(pickedColor, uvTransformed);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
+}
+
+void WbPbrAppearance::pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const {
+  WbImageTexture *tex = roughnessMap();
+  if (tex) {
+    WbRgb pickedColor;
+    WbVector2 uvTransformed = transformUVCoordinate(uv);
+    tex->pickColor(pickedColor, uvTransformed);
+    *roughness = pickedColor.red();
+  } else
+    *roughness = 0.0;  // default value
 }
 
 void WbPbrAppearance::updateCubeMap() {
