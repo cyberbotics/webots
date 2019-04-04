@@ -78,7 +78,7 @@ So far only the direct children nodes of the root [Robot](../reference/robot.md)
 %chart
 graph TD
   Robot[[Robot](../reference/robot.md)] -->|children| HingeJoint[[HingeJoint](../reference/hingejoint.md)]
-    HingeJoint --> Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
+    HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
   Robot -.->|children| OtherWheels[Other wheels]
   style HingeJoint fill:#ffe4bf;
   class Robot highlightedNode;
