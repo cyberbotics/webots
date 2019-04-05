@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_TESSELATOR_HPP
-#define WB_TESSELATOR_HPP
+#include "WbNormal.hpp"
 
-//
-// Description: helper class used to tesselate
-//
+#include "WbMFVector3.hpp"
 
-#include <QtCore/QList>
-#include <QtCore/QString>
-#include <QtCore/QVector>
+void WbNormal::init() {
+  mVector = findMFVector3("vector");
+}
 
-class WbVector3;
+WbNormal::WbNormal(WbTokenizer *tokenizer) : WbBaseNode("Normal", tokenizer) {
+  init();
+}
 
-class WbTesselator {
-public:
-  static QString tesselate(const QList<QVector<int>> &indexes, const QList<WbVector3> &vertices, QList<QVector<int>> &results);
+WbNormal::WbNormal(const WbNormal &other) : WbBaseNode(other) {
+  init();
+}
 
-private:
-  WbTesselator() {}
-};
+WbNormal::WbNormal(const WbNode &other) : WbBaseNode(other) {
+  init();
+}
 
-#endif
+WbNormal::~WbNormal() {
+}
