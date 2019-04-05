@@ -274,7 +274,7 @@ void WbShape::applyMaterialToGeometry() {
 // ray cast to a shape: pick the collided color
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
-void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness) const {
+void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness, double *occlusion) const {
   WbAppearance *const app = appearance();
   WbPbrAppearance *const pbrApp = pbrAppearance();
   WbGeometry *const geom = geometry();
@@ -287,6 +287,8 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness)
 
   if (roughness)
     *roughness = 0.0;
+  if (occlusion)
+    *occlusion = 0.0;
 
   if (geom) {
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
@@ -375,6 +377,8 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness)
         pbrApp->pickColorInBaseColorTexture(textureColor, uv);
         if (roughness && pbrApp->isRoughnessTextureLoaded())
           pbrApp->pickRoughnessInTexture(roughness, uv);
+        if (occlusion && pbrApp->isOcclusionTextureLoaded())
+          pbrApp->pickOcclusionInTexture(occlusion, uv);
       } else {
         if (paintTexture)
           pickedColor = paintColor;

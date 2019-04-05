@@ -353,6 +353,10 @@ bool WbPbrAppearance::isRoughnessTextureLoaded() const {
   return (roughnessMap() && roughnessMap()->wrenTexture());
 }
 
+bool WbPbrAppearance::isOcclusionTextureLoaded() const {
+  return (occlusionMap() && occlusionMap()->wrenTexture());
+}
+
 WbRgb WbPbrAppearance::baseColor() const {
   return mBaseColor->value();
 }
@@ -375,14 +379,21 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
 }
 
 void WbPbrAppearance::pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const {
-  WbImageTexture *tex = roughnessMap();
-  if (tex) {
+  *roughness = getRedValueInTexture(roughnessMap(), uv);
+}
+
+void WbPbrAppearance::pickOcclusionInTexture(double *occlusion, const WbVector2 &uv) const {
+  *occlusion = getRedValueInTexture(occlusionMap(), uv);
+}
+
+double WbPbrAppearance::getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const {
+  if (texture) {
     WbRgb pickedColor;
     WbVector2 uvTransformed = transformUVCoordinate(uv);
-    tex->pickColor(pickedColor, uvTransformed);
-    *roughness = pickedColor.red();
-  } else
-    *roughness = 0.0;  // default value
+    texture->pickColor(pickedColor, uvTransformed);
+    return pickedColor.red();
+  }
+  return 0.0;  // default value
 }
 
 void WbPbrAppearance::updateCubeMap() {
