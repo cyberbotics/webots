@@ -61,6 +61,7 @@
     - [Motor](motor.md)
     - [Mouse](mouse.md)
     - [Muscle](muscle.md)
+    - [Normal](normal.md)
     - [PBRAppearance](pbrappearance.md)
     - [Pen](pen.md)
     - [Physics](physics.md)
