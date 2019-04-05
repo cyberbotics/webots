@@ -59,9 +59,14 @@ public:
 
   // specific functions
   bool isBaseColorTextureLoaded() const;
+  bool isRoughnessTextureLoaded() const;
+  bool isOcclusionTextureLoaded() const;
   void pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const;
+  void pickOcclusionInTexture(double *occlusion, const WbVector2 &uv) const;
   WbRgb baseColor() const;
   double transparency() const;
+  double roughness() const;
 
 protected:
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
@@ -70,6 +75,7 @@ private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
   void clearCubemap(WrMaterial *wrenMaterial);
+  double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();
 
