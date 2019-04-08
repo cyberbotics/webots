@@ -191,6 +191,7 @@ Animation.prototype = {
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
     sceneManager.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
+    sceneManager.render();
   },
 
   _updateAnimation: function() {

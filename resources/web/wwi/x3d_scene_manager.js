@@ -1,4 +1,4 @@
-/* global THREE, Selector, Viewpoint */
+/* global THREE, Selector, Viewpoint, TextureManager */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
 'use strict';
 
@@ -9,6 +9,7 @@ function X3dSceneManager(domElement) {
   this.worldInfo = {};
   this.viewpoint = null;
   this.sceneModified = false;
+  this.objectsCache = {};
 }
 
 X3dSceneManager.prototype = {
@@ -35,9 +36,10 @@ X3dSceneManager.prototype = {
     this.camera.lookAt(this.scene.position);
 
     this.viewpoint = new Viewpoint(this.camera);
-    this.viewpoint.onCameraPositionChanged = function() {
+    this.viewpoint.onCameraParametersChanged = function() {
       if (that.gpuPicker)
         that.gpuPicker.needUpdate = true;
+      that.render();
     };
 
     this.selector = new Selector();
@@ -55,18 +57,16 @@ X3dSceneManager.prototype = {
     this.resize();
 
     this.destroyWorld();
+
+    var textureManager = new TextureManager();
+    textureManager.onTextureLoad = function() { that.render(); };
   },
 
   onSceneUpdateCompleted: function(force = false) {
-    if (this.gpuPicker && (force || this.sceneModified)) {
-      this.gpuPicker.setScene(this.scene);
-      this.sceneModified = false;
-    }
+    this.render();
   },
 
   render: function() {
-    var that = this;
-    requestAnimationFrame(function() { that.render(); });
     this.renderer.render(this.scene, this.camera);
   },
 
@@ -85,14 +85,17 @@ X3dSceneManager.prototype = {
       return;
     for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
+    this.objectsCache = {};
     this.onSceneUpdateCompleted(true);
     this.render();
   },
 
   deleteObject: function(id) {
     var object = this.scene.getObjectByName('n' + id);
-    if (object)
+    if (object) {
       object.parent.remove(object);
+      delete this.objectsCache[id];
+    }
     this.onSceneUpdateCompleted(true);
     this.render();
   },
@@ -122,6 +125,7 @@ X3dSceneManager.prototype = {
 
   loadWorldFile: function(url) {
     var that = this;
+    this.objectsCache = {};
     var loader = new THREE.X3DLoader(this);
     loader.load(url, function(object3d) {
       if (object3d.length > 0) {
@@ -153,8 +157,13 @@ X3dSceneManager.prototype = {
     if (!object)
       return undefined;
 
-    if (object.name && object.name.includes(id))
+    if (this.objectsCache[id])
+      return this.objectsCache[id];
+
+    if (object.name && object.name.includes(id)) {
+      this.objectsCache[id] = object;
       return object;
+    }
 
     var childObject;
     var childrenLength = object.children ? object.children.length : 0;
@@ -243,6 +252,12 @@ X3dSceneManager.prototype = {
   },
 
   pick: function(relativePosition, screenPosition) {
+    if (this.sceneModified) {
+      this.gpuPicker.setScene(this.scene);
+      this.sceneModified = false;
+      this.render();
+    }
+
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);

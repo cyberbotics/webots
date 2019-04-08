@@ -3,7 +3,7 @@
 
 function Viewpoint(camera) {
   this.camera = camera;
-  this.onCameraPositionChanged = null;
+  this.onCameraParametersChanged = null;
   // after initialization 'followedObjectId' contains the id ('n<id>') of the followed node or 'none' if no object is followed
   this.followedObjectId = null;
   // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
@@ -34,6 +34,8 @@ Viewpoint.prototype = {
       fieldOfViewY = 2.0 * Math.atan(tanHalfFieldOfViewY);
     }
     this.camera.fov = fieldOfViewY;
+    if (this.onCameraParametersChanged)
+      this.onCameraParametersChanged();
   },
 
   isFollowedObject: function(object) {
@@ -127,14 +129,11 @@ Viewpoint.prototype = {
       viewpointNewPosition.addVectors(this.camera.position, viewpointDeltaPosition);
       this.viewpointForce.sub(viewpointDeltaPosition);
       this.camera.position.copy(viewpointNewPosition);
-      if (this.onCameraPositionChanged)
-        this.onCameraPositionChanged();
       this.followedObjectDeltaPosition = null;
+
+      if (this.onCameraParametersChanged)
+        this.onCameraParametersChanged();
     }
-  },
-
-  startRotateViewpoint: function() {
-
   },
 
   rotate: function(params) {
@@ -156,6 +155,9 @@ Viewpoint.prototype = {
     if (params.pickPosition)
       this.camera.position.sub(params.pickPosition).applyQuaternion(deltaRotation).add(params.pickPosition);
     this.camera.quaternion.premultiply(deltaRotation);
+
+    if (this.onCameraParametersChanged)
+      this.onCameraParametersChanged();
   },
 
   translate: function(params) {
@@ -166,6 +168,9 @@ Viewpoint.prototype = {
     var targetRight = -params.scaleFactor * params.dx;
     var targetUp = params.scaleFactor * params.dy;
     this.camera.position.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
+
+    if (this.onCameraParametersChanged)
+      this.onCameraParametersChanged();
   },
 
   zoomAndTilt: function(params) {
@@ -178,6 +183,9 @@ Viewpoint.prototype = {
     var zRotation = new THREE.Quaternion();
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
     this.camera.quaternion.premultiply(zRotation);
+
+    if (this.onCameraParametersChanged)
+      this.onCameraParametersChanged();
   },
 
   zoom: function(distance, deltaY) {
@@ -187,5 +195,8 @@ Viewpoint.prototype = {
     voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
 
     this.camera.position.add(roll.multiplyScalar(scaleFactor));
+
+    if (this.onCameraParametersChanged)
+      this.onCameraParametersChanged();
   }
 };

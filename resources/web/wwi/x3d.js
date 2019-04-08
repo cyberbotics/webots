@@ -499,12 +499,13 @@ THREE.X3DLoader.prototype = {
     var coordinate = ifs.getElementsByTagName('Coordinate')[0];
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
 
-    var geometry = new THREE.Geometry();
+    var bufferGeometry = new THREE.BufferGeometry();
     var x3dType = getNodeAttribute(ifs, 'x3dType', '');
-    geometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
+    bufferGeometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
     if (!coordinate)
-      return geometry;
+      return bufferGeometry;
 
+    var geometry = new THREE.Geometry();
     var indices = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
     var verticesStr = getNodeAttribute(coordinate, 'point', '');
     var hasTexCoord = 'texCoordIndex' in ifs.attributes;
@@ -595,11 +596,12 @@ THREE.X3DLoader.prototype = {
     else
       geometry.computeFaceNormals();
 
-    this.setCustomId(coordinate, geometry);
+    bufferGeometry = bufferGeometry.fromGeometry(geometry);
+    this.setCustomId(coordinate, bufferGeometry);
     if (hasTexCoord)
-      this.setCustomId(textureCoordinate, geometry);
+      this.setCustomId(textureCoordinate, bufferGeometry);
 
-    return geometry;
+    return bufferGeometry;
   },
 
   parseIndexedLineSet: function(ils) {
@@ -857,7 +859,6 @@ THREE.X3DLoader.prototype = {
     lightObject.target.userData.x3dType = 'LightTarget';
     helperNodes.push(lightObject.target);
     lightObject.userData = { 'x3dType': 'SpotLight' };
-    this.lights.push(lightObject);
     return lightObject;
   },
 

@@ -8,6 +8,7 @@ function TextureManager() {
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
     this.streamingMode = false;
+    this.onTextureLoad = null;
   }
   return TextureManager.instance;
 };
@@ -116,5 +117,8 @@ TextureManager.prototype = {
       }
     }
     delete this.loadingTextures[name];
+
+    if (this.onTextureLoad)
+      this.onTextureLoad();
   }
 };
