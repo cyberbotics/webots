@@ -3,6 +3,7 @@
 function Selector() {
   this.selectedObject = null;
   this.selectedRepresentations = [];
+  this.onSelectionChange = null;
 };
 
 Selector.prototype = {
@@ -25,6 +26,8 @@ Selector.prototype = {
     }
     if (this.selectedRepresentations.length > 0)
       this.selectedObject = object;
+    if (this.onSelectionChange)
+      this.onSelectionChange();
   },
 
   clearSelection: function() {
