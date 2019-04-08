@@ -518,9 +518,10 @@ void WbDistanceSensor::computeValue() {
         mRays[i].setDistance(distance);
 
         WbRgb pickedColor;
-        shape->pickColor(pickedColor, WbRay(trans, r));
+        double roughness, occlusion;
+        shape->pickColor(pickedColor, WbRay(trans, r), &roughness, &occlusion);
 
-        const double infraRedFactor = 0.8 * pickedColor.red() + 0.2;
+        const double infraRedFactor = 0.8 * pickedColor.red() * (1 - 0.5 * roughness) * (1 - 0.5 * occlusion) + 0.2;
         averageInfraRedFactor += infraRedFactor * mRays[i].weight();
       } else
         averageInfraRedFactor += mRays[i].weight();

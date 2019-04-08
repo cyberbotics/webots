@@ -59,7 +59,7 @@ public:
   WrMaterial *wrenMaterial() const { return mWrenMaterial; }
 
   // infrared related functions
-  void pickColor(WbRgb &pickedColor, const WbRay &ray) const;
+  void pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness = NULL, double *occlusion = NULL) const;
 
   // for a shape lying into a boundingObject
   void connectGeometryField() const;

@@ -46,6 +46,7 @@ namespace webots {
       INDEXED_LINE_SET,
       MATERIAL,
       MUSCLE,
+      NORMAL,
       PBR_APPEARANCE,
       PLANE,
       POINT_LIGHT,
