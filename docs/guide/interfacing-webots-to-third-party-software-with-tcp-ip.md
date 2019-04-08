@@ -21,7 +21,7 @@ To allow the "tcpip" process to open a different port depending on the controlle
 
 The second advantage is that you can also control a real robot from your third party software by simply implementing your library based on the given remote control library.
 Switching to the remote control mode will redirect the input/output to the real robot through the Inter-Process Communication (IPC).
-An example of remote control is implemented for the e-puck robot in the file "[WEBOTS\_HOME/projects/robots/e-puck/worlds/e-puck.wbt](https://github.com/omichel/webots/tree/master/projects/robots/e-puck/worlds/e-puck.wbt)" directory of Webots.
+An example of remote control is implemented for the e-puck robot in the file "[WEBOTS\_HOME/projects/robots/gctronic/e-puck/worlds/e-puck.wbt](https://github.com/omichel/webots/tree/master/projects/robots/gctronic/e-puck/worlds/e-puck.wbt)" directory of Webots.
 
 The third advantage is that you can spread your controller programs over a network of computers.
 This is especially useful if the controller programs perform computationally expensive algorithms such as genetic algorithms or other learning techniques.
