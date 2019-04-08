@@ -36,4 +36,4 @@ In the latter case, you may want to run the simulation in real time mode so that
 
 The main drawback of TCP/IP interfacing is that if your robot has a camera device, the protocol must send the images to the controller via TCP/IP, which might be network intensive.
 Hence it is recommended to have a high speed network, or use small resolution camera images, or compress the image data before sending it to the controller.
-This overhead is negligible if you use a low resolution camera such as the Khepera K213 (see example "[WEBOTS\_HOME/projects/robots/khepera/khepera1/worlds/khepera\_k213.wbt](https://github.com/omichel/webots/tree/master//projects/robots/khepera/khepera1/worlds/khepera_k213.wbt)").
+This overhead is negligible if you use a low resolution camera such as the Khepera K213 (see example "[WEBOTS\_HOME/projects/robots/k-team/khepera1/worlds/khepera\_k213.wbt](https://github.com/omichel/webots/tree/master/projects/robots/k-team/khepera1/worlds/khepera_k213.wbt)").
