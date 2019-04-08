@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,6 +37,9 @@ namespace WbPrecision {
   //     - a string <-> floating point conversion without loosing precision.
   //     - the result is the shortest possible string.
   QString doubleToString(double value, Level level);
+
+  const double epsilon(Level level);
+  double roundValue(double value, Level level);
 
 };  // namespace WbPrecision
 

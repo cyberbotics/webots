@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,6 +72,13 @@ public:
   void normalize() {
     normalizeAxis();
     normalizeAngle();
+  }
+
+  WbRotation rounded(WbPrecision::Level level) const {
+    WbRotation rotation(WbPrecision::roundValue(mX, level), WbPrecision::roundValue(mY, level),
+                        WbPrecision::roundValue(mZ, level), WbPrecision::roundValue(mAngle, level));
+    rotation.normalize();
+    return rotation;
   }
 
   // invalid only if |axis| == 0.0

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ enum {
   WB_KEYBOARD_PAGEUP = 366,
   WB_KEYBOARD_PAGEDOWN,
   WB_KEYBOARD_NUMPAD_HOME = 375,
-  WB_KEYBOARD_WB_KEYBOARD_PAGEDOWN,
+  WB_KEYBOARD_NUMPAD_LEFT,
   WB_KEYBOARD_NUMPAD_UP,
   WB_KEYBOARD_NUMPAD_RIGHT,
   WB_KEYBOARD_NUMPAD_DOWN,

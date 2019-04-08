@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,6 +64,7 @@
 #include "WbMuscle.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbNormal.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbPen.hpp"
 #include "WbPhysics.hpp"
@@ -209,6 +210,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbMicrophone(tokenizer);
   if (modelName == "Muscle")
     return new WbMuscle(tokenizer);
+  if (modelName == "Normal")
+    return new WbNormal(tokenizer);
   if (modelName == "PBRAppearance")
     return new WbPbrAppearance(tokenizer);
   if (modelName == "Pen")
@@ -397,6 +400,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbMicrophone(original);
   if (modelName == "Muscle")
     return new WbMuscle(original);
+  if (modelName == "Normal")
+    return new WbNormal(original);
   if (modelName == "PBRAppearance")
     return new WbPbrAppearance(original);
   if (modelName == "Pen")

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -377,10 +377,6 @@ int WbWrenTextureOverlay::width() const {
 
 int WbWrenTextureOverlay::height() const {
   return wr_overlay_get_height(mWrenOverlay) * wr_viewport_get_height(wr_scene_get_viewport(wr_scene_get_instance()));
-}
-
-bool WbWrenTextureOverlay::isTransparent() const {
-  return (mTextureType == TEXTURE_TYPE_BGRA);
 }
 
 bool WbWrenTextureOverlay::isVisible() const {

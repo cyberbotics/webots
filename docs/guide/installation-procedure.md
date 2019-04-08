@@ -16,7 +16,7 @@ Webots will run on most recent Linux distributions running glibc2.11.1 or earlie
 This includes fairly recent Ubuntu, Debian, Fedora, SuSE, RedHat, etc.
 Webots comes in two different package types: `.deb` and `.tar.bz2` (tarball).
 The `.deb` package is aimed at the latest LTS Ubuntu Linux distribution whereas the tarball package includes many dependency libraries and it is therefore best suited for installation on other Linux distributions.
-These packages can be downloaded from our [website](http://www.cyberbotics.com/linux).
+These packages can be downloaded from our [website](https://cyberbotics.com/download).
 
 > **Note**: Some of the following commands requires the `root` privileges.
 You can get these privileges by preceding all the commands by the `sudo` command.
@@ -133,7 +133,7 @@ Additionally, it is also necessary to install an OS GUI, for example the Unity d
 
 ### Installation on Windows
 
-1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](http://www.cyberbotics.com/windows).
+1. Download the "webots-{{ webots.version.package }}\_setup.exe" installation file from our [website](https://cyberbotics.com/download).
 2. Double click on this file.
 3. Follow the installation instructions.
 
@@ -169,7 +169,7 @@ You can pass this warning and install Webots by clicking on the "More info" link
 
 ### Installation on macOS
 
-1. Download the "webots-{{ webots.version.package }}.dmg" installation file from our [website](http://www.cyberbotics.com/macosx).
+1. Download the `webots-{{ webots.version.package }}.dmg` installation file from our [website](https://cyberbotics.com/download).
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.

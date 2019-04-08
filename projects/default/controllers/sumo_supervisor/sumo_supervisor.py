@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ if directory.startswith("WEBOTS_HOME"):
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
     directory = re.sub(r'.wbt$', '_net', controller.getWorldPath())
 if not os.path.isdir(directory):
-    sys.exit("You should specify in which directory are stored the network files associated to this world.")
+    sys.exit("You should specify in which directory are stored the network files associated to this world with the '--directory' argument or put them in the '%s' directory." % directory)
 
 tmpDirectory = None
 # generate the net file with the 'netconvert' utility

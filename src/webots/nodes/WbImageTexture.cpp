@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -304,12 +304,6 @@ void WbImageTexture::setBackgroundTexture(WrTexture *backgroundTexture) {
 void WbImageTexture::unsetBackgroundTexture() {
   mWrenBackgroundTexture = NULL;
   emit changed();
-}
-
-bool WbImageTexture::isTransparent() const {
-  if (mWrenTexture)
-    return wr_texture_is_translucent(WR_TEXTURE(mWrenTexture));
-  return false;
 }
 
 int WbImageTexture::width() const {

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "WbMFInt.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbNormal.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -51,9 +52,12 @@ void WbIndexedFaceSet::init() {
   mIsOdeDataApplied = false;
 
   mCoord = findSFNode("coord");
+  mNormal = findSFNode("normal");
   mTexCoord = findSFNode("texCoord");
   mCcw = findSFBool("ccw");
+  mNormalPerVertex = findSFBool("normalPerVertex");
   mCoordIndex = findMFInt("coordIndex");
+  mNormalIndex = findMFInt("normalIndex");
   mTexCoordIndex = findMFInt("texCoordIndex");
   mCreaseAngle = findSFDouble("creaseAngle");
 }
@@ -95,14 +99,20 @@ void WbIndexedFaceSet::postFinalize() {
   WbGeometry::postFinalize();
 
   connect(mCoord, &WbSFNode::changed, this, &WbIndexedFaceSet::updateCoord);
+  connect(mNormal, &WbSFNode::changed, this, &WbIndexedFaceSet::updateNormal);
   connect(mTexCoord, &WbSFNode::changed, this, &WbIndexedFaceSet::updateTexCoord);
   connect(mCcw, &WbSFBool::changed, this, &WbIndexedFaceSet::updateCcw);
+  connect(mNormalPerVertex, &WbSFBool::changed, this, &WbIndexedFaceSet::updateNormalPerVertex);
   connect(mCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateCoordIndex);
+  connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateNormalIndex);
   connect(mTexCoordIndex, &WbMFInt::changed, this, &WbIndexedFaceSet::updateTexCoordIndex);
   connect(mCreaseAngle, &WbSFDouble::changed, this, &WbIndexedFaceSet::updateCreaseAngle);
 
   if (coord())
     connect(coord(), &WbCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateCoord, Qt::UniqueConnection);
+
+  if (normal())
+    connect(normal(), &WbNormal::fieldChanged, this, &WbIndexedFaceSet::updateNormal, Qt::UniqueConnection);
 
   if (texCoord())
     connect(texCoord(), &WbTextureCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateTexCoord, Qt::UniqueConnection);
@@ -114,6 +124,9 @@ void WbIndexedFaceSet::reset() {
   WbNode *const coord = mCoord->value();
   if (coord)
     coord->reset();
+  WbNode *const normal = mNormal->value();
+  if (normal)
+    normal->reset();
   WbNode *const texCoord = mTexCoord->value();
   if (texCoord)
     texCoord->reset();
@@ -129,8 +142,9 @@ WbTriangleMeshCache::TriangleMeshInfo WbIndexedFaceSet::createTriangleMesh() {
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
   mTriangleMeshError =
-    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, texCoord() ? &(texCoord()->point()) : NULL,
-                        mTexCoordIndex, mCreaseAngle->value(), mCcw->value());
+    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL,
+                        mNormalIndex, texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(),
+                        mCcw->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
     foreach (QString warning, mTriangleMesh->warnings())
@@ -150,6 +164,10 @@ void WbIndexedFaceSet::clearTrimeshResources() {
 
 WbCoordinate *WbIndexedFaceSet::coord() const {
   return static_cast<WbCoordinate *>(mCoord->value());
+}
+
+WbNormal *WbIndexedFaceSet::normal() const {
+  return static_cast<WbNormal *>(mNormal->value());
 }
 
 WbTextureCoordinate *WbIndexedFaceSet::texCoord() const {
@@ -259,6 +277,22 @@ void WbIndexedFaceSet::updateCoord() {
   emit changed();
 }
 
+void WbIndexedFaceSet::updateNormal() {
+  if (normal()) {
+    connect(normal(), &WbNormal::fieldChanged, this, &WbIndexedFaceSet::updateNormal, Qt::UniqueConnection);
+    for (int i = 0; i < normal()->vector().size(); ++i) {
+      if (normal()->vector(i).isNull()) {
+        normal()->setVector(i, WbVector3(0.0, 1.0, 0.0));
+        warn(tr("Normal values can't be null."));
+      }
+    }
+  }
+
+  buildWrenMesh(true);
+
+  emit changed();
+}
+
 void WbIndexedFaceSet::updateTexCoord() {
   if (texCoord())
     connect(texCoord(), &WbTextureCoordinate::fieldChanged, this, &WbIndexedFaceSet::updateTexCoord, Qt::UniqueConnection);
@@ -269,6 +303,12 @@ void WbIndexedFaceSet::updateTexCoord() {
 }
 
 void WbIndexedFaceSet::updateCcw() {
+  buildWrenMesh(true);
+
+  emit changed();
+}
+
+void WbIndexedFaceSet::updateNormalPerVertex() {
   buildWrenMesh(true);
 
   emit changed();
@@ -285,6 +325,12 @@ void WbIndexedFaceSet::updateCoordIndex() {
 
   if (resizeManipulator() && resizeManipulator()->isAttached())
     setResizeManipulatorDimensions();  // Must be called after updateTriangleMesh()
+
+  emit changed();
+}
+
+void WbIndexedFaceSet::updateNormalIndex() {
+  buildWrenMesh(true);
 
   emit changed();
 }
