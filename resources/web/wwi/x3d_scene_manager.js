@@ -109,10 +109,10 @@ X3dSceneManager.prototype = {
     sceneBox.getCenter(boxCenter);
     var halfWidth = boxSize.x / 2 + boxCenter.x;
     var halfDepth = boxSize.z / 2 + boxCenter.z;
-    var maxSize = Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
+    var maxSize = 2 * Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
     directionalLights.forEach(function(light) {
       light.position.multiplyScalar(maxSize);
-      light.shadow.camera.far = Math.max(maxSize * 2, light.shadow.camera.far);
+      light.shadow.camera.far = Math.max(maxSize, light.shadow.camera.far);
       light.shadow.camera.left = -maxSize;
       light.shadow.camera.right = maxSize;
       light.shadow.camera.top = maxSize;
