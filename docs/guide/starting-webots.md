@@ -115,8 +115,6 @@ You can get more information about web streaming in [this section](web-streaming
 
 The `--enable-ogre-warnings` option redirects the uncritical Ogre log messages to the Webots console.
 The critical Ogre log messages are redirected there in any case.
-If the `--stdout` option is enabled then the uncritical Ogre log messages are redirected to the *stdout* stream of the Webots executable instead.
-Similarily, the `--stderr` option is redirecting the Ogre critical messages to the *stderr* stream.
 
 ### Safe Mode
 
