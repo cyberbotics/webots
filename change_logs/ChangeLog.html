@@ -28,6 +28,7 @@ Released on xx xxth, 2019
 <li>Added the following PROTO appearances: 'CorrodedMetal', 'CorrugatedMetal', 'DamascusSteel', 'ElectricConduit', 'FlexibleAluminiumDuct', 'GalvanizedMetal', 'HammeredCopper', 'OsbWood', 'Plaster', 'RustyMetal', 'ScrewThread' and 'WireFence'.</li>
 <li>Added a 'PipeBoundingObject' and a 'TorusBoundingObject' PROTO nodes to simplify the creation of complex bounding objects.</li>
 <li>Added a factory hall environment sample.</li>
+<li>Added support for normal definition (by face or by vertex) in IndexedFaceSet nodes.</li>
 </ul>
 <li><b>Upgrade</b></li>
 <ul>
@@ -39,6 +40,7 @@ Released on xx xxth, 2019
 <li>Added the possibility to define the appearance, radius and length of the 'Bolt' and 'Nut' PROTO nodes.</li>
 <li>Connector nodes can now be inserted in Solid nodes.</li>
 <li>Connector nodes can now be part of the static environment.</li>
+<li>Improved the infra-red DistanceSensor model by taking into account the roughness and occlusion of the surface.</li>
 </ul>
 <li><b>Bug fix</b></li>
 <ul>
@@ -47,6 +49,21 @@ Released on xx xxth, 2019
 </ul>
 <li><b>Cleanup</b></li>
 <ul>
+</ul>
+</ul>
+
+<h2>Webots R2019a revision 2</h2>
+Released on xx xxth, 2019
+
+<ul>
+<li><b>Enhancements</b></li>
+<ul>
+</ul>
+<li><b>Bug fixes</b></li>
+<ul>
+<li>Fixed Fog node not disabled when visibility range is 0.</li>
+<li>Fixed reading of available GPU memory on some AMD graphics cards.</li>
+<li>Fixed value of the 'WB_KEYBOARD_NUMPAD_LEFT' enumeration in the C API.</li>
 </ul>
 </ul>
 
