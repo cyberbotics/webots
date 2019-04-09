@@ -17,6 +17,8 @@
 
 #include <webots/Device.hpp>
 
+#include <math.h>  // for 'INFINITY'
+
 namespace webots {
   class Brake;
   class PositionSensor;
