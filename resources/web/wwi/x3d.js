@@ -275,9 +275,10 @@ THREE.X3DLoader.prototype = {
     }
 
     // apply default geometry and/or material
-    if (!geometry)
+    if (!geometry) {
       geometry = new THREE.Geometry();
-    if (!material && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
+      geometry.userData = { 'x3dType': 'unknown' };
+    } if (!material && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
       material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
     var mesh = null;
@@ -308,7 +309,6 @@ THREE.X3DLoader.prototype = {
   parseAppearance: function(appearance) {
     var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
-    // TODO set object name for image transform, material etc.
 
     // Get the Material tag
     var material = appearance.getElementsByTagName('Material')[0];
@@ -405,15 +405,6 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
     }
 
-    // TODO -> asynchronous texture load
-    /* var loader = new THREE.CubeTextureLoader();
-    loader.setPath('/robot-designer/assets/common/textures/cubic/');
-    materialSpecifications.envMap = loader.load([
-      'noon_sunny_empty_right.jpg', 'noon_sunny_empty_left.jpg',
-      'noon_sunny_empty_top.jpg', 'noon_sunny_empty_bottom.jpg',
-      'noon_sunny_empty_front.jpg', 'noon_sunny_empty_back.jpg'
-    ]); */
-
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
     if (isTransparent)
@@ -424,7 +415,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parseImageTexture: function(imageTexture, textureTransform, mat) {
-    // TODO issues with DEF and USE textures with different image transform!
+    // Issues with DEF and USE ImageTexture with different TextureTransform!
     var texture = this.getDefNode(imageTexture);
     if (texture)
       return texture;
@@ -498,28 +489,39 @@ THREE.X3DLoader.prototype = {
   parseIndexedFaceSet: function(ifs) {
     var coordinate = ifs.getElementsByTagName('Coordinate')[0];
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
-
-    var bufferGeometry = new THREE.BufferGeometry();
-    var x3dType = getNodeAttribute(ifs, 'x3dType', '');
-    bufferGeometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
-    if (!coordinate)
-      return bufferGeometry;
+    var normal = ifs.getElementsByTagName('Normal')[0];
 
     var geometry = new THREE.Geometry();
-    var indices = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
-    var verticesStr = getNodeAttribute(coordinate, 'point', '');
+    var x3dType = getNodeAttribute(ifs, 'x3dType', '');
+    geometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
+    if (!coordinate)
+      return geometry;
+
+    var indicesStr = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
+    var verticesStr = getNodeAttribute(coordinate, 'point', '').split(/\s/);
     var hasTexCoord = 'texCoordIndex' in ifs.attributes;
     var texcoordIndexStr = hasTexCoord ? getNodeAttribute(ifs, 'texCoordIndex', '') : '';
     var texcoordsStr = hasTexCoord ? getNodeAttribute(textureCoordinate, 'point', '') : '';
-    var creaseAngle = parseFloat(getNodeAttribute(ifs, 'creaseAngle', '0'));
 
-    var verts = verticesStr.split(/\s/);
-    for (let i = 0; i < verts.length; i += 3) {
+    for (let i = 0; i < verticesStr.length; i += 3) {
       var v = new THREE.Vector3();
-      v.x = parseFloat(verts[i + 0]);
-      v.y = parseFloat(verts[i + 1]);
-      v.z = parseFloat(verts[i + 2]);
+      v.x = parseFloat(verticesStr[i + 0]);
+      v.y = parseFloat(verticesStr[i + 1]);
+      v.z = parseFloat(verticesStr[i + 2]);
       geometry.vertices.push(v);
+    }
+
+    var normalArray, normalIndicesStr;
+    if (normal) {
+      var normalStr = getNodeAttribute(normal, 'vector', '').split(/[\s,]+/);
+      normalIndicesStr = getNodeAttribute(ifs, 'normalIndex', '').split(/\s/);
+      normalArray = [];
+      for (let i = 0; i < normalStr.length; i += 3) {
+        normalArray.push(new THREE.Vector3(
+          parseFloat(normalStr[i + 0]),
+          parseFloat(normalStr[i + 1]),
+          parseFloat(normalStr[i + 2])));
+      }
     }
 
     if (hasTexCoord) {
@@ -536,16 +538,20 @@ THREE.X3DLoader.prototype = {
     // Now pull out the face indices
     if (hasTexCoord)
       var texIndices = texcoordIndexStr.split(/\s/);
-    for (let i = 0; i < indices.length; i++) {
+    for (let i = 0; i < indicesStr.length; i++) {
       var faceIndices = [];
       var uvIndices = [];
-      while (parseFloat(indices[i]) >= 0) {
-        faceIndices.push(parseFloat(indices[i]));
+      var normalIndices = [];
+      while (parseFloat(indicesStr[i]) >= 0) {
+        faceIndices.push(parseFloat(indicesStr[i]));
         if (hasTexCoord)
           uvIndices.push(parseFloat(texIndices[i]));
+        if (normalIndicesStr)
+          normalIndices.push(parseFloat(normalIndicesStr[i]));
         i++;
       }
 
+      var faceNormal;
       while (faceIndices.length > 3) {
         // Take the last three, make a triangle, and remove the
         // middle one (works for convex & continuously wrapped)
@@ -561,11 +567,21 @@ THREE.X3DLoader.prototype = {
           uvIndices.pop();
           uvIndices[uvIndices.length - 1] = tmp;
         }
+
+        if (normal) {
+          faceNormal = [
+            normalArray[normalIndices[faceIndices.length - 3]],
+            normalArray[normalIndices[faceIndices.length - 2]],
+            normalArray[normalIndices[faceIndices.length - 1]]];
+        } else
+          faceNormal = null;
+
         // Make a face
         geometry.faces.push(new THREE.Face3(
           faceIndices[faceIndices.length - 3],
           faceIndices[faceIndices.length - 2],
-          faceIndices[faceIndices.length - 1]
+          faceIndices[faceIndices.length - 1],
+          faceNormal
         ));
         // Remove the second-to-last vertex
         tmp = faceIndices[faceIndices.length - 1];
@@ -582,26 +598,30 @@ THREE.X3DLoader.prototype = {
             uvs[parseFloat(uvIndices[uvIndices.length - 1])].clone()
           ]);
         }
+        
+        if (normal) {
+          faceNormal = [
+            normalArray[normalIndices[faceIndices.length - 3]],
+            normalArray[normalIndices[faceIndices.length - 2]],
+            normalArray[normalIndices[faceIndices.length - 1]]];
+        } else
+          faceNormal = null;
 
         geometry.faces.push(new THREE.Face3(
-          faceIndices[0], faceIndices[1], faceIndices[2]
+          faceIndices[0], faceIndices[1], faceIndices[2], faceNormal
         ));
       }
     }
 
     geometry.computeBoundingSphere();
-
-    if (creaseAngle > 0)
-      geometry.computeAngleVertexNormals(creaseAngle);
-    else
+    if (!normal)
       geometry.computeFaceNormals();
 
-    bufferGeometry = bufferGeometry.fromGeometry(geometry);
-    this.setCustomId(coordinate, bufferGeometry);
+    this.setCustomId(coordinate, geometry);
     if (hasTexCoord)
-      this.setCustomId(textureCoordinate, bufferGeometry);
+      this.setCustomId(textureCoordinate, geometry);
 
-    return bufferGeometry;
+    return geometry;
   },
 
   parseIndexedLineSet: function(ils) {
@@ -689,7 +709,7 @@ THREE.X3DLoader.prototype = {
     var height = getNodeAttribute(cone, 'height', '0');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var openEnded = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() !== 'true';
-    // TODO var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
+    // var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
     coneGeometry.userData = { 'x3dType': 'Cone' };
@@ -702,8 +722,8 @@ THREE.X3DLoader.prototype = {
     var height = getNodeAttribute(cylinder, 'height', '0');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
     var openEnded = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() !== 'true';
-    // TODO var openSided = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true' ? false : true;
-    // TODO var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
+    // var openSided = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true' ? false : true;
+    // var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
@@ -912,7 +932,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parseViewpoint: function(viewpoint) {
-    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')) * 90 / Math.PI; // convert to degrees
+    var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     // set default aspect ratio 1 that will be updated on window resize.
@@ -953,7 +973,6 @@ THREE.X3DLoader.prototype = {
     var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
 
     var fogObject = null;
-    // TODO add LINEAR fog
     var fogType = getNodeAttribute(fog, 'forType', 'LINEAR');
     if (fogType === 'LINEAR')
       fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
@@ -1011,38 +1030,3 @@ function convertStringTorgb(s) {
   var v = convertStringToVec3(s);
   return new THREE.Color(v.x, v.y, v.z);
 }
-
-// Source: https://gist.github.com/Ni55aN/90c017fafbefd3e31ef8d98ab6566cfa
-// Demo: https://codepen.io/Ni55aN/pen/zROmoe?editors=0010
-THREE.Geometry.prototype.computeAngleVertexNormals = function(angle) {
-  function weightedNormal(normals, vector) {
-    var normal = new THREE.Vector3();
-    for (let i = 0, l = normals.length; i < l; i++) {
-      if (normals[i].angleTo(vector) < angle)
-        normal.add(normals[ i ]);
-    }
-    return normal.normalize();
-  }
-
-  this.computeFaceNormals();
-
-  var vertexNormals = [];
-  for (let i = 0, l = this.vertices.length; i < l; i++)
-    vertexNormals[ i ] = [];
-  for (let i = 0, fl = this.faces.length; i < fl; i++) {
-    let face = this.faces[i];
-    vertexNormals[face.a].push(face.normal);
-    vertexNormals[face.b].push(face.normal);
-    vertexNormals[face.c].push(face.normal);
-  }
-
-  for (let i = 0, fl = this.faces.length; i < fl; i++) {
-    let face = this.faces[i];
-    face.vertexNormals[0] = weightedNormal(vertexNormals[face.a], face.normal);
-    face.vertexNormals[1] = weightedNormal(vertexNormals[face.b], face.normal);
-    face.vertexNormals[2] = weightedNormal(vertexNormals[face.c], face.normal);
-  }
-
-  if (this.faces.length > 0)
-    this.normalsNeedUpdate = true;
-};
