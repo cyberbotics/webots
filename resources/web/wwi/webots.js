@@ -400,7 +400,9 @@ webots.View.prototype.getControllerUrl = function(name) {
 // Functions for internal use.
 
 webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
-  if (!this.toolBar)
+  if (!this.toolBar || this.broadcast)
+    // Do not show world list if no toolbar exists or in broadcast mode,
+    // where multiple users can connect to the same Webots instance.
     return;
 
   var that = this;
