@@ -17,6 +17,7 @@
   - [Containers](object-factory.md#containers)
   - [Conveyor Belt](object-factory.md#conveyor-belt)
   - [Fire Extinguisher](object-factory.md#fire-extinguisher)
+  - [Manhole](object-factory.md#manhole)
   - [Pallet](object-factory.md#pallet)
   - [Pipes](object-factory.md#pipes)
   - [Tools](object-factory.md#tools)
