@@ -4,7 +4,8 @@
 function Viewpoint(camera) {
   this.camera = camera;
   this.onCameraParametersChanged = null;
-  // after initialization 'followedObjectId' contains the id ('n<id>') of the followed node or 'none' if no object is followed
+  // After initialization 'followedObjectId' contains the id ('n<id>') of the followed node
+  // or 'none' if no object is followed.
   this.followedObjectId = null;
   // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
   // vector with the translation applied to the object.
@@ -137,8 +138,8 @@ Viewpoint.prototype = {
   },
 
   rotate: function(params) {
-    var yawAngle = -0.01 * params.dx;
-    var pitchAngle = -0.01 * params.dy;
+    var yawAngle = -0.005 * params.dx;
+    var pitchAngle = -0.005 * params.dy;
     if (params.pickPosition == null) {
       yawAngle /= -8;
       pitchAngle /= -8;

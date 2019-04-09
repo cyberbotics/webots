@@ -1,4 +1,4 @@
-/* global DialogWindow */
+/* global webots, DialogWindow */
 'use strict';
 
 function RobotWindow(parent, mobile, name) {
@@ -72,13 +72,7 @@ RobotWindow.prototype = {
   },
 
   send: function(message, robot) {
-    // TODO
-    // webots.currentView.stream.socket.send('robot:' + robot + ':' + message);
-    // if (webots.currentView.real_timeButton.style.display === 'inline') // if paused, make a simulation step
-    //  webots.currentView.stream.socket.send('step'); // so that the robot controller handles the message
-    // FIXME: there seems to be a bug here: after that step, the current time is not incremented in the web interface,
-    // this is because the next 'application/json:' is not received, probably because it gets overwritten by the
-    // answer to the robot message...
+    webots.currentView.send(message, robot);
   },
 
   receive: function(message, robot) { // to be overriden

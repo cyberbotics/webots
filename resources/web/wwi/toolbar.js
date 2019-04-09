@@ -234,6 +234,10 @@ Toolbar.prototype = {
       this.view.stream.socket.send('reset');
   },
 
+  isPaused: function() {
+    return this.real_timeButton.style.display === 'inline';
+  },
+
   pause: function() {
     if (webots.broadcast)
       return;

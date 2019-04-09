@@ -17,29 +17,28 @@ function MouseEvents(sceneManager, contextMenu, domElement) {
   this.enableNavigation = true;
 
   var that = this;
-  this.onmousemove = function(event) { that.onMouseMove(event); };
-  this.onmouseup = function(event) { that.onMouseUp(event); };
-  this.ontouchmove = function(event) { that.onTouchMove(event); };
+  this.onmousemove = function(event) { that._onMouseMove(event); };
+  this.onmouseup = function(event) { that._onMouseUp(event); };
+  this.ontouchmove = function(event) { that._onTouchMove(event); };
   this.ontouchend = function(event) {
     that._clearMouseMove();
-    that.domElement.removeEventListener('touchend', that.ontouchend, true);
-    that.domElement.removeEventListener('touchmove', that.ontouchmove, true);
-
-    if (that.ontouchend)
-      that.ontouchend(event);
+    that.domElement.removeEventListener('touchend', that._onTouchEnd, true);
+    that.domElement.removeEventListener('touchmove', that._onTouchMove, true);
+    if (that._onTouchEnd)
+      that._onTouchEnd(event);
   };
-  domElement.addEventListener('mousedown', function(event) { that.onMouseDown(event); }, false);
-  domElement.addEventListener('mouseover', function(event) { that.onMouseOver(event); }, false);
-  domElement.addEventListener('mouseleave', function(event) { that.onMouseLeave(event); }, false);
-  domElement.addEventListener('wheel', function(event) { that.onMouseWheel(event); }, false);
-  domElement.addEventListener('touchstart', function(event) { that.onTouchStart(event); }, true);
+  domElement.addEventListener('mousedown', function(event) { that._onMouseDown(event); }, false);
+  domElement.addEventListener('mouseover', function(event) { that._onMouseOver(event); }, false);
+  domElement.addEventListener('mouseleave', function(event) { that._onMouseLeave(event); }, false);
+  domElement.addEventListener('wheel', function(event) { that._onMouseWheel(event); }, false);
+  domElement.addEventListener('touchstart', function(event) { that._onTouchStart(event); }, true);
   domElement.addEventListener('contextmenu', function(event) { event.preventDefault(); }, false);
 };
 
 MouseEvents.prototype = {
   constructor: MouseEvents,
 
-  onMouseDown: function(event) {
+  _onMouseDown: function(event) {
     this.state.wheelFocus = true;
     this._initMouseMove(event);
 
@@ -65,12 +64,12 @@ MouseEvents.prototype = {
     }
   },
 
-  onMouseMove: function(event) {
+  _onMouseMove: function(event) {
     if (!this.enableNavigation && event.button === 0)
       return;
     if (this.state.x === undefined)
-      // mousedown event has not been called yet
-      // this could happen for example when another application has focus while loading the scene
+      // mousedown event has not been called yet.
+      // This could happen for example when another application has focus while loading the scene.
       return;
     if ('buttons' in event)
       this.state.mouseDown = event.buttons;
@@ -87,65 +86,63 @@ MouseEvents.prototype = {
       return;
 
     if (this.state.initialTimeStamp === null)
-      // prevent applying mouse move action before drag initialization in mousedrag event
+      // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
 
     var params = {};
     params.dx = event.clientX - this.state.x;
     params.dy = event.clientY - this.state.y;
-    params.pickPosition = this.intersection ? this.intersection.point : null;
-
-    if (this.intersection == null)
-      params.distanceToPickPosition = this.sceneManager.viewpoint.camera.position.length();
-    else
-      params.distanceToPickPosition = this.intersection.distance;
-    if (params.distanceToPickPosition < 0.001) // 1 mm
-      params.distanceToPickPosition = 0.001;
-
-    // FIXME this is different from webots. We need to understand why the same formula doesn't work.
-    params.scaleFactor = params.distanceToPickPosition * 3.35 * Math.tan(this.sceneManager.viewpoint.camera.fov / 2);
-    var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
-    params.scaleFactor /= Math.max(viewHeight, viewWidth);
 
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      params.distanceToPickPosition = 0;
+      params.pickPosition = this.intersection ? this.intersection.object.getWorldPosition(params.pickPosition) : null;
       this.sceneManager.viewpoint.rotate(params);
-    } else if (this.state.mouseDown === 2) // right mouse button to translate viewpoint {}
-      this.sceneManager.viewpoint.translate(params);
-    else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
-      params.tiltAngle = 0.01 * params.dx;
-      params.zoomScale = params.scaleFactor * 5 * params.dy;
-      this.sceneManager.viewpoint.zoomAndTilt(params, true);
+    } else {
+      if (this.intersection == null) {
+        var cameraPosition = new THREE.Vector3();
+        this.sceneManager.viewpoint.camera.getWorldPosition(cameraPosition);
+        params.distanceToPickPosition = cameraPosition.length();
+      } else
+        params.distanceToPickPosition = this.intersection.distance;
+      if (params.distanceToPickPosition < 0.001) // 1 mm
+        params.distanceToPickPosition = 0.001;
+      // FIXME this is different from webots. We need to understand why the same formula doesn't work.
+      // THREEjs Camera fov is half of Webots Viewpoint fov.
+      params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.sceneManager.viewpoint.camera.fov));
+      var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
+      var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
+      params.scaleFactor /= Math.max(viewHeight, viewWidth);
+      if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
+        this.sceneManager.viewpoint.translate(params);
+      } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
+        params.tiltAngle = 0.01 * params.dx;
+        params.zoomScale = params.scaleFactor * 5 * params.dy;
+        this.sceneManager.viewpoint.zoomAndTilt(params, true);
+      }
     }
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
     this.state.x = event.clientX;
     this.state.y = event.clientY;
   },
 
-  onMouseUp: function(event) {
+  _onMouseUp: function(event) {
     this._clearMouseMove();
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       var object = this.intersection.object;
       if (object)
         object = this.sceneManager.getTopX3dNode(object);
-      // if (this.previousSelection == null || this.previousSelection.id !== s.id || (this.state.previousMouseDown === 2 && (!this.mobileDevice || this.state.longClick)))
       this.sceneManager.selector.select(object);
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
         this.hiddenContextMenu === false && this.contextMenu)
-        // right click: show popup menu
+        // Right click: show popup menu.
         this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
-    } else if (this.state.moved) {
-      if (this.sceneManager.viewpoint.onCameraPositionChanged)
-        this.sceneManager.viewpoint.onCameraPositionChanged();
     }
 
     document.removeEventListener('mousemove', this.onmousemove, false);
     document.removeEventListener('mouseup', this.onmouseup, false);
   },
 
-  onMouseWheel: function(event) {
+  _onMouseWheel: function(event) {
     event.preventDefault(); // do not scroll page
 
     if (this.intersection.distance < 0.001) // 1 mm
@@ -158,26 +155,24 @@ MouseEvents.prototype = {
       if (this.state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
         clearTimeout(this.state.wheelTimeout); // so that the wheel focus will get enabled and
         var that = this;
-        this.state.wheelTimeout = setTimeout(function(event) { that.wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
+        this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
       }
       return;
     }
     this.sceneManager.viewpoint.zoom(this.intersection.distance, event.deltaY);
-    if (this.sceneManager.viewpoint.onCameraPositionChanged)
-      this.sceneManager.viewpoint.onCameraPositionChanged();
   },
 
-  wheelTimeoutCallback: function(event) {
+  _wheelTimeoutCallback: function(event) {
     this.state.wheelTimeout = null;
     this.state.wheelFocus = true;
   },
 
-  onMouseOver: function(event) {
+  _onMouseOver: function(event) {
     var that = this;
-    this.state.wheelTimeout = setTimeout(function(event) { that.wheelTimeoutCallback(event); }, 1500);
+    this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500);
   },
 
-  onMouseLeave: function(event) {
+  _onMouseLeave: function(event) {
     if (this.state.wheelTimeout != null) {
       clearTimeout(this.state.wheelTimeout);
       this.state.wheelTimeout = null;
@@ -185,30 +180,34 @@ MouseEvents.prototype = {
     this.state.wheelFocus = false;
   },
 
-  onTouchMove: function(event) {
+  _onTouchMove: function(event) {
     if (!this.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
       return;
     if (this.state.initialTimeStamp === null)
-      // prevent applying mouse move action before drag initialization in mousedrag event
+      // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
     if ((this.state.mouseDown !== 2) !== (event.targetTouches.length > 1))
-      // gesture single/multi touch changed after initialization
+      // Gesture single/multi touch changed after initialization.
       return;
 
     var touch = event.targetTouches['0'];
 
     var params = {};
-    params.scaleFactor = params.distanceToPickPosition * 3.35 * Math.tan(this.viewpointFieldOfView / 2);
+    if (this.intersection == null) {
+      var cameraPosition = new THREE.Vector3();
+      this.sceneManager.viewpoint.camera.getWorldPosition(cameraPosition);
+      params.distanceToPickPosition = cameraPosition.length();
+    } else
+      params.distanceToPickPosition = this.intersection.distance;
+    if (params.distanceToPickPosition < 0.001) // 1 mm
+      params.distanceToPickPosition = 0.001;
+    // FIXME this is different from webots. We need to understand why the same formula doesn't work.
+    // THREEjs Camera fov is half of Webots Viewpoint fov.
+    params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.sceneManager.viewpoint.camera.fov));
     var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
     var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
     params.scaleFactor /= Math.max(viewHeight, viewWidth);
 
-    if (this.intersection == null)
-      params.distanceToPickPosition = this.sceneManager.viewpoint.camera.position.length();
-    else
-      params.distanceToPickPosition = this.intersection.distance;
-    if (params.distanceToPickPosition < 0.001) // 1 mm
-      params.distanceToPickPosition = 0.001;
     var x = Math.round(touch.clientX); // discard decimal values returned on android
     var y = Math.round(touch.clientY);
 
@@ -217,7 +216,7 @@ MouseEvents.prototype = {
       params.dy = y - this.state.y;
       this.sceneManager.viewpoint.translate(params);
 
-      // on small phone screens (Android) this is needed to correctly detect clicks and longClicks
+      // On small phone screens (Android) this is needed to correctly detect clicks and longClicks.
       if (this.state.initialX == null && this.state.initialY == null) {
         this.state.initialX = Math.round(this.state.x);
         this.state.initialY = Math.round(this.state.y);
@@ -269,7 +268,7 @@ MouseEvents.prototype = {
       this.ontouchmove(event);
   },
 
-  onTouchStart: function(event) {
+  _onTouchStart: function(event) {
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
       var touch1 = event.targetTouches['1'];
@@ -287,10 +286,10 @@ MouseEvents.prototype = {
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
   },
 
-  onTouchEnd: function(event) {
+  _onTouchEnd: function(event) {
     this._clearMouseMove();
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
-    this.domElement.removeEventListener('touchmove', this.ontouchend, true);
+    this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
     if (this.ontouchend)
       this.ontouchend(event);

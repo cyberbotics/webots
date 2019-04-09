@@ -5,7 +5,6 @@
  *   The Webots view object displays a 3D view on a web page.
  *   This view represents a Webots simulation world that may be
  *   connected to a webots instance running on a remote server.
- *   This library depends on the x3dom-full.js library // TODO
  * @example
  *   // Example: Initialize from a Webots streaming server
  *   var view = new webots.View(document.getElementById("myDiv"));
@@ -20,7 +19,9 @@
  *   }
  */
 
-/* global webots THREE, Animation, X3dSceneManager, MouseEvents, Server, Stream, ContextMenu, VideoManager, Console, Editor, RobotWindow, Toolbar, ResourceManager */
+/* global webots, THREE */
+/* global Animation, Console, ContextMenu, Editor, MouseEvents, ResourceManager, RobotWindow */
+/* global Server, Stream, Toolbar, VideoManager, X3dSceneManager */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -72,9 +73,9 @@ webots.View = function(view3D, mobile) {
     // folder level, e.g., https://mydomain.com/mydir/
     // If the simulation page is https://mydomain.com/mydir/mysimulation/, the quit action redirects to the upper level:
     // https://mydomain.com/mydir/
-    // You can change this behavior by overriding this onquit() method
+    // You can change this behavior by overriding this onquit() method.
     var currentLocation = window.location.href;
-    // remove filename or last directory name from url and keep the final slash
+    // Remove filename or last directory name from url and keep the final slash.S
     var quitDestination = currentLocation.substring(0, currentLocation.lastIndexOf('/', currentLocation.length - 2) + 1);
     window.location = quitDestination;
   };
@@ -103,10 +104,8 @@ webots.View = function(view3D, mobile) {
   };
   window.onresize = this.onresize;
 
-  this.onmousedown = null;
-  this.onworldloaded = null;
-
-  this.robotWindowNames = {}; // map robot name to robot window name used as key in robotWindows lists
+  // Map robot name to robot window name used as key in robotWindows lists.
+  this.robotWindowNames = {};
   this.robotWindows = {};
 
   this.view3D = view3D;
@@ -119,10 +118,10 @@ webots.View = function(view3D, mobile) {
 
   this.fullscreenEnabled = !/iPhone|iPad|iPop/i.test(navigator.userAgent);
   if (!this.fullscreenEnabled)
-    // add tag needed to run standalone web page in fullscreen on iOS
+    // Add tag needed to run standalone web page in fullscreen on iOS.
     $('head').append('<meta name="apple-mobile-web-app-capable" content="yes">');
 
-  // prevent the backspace key to quit the simulation page
+  // Prevent the backspace key to quit the simulation page.
   var rx = /INPUT|SELECT|TEXTAREA/i;
   $(document).bind('keydown keypress', function(e) {
     if (e.which === 8) { // backspace key
@@ -157,38 +156,18 @@ webots.View.prototype.setWebotsDocUrl = function(url) {
   this.webotsDocUrl = url;
 };
 
-webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
-  if (!this.toolBar)
-    return;
-
+webots.View.prototype.setAnimation = function(url, gui, loop) {
+  if (gui === undefined)
+    gui = 'play';
+  if (loop === undefined)
+    loop = true;
   var that = this;
-  if (typeof this.worldSelect !== 'undefined')
-    this.toolBar.worldSelectionDiv.removeChild(this.worldSelect);
-  if (worlds.length <= 1)
-    return;
-  this.worldSelect = document.createElement('select');
-  this.worldSelect.id = 'worldSelection';
-  this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
-  for (var i = 0; i < worlds.length; i++) {
-    var option = document.createElement('option');
-    option.value = worlds[i];
-    option.text = worlds[i];
-    this.worldSelect.appendChild(option);
-    if (currentWorld === worlds[i])
-      this.worldSelect.selectedIndex = i;
-  }
-  this.worldSelect.onchange = loadWorld;
-  function loadWorld() {
-    if (that.broadcast || typeof that.worldSelect === 'undefined')
-      return;
-    if (that.toolBar)
-      that.toolBar.enableToolBarButtons(false);
-    that.x3dSceneManager.viewpoint.resetFollow();
-    that.onrobotwindowsdestroy();
-    $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
-    $('#webotsProgress').show();
-    that.stream.socket.send('load:' + that.worldSelect.value);
-  }
+  this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
+  this.animation.init(function() {
+    $('#webotsProgress').hide();
+    if (that.onready)
+      that.onready();
+  });
 };
 
 webots.View.prototype.open = function(url, mode) {
@@ -243,12 +222,6 @@ webots.View.prototype.open = function(url, mode) {
   if (!this.editor)
     this.editor = new Editor(this.view3D, this.mobileDevice, this);
 
-  // TODO if THREE js library is already loaded the if is useless
-  /* if (this.url === undefined)
-    //loadTHREEjs(); TODO
-  else
-    initWorld();
-  */
   initWorld();
 
   function initWorld() {
@@ -287,7 +260,7 @@ webots.View.prototype.open = function(url, mode) {
     if (that.x3dSceneManager.viewpoint.followedObjectId == null || that.broadcast)
       that.x3dSceneManager.viewpoint.initFollowParameters();
     else
-      // reset follow parameters
+      // Reset follow parameters.
       that.x3dSceneManager.viewpoint.follow(that.x3dSceneManager.viewpoint.followedObjectId);
 
     if (!that.isWebSocketProtocol) { // skip robot windows initialization
@@ -299,11 +272,24 @@ webots.View.prototype.open = function(url, mode) {
       return;
     }
 
+    var infoWindowName = that.x3dSceneManager.worldInfo.window;
+    var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
+    var nodes = that.x3dSceneManager.root ? that.x3dSceneManager.root.children : [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i] instanceof THREE.Object3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
+        loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
+    }
+    pendingRequestsCount--; // notify that loop is completed
+    if (pendingRequestsCount === 0)
+      // If no pending requests execute loadFinalize
+      // otherwise it will be executed when the last request will be handled.
+      loadFinalize();
+
     function loadRobotWindow(windowName, nodeName) {
       that.robotWindowNames[nodeName] = windowName;
       var win = new RobotWindow(that.view3D, that.mobileDevice, windowName);
       that.robotWindows[windowName] = win;
-      // init robot windows dialogs
+      // Initialize robot windows dialogs.
       function closeInfoWindow() {
         $('#infoButton').removeClass('toolBarButtonActive');
       }
@@ -322,7 +308,7 @@ webots.View.prototype.open = function(url, mode) {
         win.setProperties({title: 'Robot: ' + nodeName});
       pendingRequestsCount++;
       $.get('window/' + windowName + '/' + windowName + '.html', function(data) {
-        // we need to fix the img src relative URLs
+        // Fix the img src relative URLs.
         var d = data.replace(/ src='/g, ' src=\'window/' + windowName + '/').replace(/ src="/g, ' src="window/' + windowName + '/');
         win.setContent(d);
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, win[0]]);
@@ -344,19 +330,6 @@ webots.View.prototype.open = function(url, mode) {
           loadFinalize();
       });
     }
-
-    var infoWindowName = that.x3dSceneManager.worldInfo.window;
-    var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-    var nodes = that.x3dSceneManager.root ? that.x3dSceneManager.root.children : [];
-    for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i] instanceof THREE.Object3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
-        loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
-    }
-    pendingRequestsCount--; // notify that loop is completed
-    if (pendingRequestsCount === 0)
-      // if no pending requests execute loadFinalize
-      // otherwise it will be executed when the last request will be handled
-      loadFinalize();
   }
 
   function loadFinalize() {
@@ -367,7 +340,7 @@ webots.View.prototype.open = function(url, mode) {
     if (that.onready)
       that.onready();
 
-    // restore robot windows
+    // Restore robot windows.
     if (that.robotWindowsGeometries) { // on reset
       for (var win in that.robotWindows) {
         if (win in that.robotWindowsGeometries) {
@@ -397,6 +370,11 @@ webots.View.prototype.close = function() {
 
 webots.View.prototype.sendRobotMessage = function(robot, message) {
   this.stream.socket.send('robot:' + robot + ':' + message);
+  if (this.toolBar.isPaused()) // if paused, make a simulation step
+    webots.currentView.stream.socket.send('step'); // so that the robot controller handles the message
+  // FIXME: there seems to be a bug here: after that step, the current time is not incremented in the web interface,
+  // this is because the next 'application/json:' is not received, probably because it gets overwritten by the
+  // answer to the robot message...
 };
 
 webots.View.prototype.resize = function(width, height) {
@@ -419,18 +397,39 @@ webots.View.prototype.getControllerUrl = function(name) {
   return this.url.substring(0, this.url.indexOf(':', 6) + 1) + port;
 };
 
-webots.View.prototype.setAnimation = function(url, gui, loop) {
-  if (gui === undefined)
-    gui = 'play';
-  if (loop === undefined)
-    loop = true;
+// Functions for internal use.
+
+webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
+  if (!this.toolBar)
+    return;
+
   var that = this;
-  this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
-  this.animation.init(function() {
-    $('#webotsProgress').hide();
-    if (that.onready)
-      that.onready();
-  });
+  if (typeof this.worldSelect !== 'undefined')
+    this.toolBar.worldSelectionDiv.removeChild(this.worldSelect);
+  if (worlds.length <= 1)
+    return;
+  this.worldSelect = document.createElement('select');
+  this.worldSelect.id = 'worldSelection';
+  this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
+  for (var i = 0; i < worlds.length; i++) {
+    var option = document.createElement('option');
+    option.value = worlds[i];
+    option.text = worlds[i];
+    this.worldSelect.appendChild(option);
+    if (currentWorld === worlds[i])
+      this.worldSelect.selectedIndex = i;
+  }
+  this.worldSelect.onchange = function() {
+    if (that.broadcast || typeof that.worldSelect === 'undefined')
+      return;
+    if (that.toolBar)
+      that.toolBar.enableToolBarButtons(false);
+    that.x3dSceneManager.viewpoint.resetFollow();
+    that.onrobotwindowsdestroy();
+    $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
+    $('#webotsProgress').show();
+    that.stream.socket.send('load:' + that.worldSelect.value);
+  };
 };
 
 webots.View.prototype.setLabel = function(properties) {
@@ -450,7 +449,6 @@ webots.View.prototype.setLabel = function(properties) {
 };
 
 webots.View.prototype.removeLabels = function() {
-  // remove labels
   var labels = document.getElementsByClassName('webotsLabel');
   for (var i = labels.length - 1; i >= 0; i--) {
     var element = labels.item(i);
@@ -481,7 +479,6 @@ webots.View.prototype.quitSimulation = function() {
 webots.View.prototype.destroyWorld = function() {
   if (this.x3dSceneManager)
     this.x3dSceneManager.destroyWorld();
-
   this.removeLabels();
 };
 

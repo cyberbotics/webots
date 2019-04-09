@@ -23,7 +23,7 @@ ResourceManager.prototype = {
     return 'url(' + this.wwiUrl + name + '.png)';
   },
 
-  // get the directory path to the currently executing script file
+  // Get the directory path to the currently executing script file
   // for example: https://cyberbotics.com/wwi/8.6/
   currentScriptPath: function() {
     var scripts = document.querySelectorAll('script[src]');

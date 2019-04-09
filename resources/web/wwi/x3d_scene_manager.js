@@ -28,7 +28,7 @@ X3dSceneManager.prototype = {
 
     this.scene = new THREE.Scene();
 
-    // init default camera
+    // Initialize default camera.
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
     this.camera.position.x = 10;
     this.camera.position.y = 10;
@@ -139,8 +139,7 @@ X3dSceneManager.prototype = {
       var newValue = pose[key];
       var object = this._getObjectByCustomId(this.scene, 'n' + id);
       if (!object)
-        // error
-        continue;
+        continue; // error
 
       if (key === 'translation') {
         if (object instanceof THREE.Texture) {
@@ -152,7 +151,7 @@ X3dSceneManager.prototype = {
           }
         } else if (object instanceof THREE.Object3D) {
           var newPosition = convertStringToVec3(newValue);
-          // followed object moved.
+          // Followed object moved.
           if (this.viewpoint.followedObjectId &&
               (id === this.viewpoint.followedObjectId || // animation case
                ('n' + id) === this.viewpoint.followedObjectId || // streaming case

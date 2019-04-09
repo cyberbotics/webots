@@ -58,7 +58,7 @@ TextureManager.prototype = {
     if (this.streamingMode)
       return; // textures will be sent throug socket
 
-    // load from url.
+    // Load from url.
     var that = this;
     var loader = new THREE.ImageLoader();
     loader.load(

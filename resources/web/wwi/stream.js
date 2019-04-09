@@ -1,4 +1,4 @@
-/* global TextureManager, webots */
+/* global webots, TextureManager */
 'use strict';
 
 function Stream(url, view, onready) {
@@ -107,22 +107,19 @@ Stream.prototype = {
       if (!data) // received an empty model case: just destroy the view
         return;
       this.view.x3dSceneManager.loadObject(data);
-      // TODO
-      // this.view.onresize();
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('image')) {
-      // extract texture url: the url should only contains escaped ']' characters
+      // Extract texture url: the url should only contain escaped ']' characters.
       var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
       var match = urlPattern.exec(data);
       var textureUrlEndIndex = match.index + 1;
       var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
       data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
       this.textureManager.loadTexture(data, textureUrl);
-      // TODO need to replace in ImageTexture and Background as before?
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');
@@ -142,7 +139,7 @@ Stream.prototype = {
         console.log('Warning: ' + filename + ' not in controller directory: ' + dirname + ' != ' + this.view.editor.dirname);
     } else if (data === 'pause') {
       this.view.toolBar.setMode(data);
-      // update timeout
+      // Update timeout.
       if (this.view.timeout > 0 && !this.view.isAutomaticallyPaused) {
         this.view.deadline = this.view.timeout;
         if (this.view.time !== undefined)
@@ -190,18 +187,4 @@ Stream.prototype = {
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
-
-  /* TODO check if needed: remove or move in x3d related class
-  compareTextureUrl: function(attributeUrl, textureUrl) {
-    // url attribute is an array (x3dom.field.MFString)
-    if (!attributeUrl || !textureUrl || (typeof attributeUrl !== 'object') || !(attributeUrl instanceof Array))
-      return false;
-
-    var length = attributeUrl.length;
-    for (var i = 0; i < length; i++) {
-      if (attributeUrl[i] === textureUrl)
-        return true;
-    }
-    return false;
-  }; */
 };

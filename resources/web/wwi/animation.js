@@ -39,8 +39,8 @@ Animation.prototype = {
     else if (value >= 100)
       value = 99.999;
     this.playSlider.slider('value', value);
-    // setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
-    // therefore, we need to trigger this event manually:
+    // Setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
+    // therefore, we need to trigger this event manually.
     var ui = {};
     ui.value = value;
     this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
@@ -51,7 +51,7 @@ Animation.prototype = {
     var that = this;
     this.data = data;
 
-    // create play bar.
+    // Create play bar.
     var div = document.createElement('div');
     div.id = 'playBar';
     this.view.view3D.appendChild(div);
@@ -75,13 +75,13 @@ Animation.prototype = {
       stop: function(e, ui) { that.sliding = false; }
     });
 
-    // init animation data.
+    // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
     this.previousStep = 0;
     this._updateAnimation();
 
-    // notify creation completed.
+    // Notify creation completed.
     if (this.onReady)
       this.onReady();
   },

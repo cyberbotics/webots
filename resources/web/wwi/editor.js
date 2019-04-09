@@ -88,7 +88,7 @@ function Editor(parent, mobile, view) {
       $('#webotsEditorMenu').addClass('pressed');
   });
   $('#webotsEditorMenu').focusout(function() {
-    // let the time to handle the menu actions if needed
+    // Let the time to handle the menu actions if needed.
     window.setTimeout(function() {
       if ($('.webotsEditorMenuContentItem:hover').length > 0)
         return;
@@ -111,25 +111,8 @@ Editor.prototype = {
     return false;
   },
 
-  storeUserFile: function(i) {
-    var formData = new FormData();
-    formData.append('dirname', this.view.server.project + '/controllers/' + this.dirname);
-    formData.append('filename', this.filenames[i]);
-    formData.append('content', this.sessions[i].getValue());
-    $.ajax({
-      url: '/ajax/upload-file.php',
-      type: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        if (data !== 'OK')
-          DialogWindow.alert('File saving error', data);
-      }
-    });
-  },
-
-  upload: function(i) { // upload to the simulation server
+  // Upload file to the simulation server.
+  upload: function(i) {
     this.view.stream.socket.send('set controller:' +
       this.dirname + '/' +
       this.filenames[i] + ':' +
@@ -138,12 +121,13 @@ Editor.prototype = {
     this.needToUploadFiles[i] = false;
   },
 
-  save: function(i) { // save to the web site
+  // Save file to the web site.
+  save: function(i) {
     if ($('#filename-' + i).html().endsWith('*')) { // file was modified
       $('#filename-' + i).html(this.filenames[i]);
       this.needToUploadFiles[i] = true;
       if (webots.User1Id && webots.User1Authentication) // user logged in
-        this.storeUserFile(i);
+        this._storeUserFile(i);
       else
         this.unloggedFileModified = true;
 
@@ -157,49 +141,9 @@ Editor.prototype = {
           this.statusMessage.innerHTML = '<font size="2">Reset the simulation to apply the changes.</font>';
         }
         this.panel.appendChild(this.statusMessage);
-        setTimeout(this.hideResetMessage, 1500);
+        setTimeout(function() { $('#webotsEditorStatusMessage').remove(); }, 1500);
       }
     }
-  },
-
-  hideResetMessage: function() {
-    $('#webotsEditorStatusMessage').remove();
-  },
-
-  textChange: function(index) {
-    if (!$('#filename-' + index).html().endsWith('*') && this.editor.curOp && this.editor.curOp.command.name) { // user change
-      $('#filename-' + index).html(this.filenames[index] + '*');
-    }
-  },
-
-  aceMode: function(filename) {
-    if (filename.toLowerCase() === 'makefile')
-      return 'ace/mode/makefile';
-    var extension = filename.split('.').pop().toLowerCase();
-    if (extension === 'py')
-      return 'ace/mode/python';
-    if (extension === 'c' || extension === 'cpp' || extension === 'c++' || extension === 'cxx' || extension === 'cc' ||
-        extension === 'h' || extension === 'hpp' || extension === 'h++' || extension === 'hxx' || extension === 'hh')
-      return 'ace/mode/c_cpp';
-    if (extension === 'java')
-      return 'ace/mode/java';
-    if (extension === 'm')
-      return 'ace/mode/matlab';
-    if (extension === 'json')
-      return 'ace/mode/json';
-    if (extension === 'xml')
-      return 'ace/mode/xml';
-    if (extension === 'yaml')
-      return 'ace/mode/yaml';
-    if (extension === 'ini')
-      return 'ace/mode/ini';
-    if (extension === 'html')
-      return 'ace/mode/html';
-    if (extension === 'js')
-      return 'ace/mode/javascript';
-    if (extension === 'css')
-      return 'ace/mode/css';
-    return 'ace/mode/text';
   },
 
   addFile: function(filename, content) {
@@ -218,14 +162,14 @@ Editor.prototype = {
     this.filenames.push(filename);
     this.needToUploadFiles[index] = false;
     if (index === 0) {
-      this.sessions[index].setMode(this.aceMode(filename));
+      this.sessions[index].setMode(this._aceMode(filename));
       this.sessions[index].setValue(content);
       $('#webotsEditorMenu').show();
       $('#webotsEditorTabs').show();
     } else
-      this.sessions.push(ace.createEditSession(content, this.aceMode(filename)));
+      this.sessions.push(ace.createEditSession(content, this._aceMode(filename)));
     var that = this;
-    this.sessions[index].on('change', function(e) { that.textChange(index); });
+    this.sessions[index].on('change', function(e) { that._textChange(index); });
     $('div#webotsEditorTabs ul').append('<li id="file-' + index + '"><a href="#webotsEditorTab" id="filename-' + index + '">' + filename + '</a></li>');
     $('div#webotsEditorTabs').tabs('refresh');
     if (index === 0)
@@ -298,5 +242,59 @@ Editor.prototype = {
       }
     });
     this._hideMenu();
+  },
+
+  _textChange: function(index) {
+    if (!$('#filename-' + index).html().endsWith('*') && this.editor.curOp && this.editor.curOp.command.name) { // user change
+      $('#filename-' + index).html(this.filenames[index] + '*');
+    }
+  },
+
+  _aceMode: function(filename) {
+    if (filename.toLowerCase() === 'makefile')
+      return 'ace/mode/makefile';
+    var extension = filename.split('.').pop().toLowerCase();
+    if (extension === 'py')
+      return 'ace/mode/python';
+    if (extension === 'c' || extension === 'cpp' || extension === 'c++' || extension === 'cxx' || extension === 'cc' ||
+        extension === 'h' || extension === 'hpp' || extension === 'h++' || extension === 'hxx' || extension === 'hh')
+      return 'ace/mode/c_cpp';
+    if (extension === 'java')
+      return 'ace/mode/java';
+    if (extension === 'm')
+      return 'ace/mode/matlab';
+    if (extension === 'json')
+      return 'ace/mode/json';
+    if (extension === 'xml')
+      return 'ace/mode/xml';
+    if (extension === 'yaml')
+      return 'ace/mode/yaml';
+    if (extension === 'ini')
+      return 'ace/mode/ini';
+    if (extension === 'html')
+      return 'ace/mode/html';
+    if (extension === 'js')
+      return 'ace/mode/javascript';
+    if (extension === 'css')
+      return 'ace/mode/css';
+    return 'ace/mode/text';
+  },
+
+  _storeUserFile: function(i) {
+    var formData = new FormData();
+    formData.append('dirname', this.view.server.project + '/controllers/' + this.dirname);
+    formData.append('filename', this.filenames[i]);
+    formData.append('content', this.sessions[i].getValue());
+    $.ajax({
+      url: '/ajax/upload-file.php',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        if (data !== 'OK')
+          DialogWindow.alert('File saving error', data);
+      }
+    });
   }
 };

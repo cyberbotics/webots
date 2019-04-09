@@ -5,14 +5,14 @@ function ContextMenu(authenticatedUser, parentObject, selection) {
   this.visible = false;
   this.authenticatedUser = authenticatedUser;
 
-  // callbacks
+  // Callbacks
   this.onFollowObject = null;
   this.onEditController = null;
   this.onOpenRobotWindow = null;
   this.isFollowedObject = null;
   this.isRobotWindowValid = null;
 
-  // create context menu
+  // Create context menu.
   var domElement = document.createElement('ul');
   domElement.id = 'contextMenu';
   domElement.innerHTML = "<li class='ui-widget-header'><div id='contextMenuTitle'>Object</div></li>" +
@@ -115,7 +115,7 @@ ContextMenu.prototype = {
       $('#contextMenuUnfollow').css('display', 'none');
     }
 
-    // ensure that the context menu is completely visible
+    // Ensure that the context menu is completely visible.
     var w = $('#contextMenu').width();
     var h = $('#contextMenu').height();
     var maxWidth = $('#playerDiv').width();

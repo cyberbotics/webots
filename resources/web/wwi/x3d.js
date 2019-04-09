@@ -3,11 +3,6 @@
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
-// TODO:
-// - shadows calibration
-// - HDR Cubemap
-// some node attributes are also missing (see TODOs)
-
 THREE.X3DLoader = function(sceneManager, loadManager) {
   this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
   this.scene = sceneManager.scene;
@@ -69,59 +64,8 @@ THREE.X3DLoader.prototype = {
     return objects;
   },
 
-  getDefNode: function(node) {
-    function isNodeTypeMatching(dictionaryEntry, tagName) {
-      if (dictionaryEntry.tagName === tagName)
-        return true;
-
-      // simplified check for mathing types
-      if (dictionaryEntry.tagName === 'Transform' || dictionaryEntry.tagName === 'Group')
-        return tagName === 'Transform' || tagName === 'Group';
-      if (dictionaryEntry.def.isMesh || dictionaryEntry.def.isPoints || dictionaryEntry.def.isLineSegments)
-        return tagName === 'Shape';
-      if (dictionaryEntry.def.isMaterial)
-        return tagName === 'Appearance' || tagName === 'PBRAppearance';
-      if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
-        const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
-        return geometries.includes(tagName);
-      }
-      if (dictionaryEntry.def instanceof THREE.Texture)
-        return tagName === 'ImageTexture';
-      return false;
-    };
-
-    var useName = getNodeAttribute(node, 'USE', '');
-    if (useName !== '') {
-      // look for DEF nodes
-      var entry = null;
-      for (var i = this.defDictionary.length - 1; i >= 0; i--) {
-        if (this.defDictionary[i].name === useName && isNodeTypeMatching(this.defDictionary[i], node.tagName)) {
-          entry = this.defDictionary[i];
-          break;
-        }
-      }
-      if (entry) {
-        entry.use.push(node);
-        return entry.def;
-      }
-      console.error('X3dLoader: no matching DEF "' + useName + '" node of type "' + node.tagName + '".');
-    }
-    return null;
-  },
-
-  setDefNode: function(node, object) {
-    var defName = getNodeAttribute(node, 'DEF', '');
-    if (defName !== '') {
-      this.defDictionary.push({name: defName, tagName: node.tagName, def: object, use: []});
-      if (object.userData)
-        object.userData.defName = defName;
-      else
-        object.userData = { 'defName': defName};
-    }
-  },
-
   parseNode: function(parentObject, node) {
-    var object = this.getDefNode(node);
+    var object = this._getDefNode(node);
     if (object) {
       parentObject.add(object.clone());
       return;
@@ -161,8 +105,8 @@ THREE.X3DLoader.prototype = {
     if (!object)
       return;
 
-    this.setDefNode(node, object);
-    this.setCustomId(node, object);
+    this._setDefNode(node, object);
+    this._setCustomId(node, object);
     parentObject.add(object);
     helperNodes.forEach(function(o) {
       parentObject.add(o);
@@ -208,8 +152,8 @@ THREE.X3DLoader.prototype = {
       if (typeof child.tagName === 'undefined')
         continue;
 
-      // check if USE node and return the DEF node
-      var defObject = this.getDefNode(child);
+      // Check if USE node and return the DEF node.
+      var defObject = this._getDefNode(child);
       if (defObject) {
         if (defObject instanceof THREE.Geometry || defObject instanceof THREE.BufferGeometry)
           geometry = defObject;
@@ -238,8 +182,8 @@ THREE.X3DLoader.prototype = {
           material = this.parsePBRAppearance(child);
 
         if (material) {
-          this.setDefNode(child, material);
-          this.setCustomId(child, material);
+          this._setDefNode(child, material);
+          this._setCustomId(child, material);
           continue;
         }
       }
@@ -265,8 +209,8 @@ THREE.X3DLoader.prototype = {
           geometry = this.parsePointSet(child);
 
         if (geometry) {
-          this.setDefNode(child, geometry);
-          this.setCustomId(child, geometry);
+          this._setDefNode(child, geometry);
+          this._setCustomId(child, geometry);
           continue;
         }
       }
@@ -274,7 +218,7 @@ THREE.X3DLoader.prototype = {
       console.log('X3dLoader: Unknown node: ' + child.tagName);
     }
 
-    // apply default geometry and/or material
+    // Apply default geometry and/or material.
     if (!geometry) {
       geometry = new THREE.Geometry();
       geometry.userData = { 'x3dType': 'unknown' };
@@ -292,15 +236,9 @@ THREE.X3DLoader.prototype = {
       mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
-    if (!material.transparent && !material.userData.hasTransparentTexture) {
-      // Webots transparent object don't cast shadows
+    if (!material.transparent && !material.userData.hasTransparentTexture)
+      // Webots transparent object don't cast shadows.
       mesh.castShadow = getNodeAttribute(shape, 'castShadows', 'false').toLowerCase() === 'true';
-      /* if (mesh.castShadow && (geometry.userData.x3dType === 'ElevationGrid' || geometry.userData.x3dType === 'Plane'))
-        // otherwise by default single-face objects don't cast shadows
-        // set shadowSize or add a back face
-        material.shadowSide = THREE.FrontSide;
-      */
-    }
     mesh.receiveShadow = true;
     mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
@@ -310,13 +248,13 @@ THREE.X3DLoader.prototype = {
     var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
     mat.userData.x3dType = 'Appearance';
 
-    // Get the Material tag
+    // Get the Material tag.
     var material = appearance.getElementsByTagName('Material')[0];
     if (typeof material === 'undefined')
       return mat;
 
     var materialSpecifications = {};
-    var defMaterial = this.getDefNode(material);
+    var defMaterial = this._getDefNode(material);
     if (defMaterial) {
       materialSpecifications = {
         'color': defMaterial.color,
@@ -325,7 +263,7 @@ THREE.X3DLoader.prototype = {
         'shininess': defMaterial.shininess
       };
     } else {
-      // Pull out the standard colors
+      // Pull out the standard colors.
       materialSpecifications = {
         'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
         'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
@@ -333,10 +271,10 @@ THREE.X3DLoader.prototype = {
         'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
         'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
       };
-      this.setDefNode(material, mat);
+      this._setDefNode(material, mat);
     }
 
-    // Check to see if there is a texture
+    // Check to see if there is a texture.
     var imageTexture = appearance.getElementsByTagName('ImageTexture');
     var colorMap;
     if (imageTexture.length > 0) {
@@ -345,7 +283,7 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.map = colorMap;
         if (colorMap.userData.isTransparent) {
           materialSpecifications.transparent = true;
-          materialSpecifications.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+          materialSpecifications.alphaTest = 0.5; // FIXME needed for example for the target.png in robot_programming.wbt
         }
       }
     }
@@ -354,7 +292,7 @@ THREE.X3DLoader.prototype = {
     mat.userData.x3dType = 'Appearance';
     mat.userData.hasTransparentTexture = colorMap && colorMap.userData.isTransparent;
     if (material)
-      this.setCustomId(material, mat);
+      this._setCustomId(material, mat);
 
     return mat;
   },
@@ -367,7 +305,6 @@ THREE.X3DLoader.prototype = {
     var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
     var emissiveColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
     var transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
-
     var materialSpecifications = {
       color: baseColor,
       roughness: roughness,
@@ -389,7 +326,7 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
         if (materialSpecifications.map && materialSpecifications.map.userData.isTransparent) {
           isTransparent = true;
-          materialSpecifications.alphaTest = 0.5; // TODO needed for example for the target.png in robot_programming.wbt
+          materialSpecifications.alphaTest = 0.5; // FIXME needed for example for the target.png in robot_programming.wbt
         }
       } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
@@ -415,8 +352,8 @@ THREE.X3DLoader.prototype = {
   },
 
   parseImageTexture: function(imageTexture, textureTransform, mat) {
-    // Issues with DEF and USE ImageTexture with different TextureTransform!
-    var texture = this.getDefNode(imageTexture);
+    // Issues with DEF and USE image texture with different image transform.
+    var texture = this._getDefNode(imageTexture);
     if (texture)
       return texture;
 
@@ -427,9 +364,9 @@ THREE.X3DLoader.prototype = {
     if (filename[0] == null)
       return null;
 
-    // look for already loaded texture.
+    // Look for already loaded texture.
     var textureManager = new TextureManager();
-    // load the texture in an asynchronous way.
+    // Load the texture in an asynchronous way.
     var image = textureManager.loadOrRetrieveTexture(filename[0], texture);
     if (image) { // else it could be updated later
       texture.image = image;
@@ -444,7 +381,7 @@ THREE.X3DLoader.prototype = {
 
     var transformObject = null;
     if (textureTransform && textureTransform[0]) {
-      transformObject = this.getDefNode(textureTransform[0]);
+      transformObject = this._getDefNode(textureTransform[0]);
       if (transformObject)
         texture.userData.transform = transformObject;
       else {
@@ -454,7 +391,7 @@ THREE.X3DLoader.prototype = {
           'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
           'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
         };
-        this.setDefNode(textureTransform[0], transformObject);
+        this._setDefNode(textureTransform[0], transformObject);
       }
 
       texture.matrixAutoUpdate = false;
@@ -478,11 +415,11 @@ THREE.X3DLoader.prototype = {
       };
       texture.needsUpdate = true;
 
-      this.setCustomId(textureTransform[0], texture);
+      this._setCustomId(textureTransform[0], texture);
     }
 
-    this.setCustomId(imageTexture, texture);
-    this.setDefNode(imageTexture, texture);
+    this._setCustomId(imageTexture, texture);
+    this._setDefNode(imageTexture, texture);
     return texture;
   },
 
@@ -535,7 +472,7 @@ THREE.X3DLoader.prototype = {
       }
     }
 
-    // Now pull out the face indices
+    // Now pull out the face indices.
     if (hasTexCoord)
       var texIndices = texcoordIndexStr.split(/\s/);
     for (let i = 0; i < indicesStr.length; i++) {
@@ -554,42 +491,42 @@ THREE.X3DLoader.prototype = {
       var faceNormal;
       while (faceIndices.length > 3) {
         // Take the last three, make a triangle, and remove the
-        // middle one (works for convex & continuously wrapped)
+        // middle one (works for convex & continuously wrapped).
         if (hasTexCoord) {
-          // Add to the UV layer
+          // Add to the UV layer.
           geometry.faceVertexUvs[0].push([
             uvs[parseFloat(uvIndices[uvIndices.length - 3])].clone(),
             uvs[parseFloat(uvIndices[uvIndices.length - 2])].clone(),
             uvs[parseFloat(uvIndices[uvIndices.length - 1])].clone()
           ]);
-          // Remove the second-to-last vertex
+          // Remove the second-to-last vertex.
           var tmp = uvIndices[uvIndices.length - 1];
           uvIndices.pop();
           uvIndices[uvIndices.length - 1] = tmp;
         }
 
+        faceNormal = null;
         if (normal) {
           faceNormal = [
             normalArray[normalIndices[faceIndices.length - 3]],
             normalArray[normalIndices[faceIndices.length - 2]],
             normalArray[normalIndices[faceIndices.length - 1]]];
-        } else
-          faceNormal = null;
+        }
 
-        // Make a face
+        // Make a face.
         geometry.faces.push(new THREE.Face3(
           faceIndices[faceIndices.length - 3],
           faceIndices[faceIndices.length - 2],
           faceIndices[faceIndices.length - 1],
           faceNormal
         ));
-        // Remove the second-to-last vertex
+        // Remove the second-to-last vertex.
         tmp = faceIndices[faceIndices.length - 1];
         faceIndices.pop();
         faceIndices[faceIndices.length - 1] = tmp;
       }
 
-      // Make a face with the final three
+      // Make a face with the final three.
       if (faceIndices.length === 3) {
         if (hasTexCoord) {
           geometry.faceVertexUvs[0].push([
@@ -598,14 +535,13 @@ THREE.X3DLoader.prototype = {
             uvs[parseFloat(uvIndices[uvIndices.length - 1])].clone()
           ]);
         }
-        
+
         if (normal) {
           faceNormal = [
             normalArray[normalIndices[faceIndices.length - 3]],
             normalArray[normalIndices[faceIndices.length - 2]],
             normalArray[normalIndices[faceIndices.length - 1]]];
-        } else
-          faceNormal = null;
+        }
 
         geometry.faces.push(new THREE.Face3(
           faceIndices[0], faceIndices[1], faceIndices[2], faceNormal
@@ -615,11 +551,11 @@ THREE.X3DLoader.prototype = {
 
     geometry.computeBoundingSphere();
     if (!normal)
-      geometry.computeFaceNormals();
+      geometry.computeVertexNormals();
 
-    this.setCustomId(coordinate, geometry);
+    this._setCustomId(coordinate, geometry);
     if (hasTexCoord)
-      this.setCustomId(textureCoordinate, geometry);
+      this._setCustomId(textureCoordinate, geometry);
 
     return geometry;
   },
@@ -654,7 +590,7 @@ THREE.X3DLoader.prototype = {
     geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.computeBoundingSphere();
 
-    this.setCustomId(coordinate, geometry);
+    this._setCustomId(coordinate, geometry);
 
     return geometry;
   },
@@ -676,7 +612,7 @@ THREE.X3DLoader.prototype = {
     if (heightStr === '')
       return geometry;
 
-    // set height and adjust uv mappings
+    // Set height and adjust uv mappings.
     var heightArray = heightStr.trim().split(/\s/);
     var vertices = geometry.getAttribute('position').array;
     var uv = geometry.getAttribute('uv').array;
@@ -796,7 +732,7 @@ THREE.X3DLoader.prototype = {
 
     var lightObject = new THREE.DirectionalLight(color.getHex(), intensity * 0.5);
     if (castShadows) {
-      lightObject.castShadow = true;
+      lightObject.castShadow = false;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
@@ -835,7 +771,7 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
       lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
-      lightObject.shadow.camera.near = 0.01;
+      lightObject.shadow.camera.near = 0.0;
       lightObject.shadow.camera.far = radius;
     }
     lightObject.position.copy(location);
@@ -890,7 +826,7 @@ THREE.X3DLoader.prototype = {
     var cubeTexture;
     var textureManager;
     if (hdrCubeMapUrl !== '') {
-      // TODO load HDR cube map
+      // TODO load HDR cube map.
       cubeTexture = new THREE.CubeTexture();
     } else {
       var cubeTextureEnabled = false;
@@ -912,7 +848,7 @@ THREE.X3DLoader.prototype = {
         for (i = 0; i < 6; i++) {
           if (urls[i] === null)
             continue;
-          // look for already loaded texture or load the texture in an asynchronous way.
+          // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
           var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
           if (image) {
@@ -935,31 +871,30 @@ THREE.X3DLoader.prototype = {
     var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
-    // set default aspect ratio 1 that will be updated on window resize.
-    var camera = this.camera;
-    if (camera) {
-      camera.fov = fov;
-      camera.near = near;
-      camera.far = far;
+    if (this.camera) {
+      this.camera.fov = fov;
+      this.camera.near = near;
+      this.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
-      camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      // Set default aspect ratio to 1. It will be updated on window resize.
+      this.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
     }
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
-      camera.position.copy(convertStringToVec3(position));
+      this.camera.position.copy(convertStringToVec3(position));
     }
     if ('orientation' in viewpoint.attributes) {
       var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
-      camera.quaternion.copy(quaternion);
+      this.camera.quaternion.copy(quaternion);
     }
-    camera.updateProjectionMatrix();
+    this.camera.updateProjectionMatrix();
 
-    // set Webots specific attributes.
-    camera.userData.x3dType = 'Viewpoint';
-    camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
-    camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    // Set Webots specific attributes.
+    this.camera.userData.x3dType = 'Viewpoint';
+    this.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
+    this.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     return null;
   },
 
@@ -982,7 +917,7 @@ THREE.X3DLoader.prototype = {
     return null;
   },
 
-  setCustomId: function(node, object) {
+  _setCustomId: function(node, object) {
     // Some THREE.js nodes, like the material and IndexedFaceSet, merges multiple X3D nodes.
     // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
     if (!node || !object)
@@ -993,6 +928,57 @@ THREE.X3DLoader.prototype = {
         object.name = object.name + ';' + String(id);
       else
         object.name = String(id);
+    }
+  },
+
+  _getDefNode: function(node) {
+    function isNodeTypeMatching(dictionaryEntry, tagName) {
+      if (dictionaryEntry.tagName === tagName)
+        return true;
+
+      // Simplified check for types.
+      if (dictionaryEntry.tagName === 'Transform' || dictionaryEntry.tagName === 'Group')
+        return tagName === 'Transform' || tagName === 'Group';
+      if (dictionaryEntry.def.isMesh || dictionaryEntry.def.isPoints || dictionaryEntry.def.isLineSegments)
+        return tagName === 'Shape';
+      if (dictionaryEntry.def.isMaterial)
+        return tagName === 'Appearance' || tagName === 'PBRAppearance';
+      if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
+        const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
+        return geometries.includes(tagName);
+      }
+      if (dictionaryEntry.def instanceof THREE.Texture)
+        return tagName === 'ImageTexture';
+      return false;
+    };
+
+    var useName = getNodeAttribute(node, 'USE', '');
+    if (useName !== '') {
+      // Look for DEF nodes.
+      var entry = null;
+      for (var i = this.defDictionary.length - 1; i >= 0; i--) {
+        if (this.defDictionary[i].name === useName && isNodeTypeMatching(this.defDictionary[i], node.tagName)) {
+          entry = this.defDictionary[i];
+          break;
+        }
+      }
+      if (entry) {
+        entry.use.push(node);
+        return entry.def;
+      }
+      console.error('X3dLoader: no matching DEF "' + useName + '" node of type "' + node.tagName + '".');
+    }
+    return null;
+  },
+
+  _setDefNode: function(node, object) {
+    var defName = getNodeAttribute(node, 'DEF', '');
+    if (defName !== '') {
+      this.defDictionary.push({name: defName, tagName: node.tagName, def: object, use: []});
+      if (object.userData)
+        object.userData.defName = defName;
+      else
+        object.userData = { 'defName': defName};
     }
   }
 };

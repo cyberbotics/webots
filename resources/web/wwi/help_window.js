@@ -45,7 +45,7 @@ function HelpWindow(parent, mobile, webotsDocUrl) {
   $.ajax({
     url: path + 'help.php',
     success: function(data) {
-      // we need to fix the img src relative URLs
+      // Fix the img src relative URLs.
       var html = data.replace(/ src="images/g, ' src="' + path + '/images');
       var header = document.createElement('li');
       header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';

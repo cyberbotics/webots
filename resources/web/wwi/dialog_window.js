@@ -76,8 +76,8 @@ DialogWindow.addMobileDialogAttributes = function(params, panel) {
   params.buttons = { 'WbClose': function() { $(panel).dialog('close'); } };
 };
 
-// the following two functions are used to make the resize and drag of the dialog
-// steady (i.e., not loose the grab while resizing/dragging the dialog quickly)
+// The following two functions are used to make the resize and drag of the dialog
+// steady (i.e., not loose the grab while resizing/dragging the dialog quickly).
 DialogWindow.disablePointerEvents = function() {
   document.body.style['pointer-events'] = 'none';
 };
