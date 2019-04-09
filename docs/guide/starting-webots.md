@@ -113,9 +113,6 @@ For example, the following command will start Webots with the streaming server e
 
 You can get more information about web streaming in [this section](web-streaming.md).
 
-The `--enable-ogre-warnings` option redirects the uncritical Ogre log messages to the Webots console.
-The critical Ogre log messages are redirected there in any case.
-
 ### Safe Mode
 
 It may happen that Webots cannot start because it is blocked on a world causing a Webots or OpenGL crash.
