@@ -47,16 +47,6 @@ C_SOURCES = $(wildcard libccd/src/*.c) $(wildcard ode/src/*.c)
 CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildcard ode/src/ode_MT/*.cpp) $(wildcard ode/src/ode_MT/*/*.cpp) $(wildcard OPCODE/*.cpp) $(wildcard OPCODE/Ice/*.cpp) $(wildcard ode/src/fluid_dynamics/*.cpp) $(wildcard ode/src/fluid_dynamics/immersion_link/*.cpp)
 
 ifeq ($(OSTYPE),windows)
-	FILES_TO_REMOVE = ../../msys64/mingw64/bin/ode.dll
-endif
-ifeq ($(OSTYPE),linux)
-	FILES_TO_REMOVE = ../../lib/libode.so
-endif
-ifeq ($(OSTYPE),darwin)
-	FILES_TO_REMOVE = ../../lib/libode.3.dylib ../../lib/libode.dylib
-endif
-
-ifeq ($(OSTYPE),windows)
 TARGET_ODE_LIBRARY_PATH=../../msys64/mingw64/bin
 TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/ode.dll
 endif
@@ -68,7 +58,7 @@ ifeq ($(OSTYPE),darwin)
 TARGET_ODE_LIBRARY_PATH=../../lib
 TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.dylib $(TARGET_ODE_LIBRARY_PATH)/libode.3.dylib
 endif
-FILES_TO_REMOVE += $(TARGET_ODE_LIBRARY_FILES)
+FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY_FILES)
 WEBOTS_DISABLE_BINARY_COPY=true
 
 USER_POSTBUILD: $(TARGET_ODE_LIBRARY_FILES)
