@@ -14,20 +14,20 @@ PROTO RoughConcrete [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/rough_concrete/rough_concrete_base_color.png"
+        "textures/rough_concrete/rough_concrete_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "textures/rough_concrete/rough_concrete_roughness.png"
+        "textures/rough_concrete/rough_concrete_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/rough_concrete/rough_concrete_normal.png"
+        "textures/rough_concrete/rough_concrete_normal.jpg"
       ]
       filtering 5
     }
@@ -35,7 +35,7 @@ PROTO RoughConcrete [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/rough_concrete/rough_concrete_occlusion.png"
+        "textures/rough_concrete/rough_concrete_occlusion.jpg"
       ]
       filtering 5
     }
