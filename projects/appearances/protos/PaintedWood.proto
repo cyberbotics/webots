@@ -14,20 +14,20 @@ PROTO PaintedWood [
     baseColor IS colorOverride
     roughnessMap ImageTexture {
       url [
-        "textures/painted_wood/painted_wood_roughness.png"
+        "textures/painted_wood/painted_wood_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/painted_wood/painted_wood_normal.png"
+        "textures/painted_wood/painted_wood_normal.jpg"
       ]
     }
     environmentMap IS environmentMap
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/painted_wood/painted_wood_occlusion.png"
+        "textures/painted_wood/painted_wood_occlusion.jpg"
       ]
     }
     textureTransform IS textureTransform
