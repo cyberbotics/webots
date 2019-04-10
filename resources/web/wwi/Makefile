@@ -12,18 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# clear out all suffixes for implicit rules to speed up Makefile
+JS_SOURCES = \
+  util.js \
+  dialog_window.js \
+	console.js \
+	help_window.js \
+	robot_window.js \
+  toolbar.js \
+	editor.js \
+  context_menu.js \
+  viewpoint.js \
+  selector.js \
+  mouse_events.js \
+  texture_manager.js \
+  resource_manager.js \
+  server.js \
+  stream.js \
+  video_manager.js \
+  x3d.js \
+  x3d_scene_manager.js \
+  animation.js \
+  webots.js
 
-release debug profile update:
+release debug profile update: $(JS_SOURCES)
 	@echo "# Compressing webots.js.min"
-	terser util.js dialog_window.js console.js help_window.js robot_window.js \
-	toolbar.js editor.js context_menu.js viewpoint.js selector.js mouse_events.js \
-	texture_manager.js resource_manager.js server.js stream.js video_manager.js \
-	x3d.js x3d_scene_manager.js animation.js webots.js -o webots.min.js
-
-wb_*.ts: $(WEBOTS_SOURCES)
-	@echo "# updating $@"
-	@$(LUPDATE) $(LUPDATE_FLAGS) $(WEBOTS_SRC_PATH) -ts $@
+	@terser $(JS_SOURCES) -o webots.min.js
 
 clean:
-	rm -f *.min.js
+	@rm -f *.min.js

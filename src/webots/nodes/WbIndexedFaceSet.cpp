@@ -716,8 +716,7 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
     return;
   }
 
-  // x3DOM doesn't support creaseAngles other than 0 or 3.14 (woo) so export
-  // our pre-creased mesh with calculated normals
+  // To avoid differences due to normal computations export the computed triangle mesh.
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;
   int *const coordIndex = new int[n3];
