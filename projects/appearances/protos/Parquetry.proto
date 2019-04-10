@@ -14,18 +14,18 @@ PROTO Parquetry [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/parquetry/parquetry_base_color.png"
+        "textures/parquetry/parquetry_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/parquetry/parquetry_roughness.png"
+        "textures/parquetry/parquetry_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/parquetry/parquetry_normal.png"
+        "textures/parquetry/parquetry_normal.jpg"
       ]
     }
     normalMapFactor 1
@@ -33,7 +33,7 @@ PROTO Parquetry [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/parquetry/parquetry_occlusion.png"
+        "textures/parquetry/parquetry_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1
