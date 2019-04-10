@@ -52,7 +52,8 @@ CONTROLLERS=\
   surveyor/controllers.Makefile \
   telerob/telemax_pro/controllers.Makefile \
   tinkerbots/controllers.Makefile \
-  unimation/puma/controllers.Makefile
+  unimation/puma/controllers.Makefile \
+  universal_robots/ur5e/controllers.Makefile
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
 	robotis/darwin-op/plugins/robot_windows.Makefile \

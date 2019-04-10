@@ -53,5 +53,6 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/telemax-pro/icon.png) | [Telemax PRO](telemax-pro.md)  | Telerob              | *Robot with four tracks*        |
 | ![icon.png](images/robots/thymio2/icon.png)     | [Thymio II](thymio2.md)        | Mobsya               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/tinkerbots/icon.png)  | [Tinkerbots](tinkerbots.md)    | Kinematics GMBH      | *Robotics kit*                  |
+| ![icon.png](images/robots/ur5e/icon.png)        | [UR5e](ur5e.md)                | Universal Robots     | *Robotics arm*                  |
 | ![icon.png](images/robots/yamor/icon.png)       | [Yamor](yamor.md)              | EPFL / BioRob        | *Modular robot*                 |
 | ![icon.png](images/robots/youbot/icon.png)      | [youBot](youbot.md)            | KUKA                 | *Mobile arm*                    |
