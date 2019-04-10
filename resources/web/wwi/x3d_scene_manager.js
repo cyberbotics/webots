@@ -54,7 +54,6 @@ X3dSceneManager.prototype = {
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.camera);
 
-    window.onresize = function() { that.resize(); }; // when the window has been resized.
     this.resize();
 
     this.destroyWorld();
@@ -74,6 +73,12 @@ X3dSceneManager.prototype = {
     this.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
+    this.render();
+  },
+
+  onSceneUpdate: function() {
+    this.sceneModified = true;
+    this.render();
   },
 
   destroyWorld: function() {
@@ -83,7 +88,7 @@ X3dSceneManager.prototype = {
     for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
-    this._onSceneUpdate();
+    this.onSceneUpdate();
     this.render();
   },
 
@@ -93,7 +98,7 @@ X3dSceneManager.prototype = {
       object.parent.remove(object);
       delete this.objectsIdCache[id];
     }
-    this._onSceneUpdate();
+    this.onSceneUpdate();
     this.render();
   },
 
@@ -112,7 +117,7 @@ X3dSceneManager.prototype = {
       this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
     }
-    this._onSceneUpdateComplete();
+    this.onSceneUpdate();
   },
 
   loadObject: function(x3dObject, parentId) {
@@ -128,7 +133,7 @@ X3dSceneManager.prototype = {
       this.root = objects[0];
     }
     this._setupLights(loader.directionalLights);
-    this._onSceneUpdate();
+    this.onSceneUpdate();
   },
 
   applyPose: function(pose) {
@@ -204,11 +209,6 @@ X3dSceneManager.prototype = {
   },
 
   // private functions
-  _onSceneUpdate: function() {
-    this.sceneModified = true;
-    this.render();
-  },
-
   _setupLights: function(directionalLights) {
     if (!this.root)
       return;
@@ -232,7 +232,7 @@ X3dSceneManager.prototype = {
     });
   },
 
-  __getObjectByCustomId: function(object, id) {
+  _getObjectByCustomId: function(object, id) {
     if (!object)
       return undefined;
 

@@ -26,19 +26,6 @@ Viewpoint.prototype = {
     this.updateViewpointPosition(true, time);
   },
 
-  resetFov: function(viewWidth, viewHeight) {
-    if (this.initialFieldOfView == null)
-      this.initialFieldOfView = this.camera.fov;
-    var fieldOfViewY = this.initialFieldOfView;
-    if (viewWidth > viewHeight) {
-      var tanHalfFieldOfViewY = Math.tan(0.5 * this.initialFieldOfView) * viewHeight / viewWidth;
-      fieldOfViewY = 2.0 * Math.atan(tanHalfFieldOfViewY);
-    }
-    this.camera.fov = fieldOfViewY;
-    if (this.onCameraParametersChanged)
-      this.onCameraParametersChanged();
-  },
-
   isFollowedObject: function(object) {
     return this.followedObjectId &&
            (object.name === this.followedObjectId || object.userData.name === this.followedObjectId);

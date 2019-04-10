@@ -80,16 +80,16 @@ webots.View = function(view3D, mobile) {
     window.location = quitDestination;
   };
   this.onresize = function() {
+    if (!that.x3dSceneManager)
+      return;
+
     // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
     // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
     if (that.x3dSceneManager.root === null) {
       setTimeout(that.onresize, 0);
       return;
     }
-
-    var viewHeight = parseFloat($(that.x3dDiv).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(that.x3dDiv).css('width').slice(0, -2));
-    that.x3dSceneManager.viewpoint.resetFov(viewWidth, viewHeight);
+    that.x3dSceneManager.resize();
   };
   this.ondialogwindow = function(opening) {
     // Pause the simulation if needed when a pop-up dialog window is open
