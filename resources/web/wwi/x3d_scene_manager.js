@@ -4,7 +4,6 @@
 
 function X3dSceneManager(domElement) {
   this.domElement = domElement;
-  this.camera = null;
   this.root = null;
   this.worldInfo = {};
   this.viewpoint = null;
@@ -28,14 +27,7 @@ X3dSceneManager.prototype = {
 
     this.scene = new THREE.Scene();
 
-    // Initialize default camera.
-    this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
-    this.camera.position.x = 10;
-    this.camera.position.y = 10;
-    this.camera.position.z = 10;
-    this.camera.lookAt(this.scene.position);
-
-    this.viewpoint = new Viewpoint(this.camera);
+    this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = function() {
       if (that.gpuPicker)
         that.gpuPicker.needUpdate = true;
@@ -52,7 +44,7 @@ X3dSceneManager.prototype = {
              object.userData.isPickable !== false; // true or undefined
     });
     this.gpuPicker.setScene(this.scene);
-    this.gpuPicker.setCamera(this.camera);
+    this.gpuPicker.setCamera(this.viewpoint.camera);
 
     this.resize();
 
@@ -63,14 +55,14 @@ X3dSceneManager.prototype = {
   },
 
   render: function() {
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.viewpoint.camera);
   },
 
   resize: function() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
+    this.viewpoint.camera.aspect = width / height;
+    this.viewpoint.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.render();
@@ -191,7 +183,7 @@ X3dSceneManager.prototype = {
     }
 
     var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(screenPosition, this.camera);
+    raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
   },
 

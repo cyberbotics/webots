@@ -161,7 +161,6 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     gui = 'play';
   if (loop === undefined)
     loop = true;
-  var that = this;
   this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
 };
 
@@ -361,7 +360,7 @@ webots.View.prototype.close = function() {
     this.stream.close();
 };
 
-webots.View.prototype.sendRobotMessage = function(robot, message) {
+webots.View.prototype.sendRobotMessage = function(message, robot) {
   this.stream.socket.send('robot:' + robot + ':' + message);
   if (this.toolBar.isPaused()) // if paused, make a simulation step
     webots.currentView.stream.socket.send('step'); // so that the robot controller handles the message

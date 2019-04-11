@@ -6,7 +6,7 @@
 THREE.X3DLoader = function(sceneManager, loadManager) {
   this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
   this.scene = sceneManager.scene;
-  this.camera = sceneManager.camera;
+  this.viewpoint = sceneManager.viewpoint;
   this.worldInfo = sceneManager.worldInfo;
   this.defDictionary = [];
   this.directionalLights = [];
@@ -871,30 +871,30 @@ THREE.X3DLoader.prototype = {
     var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
-    if (this.camera) {
-      this.camera.fov = fov;
-      this.camera.near = near;
-      this.camera.far = far;
+    if (this.viewpoint) {
+      this.viewpoint.camera.fov = fov;
+      this.viewpoint.camera.near = near;
+      this.viewpoint.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      this.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
     }
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
-      this.camera.position.copy(convertStringToVec3(position));
+      this.viewpoint.camera.position.copy(convertStringToVec3(position));
     }
     if ('orientation' in viewpoint.attributes) {
       var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
-      this.camera.quaternion.copy(quaternion);
+      this.viewpoint.camera.quaternion.copy(quaternion);
     }
-    this.camera.updateProjectionMatrix();
+    this.viewpoint.camera.updateProjectionMatrix();
 
     // Set Webots specific attributes.
-    this.camera.userData.x3dType = 'Viewpoint';
-    this.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
-    this.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    this.viewpoint.camera.userData.x3dType = 'Viewpoint';
+    this.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
+    this.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     return null;
   },
 

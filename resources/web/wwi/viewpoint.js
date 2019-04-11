@@ -1,8 +1,7 @@
 /* global THREE */
 'use strict';
 
-function Viewpoint(camera) {
-  this.camera = camera;
+function Viewpoint() {
   this.onCameraParametersChanged = null;
   // After initialization 'followedObjectId' contains the id ('n<id>') of the followed node
   // or 'none' if no object is followed.
@@ -15,6 +14,12 @@ function Viewpoint(camera) {
   this.viewpointForce = null; // Vector with the force that will be applied to the viewpoint for the next delta T.
   this.viewpointVelocity = null; // Current velocity of the viewpoint.
   this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
+
+  // Initialize default camera.
+  this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
+  this.camera.position.x = 10;
+  this.camera.position.y = 10;
+  this.camera.position.z = 10;
 };
 
 Viewpoint.prototype = {

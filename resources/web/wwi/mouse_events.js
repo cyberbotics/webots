@@ -1,4 +1,4 @@
-/* global THREE */
+/* global webots, THREE */
 'use strict';
 
 function MouseEvents(sceneManager, contextMenu, domElement) {
@@ -62,11 +62,18 @@ MouseEvents.prototype = {
       document.addEventListener('mousemove', this.onmousemove, false);
       document.addEventListener('mouseup', this.onmouseup, false);
     }
+
+    if (webots.currentView.onmousedown)
+      webots.currentView.onmousedown(event);
   },
 
   _onMouseMove: function(event) {
-    if (!this.enableNavigation && event.button === 0)
+    if (!this.enableNavigation && event.button === 0) {
+      if (webots.currentView.onmousemove)
+        webots.currentView.onmousemove(event);
       return;
+    }
+
     if (this.state.x === undefined)
       // mousedown event has not been called yet.
       // This could happen for example when another application has focus while loading the scene.
@@ -94,7 +101,11 @@ MouseEvents.prototype = {
     params.dy = event.clientY - this.state.y;
 
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      params.pickPosition = this.intersection ? this.intersection.object.getWorldPosition(params.pickPosition) : null;
+      if (this.intersection && this.intersection.object) {
+        params.pickPosition = new THREE.Vector3();
+        this.intersection.object.getWorldPosition(params.pickPosition);
+      } else
+        params.pickPosition = null;
       this.sceneManager.viewpoint.rotate(params);
     } else {
       if (this.intersection == null) {
@@ -122,6 +133,11 @@ MouseEvents.prototype = {
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
     this.state.x = event.clientX;
     this.state.y = event.clientY;
+
+    if (webots.currentView.onmousemove)
+      webots.currentView.onmousemove(event);
+    if (webots.currentView.onmousedrag)
+      webots.currentView.onmousedrag(event);
   },
 
   _onMouseUp: function(event) {
@@ -140,6 +156,9 @@ MouseEvents.prototype = {
 
     document.removeEventListener('mousemove', this.onmousemove, false);
     document.removeEventListener('mouseup', this.onmouseup, false);
+
+    if (webots.currentView.onmouseup)
+      webots.currentView.onmouseup(event);
   },
 
   _onMouseWheel: function(event) {
@@ -160,6 +179,9 @@ MouseEvents.prototype = {
       return;
     }
     this.sceneManager.viewpoint.zoom(this.intersection.distance, event.deltaY);
+
+    if (webots.currentView.onmousewheel)
+      webots.currentView.onmousewheel(event);
   },
 
   _wheelTimeoutCallback: function(event) {
@@ -178,6 +200,9 @@ MouseEvents.prototype = {
       this.state.wheelTimeout = null;
     }
     this.state.wheelFocus = false;
+
+    if (webots.currentView.onmouseleave)
+      webots.currentView.onmouseleave(event);
   },
 
   _onTouchMove: function(event) {
@@ -264,8 +289,9 @@ MouseEvents.prototype = {
     this.state.y = y;
     this.state.x1 = x1;
     this.state.y1 = y1;
-    if (this.ontouchmove)
-      this.ontouchmove(event);
+
+    if (webots.currentView.ontouchmove)
+      webots.currentView.ontouchmove(event);
   },
 
   _onTouchStart: function(event) {
@@ -284,6 +310,9 @@ MouseEvents.prototype = {
 
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
+
+    if (webots.currentView.ontouchstart)
+      webots.currentView.ontouchstart(event);
   },
 
   _onTouchEnd: function(event) {
@@ -291,8 +320,8 @@ MouseEvents.prototype = {
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
     this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
-    if (this.ontouchend)
-      this.ontouchend(event);
+    if (webots.currentView.ontouchend)
+      webots.currentView.ontouchend(event);
   },
 
   _initMouseMove: function(event) {
