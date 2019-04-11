@@ -72,7 +72,7 @@ RobotWindow.prototype = {
   },
 
   send: function(message, robot) {
-    webots.currentView.send(message, robot);
+    webots.currentView.sendRobotMessage(message, robot);
   },
 
   receive: function(message, robot) { // to be overriden

@@ -153,7 +153,7 @@ webots.View.prototype.setTimeout = function(timeout) { // expressed in seconds
 };
 
 webots.View.prototype.setWebotsDocUrl = function(url) {
-  this.webotsDocUrl = url;
+  webots.webotsDocUrl = url;
 };
 
 webots.View.prototype.setAnimation = function(url, gui, loop) {
@@ -163,11 +163,6 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     loop = true;
   var that = this;
   this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
-  this.animation.init(function() {
-    $('#webotsProgress').hide();
-    if (that.onready)
-      that.onready();
-  });
 };
 
 webots.View.prototype.open = function(url, mode) {
@@ -204,7 +199,7 @@ webots.View.prototype.open = function(url, mode) {
     this.x3dSceneManager.domElement.appendChild(param);
   }
 
-  if (!that.contextMenu) {
+  if (!that.contextMenu && this.isWebSocketProtocol) {
     this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
     this.contextMenu.onEditController = function(controller) { that.editController(controller); };
     this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
@@ -249,10 +244,8 @@ webots.View.prototype.open = function(url, mode) {
         that.stream = new Stream(that.url, that, finalizeWorld);
         that.stream.connect();
       }
-    } else { // assuming it's an URL to a .x3d file
-      that.x3dSceneManager.loadWorldFile(that.url);
-      finalizeWorld();
-    }
+    } else // assuming it's an URL to a .x3d file
+      that.x3dSceneManager.loadWorldFile(that.url, finalizeWorld);
   }
 
   function finalizeWorld() {

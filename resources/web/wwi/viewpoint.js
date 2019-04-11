@@ -40,10 +40,9 @@ Viewpoint.prototype = {
     this.initialViewpointOrientation = this.camera.quaternion.clone();
     if (this.camera.userData.followSmoothness !== null)
       this.setViewpointMass(this.camera.userData.followSmoothness);
-    if (this.camera.userData.followedId != null) {
-      this.followedObjectId = this.camera.userData.followedId;
+    if (this.camera.userData.followedId != null)
       this.follow(this.camera.userData.followedId);
-    } else
+    else
       this.follow.followedObjectId = 'none';
   },
 
@@ -113,10 +112,8 @@ Viewpoint.prototype = {
         viewpointDeltaPosition = this.viewpointVelocity.clone();
         viewpointDeltaPosition.multiplyScalar(timeInterval);
       }
-      var viewpointNewPosition = new THREE.Vector3();
-      viewpointNewPosition.addVectors(this.camera.position, viewpointDeltaPosition);
       this.viewpointForce.sub(viewpointDeltaPosition);
-      this.camera.position.copy(viewpointNewPosition);
+      this.camera.position.add(viewpointDeltaPosition);
       this.followedObjectDeltaPosition = null;
 
       if (this.onCameraParametersChanged)

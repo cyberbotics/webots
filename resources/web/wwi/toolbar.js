@@ -121,7 +121,7 @@ Toolbar.prototype = {
     if (!this.view.helpWindow) {
       if (!webots.broadcast && webots.webotsDocUrl)
         var webotsDocUrl = webots.webotsDocUrl;
-      this.view.helpWindow = new HelpWindow(this.view.view3D, webotsDocUrl, this.view.mobileDevice);
+      this.view.helpWindow = new HelpWindow(this.view.view3D, this.view.mobileDevice, webotsDocUrl);
       this.helpButton.classList.add('toolBarButtonActive');
     } else if ($('#webotsHelp').is(':visible')) {
       $('#webotsHelp').dialog('close');

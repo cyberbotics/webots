@@ -102,7 +102,7 @@ X3dSceneManager.prototype = {
     this.render();
   },
 
-  loadWorldFile: function(url) {
+  loadWorldFile: function(url, onLoad) {
     var that = this;
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
@@ -111,13 +111,15 @@ X3dSceneManager.prototype = {
         that.scene.add(object3d[0]);
         that.root = object3d[0];
       }
+      that._setupLights(loader.directionalLights);
+      if (that.gpuPicker) {
+        that.gpuPicker.setScene(that.scene);
+        that.sceneModified = false;
+      }
+      that.onSceneUpdate();
+      if (onLoad)
+        onLoad();
     });
-    this._setupLights(loader.directionalLights);
-    if (this.gpuPicker) {
-      this.gpuPicker.setScene(this.scene);
-      this.sceneModified = false;
-    }
-    this.onSceneUpdate();
   },
 
   loadObject: function(x3dObject, parentId) {
