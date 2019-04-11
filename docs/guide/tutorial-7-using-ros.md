@@ -48,7 +48,7 @@ cp -r <webots>/projects/default/controllers/ros/include/srv webots_ros/
 cp -r <webots>/projects/default/controllers/ros/include/msg webots_ros/
 ```
 
-The `webots_ros` package already contains a "CmakeList.txt" with build instructions for the package.
+The `webots_ros` package already contains a "CMakeLists.txt" with build instructions for the package.
 All you have to do, in order to build the package, is to run:
 
 ```sh
