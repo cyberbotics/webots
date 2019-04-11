@@ -168,7 +168,7 @@ The best Geometry primitive to implement the walls is the Box node.
 Only one [Shape](../reference/shape.md) has to be defined for all the walls.
 The expected result is shown in [this figure](#the-simulation-state-at-the-end-of-this-second-tutorial).
 
-> **Hands on #7**: Add four walls without physics and using only one definition of the [Shape](../reference/shape.md) node.
+> **Hands-on #7**: Add four walls without physics and using only one definition of the [Shape](../reference/shape.md) node.
 
 The solution is located in the solution directory in `obstacle.wbt`.
 
