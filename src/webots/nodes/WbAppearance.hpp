@@ -64,7 +64,6 @@ private:
   WbAppearance &operator=(const WbAppearance &);  // non copyable
   WbNode *clone() const override { return new WbAppearance(*this); }
 
-  bool isTransparent();
   void init();
 
 private slots:

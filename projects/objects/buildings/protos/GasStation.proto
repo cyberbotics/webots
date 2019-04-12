@@ -32,19 +32,10 @@ PROTO GasStation [
               "textures/gas_station_store_cover_roughness.jpg"
             ]
           }
-          metalnessMap ImageTexture {
-            url [
-              "textures/gas_station_store_cover_metalness.jpg"
-            ]
-          }
+          metalness 0
           normalMap ImageTexture {
             url [
               "textures/gas_station_store_cover_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/gas_station_store_cover_occlusion.jpg"
             ]
           }
         }
