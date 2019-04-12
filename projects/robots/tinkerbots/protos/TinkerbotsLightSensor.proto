@@ -261,27 +261,27 @@ PROTO TinkerbotsLightSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/light_sensor_base_color.png"
+                "textures/light_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/light_sensor_roughness.png"
+                "textures/light_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/sensor_metalness.png"
+                "textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/light_sensor_normal.png"
+                "textures/light_sensor_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/light_sensor_occlusion.png"
+                "textures/light_sensor_occlusion.jpg"
               ]
             }
           }
