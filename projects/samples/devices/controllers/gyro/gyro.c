@@ -41,7 +41,7 @@ static void run_for_a_while() {
     if (wb_robot_step(TIME_STEP) == -1)
       exit(EXIT_SUCCESS);
     const double *vel = wb_gyro_get_values(gyro);
-    printf("rotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
+    printf("\frotation axes: [ x y z ] = [ %+.2f %+.2f %+.2f ]\n", vel[0], vel[1], vel[2]);
   }
 }
 

@@ -128,8 +128,8 @@ namespace wren {
     unsigned int activeProgram();
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer);
 
-    // Returns true and prints the error code(s) if OpenGL errors have ocurred since the last invocation
-    bool checkError();
+    // Prints the error code(s) if OpenGL errors have ocurred since the last invocation
+    void checkError(int ignore = 0);
 
   }  // namespace glstate
 }  // namespace wren

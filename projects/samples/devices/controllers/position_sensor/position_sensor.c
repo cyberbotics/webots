@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 
     wb_motor_set_velocity(left_motor, -speed);
     wb_motor_set_velocity(right_motor, -speed);
-    printf("Position: %+f -> control force: %+f\n", position, speed);
+    printf("\fPosition: %+f -> control force: %+f\n", position, speed);
 
     previous_position = position;
   };
