@@ -29,6 +29,12 @@ Finally, save the PROTO file.
 
 This new PROTO node is now available for each worlds in your current project.
 
+%figure "The PROTO is now visible in the Add a node window."
+
+![tutorial_ball.png](images/tutorial_ball.png)
+
+%end
+
 > **Hands on #3**: You can now open the `4_wheels_robot.wbt` world in Webots and add the `FourWheelsRobot` node (that you just defined).
 The node is located in `PROTO nodes (Project) / FourWheelsRobot (Robot)`.
 
