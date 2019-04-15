@@ -40,7 +40,7 @@ The node is located in `PROTO nodes (Project) / FourWheelsRobot (Robot)`.
 
 A second 4 wheels robot should have been added at the exact same location than the already existing one.
 
-### Adding fields
+### Adding Fields
 
 As you probably noticed, this new PROTO node doesn't have any open field, it is therefore impossible to translate, rotate or change the controller for example.
 It is very easy to add new fields to a PROTO node and to link them with internal fields.
