@@ -47,45 +47,24 @@ C_SOURCES = $(wildcard libccd/src/*.c) $(wildcard ode/src/*.c)
 CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildcard ode/src/ode_MT/*.cpp) $(wildcard ode/src/ode_MT/*/*.cpp) $(wildcard OPCODE/*.cpp) $(wildcard OPCODE/Ice/*.cpp) $(wildcard ode/src/fluid_dynamics/*.cpp) $(wildcard ode/src/fluid_dynamics/immersion_link/*.cpp)
 
 ifeq ($(OSTYPE),windows)
-TARGET_ODE_LIBRARY_PATH=../../msys64/mingw64/bin
-TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/ode.dll
+TARGET_ODE_LIBRARY=../../msys64/mingw64/bin/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
-TARGET_ODE_LIBRARY_PATH=../../lib
-TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.so $(TARGET_ODE_LIBRARY_PATH)/libode.so.3
+TARGET_ODE_LIBRARY=../../lib/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-TARGET_ODE_LIBRARY_PATH=../../lib
-TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.dylib $(TARGET_ODE_LIBRARY_PATH)/libode.3.dylib
+TARGET_ODE_LIBRARY=../../lib/libode.dylib
 endif
-FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY_FILES)
+FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY)
 WEBOTS_DISABLE_BINARY_COPY=true
 
-USER_POSTBUILD: $(TARGET_ODE_LIBRARY_FILES)
+USER_POSTBUILD: $(TARGET_ODE_LIBRARY)
 
-$(TARGET_ODE_LIBRARY_PATH)/ode.dll: $(TARGET)
+$(TARGET_ODE_LIBRARY): $(TARGET)
 	@echo "#" copying $(@F)
 	@mv $(TARGET) $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.so: $(TARGET)
-	@echo "#" copying $(@F)
-	@mv $(TARGET) $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.so.3:
-	@echo "#" creating $(@F)
-	@ln -s libode.so $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.3.dylib: $(TARGET)
-	@echo "#" copying $(@F)
-	@install_name_tool -id @rpath/lib/libode.dylib $(TARGET)
-	@cp $(TARGET) $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.dylib:
-	@echo "#" creating $(@F)
-	@ln -s libode.3.dylib $@
 
 # finally, include the Makefile.include to perform magic
-
 EXCLUDE_CONTROLLERS = true
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif
