@@ -62,11 +62,11 @@ duplicatedTexurePaths = [
 def cmpHash(file1, file2):
     """Compare the hash of two files."""
     hash1 = hashlib.md5()
-    with open(file1) as f:
+    with open(file1, 'rb') as f:
         hash1.update(f.read())
         hash1 = hash1.hexdigest()
     hash2 = hashlib.md5()
-    with open(file2) as f:
+    with open(file2, 'rb') as f:
         hash2.update(f.read())
         hash2 = hash2.hexdigest()
     return hash1 == hash2
