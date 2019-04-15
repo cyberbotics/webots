@@ -7,7 +7,7 @@ function ResourceManager() {
     var scripts = document.getElementsByTagName('script');
     for (var i = scripts.length - 1; i >= 0; i--) {
       var src = scripts[i].src;
-      if (src.endsWith('webots.js')) {
+      if (src.endsWith('webots.js') || src.endsWith('webots.min.js')) {
         this.wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
         break;
       }
