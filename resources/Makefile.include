@@ -277,8 +277,10 @@ endif
 
 ifeq ($(GOAL),profile)
  WBCFLAGS += -pg
- ifndef BUILD_STATIC_LIBRARY
-  LFLAGS += -pg
+ ifneq ($(OSTYPE),darwin)
+  ifndef BUILD_STATIC_LIBRARY
+   LFLAGS += -pg
+  endif
  endif
 endif
 
