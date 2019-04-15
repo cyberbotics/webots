@@ -126,7 +126,7 @@ Editor.prototype = {
     if ($('#filename-' + i).html().endsWith('*')) { // file was modified
       $('#filename-' + i).html(this.filenames[i]);
       this.needToUploadFiles[i] = true;
-      if (webots.User1Id && webots.User1Authentication) // user logged in
+      if (webots.User1Id !== '' && webots.User1Authentication !== '') // user logged in
         this._storeUserFile(i);
       else
         this.unloggedFileModified = true;
@@ -134,7 +134,7 @@ Editor.prototype = {
       if (this.view.time === 0)
         this.upload(i);
       else {
-        if (!this.statusMessage) {
+        if (typeof this.statusMessage === 'undefined') {
           this.statusMessage = document.createElement('div');
           this.statusMessage.id = 'webotsEditorStatusMessage';
           this.statusMessage.className = 'webotsEditorStatusMessage';
@@ -153,7 +153,7 @@ Editor.prototype = {
       this.sessions[index].setValue(content);
       if ($('#filename-' + index).html().endsWith('*'))
         $('#filename-' + index).html(filename);
-      if (webots.User1Authentication && webots.User1Id)
+      if (webots.User1Authentication !== '' && webots.User1Id !== '')
         this.storeUserFile(index);
       return;
     }

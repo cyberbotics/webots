@@ -15,11 +15,11 @@
 JS_SOURCES = \
   util.js \
   dialog_window.js \
-	console.js \
-	help_window.js \
-	robot_window.js \
+  console.js \
+  help_window.js \
+  robot_window.js \
   toolbar.js \
-	editor.js \
+  editor.js \
   context_menu.js \
   viewpoint.js \
   selector.js \

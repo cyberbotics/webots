@@ -186,7 +186,7 @@ webots.View.prototype.open = function(url, mode) {
     this.setTimeout(-1);
   this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-  if (!this.x3dSceneManager) {
+  if (typeof this.x3dSceneManager === 'undefined') {
     this.x3dDiv = document.createElement('div');
     this.x3dDiv.className = 'webots3DView';
     this.view3D.appendChild(this.x3dDiv);
@@ -198,8 +198,8 @@ webots.View.prototype.open = function(url, mode) {
     this.x3dSceneManager.domElement.appendChild(param);
   }
 
-  if (!that.contextMenu && this.isWebSocketProtocol) {
-    this.contextMenu = new ContextMenu(webots.User1Id && !webots.User1Authentication, this.view3D);
+  if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
+    this.contextMenu = new ContextMenu(webots.User1Id !== '' && webots.User1Authentication !== '', this.view3D);
     this.contextMenu.onEditController = function(controller) { that.editController(controller); };
     this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
     this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
@@ -207,13 +207,13 @@ webots.View.prototype.open = function(url, mode) {
     this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
   }
 
-  if (!this.mouseEvents)
+  if (typeof this.mouseEvents === 'undefined')
     this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, this.x3dDiv);
 
-  if (!this.console)
+  if (typeof this.console === 'undefined')
     this.console = new Console(this.view3D, this.mobileDevice);
 
-  if (!this.editor)
+  if (typeof this.editor === 'undefined')
     this.editor = new Editor(this.view3D, this.mobileDevice, this);
 
   initWorld();
@@ -228,7 +228,7 @@ webots.View.prototype.open = function(url, mode) {
                                 "</div><div id='webotsProgressPercent'></div>";
       that.view3D.appendChild(that.progress);
 
-      if (!that.toolBar)
+      if (typeof that.toolBar === 'undefined')
         that.toolBar = new Toolbar(that.view3D, that);
 
       if (that.url.endsWith('.wbt')) { // url expected form: "ws://localhost:80/simple/worlds/simple.wbt"
@@ -287,9 +287,9 @@ webots.View.prototype.open = function(url, mode) {
       }
       if (windowName === infoWindowName) {
         var user;
-        if (webots.User1Id) {
+        if (webots.User1Id !== '') {
           user = ' [' + webots.User1Name;
-          if (webots.User2Id)
+          if (webots.User2Id !== '')
             user += '/' + webots.User2Name;
           user += ']';
         } else
@@ -329,7 +329,7 @@ webots.View.prototype.open = function(url, mode) {
     if (that.toolBar && !that.broadcast)
       that.toolBar.enableToolBarButtons(true);
 
-    if (that.onready)
+    if (typeof that.onready === 'function')
       that.onready();
 
     // Restore robot windows.

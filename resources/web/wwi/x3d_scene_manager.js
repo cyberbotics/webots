@@ -189,7 +189,7 @@ X3dSceneManager.prototype = {
 
   getTopX3dNode: function(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
-    var upmostSolid = null;
+    var upmostSolid;
     while (node) {
       if (node.userData && node.userData.solid)
         upmostSolid = node;
@@ -197,7 +197,7 @@ X3dSceneManager.prototype = {
         break;
       node = node.parent;
     }
-    if (upmostSolid)
+    if (typeof upmostSolid !== 'undefined')
       return upmostSolid;
     return node;
   },
@@ -248,29 +248,29 @@ X3dSceneManager.prototype = {
     }
     if (object instanceof THREE.Mesh) {
       childObject = this._getObjectByCustomId(object.material, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.geometry, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
     } else if (object instanceof THREE.Material) {
       childObject = this._getObjectByCustomId(object.map, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.aoMap, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.roughnessMap, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.metalnessMap, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.normalMap, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       childObject = this._getObjectByCustomId(object.emissiveMap, id);
-      if (childObject)
+      if (typeof childObject !== 'undefined')
         return childObject;
       // only fields set in x3d.js are checked
     }

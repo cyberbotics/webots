@@ -118,7 +118,7 @@ TextureManager.prototype = {
     }
     delete this.loadingTextures[name];
 
-    if (this.onTextureLoad)
+    if (typeof this.onTextureLoad === 'function')
       this.onTextureLoad();
   }
 };

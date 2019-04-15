@@ -24,7 +24,7 @@ function MouseEvents(sceneManager, contextMenu, domElement) {
     that._clearMouseMove();
     that.domElement.removeEventListener('touchend', that._onTouchEnd, true);
     that.domElement.removeEventListener('touchmove', that._onTouchMove, true);
-    if (that._onTouchEnd)
+    if (typeof that._onTouchEnd === 'function')
       that._onTouchEnd(event);
   };
   domElement.addEventListener('mousedown', function(event) { that._onMouseDown(event); }, false);
@@ -63,13 +63,13 @@ MouseEvents.prototype = {
       document.addEventListener('mouseup', this.onmouseup, false);
     }
 
-    if (webots.currentView.onmousedown)
+    if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
   },
 
   _onMouseMove: function(event) {
     if (!this.enableNavigation && event.button === 0) {
-      if (webots.currentView.onmousemove)
+      if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);
       return;
     }
@@ -134,9 +134,9 @@ MouseEvents.prototype = {
     this.state.x = event.clientX;
     this.state.y = event.clientY;
 
-    if (webots.currentView.onmousemove)
+    if (typeof webots.currentView.onmousemove === 'function')
       webots.currentView.onmousemove(event);
-    if (webots.currentView.onmousedrag)
+    if (typeof webots.currentView.onmousedrag === 'function')
       webots.currentView.onmousedrag(event);
   },
 
@@ -157,7 +157,7 @@ MouseEvents.prototype = {
     document.removeEventListener('mousemove', this.onmousemove, false);
     document.removeEventListener('mouseup', this.onmouseup, false);
 
-    if (webots.currentView.onmouseup)
+    if (typeof webots.currentView.onmouseup === 'function')
       webots.currentView.onmouseup(event);
   },
 
@@ -180,7 +180,7 @@ MouseEvents.prototype = {
     }
     this.sceneManager.viewpoint.zoom(this.intersection.distance, event.deltaY);
 
-    if (webots.currentView.onmousewheel)
+    if (typeof webots.currentView.onmousewheel === 'function')
       webots.currentView.onmousewheel(event);
   },
 
@@ -201,7 +201,7 @@ MouseEvents.prototype = {
     }
     this.state.wheelFocus = false;
 
-    if (webots.currentView.onmouseleave)
+    if (typeof webots.currentView.onmouseleave === 'function')
       webots.currentView.onmouseleave(event);
   },
 
@@ -290,7 +290,7 @@ MouseEvents.prototype = {
     this.state.x1 = x1;
     this.state.y1 = y1;
 
-    if (webots.currentView.ontouchmove)
+    if (typeof webots.currentView.ontouchmove === 'function')
       webots.currentView.ontouchmove(event);
   },
 
@@ -311,7 +311,7 @@ MouseEvents.prototype = {
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
 
-    if (webots.currentView.ontouchstart)
+    if (typeof webots.currentView.ontouchstart === 'function')
       webots.currentView.ontouchstart(event);
   },
 
@@ -320,7 +320,7 @@ MouseEvents.prototype = {
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
     this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
-    if (webots.currentView.ontouchend)
+    if (typeof webots.currentView.ontouchend === 'function')
       webots.currentView.ontouchend(event);
   },
 

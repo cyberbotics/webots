@@ -35,20 +35,20 @@ function ContextMenu(authenticatedUser, parentObject, selection) {
       return;
     var id = ui.item.attr('id');
     if (id === 'contextMenuFollow') {
-      if (that.onFollowObject)
+      if (typeof that.onFollowObject === 'function')
         that.onFollowObject(that.object.name);
     } else if (id === 'contextMenuUnfollow') {
-      if (that.onFollowObject)
+      if (typeof that.onFollowObject === 'function')
         that.onFollowObject('none');
     } else if (id === 'contextMenuEditController') {
       var controller = that.object.userData.controller;
       $('#webotsEditor').dialog('open');
       $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
-      if (that.onEditController)
+      if (typeof that.onEditController === 'function')
         that.onEditController(controller);
     } else if (id === 'contextMenuRobotWindow') {
       var robotName = that.object.userData.name;
-      if (that.onOpenRobotWindow)
+      if (typeof that.onOpenRobotWindow === 'function')
         that.onOpenRobotWindow(robotName);
     } else
       console.log('Unknown menu item: ' + id);
@@ -93,7 +93,7 @@ ContextMenu.prototype = {
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
       var robotName = object.userData.name;
       var isValid = false;
-      if (this.isRobotWindowValid)
+      if (typeof this.isRobotWindowValid === 'function')
         this.isRobotWindowValid(robotName, function(result) { isValid = result; });
       if (isValid)
         $('#contextMenuRobotWindow').css('display', 'inline');
@@ -105,7 +105,7 @@ ContextMenu.prototype = {
     }
 
     var isFollowed = false;
-    if (this.isFollowedObject)
+    if (typeof this.isFollowedObject === 'function')
       this.isFollowedObject(object, function(result) { isFollowed = result; });
     if (isFollowed) {
       $('#contextMenuFollow').css('display', 'none');

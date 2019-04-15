@@ -33,11 +33,12 @@ Animation.prototype = {
 
     var w = event.target.clientWidth - 66; // size of the borders of the slider
     var x = event.clientX - event.target.getBoundingClientRect().left - 48; // size of the left border (including play button) of the slider
+    // transform and clamp slider position to value in range [0, 100[
     var value = 100 * x / w;
     if (value < 0)
       value = 0;
     else if (value >= 100)
-      value = 99.999;
+      value = 99.999; // set maximum value to get valid step index in _updateSlider function
     this.playSlider.slider('value', value);
     // Setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
     // therefore, we need to trigger this event manually.
@@ -82,7 +83,7 @@ Animation.prototype = {
     this._updateAnimation();
 
     // Notify creation completed.
-    if (this.onReady)
+    if (typeof this.onReady === 'function')
       this.onReady();
   },
 

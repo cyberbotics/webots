@@ -21,7 +21,7 @@ VideoManager.prototype = {
     this.domElement.addEventListener('mouseup', this.onVideoMouseUp, false);
     this.domElement.addEventListener('wheel', this.onVideoWheel, false);
     this.domElement.addEventListener('contextmenu', this.onVideoContextMenu, false);
-    if (onready)
+    if (typeof onready === 'function')
       onready();
   },
 

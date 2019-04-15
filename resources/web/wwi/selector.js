@@ -26,7 +26,7 @@ Selector.prototype = {
     }
     if (this.selectedRepresentations.length > 0)
       this.selectedObject = object;
-    if (this.onSelectionChange)
+    if (typeof this.onSelectionChange === 'function')
       this.onSelectionChange();
   },
 

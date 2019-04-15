@@ -52,7 +52,7 @@ Stream.prototype = {
         '<a href="' + window.location.href + '">here</a>.');
     }
     this.view.destroyWorld();
-    if (this.view.onclose)
+    if (typeof this.view.onclose === 'function')
       this.view.onclose();
   },
 
@@ -127,7 +127,7 @@ Stream.prototype = {
       var streamId = list[2];
       console.log('Received video message on ' + url + ' stream = ' + streamId);
       this.videoStream = new webots.VideoStream(url, this.view.video, document.getElementById('BitrateViewer'), streamId);
-      if (this.onready)
+      if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('set controller:')) {
       var slash = data.indexOf('/', 15);
@@ -159,11 +159,11 @@ Stream.prototype = {
     } else if (data === 'scene load completed') {
       this.view.time = 0;
       $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(0));
-      if (this.onready)
+      if (typeof this.onready === 'function')
         this.onready();
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
-      if (this.onready)
+      if (typeof this.onready === 'function')
         this.onready();
     } else if (data.startsWith('label')) {
       var semiColon = data.indexOf(';');

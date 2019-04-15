@@ -43,7 +43,7 @@ Viewpoint.prototype = {
   initFollowParameters: function() {
     this.initialViewpointPosition = this.camera.position.clone();
     this.initialViewpointOrientation = this.camera.quaternion.clone();
-    if (this.camera.userData.followSmoothness !== null)
+    if (this.camera.userData.followSmoothness != null)
       this.setViewpointMass(this.camera.userData.followSmoothness);
     if (this.camera.userData.followedId != null)
       this.follow(this.camera.userData.followedId);
@@ -121,7 +121,7 @@ Viewpoint.prototype = {
       this.camera.position.add(viewpointDeltaPosition);
       this.followedObjectDeltaPosition = null;
 
-      if (this.onCameraParametersChanged)
+      if (typeof this.onCameraParametersChanged === 'function')
         this.onCameraParametersChanged();
     }
   },
@@ -146,7 +146,7 @@ Viewpoint.prototype = {
       this.camera.position.sub(params.pickPosition).applyQuaternion(deltaRotation).add(params.pickPosition);
     this.camera.quaternion.premultiply(deltaRotation);
 
-    if (this.onCameraParametersChanged)
+    if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
   },
 
@@ -159,7 +159,7 @@ Viewpoint.prototype = {
     var targetUp = params.scaleFactor * params.dy;
     this.camera.position.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
 
-    if (this.onCameraParametersChanged)
+    if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
   },
 
@@ -174,7 +174,7 @@ Viewpoint.prototype = {
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
     this.camera.quaternion.premultiply(zRotation);
 
-    if (this.onCameraParametersChanged)
+    if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
   },
 
@@ -186,7 +186,7 @@ Viewpoint.prototype = {
 
     this.camera.position.add(roll.multiplyScalar(scaleFactor));
 
-    if (this.onCameraParametersChanged)
+    if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
   }
 };

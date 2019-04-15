@@ -110,7 +110,7 @@ webots.alert = function(title, message, callback) {
       Ok: function() { $(this).dialog('close'); }
     },
     close: function() {
-      if (typeof callback === function)
+      if (typeof callback === 'function')
         callback();
       webots.currentView.ondialogwindow(false);
       $(this).remove();
