@@ -37,4 +37,5 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 - [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes-15-minutes.md)
 - [Tutorial 6: 4-Wheels Robot](tutorial-6-4-wheels-robot.md)
 - [Tutorial 7: Using ROS](tutorial-7-using-ros.md)
+- [Tutorial 8: Using ROS](tutorial-8-using-ros.md)
 - [Going Further](going-further.md)
