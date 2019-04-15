@@ -53,9 +53,10 @@ duplicatedTextures = [
     'car_dark_leather_base_color.jpg',
 ]
 
-duplicatedTexurePaths = [
-    'projects/samples/robotbenchmark',  # we don't want to change anything to robotbenchmark
-    'projects/objects/buildings/protos/textures/colored_textures'
+duplicatedTexturePaths = [
+    'projects' + os.sep + 'samples' + os.sep + 'robotbenchmark',  # we don't want to change anything to robotbenchmark
+    'projects' + os.sep + 'objects' + os.sep + 'buildings' + os.sep + 'protos' + os.sep + 'textures' + os.sep +
+    'colored_textures'
 ]
 
 
@@ -133,12 +134,12 @@ class TestTextures(unittest.TestCase):
         toCompare = list(self.textures)  # copy
         for texture in self.textures:
             toCompare.remove(texture)
-            if any(path in texture for path in duplicatedTexurePaths):
+            if any(path in texture for path in duplicatedTexturePaths):
                 continue
             if os.path.basename(texture) in duplicatedTextures:
                 continue
             for comparedTexture in toCompare:
-                if any(path in comparedTexture for path in duplicatedTexurePaths):
+                if any(path in comparedTexture for path in duplicatedTexturePaths):
                     continue
                 if os.path.basename(comparedTexture) in duplicatedTextures:
                     continue
