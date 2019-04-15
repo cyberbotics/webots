@@ -21,31 +21,6 @@ space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-ifeq ($(MAKECMDGOALS),)
-default:
-	@echo "Type one of the following:"
-	@echo "  make debug                 for debug (with gdb symbols)"
-	@echo "  make profile               for profiling (with gprof information)"
-	@echo "  make release               for release"
-	@echo "  make clean                 remove build directory"
-else
-
-ifeq ($(MAKECMDGOALS),profile)
-  STATIC_LIBRARY = true
-endif
-
-CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
-ifneq ($(OSTYPE),darwin)
-  CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
-endif
-INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
-
-# define the source files
-
-C_SOURCES = $(wildcard libccd/src/*.c) $(wildcard ode/src/*.c)
-
-CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildcard ode/src/ode_MT/*.cpp) $(wildcard ode/src/ode_MT/*/*.cpp) $(wildcard OPCODE/*.cpp) $(wildcard OPCODE/Ice/*.cpp) $(wildcard ode/src/fluid_dynamics/*.cpp) $(wildcard ode/src/fluid_dynamics/immersion_link/*.cpp)
-
 ifeq ($(OSTYPE),windows)
 TARGET_ODE_LIBRARY=../../msys64/mingw64/bin/ode.dll
 endif
@@ -55,14 +30,41 @@ endif
 ifeq ($(OSTYPE),darwin)
 TARGET_ODE_LIBRARY=../../lib/libode.dylib
 endif
+
+ifeq ($(MAKECMDGOALS),)
+default:
+	@echo "Type one of the following:"
+	@echo "  make debug                 for debug (with gdb symbols)"
+	@echo "  make profile               for profiling (with gprof information)"
+	@echo "  make release               for release"
+	@echo "  make install               copy the library in the required folder"
+	@echo "  make clean                 remove build directory"
+else ifeq ($(MAKECMDGOALS),install)
+
+$(TARGET_ODE_LIBRARY):
+	@echo "#" copying $(@F)
+	@cp $(@F) $@
+
+install: $(TARGET_ODE_LIBRARY)
+
+else
+
+ifeq ($(MAKECMDGOALS),profile)
+  STATIC_LIBRARY = true
+endif
+
 FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY)
 WEBOTS_DISABLE_BINARY_COPY=true
 
-USER_POSTBUILD: $(TARGET_ODE_LIBRARY)
+CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
+ifneq ($(OSTYPE),darwin)
+  CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
+endif
+INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
 
-$(TARGET_ODE_LIBRARY): $(TARGET)
-	@echo "#" copying $(@F)
-	@mv $(TARGET) $@
+# define the source files
+C_SOURCES = $(wildcard libccd/src/*.c) $(wildcard ode/src/*.c)
+CXX_SOURCES = $(wildcard ode/src/*.cpp) $(wildcard ode/src/joints/*.cpp) $(wildcard ode/src/ode_MT/*.cpp) $(wildcard ode/src/ode_MT/*/*.cpp) $(wildcard OPCODE/*.cpp) $(wildcard OPCODE/Ice/*.cpp) $(wildcard ode/src/fluid_dynamics/*.cpp) $(wildcard ode/src/fluid_dynamics/immersion_link/*.cpp)
 
 # finally, include the Makefile.include to perform magic
 EXCLUDE_CONTROLLERS = true
