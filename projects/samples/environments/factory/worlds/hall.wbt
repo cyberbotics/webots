@@ -22,16 +22,8 @@ DEF VIEWPOINT Viewpoint {
   position -16.514890700512094 7.528133705321302 3.4202975550301327
   ambientOcclusionRadius 1
 }
-Background {
-  skyColor [
-    0.33 0.66 1
-  ]
-  cubemap Cubemap {
-    textureBaseName "khg_background2"
-  }
-}
-TexturedBackgroundLight {
-  texture "noon_building_overcast"
+TexturedBackground {
+  texture "factory"
 }
 Floor {
   translation -0.14 0 0
@@ -70,72 +62,24 @@ Floor {
     metalness 0
   }
 }
-Solid {
+SquareManhole {
   translation 8.06 -0.048 -1.45
   rotation 0 1 0 4.712388966
-  children [
-    DEF MANHOLE_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/manhole_base_color.jpg"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/manhole_roughness.jpg"
-          ]
-        }
-        metalnessMap ImageTexture {
-          url [
-            "textures/manhole_metalness.jpg"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "textures/manhole_normal.jpg"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/manhole_occlusion.jpg"
-          ]
-        }
-      }
-      geometry Box {
-        size 1 0.1 1
-      }
-    }
-  ]
-  name "solid(9)"
-  boundingObject USE MANHOLE_SHAPE
 }
-Solid {
+SquareManhole {
   translation 8.06 -0.048 1.45
   rotation 0 1 0 4.712388966
-  children [
-    USE MANHOLE_SHAPE
-  ]
-  name "solid(12)"
-  boundingObject USE MANHOLE_SHAPE
+  name "manhole(0)"
 }
-Solid {
+SquareManhole {
   translation -7.54 -0.048 -1.45
   rotation 0 1 0 4.712388966
-  children [
-    USE MANHOLE_SHAPE
-  ]
-  name "solid(10)"
-  boundingObject USE MANHOLE_SHAPE
+  name "manhole(1)"
 }
-Solid {
+SquareManhole {
   translation -7.54 -0.048 1.51
   rotation 0 1 0 4.712388966
-  children [
-    USE MANHOLE_SHAPE
-  ]
-  name "solid(11)"
-  boundingObject USE MANHOLE_SHAPE
+  name "manhole(2)"
 }
 DEF ROOF Transform {
   translation 5.72 4.76 0

@@ -217,6 +217,9 @@
   "projects/objects/factory/fire_extinguisher/protos/FireExtinguisher": {
     "fields": "rotation 0 1 0 4.712"
   },
+  "projects/objects/factory/manhole/protos/SquareManhole": {
+    "fields": "translation 0 -0.04 0 rotation 0 1 0 1.0472"
+  },
   "projects/objects/factory/pallet/protos/WoodenPallet": {
   },
   "projects/objects/factory/pallet/protos/WoodenPalletStack": {
