@@ -51,7 +51,7 @@ This should be done in the PROTO interface part (part between the `[` and the `]
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
 ```
-Your PROTO node has now two open fields but they are not linked to any internal fields.
+Your PROTO node has now two open fields but they are not linked to any internal field.
 To link the fields you should use the IS keyword, simply replace the `translation` and `rotation` fields of the [Robot](../reference/robot.md) node by:
 ```
   translation IS translation
