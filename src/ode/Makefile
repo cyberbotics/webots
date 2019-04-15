@@ -50,7 +50,7 @@ ifeq ($(OSTYPE),linux)
 	FILES_TO_REMOVE = ../../lib/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-	FILES_TO_REMOVE = ../../lib/libode.3.dylib ../../lib/libode.dylib
+	FILES_TO_REMOVE = ../../lib/libode.dylib
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -59,11 +59,11 @@ TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
 TARGET_ODE_LIBRARY_PATH=../../lib
-TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.so $(TARGET_ODE_LIBRARY_PATH)/libode.so.3
+TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
 TARGET_ODE_LIBRARY_PATH=../../lib
-TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.dylib $(TARGET_ODE_LIBRARY_PATH)/libode.3.dylib
+TARGET_ODE_LIBRARY_FILES=$(TARGET_ODE_LIBRARY_PATH)/libode.dylib
 endif
 FILES_TO_REMOVE += $(TARGET_ODE_LIBRARY_FILES)
 WEBOTS_DISABLE_BINARY_COPY=true
@@ -78,21 +78,7 @@ $(TARGET_ODE_LIBRARY_PATH)/libode.so: $(TARGET)
 	@echo "#" copying $(@F)
 	@mv $(TARGET) $@
 
-$(TARGET_ODE_LIBRARY_PATH)/libode.so.3:
-	@echo "#" creating $(@F)
-	@ln -s libode.so $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.3.dylib: $(TARGET)
-	@echo "#" copying $(@F)
-	@install_name_tool -id @rpath/lib/libode.dylib $(TARGET)
-	@cp $(TARGET) $@
-
-$(TARGET_ODE_LIBRARY_PATH)/libode.dylib:
-	@echo "#" creating $(@F)
-	@ln -s libode.3.dylib $@
-
 # finally, include the Makefile.include to perform magic
-
 EXCLUDE_CONTROLLERS = true
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 endif
