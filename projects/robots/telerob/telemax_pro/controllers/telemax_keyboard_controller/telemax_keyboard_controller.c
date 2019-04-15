@@ -22,6 +22,7 @@
 #include <webots/robot.h>
 
 #include <stdio.h>
+#include <string.h>
 
 #define TIME_STEP 32
 #define WHEELS_TO_TRACK_RATION 0.155  // radius of the wheels
