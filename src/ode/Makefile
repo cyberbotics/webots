@@ -42,7 +42,7 @@ default:
 else ifeq ($(MAKECMDGOALS),install)
 
 $(TARGET_ODE_LIBRARY):
-	@echo "#" copying $(@F)
+	@echo "#" copying $(@F) to $@
 	@cp $(@F) $@
 
 install: $(TARGET_ODE_LIBRARY)
