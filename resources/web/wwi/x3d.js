@@ -732,13 +732,13 @@ THREE.X3DLoader.prototype = {
 
     var lightObject = new THREE.DirectionalLight(color.getHex(), intensity * 0.5);
     if (castShadows) {
-      lightObject.castShadow = false;
+      lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
       lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
-      lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.5'));
+      lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
       lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));
     }
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
@@ -771,7 +771,7 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
       lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
-      lightObject.shadow.camera.near = 0.0;
+      lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
       lightObject.shadow.camera.far = radius;
     }
     lightObject.position.copy(location);
@@ -796,7 +796,10 @@ THREE.X3DLoader.prototype = {
 
     var lightObject = new THREE.SpotLight(color.getHex(), intensity);
     lightObject.angle = cutOffAngle;
-    lightObject.penumbra = 1 - (beamWidth / cutOffAngle);
+    if (beamWidth > cutOffAngle)
+      lightObject.penumbra = 0.0;
+    else
+      lightObject.penumbra = 1.0 - (beamWidth / cutOffAngle);
     lightObject.decay = attenuation.x;
     lightObject.distance = radius;
     if (castShadows) {
@@ -806,7 +809,7 @@ THREE.X3DLoader.prototype = {
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
       lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
-      lightObject.shadow.camera.near = 0.0;
+      lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
       lightObject.shadow.camera.far = radius;
     }
     lightObject.position.copy(location);
