@@ -194,7 +194,9 @@ endif
 
 ifeq ($(MAKECMDGOALS),profile)
 CFLAGS += -pg -O3 -DNDEBUG
+ifneq ($(OSTYPE),darwin)
 LD_FLAGS += -pg
+endif
 endif
 
 ifeq ($(MAKECMDGOALS),release)
