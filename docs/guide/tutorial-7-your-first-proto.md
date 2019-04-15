@@ -31,7 +31,7 @@ This new PROTO node is now available for each worlds in your current project.
 
 %figure "The PROTO is now visible in the Add a node window."
 
-![tutorial_ball.png](images/tutorial_ball.png)
+![tutorial_proto.png](images/tutorial_proto.png)
 
 %end
 
