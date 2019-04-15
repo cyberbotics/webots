@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Makefile to compile the ODE_MT project
-# Written by Abd-ur-Rehman Mustafa (Cyberbotics)
-# 18/02/2014
-
 space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
@@ -53,7 +49,7 @@ ifeq ($(MAKECMDGOALS),profile)
   STATIC_LIBRARY = true
 endif
 
-FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY) libode.a
+FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY) libode.a ode.a
 WEBOTS_DISABLE_BINARY_COPY=true
 
 CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
