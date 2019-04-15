@@ -137,11 +137,6 @@ PROTO SmallResidentialTowerBase [
               "textures/small_residential_tower_ground_floor_windows_metalness.jpg"
             ]
           }
-          normalMap ImageTexture {
-            url [
-              "textures/small_residential_tower_ground_floor_windows_normal.jpg"
-            ]
-          }
           occlusionMap ImageTexture {
             url [
               "textures/small_residential_tower_ground_floor_windows_occlusion.jpg"

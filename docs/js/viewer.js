@@ -818,7 +818,7 @@ function createRobotComponent(view) {
           deviceDiv.innerHTML = '<div class="device-name">' + deviceName + '</div>';
 
           // Create the new motor.
-          if (deviceType.endsWith('Motor')) {
+          if (deviceType.endsWith('Motor') && !device['track']) {
             var minLabel = document.createElement('div');
             minLabel.classList.add('motor-label');
             var maxLabel = document.createElement('div');

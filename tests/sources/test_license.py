@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +15,9 @@
 # limitations under the License.
 
 """Test that checks that all the source files have the Apache 2 license."""
-import unittest
 
+import unittest
 import datetime
-import difflib
 import os
 import fnmatch
 

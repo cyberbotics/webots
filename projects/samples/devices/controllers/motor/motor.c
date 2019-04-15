@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
       target += M_PI_4;
       counter = 0;
     }
-    printf("Force feedback = %g\n", wb_motor_get_torque_feedback(motor));
+    printf("\fForce feedback = %g\n", wb_motor_get_torque_feedback(motor));
     printf("Battery level  = %g\n", wb_robot_battery_sensor_get_value());
   };
   wb_robot_cleanup();

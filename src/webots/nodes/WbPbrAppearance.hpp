@@ -71,7 +71,6 @@ private:
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
   void clearCubemap(WrMaterial *wrenMaterial);
 
-  bool isTransparent();
   void init();
 
   WbSFColor *mBaseColor;
