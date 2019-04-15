@@ -5,8 +5,8 @@ function Animation(url, scene, view, gui, loop) {
   this.url = url;
   this.scene = scene;
   this.view = view;
-  this.gui = gui === undefined || gui === 'play' ? 'play' : 'pause';
-  this.loop = loop === undefined ? true : loop;
+  this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
+  this.loop = typeof loop === 'undefined' ? true : loop;
   this.sliding = false;
   this.onReady = null;
 };

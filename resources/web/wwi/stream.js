@@ -79,7 +79,7 @@ Stream.prototype = {
         }
       }
     } else if (data.startsWith('application/json:')) {
-      if (this.view.time !== undefined) { // otherwise ignore late updates until the scene loading is completed
+      if (typeof this.view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);
         var frame = JSON.parse(data);
         this.view.time = frame.time;
@@ -142,7 +142,7 @@ Stream.prototype = {
       // Update timeout.
       if (this.view.timeout > 0 && !this.view.isAutomaticallyPaused) {
         this.view.deadline = this.view.timeout;
-        if (this.view.time !== undefined)
+        if (typeof this.view.time !== 'undefined')
           this.view.deadline += this.view.time;
         $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.view.deadline));
       }

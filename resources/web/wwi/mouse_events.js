@@ -74,7 +74,7 @@ MouseEvents.prototype = {
       return;
     }
 
-    if (this.state.x === undefined)
+    if (typeof this.state.x === 'undefined')
       // mousedown event has not been called yet.
       // This could happen for example when another application has focus while loading the scene.
       return;

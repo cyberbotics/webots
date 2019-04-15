@@ -26,7 +26,7 @@ DialogWindow.prototype = {
 };
 
 DialogWindow.clampDialogSize = function(preferredGeometry) {
-  if ($('#playerDiv').height === undefined || $('#playerDiv').width === undefined)
+  if (typeof $('#playerDiv').height === 'undefined' || typeof $('#playerDiv').width === 'undefined')
     return preferredGeometry;
 
   var maxHeight = $('#playerDiv').height() - preferredGeometry.top - $('#toolBar').height() - 20; // 20 is chosen arbitrarily
@@ -110,7 +110,7 @@ webots.alert = function(title, message, callback) {
       Ok: function() { $(this).dialog('close'); }
     },
     close: function() {
-      if (callback !== undefined)
+      if (typeof callback === function)
         callback();
       webots.currentView.ondialogwindow(false);
       $(this).remove();

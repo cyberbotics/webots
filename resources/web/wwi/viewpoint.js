@@ -74,9 +74,9 @@ Viewpoint.prototype = {
   },
 
   updateViewpointPosition: function(forcePosition, time) {
-    if (this.followedObjectId == null || this.followedObjectId === 'none' || time === undefined)
+    if (this.followedObjectId == null || this.followedObjectId === 'none' || typeof time === 'undefined')
       return;
-    if (this.viewpointLastUpdate === undefined)
+    if (typeof this.viewpointLastUpdate === 'undefined')
       this.viewpointLastUpdate = time;
 
     var timeInterval = Math.abs(time - this.viewpointLastUpdate) / 1000;

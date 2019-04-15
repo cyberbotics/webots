@@ -52,7 +52,7 @@ webots.View = function(view3D, mobile) {
     console.log('%c' + text, 'color:red');
   };
   this.onrobotmessage = function(robot, message) {
-    if (that.robotWindowNames[robot] === undefined) {
+    if (typeof that.robotWindowNames[robot] === 'undefined') {
       console.log("Robot '" + robot + "' has no associated robot window");
       return;
     }
@@ -94,7 +94,7 @@ webots.View = function(view3D, mobile) {
   this.ondialogwindow = function(opening) {
     // Pause the simulation if needed when a pop-up dialog window is open
     // and restart running the simulation when it is closed.
-    if (opening && that.isAutomaticallyPaused === undefined) {
+    if (opening && typeof that.isAutomaticallyPaused === 'undefined') {
       that.isAutomaticallyPaused = that.toolBar && that.toolBar.pauseButton && that.toolBar.pauseButton.style.display === 'inline';
       that.toolBar.pauseButton.click();
     } else if (!opening && that.isAutomaticallyPaused) {
@@ -111,7 +111,7 @@ webots.View = function(view3D, mobile) {
   this.view3D = view3D;
   this.view3D.className = view3D.className + ' webotsView';
 
-  if (mobile === undefined)
+  if (typeof mobile === 'undefined')
     this.mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   else
     this.mobileDevice = mobile;
@@ -148,7 +148,7 @@ webots.View.prototype.setTimeout = function(timeout) { // expressed in seconds
 
   this.timeout = timeout * 1000; // convert to millisecons
   this.deadline = this.timeout;
-  if (this.time !== undefined)
+  if (typeof this.time !== 'undefined')
     this.deadline += this.time;
 };
 
@@ -157,9 +157,9 @@ webots.View.prototype.setWebotsDocUrl = function(url) {
 };
 
 webots.View.prototype.setAnimation = function(url, gui, loop) {
-  if (gui === undefined)
+  if (typeof gui === 'undefined')
     gui = 'play';
-  if (loop === undefined)
+  if (typeof loop === 'undefined')
     loop = true;
   this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
 };
@@ -167,7 +167,7 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
 webots.View.prototype.open = function(url, mode) {
   var that = this;
   this.url = url;
-  if (mode === undefined)
+  if (typeof mode === 'undefined')
     mode = 'x3dom';
   this.mode = mode;
 

@@ -252,7 +252,7 @@ Toolbar.prototype = {
     this.view.stream.socket.send('real-time:' + this.view.timeout);
     this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'none';
-    if (this.fastButton !== undefined)
+    if (typeof this.fastButton !== 'undefined')
       this.fastButton.style.display = 'inline';
   },
 
@@ -272,7 +272,7 @@ Toolbar.prototype = {
     this.view.contextMenu.hide();
     this.pauseButton.style.display = 'none';
     this.real_timeButton.style.display = 'inline';
-    if (this.fastButton !== undefined)
+    if (typeof this.fastButton !== 'undefined')
       this.fastButton.style.display = 'inline';
     this.view.stream.socket.send('step');
   },
@@ -309,7 +309,7 @@ Toolbar.prototype = {
     else
       this.pauseButton.style.display = 'inline';
     this.real_timeButton.style.display = 'inline';
-    if (this.fastButton !== undefined)
+    if (typeof this.fastButton !== 'undefined')
       this.fastButton.style.display = 'inline';
   }
 };

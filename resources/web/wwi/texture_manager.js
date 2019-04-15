@@ -26,7 +26,7 @@ TextureManager.prototype = {
 
   loadOrRetrieveTexture: function(name, texture, cubeTextureIndex) {
     console.assert(typeof name === 'string', 'TextureManager.loadOrRetrieveTexture: name is not a string.');
-    if (name === undefined || name === '')
+    if (typeof name === 'undefined' || name === '')
       return null;
 
     if (this.textures[name])

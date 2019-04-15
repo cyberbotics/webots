@@ -243,7 +243,7 @@ X3dSceneManager.prototype = {
     for (var i = 0; i < childrenLength; i++) {
       var child = object.children[i];
       childObject = this._getObjectByCustomId(child, id);
-      if (childObject !== undefined)
+      if (typeof childObject !== 'undefined')
         return childObject;
     }
     if (object instanceof THREE.Mesh) {
