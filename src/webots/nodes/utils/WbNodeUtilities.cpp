@@ -397,9 +397,9 @@ namespace {
 
     } else if (fieldName == "muscles" && (parentModelName == "LinearMotor" || parentModelName == "RotationalMotor")) {
       QString invalidParentNode;
-      if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK))
+      if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK, 1))
         invalidParentNode = "Track";
-      else if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_HINGE_2_JOINT))
+      else if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_HINGE_2_JOINT, 1))
         invalidParentNode = "Hinge2Joint";
 
       if (!invalidParentNode.isEmpty()) {
@@ -535,15 +535,17 @@ namespace {
   }
 };  // namespace
 
-WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType) {
+WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType, int searchDegrees) {
   if (node == NULL)
     return NULL;
 
+  int count = searchDegrees > 0 ? searchDegrees : -1;
   WbBaseNode *n = dynamic_cast<WbBaseNode *>(node->parent());
-  while (n) {
+  while (n && count != 0) {
     if (n->nodeType() == nodeType)
       return n;
     n = dynamic_cast<WbBaseNode *>(n->parent());
+    count--;
   }
   return NULL;
 }

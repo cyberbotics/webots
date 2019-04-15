@@ -53,7 +53,6 @@ private:
 
   // General
   QComboBox *mNumberOfThreadsCombo;
-  QButtonGroup *mThreadingPolicyGroup;
 
   QDialogButtonBox *mButtonBox;
   QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAntiAliasingCombo, *mAmbientOcclusionCombo,

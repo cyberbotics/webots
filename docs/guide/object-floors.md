@@ -24,7 +24,6 @@ CircleArena {
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
   SFNode     wallAppearance  BrushedAluminium {}
-  SFVec2f    wallTileSize    0.5 0.5
   SFInt32    subdivision     48
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
@@ -49,8 +48,6 @@ CircleArena {
 - `wallHeight`: Defines the height of the wall.
 
 - `wallAppearance`: Defines the appearance of the wall.
-
-- `wallTileSize`: Defines the size of the texture used for the wall.
 
 - `subdivision`: Defines the subdivision of the wall cylinder.
 
@@ -114,8 +111,6 @@ RectangleArena {
   SFNode     floorAppearance ChequeredParquetry {}
   SFFloat    wallThickness   0.01
   SFFloat    wallHeight      0.1
-  SFColor    wallColor       0.8 0.8 0.8
-  SFVec2f    wallTileSize    0.5 0.5
   SFNode     wallAppearance  BrushedAluminium {}
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
@@ -138,10 +133,6 @@ RectangleArena {
 - `wallThickness`: Defines the thickness of the walls.
 
 - `wallHeight`: Defines the height of the walls.
-
-- `wallColor`: Defines the color of the walls.
-
-- `wallTileSize`: Defines the size of the texture used for the walls.
 
 - `wallAppearance`: Defines the appearance of the wall.
 
@@ -198,4 +189,3 @@ UnevenTerrain {
 - `flatBounds`: Defines whether the bounds of the terrain should be flat.
 
 - `perlinNOctaves`: Defines the number of octaves of the perlin noise.
-
