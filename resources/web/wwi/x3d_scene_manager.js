@@ -109,7 +109,7 @@ X3dSceneManager.prototype = {
         that.sceneModified = false;
       }
       that.onSceneUpdate();
-      if (onLoad)
+      if (typeof onLoad === 'function')
         onLoad();
     });
   },

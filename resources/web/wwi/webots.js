@@ -64,7 +64,7 @@ webots.View = function(view3D, mobile) {
       that.robotWindowsGeometries[win] = that.robotWindows[win].geometry();
       that.robotWindows[win].destroy();
     }
-    that.infoWindow = null;
+    that.infoWindow = undefined;
     that.robotWindows = {}; // delete robot windows
     that.robotWindowNames = {};
   };
@@ -130,7 +130,6 @@ webots.View = function(view3D, mobile) {
     }
   });
 
-  this.x3dSceneManager = null;
   this.debug = false;
   this.timeout = 60 * 1000; // default to one minute
   this.time = undefined;
@@ -316,7 +315,7 @@ webots.View.prototype.open = function(url, mode) {
         });
       }).fail(function() {
         if (windowName === infoWindowName)
-          that.infoWindow = null;
+          that.infoWindow = undefined;
         pendingRequestsCount--;
         if (pendingRequestsCount === 0)
           loadFinalize();
