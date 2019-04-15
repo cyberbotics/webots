@@ -53,7 +53,7 @@ To link the fields you should use the IS keyword, simply replace the `translatio
 ```
 Save your PROTO file, it should now look like this:
 ```
-PROTO protoName [
+PROTO FourWheelsRobot [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
 ]
