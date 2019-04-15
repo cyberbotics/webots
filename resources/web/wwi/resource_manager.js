@@ -32,7 +32,7 @@ ResourceManager.prototype = {
       var index = src.indexOf('?');
       if (index > 0)
         src = src.substring(0, index); // remove query string
-      if (!src.endsWith('webots.js'))
+      if (!src.endsWith('webots.js') && !src.endsWith('webots.min.js'))
         continue;
       index = src.lastIndexOf('/');
       return src.substring(0, index + 1);

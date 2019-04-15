@@ -172,7 +172,8 @@ X3dSceneManager.prototype = {
       } else if (key === 'emissiveColor' && object instanceof THREE.Material) {
         var emissiveColor = convertStringTorgb(newValue);
         object.emissive = emissiveColor;
-      }
+      } else if (key === 'render' && object.isObject3D)
+        object.visible = newValue.toLowerCase() === 'true';
     }
   },
 

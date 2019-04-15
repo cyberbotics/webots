@@ -105,6 +105,9 @@ THREE.X3DLoader.prototype = {
     if (!object)
       return;
 
+    var isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
+    if (isInvisible && object.visible)
+      object.visible = false;
     this._setDefNode(node, object);
     this._setCustomId(node, object);
     parentObject.add(object);
