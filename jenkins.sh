@@ -137,7 +137,7 @@ function build {
 }
 
 # the following directories to compile should match with the main Makefile
-targets=(lib/libode.so lib/libode.so.3)
+targets=(lib/libode.so)
 build src/ode            targets
 targets=(src/glad/libglad.a)
 build src/glad           targets
