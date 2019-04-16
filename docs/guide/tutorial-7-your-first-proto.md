@@ -81,6 +81,8 @@ PROTO FourWheelsRobot [
 
 You can now save your simulation in Webots and revert it. The `translation` and `rotation` of the `FourWheelsRobot` node can now be changed (either in the [scene tree](the-scene-tree.md) or using the handles in the [3D view](the-3d-window.md)).
 
+The same mechanism could also be used to expose the `controller` field of the [Robot](../reference/robot.md) node.
+
 ### Conclusion
 
 You are now able to create PROTO nodes from any nodes you created in Webots.
