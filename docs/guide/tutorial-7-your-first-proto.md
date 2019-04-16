@@ -1,6 +1,6 @@
 ## Tutorial 7: Your First PROTO
 
-The aim of this tutorial is to create a PROTO file with the definition of the four wheels robot from the previous tutorial.
+The aim of this tutorial is to create a PROTO file corresponding to the four wheels robot from the previous tutorial.
 
 ### Copy the Robot Definition
 
