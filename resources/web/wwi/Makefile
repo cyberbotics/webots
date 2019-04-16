@@ -37,14 +37,24 @@ JS_SOURCES = \
 NPM_PACKAGES = \
   terser \
   @babel/core \
-	@babel/cli \
-	@babel/preset-env
+  @babel/cli \
+  @babel/preset-env
 
+NPM_EXISTS = $(shell which npm 2> /dev/null)
+
+ifeq ($(NPM_EXISTS),)
+release debug profile update:
+	@echo "# Please install nodejs to build webots.min.js..."
+	@echo "- Linux: sudo apt install npm"
+	@echo "- macOS: brew install node"
+	@echo "- Windows: pacman -S mingw-w64-x86_64-nodejs"
+else
 release debug profile update: install $(JS_SOURCES)
-	@echo "# Compressing webots.js.min"
+	@echo "# Compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/terser webots.max.js -o webots.min.js
 	@rm webots.max.js
+endif
 
 install:
 	npm install $(NPM_PACKAGES)
