@@ -38,7 +38,7 @@ This new PROTO node is now available for each world in your current project.
 > **Hands-on #3**: Open the `4_wheels_robot.wbt` world in Webots and add the `FourWheelsRobot` node (that you just defined).
 The node is located in `PROTO nodes (Project) / FourWheelsRobot (Robot)`.
 
-A second 4 wheels robot should have been added at the exact same location than the already existing one.
+A second 4 wheels robot should have been added at the exact same location as the already existing one.
 
 ### Adding Fields
 
