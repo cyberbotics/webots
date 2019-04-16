@@ -47,16 +47,21 @@ As you probably noticed, this new PROTO node doesn't have any open field, it is 
 It is very easy to add new fields to a PROTO node and to link them with internal fields.
 This should be done in the PROTO interface part (part between the `[` and the `]`).
 
-> **Hands-on #4**: Edit your PROTO file in your text editor and add the definition of the `translation` and `rotation` field in the PROTO interface part:
+> **Hands-on #4**: Edit your PROTO file in your text editor and add the definition of the `translation`, `rotation` and `bodyMass` field in the PROTO interface part:
 ```
-  field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 1 0 0
+  field SFFloat    bodyMass     1
 ```
 Your PROTO node has now two open fields but they are not linked to any internal field.
 To link the fields you should use the IS keyword, simply replace the `translation` and `rotation` fields of the [Robot](../reference/robot.md) node by:
 ```
   translation IS translation
   rotation IS rotation
+```
+And the `mass` field of the [Physics](../reference/physics.md) node of the [Robot](../reference/robot.md) node by:
+```
+  mass IS bodyMass
 ```
 Save your PROTO file, it should now look like this:
 ```
@@ -73,7 +78,8 @@ PROTO FourWheelsRobot [
     ]
     boundingObject USE BODY
     physics Physics {
-      ...
+      density -1
+      mass IS bodyMass
     }
     controller "4_wheels_collision_avoidance"
   }
