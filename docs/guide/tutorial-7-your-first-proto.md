@@ -20,7 +20,7 @@ PROTO protoName [
 }
 ```
 
-The `protoName` should be the name of the PROTO file (i.e. `FourWheelsRobot` in this case), and the `protoBody` is the definition of the root node (i.e. the [Robot](../reference/robot.md) node in this case).
+The `protoName` should be the name of the PROTO file (i.e. `FourWheelsRobot` in this case), `protoFields` defines the modifiable fields of the PROTO node (this part should be empty for now) and the `protoBody` is the definition of the root node (i.e. the [Robot](../reference/robot.md) node in this case).
 
 > **Hands-on #2**: Write this default structure in your PROTO file with the correct `protoName`.
 From the `4_wheels_robot.wbt` world file copy the robot node (starting with `Robot {` and ending with the final `}`) and paste it in your PROTO file instead of the `protoBody`.
