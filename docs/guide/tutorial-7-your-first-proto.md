@@ -13,6 +13,7 @@ Create a new empty text file in the `protos` folder of your project called `Four
 Any PROTO file should at least respect the following structure:
 ```
 PROTO protoName [
+  protoFields
 ]
 {
   protoBody
