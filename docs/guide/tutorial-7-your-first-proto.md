@@ -27,7 +27,7 @@ Finally, save the PROTO file.
 
 ### Use the PROTO Node.
 
-This new PROTO node is now available for each worlds in your current project.
+This new PROTO node is now available for each world in your current project.
 
 %figure "The PROTO is now visible in the Add a node window."
 
