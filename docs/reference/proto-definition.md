@@ -7,7 +7,7 @@ A PROTO file ends with a `.proto` extension.
 It lists the fields of the PROTO and defines how these fields impact the underlying object which is defined using base nodes and/or PROTO nodes.
 
 ```
-PROTO protoName [ protoField ] { protoBody }
+PROTO protoName [ protoFields ] { protoBody }
 ```
 
 The interface is a sequence of field declarations which specify the types, names and default values for the PROTO's fields.
