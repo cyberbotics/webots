@@ -46,7 +46,7 @@ As you probably noticed, this new PROTO node doesn't have any open field, it is 
 It is very easy to add new fields to a PROTO node and to link them with internal fields.
 This should be done in the PROTO interface part (part between the `[` and the `]`).
 
-> **Hands on #4**: Edit your PROTO file in your text editor and add the definition of the `translation` and `rotation` field in the PROTO interface part:
+> **Hands-on #4**: Edit your PROTO file in your text editor and add the definition of the `translation` and `rotation` field in the PROTO interface part:
 ```
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
