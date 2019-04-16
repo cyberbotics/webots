@@ -951,7 +951,7 @@ THREE.X3DLoader.prototype = {
         return tagName === 'Appearance' || tagName === 'PBRAppearance';
       if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
         const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
-        return geometries.includes(tagName);
+        return geometries.indexOf(tagName) !== -1;
       }
       if (dictionaryEntry.def instanceof THREE.Texture)
         return tagName === 'ImageTexture';

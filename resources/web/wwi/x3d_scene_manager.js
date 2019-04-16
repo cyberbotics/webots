@@ -234,7 +234,7 @@ X3dSceneManager.prototype = {
     if (this.objectsIdCache[id])
       return this.objectsIdCache[id];
 
-    if (object.name && object.name.includes(id)) {
+    if (object.name && object.name.indexOf(id) !== -1) {
       this.objectsIdCache[id] = object;
       return object;
     }
