@@ -5,7 +5,7 @@ The aim of this tutorial is to create a PROTO file corresponding to the four whe
 ### Copy the Robot Definition
 
 For now, the definition of the robot is completely contained in the world file.
-Moving this definition in a PROTO file will allow you to use this robot without the need to completely copy its definition (either several times in the same world or in different world).
+Moving this definition in a PROTO file will allow you to use this robot without the need to completely copy and paste its definition (either several times in the same world or in different worlds).
 
 > **Hands-on #1**: Open the world `4_wheels_robot.wbt` created in the previous tutorial in your favorite text editor.
 Create a new file in the `protos` folder of your project called `FourWheelsRobot.proto` and open this file in the text editor too, this file will contain the definition of your robot.
