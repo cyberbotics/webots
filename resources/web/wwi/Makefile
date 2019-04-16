@@ -34,9 +34,23 @@ JS_SOURCES = \
   animation.js \
   webots.js
 
+NPM_PACKAGES = \
+  terser \
+  @babel/core \
+	@babel/cli \
+	@babel/preset-env
+
 release debug profile update: $(JS_SOURCES)
 	@echo "# Compressing webots.js.min"
-	@terser $(JS_SOURCES) -o webots.min.js
+	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
+	@node_modules/.bin/terser webots.max.js -o webots.min.js
+	@rm webots.max.js
+
+install:
+	npm install $(NPM_PACKAGES)
+
+uninstall:
+	npm uninstall $(NPM_PACKAGES)
 
 clean:
 	@rm -f *.min.js
