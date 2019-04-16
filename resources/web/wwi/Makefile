@@ -40,7 +40,7 @@ NPM_PACKAGES = \
 	@babel/cli \
 	@babel/preset-env
 
-release debug profile update: $(JS_SOURCES)
+release debug profile update: install $(JS_SOURCES)
 	@echo "# Compressing webots.js.min"
 	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/terser webots.max.js -o webots.min.js
