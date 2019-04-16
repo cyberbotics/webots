@@ -35,7 +35,7 @@ JS_SOURCES = \
   webots.js
 
 NPM_PACKAGES = \
-  terser \
+  babel-minify \
   @babel/core \
   @babel/cli \
   @babel/preset-env
@@ -52,7 +52,7 @@ else
 release debug profile update: install $(JS_SOURCES)
 	@echo "# Compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
-	@node_modules/.bin/terser webots.max.js -o webots.min.js
+	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
 endif
 
@@ -61,6 +61,7 @@ install:
 
 uninstall:
 	npm uninstall $(NPM_PACKAGES)
+	rm -fr node_modules
 
 clean:
 	@rm -f *.min.js
