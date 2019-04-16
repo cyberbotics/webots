@@ -276,7 +276,7 @@ PROTO TinkerbotsDistanceSensor [
             }
             metalnessMap ImageTexture {
               url [
-                "textures/distance_sensor_metalness.png"
+                "textures/sensor_metalness.png"
               ]
             }
             normalMap ImageTexture {

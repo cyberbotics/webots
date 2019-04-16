@@ -25,12 +25,10 @@ addpath([WEBOTS_HOME '/lib/matlab']);
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
   libname = 'Controller';
-  % Matlab 64-bits on Windows is not provided with a C compiler. We should provide the one of Webots (gcc).
-  file = [ winqueryreg('HKEY_CURRENT_USER', ['Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'], 'AppData') '\MathWorks\MATLAB\R' version('-release') '\mex_C_win64.xml' ];
-  if exist(file, 'file')             % If this file exists, the compiler was already setup
-    disp(['Using MEX file: ' file]); % no need to do anything
-  else                               % otherwise, we need to set it up.
-    mex -setup:mex_mingw64_c.xml C;
+  installed_addons = matlab.addons.installedAddons;
+  installed = sum(installed_addons.Identifier == "ML_MINGW");
+  if installed <= 0 || matlab.addons.isAddonEnabled("ML_MINGW") <= 0
+    disp('The MATLAB "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
   end
   addpath([WEBOTS_HOME '/msys64/mingw64/bin']);
 else
