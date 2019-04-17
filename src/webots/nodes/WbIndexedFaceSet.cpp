@@ -697,11 +697,8 @@ bool WbIndexedFaceSet::exportNodeHeader(WbVrmlWriter &writer) const {
     return true;
   }
 
-  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1) {
-    writer << " DEF=\'" + QString::number(mMeshKey.mHash) + "\'";
-    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(mMeshKey.mHash));
-  } else if (!defName().isEmpty())
-    writer << " DEF=\'" << defName() << "\'";
+  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1)
+    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(uniqueId()));
   return false;
 }
 

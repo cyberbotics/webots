@@ -5,10 +5,8 @@
 
 THREE.X3DLoader = function(sceneManager, loadManager) {
   this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
-  this.scene = sceneManager.scene;
-  this.viewpoint = sceneManager.viewpoint;
-  this.worldInfo = sceneManager.worldInfo;
-  this.defDictionary = [];
+  this.sceneManager = sceneManager;
+  this.parsedObjects = [];
   this.directionalLights = [];
 };
 
@@ -45,36 +43,39 @@ THREE.X3DLoader.prototype = {
     var scene = xml.getElementsByTagName('Scene')[0];
     if (scene) {
       object = new THREE.Object3D();
-      this.parseNode(object, scene);
       object.userData.x3dType = 'Group';
       object.name = 'n0';
-      return [object];
+      this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
+      this.parseNode(object, scene);
+      return this.parsedObjects;
     }
 
     // Parse objects.
     var rootObjects = [];
-    var objects = [];
     xml.childNodes.forEach(function(n) { rootObjects.push(n); });
     while (rootObjects.length > 0) {
       var node = rootObjects.pop();
       object = new THREE.Object3D();
+      this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
-      objects.push(object);
     }
-    return objects;
+    return this.parsedObjects;
   },
 
   parseNode: function(parentObject, node) {
     var object = this._getDefNode(node);
-    if (object) {
+    if (typeof object !== 'undefined') {
+      // object is cloned: USE nodes not automatically updated
       parentObject.add(object.clone());
       return;
     }
 
+    var hasChildren = false;
     var helperNodes = [];
-    if (node.tagName === 'Transform')
+    if (node.tagName === 'Transform') {
       object = this.parseTransform(node);
-    else if (node.tagName === 'Shape')
+      hasChildren = true;
+    } else if (node.tagName === 'Shape')
       object = this.parseShape(node);
     else if (node.tagName === 'DirectionalLight')
       object = this.parseDirectionalLight(node);
@@ -85,39 +86,45 @@ THREE.X3DLoader.prototype = {
     else if (node.tagName === 'Group') {
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
-      this.parseChildren(node, object);
+      hasChildren = true;
     } else if (node.tagName === 'Switch') {
       object = new THREE.Object3D();
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
-      this.parseChildren(node, object);
+      hasChildren = true;
     } else if (node.tagName === 'Fog')
       this.parseFog(node);
     else if (node.tagName === 'Viewpoint')
       object = this.parseViewpoint(node);
     else if (node.tagName === 'Background')
       object = this.parseBackground(node);
-    else if (node.tagName === 'WorldInfo')
+    else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
-    else
-      this.parseChildren(node, parentObject);
-
-    if (!object)
       return;
+    } else {
+      this.parseChildren(node, parentObject);
+      return;
+    }
 
-    var isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
-    if (isInvisible && object.visible)
-      object.visible = false;
-    this._setDefNode(node, object);
-    this._setCustomId(node, object);
-    parentObject.add(object);
-    helperNodes.forEach(function(o) {
-      parentObject.add(o);
-    });
+    if (typeof object !== 'undefined') {
+      var isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
+      if (isInvisible && object.visible)
+        object.visible = false;
+      this._setCustomId(node, object);
+      parentObject.add(object);
+    }
+
+    if (helperNodes.length > 0) {
+      helperNodes.forEach(function(o) {
+        parentObject.add(o);
+      });
+    }
+
+    if (hasChildren)
+      this.parseChildren(node, object);
   },
 
   parseChildren: function(node, currentObject) {
-    // Parse children.
     for (let i = 0; i < node.childNodes.length; i++) {
       var child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined')
@@ -142,7 +149,6 @@ THREE.X3DLoader.prototype = {
     var quaternion = convertStringToQuaternion(getNodeAttribute(transform, 'rotation', '0 1 0 0'));
     object.quaternion.copy(quaternion);
 
-    this.parseChildren(transform, object);
     return object;
   },
 
@@ -185,7 +191,6 @@ THREE.X3DLoader.prototype = {
           material = this.parsePBRAppearance(child);
 
         if (material) {
-          this._setDefNode(child, material);
           this._setCustomId(child, material);
           continue;
         }
@@ -212,7 +217,6 @@ THREE.X3DLoader.prototype = {
           geometry = this.parsePointSet(child);
 
         if (geometry) {
-          this._setDefNode(child, geometry);
           this._setCustomId(child, geometry);
           continue;
         }
@@ -259,6 +263,7 @@ THREE.X3DLoader.prototype = {
     var materialSpecifications = {};
     var defMaterial = this._getDefNode(material);
     if (defMaterial) {
+      // TODO USE material not automatically updated
       materialSpecifications = {
         'color': defMaterial.color,
         'specular': defMaterial.specular,
@@ -274,7 +279,6 @@ THREE.X3DLoader.prototype = {
         'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
         'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
       };
-      this._setDefNode(material, mat);
     }
 
     // Check to see if there is a texture.
@@ -365,7 +369,7 @@ THREE.X3DLoader.prototype = {
     var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter(function(n) { return n; });
     if (filename[0] == null)
-      return null;
+      return undefined;
 
     // Look for already loaded texture.
     var textureManager = new TextureManager();
@@ -382,11 +386,11 @@ THREE.X3DLoader.prototype = {
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
 
-    var transformObject = null;
     if (textureTransform && textureTransform[0]) {
-      transformObject = this._getDefNode(textureTransform[0]);
-      if (transformObject)
-        texture.userData.transform = transformObject;
+      var defTexture = this._getDefNode(textureTransform[0]);
+      // TODO updates are not automatically applied
+      if (typeof defTexture !== 'undefined')
+        texture.userData.transform = defTexture.userData.transform;
       else {
         texture.userData.transform = {
           'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
@@ -394,7 +398,6 @@ THREE.X3DLoader.prototype = {
           'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
           'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
         };
-        this._setDefNode(textureTransform[0], transformObject);
       }
 
       texture.matrixAutoUpdate = false;
@@ -422,7 +425,6 @@ THREE.X3DLoader.prototype = {
     }
 
     this._setCustomId(imageTexture, texture);
-    this._setDefNode(imageTexture, texture);
     return texture;
   },
 
@@ -430,6 +432,19 @@ THREE.X3DLoader.prototype = {
     var coordinate = ifs.getElementsByTagName('Coordinate')[0];
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
     var normal = ifs.getElementsByTagName('Normal')[0];
+
+    if (typeof coordinate !== 'undefined' && 'USE' in textureCoordinate.attributes) {
+      console.error("X3DLoader:parseIndexedFaceSet: USE 'Coordinate' node not supported.");
+      coordinate = undefined;
+    }
+    if (typeof textureCoordinate !== 'undefined' && 'USE' in textureCoordinate.attributes) {
+      console.error("X3DLoader:parseIndexedFaceSet: USE 'TextureCoordinate' node not supported.");
+      textureCoordinate = undefined;
+    }
+    if (typeof normal !== 'undefined' && 'USE' in normal.attributes) {
+      console.error("X3DLoader:parseIndexedFaceSet: USE 'Normal' node not supported.");
+      normal = undefined;
+    }
 
     var geometry = new THREE.Geometry();
     var x3dType = getNodeAttribute(ifs, 'x3dType', '');
@@ -565,6 +580,10 @@ THREE.X3DLoader.prototype = {
 
   parseIndexedLineSet: function(ils) {
     var coordinate = ils.getElementsByTagName('Coordinate')[0];
+    if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
+      console.error("X3DLoader:parseIndexedLineSet: USE 'Coordinate' node not supported.");
+      coordinate = undefined;
+    }
 
     var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'IndexedLineSet' };
@@ -826,7 +845,7 @@ THREE.X3DLoader.prototype = {
 
   parseBackground: function(background) {
     var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
-    this.scene.background = color;
+    this.sceneManager.scene.background = color;
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', '');
     var cubeTexture;
@@ -862,51 +881,51 @@ THREE.X3DLoader.prototype = {
             missing--;
           }
         }
-        this.scene.background = cubeTexture;
+        this.sceneManager.scene.background = cubeTexture;
         if (missing === 0)
           cubeTexture.needsUpdate = true;
       }
     }
 
-    this.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
+    this.sceneManager.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
 
-    return null;
+    return undefined;
   },
 
   parseViewpoint: function(viewpoint) {
     var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
-    if (this.viewpoint) {
-      this.viewpoint.camera.fov = fov;
-      this.viewpoint.camera.near = near;
-      this.viewpoint.camera.far = far;
+    if (this.sceneManager.viewpoint) {
+      this.sceneManager.viewpoint.camera.fov = fov;
+      this.sceneManager.viewpoint.camera.near = near;
+      this.sceneManager.viewpoint.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      this.sceneManager.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
     }
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
-      this.viewpoint.camera.position.copy(convertStringToVec3(position));
+      this.sceneManager.viewpoint.camera.position.copy(convertStringToVec3(position));
     }
     if ('orientation' in viewpoint.attributes) {
       var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
-      this.viewpoint.camera.quaternion.copy(quaternion);
+      this.sceneManager.viewpoint.camera.quaternion.copy(quaternion);
     }
-    this.viewpoint.camera.updateProjectionMatrix();
+    this.sceneManager.viewpoint.camera.updateProjectionMatrix();
 
     // Set Webots specific attributes.
-    this.viewpoint.camera.userData.x3dType = 'Viewpoint';
-    this.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
-    this.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
-    return null;
+    this.sceneManager.viewpoint.camera.userData.x3dType = 'Viewpoint';
+    this.sceneManager.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
+    this.sceneManager.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    return undefined;
   },
 
   parseWorldInfo: function(worldInfo) {
-    this.worldInfo.title = getNodeAttribute(worldInfo, 'title', '');
-    this.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
+    this.sceneManager.worldInfo.title = getNodeAttribute(worldInfo, 'title', '');
+    this.sceneManager.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
   },
 
   parseFog: function(fog) {
@@ -919,8 +938,8 @@ THREE.X3DLoader.prototype = {
       fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
     else
       fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
-    this.scene.fog = fogObject;
-    return null;
+    this.sceneManager.scene.fog = fogObject;
+    return undefined;
   },
 
   _setCustomId: function(node, object) {
@@ -928,8 +947,8 @@ THREE.X3DLoader.prototype = {
     // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
     if (!node || !object)
       return;
-    var id = getNodeAttribute(node, 'id', null);
-    if (id) {
+    var id = getNodeAttribute(node, 'id', undefined);
+    if (typeof id !== 'undefined') {
       if (object.name !== '')
         object.name = object.name + ';' + String(id);
       else
@@ -938,54 +957,20 @@ THREE.X3DLoader.prototype = {
   },
 
   _getDefNode: function(node) {
-    function isNodeTypeMatching(dictionaryEntry, tagName) {
-      if (dictionaryEntry.tagName === tagName)
-        return true;
+    var useNodeId = getNodeAttribute(node, 'USE', undefined);
+    if (typeof useNodeId === 'undefined')
+      return undefined;
 
-      // Simplified check for types.
-      if (dictionaryEntry.tagName === 'Transform' || dictionaryEntry.tagName === 'Group')
-        return tagName === 'Transform' || tagName === 'Group';
-      if (dictionaryEntry.def.isMesh || dictionaryEntry.def.isPoints || dictionaryEntry.def.isLineSegments)
-        return tagName === 'Shape';
-      if (dictionaryEntry.def.isMaterial)
-        return tagName === 'Appearance' || tagName === 'PBRAppearance';
-      if (dictionaryEntry.def.isBufferGeometry || dictionaryEntry.def.isGeometry) {
-        const geometries = ['Box', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet', 'PointSet', 'Sphere'];
-        return geometries.includes(tagName);
-      }
-      if (dictionaryEntry.def instanceof THREE.Texture)
-        return tagName === 'ImageTexture';
-      return false;
-    };
+    // Look for node in previously parsed objects
+    var defNode = this.sceneManager.getObjectByCustomId(this.parsedObjects, useNodeId);
+    if (typeof defNode !== 'undefined')
+      return defNode;
 
-    var useName = getNodeAttribute(node, 'USE', '');
-    if (useName !== '') {
-      // Look for DEF nodes.
-      var entry = null;
-      for (var i = this.defDictionary.length - 1; i >= 0; i--) {
-        if (this.defDictionary[i].name === useName && isNodeTypeMatching(this.defDictionary[i], node.tagName)) {
-          entry = this.defDictionary[i];
-          break;
-        }
-      }
-      if (entry) {
-        entry.use.push(node);
-        return entry.def;
-      }
-      console.error('X3dLoader: no matching DEF "' + useName + '" node of type "' + node.tagName + '".');
-    }
-    return null;
-  },
-
-  _setDefNode: function(node, object) {
-    var defName = getNodeAttribute(node, 'DEF', '');
-    if (defName !== '') {
-      this.defDictionary.push({name: defName, tagName: node.tagName, def: object, use: []});
-      if (object.userData)
-        object.userData.defName = defName;
-      else
-        object.userData = { 'defName': defName};
-    }
+    // Look for node in the already loaded scene
+    defNode = this.sceneManager.getObjectByCustomId(this.sceneManager.root, useNodeId);
+    if (typeof defNode === 'undefined')
+      console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
+    return defNode;
   }
 };
 

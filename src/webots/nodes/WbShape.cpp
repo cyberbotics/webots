@@ -449,21 +449,18 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 ////////////
 
 bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
-  // In order to let the X3Dom picking work well, the USE shapes should be written explicitly
   if (writer.isX3d()) {
     writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    if (isInvisibleNode())
+      writer << " render=\'false\'";
 
-    // if (isUseNode()) {
-    //   writer << " USE=\'" + mUseName + "\'></" + x3dName() + ">";
-    //   return true;
-    // }
-
-    if (!defName().isEmpty())
-      writer << " DEF=\'" << defName() << "\'";
+    if (isUseNode() && defNode()) {
+      writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+      return true;
+    }
 
     if (!mIsPickable->value())
       writer << " isPickable='false'";
-
     if (mCastShadows->value())
       writer << " castShadows='true'";
 

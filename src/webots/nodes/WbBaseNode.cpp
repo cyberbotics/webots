@@ -239,11 +239,10 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
-  if (isUseNode()) {
-    writer << " USE=\'" + useName() + "\'></" + x3dName() + ">";
+
+  if (isUseNode() && defNode()) {  // export referred DEF node id
+    writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
     return true;
   }
-  if (!defName().isEmpty())
-    writer << " DEF=\'" << defName() << "\'";
   return false;
 }
