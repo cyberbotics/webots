@@ -44,10 +44,7 @@ NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
 release debug profile update:
-	@echo "# Please install nodejs to build webots.min.js..."
-	@echo "- Linux: sudo apt install npm"
-	@echo "- macOS: brew install node"
-	@echo "- Windows: pacman -S mingw-w64-x86_64-nodejs"
+	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
 release debug profile update: install $(JS_SOURCES)
 	@echo "# Compressing webots.min.js"
