@@ -9,6 +9,7 @@ function X3dSceneManager(domElement) {
   this.worldInfo = {};
   this.viewpoint = undefined;
   this.sceneModified = false;
+  this.useNodeCache = {};
   this.objectsIdCache = {};
 }
 
@@ -81,6 +82,7 @@ X3dSceneManager.prototype = {
     for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
+    this.useNodeCache = {};
     this.root = undefined;
     this.onSceneUpdate();
     this.render();
@@ -90,16 +92,22 @@ X3dSceneManager.prototype = {
     var context = {};
     var object = this.getObjectByCustomId(this.scene, 'n' + id, context);
     if (typeof object !== 'undefined') {
+      var parent;
       if (typeof context !== 'undefined' && typeof context.field !== 'undefined') {
+        parent = context.parent;
         if (object.isMaterial)
-          context.parent[context.field] = createDefaultMaterial(context.parent.geometry);
+          parent[context.field] = createDefaultMaterial(parent.geometry);
         else if (object.isGeometry || object.isBufferGeometry)
-          context.parent[context.field] = createDefaultGeometry();
+          parent[context.field] = createDefaultGeometry();
         else
-          context.parent[context.field] = undefined;
-      } else
+          parent[context.field] = undefined;
+      } else {
+        parent = object.parent;
         object.parent.remove(object);
+      }
       delete this.objectsIdCache[id];
+      if (typeof parent !== 'undefined')
+        this._updateUseNodesIfNeeded(parent, parent.name.split(';'));
     }
     if (object === this.root)
       this.root = undefined;
@@ -134,9 +142,10 @@ X3dSceneManager.prototype = {
       parentObject = this.getObjectByCustomId(this.scene, 'n' + parentId);
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
-    if (typeof parentObject !== 'undefined')
+    if (typeof parentObject !== 'undefined') {
       objects.forEach(function(o) { parentObject.add(o); });
-    else {
+      this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
+    } else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
       objects.forEach(function(o) { that.scene.add(o); });
       this.root = objects[0];
@@ -189,6 +198,8 @@ X3dSceneManager.prototype = {
         object.emissive = emissiveColor;
       } else if (key === 'render' && object.isObject3D)
         object.visible = newValue.toLowerCase() === 'true';
+
+      this._updateUseNodesIfNeeded(object, id);
     }
   },
 
@@ -332,5 +343,45 @@ X3dSceneManager.prototype = {
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
     });
+  },
+
+  _updateUseNodesIfNeeded: function(object, id) {
+    if (Array.isArray(id)) {
+      if (id.length > 1)
+        id.forEach((item) => this._updateUseNodesIfNeeded(object, item));
+      else
+        id = id[0];
+    }
+
+    if (typeof this.useNodeCache[id] === 'undefined') {
+      var node = object;
+      var source;
+      while (node !== this.root) {
+        if (typeof node.userData.USE !== 'undefined')
+          source = node;
+        node = node.parent;
+      }
+      this.useNodeCache[id] = { 'source': source };
+      if (typeof source !== 'undefined') {
+        this.useNodeCache[id].target = [];
+        source.userData.USE.split(';').forEach((useId) => {
+          var useObject = this.getObjectByCustomId(this.scene, useId);
+          if (typeof useObject !== 'undefined')
+            this.useNodeCache[id].target.push(useObject);
+        });
+      }
+    }
+    if (typeof this.useNodeCache[id].source !== 'undefined') {
+      // clone again changed DEF node instance
+      var sourceNode = this.useNodeCache[id].source;
+      var targetNodes = this.useNodeCache[id].target;
+      for (let i = 0, l = targetNodes.length; i < l; i++) {
+        var target = targetNodes[i];
+        var newClone = sourceNode.clone();
+        newClone.name = target.name;
+        var parent = target.parent;
+        parent.children.splice(parent.children.indexOf(target), 1, newClone);
+      }
+    }
   }
 };

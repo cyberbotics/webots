@@ -65,8 +65,9 @@ THREE.X3DLoader.prototype = {
   parseNode: function(parentObject, node) {
     var object = this._getDefNode(node);
     if (typeof object !== 'undefined') {
-      // object is cloned: USE nodes not automatically updated
-      parentObject.add(object.clone());
+      var useObject = object.clone();
+      this._setCustomId(node, useObject, object);
+      parentObject.add(useObject);
       return;
     }
 
@@ -258,7 +259,6 @@ THREE.X3DLoader.prototype = {
     var materialSpecifications = {};
     var defMaterial = this._getDefNode(material);
     if (typeof defMaterial !== 'undefined') {
-      // TODO USE material not automatically updated
       materialSpecifications = {
         'color': defMaterial.color,
         'specular': defMaterial.specular,
@@ -383,7 +383,6 @@ THREE.X3DLoader.prototype = {
 
     if (textureTransform && textureTransform[0]) {
       var defTexture = this._getDefNode(textureTransform[0]);
-      // TODO updates are not automatically applied
       if (typeof defTexture !== 'undefined')
         texture.userData.transform = defTexture.userData.transform;
       else {
@@ -937,7 +936,7 @@ THREE.X3DLoader.prototype = {
     return undefined;
   },
 
-  _setCustomId: function(node, object) {
+  _setCustomId: function(node, object, defNode) {
     // Some THREE.js nodes, like the material and IndexedFaceSet, merges multiple X3D nodes.
     // In order to be able to retrieve the node to be updated, we need to assign to the object all the ids of the merged X3D nodes.
     if (!node || !object)
@@ -948,6 +947,12 @@ THREE.X3DLoader.prototype = {
         object.name = object.name + ';' + String(id);
       else
         object.name = String(id);
+      if (defNode) {
+        if (typeof defNode.userData.USE === 'undefined')
+          defNode.userData.USE = String(id);
+        else
+          defNode.userData.USE = defNode.userData.USE + ';' + String(id);
+      }
     }
   },
 
