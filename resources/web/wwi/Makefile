@@ -48,12 +48,14 @@ ifeq ($(NPM_EXISTS),)
 release debug profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
-release debug profile update: $(JS_SOURCES) $(INSTALL_TOKEN)
+release debug profile update: webots.min.js
+endif
+
+webots.min.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
-endif
 
 $(INSTALL_TOKEN): package.json
 	@make uninstall
