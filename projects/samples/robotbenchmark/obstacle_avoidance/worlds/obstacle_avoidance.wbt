@@ -1797,7 +1797,7 @@ DEF ALPHABET_POSTER Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "textures/alphabet.png"
+            "textures/alphabet.jpg"
           ]
         }
         transparency 0.20000000298023224
