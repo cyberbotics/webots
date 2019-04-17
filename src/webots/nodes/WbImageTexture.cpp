@@ -377,7 +377,9 @@ bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (isInvisibleNode())
     writer << " render=\'false\'";
-  writer << " USE=\'" + useName() + "\' type=\'" << mRole << "\' ></" + x3dName() + ">";
+  if (defNode())
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'";
+  writer << " type=\'" << mRole << "\' ></" + x3dName() + ">";
   return true;
 }
 

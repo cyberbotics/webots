@@ -4,9 +4,9 @@
 
 function X3dSceneManager(domElement) {
   this.domElement = domElement;
-  this.root = null;
+  this.root = undefined;
   this.worldInfo = {};
-  this.viewpoint = null;
+  this.viewpoint = undefined;
   this.sceneModified = false;
   this.objectsIdCache = {};
 }
@@ -39,7 +39,7 @@ X3dSceneManager.prototype = {
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
     this.gpuPicker.setFilter(function(object) {
-      return object instanceof THREE.Mesh &&
+      return object.isMesh &&
              'x3dType' in object.userData &&
              object.userData.isPickable !== false; // true or undefined
     });
@@ -116,7 +116,7 @@ X3dSceneManager.prototype = {
 
   loadObject: function(x3dObject, parentId) {
     var that = this;
-    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : null;
+    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : undefined;
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
     if (parentObject)
@@ -136,19 +136,19 @@ X3dSceneManager.prototype = {
       if (key === 'id')
         continue;
       var newValue = pose[key];
-      var object = this._getObjectByCustomId(this.scene, 'n' + id);
-      if (!object)
+      var object = this.getObjectByCustomId(this.scene, 'n' + id);
+      if (typeof object === 'undefined')
         continue; // error
 
       if (key === 'translation') {
-        if (object instanceof THREE.Texture) {
+        if (object.isTexture) {
           var translation = convertStringToVec2(newValue);
           if (object.userData && object.userData.transform) {
             object.userData.transform.translation = translation;
             object.needsUpdate = true;
             this.sceneModified = true;
           }
-        } else if (object instanceof THREE.Object3D) {
+        } else if (object.isObject3D) {
           var newPosition = convertStringToVec3(newValue);
           // Followed object moved.
           if (this.viewpoint.followedObjectId &&
@@ -162,14 +162,14 @@ X3dSceneManager.prototype = {
           object.position.copy(newPosition);
           this.sceneModified = true;
         }
-      } else if (key === 'rotation' && object instanceof THREE.Object3D) { // Transform node
+      } else if (key === 'rotation' && object.isObject3D) { // Transform node
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
         this.sceneModified = true;
-      } else if ((key === 'diffuseColor' || key === 'baseColor') && object instanceof THREE.Material) {
+      } else if ((key === 'diffuseColor' || key === 'baseColor') && object.isMaterial) {
         var diffuseColor = convertStringTorgb(newValue);
         object.color = diffuseColor;
-      } else if (key === 'emissiveColor' && object instanceof THREE.Material) {
+      } else if (key === 'emissiveColor' && object.isMaterial) {
         var emissiveColor = convertStringTorgb(newValue);
         object.emissive = emissiveColor;
       } else if (key === 'render' && object.isObject3D)
@@ -203,6 +203,60 @@ X3dSceneManager.prototype = {
     return node;
   },
 
+  getObjectByCustomId: function(object, id) {
+    if (Array.isArray(object))
+      object.forEach((item) => this.getObjectByCustomId(item, id));
+
+    if (!object)
+      return undefined;
+
+    if (this.objectsIdCache[id])
+      return this.objectsIdCache[id];
+
+    if (object.name && object.name.indexOf(id) !== -1) {
+      this.objectsIdCache[id] = object;
+      return object;
+    }
+
+    var childObject;
+    var childrenLength = object.children ? object.children.length : 0;
+    for (var i = 0; i < childrenLength; i++) {
+      var child = object.children[i];
+      childObject = this.getObjectByCustomId(child, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+    }
+    if (object.isMesh) {
+      childObject = this.getObjectByCustomId(object.material, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.geometry, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+    } else if (object.isMaterial) {
+      childObject = this.getObjectByCustomId(object.map, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.aoMap, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.roughnessMap, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.metalnessMap, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.normalMap, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      childObject = this.getObjectByCustomId(object.emissiveMap, id);
+      if (typeof childObject !== 'undefined')
+        return childObject;
+      // only fields set in x3d.js are checked
+    }
+    return undefined;
+  },
+
   // private functions
   _setupLights: function(directionalLights) {
     if (!this.root)
@@ -225,56 +279,5 @@ X3dSceneManager.prototype = {
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
     });
-  },
-
-  _getObjectByCustomId: function(object, id) {
-    if (!object)
-      return undefined;
-
-    if (this.objectsIdCache[id])
-      return this.objectsIdCache[id];
-
-    if (object.name && object.name.indexOf(id) !== -1) {
-      this.objectsIdCache[id] = object;
-      return object;
-    }
-
-    var childObject;
-    var childrenLength = object.children ? object.children.length : 0;
-    for (var i = 0; i < childrenLength; i++) {
-      var child = object.children[i];
-      childObject = this._getObjectByCustomId(child, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-    }
-    if (object instanceof THREE.Mesh) {
-      childObject = this._getObjectByCustomId(object.material, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.geometry, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-    } else if (object instanceof THREE.Material) {
-      childObject = this._getObjectByCustomId(object.map, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.aoMap, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.roughnessMap, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.metalnessMap, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.normalMap, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      childObject = this._getObjectByCustomId(object.emissiveMap, id);
-      if (typeof childObject !== 'undefined')
-        return childObject;
-      // only fields set in x3d.js are checked
-    }
-    return undefined;
   }
 };

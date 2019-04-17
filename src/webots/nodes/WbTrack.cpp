@@ -930,7 +930,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
       writer << "<Transform ";
       writer << "translation='" << position << "' ";
       writer << "rotation='" << rotation << "'>";
-      writer << "<Transform USE='" << defName << "'></Transform>";
+      writer << "<Transform USE='" << QString::number(node->uniqueId()) << "'></Transform>";
       writer << "</Transform>";
     } else {
       writer.indent();
