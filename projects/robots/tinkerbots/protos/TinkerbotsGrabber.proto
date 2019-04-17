@@ -55,12 +55,12 @@ PROTO TinkerbotsGrabber [
             }
             normalMap ImageTexture {
               url [
-                "textures/grabber_normal.png"
+                "textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/grabber_occlusion.png"
+                "textures/grabber_occlusion.jpg"
               ]
             }
           }
