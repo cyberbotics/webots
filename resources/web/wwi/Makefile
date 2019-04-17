@@ -34,12 +34,6 @@ JS_SOURCES = \
   animation.js \
   webots.js
 
-NPM_PACKAGES = \
-  babel-minify \
-  @babel/core \
-  @babel/cli \
-  @babel/preset-env
-
 NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
@@ -47,18 +41,20 @@ release debug profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
 release debug profile update: install $(JS_SOURCES)
-	@echo "# Compressing webots.min.js"
+	@echo "# compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
 endif
 
 install:
-	npm install $(NPM_PACKAGES)
+	@echo "# installing npm dependencies"
+	@npm --silent install 1> /dev/null
 
 uninstall:
-	npm uninstall $(NPM_PACKAGES)
-	rm -fr node_modules
+	@echo "# uninstalling npm dependencies"
+	@npm --silent uninstall 1> /dev/null
+	@rm -fr node_modules
 
 clean:
 	@rm -f *.min.js
