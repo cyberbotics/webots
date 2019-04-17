@@ -1,4 +1,4 @@
-## Using your IDE
+## Using Your IDE
 
 Webots basically supports any [Integrated Development Environments (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) to build its controllers.
 It is simply a question of configuring your IDE correctly to fulfill the Webots controller build rules.
