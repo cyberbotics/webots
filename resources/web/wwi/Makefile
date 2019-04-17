@@ -37,6 +37,9 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
+# Token file used to determine when the last successful installation occured.
+INSTALL_TOKEN = install.token
+
 .PHONY: release debug profile update install uninstall clean
 
 NPM_EXISTS = $(shell which npm 2> /dev/null)
@@ -45,12 +48,17 @@ ifeq ($(NPM_EXISTS),)
 release debug profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
-release debug profile update: install $(JS_SOURCES)
+release debug profile update: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
 	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
 endif
+
+$(INSTALL_TOKEN): package.json
+	@make uninstall
+	@make install
+	@touch $(INSTALL_TOKEN)
 
 install:
 	@echo "# installing npm dependencies"
@@ -59,7 +67,7 @@ install:
 uninstall:
 	@echo "# uninstalling npm dependencies"
 	@npm --silent uninstall 1> /dev/null
-	@rm -fr node_modules
+	@rm -fr node_modules $(INSTALL_TOKEN)
 
 clean:
 	@rm -f *.min.js
