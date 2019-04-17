@@ -41,7 +41,7 @@ THREE.X3DLoader.prototype = {
 
     // Parse scene.
     var scene = xml.getElementsByTagName('Scene')[0];
-    if (scene) {
+    if (typeof scene !== 'undefined') {
       object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
@@ -137,8 +137,8 @@ THREE.X3DLoader.prototype = {
     object.userData.x3dType = 'Transform';
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
     object.userData.window = getNodeAttribute(transform, 'window', '');
-    var controller = getNodeAttribute(transform, 'controller', '');
-    if (controller !== '')
+    var controller = getNodeAttribute(transform, 'controller', undefined);
+    if (typeof controller !== 'undefined')
       object.userData.controller = controller;
     object.userData.name = getNodeAttribute(transform, 'name', '');
 
@@ -153,8 +153,8 @@ THREE.X3DLoader.prototype = {
   },
 
   parseShape: function(shape) {
-    var geometry = null;
-    var material = null;
+    var geometry;
+    var material;
 
     for (let i = 0; i < shape.childNodes.length; i++) {
       var child = shape.childNodes[i];
@@ -163,16 +163,16 @@ THREE.X3DLoader.prototype = {
 
       // Check if USE node and return the DEF node.
       var defObject = this._getDefNode(child);
-      if (defObject) {
-        if (defObject instanceof THREE.Geometry || defObject instanceof THREE.BufferGeometry)
+      if (typeof defObject !== 'undefined') {
+        if (defObject.isGeometry || defObject.isBufferGeometry)
           geometry = defObject;
-        else if (defObject instanceof THREE.Material)
+        else if (defObject.isMaterial)
           material = defObject;
         // else error
         continue;
       }
 
-      if (!material) {
+      if (typeof material === 'undefined') {
         if (child.tagName === 'Appearance') {
           // If a sibling PBRAppearance is detected, prefer it.
           var pbrAppearanceChild = false;
@@ -190,13 +190,13 @@ THREE.X3DLoader.prototype = {
         } else if (child.tagName === 'PBRAppearance')
           material = this.parsePBRAppearance(child);
 
-        if (material) {
+        if (typeof material !== 'undefined') {
           this._setCustomId(child, material);
           continue;
         }
       }
 
-      if (!geometry) {
+      if (typeof geometry === 'undefined') {
         if (child.tagName === 'Box')
           geometry = this.parseBox(child);
         else if (child.tagName === 'Cone')
@@ -216,7 +216,7 @@ THREE.X3DLoader.prototype = {
         else if (child.tagName === 'PointSet')
           geometry = this.parsePointSet(child);
 
-        if (geometry) {
+        if (typeof geometry !== 'undefined') {
           this._setCustomId(child, geometry);
           continue;
         }
@@ -226,17 +226,17 @@ THREE.X3DLoader.prototype = {
     }
 
     // Apply default geometry and/or material.
-    if (!geometry) {
+    if (typeof geometry === 'undefined') {
       geometry = new THREE.Geometry();
       geometry.userData = { 'x3dType': 'unknown' };
-    } if (!material && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
+    } if (typeof material === 'undefined' && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
       material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
-    var mesh = null;
+    var mesh;
     if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
     else if (geometry.userData.x3dType === 'PointSet') {
-      if (!material)
+      if (typeof material === 'undefined')
         material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
       mesh = new THREE.Points(geometry, material);
     } else
@@ -257,12 +257,10 @@ THREE.X3DLoader.prototype = {
 
     // Get the Material tag.
     var material = appearance.getElementsByTagName('Material')[0];
-    if (typeof material === 'undefined')
-      return mat;
 
     var materialSpecifications = {};
     var defMaterial = this._getDefNode(material);
-    if (defMaterial) {
+    if (typeof defMaterial !== 'undefined') {
       // TODO USE material not automatically updated
       materialSpecifications = {
         'color': defMaterial.color,
@@ -270,7 +268,7 @@ THREE.X3DLoader.prototype = {
         'emissive': defMaterial.emissive,
         'shininess': defMaterial.shininess
       };
-    } else {
+    } else if (typeof material !== 'undefined') {
       // Pull out the standard colors.
       materialSpecifications = {
         'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
@@ -286,7 +284,7 @@ THREE.X3DLoader.prototype = {
     var colorMap;
     if (imageTexture.length > 0) {
       colorMap = this.parseImageTexture(imageTexture[0], appearance.getElementsByTagName('TextureTransform'));
-      if (colorMap) {
+      if (typeof colorMap !== 'undefined') {
         materialSpecifications.map = colorMap;
         if (colorMap.userData.isTransparent) {
           materialSpecifications.transparent = true;
@@ -298,7 +296,7 @@ THREE.X3DLoader.prototype = {
     mat = new THREE.MeshPhongMaterial(materialSpecifications);
     mat.userData.x3dType = 'Appearance';
     mat.userData.hasTransparentTexture = colorMap && colorMap.userData.isTransparent;
-    if (material)
+    if (typeof material !== 'undefined')
       this._setCustomId(material, mat);
 
     return mat;
@@ -328,10 +326,10 @@ THREE.X3DLoader.prototype = {
     var imageTextures = pbrAppearance.getElementsByTagName('ImageTexture');
     for (let t = 0; t < imageTextures.length; t++) {
       var imageTexture = imageTextures[t];
-      var type = getNodeAttribute(imageTexture, 'type', '');
+      var type = getNodeAttribute(imageTexture, 'type', undefined);
       if (type === 'baseColor') {
         materialSpecifications.map = this.parseImageTexture(imageTexture, textureTransform);
-        if (materialSpecifications.map && materialSpecifications.map.userData.isTransparent) {
+        if (typeof materialSpecifications.map !== 'undefined' && materialSpecifications.map.userData.isTransparent) {
           isTransparent = true;
           materialSpecifications.alphaTest = 0.5; // FIXME needed for example for the target.png in robot_programming.wbt
         }
@@ -361,7 +359,7 @@ THREE.X3DLoader.prototype = {
   parseImageTexture: function(imageTexture, textureTransform, mat) {
     // Issues with DEF and USE image texture with different image transform.
     var texture = this._getDefNode(imageTexture);
-    if (texture)
+    if (typeof texture !== 'undefined')
       return texture;
 
     texture = new THREE.Texture();
@@ -375,7 +373,7 @@ THREE.X3DLoader.prototype = {
     var textureManager = new TextureManager();
     // Load the texture in an asynchronous way.
     var image = textureManager.loadOrRetrieveTexture(filename[0], texture);
-    if (image) { // else it could be updated later
+    if (typeof image !== 'undefined') { // else it could be updated later
       texture.image = image;
       texture.needsUpdate = true;
     }
@@ -447,9 +445,9 @@ THREE.X3DLoader.prototype = {
     }
 
     var geometry = new THREE.Geometry();
-    var x3dType = getNodeAttribute(ifs, 'x3dType', '');
-    geometry.userData = { 'x3dType': (x3dType !== '' ? x3dType : 'IndexedFaceSet') };
-    if (!coordinate)
+    var x3dType = getNodeAttribute(ifs, 'x3dType', undefined);
+    geometry.userData = { 'x3dType': (typeof x3dType === 'undefined' ? 'IndexedFaceSet' : x3dType) };
+    if (typeof coordinate === 'undefined')
       return geometry;
 
     var indicesStr = getNodeAttribute(ifs, 'coordIndex', '').split(/\s/);
@@ -467,7 +465,7 @@ THREE.X3DLoader.prototype = {
     }
 
     var normalArray, normalIndicesStr;
-    if (normal) {
+    if (typeof normal !== 'undefined') {
       var normalStr = getNodeAttribute(normal, 'vector', '').split(/[\s,]+/);
       normalIndicesStr = getNodeAttribute(ifs, 'normalIndex', '').split(/\s/);
       normalArray = [];
@@ -501,7 +499,7 @@ THREE.X3DLoader.prototype = {
         faceIndices.push(parseFloat(indicesStr[i]));
         if (hasTexCoord)
           uvIndices.push(parseFloat(texIndices[i]));
-        if (normalIndicesStr)
+        if (typeof normalIndicesStr !== 'undefined')
           normalIndices.push(parseFloat(normalIndicesStr[i]));
         i++;
       }
@@ -523,8 +521,8 @@ THREE.X3DLoader.prototype = {
           uvIndices[uvIndices.length - 1] = tmp;
         }
 
-        faceNormal = null;
-        if (normal) {
+        faceNormal = undefined;
+        if (typeof normal !== 'undefined') {
           faceNormal = [
             normalArray[normalIndices[faceIndices.length - 3]],
             normalArray[normalIndices[faceIndices.length - 2]],
@@ -554,7 +552,7 @@ THREE.X3DLoader.prototype = {
           ]);
         }
 
-        if (normal) {
+        if (typeof normal !== 'undefined') {
           faceNormal = [
             normalArray[normalIndices[faceIndices.length - 3]],
             normalArray[normalIndices[faceIndices.length - 2]],
@@ -568,7 +566,7 @@ THREE.X3DLoader.prototype = {
     }
 
     geometry.computeBoundingSphere();
-    if (!normal)
+    if (typeof normal === 'undefined')
       geometry.computeVertexNormals();
 
     this._setCustomId(coordinate, geometry);
@@ -587,7 +585,7 @@ THREE.X3DLoader.prototype = {
 
     var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'IndexedLineSet' };
-    if (!coordinate)
+    if (typeof coordinate === 'undefined')
       return geometry;
 
     var indicesStr = getNodeAttribute(ils, 'coordIndex', '').trim().split(/\s/);
@@ -618,7 +616,7 @@ THREE.X3DLoader.prototype = {
   },
 
   parseElevationGrid: function(eg) {
-    var heightStr = getNodeAttribute(eg, 'height', '');
+    var heightStr = getNodeAttribute(eg, 'height', undefined);
     var xDimension = parseInt(getNodeAttribute(eg, 'xDimension', '0'));
     var xSpacing = parseFloat(getNodeAttribute(eg, 'xSpacing', '1'));
     var zDimension = parseInt(getNodeAttribute(eg, 'zDimension', '0'));
@@ -631,7 +629,7 @@ THREE.X3DLoader.prototype = {
     geometry.userData = { 'x3dType': 'ElevationGrid' };
     geometry.rotateX(-Math.PI / 2);
     geometry.translate(width / 2, 0, depth / 2); // center located in the corner
-    if (heightStr === '')
+    if (typeof heightStr === 'undefined')
       return geometry;
 
     // Set height and adjust uv mappings.
@@ -709,17 +707,17 @@ THREE.X3DLoader.prototype = {
     var coordinate = pointSet.getElementsByTagName('Coordinate')[0];
     var geometry = new THREE.BufferGeometry();
     geometry.userData = { 'x3dType': 'PointSet' };
-    if (!coordinate)
+    if (typeof coordinate === 'undefined')
       return geometry;
 
     var coordStrArray = getNodeAttribute(coordinate, 'point', '').trim().split(/\s/);
     var color = pointSet.getElementsByTagName('Color')[0];
 
     var count = coordStrArray.length;
-    var colorStrArray = null;
-    if (color)
+    var colorStrArray;
+    if (typeof color === 'undefined')
       colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
-    if (colorStrArray && count !== colorStrArray.length) {
+    if (typeof colorStrArray === 'undefined' && count !== colorStrArray.length) {
       count = Math.min(count, colorStrArray.length);
       console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
       geometry.userData.isColorPerVertex = false;
@@ -847,10 +845,10 @@ THREE.X3DLoader.prototype = {
     var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.sceneManager.scene.background = color;
 
-    var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', '');
+    var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTexture;
     var textureManager;
-    if (hdrCubeMapUrl !== '') {
+    if (typeof hdrCubeMapUrl !== 'undefined') {
       // TODO load HDR cube map.
       cubeTexture = new THREE.CubeTexture();
     } else {
@@ -858,8 +856,8 @@ THREE.X3DLoader.prototype = {
       var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
       var urls = [];
       for (var i = 0; i < 6; i++) {
-        var url = getNodeAttribute(background, attributeNames[i], null);
-        if (url) {
+        var url = getNodeAttribute(background, attributeNames[i], undefined);
+        if (typeof url !== 'undefined') {
           cubeTextureEnabled = true;
           url = url.split(/['"\s]/).filter(function(n) { return n; })[0];
         }
@@ -871,12 +869,12 @@ THREE.X3DLoader.prototype = {
         textureManager = new TextureManager();
         var missing = 0;
         for (i = 0; i < 6; i++) {
-          if (urls[i] === null)
+          if (typeof urls[i] === 'undefined')
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
           var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
-          if (image) {
+          if (typeof image !== 'undefined') {
             cubeTexture.images[i] = image;
             missing--;
           }
@@ -896,7 +894,7 @@ THREE.X3DLoader.prototype = {
     var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
-    if (this.sceneManager.viewpoint) {
+    if (typeof this.sceneManager.viewpoint !== 'undefined') {
       this.sceneManager.viewpoint.camera.fov = fov;
       this.sceneManager.viewpoint.camera.near = near;
       this.sceneManager.viewpoint.camera.far = far;
