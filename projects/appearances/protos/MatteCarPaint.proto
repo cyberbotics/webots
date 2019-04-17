@@ -14,13 +14,13 @@ PROTO MatteCarPaint [
     baseColor IS baseColor
     baseColorMap ImageTexture {
       url [
-        "textures/matte_car_paint/matte_car_paint_base_color.png"
+        "textures/matte_car_paint/matte_car_paint_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "textures/matte_car_paint/matte_car_paint_roughness.png"
+        "textures/matte_car_paint/matte_car_paint_roughness.jpg"
       ]
       filtering 5
     }
