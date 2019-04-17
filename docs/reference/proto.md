@@ -7,7 +7,7 @@ A PROTO defines a new node type in terms of built-in nodes or other PROTO nodes.
 The PROTO interface defines the fields for the PROTO.
 Once defined, PROTO nodes may be instantiated in the scene tree exactly like built-in nodes.
 
-The [Your First PROTO](../guide/tutorial-7-your-first-proto.md) tutorial gives a very brief explanation how to create your own PROTO node.
+The tutorial entitled [Your First PROTO](../guide/tutorial-7-your-first-proto.md) provides a hands-on procedure to create your own PROTO node.
 
 ## Sections
 
