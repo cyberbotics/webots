@@ -32,7 +32,9 @@ JS_SOURCES = \
   x3d.js \
   x3d_scene_manager.js \
   animation.js \
-  webots.js \
+  webots.js
+
+BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
 NPM_EXISTS = $(shell which npm 2> /dev/null)
@@ -43,7 +45,7 @@ release debug profile update:
 else
 release debug profile update: install $(JS_SOURCES)
 	@echo "# compressing webots.min.js"
-	@node_modules/.bin/babel $(JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
 	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
 endif
