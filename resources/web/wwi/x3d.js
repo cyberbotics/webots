@@ -226,20 +226,17 @@ THREE.X3DLoader.prototype = {
     }
 
     // Apply default geometry and/or material.
-    if (typeof geometry === 'undefined') {
-      geometry = new THREE.Geometry();
-      geometry.userData = { 'x3dType': 'unknown' };
-    } if (typeof material === 'undefined' && (!geometry.userData.x3dType === 'PointSet' || !geometry.userData.isColorPerVertex))
-      material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    if (typeof geometry === 'undefined')
+      geometry = createDefaultGeometry();
+    if (typeof material === 'undefined')
+      material = createDefaultMaterial(geometry);
 
     var mesh;
     if (geometry.userData.x3dType === 'IndexedLineSet')
       mesh = new THREE.LineSegments(geometry, material);
-    else if (geometry.userData.x3dType === 'PointSet') {
-      if (typeof material === 'undefined')
-        material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
+    else if (geometry.userData.x3dType === 'PointSet')
       mesh = new THREE.Points(geometry, material);
-    } else
+    else
       mesh = new THREE.Mesh(geometry, material);
     mesh.userData.x3dType = 'Shape';
 
@@ -978,6 +975,21 @@ function getNodeAttribute(node, attributeName, defaultValue) {
     return node.attributes.getNamedItem(attributeName).value;
   return defaultValue;
 }
+
+function createDefaultGeometry() {
+  var geometry = new THREE.Geometry();
+  geometry.userData = { 'x3dType': 'unknown' };
+  return geometry;
+};
+
+function createDefaultMaterial(geometry) {
+  var material;
+  if (typeof geometry !== 'undefined' && geometry.userData.x3dType === 'PointSet' && geometry.userData.isColorPerVertex)
+    material = new THREE.PointsMaterial({ size: 4, sizeAttenuation: false, vertexColors: THREE.VertexColors });
+  else
+    material = new THREE.MeshBasicMaterial({color: 0xffffff});
+  return material;
+};
 
 function convertStringToVec2(s) {
   s = s.split(/\s/);

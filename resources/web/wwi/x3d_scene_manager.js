@@ -1,5 +1,6 @@
 /* global THREE, Selector, TextureManager, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
+/* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
 function X3dSceneManager(domElement) {
@@ -80,16 +81,28 @@ X3dSceneManager.prototype = {
     for (var i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
+    this.root = undefined;
     this.onSceneUpdate();
     this.render();
   },
 
   deleteObject: function(id) {
-    var object = this.scene.getObjectByName('n' + id);
-    if (object) {
-      object.parent.remove(object);
+    var context = {};
+    var object = this.getObjectByCustomId(this.scene, 'n' + id, context);
+    if (typeof object !== 'undefined') {
+      if (typeof context !== 'undefined' && typeof context.field !== 'undefined') {
+        if (object.isMaterial)
+          context.parent[context.field] = createDefaultMaterial(context.parent.geometry);
+        else if (object.isGeometry || object.isBufferGeometry)
+          context.parent[context.field] = createDefaultGeometry();
+        else
+          context.parent[context.field] = undefined;
+      } else
+        object.parent.remove(object);
       delete this.objectsIdCache[id];
     }
+    if (object === this.root)
+      this.root = undefined;
     this.onSceneUpdate();
     this.render();
   },
@@ -116,13 +129,15 @@ X3dSceneManager.prototype = {
 
   loadObject: function(x3dObject, parentId) {
     var that = this;
-    var parentObject = parentId && parentId !== 0 ? this.scene.getObjectByName('n' + parentId) : undefined;
+    var parentObject;
+    if (parentId && parentId !== 0)
+      parentObject = this.getObjectByCustomId(this.scene, 'n' + parentId);
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
-    if (parentObject)
+    if (typeof parentObject !== 'undefined')
       objects.forEach(function(o) { parentObject.add(o); });
     else {
-      console.assert(objects.length <= 1); // only one root object is supported
+      console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
       objects.forEach(function(o) { that.scene.add(o); });
       this.root = objects[0];
     }
@@ -203,55 +218,93 @@ X3dSceneManager.prototype = {
     return node;
   },
 
-  getObjectByCustomId: function(object, id) {
-    if (Array.isArray(object))
-      object.forEach((item) => this.getObjectByCustomId(item, id));
+  getObjectByCustomId: function(object, id, context) {
+    if (Array.isArray(object)) {
+      for (let i = 0, l = object.length; i < l; i++) {
+        var o = this.getObjectByCustomId(object[i], id, context);
+        if (typeof o !== 'undefined')
+          return o;
+      }
+    }
 
-    if (!object)
+    if (typeof context === 'undefined')
+      context = {};
+
+    if (!object) {
+      context.parent = undefined;
       return undefined;
+    }
 
-    if (this.objectsIdCache[id])
-      return this.objectsIdCache[id];
+    if (typeof this.objectsIdCache[id] !== 'undefined') {
+      context.field = this.objectsIdCache[id].context.field;
+      context.parent = this.objectsIdCache[id].context.parent;
+      return this.objectsIdCache[id].object;
+    }
 
     if (object.name && object.name.includes(id)) {
-      this.objectsIdCache[id] = object;
+      this.objectsIdCache[id] = { 'object': object, 'context': context };
       return object;
     }
 
     var childObject;
     var childrenLength = object.children ? object.children.length : 0;
-    for (var i = 0; i < childrenLength; i++) {
+    for (let i = 0; i < childrenLength; i++) {
       var child = object.children[i];
-      childObject = this.getObjectByCustomId(child, id);
+      context.parent = object;
+      childObject = this.getObjectByCustomId(child, id, context);
       if (typeof childObject !== 'undefined')
         return childObject;
     }
     if (object.isMesh) {
-      childObject = this.getObjectByCustomId(object.material, id);
-      if (typeof childObject !== 'undefined')
+      childObject = this.getObjectByCustomId(object.material, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'material';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.geometry, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.geometry, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'geometry';
+        context.parent = object;
         return childObject;
+      }
     } else if (object.isMaterial) {
-      childObject = this.getObjectByCustomId(object.map, id);
-      if (typeof childObject !== 'undefined')
+      childObject = this.getObjectByCustomId(object.map, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'map';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.aoMap, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.aoMap, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'aoMap';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.roughnessMap, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.roughnessMap, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'roughnessMap';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.metalnessMap, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.metalnessMap, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'metalnessMap';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.normalMap, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.normalMap, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'normalMap';
+        context.parent = object;
         return childObject;
-      childObject = this.getObjectByCustomId(object.emissiveMap, id);
-      if (typeof childObject !== 'undefined')
+      }
+      childObject = this.getObjectByCustomId(object.emissiveMap, id, context);
+      if (typeof childObject !== 'undefined') {
+        context.field = 'emissiveMap';
+        context.parent = object;
         return childObject;
+      }
       // only fields set in x3d.js are checked
     }
     return undefined;
