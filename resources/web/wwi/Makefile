@@ -32,7 +32,8 @@ JS_SOURCES = \
   x3d.js \
   x3d_scene_manager.js \
   animation.js \
-  webots.js
+  webots.js \
+  node_modules/@babel/polyfill/dist/polyfill.js
 
 NPM_EXISTS = $(shell which npm 2> /dev/null)
 
