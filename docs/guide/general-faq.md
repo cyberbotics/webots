@@ -19,5 +19,5 @@ This situation can be identified by these couple of symptoms:
 
 Yes.
 However, you will need to create your own project with all the necessary options.
-You will find more detailed instructions on how to do that in [this section](using-visual-studio-with-webots.md).
+You will find more detailed instructions on how to do that in [this section](using-your-ide.md#visual-studio).
 To create the import libraries (the "\*.lib" files in Visual Studio) from the "\*.dll" files of the lib directory of Webots, please follow the instructions provided with the documentation of your compiler.
