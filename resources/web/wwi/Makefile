@@ -57,14 +57,12 @@ webots.min.js: $(JS_SOURCES) $(INSTALL_TOKEN)
 	@node_modules/.bin/minify webots.max.js -o webots.min.js
 	@rm webots.max.js
 
-$(INSTALL_TOKEN): package.json
-	@make uninstall
-	@make install
-	@touch $(INSTALL_TOKEN)
+install: $(INSTALL_TOKEN)
 
-install:
+$(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
 	@npm --silent install 1> /dev/null
+	@touch $(INSTALL_TOKEN)
 
 uninstall:
 	@echo "# uninstalling npm dependencies"
