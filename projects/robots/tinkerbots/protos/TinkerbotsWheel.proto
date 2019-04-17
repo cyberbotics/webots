@@ -22,13 +22,13 @@ PROTO TinkerbotsWheel [
               appearance PBRAppearance {
                 baseColorMap ImageTexture {
                   url [
-                    "textures/wheel_base_color.png"
+                    "textures/wheel_base_color.jpg"
                   ]
                 }
                 roughness 1
                 roughnessMap ImageTexture {
                   url [
-                    "textures/wheel_roughness.png"
+                    "textures/wheel_roughness.jpg"
                   ]
                 }
                 metalness 0
@@ -39,7 +39,7 @@ PROTO TinkerbotsWheel [
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "textures/wheel_occlusion.png"
+                    "textures/wheel_occlusion.jpg"
                   ]
                 }
               }

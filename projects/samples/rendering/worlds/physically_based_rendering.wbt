@@ -73,19 +73,19 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/tile_base_color.png"
+            "textures/tile_base_color.jpg"
           ]
         }
         roughness 0.7
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/tile_normal.png"
+            "textures/tile_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/tile_occlusion.png"
+            "textures/tile_occlusion.jpg"
           ]
         }
         textureTransform TextureTransform {

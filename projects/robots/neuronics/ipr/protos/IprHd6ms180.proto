@@ -112,7 +112,7 @@ PROTO IprHd6ms180 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "textures/neuronics_logo.png"
+                  "textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE
