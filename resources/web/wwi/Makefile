@@ -37,6 +37,8 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
+.PHONY: release debug profile update install uninstall clean
+
 NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
