@@ -22,9 +22,9 @@ ifeq ($(UBUNTU_VERSION), 18.04)
 	PACKAGES += open-ssl
 endif
 
-.PHONY: release debug distrib clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
+.PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib: $(PACKAGES)
+release debug distrib profile: $(PACKAGES)
 clean:
 cleanse: $(PACKAGES_CLEAN)
 
