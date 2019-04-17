@@ -76,11 +76,3 @@ cmake .. -G "Unix Makefiles"
 make
 cd ..
 ```
-
-### QtCreator
-
-TODO
-
-### PyCharm
-
-TODO
