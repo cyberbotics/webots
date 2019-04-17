@@ -42,7 +42,7 @@
     - [Compiling Controllers in a Terminal](compiling-controllers-in-a-terminal.md)
     - [Using Webots Makefiles](using-webots-makefiles.md)
     - [Debugging C/C++ Controllers](debugging-c-cpp-controllers.md)
-    - [Using your IDE](using-vour-ide.md)
+    - [Using your IDE](using-your-ide.md)
     - [Starting Webots Remotely (ssh)](starting-webots-remotely-ssh.md)
     - [Transfer to Your Own Robot](transfer-to-your-own-robot.md)
 - [Programming Fundamentals](programming-fundamentals.md)
