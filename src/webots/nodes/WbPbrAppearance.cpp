@@ -574,13 +574,10 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
 
   writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\' ";
 
-  if (isUseNode()) {
-    writer << " USE=\'" + useName() + "\'></PBRAppearance>";
+  if (isUseNode() && defNode()) {
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></PBRAppearance>";
     return;
   }
-
-  if (!defName().isEmpty())
-    writer << " DEF=\'" << defName() << "\'";
 
   foreach (WbField *field, fields())
     if (field->singleType() != WB_SF_NODE)

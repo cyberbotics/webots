@@ -267,7 +267,7 @@ webots.View.prototype.open = function(url, mode) {
     var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
     var nodes = that.x3dSceneManager.root ? that.x3dSceneManager.root.children : [];
     for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i] instanceof THREE.Object3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
+      if (nodes[i].isObject3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
         loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
     }
     pendingRequestsCount--; // notify that loop is completed

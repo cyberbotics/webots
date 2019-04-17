@@ -8,7 +8,7 @@ function TextureManager() {
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
     this.streamingMode = false;
-    this.onTextureLoad = null;
+    this.onTextureLoad = undefined;
   }
   return TextureManager.instance;
 };
@@ -27,7 +27,7 @@ TextureManager.prototype = {
   loadOrRetrieveTexture: function(name, texture, cubeTextureIndex) {
     console.assert(typeof name === 'string', 'TextureManager.loadOrRetrieveTexture: name is not a string.');
     if (typeof name === 'undefined' || name === '')
-      return null;
+      return undefined;
 
     if (this.textures[name])
       return this.textures[name];
@@ -49,11 +49,11 @@ TextureManager.prototype = {
 
     if (this.loadingTextures[name]) {
       this.loadingTextures[name].objects.push(texture);
-      return null; // texture is already loading
+      return undefined; // texture is already loading
     }
 
     console.log('loadOrRetrieveTexture ' + name);
-    this.loadingTextures[name] = {data: null, objects: [texture]};
+    this.loadingTextures[name] = {objects: [texture]};
 
     if (this.streamingMode)
       return; // textures will be sent throug socket
@@ -75,7 +75,7 @@ TextureManager.prototype = {
         // else image could be received later
       }
     );
-    return null;
+    return undefined;
   },
 
   loadTexture: function(uri, name) {
