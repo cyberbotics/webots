@@ -55,7 +55,7 @@ The graphical representation and the collision shape are often but not necessari
 Finally, the `physics` field defines if the object belongs to the dynamical or to the static environment.
 All these sub-nodes are optional, but the `physics` field needs the `boundingObject` to be defined.
 
-%figure "DEF-USE mechanism applied on the Shape node of a Solid."
+%figure "The simplest model of a rigid body in Webots having a graphical representation, a physical bounding object and being in the dynamical environment."
 %chart
 graph TD
   Solid[[Solid](../reference/solid.md)] -->|physics| Physics[[Physics](../reference/physics.md)]
@@ -140,7 +140,7 @@ Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) n
 
 %end
 
-%figure "The simplest model of a rigid body in Webots having a graphical representation, a physical bounding object and being in the dynamical environment."
+%figure "DEF-USE mechanism applied on the Shape node of a Solid."
 %chart
 graph TD
   Solid[[Solid](../reference/solid.md)] -->|physics| Physics[[Physics](../reference/physics.md)]
