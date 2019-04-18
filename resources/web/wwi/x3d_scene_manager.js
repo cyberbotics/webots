@@ -375,13 +375,23 @@ X3dSceneManager.prototype = {
       // clone again changed DEF node instance
       var sourceNode = this.useNodeCache[id].source;
       var targetNodes = this.useNodeCache[id].target;
+      var newTargetNodes = [];
       for (let i = 0, l = targetNodes.length; i < l; i++) {
         var target = targetNodes[i];
         var newClone = sourceNode.clone();
         newClone.name = target.name;
         var parent = target.parent;
-        parent.children.splice(parent.children.indexOf(target), 1, newClone);
+        var index = parent.children.indexOf(target);
+        parent.remove(target);
+
+        // manually add new child to keep the same child index.
+        parent.children.splice(index, 0, newClone);
+        newClone.parent = parent;
+        object.dispatchEvent({ type: 'added' });
+
+        newTargetNodes.push(newClone);
       }
+      this.useNodeCache[id].target = newTargetNodes;
     }
   }
 };
