@@ -572,7 +572,7 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
   if (!writer.isX3d())
     return;
 
-  writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\' ";
+  writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\'";
 
   if (isUseNode() && defNode()) {
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></PBRAppearance>";
