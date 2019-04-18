@@ -101,6 +101,8 @@ LD_FLAGS += -lpthread
 else
 LD_FLAGS += -lode
 endif
+# To link with libpico without warnings about the "register" keyword.
+CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
