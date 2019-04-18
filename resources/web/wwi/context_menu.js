@@ -89,7 +89,7 @@ ContextMenu.prototype = {
     var controller = object.userData.controller;
     if (controller && controller !== '') { // the current selection is a robot
       $('#contextMenuEditController').css('display', 'inline');
-      if (controller === 'void' || controller.length === 0 || this.authenticatedUser)
+      if (controller === 'void' || controller.length === 0 || !this.authenticatedUser)
         $('#contextMenuEditController').children().addClass('ui-state-disabled');
       var robotName = object.userData.name;
       var isValid = false;

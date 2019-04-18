@@ -427,7 +427,7 @@ THREE.X3DLoader.prototype = {
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
     var normal = ifs.getElementsByTagName('Normal')[0];
 
-    if (typeof coordinate !== 'undefined' && 'USE' in textureCoordinate.attributes) {
+    if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
       console.error("X3DLoader:parseIndexedFaceSet: USE 'Coordinate' node not supported.");
       coordinate = undefined;
     }

@@ -19,7 +19,7 @@
  *   }
  */
 
-/* global webots, THREE */
+/* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, ResourceManager, RobotWindow */
 /* global Server, Stream, Toolbar, VideoManager, X3dSceneManager */
 /* global MathJax: false */
