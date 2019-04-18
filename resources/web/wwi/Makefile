@@ -37,7 +37,7 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
-# Token file used to determine when the last successful installation occured.
+# Token file used to determine when the last successful installation occurred.
 INSTALL_TOKEN = install.token
 
 .PHONY: release debug profile update cleanse clean
