@@ -257,23 +257,25 @@ THREE.X3DLoader.prototype = {
     var material = appearance.getElementsByTagName('Material')[0];
 
     var materialSpecifications = {};
-    var defMaterial = this._getDefNode(material);
-    if (typeof defMaterial !== 'undefined') {
-      materialSpecifications = {
-        'color': defMaterial.color,
-        'specular': defMaterial.specular,
-        'emissive': defMaterial.emissive,
-        'shininess': defMaterial.shininess
-      };
-    } else if (typeof material !== 'undefined') {
-      // Pull out the standard colors.
-      materialSpecifications = {
-        'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
-        'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
-        'emissive': convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
-        'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
-        'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
-      };
+    if (typeof material !== 'undefined') {
+      var defMaterial = this._getDefNode(material);
+      if (typeof defMaterial !== 'undefined') {
+        materialSpecifications = {
+          'color': defMaterial.color,
+          'specular': defMaterial.specular,
+          'emissive': defMaterial.emissive,
+          'shininess': defMaterial.shininess
+        };
+      } else {
+        // Pull out the standard colors.
+        materialSpecifications = {
+          'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
+          'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
+          'emissive': convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
+          'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
+          'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
+        };
+      }
     }
 
     // Check to see if there is a texture.
