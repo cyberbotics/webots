@@ -346,6 +346,9 @@ X3dSceneManager.prototype = {
   },
 
   _updateUseNodesIfNeeded: function(object, id) {
+    if (!object)
+      return;
+
     if (Array.isArray(id)) {
       if (id.length > 1)
         id.forEach((item) => this._updateUseNodesIfNeeded(object, item));
@@ -356,7 +359,7 @@ X3dSceneManager.prototype = {
     if (typeof this.useNodeCache[id] === 'undefined') {
       var node = object;
       var source;
-      while (node !== this.root) {
+      while (node && node !== this.root) {
         if (typeof node.userData.USE !== 'undefined')
           source = node;
         node = node.parent;
