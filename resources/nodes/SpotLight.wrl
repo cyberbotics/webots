@@ -4,7 +4,7 @@
 SpotLight {
   vrmlField SFFloat ambientIntensity  0        # [0,1]
   vrmlField SFVec3f attenuation       1 0 0    # [0,)
-  vrmlField SFFloat beamWidth         0.7      # [0,)
+  vrmlField SFFloat beamWidth         1.570796 # [0,)
   vrmlField SFColor color             1 1 1    # [0,1]
   vrmlField SFFloat cutOffAngle       0.785398 # [0,)
   vrmlField SFVec3f direction         0 0 -1   # (-,)
