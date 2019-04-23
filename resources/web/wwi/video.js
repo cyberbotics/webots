@@ -11,21 +11,23 @@ function Video(parentObject, mouseEvents, stream) {
   parentObject.appendChild(this.domElement);
   this.mouseEvents = mouseEvents;
   this.stream = stream;
+
+  this.onmousemove = (e) => { this._onMouseMove(e); };
 };
 
 Video.prototype = {
   constructor: Video,
 
   finalize: function(onready) {
-    this.domElement.addEventListener('mousedown', this.onVideoMouseDown, false);
-    this.domElement.addEventListener('mouseup', this.onVideoMouseUp, false);
-    this.domElement.addEventListener('wheel', this.onVideoWheel, false);
-    this.domElement.addEventListener('contextmenu', this.onVideoContextMenu, false);
+    this.domElement.addEventListener('mousedown', (e) => { this._onMouseDown(e); }, false);
+    this.domElement.addEventListener('mouseup', (e) => { this._onMouseUp(e); }, false);
+    this.domElement.addEventListener('wheel', (e) => { this._onWheel(e); }, false);
+    this.domElement.addEventListener('contextmenu', (e) => { this._onContextMenu(e); }, false);
     if (typeof onready === 'function')
       onready();
   },
 
-  sendVideoMouseEvent: function(type, event, wheel) {
+  sendMouseEvent: function(type, event, wheel) {
     var socket = this.stream.socket;
     if (!socket || socket.readyState !== 1)
       return;
@@ -40,35 +42,35 @@ Video.prototype = {
     this.stream.socket.send('resize: ' + width + 'x' + height);
   },
 
-  onVideoMouseDown: function(event) {
-    event.target.addEventListener('mousemove', this.onVideoMouseMove, false);
-    this.sendVideoMouseEvent(-1, event, 0);
+  _onMouseDown: function(event) {
+    event.target.addEventListener('mousemove', this.onmousemove, false);
+    this.sendMouseEvent(-1, event, 0);
     event.preventDefault();
     return false;
   },
 
-  onVideoMouseMove: function(event) {
+  _onMouseMove: function(event) {
     if (this.mouseEvents.mouseState.mouseDown === 0) {
-      event.target.removeEventListener('mousemove', this.onVideoMouseMove, false);
+      event.target.removeEventListener('mousemove', this.onmousemove, false);
       return false;
     }
-    this.sendVideoMouseEvent(0, event, 0);
+    this.sendMouseEvent(0, event, 0);
     return false;
   },
 
-  onVideoMouseUp: function(event) {
-    event.target.removeEventListener('mousemove', this.onVideoMouseMove, false);
-    this.sendVideoMouseEvent(1, event, 0);
+  _onMouseUp: function(event) {
+    event.target.removeEventListener('mousemove', this.onmousemove, false);
+    this.sendMouseEvent(1, event, 0);
     event.preventDefault();
     return false;
   },
 
-  onVideoWheel: function(event) {
-    this.sendVideoMouseEvent(2, event, Math.sign(event.deltaY));
+  _onWheel: function(event) {
+    this.sendMouseEvent(2, event, Math.sign(event.deltaY));
     return false;
   },
 
-  onVideoContextMenu: function(event) {
+  _onContextMenu: function(event) {
     event.preventDefault();
     return false;
   }
