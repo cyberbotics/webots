@@ -104,7 +104,7 @@ TextureManager.prototype = {
         console.log(missingImages);
         var indices = missingImages[name];
         for (var j = 0; j < indices.length; j++)
-          textureObjects[i].images[j] = image;
+          textureObjects[i].images[indices[j]] = image;
         delete missingImages[name];
         if (Object.keys(missingImages).length === 0) {
           textureObjects[i].needsUpdate = true;
