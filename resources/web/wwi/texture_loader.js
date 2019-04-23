@@ -102,8 +102,11 @@ TextureLoader.prototype = {
         var missingImages = this.loadingCubeTextureObjects[textureObjects[i]];
         console.log(missingImages);
         var indices = missingImages[name];
-        for (var j = 0; j < indices.length; j++)
+        for (var j = 0; j < indices.length; j++) {
+          if (indices[j] === 2 || indices[j] === 3)
+            image.src = flipImage(image.src);
           textureObjects[i].images[indices[j]] = image;
+        }
         delete missingImages[name];
         if (Object.keys(missingImages).length === 0) {
           textureObjects[i].needsUpdate = true;
@@ -121,3 +124,27 @@ TextureLoader.prototype = {
       this.onTextureLoad();
   }
 };
+
+// Inspired from: https://stackoverflow.com/questions/17040360/javascript-function-to-rotate-a-base-64-image-by-x-degrees-and-return-new-base64
+// Flip a base64 image by 180 degrees.
+function flipImage(base64Image) {
+  // Create an off-screen canvas.
+  var offScreenCanvas = document.createElement('canvas');
+  var context = offScreenCanvas.getContext('2d');
+
+  // Create a new Image.
+  var img = new Image();
+  img.src = base64Image;
+
+  // Set its dimension to rotated size.
+  offScreenCanvas.width = img.width;
+  offScreenCanvas.height = img.height;
+
+  // Rotate and draw source image into the off-screen canvas.
+  context.scale(-1, -1);
+  context.translate(-offScreenCanvas.height, -offScreenCanvas.width);
+  context.drawImage(img, 0, 0);
+
+  // Encode the image to data-uri with base64:
+  return offScreenCanvas.toDataURL('image/jpeg', 95);
+}
