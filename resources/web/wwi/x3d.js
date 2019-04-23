@@ -854,7 +854,7 @@ THREE.X3DLoader.prototype = {
       cubeTexture = new THREE.CubeTexture();
     } else {
       var cubeTextureEnabled = false;
-      var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+      var attributeNames = ['rightUrl', 'leftUrl', 'topUrl', 'bottomUrl', 'frontUrl', 'backUrl'];
       var urls = [];
       for (var i = 0; i < 6; i++) {
         var url = getNodeAttribute(background, attributeNames[i], undefined);
