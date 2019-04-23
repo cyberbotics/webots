@@ -48,10 +48,11 @@ void WbSpotLight::init() {
 
 WbSpotLight::WbSpotLight(WbTokenizer *tokenizer) : WbLight("SpotLight", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mDirection->setValueNoSignal(0, 1, -1);
-  if (tokenizer == NULL)
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+    mBeamWidth->setValueNoSignal(0.7);
+  }
 }
 
 WbSpotLight::WbSpotLight(const WbSpotLight &other) : WbLight(other) {

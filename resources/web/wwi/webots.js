@@ -19,9 +19,9 @@
  *   }
  */
 
-/* global webots, THREE */
+/* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, ResourceManager, RobotWindow */
-/* global Server, Stream, Toolbar, VideoManager, X3dSceneManager */
+/* global Server, Stream, Toolbar, Video, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -80,16 +80,16 @@ webots.View = function(view3D, mobile) {
     window.location = quitDestination;
   };
   this.onresize = function() {
-    if (!that.x3dSceneManager)
+    if (!that.x3dScene)
       return;
 
     // Sometimes the page is not fully loaded by that point and the field of view is not yet available.
     // In that case we add a callback at the end of the queue to try again when all other callbacks are finished.
-    if (that.x3dSceneManager.root === null) {
+    if (that.x3dScene.root === null) {
       setTimeout(that.onresize, 0);
       return;
     }
-    that.x3dSceneManager.resize();
+    that.x3dScene.resize();
   };
   this.ondialogwindow = function(opening) {
     // Pause the simulation if needed when a pop-up dialog window is open
@@ -160,7 +160,7 @@ webots.View.prototype.setAnimation = function(url, gui, loop) {
     gui = 'play';
   if (typeof loop === 'undefined')
     loop = true;
-  this.animation = new Animation(url, this.x3dSceneManager, this, gui, loop);
+  this.animation = new Animation(url, this.x3dScene, this, gui, loop);
 };
 
 webots.View.prototype.open = function(url, mode) {
@@ -172,7 +172,7 @@ webots.View.prototype.open = function(url, mode) {
 
   if (mode === 'video') {
     this.url = url;
-    this.video = new VideoManager(this.view3D, this.mouseEvents);
+    this.video = new Video(this.view3D, this.mouseEvents);
     initWorld();
     return;
   }
@@ -185,29 +185,29 @@ webots.View.prototype.open = function(url, mode) {
     this.setTimeout(-1);
   this.isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://');
 
-  if (typeof this.x3dSceneManager === 'undefined') {
+  if (typeof this.x3dScene === 'undefined') {
     this.x3dDiv = document.createElement('div');
     this.x3dDiv.className = 'webots3DView';
     this.view3D.appendChild(this.x3dDiv);
-    this.x3dSceneManager = new X3dSceneManager(this.x3dDiv);
-    that.x3dSceneManager.init();
+    this.x3dScene = new X3dScene(this.x3dDiv);
+    that.x3dScene.init();
     var param = document.createElement('param');
     param.name = 'showProgress';
     param.value = false;
-    this.x3dSceneManager.domElement.appendChild(param);
+    this.x3dScene.domElement.appendChild(param);
   }
 
   if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
     this.contextMenu = new ContextMenu(webots.User1Id !== '' && webots.User1Authentication !== '', this.view3D);
     this.contextMenu.onEditController = function(controller) { that.editController(controller); };
-    this.contextMenu.onFollowObject = function(id) { that.x3dSceneManager.viewpoint.follow(id); };
-    this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dSceneManager.viewpoint.isFollowedObject(object3d)); };
+    this.contextMenu.onFollowObject = function(id) { that.x3dScene.viewpoint.follow(id); };
+    this.contextMenu.isFollowedObject = function(object3d, setResult) { setResult(that.x3dScene.viewpoint.isFollowedObject(object3d)); };
     this.contextMenu.onOpenRobotWindow = function(robotName) { that.openRobotWindow(robotName); };
     this.contextMenu.isRobotWindowValid = function(robotName, setResult) { setResult(that.robotWindows[that.robotWindowNames[robotName]]); };
   }
 
   if (typeof this.mouseEvents === 'undefined')
-    this.mouseEvents = new MouseEvents(this.x3dSceneManager, this.contextMenu, this.x3dDiv);
+    this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv);
 
   if (typeof this.console === 'undefined')
     this.console = new Console(this.view3D, this.mobileDevice);
@@ -243,16 +243,16 @@ webots.View.prototype.open = function(url, mode) {
         that.stream.connect();
       }
     } else // assuming it's an URL to a .x3d file
-      that.x3dSceneManager.loadWorldFile(that.url, finalizeWorld);
+      that.x3dScene.loadWorldFile(that.url, finalizeWorld);
   }
 
   function finalizeWorld() {
     $('#webotsProgressMessage').html('Loading HTML and Javascript files...');
-    if (that.x3dSceneManager.viewpoint.followedObjectId == null || that.broadcast)
-      that.x3dSceneManager.viewpoint.initFollowParameters();
+    if (that.x3dScene.viewpoint.followedObjectId == null || that.broadcast)
+      that.x3dScene.viewpoint.initFollowParameters();
     else
       // Reset follow parameters.
-      that.x3dSceneManager.viewpoint.follow(that.x3dSceneManager.viewpoint.followedObjectId);
+      that.x3dScene.viewpoint.follow(that.x3dScene.viewpoint.followedObjectId);
 
     if (!that.isWebSocketProtocol) { // skip robot windows initialization
       if (that.animation != null)
@@ -263,9 +263,9 @@ webots.View.prototype.open = function(url, mode) {
       return;
     }
 
-    var infoWindowName = that.x3dSceneManager.worldInfo.window;
+    var infoWindowName = that.x3dScene.worldInfo.window;
     var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
-    var nodes = that.x3dSceneManager.root ? that.x3dSceneManager.root.children : [];
+    var nodes = that.x3dScene.root ? that.x3dScene.root.children : [];
     for (var i = 0; i < nodes.length; i++) {
       if (nodes[i].isObject3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
         loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
@@ -293,7 +293,7 @@ webots.View.prototype.open = function(url, mode) {
           user += ']';
         } else
           user = '';
-        win.setProperties({title: that.x3dSceneManager.worldInfo.title + user, close: closeInfoWindow});
+        win.setProperties({title: that.x3dScene.worldInfo.title + user, close: closeInfoWindow});
         that.infoWindow = win;
       } else
         win.setProperties({title: 'Robot: ' + nodeName});
@@ -417,7 +417,7 @@ webots.View.prototype.updateWorldList = function(currentWorld, worlds) {
       return;
     if (that.toolBar)
       that.toolBar.enableToolBarButtons(false);
-    that.x3dSceneManager.viewpoint.resetFollow();
+    that.x3dScene.viewpoint.resetFollow();
     that.onrobotwindowsdestroy();
     $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
     $('#webotsProgress').show();
@@ -457,7 +457,7 @@ webots.View.prototype.resetSimulation = function() {
     $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(this.deadline));
   else
     $('#webotsTimeout').html(webots.parseMillisecondsIntoReadableTime(0));
-  this.x3dSceneManager.viewpoint.reset(this.time);
+  this.x3dScene.viewpoint.reset(this.time);
 };
 
 webots.View.prototype.quitSimulation = function() {
@@ -470,8 +470,8 @@ webots.View.prototype.quitSimulation = function() {
 };
 
 webots.View.prototype.destroyWorld = function() {
-  if (this.x3dSceneManager)
-    this.x3dSceneManager.destroyWorld();
+  if (this.x3dScene)
+    this.x3dScene.destroyWorld();
   this.removeLabels();
 };
 

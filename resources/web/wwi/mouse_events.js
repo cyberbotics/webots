@@ -1,8 +1,8 @@
 /* global webots, THREE */
 'use strict';
 
-function MouseEvents(sceneManager, contextMenu, domElement) {
-  this.sceneManager = sceneManager;
+function MouseEvents(scene, contextMenu, domElement) {
+  this.scene = scene;
   this.contextMenu = contextMenu;
   this.domElement = domElement;
 
@@ -55,9 +55,9 @@ MouseEvents.prototype = {
     }
 
     if (this.state.mouseDown !== 0) {
-      var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.sceneManager.renderer, event.clientX, event.clientY);
+      var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
       var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
-      this.intersection = this.sceneManager.pick(relativePosition, screenPosition);
+      this.intersection = this.scene.pick(relativePosition, screenPosition);
 
       document.addEventListener('mousemove', this.onmousemove, false);
       document.addEventListener('mouseup', this.onmouseup, false);
@@ -106,11 +106,11 @@ MouseEvents.prototype = {
         this.intersection.object.getWorldPosition(params.pickPosition);
       } else
         params.pickPosition = null;
-      this.sceneManager.viewpoint.rotate(params);
+      this.scene.viewpoint.rotate(params);
     } else {
       if (this.intersection == null) {
         var cameraPosition = new THREE.Vector3();
-        this.sceneManager.viewpoint.camera.getWorldPosition(cameraPosition);
+        this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
         params.distanceToPickPosition = cameraPosition.length();
       } else
         params.distanceToPickPosition = this.intersection.distance;
@@ -118,16 +118,16 @@ MouseEvents.prototype = {
         params.distanceToPickPosition = 0.001;
       // FIXME this is different from webots. We need to understand why the same formula doesn't work.
       // THREEjs Camera fov is half of Webots Viewpoint fov.
-      params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.sceneManager.viewpoint.camera.fov));
-      var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
-      var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
+      params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.scene.viewpoint.camera.fov));
+      var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+      var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
       params.scaleFactor /= Math.max(viewHeight, viewWidth);
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        this.sceneManager.viewpoint.translate(params);
+        this.scene.viewpoint.translate(params);
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
         params.tiltAngle = 0.01 * params.dx;
         params.zoomScale = params.scaleFactor * 5 * params.dy;
-        this.sceneManager.viewpoint.zoomAndTilt(params, true);
+        this.scene.viewpoint.zoomAndTilt(params, true);
       }
     }
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
@@ -145,8 +145,8 @@ MouseEvents.prototype = {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       var object = this.intersection.object;
       if (object)
-        object = this.sceneManager.getTopX3dNode(object);
-      this.sceneManager.selector.select(object);
+        object = this.scene.getTopX3dNode(object);
+      this.scene.selector.select(object);
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
         this.hiddenContextMenu === false && this.contextMenu)
@@ -178,7 +178,7 @@ MouseEvents.prototype = {
       }
       return;
     }
-    this.sceneManager.viewpoint.zoom(this.intersection.distance, event.deltaY);
+    this.scene.viewpoint.zoom(this.intersection.distance, event.deltaY);
 
     if (typeof webots.currentView.onmousewheel === 'function')
       webots.currentView.onmousewheel(event);
@@ -220,7 +220,7 @@ MouseEvents.prototype = {
     var params = {};
     if (this.intersection == null) {
       var cameraPosition = new THREE.Vector3();
-      this.sceneManager.viewpoint.camera.getWorldPosition(cameraPosition);
+      this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
       params.distanceToPickPosition = cameraPosition.length();
     } else
       params.distanceToPickPosition = this.intersection.distance;
@@ -228,9 +228,9 @@ MouseEvents.prototype = {
       params.distanceToPickPosition = 0.001;
     // FIXME this is different from webots. We need to understand why the same formula doesn't work.
     // THREEjs Camera fov is half of Webots Viewpoint fov.
-    params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.sceneManager.viewpoint.camera.fov));
-    var viewHeight = parseFloat($(this.sceneManager.domElement).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(this.sceneManager.domElement).css('width').slice(0, -2));
+    params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.scene.viewpoint.camera.fov));
+    var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+    var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
     params.scaleFactor /= Math.max(viewHeight, viewWidth);
 
     var x = Math.round(touch.clientX); // discard decimal values returned on android
@@ -239,7 +239,7 @@ MouseEvents.prototype = {
     if (this.state.mouseDown === 2) { // translation
       params.dx = x - this.state.x;
       params.dy = y - this.state.y;
-      this.sceneManager.viewpoint.translate(params);
+      this.scene.viewpoint.translate(params);
 
       // On small phone screens (Android) this is needed to correctly detect clicks and longClicks.
       if (this.state.initialX == null && this.state.initialY == null) {
@@ -274,11 +274,11 @@ MouseEvents.prototype = {
           d = moveX2;
         params.tiltAngle = 0.0004 * d;
         params.zoomScale = params.scaleFactor * 0.015 * pinchSize;
-        this.sceneManager.viewpoint.zoomAndTilt(params);
+        this.scene.viewpoint.zoomAndTilt(params);
       } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
         params.dx = moveX1 * 0.8;
         params.dy = moveY1 * 0.5;
-        this.sceneManager.viewpoint.rotate(params);
+        this.scene.viewpoint.rotate(params);
       }
 
       this.state.touchDistance = newTouchDistance;
@@ -341,7 +341,7 @@ MouseEvents.prototype = {
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
     if (this.state.moved === false) {
       this.previousSelection = this.selection;
-      this.sceneManager.selector.clearSelection();
+      this.scene.selector.clearSelection();
     } else
       this.previousSelection = null;
     this.state.previousMouseDown = this.state.mouseDown;

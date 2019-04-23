@@ -1,11 +1,11 @@
-/* global THREE, ActiveXObject, TextureManager */
+/* global THREE, ActiveXObject, TextureLoader */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
-THREE.X3DLoader = function(sceneManager, loadManager) {
+THREE.X3DLoader = function(scene, loadManager) {
   this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
-  this.sceneManager = sceneManager;
+  this.scene = scene;
   this.parsedObjects = [];
   this.directionalLights = [];
 };
@@ -257,23 +257,25 @@ THREE.X3DLoader.prototype = {
     var material = appearance.getElementsByTagName('Material')[0];
 
     var materialSpecifications = {};
-    var defMaterial = this._getDefNode(material);
-    if (typeof defMaterial !== 'undefined') {
-      materialSpecifications = {
-        'color': defMaterial.color,
-        'specular': defMaterial.specular,
-        'emissive': defMaterial.emissive,
-        'shininess': defMaterial.shininess
-      };
-    } else if (typeof material !== 'undefined') {
-      // Pull out the standard colors.
-      materialSpecifications = {
-        'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
-        'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
-        'emissive': convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
-        'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
-        'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
-      };
+    if (typeof material !== 'undefined') {
+      var defMaterial = this._getDefNode(material);
+      if (typeof defMaterial !== 'undefined') {
+        materialSpecifications = {
+          'color': defMaterial.color,
+          'specular': defMaterial.specular,
+          'emissive': defMaterial.emissive,
+          'shininess': defMaterial.shininess
+        };
+      } else {
+        // Pull out the standard colors.
+        materialSpecifications = {
+          'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
+          'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
+          'emissive': convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
+          'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
+          'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
+        };
+      }
     }
 
     // Check to see if there is a texture.
@@ -370,9 +372,9 @@ THREE.X3DLoader.prototype = {
       return undefined;
 
     // Look for already loaded texture.
-    var textureManager = new TextureManager();
+    var textureLoader = new TextureLoader();
     // Load the texture in an asynchronous way.
-    var image = textureManager.loadOrRetrieveTexture(filename[0], texture);
+    var image = textureLoader.loadOrRetrieve(filename[0], texture);
     if (typeof image !== 'undefined') { // else it could be updated later
       texture.image = image;
       texture.needsUpdate = true;
@@ -430,7 +432,7 @@ THREE.X3DLoader.prototype = {
     var textureCoordinate = ifs.getElementsByTagName('TextureCoordinate')[0];
     var normal = ifs.getElementsByTagName('Normal')[0];
 
-    if (typeof coordinate !== 'undefined' && 'USE' in textureCoordinate.attributes) {
+    if (typeof coordinate !== 'undefined' && 'USE' in coordinate.attributes) {
       console.error("X3DLoader:parseIndexedFaceSet: USE 'Coordinate' node not supported.");
       coordinate = undefined;
     }
@@ -842,11 +844,11 @@ THREE.X3DLoader.prototype = {
 
   parseBackground: function(background) {
     var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
-    this.sceneManager.scene.background = color;
+    this.scene.scene.background = color;
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTexture;
-    var textureManager;
+    var textureLoader;
     if (typeof hdrCubeMapUrl !== 'undefined') {
       // TODO load HDR cube map.
       cubeTexture = new THREE.CubeTexture();
@@ -865,26 +867,26 @@ THREE.X3DLoader.prototype = {
 
       if (cubeTextureEnabled) {
         cubeTexture = new THREE.CubeTexture();
-        textureManager = new TextureManager();
+        textureLoader = new TextureLoader();
         var missing = 0;
         for (i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
-          var image = textureManager.loadOrRetrieveTexture(urls[i], cubeTexture, i);
+          var image = textureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
           if (typeof image !== 'undefined') {
             cubeTexture.images[i] = image;
             missing--;
           }
         }
-        this.sceneManager.scene.background = cubeTexture;
+        this.scene.scene.background = cubeTexture;
         if (missing === 0)
           cubeTexture.needsUpdate = true;
       }
     }
 
-    this.sceneManager.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
+    this.scene.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
 
     return undefined;
   },
@@ -893,36 +895,36 @@ THREE.X3DLoader.prototype = {
     var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
-    if (typeof this.sceneManager.viewpoint !== 'undefined') {
-      this.sceneManager.viewpoint.camera.fov = fov;
-      this.sceneManager.viewpoint.camera.near = near;
-      this.sceneManager.viewpoint.camera.far = far;
+    if (typeof this.scene.viewpoint !== 'undefined') {
+      this.scene.viewpoint.camera.fov = fov;
+      this.scene.viewpoint.camera.near = near;
+      this.scene.viewpoint.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.sceneManager.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
     }
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
-      this.sceneManager.viewpoint.camera.position.copy(convertStringToVec3(position));
+      this.scene.viewpoint.camera.position.copy(convertStringToVec3(position));
     }
     if ('orientation' in viewpoint.attributes) {
       var quaternion = convertStringToQuaternion(getNodeAttribute(viewpoint, 'orientation', '0 1 0 0'));
-      this.sceneManager.viewpoint.camera.quaternion.copy(quaternion);
+      this.scene.viewpoint.camera.quaternion.copy(quaternion);
     }
-    this.sceneManager.viewpoint.camera.updateProjectionMatrix();
+    this.scene.viewpoint.camera.updateProjectionMatrix();
 
     // Set Webots specific attributes.
-    this.sceneManager.viewpoint.camera.userData.x3dType = 'Viewpoint';
-    this.sceneManager.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
-    this.sceneManager.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    this.scene.viewpoint.camera.userData.x3dType = 'Viewpoint';
+    this.scene.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
+    this.scene.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     return undefined;
   },
 
   parseWorldInfo: function(worldInfo) {
-    this.sceneManager.worldInfo.title = getNodeAttribute(worldInfo, 'title', '');
-    this.sceneManager.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
+    this.scene.worldInfo.title = getNodeAttribute(worldInfo, 'title', '');
+    this.scene.worldInfo.window = getNodeAttribute(worldInfo, 'window', '');
   },
 
   parseFog: function(fog) {
@@ -935,7 +937,7 @@ THREE.X3DLoader.prototype = {
       fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
     else
       fogObject = new THREE.FogExp2(colorInt, 1.0 / visibilityRange);
-    this.sceneManager.scene.fog = fogObject;
+    this.scene.scene.fog = fogObject;
     return undefined;
   },
 
@@ -965,12 +967,12 @@ THREE.X3DLoader.prototype = {
       return undefined;
 
     // Look for node in previously parsed objects
-    var defNode = this.sceneManager.getObjectByCustomId(this.parsedObjects, useNodeId);
+    var defNode = this.scene.getObjectByCustomId(this.parsedObjects, useNodeId);
     if (typeof defNode !== 'undefined')
       return defNode;
 
     // Look for node in the already loaded scene
-    defNode = this.sceneManager.getObjectByCustomId(this.sceneManager.root, useNodeId);
+    defNode = this.scene.getObjectByCustomId(this.scene.root, useNodeId);
     if (typeof defNode === 'undefined')
       console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
     return defNode;

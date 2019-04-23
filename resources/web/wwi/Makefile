@@ -24,13 +24,13 @@ JS_SOURCES = \
   viewpoint.js \
   selector.js \
   mouse_events.js \
-  texture_manager.js \
+  texture_loader.js \
   resource_manager.js \
   server.js \
   stream.js \
-  video_manager.js \
+  video.js \
   x3d.js \
-  x3d_scene_manager.js \
+  x3d_scene.js \
   animation.js \
   webots.js
 

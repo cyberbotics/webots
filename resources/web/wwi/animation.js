@@ -157,7 +157,7 @@ Animation.prototype = {
         appliedIds[appliedIds.length] = poses[p].id;
       }
     }
-    var sceneManager = this.view.x3dSceneManager;
+    var x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
     if (this.step !== this.previousStep + 1) {
       var previousPoseStep;
@@ -175,7 +175,7 @@ Animation.prototype = {
             if (this.data.frames[f].poses) {
               for (p = 0; p < this.data.frames[f].poses.length; p++) {
                 if (this.data.frames[f].poses[p].id === id) {
-                  sceneManager.applyPose(this.data.frames[f].poses[p]);
+                  x3dScene.applyPose(this.data.frames[f].poses[p]);
                   break outer;
                 }
               }
@@ -191,8 +191,8 @@ Animation.prototype = {
     }
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    sceneManager.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
-    sceneManager.render();
+    x3dScene.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
+    x3dScene.render();
   },
 
   _updateAnimation: function() {
