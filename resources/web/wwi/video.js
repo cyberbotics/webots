@@ -1,6 +1,6 @@
 'use strict';
 
-function VideoManager(parentObject, mouseEvents, stream) {
+function Video(parentObject, mouseEvents, stream) {
   this.domElement = document.createElement('video');
   this.domElement.style.background = 'grey';
   this.domElement.id = 'remoteVideo';
@@ -13,8 +13,8 @@ function VideoManager(parentObject, mouseEvents, stream) {
   this.stream = stream;
 };
 
-VideoManager.prototype = {
-  constructor: VideoManager,
+Video.prototype = {
+  constructor: Video,
 
   finalize: function(onready) {
     this.domElement.addEventListener('mousedown', this.onVideoMouseDown, false);

@@ -1,31 +1,31 @@
 /* global THREE */
 'use strict';
 
-function TextureManager() {
-  if (!TextureManager.instance) {
-    TextureManager.instance = this;
+function TextureLoader() {
+  if (!TextureLoader.instance) {
+    TextureLoader.instance = this;
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
     this.streamingMode = false;
     this.onTextureLoad = undefined;
   }
-  return TextureManager.instance;
+  return TextureLoader.instance;
 };
 
-TextureManager.prototype = {
-  constructor: TextureManager,
+TextureLoader.prototype = {
+  constructor: TextureLoader,
 
   setStreamingMode: function(enabled) {
     this.streamingMode = enabled;
   },
 
-  getTexture: function(name) {
+  get: function(name) {
     return this.textures[name];
   },
 
-  loadOrRetrieveTexture: function(name, texture, cubeTextureIndex) {
-    console.assert(typeof name === 'string', 'TextureManager.loadOrRetrieveTexture: name is not a string.');
+  loadOrRetrieve: function(name, texture, cubeTextureIndex) {
+    console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
       return undefined;
 
@@ -52,7 +52,6 @@ TextureManager.prototype = {
       return undefined; // texture is already loading
     }
 
-    console.log('loadOrRetrieveTexture ' + name);
     this.loadingTextures[name] = {objects: [texture]};
 
     if (this.streamingMode)
@@ -78,7 +77,7 @@ TextureManager.prototype = {
     return undefined;
   },
 
-  loadTexture: function(uri, name) {
+  loadFromUri: function(uri, name) {
     var that = this;
     var image = new Image();
     if (this.loadingTextures[name])

@@ -1,9 +1,9 @@
-/* global THREE, Selector, TextureManager, Viewpoint */
+/* global THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
-function X3dSceneManager(domElement) {
+function X3dScene(domElement) {
   this.domElement = domElement;
   this.root = undefined;
   this.worldInfo = {};
@@ -13,8 +13,8 @@ function X3dSceneManager(domElement) {
   this.objectsIdCache = {};
 }
 
-X3dSceneManager.prototype = {
-  constructor: X3dSceneManager,
+X3dScene.prototype = {
+  constructor: X3dScene,
 
   init: function() {
     var that = this;
@@ -52,8 +52,8 @@ X3dSceneManager.prototype = {
 
     this.destroyWorld();
 
-    var textureManager = new TextureManager();
-    textureManager.onTextureLoad = function() { that.render(); };
+    var textureLoader = new TextureLoader();
+    textureLoader.onTextureLoad = function() { that.render(); };
   },
 
   render: function() {

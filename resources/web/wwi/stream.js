@@ -1,4 +1,4 @@
-/* global webots, TextureManager */
+/* global webots, TextureLoader */
 'use strict';
 
 function Stream(url, view, onready) {
@@ -7,8 +7,8 @@ function Stream(url, view, onready) {
   this.onready = onready;
   this.socket = null;
   this.videoStream = null;
-  this.textureManager = new TextureManager();
-  this.textureManager.setStreamingMode(true);
+  this.textureLoader = new TextureLoader();
+  this.textureLoader.setStreamingMode(true);
 };
 
 Stream.prototype = {
@@ -86,19 +86,19 @@ Stream.prototype = {
         $('#webotsClock').html(webots.parseMillisecondsIntoReadableTime(frame.time));
         if (frame.hasOwnProperty('poses')) {
           for (i = 0; i < frame.poses.length; i++)
-            this.view.x3dSceneManager.applyPose(frame.poses[i]);
+            this.view.x3dScene.applyPose(frame.poses[i]);
         }
-        this.view.x3dSceneManager.viewpoint.updateViewpointPosition(null, this.view.time);
-        this.view.x3dSceneManager.onSceneUpdate();
+        this.view.x3dScene.viewpoint.updateViewpointPosition(null, this.view.time);
+        this.view.x3dScene.onSceneUpdate();
       }
     } else if (data.startsWith('node:')) {
       data = data.substring(data.indexOf(':') + 1);
       var parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      this.view.x3dSceneManager.loadObject(data, parentId);
+      this.view.x3dScene.loadObject(data, parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
-      this.view.x3dSceneManager.deleteObject(data);
+      this.view.x3dScene.deleteObject(data);
     } else if (data.startsWith('model:')) {
       $('#webotsProgressMessage').html('Loading 3D scene...');
       $('#webotsProgressPercent').html('');
@@ -106,7 +106,7 @@ Stream.prototype = {
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return;
-      this.view.x3dSceneManager.loadObject(data);
+      this.view.x3dScene.loadObject(data);
     } else if (data.startsWith('world:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
@@ -119,7 +119,7 @@ Stream.prototype = {
       var textureUrlEndIndex = match.index + 1;
       var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
       data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
-      this.textureManager.loadTexture(data, textureUrl);
+      this.textureLoader.loadFromUri(data, textureUrl);
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');
