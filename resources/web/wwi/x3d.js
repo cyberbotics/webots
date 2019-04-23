@@ -346,8 +346,8 @@ THREE.X3DLoader.prototype = {
         materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
     }
 
-    if (typeof this.sceneManager.scene.background !== 'undefined' && this.sceneManager.scene.background.constructor.name === 'CubeTexture')
-      materialSpecifications.envMap = this.sceneManager.scene.background;
+    if (typeof this.scene.scene.background !== 'undefined' && this.scene.scene.background.constructor.name === 'CubeTexture')
+      materialSpecifications.envMap = this.scene.scene.background;
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
