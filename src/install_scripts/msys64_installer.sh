@@ -17,7 +17,6 @@ declare -a BASE_PACKAGES=(
   "liblzma"                   # Webots
   "mingw-w64-x86_64-libtiff"  # libController
   "mingw-w64-x86_64-libpng"   # libController
-  "mingw-w64-x86_64-zstd"     # libController
   "mingw-w64-x86_64-ffmpeg"   # Webots movies
 )
 
@@ -32,7 +31,6 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-i686-gcc"        # libController (32 bit)
   "mingw-w64-i686-libtiff"    # libController (32 bit)
   "mingw-w64-i686-libpng"     # libController (32 bit)
-  "mingw-w64-i686-zstd"       # libController (32 bit)
 )
 
 declare -a DEVELOPMENT_PACKAGES=(
