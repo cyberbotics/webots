@@ -13,11 +13,6 @@ Viewpoint {
   position 1.319769961883124 0.6861800275391068 -1.1005402262866653
   near 0.049999999999999996
 }
-TexturedBackground {
-  texture "noon_cloudy_empty"
-}
-TexturedBackgroundLight {
-}
 DEF GOLD SphereGrid {
   translation -1 1.3000000000000036 0.9919744784234101
   name "gold sphere grid"
@@ -102,4 +97,9 @@ Solid {
 Helmet {
   translation 0.7105062177551061 0.19000000000000136 0.5001095464053436
   rotation 0 1 0 3.141592644
+}
+TexturedBackground {
+  texture "noon_cloudy_empty"
+}
+TexturedBackgroundLight {
 }

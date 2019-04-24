@@ -100,7 +100,6 @@ TextureLoader.prototype = {
     for (var i = 0; i < textureObjects.length; i++) {
       if (textureObjects[i] instanceof THREE.CubeTexture) {
         var missingImages = this.loadingCubeTextureObjects[textureObjects[i]];
-        console.log(missingImages);
         var indices = missingImages[name];
         for (var j = 0; j < indices.length; j++) {
           if (indices[j] === 2 || indices[j] === 3)
