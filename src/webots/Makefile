@@ -101,7 +101,7 @@ LD_FLAGS += -lpthread
 else
 LD_FLAGS += -lode
 endif
-# To link with libpico without warnings about the "register" keyword.
+# To compile with libpico without warnings about the "register" keyword.
 CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
