@@ -126,6 +126,7 @@ X3dScene.prototype = {
         that.root = object3d[0];
       }
       that._setupLights(loader.directionalLights);
+      that._setupEnvironmentMap();
       if (that.gpuPicker) {
         that.gpuPicker.setScene(that.scene);
         that.sceneModified = false;
@@ -152,6 +153,7 @@ X3dScene.prototype = {
       this.root = objects[0];
     }
     this._setupLights(loader.directionalLights);
+    that._setupEnvironmentMap();
     this.onSceneUpdate();
   },
 
@@ -343,6 +345,18 @@ X3dScene.prototype = {
       light.shadow.camera.right = maxSize;
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
+    });
+  },
+
+  _setupEnvironmentMap: function() {
+    var backgroundMap;
+    if (typeof this.scene.background !== 'undefined' && this.scene.background.constructor.name === 'CubeTexture')
+      backgroundMap = this.scene.background;
+    this.scene.traverse(function(child) {
+      if (child instanceof THREE.Mesh && child.material && child.material.constructor.name === 'MeshStandardMaterial') {
+        var material = child.material;
+        material.envMap = backgroundMap;
+      }
     });
   },
 
