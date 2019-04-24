@@ -25,7 +25,7 @@ JS_SOURCES = \
   selector.js \
   mouse_events.js \
   texture_loader.js \
-  resource_manager.js \
+  default_url.js \
   server.js \
   stream.js \
   video.js \

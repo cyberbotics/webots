@@ -1,4 +1,4 @@
-/* global DialogWindow, ResourceManager */
+/* global DialogWindow, DefaultUrl */
 'use strict';
 
 function HelpWindow(parent, mobile, webotsDocUrl) {
@@ -40,13 +40,12 @@ function HelpWindow(parent, mobile, webotsDocUrl) {
     $('#webotsHelpTabs').tabs('option', 'active', 0);
     $(that.panel).dialog('open');
   }
-  var resourceManager = new ResourceManager();
-  var path = resourceManager.currentScriptPath();
+  var currentUrl = new DefaultUrl().currentScriptUrl();
   $.ajax({
-    url: path + 'help.php',
+    url: currentUrl + 'help.php',
     success: function(data) {
       // Fix the img src relative URLs.
-      var html = data.replace(/ src="images/g, ' src="' + path + '/images');
+      var html = data.replace(/ src="images/g, ' src="' + currentUrl + '/images');
       var header = document.createElement('li');
       header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';
       $(that.tabsHeader).prepend(header);

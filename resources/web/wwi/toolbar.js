@@ -1,4 +1,4 @@
-/* global webots, DialogWindow, HelpWindow, ResourceManager */
+/* global webots, DialogWindow, HelpWindow, DefaultUrl */
 
 function Toolbar(parent, view) {
   var that = this;
@@ -298,8 +298,7 @@ Toolbar.prototype = {
     this[buttonName].id = buttonName;
     this[buttonName].className = 'toolBarButton';
     this[buttonName].title = tooltip;
-    var resourceManager = new ResourceManager();
-    this[buttonName].style.backgroundImage = 'url(' + resourceManager.wwiUrl + 'images/' + name + '.png)';
+    this[buttonName].style.backgroundImage = 'url(' + new DefaultUrl().wwiUrl + 'images/' + name + '.png)';
     return this[buttonName];
   },
 

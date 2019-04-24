@@ -1,4 +1,4 @@
-/* global ResourceManager */
+/* global DefaultUrl */
 'use strict';
 
 function Animation(url, scene, view, gui, loop) {
@@ -60,8 +60,7 @@ Animation.prototype = {
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'play') ? 'pause' : 'play';
-    var resourceManager = new ResourceManager();
-    this.button.style.backgroundImage = resourceManager.getImageUrl(action);
+    this.button.style.backgroundImage = new DefaultUrl().getImageUrl(action);
     this.button.style.padding = '0';
     this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
     div.appendChild(this.button);
@@ -93,8 +92,7 @@ Animation.prototype = {
   },
 
   _triggerPlayPauseButton: function() {
-    var resourceManager = new ResourceManager();
-    this.button.style.backgroundImage = resourceManager.getImageUrl(this.gui);
+    this.button.style.backgroundImage = new DefaultUrl().getImageUrl(this.gui);
     if (this.gui === 'play') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {

@@ -20,7 +20,7 @@
  */
 
 /* global webots */
-/* global Animation, Console, ContextMenu, Editor, MouseEvents, ResourceManager, RobotWindow */
+/* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow */
 /* global Server, Stream, Toolbar, Video, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
@@ -219,10 +219,9 @@ webots.View.prototype.open = function(url, mode) {
 
   function initWorld() {
     if (that.isWebSocketProtocol) {
-      var resourceManager = new ResourceManager();
       that.progress = document.createElement('div');
       that.progress.id = 'webotsProgress';
-      that.progress.innerHTML = "<div><img src='" + resourceManager.wwiUrl + "images/load_animation.gif'>" +
+      that.progress.innerHTML = "<div><img src='" + new DefaultUrl().wwiUrl + "images/load_animation.gif'>" +
                                 "</div><div id='webotsProgressMessage'>Initializing...</div>" +
                                 "</div><div id='webotsProgressPercent'></div>";
       that.view3D.appendChild(that.progress);
