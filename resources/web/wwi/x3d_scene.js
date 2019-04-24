@@ -84,6 +84,7 @@ X3dScene.prototype = {
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
+    this.scene.background = undefined;
     this.onSceneUpdate();
     this.render();
   },
