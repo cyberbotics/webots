@@ -14,6 +14,7 @@ function MouseEvents(scene, contextMenu, domElement) {
     'wheelTimeout': null,
     'hiddenContextMenu': false
   };
+  this.moveParams = {};
   this.enableNavigation = true;
 
   var that = this;
@@ -55,10 +56,9 @@ MouseEvents.prototype = {
     }
 
     if (this.state.mouseDown !== 0) {
-      var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
-      var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
-      this.intersection = this.scene.pick(relativePosition, screenPosition);
-
+      this._setupMoveParameters(event, true);
+      this.state.initialX = event.clientX;
+      this.state.initialY = event.clientY;
       document.addEventListener('mousemove', this.onmousemove, false);
       document.addEventListener('mouseup', this.onmouseup, false);
     }
@@ -96,38 +96,20 @@ MouseEvents.prototype = {
       // Prevent applying mouse move action before drag initialization in mousedrag event.
       return;
 
-    var params = {};
-    params.dx = event.clientX - this.state.x;
-    params.dy = event.clientY - this.state.y;
+    this.moveParams.dx = event.clientX - this.state.x;
+    this.moveParams.dy = event.clientY - this.state.y;
 
     if (this.state.mouseDown === 1) { // left mouse button to rotate viewpoint
-      if (this.intersection && this.intersection.object) {
-        params.pickPosition = new THREE.Vector3();
-        this.intersection.object.getWorldPosition(params.pickPosition);
-      } else
-        params.pickPosition = null;
-      this.scene.viewpoint.rotate(params);
+      this.scene.viewpoint.rotate(this.moveParams);
     } else {
-      if (this.intersection == null) {
-        var cameraPosition = new THREE.Vector3();
-        this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
-        params.distanceToPickPosition = cameraPosition.length();
-      } else
-        params.distanceToPickPosition = this.intersection.distance;
-      if (params.distanceToPickPosition < 0.001) // 1 mm
-        params.distanceToPickPosition = 0.001;
-      // FIXME this is different from webots. We need to understand why the same formula doesn't work.
-      // THREEjs Camera fov is half of Webots Viewpoint fov.
-      params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.scene.viewpoint.camera.fov));
-      var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-      var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
-      params.scaleFactor /= Math.max(viewHeight, viewWidth);
       if (this.state.mouseDown === 2) { // right mouse button to translate viewpoint
-        this.scene.viewpoint.translate(params);
+        this.moveParams.dx = event.clientX - this.state.initialX;
+        this.moveParams.dy = event.clientY - this.state.initialY;
+        this.scene.viewpoint.translate(this.moveParams);
       } else if (this.state.mouseDown === 3 || this.state.mouseDown === 4) { // both left and right button or middle button to zoom
-        params.tiltAngle = 0.01 * params.dx;
-        params.zoomScale = params.scaleFactor * 5 * params.dy;
-        this.scene.viewpoint.zoomAndTilt(params, true);
+        this.moveParams.tiltAngle = 0.01 * this.moveParams.dx;
+        this.moveParams.zoomScale = this.moveParams.scaleFactor * 5 * this.moveParams.dy;
+        this.scene.viewpoint.zoomAndTilt(this.moveParams, true);
       }
     }
     this.state.moved = event.clientX !== this.state.x || event.clientY !== this.state.y;
@@ -164,8 +146,8 @@ MouseEvents.prototype = {
   _onMouseWheel: function(event) {
     event.preventDefault(); // do not scroll page
 
-    if (this.intersection.distance < 0.001) // 1 mm
-      this.intersection.distance = 0.001;
+    this._setupMoveParameters(event, false);
+
     if (!this.enableNavigation || this.state.wheelFocus === false) {
       var offset = event.deltaY;
       if (event.deltaMode === 1)
@@ -178,7 +160,7 @@ MouseEvents.prototype = {
       }
       return;
     }
-    this.scene.viewpoint.zoom(this.intersection.distance, event.deltaY);
+    this.scene.viewpoint.zoom(this.moveParams.distanceToPickPosition, event.deltaY);
 
     if (typeof webots.currentView.onmousewheel === 'function')
       webots.currentView.onmousewheel(event);
@@ -216,41 +198,27 @@ MouseEvents.prototype = {
       return;
 
     var touch = event.targetTouches['0'];
-
-    var params = {};
-    if (this.intersection == null) {
-      var cameraPosition = new THREE.Vector3();
-      this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
-      params.distanceToPickPosition = cameraPosition.length();
-    } else
-      params.distanceToPickPosition = this.intersection.distance;
-    if (params.distanceToPickPosition < 0.001) // 1 mm
-      params.distanceToPickPosition = 0.001;
-    // FIXME this is different from webots. We need to understand why the same formula doesn't work.
-    // THREEjs Camera fov is half of Webots Viewpoint fov.
-    params.scaleFactor = params.distanceToPickPosition * 2.4 * Math.tan(THREE.Math.degToRad(this.scene.viewpoint.camera.fov));
-    var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-    var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
-    params.scaleFactor /= Math.max(viewHeight, viewWidth);
-
     var x = Math.round(touch.clientX); // discard decimal values returned on android
     var y = Math.round(touch.clientY);
 
     if (this.state.mouseDown === 2) { // translation
-      params.dx = x - this.state.x;
-      params.dy = y - this.state.y;
-      this.scene.viewpoint.translate(params);
+      this.moveParams.dx = x - this.state.x;
+      this.moveParams.dy = y - this.state.y;
 
       // On small phone screens (Android) this is needed to correctly detect clicks and longClicks.
       if (this.state.initialX == null && this.state.initialY == null) {
         this.state.initialX = Math.round(this.state.x);
         this.state.initialY = Math.round(this.state.y);
       }
-      if (Math.abs(params.dx) < 2 && Math.abs(params.dy) < 2 &&
-          Math.abs(this.state.initialX - x) < 5 && Math.abs(this.state.initialY - y) < 5)
+      if (Math.abs(this.moveParams.dx) < 2 && Math.abs(this.moveParams.dy) < 2 &&
+        Math.abs(this.state.initialX - x) < 5 && Math.abs(this.state.initialY - y) < 5)
         this.state.moved = false;
       else
         this.state.moved = true;
+
+      this.moveParams.dx = x - this.state.initialX;
+      this.moveParams.dy = y - this.state.initialY;
+      this.scene.viewpoint.translate(this.moveParams);
     } else {
       var touch1 = event.targetTouches['1'];
       var x1 = Math.round(touch1.clientX);
@@ -272,13 +240,13 @@ MouseEvents.prototype = {
           d = moveX1;
         else
           d = moveX2;
-        params.tiltAngle = 0.0004 * d;
-        params.zoomScale = params.scaleFactor * 0.015 * pinchSize;
-        this.scene.viewpoint.zoomAndTilt(params);
+        this.moveParams.tiltAngle = 0.0004 * d;
+        this.moveParams.zoomScale = this.moveParams.scaleFactor * 0.015 * pinchSize;
+        this.scene.viewpoint.zoomAndTilt(this.moveParams);
       } else if (Math.abs(moveY2 - moveY1) < 3 * ratio && Math.abs(moveX2 - moveX1) < 3 * ratio) { // rotation (pitch and yaw)
-        params.dx = moveX1 * 0.8;
-        params.dy = moveY1 * 0.5;
-        this.scene.viewpoint.rotate(params);
+        this.moveParams.dx = moveX1 * 0.8;
+        this.moveParams.dy = moveY1 * 0.5;
+        this.scene.viewpoint.rotate(this.moveParams);
       }
 
       this.state.touchDistance = newTouchDistance;
@@ -308,6 +276,7 @@ MouseEvents.prototype = {
     } else
       this.state.mouseDown = 2; // 1 finger: translation or single click
 
+    this._setupMoveParameters(event.targetTouches['0'], true);
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
 
@@ -336,6 +305,38 @@ MouseEvents.prototype = {
       this.hiddenContextMenu = this.contextMenu.toggle();
   },
 
+  _setupMoveParameters: function(event, computeScale) {
+    this.moveParams = {};
+    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
+    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
+    this.intersection = this.scene.pick(relativePosition, screenPosition);
+
+    if (this.intersection && this.intersection.object) {
+      this.moveParams.pickPosition = new THREE.Vector3();
+      this.intersection.object.getWorldPosition(this.moveParams.pickPosition);
+    } else
+      this.moveParams.pickPosition = null;
+
+    if (this.intersection == null) {
+      var cameraPosition = new THREE.Vector3();
+      this.scene.viewpoint.camera.getWorldPosition(cameraPosition);
+      this.moveParams.distanceToPickPosition = cameraPosition.length();
+    } else
+      this.moveParams.distanceToPickPosition = this.intersection.distance;
+    if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
+      this.moveParams.distanceToPickPosition = 0.001;
+
+    if (computeScale) {
+      // THREEjs Camera fov is half of Webots Viewpoint fov.
+      this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(THREE.Math.degToRad(this.scene.viewpoint.camera.fov));
+      var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+      var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
+      this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
+    }
+
+    this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
+  },
+
   _clearMouseMove: function() {
     const timeDelay = this.state.mobileDevice ? 100 : 1000;
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
@@ -349,6 +350,7 @@ MouseEvents.prototype = {
     this.state.initialTimeStamp = null;
     this.state.initialX = null;
     this.state.initialY = null;
+    this.moveParams = {};
   }
 };
 

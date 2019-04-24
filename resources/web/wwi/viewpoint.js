@@ -157,7 +157,7 @@ Viewpoint.prototype = {
     voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(pitch, yaw, new THREE.Vector3());
     var targetRight = -params.scaleFactor * params.dx;
     var targetUp = params.scaleFactor * params.dy;
-    this.camera.position.add(pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
+    this.camera.position.addVectors(params.initialCameraPosition, pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
 
     if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
