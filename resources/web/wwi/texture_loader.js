@@ -104,6 +104,7 @@ TextureLoader.prototype = {
         var indices = missingImages[name];
         for (var j = 0; j < indices.length; j++) {
           if (indices[j] === 2 || indices[j] === 3)
+            // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
             image.src = flipImage(image.src);
           textureObjects[i].images[indices[j]] = image;
         }
