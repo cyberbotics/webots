@@ -101,6 +101,8 @@ LD_FLAGS += -lpthread
 else
 LD_FLAGS += -lode
 endif
+# To compile with libpico without warnings about the "register" keyword.
+CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
@@ -176,7 +178,7 @@ LIBS += -lode
 endif
 endif
 
-ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil
+ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
 
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
