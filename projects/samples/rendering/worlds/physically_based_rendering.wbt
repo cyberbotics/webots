@@ -13,8 +13,8 @@ Viewpoint {
   position 1.319769961883124 0.6861800275391068 -1.1005402262866653
   near 0.049999999999999996
 }
-Background {
-  skyColor 0 1 0
+TexturedBackground {
+  texture "noon_cloudy_empty"
 }
 TexturedBackgroundLight {
 }
