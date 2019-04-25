@@ -17,12 +17,8 @@ var DefaultUrl = {
     return this._wwiUrl;
   },
 
-  getUrl: function(file) {
-    return 'url(' + this.wwiUrl() + file + ')';
-  },
-
   getImageUrl: function(name) {
-    return this.getUrl('images/' + name + '.png');
+    return 'url(' + this.wwiUrl() + 'images/' + name + '.png)';
   },
 
   currentScriptUrl: function() {
