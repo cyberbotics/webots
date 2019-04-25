@@ -350,10 +350,10 @@ X3dScene.prototype = {
 
   _setupEnvironmentMap: function() {
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined' && this.scene.background.constructor.name === 'CubeTexture')
+    if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
     this.scene.traverse(function(child) {
-      if (child instanceof THREE.Mesh && child.material && child.material.constructor.name === 'MeshStandardMaterial') {
+      if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
       }
