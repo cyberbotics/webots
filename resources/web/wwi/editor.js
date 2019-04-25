@@ -41,7 +41,7 @@ function Editor(parent, mobile, view) {
     saveShortcut = 'Ctrl-S';
   else // macOS
     saveShortcut = 'Cmd-S';
-  this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + new DefaultUrl().wwiUrl + '/images/menu.png">' +
+  this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.getImageUrl('menu') + '">' +
                         '<div id="webotsEditorMenuContent">' +
                         '<div id="webotsEditorSaveAction" class="webotsEditorMenuContentItem" title="Save current file">Save<span style="float:right"><i><small>' + saveShortcut + '</small></i></span></div>' +
                         '<div id="webotsEditorSaveAllAction" class="webotsEditorMenuContentItem" title="Save all the files">Save All</div>' +

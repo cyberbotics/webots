@@ -298,7 +298,7 @@ Toolbar.prototype = {
     this[buttonName].id = buttonName;
     this[buttonName].className = 'toolBarButton';
     this[buttonName].title = tooltip;
-    this[buttonName].style.backgroundImage = 'url(' + new DefaultUrl().wwiUrl + 'images/' + name + '.png)';
+    this[buttonName].style.backgroundImage = DefaultUrl.getImageUrl(name);
     return this[buttonName];
   },
 

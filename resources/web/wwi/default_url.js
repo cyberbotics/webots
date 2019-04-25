@@ -1,31 +1,33 @@
+/* exported DefaultUrl */
 'use strict';
 
-function DefaultUrl() {
-  if (!DefaultUrl.instance) {
-    DefaultUrl.instance = this;
-    this.wwiUrl = '';
-    var scripts = document.getElementsByTagName('script');
-    for (var i = scripts.length - 1; i >= 0; i--) {
-      var src = scripts[i].src;
-      if (src.endsWith('webots.js') || src.endsWith('webots.min.js')) {
-        this.wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
-        break;
+var DefaultUrl = {
+  wwiUrl: function() {
+    if (typeof _wwiUrl === 'undefined') {
+      this._wwiUrl = '';
+      var scripts = document.getElementsByTagName('script');
+      for (var i = scripts.length - 1; i >= 0; i--) {
+        var src = scripts[i].src;
+        if (src.endsWith('webots.js') || src.endsWith('webots.min.js')) {
+          this._wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
+          break;
+        }
       }
     }
-  }
-  return DefaultUrl.instance;
-};
-
-DefaultUrl.prototype = {
-  constructor: DefaultUrl,
-
-  getImageUrl: function(name) {
-    return 'url(' + this.wwiUrl + name + '.png)';
+    return this._wwiUrl;
   },
 
-  // Get the directory path to the currently executing script file
-  // for example: https://cyberbotics.com/wwi/8.6/
+  getUrl: function(file) {
+    return 'url(' + this.wwiUrl() + file + ')';
+  },
+
+  getImageUrl: function(name) {
+    return this.getUrl('images/' + name + '.png');
+  },
+
   currentScriptUrl: function() {
+    // Get the directory path to the currently executing script file
+    // for example: https://cyberbotics.com/wwi/8.6/
     var scripts = document.querySelectorAll('script[src]');
     for (var i = 0; i < scripts.length; i++) {
       var src = scripts[i].src;

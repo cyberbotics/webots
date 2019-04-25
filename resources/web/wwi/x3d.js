@@ -368,10 +368,8 @@ THREE.X3DLoader.prototype = {
     if (filename[0] == null)
       return undefined;
 
-    // Look for already loaded texture.
-    var textureLoader = new TextureLoader();
-    // Load the texture in an asynchronous way.
-    var image = textureLoader.loadOrRetrieve(filename[0], texture);
+    // Look for already loaded texture or load the texture in an asynchronous way.
+    var image = TextureLoader.loadOrRetrieve(filename[0], texture);
     if (typeof image !== 'undefined') { // else it could be updated later
       texture.image = image;
       texture.needsUpdate = true;
@@ -845,7 +843,6 @@ THREE.X3DLoader.prototype = {
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTexture;
-    var textureLoader;
     if (typeof hdrCubeMapUrl !== 'undefined') {
       // TODO load HDR cube map.
       cubeTexture = new THREE.CubeTexture();
@@ -864,14 +861,13 @@ THREE.X3DLoader.prototype = {
 
       if (cubeTextureEnabled) {
         cubeTexture = new THREE.CubeTexture();
-        textureLoader = new TextureLoader();
         var missing = 0;
         for (i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
-          var image = textureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
+          var image = TextureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
           if (typeof image !== 'undefined') {
             cubeTexture.images[i] = image;
             missing--;

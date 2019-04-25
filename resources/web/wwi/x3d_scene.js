@@ -52,8 +52,7 @@ X3dScene.prototype = {
 
     this.destroyWorld();
 
-    var textureLoader = new TextureLoader();
-    textureLoader.onTextureLoad = function() { that.render(); };
+    TextureLoader.setOnTextureLoad(() => this.render());
   },
 
   render: function() {

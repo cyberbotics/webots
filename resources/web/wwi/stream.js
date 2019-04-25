@@ -7,8 +7,7 @@ function Stream(url, view, onready) {
   this.onready = onready;
   this.socket = null;
   this.videoStream = null;
-  this.textureLoader = new TextureLoader();
-  this.textureLoader.setStreamingMode(true);
+  TextureLoader.setStreamingMode(true);
 };
 
 Stream.prototype = {
@@ -119,7 +118,7 @@ Stream.prototype = {
       var textureUrlEndIndex = match.index + 1;
       var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
       data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
-      this.textureLoader.loadFromUri(data, textureUrl);
+      TextureLoader.loadFromUri(data, textureUrl);
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');

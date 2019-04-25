@@ -60,7 +60,7 @@ Animation.prototype = {
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'play') ? 'pause' : 'play';
-    this.button.style.backgroundImage = new DefaultUrl().getImageUrl(action);
+    this.button.style.backgroundImage = DefaultUrl.getUrl(action + '.png');
     this.button.style.padding = '0';
     this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
     div.appendChild(this.button);
@@ -194,7 +194,7 @@ Animation.prototype = {
   },
 
   _updateAnimation: function() {
-    if (this.gui === 'play') {
+    if (this.gui === 'real-time') {
       var that = this;
       this._updateAnimationState(true);
       window.requestAnimationFrame(function() { that._updateAnimation(); });

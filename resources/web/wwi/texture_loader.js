@@ -1,34 +1,44 @@
 /* global THREE */
+/* exported TextureLoader */
 'use strict';
 
-function TextureLoader() {
-  if (!TextureLoader.instance) {
-    TextureLoader.instance = this;
+var TextureLoader = {
+  loadOrRetrieve: function(name, texture, cubeTextureIndex) {
+    console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
+    if (typeof name === 'undefined' || name === '')
+      return undefined;
+    this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex);
+  },
+
+  loadFromUri: function(uri, name) {
+    this._getInstance().loadFromUri(uri, name);
+  },
+
+  setOnTextureLoad: function(onLoad) {
+    this._getInstance().onTextureLoad = onLoad;
+  },
+
+  setStreamingMode: function(enabled) {
+    this._getInstance().streamingMode = enabled;
+  },
+
+  _getInstance: function() {
+    if (typeof this.instance === 'undefined')
+      this.instance = new _TextureLoaderObject();
+    return this.instance;
+  }
+};
+
+class _TextureLoaderObject {
+  constructor() {
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
     this.streamingMode = false;
     this.onTextureLoad = undefined;
   }
-  return TextureLoader.instance;
-};
 
-TextureLoader.prototype = {
-  constructor: TextureLoader,
-
-  setStreamingMode: function(enabled) {
-    this.streamingMode = enabled;
-  },
-
-  get: function(name) {
-    return this.textures[name];
-  },
-
-  loadOrRetrieve: function(name, texture, cubeTextureIndex) {
-    console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
-    if (typeof name === 'undefined' || name === '')
-      return undefined;
-
+  loadOrRetrieve(name, texture, cubeTextureIndex) {
     if (this.textures[name])
       return this.textures[name];
 
@@ -75,9 +85,9 @@ TextureLoader.prototype = {
       }
     );
     return undefined;
-  },
+  }
 
-  loadFromUri: function(uri, name) {
+  loadFromUri(uri, name) {
     var that = this;
     var image = new Image();
     if (this.loadingTextures[name])
@@ -86,9 +96,9 @@ TextureLoader.prototype = {
       this.loadingTextures[name] = {data: image, objects: []};
     image.onload = function() { that._onImageLoaded(name); };
     image.src = uri;
-  },
+  }
 
-  _onImageLoaded: function(name) {
+  _onImageLoaded(name) {
     if (!this.loadingTextures[name])
       return;
 

@@ -40,7 +40,7 @@ function HelpWindow(parent, mobile, webotsDocUrl) {
     $('#webotsHelpTabs').tabs('option', 'active', 0);
     $(that.panel).dialog('open');
   }
-  var currentUrl = new DefaultUrl().currentScriptUrl();
+  var currentUrl = DefaultUrl.currentScriptUrl();
   $.ajax({
     url: currentUrl + 'help.php',
     success: function(data) {
