@@ -16,9 +16,9 @@
 /mingw64/bin/Qt5WebSockets.dll
 /mingw64/bin/Qt5Widgets.dll
 /mingw64/bin/Qt5Xml.dll
-/mingw64/bin/libicuuc64.dll
-/mingw64/bin/libicuin64.dll
-/mingw64/bin/libicudt64.dll
+/mingw64/bin/libicuuc62.dll
+/mingw64/bin/libicuin62.dll
+/mingw64/bin/libicudt62.dll
 /mingw64/bin/libminizip-1.dll
 /mingw64/bin/libstdc++-6.dll
 /mingw64/bin/libgcc_s_seh-1.dll
