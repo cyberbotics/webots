@@ -691,17 +691,14 @@ bool WbIndexedFaceSet::exportNodeHeader(WbVrmlWriter &writer) const {
 
   // reduce the number of exported IndexedFaceSets by automatically
   // using a def-use based on the mesh hash
-  writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
-    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + vrmlName() + ">";
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
     return true;
   }
 
-  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1) {
-    writer << " DEF=\'" + QString::number(mMeshKey.mHash) + "\'";
-    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(mMeshKey.mHash));
-  } else if (!defName().isEmpty())
-    writer << " DEF=\'" << defName() << "\'";
+  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1)
+    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(uniqueId()));
   return false;
 }
 
@@ -716,8 +713,7 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
     return;
   }
 
-  // x3DOM doesn't support creaseAngles other than 0 or 3.14 (woo) so export
-  // our pre-creased mesh with calculated normals
+  // To avoid differences due to normal computations export the computed triangle mesh.
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;
   int *const coordIndex = new int[n3];
@@ -772,25 +768,24 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
         normalIndex[indexCount] = normalCount;
         ++normalCount;
       }
-      if (mTexCoord->value() != NULL) {
-        const double tu = mTriangleMesh->textureCoordinateAt(i, j, 0);
-        const double tv = mTriangleMesh->textureCoordinateAt(i, j, 1);
-        found = false;
-        for (int l = 0; l < textureCount; ++l) {
-          const int k = 2 * l;
-          if (texture[k] == tu && texture[k + 1] == tv) {
-            texCoordIndex[indexCount] = l;
-            found = true;
-            break;
-          }
+
+      const double tu = mTriangleMesh->textureCoordinateAt(i, j, 0);
+      const double tv = mTriangleMesh->textureCoordinateAt(i, j, 1);
+      found = false;
+      for (int l = 0; l < textureCount; ++l) {
+        const int k = 2 * l;
+        if (texture[k] == tu && texture[k + 1] == tv) {
+          texCoordIndex[indexCount] = l;
+          found = true;
+          break;
         }
-        if (!found) {
-          const int v = 2 * textureCount;
-          texture[v] = tu;
-          texture[v + 1] = tv;
-          texCoordIndex[indexCount] = textureCount;
-          ++textureCount;
-        }
+      }
+      if (!found) {
+        const int v = 2 * textureCount;
+        texture[v] = tu;
+        texture[v + 1] = tv;
+        texCoordIndex[indexCount] = textureCount;
+        ++textureCount;
       }
       ++indexCount;
     }
@@ -821,19 +816,16 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
   }
   writer << " -1\'";
 
-  if (mTexCoord->value() != NULL) {
-    writer << " texCoordIndex=\'";
-
-    for (int i = 0; i < indexCount; ++i) {
-      if (i != 0) {
-        writer << " ";
-        if (i % 3 == 0)
-          writer << "-1 ";
-      }
-      writer << texCoordIndex[i];
+  writer << " texCoordIndex=\'";
+  for (int i = 0; i < indexCount; ++i) {
+    if (i != 0) {
+      writer << " ";
+      if (i % 3 == 0)
+        writer << "-1 ";
     }
-    writer << " -1\'";
+    writer << texCoordIndex[i];
   }
+  writer << " -1\'";
 
   writer << ">";  // end of fields, beginning of nodes
 
@@ -860,16 +852,14 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
   }
   writer << "\'></Normal>";
 
-  if (mTexCoord->value() != NULL) {
-    writer << "<TextureCoordinate point=\'";
-    for (int i = 0; i < textureCount; ++i) {
-      if (i != 0)
-        writer << ", ";
-      const int j = 2 * i;
-      writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
-    }
-    writer << "\'></TextureCoordinate>";
+  writer << "<TextureCoordinate point=\'";
+  for (int i = 0; i < textureCount; ++i) {
+    if (i != 0)
+      writer << ", ";
+    const int j = 2 * i;
+    writer << QString::number(texture[j], 'f', precision) << " " << QString::number(1.0 - texture[j + 1], 'f', precision);
   }
+  writer << "\'></TextureCoordinate>";
 
   delete[] coordIndex;
   delete[] normalIndex;

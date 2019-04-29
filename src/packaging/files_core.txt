@@ -360,7 +360,7 @@ resources/web/wwi/
 resources/web/wwi/pause.png
 resources/web/wwi/play.png
 resources/web/wwi/request_methods.js
-resources/web/wwi/webots.js
+resources/web/wwi/webots.min.js
 resources/web/wwi/wwi.css
 resources/wren/
 resources/wren/meshes/

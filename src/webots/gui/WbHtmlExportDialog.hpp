@@ -44,29 +44,25 @@ signals:
 
 private:
   QDialogButtonBox *mButtonBox;
-  QDoubleSpinBox *mShadowIntensityEdit;
-  QSlider *mShadowIntensitySlider;
   QLabel *mShadowMapLabel;
   QSlider *mShadowMapSlider;
-  QSpinBox *mShadowFilterEdit;
-  QSlider *mShadowFilterSlider;
-  QSpinBox *mShadowCascadesEdit;
-  QSlider *mShadowCascadesSlider;
-  QCheckBox *mFrustumCullingCheckBox;
+  QDoubleSpinBox *mShadowRadiusEdit;
+  QSlider *mShadowRadiusSlider;
+  QDoubleSpinBox *mShadowBiasEdit;
+  QSlider *mShadowBiasSlider;
   QLineEdit *mFileLineEdit;
   QString mTitle;
   QString mWorldFilePath;
 
   int computeShadowMapSliderIndex(int value);
   QSlider *createSlider(const QString &parameterName);
-  QSpinBox *createSpinBox(const QString &parameterName);
+  QDoubleSpinBox *createSpinBox(const QString &parameterName);
   static QString convertBoolToString(bool value) { return value ? "true" : "false"; }
 
 private slots:
   void accept() override;
   void updateShadowEditValue(int value);
-  void updateShadowSliderValue(int value);
-  void updateShadowIntensitySliderValue(double value);
+  void updateShadowSliderValue(double value);
   void browse();
 };
 
