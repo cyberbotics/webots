@@ -29,34 +29,33 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     var clampedSize = super.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
-    this.params.close = function() { $('#helpButton').removeClass('toolBarButtonActive'); };
+    this.params.close = () => { $('#helpButton').removeClass('toolBarButtonActive'); };
     this.params.position = {at: 'right-5 top+5', my: 'right top', of: this.parent};
     this.params.title = 'Help';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
-    var that = this;
-    function finalize() {
+    var finalize = () => {
       $('#webotsHelpTabs').tabs('refresh');
       $('#webotsHelpTabs').tabs('option', 'active', 0);
-      $(that.panel).dialog('open');
-    }
+      $(this.panel).dialog('open');
+    };
     var currentUrl = DefaultUrl.currentScriptUrl();
     $.ajax({
       url: currentUrl + 'help.php',
-      success: function(data) {
+      success: (data) => {
         // Fix the img src relative URLs.
         var html = data.replace(/ src="images/g, ' src="' + currentUrl + '/images');
         var header = document.createElement('li');
         header.innerHTML = '<a href="#webotsHelpGuide">User Guide</a>';
-        $(that.tabsHeader).prepend(header);
+        $(this.tabsHeader).prepend(header);
         var page = document.createElement('div');
         page.id = 'webotsHelpGuide';
         page.innerHTML = html;
         if (document.getElementById('webotsHelpReference'))
           $('#webotsHelpReference').before(page);
         else {
-          that.tabs.appendChild(page);
+          this.tabs.appendChild(page);
           $('#webotsHelpTabs').tabs();
         }
         finalize();

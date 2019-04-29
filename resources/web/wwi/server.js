@@ -16,11 +16,10 @@ class Server { // eslint-disable-line no-unused-vars
   }
 
   connect() {
-    var that = this;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', this.url + '/session', true);
     $('#webotsProgressMessage').html('Connecting to session server...');
-    xhr.onreadystatechange = function(e) {
+    xhr.onreadystatechange = (e) => {
       if (xhr.readyState !== 4)
         return;
       if (xhr.status !== 200)
@@ -33,14 +32,14 @@ class Server { // eslint-disable-line no-unused-vars
         webots.alert('Session server error', errorMessage);
         return;
       }
-      that.socket = new WebSocket(data + '/client');
-      that.socket.onopen = function(event) { that.onOpen(event); };
-      that.socket.onmessage = function(event) { that.onMessage(event); };
-      that.socket.onclose = function(event) {
-        that.view.console.info('Disconnected to the Webots server.');
+      this.socket = new WebSocket(data + '/client');
+      this.socket.onopen = (event) => { this.onOpen(event); };
+      this.socket.onmessage = (event) => { this.onMessage(event); };
+      this.socket.onclose = (event) => {
+        this.view.console.info('Disconnected to the Webots server.');
       };
-      that.socket.onerror = function(event) {
-        that.view.console.error('Cannot connect to the simulation server');
+      this.socket.onerror = (event) => {
+        this.view.console.error('Cannot connect to the simulation server');
       };
     };
     xhr.send();

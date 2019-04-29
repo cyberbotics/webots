@@ -15,7 +15,7 @@ THREE.X3DLoader = class X3DLoader {
     console.log('X3D: Loading ' + url);
     var scope = this;
     var loader = new THREE.FileLoader(scope.manager);
-    loader.load(url, function(text) {
+    loader.load(url, (text) => {
       if (typeof onLoad !== 'undefined')
         onLoad(scope.parse(text));
     });
@@ -50,7 +50,7 @@ THREE.X3DLoader = class X3DLoader {
 
     // Parse objects.
     var rootObjects = [];
-    xml.childNodes.forEach(function(n) { rootObjects.push(n); });
+    xml.childNodes.forEach((n) => { rootObjects.push(n); });
     while (rootObjects.length > 0) {
       var node = rootObjects.pop();
       object = new THREE.Object3D();
@@ -114,7 +114,7 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     if (helperNodes.length > 0) {
-      helperNodes.forEach(function(o) {
+      helperNodes.forEach((o) => {
         parentObject.add(o);
       });
     }
@@ -365,7 +365,7 @@ THREE.X3DLoader = class X3DLoader {
     texture = new THREE.Texture();
 
     var filename = getNodeAttribute(imageTexture, 'url', '');
-    filename = filename.split(/['"\s]/).filter(function(n) { return n; });
+    filename = filename.split(/['"\s]/).filter((n) => { return n; });
     if (filename[0] == null)
       return undefined;
 
@@ -396,7 +396,7 @@ THREE.X3DLoader = class X3DLoader {
       }
 
       texture.matrixAutoUpdate = false;
-      texture.onUpdate = function() {
+      texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
         // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
         var transform = texture.userData.transform;
@@ -855,7 +855,7 @@ THREE.X3DLoader = class X3DLoader {
         var url = getNodeAttribute(background, attributeNames[i], undefined);
         if (typeof url !== 'undefined') {
           cubeTextureEnabled = true;
-          url = url.split(/['"\s]/).filter(function(n) { return n; })[0];
+          url = url.split(/['"\s]/).filter((n) => { return n; })[0];
         }
         urls.push(url);
       }

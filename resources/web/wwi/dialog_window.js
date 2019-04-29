@@ -8,10 +8,9 @@ class DialogWindow { // eslint-disable-line no-unused-vars
     this.panel = document.createElement('div');
     parent.appendChild(this.panel);
 
-    var that = this;
     this.params = {
       appendTo: parent,
-      open: function() { that.openDialog(that.panel); },
+      open: () => { this.openDialog(this.panel); },
       autoOpen: false,
       resizeStart: this.disablePointerEvents,
       resizeStop: this.enablePointerEvents,
@@ -40,9 +39,9 @@ class DialogWindow { // eslint-disable-line no-unused-vars
   openDialog(dialog) {
     this.resizeDialogOnOpen(dialog);
     $(dialog).parent().css('opacity', 0.9);
-    $(dialog).parent().hover(function() {
+    $(dialog).parent().hover(() => {
       $(dialog).css('opacity', 0.99);
-    }, function(event) {
+    }, (event) => {
       $(dialog).css('opacity', 0.9);
     });
   }
@@ -68,10 +67,9 @@ class DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   addMobileDialogAttributes(params, panel) {
-    var that = this;
     params.dialogClass = 'mobile-no-default-buttons';
-    params.create = function() { that.mobileCreateDialog(); };
-    params.buttons = { 'WbClose': function() { $(panel).dialog('close'); } };
+    params.create = () => { this.mobileCreateDialog(); };
+    params.buttons = { 'WbClose': () => { $(panel).dialog('close'); } };
   }
 
   // The following two functions are used to make the resize and drag of the dialog
@@ -85,7 +83,7 @@ class DialogWindow { // eslint-disable-line no-unused-vars
   }
 }
 
-webots.alert = function(title, message, callback) {
+webots.alert = (title, message, callback) => {
   webots.currentView.ondialogwindow(true);
   var parent = webots.currentView.view3D;
   var panel = document.getElementById('webotsAlert');
@@ -106,9 +104,9 @@ webots.alert = function(title, message, callback) {
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
-      Ok: function() { $(this).dialog('close'); }
+      Ok: () => { $(this).dialog('close'); }
     },
-    close: function() {
+    close: () => {
       if (typeof callback === 'function')
         callback();
       webots.currentView.ondialogwindow(false);
@@ -117,7 +115,7 @@ webots.alert = function(title, message, callback) {
   });
 };
 
-webots.confirm = function(title, message, callback) {
+webots.confirm = (title, message, callback) => {
   webots.currentView.ondialogwindow(true);
   var parent = webots.currentView.view3D;
   var panel = document.createElement('div');
@@ -135,8 +133,8 @@ webots.confirm = function(title, message, callback) {
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
-      Ok: function() { $(this).dialog('close'); callback(); },
-      Cancel: function() { $(this).dialog('close'); }
+      Ok: () => { $(this).dialog('close'); callback(); },
+      Cancel: () => { $(this).dialog('close'); }
     },
-    close: function() { $(this).dialog('destroy').remove(); webots.currentView.ondialogwindow(false); }});
+    close: () => { $(this).dialog('destroy').remove(); webots.currentView.ondialogwindow(false); }});
 };
