@@ -11,7 +11,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     var clampedSize = super.clampDialogSize({left: 0, top: 0, width: 600, height: 400});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
-    this.params.close = function() { $('#consoleButton').removeClass('toolBarButtonActive'); };
+    this.params.close = () => { $('#consoleButton').removeClass('toolBarButtonActive'); };
     this.params.title = 'Console';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});

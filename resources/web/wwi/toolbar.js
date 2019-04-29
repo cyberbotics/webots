@@ -2,7 +2,6 @@
 
 class Toolbar { // eslint-disable-line no-unused-vars
   constructor(parent, view) {
-    var that = this;
     this.view = view;
 
     this.domElement = document.createElement('div');
@@ -12,35 +11,35 @@ class Toolbar { // eslint-disable-line no-unused-vars
 
     if (typeof webots.showQuit === 'undefined' || webots.showQuit) { // enabled by default
       this.domElement.left.appendChild(this.createToolBarButton('quit', 'Quit the simulation'));
-      this.quitButton.onclick = function() { that.requestQuit(); };
+      this.quitButton.onclick = () => { this.requestQuit(); };
     }
 
     this.domElement.left.appendChild(this.createToolBarButton('info', 'Open the information window'));
-    this.infoButton.onclick = function() { that.toggleInfo(); };
+    this.infoButton.onclick = () => { this.toggleInfo(); };
 
     this.worldSelectionDiv = document.createElement('div');
     this.domElement.left.appendChild(this.worldSelectionDiv);
 
     if (webots.showRevert) { // disabled by default
       this.domElement.left.appendChild(this.createToolBarButton('revert', 'Save controllers and revert the simulation'));
-      this.revertButton.addEventListener('click', function() { that.reset(true); });
+      this.revertButton.addEventListener('click', () => { this.reset(true); });
     }
 
     this.domElement.left.appendChild(this.createToolBarButton('reset', 'Save controllers and reset the simulation'));
-    this.resetButton.addEventListener('click', function() { that.reset(false); });
+    this.resetButton.addEventListener('click', () => { this.reset(false); });
 
     this.domElement.left.appendChild(this.createToolBarButton('step', 'Perform one simulation step'));
-    this.stepButton.onclick = function() { that.step(); };
+    this.stepButton.onclick = () => { this.step(); };
 
     this.domElement.left.appendChild(this.createToolBarButton('real_time', 'Run the simulation in real time'));
-    this.real_timeButton.onclick = function() { that.realTime(); };
+    this.real_timeButton.onclick = () => { this.realTime(); };
 
     this.domElement.left.appendChild(this.createToolBarButton('pause', 'Pause the simulation'));
-    this.pauseButton.onclick = function() { that.pause(); };
+    this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
     this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
-    this.fastButton.onclick = function() { that.fast(); };
+    this.fastButton.onclick = () => { this.fast(); };
 
     var div = document.createElement('div');
     div.className = 'webotsTime';
@@ -58,19 +57,19 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.domElement.left.appendChild(div);
 
     this.domElement.left.appendChild(this.createToolBarButton('console', 'Open the console window'));
-    this.consoleButton.onclick = function() { that.toggleConsole(); };
+    this.consoleButton.onclick = () => { this.toggleConsole(); };
 
     this.domElement.right = document.createElement('div');
     this.domElement.right.className = 'toolBarRight';
     this.domElement.right.appendChild(this.createToolBarButton('help', 'Get help on the simulator'));
-    this.helpButton.onclick = function() { that.toggleHelp(); };
+    this.helpButton.onclick = () => { this.toggleHelp(); };
 
     if (this.view.fullscreenEnabled) {
       this.domElement.right.appendChild(this.createToolBarButton('exit_fullscreen', 'Exit fullscreen'));
-      this.exit_fullscreenButton.onclick = function() { that.exitFullscreen(); };
+      this.exit_fullscreenButton.onclick = () => { this.exitFullscreen(); };
       this.exit_fullscreenButton.style.display = 'none';
       this.domElement.right.appendChild(this.createToolBarButton('fullscreen', 'Enter fullscreen'));
-      this.fullscreenButton.onclick = function() { that.requestFullscreen(); };
+      this.fullscreenButton.onclick = () => { this.requestFullscreen(); };
     }
 
     this.domElement.appendChild(this.domElement.left);
@@ -84,10 +83,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
       this.view.contextMenu.disableEdit();
     }
 
-    document.addEventListener('fullscreenchange', function() { that.onFullscreenChange(); });
-    document.addEventListener('webkitfullscreenchange', function() { that.onFullscreenChange(); });
-    document.addEventListener('mozfullscreenchange', function() { that.onFullscreenChange(); });
-    document.addEventListener('MSFullscreenChange', function() { that.onFullscreenChange(); });
+    document.addEventListener('fullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('webkitfullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('mozfullscreenchange', () => { this.onFullscreenChange(); });
+    document.addEventListener('MSFullscreenChange', () => { this.onFullscreenChange(); });
   }
 
   toggleInfo() {
@@ -175,7 +174,6 @@ class Toolbar { // eslint-disable-line no-unused-vars
         text = 'Your unsaved changes to the robot controller will be lost.';
       var quitDialog = document.getElementById('quitDialog');
       if (!quitDialog) {
-        var that = this;
         quitDialog = document.createElement('div');
         quitDialog.id = 'quitDialog';
         $(quitDialog).html(text);
@@ -187,12 +185,12 @@ class Toolbar { // eslint-disable-line no-unused-vars
           appendTo: this.view.view3D,
           open: DialogWindow.openDialog,
           buttons: {
-            'Cancel': function() {
+            'Cancel': () => {
               $(this).dialog('close');
             },
-            'Quit': function() {
+            'Quit': () => {
               $(this).dialog('close');
-              that.view.quitSimulation();
+              this.view.quitSimulation();
             }
           }
         });

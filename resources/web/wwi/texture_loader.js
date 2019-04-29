@@ -68,14 +68,13 @@ class _TextureLoaderObject {
       return; // textures will be sent throug socket
 
     // Load from url.
-    var that = this;
     var loader = new THREE.ImageLoader();
     loader.load(
       name,
-      function(image) {
-        if (that.loadingTextures[name]) {
-          that.loadingTextures[name].data = image;
-          that._onImageLoaded(name);
+      (image) => {
+        if (this.loadingTextures[name]) {
+          this.loadingTextures[name].data = image;
+          this._onImageLoaded(name);
         } // else image already loaded
       },
       undefined, // onProgress callback
@@ -88,13 +87,12 @@ class _TextureLoaderObject {
   }
 
   loadFromUri(uri, name) {
-    var that = this;
     var image = new Image();
     if (this.loadingTextures[name])
       this.loadingTextures[name].data = image;
     else
       this.loadingTextures[name] = {data: image, objects: []};
-    image.onload = function() { that._onImageLoaded(name); };
+    image.onload = () => { this._onImageLoaded(name); };
     image.src = uri;
   }
 
