@@ -20,7 +20,6 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.sessions[0] = this.editor.getSession();
     this.currentSession = 0;
 
-    var that = this;
     this.tabs = document.createElement('div');
     this.tabs.id = 'webotsEditorTabs';
     this.tabs.className = 'webotsTabs';
@@ -28,9 +27,9 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.tabs.appendChild(this.tabsHeader);
     this.tabs.appendChild(edit);
     $(this.tabs).tabs({
-      activate: function(event, ui) {
-        that.currentSession = parseInt(ui.newTab.attr('id').substr(5)); // skip 'file-'
-        that.editor.setSession(that.sessions[that.currentSession]);
+      activate: (event, ui) => {
+        this.currentSession = parseInt(ui.newTab.attr('id').substr(5)); // skip 'file-'
+        this.editor.setSession(this.sessions[this.currentSession]);
       }
     });
     this.panel.appendChild(this.tabs);
@@ -55,8 +54,8 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
-    this.params.resize = function() { that._resize(); };
-    this.params.open = function() { that.resizeDialogOnOpen(that.panel); };
+    this.params.resize = () => { this._resize(); };
+    this.params.open = () => { this.resizeDialogOnOpen(this.panel); };
     this.params.title = 'Editor';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
@@ -64,32 +63,32 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.editor.commands.addCommand({
       name: 'save',
       bindKey: {win: 'Ctrl-S', mac: 'Cmd-S'},
-      exec: function(editor) { that.save(that.currentSession); }
+      exec: (editor) => { this.save(this.currentSession); }
     });
-    $('#webotsEditorSaveAction').click(function() {
-      that.save(that.currentSession);
-      that._hideMenu();
+    $('#webotsEditorSaveAction').click(() => {
+      this.save(this.currentSession);
+      this._hideMenu();
     });
-    $('#webotsEditorSaveAllAction').click(function() {
-      for (var i = 0; i < that.filenames.length; i++)
-        that.save(i);
-      that._hideMenu();
+    $('#webotsEditorSaveAllAction').click(() => {
+      for (var i = 0; i < this.filenames.length; i++)
+        this.save(i);
+      this._hideMenu();
     });
-    $('#webotsEditorResetAction').click(function() {
-      that._openResetConfirmDialog(false);
+    $('#webotsEditorResetAction').click(() => {
+      this._openResetConfirmDialog(false);
     });
-    $('#webotsEditorResetAllAction').click(function() {
-      that._openResetConfirmDialog(true);
+    $('#webotsEditorResetAllAction').click(() => {
+      this._openResetConfirmDialog(true);
     });
-    $('#webotsEditorMenuImage').click(function() {
+    $('#webotsEditorMenuImage').click(() => {
       if ($('#webotsEditorMenu').hasClass('pressed'))
         $('#webotsEditorMenu').removeClass('pressed');
       else
         $('#webotsEditorMenu').addClass('pressed');
     });
-    $('#webotsEditorMenu').focusout(function() {
+    $('#webotsEditorMenu').focusout(() => {
       // Let the time to handle the menu actions if needed.
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         if ($('.webotsEditorMenuContentItem:hover').length > 0)
           return;
         if ($('#webotsEditorMenu').hasClass('pressed'))
@@ -138,7 +137,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
           this.statusMessage.innerHTML = '<font size="2">Reset the simulation to apply the changes.</font>';
         }
         this.panel.appendChild(this.statusMessage);
-        setTimeout(function() { $('#webotsEditorStatusMessage').remove(); }, 1500);
+        setTimeout(() => { $('#webotsEditorStatusMessage').remove(); }, 1500);
       }
     }
   }
@@ -165,8 +164,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       $('#webotsEditorTabs').show();
     } else
       this.sessions.push(ace.createEditSession(content, this._aceMode(filename)));
-    var that = this;
-    this.sessions[index].on('change', function(e) { that._textChange(index); });
+    this.sessions[index].on('change', (e) => { this._textChange(index); });
     $('div#webotsEditorTabs ul').append('<li id="file-' + index + '"><a href="#webotsEditorTab" id="filename-' + index + '">' + filename + '</a></li>');
     $('div#webotsEditorTabs').tabs('refresh');
     if (index === 0)
@@ -198,7 +196,6 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   _openResetConfirmDialog(allFiles) {
-    var that = this;
     this.resetAllFiles = allFiles;
     var titleText, message;
     message = 'Permanently reset ';
@@ -220,21 +217,21 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       autoOpen: true,
       resizable: false,
       dialogClass: 'alert',
-      open: function() { that.openDialog(this); },
+      open: () => { this.openDialog(this); },
       appendTo: this.parent,
       buttons: {
-        'Cancel': function() {
+        'Cancel': () => {
           $(this).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
         },
-        'Reset': function() {
+        'Reset': () => {
           $(this).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
-          if (that.resetAllFiles) {
+          if (this.resetAllFiles) {
             for (var i = 0; i < this.filenames.length; i++)
-              that.view.server.resetController(that.dirname + '/' + that.filenames[i]);
+              this.view.server.resetController(this.dirname + '/' + this.filenames[i]);
           } else
-            that.view.server.resetController(that.dirname + '/' + that.filenames[that.currentSession]);
+            this.view.server.resetController(this.dirname + '/' + this.filenames[this.currentSession]);
         }
       }
     });
@@ -278,7 +275,6 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   _storeUserFile(i) {
-    var that = this;
     var formData = new FormData();
     formData.append('dirname', this.view.server.project + '/controllers/' + this.dirname);
     formData.append('filename', this.filenames[i]);
@@ -289,9 +285,9 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       data: formData,
       processData: false,
       contentType: false,
-      success: function(data) {
+      success: (data) => {
         if (data !== 'OK')
-          that.alert('File saving error', data);
+          this.alert('File saving error', data);
       }
     });
   }

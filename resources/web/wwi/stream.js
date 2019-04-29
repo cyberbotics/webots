@@ -12,15 +12,14 @@ class Stream { // eslint-disable-line no-unused-vars
   }
 
   connect() {
-    var that = this;
     this.socket = new WebSocket(this.url);
     $('#webotsProgressMessage').html('Connecting to Webots instance...');
-    this.socket.onopen = function(event) { that.onSocketOpen(event); };
-    this.socket.onmessage = function(event) { that.onSocketMessage(event); };
-    this.socket.onclose = function(event) { that.onSocketClose(event); };
-    this.socket.onerror = function(event) {
-      that.view.destroyWorld();
-      that.view.onerror('WebSocket error: ' + event.data);
+    this.socket.onopen = (event) => { this.onSocketOpen(event); };
+    this.socket.onmessage = (event) => { this.onSocketMessage(event); };
+    this.socket.onclose = (event) => { this.onSocketClose(event); };
+    this.socket.onerror = (event) => {
+      this.view.destroyWorld();
+      this.view.onerror('WebSocket error: ' + event.data);
     };
   }
 

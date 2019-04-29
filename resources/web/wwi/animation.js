@@ -13,14 +13,13 @@ class Animation { // eslint-disable-line no-unused-vars
   };
 
   init(onReady) {
-    var that = this;
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
     xmlhttp.overrideMimeType('application/json');
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
-        that._setup(JSON.parse(xmlhttp.responseText));
+        this._setup(JSON.parse(xmlhttp.responseText));
     };
     xmlhttp.send();
   }
@@ -47,7 +46,6 @@ class Animation { // eslint-disable-line no-unused-vars
 
   // private methods
   _setup(data) {
-    var that = this;
     this.data = data;
 
     // Create play bar.
@@ -60,17 +58,17 @@ class Animation { // eslint-disable-line no-unused-vars
     var action = (this.gui === 'play') ? 'pause' : 'play';
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiUrl() + action + '.png)';
     this.button.style.padding = '0';
-    this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
+    this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
     this.playSlider = $('#playSlider').slider({
-      change: function(e, ui) { that._updateSlider(ui.value); },
-      slide: function(e, ui) { that._updateSlider(ui.value); },
-      start: function(e, ui) { that.sliding = true; },
-      stop: function(e, ui) { that.sliding = false; }
+      change: (e, ui) => { this._updateSlider(ui.value); },
+      slide: (e, ui) => { this._updateSlider(ui.value); },
+      start: (e, ui) => { this.sliding = true; },
+      stop: (e, ui) => { this.sliding = false; }
     });
 
     // Initialize animation data.
@@ -101,18 +99,16 @@ class Animation { // eslint-disable-line no-unused-vars
     } else {
       this.gui = 'play';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
-      var that = this;
-      window.requestAnimationFrame(function() { that._updateAnimation(); });
+      window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
   }
 
   _connectSliderEvents() {
-    var that = this;
     this.playSlider = this.playSlider.slider({
-      change: function(e, ui) { that._updateSlider(ui.value); },
-      slide: function(e, ui) { that._updateSlider(ui.value); },
-      start: function(e, ui) { that.sliding = true; },
-      stop: function(e, ui) { that.sliding = false; }
+      change: (e, ui) => { this._updateSlider(ui.value); },
+      slide: (e, ui) => { this._updateSlider(ui.value); },
+      start: (e, ui) => { this.sliding = true; },
+      stop: (e, ui) => { this.sliding = false; }
     });
   }
 
@@ -193,9 +189,8 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _updateAnimation() {
     if (this.gui === 'play') {
-      var that = this;
       this._updateAnimationState(true);
-      window.requestAnimationFrame(function() { that._updateAnimation(); });
+      window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
   }
 }

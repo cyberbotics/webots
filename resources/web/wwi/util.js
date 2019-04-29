@@ -3,7 +3,7 @@
 
 var webots = window.webots || {};
 
-webots.quaternionToAxisAngle = function(quaternion) {
+webots.quaternionToAxisAngle = (quaternion) => {
   var angle, axis;
   var q = quaternion.clone();
   if (q.w > 1.0)
@@ -26,7 +26,7 @@ webots.quaternionToAxisAngle = function(quaternion) {
   return { 'axis': axis, 'angle': angle};
 };
 
-webots.parseMillisecondsIntoReadableTime = function(milliseconds) {
+webots.parseMillisecondsIntoReadableTime = (milliseconds) => {
   var hours = (milliseconds + 0.9) / (1000 * 60 * 60);
   var absoluteHours = Math.floor(hours);
   var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
@@ -46,13 +46,13 @@ webots.parseMillisecondsIntoReadableTime = function(milliseconds) {
 
 // add startsWith() and endsWith() functions to the String prototype
 if (typeof String.prototype.startsWith !== 'function') {
-  String.prototype.startsWith = function(prefix) {
+  String.prototype.startsWith = (prefix) => {
     return this.slice(0, prefix.length) === prefix;
   };
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
-  String.prototype.endsWith = function(suffix) {
+  String.prototype.endsWith = (suffix) => {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
 }

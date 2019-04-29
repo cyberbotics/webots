@@ -15,7 +15,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init() {
-    var that = this;
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -28,17 +27,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.scene = new THREE.Scene();
 
     this.viewpoint = new Viewpoint();
-    this.viewpoint.onCameraParametersChanged = function() {
-      if (that.gpuPicker)
-        that.gpuPicker.needUpdate = true;
-      that.render();
+    this.viewpoint.onCameraParametersChanged = () => {
+      if (this.gpuPicker)
+        this.gpuPicker.needUpdate = true;
+      this.render();
     };
 
     this.selector = new Selector();
-    this.selector.onSelectionChange = function() { that.render(); };
+    this.selector.onSelectionChange = () => { this.render(); };
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
-    this.gpuPicker.setFilter(function(object) {
+    this.gpuPicker.setFilter((object) => {
       return object.isMesh &&
              'x3dType' in object.userData &&
              object.userData.isPickable !== false; // true or undefined
@@ -114,43 +113,41 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   loadWorldFile(url, onLoad) {
-    var that = this;
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
-    loader.load(url, function(object3d) {
+    loader.load(url, (object3d) => {
       if (object3d.length > 0) {
-        that.scene.add(object3d[0]);
-        that.root = object3d[0];
+        this.scene.add(object3d[0]);
+        this.root = object3d[0];
       }
-      that._setupLights(loader.directionalLights);
-      that._setupEnvironmentMap();
-      if (that.gpuPicker) {
-        that.gpuPicker.setScene(that.scene);
-        that.sceneModified = false;
+      this._setupLights(loader.directionalLights);
+      this._setupEnvironmentMap();
+      if (this.gpuPicker) {
+        this.gpuPicker.setScene(this.scene);
+        this.sceneModified = false;
       }
-      that.onSceneUpdate();
+      this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
     });
   }
 
   loadObject(x3dObject, parentId) {
-    var that = this;
     var parentObject;
     if (parentId && parentId !== 0)
       parentObject = this.getObjectByCustomId(this.scene, 'n' + parentId);
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
     if (typeof parentObject !== 'undefined') {
-      objects.forEach(function(o) { parentObject.add(o); });
+      objects.forEach((o) => { parentObject.add(o); });
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
     } else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
-      objects.forEach(function(o) { that.scene.add(o); });
+      objects.forEach((o) => { this.scene.add(o); });
       this.root = objects[0];
     }
     this._setupLights(loader.directionalLights);
-    that._setupEnvironmentMap();
+    this._setupEnvironmentMap();
     this.onSceneUpdate();
   }
 
@@ -335,7 +332,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var halfWidth = boxSize.x / 2 + boxCenter.x;
     var halfDepth = boxSize.z / 2 + boxCenter.z;
     var maxSize = 2 * Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
-    directionalLights.forEach(function(light) {
+    directionalLights.forEach((light) => {
       light.position.multiplyScalar(maxSize);
       light.shadow.camera.far = Math.max(maxSize, light.shadow.camera.far);
       light.shadow.camera.left = -maxSize;
@@ -349,7 +346,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var backgroundMap;
     if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
-    this.scene.traverse(function(child) {
+    this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;

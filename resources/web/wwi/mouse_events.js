@@ -18,23 +18,22 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.moveParams = {};
     this.enableNavigation = true;
 
-    var that = this;
-    this.onmousemove = function(event) { that._onMouseMove(event); };
-    this.onmouseup = function(event) { that._onMouseUp(event); };
-    this.ontouchmove = function(event) { that._onTouchMove(event); };
-    this.ontouchend = function(event) {
-      that._clearMouseMove();
-      that.domElement.removeEventListener('touchend', that._onTouchEnd, true);
-      that.domElement.removeEventListener('touchmove', that._onTouchMove, true);
-      if (typeof that._onTouchEnd === 'function')
-        that._onTouchEnd(event);
+    this.onmousemove = (event) => { this._onMouseMove(event); };
+    this.onmouseup = (event) => { this._onMouseUp(event); };
+    this.ontouchmove = (event) => { this._onTouchMove(event); };
+    this.ontouchend = (event) => {
+      this._clearMouseMove();
+      this.domElement.removeEventListener('touchend', this._onTouchEnd, true);
+      this.domElement.removeEventListener('touchmove', this._onTouchMove, true);
+      if (typeof this._onTouchEnd === 'function')
+        this._onTouchEnd(event);
     };
-    domElement.addEventListener('mousedown', function(event) { that._onMouseDown(event); }, false);
-    domElement.addEventListener('mouseover', function(event) { that._onMouseOver(event); }, false);
-    domElement.addEventListener('mouseleave', function(event) { that._onMouseLeave(event); }, false);
-    domElement.addEventListener('wheel', function(event) { that._onMouseWheel(event); }, false);
-    domElement.addEventListener('touchstart', function(event) { that._onTouchStart(event); }, true);
-    domElement.addEventListener('contextmenu', function(event) { event.preventDefault(); }, false);
+    domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
+    domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
+    domElement.addEventListener('mouseleave', (event) => { this._onMouseLeave(event); }, false);
+    domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
+    domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
+    domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
   _onMouseDown(event) {
@@ -153,8 +152,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       window.scroll(0, window.pageYOffset + offset);
       if (this.state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
         clearTimeout(this.state.wheelTimeout); // so that the wheel focus will get enabled and
-        var that = this;
-        this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
+        this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
       }
       return;
     }
@@ -170,8 +168,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _onMouseOver(event) {
-    var that = this;
-    this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500);
+    this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
   }
 
   _onMouseLeave(event) {
@@ -352,14 +349,14 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 }
 
-MouseEvents.convertMouseEventPositionToScreenPosition = function(eventX, eventY) {
+MouseEvents.convertMouseEventPositionToScreenPosition = (eventX, eventY) => {
   return new THREE.Vector2(
     (eventX / window.innerWidt) * 2 - 1,
     -(eventY / window.innerHeight) * 2 + 1
   );
 };
 
-MouseEvents.convertMouseEventPositionToRelativePosition = function(renderer, eventX, eventY) {
+MouseEvents.convertMouseEventPositionToRelativePosition = (renderer, eventX, eventY) => {
   var rect = renderer.domElement.getBoundingClientRect();
   var pos = new THREE.Vector2();
   pos.x = Math.round(eventX - rect.left);
