@@ -7,7 +7,7 @@ var TextureLoader = {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
       return undefined;
-    this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex);
+    return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex);
   },
 
   loadFromUri: function(uri, name) {
