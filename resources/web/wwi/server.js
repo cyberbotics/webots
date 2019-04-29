@@ -2,7 +2,6 @@
 'use strict';
 
 class Server { // eslint-disable-line no-unused-vars
-
   constructor(url, view, onready) {
     this.view = view;
     this.onready = onready;
