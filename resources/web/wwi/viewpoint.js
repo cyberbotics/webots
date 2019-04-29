@@ -1,46 +1,44 @@
 /* global THREE */
 'use strict';
 
-function Viewpoint() {
-  this.onCameraParametersChanged = null;
-  // After initialization 'followedObjectId' contains the id ('n<id>') of the followed node
-  // or 'none' if no object is followed.
-  this.followedObjectId = null;
-  // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
-  // vector with the translation applied to the object.
-  this.followedObjectDeltaPosition = null;
-  this.viewpointMass = 1.0; // Mass of the viewpoint used during the object following algorithm.
-  this.viewpointFriction = 0.05; // Friction applied to the viewpoint whenever it is going faster than the followed object.
-  this.viewpointForce = null; // Vector with the force that will be applied to the viewpoint for the next delta T.
-  this.viewpointVelocity = null; // Current velocity of the viewpoint.
-  this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
+class Viewpoint { // eslint-disable-line no-unused-vars
+  constructor() {
+    this.onCameraParametersChanged = null;
+    // After initialization 'followedObjectId' contains the id ('n<id>') of the followed node
+    // or 'none' if no object is followed.
+    this.followedObjectId = null;
+    // If the followed object has moved since the last time we updated the viewpoint position, this field will contain a
+    // vector with the translation applied to the object.
+    this.followedObjectDeltaPosition = null;
+    this.viewpointMass = 1.0; // Mass of the viewpoint used during the object following algorithm.
+    this.viewpointFriction = 0.05; // Friction applied to the viewpoint whenever it is going faster than the followed object.
+    this.viewpointForce = null; // Vector with the force that will be applied to the viewpoint for the next delta T.
+    this.viewpointVelocity = null; // Current velocity of the viewpoint.
+    this.viewpointLastUpdate = undefined; // Last time we updated the position of the viewpoint.
 
-  // Initialize default camera.
-  this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
-  this.camera.position.x = 10;
-  this.camera.position.y = 10;
-  this.camera.position.z = 10;
-};
+    // Initialize default camera.
+    this.camera = new THREE.PerspectiveCamera(45, 1, 0.001, 400);
+    this.camera.position.x = 10;
+    this.camera.position.y = 10;
+    this.camera.position.z = 10;
+  }
 
-Viewpoint.prototype = {
-  constructor: Viewpoint,
-
-  reset: function(time) {
+  reset(time) {
     this.camera.position.copy(this.initialViewpointPosition);
     this.camera.quaternion.copy(this.initialViewpointOrientation);
     this.updateViewpointPosition(true, time);
-  },
+  }
 
-  isFollowedObject: function(object) {
+  isFollowedObject(object) {
     return this.followedObjectId &&
            (object.name === this.followedObjectId || object.userData.name === this.followedObjectId);
-  },
+  }
 
-  resetFollow: function() {
+  resetFollow() {
     this.followedObjectId = null;
-  },
+  }
 
-  initFollowParameters: function() {
+  initFollowParameters() {
     this.initialViewpointPosition = this.camera.position.clone();
     this.initialViewpointOrientation = this.camera.quaternion.clone();
     if (this.camera.userData.followSmoothness != null)
@@ -49,15 +47,15 @@ Viewpoint.prototype = {
       this.follow(this.camera.userData.followedId);
     else
       this.follow.followedObjectId = 'none';
-  },
+  }
 
-  follow: function(objectId) {
+  follow(objectId) {
     this.followedObjectId = objectId;
     this.viewpointForce = new THREE.Vector3(0.0, 0.0, 0.0);
     this.viewpointVelocity = new THREE.Vector3(0.0, 0.0, 0.0);
-  },
+  }
 
-  setViewpointMass: function(mass) {
+  setViewpointMass(mass) {
     this.viewpointMass = mass;
     if (this.viewpointMass <= 0.05)
       this.viewpointMass = 0.0;
@@ -66,14 +64,14 @@ Viewpoint.prototype = {
         this.viewpointMass = 1.0;
       this.friction = 0.05 / this.viewpointMass;
     }
-  },
+  }
 
-  setFollowedObjectDeltaPosition: function(newPosition, previousPosition) {
+  setFollowedObjectDeltaPosition(newPosition, previousPosition) {
     this.followedObjectDeltaPosition = new THREE.Vector3();
     this.followedObjectDeltaPosition.subVectors(newPosition, previousPosition);
-  },
+  }
 
-  updateViewpointPosition: function(forcePosition, time) {
+  updateViewpointPosition(forcePosition, time) {
     if (this.followedObjectId == null || this.followedObjectId === 'none' || typeof time === 'undefined')
       return;
     if (typeof this.viewpointLastUpdate === 'undefined')
@@ -124,9 +122,9 @@ Viewpoint.prototype = {
       if (typeof this.onCameraParametersChanged === 'function')
         this.onCameraParametersChanged();
     }
-  },
+  }
 
-  rotate: function(params) {
+  rotate(params) {
     var yawAngle = -0.005 * params.dx;
     var pitchAngle = -0.005 * params.dy;
     if (params.pickPosition == null) {
@@ -148,9 +146,9 @@ Viewpoint.prototype = {
 
     if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
-  },
+  }
 
-  translate: function(params) {
+  translate(params) {
     var voMatrix = new THREE.Matrix4();
     var pitch = new THREE.Vector3();
     var yaw = new THREE.Vector3();
@@ -161,9 +159,9 @@ Viewpoint.prototype = {
 
     if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
-  },
+  }
 
-  zoomAndTilt: function(params) {
+  zoomAndTilt(params) {
     var voMatrix = new THREE.Matrix4();
     var roll = new THREE.Vector3();
     voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
@@ -176,9 +174,9 @@ Viewpoint.prototype = {
 
     if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
-  },
+  }
 
-  zoom: function(distance, deltaY) {
+  zoom(distance, deltaY) {
     var scaleFactor = 0.02 * distance * ((deltaY < 0) ? -1 : 1);
     var voMatrix = new THREE.Matrix4();
     var roll = new THREE.Vector3();
@@ -189,4 +187,4 @@ Viewpoint.prototype = {
     if (typeof this.onCameraParametersChanged === 'function')
       this.onCameraParametersChanged();
   }
-};
+}

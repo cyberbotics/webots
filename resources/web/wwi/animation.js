@@ -1,20 +1,18 @@
 /* global DefaultUrl */
 'use strict';
 
-function Animation(url, scene, view, gui, loop) {
-  this.url = url;
-  this.scene = scene;
-  this.view = view;
-  this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
-  this.loop = typeof loop === 'undefined' ? true : loop;
-  this.sliding = false;
-  this.onReady = null;
-};
+class Animation { // eslint-disable-line no-unused-vars
+  constructor(url, scene, view, gui, loop) {
+    this.url = url;
+    this.scene = scene;
+    this.view = view;
+    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
+    this.loop = typeof loop === 'undefined' ? true : loop;
+    this.sliding = false;
+    this.onReady = null;
+  };
 
-Animation.prototype = {
-  constructor: Animation,
-
-  init: function(onReady) {
+  init(onReady) {
     var that = this;
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
@@ -25,9 +23,9 @@ Animation.prototype = {
         that._setup(JSON.parse(xmlhttp.responseText));
     };
     xmlhttp.send();
-  },
+  }
 
-  moveSlider: function(event) {
+  moveSlider(event) {
     if (!this.playSlider || !this.sliding)
       return;
 
@@ -45,10 +43,10 @@ Animation.prototype = {
     var ui = {};
     ui.value = value;
     this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
-  },
+  }
 
   // private methods
-  _setup: function(data) {
+  _setup(data) {
     var that = this;
     this.data = data;
 
@@ -84,14 +82,14 @@ Animation.prototype = {
     // Notify creation completed.
     if (typeof this.onReady === 'function')
       this.onReady();
-  },
+  }
 
-  _elapsedTime: function() {
+  _elapsedTime() {
     var end = new Date().getTime();
     return end - this.start;
-  },
+  }
 
-  _triggerPlayPauseButton: function() {
+  _triggerPlayPauseButton() {
     this.button.style.backgroundImage = new DefaultUrl().getImageUrl(this.gui);
     if (this.gui === 'play') {
       this.gui = 'pause';
@@ -106,9 +104,9 @@ Animation.prototype = {
       var that = this;
       window.requestAnimationFrame(function() { that._updateAnimation(); });
     }
-  },
+  }
 
-  _connectSliderEvents: function() {
+  _connectSliderEvents() {
     var that = this;
     this.playSlider = this.playSlider.slider({
       change: function(e, ui) { that._updateSlider(ui.value); },
@@ -116,19 +114,19 @@ Animation.prototype = {
       start: function(e, ui) { that.sliding = true; },
       stop: function(e, ui) { that.sliding = false; }
     });
-  },
+  }
 
-  _disconnectSliderEvents: function() {
+  _disconnectSliderEvents() {
     this.playSlider.slider({change: null, slide: null});
-  },
+  }
 
-  _updateSlider: function(value) {
+  _updateSlider(value) {
     this.step = Math.floor(this.data.frames.length * value / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(false);
-  },
+  }
 
-  _updateAnimationState: function(moveSlider) {
+  _updateAnimationState(moveSlider) {
     if (moveSlider) {
       this.step = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -191,13 +189,13 @@ Animation.prototype = {
     this.view.time = this.data.frames[this.step].time;
     x3dScene.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
     x3dScene.render();
-  },
+  }
 
-  _updateAnimation: function() {
+  _updateAnimation() {
     if (this.gui === 'play') {
       var that = this;
       this._updateAnimationState(true);
       window.requestAnimationFrame(function() { that._updateAnimation(); });
     }
   }
-};
+}

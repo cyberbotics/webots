@@ -3,20 +3,18 @@
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
-function X3dScene(domElement) {
-  this.domElement = domElement;
-  this.root = undefined;
-  this.worldInfo = {};
-  this.viewpoint = undefined;
-  this.sceneModified = false;
-  this.useNodeCache = {};
-  this.objectsIdCache = {};
-}
+class X3dScene { // eslint-disable-line no-unused-vars
+  constructor(domElement) {
+    this.domElement = domElement;
+    this.root = undefined;
+    this.worldInfo = {};
+    this.viewpoint = undefined;
+    this.sceneModified = false;
+    this.useNodeCache = {};
+    this.objectsIdCache = {};
+  }
 
-X3dScene.prototype = {
-  constructor: X3dScene,
-
-  init: function() {
+  init() {
     var that = this;
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -53,13 +51,13 @@ X3dScene.prototype = {
     this.destroyWorld();
 
     TextureLoader.setOnTextureLoad(() => this.render());
-  },
+  }
 
-  render: function() {
+  render() {
     this.renderer.render(this.scene, this.viewpoint.camera);
-  },
+  }
 
-  resize: function() {
+  resize() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
@@ -67,14 +65,14 @@ X3dScene.prototype = {
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.render();
-  },
+  }
 
-  onSceneUpdate: function() {
+  onSceneUpdate() {
     this.sceneModified = true;
     this.render();
-  },
+  }
 
-  destroyWorld: function() {
+  destroyWorld() {
     this.selector.clearSelection();
     if (!this.scene)
       return;
@@ -86,9 +84,9 @@ X3dScene.prototype = {
     this.scene.background = undefined;
     this.onSceneUpdate();
     this.render();
-  },
+  }
 
-  deleteObject: function(id) {
+  deleteObject(id) {
     var context = {};
     var object = this.getObjectByCustomId(this.scene, 'n' + id, context);
     if (typeof object !== 'undefined') {
@@ -113,9 +111,9 @@ X3dScene.prototype = {
       this.root = undefined;
     this.onSceneUpdate();
     this.render();
-  },
+  }
 
-  loadWorldFile: function(url, onLoad) {
+  loadWorldFile(url, onLoad) {
     var that = this;
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
@@ -134,9 +132,9 @@ X3dScene.prototype = {
       if (typeof onLoad === 'function')
         onLoad();
     });
-  },
+  }
 
-  loadObject: function(x3dObject, parentId) {
+  loadObject(x3dObject, parentId) {
     var that = this;
     var parentObject;
     if (parentId && parentId !== 0)
@@ -154,9 +152,9 @@ X3dScene.prototype = {
     this._setupLights(loader.directionalLights);
     that._setupEnvironmentMap();
     this.onSceneUpdate();
-  },
+  }
 
-  applyPose: function(pose) {
+  applyPose(pose) {
     var id = pose.id;
     for (var key in pose) {
       if (key === 'id')
@@ -203,9 +201,9 @@ X3dScene.prototype = {
 
       this._updateUseNodesIfNeeded(object, id);
     }
-  },
+  }
 
-  pick: function(relativePosition, screenPosition) {
+  pick(relativePosition, screenPosition) {
     if (this.sceneModified) {
       this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
@@ -214,9 +212,9 @@ X3dScene.prototype = {
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
-  },
+  }
 
-  getTopX3dNode: function(node) {
+  getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
     var upmostSolid;
     while (node) {
@@ -229,9 +227,9 @@ X3dScene.prototype = {
     if (typeof upmostSolid !== 'undefined')
       return upmostSolid;
     return node;
-  },
+  }
 
-  getObjectByCustomId: function(object, id, context) {
+  getObjectByCustomId(object, id, context) {
     if (Array.isArray(object)) {
       for (let i = 0, l = object.length; i < l; i++) {
         var o = this.getObjectByCustomId(object[i], id, context);
@@ -321,10 +319,10 @@ X3dScene.prototype = {
       // only fields set in x3d.js are checked
     }
     return undefined;
-  },
+  }
 
   // private functions
-  _setupLights: function(directionalLights) {
+  _setupLights(directionalLights) {
     if (!this.root)
       return;
 
@@ -345,9 +343,9 @@ X3dScene.prototype = {
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
     });
-  },
+  }
 
-  _setupEnvironmentMap: function() {
+  _setupEnvironmentMap() {
     var backgroundMap;
     if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
@@ -357,9 +355,9 @@ X3dScene.prototype = {
         material.envMap = backgroundMap;
       }
     });
-  },
+  }
 
-  _updateUseNodesIfNeeded: function(object, id) {
+  _updateUseNodesIfNeeded(object, id) {
     if (!object)
       return;
 
@@ -411,4 +409,4 @@ X3dScene.prototype = {
       this.useNodeCache[id].target = newTargetNodes;
     }
   }
-};
+}

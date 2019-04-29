@@ -1,106 +1,104 @@
 /* global ace, webots, DialogWindow, DefaultUrl */
 'use strict';
 
-function Editor(parent, mobile, view) {
-  DialogWindow.call(this, parent, mobile);
+class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
+  constructor(parent, mobile, view) {
+    super(parent, mobile);
 
-  this.panel.id = 'webotsEditor';
-  this.panel.className = 'webotsTabContainer';
+    this.panel.id = 'webotsEditor';
+    this.panel.className = 'webotsTabContainer';
 
-  this.view = view;
-  this.filenames = [];
-  this.needToUploadFiles = [];
-  this.sessions = [];
+    this.view = view;
+    this.filenames = [];
+    this.needToUploadFiles = [];
+    this.sessions = [];
 
-  var edit = document.createElement('div');
-  edit.id = 'webotsEditorTab';
-  edit.className = 'webotsTab';
-  this.editor = ace.edit(edit);
-  this.sessions[0] = this.editor.getSession();
-  this.currentSession = 0;
+    var edit = document.createElement('div');
+    edit.id = 'webotsEditorTab';
+    edit.className = 'webotsTab';
+    this.editor = ace.edit(edit);
+    this.sessions[0] = this.editor.getSession();
+    this.currentSession = 0;
 
-  var that = this;
-  this.tabs = document.createElement('div');
-  this.tabs.id = 'webotsEditorTabs';
-  this.tabs.className = 'webotsTabs';
-  this.tabsHeader = document.createElement('ul');
-  this.tabs.appendChild(this.tabsHeader);
-  this.tabs.appendChild(edit);
-  $(this.tabs).tabs({
-    activate: function(event, ui) {
-      that.currentSession = parseInt(ui.newTab.attr('id').substr(5)); // skip 'file-'
-      that.editor.setSession(that.sessions[that.currentSession]);
-    }
-  });
-  this.panel.appendChild(this.tabs);
+    var that = this;
+    this.tabs = document.createElement('div');
+    this.tabs.id = 'webotsEditorTabs';
+    this.tabs.className = 'webotsTabs';
+    this.tabsHeader = document.createElement('ul');
+    this.tabs.appendChild(this.tabsHeader);
+    this.tabs.appendChild(edit);
+    $(this.tabs).tabs({
+      activate: function(event, ui) {
+        that.currentSession = parseInt(ui.newTab.attr('id').substr(5)); // skip 'file-'
+        that.editor.setSession(that.sessions[that.currentSession]);
+      }
+    });
+    this.panel.appendChild(this.tabs);
 
-  this.menu = document.createElement('div');
-  this.menu.id = 'webotsEditorMenu';
-  var saveShortcut;
-  if (navigator.appVersion.indexOf('Mac') === -1)
-    saveShortcut = 'Ctrl-S';
-  else // macOS
-    saveShortcut = 'Cmd-S';
-  this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.getImageUrl('menu') + '">' +
-                        '<div id="webotsEditorMenuContent">' +
-                        '<div id="webotsEditorSaveAction" class="webotsEditorMenuContentItem" title="Save current file">Save<span style="float:right"><i><small>' + saveShortcut + '</small></i></span></div>' +
-                        '<div id="webotsEditorSaveAllAction" class="webotsEditorMenuContentItem" title="Save all the files">Save All</div>' +
-                        '<div id="webotsEditorResetAction" class="webotsEditorMenuContentItem" title="Reset current file to the original version">Reset</div>' +
-                        '<div id="webotsEditorResetAllAction" class="webotsEditorMenuContentItem" title="Reset all the files to the original version">Reset All</div>' +
-                        '</div>';
-  this.panel.appendChild(this.menu);
+    this.menu = document.createElement('div');
+    this.menu.id = 'webotsEditorMenu';
+    var saveShortcut;
+    if (navigator.appVersion.indexOf('Mac') === -1)
+      saveShortcut = 'Ctrl-S';
+    else // macOS
+      saveShortcut = 'Cmd-S';
+    this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.getImageUrl('menu') + '">' +
+                          '<div id="webotsEditorMenuContent">' +
+                          '<div id="webotsEditorSaveAction" class="webotsEditorMenuContentItem" title="Save current file">Save<span style="float:right"><i><small>' + saveShortcut + '</small></i></span></div>' +
+                          '<div id="webotsEditorSaveAllAction" class="webotsEditorMenuContentItem" title="Save all the files">Save All</div>' +
+                          '<div id="webotsEditorResetAction" class="webotsEditorMenuContentItem" title="Reset current file to the original version">Reset</div>' +
+                          '<div id="webotsEditorResetAllAction" class="webotsEditorMenuContentItem" title="Reset all the files to the original version">Reset All</div>' +
+                          '</div>';
+    this.panel.appendChild(this.menu);
 
-  var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
-  this.params.width = clampedSize.width;
-  this.params.height = clampedSize.height;
-  this.params.close = null;
-  this.params.resize = function() { that._resize(); };
-  this.params.open = function() { DialogWindow.resizeDialogOnOpen(that.panel); };
-  this.params.title = 'Editor';
+    var clampedSize = super.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
+    this.params.width = clampedSize.width;
+    this.params.height = clampedSize.height;
+    this.params.close = null;
+    this.params.resize = function() { that._resize(); };
+    this.params.open = function() { that.resizeDialogOnOpen(that.panel); };
+    this.params.title = 'Editor';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
+    $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
-  this.editor.commands.addCommand({
-    name: 'save',
-    bindKey: {win: 'Ctrl-S', mac: 'Cmd-S'},
-    exec: function(editor) { that.save(that.currentSession); }
-  });
-  $('#webotsEditorSaveAction').click(function() {
-    that.save(that.currentSession);
-    that._hideMenu();
-  });
-  $('#webotsEditorSaveAllAction').click(function() {
-    for (var i = 0; i < that.filenames.length; i++)
-      that.save(i);
-    that._hideMenu();
-  });
-  $('#webotsEditorResetAction').click(function() {
-    that._openResetConfirmDialog(false);
-  });
-  $('#webotsEditorResetAllAction').click(function() {
-    that._openResetConfirmDialog(true);
-  });
-  $('#webotsEditorMenuImage').click(function() {
-    if ($('#webotsEditorMenu').hasClass('pressed'))
-      $('#webotsEditorMenu').removeClass('pressed');
-    else
-      $('#webotsEditorMenu').addClass('pressed');
-  });
-  $('#webotsEditorMenu').focusout(function() {
-    // Let the time to handle the menu actions if needed.
-    window.setTimeout(function() {
-      if ($('.webotsEditorMenuContentItem:hover').length > 0)
-        return;
+    this.editor.commands.addCommand({
+      name: 'save',
+      bindKey: {win: 'Ctrl-S', mac: 'Cmd-S'},
+      exec: function(editor) { that.save(that.currentSession); }
+    });
+    $('#webotsEditorSaveAction').click(function() {
+      that.save(that.currentSession);
+      that._hideMenu();
+    });
+    $('#webotsEditorSaveAllAction').click(function() {
+      for (var i = 0; i < that.filenames.length; i++)
+        that.save(i);
+      that._hideMenu();
+    });
+    $('#webotsEditorResetAction').click(function() {
+      that._openResetConfirmDialog(false);
+    });
+    $('#webotsEditorResetAllAction').click(function() {
+      that._openResetConfirmDialog(true);
+    });
+    $('#webotsEditorMenuImage').click(function() {
       if ($('#webotsEditorMenu').hasClass('pressed'))
         $('#webotsEditorMenu').removeClass('pressed');
-    }, 100);
-  });
-}
+      else
+        $('#webotsEditorMenu').addClass('pressed');
+    });
+    $('#webotsEditorMenu').focusout(function() {
+      // Let the time to handle the menu actions if needed.
+      window.setTimeout(function() {
+        if ($('.webotsEditorMenuContentItem:hover').length > 0)
+          return;
+        if ($('#webotsEditorMenu').hasClass('pressed'))
+          $('#webotsEditorMenu').removeClass('pressed');
+      }, 100);
+    });
+  }
 
-Editor.prototype = {
-  constructor: Editor,
-
-  hasUnsavedChanges: function() {
+  hasUnsavedChanges() {
     if (this.unloggedFileModified)
       return true;
     for (var i = 0; i < this.filenames.length; i++) {
@@ -108,20 +106,20 @@ Editor.prototype = {
         return true;
     }
     return false;
-  },
+  }
 
   // Upload file to the simulation server.
-  upload: function(i) {
+  upload(i) {
     this.view.stream.socket.send('set controller:' +
       this.dirname + '/' +
       this.filenames[i] + ':' +
       this.sessions[i].getLength() + '\n' +
       this.sessions[i].getValue());
     this.needToUploadFiles[i] = false;
-  },
+  }
 
   // Save file to the web site.
-  save: function(i) {
+  save(i) {
     if ($('#filename-' + i).html().endsWith('*')) { // file was modified
       $('#filename-' + i).html(this.filenames[i]);
       this.needToUploadFiles[i] = true;
@@ -143,9 +141,9 @@ Editor.prototype = {
         setTimeout(function() { $('#webotsEditorStatusMessage').remove(); }, 1500);
       }
     }
-  },
+  }
 
-  addFile: function(filename, content) {
+  addFile(filename, content) {
     var index = this.filenames.indexOf(filename);
     if (index >= 0) {
       this.needToUploadFiles[index] = false; // just received from the simulation server
@@ -173,9 +171,9 @@ Editor.prototype = {
     $('div#webotsEditorTabs').tabs('refresh');
     if (index === 0)
       $('div#webotsEditorTabs').tabs('option', 'active', index);
-  },
+  }
 
-  closeAllTabs: function() {
+  closeAllTabs() {
     this.editor.setSession(ace.createEditSession('', ''));
     this.filenames = [];
     this.needToUploadFiles = [];
@@ -185,21 +183,21 @@ Editor.prototype = {
     $('div#webotsEditorTabs ul').empty();
     $('#webotsEditorMenu').hide();
     $('#webotsEditorTabs').hide();
-  },
+  }
 
   // private functions
-  _resize: function() {
+  _resize() {
     var padding = $('#webotsEditorTab').outerHeight() - $('#webotsEditorTab').height();
     $('#webotsEditorTab').height(this.tabs.clientHeight - this.tabsHeader.scrollHeight - padding);
     this.editor.resize();
-  },
+  }
 
-  _hideMenu: function() {
+  _hideMenu() {
     if ($('#webotsEditorMenu').hasClass('pressed'))
       $('#webotsEditorMenu').removeClass('pressed');
-  },
+  }
 
-  _openResetConfirmDialog: function(allFiles) {
+  _openResetConfirmDialog(allFiles) {
     var that = this;
     this.resetAllFiles = allFiles;
     var titleText, message;
@@ -222,7 +220,7 @@ Editor.prototype = {
       autoOpen: true,
       resizable: false,
       dialogClass: 'alert',
-      open: function() { DialogWindow.openDialog(this); },
+      open: function() { that.openDialog(this); },
       appendTo: this.parent,
       buttons: {
         'Cancel': function() {
@@ -241,15 +239,15 @@ Editor.prototype = {
       }
     });
     this._hideMenu();
-  },
+  }
 
-  _textChange: function(index) {
+  _textChange(index) {
     if (!$('#filename-' + index).html().endsWith('*') && this.editor.curOp && this.editor.curOp.command.name) { // user change
       $('#filename-' + index).html(this.filenames[index] + '*');
     }
-  },
+  }
 
-  _aceMode: function(filename) {
+  _aceMode(filename) {
     if (filename.toLowerCase() === 'makefile')
       return 'ace/mode/makefile';
     var extension = filename.split('.').pop().toLowerCase();
@@ -277,9 +275,10 @@ Editor.prototype = {
     if (extension === 'css')
       return 'ace/mode/css';
     return 'ace/mode/text';
-  },
+  }
 
-  _storeUserFile: function(i) {
+  _storeUserFile(i) {
+    var that = this;
     var formData = new FormData();
     formData.append('dirname', this.view.server.project + '/controllers/' + this.dirname);
     formData.append('filename', this.filenames[i]);
@@ -292,8 +291,8 @@ Editor.prototype = {
       contentType: false,
       success: function(data) {
         if (data !== 'OK')
-          DialogWindow.alert('File saving error', data);
+          that.alert('File saving error', data);
       }
     });
   }
-};
+}
