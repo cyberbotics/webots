@@ -1,23 +1,22 @@
 /* global webots, Stream */
 'use strict';
 
-function Server(url, view, onready) {
-  this.view = view;
-  this.onready = onready;
+class Server { // eslint-disable-line no-unused-vars
 
-  // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
-  var n = url.indexOf('/', 6);
-  var m = url.lastIndexOf('/');
-  this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
-  this.project = url.substring(n + 1, m - 7); // e.g., "simple"
-  this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
-  this.controllers = [];
-};
+  constructor(url, view, onready) {
+    this.view = view;
+    this.onready = onready;
 
-Server.prototype = {
-  constructor: Server,
+    // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
+    var n = url.indexOf('/', 6);
+    var m = url.lastIndexOf('/');
+    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
+    this.project = url.substring(n + 1, m - 7); // e.g., "simple"
+    this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    this.controllers = [];
+  }
 
-  connect: function() {
+  connect() {
     var that = this;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', this.url + '/session', true);
@@ -46,9 +45,9 @@ Server.prototype = {
       };
     };
     xhr.send();
-  },
+  }
 
-  onOpen: function(event) {
+  onOpen(event) {
     var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
     if (typeof webots.User1Id === 'undefined')
       webots.User1Id = '';
@@ -66,9 +65,9 @@ Server.prototype = {
               webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
               webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
     $('#webotsProgressMessage').html('Starting simulation...');
-  },
+  }
 
-  onMessage: function(event) {
+  onMessage(event) {
     var message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       this.view.stream = new Stream(message.substring(7), this.view, this.onready);
@@ -88,9 +87,9 @@ Server.prototype = {
       this.view.stream.socket.send('sync controller:' + message.substring(18).trim());
     else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
-  },
+  }
 
-  resetController: function(filename) {
+  resetController(filename) {
     this.socket.send('{ "reset controller" : "' + filename + '" }');
   }
-};
+}

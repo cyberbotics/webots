@@ -1,19 +1,17 @@
 /* global webots, TextureLoader */
 'use strict';
 
-function Stream(url, view, onready) {
-  this.url = url;
-  this.view = view;
-  this.onready = onready;
-  this.socket = null;
-  this.videoStream = null;
-  TextureLoader.setStreamingMode(true);
-};
+class Stream { // eslint-disable-line no-unused-vars
+  constructor(url, view, onready) {
+    this.url = url;
+    this.view = view;
+    this.onready = onready;
+    this.socket = null;
+    this.videoStream = null;
+    TextureLoader.setStreamingMode(true);
+  }
 
-Stream.prototype = {
-  constructor: Stream,
-
-  connect: function() {
+  connect() {
     var that = this;
     this.socket = new WebSocket(this.url);
     $('#webotsProgressMessage').html('Connecting to Webots instance...');
@@ -24,25 +22,25 @@ Stream.prototype = {
       that.view.destroyWorld();
       that.view.onerror('WebSocket error: ' + event.data);
     };
-  },
+  }
 
-  close: function() {
+  close() {
     if (this.socket)
       this.socket.close();
     if (this.videoStream)
       this.videoStream.close();
-  },
+  }
 
-  onSocketOpen: function(event) {
+  onSocketOpen(event) {
     var mode = this.view.mode;
     if (mode === 'video')
       mode += ': ' + this.view.video.width + 'x' + this.view.video.height;
     else if (this.view.broadcast)
       mode += ';broadcast';
     this.socket.send(mode);
-  },
+  }
 
-  onSocketClose: function(event) {
+  onSocketClose(event) {
     this.view.onerror('Disconnected from ' + this.url + ' (' + event.code + ')');
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this.view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
       webots.alert('Streaming server error',
@@ -53,9 +51,9 @@ Stream.prototype = {
     this.view.destroyWorld();
     if (typeof this.view.onclose === 'function')
       this.view.onclose();
-  },
+  }
 
-  onSocketMessage: function(event) {
+  onSocketMessage(event) {
     var lines, i;
     var data = event.data;
     if (data.startsWith('robot:') ||
@@ -186,4 +184,4 @@ Stream.prototype = {
     } else
       console.log('WebSocket error: Unknown message received: "' + data + '"');
   }
-};
+}

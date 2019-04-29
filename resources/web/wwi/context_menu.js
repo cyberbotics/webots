@@ -1,82 +1,80 @@
 'use strict';
 
-function ContextMenu(authenticatedUser, parentObject, selection) {
-  this.object = null;
-  this.visible = false;
-  this.authenticatedUser = authenticatedUser;
+class ContextMenu { // eslint-disable-line no-unused-vars
+  constructor(authenticatedUser, parentObject, selection) {
+    this.object = null;
+    this.visible = false;
+    this.authenticatedUser = authenticatedUser;
 
-  // Callbacks
-  this.onFollowObject = null;
-  this.onEditController = null;
-  this.onOpenRobotWindow = null;
-  this.isFollowedObject = null;
-  this.isRobotWindowValid = null;
+    // Callbacks
+    this.onFollowObject = null;
+    this.onEditController = null;
+    this.onOpenRobotWindow = null;
+    this.isFollowedObject = null;
+    this.isRobotWindowValid = null;
 
-  // Create context menu.
-  var domElement = document.createElement('ul');
-  domElement.id = 'contextMenu';
-  domElement.innerHTML = "<li class='ui-widget-header'><div id='contextMenuTitle'>Object</div></li>" +
-                         "<li id='contextMenuFollow'><div>Follow</div></li>" +
-                         "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
-                         "<li><div class='ui-state-disabled'>Zoom</div></li>" +
-                         "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
-                         "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
-                         "<li><div class='ui-state-disabled'>Delete</div></li>" +
-                         "<li><div class='ui-state-disabled'>Properties</div></li>";
-  $(parentObject).append(domElement);
-  $('#contextMenu').menu({items: '> :not(.ui-widget-header)'});
-  $('#contextMenu').css('position', 'absolute');
-  $('#contextMenu').css('z-index', 1);
-  $('#contextMenu').css('display', 'none');
-
-  var that = this;
-  $('#contextMenu').on('menuselect', function(event, ui) {
-    if (ui.item.children().hasClass('ui-state-disabled'))
-      return;
-    var id = ui.item.attr('id');
-    if (id === 'contextMenuFollow') {
-      if (typeof that.onFollowObject === 'function')
-        that.onFollowObject(that.object.name);
-    } else if (id === 'contextMenuUnfollow') {
-      if (typeof that.onFollowObject === 'function')
-        that.onFollowObject('none');
-    } else if (id === 'contextMenuEditController') {
-      var controller = that.object.userData.controller;
-      $('#webotsEditor').dialog('open');
-      $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
-      if (typeof that.onEditController === 'function')
-        that.onEditController(controller);
-    } else if (id === 'contextMenuRobotWindow') {
-      var robotName = that.object.userData.name;
-      if (typeof that.onOpenRobotWindow === 'function')
-        that.onOpenRobotWindow(robotName);
-    } else
-      console.log('Unknown menu item: ' + id);
+    // Create context menu.
+    var domElement = document.createElement('ul');
+    domElement.id = 'contextMenu';
+    domElement.innerHTML = "<li class='ui-widget-header'><div id='contextMenuTitle'>Object</div></li>" +
+                           "<li id='contextMenuFollow'><div>Follow</div></li>" +
+                           "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
+                           "<li><div class='ui-state-disabled'>Zoom</div></li>" +
+                           "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
+                           "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
+                           "<li><div class='ui-state-disabled'>Delete</div></li>" +
+                           "<li><div class='ui-state-disabled'>Properties</div></li>";
+    $(parentObject).append(domElement);
+    $('#contextMenu').menu({items: '> :not(.ui-widget-header)'});
+    $('#contextMenu').css('position', 'absolute');
+    $('#contextMenu').css('z-index', 1);
     $('#contextMenu').css('display', 'none');
-  });
-};
 
-ContextMenu.prototype = {
-  constructor: ContextMenu,
+    var that = this;
+    $('#contextMenu').on('menuselect', function(event, ui) {
+      if (ui.item.children().hasClass('ui-state-disabled'))
+        return;
+      var id = ui.item.attr('id');
+      if (id === 'contextMenuFollow') {
+        if (typeof that.onFollowObject === 'function')
+          that.onFollowObject(that.object.name);
+      } else if (id === 'contextMenuUnfollow') {
+        if (typeof that.onFollowObject === 'function')
+          that.onFollowObject('none');
+      } else if (id === 'contextMenuEditController') {
+        var controller = that.object.userData.controller;
+        $('#webotsEditor').dialog('open');
+        $('#webotsEditor').dialog('option', 'title', 'Controller: ' + controller);
+        if (typeof that.onEditController === 'function')
+          that.onEditController(controller);
+      } else if (id === 'contextMenuRobotWindow') {
+        var robotName = that.object.userData.name;
+        if (typeof that.onOpenRobotWindow === 'function')
+          that.onOpenRobotWindow(robotName);
+      } else
+        console.log('Unknown menu item: ' + id);
+      $('#contextMenu').css('display', 'none');
+    });
+  }
 
-  disableEdit: function() {
+  disableEdit() {
     $('#contextMenuRobotWindowDiv').addClass('ui-state-disabled');
     $('#contextMenuEditControllerDiv').addClass('ui-state-disabled');
-  },
+  }
 
-  toggle: function() {
+  toggle() {
     var visible = this.visible;
     if (visible)
       this.hide();
     return visible;
-  },
+  }
 
-  hide: function() {
+  hide() {
     $('#contextMenu').css('display', 'none');
     this.visible = false;
-  },
+  }
 
-  show: function(object, position) {
+  show(object, position) {
     this.object = object;
     var title = object.userData.name;
     if (title == null || title === '') {
@@ -135,4 +133,4 @@ ContextMenu.prototype = {
     $('#contextMenu').css('display', 'block');
     this.visible = true;
   }
-};
+}
