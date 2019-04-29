@@ -342,8 +342,11 @@ THREE.X3DLoader.prototype = {
       else if (type === 'emissiveColor') {
         materialSpecifications.emissiveMap = this.parseImageTexture(imageTexture, textureTransform);
         materialSpecifications.emissive = new THREE.Color(0xffffff);
-      } else if (type === 'occlusion')
+      }
+      /* Ambient occlusion not fully working
+      else if (type === 'occlusion')
         materialSpecifications.aoMap = this.parseImageTexture(imageTexture, textureTransform);
+      */
     }
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
