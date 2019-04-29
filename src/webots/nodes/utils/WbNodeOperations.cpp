@@ -147,9 +147,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   if (sfnode && sfnode->value() != NULL)
-    // reset SF field value
-    // as consequence the selection is cleared and mSelectedItem is set to NULL
-    sfnode->setValue(NULL);
+    // clear selection and set mSelectedItem to NULL
+    WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParent(parentNode);
@@ -182,7 +181,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       else if (result == REGENERATION_REQUIRED)
         isNodeRegenerated = true;
       ++nodeIndex;
-      if (!field->isTemplateRegenerator() && !isNodeRegenerated)
+      if (!field->isTemplateRegenerator())
         emit nodeAdded(childNode);
       // we need to emit this signal after finalize so that the mass properties are displayed properly
       // in the scene tree.
