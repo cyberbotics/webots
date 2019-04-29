@@ -1,7 +1,7 @@
 /* global webots */
 'use strict';
 
-class DialogWindow {
+class DialogWindow { // eslint-disable-line no-unused-vars
   constructor(parent, mobile) {
     this.mobile = mobile;
     this.parent = parent;
