@@ -394,7 +394,6 @@ webots.View = class View {
       // where multiple users can connect to the same Webots instance.
       return;
 
-    var that = this;
     if (typeof this.worldSelect !== 'undefined')
       this.toolBar.worldSelectionDiv.removeChild(this.worldSelect);
     if (worlds.length <= 1)
@@ -411,15 +410,15 @@ webots.View = class View {
         this.worldSelect.selectedIndex = i;
     }
     this.worldSelect.onchange = () => {
-      if (that.broadcast || typeof that.worldSelect === 'undefined')
+      if (this.broadcast || typeof this.worldSelect === 'undefined')
         return;
-      if (that.toolBar)
-        that.toolBar.enableToolBarButtons(false);
-      that.x3dScene.viewpoint.resetFollow();
-      that.onrobotwindowsdestroy();
-      $('#webotsProgressMessage').html('Loading ' + that.worldSelect.value + '...');
+      if (this.toolBar)
+        this.toolBar.enableToolBarButtons(false);
+      this.x3dScene.viewpoint.resetFollow();
+      this.onrobotwindowsdestroy();
+      $('#webotsProgressMessage').html('Loading ' + this.worldSelect.value + '...');
       $('#webotsProgress').show();
-      that.stream.socket.send('load:' + that.worldSelect.value);
+      this.stream.socket.send('load:' + this.worldSelect.value);
     };
   }
 
