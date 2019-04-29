@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureLoader, Float32Array, Uint16Array */
+/* global THREE, ActiveXObject, TextureLoader */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
