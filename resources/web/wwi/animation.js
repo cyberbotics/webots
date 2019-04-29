@@ -159,11 +159,11 @@ class Animation { // eslint-disable-line no-unused-vars
       else
         previousPoseStep = 0;
       var allIds = this.data.ids.split(';');
-      for (var i = 0; i < allIds.length; i++) {
+      for (let i = 0; i < allIds.length; i++) {
         var id = parseInt(allIds[i]);
         if (appliedIds.indexOf(id) === -1) {
           outer:
-          for (var f = this.step - 1; f >= previousPoseStep; f--) {
+          for (let f = this.step - 1; f >= previousPoseStep; f--) {
             if (this.data.frames[f].poses) {
               for (p = 0; p < this.data.frames[f].poses.length; p++) {
                 if (this.data.frames[f].poses[p].id === id) {

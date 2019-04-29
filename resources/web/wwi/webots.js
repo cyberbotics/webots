@@ -60,7 +60,7 @@ webots.View = class View {
     };
     this.onrobotwindowsdestroy = () => {
       this.robotWindowsGeometries = {};
-      for (var win in this.robotWindows) {
+      for (let win in this.robotWindows) {
         this.robotWindowsGeometries[win] = this.robotWindows[win].geometry();
         this.robotWindows[win].destroy();
       }
@@ -263,7 +263,7 @@ webots.View = class View {
       var infoWindowName = this.x3dScene.worldInfo.window;
       var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
       var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
-      for (var i = 0; i < nodes.length; i++) {
+      for (let i = 0; i < nodes.length; i++) {
         if (nodes[i].isObject3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
           loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
       }
@@ -284,7 +284,7 @@ webots.View = class View {
 
       // Restore robot windows.
       if (this.robotWindowsGeometries) { // on reset
-        for (var win in this.robotWindows) {
+        for (let win in this.robotWindows) {
           if (win in this.robotWindowsGeometries) {
             this.robotWindows[win].restoreGeometry(this.robotWindowsGeometries[win]);
             if (this.robotWindowsGeometries[win].open) {
@@ -375,7 +375,7 @@ webots.View = class View {
     if (!this.server)
       return;
     var port = 0;
-    for (var i = 0; i < this.server.controllers.length; i++) {
+    for (let i = 0; i < this.server.controllers.length; i++) {
       if (this.server.controllers[i].name === name) {
         port = this.server.controllers[i].port;
         break;
@@ -401,7 +401,7 @@ webots.View = class View {
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
     this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
-    for (var i = 0; i < worlds.length; i++) {
+    for (let i = 0; i < worlds.length; i++) {
       var option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];
@@ -440,7 +440,7 @@ webots.View = class View {
 
   removeLabels() {
     var labels = document.getElementsByClassName('webotsLabel');
-    for (var i = labels.length - 1; i >= 0; i--) {
+    for (let i = labels.length - 1; i >= 0; i--) {
       var element = labels.item(i);
       element.parentNode.removeChild(element);
     }

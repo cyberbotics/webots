@@ -105,11 +105,11 @@ class _TextureLoaderObject {
     var textureObjects = this.loadingTextures[name].objects;
     // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
     var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
-    for (var i = 0; i < textureObjects.length; i++) {
+    for (let i = 0; i < textureObjects.length; i++) {
       if (textureObjects[i] instanceof THREE.CubeTexture) {
         var missingImages = this.loadingCubeTextureObjects[textureObjects[i]];
         var indices = missingImages[name];
-        for (var j = 0; j < indices.length; j++) {
+        for (let j = 0; j < indices.length; j++) {
           if (indices[j] === 2 || indices[j] === 3)
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
             image.src = flipImage(image.src);

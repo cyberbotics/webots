@@ -75,7 +75,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.selector.clearSelection();
     if (!this.scene)
       return;
-    for (var i = this.scene.children.length - 1; i >= 0; i--)
+    for (let i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
     this.useNodeCache = {};
@@ -153,7 +153,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   applyPose(pose) {
     var id = pose.id;
-    for (var key in pose) {
+    for (let key in pose) {
       if (key === 'id')
         continue;
       var newValue = pose[key];
