@@ -60,7 +60,7 @@ Animation.prototype = {
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'play') ? 'pause' : 'play';
-    this.button.style.backgroundImage = 'url(' + this.wwiUrl() + action + '.png)';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
     div.appendChild(this.button);
