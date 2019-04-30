@@ -29,22 +29,22 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = () => {
-      // if (this.gpuPicker)
-      //   this.gpuPicker.needUpdate = true;
+      if (this.gpuPicker)
+        this.gpuPicker.needUpdate = true;
       this.render();
     };
 
     this.selector = new Selector();
     this.selector.onSelectionChange = () => { this.render(); };
 
-    // this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
-    // this.gpuPicker.setFilter((object) => {
-    //   return object.isMesh &&
-    //          'x3dType' in object.userData &&
-    //          object.userData.isPickable !== false; // true or undefined
-    // });
-    // this.gpuPicker.setScene(this.scene);
-    // this.gpuPicker.setCamera(this.viewpoint.camera);
+    this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
+    this.gpuPicker.setFilter((object) => {
+      return object.isMesh &&
+             'x3dType' in object.userData &&
+             object.userData.isPickable !== false; // true or undefined
+    });
+    this.gpuPicker.setScene(this.scene);
+    this.gpuPicker.setCamera(this.viewpoint.camera);
 
     this.composer = new THREE.EffectComposer(this.renderer);
     var renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
@@ -74,7 +74,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
     this.viewpoint.camera.updateProjectionMatrix();
-    // this.gpuPicker.resizeTexture(width, height);
+    this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
     this.render();
@@ -136,10 +136,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
       this._setupLights(loader.directionalLights);
       this._setupEnvironmentMap();
-      // if (this.gpuPicker) {
-      //   this.gpuPicker.setScene(this.scene);
-      //   this.sceneModified = false;
-      // }
+      if (this.gpuPicker) {
+        this.gpuPicker.setScene(this.scene);
+        this.sceneModified = false;
+      }
       this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
@@ -216,14 +216,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   pick(relativePosition, screenPosition) {
     if (this.sceneModified) {
-      // this.gpuPicker.setScene(this.scene);
+      this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
     }
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
-    return undefined;
-    // return this.gpuPicker.pick(relativePosition, raycaster);
+    return this.gpuPicker.pick(relativePosition, raycaster);
   }
 
   getTopX3dNode(node) {
