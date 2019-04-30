@@ -54,6 +54,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     bloomPass.strength = 0.5;
     bloomPass.radius = 0.6;
     this.composer.addPass(bloomPass);
+    var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    this.composer.addPass(fxaaPass);
 
     this.resize();
 
