@@ -3,33 +3,6 @@
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
-const sepiaShader = {
-  uniforms: {
-    'tDiffuse': {value: null},
-    'amount': {value: 1.0}
-  },
-  vertexShader: [
-    'varying vec2 vUv;',
-    'void main() {',
-    'vUv = uv;',
-    'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
-    '}'
-  ].join('\n'),
-  fragmentShader: [
-    'uniform float amount;',
-    'uniform sampler2D tDiffuse;',
-    'varying vec2 vUv;',
-    'void main() {',
-    'vec4 color = texture2D( tDiffuse, vUv );',
-    'vec3 c = color.rgb;',
-    'color.r = dot( c, vec3( 1.0 - 0.607 * amount, 0.769 * amount, 0.189 * amount ) );',
-    'color.g = dot( c, vec3( 0.349 * amount, 1.0 - 0.314 * amount, 0.168 * amount ) );',
-    'color.b = dot( c, vec3( 0.272 * amount, 0.534 * amount, 1.0 - 0.869 * amount ) );',
-    'gl_FragColor = vec4( min( vec3( 1.0 ), color.rgb ), color.a );',
-    '}'
-  ].join('\n')
-};
-
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
@@ -76,8 +49,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     var renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
-    var shaderPass = new THREE.ShaderPass(sepiaShader);
-    this.composer.addPass(shaderPass);
+    var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 0.6;
+    bloomPass.strength = 0.5;
+    bloomPass.radius = 0.6;
+    this.composer.addPass(bloomPass);
 
     this.resize();
 
