@@ -48,21 +48,21 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.composer = new THREE.EffectComposer(this.renderer);
 
-    const ssao = true;
-    const debug = true;
-
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    // sources: https://threejs.org/examples/webgl_postprocessing_unreal_bloom.html
     var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight));
     bloomPass.strength = 0.5;
     bloomPass.radius = 0.6;
     bloomPass.threshold = 0.6;
     this.composer.addPass(bloomPass);
+    // sources: https://threejs.org/examples/webgl_postprocessing_sao.html
     this.saoPass = new THREE.SAOPass(this.scene, this.viewpoint.camera, false, true);
     this.saoPass.params.saoIntensity = 0.015;
     this.saoPass.params.saoScale = 20;
     this.saoPass.params.saoKernelRadius = 20;
     this.composer.addPass(this.saoPass);
+    // sources: https://threejs.org/examples/webgl_postprocessing_fxaa.html
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
 
@@ -72,6 +72,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     TextureLoader.setOnTextureLoad(() => this.render());
 
+    const debug = true;
     if (debug) {
       /* global dat */
       var gui = new dat.GUI();
