@@ -73,6 +73,7 @@ private:
   // user accessible fields
   WbSFDouble *mRadius;
   WbSFInt *mSubdivision;
+  WbSFBool *mIco;
 
   bool sanitizeFields();
 

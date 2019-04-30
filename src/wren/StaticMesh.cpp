@@ -841,7 +841,53 @@ namespace wren {
     }
   };
 
-  StaticMesh *StaticMesh::createUnitSphere(int subdivision) {
+  StaticMesh *StaticMesh::createUnitIcosphere(int subdivision) {
+    const cache::Key key(cache::sipHash13c(reinterpret_cast<const char *>(&subdivision), sizeof(int)));
+
+    StaticMesh *mesh;
+    if (StaticMesh::createOrRetrieveFromCache(&mesh, key))
+      return mesh;
+
+    static const float A = 0.525731112119133606f;
+    static const float B = 0.850650808352039932f;
+
+    static const glm::vec3 gVertices[12] = {glm::vec3(-A, 0.0f, B), glm::vec3(A, 0.0f, B),   glm::vec3(-A, 0.0f, -B),
+                                            glm::vec3(A, 0.0f, -B), glm::vec3(0.0f, B, A),   glm::vec3(0.0f, B, -A),
+                                            glm::vec3(0.0f, -B, A), glm::vec3(0.0f, -B, -A), glm::vec3(B, A, 0.0f),
+                                            glm::vec3(-B, A, 0.0f), glm::vec3(B, -A, 0.0f),  glm::vec3(-B, -A, 0.0f)};
+
+    static const glm::uvec3 gIndices[20] = {
+      glm::uvec3(0, 4, 1),  glm::uvec3(0, 9, 4),  glm::uvec3(9, 5, 4),  glm::uvec3(4, 5, 8),  glm::uvec3(4, 8, 1),
+      glm::uvec3(8, 10, 1), glm::uvec3(8, 3, 10), glm::uvec3(5, 3, 8),  glm::uvec3(5, 2, 3),  glm::uvec3(2, 7, 3),
+      glm::uvec3(7, 10, 3), glm::uvec3(7, 6, 10), glm::uvec3(7, 11, 6), glm::uvec3(11, 0, 6), glm::uvec3(0, 1, 6),
+      glm::uvec3(6, 1, 10), glm::uvec3(9, 0, 11), glm::uvec3(9, 11, 2), glm::uvec3(9, 2, 5),  glm::uvec3(7, 2, 11)};
+
+    int vertexCount;
+    if (subdivision == 0)
+      vertexCount = 60;
+    else
+      vertexCount = 60 * (4 << (2 * (subdivision - 1)));
+
+    mesh->estimateVertexCount(vertexCount);
+    mesh->estimateIndexCount(vertexCount);
+
+    for (int i = 0; i < 20; ++i)
+      subdivideToBuffers(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z], subdivision);
+
+    for (int i = 0; i < vertexCount; ++i)
+      mesh->addIndex(i);
+
+    // bounding volumes
+    const primitive::Rectangle rect;
+    mesh->mCacheData->mBoundingSphere = primitive::Sphere(gVec3Zeros, 1.0f);
+    mesh->mCacheData->mAabb = primitive::Aabb(glm::vec3(-1.0f), glm::vec3(1.0f));
+
+    mesh->setup();
+
+    return mesh;
+  }
+
+  StaticMesh *StaticMesh::createUnitUVSphere(int subdivision) {
     const cache::Key key(cache::sipHash13c(reinterpret_cast<const char *>(&subdivision), sizeof(int)));
 
     StaticMesh *mesh;
@@ -1900,8 +1946,10 @@ WrStaticMesh *wr_static_mesh_quad_new() {
   return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createQuad());
 }
 
-WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision) {
-  return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitSphere(subdivision));
+WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision, bool ico) {
+  if (ico)
+    return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitIcosphere(subdivision));
+  return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitUVSphere(subdivision));
 }
 
 WrStaticMesh *wr_static_mesh_capsule_new(int subdivision, float radius, float height, bool has_side, bool has_top,

@@ -21,6 +21,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
+#include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
@@ -52,13 +53,16 @@ const double *WbSphere::defaultVertex(int triangle, int vertex) {
 void WbSphere::init() {
   mRadius = findSFDouble("radius");
   mSubdivision = findSFInt("subdivision");
+  mIco = findSFBool("ico");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
 }
 
 WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mRadius->setValueNoSignal(0.1);
+    mIco->setValueNoSignal(true);
+  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {
@@ -116,8 +120,13 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
 
 void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << 8 * mSubdivision->value() << ',' << 8 * mSubdivision->value() << "\'";
+  if (writer.isX3d()) {
+    int subdivisionValue = mSubdivision->value();
+    if (!mIco->value())
+      subdivisionValue *= 8;
+    writer << " subdivision=\'" << subdivisionValue << ',' << subdivisionValue << "\'";
+    writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
+  }
 }
 
 bool WbSphere::sanitizeFields() {
@@ -141,7 +150,7 @@ void WbSphere::buildWrenMesh() {
 
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value());
+  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value(), mIco->value());
 
   // Restore pickable state
   setPickable(isPickable());

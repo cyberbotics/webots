@@ -687,7 +687,13 @@ THREE.X3DLoader = class X3DLoader {
   parseSphere(sphere) {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
+    var ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
+    var sphereGeometry;
+    if (ico) {
+      sphereGeometry = new THREE.IcosahedronBufferGeometry(radius, subdivision[0]);
+      sphereGeometry.rotateY(Math.PI / 2);
+    } else
+      sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
   }
