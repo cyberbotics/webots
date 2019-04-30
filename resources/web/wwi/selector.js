@@ -29,8 +29,9 @@ class Selector { // eslint-disable-line no-unused-vars
   }
 
   clearSelection() {
-    for (var i = 0; i < this.selectedRepresentations.length; i++)
-      this.selectedRepresentations[i].visible = false;
+    this.selectedRepresentations.forEach((representation) => {
+      representation.visible = false;
+    });
     this.selectedRepresentations = [];
     this.selectedObject = null;
   }
