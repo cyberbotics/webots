@@ -3,6 +3,33 @@
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
+const sepiaShader = {
+  uniforms: {
+    'tDiffuse': {value: null},
+    'amount': {value: 1.0}
+  },
+  vertexShader: [
+    'varying vec2 vUv;',
+    'void main() {',
+    'vUv = uv;',
+    'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+    '}'
+  ].join('\n'),
+  fragmentShader: [
+    'uniform float amount;',
+    'uniform sampler2D tDiffuse;',
+    'varying vec2 vUv;',
+    'void main() {',
+    'vec4 color = texture2D( tDiffuse, vUv );',
+    'vec3 c = color.rgb;',
+    'color.r = dot( c, vec3( 1.0 - 0.607 * amount, 0.769 * amount, 0.189 * amount ) );',
+    'color.g = dot( c, vec3( 0.349 * amount, 1.0 - 0.314 * amount, 0.168 * amount ) );',
+    'color.b = dot( c, vec3( 0.272 * amount, 0.534 * amount, 1.0 - 0.869 * amount ) );',
+    'gl_FragColor = vec4( min( vec3( 1.0 ), color.rgb ), color.a );',
+    '}'
+  ].join('\n')
+};
+
 class X3dScene { // eslint-disable-line no-unused-vars
   constructor(domElement) {
     this.domElement = domElement;
@@ -22,28 +49,35 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
+
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
 
     this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = () => {
-      if (this.gpuPicker)
-        this.gpuPicker.needUpdate = true;
+      // if (this.gpuPicker)
+      //   this.gpuPicker.needUpdate = true;
       this.render();
     };
 
     this.selector = new Selector();
     this.selector.onSelectionChange = () => { this.render(); };
 
-    this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
-    this.gpuPicker.setFilter((object) => {
-      return object.isMesh &&
-             'x3dType' in object.userData &&
-             object.userData.isPickable !== false; // true or undefined
-    });
-    this.gpuPicker.setScene(this.scene);
-    this.gpuPicker.setCamera(this.viewpoint.camera);
+    // this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
+    // this.gpuPicker.setFilter((object) => {
+    //   return object.isMesh &&
+    //          'x3dType' in object.userData &&
+    //          object.userData.isPickable !== false; // true or undefined
+    // });
+    // this.gpuPicker.setScene(this.scene);
+    // this.gpuPicker.setCamera(this.viewpoint.camera);
+
+    this.composer = new THREE.EffectComposer(this.renderer);
+    var renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
+    this.composer.addPass(renderPass);
+    var shaderPass = new THREE.ShaderPass(sepiaShader);
+    this.composer.addPass(shaderPass);
 
     this.resize();
 
@@ -53,7 +87,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
-    this.renderer.render(this.scene, this.viewpoint.camera);
+    // this.renderer.render(this.scene, this.viewpoint.camera);
+    this.composer.render();
   }
 
   resize() {
@@ -61,8 +96,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
     this.viewpoint.camera.updateProjectionMatrix();
-    this.gpuPicker.resizeTexture(width, height);
+    // this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
+    this.composer.setSize(width, height);
     this.render();
   }
 
@@ -122,10 +158,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
       }
       this._setupLights(loader.directionalLights);
       this._setupEnvironmentMap();
-      if (this.gpuPicker) {
-        this.gpuPicker.setScene(this.scene);
-        this.sceneModified = false;
-      }
+      // if (this.gpuPicker) {
+      //   this.gpuPicker.setScene(this.scene);
+      //   this.sceneModified = false;
+      // }
       this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
@@ -202,13 +238,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   pick(relativePosition, screenPosition) {
     if (this.sceneModified) {
-      this.gpuPicker.setScene(this.scene);
+      // this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
     }
 
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
-    return this.gpuPicker.pick(relativePosition, raycaster);
+    return undefined;
+    // return this.gpuPicker.pick(relativePosition, raycaster);
   }
 
   getTopX3dNode(node) {
