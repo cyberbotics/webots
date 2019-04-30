@@ -51,7 +51,6 @@ public:
   // Texture features
   int width() const;
   int height() const;
-  bool isTransparent() const;
   int filtering() const;
 
   // external texture

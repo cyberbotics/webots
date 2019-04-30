@@ -72,7 +72,7 @@ PROTO TinkerbotsCubieMaleCube [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
-            occlusionMapUrl "textures/cubie_male_cube_occlusion.png"
+            occlusionMapUrl "textures/cubie_male_cube_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

@@ -83,11 +83,6 @@ PROTO ParkingMeter [
               "textures/parking_meter_glass_metalness.jpg"
             ]
           }
-          normalMap ImageTexture {
-            url [
-              "textures/parking_meter_glass_normal.jpg"
-            ]
-          }
           occlusionMap ImageTexture {
             url [
               "textures/parking_meter_glass_occlusion.jpg"

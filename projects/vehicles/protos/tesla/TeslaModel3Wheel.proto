@@ -30,7 +30,7 @@ PROTO TeslaModel3Wheel [
             }
             roughnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_roughness.png"
+                "textures/tesla_model3_wheels_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
@@ -40,12 +40,12 @@ PROTO TeslaModel3Wheel [
             }
             normalMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_normal.png"
+                "textures/tesla_model3_wheels_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_occlusion.png"
+                "textures/tesla_model3_wheels_occlusion.jpg"
               ]
             }
           }

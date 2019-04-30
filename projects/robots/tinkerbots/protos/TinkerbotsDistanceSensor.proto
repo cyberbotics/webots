@@ -266,17 +266,17 @@ PROTO TinkerbotsDistanceSensor [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/distance_sensor_base_color.png"
+                "textures/distance_sensor_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/distance_sensor_roughness.png"
+                "textures/distance_sensor_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/distance_sensor_metalness.png"
+                "textures/sensor_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
@@ -286,7 +286,7 @@ PROTO TinkerbotsDistanceSensor [
             }
             occlusionMap ImageTexture {
               url [
-                "textures/distance_sensor_occlusion.png"
+                "textures/distance_sensor_occlusion.jpg"
               ]
             }
           }
