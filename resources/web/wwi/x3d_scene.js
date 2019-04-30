@@ -51,25 +51,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
     const ssao = true;
     const debug = true;
 
-    if (ssao) {
-      let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
-      this.composer.addPass(renderPass);
-      this.saoPass = new THREE.SAOPass(this.scene, this.viewpoint.camera, false, true);
-      this.saoPass.params.saoIntensity = 0.015;
-      this.saoPass.params.saoScale = 20;
-      this.saoPass.params.saoKernelRadius = 20;
-      this.composer.addPass(this.saoPass);
-    } else {
-      let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
-      this.composer.addPass(renderPass);
-      var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight));
-      bloomPass.strength = 0.5;
-      bloomPass.radius = 0.6;
-      bloomPass.threshold = 0.6;
-      this.composer.addPass(bloomPass);
-      var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
-      this.composer.addPass(fxaaPass);
-    }
+    let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
+    this.composer.addPass(renderPass);
+    var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    bloomPass.strength = 0.5;
+    bloomPass.radius = 0.6;
+    bloomPass.threshold = 0.6;
+    this.composer.addPass(bloomPass);
+    this.saoPass = new THREE.SAOPass(this.scene, this.viewpoint.camera, false, true);
+    this.saoPass.params.saoIntensity = 0.015;
+    this.saoPass.params.saoScale = 20;
+    this.saoPass.params.saoKernelRadius = 20;
+    this.composer.addPass(this.saoPass);
+    var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    this.composer.addPass(fxaaPass);
 
     this.resize();
 
@@ -80,7 +75,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (debug) {
       /* global dat */
       var gui = new dat.GUI();
-      let f = gui.addFolder('Tone');
+      let f;
+      f = gui.addFolder('Tone');
       f.add(this.renderer, 'toneMapping', {
         'NoTone': THREE.NoToneMapping,
         'LinearTone': THREE.LinearToneMapping,
@@ -98,33 +94,31 @@ class X3dScene { // eslint-disable-line no-unused-vars
       f.add(this.renderer, 'gammaOutput').onChange(() => { this.render(); });
       f.add(this.renderer, 'gammaFactor').min(0).max(5).onChange(() => { this.render(); });
 
-      if (ssao) {
-        let f = gui.addFolder('SSAO');
-        f.add(this.saoPass.params, 'output', {
-          'Beauty': THREE.SAOPass.OUTPUT.Beauty,
-          'Beauty+SAO': THREE.SAOPass.OUTPUT.Default,
-          'SAO': THREE.SAOPass.OUTPUT.SAO,
-          'Depth': THREE.SAOPass.OUTPUT.Depth,
-          'Normal': THREE.SAOPass.OUTPUT.Normal
-        }).onChange((value) => {
-          this.saoPass.params.output = parseInt(value);
-          this.render();
-        });
-        f.add(this.saoPass.params, 'saoBias', -1, 1).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoIntensity', 0, 1).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoScale', 0, 50).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoKernelRadius', 1, 200).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoMinResolution', 0, 0.1).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoBlur').onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoBlurRadius', 0, 200).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoBlurStdDev', 0.5, 150).onChange(() => { this.render(); });
-        f.add(this.saoPass.params, 'saoBlurDepthCutoff', 0.0, 0.1).onChange(() => { this.render(); });
-      } else {
-        let f = gui.addFolder('Bloom');
-        f.add(bloomPass, 'strength').min(0).max(3).onChange(() => { this.render(); });
-        f.add(bloomPass, 'radius').min(0).max(1).onChange(() => { this.render(); });
-        f.add(bloomPass, 'threshold').min(0).max(1).onChange(() => { this.render(); });
-      }
+      f = gui.addFolder('SSAO');
+      f.add(this.saoPass.params, 'output', {
+        'Beauty': THREE.SAOPass.OUTPUT.Beauty,
+        'Beauty+SAO': THREE.SAOPass.OUTPUT.Default,
+        'SAO': THREE.SAOPass.OUTPUT.SAO,
+        'Depth': THREE.SAOPass.OUTPUT.Depth,
+        'Normal': THREE.SAOPass.OUTPUT.Normal
+      }).onChange((value) => {
+        this.saoPass.params.output = parseInt(value);
+        this.render();
+      });
+      f.add(this.saoPass.params, 'saoBias', -1, 1).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoIntensity', 0, 1).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoScale', 0, 50).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoKernelRadius', 1, 200).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoMinResolution', 0, 0.1).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoBlur').onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoBlurRadius', 0, 200).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoBlurStdDev', 0.5, 150).onChange(() => { this.render(); });
+      f.add(this.saoPass.params, 'saoBlurDepthCutoff', 0.0, 0.1).onChange(() => { this.render(); });
+
+      f = gui.addFolder('Bloom');
+      f.add(bloomPass, 'strength').min(0).max(3).onChange(() => { this.render(); });
+      f.add(bloomPass, 'radius').min(0).max(1).onChange(() => { this.render(); });
+      f.add(bloomPass, 'threshold').min(0).max(1).onChange(() => { this.render(); });
     }
   }
 
