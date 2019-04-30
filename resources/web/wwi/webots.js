@@ -263,10 +263,10 @@ webots.View = class View {
       var infoWindowName = this.x3dScene.worldInfo.window;
       var pendingRequestsCount = 1; // start from 1 so that it can be 0 only after the loop is completed and all the nodes are checked
       var nodes = this.x3dScene.root ? this.x3dScene.root.children : [];
-      for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].isObject3D && nodes[i].userData && nodes[i].userData.window && nodes[i].userData.name)
-          loadRobotWindow(nodes[i].userData.window, nodes[i].userData.name);
-      }
+      nodes.forEach((node) => {
+        if (node.isObject3D && node.userData && node.userData.window && node.userData.name)
+          loadRobotWindow(node.userData.window, node.userData.name);
+      });
       pendingRequestsCount--; // notify that loop is completed
       if (pendingRequestsCount === 0)
         // If no pending requests execute loadFinalize
@@ -375,7 +375,7 @@ webots.View = class View {
     if (!this.server)
       return;
     var port = 0;
-    for (let i = 0; i < this.server.controllers.length; i++) {
+    for (let i in this.server.controllers) {
       if (this.server.controllers[i].name === name) {
         port = this.server.controllers[i].port;
         break;
@@ -401,7 +401,7 @@ webots.View = class View {
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
     this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
-    for (let i = 0; i < worlds.length; i++) {
+    for (let i in worlds) {
       var option = document.createElement('option');
       option.value = worlds[i];
       option.text = worlds[i];

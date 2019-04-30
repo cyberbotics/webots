@@ -255,13 +255,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     var childObject;
-    var childrenLength = object.children ? object.children.length : 0;
-    for (let i = 0; i < childrenLength; i++) {
-      var child = object.children[i];
-      context.parent = object;
-      childObject = this.getObjectByCustomId(child, id, context);
-      if (typeof childObject !== 'undefined')
-        return childObject;
+    if (object.children) {
+      object.children.forEach((child) => {
+        context.parent = object;
+        childObject = this.getObjectByCustomId(child, id, context);
+        if (typeof childObject !== 'undefined')
+          return childObject;
+      });
     }
     if (object.isMesh) {
       childObject = this.getObjectByCustomId(object.material, id, context);

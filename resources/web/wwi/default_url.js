@@ -25,7 +25,7 @@ var DefaultUrl = {
     // Get the directory path to the currently executing script file
     // for example: https://cyberbotics.com/wwi/8.6/
     var scripts = document.querySelectorAll('script[src]');
-    for (let i = 0; i < scripts.length; i++) {
+    for (let i in scripts) {
       var src = scripts[i].src;
       var index = src.indexOf('?');
       if (index > 0)

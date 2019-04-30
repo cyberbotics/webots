@@ -70,7 +70,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       this._hideMenu();
     });
     $('#webotsEditorSaveAllAction').click(() => {
-      for (let i = 0; i < this.filenames.length; i++)
+      for (let i in this.filenames)
         this.save(i);
       this._hideMenu();
     });
@@ -100,7 +100,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
   hasUnsavedChanges() {
     if (this.unloggedFileModified)
       return true;
-    for (let i = 0; i < this.filenames.length; i++) {
+    for (let i in this.filenames) {
       if ($('#filename-' + i).html().endsWith('*'))
         return true;
     }
@@ -228,8 +228,9 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
           $(this).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
           if (this.resetAllFiles) {
-            for (let i = 0; i < this.filenames.length; i++)
-              this.view.server.resetController(this.dirname + '/' + this.filenames[i]);
+            this.filenames.forEach((filename) => {
+              this.view.server.resetController(this.dirname + '/' + filename);
+            });
           } else
             this.view.server.resetController(this.dirname + '/' + this.filenames[this.currentSession]);
         }

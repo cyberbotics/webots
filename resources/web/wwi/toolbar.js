@@ -212,7 +212,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     $('#webotsProgress').show();
     this.runOnLoad = this.pauseButton.style.display === 'inline';
     this.pause();
-    for (let i = 0; i < this.view.editor.filenames.length; i++) {
+    for (let i in this.view.editor.filenames) {
       this.view.editor.save(i);
       if (this.view.editor.needToUploadFiles[i])
         this.view.editor.upload(i);
