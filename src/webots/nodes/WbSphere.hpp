@@ -89,7 +89,7 @@ private:
 
 private slots:
   void updateRadius();
-  void updateSubdivision();
+  void updateMesh();
   void updateLineScale();
 };
 

@@ -81,7 +81,8 @@ void WbSphere::postFinalize() {
   WbGeometry::postFinalize();
 
   connect(mRadius, &WbSFDouble::changed, this, &WbSphere::updateRadius);
-  connect(mSubdivision, &WbSFInt::changed, this, &WbSphere::updateSubdivision);
+  connect(mSubdivision, &WbSFInt::changed, this, &WbSphere::updateMesh);
+  connect(mIco, &WbSFBool::changed, this, &WbSphere::updateMesh);
 }
 
 void WbSphere::createWrenObjects() {
@@ -121,17 +122,16 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
 void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d()) {
-    int subdivisionValue = mSubdivision->value();
-    if (!mIco->value())
-      subdivisionValue *= 8;
-    writer << " subdivision=\'" << subdivisionValue << ',' << subdivisionValue << "\'";
+    writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
     writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
   }
 }
 
 bool WbSphere::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1))
-    return false;
+  if (mIco->value()) {
+    WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1);
+  } else
+    WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 32, 24);
 
   if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
     return false;
@@ -184,7 +184,7 @@ void WbSphere::updateRadius() {
   emit changed();
 }
 
-void WbSphere::updateSubdivision() {
+void WbSphere::updateMesh() {
   if (!sanitizeFields())
     return;
 
