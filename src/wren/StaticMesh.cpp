@@ -842,7 +842,9 @@ namespace wren {
   };
 
   StaticMesh *StaticMesh::createUnitIcosphere(int subdivision) {
-    const cache::Key key(cache::sipHash13c(reinterpret_cast<const char *>(&subdivision), sizeof(int)));
+    char uniqueName[16];
+    sprintf(uniqueName, "Icosphere%d", subdivision);
+    const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
     if (StaticMesh::createOrRetrieveFromCache(&mesh, key))
@@ -888,40 +890,75 @@ namespace wren {
   }
 
   StaticMesh *StaticMesh::createUnitUVSphere(int subdivision) {
-    const cache::Key key(cache::sipHash13c(reinterpret_cast<const char *>(&subdivision), sizeof(int)));
+    char uniqueName[16];
+    sprintf(uniqueName, "UVSphere%d", subdivision);
+    const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
     if (StaticMesh::createOrRetrieveFromCache(&mesh, key))
       return mesh;
 
-    static const float A = 0.525731112119133606f;
-    static const float B = 0.850650808352039932f;
-
-    static const glm::vec3 gVertices[12] = {glm::vec3(-A, 0.0f, B), glm::vec3(A, 0.0f, B),   glm::vec3(-A, 0.0f, -B),
-                                            glm::vec3(A, 0.0f, -B), glm::vec3(0.0f, B, A),   glm::vec3(0.0f, B, -A),
-                                            glm::vec3(0.0f, -B, A), glm::vec3(0.0f, -B, -A), glm::vec3(B, A, 0.0f),
-                                            glm::vec3(-B, A, 0.0f), glm::vec3(B, -A, 0.0f),  glm::vec3(-B, -A, 0.0f)};
-
-    static const glm::uvec3 gIndices[20] = {
-      glm::uvec3(0, 4, 1),  glm::uvec3(0, 9, 4),  glm::uvec3(9, 5, 4),  glm::uvec3(4, 5, 8),  glm::uvec3(4, 8, 1),
-      glm::uvec3(8, 10, 1), glm::uvec3(8, 3, 10), glm::uvec3(5, 3, 8),  glm::uvec3(5, 2, 3),  glm::uvec3(2, 7, 3),
-      glm::uvec3(7, 10, 3), glm::uvec3(7, 6, 10), glm::uvec3(7, 11, 6), glm::uvec3(11, 0, 6), glm::uvec3(0, 1, 6),
-      glm::uvec3(6, 1, 10), glm::uvec3(9, 0, 11), glm::uvec3(9, 11, 2), glm::uvec3(9, 2, 5),  glm::uvec3(7, 2, 11)};
-
-    int vertexCount;
-    if (subdivision == 0)
-      vertexCount = 60;
-    else
-      vertexCount = 60 * (4 << (2 * (subdivision - 1)));
-
+    const int rowSize = subdivision + 1;
+    const int vertexCount = rowSize * rowSize;
     mesh->estimateVertexCount(vertexCount);
-    mesh->estimateIndexCount(vertexCount);
+    mesh->estimateIndexCount(3 * (vertexCount - 1));
 
-    for (int i = 0; i < 20; ++i)
-      subdivideToBuffers(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z], subdivision);
+    int r, s;
+    const float latitudeUnitAngle = glm::pi<float>() / subdivision;
+    const float longitudeUnitAngle = 2.0f * glm::pi<float>() / subdivision;
+    int index = 0;
+    int **indicesGrid = new int *[rowSize];
 
-    for (int i = 0; i < vertexCount; ++i)
-      mesh->addIndex(i);
+    // vertices
+    for (r = 0; r <= subdivision; ++r) {  // rings/latitude
+      // special case for the poles
+      const float uOffset = (r == 0) ? 0.5f / subdivision : ((r == subdivision) ? -0.5f / subdivision : 0.0f);
+      const float theta = (float)r * latitudeUnitAngle;
+      const float sinTheta = glm::sin(theta);
+      const float cosTheta = -glm::cos(theta);
+      int *indicesRow = new int[rowSize];
+      for (s = 0; s <= subdivision; ++s) {  // segments/longitude
+        glm::vec3 vertex;
+        const float phi = ((float)s) * longitudeUnitAngle - glm::half_pi<float>();
+        vertex = glm::vec3(glm::cos(phi) * sinTheta, cosTheta, glm::sin(phi) * sinTheta);
+        mesh->addCoord(vertex);
+        mesh->addNormal(vertex);
+
+        glm::vec2 uv(1.0f - (float)s / subdivision + uOffset, 1.0f - (float)r / subdivision);
+        mesh->addTexCoord(uv);
+        mesh->addUnwrappedTexCoord(uv);
+
+        indicesRow[s] = index;
+        index++;
+      }
+      indicesGrid[r] = indicesRow;
+    }
+
+    // indices
+    for (r = 0; r < subdivision; ++r) {
+      for (s = 0; s < subdivision; ++s) {
+        int a = indicesGrid[r][s + 1];
+        int b = indicesGrid[r][s];
+        int c = indicesGrid[r + 1][s];
+        int d = indicesGrid[r + 1][s + 1];
+
+        if (r != 0) {
+          mesh->addIndex(a);
+          mesh->addIndex(b);
+          mesh->addIndex(d);
+        }
+        if (r != subdivision - 1) {
+          mesh->addIndex(b);
+          mesh->addIndex(c);
+          mesh->addIndex(d);
+        }
+      }
+    }
+
+    // cleanup
+    for (r = 0; r <= subdivision; ++r)
+      delete[] indicesGrid[r];
+    delete[] indicesGrid;
 
     // bounding volumes
     const primitive::Rectangle rect;
