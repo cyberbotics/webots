@@ -24,9 +24,6 @@ class WbSphere : public WbGeometry {
   Q_OBJECT
 
 public:
-  // return the default vertex used for the sphere computation
-  static const double *defaultVertex(int triangle, int vertex);
-
   // constructors and destructor
   explicit WbSphere(WbTokenizer *tokenizer = NULL);
   WbSphere(const WbSphere &other);
