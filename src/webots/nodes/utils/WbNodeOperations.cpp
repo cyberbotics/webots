@@ -147,9 +147,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   }
 
   if (sfnode && sfnode->value() != NULL)
-    // reset SF field value
-    // as consequence the selection is cleared and mSelectedItem is set to NULL
-    sfnode->setValue(NULL);
+    // clear selection and set mSelectedItem to NULL
+    WbSelection::instance()->selectTransformFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParent(parentNode);
