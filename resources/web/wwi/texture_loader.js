@@ -105,27 +105,27 @@ class _TextureLoaderObject {
     var textureObjects = this.loadingTextures[name].objects;
     // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
     var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
-    for (var i = 0; i < textureObjects.length; i++) {
-      if (textureObjects[i] instanceof THREE.CubeTexture) {
-        var missingImages = this.loadingCubeTextureObjects[textureObjects[i]];
+    textureObjects.forEach((textureObject) => {
+      if (textureObject instanceof THREE.CubeTexture) {
+        var missingImages = this.loadingCubeTextureObjects[textureObject];
         var indices = missingImages[name];
-        for (var j = 0; j < indices.length; j++) {
-          if (indices[j] === 2 || indices[j] === 3)
+        indices.forEach((indice) => {
+          if (indice === 2 || indice === 3)
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
             image.src = flipImage(image.src);
-          textureObjects[i].images[indices[j]] = image;
-        }
+          textureObject.images[indice] = image;
+        });
         delete missingImages[name];
         if (Object.keys(missingImages).length === 0) {
-          textureObjects[i].needsUpdate = true;
-          delete this.loadingCubeTextureObjects[textureObjects[i]];
+          textureObject.needsUpdate = true;
+          delete this.loadingCubeTextureObjects[textureObject];
         }
       } else {
-        textureObjects[i].image = image;
-        textureObjects[i].format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
-        textureObjects[i].needsUpdate = true;
+        textureObject.image = image;
+        textureObject.format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
+        textureObject.needsUpdate = true;
       }
-    }
+    });
     delete this.loadingTextures[name];
 
     if (typeof this.onTextureLoad === 'function')

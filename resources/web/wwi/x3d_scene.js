@@ -75,7 +75,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.selector.clearSelection();
     if (!this.scene)
       return;
-    for (var i = this.scene.children.length - 1; i >= 0; i--)
+    for (let i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
     this.useNodeCache = {};
@@ -153,7 +153,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   applyPose(pose) {
     var id = pose.id;
-    for (var key in pose) {
+    for (let key in pose) {
       if (key === 'id')
         continue;
       var newValue = pose[key];
@@ -255,13 +255,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
 
     var childObject;
-    var childrenLength = object.children ? object.children.length : 0;
-    for (let i = 0; i < childrenLength; i++) {
-      var child = object.children[i];
-      context.parent = object;
-      childObject = this.getObjectByCustomId(child, id, context);
-      if (typeof childObject !== 'undefined')
-        return childObject;
+    if (object.children) {
+      object.children.forEach((child) => {
+        context.parent = object;
+        childObject = this.getObjectByCustomId(child, id, context);
+        if (typeof childObject !== 'undefined')
+          return childObject;
+      });
     }
     if (object.isMesh) {
       childObject = this.getObjectByCustomId(object.material, id, context);

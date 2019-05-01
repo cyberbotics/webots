@@ -636,8 +636,8 @@ THREE.X3DLoader = class X3DLoader {
     var maxIndex = heightArray.length;
     var i = 0;
     var v = 1;
-    for (var dx = 0; dx < xDimension; dx++) {
-      for (var dz = 0; dz < zDimension; dz++) {
+    for (let dx = 0; dx < xDimension; dx++) {
+      for (let dz = 0; dz < zDimension; dz++) {
         var index = xDimension * dx + dz;
         if (index < maxIndex)
           vertices[i + 1] = parseFloat(heightArray[index]);
@@ -857,7 +857,7 @@ THREE.X3DLoader = class X3DLoader {
       var cubeTextureEnabled = false;
       var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
       var urls = [];
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         var url = getNodeAttribute(background, attributeNames[i], undefined);
         if (typeof url !== 'undefined') {
           cubeTextureEnabled = true;
@@ -869,7 +869,7 @@ THREE.X3DLoader = class X3DLoader {
       if (cubeTextureEnabled) {
         cubeTexture = new THREE.CubeTexture();
         var missing = 0;
-        for (i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
