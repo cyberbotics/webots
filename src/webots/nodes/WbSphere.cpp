@@ -136,14 +136,15 @@ void WbSphere::buildWrenMesh() {
 
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value(), mIco->value());
+  const bool createOutlineMesh = isInBoundingObject();
+  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value(), mIco->value(), createOutlineMesh);
 
   // Restore pickable state
   setPickable(isPickable());
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 
-  if (isInBoundingObject())
+  if (createOutlineMesh)
     updateLineScale();
   else
     updateScale();
@@ -183,10 +184,9 @@ void WbSphere::updateLineScale() {
   if (!isAValidBoundingObject() || !sanitizeFields())
     return;
 
-  float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
-
-  float scale[] = {static_cast<float>(mRadius->value() * (1.5)), static_cast<float>(mRadius->value() * (1.5)),
-                   static_cast<float>(mRadius->value() * (1.5))};
+  const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
+  const float scaledRadius = static_cast<float>(mRadius->value() * (1.0 + offset));
+  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -194,8 +194,8 @@ void WbSphere::updateScale() {
   if (!sanitizeFields())
     return;
 
-  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mRadius->value()),
-                   static_cast<float>(mRadius->value())};
+  const float scaledRadius = static_cast<float>(mRadius->value());
+  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
   wr_transform_set_scale(wrenNode(), scale);
 }
 

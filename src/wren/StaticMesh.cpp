@@ -889,9 +889,12 @@ namespace wren {
     return mesh;
   }
 
-  StaticMesh *StaticMesh::createUnitUVSphere(int subdivision) {
-    char uniqueName[16];
-    sprintf(uniqueName, "UVSphere%d", subdivision);
+  StaticMesh *StaticMesh::createUnitUVSphere(int subdivision, bool outline) {
+    char uniqueName[24];
+    if (outline)
+      sprintf(uniqueName, "UVSphereOutline%d", subdivision);
+    else
+      sprintf(uniqueName, "UVSphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
@@ -935,22 +938,53 @@ namespace wren {
     }
 
     // indices
-    for (r = 0; r < subdivision; ++r) {
+    if (outline) {
+      const int lastRingIndex = vertexCount - subdivision - 1;
       for (s = 0; s < subdivision; ++s) {
-        int a = indicesGrid[r][s + 1];
-        int b = indicesGrid[r][s];
-        int c = indicesGrid[r + 1][s];
-        int d = indicesGrid[r + 1][s + 1];
+        // top
+        mesh->addIndex(0);
+        mesh->addIndex(subdivision + s);
+        // bottom
+        mesh->addIndex(lastRingIndex);
+        mesh->addIndex(lastRingIndex - s - 1);
+      }
 
-        if (r != 0) {
+      // side
+      for (r = 1; r < (subdivision - 1); ++r) {
+        for (s = 0; s < subdivision; ++s) {
+          int a = indicesGrid[r][s + 1];
+          int b = indicesGrid[r][s];
+          int c = indicesGrid[r + 1][s];
+          int d = indicesGrid[r + 1][s + 1];
+
           mesh->addIndex(a);
+          mesh->addIndex(b);
+          mesh->addIndex(b);
+          mesh->addIndex(c);
+          mesh->addIndex(c);
+          mesh->addIndex(d);
           mesh->addIndex(b);
           mesh->addIndex(d);
         }
-        if (r != subdivision - 1) {
-          mesh->addIndex(b);
-          mesh->addIndex(c);
-          mesh->addIndex(d);
+      }
+    } else {
+      for (r = 0; r < subdivision; ++r) {
+        for (s = 0; s < subdivision; ++s) {
+          int a = indicesGrid[r][s + 1];
+          int b = indicesGrid[r][s];
+          int c = indicesGrid[r + 1][s];
+          int d = indicesGrid[r + 1][s + 1];
+
+          if (r != 0) {
+            mesh->addIndex(a);
+            mesh->addIndex(b);
+            mesh->addIndex(d);
+          }
+          if (r != subdivision - 1) {
+            mesh->addIndex(b);
+            mesh->addIndex(c);
+            mesh->addIndex(d);
+          }
         }
       }
     }
@@ -1983,10 +2017,10 @@ WrStaticMesh *wr_static_mesh_quad_new() {
   return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createQuad());
 }
 
-WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision, bool ico) {
+WrStaticMesh *wr_static_mesh_unit_sphere_new(int subdivision, bool ico, bool outline) {
   if (ico)
     return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitIcosphere(subdivision));
-  return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitUVSphere(subdivision));
+  return reinterpret_cast<WrStaticMesh *>(wren::StaticMesh::createUnitUVSphere(subdivision, outline));
 }
 
 WrStaticMesh *wr_static_mesh_capsule_new(int subdivision, float radius, float height, bool has_side, bool has_top,

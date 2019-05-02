@@ -39,7 +39,7 @@ namespace wren {
                                                bool outline);
     static StaticMesh *createUnitRectangle(bool outline);
     static StaticMesh *createUnitIcosphere(int subdivision);
-    static StaticMesh *createUnitUVSphere(int subdivision);
+    static StaticMesh *createUnitUVSphere(int subdivision, bool outline);
     static StaticMesh *createCapsule(int subdivision, float radius, float height, bool hasSide, bool hasTop, bool hasBottom,
                                      bool outline);
     static StaticMesh *createQuad();
