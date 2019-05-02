@@ -115,7 +115,7 @@ void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
 
 bool WbSphere::sanitizeFields() {
   if (mIco->value()) {
-    WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1);
+    WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 5, 1);
   } else
     WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 32, 24);
 
@@ -185,8 +185,8 @@ void WbSphere::updateLineScale() {
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
-  float scale[] = {static_cast<float>(mRadius->value() * (1.0 + offset)), static_cast<float>(mRadius->value() * (1.0 + offset)),
-                   static_cast<float>(mRadius->value() * (1.0 + offset))};
+  float scale[] = {static_cast<float>(mRadius->value() * (1.5)), static_cast<float>(mRadius->value() * (1.5)),
+                   static_cast<float>(mRadius->value() * (1.5))};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
