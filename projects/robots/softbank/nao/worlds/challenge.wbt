@@ -145,7 +145,7 @@ DEF CALENDAR VisualArmature {
   rotation 0 1 0 1.5708
   dimension 0.3 0.3 0.01
   textureUrl [
-    "textures/calendar.png"
+    "textures/calendar.jpg"
   ]
 }
 DEF TABLE SolidBox {

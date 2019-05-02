@@ -62,7 +62,7 @@ PROTO TinkerbotsPivot [
             }
             occlusionMap ImageTexture {
               url [
-                "textures/pivot_base_occlusion.png"
+                "textures/pivot_base_occlusion.jpg"
               ]
             }
           }
@@ -175,7 +175,7 @@ PROTO TinkerbotsPivot [
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/pivot_joint_occlusion.png"
+                      "textures/pivot_joint_occlusion.jpg"
                     ]
                   }
                 }
