@@ -293,27 +293,27 @@ PROTO TinkerbotsCube [
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/cube_base_color.png"
+                "textures/cube_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "textures/cube_roughness.png"
+                "textures/cube_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
               url [
-                "textures/cube_metalness.png"
+                "textures/cube_metalness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "textures/cube_normal.png"
+                "textures/cube_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/cube_occlusion.png"
+                "textures/cube_occlusion.jpg"
               ]
             }
           }

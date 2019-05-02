@@ -218,13 +218,13 @@ PROTO AddLaneRoadSegment [
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "textures/line_normal.png"
+                  "textures/line_normal.jpg"
                 ]
                 filtering 5
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/line_occlusion.png"
+                  "textures/line_occlusion.jpg"
                 ]
                 filtering 5
               }

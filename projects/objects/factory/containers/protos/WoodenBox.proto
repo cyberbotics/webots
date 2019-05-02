@@ -66,23 +66,23 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "textures/wooden_box_base_color.png"
+            "textures/wooden_box_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "textures/wooden_box_roughness.png"
+            "textures/wooden_box_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "textures/wooden_box_normal.png"
+            "textures/wooden_box_normal.jpg"
           ]
         }
         occlusionMap ImageTexture {
           url [
-            "textures/wooden_box_occlusion.png"
+            "textures/wooden_box_occlusion.jpg"
           ]
         }
       }
