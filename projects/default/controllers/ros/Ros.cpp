@@ -439,7 +439,7 @@ void Ros::run(int argc, char **argv) {
       rosgraph_msgs::Clock simulationClock;
       double time = mRobot->getTime();
       simulationClock.clock.sec = (int)time;
-      simulationClock.clock.nsec = (time - simulationClock.clock.sec) * 1.0e+9;
+      simulationClock.clock.nsec = round(time - simulationClock.clock.sec) * 1.0e+9;
       mClockPublisher.publish(simulationClock);
     }
     for (unsigned int i = 0; i < mSensorList.size(); i++)
