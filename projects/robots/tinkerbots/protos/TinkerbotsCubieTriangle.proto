@@ -31,7 +31,7 @@ PROTO TinkerbotsCubieTriangle [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color IS color
-            occlusionMapUrl "textures/cubie_triangle_occlusion.png"
+            occlusionMapUrl "textures/cubie_triangle_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

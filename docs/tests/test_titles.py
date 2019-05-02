@@ -68,6 +68,7 @@ class TestTitles(unittest.TestCase):
         """Test that titles doesn't contain any unprotected underscore."""
         for t in self.titles:
             title = re.sub(r'`.+?(?=`)`', '', t['title'])  # Remove code-quoted statements.
+            title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.
             self.assertTrue(re.search(r'[^\\]_', title) is None, msg='%s: Title "%s" contains unprotected underscore(s).' % (t['md'], t['title']))
 
     def test_words_are_capitalized(self):
@@ -81,10 +82,11 @@ class TestTitles(unittest.TestCase):
             title = re.sub(r'^#+\s*', '', t['title'])  # Remove the '#'+ suffix.
             title = re.sub(r'".+?(?=")"', '', title)  # Remove double-quoted statements.
             title = re.sub(r'`.+?(?=`)`', '', title)  # Remove code-quoted statements.
+            title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.
             words = re.split(r'[ :\(\),/\?\']', title)
             for w in range(len(words)):
                 word = words[w]
-                if not word or word.startswith('wb') or word.endswith('.wbt') or word in exceptions or numberPattern.match(word) or len(word) == 1:
+                if not word or word.startswith('wb') or word.endswith('.wbt') or word.endswith('.wbt]') or word in exceptions or numberPattern.match(word) or len(word) == 1:
                     continue  # Exceptions.
                 if w == 0:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' % (t['md'], t['title']))

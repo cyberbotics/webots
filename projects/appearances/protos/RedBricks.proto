@@ -12,25 +12,25 @@ PROTO RedBricks [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "textures/red_bricks/red_bricks_base_color.png"
+        "textures/red_bricks/red_bricks_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/red_bricks/red_bricks_roughness.png"
+        "textures/red_bricks/red_bricks_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "textures/red_bricks/red_bricks_normal.png"
+        "textures/red_bricks/red_bricks_normal.jpg"
       ]
     }
     environmentMap IS environmentMap
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "textures/red_bricks/red_bricks_occlusion.png"
+        "textures/red_bricks/red_bricks_occlusion.jpg"
       ]
     }
     occlusionMapStrength 1

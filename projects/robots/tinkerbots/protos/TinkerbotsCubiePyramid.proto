@@ -42,7 +42,7 @@ PROTO TinkerbotsCubiePyramid [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color IS color
-            occlusionMapUrl "textures/cubie_pyramid_occlusion.png"
+            occlusionMapUrl "textures/cubie_pyramid_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

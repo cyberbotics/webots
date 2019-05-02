@@ -25,9 +25,9 @@ ZIP_PACKAGE = libzip.tar.bz2
 PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal opencv openssl pico png ssh tiff zip
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
-.PHONY: release debug distrib clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
+.PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib: $(PACKAGES)
+release debug distrib profile: $(PACKAGES)
 clean:
 cleanse: $(PACKAGES_CLEAN)
 

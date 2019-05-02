@@ -128,7 +128,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/dirty.png"
+                "textures/dirty.jpg"
               ]
             }
             transparency 0.9
