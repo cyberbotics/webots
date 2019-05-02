@@ -12,7 +12,7 @@ In this directory, you will find the following world files:
 
 ![animated_skin.png](images/samples/animated_skin.png) This example shows the use of an animated Skin node on a salamander robot. This Skin node supports the use of the [PBRAppearance](../reference/pbrappearance.md) node to generate very realistic images.
 
-### [physically\_based\_rendering.wbt](https://github.com/omichel/webots/tree/master/projects/samples/rendering/worlds/Physically_based_rendering.wbt)
+### [physically\_based\_rendering.wbt](https://github.com/omichel/webots/tree/master/projects/samples/rendering/worlds/physically_based_rendering.wbt)
 
 **Keywords**: [PBRAppearance](../reference/pbrappearance.md), physically based rendering, shadows, ambient occlusion, normal map, bump map, metalness, roughness.
 
