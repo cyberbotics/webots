@@ -2,10 +2,7 @@
 
 THREE.brightPassShader = {
 
-  shaderID: 'brightPass',
-
   uniforms: {
-
     'tDiffuse': { value: null },
     'luminosityThreshold': { value: 1.0 },
     'smoothWidth': { value: 1.0 },
@@ -21,6 +18,7 @@ THREE.brightPassShader = {
     '  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
     '}'
   ].join('\n'),
+
   fragmentShader: [
     'uniform sampler2D tDiffuse;',
     'uniform vec3 defaultColor;',
@@ -39,5 +37,4 @@ THREE.brightPassShader = {
     '  gl_FragColor = mix( outputColor, texel, alpha );',
     '}'
   ].join('\n')
-
 };
