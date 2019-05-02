@@ -144,8 +144,6 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "<NavigationInfo headlight=\"false\" type=\"NONE\" />\n";  // disable automatic light, disable default X3DOM
                                                                           // navigation
       *this << "<Environment shadowExcludeTransparentObjects=\"true\"";
-      if (!mFrustumCullingValue.isEmpty())
-        *this << " frustumCulling=\"" << mFrustumCullingValue << "\"";
       *this << "/>\n";
       return;
     default:
