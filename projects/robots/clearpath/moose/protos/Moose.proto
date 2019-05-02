@@ -59,7 +59,7 @@ PROTO Moose [
             }
           }
           Shape {
-            appearance GlossyCarPaint {
+            appearance GlossyPaint {
               baseColor IS color
             }
             geometry IndexedFaceSet {
@@ -126,7 +126,7 @@ PROTO Moose [
             }
           }
           Shape {
-            appearance MatteCarPaint {
+            appearance MattePaint {
               baseColor 0.10861371786068513 0.10785076676585031 0.10920881971465629
             }
             geometry IndexedFaceSet {

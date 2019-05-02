@@ -28,7 +28,7 @@ PROTO PlasticCrate [
         scale IS size
         children [
           Shape {
-            appearance MatteCarPaint {
+            appearance MattePaint {
               baseColor 0.9 0.2 0.2
             }
             geometry IndexedFaceSet {
@@ -51,39 +51,39 @@ PROTO PlasticCrate [
           translation 0 %{= 0.5 * thickness.y }% 0
           children [
             Box {
-              size %{= fields.size.value.x - 2.0 * thickness.x }% %{= thickness.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
+              size %{= fields.size.value.x }% %{= thickness.y }% %{= fields.size.value.z }%
             }
           ]
         }
         Transform {
-          translation %{= 0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y }% 0
+          translation %{= 0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% 0
           children [
             Box {
-              size %{= thickness.x }% %{= fields.size.value.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
+              size %{= thickness.x }% %{= fields.size.value.y - thickness.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
             }
           ]
         }
         Transform {
-          translation %{= -0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y }% 0
+          translation %{= -0.5 * (fields.size.value.x - thickness.x) }% %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% 0
           children [
             Box {
-              size %{= thickness.x }% %{= fields.size.value.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
+              size %{= thickness.x }% %{= fields.size.value.y - thickness.y }% %{= fields.size.value.z - 2.0 * thickness.z }%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * fields.size.value.y }% %{= 0.5 * (fields.size.value.z - thickness.z) }%
+          translation 0 %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% %{= 0.5 * (fields.size.value.z - thickness.z) }%
           children [
             Box {
-              size %{= fields.size.value.x }% %{= fields.size.value.y }% %{= thickness.x }%
+              size %{= fields.size.value.x }% %{= fields.size.value.y - thickness.y }% %{= thickness.x }%
             }
           ]
         }
         Transform {
-          translation 0 %{= 0.5 * fields.size.value.y }% %{= -0.5 * (fields.size.value.z - thickness.z) }%
+          translation 0 %{= 0.5 * fields.size.value.y + 0.5 * thickness.y }% %{= -0.5 * (fields.size.value.z - thickness.z) }%
           children [
             Box {
-              size %{= fields.size.value.x }% %{= fields.size.value.y }% %{= thickness.x }%
+              size %{= fields.size.value.x }% %{= fields.size.value.y - thickness.y }% %{= thickness.x }%
             }
           ]
         }

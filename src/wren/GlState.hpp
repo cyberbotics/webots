@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -128,8 +128,8 @@ namespace wren {
     unsigned int activeProgram();
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer);
 
-    // Returns true and prints the error code(s) if OpenGL errors have ocurred since the last invocation
-    bool checkError();
+    // Prints the error code(s) if OpenGL errors have ocurred since the last invocation
+    void checkError(int ignore = 0);
 
   }  // namespace glstate
 }  // namespace wren

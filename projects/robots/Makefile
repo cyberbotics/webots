@@ -1,4 +1,4 @@
-# Copyright 1996-2018 Cyberbotics Ltd.
+# Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,7 +51,8 @@ CONTROLLERS=\
   sphero/controllers.Makefile \
   surveyor/controllers.Makefile \
   tinkerbots/controllers.Makefile \
-  unimation/puma/controllers.Makefile
+  unimation/puma/controllers.Makefile \
+  universal_robots/ur5e/controllers.Makefile
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
 	robotis/darwin-op/plugins/robot_windows.Makefile \

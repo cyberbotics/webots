@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -245,20 +245,17 @@ void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
   findField("color", true)->write(writer);
   findField("intensity", true)->write(writer);
   findField("ambientIntensity", true)->write(writer);
+  findField("castShadows", true)->write(writer);
   if (writer.isX3d() && castShadows()) {
     QHash<QString, QString> x3dExportParameters = WbWorld::instance()->perspective()->x3dExportParameters();
-    if (x3dExportParameters.contains("shadowIntensity"))
-      writer << " shadowIntensity=\'" << x3dExportParameters.value("shadowIntensity") << "\'";
-    else
-      writer << " shadowIntensity=\'" << defaultX3dShadowsParameter("shadowIntensity") << "\'";
     if (x3dExportParameters.contains("shadowMapSize"))
       writer << " shadowMapSize=\'" << x3dExportParameters.value("shadowMapSize") << "\'";
     else
       writer << " shadowMapSize=\'" << defaultX3dShadowsParameter("shadowMapSize") << "\'";
-    if (x3dExportParameters.contains("shadowFilterSize") && !x3dExportParameters.value("shadowFilterSize").isEmpty())
-      writer << " shadowFilterSize=\'" << x3dExportParameters.value("shadowFilterSize") << "\'";
-    if (x3dExportParameters.contains("shadowsCascades") && !x3dExportParameters.value("shadowsCascades").isEmpty())
-      writer << " shadowsCascades=\'" << x3dExportParameters.value("shadowsCascades") << "\'";
+    if (x3dExportParameters.contains("shadowRadius") && !x3dExportParameters.value("shadowRadius").isEmpty())
+      writer << " shadowRadius=\'" << x3dExportParameters.value("shadowRadius") << "\'";
+    if (x3dExportParameters.contains("shadowBias") && !x3dExportParameters.value("shadowBias").isEmpty())
+      writer << " shadowBias=\'" << x3dExportParameters.value("shadowBias") << "\'";
   }
 }
 

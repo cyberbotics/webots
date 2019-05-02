@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,4 +51,25 @@ QString WbPrecision::doubleToString(double value, Level level) {
     default:  // GUI_MEDIUM
       return QString::number(value, 'g', 6);
   }
+}
+
+const double WbPrecision::epsilon(Level level) {
+  switch (level) {
+    case DOUBLE_MAX:
+      return std::numeric_limits<double>::epsilon();
+    case FLOAT_MAX:
+      return std::numeric_limits<float>::epsilon();
+    case GUI_MEDIUM:
+      return 1e-6;
+    case GUI_LOW:
+      return 1e-3;
+    default:
+      assert(false);
+      return 0;
+  }
+}
+
+double WbPrecision::roundValue(double value, Level level) {
+  const double epsilon = WbPrecision::epsilon(level);
+  return round(value / epsilon) * epsilon;
 }

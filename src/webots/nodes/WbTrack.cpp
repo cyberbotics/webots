@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -930,7 +930,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
       writer << "<Transform ";
       writer << "translation='" << position << "' ";
       writer << "rotation='" << rotation << "'>";
-      writer << "<Transform USE='" << defName << "'></Transform>";
+      writer << "<Transform USE='" << QString::number(node->uniqueId()) << "'></Transform>";
       writer << "</Transform>";
     } else {
       writer.indent();

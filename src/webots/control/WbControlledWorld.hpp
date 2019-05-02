@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include "WbSimulationWorld.hpp"  // TODO: should we rename WbSimulationWorld to WbSimulatedWorld ?
 
 class QLocalServer;
+class QLocalSocket;
 class WbController;
 
 class WbControlledWorld : public WbSimulationWorld {
@@ -53,6 +54,7 @@ protected:
   void setUpControllerForNewRobot(WbRobot *robot) override;
 
 private:
+  void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
 
   QLocalServer *mServer;

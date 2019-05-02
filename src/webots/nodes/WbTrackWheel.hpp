@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,6 +51,12 @@ public:
 
 signals:
   void changed();
+
+protected:
+  const QString &vrmlName() const override {
+    static const QString name("Transform");
+    return name;
+  }
 
 private:
   WbTrackWheel &operator=(const WbTrackWheel &);  // non copyable

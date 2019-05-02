@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -349,12 +349,24 @@ bool WbPbrAppearance::isBaseColorTextureLoaded() const {
   return (baseColorMap() && baseColorMap()->wrenTexture());
 }
 
+bool WbPbrAppearance::isRoughnessTextureLoaded() const {
+  return (roughnessMap() && roughnessMap()->wrenTexture());
+}
+
+bool WbPbrAppearance::isOcclusionTextureLoaded() const {
+  return (occlusionMap() && occlusionMap()->wrenTexture());
+}
+
 WbRgb WbPbrAppearance::baseColor() const {
   return mBaseColor->value();
 }
 
 double WbPbrAppearance::transparency() const {
   return mTransparency->value();
+}
+
+double WbPbrAppearance::roughness() const {
+  return mRoughness->value();
 }
 
 void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVector2 &uv) const {
@@ -364,6 +376,24 @@ void WbPbrAppearance::pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVe
     tex->pickColor(pickedColor, uvTransformed);
   } else
     pickedColor.setValue(1.0, 1.0, 1.0);  // default value
+}
+
+void WbPbrAppearance::pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const {
+  *roughness = getRedValueInTexture(roughnessMap(), uv);
+}
+
+void WbPbrAppearance::pickOcclusionInTexture(double *occlusion, const WbVector2 &uv) const {
+  *occlusion = getRedValueInTexture(occlusionMap(), uv);
+}
+
+double WbPbrAppearance::getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const {
+  if (texture) {
+    WbRgb pickedColor;
+    WbVector2 uvTransformed = transformUVCoordinate(uv);
+    texture->pickColor(pickedColor, uvTransformed);
+    return pickedColor.red();
+  }
+  return 0.0;  // default value
 }
 
 void WbPbrAppearance::updateCubeMap() {
@@ -534,4 +564,65 @@ void WbPbrAppearance::exportNodeSubNodes(WbVrmlWriter &writer) const {
       writer << "\n";
     }
   }
+}
+
+void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
+  WbAbstractAppearance::exportNodeFooter(writer);
+
+  if (!writer.isX3d())
+    return;
+
+  writer << "<PBRAppearance id=\'n" << QString::number(uniqueId()) << "\'";
+
+  if (isUseNode() && defNode()) {
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></PBRAppearance>";
+    return;
+  }
+
+  foreach (WbField *field, fields())
+    if (field->singleType() != WB_SF_NODE)
+      field->write(writer);
+
+  writer << ">";
+
+  if (baseColorMap()) {
+    baseColorMap()->setRole("baseColor");
+    baseColorMap()->write(writer);
+  }
+  if (roughnessMap()) {
+    roughnessMap()->setRole("roughness");
+    roughnessMap()->write(writer);
+  }
+  if (metalnessMap()) {
+    metalnessMap()->setRole("metalness");
+    metalnessMap()->write(writer);
+  }
+  if (environmentMap()) {
+    environmentMap()->setRole("environment");
+    environmentMap()->write(writer);
+  }
+  if (normalMap()) {
+    normalMap()->setRole("normal");
+    normalMap()->write(writer);
+  }
+  if (occlusionMap()) {
+    occlusionMap()->setRole("occlusion");
+    occlusionMap()->write(writer);
+  }
+  if (emissiveColorMap()) {
+    emissiveColorMap()->setRole("emissiveColor");
+    emissiveColorMap()->write(writer);
+  }
+
+  if (textureTransform())
+    textureTransform()->write(writer);
+
+  writer << "</PBRAppearance>";
+}
+
+QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "baseColor"
+         << "emissiveColor";
+  return fields;
 }

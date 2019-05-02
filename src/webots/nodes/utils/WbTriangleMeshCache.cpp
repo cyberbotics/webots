@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #include "WbCoordinate.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMFInt.hpp"
+#include "WbNormal.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbTextureCoordinate.hpp"
@@ -71,6 +72,13 @@ namespace WbTriangleMeshCache {
       mHash ^= sipHash13x(startCoord, size);
     }
 
+    const WbNormal *normal = indexedFaceSet->normal();
+    if (normal && normal->vectorSize()) {
+      const double *startNormal = normal->vector().item(0).ptr();
+      int size = 2 * normal->vectorSize();
+      mHash ^= sipHash13x(startNormal, size);
+    }
+
     const WbTextureCoordinate *texCoord = indexedFaceSet->texCoord();
     if (texCoord && texCoord->pointSize()) {
       const double *startTexCoord = texCoord->point().item(0).ptr();
@@ -84,6 +92,12 @@ namespace WbTriangleMeshCache {
       mHash ^= sipHash13x(startCoordIndex, coordIndex->size());
     }
 
+    const WbMFInt *normalIndex = indexedFaceSet->normalIndex();
+    if (normalIndex && normalIndex->size()) {
+      const int *startNormalIndex = &(normalIndex->item(0));
+      mHash ^= sipHash13x(startNormalIndex, normalIndex->size());
+    }
+
     const WbMFInt *texCoordIndex = indexedFaceSet->texCoordIndex();
     if (texCoordIndex && texCoordIndex->size()) {
       const int *startTexCoordIndex = &(texCoordIndex->item(0));
@@ -92,6 +106,7 @@ namespace WbTriangleMeshCache {
 
     mHash ^= sipHash13x(indexedFaceSet->creaseAngle()->valuePointer(), 1);
     mHash ^= sipHash13x(indexedFaceSet->ccw()->valuePointer(), 1);
+    mHash ^= sipHash13x(indexedFaceSet->normalPerVertex()->valuePointer(), 1);
   }
 
   bool IndexedFaceSetKey::operator==(const IndexedFaceSetKey &rhs) const { return mHash == rhs.mHash; }

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ extern unsigned int scheduler_data_size;
 extern char *scheduler_date;
 extern unsigned int scheduler_actual_step;
 
-int scheduler_init();
+int scheduler_init(const char *pipe);
 void scheduler_cleanup();
 WbRequest *scheduler_read_data();
 void scheduler_send_request(WbRequest *);

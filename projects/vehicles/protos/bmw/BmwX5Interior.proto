@@ -1099,7 +1099,7 @@ PROTO BmwX5Interior [
       }
       %{ end }%
       DEF BOARD_TOP Shape {
-        appearance DEF DARK_LEATHER CarLeather {
+        appearance DEF DARK_LEATHER Leather {
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -2272,7 +2272,7 @@ PROTO BmwX5Interior [
         }
       }
       DEF BOARD Shape {
-        appearance DEF LIGHT_LEATHER CarLeather {
+        appearance DEF LIGHT_LEATHER Leather {
           tone "light"
           textureTransform TextureTransform {
             scale 4 4

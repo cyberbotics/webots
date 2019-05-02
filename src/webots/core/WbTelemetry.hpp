@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,8 +25,7 @@ class WbTelemetry : public QObject {
   Q_OBJECT
 
 public:
-  static void send(const QString &file = "");
-  void sendRequest(const QString &operation);
+  static void send(const QString &operation, const QString &file = "");
   QString mFile;
 
 private slots:
@@ -35,6 +34,8 @@ private slots:
 private:
   WbTelemetry() : mFile() {}
   virtual ~WbTelemetry() {}
+
+  void sendRequest(const QString &operation);
 };
 
 #endif

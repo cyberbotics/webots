@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -152,7 +152,7 @@ WbController::~WbController() {
         mSocket->flush();  // otherwise the temination packet is not sent
       }
       // kill the process
-      if (!mProcess->waitForFinished(1000)) {
+      if (mProcess->state() != QProcess::NotRunning && !mProcess->waitForFinished(1000)) {
         WbLog::warning(tr("%1: Forced termination (because process didn't terminate itself after 1 second).").arg(name()));
 #ifdef _WIN32
         // on Windows, we need to kill the process as it may not handle the WM_CLOSE message sent by terminate()
@@ -162,7 +162,7 @@ WbController::~WbController() {
 #endif
       }
     }
-  } else if (mProcess)
+  } else if (mProcess && mProcess->state() != QProcess::NotRunning)
     mProcess->terminate();
 
   delete mSocket;
@@ -225,7 +225,7 @@ void WbController::start() {
   if (mCommandLine.isEmpty())  // python has wrong version or Matlab 64 not available
     return;
 
-  info(tr("Starting: \"%1\"").arg(mCommandLine));
+  info(tr("Starting controller: %1").arg(mCommandLine));
 
 #ifdef __linux__
   if (!qgetenv("WEBOTS_FIREJAIL_CONTROLLERS").isEmpty() && mRobot->findField("controller")) {

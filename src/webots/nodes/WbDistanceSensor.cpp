@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -518,9 +518,10 @@ void WbDistanceSensor::computeValue() {
         mRays[i].setDistance(distance);
 
         WbRgb pickedColor;
-        shape->pickColor(pickedColor, WbRay(trans, r));
+        double roughness, occlusion;
+        shape->pickColor(pickedColor, WbRay(trans, r), &roughness, &occlusion);
 
-        const double infraRedFactor = 0.8 * pickedColor.red() + 0.2;
+        const double infraRedFactor = 0.8 * pickedColor.red() * (1 - 0.5 * roughness) * (1 - 0.5 * occlusion) + 0.2;
         averageInfraRedFactor += infraRedFactor * mRays[i].weight();
       } else
         averageInfraRedFactor += mRays[i].weight();

@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -302,6 +302,8 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
       animationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
       setAnimation = "\n          view.setAnimation(\"" + QFileInfo(animationFilename).fileName() + "\", \"play\", true);";
     }
+
+    templateValues << QPair<QString, QString>("%wwiPath%", WbStandardPaths::resourcesWebPath() + "wwi/");
     templateValues << QPair<QString, QString>("%setAnimation%", setAnimation);
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);
@@ -419,13 +421,13 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
       QJsonObject deviceObject;
       deviceObject.insert("name", device->deviceName());
       const WbBaseNode *deviceBaseNode = dynamic_cast<const WbBaseNode *>(device);
+      const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
+      const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
       if (deviceBaseNode)
         deviceObject.insert("type", deviceBaseNode->nodeModelName());
 
-      const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
-      if (jointDevice) {  // case: joint devices.
+      if (jointDevice && jointDevice->joint()) {  // case: joint devices.
         deviceObject.insert("transformID", QString("n%1").arg(jointDevice->joint()->solidEndPoint()->uniqueId()));
-        const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
         if (motor) {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
@@ -436,7 +438,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             deviceObject.insert("axis", motor->joint()->parameters()->axis().toString(WbPrecision::FLOAT_MAX));
         }
       } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent = deviceBaseNode;
+        const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {
@@ -445,6 +447,8 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
             WbVector3 v = m.translation();
             if (!v.almostEquals(WbVector3()))
               deviceObject.insert("transformOffset", v.toString(WbPrecision::FLOAT_MAX));
+            if (motor && parent->nodeType() == WB_NODE_TRACK)
+              deviceObject.insert("track", "true");
             break;
           } else {
             const WbAbstractTransform *transform = dynamic_cast<const WbAbstractTransform *>(parent);

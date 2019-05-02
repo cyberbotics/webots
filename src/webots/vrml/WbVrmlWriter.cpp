@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -144,8 +144,6 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "<NavigationInfo headlight=\"false\" type=\"NONE\" />\n";  // disable automatic light, disable default X3DOM
                                                                           // navigation
       *this << "<Environment shadowExcludeTransparentObjects=\"true\"";
-      if (!mFrustumCullingValue.isEmpty())
-        *this << " frustumCulling=\"" << mFrustumCullingValue << "\"";
       *this << "/>\n";
       return;
     default:

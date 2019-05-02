@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -459,7 +459,7 @@ void WbRobot::updateRemoteControl() {
 
 void WbRobot::updateControllerDir() {
   const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty()) {
+  if (!controllerName.isEmpty() && controllerName != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();

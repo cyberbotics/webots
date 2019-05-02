@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -168,22 +168,6 @@ void WbMaterial::modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured) {
 
   wr_phong_material_set_all_parameters(wrenMaterial, ambientColor, diffuseColor, specularColor, emissiveColor, shininess,
                                        mTransparency->value());
-}
-
-void WbMaterial::exportNodeFields(WbVrmlWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
-
-  foreach (WbField *field, fields()) {
-    // Override WbNode::exportNodeFields in order to skip exporting emissiveColor in x3d
-    // given that the result in x3dom is not the expected one
-    if (writer.isX3d() && field->name() == "emissiveColor")
-      continue;
-    if (!field->isDeprecated() && (field->isVrml() && field->singleType() != WB_SF_NODE))
-      field->write(writer);
-  }
 }
 
 QStringList WbMaterial::fieldsToSynchronizeWithX3D() const {

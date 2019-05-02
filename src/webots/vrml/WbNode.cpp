@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -403,10 +403,6 @@ QString WbNode::fullName() const {
     return "DEF " + mDefName + " " + modelName();
   else
     return modelName();
-}
-
-const QString &WbNode::vrmlName() const {
-  return WbNodeFactory::instance()->modelToVrmlName(nodeModelName());
 }
 
 QString WbNode::fullVrmlName() const {
@@ -1083,7 +1079,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
-    writer << "</" << vrmlName() << ">";
+    writer << "</" << x3dName() << ">";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();

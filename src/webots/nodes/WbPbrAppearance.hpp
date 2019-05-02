@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,19 +59,31 @@ public:
 
   // specific functions
   bool isBaseColorTextureLoaded() const;
+  bool isRoughnessTextureLoaded() const;
+  bool isOcclusionTextureLoaded() const;
   void pickColorInBaseColorTexture(WbRgb &pickedColor, const WbVector2 &uv) const;
+  void pickRoughnessInTexture(double *roughness, const WbVector2 &uv) const;
+  void pickOcclusionInTexture(double *occlusion, const WbVector2 &uv) const;
   WbRgb baseColor() const;
   double transparency() const;
+  double roughness() const;
+
+  QStringList fieldsToSynchronizeWithX3D() const override;
 
 protected:
   void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  void exportNodeFooter(WbVrmlWriter &writer) const override;
+  const QString &vrmlName() const override {
+    static const QString name("Appearance");
+    return name;
+  }
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
   void clearCubemap(WrMaterial *wrenMaterial);
+  double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
 
-  bool isTransparent();
   void init();
 
   WbSFColor *mBaseColor;

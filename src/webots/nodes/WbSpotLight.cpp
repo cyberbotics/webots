@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,10 +48,11 @@ void WbSpotLight::init() {
 
 WbSpotLight::WbSpotLight(WbTokenizer *tokenizer) : WbLight("SpotLight", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mDirection->setValueNoSignal(0, 1, -1);
-  if (tokenizer == NULL)
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+    mBeamWidth->setValueNoSignal(0.7);
+  }
 }
 
 WbSpotLight::WbSpotLight(const WbSpotLight &other) : WbLight(other) {

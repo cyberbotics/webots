@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -347,9 +347,6 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       }
       writer << "'";
     }
-
-    if (!findField("lineScale")->isDefault())
-      writer << " lineScale='" << mLineScale->value() << "'";
 
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";

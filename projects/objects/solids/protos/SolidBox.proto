@@ -14,6 +14,7 @@ PROTO SolidBox [
   field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
   field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the box.
   field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
+  field SFBool     castShadows     TRUE                                                                                                          # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -117,6 +118,7 @@ PROTO SolidBox [
           ]
           creaseAngle 1.5
         }
+        castShadows IS castShadows
       }
     ]
     name IS name

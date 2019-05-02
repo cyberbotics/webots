@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -362,7 +362,10 @@ void WbExtendedStringEditor::select() {
   // add webots resources and default controllers/plugins
   items += defaultEntryList();
   items.sort();
-  items.prepend("none");
+  if (mStringType == CONTROLLER) {
+    items.prepend("none");
+    items.prepend("<extern>");
+  }
   items.removeDuplicates();
 
   // let the user choose from an item list

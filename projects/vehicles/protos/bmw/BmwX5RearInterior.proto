@@ -16116,7 +16116,7 @@ PROTO BmwX5RearInterior [
       }
       %{ end }%
       DEF CENTER Shape {
-        appearance DEF LIGHT_LEATHER CarLeather {
+        appearance DEF LIGHT_LEATHER Leather {
           tone "light"
           textureTransform TextureTransform {
             scale 4 4

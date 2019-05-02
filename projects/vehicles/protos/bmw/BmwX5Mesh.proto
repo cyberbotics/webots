@@ -2442,7 +2442,7 @@ PROTO BmwX5Mesh [
         }
       }
       DEF COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color 
         }
         geometry IndexedFaceSet {

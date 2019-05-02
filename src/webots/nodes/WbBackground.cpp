@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -325,8 +325,25 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   findField("skyColor", true)->write(writer);
 
-  if (!cubemap() || !cubemap()->isValid() || cubemap()->isEquirectangular())
+  if (!cubemap() || !cubemap()->isValid())
     return;
+
+  if (cubemap()->isEquirectangular()) {
+    // supported only for x3d export
+    if (!writer.isX3d())
+      return;
+    const QString &textureUrl(cubemap()->equirectangularTextureUrl());
+    const QFileInfo &cubeInfo(textureUrl);
+    QString outputFileName;
+    if (writer.isWritingToFile())
+      outputFileName = WbUrl::exportTexture(this, textureUrl, textureUrl,
+                                            writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+    else
+      outputFileName = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+    writer.addTextureToList(outputFileName, textureUrl);
+    writer << " hdrUrl='" << outputFileName << "' ";
+    return;
+  }
 
   QString outputFileNames[6];
   for (int i = 0; i < 6; ++i) {

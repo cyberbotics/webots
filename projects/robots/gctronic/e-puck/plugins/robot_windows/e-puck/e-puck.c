@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2018 Cyberbotics Ltd.
+ * Copyright 1996-2019 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -189,7 +189,7 @@ void wb_robot_window_step(int time_step) {
       wb_remote_control_custom_function(&upload);
       free(port);
       const char *data = &message[8 + n];
-      const char *path = wbu_system_short_path(wbu_system_getenv("WEBOTS_TMP_PATH"));
+      const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
       const char *filename = "e-puck.hex";
       char *full_path = (char *)malloc(strlen(path) + strlen(filename) + 1);
       sprintf(full_path, "%s%s", path, filename);
@@ -310,12 +310,12 @@ void wb_robot_window_step(int time_step) {
     strcat(update_message, update);
 
   if (areDevicesReady && wb_camera_get_sampling_period(camera)) {
-    const char *path = wbu_system_short_path(wbu_system_getenv("WEBOTS_TMP_PATH"));
+    const char *path = wbu_system_short_path(wbu_system_webots_tmp_path());
     const char *filename = "camera.jpg";
     int pid = getpid();
-    int l = strlen(path) + strlen(filename) + 1 + 11;  // 11 = max length of an integer: -2147483648
+    int l = strlen(path) + strlen(filename) + 2 + 11;  // 11 = max length of an integer: -2147483648
     char *full_path = (char *)malloc(l);
-    snprintf(full_path, l, "%s%d%s", path, pid, filename);
+    snprintf(full_path, l, "%s/%d%s", path, pid, filename);
     wb_camera_save_image(camera, full_path, 90);
     for (i = 0; i < l; i++)
       if (full_path[i] == '\\')

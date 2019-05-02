@@ -18,6 +18,7 @@ PROTO DoorLever [
   field SFNode     appearance       BrushedAluminium {}  # Defines the appearance of the lever.
   field SFFloat    mass             0.7                  # Defines the mass of the lever.
   field SFBool     hasStaticParent  FALSE                # Defines whether the parent door has physics or not.
+  field SFBool     castShadows      TRUE                 # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -66,6 +67,7 @@ PROTO DoorLever [
                 radius %{= 3 * handleThickness }%
                 height %{= 0.025 + doorThickness }%
               }
+              castShadows IS castShadows
             }
           ]
         }
@@ -96,6 +98,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= axisHeight }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }
@@ -109,6 +112,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= handleLength }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }
@@ -122,6 +126,7 @@ PROTO DoorLever [
                       radius %{= handleThickness }%
                       height %{= handleLength }%
                     }
+                    castShadows IS castShadows
                   }
                 ]
               }

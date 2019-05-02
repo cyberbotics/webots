@@ -1,4 +1,4 @@
-// Copyright 1996-2018 Cyberbotics Ltd.
+// Copyright 1996-2019 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -274,7 +274,7 @@ void WbShape::applyMaterialToGeometry() {
 // ray cast to a shape: pick the collided color
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
-void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray) const {
+void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray, double *roughness, double *occlusion) const {
   WbAppearance *const app = appearance();
   WbPbrAppearance *const pbrApp = pbrAppearance();
   WbGeometry *const geom = geometry();
@@ -284,6 +284,11 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray) const {
   WbRgb paintColor(1.0f, 1.0f, 1.0f);
   pickedColor = WbRgb(1.0f, 1.0f, 1.0f);  // default value
   WbVector2 uv(-1, -1);
+
+  if (roughness)
+    *roughness = 0.0;
+  if (occlusion)
+    *occlusion = 0.0;
 
   if (geom) {
     WbPaintTexture *paintTexture = WbPaintTexture::findPaintTexture(this);
@@ -308,6 +313,9 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray) const {
           pickedColor.setRed(pickedColor.red() * alpha);
           pickedColor.setGreen(pickedColor.green() * alpha);
           pickedColor.setBlue(pickedColor.blue() * alpha);
+
+          if (roughness)
+            *roughness = pbrApp->roughness();
         }
 
         return;
@@ -352,6 +360,9 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray) const {
       diffuseColor.setGreen(diffuseColor.green() * alpha);
       diffuseColor.setBlue(diffuseColor.blue() * alpha);
 
+      if (roughness)
+        *roughness = pbrApp->roughness();
+
       // texture color
       if (pbrApp->isBaseColorTextureLoaded()) {
         if (uv.x() == -1) {
@@ -364,6 +375,10 @@ void WbShape::pickColor(WbRgb &pickedColor, const WbRay &ray) const {
 
         // retrieve the corresponding color in the texture
         pbrApp->pickColorInBaseColorTexture(textureColor, uv);
+        if (roughness && pbrApp->isRoughnessTextureLoaded())
+          pbrApp->pickRoughnessInTexture(roughness, uv);
+        if (occlusion && pbrApp->isOcclusionTextureLoaded())
+          pbrApp->pickOcclusionInTexture(occlusion, uv);
       } else {
         if (paintTexture)
           pickedColor = paintColor;
@@ -434,20 +449,20 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 ////////////
 
 bool WbShape::exportNodeHeader(WbVrmlWriter &writer) const {
-  // In order to let the X3Dom picking work well, the USE shapes should be written explicitly
   if (writer.isX3d()) {
-    writer << "<" << vrmlName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    if (isInvisibleNode())
+      writer << " render=\'false\'";
 
-    // if (isUseNode()) {
-    //   writer << " USE=\'" + mUseName + "\'></" + vrmlName() + ">";
-    //   return true;
-    // }
-
-    if (!defName().isEmpty())
-      writer << " DEF=\'" << defName() << "\'";
+    if (isUseNode() && defNode()) {
+      writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+      return true;
+    }
 
     if (!mIsPickable->value())
       writer << " isPickable='false'";
+    if (mCastShadows->value())
+      writer << " castShadows='true'";
 
     return false;
   } else
