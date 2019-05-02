@@ -277,8 +277,10 @@ endif
 
 ifeq ($(GOAL),profile)
  WBCFLAGS += -pg
- ifndef BUILD_STATIC_LIBRARY
-  LFLAGS += -pg
+ ifneq ($(OSTYPE),darwin)
+  ifndef BUILD_STATIC_LIBRARY
+   LFLAGS += -pg
+  endif
  endif
 endif
 
@@ -379,6 +381,9 @@ endif
 
 ifdef USE_ODE
  DYNAMIC_LIBRARIES += -L$(WEBOTS_LIB_PATH) -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ ifeq ($(GOAL),profile)
+  DYNAMIC_LIBRARIES += -lstdc++
+ endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
  endif
@@ -555,23 +560,7 @@ endif
 ### Rules
 ###-----------------------------------------------------------------------------
 
-# define default rules for user pre and post builds in case user doesn't specify them
-
-$(SUPPORTED_TARGETS): post-build
-
-USER_PREBUILD:
-
-USER_POSTBUILD:
-
-pre-build:
-	@$(MAKE) --silent USER_PREBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
-
-post-build: main-build
-	@$(MAKE) --silent USER_POSTBUILD TARGET=$(BUILD_GOAL_DIR)/$(MAIN_TARGET)
-
-$(TARGETS): pre-build
-
-main-build: $(TARGETS)
+$(SUPPORTED_TARGETS): $(TARGETS)
 
 # we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGET)
 clean: $(EXTRA_TARGETS)

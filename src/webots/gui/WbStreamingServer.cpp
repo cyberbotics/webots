@@ -496,7 +496,10 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (message.startsWith("x3dom")) {
     WbLog::info(tr("Streaming server: Client set mode to: X3DOM."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
-    startX3domStreaming(client);
+
+    if (!WbWorld::instance()->isLoading())
+      startX3domStreaming(client);
+    // else streaming is started once the world loading is completed
   } else if (message.startsWith("video: ")) {
     QStringList resolution = message.mid(7).split("x");
     int width = resolution[0].toInt();

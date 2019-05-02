@@ -49,25 +49,25 @@ PROTO ConveyorBelt [
               metalness 0
               baseColorMap ImageTexture {
                 url [
-                  "textures/rubber_base_color.png"
+                  "textures/rubber_base_color.jpg"
                 ]
                 filtering 5
               }
               normalMap ImageTexture {
                 url [
-                  "textures/rubber_normal.png"
+                  "textures/rubber_normal.jpg"
                 ]
                 filtering 5
               }
               roughnessMap ImageTexture {
                 url [
-                  "textures/rubber_roughness.png"
+                  "textures/rubber_roughness.jpg"
                 ]
                 filtering 5
               }
               occlusionMap ImageTexture {
                 url [
-                  "textures/rubber_occlusion.png"
+                  "textures/rubber_occlusion.jpg"
                 ]
                 filtering 5
               }
