@@ -1,8 +1,8 @@
 /* global THREE */
 
-THREE.LuminosityHighPassShader = {
+THREE.brightPassShader = {
 
-  shaderID: 'luminosityHighPass',
+  shaderID: 'brightPass',
 
   uniforms: {
 

@@ -52,7 +52,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
     // sources: https://threejs.org/examples/webgl_postprocessing_unreal_bloom.html
-    var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    var bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
     bloomPass.strength = 0.5;
     bloomPass.radius = 0.6;
     bloomPass.threshold = 0.6;
