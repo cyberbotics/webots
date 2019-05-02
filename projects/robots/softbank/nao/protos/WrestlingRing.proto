@@ -1,0 +1,66 @@
+#VRML_SIM R2019a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A wrestling ring for the NAO robots
+
+PROTO WrestlingRing [
+  field SFVec3f translation 0 0.25 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "wrestling ring"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Shape {
+        appearance ChequeredParquetry {
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              1 -0.25 1
+              -1 -0.25 1
+              -1 -0.25 -1
+              1 -0.25 -1
+              1 0.251 1
+              -1 0.251 1
+              -1 0.251 -1
+              1 0.251 -1
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              4 4
+              0 4
+              0 0
+              4 0
+              4 1
+              0 1
+              0 0
+              4 0
+              1 4
+              0 4
+              0 0
+              1 0
+            ]
+          }
+          coordIndex [
+            7, 6, 5, 4, -1, 4, 5, 1, 0, -1
+            6, 7, 3, 2, -1, 0, 3, 7, 4, -1
+            1, 5, 6, 2, -1
+          ]
+          texCoordIndex [
+            3, 2, 1, 0, -1, 4, 5, 6, 7, -1
+            4, 5, 6, 7, -1, 9, 10, 11, 8, -1
+            8, 9, 10, 11, -1
+          ]
+        }
+      }
+    ]
+    boundingObject Box {
+      size 2 0.5 2
+    }
+  }
+}
