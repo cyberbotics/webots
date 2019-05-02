@@ -22,6 +22,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
+    this.renderer.gammaFactor = Math.sqrt(2.2);
 
     this.domElement.appendChild(this.renderer.domElement);
 
@@ -52,7 +53,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.addPass(renderPass);
     // sources: https://threejs.org/examples/webgl_postprocessing_unreal_bloom.html
     var bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight));
-    bloomPass.strength = 0.5;
+    bloomPass.strength = 0.0; // 0.5;
     bloomPass.radius = 0.6;
     bloomPass.threshold = 0.6;
     this.composer.addPass(bloomPass);
@@ -61,7 +62,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.saoPass.params.saoIntensity = 0.015;
     this.saoPass.params.saoScale = 20;
     this.saoPass.params.saoKernelRadius = 20;
+    this.saoPass.params.output = THREE.SAOPass.OUTPUT.Beauty;
     this.composer.addPass(this.saoPass);
+    // sources: https://threejs.org/examples/webgl_shaders_tonemapping.html
+    var gammaCorrectionPass = new THREE.ShaderPass(THREE.GammaCorrectionShader);
+    this.composer.addPass(gammaCorrectionPass);
     // sources: https://threejs.org/examples/webgl_postprocessing_fxaa.html
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
