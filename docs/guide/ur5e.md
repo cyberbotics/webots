@@ -38,9 +38,9 @@ UR5e {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/universal_robots/ur5e/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/universal\_robots/ur5e/worlds](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ur5e/worlds)".
 
-#### ur5e.wbt
+#### [ur5e.wbt](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ur5e/worlds/ur5e.wbt)
 
 ![ur5e.wbt.png](images/robots/ur5e/ur5e.wbt.png) This simulation shows two UR5e robots equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper) grabbing cans on a conveyor belt and putting them in crates.
 
