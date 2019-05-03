@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find ur_e_webots)/launch/ur5e.launch">
+    <arg name="limited" value="true"/>
+  </include>
+</launch>
