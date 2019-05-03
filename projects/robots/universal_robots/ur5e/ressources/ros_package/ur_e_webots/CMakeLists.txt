@@ -11,4 +11,5 @@ if (CATKIN_ENABLE_TESTING)
   roslaunch_add_file_check(tests/roslaunch_test.xml)
 endif()
 
-install(DIRECTORY launch controller DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(PROGRAMS src/webots/webots.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

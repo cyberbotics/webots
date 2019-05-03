@@ -2,5 +2,6 @@
 <launch>
   <include file="$(find ur_e_webots)/launch/ur5e.launch">
     <arg name="limited" value="true"/>
+    <!--<arg name="prefix" value="$(arg prefix)"/>-->
   </include>
 </launch>
