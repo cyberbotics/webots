@@ -48,14 +48,14 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 To use ROS with the simulated UR5e robot in Webots, the `universal_robot_ros` controller should be assigned to the robot. Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal_robots/ur5e/ressources/ros_package/ur_e_webots](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ur5e/ressources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
 
-Once `roscore` is started the `ur5e` node of the `ur_e_webots` package can be launched: `roslaunch ur_e_webots ur5e.launch`
+Once `roscore` is started the `ur5e` node of the `ur_e_webots` package can be launched:
+```
+roslaunch ur_e_webots ur5e.launch
+```
 
 The simulation can now be started.
 
-> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.:
-```
-roslaunch ur_e_webots ur5e_joint_limited.launch
-```
+> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.: `roslaunch ur_e_webots ur5e_joint_limited.launch`
 
 #### MoveIt!
 
