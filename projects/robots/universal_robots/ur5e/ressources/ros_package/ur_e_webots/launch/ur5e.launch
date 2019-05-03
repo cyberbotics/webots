@@ -3,6 +3,7 @@
   <arg name="limited" default="false"  doc="If true, limits joint range [-PI, PI] on all joints." />
   <arg name="prefix" default="" doc="Prefix to robot's joints' and links' names" />
   <param name="prefix" value="$(arg prefix)" type="str" />
+  <param name="use_sim_time" value="true" type="bool" />
 
   <!-- probably useless -->
   <arg name="min_payload"  default="0.0" doc="lower payload bound for the robot" />
