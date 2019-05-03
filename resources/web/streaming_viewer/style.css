@@ -4,8 +4,10 @@ html {
 html, body {
   margin: 0;
   padding:0;
+  height: 100%;
+  overflow-y: hidden;
 }
 #playerDiv {
-  min-height: 200px;
+  height: calc(100% - 150px);
   width: 100%;
 }

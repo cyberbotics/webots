@@ -487,17 +487,22 @@ void WbTrack::updateAnimatedGeometries() {
     if (ifs)
       ifs->updateTriangleMesh();
 
-    WrNode *wrenNode = WR_NODE(geom->wrenNode());
-    assert(wrenNode);  // wren objects have to be already initialized during node finalization
+    if (!geom->isPostFinalizedCalled())
+      connect(geom, &WbBaseNode::finalizationCompleted, this, &WbTrack::updateAnimatedGeometriesAfterFinalization,
+              Qt::UniqueConnection);
+    else {
+      WrNode *wrenNode = WR_NODE(geom->wrenNode());
+      assert(wrenNode);  // wren objects have to be already initialized during node finalization
 
-    AnimatedObject *object = new AnimatedObject();
-    object->geometry = geom;
-    object->material = shapeNodes[i]->wrenMaterial();
-    object->castShadows = shapeNodes[i]->isCastShadowsEnabled();
+      AnimatedObject *object = new AnimatedObject();
+      object->geometry = geom;
+      object->material = shapeNodes[i]->wrenMaterial();
+      object->castShadows = shapeNodes[i]->isCastShadowsEnabled();
 
-    // Hide WREN node (visible by default)
-    wr_node_set_visible(wrenNode, false);
-    mAnimatedObjectList.append(object);
+      // Hide WREN node (visible by default)
+      wr_node_set_visible(wrenNode, false);
+      mAnimatedObjectList.append(object);
+    }
   }
 
   initAnimatedGeometriesBeltPosition();
@@ -930,7 +935,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
       writer << "<Transform ";
       writer << "translation='" << position << "' ";
       writer << "rotation='" << rotation << "'>";
-      writer << "<Transform USE='" << defName << "'></Transform>";
+      writer << "<Transform USE='" << QString::number(node->uniqueId()) << "'></Transform>";
       writer << "</Transform>";
     } else {
       writer.indent();

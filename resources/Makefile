@@ -17,6 +17,7 @@ release debug profile:
 	@+make -s -C languages $@
 	@+make -s -C projects $@
 	@+make -s -C osm_importer $@
+	@+make -s -C web/wwi $@
 
 cleanse: clean
 
@@ -26,3 +27,4 @@ clean:
 	@+make -s -C projects $@
 	@+make -s -C osm_importer $@
 	@-rm -rf sumo_exporter/*.pyc
+	@+make -s -C web/wwi $@

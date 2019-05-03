@@ -302,6 +302,8 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
       animationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
       setAnimation = "\n          view.setAnimation(\"" + QFileInfo(animationFilename).fileName() + "\", \"play\", true);";
     }
+
+    templateValues << QPair<QString, QString>("%wwiPath%", WbStandardPaths::resourcesWebPath() + "wwi/");
     templateValues << QPair<QString, QString>("%setAnimation%", setAnimation);
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);

@@ -496,7 +496,10 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (message.startsWith("x3dom")) {
     WbLog::info(tr("Streaming server: Client set mode to: X3DOM."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
-    startX3domStreaming(client);
+
+    if (!WbWorld::instance()->isLoading())
+      startX3domStreaming(client);
+    // else streaming is started once the world loading is completed
   } else if (message.startsWith("video: ")) {
     QStringList resolution = message.mid(7).split("x");
     int width = resolution[0].toInt();
@@ -822,10 +825,16 @@ void WbStreamingServer::sendTexturesToClient(QWebSocket *client, const QHash<QSt
 
     const QByteArray &image = imageFile.readAll();
     const QString &encoded = QString(image.toBase64());
+    QString suffix;
+    if (textureFileInfo.suffix() == "png")
+      suffix = "png";
+    else if (textureFileInfo.suffix() == "hdr")
+      suffix = "hdr";
+    else
+      suffix = "jpeg";
 
-    const qint64 ret = client->sendTextMessage(
-      QString("image[%1]:data:image/%2;base64,").arg(escapedUrl).arg(textureFileInfo.suffix() == "png" ? "png" : "jpeg") +
-      encoded);
+    const qint64 ret =
+      client->sendTextMessage(QString("image[%1]:data:image/%2;base64,").arg(escapedUrl).arg(suffix) + encoded);
 
     if (ret < image.size())
       throw tr("Cannot sent the entire texture '%1'.").arg(textureFileInfo.absoluteFilePath());

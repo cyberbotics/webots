@@ -8,7 +8,7 @@ The result at the end of this tutorial is shown in [this figure](#simulation-aft
 
 ### New Simulation
 
-> **Hands on #1**: From the results of the previous tutorial, create a new simulation called `appearance.wbt` by using the `File / Save World As...` menu.
+> **Hands on #1**: From the results of the previous tutorial, create a new simulation called "appearance.wbt" by using the `File / Save World As...` menu.
 
 ### Lights
 
@@ -43,7 +43,7 @@ A texture on a rolling object can help to appreciate its movement.
 
 > **Hands on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-Then set the value of the newly added `url` item to [`WEBOTS_HOME/projects/default/worlds/textures/red_brick_wall.jpg`](https://github.com/omichel/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg) using the file selection dialog.
+Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/omichel/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
 
 The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`](https://github.com/omichel/webots/tree/master/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.
