@@ -1,22 +1,12 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="limited" default="false"  doc="If true, limits joint range [-PI, PI] on all joints." />
-  <arg name="paused" default="false" doc="Starts Webots in paused mode" />
   <arg name="prefix" default="" doc="Prefix to robot's joints' and links' names" />
+  <param name="prefix" value="$(arg prefix)" type="str" />
+
   <!-- probably useless -->
   <arg name="min_payload"  default="0.0" doc="lower payload bound for the robot" />
   <arg name="max_payload"  default="10.0" doc="upper payload bound for the robot" />
-
-  <!-- startup simulated world -->
-  <!--<include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" default="worlds/empty.world"/>
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="gui" value="$(arg gui)"/>
-  </include>-->
-  <!-- start Webots -->
-  <node name="ur_driver" pkg="ur_e_webots" type="webots.py">
-    <param name="paused" type="string" value="$(arg paused)"/>
-  </node>
 
   <!-- send robot urdf to param server -->
   <include file="$(find ur_e_description)/launch/ur5e_upload.launch">

@@ -22,7 +22,7 @@ from rosgraph_msgs.msg import Clock
 
 rospy.init_node('ur_driver', disable_signals=True)
 
-jointPrefix = rospy.get_param('~prefix', '')
+jointPrefix = rospy.get_param('prefix', '')
 if jointPrefix:
     print('Setting prefix to %s' % jointPrefix)
 
