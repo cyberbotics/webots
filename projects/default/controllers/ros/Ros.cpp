@@ -439,7 +439,8 @@ void Ros::run(int argc, char **argv) {
       rosgraph_msgs::Clock simulationClock;
       double time = mRobot->getTime();
       simulationClock.clock.sec = (int)time;
-      simulationClock.clock.nsec = round(1000 * (time - simulationClock.clock.sec)) * 1.0e+6;  // the round prevents precision issues that can then cause issue when using ros timers
+      // round prevents precision issues that can cause problems with ROS timers
+      simulationClock.clock.nsec = round(1000 * (time - simulationClock.clock.sec)) * 1.0e+6;
       mClockPublisher.publish(simulationClock);
     }
     for (unsigned int i = 0; i < mSensorList.size(); i++)
