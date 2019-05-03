@@ -22,7 +22,7 @@ ROS_PYTHON_ZIP = ros_python.zip
 ifeq ($(OSTYPE),windows)
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/windows/release/$(ROS_PYTHON_ZIP)
 else
- ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux/release/$(ROS_PYTHON_ZIP)
+ ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release/$(ROS_PYTHON_ZIP)
 endif
 
 release debug profile: kinetic python
