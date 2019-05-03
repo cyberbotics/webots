@@ -55,7 +55,7 @@ roslaunch ur_e_webots ur5e.launch
 
 The simulation can now be started.
 
-> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.: `roslaunch ur_e_webots ur5e_joint_limited.launch`
+> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use instead the `ur5e_joint_limited` launch file, i.e.: `roslaunch ur_e_webots ur5e_joint_limited.launch`
 
 #### MoveIt!
 
