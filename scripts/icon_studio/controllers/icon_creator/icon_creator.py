@@ -28,10 +28,13 @@ WHITE = [1, 1, 1]
 def get_options():
     """Parse the controler arguments."""
     optParser = optparse.OptionParser()
-    optParser.add_option("--disable-icon-copy", dest="disableIconCopy", action="store_true", default=False, help="Disable the copy of the icons.")
+    optParser.add_option("--disable-icon-copy", dest="disableIconCopy", action="store_true", default=False,
+                         help="Disable the copy of the icons.")
     optParser.add_option("--json-file", dest="file", default="objects.json", help="Specify the JSON file to use.")
-    optParser.add_option("--single-shot", dest="singleShot", action="store_true", default=False, help="Take only a screenshot of the current world.")
-    optParser.add_option("--appearance", dest="appearance", action="store_true", default=False, help="Create the screenshot for all the appearances.")
+    optParser.add_option("--single-shot", dest="singleShot", action="store_true", default=False,
+                         help="Take only a screenshot of the current world.")
+    optParser.add_option("--appearance", dest="appearance", action="store_true", default=False,
+                         help="Create the screenshot for all the appearances.")
     options, args = optParser.parse_args()
     return options
 
@@ -54,7 +57,8 @@ def autocrop(im):
         return im.crop(bbox)
 
 
-def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold, alphaRejectionThreshold):
+def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold,
+                    alphaRejectionThreshold):
     """Take the screenshot."""
     # Convert Camera image to PIL image.
     image = camera.getImage()
@@ -70,8 +74,10 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
     for pixel in pixels:
         hls_pixel = colorsys.rgb_to_hls(float(pixel[RED]) / 255.0, float(pixel[GREEN]) / 255.0, float(pixel[BLUE]) / 255.0)
         if abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold:  # If pixel color is close to background.
-            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN] + iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
-            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN] + background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
+            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN]
+                              + iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
+            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN]
+                              + background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
             if alphaChanel < alphaRejectionThreshold * 255:
                 alphaChanel = 0
             newPixels.append((colorChanel, colorChanel, colorChanel, alphaChanel))
@@ -87,7 +93,8 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     pilImage.thumbnail((128, 128), Image.ANTIALIAS)
     iconImage = Image.new('RGBA', (128, 128))
-    iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2), int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
+    iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2),
+                    int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
     iconImage.save(os.path.join(directory, 'icon.png'))
 
     if not options.disableIconCopy:
@@ -157,7 +164,8 @@ def process_object(supervisor, category, nodeString, background, colorThreshold,
 
     supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
     supervisor.step(10 * timeStep)
-    take_screenshot(camera, category, objectDirectory, os.path.dirname(protoPath), protoName, options, background, colorThreshold, alphaRejectionThreshold)
+    take_screenshot(camera, category, objectDirectory, os.path.dirname(protoPath), protoName, options, background,
+                    colorThreshold, alphaRejectionThreshold)
 
     # remove the object
     supervisor.step(timeStep)
@@ -191,7 +199,8 @@ if options.singleShot:
     if node is None:
         sys.exit('No node "OBJECTS" found.')
     take_original_screenshot(camera, '.' + os.sep + 'images')
-    take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(), None)
+    take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(),
+                    None)
 elif options.appearance:
     with open('appearances.json') as json_data:
         data = json.load(json_data)
@@ -217,7 +226,8 @@ elif options.appearance:
                         os.makedirs(objectDirectory)
                     else:
                         sys.exit('Multiple definition of ' + protoName)
-                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1, alphaRejectionThreshold=0.6)
+                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1,
+                                   alphaRejectionThreshold=0.6)
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
@@ -228,11 +238,12 @@ else:
                 continue
 
             itemCounter += 1
-            protoName = os.path.basename(key).split('.')[0].encode('utf-8')
+            protoName = os.path.basename(key).split('.')[0]
             protoPath = key
             print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
 
-            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key))) + os.sep + protoName
+            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key)))
+            objectDirectory += os.sep + protoName
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
             else:
@@ -256,9 +267,10 @@ else:
                 fields = data['default']['fields']
 
             nodeString = protoName + '{ '
-            nodeString += fields.encode('utf-8')
+            nodeString += fields
             nodeString += ' }'
             if 'nodeString' in value:
-                nodeString = value['nodeString'].encode('utf-8')
+                nodeString = value['nodeString']
 
-            process_object(controller, key.split('/')[1], nodeString, background=[0, 1, 1], colorThreshold=0.05, alphaRejectionThreshold=0.4)
+            process_object(controller, key.split('/')[1], nodeString, background=[0, 1, 1], colorThreshold=0.05,
+                           alphaRejectionThreshold=0.4)

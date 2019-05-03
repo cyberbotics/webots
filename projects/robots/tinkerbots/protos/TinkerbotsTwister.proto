@@ -57,12 +57,12 @@ PROTO TinkerbotsTwister [
             }
             normalMap ImageTexture {
               url [
-                "textures/twister_base_normal.png"
+                "textures/twister_base_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/twister_base_occlusion.png"
+                "textures/twister_base_occlusion.jpg"
               ]
             }
           }
@@ -155,7 +155,7 @@ PROTO TinkerbotsTwister [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/twister_joint_base_color.png"
+                      "textures/twister_joint_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
@@ -170,12 +170,12 @@ PROTO TinkerbotsTwister [
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/twister_joint_normal.png"
+                      "textures/twister_joint_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/twister_joint_occlusion.png"
+                      "textures/twister_joint_occlusion.jpg"
                     ]
                   }
                 }

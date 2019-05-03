@@ -85,7 +85,7 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -I$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/include
 GLU_INCLUDE        = -I$(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_PATH)/lib -lode -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_PATH)/lib -lopenal -lOIS -lcrypto -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtNetwork -framework QtOpenGL -framework QtWebSockets -framework QtWidgets -framework QtWebChannel -framework QtWebEngine -framework QtWebEngineCore -framework QtWebEngineWidgets  -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
@@ -94,6 +94,15 @@ CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
+LIBS += $(LIB_ODE)
+LD_FLAGS += -lpthread
+else
+LD_FLAGS += -lode
+endif
+# To compile with libpico without warnings about the "register" keyword.
+CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
@@ -112,11 +121,17 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_PATH)/lib -L$(WEBOTS_PATH)/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lode -lusb -lGLU -ldl -lpci -lOIS -lcrypto -lpico -lfreetype -lassimp
+LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_PATH)/lib -L$(WEBOTS_PATH)/lib -lQt5Core -lQt5Network -lQt5Gui -lQt5OpenGL -lQt5WebSockets -lQt5Widgets -lQt5PrintSupport -lQt5WebEngine -lQt5WebEngineCore -lQt5WebEngineWidgets -lQt5Multimedia -lQt5MultimediaWidgets -lQt5Sql -lQt5Sensors -lQt5WebChannel -lQt5Xml -lopenal -lGL -lusb -lGLU -ldl -lpci -lOIS -lcrypto -lpico -lfreetype -lassimp
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 QT_SOURCES         = WbRobotWindowTransportLayer.cpp
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/libode.a
+LIBS += $(LIB_ODE) -lpthread
+else
+LIBS += -lode
+endif
 
 else ifeq ($(OSTYPE),windows)
 vpath %.c ../lib/Controller/api
@@ -155,9 +170,15 @@ EXTRA_CMD       += ; cp launcher/webots.bat $(TARGET_PATH)/webots.bat
 else
 EXTRA_CMD       += ; cp launcher/webots_debug.bat $(TARGET_PATH)/webots_debug.bat
 endif
+ifeq ($(MAKECMDGOALS), profile)
+LIB_ODE = ../ode/ode.a
+LIBS += $(LIB_ODE) -lpthread
+else
+LIBS += -lode
+endif
 endif
 
-ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil
+ALL_INCLUDE        = -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -isystem external/stb_image -Igui -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Ivrml -Iutil -Iexternal/compilation_timestamp
 
 CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
@@ -175,7 +196,9 @@ endif
 
 ifeq ($(MAKECMDGOALS),profile)
 CFLAGS += -pg -O3 -DNDEBUG
+ifneq ($(OSTYPE),darwin)
 LD_FLAGS += -pg
+endif
 endif
 
 ifeq ($(MAKECMDGOALS),release)
@@ -581,7 +604,7 @@ endif
 
 debug profile release: $(TARGET)
 
-$(TARGET): $(OBJECTS) $(LIB_WREN)
+$(TARGET): $(OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@
 	@$(CXX) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LIBS)
 	@$(EXTRA_CMD)

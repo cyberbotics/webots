@@ -82,7 +82,6 @@ private:
   void propagateBoundingObjectMaterialUpdate(bool onMenuAction);
 
 private slots:
-  void setThreadingPolicy();
   void removeNodeFromAddedNodeList(QObject *node);
   void propagateBoundingObjectUpdate() { propagateBoundingObjectMaterialUpdate(false); }
   void updateRandomSeed();

@@ -40,10 +40,10 @@ class TestImages(unittest.TestCase):
                 for filename in fnmatch.filter(filenames, '*.png'):
                     image_path = os.path.join(root, filename)
                     image_path = image_path[(len(book.path) + 1):]
-                    images_paths.append(image_path)
+                    images_paths.append(image_path.replace('\\', '/'))
             self.assertGreater(
                 len(images_paths), 0,
-                msg='No image found in book "%s"' % (book.name)
+                msg='No image found in book "%s"' % book.name
             )
 
             # check the image reference can be found in at least one MD file
@@ -54,6 +54,5 @@ class TestImages(unittest.TestCase):
                         found = True
                         break
                 self.assertTrue(
-                    found, msg='Image "%s" not referenced in any MD file.' %
-                    (image_path)
+                    found, msg='Image "%s" not referenced in any MD file.' % image_path
                 )

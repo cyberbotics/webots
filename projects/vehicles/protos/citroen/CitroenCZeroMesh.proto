@@ -12,7 +12,7 @@ PROTO CitroenCZeroMesh [
     children [
       DEF COACHWORK Shape {
         appearance DEF VEHICLE_APP GlossyCarPaint {
-          baseColor IS color       
+          baseColor IS color
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -4814,7 +4814,7 @@ PROTO CitroenCZeroMesh [
               }
               normalMap ImageTexture {
                 url [
-                  "textures/citroen_logo_normal.png"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -4936,7 +4936,7 @@ PROTO CitroenCZeroMesh [
               }
               normalMap ImageTexture {
                 url [
-                  "textures/citroen_logo_normal.png"
+                  "textures/citroen_logo_normal.jpg"
                 ]
               }
             }
