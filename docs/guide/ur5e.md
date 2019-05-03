@@ -28,7 +28,7 @@ UR5e {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/universal_robots/ur5e/protos/UR5e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ur5e/protos/UR5e.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/universal\_robots/ur5e/protos/UR5e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ur5e/protos/UR5e.proto)"
 
 #### UR5e Field Summary
 
