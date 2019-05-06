@@ -48,7 +48,7 @@ class TestIcons(unittest.TestCase):
                         break
                 if not shouldIgnore:
                     self.files.append(proto)
-        # 3. Get all the PROTO files from projects
+        # 3. Get all the world files from projects
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
