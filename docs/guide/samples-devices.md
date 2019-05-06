@@ -138,7 +138,7 @@ The robot does not pay any attention to obstacles.
 The only difference is that this robot uses a "force" [TouchSensor](../reference/touchsensor.md) instead of a "bumper".
 So this robot can measure the force of each collision, which is printed in the `Console`.
 
-### [force3d\_sensor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/force3d_sensor.md)
+### [force3d\_sensor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/force3d_sensor.wbt)
 
 **Keywords**: [TouchSensor](../reference/touchsensor.md), 3D force sensor
 
@@ -186,7 +186,7 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
 
-### [inertial\_unit.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/inertial_unit.md)
+### [inertial\_unit.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/inertial_unit.wbt)
 
 **Keywords**: [InertialUnit](../reference/inertialunit.md), roll/pitch/yaw angles
 
@@ -194,7 +194,7 @@ At each step, the lidars are updated, and their depth output are displayed in di
 An [InertialUnit](../reference/inertialunit.md) is mounted on a 3 DOF (Degrees Of Freedom) arm which moves from one random target to another.
 Each time a target is reached, the absolute roll, pitch and yaw angles of the [InertialUnit](../reference/inertialunit.md) are displayed in the `Console`.
 
-### [laser\_pointer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/laser_pointer.md)
+### [laser\_pointer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/laser_pointer.wbt)
 
 **Keywords**: [DistanceSensor](../reference/distancesensor.md), laser
 
