@@ -61,7 +61,7 @@ class TestIcons(unittest.TestCase):
                 content = file.read()
                 line = content.splitlines()[0].strip()
                 self.assertTrue(
-                    line == '#VRML_SIM %s utf8' % self.version,
+                    line.startswith('#VRML_SIM %s utf8' % self.version),
                     msg='Wrong header in file: "%s"' % fileToTest
                 )
 
