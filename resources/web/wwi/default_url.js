@@ -20,7 +20,7 @@ var DefaultUrl = {
   },
 
   getImageUrl: function(name) {
-    return 'url(' + this.wwiUrl() + 'images/' + name + '.png)';
+    return this.wwiUrl() + 'images/' + name + '.png';
   },
 
   currentScriptUrl: function() {

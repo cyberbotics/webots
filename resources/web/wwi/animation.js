@@ -88,7 +88,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _triggerPlayPauseButton() {
-    this.button.style.backgroundImage = new DefaultUrl().getImageUrl(this.gui);
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.getImageUrl(this.gui) + ')';
     if (this.gui === 'play') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
