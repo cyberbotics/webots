@@ -21,7 +21,7 @@ ROS_PYTHON_ZIP = ros_python.zip
 
 ifeq ($(OSTYPE),windows)
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/windows/release/$(ROS_PYTHON_ZIP)
-else
+else  # Linux64 version works for macOS too
  ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release/$(ROS_PYTHON_ZIP)
 endif
 
