@@ -23,6 +23,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
     this.renderer.gammaFactor = Math.sqrt(2.2);
+    // this.renderer.debug.checkShaderErrors = true;  // uncomment to see shader build log (ThreeJS v104 only)
 
     this.domElement.appendChild(this.renderer.domElement);
 
