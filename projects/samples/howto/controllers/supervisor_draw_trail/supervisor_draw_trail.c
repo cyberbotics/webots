@@ -26,7 +26,7 @@
 
 // Create the trail shape with the correct number of coordinates.
 static void create_trail_shape() {
-  // If TRAIL exists in the world then silently removes it.
+  // If TRAIL exists in the world then silently remove it.
   WbNodeRef existing_trail = wb_supervisor_node_get_from_def("TRAIL");
   if (existing_trail)
     wb_supervisor_node_remove(existing_trail);

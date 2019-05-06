@@ -41,7 +41,7 @@ PROTO CitroenCZeroFrontWheel [
           }
           normalMap ImageTexture {
             url [
-              "textures/citroen_logo_normal.png"
+              "textures/citroen_logo_normal.jpg"
             ]
           }
         }

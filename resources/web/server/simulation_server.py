@@ -75,7 +75,7 @@ def chmod_python_and_executable_files(directory):
         if os.path.isdir(fullname):
             chmod_python_and_executable_files(fullname)
         if filename.endswith('.py') or not os.path.splitext(filename)[1]:
-            os.chmod(fullname, 0775)
+            os.chmod(fullname, 0o775)
 
 
 class Snapshot:
