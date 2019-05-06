@@ -52,7 +52,7 @@ THREE.Bloom = class Bloom extends THREE.Pass {
     this.brightPassUniforms[ 'threshold' ].value = threshold;
     this.brightPassUniforms[ 'textureSize' ].value = resolution;
 
-    this.materialHighPassFilter = new THREE.ShaderMaterial({
+    this.materialBrightPass = new THREE.ShaderMaterial({
       uniforms: this.brightPassUniforms,
       vertexShader: brightPassShader.vertexShader,
       fragmentShader: brightPassShader.fragmentShader,
@@ -183,7 +183,7 @@ THREE.Bloom = class Bloom extends THREE.Pass {
 
     this.brightPassUniforms[ 'tDiffuse' ].value = readBuffer.texture;
     this.brightPassUniforms[ 'threshold' ].value = this.threshold;
-    this.fsQuad.material = this.materialHighPassFilter;
+    this.fsQuad.material = this.materialBrightPass;
 
     renderer.setRenderTarget(this.renderTargetBright);
     renderer.clear();
