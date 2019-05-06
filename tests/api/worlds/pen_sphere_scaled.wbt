@@ -33,7 +33,6 @@ DEF BOARD Solid {
       }
       geometry Sphere {
         radius 0.077
-        subdivision 5
       }
     }
   ]
