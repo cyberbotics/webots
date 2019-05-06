@@ -15,7 +15,6 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
   var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };
   this.renderTargetsHorizontal = [];
   this.renderTargetsVertical = [];
-  this.nMips = 6;
   var resx = Math.round(this.resolution.x / 2);
   var resy = Math.round(this.resolution.y / 2);
 
@@ -23,7 +22,7 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
   this.renderTargetBright.texture.name = 'Bloom.bright';
   this.renderTargetBright.texture.generateMipmaps = false;
 
-  for (let i = 0; i < this.nMips; i++) {
+  for (let i = 0; i < 6; i++) {
     var renderTargetHorizonal = new THREE.WebGLRenderTarget(resx, resy, pars);
 
     renderTargetHorizonal.texture.name = 'Bloom.h' + i;
@@ -65,7 +64,7 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
   resx = Math.round(this.resolution.x / 2);
   resy = Math.round(this.resolution.y / 2);
 
-  for (let i = 0; i < this.nMips; i++) {
+  for (let i = 0; i < 6; i++) {
     this.separableBlurMaterials.push(this.getSeperableBlurMaterial(kernelSizeArray[ i ]));
 
     this.separableBlurMaterials[ i ].uniforms[ 'texSize' ].value = new THREE.Vector2(resx, resy);
@@ -151,7 +150,7 @@ THREE.Bloom.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     this.renderTargetBright.setSize(resx, resy);
     this.brightPassUniforms[ 'textureSize' ].value = new THREE.Vector2(width, height);
 
-    for (var i = 0; i < this.nMips; i++) {
+    for (let i = 0; i < 6; i++) {
       this.renderTargetsHorizontal[ i ].setSize(resx, resy);
       this.renderTargetsVertical[ i ].setSize(resx, resy);
 
@@ -196,7 +195,7 @@ THREE.Bloom.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     // 2. Blur All the mips progressively
 
     var inputRenderTarget = this.renderTargetBright;
-    for (var i = 0; i < this.nMips; i++) {
+    for (let i = 0; i < 6; i++) {
       this.fsQuad.material = this.separableBlurMaterials[ i ];
 
       this.separableBlurMaterials[ i ].uniforms[ 'colorTexture' ].value = inputRenderTarget.texture;
