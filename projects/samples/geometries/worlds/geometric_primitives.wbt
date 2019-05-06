@@ -6,8 +6,8 @@ WorldInfo {
   title "Base graphical geometries"
 }
 Viewpoint {
-  orientation 0.2346269872661388 0.9324219961154645 0.2748443159435317 4.262837604561617
-  position -4.70277695833701 3.3821245824902038 1.356985701171586
+  orientation 0.08742646544963854 0.9871664543756572 0.13363758638338366 3.8410697195465167
+  position -6.655348826933393 3.047211123704163 -4.13710092336658
 }
 TexturedBackground {
 }
@@ -27,7 +27,7 @@ DEF BOX Transform {
     }
   ]
 }
-DEF CONE Solid {
+DEF CONE Transform {
   translation 0 0 1
   children [
     Shape {
@@ -36,15 +36,15 @@ DEF CONE Solid {
         roughness 0.19999999999999996
         metalness 0
       }
-      geometry DEF CC Cone {
+      geometry Cone {
         bottomRadius 0.3
         height 0.5
-        subdivision 3
+        subdivision 36
       }
     }
   ]
 }
-DEF CAPSULE Solid {
+DEF CAPSULE Transform {
   translation 0 0 2
   children [
     Shape {
@@ -53,16 +53,15 @@ DEF CAPSULE Solid {
         roughness 0.19999999999999996
         metalness 0
       }
-      geometry DEF C Capsule {
+      geometry Capsule {
         height 0.3
         radius 0.25
-        subdivision 4
+        subdivision 24
       }
     }
   ]
-  boundingObject USE C
 }
-DEF CYLINDER Solid {
+DEF CYLINDER Transform {
   translation 0 0 3
   children [
     Shape {
@@ -71,14 +70,12 @@ DEF CYLINDER Solid {
         roughness 0.19999999999999996
         metalness 0
       }
-      geometry DEF CYL Cylinder {
+      geometry Cylinder {
         height 0.6
-        radius 0.6
-        subdivision 3
+        radius 0.3
       }
     }
   ]
-  boundingObject USE CYL
 }
 DEF ELEVATION_GRID Transform {
   translation -0.25 0 3.75
@@ -186,7 +183,8 @@ DEF SPHERE Transform {
       }
       geometry Sphere {
         radius 0.3
-        subdivision 24
+        subdivision 2
+        ico TRUE
       }
     }
   ]

@@ -41,7 +41,7 @@ PROTO SphereGrid [
                 geometry Sphere {
                   radius 0.1
                   subdivision 4
-
+                  ico TRUE
                 }
               }
             ]

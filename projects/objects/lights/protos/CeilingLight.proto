@@ -373,6 +373,7 @@ Solid {
           geometry Sphere {
             radius 0.15
             subdivision 4
+            ico TRUE
           }
           castShadows IS castShadows
         }

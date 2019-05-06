@@ -25,6 +25,7 @@ DEF BLUE_BALL_1 Solid {
       geometry Sphere {
         radius 0.05
         subdivision 2
+        ico TRUE
       }
     }
   ]
@@ -45,6 +46,7 @@ DEF BLUE_BALL_2 Solid {
       geometry Sphere {
         radius 0.05
         subdivision 2
+        ico TRUE
       }
     }
   ]
@@ -130,6 +132,7 @@ DEF ROPE Solid {
                                               geometry Sphere {
                                                 radius 0.05
                                                 subdivision 2
+                                                ico TRUE
                                               }
                                             }
                                           ]

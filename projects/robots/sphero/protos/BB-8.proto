@@ -73,6 +73,7 @@ PROTO BB-8 [
             geometry Sphere {
               radius %{= bodyRadius / 4 }%
               subdivision 2
+              ico TRUE
             }
           }
         ]

@@ -39,6 +39,7 @@ Solid {
                 geometry DEF BALL_SHAPE Sphere {
                   radius 0.5
                   subdivision 3
+                  ico TRUE
                 }
               }
             ]

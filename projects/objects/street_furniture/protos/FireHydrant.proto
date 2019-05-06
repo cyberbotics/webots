@@ -8428,6 +8428,7 @@ PROTO FireHydrant [
             Sphere {
               radius 0.137
               subdivision 2
+              ico TRUE
             }
           ]
         }

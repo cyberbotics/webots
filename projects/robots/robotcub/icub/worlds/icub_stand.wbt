@@ -60,6 +60,8 @@ DEF cub Robot {
                 }
                 geometry Sphere {
                   radius 0.01
+                  subdivision 1
+                  ico TRUE
                 }
               }
             ]
@@ -90,6 +92,8 @@ DEF cub Robot {
                       }
                       geometry Sphere {
                         radius 0.01
+                        subdivision 1
+                        ico TRUE
                       }
                     }
                   ]
@@ -201,6 +205,8 @@ DEF cub Robot {
                                         }
                                         geometry Sphere {
                                           radius 0.01
+                                          subdivision 1
+                                          ico TRUE
                                         }
                                       }
                                     ]
@@ -235,6 +241,8 @@ DEF cub Robot {
                                         }
                                         geometry Sphere {
                                           radius 0.01
+                                          subdivision 1
+                                          ico TRUE
                                         }
                                       }
                                     ]
@@ -640,6 +648,8 @@ DEF cub Robot {
                                                                 }
                                                                 geometry Sphere {
                                                                   radius 0.008
+                                                                  subdivision 1
+                                                                  ico TRUE
                                                                 }
                                                               }
                                                             ]
@@ -1389,6 +1399,8 @@ DEF cub Robot {
                                                                 appearance USE _Appearance
                                                                 geometry Sphere {
                                                                   radius 0.008
+                                                                  subdivision 1
+                                                                  ico TRUE
                                                                 }
                                                               }
                                                             ]

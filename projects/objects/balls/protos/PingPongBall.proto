@@ -30,6 +30,7 @@ PROTO PingPongBall [
         geometry DEF SPHERE Sphere {
           radius 0.02
           subdivision 3
+          ico TRUE
         }
       }
     ]

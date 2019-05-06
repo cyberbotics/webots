@@ -29,6 +29,8 @@ PROTO Khepera3_GroundSensor [
                 }
                 geometry DEF SPHERE Sphere {
                   radius 0.0014
+                  subdivision 1
+                  ico TRUE
                 }
               }
             ]

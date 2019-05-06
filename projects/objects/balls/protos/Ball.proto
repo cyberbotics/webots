@@ -30,6 +30,7 @@ PROTO Ball [
         geometry Sphere {
           radius IS radius
           subdivision 4
+          ico TRUE
         }
       }
     ]

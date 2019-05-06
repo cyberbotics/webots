@@ -34,6 +34,7 @@ PROTO SoccerBall [
         geometry Sphere {
           radius IS radius
           subdivision 3
+          ico TRUE
         }
       }
     ]

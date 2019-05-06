@@ -35,6 +35,7 @@ Solid {
               geometry Sphere {
                 radius 0.0125
                 subdivision 2
+                ico TRUE
               }
             }
           ]

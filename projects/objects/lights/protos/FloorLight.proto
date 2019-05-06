@@ -424,6 +424,7 @@ Solid {
           geometry Sphere {
             radius 0.19
             subdivision 4
+            ico TRUE
           }
         }
       ]

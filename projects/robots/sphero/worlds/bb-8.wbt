@@ -51,6 +51,7 @@ DEF SECOND_SUN Transform {
       geometry Sphere {
         radius 20
         subdivision 2
+        ico TRUE
       }
     }
   ]

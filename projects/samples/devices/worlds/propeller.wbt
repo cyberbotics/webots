@@ -123,6 +123,7 @@ DEF RED_HELICOPTER Robot {
           geometry Sphere {
             radius 0.042
             subdivision 2
+            ico TRUE
           }
         }
       ]
@@ -217,6 +218,7 @@ DEF RED_HELICOPTER Robot {
           geometry Sphere {
             radius 0.0132
             subdivision 2
+            ico TRUE
           }
         }
       ]
@@ -532,6 +534,7 @@ DEF BLUE_HELICOPTER Robot {
           geometry Sphere {
             radius 0.0132
             subdivision 2
+            ico TRUE
           }
         }
       ]
@@ -684,6 +687,7 @@ DEF GREEN_HELICOPTER Robot {
           geometry Sphere {
             radius 0.0132
             subdivision 2
+            ico TRUE
           }
         }
       ]

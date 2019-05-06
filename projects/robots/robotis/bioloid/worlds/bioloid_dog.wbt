@@ -43,6 +43,7 @@ DEF BALL1 Solid {
       geometry Sphere {
         radius 0.0325
         subdivision 2
+        ico TRUE
       }
     }
   ]

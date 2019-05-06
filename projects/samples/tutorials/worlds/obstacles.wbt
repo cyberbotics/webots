@@ -28,6 +28,7 @@ DEF BALL Solid {
       geometry DEF BALL_GEOMETRY Sphere {
         radius 0.05
         subdivision 2
+        ico TRUE
       }
     }
   ]

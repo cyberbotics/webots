@@ -831,6 +831,8 @@ Robot {
           }
           geometry Sphere {
             radius 0.0025
+            subdivision 1
+            ico TRUE
           }
         }
       ]

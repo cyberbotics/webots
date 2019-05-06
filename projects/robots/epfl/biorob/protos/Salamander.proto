@@ -74,6 +74,7 @@ PROTO Salamander [
             geometry Sphere {
               radius 0.005
               subdivision 2
+              ico TRUE
             }
           }
         ]

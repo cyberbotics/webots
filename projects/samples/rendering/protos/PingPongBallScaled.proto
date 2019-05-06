@@ -28,6 +28,7 @@ PROTO PingPongBallScaled [
         geometry DEF SPHERE Sphere {
           radius 0.08
           subdivision 3
+          ico TRUE
         }
       }
     ]

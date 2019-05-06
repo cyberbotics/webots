@@ -21,6 +21,7 @@ Solid {
       geometry DEF CANDY_BALL_SHAPE Sphere {
         radius 0.0325
         subdivision 3
+        ico TRUE
       }
     }
   ]

@@ -275,6 +275,8 @@ Robot {
               }
               geometry DEF LED_SHAPE Sphere {
                 radius 0.01
+                subdivision 1
+                ico TRUE
               }
             }
             PointLight {

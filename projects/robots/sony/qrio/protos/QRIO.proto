@@ -65,6 +65,8 @@ PROTO QRIO [
                         }
                         geometry Sphere {
                           radius 0.075
+                          subdivision 1
+                          ico TRUE
                         }
                       }
                     ]
@@ -131,6 +133,8 @@ PROTO QRIO [
                                       }
                                       geometry Sphere {
                                         radius 0.04
+                                        subdivision 1
+                                        ico TRUE
                                       }
                                     }
                                     DEF UPPER_LEG Transform {

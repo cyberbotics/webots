@@ -420,6 +420,7 @@ DEF EMITTER_BOT Robot {
               geometry Sphere {
                 radius 0.4
                 subdivision 2
+                ico TRUE
               }
             }
           ]

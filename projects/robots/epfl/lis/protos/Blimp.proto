@@ -301,6 +301,7 @@ PROTO Blimp [
             geometry Sphere {
               radius 0.26
               subdivision 2
+              ico TRUE
             }
           }
         ]

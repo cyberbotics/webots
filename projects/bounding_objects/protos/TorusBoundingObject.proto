@@ -45,6 +45,7 @@ PROTO TorusBoundingObject [
             Sphere {
               radius %{= minorRadius }%
               subdivision 2
+              ico TRUE
             }
           ]
         }

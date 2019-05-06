@@ -535,6 +535,8 @@ DEF BALL Solid {
       }
       geometry Sphere {
         radius 0.035
+        subdivision 1
+        ico TRUE
       }
     }
   ]

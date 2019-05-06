@@ -116,6 +116,7 @@ E-puck {
                 geometry Sphere {
                   radius 0.0075
                   subdivision 3
+                  ico TRUE
                 }
               }
             ]

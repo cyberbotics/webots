@@ -282,6 +282,7 @@ PROTO Khepera4 [
             geometry Sphere {
               radius 0.005
               subdivision 2
+              ico TRUE
             }
           }
         ]
@@ -326,6 +327,7 @@ PROTO Khepera4 [
                 geometry Sphere {
                   radius 0.002
                   subdivision 2
+                  ico TRUE
                 }
               }
             ]
@@ -362,6 +364,7 @@ PROTO Khepera4 [
             geometry DEF LED_GEOMETRY Sphere {
               radius 0.003
               subdivision 2
+              ico TRUE
             }
           }
         ]

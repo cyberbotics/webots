@@ -8,5 +8,7 @@ PROTO TrafficLightStandardLampGeometry [
 {
   Sphere {
     radius 0.09
+    subdivision 1
+    ico TRUE
   }
 }

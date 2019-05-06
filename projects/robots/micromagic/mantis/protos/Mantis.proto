@@ -141,7 +141,7 @@ PROTO Mantis [
               translation 0.15 0 0
               children [
                 Shape {
-                  appearance PBRAppearance {   
+                  appearance PBRAppearance {
                     baseColor 0.8 0.752941 0.709804
                     roughness 0.2
                   }
@@ -312,7 +312,7 @@ PROTO Mantis [
                               appearance DEF JOINTLED PBRAppearance {
                                 baseColor 0 0.12549 0
                                 roughness 0.4
-                              }                              
+                              }
                               geometry Cylinder {
                                 height 0.1
                                 radius 0.09
@@ -334,6 +334,7 @@ PROTO Mantis [
                               geometry Sphere {
                                 radius 0.15
                                 subdivision 2
+                                ico TRUE
                               }
                             }
                           ]

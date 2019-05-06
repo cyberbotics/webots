@@ -38,6 +38,7 @@ DEF BALL Solid {
       geometry DEF BALL_GEOMETRY Sphere {
         radius 0.05
         subdivision 2
+        ico TRUE
       }
     }
   ]
@@ -118,6 +119,7 @@ DEF DUMBBELL Solid {
               geometry Sphere {
                 radius 0.03
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -134,6 +136,7 @@ DEF DUMBBELL Solid {
               geometry Sphere {
                 radius 0.03
                 subdivision 2
+                ico TRUE
               }
             }
           ]

@@ -121,6 +121,7 @@ DEF BALL Transform {
       geometry Sphere {
         radius 0.03
         subdivision 2
+        ico TRUE
       }
     }
   ]

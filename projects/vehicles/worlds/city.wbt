@@ -625,6 +625,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -637,6 +638,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -649,6 +651,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -661,6 +664,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -673,6 +677,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -685,6 +690,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -697,6 +703,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -709,6 +716,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -721,6 +729,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -733,6 +742,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
@@ -745,6 +755,7 @@ DEF STONES Solid {
               geometry Sphere {
                 radius 5
                 subdivision 2
+                ico TRUE
               }
             }
           ]
