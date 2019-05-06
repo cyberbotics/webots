@@ -84,21 +84,7 @@ THREE.Bloom = class Bloom extends THREE.Pass {
     this.compositeMaterial.uniforms[ 'blurTexture4' ].value = this.renderTargetsVertical[ 3 ].texture;
     this.compositeMaterial.uniforms[ 'blurTexture5' ].value = this.renderTargetsVertical[ 4 ].texture;
     this.compositeMaterial.uniforms[ 'blurTexture6' ].value = this.renderTargetsVertical[ 5 ].texture;
-    this.compositeMaterial.uniforms[ 'bloomStrength' ].value = strength;
-    this.compositeMaterial.uniforms[ 'bloomRadius' ].value = 0.1;
     this.compositeMaterial.needsUpdate = true;
-
-    var bloomFactors = [ 1.0, 0.8, 0.6, 0.4, 0.2, 0.1 ];
-    this.compositeMaterial.uniforms[ 'bloomFactors' ].value = bloomFactors;
-    this.bloomTintColors = [
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1)
-    ];
-    this.compositeMaterial.uniforms[ 'bloomTintColors' ].value = this.bloomTintColors;
 
     // copy material
     if (THREE.CopyShader === undefined)
@@ -213,10 +199,6 @@ THREE.Bloom = class Bloom extends THREE.Pass {
     // Composite All the mips
 
     this.fsQuad.material = this.compositeMaterial;
-    this.compositeMaterial.uniforms[ 'bloomStrength' ].value = this.strength;
-    this.compositeMaterial.uniforms[ 'bloomRadius' ].value = this.radius;
-    this.compositeMaterial.uniforms[ 'bloomTintColors' ].value = this.bloomTintColors;
-
     renderer.setRenderTarget(this.renderTargetsHorizontal[ 0 ]);
     renderer.clear();
     this.fsQuad.render(renderer);

@@ -2,22 +2,13 @@
 
 THREE.blendBloomShader = {
 
-  defines: {
-    'NUM_MIPS': 6
-  },
-
   uniforms: {
     'blurTexture1': { value: null },
     'blurTexture2': { value: null },
     'blurTexture3': { value: null },
     'blurTexture4': { value: null },
     'blurTexture5': { value: null },
-    'blurTexture6': { value: null },
-    'dirtTexture': { value: null },
-    'bloomStrength': { value: 1.0 },
-    'bloomFactors': { value: null },
-    'bloomTintColors': { value: null },
-    'bloomRadius': { value: 0.0 }
+    'blurTexture6': { value: null }
   },
 
   vertexShader: [
@@ -36,24 +27,16 @@ THREE.blendBloomShader = {
     'uniform sampler2D blurTexture4;',
     'uniform sampler2D blurTexture5;',
     'uniform sampler2D blurTexture6;',
-    'uniform sampler2D dirtTexture;',
-    'uniform float bloomStrength;',
-    'uniform float bloomRadius;',
-    'uniform float bloomFactors[NUM_MIPS];',
-    'uniform vec3 bloomTintColors[NUM_MIPS];',
-    '',
-    'float lerpBloomFactor(const in float factor) { ',
-    '  float mirrorFactor = 1.2 - factor;',
-    '  return mix(factor, mirrorFactor, bloomRadius);',
-    '}',
     '',
     'void main() {',
-    '  gl_FragColor = bloomStrength * (lerpBloomFactor(bloomFactors[0]) * vec4(bloomTintColors[0], 1.0) * texture2D(blurTexture1, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[1]) * vec4(bloomTintColors[1], 1.0) * texture2D(blurTexture2, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[2]) * vec4(bloomTintColors[2], 1.0) * texture2D(blurTexture3, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[3]) * vec4(bloomTintColors[3], 1.0) * texture2D(blurTexture4, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[4]) * vec4(bloomTintColors[4], 1.0) * texture2D(blurTexture5, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[5]) * vec4(bloomTintColors[5], 1.0) * texture2D(blurTexture6, vUv));',
+    '  gl_FragColor = vec4(0.1 * vec3(',
+    '    0.1 * texture2D(blurTexture1, vUv).rgb + ',
+    '    0.2 * texture2D(blurTexture2, vUv).rgb + ',
+    '    0.4 * texture2D(blurTexture3, vUv).rgb + ',
+    '    0.8 * texture2D(blurTexture4, vUv).rgb + ',
+    '    1.6 * texture2D(blurTexture5, vUv).rgb + ',
+    '    3.2 * texture2D(blurTexture6, vUv).rgb',
+    '  ), 1.0);',
     '}'
   ].join('\n')
 };
