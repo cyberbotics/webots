@@ -46,6 +46,7 @@ public:
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void rescale(const WbVector3 &scale) override;
+  void write(WbVrmlWriter &writer) const override;
 
   // ray tracing
   void recomputeBoundingSphere() const override;
@@ -61,6 +62,11 @@ public:
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
+  const QString &vrmlName() const override {
+    static const QString name("IndexedFaceSet");
+    return name;
+  }
 
 private:
   WbSphere &operator=(const WbSphere &);  // non copyable
