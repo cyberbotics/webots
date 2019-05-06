@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DIRECTORIES=$(subst Makefile,,$(shell ls))
-TARGETS = $(DIRECTORIES:=.Makefile)
+TARGETS = ur5e_can_grasper.Makefile
 
 .PHONY: release debug profile clean
 
