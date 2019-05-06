@@ -12,8 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
+
 ROS_PYTHON_ZIP = ros_python.zip
-ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/common/$(ROS_PYTHON_ZIP)
+
+ifeq ($(OSTYPE),windows)
+ ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/windows/release/$(ROS_PYTHON_ZIP)
+else  # Linux64 version works for macOS too
+ ROS_PYTHON_DEPENDENCY_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release/$(ROS_PYTHON_ZIP)
+endif
 
 release debug profile: kinetic python
 

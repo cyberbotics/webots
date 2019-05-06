@@ -23,7 +23,7 @@ PROTO BuildingUnderConstruction [
           }
           roughnessMap ImageTexture {
             url [
-              "textures/construction_building_roughness.png"
+              "textures/construction_building_roughness.jpg"
             ]
           }
           metalness 0
