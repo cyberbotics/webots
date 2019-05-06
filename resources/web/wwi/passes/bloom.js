@@ -49,9 +49,8 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
 
   var brightPassShader = THREE.brightPassShader;
   this.brightPassUniforms = THREE.UniformsUtils.clone(brightPassShader.uniforms);
-
-  this.brightPassUniforms[ 'luminosityThreshold' ].value = threshold;
-  this.brightPassUniforms[ 'smoothWidth' ].value = 0.01;
+  this.brightPassUniforms[ 'threshold' ].value = threshold;
+  this.brightPassUniforms[ 'textureSize' ].value = resolution;
 
   this.materialHighPassFilter = new THREE.ShaderMaterial({
     uniforms: this.brightPassUniforms,
@@ -150,6 +149,7 @@ THREE.Bloom.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     var resy = Math.round(height / 2);
 
     this.renderTargetBright.setSize(resx, resy);
+    this.brightPassUniforms[ 'textureSize' ].value = new THREE.Vector2(width, height);
 
     for (var i = 0; i < this.nMips; i++) {
       this.renderTargetsHorizontal[ i ].setSize(resx, resy);
@@ -186,7 +186,7 @@ THREE.Bloom.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     // 1. Extract Bright Areas
 
     this.brightPassUniforms[ 'tDiffuse' ].value = readBuffer.texture;
-    this.brightPassUniforms[ 'luminosityThreshold' ].value = this.threshold;
+    this.brightPassUniforms[ 'threshold' ].value = this.threshold;
     this.fsQuad.material = this.materialHighPassFilter;
 
     renderer.setRenderTarget(this.renderTargetBright);
