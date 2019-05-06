@@ -1,13 +1,11 @@
 /* global THREE */
 
 THREE.Bloom = class Bloom extends THREE.Pass {
-  constructor(resolution, strength, radius, threshold) {
+  constructor(resolution = new THREE.Vector2(256, 256), threshold = 21.0) {
     super();
 
-    this.strength = (strength !== undefined) ? strength : 1;
-    this.radius = radius;
     this.threshold = threshold;
-    this.resolution = (resolution !== undefined) ? new THREE.Vector2(resolution.x, resolution.y) : new THREE.Vector2(256, 256);
+    this.resolution = resolution.clone();
 
     // create color only once here, reuse it later inside the render function
     this.clearColor = new THREE.Color(0, 0, 0);

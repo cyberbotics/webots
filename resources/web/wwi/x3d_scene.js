@@ -54,8 +54,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.addPass(renderPass);
     // sources: https://threejs.org/examples/webgl_postprocessing_unreal_bloom.html
     var bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
-    bloomPass.strength = 0.5;
-    bloomPass.radius = 0.6;
     bloomPass.threshold = 21.0;
     this.composer.addPass(bloomPass);
     // sources: https://threejs.org/examples/webgl_postprocessing_sao.html
@@ -123,8 +121,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
       // f.add(this.saoPass.params, 'saoBlurDepthCutoff', 0.0, 0.1).onChange(() => { this.render(); });
 
       f = gui.addFolder('Bloom');
-      f.add(bloomPass, 'strength').min(0).max(3).onChange(() => { this.render(); });
-      f.add(bloomPass, 'radius').min(0).max(1).onChange(() => { this.render(); });
       f.add(bloomPass, 'threshold').min(0).max(50).onChange(() => { this.render(); });
     }
   }
