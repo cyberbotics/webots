@@ -24,7 +24,9 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
+#include "WbVersion.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -47,8 +49,13 @@ WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
   if (tokenizer == NULL) {
     mRadius->setValueNoSignal(0.1);
+    mIco->setValueNoSignal(true);  // Webots creates icospheres by default
+    mSubdivision->blockSignals(true);
+    mSubdivision->setValue(1);
+    mSubdivision->blockSignals(false);
+  } else if (tokenizer->fileType() != WbTokenizer::MODEL && tokenizer->fileVersion() < WbVersion(2019, 1, 0))
+    // ensure compatibility with files stored by Webots < R2019b
     mIco->setValueNoSignal(true);
-  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {
