@@ -35,9 +35,9 @@ class TestIcons(unittest.TestCase):
         with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt') as file:
             content = file.read()
             self.version = content.splitlines()[0].strip().split()[0]
-        # 2. Get all the PROTO files from projects
+        # 2. Get all the PROTO files
         self.files = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
                 shouldIgnore = False
@@ -48,8 +48,8 @@ class TestIcons(unittest.TestCase):
                         break
                 if not shouldIgnore:
                     self.files.append(proto)
-        # 3. Get all the world files from projects
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        # 3. Get all the world files
+        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
                 self.files.append(world)
