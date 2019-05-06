@@ -15,7 +15,7 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
   var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };
   this.renderTargetsHorizontal = [];
   this.renderTargetsVertical = [];
-  this.nMips = 5;
+  this.nMips = 6;
   var resx = Math.round(this.resolution.x / 2);
   var resy = Math.round(this.resolution.y / 2);
 
@@ -84,13 +84,15 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
   this.compositeMaterial.uniforms[ 'blurTexture3' ].value = this.renderTargetsVertical[ 2 ].texture;
   this.compositeMaterial.uniforms[ 'blurTexture4' ].value = this.renderTargetsVertical[ 3 ].texture;
   this.compositeMaterial.uniforms[ 'blurTexture5' ].value = this.renderTargetsVertical[ 4 ].texture;
+  this.compositeMaterial.uniforms[ 'blurTexture6' ].value = this.renderTargetsVertical[ 5 ].texture;
   this.compositeMaterial.uniforms[ 'bloomStrength' ].value = strength;
   this.compositeMaterial.uniforms[ 'bloomRadius' ].value = 0.1;
   this.compositeMaterial.needsUpdate = true;
 
-  var bloomFactors = [ 1.0, 0.8, 0.6, 0.4, 0.2 ];
+  var bloomFactors = [ 1.0, 0.8, 0.6, 0.4, 0.2, 0.1 ];
   this.compositeMaterial.uniforms[ 'bloomFactors' ].value = bloomFactors;
   this.bloomTintColors = [
+    new THREE.Vector3(1, 1, 1),
     new THREE.Vector3(1, 1, 1),
     new THREE.Vector3(1, 1, 1),
     new THREE.Vector3(1, 1, 1),
@@ -168,7 +170,8 @@ THREE.Bloom.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
 
     renderer.setClearColor(this.clearColor, 0);
 
-    if (maskActive) renderer.context.disable(renderer.context.STENCIL_TEST);
+    if (maskActive)
+      renderer.context.disable(renderer.context.STENCIL_TEST);
 
     // Render input to screen
     if (this.renderToScreen) {

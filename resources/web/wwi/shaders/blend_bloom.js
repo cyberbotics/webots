@@ -12,6 +12,7 @@ THREE.blendBloomShader = {
     'blurTexture3': { value: null },
     'blurTexture4': { value: null },
     'blurTexture5': { value: null },
+    'blurTexture6': { value: null },
     'dirtTexture': { value: null },
     'bloomStrength': { value: 1.0 },
     'bloomFactors': { value: null },
@@ -34,6 +35,7 @@ THREE.blendBloomShader = {
     'uniform sampler2D blurTexture3;',
     'uniform sampler2D blurTexture4;',
     'uniform sampler2D blurTexture5;',
+    'uniform sampler2D blurTexture6;',
     'uniform sampler2D dirtTexture;',
     'uniform float bloomStrength;',
     'uniform float bloomRadius;',
@@ -50,7 +52,8 @@ THREE.blendBloomShader = {
     '                   lerpBloomFactor(bloomFactors[1]) * vec4(bloomTintColors[1], 1.0) * texture2D(blurTexture2, vUv) + ',
     '                   lerpBloomFactor(bloomFactors[2]) * vec4(bloomTintColors[2], 1.0) * texture2D(blurTexture3, vUv) + ',
     '                   lerpBloomFactor(bloomFactors[3]) * vec4(bloomTintColors[3], 1.0) * texture2D(blurTexture4, vUv) + ',
-    '                   lerpBloomFactor(bloomFactors[4]) * vec4(bloomTintColors[4], 1.0) * texture2D(blurTexture5, vUv));',
+    '                   lerpBloomFactor(bloomFactors[4]) * vec4(bloomTintColors[4], 1.0) * texture2D(blurTexture5, vUv) + ',
+    '                   lerpBloomFactor(bloomFactors[5]) * vec4(bloomTintColors[5], 1.0) * texture2D(blurTexture6, vUv));',
     '}'
   ].join('\n')
 };
