@@ -760,7 +760,8 @@ namespace wren {
     return phi;
   };
 
-  static void subdivideToBuffers(StaticMesh *mesh, const glm::vec3 *v1, const glm::vec3 *v2, const glm::vec3 *v3, int level) {
+  static void subdividePolyhedronFace(StaticMesh *mesh, const glm::vec3 *v1, const glm::vec3 *v2, const glm::vec3 *v3,
+                                      int level) {
     if (level == 0) {
       // get the x-axis texture coordinate of each vertex
       float a1 = cartesianCoordinatesToPolarAngle(-v1->z, -v1->x) * 0.5f * glm::one_over_pi<float>();
@@ -822,22 +823,24 @@ namespace wren {
       mesh->addNormal(glm::vec3(v2->x, v2->y, v2->z));
       mesh->addNormal(glm::vec3(v1->x, v1->y, v1->z));
 
-      mesh->addTexCoord(glm::vec2(a3, 1.0f - (v3->y + 1.0f) * 0.5f));
-      mesh->addTexCoord(glm::vec2(a2, 1.0f - (v2->y + 1.0f) * 0.5f));
-      mesh->addTexCoord(glm::vec2(a1, 1.0f - (v1->y + 1.0f) * 0.5f));
-
-      mesh->addUnwrappedTexCoord(glm::vec2(a3, 1.0f - (v3->y + 1.0f) * 0.5f));
-      mesh->addUnwrappedTexCoord(glm::vec2(a2, 1.0f - (v2->y + 1.0f) * 0.5f));
-      mesh->addUnwrappedTexCoord(glm::vec2(a1, 1.0f - (v1->y + 1.0f) * 0.5f));
+      const glm::vec2 uv1(a1, 0.5f - glm::asin(v1->y) * glm::one_over_pi<float>());
+      const glm::vec2 uv2(a2, 0.5f - glm::asin(v2->y) * glm::one_over_pi<float>());
+      const glm::vec2 uv3(a3, 0.5f - glm::asin(v3->y) * glm::one_over_pi<float>());
+      mesh->addTexCoord(uv3);
+      mesh->addTexCoord(uv2);
+      mesh->addTexCoord(uv1);
+      mesh->addUnwrappedTexCoord(uv3);
+      mesh->addUnwrappedTexCoord(uv2);
+      mesh->addUnwrappedTexCoord(uv1);
     } else {
       const glm::vec3 v12 = glm::normalize(*v1 + *v2);
       const glm::vec3 v23 = glm::normalize(*v2 + *v3);
       const glm::vec3 v31 = glm::normalize(*v3 + *v1);
 
-      subdivideToBuffers(mesh, v1, &v12, &v31, level - 1);
-      subdivideToBuffers(mesh, v2, &v23, &v12, level - 1);
-      subdivideToBuffers(mesh, v3, &v31, &v23, level - 1);
-      subdivideToBuffers(mesh, &v12, &v23, &v31, level - 1);
+      subdividePolyhedronFace(mesh, v1, &v12, &v31, level - 1);
+      subdividePolyhedronFace(mesh, v2, &v23, &v12, level - 1);
+      subdividePolyhedronFace(mesh, v3, &v31, &v23, level - 1);
+      subdividePolyhedronFace(mesh, &v12, &v23, &v31, level - 1);
     }
   };
 
@@ -873,8 +876,10 @@ namespace wren {
     mesh->estimateVertexCount(vertexCount);
     mesh->estimateIndexCount(vertexCount);
 
+    // iterate over all faces and apply a subdivison with the given value
     for (int i = 0; i < 20; ++i)
-      subdivideToBuffers(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z], subdivision);
+      subdividePolyhedronFace(mesh, &gVertices[gIndices[i].x], &gVertices[gIndices[i].y], &gVertices[gIndices[i].z],
+                              subdivision);
 
     for (int i = 0; i < vertexCount; ++i)
       mesh->addIndex(i);
