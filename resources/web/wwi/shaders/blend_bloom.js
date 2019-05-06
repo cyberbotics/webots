@@ -3,7 +3,7 @@
 THREE.blendBloomShader = {
 
   defines: {
-    'NUM_MIPS': 5
+    'NUM_MIPS': 6
   },
 
   uniforms: {
