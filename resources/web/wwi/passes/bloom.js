@@ -62,7 +62,7 @@ THREE.Bloom = function(resolution, strength, radius, threshold) {
 
   // Gaussian Blur Materials
   this.separableBlurMaterials = [];
-  var kernelSizeArray = [ 3, 5, 7, 9, 11 ];
+  var kernelSizeArray = [ 3, 5, 7, 9, 11, 13 ];
   resx = Math.round(this.resolution.x / 2);
   resy = Math.round(this.resolution.y / 2);
 
