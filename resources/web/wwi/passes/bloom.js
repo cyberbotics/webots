@@ -46,9 +46,7 @@ THREE.Bloom = class Bloom extends THREE.Pass {
       console.error('Bloom relies on THREE.brightPassShader');
 
     var brightPassShader = THREE.brightPassShader;
-    console.log(brightPassShader);
     this.brightPassUniforms = THREE.UniformsUtils.clone(brightPassShader.uniforms);
-    console.log(this.brightPassUniforms);
     this.brightPassUniforms[ 'threshold' ].value = this.threshold;
     this.brightPassUniforms[ 'textureSize' ].value = this.resolution;
 
