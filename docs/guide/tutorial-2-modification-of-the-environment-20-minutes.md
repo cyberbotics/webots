@@ -85,7 +85,7 @@ Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly
 Expand the `PBRAppearance` node and change its `metalness` field to 0 and its `roughness` field to 1.
 Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
 Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
-By modifying the `translation` field of the [Solid](../reference/solid.md) node, place the ball in front of the robot (at `{0, 0.1, -0.2}` for example).
+By modifying the `translation` field of the [Solid](../reference/solid.md) node, place the ball in front of the robot (at `{0, 0.2, -0.2}` for example).
 Save the simulation.
 The result is depicted in [this figure](#your-first-rigid-body-in-webots).
 
