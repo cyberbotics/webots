@@ -270,8 +270,9 @@ function redirectImages(node) {
   }
 }
 
-function redirectTextures(node, robotName) {
+function redirectTextures(scene, robotName) {
   // redirect ImageTexture's url
+  /*
   var textures = node.querySelectorAll('ImageTexture');
   var targetPath = computeTargetPath();
   for (var i = 0; i < textures.length; i++) {
@@ -279,6 +280,7 @@ function redirectTextures(node, robotName) {
     var url = texture.getAttribute('url').slice(1, -1);
     texture.setAttribute('url', targetPath + 'scenes/' + robotName + '/' + url);
   }
+  */
 }
 
 function applyAnchor() {
@@ -599,6 +601,7 @@ function highlightCode(view) {
 }
 
 function resetRobotComponent(robot) {
+  /*
   unhighlightX3DElement(robot);
   // Reset the Viewpoint and the motor sliders.
   var robotComponent = document.querySelector('#' + robot + '-robot-component');
@@ -611,9 +614,11 @@ function resetRobotComponent(robot) {
     slider.value = slider.getAttribute('webots-position');
     sliderMotorCallback(robot, slider);
   }
+  */
 }
 
 function toggleDeviceComponent(robot) {
+  /*
   var deviceMenu = document.querySelector('#' + robot + '-device-component');
   var robotView = document.querySelector('.robot-view');
   if (deviceMenu.style.display === 'none') {
@@ -623,9 +628,11 @@ function toggleDeviceComponent(robot) {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
+  */
 }
 
 function sliderMotorCallback(robot, slider) {
+  /*
   var view3d = document.querySelector('#' + robot + '-robot-webots-view');
   var transform = view3d.querySelector('[id=' + slider.getAttribute('webots-transform-id') + ']');
   if (!transform)
@@ -662,9 +669,11 @@ function sliderMotorCallback(robot, slider) {
     axis = axis.split(' ').join(',');
     transform.setAttribute('rotation', axis + ',' + angle);
   }
+  */
 }
 
 function unhighlightX3DElement(robot) {
+  /*
   var view3d = document.querySelector('#' + robot + '-robot-webots-view');
   var billboards = view3d.querySelectorAll('Transform[highlighted]');
   for (var b = 0; b < billboards.length; b++) {
@@ -678,9 +687,11 @@ function unhighlightX3DElement(robot) {
     material.removeAttribute('highlighted');
     material.setAttribute('emissiveColor', material.getAttribute('emissiveColorBack'));
   }
+  */
 }
 
 function highlightX3DElement(robot, deviceElement) {
+  /*
   unhighlightX3DElement(robot);
 
   var view3d = document.querySelector('#' + robot + '-robot-webots-view');
@@ -721,9 +732,11 @@ function highlightX3DElement(robot, deviceElement) {
       '</Billboard>\n';
     transform.appendChild(billboard);
   }
+  */
 }
 
 function estimateRobotScale(robot) {
+  /*
   // Estimate roughly the robot scale based on the number of transform and their scaled translation.
 
   function x3domAttributeToFloatArray(el, name) {
@@ -755,6 +768,8 @@ function estimateRobotScale(robot) {
 
   var nTransforms = robot.querySelectorAll('transform').length + 1;
   return Math.log2(nTransforms) * estimateRobotScaleRec(robot, 1.0);
+  */
+  return 1.0;
 }
 
 function createRobotComponent(view) {
@@ -765,7 +780,8 @@ function createRobotComponent(view) {
     var webotsView = new webots.View(webotsViewElement);
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       // correct the URL textures.
-      redirectTextures(webotsViewElement, robotName);
+      redirectTextures(webotsView.x3dScene.scene, robotName);
+      /*
       // Store viewpoint.
       var viewpoint = webotsViewElement.querySelector('Viewpoint');
       viewpoint.setAttribute('initialOrientation', viewpoint.getAttribute('orientation'));
@@ -773,6 +789,7 @@ function createRobotComponent(view) {
       // Rough estimation of the robot scale.
       var robotScale = Math.max(0.05, estimateRobotScale(webotsViewElement));
       viewpoint.setAttribute('robotScale', robotScale);
+      */
     };
 
     // Load the robot X3D file.
