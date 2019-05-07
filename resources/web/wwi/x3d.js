@@ -375,7 +375,10 @@ THREE.X3DLoader = class X3DLoader {
       texture.image = image;
       texture.needsUpdate = true;
     }
-    texture.userData = { 'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true' };
+    texture.userData = {
+      'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
+      'url': filename[0]
+    };
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();

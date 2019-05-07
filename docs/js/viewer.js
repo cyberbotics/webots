@@ -3,6 +3,7 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
+/* global THREE */
 /* global webots */
 /* exported resetRobotComponent */
 /* exported toggleDeviceComponent */
@@ -270,8 +271,39 @@ function redirectImages(node) {
   }
 }
 
-function redirectTextures(scene, robotName) {
+function redirectTexture(material, map, url, onload) {
+  var loader = new THREE.TextureLoader();
+  material[map] = loader.load(
+    url,
+    function(image) {
+      material.needsUpdate = true;
+      onload();
+    },
+    undefined,
+    undefined
+  );
+  // console.log(ret);
+}
+
+function redirectTextures(x3dScene, robotName) {
   // redirect ImageTexture's url
+  var targetPath = computeTargetPath() + 'scenes/' + robotName + '/';
+  // var maps = ['map', 'roughnessMap', 'metalnessMap', 'normalMap', 'emissiveMap', 'aoMap'];
+  var maps = ['map'];
+  x3dScene.scene.traverse(function(child) {
+    if (child.isMesh && child.material) {
+      var material = child.material;
+      for (var m = 0; m < maps.length; m++) {
+        var map = maps[m];
+        if (map in material && material[map] && material[map].isTexture) {
+          redirectTexture(material, map, targetPath + material[map].userData.url, function() {
+            x3dScene.render();
+          });
+        }
+      }
+    }
+  });
+
   /*
   var textures = node.querySelectorAll('ImageTexture');
   var targetPath = computeTargetPath();
@@ -780,7 +812,7 @@ function createRobotComponent(view) {
     var webotsView = new webots.View(webotsViewElement);
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       // correct the URL textures.
-      redirectTextures(webotsView.x3dScene.scene, robotName);
+      redirectTextures(webotsView.x3dScene, robotName);
       /*
       // Store viewpoint.
       var viewpoint = webotsViewElement.querySelector('Viewpoint');
