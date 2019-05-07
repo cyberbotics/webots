@@ -28,6 +28,7 @@ Robot {
           geometry Sphere {
             radius 0.1
             subdivision 2
+            ico TRUE
           }
         }
       ]
@@ -44,6 +45,7 @@ Robot {
           geometry Sphere {
             radius 0.1
             subdivision 2
+            ico TRUE
           }
         }
       ]
