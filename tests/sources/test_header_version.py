@@ -25,8 +25,8 @@ ignoredProtos = [
 ]
 
 
-class TestIcons(unittest.TestCase):
-    """Unit test of the PROTO icons."""
+class TestHeaderVersion(unittest.TestCase):
+    """Unit test of the PROTO and world headers."""
 
     def setUp(self):
         """Get all the PROTO files to be tested."""
