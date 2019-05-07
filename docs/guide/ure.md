@@ -1,21 +1,21 @@
-## Universal Robot UR5e and UR10e
+## Universal Robot UR3e, UR5e and UR10e
 
 %robot ure images/robots/ure/model.png
 
-The Universal Robot [UR5e](https://www.universal-robots.com/products/ur5-robot/) and [UR10e](https://www.universal-robots.com/products/ur10-robot/) are flexible collaborative robot arms with 6 degrees of freedom.
+The Universal Robot [UR3e](https://www.universal-robots.com/products/ur3-robot/), [UR5e](https://www.universal-robots.com/products/ur5-robot/) and [UR10e](https://www.universal-robots.com/products/ur10-robot/) are flexible collaborative robot arms with 6 degrees of freedom.
 
-The Universal Robot UR5e and UR10e models in Webots are fully compatible with ROS.
+The Universal Robot UR3e, UR5e and UR10e models in Webots are fully compatible with ROS.
 
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=WIY9ebqSXUc)
 
-### UR5e and UR10e PROTO
+### UR3e, UR5e and UR10e PROTO
 
 Derived from [Robot](../reference/robot.md).
 
 ```
-UR5e/UR10e {
+UR5e/UR5e/UR10e {
   SFVec3f    translation     0 0 0
   SFRotation rotation        1 0 0 4.712388966
   SFString   name            "UR5e"
@@ -28,7 +28,7 @@ UR5e/UR10e {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR5e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR5e.proto)" and "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR10e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR10e.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR3e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR3e.proto)", "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR5e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR5e.proto)" and "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR10e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR10e.proto)"
 
 #### Field Summary
 
@@ -42,14 +42,14 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### [ure.wbt](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/worlds/ure.wbt)
 
-![ure.wbt.png](images/robots/ure/ure.wbt.png) This simulation shows an UR5e and an UR10e robots equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper) grabbing cans on a conveyor belt and putting them in crates.
+![ure.wbt.png](images/robots/ure/ure.wbt.png) This simulation shows an UR3e, an UR5e and an UR10e robots equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper) grabbing cans on a conveyor belt and putting them in crates.
 
 ### ROS
 
 To use ROS with the simulated UR5e/UR10e robot in Webots, the `universal_robot_ros` controller should be assigned to the robot.
 Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal\_robots/ressources/ros\_package/ur\_e\_webots](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ressources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
 
-Once `roscore` is started the `ur5e` (replace by `5` by `10` for the UR10e) node of the `ur_e_webots` package can be launched:
+Once `roscore` is started the `ur5e` (replace by `5` by `3` or `10` for the UR3e or UR10e) node of the `ur_e_webots` package can be launched:
 ```
 roslaunch ur_e_webots ur5e.launch
 ```
