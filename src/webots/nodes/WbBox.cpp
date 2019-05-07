@@ -71,6 +71,8 @@ void WbBox::createWrenObjects() {
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
 
+  sanitizeFields();
+
   const bool createOutlineMesh = isInBoundingObject();
   mWrenMesh = wr_static_mesh_unit_box_new(createOutlineMesh);
 
@@ -161,7 +163,7 @@ void WbBox::updateSize() {
 }
 
 void WbBox::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -173,9 +175,6 @@ void WbBox::updateLineScale() {
 }
 
 void WbBox::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mSize->value().x()), static_cast<float>(mSize->value().y()),
                    static_cast<float>(mSize->value().z())};
   wr_transform_set_scale(wrenNode(), scale);
