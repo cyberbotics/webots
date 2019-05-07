@@ -9,7 +9,7 @@
 /* exported highlightX3DElement */
 /* exported openTabFromEvent */
 
-"use strict";
+'use strict';
 
 var handle;
 
@@ -183,10 +183,10 @@ function forgeUrl(book, page, tab, anchor) {
       url += '?version=' + localSetup.repository + ':' + localSetup.branch;
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
-    if (localSetup.tab != '' && localSetup.branch == '')
+    if (localSetup.tab !== '' && localSetup.branch === '')
       url += '?tab=' + localSetup.tab;
-    else if (localSetup.tab != '')
-       url += '&tab=' + localSetup.tab;
+    else if (localSetup.tab !== '')
+      url += '&tab=' + localSetup.tab;
     url += anchorString;
   } else {
     var isFirstArgument;
@@ -212,7 +212,7 @@ function forgeUrl(book, page, tab, anchor) {
       url = url.replace(/tab=([^&]+)(#[\w-]+)?/, 'tab=' + tab + anchorString);
     else {
       isFirstArgument = (url.indexOf('?') < 0);
-      url = url + (tab != '' ? (isFirstArgument ? '?' : '&') + 'tab=' + tab : '') + anchorString;
+      url = url + (tab !== '' ? (isFirstArgument ? '?' : '&') + 'tab=' + tab : '') + anchorString;
     }
   }
   return url;
@@ -343,61 +343,61 @@ function updateContributionBannerUrl() {
 }
 
 function addNavigationToBlogIfNeeded() {
-  if (!document.querySelector("#next-previous-section") && localSetup.book === "blog") {
-    let menu = document.querySelector("#menu");
-    let lis = menu.querySelectorAll("li");
-    let currentPageIndex = -1
-    for (i = 0; i < lis.length; ++i) {
-      if (lis[i].className === "selected") {
+  if (!document.querySelector('#next-previous-section') && localSetup.book === 'blog') {
+    let menu = document.querySelector('#menu');
+    let lis = menu.querySelectorAll('li');
+    let currentPageIndex = -1;
+    for (let i = 0; i < lis.length; ++i) {
+      if (lis[i].className === 'selected') {
         currentPageIndex = i;
         break;
       }
     }
 
-    if (currentPageIndex == -1)
+    if (currentPageIndex === -1)
       return;
 
     // console.log(currentPageIndex, lis.length);
     // console.log(lis);
-    let div = document.createElement("div");
-    div.setAttribute("id", "next-previous-section");
+    let div = document.createElement('div');
+    div.setAttribute('id', 'next-previous-section');
     // previous post
     if (currentPageIndex > 0) {
-      let previous = lis[currentPageIndex - 1]
+      let previous = lis[currentPageIndex - 1];
       let a = previous.firstChild.cloneNode();
-      a.innerHTML += "<< Previous Post: " + previous.textContent;
-      a.setAttribute("class", "post-selector left");
+      a.innerHTML += '<< Previous Post: ' + previous.textContent;
+      a.setAttribute('class', 'post-selector left');
       div.appendChild(a);
     }
 
     if (currentPageIndex < lis.length - 1) {
       let next = lis[currentPageIndex + 1];
       let a = next.firstChild.cloneNode();
-      a.innerHTML += "Next Post: " + next.textContent + " >>";
-      a.setAttribute("class", "post-selector right");
+      a.innerHTML += 'Next Post: ' + next.textContent + ' >>';
+      a.setAttribute('class', 'post-selector right');
       div.appendChild(a);
     }
 
-    document.querySelector("#publish-data").parentNode.insertBefore(div, document.querySelector("#publish-data").nextSibling);
+    document.querySelector('#publish-data').parentNode.insertBefore(div, document.querySelector('#publish-data').nextSibling);
   }
 }
 
 function setupBlogFunctionalitiesIfNeeded() {
   if (localSetup.book === 'blog') {
     // hide index, this doesn't make sense for a blog post
-    let index = document.querySelector("#index");
-    let indexTitle = document.querySelector("#indexTitle");
+    let index = document.querySelector('#index');
+    let indexTitle = document.querySelector('#indexTitle');
 
     if (index !== null)
-      index.style.display = "none";
+      index.style.display = 'none';
 
     if (indexTitle !== null)
-      indexTitle.style.display = "none";
+      indexTitle.style.display = 'none';
 
     // hide the release tag, this is also nonsensical here
-    document.querySelector(".release-tag").style.display = "none";
+    document.querySelector('.release-tag').style.display = 'none';
 
-    document.title = document.title.replace("documentation", "Blog");
+    document.title = document.title.replace('documentation', 'Blog');
 
     var figures = document.querySelectorAll('figure');
     if (figures.length > 0) {
@@ -457,7 +457,7 @@ function createIndex(view) {
   // Create an empty index, and insert it before the second heading.
   var indexTitle = document.createElement('h' + level);
   indexTitle.textContent = 'Index';
-  indexTitle.setAttribute("id", "indexTitle");
+  indexTitle.setAttribute('id', 'indexTitle');
   headings[0].parentNode.insertBefore(indexTitle, headings[1]);
   var ul = document.createElement('ul');
   ul.setAttribute('id', 'index');
@@ -913,7 +913,7 @@ function openTab(tabcomponent, name) {
   for (var j = 0; j < tablinks.length; j++)
     tablinks[j].classList.remove('active');
 
-  var tabcontent = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"][name="' + name + '"]')[0];
+  tabcontent = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"][name="' + name + '"]')[0];
   tabcontent.style.display = 'block';
 
   var tablink = tabcomponent.querySelectorAll('.tab-links[name="' + name + '"]')[0];
@@ -923,7 +923,7 @@ function openTab(tabcomponent, name) {
 function applyTabs() {
   var tabComponents = document.querySelectorAll('.tab-component');
   for (var k = 0; k < tabComponents.length; k++)
-    openTab(tabComponents[k], localSetup.tab)
+    openTab(tabComponents[k], localSetup.tab);
 }
 
 function renderGraphs() {
@@ -1321,7 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // prevent FOUC for blog
-  if (localSetup.book == "blog") {
+  if (localSetup.book === 'blog') {
     var center = document.querySelector('#center');
     center.setAttribute('class', 'blog');
     setHandleWidth(0);
