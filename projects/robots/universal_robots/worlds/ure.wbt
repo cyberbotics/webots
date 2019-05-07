@@ -13,13 +13,13 @@ WorldInfo {
     ContactProperties {
       material1 "slope"
       coulombFriction [
-        0.1
+        0.5
       ]
     }
   ]
 }
 Viewpoint {
-  orientation 0.559385112602434 0.79064371634057 0.2489393693450969 5.24502423699399
+  orientation 0.5593874959277706 0.7906420655431335 0.24893925683456522 5.245024193194764
   position -3.003149059091924 3.6046653693919106 2.350193890222295
   exposure 1.7
 }
@@ -286,6 +286,7 @@ UR3e {
   rotation 1 0 0 -1.5707963071795863
   controller "ure_can_grasper"
   controllerArgs "3"
+  selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
       translation 0 0.04 0
@@ -300,6 +301,7 @@ UR5e {
   translation 0 0.61 0
   rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
   controller "ure_can_grasper"
+  selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
       translation 0 0.04 0
@@ -314,6 +316,7 @@ UR10e {
   translation -0.56 0.61 0.1
   rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
   controller "ure_can_grasper"
+  selfCollision FALSE
   toolSlot [
     Robotiq3fGripper {
       translation 0 0.04 0
@@ -361,30 +364,30 @@ ConveyorBelt {
     }
   }
   borderHeight 0
-  speed 0.061
+  speed 0.062
   acceleration 0.012
   timer 90
   textureAnimation 0.016
 }
 PlasticCrate {
-  translation 0.13 0.25 -0.68
+  translation 0.22 0.25 -0.68
   size 0.6 0.4 0.45
   mass 1
 }
 PlasticCrate {
-  translation -0.48 0.25 -0.68
+  translation -0.41 0.25 -0.68
   name "plastic crate(1)"
   size 0.6 0.4 0.45
   mass 1
 }
 PlasticCrate {
-  translation -1.09 0.26 -0.68
+  translation -1.04 0.26 -0.68
   name "plastic crate(2)"
   size 0.6 0.4 0.45
   mass 1
 }
 PlasticCrate {
-  translation -1.7 0.26 -0.68
+  translation -1.67 0.26 -0.68
   name "plastic crate(3)"
   size 0.6 0.4 0.45
   mass 1
@@ -396,19 +399,19 @@ PlasticCrate {
   mass 1
 }
 PlasticCrate {
-  translation -2.92 0.26 -0.68
+  translation -2.94 0.26 -0.68
   name "plastic crate(5)"
   size 0.6 0.4 0.45
   mass 1
 }
 PlasticCrate {
-  translation -3.53 0.26 -0.68
+  translation -3.56 0.26 -0.68
   name "plastic crate(6)"
   size 0.6 0.4 0.45
   mass 1
 }
 PlasticCrate {
-  translation -4.14 0.25 -0.68
+  translation -4.19 0.25 -0.68
   name "plastic crate(7)"
   size 0.6 0.4 0.45
   mass 1
