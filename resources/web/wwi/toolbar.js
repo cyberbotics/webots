@@ -294,7 +294,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this[buttonName].id = buttonName;
     this[buttonName].className = 'toolBarButton';
     this[buttonName].title = tooltip;
-    this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.getImageUrl(name) + ')';
+    this[buttonName].style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + name + '.png)';
     return this[buttonName];
   }
 

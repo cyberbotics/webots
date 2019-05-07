@@ -19,8 +19,8 @@ var DefaultUrl = {
     return this._wwiUrl;
   },
 
-  getImageUrl: function(name) {
-    return this.wwiUrl() + 'images/' + name + '.png';
+  wwiImagesUrl: function(name) {
+    return this.wwiUrl() + 'images/';
   },
 
   currentScriptUrl: function() {
