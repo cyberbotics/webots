@@ -7,4 +7,12 @@
   <group ns="ur5e_joint_limited__">
     <include file="$(find ur_e_webots)/launch/ur5e_joint_limited.launch"/>
   </group>
+
+  <group ns="ur10e__">
+    <include file="$(find ur_e_webots)/launch/ur10e.launch"/>
+  </group>
+
+  <group ns="ur10e_joint_limited__">
+    <include file="$(find ur_e_webots)/launch/ur10e_joint_limited.launch"/>
+  </group>
 </launch>
