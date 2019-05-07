@@ -29,9 +29,9 @@ With a `subdivision` field set to 32, the faces are 1024.
 The `ico` field specified if the sphere is rendered as an icosahedron or a UV sphere.
 By default [Sphere](#sphere) nodes created in Webots are icosahedrons, whether sphere geometries imported from VRML are UV spheres with a `subdivision` value of 24.
 
-%figure "Sphere implementations"
+%figure "Sphere tessellations"
 
-![sphere_implementations.png](images/sphere_implementations.png)
+![sphere_tessellation.png](images/sphere_tessellation.png)
 
 %end
 
