@@ -98,15 +98,25 @@ CardboardBox {
 Wall {
   translation 0 0 -2.58
   size 15 2.4 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 2 1
+    }
+  }
 }
 Wall {
   translation 0 0 2.42
   name "wall(1)"
   size 15 2.4 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 2 1
+    }
+  }
 }
 SolidBox {
-  translation -0.25 0.305 0
-  size 0.8 0.61 0.3
+  translation -0.28 0.305 0.07
+  size 0.9 0.61 0.4
   appearance GalvanizedMetal {
   }
 }
@@ -117,7 +127,7 @@ FireExtinguisher {
 UR5e {
   translation 0 0.61 0
   rotation -0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
-  controller "ur5e_can_grasper"
+  controller "ure_can_grasper"
   toolSlot [
     Robotiq3fGripper {
       translation 0 0.04 0
@@ -129,9 +139,9 @@ UR5e {
   ]
 }
 UR10e {
-  translation -0.5599999999999999 0.61 0.09999999999999999
+  translation -0.56 0.61 0.1
   rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
-  controller "ur5e_can_grasper"
+  controller "ure_can_grasper"
   toolSlot [
     Robotiq3fGripper {
       translation 0 0.04 0
@@ -221,7 +231,7 @@ Can {
   translation 0.7 0.66 0.83
 }
 Can {
-  translation 1.0899999999999999 0.6599999999999999 1.285
+  translation 1.09 0.66 1.285
   name "can(4)"
 }
 Can {
@@ -229,7 +239,7 @@ Can {
   name "can(1)"
 }
 Can {
-  translation 2.4899999999999998 0.6599999999999999 1.285
+  translation 2.49 0.66 1.285
   name "can(5)"
 }
 Can {
@@ -237,7 +247,7 @@ Can {
   name "can(2)"
 }
 Can {
-  translation 3.9 0.6599999999999999 1.285
+  translation 3.9 0.66 1.285
   name "can(6)"
 }
 Can {
@@ -245,7 +255,7 @@ Can {
   name "can(3)"
 }
 Can {
-  translation 5.3 0.6599999999999999 1.285
+  translation 5.3 0.66 1.285
   name "can(7)"
 }
 Can {
@@ -253,7 +263,7 @@ Can {
   name "can(8)"
 }
 Can {
-  translation 6.699999999999999 0.6599999999999999 1.285
+  translation 6.7 0.66 1.285
   name "can(9)"
 }
 Can {
@@ -261,7 +271,7 @@ Can {
   name "can(10)"
 }
 Can {
-  translation 8.1 0.6599999999999999 1.285
+  translation 8.1 0.66 1.285
   name "can(11)"
 }
 Can {
