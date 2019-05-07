@@ -173,7 +173,7 @@ webots.View = class View {
       if (this.isWebSocketProtocol) {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
-        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiUrl() + "images/load_animation.gif'>" +
+        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
                                   "</div><div id='webotsProgressMessage'>Initializing...</div>" +
                                   "</div><div id='webotsProgressPercent'></div>";
         this.view3D.appendChild(this.progress);
