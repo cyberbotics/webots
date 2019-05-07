@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   int state = WAITING;
   const double target_positions[] = {-1.88, -2.14, -2.38, -1.51};
   double speed = 1.0;
-  
+
   if (argc == 2)
     sscanf(argv[1], "%lf", &speed);
 

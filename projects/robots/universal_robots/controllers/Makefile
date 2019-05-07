@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS = ur5e_can_grasper.Makefile
+TARGETS = ure_can_grasper.Makefile
 
 .PHONY: release debug profile clean
 
