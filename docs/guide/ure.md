@@ -1,6 +1,6 @@
 ## Universal Robot UR5e and UR10e
 
-%robot ure images/robots/ure/model.png
+%robot ur5e images/robots/ur5e/model.png
 
 The Universal Robot [UR5e](https://www.universal-robots.com/products/ur5-robot/) and [UR10e](https://www.universal-robots.com/products/ur10-robot/) are flexible collaborative robot arms with 6 degrees of freedom.
 
