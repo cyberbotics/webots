@@ -46,7 +46,7 @@ THREE.brightPassShader = {
     '  totalLuma += luma(texture2D(tDiffuse, texUv + vec2(-1, -1) / textureSize).rgb);',
     '  totalLuma /= 9.0;',
 
-    ' if (totalLuma < 0.8)', // This should be `threshold` instead of 0.8, but there is a scale issue :-(
+    ' if (totalLuma < 0.8)', // TODO: This should be `threshold` instead of 0.8, but there is a scale issue :-(
     '   gl_FragColor = vec4(vec3(0.0), 1.0);',
     ' else {',
     '   gl_FragColor.r = min(color.r, 4000.0);',
