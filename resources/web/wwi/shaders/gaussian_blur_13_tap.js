@@ -2,8 +2,8 @@
 
 THREE.gaussianBlur13Tap = {
   defines: {
-    'KERNEL_RADIUS': 13,
-    'SIGMA': 13
+    'KERNEL_RADIUS': 1,
+    'SIGMA': 1
   },
 
   uniforms: {
