@@ -30,6 +30,10 @@ int main(int argc, char **argv) {
   int counter = 0, i = 0;
   int state = WAITING;
   const double target_positions[] = {-1.88, -2.14, -2.38, -1.51};
+  double speed = 1.0;
+  
+  if (argc == 2)
+    sscanf(argv[1], "%lf", &speed);
 
   WbDeviceTag hand_motors[3];
   hand_motors[0] = wb_robot_get_device("finger_1_joint_1");
@@ -41,7 +45,7 @@ int main(int argc, char **argv) {
   ur_motors[2] = wb_robot_get_device("wrist_1_joint");
   ur_motors[3] = wb_robot_get_device("wrist_2_joint");
   for (i = 0; i < 4; ++i)
-    wb_motor_set_velocity(ur_motors[i], 1.0);
+    wb_motor_set_velocity(ur_motors[i], speed);
 
   WbDeviceTag distance_sensor = wb_robot_get_device("distance sensor");
   wb_distance_sensor_enable(distance_sensor, TIME_STEP);
