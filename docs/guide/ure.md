@@ -56,8 +56,6 @@ roslaunch ur_e_webots ur5e.launch
 
 The simulation can now be started.
 
-> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use instead the `ur5e_joint_limited` launch file, i.e.: `roslaunch ur_e_webots ur5e_joint_limited.launch`
-
 #### MoveIt!
 
 Thanks to the [universal\_robot](http://wiki.ros.org/universal_robot) ROS package, MoveIt! can be used for motion planning. It can be started with the following launch file:
@@ -68,3 +66,5 @@ Finally, to start RViz with a configuration including the MoveIt! Motion Plannin
 ```
 roslaunch ur5_e_moveit_config moveit_rviz.launch config:=true
 ```
+
+> **Note**: As MoveIt! seems to have difficulties with finding plans for the robot with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use instead the `ur5e_joint_limited` launch file instead of the `ur5e.launch` one, i.e.: `roslaunch ur_e_webots ur5e_joint_limited.launch`
