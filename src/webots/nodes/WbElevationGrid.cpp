@@ -84,6 +84,8 @@ void WbElevationGrid::preFinalize() {
   if (color())
     color()->preFinalize();
 
+  sanitizeFields();
+
   if (isInBoundingObject()) {
     if (WbNodeUtilities::findUpperMatter(this)->nodeType() == WB_NODE_FLUID) {
       warn("The ElevationGrid geometry cannot be used as a Fluid boundingObject. Immersions will have not effect.\n");
@@ -114,7 +116,6 @@ void WbElevationGrid::postFinalize() {
 
 void WbElevationGrid::createWrenObjects() {
   WbGeometry::createWrenObjects();
-  sanitizeFields();
   updateColor();
 
   buildWrenMesh();
