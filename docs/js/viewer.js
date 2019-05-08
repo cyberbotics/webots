@@ -633,20 +633,20 @@ function highlightCode(view) {
 }
 
 function resetRobotComponent(robot) {
-  /*
   unhighlightX3DElement(robot);
   // Reset the Viewpoint and the motor sliders.
   var robotComponent = document.querySelector('#' + robot + '-robot-component');
-  var viewpoint = robotComponent.querySelector('Viewpoint');
-  viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
-  viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
+  // var viewpoint = robotComponent.querySelector('Viewpoint');
+  // viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
+  // viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
   var sliders = robotComponent.querySelectorAll('.motor-slider');
   for (var s = 0; s < sliders.length; s++) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
-    sliderMotorCallback(robot, slider);
+    var id = slider.getAttribute('webots-transform-id');
+    sliderMotorCallback(document.truite.x3dScene.getObjectByID(id), slider);
   }
-  */
+  document.truite.x3dScene.render();
 }
 
 function toggleDeviceComponent(robot) {
@@ -664,21 +664,31 @@ function toggleDeviceComponent(robot) {
 }
 
 function quaternionToAxisAngle(q) {
-  // refrerence: http://schteppe.github.io/cannon.js/docs/files/src_math_Quaternion.js.html
+  // refrerence: https://github.com/omichel/webots/blob/169014e3e511880c14b479a2aaad2e033d5b9a01/src/webots/maths/WbRotation.cpp#L20
   var axis = new THREE.Vector3(0.0, 1.0, 0.0);
-  var angle = 2.0 * Math.acos(q.w);
-  var s = Math.sqrt(1.0 - q.w * q.w); // assuming quaternion normalised then w is less than 1, so term always positive.
-  if (s < 0.001) { // test to avoid divide by zero, s is always positive due to sqrt
-    // if s close to zero then direction of axis not important
-    axis.x = q.x; // if it is important that axis is normalised then replace with x=1; y=z=0;
-    axis.y = q.y;
-    axis.z = q.z;
+  var angle = 0.0;
+
+  if (q.w >= 1.0)
+    angle = 0.0;
+  else if (q.w <= -1.0)
+    angle = 2.0 * Math.PI;
+  else
+    angle = 2.0 * Math.acos(q.w);
+
+  if (angle < 0.000001) {
+    axis.x = 0.0;
+    axis.y = 1.0;
+    axis.z = 0.0;
+    angle = 0.0;
+    return [axis, angle];
   } else {
-    axis.x = q.x / s; // normalise axis
-    axis.y = q.y / s;
-    axis.z = q.z / s;
+    // normalise axes
+    var inv = 1.0 / Math.sqrt(q.x * q.x + q.y * q.y + q.z * q.z);
+    axis.x = q.x * inv;
+    axis.y = q.y * inv;
+    axis.z = q.z * inv;
+    return [axis, angle];
   }
-  return [axis, angle];
 };
 
 function sliderMotorCallback(transform, slider) {
@@ -709,8 +719,11 @@ function sliderMotorCallback(transform, slider) {
     var angle = 0.0;
     if ('initialAngle' in transform.userData) // Get initial angle.
       angle = transform.userData.initialAngle;
-    else // Store initial angle.
-      transform.userData.initialAngle = quaternionToAxisAngle(transform.quaternion)[1];
+    else { // Store initial angle.
+      var aa = quaternionToAxisAngle(transform.quaternion);
+      angle = aa[1];
+      transform.userData.initialAngle = angle;
+    }
     angle += value - position;
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
@@ -829,6 +842,7 @@ function createRobotComponent(view) {
     var webotsViewElement = webotsViewElements[e];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
     var webotsView = new webots.View(webotsViewElement);
+    document.truite = webotsView;  //TODO: replace the truite.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       // correct the URL textures.
       redirectTextures(webotsView.x3dScene, robotName);
