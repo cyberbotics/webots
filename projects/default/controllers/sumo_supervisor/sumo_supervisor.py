@@ -98,8 +98,8 @@ def get_options():
     optParser.add_option("--maximum-angular-speed", type="float", dest="maximumAngularSpeed", default=3,
                          help="specifies the maximal angular speed of any vehicle in radian per second.")
     optParser.add_option("--lane-change-delay", type="float", dest="laneChangeDelay", default=3,
-                         help="""specifies the time required to change lane (during this period position in Webots and SUMO may
-                                 not be perfectly synchronized anymore).""")
+                         help='specifies the time required to change lane (during this period position in Webots and SUMO may'
+                              'not be perfectly synchronized anymore).')
     optParser.add_option("--sumo-arguments", dest="sumoArguments", default="", help="specifies additional SUMO arguments.")
     options, args = optParser.parse_args()
     return options
@@ -132,8 +132,8 @@ if directory.startswith("WEBOTS_HOME"):
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
     directory = re.sub(r'.wbt$', '_net', controller.getWorldPath())
 if not os.path.isdir(directory):
-    sys.exit("""You should specify in which directory are stored the network files associated to this world with the
-                '--directory' argument or put them in the '%s' directory.""" % directory)
+    sys.exit("You should specify in which directory are stored the network files associated to this world with the"
+             "'--directory' argument or put them in the '%s' directory." % directory)
 
 tmpDirectory = None
 # generate the net file with the 'netconvert' utility

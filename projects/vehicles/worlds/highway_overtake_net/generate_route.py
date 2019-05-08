@@ -24,19 +24,19 @@ motorcycleRatio = 10
 truckRatio = 40
 trailerRatio = 15
 
-print("""<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">""")
+print('<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+      ' xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">')
 print('  <route id="0" edges="-1"/>')
 print('  <route id="1" edges="-0"/>')
 print('  <vType id="car" minGap="5"/>')
-print("""  <vType id="bus" accel="0.8" decel="4.5" sigma="0.8" length="10" minGap="8" maxSpeed="20"
-         guiShape="bus" vClass="bus"/>""")
-print("""  <vType id="motorcycle" accel="1.2" decel="4.5" sigma="0.5" length="3" minGap="1.5" maxSpeed="25"
-         guiShape="motorcycle" vClass="motorcycle"/>""")
-print("""  <vType id="trailer" accel="0.8" decel="4.5" sigma="0.8" length="14" minGap="8" maxSpeed="20"
-         guiShape="truck" vClass="trailer"/>""")
-print("""  <vType id="truck" accel="0.8" decel="4.5" sigma="0.5" length="8" minGap="8" maxSpeed="25"
-         guiShape="truck" vClass="truck"/>""")
+print('  <vType id="bus" accel="0.8" decel="4.5" sigma="0.8" length="10" minGap="8" maxSpeed="20"'
+      ' guiShape="bus" vClass="bus"/>')
+print('  <vType id="motorcycle" accel="1.2" decel="4.5" sigma="0.5" length="3" minGap="1.5" maxSpeed="25"'
+      ' guiShape="motorcycle" vClass="motorcycle"/>')
+print('  <vType id="trailer" accel="0.8" decel="4.5" sigma="0.8" length="14" minGap="8" maxSpeed="20"'
+      ' guiShape="truck" vClass="trailer"/>')
+print('  <vType id="truck" accel="0.8" decel="4.5" sigma="0.5" length="8" minGap="8" maxSpeed="25"'
+      ' guiShape="truck" vClass="truck"/>')
 for i in range(initialVehicleNumber / 2):
     departPos = 5000.0 - 2 * i * 5000.0 / initialVehicleNumber
     if vehicleCounter % truckRatio == 0:

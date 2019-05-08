@@ -436,8 +436,8 @@ class SumoSupervisor (Supervisor):
             self.step(step)
             traci.init(port, numRetries=20)
         except:
-            sys.exit("""Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try
-                        changing SUMO port using the '--port' argument.""")
+            sys.exit('Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try'
+                     ' changing SUMO port using the "--port" argument.')
 
         self.traci = traci
         self.sumolib = sumolib

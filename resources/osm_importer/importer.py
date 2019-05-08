@@ -99,8 +99,8 @@ for line in lines:
         maxlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
         maxlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
 if math.isnan(minlat) or math.isnan(minlon) or math.isnan(maxlat) or math.isnan(maxlon):
-    sys.stderr.write("""Warning: impossible to get the map bounds from the OSM file,
-                        make sure the file contains the 'bounds' tag.\n""")
+    sys.stderr.write('Warning: impossible to get the map bounds from the OSM file,'
+                     ' make sure the file contains the "bounds" tag.\n')
     sys.exit(0)
 
 # Define the projection

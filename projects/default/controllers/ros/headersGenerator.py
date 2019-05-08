@@ -154,23 +154,25 @@ class HeadersGenerator:
                 elif type == 'float32':
                     tagReplacementString += 'float '
                 elif type == 'string':
-                    tagReplacementString += """std::basic_string<char, std::char_traits<char>, typename
-                     ContainerAllocator::template rebind<char>::other >  """
+                    tagReplacementString += \
+                        'std::basic_string<char, std::char_traits<char>, typename ' \
+                        'ContainerAllocator::template rebind<char>::other >  '
                 elif type == 'int32[]':
-                    tagReplacementString += """std::vector<int32_t, typename ContainerAllocator::template
-                     rebind<int32_t>::other > """
+                    tagReplacementString +=  \
+                        'std::vector<int32_t, typename ContainerAllocator::template rebind<int32_t>::other > '
                 elif type == 'char[]':
-                    tagReplacementString += """std::vector<uint8_t, typename ContainerAllocator::template
-                     rebind<uint8_t>::other >  """
+                    tagReplacementString += \
+                        'std::vector<uint8_t, typename ContainerAllocator::template rebind<uint8_t>::other > '
                 elif type == 'float64[]':
                     tagReplacementString += 'std::vector<double, typename ContainerAllocator::template rebind<double>::other > '
                 elif type == 'float32[]':
                     tagReplacementString += 'std::vector<float, typename ContainerAllocator::template rebind<double>::other > '
                 elif type == 'string[]':
-                    tagReplacementString += """std::vector<std::basic_string<char, std::char_traits<char>, typename
-                     ContainerAllocator::template rebind<char>::other > , typename ContainerAllocator::template
-                      rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template
-                      rebind<char>::other > >::other >  """
+                    tagReplacementString += \
+                        'std::vector<std::basic_string<char, std::char_traits<char>, typename' \
+                        ' ContainerAllocator::template rebind<char>::other > , typename ContainerAllocator::template' \
+                        ' rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template' \
+                        ' rebind<char>::other > >::other >  '
                 elif type == 'Header':
                     tagReplacementString += '::std_msgs::Header_<ContainerAllocator> '
                 elif '/' in type:  # composed type

@@ -38,10 +38,10 @@ with open("./sumo.rou.xml", "w") as routes:
     vehNr = 0
     # add 10 vehicles at the beginning of simulation
     for i in range(5):
-        print >> routes, """  <vehicle id="right_initial_%i" type="typeWEfast" route="rightInitial" depart="0" departPos="%i"
-                            departSpeed="max" />""" % (i, i * 120)
-        print >> routes, """  <vehicle id="left_initial_%i" type="typeWEfast" route="leftInitial" depart="0" departPos="%i"
-                            departSpeed="max" />""" % (i, i * 120)
+        print >> routes, '  <vehicle id="right_initial_%i" type="typeWEfast" route="rightInitial" depart="0" departPos="%i"' \
+                         ' departSpeed="max" />' % (i, i * 120)
+        print >> routes, '  <vehicle id="left_initial_%i" type="typeWEfast" route="leftInitial" depart="0" departPos="%i"' \
+                         ' departSpeed="max" />' % (i, i * 120)
     for i in range(N):
         # West -> Est
         if random.uniform(0, 1) < pWE:
