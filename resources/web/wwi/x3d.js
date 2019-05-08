@@ -375,8 +375,10 @@ THREE.X3DLoader = class X3DLoader {
       texture.image = image;
       texture.needsUpdate = true;
     }
-    texture.userData.isTransparent = getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true';
-    texture.userData.url = filename[0];
+    texture.userData = {
+      'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
+      'url': filename[0]
+    };
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
@@ -444,7 +446,7 @@ THREE.X3DLoader = class X3DLoader {
 
     var geometry = new THREE.Geometry();
     var x3dType = getNodeAttribute(ifs, 'x3dType', undefined);
-    geometry.userData.x3dType = (typeof x3dType === 'undefined' ? 'IndexedFaceSet' : x3dType);
+    geometry.userData = { 'x3dType': (typeof x3dType === 'undefined' ? 'IndexedFaceSet' : x3dType) };
     if (typeof coordinate === 'undefined')
       return geometry;
 
@@ -582,7 +584,7 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     var geometry = new THREE.BufferGeometry();
-    geometry.userData.x3dType = 'IndexedLineSet';
+    geometry.userData = { 'x3dType': 'IndexedLineSet' };
     if (typeof coordinate === 'undefined')
       return geometry;
 
@@ -624,7 +626,7 @@ THREE.X3DLoader = class X3DLoader {
     var depth = (zDimension - 1) * zSpacing;
 
     var geometry = new THREE.PlaneBufferGeometry(width, depth, xDimension - 1, zDimension - 1);
-    geometry.userData.x3dType = 'ElevationGrid';
+    geometry.userData = { 'x3dType': 'ElevationGrid' };
     geometry.rotateX(-Math.PI / 2);
     geometry.translate(width / 2, 0, depth / 2); // center located in the corner
     if (typeof heightStr === 'undefined')
@@ -654,7 +656,7 @@ THREE.X3DLoader = class X3DLoader {
   parseBox(box) {
     var size = convertStringToVec3(getNodeAttribute(box, 'size', '2 2 2'));
     var boxGeometry = new THREE.BoxBufferGeometry(size.x, size.y, size.z);
-    boxGeometry.userData.x3dType = 'Box';
+    boxGeometry.userData = { 'x3dType': 'Box' };
     return boxGeometry;
   }
 
@@ -666,7 +668,7 @@ THREE.X3DLoader = class X3DLoader {
     // var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
-    coneGeometry.userData.x3dType = 'Cone';
+    coneGeometry.userData = { 'x3dType': 'Cone' };
     coneGeometry.rotateY(Math.PI / 2);
     return coneGeometry;
   }
@@ -680,7 +682,7 @@ THREE.X3DLoader = class X3DLoader {
     // var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
     // set thetaStart = Math.PI / 2 to match X3D texture mapping
     var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
-    cylinderGeometry.userData.x3dType = 'Cylinder';
+    cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     cylinderGeometry.rotateY(Math.PI / 2);
     return cylinderGeometry;
   }
@@ -689,14 +691,14 @@ THREE.X3DLoader = class X3DLoader {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
     var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
-    sphereGeometry.userData.x3dType = 'Sphere';
+    sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
   }
 
   parsePlane(plane) {
     var size = convertStringToVec2(getNodeAttribute(plane, 'size', '1,1'));
     var planeGeometry = new THREE.PlaneBufferGeometry(size.x, size.y);
-    planeGeometry.userData.x3dType = 'Plane';
+    planeGeometry.userData = { 'x3dType': 'Plane' };
     planeGeometry.rotateX(-Math.PI / 2);
     return planeGeometry;
   }
@@ -704,7 +706,7 @@ THREE.X3DLoader = class X3DLoader {
   parsePointSet(pointSet) {
     var coordinate = pointSet.getElementsByTagName('Coordinate')[0];
     var geometry = new THREE.BufferGeometry();
-    geometry.userData.x3dType = 'PointSet';
+    geometry.userData = { 'x3dType': 'PointSet' };
     if (typeof coordinate === 'undefined')
       return geometry;
 
@@ -760,7 +762,7 @@ THREE.X3DLoader = class X3DLoader {
       lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));
     }
     lightObject.position.set(-direction.x, -direction.y, -direction.z);
-    lightObject.userData.x3dType = 'DirectionalLight';
+    lightObject.userData = { 'x3dType': 'DirectionalLight' };
     // Position of the directional light will be adjusted at the end of the load
     // based on the size of the scene so that all the objects are illuminated by this light.
     this.directionalLights.push(lightObject);
@@ -793,7 +795,7 @@ THREE.X3DLoader = class X3DLoader {
       lightObject.shadow.camera.far = radius;
     }
     lightObject.position.copy(location);
-    lightObject.userData.x3dType = 'PointLight';
+    lightObject.userData = { 'x3dType': 'PointLight' };
     return lightObject;
   }
 
@@ -835,7 +837,7 @@ THREE.X3DLoader = class X3DLoader {
     lightObject.target.position.addVectors(lightObject.position, direction);
     lightObject.target.userData.x3dType = 'LightTarget';
     helperNodes.push(lightObject.target);
-    lightObject.userData.x3dType = 'SpotLight';
+    lightObject.userData = { 'x3dType': 'SpotLight' };
     return lightObject;
   }
 
@@ -983,7 +985,7 @@ function getNodeAttribute(node, attributeName, defaultValue) {
 
 function createDefaultGeometry() {
   var geometry = new THREE.Geometry();
-  geometry.userData.x3dType = 'unknown';
+  geometry.userData = { 'x3dType': 'unknown' };
   return geometry;
 };
 
