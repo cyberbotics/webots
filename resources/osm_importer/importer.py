@@ -35,7 +35,6 @@ from webots_objects.building import Building
 from webots_objects.parking_lines import ParkingLines
 from webots_objects.river import River
 from webots_objects.road import Road
-from webots_objects.speed_limit import SpeedLimit
 from webots_objects.tree import Tree
 
 

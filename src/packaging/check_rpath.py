@@ -21,8 +21,6 @@ import os
 import re
 import sys
 
-from shutil import copyfile
-
 
 WEBOTS_HOME = os.getenv('WEBOTS_HOME')
 

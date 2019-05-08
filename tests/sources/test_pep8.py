@@ -27,6 +27,7 @@ from pyflakes import checker
 from pyflakes.reporter import Reporter
 
 skippedDirectories = [
+    'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
     'projects/default/resources/sumo',
@@ -142,7 +143,7 @@ class TestCodeFormat(unittest.TestCase):
     def setUp(self):
         """Get all the world file."""
         self.files = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.py'):
                 shouldContinue = False
                 for directory in skippedDirectories:
@@ -157,6 +158,7 @@ class TestCodeFormat(unittest.TestCase):
 
     def test_pep8_conformance(self):
         """Test that the tests are PEP8 compliant."""
+        # Use pep8 module to detect 'W' and 'E' errors
         checker = pep8.StyleGuide(
             quiet=True,
             paths=self.files,
@@ -168,6 +170,7 @@ class TestCodeFormat(unittest.TestCase):
             report.total_errors, 0,
             msg='PEP8 errors:\n%s' % (report)
         )
+        # Use flakes module to detect 'F' errors
         reporter = FlakesReporter()
         for fileName in self.files:
             checkFlakesPath(fileName, reporter)

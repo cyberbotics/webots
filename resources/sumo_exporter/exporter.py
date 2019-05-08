@@ -3,7 +3,6 @@
 import optparse
 import os
 import sys
-import re
 
 from lxml import etree as ET
 
