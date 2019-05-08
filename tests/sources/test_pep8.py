@@ -17,9 +17,14 @@
 """Test module of the PEP8 format in the tests."""
 import unittest
 
+import _ast
 import fnmatch
 import pep8
 import os
+import sys
+
+from pyflakes import checker
+from pyflakes.reporter import Reporter
 
 skippedDirectories = [
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
@@ -28,6 +33,74 @@ skippedDirectories = [
     'projects/languages/ros/controllers/ros_python/kinetic',
     'projects/languages/ros/controllers/ros_python/python'
 ]
+
+
+class FlakesReporter(Reporter):
+    """Flakes reporter."""
+
+    def __init__(self):
+        self.error = ''
+
+    def unexpectedError(self, filename, msg):
+        """Handle unexpected errors."""
+        self.error += '%s: %s\n' % (filename, msg)
+
+    def syntaxError(self, filename, msg, lineno, offset, text):
+        """Handle syntax errors."""
+        line = text.splitlines()[-1]
+        if offset is not None:
+            offset = offset - (len(text) - len(line))
+        self.error += '%s:%d: %s\n' % (filename, lineno, msg)
+        self.error += line + '\n'
+        if offset is not None:
+            self._stderr.write(" " * (offset + 1) + "^\n")
+
+    def flake(self, message):
+        """Add message to error string."""
+        self.error += str(message) + '\n'
+
+
+def checkFlakes(codeString, filename, reporter):
+    """Check the Python source given by codeString} for flakes."""
+    # First, compile into an AST and handle syntax errors.
+    try:
+        tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
+    except SyntaxError:
+        value = sys.exc_info()[1]
+        msg = value.args[0]
+        (lineno, offset, text) = value.lineno, value.offset, value.text
+        # If there's an encoding problem with the file, the text is None.
+        if text is None:
+            # Avoid using msg, since for the only known case, it contains a
+            # bogus message that claims the encoding the file declared was
+            # unknown.
+            reporter.unexpectedError(filename, 'problem decoding source')
+        else:
+            reporter.syntaxError(filename, msg, lineno, offset, text)
+        return
+    except Exception:
+        reporter.unexpectedError(filename, 'problem decoding source')
+        return
+    # Okay, it's syntactically valid.  Now check it.
+    w = checker.Checker(tree, filename)
+    w.messages.sort(key=lambda m: m.lineno)
+    for warning in w.messages:
+        reporter.flake(warning)
+
+
+def checkFlakesPath(filename, reporter):
+    """Check the given path, printing out any warnings detected."""
+    try:
+        with open(filename, 'U') as f:
+            codestr = f.read() + '\n'
+    except UnicodeError:
+        reporter.unexpectedError(filename, 'problem decoding source')
+        return
+    except IOError:
+        msg = sys.exc_info()[1]
+        reporter.unexpectedError(filename, msg.args[1])
+        return
+    checkFlakes(codestr, filename, reporter)
 
 
 class CustomReport(pep8.StandardReport):
@@ -94,6 +167,13 @@ class TestCodeFormat(unittest.TestCase):
         self.assertEqual(
             report.total_errors, 0,
             msg='PEP8 errors:\n%s' % (report)
+        )
+        reporter = FlakesReporter()
+        for fileName in self.files:
+            checkFlakesPath(fileName, reporter)
+        self.assertTrue(
+            not reporter.error,
+            msg='PEP8 errors:\n%s' % (reporter.error)
         )
 
 

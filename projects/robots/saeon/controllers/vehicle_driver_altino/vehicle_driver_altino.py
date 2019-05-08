@@ -14,11 +14,6 @@
 
 """vehicle_driver_altino controller."""
 
-import math
-import os
-import sys
-from controller import Keyboard
-
 from vehicle import Driver
 
 sensorMax = 1000

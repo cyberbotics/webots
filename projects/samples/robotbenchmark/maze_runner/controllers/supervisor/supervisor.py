@@ -1,8 +1,6 @@
 """Supervisor of the Maze Runner benchmark."""
 
 from controller import Supervisor
-from controller import Field
-from controller import Node
 import os
 import sys
 
