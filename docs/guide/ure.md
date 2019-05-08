@@ -4,7 +4,7 @@
 
 The Universal Robots [UR3e](https://www.universal-robots.com/products/ur3-robot/), [UR5e](https://www.universal-robots.com/products/ur5-robot/) and [UR10e](https://www.universal-robots.com/products/ur10-robot/) are flexible collaborative robot arms with 6 degrees of freedom.
 
-The Universal Robot UR3e, UR5e and UR10e models in Webots are fully compatible with ROS.
+The Universal Robots UR3e, UR5e and UR10e models in Webots are fully compatible with ROS.
 
 ### Movie Presentation
 
