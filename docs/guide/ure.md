@@ -60,7 +60,7 @@ The simulation can now be started.
 
 #### MoveIt!
 
-Thanks to the [universal\_robot](http://wiki.ros.org/universal_robot) ros package, MoveIt! can be used for motion planning. It can be started with the following launch file:
+Thanks to the [universal\_robot](http://wiki.ros.org/universal_robot) ROS package, MoveIt! can be used for motion planning. It can be started with the following launch file:
 ```
 roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch
 ```
