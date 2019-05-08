@@ -18,7 +18,7 @@ The `radius` field specifies the radius of the sphere (see [this figure](#sphere
 %end
 
 The `subdivision` field controls the number of faces of the rendered sphere.
-If the `ico` field is TRUE, thus the sphere is rendered as an icosahedron, and the `subdivision` field is 1 (default value), then each face is subdivided into 4 faces, making 80 faces.
+If the `ico` field is TRUE and the `subdivision` field is 0, the sphere is rendered as an icosahedron with 20 faces. If the `subdivision` field is 1 (default value), then each face of the icosahedron is subdivided into 4 faces, resulting in a 80 faces icosahedron.
 With a subdivision field set to 2, 320 faces will be rendered, making the sphere very smooth.
 A maximum value of 5 (corresponding to 20480 faces) is allowed for this subdivision field to avoid a very long rendering process.
 If the `ico` field is FALSE, then the sphere is rendered as a UV sphere, and the `subdivision` value has to be in the range [3, 32].
