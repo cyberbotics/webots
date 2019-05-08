@@ -211,6 +211,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return this.gpuPicker.pick(relativePosition, raycaster);
   }
 
+  getObjectByID(id) {
+    var match;
+    this.scene.traverse((child) => {
+      if (child.userData.id === id)
+        match = child;
+    });
+    return match;
+  }
+
   getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
     var upmostSolid;

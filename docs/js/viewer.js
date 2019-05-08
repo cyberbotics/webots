@@ -663,45 +663,64 @@ function toggleDeviceComponent(robot) {
   */
 }
 
-function sliderMotorCallback(robot, slider) {
-  /*
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var transform = view3d.querySelector('[id=' + slider.getAttribute('webots-transform-id') + ']');
-  if (!transform)
-    return; // This may occur when the x3d is loading.
-  var axis = slider.getAttribute('webots-axis');
+function quaternionToAxisAngle(q) {
+  // refrerence: http://schteppe.github.io/cannon.js/docs/files/src_math_Quaternion.js.html
+  var axis = new THREE.Vector3(0.0, 1.0, 0.0);
+  var angle = 2.0 * Math.acos(q.w);
+  var s = Math.sqrt(1.0 - q.w * q.w); // assuming quaternion normalised then w is less than 1, so term always positive.
+  if (s < 0.001) { // test to avoid divide by zero, s is always positive due to sqrt
+    // if s close to zero then direction of axis not important
+    axis.x = q.x; // if it is important that axis is normalised then replace with x=1; y=z=0;
+    axis.y = q.y;
+    axis.z = q.z;
+  } else {
+    axis.x = q.x / s; // normalise axis
+    axis.y = q.y / s;
+    axis.z = q.z / s;
+  }
+  return [axis, angle];
+};
+
+function sliderMotorCallback(transform, slider) {
+  if (typeof transform === 'undefined')
+    return;
+
+  var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
+  axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
+
+  var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
-    var translation = null;
-    if (transform.hasAttribute('initalTranslation')) // Get initial translation.
-      translation = transform.getAttribute('initalTranslation');
-    else if (transform.hasAttribute('translation')) { // Store initial translation.
-      translation = transform.getAttribute('translation');
-      transform.setAttribute('initalTranslation', translation);
+    // Compute translation
+    var translation = new THREE.Vector3();
+    if ('initialTranslation' in transform.userData)
+      translation = transform.userData.initialTranslation.clone();
+    else {
+      translation = transform.position;
+      transform.userData.initialTranslation = translation.clone();
     }
-    translation = translation.split(/[\s,]+/);
-    axis = axis.split(/[\s,]+/);
-    for (var a = 0; a < axis.length; a++)
-      translation[a] = parseFloat(translation[a]) + parseFloat(axis[a]) * slider.value;
-
-    transform.setAttribute('translation', translation.join(','));
+    translation = translation.add(axis.multiplyScalar(value - position));
+    // Apply the new position.
+    transform.position.copy(translation);
+    transform.updateMatrix();
   } else {
+    // Compute angle.
     var angle = 0.0;
-    if (transform.hasAttribute('initialAngle')) // Get initial angle.
-      angle = parseFloat(transform.getAttribute('initialAngle'));
-    else if (transform.hasAttribute('rotation')) { // Store initial angle.
-      angle = parseFloat(transform.getAttribute('rotation').split(/[\s,]+/)[3]);
-      transform.setAttribute('initialAngle', angle);
-    }
-    angle += parseFloat(slider.value); // Add the slider value.
-    angle -= position;
-
+    if ('initialAngle' in transform.userData) // Get initial angle.
+      angle = transform.userData.initialAngle;
+    else // Store initial angle.
+      transform.userData.initialAngle = quaternionToAxisAngle(transform.quaternion)[1];
+    angle += value - position;
     // Apply the new axis-angle.
-    axis = axis.split(' ').join(',');
-    transform.setAttribute('rotation', axis + ',' + angle);
+    var q = new THREE.Quaternion();
+    q.setFromAxisAngle(
+      axis,
+      angle
+    );
+    transform.quaternion.copy(q);
+    transform.updateMatrix();
   }
-  */
 }
 
 function unhighlightX3DElement(robot) {
@@ -893,12 +912,11 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-type', deviceType);
-            if (isInternetExplorer()) {
-              slider.addEventListener('change', function(e) {
-                sliderMotorCallback(robotName, e.target);
-              });
-            } else
-              slider.setAttribute('oninput', 'sliderMotorCallback("' + robotName + '", this)');
+            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
+              var id = e.target.getAttribute('webots-transform-id');
+              sliderMotorCallback(webotsView.x3dScene.getObjectByID(id), e.target);
+              webotsView.x3dScene.render();
+            });
 
             var motorDiv = document.createElement('div');
             motorDiv.classList.add('motor-component');
