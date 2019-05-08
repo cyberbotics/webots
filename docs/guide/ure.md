@@ -64,7 +64,7 @@ Thanks to the [universal\_robot](http://wiki.ros.org/universal_robot) ROS packag
 ```
 roslaunch ur5_e_moveit_config ur5_e_moveit_planning_execution.launch
 ```
-Finally, for starting up RViz with a configuration including the MoveIt! Motion Planning plugin run:
+Finally, to start RViz with a configuration including the MoveIt! Motion Planning plugin, run:
 ```
 roslaunch ur5_e_moveit_config moveit_rviz.launch config:=true
 ```
