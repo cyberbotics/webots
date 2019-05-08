@@ -34,7 +34,6 @@ PROTO TinkerbotsTwister [
               geometry Sphere {
                 radius 0.004
                 subdivision 2
-                ico TRUE
               }
             }
           ]

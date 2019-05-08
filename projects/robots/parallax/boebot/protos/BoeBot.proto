@@ -371,8 +371,6 @@ PROTO BoeBot [
                 }
                 geometry Sphere {
                   radius 0.002
-                  subdivision 1
-                  ico TRUE
                 }
               }
             ]
@@ -431,8 +429,6 @@ PROTO BoeBot [
                 }
                 geometry Sphere {
                   radius 0.002
-                  subdivision 1
-                  ico TRUE
                 }
               }
             ]
@@ -878,7 +874,6 @@ PROTO BoeBot [
                 geometry DEF back_wheel_sphere Sphere {
                   radius 0.013
                   subdivision 3
-                  ico TRUE
                 }
               }
             ]

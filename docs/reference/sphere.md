@@ -2,9 +2,9 @@
 
 ```
 Sphere {
-  SFFloat radius      1     # [0, inf)
-  SFInt32 subdivision 24    # [3, 32] if 'ico' is FALSE, otherwise [1, 5]
-  SFBool  ico         FALSE # {TRUE, FALSE}
+  SFFloat radius      1    # [0, inf)
+  SFInt32 subdivision 1    # [1, 5] if 'ico' is TRUE, otherwise [3, 32]
+  SFBool  ico         TRUE # {TRUE, FALSE}
 }
 ```
 

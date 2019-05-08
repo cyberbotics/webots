@@ -67,6 +67,7 @@ protected:
     static const QString name("IndexedFaceSet");
     return name;
   }
+  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   WbSphere &operator=(const WbSphere &);  // non copyable

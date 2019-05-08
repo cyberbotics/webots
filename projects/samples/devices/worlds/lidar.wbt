@@ -91,7 +91,6 @@ DEF BLUE_OBJECT1 Solid {
       geometry Sphere {
         radius 0.35
         subdivision 2
-        ico TRUE
       }
     }
   ]
@@ -343,7 +342,6 @@ DEF ROBOT Robot {
                 geometry Sphere {
                   radius 0.015
                   subdivision 2
-                  ico TRUE
                 }
               }
             ]

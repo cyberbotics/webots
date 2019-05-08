@@ -220,7 +220,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -233,7 +232,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -246,7 +244,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -259,7 +256,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -272,7 +268,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -285,7 +280,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -298,7 +292,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -311,7 +304,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -324,7 +316,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -337,7 +328,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]
@@ -350,7 +340,6 @@ DEF SPHERES Solid {
               geometry Sphere {
                 radius 0.15
                 subdivision 3
-                ico TRUE
               }
             }
           ]

@@ -47,15 +47,15 @@ void WbSphere::init() {
 
 WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
-  if (tokenizer == NULL) {
+  if (tokenizer == NULL)
     mRadius->setValueNoSignal(0.1);
-    mIco->setValueNoSignal(true);  // Webots creates icospheres by default
+  else if (tokenizer->fileType() == WbTokenizer::MODEL) {
+    // ensure compatibility with VRML specifications
+    mIco->setValueNoSignal(false);
     mSubdivision->blockSignals(true);
-    mSubdivision->setValue(1);
+    mSubdivision->setValue(24);
     mSubdivision->blockSignals(false);
-  } else if (tokenizer->fileType() != WbTokenizer::MODEL && tokenizer->fileVersion() < WbVersion(2019, 1, 0))
-    // ensure compatibility with files stored by Webots < R2019b
-    mIco->setValueNoSignal(true);
+  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {

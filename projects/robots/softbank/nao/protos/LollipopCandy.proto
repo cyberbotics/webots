@@ -25,7 +25,6 @@ Solid {
               geometry Sphere {
                 radius 0.0125
                 subdivision 3
-                ico TRUE
               }
             }
           ]

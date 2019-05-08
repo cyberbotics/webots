@@ -29,7 +29,6 @@ PROTO NXTFeeder [
             geometry Sphere{
               radius 0.0018
               subdivision 2
-              ico TRUE
             }
           }
           PointLight {

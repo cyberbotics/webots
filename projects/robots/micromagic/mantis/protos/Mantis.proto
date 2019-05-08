@@ -334,7 +334,6 @@ PROTO Mantis [
                               geometry Sphere {
                                 radius 0.15
                                 subdivision 2
-                                ico TRUE
                               }
                             }
                           ]

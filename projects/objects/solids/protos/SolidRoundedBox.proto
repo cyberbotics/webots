@@ -63,8 +63,6 @@ PROTO SolidRoundedBox [
               appearance IS appearance
               geometry Sphere {
                 radius %{= 0.5 * size.x }%
-                subdivision 1
-                ico TRUE
               }
             }
           %{ end }%

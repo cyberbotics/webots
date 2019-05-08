@@ -172,8 +172,6 @@ Solid {
               }
               geometry Sphere {
                 radius 0.025
-                subdivision 1
-                ico TRUE
               }
             }
           ]

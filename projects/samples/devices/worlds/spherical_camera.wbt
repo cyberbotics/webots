@@ -46,7 +46,6 @@ DEF BLUE_OBJECT Solid {
       geometry Sphere {
         radius 0.07
         subdivision 2
-        ico TRUE
       }
     }
   ]
@@ -215,7 +214,6 @@ Robot {
           geometry Sphere {
             radius 0.005
             subdivision 2
-            ico TRUE
           }
         }
         DEF STRUCTURE_AXES Shape {

@@ -360,7 +360,6 @@ DEF SPHERE Solid {
       geometry Sphere {
         radius 0.2
         subdivision 2
-        ico TRUE
       }
     }
   ]
@@ -387,7 +386,6 @@ DEF SPHERE Solid {
       geometry Sphere {
         radius 0.15
         subdivision 2
-        ico TRUE
       }
     }
   ]

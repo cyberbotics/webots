@@ -608,8 +608,6 @@ PROTO BioloidDog [
                               }
                               geometry Sphere {
                                 radius 0.00225
-                                subdivision 1
-                                ico TRUE
                               }
                             }
                           ]

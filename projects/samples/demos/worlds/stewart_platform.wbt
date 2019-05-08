@@ -107,7 +107,6 @@ DEF STEWART_PLATFORM Robot {
                       geometry Sphere {
                         radius 0.1
                         subdivision 3
-                        ico TRUE
                       }
                     }
                   ]
@@ -171,7 +170,6 @@ DEF STEWART_PLATFORM Robot {
                 geometry Sphere {
                   radius 0.1
                   subdivision 3
-                  ico TRUE
                 }
               }
             ]

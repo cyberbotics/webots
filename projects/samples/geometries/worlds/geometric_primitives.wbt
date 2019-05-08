@@ -184,7 +184,6 @@ DEF SPHERE Transform {
       geometry Sphere {
         radius 0.3
         subdivision 2
-        ico TRUE
       }
     }
   ]

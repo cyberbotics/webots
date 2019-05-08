@@ -80,7 +80,6 @@ PROTO DoorKnob [
               geometry Sphere {
                 radius %{= handleRadius }%
                 subdivision 2
-                ico TRUE
               }
               castShadows IS castShadows
             }
@@ -95,7 +94,6 @@ PROTO DoorKnob [
               geometry Sphere {
                 radius %{= handleRadius }%
                 subdivision 2
-                ico TRUE
               }
               castShadows IS castShadows
             }

@@ -147,8 +147,6 @@ Create {
                   }
                   geometry Sphere {
                     radius 0.01
-                    subdivision 1
-                    ico TRUE
                   }
                 }
               ]
@@ -182,8 +180,6 @@ Create {
                   }
                   geometry Sphere {
                     radius 0.01
-                    subdivision 1
-                    ico TRUE
                   }
                 }
               ]

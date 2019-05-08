@@ -125,8 +125,6 @@ DEF TARGET_POSITION Transform {
       }
       geometry Sphere {
         radius 0.01
-        subdivision 1
-        ico TRUE
       }
     }
   ]

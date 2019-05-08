@@ -578,7 +578,6 @@ PROTO Pioneer3dx [
             geometry DEF LED_SHAPE Sphere {
               radius 0.004
               subdivision 2
-              ico TRUE
             }
           }
         ]

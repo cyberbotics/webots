@@ -68,8 +68,6 @@ PROTO RobotisOp3 [
             }
             geometry Sphere {
               radius 0.002
-              subdivision 1
-              ico TRUE
             }
           }
         ]

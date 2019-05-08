@@ -176,7 +176,6 @@ DEF SPHERE1 Solid {
       geometry Sphere {
         radius 0.1
         subdivision 3
-        ico TRUE
       }
     }
   ]
@@ -193,7 +192,6 @@ DEF SPHERE2 Solid {
       geometry Sphere {
         radius 0.1
         subdivision 3
-        ico TRUE
       }
     }
   ]
@@ -210,7 +208,6 @@ DEF SPHERE3 Solid {
       geometry Sphere {
         radius 0.1
         subdivision 3
-        ico TRUE
       }
     }
   ]

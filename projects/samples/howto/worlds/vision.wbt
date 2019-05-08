@@ -59,7 +59,6 @@ DEF RED_SPHERE Solid {
       geometry Sphere {
         radius 0.3
         subdivision 2
-        ico TRUE
       }
     }
   ]
@@ -272,7 +271,6 @@ DEF WHITE_SPHERE Solid {
       geometry Sphere {
         radius 0.35
         subdivision 2
-        ico TRUE
       }
     }
   ]

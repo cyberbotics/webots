@@ -61,8 +61,6 @@ DEF RADAR_TARGET Solid {
       }
       geometry DEF SPHERE Sphere {
         radius 0.1
-        subdivision 1
-        ico TRUE
       }
     }
   ]
@@ -227,8 +225,6 @@ Robot {
           }
           geometry Sphere {
             radius 0.02
-            subdivision 1
-            ico TRUE
           }
         }
       ]
