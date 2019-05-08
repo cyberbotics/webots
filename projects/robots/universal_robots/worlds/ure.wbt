@@ -328,9 +328,9 @@ UR10e {
   ]
 }
 ConveyorBelt {
-  translation 4.18 0 1.05
+  translation 3.18 0 1.05
   rotation 0 1 0 3.141592
-  size 10 0.6 0.7
+  size 8 0.6 0.7
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 6 3.1
@@ -341,10 +341,10 @@ ConveyorBelt {
   textureAnimation 0.016
 }
 ConveyorBelt {
-  translation 1.77 0.75 -3.55
+  translation 1.77 0.75 -2.55
   rotation 0 1 0 -1.5707973071795864
   name "conveyor belt(2)"
-  size 12 0.15 0.15
+  size 10 0.15 0.15
   appearance CorrugatedMetal {
     textureTransform TextureTransform {
       scale 6 3.1
@@ -398,24 +398,6 @@ PlasticCrate {
   size 0.6 0.4 0.45
   mass 1
 }
-PlasticCrate {
-  translation -2.94 0.26 -0.68
-  name "plastic crate(5)"
-  size 0.6 0.4 0.45
-  mass 1
-}
-PlasticCrate {
-  translation -3.56 0.26 -0.68
-  name "plastic crate(6)"
-  size 0.6 0.4 0.45
-  mass 1
-}
-PlasticCrate {
-  translation -4.19 0.25 -0.68
-  name "plastic crate(7)"
-  size 0.6 0.4 0.45
-  mass 1
-}
 Can {
   translation 1.77 0.96 -2.67
   name "can(14)"
@@ -439,14 +421,6 @@ Can {
 Can {
   translation 1.77 0.96 -7.4
   name "can(19)"
-}
-Can {
-  translation 1.77 0.96 -8.3
-  name "can(20)"
-}
-Can {
-  translation 1.77 0.96 -9.2
-  name "can(21)"
 }
 Can {
   translation 0.7 0.66 0.83
@@ -483,20 +457,4 @@ Can {
 Can {
   translation 6.3 0.66 0.83
   name "can(8)"
-}
-Can {
-  translation 6.7 0.66 1.285
-  name "can(9)"
-}
-Can {
-  translation 7.7 0.66 0.83
-  name "can(10)"
-}
-Can {
-  translation 8.1 0.66 1.285
-  name "can(11)"
-}
-Can {
-  translation 9.1 0.66 0.83
-  name "can(12)"
 }
