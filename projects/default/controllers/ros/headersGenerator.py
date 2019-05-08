@@ -36,22 +36,22 @@ class HeadersGenerator:
     # these md5 sums are copied from the corresponding header files in 'include'
     # directory
     predifinedMD5 = {
-        'Header':                      '2176decaecbce78abc3b96ef049fabed',
-        'geometry_msgs/Point':         '4a842b65f413084dc2b10fb484ea7f17',
-        'geometry_msgs/PointStamped':  'c63aecb41bfdfd6b7e1fac37c7cbe7bf',
-        'geometry_msgs/Quaternion':    'a779879fadf0160734f906b8c19c7004',
-        'geometry_msgs/Twist':         '9f195f881246fdfa2798d1d3eebca84a',
-        'geometry_msgs/TwistStamped':  '98d34b0043a2093cf9d9345ab6eef12e',
-        'geometry_msgs/Vector3':       '4a842b65f413084dc2b10fb484ea7f17',
+        'Header': '2176decaecbce78abc3b96ef049fabed',
+        'geometry_msgs/Point': '4a842b65f413084dc2b10fb484ea7f17',
+        'geometry_msgs/PointStamped': 'c63aecb41bfdfd6b7e1fac37c7cbe7bf',
+        'geometry_msgs/Quaternion': 'a779879fadf0160734f906b8c19c7004',
+        'geometry_msgs/Twist': '9f195f881246fdfa2798d1d3eebca84a',
+        'geometry_msgs/TwistStamped': '98d34b0043a2093cf9d9345ab6eef12e',
+        'geometry_msgs/Vector3': '4a842b65f413084dc2b10fb484ea7f17',
         'geometry_msgs/WrenchStamped': 'd78d3cb249ce23087ade7e7d0c40cfa7',
-        'std_msgs/ColorRGBA':          'a29a96539573343b1310c73607334b00',
-        'sensor_msgs/Illuminance':     '8cf5febb0952fca9d650c3d11a81a188',
-        'sensor_msgs/Image':           '060021388200f6f0f447d0fcd9c64743',
-        'sensor_msgs/Imu':             '6a62c6daae103f4ff57a132d6f95cec2',
-        'sensor_msgs/MagneticField':   '2f3b0b43eed0c9501de0fa3ff89a45aa',
-        'sensor_msgs/NavSatFix':       '2d3a8cd499b9b4a0249fb98fd05cfa48',
-        'sensor_msgs/PointCloud':      'd8e9c3f5afbdd8a130fd1d2763945fca',
-        'sensor_msgs/Range':           'c005c34273dc426c67a020a87bc24148',
+        'std_msgs/ColorRGBA': 'a29a96539573343b1310c73607334b00',
+        'sensor_msgs/Illuminance': '8cf5febb0952fca9d650c3d11a81a188',
+        'sensor_msgs/Image': '060021388200f6f0f447d0fcd9c64743',
+        'sensor_msgs/Imu': '6a62c6daae103f4ff57a132d6f95cec2',
+        'sensor_msgs/MagneticField': '2f3b0b43eed0c9501de0fa3ff89a45aa',
+        'sensor_msgs/NavSatFix': '2d3a8cd499b9b4a0249fb98fd05cfa48',
+        'sensor_msgs/PointCloud': 'd8e9c3f5afbdd8a130fd1d2763945fca',
+        'sensor_msgs/Range': 'c005c34273dc426c67a020a87bc24148',
     }
 
     def ros_md5sum(self, srv):
@@ -88,7 +88,7 @@ class HeadersGenerator:
             with open(fnout, 'w') as fout:
                 fout.write(content)
 
-    def replace_message_tags(self, fnin,fnout,messageNames,messageTypes):
+    def replace_message_tags(self, fnin, fnout, messageNames, messageTypes):
         with open(fnin, 'r') as fin:
             with open(fnout, 'w') as fout:
                 for line in fin:

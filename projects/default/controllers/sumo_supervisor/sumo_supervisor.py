@@ -169,7 +169,7 @@ if not os.path.isfile(configurationFile) and tmpDirectory is not None:
     shutil.rmtree(tmpDirectory)
     sys.exit("Could not find any SUMO configuration file (*.sumocfg).")
 
-arguments = [sumoBinary, "-c", configurationFile, "--start", "--quit-on-end=true", "--step-length=" + str(options.step/1000.0), "--remote-port", str(options.port)]
+arguments = [sumoBinary, "-c", configurationFile, "--start", "--quit-on-end=true", "--step-length=" + str(options.step / 1000.0), "--remote-port", str(options.port)]
 
 if options.seed == 0:
     arguments.append("--random")

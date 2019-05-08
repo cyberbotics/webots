@@ -17,9 +17,9 @@
 import os
 import sys
 import getopt
-import string
 
 from headersGenerator import HeadersGenerator
+
 
 def main(argv):
     headersGenerator = HeadersGenerator()
@@ -32,15 +32,15 @@ def main(argv):
         if opt == '-h':
             print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
-        elif opt in ("-h","--help"):
+        elif opt in ("-h", "--help"):
             print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
-    MSGFile = open(args[0],'r')
+    MSGFile = open(args[0], 'r')
     filename = args[0].split('/')[-1]
     filename = filename.split('.')[0]
     templateFolder = 'include'
     if len(args) > 1:
-      templateFolder = args[1]
+        templateFolder = args[1]
     messageType = []
     messageName = []
     for line in MSGFile:
@@ -64,7 +64,7 @@ def main(argv):
     try:
         os.remove(filename + 'tempFile.txt')
     except OSError:
-       print ('failed to remove tempFile for ' + filename)
+        print('failed to remove tempFile for ' + filename)
 
 
 if __name__ == "__main__":

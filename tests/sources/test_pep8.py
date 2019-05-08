@@ -22,13 +22,6 @@ import pep8
 import os
 
 skippedDirectories = [
-    'projects/robots/gctronic/e-puck/transfer',  #TODO: fix
-    'projects/robots/softbank/nao/controllers/nao_demo_python',  #TODO: fix
-    'projects/default/controllers/ros',  #TODO: fix
-    'projects/default/controllers/sumo_supervisor',  #TODO: fix
-    'projects/vehicles/worlds/sumo_interface_example_net',  #TODO
-    'projects/samples/contests/rockin',  #TODO
-    'projects/samples/robotbenchmark',  #TODO
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
     'projects/default/resources/sumo',

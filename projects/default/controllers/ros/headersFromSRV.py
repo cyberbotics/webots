@@ -17,9 +17,9 @@
 import os
 import sys
 import getopt
-import string
 
 from headersGenerator import HeadersGenerator
+
 
 def main(argv):
     headersGenerator = HeadersGenerator()
@@ -32,15 +32,15 @@ def main(argv):
         if opt == '-h':
             print ('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
             sys.exit(2)
-        elif opt in ("-h","--help"):
+        elif opt in ("-h", "--help"):
             print ('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
             sys.exit(2)
-    SRVFile = open(args[0],'r')
+    SRVFile = open(args[0], 'r')
     filename = args[0].split('/')[-1]
     filename = filename.split('.')[0]
     templateFolder = 'include'
     if len(args) > 1:
-      templateFolder = args[1]
+        templateFolder = args[1]
     headerType = 'request'
     requestType = []
     requestName = []
@@ -77,7 +77,7 @@ def main(argv):
     try:
         os.remove(filename + 'tempFile.txt')
     except OSError:
-       print ('failed to remove tempFile for ' + filename)
+        print('failed to remove tempFile for ' + filename)
 
     headersGenerator.replace_template_tags(templateFolder + '/templateResponse.h', filename + 'tempFile.txt', filename, args[0])
     headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + 'Response.h', responseName, responseType)
@@ -85,7 +85,7 @@ def main(argv):
     try:
         os.remove(filename + 'tempFile.txt')
     except OSError:
-       print ('failed to remove tempFile for ' + filename)
+        print('failed to remove tempFile for ' + filename)
 
 
 if __name__ == "__main__":

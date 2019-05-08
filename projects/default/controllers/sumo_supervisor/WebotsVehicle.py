@@ -63,7 +63,7 @@ class WebotsVehicle:
         # get all the edges in a radius of 5 meters from the vehicle position
         edges = net.getNeighboringEdges(self.currentPosition[0], self.currentPosition[2], maxDistance, False)
         # remove edges starting by ':' (internal edge of SUMO)
-        for i in range(len(edges)-1, -1, -1):
+        for i in range(len(edges) - 1, -1, -1):
             if (edges[i][0]).getID().startswith(":"):
                 edges.pop([i])
 
