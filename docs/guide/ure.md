@@ -1,4 +1,4 @@
-## Universal Robot UR3e, UR5e and UR10e
+## Universal Robots UR3e, UR5e and UR10e
 
 %robot ure images/robots/ure/model.png
 
