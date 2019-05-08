@@ -34,11 +34,13 @@ class Road(object):
         except:
             self.speedLimit = 50.0 / 3.6  # 50 km/h
         try:
-            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' %
+                                                             (floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             self.translation = [0.0, 0.0, 0.0]
         try:
-            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
+            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
+                                                          (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
         except:
             self.rotation = [0.0, 1.0, 0.0, 0.0]
         try:

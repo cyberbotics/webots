@@ -33,13 +33,18 @@ def command(cmd):
 
 
 os.chdir(WEBOTS_HOME)
-dylibFiles = command('find . -type f -name *dylib -o -name *jnilib | grep -v dependencies | grep -v ros | grep -v sumo | grep -v nao_soccer | grep -v dashel | grep -v build').split()
-frameworkFiles = command('find Contents -name *.framework | sed -e "s:\\(.*\\)/\\([^/]*\\).framework:\\1/\\2.framework/\\2:"').split()
+dylibFiles = command("""find . -type f -name *dylib -o -name *jnilib | grep -v dependencies | grep -v ros | grep -v sumo |
+                        grep -v nao_soccer | grep -v dashel | grep -v build""").split()
+frameworkFiles = command("""find Contents -name *.framework |
+                            sed -e "s:\\(.*\\)/\\([^/]*\\).framework:\\1/\\2.framework/\\2:\"""").split()
 for i in range(len(frameworkFiles)):
     frameworkFiles[i] = os.path.realpath(frameworkFiles[i]).replace(WEBOTS_HOME, '')
     frameworkFiles[i] = re.sub(r"^\.", "", frameworkFiles[i])
     frameworkFiles[i] = re.sub(r"^/", "", frameworkFiles[i])
-controllerFiles = command('find projects resources -name controllers | xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d | grep -v ros | grep -v naoqisim | grep -v thymio2_aseba | sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
+controllerFiles = command("""find projects resources -name controllers | xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d |
+                             grep -v ros | grep -v naoqisim | grep -v thymio2_aseba |
+                             sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" |
+                             perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' """).split()
 binaryFiles = [
     'Contents/MacOS/webots'
 ]
@@ -55,7 +60,8 @@ success = True
 # - absolute (system) and are not containing local (macports)
 # - relative to @rpath (= WEBOTS_HOME) and are existing
 for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles):
-    dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | sed -e "s:^[ \t]*::"').split('\n')
+    dependencies = command("""otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" |
+                              sed -e "s:^[ \t]*::\"""").split('\n')
     for d in dependencies:
         if (not d.startswith('/') and not d.startswith('@rpath/')) or 'local' in d:
             success = False

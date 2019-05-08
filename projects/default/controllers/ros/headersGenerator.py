@@ -63,9 +63,11 @@ class HeadersGenerator:
         accum = text_in
         for l in text.split('\n'):
             l = l.split('#')[0].strip()  # strip comments
-            if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l:  # need to replace it by corresponding md5
+            if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l:
+                # replace message by its corresponding md5
                 message = l.split(' ')[0]
-                message = message.replace("[]", "")  # the fact that it is an array is not releavant for the computation of the MD5
+                # the fact that it is an array is not releavant for the computation of the MD5
+                message = message.replace("[]", "")
                 if message in self.predifinedMD5:
                     l = l.replace(message, self.predifinedMD5[message])
                 else:
@@ -100,7 +102,8 @@ class HeadersGenerator:
         if line.find(self.messageTags['messageDefaultValue']) != -1:
             while messageNumber >= 0:
                 type = messageTypes[messageNumber]
-                if type == 'uint8' or type == 'uint32' or type == 'uint64' or type == 'int8' or type == 'int32' or type == 'int32[]':
+                if (type == 'uint8' or type == 'uint32' or type == 'uint64' or type == 'int8' or
+                        type == 'int32' or type == 'int32[]'):
                     tagReplacementString += messageNames[messageNumber] + '(0)'
                 elif type == 'float64' or type == 'float64[]' or type == 'float32' or type == 'float32[]':
                     tagReplacementString += messageNames[messageNumber] + '(0.0)'
@@ -120,7 +123,8 @@ class HeadersGenerator:
         elif line.find(self.messageTags['messageInitialization']) != -1:
             while messageNumber >= 0:
                 type = messageTypes[messageNumber]
-                if type == 'uint8' or type == 'uint32' or type == 'uint64' or type == 'int8' or type == 'int32' or type == 'int32[]':
+                if (type == 'uint8' or type == 'uint32' or type == 'uint64' or type == 'int8' or
+                        type == 'int32' or type == 'int32[]'):
                     tagReplacementString += messageNames[messageNumber] + '(0)'
                 elif type == 'float64' or type == 'float64[]' or type == 'float32' or type == 'float32[]':
                     tagReplacementString += messageNames[messageNumber] + '(0.0)'
@@ -150,25 +154,35 @@ class HeadersGenerator:
                 elif type == 'float32':
                     tagReplacementString += 'float '
                 elif type == 'string':
-                    tagReplacementString += 'std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  '
+                    tagReplacementString += """std::basic_string<char, std::char_traits<char>, typename
+                     ContainerAllocator::template rebind<char>::other >  """
                 elif type == 'int32[]':
-                    tagReplacementString += 'std::vector<int32_t, typename ContainerAllocator::template rebind<int32_t>::other > '
+                    tagReplacementString += """std::vector<int32_t, typename ContainerAllocator::template
+                     rebind<int32_t>::other > """
                 elif type == 'char[]':
-                    tagReplacementString += 'std::vector<uint8_t, typename ContainerAllocator::template rebind<uint8_t>::other >  '
+                    tagReplacementString += """std::vector<uint8_t, typename ContainerAllocator::template
+                     rebind<uint8_t>::other >  """
                 elif type == 'float64[]':
                     tagReplacementString += 'std::vector<double, typename ContainerAllocator::template rebind<double>::other > '
                 elif type == 'float32[]':
                     tagReplacementString += 'std::vector<float, typename ContainerAllocator::template rebind<double>::other > '
                 elif type == 'string[]':
-                    tagReplacementString += 'std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > , typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::other >  '
+                    tagReplacementString += """std::vector<std::basic_string<char, std::char_traits<char>, typename
+                     ContainerAllocator::template rebind<char>::other > , typename ContainerAllocator::template
+                      rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template
+                      rebind<char>::other > >::other >  """
                 elif type == 'Header':
                     tagReplacementString += '::std_msgs::Header_<ContainerAllocator> '
                 elif '/' in type:  # composed type
                     if "[]" in type:  # The array should be replaced bye a std::vector
                         cleanType = type.replace("[]", "")
-                        tagReplacementString += 'std::vector< ::' + cleanType.split('/')[0] + '::' + cleanType.split('/')[1] + '_<ContainerAllocator> , typename ContainerAllocator::template rebind< ::' + cleanType.split('/')[0] + '::' + cleanType.split('/')[1] + '_<ContainerAllocator> >::other > '
+                        tagReplacementString += 'std::vector< ::' + cleanType.split('/')[0] + '::' + cleanType.split('/')[1]
+                        tagReplacementString += '_<ContainerAllocator> , typename ContainerAllocator::template rebind< ::'
+                        tagReplacementString += cleanType.split('/')[0] + '::' + cleanType.split('/')[1]
+                        tagReplacementString += '_<ContainerAllocator> >::other > '
                     else:
-                        tagReplacementString += ' ::' + type.split('/')[0] + '::' + type.split('/')[1] + '_<ContainerAllocator> '
+                        tagReplacementString += ' ::' + type.split('/')[0] + '::' + type.split('/')[1]
+                        tagReplacementString += '_<ContainerAllocator> '
                 else:
                     print ('Error: unsupported message type:' + type)
                 tagReplacementString += ' _' + messageNames[messageNumber] + '_type;\n'
@@ -180,7 +194,9 @@ class HeadersGenerator:
             syzeType = True
             while messageNumber >= 0:
                 type = messageTypes[messageNumber]
-                if type == 'string' or type == 'int32[]' or type == 'char[]' or type == 'float64[]' or type == 'float32[]' or type == 'string[]' or type == 'Header' or type == 'std_msgs/Float32MultiArray' or type == 'sensor_msgs/PointCloud':
+                if (type == 'string' or type == 'int32[]' or type == 'char[]' or type == 'float64[]' or type == 'float32[]' or
+                        type == 'string[]' or type == 'Header' or type == 'std_msgs/Float32MultiArray' or
+                        type == 'sensor_msgs/PointCloud'):
                     syzeType = False
                 messageNumber -= 1
             if syzeType:
@@ -207,61 +223,85 @@ class HeadersGenerator:
                 type = messageTypes[messageNumber]
                 if type == 'uint8' or type == 'uint32' or type == 'uint64' or type == 'int8' or type == 'int32':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
-                    tagReplacementString += '    Printer<' + type + '_t>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer<' + type + '_t>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + ');\n'
                 elif type == 'bool':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
-                    tagReplacementString += '    Printer<uint8_t>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer<uint8_t>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + ');\n'
                 elif type == 'float64':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
-                    tagReplacementString += '    Printer<double>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer<double>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + ');\n'
                 elif type == 'float32':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
-                    tagReplacementString += '    Printer<float>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer<float>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + ');\n'
                 elif type == 'string':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
-                    tagReplacementString += '    Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer<std::basic_string<char, std::char_traits<char>, typename '
+                    tagReplacementString += 'ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + ');\n'
                 elif type == 'int32[]':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]: ";\n'
                     tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
-                    tagReplacementString += '    	Printer<int32_t>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber]
+                    tagReplacementString += '[" << i << "]: ";\n'
+                    tagReplacementString += '    	Printer<int32_t>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + '[i]);\n    }\n'
                 elif type == 'char[]':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]: ";\n'
                     tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
-                    tagReplacementString += '    	Printer<uint8_t>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber]
+                    tagReplacementString += '[" << i << "]: ";\n'
+                    tagReplacementString += '    	Printer<uint8_t>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + '[i]);\n    }\n'
                 elif type == 'float64[]':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]: ";\n'
                     tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
-                    tagReplacementString += '    	Printer<double>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber]
+                    tagReplacementString += '[" << i << "]: ";\n'
+                    tagReplacementString += '    	Printer<double>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + '[i]);\n    }\n'
                 elif type == 'float32[]':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]: ";\n'
                     tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
-                    tagReplacementString += '    	Printer<float>::stream(s, indent + "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber]
+                    tagReplacementString += '[" << i << "]: ";\n'
+                    tagReplacementString += '    	Printer<float>::stream(s, indent + "  ", v.'
+                    tagReplacementString += messageNames[messageNumber] + '[i]);\n    }\n'
                 elif type == 'string[]':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]: ";\n'
                     tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
-                    tagReplacementString += '    	Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                    tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber]
+                    tagReplacementString += '[" << i << "]: ";\n'
+                    tagReplacementString += '    	Printer<std::basic_string<char, std::char_traits<char>, '
+                    tagReplacementString += 'typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent +'
+                    tagReplacementString += ' "  ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
                 elif type == 'Header':
                     tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
                     tagReplacementString += '    s << std::endl;\n'
-                    tagReplacementString += '    Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                    tagReplacementString += '    Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "'
+                    tagReplacementString += '  ", v.' + messageNames[messageNumber] + ');\n'
                 elif '/' in type:  # composed type
                     if "[]" in type:  # The array should be replaced bye a std::vector
                         cleanType = type.replace("[]", "")
                         tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + '[]" << std::endl;\n'
-                        tagReplacementString += '    for (size_t i = 0; i < v.' + messageNames[messageNumber] + '.size(); ++i)\n'
-                        tagReplacementString += '    {\n    	s << indent << "  ' + messageNames[messageNumber] + '[" << i << "]: ";\n'
+                        tagReplacementString += '    for (size_t i = 0; i < v.'
+                        tagReplacementString += messageNames[messageNumber] + '.size(); ++i)\n'
+                        tagReplacementString += '    {\n    	s << indent << "  '
+                        tagReplacementString += messageNames[messageNumber] + '[" << i << "]: ";\n'
                         tagReplacementString += '    	s << std::endl;\n'
                         tagReplacementString += '    	s << indent;\n'
-                        tagReplacementString += '    	Printer< ::' + cleanType.split('/')[0] + '::' + cleanType.split('/')[1] + '_<ContainerAllocator> >::stream(s, indent + "    ", v.' + messageNames[messageNumber] + '[i]);\n    }\n'
+                        tagReplacementString += '    	Printer< ::' + cleanType.split('/')[0] + '::' + cleanType.split('/')[1]
+                        tagReplacementString += '_<ContainerAllocator> >::stream(s, indent + "    ", v.'
+                        tagReplacementString += messageNames[messageNumber] + '[i]);\n    }\n'
                     else:
                         tagReplacementString += '    s << indent << "' + messageNames[messageNumber] + ': ";\n'
                         tagReplacementString += '    s << std::endl;\n'
-                        tagReplacementString += '    Printer< ::' + type.split('/')[0] + '::' + type.split('/')[1] + '_<ContainerAllocator> >::stream(s, indent + "  ", v.' + messageNames[messageNumber] + ');\n'
+                        tagReplacementString += '    Printer< ::' + type.split('/')[0] + '::' + type.split('/')[1]
+                        tagReplacementString += '_<ContainerAllocator> >::stream(s, indent + "  ", v.'
+                        tagReplacementString += messageNames[messageNumber] + ');\n'
                 else:
                     print ('Error: unsupported message type:' + type)
                 messageNumber -= 1

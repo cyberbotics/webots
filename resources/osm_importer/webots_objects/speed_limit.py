@@ -24,7 +24,8 @@ class SpeedLimit:
         self.country = country  # Expected: 'CH', 'US', etc.
 
         if country is None or country not in ['FR', 'DE', 'JP', 'CH', 'GB', 'US']:
-            print ('Warning: The exported Road.speedLimit may be wrong because the maxspeed rules is not yet implemented for this country.')
+            print ("""Warning: The exported Road.speedLimit may be wrong because the maxspeed rules is not
+                      yet implemented for this country.""")
             print ('  Supported countries:')
             print ('  - France')
             print ('  - Germany (default)')

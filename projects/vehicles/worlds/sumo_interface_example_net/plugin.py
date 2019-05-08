@@ -17,7 +17,8 @@ NSYELLOW = "yryr"
 WEGREEN = "rGrG"
 WEYELLOW = "ryry"
 
-PROGRAM = [WEYELLOW, WEYELLOW, WEYELLOW, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSYELLOW, NSYELLOW, WEGREEN]
+PROGRAM = [WEYELLOW, WEYELLOW, WEYELLOW, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSGREEN, NSYELLOW,
+           NSYELLOW, WEGREEN]
 
 
 class SumoSupervisorPlugin:
@@ -34,7 +35,8 @@ class SumoSupervisorPlugin:
         if self.runned >= 1000:
             self.runned = self.runned - 1000
             self.programPointer = min(self.programPointer + 1, len(PROGRAM) - 1)
-            numPriorityVehicles = self.traci.inductionloop.getSubscriptionResults()["0"][self.traci.constants.LAST_STEP_VEHICLE_NUMBER]
+            subscriptionResult = self.traci.inductionloop.getSubscriptionResults()["0"]
+            numPriorityVehicles = subscriptionResult[self.traci.constants.LAST_STEP_VEHICLE_NUMBER]
             if numPriorityVehicles > 0:
                 if self.programPointer == len(PROGRAM) - 1:
                     # we are in the WEGREEN phase. start the priority phase sequence

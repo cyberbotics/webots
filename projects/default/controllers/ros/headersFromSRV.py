@@ -69,10 +69,12 @@ def main(argv):
         except OSError:
             pass
 
-    headersGenerator.replace_template_tags(templateFolder + '/templateHeader.h', 'include/webots_ros/' + filename + '.h', filename, args[0])
+    headersGenerator.replace_template_tags(templateFolder + '/templateHeader.h', 'include/webots_ros/' + filename + '.h',
+                                           filename, args[0])
 
     headersGenerator.replace_template_tags(templateFolder + '/templateRequest.h', filename + 'tempFile.txt', filename, args[0])
-    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + 'Request.h', requestName, requestType)
+    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + 'Request.h',
+                                          requestName, requestType)
 
     try:
         os.remove(filename + 'tempFile.txt')
@@ -80,7 +82,8 @@ def main(argv):
         print('failed to remove tempFile for ' + filename)
 
     headersGenerator.replace_template_tags(templateFolder + '/templateResponse.h', filename + 'tempFile.txt', filename, args[0])
-    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + 'Response.h', responseName, responseType)
+    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + 'Response.h',
+                                          responseName, responseType)
 
     try:
         os.remove(filename + 'tempFile.txt')

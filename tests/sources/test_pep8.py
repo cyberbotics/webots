@@ -162,9 +162,9 @@ class TestCodeFormat(unittest.TestCase):
         checker = pep8.StyleGuide(
             quiet=True,
             paths=self.files,
-            reporter=CustomReport
+            reporter=CustomReport,
         )
-        checker.options.ignore = ('E501')  # E501: line too long (> 80 characters)
+        checker.options.max_line_length = 128
         report = checker.check_files()
         self.assertEqual(
             report.total_errors, 0,

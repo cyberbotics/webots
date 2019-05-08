@@ -275,7 +275,8 @@ class SumoSupervisor (Supervisor):
                     # artificially add an angle depending on the lateral speed
                     artificialAngle = 0
                     if z1 > 0.0001:  # don't add the angle if speed is very small as atan2(0.0, 0.0) is unstable
-                        artificialAngle = 0.15 * math.atan2(x1, z1)  # the '0.15' factor was found empirically and should not depend on the simulation
+                        # the '0.15' factor was found empirically and should not depend on the simulation
+                        artificialAngle = 0.15 * math.atan2(x1, z1)
                     if (vehicle.laneChangeStartTime is not None and
                             vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay and
                             abs(vehicle.laneChangeDistance) >= abs(x1)):  # lane change case
@@ -435,7 +436,8 @@ class SumoSupervisor (Supervisor):
             self.step(step)
             traci.init(port, numRetries=20)
         except:
-            sys.exit("Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try changing SUMO port using the '--port' argument.")
+            sys.exit("""Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try
+                        changing SUMO port using the '--port' argument.""")
 
         self.traci = traci
         self.sumolib = sumolib
@@ -507,7 +509,8 @@ class SumoSupervisor (Supervisor):
             display = self.getDisplay('sumo')
             if display is not None:
                 from SumoDisplay import SumoDisplay
-                self.sumoDisplay = SumoDisplay(display, displayZoom, view, directory, displayRefreshRate, displayFitSize, self.traci)
+                self.sumoDisplay = SumoDisplay(display, displayZoom, view, directory, displayRefreshRate, displayFitSize,
+                                               self.traci)
 
         # Main simulation loop
         while self.step(step) >= 0:

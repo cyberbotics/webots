@@ -59,7 +59,8 @@ def main(argv):
             pass
 
     headersGenerator.replace_template_tags(templateFolder + '/templateMessage.h', filename + 'tempFile.txt', filename, args[0])
-    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + '.h', messageName, messageType)
+    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + '.h',
+                                          messageName, messageType)
 
     try:
         os.remove(filename + 'tempFile.txt')
