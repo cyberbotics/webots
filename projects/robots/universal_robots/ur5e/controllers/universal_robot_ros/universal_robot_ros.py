@@ -45,6 +45,6 @@ while robot.step(timestep) != -1 and not rospy.is_shutdown():
     msg = Clock()
     time = robot.getTime()
     msg.clock.secs = int(time)
-    // round prevents precision issues that can cause problems with ROS timers
-    msg.clock.nsecs = round(1000 * (time - msg.clock.secs)) * 1.0e+6;
+    # round prevents precision issues that can cause problems with ROS timers
+    msg.clock.nsecs = round(1000 * (time - msg.clock.secs)) * 1.0e+6
     clockPublisher.publish(msg)
