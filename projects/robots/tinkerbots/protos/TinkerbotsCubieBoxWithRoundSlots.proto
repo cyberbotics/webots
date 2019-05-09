@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Tinkerbots cubie: box with round slots.
@@ -78,7 +78,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
-            occlusionMapUrl "textures/cubie_box_with_round_slots_occlusion.png"
+            occlusionMapUrl "textures/cubie_box_with_round_slots_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {

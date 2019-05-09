@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or any painted industrial surfaces.
@@ -14,27 +14,27 @@ PROTO ThreadMetalPlate [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_base_color.png"
+        "textures/thread_metal_plate/thread_metal_plate_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_roughness.png"
+        "textures/thread_metal_plate/thread_metal_plate_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_metalness.png"
+        "textures/thread_metal_plate/thread_metal_plate_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_normal.png"
+        "textures/thread_metal_plate/thread_metal_plate_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "textures/thread_metal_plate/thread_metal_plate_occlusion.png"
+        "textures/thread_metal_plate/thread_metal_plate_occlusion.jpg"
       ]
     }
     environmentMap IS environmentMap

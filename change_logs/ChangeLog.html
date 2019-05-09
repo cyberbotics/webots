@@ -61,12 +61,26 @@ Released on xx xxth, 2019
 <ul>
 <li><b>Enhancements</b></li>
 <ul>
+<li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
+<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
 </ul>
 <li><b>Bug fixes</b></li>
 <ul>
+<li>Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.</li>
+<li>Fixed PNG images with a useless alpha layer that were falsly considered as transparent by Webots causing alpha sorting problems.</li>
+<li>Fixed controller builds using a custom Java Makefile.</li>
 <li>Fixed Fog node not disabled when visibility range is 0.</li>
 <li>Fixed reading of available GPU memory on some AMD graphics cards.</li>
 <li>Fixed value of the 'WB_KEYBOARD_NUMPAD_LEFT' enumeration in the C API.</li>
+<li>Fixed crash when adding a geometry node in the 'animatedGeometry' field of the Track node.</li>
+<li>Fixed calibration of the Khepera4 robot ground sensors (thanks to Jeremy and Cyrill).</li>
+<li>Fixed crash when copy-pasting some procedural nodes.</li>
+<li>Fixed crash pasting a node in a non-empty field of a procedural PROTO node.</li>
+<li>Fixed availability of Muscle node in case of an Hinge2Joint ancestor (thanks to Florin).</li>
+<li>Fixed crash in streaming mode if a client connects while a world is loading.</li>
+<li>Fixed crash when using an 'infra-red' DistanceSensor node on a painted surface.</li>
+<li>Fixed geometry not created on world loading if invalid geometry fields are written in the file.</li>
+<li>Fixed mismatch between boundingObject outline and graphical representation of a Cylinder if the subdivision field is set to an odd value.</li>
 </ul>
 </ul>
 

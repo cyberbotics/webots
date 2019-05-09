@@ -6,7 +6,7 @@
 
 // You may need to add other webots classes such as
 //  import com.cyberbotics.webots.controller.DistanceSensor;
-//  import com.cyberbotics.webots.controller.LED;
+//  import com.cyberbotics.webots.controller.Motor;
 import com.cyberbotics.webots.controller.Robot;
 
 // Here is the main class of your controller.
@@ -30,7 +30,7 @@ public class template {
 
     // You should insert a getDevice-like function in order to get the
     // instance of a device of the robot. Something like:
-    //  LED led = robot.getLED("ledname");
+    //  Motor motor = robot.getMotor("motorname");
     //  DistanceSensor ds = robot.getDistanceSensor("dsname");
     //  ds.enable(timeStep);
 
@@ -44,7 +44,7 @@ public class template {
       // Process sensor data here.
 
       // Enter here functions to send actuator commands, like:
-      //  led.set(1);
+      //  motor.setPosition(10.0);
     };
 
     // Enter here exit cleanup code.

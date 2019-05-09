@@ -78,7 +78,10 @@ class Area(WebotsObject):
         """Check if a list of points is defined in a clockwise maner."""
         total = 0
         for i in range(0, len(referenceList)):
-            total = total + (OSMCoord.coordDictionnary[referenceList[i]].x - OSMCoord.coordDictionnary[referenceList[i - 1]].x) * (OSMCoord.coordDictionnary[referenceList[i]].z + OSMCoord.coordDictionnary[referenceList[i - 1]].z)
+            total = total + (OSMCoord.coordDictionnary[referenceList[i]].x -
+                             OSMCoord.coordDictionnary[referenceList[i - 1]].x) * \
+                (OSMCoord.coordDictionnary[referenceList[i]].z +
+                 OSMCoord.coordDictionnary[referenceList[i - 1]].z)
         if total >= 0:
             return True
         else:
@@ -104,7 +107,8 @@ class Area(WebotsObject):
         return inside
 
     @staticmethod
-    def draw_area(file, refs, red=1, green=0, blue=0, defName="", transparency=0.0, texture="", drawFlat=False, verticalOffset=0.0):
+    def draw_area(file, refs, red=1, green=0, blue=0, defName="", transparency=0.0, texture="", drawFlat=False,
+                  verticalOffset=0.0):
         """Draw an area."""
         if len(refs) < 3:
             return
@@ -146,9 +150,17 @@ class Area(WebotsObject):
         for ref in refs:
             if ref in OSMCoord.coordDictionnary:
                 if drawFlat:
-                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[refs[0]].x, height + verticalOffset, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[refs[0]].z))
+                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                                  OSMCoord.coordDictionnary[refs[0]].x,
+                                                                  height + verticalOffset,
+                                                                  OSMCoord.coordDictionnary[ref].z -
+                                                                  OSMCoord.coordDictionnary[refs[0]].z))
                 else:
-                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x - OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[ref].y + verticalOffset, OSMCoord.coordDictionnary[ref].z - OSMCoord.coordDictionnary[refs[0]].z))
+                    file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
+                                                                  OSMCoord.coordDictionnary[refs[0]].x,
+                                                                  OSMCoord.coordDictionnary[ref].y + verticalOffset,
+                                                                  OSMCoord.coordDictionnary[ref].z -
+                                                                  OSMCoord.coordDictionnary[refs[0]].z))
             else:
                 print("Warning: node " + str(ref) + " not referenced.")
         file.write("          ]\n")
@@ -212,7 +224,8 @@ class Area(WebotsObject):
             else:
                 verticalOffset = -0.01 if area.type == 'parking' else 0.0
                 drawFlat = True if area.type == 'water' else False
-                Area.draw_area(file, area.ref, area.color[0], area.color[1], area.color[2], defName, area.transparency, area.texture, verticalOffset=verticalOffset, drawFlat=drawFlat)
+                Area.draw_area(file, area.ref, area.color[0], area.color[1], area.color[2], defName, area.transparency,
+                               area.texture, verticalOffset=verticalOffset, drawFlat=drawFlat)
 
     def generate_tree_file(self, folder):
         """Generate the 'forest' file which contains the tree positions and is used by the 'Forest' PROTO."""

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "iRobot Create simulation"
@@ -128,7 +128,7 @@ Robot {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "textures/dirty.png"
+                "textures/dirty.jpg"
               ]
             }
             transparency 0.9

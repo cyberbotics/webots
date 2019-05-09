@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A brushed aluminum material.
@@ -14,17 +14,17 @@ PROTO BrushedAluminium [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/brushed_aluminium/brushed_aluminium_base_color.png"
+        "textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "textures/brushed_aluminium/brushed_aluminium_roughness.png"
+        "textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "textures/brushed_aluminium/brushed_aluminium_normal.png"
+        "textures/brushed_aluminium/brushed_aluminium_normal.jpg"
       ]
     }
     normalMapFactor 1

@@ -18,7 +18,7 @@
 
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates
+    nvmlDeviceGetUtilizationRates
 from requests import session
 
 import errno
@@ -75,7 +75,7 @@ def chmod_python_and_executable_files(directory):
         if os.path.isdir(fullname):
             chmod_python_and_executable_files(fullname)
         if filename.endswith('.py') or not os.path.splitext(filename)[1]:
-            os.chmod(fullname, 0775)
+            os.chmod(fullname, 0o775)
 
 
 class Snapshot:
@@ -211,8 +211,8 @@ class Client:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
-            client.client_websocket.write_message('webots:' + protocol + '//'
-                                                  + hostname + ':' + str(port))
+            client.client_websocket.write_message('webots:' + protocol + '//' +
+                                                  hostname + ':' + str(port))
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':
