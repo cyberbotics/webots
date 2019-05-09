@@ -28,12 +28,12 @@
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
-#include "WbMaterial.hpp"
 #include "WbMotor.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
+#include "WbPbrAppearance.hpp"
 #include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -465,10 +465,10 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           for (int c = 0; c < led->colorsCount(); ++c)
             colorArray.push_back(led->color(c).toString(WbPrecision::FLOAT_MAX));
           deviceObject.insert("ledColors", colorArray);
-          QJsonArray materialArray;
-          foreach (const WbMaterial *material, led->materials())
-            materialArray.push_back(QString("n%1").arg(material->uniqueId()));
-          deviceObject.insert("ledMaterialsIDs", materialArray);
+          QJsonArray appearanceArray;
+          foreach (const WbPbrAppearance *appearance, led->pbrAppearances())
+            appearanceArray.push_back(QString("n%1").arg(appearance->uniqueId()));
+          deviceObject.insert("ledPBRAppearanceIDs", appearanceArray);
         }
       }
       deviceArray.push_back(deviceObject);

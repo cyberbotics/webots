@@ -749,13 +749,35 @@ function highlightX3DElement(robot, deviceElement) {
   var robotComponent = getRobotComponentByRobotName(robot);
   var scene = getRobotComponentByRobotName(robot).webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
-  // var type = deviceElement.getAttribute('webots-type');
+  var type = deviceElement.getAttribute('webots-type');
   var object = scene.getObjectByID(id);
 
   if (object) {
+    // Show billboard origin.
     var originBillboard = robotComponent.billboardOriginMesh.clone();
     object.add(originBillboard);
     robotComponent.billboardOrigin = originBillboard;
+
+    if (type === 'LED') {
+      var pbrIDs = deviceElement.getAttribute('ledPBRAppearanceIDs').split(' ');
+      for (var p = 0; p < pbrIDs.length; p++) {
+        var pbrID = pbrIDs[p];
+        if (pbrID) {
+          var ledColor = deviceElement.getAttribute('targetColor').split(' ');
+          ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
+          object.traverse(function(child) {
+            if (child.material && child.material.userData && child.material.userData.id === pbrID) {
+              // TODO: Do better :-D
+              child.material.color = ledColor;
+              child.material.emissiveColor = ledColor;
+              child.material.needUpdate = true;
+              child.needUpdate = true;
+            }
+          });
+        }
+      }
+    }
+    // Render
     scene.render();
   }
 
@@ -950,11 +972,11 @@ function createRobotComponent(view) {
           }
 
           // LED case: set the target color.
-          if (deviceType === 'LED' && 'ledColors' in device && 'ledMaterialsIDs' in device) {
+          if (deviceType === 'LED' && 'ledColors' in device && 'ledPBRAppearanceIDs' in device) {
             // For now, simply take the first color. More complex mechanism could be implemented if required.
             var targetColor = (device['ledColors'].length > 0) ? device['ledColors'][0] : '0 0 1';
             deviceDiv.setAttribute('targetColor', targetColor);
-            deviceDiv.setAttribute('ledMaterialsIDs', device['ledMaterialsIDs'].join(' '));
+            deviceDiv.setAttribute('ledPBRAppearanceIDs', device['ledPBRAppearanceIDs'].join(' '));
           }
 
           category.appendChild(deviceDiv);

@@ -350,6 +350,7 @@ THREE.X3DLoader = class X3DLoader {
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
+    mat.userData.id = getNodeAttribute(pbrAppearance, 'id', '');
     if (isTransparent)
       mat.transparent = true;
     mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
