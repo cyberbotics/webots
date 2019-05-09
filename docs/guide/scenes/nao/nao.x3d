@@ -8,7 +8,7 @@
 <Environment shadowExcludeTransparentObjects="true"/>
 <WorldInfo id="n1"/>
 <Viewpoint id="n2" orientation="-0.18054006 0.97324604 0.14211756 1.3601915" position="1.256358 0.61915284 0.3558685" zNear="0.05" followSmoothness="0.5"/>
-<Background id="n3" skyColor="0.94 0.94 0.94"/>
+<Background id="n3" skyColor="0.4 0.4 0.4"/>
 <DirectionalLight id="n4" direction="-1 -1 -0.6" intensity="0.6" ambientIntensity="1" castShadows="TRUE" shadowMapSize="512" shadowIntensity="0.5" shadowFilterSize="2" shadowCascades="3"/>
 <DirectionalLight id="n5" direction="-0.2 -0.3 0.3" intensity="0.3"/>
 <Transform id="n6" name="solid" solid="true"><Shape id="n7" castShadows="true"><Appearance id="n8"><Material id="n9" ambientIntensity="0.4" diffuseColor="0.94 0.94 0.94"/></Appearance><Plane id="n10" size="10 10"/></Shape><Switch whichChoice="-1" class="selector"><Shape><Appearance sortType="transparent"><Material emissiveColor="1 1 1"/></Appearance><IndexedLineSet coordIndex="0 1 -1 1 2 -1 2 3 -1 3 0 -1 "><Coordinate point="-5.001999855041504 0 -5.001999855041504 -5.001999855041504 0 5.001999855041504 5.001999855041504 0 5.001999855041504 5.001999855041504 0 -5.001999855041504 "/></IndexedLineSet></Shape></Switch></Transform>
