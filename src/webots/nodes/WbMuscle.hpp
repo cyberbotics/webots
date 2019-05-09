@@ -96,7 +96,7 @@ private slots:
   void updateEndPointPosition();
   void updateCastShadows();
   void updateVisible();
-  void updateStretchForce(double forcePercentage, bool immediateUpdate);
+  void updateStretchForce(double forcePercentage, bool immediateUpdate, int motorIndex);
   void stretch();
 };
 

@@ -257,7 +257,10 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
   updateRadius();
 }
 
-void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate) {
+void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate, int motorIndex) {
+  const WbMotor *motor = dynamic_cast<WbMotor *>(parent());
+  if (motor->positionIndex() != motorIndex)
+    return;
   mStatus = forcePercentage;
   if (mStatus > 1.0)
     mStatus = 1.0;
