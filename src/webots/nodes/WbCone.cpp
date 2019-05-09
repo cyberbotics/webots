@@ -76,6 +76,7 @@ void WbCone::postFinalize() {
 void WbCone::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -130,9 +131,6 @@ void WbCone::buildWrenMesh() {
 
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
-
-  if (!sanitizeFields())
-    return;
 
   if (mBottom->isFalse() && mSide->isFalse())
     return;
@@ -242,9 +240,6 @@ void WbCone::updateSubdivision() {
 }
 
 void WbCone::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mBottomRadius->value()), static_cast<float>(mHeight->value()),
                    static_cast<float>(mBottomRadius->value())};
   wr_transform_set_scale(wrenNode(), scale);

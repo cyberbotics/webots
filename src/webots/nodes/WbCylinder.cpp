@@ -91,6 +91,7 @@ void WbCylinder::createWrenObjects() {
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCylinder::updateLineScale);
 
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -146,9 +147,6 @@ void WbCylinder::buildWrenMesh() {
 
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
-
-  if (!sanitizeFields())
-    return;
 
   if (mBottom->isFalse() && mSide->isFalse() && mTop->isFalse())
     return;
@@ -276,7 +274,7 @@ void WbCylinder::updateSubdivision() {
 }
 
 void WbCylinder::updateLineScale() {
-  if (!isAValidBoundingObject() || !sanitizeFields())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -288,9 +286,6 @@ void WbCylinder::updateLineScale() {
 }
 
 void WbCylinder::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mHeight->value()),
                    static_cast<float>(mRadius->value())};
   wr_transform_set_scale(wrenNode(), scale);
