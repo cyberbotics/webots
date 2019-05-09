@@ -754,9 +754,24 @@ function unhighlightX3DElement(robot) {
 }
 
 function highlightX3DElement(robot, deviceElement) {
-  /*
   unhighlightX3DElement(robot);
 
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = getRobotComponentByRobotName(robot).webotsView.x3dScene;
+  var id = deviceElement.getAttribute('webots-transform-id');
+  // var type = deviceElement.getAttribute('webots-type');
+  var object = scene.getObjectByID(id);
+
+  if (object) {
+    if (robotComponent.billboardOrigin)
+      robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
+    var originBillboard = robotComponent.billboardOriginMesh.clone();
+    object.add(originBillboard);
+    robotComponent.billboardOrigin = originBillboard;
+    scene.render();
+  }
+
+  /*
   var view3d = document.querySelector('#' + robot + '-robot-webots-view');
   var id = deviceElement.getAttribute('webots-transform-id');
   var transform = view3d.querySelector('[id=' + id + ']');
@@ -775,25 +790,6 @@ function highlightX3DElement(robot, deviceElement) {
         }
       }
     }
-
-    var scale = parseFloat(view3d.querySelector('Viewpoint').getAttribute('robotScale')) / 50.0;
-    var billboard = document.createElement('Transform');
-    billboard.setAttribute('highlighted', 'true');
-    if (deviceElement.hasAttribute('webots-transform-offset'))
-      billboard.setAttribute('translation', deviceElement.getAttribute('webots-transform-offset'));
-
-    billboard.innerHTML =
-      '<Billboard axisOfRotation="0 0 0">\n' +
-      '  <Shape>\n' +
-      '    <Appearance sortType="transparent" sortKey="10000">\n' +
-      '      <Material transparency="0.7"></Material>\n' +
-      '      <DepthMode depthfunc="always"></DepthMode>\n' +
-      '      <ImageTexture url="' + computeTargetPath() + '../css/images/center.png"></ImageTexture>\n' +
-      '    </Appearance>\n' +
-      '    <Plane size="' + scale + ' ' + scale + '"></Plane>\n' +
-      '  </Shape>\n' +
-      '</Billboard>\n';
-    transform.appendChild(billboard);
   }
   */
 }
@@ -846,10 +842,30 @@ function createRobotComponent(view) {
     var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
     var webotsView = new webots.View(webotsViewElement);
-    robotComponent.webotsView = webotsView;
+    robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       // correct the URL textures.
       redirectTextures(webotsView.x3dScene, robotName);
+
+      // Create the origin billboard mesh.
+      var loader = new THREE.TextureLoader();
+      var planeGeometry = new THREE.PlaneGeometry(0.02, 0.02);
+      var planeMaterial = new THREE.MeshBasicMaterial({
+        depthTest: false,
+        transparent: true,
+        opacity: 0.5,
+        map: loader.load(
+          computeTargetPath() + '../css/images/center.png'
+        )
+      });
+      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+      robotComponent.billboardOriginMesh.renderOrder = 1;
+      // Make sure the billboard remains well oriented.
+      webotsView.x3dScene.preRender = function() {
+        if (robotComponent.billboardOrigin)
+          robotComponent.billboardOrigin.lookAt(webotsView.x3dScene.viewpoint.camera.position);
+      };
+
       /*
       // Store viewpoint.
       var viewpoint = webotsViewElement.querySelector('Viewpoint');

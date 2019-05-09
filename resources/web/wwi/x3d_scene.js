@@ -53,7 +53,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    if (typeof this.preRender === 'function')
+      this.preRender(this.scene, this.viewpoint.camera);
     this.renderer.render(this.scene, this.viewpoint.camera);
+    if (typeof this.postRender === 'function')
+      this.postRender(this.scene, this.viewpoint.camera);
   }
 
   resize() {
