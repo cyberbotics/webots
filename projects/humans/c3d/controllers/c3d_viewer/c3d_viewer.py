@@ -88,9 +88,9 @@ def convertRPYtoQuaternions(rpy):
 
 def convertRPYtoEulerAxis(rpy):
     """Convert RPY angles to Euler angles."""
-    roll = - math.pi * rpy[0] / 180.0
-    pitch = math.pi * rpy[2] / 180.0
-    yaw = math.pi * rpy[1] / 180.0
+    roll = - math.pi * rpy[0] / 180.0 if not rpy[0] == -1.0 else 0.0
+    pitch = math.pi * rpy[2] / 180.0 if not rpy[2] == -1.0 else 0.0
+    yaw = math.pi * rpy[1] / 180.0 if not rpy[1] == -1.0 else 0.0
     return rotationFromQuaternion(convertRPYtoQuaternions([roll, pitch, yaw]))
 
 
@@ -179,23 +179,6 @@ supervisor.step(timestep)
 markerField = supervisor.getSelf().getField('markers')
 for i in range(markerField.getCount()):
     markerField.removeMF(-1)
-# array = reader.groups['FORCE_PLATFORM'].get('CORNERS').float_array
-# print(array)
-# for j in range(2):  # For now we assume 2 force platforms
-#     indexedFaceSet = "Shape {"
-#     indexedFaceSet += "geometry IndexedFaceSet {"
-#     indexedFaceSet += "coord Coordinate {"
-#     indexedFaceSet += "point ["
-#     for i in range(4):
-#         indexedFaceSet += str(array[0][i][j] * scale) + ' ' + \
-#             str(-array[2][i][j] * scale + 0.001) + ' ' + \
-#             str(array[1][i][j] * scale) + ","
-#     indexedFaceSet += "]"
-#     indexedFaceSet += "}"
-#     indexedFaceSet += "coordIndex [0 1 2 3 -1]"
-#     indexedFaceSet += "}"
-#     indexedFaceSet += "}"
-#     markerField.importMFNodeFromString(-1, indexedFaceSet)
 
 # ground reaction forces (GRF)
 grfList = []
@@ -302,10 +285,6 @@ while supervisor.step(timestep) != -1:
         toSend = ''
         frame = frameAndPoints[frameCoutner][0]
         points = frameAndPoints[frameCoutner][1]
-        # print([frameAndAnalog[frameCoutner][1][0][0],
-        #        frameAndAnalog[frameCoutner][1][1][0],
-        #        frameAndAnalog[frameCoutner][1][2][0]])
-        # print(frameAndAnalog[frameCoutner][1])
         # update the GRF visualization
         for grf in grfList:
             index1 = labels.index(grf['name'] + 'Force')
