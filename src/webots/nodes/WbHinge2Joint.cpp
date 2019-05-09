@@ -660,10 +660,6 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 // WREN //
 //////////
 
-void WbHinge2Joint::createWrenObjects() {  // TODO: remove
-  WbJoint::createWrenObjects();
-}
-
 void WbHinge2Joint::updateJointAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;
