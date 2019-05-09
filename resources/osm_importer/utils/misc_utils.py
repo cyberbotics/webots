@@ -83,7 +83,8 @@ def length2D(x, y):
 
 def clean_string(string):
     """Removed unwanted characters from string."""
-    return string.replace(" ", "_").replace("'", "_").replace(".", "").replace(",", "_").encode('ascii', errors='ignore').decode()
+    return string.replace(" ", "_").replace("'", "_").replace(".", "").replace(",", "_") \
+                 .encode('ascii', errors='ignore').decode()
 
 
 def get_intersection(x1, y1, x2, y2, x3, y3, x4, y4):
