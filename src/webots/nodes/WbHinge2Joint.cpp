@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbBrake.hpp"
 #include "WbHinge2Joint.hpp"
+
+#include "WbBrake.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
