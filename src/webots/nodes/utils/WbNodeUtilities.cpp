@@ -401,8 +401,6 @@ namespace {
       QString invalidParentNode;
       if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK, 1))
         invalidParentNode = "Track";
-      else if (WbNodeUtilities::findUpperNodeByType(node, WB_NODE_HINGE_2_JOINT, 1))
-        invalidParentNode = "Hinge2Joint";
 
       if (!invalidParentNode.isEmpty()) {
         errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node:: "

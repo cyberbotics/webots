@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbHinge2Joint.hpp"
 #include "WbBrake.hpp"
+#include "WbHinge2Joint.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbOdeContext.hpp"
@@ -659,15 +659,8 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 // WREN //
 //////////
 
-void WbHinge2Joint::createWrenObjects() {
-  WbBasicJoint::createWrenObjects();
-
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
-    wr_node_set_visible(WR_NODE(mTransform), true);
-
-  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
-          &WbHinge2Joint::updateJointAxisRepresentation);
-  updateJointAxisRepresentation();
+void WbHinge2Joint::createWrenObjects() {  // TODO: remove
+  WbJoint::createWrenObjects();
 }
 
 void WbHinge2Joint::updateJointAxisRepresentation() {
