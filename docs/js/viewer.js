@@ -622,11 +622,12 @@ function highlightCode(view) {
 
 function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
-  // Reset the Viewpoint and the motor sliders.
   var robotComponent = getRobotComponentByRobotName(robot);
-  // var viewpoint = robotComponent.querySelector('Viewpoint');
-  // viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
-  // viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
+  // Reset the Viewpoint
+  var camera = robotComponent.webotsView.x3dScene.getCamera();
+  camera.position.copy(camera.userData.initialPosition);
+  camera.quaternion.copy(camera.userData.initialQuaternion);
+  // Reset the motor sliders.
   var sliders = robotComponent.querySelectorAll('.motor-slider');
   for (var s = 0; s < sliders.length; s++) {
     var slider = sliders[s];
@@ -831,6 +832,7 @@ function createRobotComponent(view) {
     var webotsView = new webots.View(webotsViewElement);
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
+      var camera = webotsView.x3dScene.getCamera();
       // correct the URL textures.
       redirectTextures(webotsView.x3dScene, robotName);
 
@@ -850,14 +852,14 @@ function createRobotComponent(view) {
       // Make sure the billboard remains well oriented.
       webotsView.x3dScene.preRender = function() {
         if (robotComponent.billboardOrigin)
-          robotComponent.billboardOrigin.lookAt(webotsView.x3dScene.getCamera().position);
+          robotComponent.billboardOrigin.lookAt(camera.position);
       };
 
-      /*
       // Store viewpoint.
-      var viewpoint = webotsViewElement.querySelector('Viewpoint');
-      viewpoint.setAttribute('initialOrientation', viewpoint.getAttribute('orientation'));
-      viewpoint.setAttribute('initialPosition', viewpoint.getAttribute('position'));
+      camera.userData.initialQuaternion = camera.quaternion.clone();
+      camera.userData.initialPosition = camera.position.clone();
+
+      /*
       // Rough estimation of the robot scale.
       var robotScale = Math.max(0.05, estimateRobotScale(webotsViewElement));
       viewpoint.setAttribute('robotScale', robotScale);
