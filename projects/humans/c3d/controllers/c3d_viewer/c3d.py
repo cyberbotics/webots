@@ -225,14 +225,14 @@ class Param(object):
     def binary_size(self):
         '''Return the number of bytes needed to store this parameter.'''
         return (
-            1 + # group_id
-            2 + # next offset marker
-            1 + len(self.name.encode('utf-8')) + # size of name and name bytes
-            1 + # data size
-            1 + len(self.dimensions) + # size of dimensions and dimension bytes
-            self.total_bytes + # data
-            1 + len(self.desc.encode('utf-8')) # size of desc and desc bytes
-            )
+            1 +  # group_id
+            2 +  # next offset marker
+            1 + len(self.name.encode('utf-8')) +  # size of name and name bytes
+            1 +  # data size
+            1 + len(self.dimensions) +  # size of dimensions and dimension bytes
+            self.total_bytes +  # data
+            1 + len(self.desc.encode('utf-8'))  # size of desc and desc bytes
+        )
 
     def write(self, group_id, handle):
         '''Write binary data for this parameter to a file handle.
@@ -370,7 +370,7 @@ class Param(object):
         assert len(self.dimensions) == 2, \
             '{}: cannot get value as bytes array!'.format(self.name)
         l, n = self.dimensions
-        return [self.bytes[i*l:(i+1)*l] for i in range(n)]
+        return [self.bytes[i * l:(i + 1) * l] for i in range(n)]
 
     @property
     def string_array(self):
@@ -378,7 +378,7 @@ class Param(object):
         assert len(self.dimensions) == 2, \
             '{}: cannot get value as string array!'.format(self.name)
         l, n = self.dimensions
-        return [self.bytes[i*l:(i+1)*l].decode('utf-8') for i in range(n)]
+        return [self.bytes[i * l:(i + 1) * l].decode('utf-8') for i in range(n)]
 
 
 class Group(object):
@@ -436,11 +436,12 @@ class Group(object):
     def binary_size(self):
         '''Return the number of bytes to store this group and its parameters.'''
         return (
-            1 + # group_id
-            1 + len(self.name.encode('utf-8')) + # size of name and name bytes
-            2 + # next offset marker
-            1 + len(self.desc.encode('utf-8')) + # size of desc and desc bytes
-            sum(p.binary_size() for p in self.params.values()))
+            1 +  # group_id
+            1 + len(self.name.encode('utf-8')) +  # size of name and name bytes
+            2 +  # next offset marker
+            1 + len(self.desc.encode('utf-8')) +  # size of desc and desc bytes
+            sum(p.binary_size() for p in self.params.values())
+        )
 
     def write(self, group_id, handle):
         '''Write this parameter group, with parameters, to a file handle.
@@ -995,7 +996,7 @@ class Writer(Manager):
         scale = abs(self.point_scale)
         is_float = self.point_scale < 0
         point_dtype = [np.int16, np.float32][is_float]
-        point_scale = [scale, 1][is_float]
+        # point_scale = [scale, 1][is_float]
         point_format = 'if'[is_float]
         raw = np.empty((self.point_used, 4), point_dtype)
         for points, analog in self._frames:

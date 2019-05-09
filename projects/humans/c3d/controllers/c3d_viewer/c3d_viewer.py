@@ -128,13 +128,14 @@ momentsLabels = getPointsList(reader, 'MOMENTS')
 powersLabels = getPointsList(reader, 'POWERS')
 
 # get unit for each label group
+pointGroup = reader.groups['POINT']
 units = {
     'markers': 'm',
     'virtual_markers': 'm',
-    'angles': reader.groups['POINT'].get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in reader.groups['POINT'].params else 'raw',
-    'forces': reader.groups['POINT'].get('FORCE_UNITS').string_value if 'FORCE_UNITS' in reader.groups['POINT'].params else 'raw',
-    'moments': reader.groups['POINT'].get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in reader.groups['POINT'].params else 'raw',
-    'powers': reader.groups['POINT'].get('POWER_UNITS').string_value if 'POWER_UNITS' in reader.groups['POINT'].params else 'raw'
+    'angles': pointGroup.get('ANGLE_UNITS').string_value if 'ANGLE_UNITS' in pointGroup.params else 'raw',
+    'forces': pointGroup.get('FORCE_UNITS').string_value if 'FORCE_UNITS' in pointGroup.params else 'raw',
+    'moments': pointGroup.get('MOMENT_UNITS').string_value if 'MOMENT_UNITS' in pointGroup.params else 'raw',
+    'powers': pointGroup.get('POWER_UNITS').string_value if 'POWER_UNITS' in pointGroup.params else 'raw'
 }
 
 # filter non 3D points and send the list to the robot window
@@ -180,13 +181,15 @@ for i in range(markerField.getCount()):
     markerField.removeMF(-1)
 # array = reader.groups['FORCE_PLATFORM'].get('CORNERS').float_array
 # print(array)
-# for j in range(2):  #For now we assume 2 force platforms
+# for j in range(2):  # For now we assume 2 force platforms
 #     indexedFaceSet = "Shape {"
 #     indexedFaceSet += "geometry IndexedFaceSet {"
 #     indexedFaceSet += "coord Coordinate {"
 #     indexedFaceSet += "point ["
 #     for i in range(4):
-#         indexedFaceSet += str(array[0][i][j] * scale) + ' ' + str(-array[2][i][j] * scale + 0.001) +  ' ' + str(array[1][i][j] * scale) +  ","
+#         indexedFaceSet += str(array[0][i][j] * scale) + ' ' + \
+#             str(-array[2][i][j] * scale + 0.001) + ' ' + \
+#             str(array[1][i][j] * scale) + ","
 #     indexedFaceSet += "]"
 #     indexedFaceSet += "}"
 #     indexedFaceSet += "coordIndex [0 1 2 3 -1]"
@@ -200,7 +203,9 @@ names = ['LGroundReaction', 'RGroundReaction']
 for i in range(len(names)):
     if names[i] + 'Force' in labels and names[i] + 'Moment' in labels:
         grfList.append({'name': names[i]})
-        markerField.importMFNodeFromString(-1, 'C3dGrf { translation %s %s %s}' % (sys.argv[3 + 3 * i], sys.argv[4 + 3 * i], sys.argv[5 + 3 * i]))
+        markerField.importMFNodeFromString(-1, 'C3dGrf { translation %s %s %s}' % (sys.argv[3 + 3 * i],
+                                                                                   sys.argv[4 + 3 * i],
+                                                                                   sys.argv[5 + 3 * i]))
         grfList[-1]['node'] = markerField.getMFNode(-1)
         grfList[-1]['translation'] = grfList[-1]['node'].getField('translation')
         grfList[-1]['point'] = grfList[-1]['node'].getField('point')
@@ -210,7 +215,8 @@ bodyRotations = {}
 bodyTranslations = {}
 if float(sys.argv[9]) > 0.0:  # body transparency is not 0
     bodyNode = None
-    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %s %s %s }' % (sys.argv[9], sys.argv[10], sys.argv[10], sys.argv[10]))
+    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %s %s %s }' %
+                                       (sys.argv[9], sys.argv[10], sys.argv[10], sys.argv[10]))
     bodyNode = markerField.getMFNode(-1)
     for label in labelsAndCategory['virtual_markers']:
         node = supervisor.getFromDef(label + '_body')
@@ -296,7 +302,9 @@ while supervisor.step(timestep) != -1:
         toSend = ''
         frame = frameAndPoints[frameCoutner][0]
         points = frameAndPoints[frameCoutner][1]
-        # print([frameAndAnalog[frameCoutner][1][0][0], frameAndAnalog[frameCoutner][1][1][0], frameAndAnalog[frameCoutner][1][2][0]])
+        # print([frameAndAnalog[frameCoutner][1][0][0],
+        #        frameAndAnalog[frameCoutner][1][1][0],
+        #        frameAndAnalog[frameCoutner][1][2][0]])
         # print(frameAndAnalog[frameCoutner][1])
         # update the GRF visualization
         for grf in grfList:
@@ -308,7 +316,9 @@ while supervisor.step(timestep) != -1:
                 COPX = 0.001 * points[index2][1] / points[index1][2]
                 COPY = 0.001 * points[index2][0] / points[index1][2]
             grf['point'].setMFVec3f(0, [COPX, 0.0, COPY])
-            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0], 0.02 * points[index1][2], COPY + 0.02 * points[index1][1]])
+            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0],
+                                        0.02 * points[index1][2],
+                                        COPY + 0.02 * points[index1][1]])
         # update the marker visualization
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
