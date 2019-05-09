@@ -7,8 +7,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.7042441144748107 0.6473232245412248 0.29156966611281915 0.5304580165592375
-  position 0.27589564883792983 0.1953952540693334 0.18590486396749314
+  orientation -0.6999144751040992 0.6939156929567475 0.1691175289794351 0.8662267601078529
+  position 0.44568537430037153 0.4360372998347672 0.5098978527052462
 }
 TexturedBackground {
 }
@@ -233,7 +233,7 @@ DEF HINGE2 Robot {
           name "muscle2"
           controlPID 1 0.1 0
           minPosition -0.5
-          maxPosition 3
+          maxPosition 2.5
           maxTorque 0.5
           muscles [
             Muscle {
