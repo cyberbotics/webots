@@ -134,9 +134,6 @@ void WbElevationGrid::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!sanitizeFields())
-    return;
-
   if (xDimension() < 2 || zDimension() < 2)
     return;
 
@@ -372,7 +369,7 @@ void WbElevationGrid::updateZSpacing() {
 }
 
 void WbElevationGrid::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -383,9 +380,6 @@ void WbElevationGrid::updateLineScale() {
 }
 
 void WbElevationGrid::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(xSpacing()), static_cast<float>(1.0f), static_cast<float>(zSpacing())};
   wr_transform_set_scale(wrenNode(), scale);
 }
