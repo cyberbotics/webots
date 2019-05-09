@@ -3,21 +3,18 @@
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
-function X3dScene(domElement) {
-  this.domElement = domElement;
-  this.root = undefined;
-  this.worldInfo = {};
-  this.viewpoint = undefined;
-  this.sceneModified = false;
-  this.useNodeCache = {};
-  this.objectsIdCache = {};
-}
+class X3dScene { // eslint-disable-line no-unused-vars
+  constructor(domElement) {
+    this.domElement = domElement;
+    this.root = undefined;
+    this.worldInfo = {};
+    this.viewpoint = undefined;
+    this.sceneModified = false;
+    this.useNodeCache = {};
+    this.objectsIdCache = {};
+  }
 
-X3dScene.prototype = {
-  constructor: X3dScene,
-
-  init: function() {
-    var that = this;
+  init() {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -30,17 +27,17 @@ X3dScene.prototype = {
     this.scene = new THREE.Scene();
 
     this.viewpoint = new Viewpoint();
-    this.viewpoint.onCameraParametersChanged = function() {
-      if (that.gpuPicker)
-        that.gpuPicker.needUpdate = true;
-      that.render();
+    this.viewpoint.onCameraParametersChanged = () => {
+      if (this.gpuPicker)
+        this.gpuPicker.needUpdate = true;
+      this.render();
     };
 
     this.selector = new Selector();
-    this.selector.onSelectionChange = function() { that.render(); };
+    this.selector.onSelectionChange = () => { this.render(); };
 
     this.gpuPicker = new THREE.GPUPicker({renderer: this.renderer, debug: false});
-    this.gpuPicker.setFilter(function(object) {
+    this.gpuPicker.setFilter((object) => {
       return object.isMesh &&
              'x3dType' in object.userData &&
              object.userData.isPickable !== false; // true or undefined
@@ -53,13 +50,13 @@ X3dScene.prototype = {
     this.destroyWorld();
 
     TextureLoader.setOnTextureLoad(() => this.render());
-  },
+  }
 
-  render: function() {
+  render() {
     this.renderer.render(this.scene, this.viewpoint.camera);
-  },
+  }
 
-  resize: function() {
+  resize() {
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
@@ -67,18 +64,18 @@ X3dScene.prototype = {
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
     this.render();
-  },
+  }
 
-  onSceneUpdate: function() {
+  onSceneUpdate() {
     this.sceneModified = true;
     this.render();
-  },
+  }
 
-  destroyWorld: function() {
+  destroyWorld() {
     this.selector.clearSelection();
     if (!this.scene)
       return;
-    for (var i = this.scene.children.length - 1; i >= 0; i--)
+    for (let i = this.scene.children.length - 1; i >= 0; i--)
       this.scene.remove(this.scene.children[i]);
     this.objectsIdCache = {};
     this.useNodeCache = {};
@@ -86,9 +83,9 @@ X3dScene.prototype = {
     this.scene.background = undefined;
     this.onSceneUpdate();
     this.render();
-  },
+  }
 
-  deleteObject: function(id) {
+  deleteObject(id) {
     var context = {};
     var object = this.getObjectByCustomId(this.scene, 'n' + id, context);
     if (typeof object !== 'undefined') {
@@ -113,52 +110,50 @@ X3dScene.prototype = {
       this.root = undefined;
     this.onSceneUpdate();
     this.render();
-  },
+  }
 
-  loadWorldFile: function(url, onLoad) {
-    var that = this;
+  loadWorldFile(url, onLoad) {
     this.objectsIdCache = {};
     var loader = new THREE.X3DLoader(this);
-    loader.load(url, function(object3d) {
+    loader.load(url, (object3d) => {
       if (object3d.length > 0) {
-        that.scene.add(object3d[0]);
-        that.root = object3d[0];
+        this.scene.add(object3d[0]);
+        this.root = object3d[0];
       }
-      that._setupLights(loader.directionalLights);
-      that._setupEnvironmentMap();
-      if (that.gpuPicker) {
-        that.gpuPicker.setScene(that.scene);
-        that.sceneModified = false;
+      this._setupLights(loader.directionalLights);
+      this._setupEnvironmentMap();
+      if (this.gpuPicker) {
+        this.gpuPicker.setScene(this.scene);
+        this.sceneModified = false;
       }
-      that.onSceneUpdate();
+      this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
     });
-  },
+  }
 
-  loadObject: function(x3dObject, parentId) {
-    var that = this;
+  loadObject(x3dObject, parentId) {
     var parentObject;
     if (parentId && parentId !== 0)
       parentObject = this.getObjectByCustomId(this.scene, 'n' + parentId);
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
     if (typeof parentObject !== 'undefined') {
-      objects.forEach(function(o) { parentObject.add(o); });
+      objects.forEach((o) => { parentObject.add(o); });
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
     } else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
-      objects.forEach(function(o) { that.scene.add(o); });
+      objects.forEach((o) => { this.scene.add(o); });
       this.root = objects[0];
     }
     this._setupLights(loader.directionalLights);
-    that._setupEnvironmentMap();
+    this._setupEnvironmentMap();
     this.onSceneUpdate();
-  },
+  }
 
-  applyPose: function(pose) {
+  applyPose(pose) {
     var id = pose.id;
-    for (var key in pose) {
+    for (let key in pose) {
       if (key === 'id')
         continue;
       var newValue = pose[key];
@@ -203,9 +198,9 @@ X3dScene.prototype = {
 
       this._updateUseNodesIfNeeded(object, id);
     }
-  },
+  }
 
-  pick: function(relativePosition, screenPosition) {
+  pick(relativePosition, screenPosition) {
     if (this.sceneModified) {
       this.gpuPicker.setScene(this.scene);
       this.sceneModified = false;
@@ -214,9 +209,9 @@ X3dScene.prototype = {
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(screenPosition, this.viewpoint.camera);
     return this.gpuPicker.pick(relativePosition, raycaster);
-  },
+  }
 
-  getTopX3dNode: function(node) {
+  getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
     var upmostSolid;
     while (node) {
@@ -229,9 +224,9 @@ X3dScene.prototype = {
     if (typeof upmostSolid !== 'undefined')
       return upmostSolid;
     return node;
-  },
+  }
 
-  getObjectByCustomId: function(object, id, context) {
+  getObjectByCustomId(object, id, context) {
     if (Array.isArray(object)) {
       for (let i = 0, l = object.length; i < l; i++) {
         var o = this.getObjectByCustomId(object[i], id, context);
@@ -260,13 +255,13 @@ X3dScene.prototype = {
     }
 
     var childObject;
-    var childrenLength = object.children ? object.children.length : 0;
-    for (let i = 0; i < childrenLength; i++) {
-      var child = object.children[i];
-      context.parent = object;
-      childObject = this.getObjectByCustomId(child, id, context);
-      if (typeof childObject !== 'undefined')
-        return childObject;
+    if (object.children) {
+      object.children.forEach((child) => {
+        context.parent = object;
+        childObject = this.getObjectByCustomId(child, id, context);
+        if (typeof childObject !== 'undefined')
+          return childObject;
+      });
     }
     if (object.isMesh) {
       childObject = this.getObjectByCustomId(object.material, id, context);
@@ -321,10 +316,10 @@ X3dScene.prototype = {
       // only fields set in x3d.js are checked
     }
     return undefined;
-  },
+  }
 
   // private functions
-  _setupLights: function(directionalLights) {
+  _setupLights(directionalLights) {
     if (!this.root)
       return;
 
@@ -337,7 +332,7 @@ X3dScene.prototype = {
     var halfWidth = boxSize.x / 2 + boxCenter.x;
     var halfDepth = boxSize.z / 2 + boxCenter.z;
     var maxSize = 2 * Math.max(halfWidth, boxSize.y / 2 + boxCenter.y, halfDepth);
-    directionalLights.forEach(function(light) {
+    directionalLights.forEach((light) => {
       light.position.multiplyScalar(maxSize);
       light.shadow.camera.far = Math.max(maxSize, light.shadow.camera.far);
       light.shadow.camera.left = -maxSize;
@@ -345,21 +340,21 @@ X3dScene.prototype = {
       light.shadow.camera.top = maxSize;
       light.shadow.camera.bottom = -maxSize;
     });
-  },
+  }
 
-  _setupEnvironmentMap: function() {
+  _setupEnvironmentMap() {
     var backgroundMap;
     if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
-    this.scene.traverse(function(child) {
+    this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
       }
     });
-  },
+  }
 
-  _updateUseNodesIfNeeded: function(object, id) {
+  _updateUseNodesIfNeeded(object, id) {
     if (!object)
       return;
 
@@ -411,4 +406,4 @@ X3dScene.prototype = {
       this.useNodeCache[id].target = newTargetNodes;
     }
   }
-};
+}

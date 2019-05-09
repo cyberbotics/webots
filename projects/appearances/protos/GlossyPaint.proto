@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A glossy paint material. The color can be selected in the `baseColor` field.
@@ -15,19 +15,19 @@ PROTO GlossyPaint [
     metalness 0
     baseColorMap ImageTexture {
       url [
-        "textures/glossy_car_paint/glossy_car_paint_base_color.png"
+        "textures/matte_car_paint/matte_car_paint_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "textures/glossy_car_paint/glossy_car_paint_roughness.png"
+        "textures/glossy_car_paint/glossy_car_paint_roughness.jpg"
       ]
       filtering 5
     }
     normalMap ImageTexture {
       url [
-        "textures/glossy_car_paint/glossy_car_paint_normal.png"
+        "textures/glossy_car_paint/glossy_car_paint_normal.jpg"
       ]
       filtering 5
     }

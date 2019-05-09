@@ -1,33 +1,30 @@
 /* global DefaultUrl */
 'use strict';
 
-function Animation(url, scene, view, gui, loop) {
-  this.url = url;
-  this.scene = scene;
-  this.view = view;
-  this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
-  this.loop = typeof loop === 'undefined' ? true : loop;
-  this.sliding = false;
-  this.onReady = null;
-};
+class Animation { // eslint-disable-line no-unused-vars
+  constructor(url, scene, view, gui, loop) {
+    this.url = url;
+    this.scene = scene;
+    this.view = view;
+    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
+    this.loop = typeof loop === 'undefined' ? true : loop;
+    this.sliding = false;
+    this.onReady = null;
+  };
 
-Animation.prototype = {
-  constructor: Animation,
-
-  init: function(onReady) {
-    var that = this;
+  init(onReady) {
     this.onReady = onReady;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', this.url, true);
     xmlhttp.overrideMimeType('application/json');
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
-        that._setup(JSON.parse(xmlhttp.responseText));
+        this._setup(JSON.parse(xmlhttp.responseText));
     };
     xmlhttp.send();
-  },
+  }
 
-  moveSlider: function(event) {
+  moveSlider(event) {
     if (!this.playSlider || !this.sliding)
       return;
 
@@ -45,11 +42,10 @@ Animation.prototype = {
     var ui = {};
     ui.value = value;
     this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
-  },
+  }
 
   // private methods
-  _setup: function(data) {
-    var that = this;
+  _setup(data) {
     this.data = data;
 
     // Create play bar.
@@ -60,19 +56,19 @@ Animation.prototype = {
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
     var action = (this.gui === 'play') ? 'pause' : 'play';
-    this.button.style.backgroundImage = 'url(' + this.wwiUrl() + action + '.png)';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiUrl() + action + '.png)';
     this.button.style.padding = '0';
-    this.button.addEventListener('click', function() { that._triggerPlayPauseButton(); });
+    this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
 
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
     this.playSlider = $('#playSlider').slider({
-      change: function(e, ui) { that._updateSlider(ui.value); },
-      slide: function(e, ui) { that._updateSlider(ui.value); },
-      start: function(e, ui) { that.sliding = true; },
-      stop: function(e, ui) { that.sliding = false; }
+      change: (e, ui) => { this._updateSlider(ui.value); },
+      slide: (e, ui) => { this._updateSlider(ui.value); },
+      start: (e, ui) => { this.sliding = true; },
+      stop: (e, ui) => { this.sliding = false; }
     });
 
     // Initialize animation data.
@@ -84,15 +80,15 @@ Animation.prototype = {
     // Notify creation completed.
     if (typeof this.onReady === 'function')
       this.onReady();
-  },
+  }
 
-  _elapsedTime: function() {
+  _elapsedTime() {
     var end = new Date().getTime();
     return end - this.start;
-  },
+  }
 
-  _triggerPlayPauseButton: function() {
-    this.button.style.backgroundImage = new DefaultUrl().getImageUrl(this.gui);
+  _triggerPlayPauseButton() {
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this.gui + '.png)';
     if (this.gui === 'play') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -103,32 +99,30 @@ Animation.prototype = {
     } else {
       this.gui = 'play';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
-      var that = this;
-      window.requestAnimationFrame(function() { that._updateAnimation(); });
+      window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
-  },
+  }
 
-  _connectSliderEvents: function() {
-    var that = this;
+  _connectSliderEvents() {
     this.playSlider = this.playSlider.slider({
-      change: function(e, ui) { that._updateSlider(ui.value); },
-      slide: function(e, ui) { that._updateSlider(ui.value); },
-      start: function(e, ui) { that.sliding = true; },
-      stop: function(e, ui) { that.sliding = false; }
+      change: (e, ui) => { this._updateSlider(ui.value); },
+      slide: (e, ui) => { this._updateSlider(ui.value); },
+      start: (e, ui) => { this.sliding = true; },
+      stop: (e, ui) => { this.sliding = false; }
     });
-  },
+  }
 
-  _disconnectSliderEvents: function() {
+  _disconnectSliderEvents() {
     this.playSlider.slider({change: null, slide: null});
-  },
+  }
 
-  _updateSlider: function(value) {
+  _updateSlider(value) {
     this.step = Math.floor(this.data.frames.length * value / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(false);
-  },
+  }
 
-  _updateAnimationState: function(moveSlider) {
+  _updateAnimationState(moveSlider) {
     if (moveSlider) {
       this.step = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -165,11 +159,11 @@ Animation.prototype = {
       else
         previousPoseStep = 0;
       var allIds = this.data.ids.split(';');
-      for (var i = 0; i < allIds.length; i++) {
+      for (let i in allIds) {
         var id = parseInt(allIds[i]);
         if (appliedIds.indexOf(id) === -1) {
           outer:
-          for (var f = this.step - 1; f >= previousPoseStep; f--) {
+          for (let f = this.step - 1; f >= previousPoseStep; f--) {
             if (this.data.frames[f].poses) {
               for (p = 0; p < this.data.frames[f].poses.length; p++) {
                 if (this.data.frames[f].poses[p].id === id) {
@@ -191,13 +185,12 @@ Animation.prototype = {
     this.view.time = this.data.frames[this.step].time;
     x3dScene.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
     x3dScene.render();
-  },
+  }
 
-  _updateAnimation: function() {
+  _updateAnimation() {
     if (this.gui === 'play') {
-      var that = this;
       this._updateAnimationState(true);
-      window.requestAnimationFrame(function() { that._updateAnimation(); });
+      window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
   }
-};
+}

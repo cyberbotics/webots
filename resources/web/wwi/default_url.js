@@ -3,11 +3,13 @@
 
 var DefaultUrl = {
   wwiUrl: function() {
-    if (typeof _wwiUrl === 'undefined') {
+    if (typeof this._wwiUrl === 'undefined') {
       this._wwiUrl = '';
       var scripts = document.getElementsByTagName('script');
-      for (var i = scripts.length - 1; i >= 0; i--) {
+      for (let i = scripts.length - 1; i >= 0; i--) {
         var src = scripts[i].src;
+        if (src.indexOf('?') > 0)
+          src = src.substring(0, src.indexOf('?'));
         if (src.endsWith('webots.js') || src.endsWith('webots.min.js')) {
           this._wwiUrl = src.substr(0, src.lastIndexOf('/') + 1); // remove "webots.js"
           break;
@@ -17,15 +19,15 @@ var DefaultUrl = {
     return this._wwiUrl;
   },
 
-  getImageUrl: function(name) {
-    return 'url(' + this.wwiUrl() + 'images/' + name + '.png)';
+  wwiImagesUrl: function(name) {
+    return this.wwiUrl() + 'images/';
   },
 
   currentScriptUrl: function() {
     // Get the directory path to the currently executing script file
     // for example: https://cyberbotics.com/wwi/8.6/
     var scripts = document.querySelectorAll('script[src]');
-    for (var i = 0; i < scripts.length; i++) {
+    for (let i in scripts) {
       var src = scripts[i].src;
       var index = src.indexOf('?');
       if (index > 0)

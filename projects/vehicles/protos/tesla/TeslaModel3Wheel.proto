@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -30,7 +30,7 @@ PROTO TeslaModel3Wheel [
             }
             roughnessMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_roughness.png"
+                "textures/tesla_model3_wheels_roughness.jpg"
               ]
             }
             metalnessMap ImageTexture {
@@ -40,12 +40,12 @@ PROTO TeslaModel3Wheel [
             }
             normalMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_normal.png"
+                "textures/tesla_model3_wheels_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/tesla_model3_wheels_occlusion.png"
+                "textures/tesla_model3_wheels_occlusion.jpg"
               ]
             }
           }

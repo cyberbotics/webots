@@ -1,15 +1,13 @@
 'use strict';
 
-function Selector() {
-  this.selectedObject = null;
-  this.selectedRepresentations = [];
-  this.onSelectionChange = null;
-};
+class Selector { // eslint-disable-line no-unused-vars
+  constructor() {
+    this.selectedObject = null;
+    this.selectedRepresentations = [];
+    this.onSelectionChange = null;
+  }
 
-Selector.prototype = {
-  constructor: Selector,
-
-  select: function(object) {
+  select(object) {
     if (this.selectedObject === object)
       return;
 
@@ -28,12 +26,13 @@ Selector.prototype = {
       this.selectedObject = object;
     if (typeof this.onSelectionChange === 'function')
       this.onSelectionChange();
-  },
+  }
 
-  clearSelection: function() {
-    for (var i = 0; i < this.selectedRepresentations.length; i++)
-      this.selectedRepresentations[i].visible = false;
+  clearSelection() {
+    this.selectedRepresentations.forEach((representation) => {
+      representation.visible = false;
+    });
     this.selectedRepresentations = [];
     this.selectedObject = null;
   }
-};
+}

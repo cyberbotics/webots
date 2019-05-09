@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -55,12 +55,12 @@ PROTO TinkerbotsGrabber [
             }
             normalMap ImageTexture {
               url [
-                "textures/grabber_normal.png"
+                "textures/grabber_normal.jpg"
               ]
             }
             occlusionMap ImageTexture {
               url [
-                "textures/grabber_occlusion.png"
+                "textures/grabber_occlusion.jpg"
               ]
             }
           }

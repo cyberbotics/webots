@@ -1,45 +1,42 @@
 /* global webots, THREE */
 'use strict';
 
-function MouseEvents(scene, contextMenu, domElement) {
-  this.scene = scene;
-  this.contextMenu = contextMenu;
-  this.domElement = domElement;
+class MouseEvents { // eslint-disable-line no-unused-vars
+  constructor(scene, contextMenu, domElement) {
+    this.scene = scene;
+    this.contextMenu = contextMenu;
+    this.domElement = domElement;
 
-  this.state = {
-    'initialized': false,
-    'mouseDown': 0,
-    'moved': false,
-    'wheelFocus': false,
-    'wheelTimeout': null,
-    'hiddenContextMenu': false
-  };
-  this.moveParams = {};
-  this.enableNavigation = true;
+    this.state = {
+      'initialized': false,
+      'mouseDown': 0,
+      'moved': false,
+      'wheelFocus': false,
+      'wheelTimeout': null,
+      'hiddenContextMenu': false
+    };
+    this.moveParams = {};
+    this.enableNavigation = true;
 
-  var that = this;
-  this.onmousemove = function(event) { that._onMouseMove(event); };
-  this.onmouseup = function(event) { that._onMouseUp(event); };
-  this.ontouchmove = function(event) { that._onTouchMove(event); };
-  this.ontouchend = function(event) {
-    that._clearMouseMove();
-    that.domElement.removeEventListener('touchend', that._onTouchEnd, true);
-    that.domElement.removeEventListener('touchmove', that._onTouchMove, true);
-    if (typeof that._onTouchEnd === 'function')
-      that._onTouchEnd(event);
-  };
-  domElement.addEventListener('mousedown', function(event) { that._onMouseDown(event); }, false);
-  domElement.addEventListener('mouseover', function(event) { that._onMouseOver(event); }, false);
-  domElement.addEventListener('mouseleave', function(event) { that._onMouseLeave(event); }, false);
-  domElement.addEventListener('wheel', function(event) { that._onMouseWheel(event); }, false);
-  domElement.addEventListener('touchstart', function(event) { that._onTouchStart(event); }, true);
-  domElement.addEventListener('contextmenu', function(event) { event.preventDefault(); }, false);
-};
+    this.onmousemove = (event) => { this._onMouseMove(event); };
+    this.onmouseup = (event) => { this._onMouseUp(event); };
+    this.ontouchmove = (event) => { this._onTouchMove(event); };
+    this.ontouchend = (event) => {
+      this._clearMouseMove();
+      this.domElement.removeEventListener('touchend', this._onTouchEnd, true);
+      this.domElement.removeEventListener('touchmove', this._onTouchMove, true);
+      if (typeof this._onTouchEnd === 'function')
+        this._onTouchEnd(event);
+    };
+    domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
+    domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
+    domElement.addEventListener('mouseleave', (event) => { this._onMouseLeave(event); }, false);
+    domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
+    domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
+    domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+  }
 
-MouseEvents.prototype = {
-  constructor: MouseEvents,
-
-  _onMouseDown: function(event) {
+  _onMouseDown(event) {
     this.state.wheelFocus = true;
     this._initMouseMove(event);
 
@@ -65,9 +62,9 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.onmousedown === 'function')
       webots.currentView.onmousedown(event);
-  },
+  }
 
-  _onMouseMove: function(event) {
+  _onMouseMove(event) {
     if (!this.enableNavigation && event.button === 0) {
       if (typeof webots.currentView.onmousemove === 'function')
         webots.currentView.onmousemove(event);
@@ -120,9 +117,9 @@ MouseEvents.prototype = {
       webots.currentView.onmousemove(event);
     if (typeof webots.currentView.onmousedrag === 'function')
       webots.currentView.onmousedrag(event);
-  },
+  }
 
-  _onMouseUp: function(event) {
+  _onMouseUp(event) {
     this._clearMouseMove();
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
       var object = this.intersection.object;
@@ -141,9 +138,9 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.onmouseup === 'function')
       webots.currentView.onmouseup(event);
-  },
+  }
 
-  _onMouseWheel: function(event) {
+  _onMouseWheel(event) {
     event.preventDefault(); // do not scroll page
 
     this._setupMoveParameters(event, false);
@@ -155,8 +152,7 @@ MouseEvents.prototype = {
       window.scroll(0, window.pageYOffset + offset);
       if (this.state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
         clearTimeout(this.state.wheelTimeout); // so that the wheel focus will get enabled and
-        var that = this;
-        this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
+        this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500); // allow you to zoom in/out.
       }
       return;
     }
@@ -164,19 +160,18 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.onmousewheel === 'function')
       webots.currentView.onmousewheel(event);
-  },
+  }
 
-  _wheelTimeoutCallback: function(event) {
+  _wheelTimeoutCallback(event) {
     this.state.wheelTimeout = null;
     this.state.wheelFocus = true;
-  },
+  }
 
-  _onMouseOver: function(event) {
-    var that = this;
-    this.state.wheelTimeout = setTimeout(function(event) { that._wheelTimeoutCallback(event); }, 1500);
-  },
+  _onMouseOver(event) {
+    this.state.wheelTimeout = setTimeout((event) => { this._wheelTimeoutCallback(event); }, 1500);
+  }
 
-  _onMouseLeave: function(event) {
+  _onMouseLeave(event) {
     if (this.state.wheelTimeout != null) {
       clearTimeout(this.state.wheelTimeout);
       this.state.wheelTimeout = null;
@@ -185,9 +180,9 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.onmouseleave === 'function')
       webots.currentView.onmouseleave(event);
-  },
+  }
 
-  _onTouchMove: function(event) {
+  _onTouchMove(event) {
     if (!this.enableNavigation || event.targetTouches.length === 0 || event.targetTouches.length > 2)
       return;
     if (this.state.initialTimeStamp === null)
@@ -260,9 +255,9 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.ontouchmove === 'function')
       webots.currentView.ontouchmove(event);
-  },
+  }
 
-  _onTouchStart: function(event) {
+  _onTouchStart(event) {
     this._initMouseMove(event.targetTouches['0']);
     if (event.targetTouches.length === 2) {
       var touch1 = event.targetTouches['1'];
@@ -282,18 +277,18 @@ MouseEvents.prototype = {
 
     if (typeof webots.currentView.ontouchstart === 'function')
       webots.currentView.ontouchstart(event);
-  },
+  }
 
-  _onTouchEnd: function(event) {
+  _onTouchEnd(event) {
     this._clearMouseMove();
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
     this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
     if (typeof webots.currentView.ontouchend === 'function')
       webots.currentView.ontouchend(event);
-  },
+  }
 
-  _initMouseMove: function(event) {
+  _initMouseMove(event) {
     this.state.x = event.clientX;
     this.state.y = event.clientY;
     this.state.initialX = null;
@@ -303,9 +298,9 @@ MouseEvents.prototype = {
     this.state.longClick = false;
     if (this.contextMenu)
       this.hiddenContextMenu = this.contextMenu.toggle();
-  },
+  }
 
-  _setupMoveParameters: function(event, computeScale) {
+  _setupMoveParameters(event, computeScale) {
     this.moveParams = {};
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
@@ -335,9 +330,9 @@ MouseEvents.prototype = {
     }
 
     this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
-  },
+  }
 
-  _clearMouseMove: function() {
+  _clearMouseMove() {
     const timeDelay = this.state.mobileDevice ? 100 : 1000;
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
     if (this.state.moved === false) {
@@ -352,16 +347,16 @@ MouseEvents.prototype = {
     this.state.initialY = null;
     this.moveParams = {};
   }
-};
+}
 
-MouseEvents.convertMouseEventPositionToScreenPosition = function(eventX, eventY) {
+MouseEvents.convertMouseEventPositionToScreenPosition = (eventX, eventY) => {
   return new THREE.Vector2(
     (eventX / window.innerWidt) * 2 - 1,
     -(eventY / window.innerHeight) * 2 + 1
   );
 };
 
-MouseEvents.convertMouseEventPositionToRelativePosition = function(renderer, eventX, eventY) {
+MouseEvents.convertMouseEventPositionToRelativePosition = (renderer, eventX, eventY) => {
   var rect = renderer.domElement.getBoundingClientRect();
   var pos = new THREE.Vector2();
   pos.x = Math.round(eventX - rect.left);

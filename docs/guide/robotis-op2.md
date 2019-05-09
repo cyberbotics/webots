@@ -616,9 +616,9 @@ Webots will also stop the auto start of the demo program at the startup of the r
 Then the controller code itself is sent to the robot.
 The whole controller directory is sent to the robot, so please put all the files needed by your controller in the same directory.
 The controller itself is then compiled for the robot and you can see the compilation in the `Robot console`.
-If the compilation succeeds and the robot is close to the [start position](#start-position-of-the-robot-the-robot-is-sit-down-same-start-position-as-in-simulation) the controller will be initialized (head and eyes [LED](../reference/led.md) in red) and then started (head and eyes [LED](../reference/led.md) in green).
+If the compilation succeeds and the robot is close to the [start position](#start-position-of-the-robot-the-robot-is-sitting-down) the controller will be initialized (head and eyes [LED](../reference/led.md) in red) and then started (head and eyes [LED](../reference/led.md) in green).
 
-%figure "Start position of the robot. The robot is sit down (same start position as in simulation)"
+%figure "Start position of the robot. The robot is sitting down (same start position as in simulation)"
 
 ![start_position.png](images/robots/robotis-op2/start_position.png)
 
@@ -686,7 +686,7 @@ Moreover, the remote control mode allows you to visualize the state of the senso
 #### Using Remote Control from Robot Window
 
 To use remote control, open the robot window, go to the `Transfer` tab, as for remote compilation you have to set the connection settings (see [previous chapter](#settings) for more information).
-To start the remote control, stop and revert your simulation, put your robot in the [stable position](#start-position-of-the-robot-the-robot-is-sit-down-same-start-position-as-in-simulation).
+To start the remote control, stop and revert your simulation, put your robot in the [stable position](#start-position-of-the-robot-the-robot-is-sitting-down).
 Then press the following button:
 
 %figure "Remote control button"

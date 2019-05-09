@@ -1,28 +1,25 @@
 /* global webots, Stream */
 'use strict';
 
-function Server(url, view, onready) {
-  this.view = view;
-  this.onready = onready;
+class Server { // eslint-disable-line no-unused-vars
+  constructor(url, view, onready) {
+    this.view = view;
+    this.onready = onready;
 
-  // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
-  var n = url.indexOf('/', 6);
-  var m = url.lastIndexOf('/');
-  this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
-  this.project = url.substring(n + 1, m - 7); // e.g., "simple"
-  this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
-  this.controllers = [];
-};
+    // url has the following form: "ws(s)://cyberbotics2.cyberbotics.com:80/simple/worlds/simple.wbt"
+    var n = url.indexOf('/', 6);
+    var m = url.lastIndexOf('/');
+    this.url = 'http' + url.substring(2, n); // e.g., "http(s)://cyberbotics2.cyberbotics.com:80"
+    this.project = url.substring(n + 1, m - 7); // e.g., "simple"
+    this.worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+    this.controllers = [];
+  }
 
-Server.prototype = {
-  constructor: Server,
-
-  connect: function() {
-    var that = this;
+  connect() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', this.url + '/session', true);
     $('#webotsProgressMessage').html('Connecting to session server...');
-    xhr.onreadystatechange = function(e) {
+    xhr.onreadystatechange = (e) => {
       if (xhr.readyState !== 4)
         return;
       if (xhr.status !== 200)
@@ -35,20 +32,20 @@ Server.prototype = {
         webots.alert('Session server error', errorMessage);
         return;
       }
-      that.socket = new WebSocket(data + '/client');
-      that.socket.onopen = function(event) { that.onOpen(event); };
-      that.socket.onmessage = function(event) { that.onMessage(event); };
-      that.socket.onclose = function(event) {
-        that.view.console.info('Disconnected to the Webots server.');
+      this.socket = new WebSocket(data + '/client');
+      this.socket.onopen = (event) => { this.onOpen(event); };
+      this.socket.onmessage = (event) => { this.onMessage(event); };
+      this.socket.onclose = (event) => {
+        this.view.console.info('Disconnected to the Webots server.');
       };
-      that.socket.onerror = function(event) {
-        that.view.console.error('Cannot connect to the simulation server');
+      this.socket.onerror = (event) => {
+        this.view.console.error('Cannot connect to the simulation server');
       };
     };
     xhr.send();
-  },
+  }
 
-  onOpen: function(event) {
+  onOpen(event) {
     var host = location.protocol + '//' + location.host.replace(/^www./, ''); // remove 'www' prefix
     if (typeof webots.User1Id === 'undefined')
       webots.User1Id = '';
@@ -66,9 +63,9 @@ Server.prototype = {
               webots.User1Id + '", "' + webots.User1Name + '", "' + webots.User1Authentication + '", "' +
               webots.User2Id + '", "' + webots.User2Name + '", "' + webots.CustomData + '" ] }');
     $('#webotsProgressMessage').html('Starting simulation...');
-  },
+  }
 
-  onMessage: function(event) {
+  onMessage(event) {
     var message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       this.view.stream = new Stream(message.substring(7), this.view, this.onready);
@@ -88,9 +85,9 @@ Server.prototype = {
       this.view.stream.socket.send('sync controller:' + message.substring(18).trim());
     else
       console.log('Received an unknown message from the Webots server socket: "' + message + '"');
-  },
+  }
 
-  resetController: function(filename) {
+  resetController(filename) {
     this.socket.send('{ "reset controller" : "' + filename + '" }');
   }
-};
+}

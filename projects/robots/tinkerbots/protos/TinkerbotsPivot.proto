@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -62,7 +62,7 @@ PROTO TinkerbotsPivot [
             }
             occlusionMap ImageTexture {
               url [
-                "textures/pivot_base_occlusion.png"
+                "textures/pivot_base_occlusion.jpg"
               ]
             }
           }
@@ -175,7 +175,7 @@ PROTO TinkerbotsPivot [
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/pivot_joint_occlusion.png"
+                      "textures/pivot_joint_occlusion.jpg"
                     ]
                   }
                 }

@@ -1,30 +1,28 @@
 /* global webots, DialogWindow */
 'use strict';
 
-function RobotWindow(parent, mobile, name) {
-  DialogWindow.call(this, parent, mobile);
-  this.name = name;
-  this.panel.id = name;
-  this.panel.className = 'webotsTabContainer';
+class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
+  constructor(parent, mobile, name) {
+    super(parent, mobile);
+    this.name = name;
+    this.panel.id = name;
+    this.panel.className = 'webotsTabContainer';
 
-  var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 400, height: 400});
-  this.params.width = clampedSize.width;
-  this.params.height = clampedSize.height;
-  this.params.close = null;
-  this.params.position = {at: 'left+5 top+5', my: 'left top', of: this.parent};
-  this.params.title = 'Robot Window';
+    var clampedSize = super.clampDialogSize({left: 5, top: 5, width: 400, height: 400});
+    this.params.width = clampedSize.width;
+    this.params.height = clampedSize.height;
+    this.params.close = null;
+    this.params.position = {at: 'left+5 top+5', my: 'left top', of: this.parent};
+    this.params.title = 'Robot Window';
 
-  $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
-}
+    $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
+  }
 
-RobotWindow.prototype = {
-  constructor: RobotWindow,
-
-  setProperties: function(properties) {
+  setProperties(properties) {
     $(this.panel).dialog(properties);
-  },
+  }
 
-  geometry: function() {
+  geometry() {
     var webotsTabs = this.panel.getElementsByClassName('webotsTabs');
     var activeTabIndex = -1;
     if (webotsTabs.length > 0)
@@ -36,9 +34,9 @@ RobotWindow.prototype = {
       activeTabIndex: activeTabIndex,
       open: this.isOpen()
     };
-  },
+  }
 
-  restoreGeometry: function(data) {
+  restoreGeometry(data) {
     $(this.panel).dialog({
       width: data.width,
       height: data.height,
@@ -47,35 +45,35 @@ RobotWindow.prototype = {
     var webotsTabs = this.panel.getElementsByClassName('webotsTabs');
     if (data.activeTabIndex >= 0 && webotsTabs.length > 0)
       $(webotsTabs[0]).tabs('option', 'active', data.activeTabIndex);
-  },
+  }
 
-  destroy: function() {
+  destroy() {
     this.close();
     this.panel.parentNode.removeChild(this.panel);
     this.panel = null;
-  },
+  }
 
-  setContent: function(content) {
+  setContent(content) {
     $(this.panel).html(content);
-  },
+  }
 
-  open: function() {
+  open() {
     $(this.panel).dialog('open');
-  },
+  }
 
-  isOpen: function() {
+  isOpen() {
     return $(this.panel).dialog('isOpen');
-  },
+  }
 
-  close: function() {
+  close() {
     $(this.panel).dialog('close');
-  },
+  }
 
-  send: function(message, robot) {
+  send(message, robot) {
     webots.currentView.sendRobotMessage(message, robot);
-  },
+  }
 
-  receive: function(message, robot) { // to be overriden
+  receive(message, robot) { // to be overriden
     console.log("Robot window '" + this.name + "' received message from Robot '" + robot + "': " + message);
   }
-};
+}
