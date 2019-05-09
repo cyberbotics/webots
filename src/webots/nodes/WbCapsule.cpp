@@ -87,6 +87,7 @@ void WbCapsule::createWrenObjects() {
   if (isInBoundingObject())
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCapsule::updateLineScale);
 
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -137,9 +138,6 @@ void WbCapsule::buildWrenMesh() {
 
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
-
-  if (!sanitizeFields())
-    return;
 
   if (mBottom->isFalse() && mSide->isFalse() && mTop->isFalse())
     return;
@@ -270,7 +268,7 @@ void WbCapsule::updateSubdivision() {
 }
 
 void WbCapsule::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
