@@ -692,6 +692,16 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 // WREN //
 //////////
 
+void WbHinge2Joint::createWrenObjects() {
+  WbJoint::createWrenObjects();
+
+  // create Wren objects for Muscle devices
+  for (int i = 0; i < devices2Number(); ++i) {
+    if (device2(i))
+      device2(i)->createWrenObjects();
+  }
+}
+
 void WbHinge2Joint::updateJointAxisRepresentation() {
   if (!areWrenObjectsInitialized())
     return;

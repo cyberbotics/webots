@@ -31,6 +31,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   int nodeType() const override { return WB_NODE_HINGE_2_JOINT; }
+  void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset() override;

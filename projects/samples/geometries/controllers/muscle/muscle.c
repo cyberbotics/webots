@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   while (wb_robot_step(TIME_STEP) != -1) {
     wb_motor_set_position(muscle, p);
     if (muscle2)
-      wb_motor_set_position(muscle2, p);
+      wb_motor_set_position(muscle2, 2 - p);
     const double pos = wb_position_sensor_get_value(ps);
     if (pos <= 0.0)
       dp = -step;
