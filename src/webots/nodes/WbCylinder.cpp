@@ -88,9 +88,13 @@ void WbCylinder::postFinalize() {
 void WbCylinder::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
-  if (isInBoundingObject())
+  if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCylinder::updateLineScale);
 
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
+      // silently reset the subdivision on node initialization
+      mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+  }
   sanitizeFields();
   buildWrenMesh();
 
@@ -132,6 +136,14 @@ void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
 bool WbCylinder::sanitizeFields() {
   if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
+  if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
+      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
+    warn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
+            "A minimum value of %2 is used for the representation.")
+           .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
+    mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+    return false;
+  }
 
   if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
     return false;
@@ -152,11 +164,14 @@ void WbCylinder::buildWrenMesh() {
     return;
 
   const bool createOutlineMesh = isInBoundingObject();
+  const int subdivision = (createOutlineMesh && mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION) ?
+                            MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION :
+                            mSubdivision->value();
 
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_cylinder_new(mSubdivision->value(), mSide->isTrue(), mTop->isTrue(), mBottom->isTrue(),
-                                               createOutlineMesh);
+  mWrenMesh =
+    wr_static_mesh_unit_cylinder_new(subdivision, mSide->isTrue(), mTop->isTrue(), mBottom->isTrue(), createOutlineMesh);
 
   // This must be done after WbGeometry::computeWrenRenderable() otherwise
   // the outline scaling is applied to the wrong WREN transform
