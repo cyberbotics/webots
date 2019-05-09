@@ -143,7 +143,8 @@ class TestCppCheck(unittest.TestCase):
     def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
-        command += '--inline-suppr --suppress=invalidPointerCast -UKROS_COMPILATION --std=c++03 --output-file=' + self.reportFilename
+        command += '--inline-suppr --suppress=invalidPointerCast -UKROS_COMPILATION --std=c++03'
+        command += '--output-file=' + self.reportFilename
         for source in self.projectsSkippedDirs:
             command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
         for source in self.projectsSourceDirs:

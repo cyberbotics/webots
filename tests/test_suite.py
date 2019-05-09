@@ -208,7 +208,7 @@ finalMessage = 'Test suite complete'
 thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
 thread.start()
 
-webotsArguments = '--mode=fast --stdout --stderr --minimize'
+webotsArguments = '--mode=fast --stdout --stderr --minimize --batch'
 
 for groupName in testGroups:
 
