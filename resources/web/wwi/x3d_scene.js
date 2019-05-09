@@ -224,6 +224,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return match;
   }
 
+  getCamera() {
+    return this.viewpoint.camera;
+  }
+
   getTopX3dNode(node) {
     // If it exists, return the upmost Solid, otherwise the top node.
     var upmostSolid;

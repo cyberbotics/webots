@@ -862,7 +862,7 @@ function createRobotComponent(view) {
       // Make sure the billboard remains well oriented.
       webotsView.x3dScene.preRender = function() {
         if (robotComponent.billboardOrigin)
-          robotComponent.billboardOrigin.lookAt(webotsView.x3dScene.viewpoint.camera.position);
+          robotComponent.billboardOrigin.lookAt(webotsView.x3dScene.getCamera().position);
       };
 
       /*
