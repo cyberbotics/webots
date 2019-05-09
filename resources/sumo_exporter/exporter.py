@@ -3,7 +3,6 @@
 import optparse
 import os
 import sys
-import re
 
 from lxml import etree as ET
 
@@ -15,7 +14,8 @@ from road import Road
 # Parse the options.
 optParser = optparse.OptionParser(usage="usage: %prog --input=file.wbt --output=.")
 optParser.add_option("--input", dest="input", default="file.wbt", help="specifies the Webots .wbt file to open.")
-optParser.add_option("--output", dest="output", default=".", help="specifies the directory where to generate the SUMO network files.")
+optParser.add_option("--output", dest="output", default=".",
+                     help="specifies the directory where to generate the SUMO network files.")
 options, args = optParser.parse_args()
 
 # Check options.
