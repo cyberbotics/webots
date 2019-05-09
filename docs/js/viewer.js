@@ -32,7 +32,6 @@ function isInternetExplorer() {
 };
 
 var localSetup = (typeof setup === 'undefined') ? {} : setup;
-
 var isCyberboticsUrl = location.href.indexOf('cyberbotics.com/doc') !== -1;
 
 function setupCyberboticsUrl(url) {
@@ -635,7 +634,7 @@ function highlightCode(view) {
 function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
   // Reset the Viewpoint and the motor sliders.
-  var robotComponent = document.querySelector('#' + robot + '-robot-component');
+  var robotComponent = getRobotComponentByRobotName(robot);
   // var viewpoint = robotComponent.querySelector('Viewpoint');
   // viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
   // viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
@@ -644,9 +643,9 @@ function resetRobotComponent(robot) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
     var id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(document.truite.x3dScene.getObjectByID(id), slider);
+    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectByID(id), slider);
   }
-  document.truite.x3dScene.render();
+  robotComponent.webotsView.x3dScene.render();
 }
 
 function toggleDeviceComponent(robot) {
@@ -836,13 +835,18 @@ function estimateRobotScale(robot) {
   return 1.0;
 }
 
+function getRobotComponentByRobotName(robotName) {
+  return document.querySelector('#' + robotName + '-robot-component');
+}
+
 function createRobotComponent(view) {
-  var webotsViewElements = document.querySelectorAll('.robot-webots-view');
-  for (var e = 0; e < webotsViewElements.length; e++) { // foreach robot components of this page.
-    var webotsViewElement = webotsViewElements[e];
+  var robotComponents = document.querySelectorAll('.robot-component');
+  for (var c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
+    var robotComponent = robotComponents[c];
+    var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
     var webotsView = new webots.View(webotsViewElement);
-    document.truite = webotsView;  //TODO: replace the truite.
+    robotComponent.webotsView = webotsView;
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       // correct the URL textures.
       redirectTextures(webotsView.x3dScene, robotName);
