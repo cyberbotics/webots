@@ -726,28 +726,26 @@ function sliderMotorCallback(transform, slider) {
 
 function unhighlightX3DElement(robot) {
   var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = robotComponent.webotsView.x3dScene;
+
   if (robotComponent.billboardOrigin) {
     robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
     robotComponent.billboardOrigin = undefined;
   }
 
-  /*
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var billboards = view3d.querySelectorAll('Transform[highlighted]');
-  var materials = view3d.querySelectorAll('Material[highlighted]');
-  for (var m = 0; m < materials.length; m++) {
-    var material = materials[m];
-    material.removeAttribute('highlighted');
-    material.setAttribute('emissiveColor', material.getAttribute('emissiveColorBack'));
+  for (var h = 0; h < robotComponent.highlightedAppearances.length; h++) {
+    var appearance = robotComponent.highlightedAppearances[h];
+    appearance.emissive.set(appearance.userData.initialEmissive);
   }
-  */
+  robotComponent.highlightedAppearances = [];
+  scene.render();
 }
 
 function highlightX3DElement(robot, deviceElement) {
   unhighlightX3DElement(robot);
 
   var robotComponent = getRobotComponentByRobotName(robot);
-  var scene = getRobotComponentByRobotName(robot).webotsView.x3dScene;
+  var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
   var type = deviceElement.getAttribute('webots-type');
   var object = scene.getObjectByID(id);
@@ -767,17 +765,16 @@ function highlightX3DElement(robot, deviceElement) {
           ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
           object.traverse(function(child) {
             if (child.material && child.material.userData && child.material.userData.id === pbrID) {
-              // TODO: Do better :-D
-              child.material.color = ledColor;
-              child.material.emissiveColor = ledColor;
-              child.material.needUpdate = true;
-              child.needUpdate = true;
+              if (!child.material.userData.initialEmissive)
+                child.material.userData.initialEmissive = child.material.emissive.clone();
+              child.material.emissive.set(ledColor);
+              robotComponent.highlightedAppearances.push(child.material);
             }
           });
         }
       }
     }
-    // Render
+
     scene.render();
   }
 
@@ -794,7 +791,7 @@ function highlightX3DElement(robot, deviceElement) {
           var material = view3d.querySelector('[id=' + materialID + ']');
           if (material) {
             material.setAttribute('highlighted', 'true');
-            material.setAttribute('emissiveColorBack', material.getAttribute('emissiveColor'));
+            material.setAttribute('previousEmissive', material.getAttribute('emissiveColor'));
             material.setAttribute('emissiveColor', deviceElement.getAttribute('targetColor'));
           }
         }
@@ -876,6 +873,7 @@ function createRobotComponent(view) {
         if (robotComponent.billboardOrigin)
           robotComponent.billboardOrigin.lookAt(camera.position);
       };
+      robotComponent.highlightedAppearances = [];
 
       // Store viewpoint.
       camera.userData.initialQuaternion = camera.quaternion.clone();
