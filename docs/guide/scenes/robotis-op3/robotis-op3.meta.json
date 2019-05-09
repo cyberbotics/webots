@@ -182,21 +182,17 @@
       "axis": "0 -1 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n45"
-      ], 
       "transformID": "n42", 
       "name": "BodyLed", 
+      "ledPBRAppearanceIDs": [], 
       "ledColors": [], 
       "ledGradual": true, 
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n1932"
-      ], 
-      "transformID": "n1929", 
+      "transformID": "n1934", 
       "name": "HeadLed", 
+      "ledPBRAppearanceIDs": [], 
       "ledColors": [
         "0.1 0.5 1"
       ], 

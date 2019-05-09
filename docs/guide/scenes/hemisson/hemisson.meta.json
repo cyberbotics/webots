@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n42", 
+      "transformID": "n39", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,11 +20,11 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n112"
-      ], 
-      "transformID": "n109", 
+      "transformID": "n95", 
       "name": "left_led", 
+      "ledPBRAppearanceIDs": [
+        "n97"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -32,11 +32,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n117"
-      ], 
-      "transformID": "n114", 
+      "transformID": "n99", 
       "name": "right_led", 
+      "ledPBRAppearanceIDs": [
+        "n101"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -44,42 +44,42 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n61", 
+      "transformID": "n55", 
       "type": "DistanceSensor", 
       "name": "ds0"
     }, 
     {
-      "transformID": "n67", 
+      "transformID": "n60", 
       "type": "DistanceSensor", 
       "name": "ds1"
     }, 
     {
-      "transformID": "n73", 
+      "transformID": "n65", 
       "type": "DistanceSensor", 
       "name": "ds2"
     }, 
     {
-      "transformID": "n79", 
+      "transformID": "n70", 
       "type": "DistanceSensor", 
       "name": "ds3"
     }, 
     {
-      "transformID": "n91", 
+      "transformID": "n80", 
       "type": "DistanceSensor", 
       "name": "ds4"
     }, 
     {
-      "transformID": "n85", 
+      "transformID": "n75", 
       "type": "DistanceSensor", 
       "name": "ds5"
     }, 
     {
-      "transformID": "n97", 
+      "transformID": "n85", 
       "type": "DistanceSensor", 
       "name": "ds6"
     }, 
     {
-      "transformID": "n103", 
+      "transformID": "n90", 
       "type": "DistanceSensor", 
       "name": "ds7"
     }, 
@@ -137,12 +137,12 @@
       "name": "ls7"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n103", 
       "type": "Pen", 
       "name": "pen"
     }, 
     {
-      "transformID": "n42", 
+      "transformID": "n39", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

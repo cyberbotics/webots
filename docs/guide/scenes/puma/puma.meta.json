@@ -2,7 +2,7 @@
   "name": "puma", 
   "devices": [
     {
-      "transformID": "n39", 
+      "transformID": "n35", 
       "name": "joint1", 
       "maxPosition": 2.792, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n52", 
       "name": "joint2", 
       "maxPosition": 0.7854, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n89", 
+      "transformID": "n78", 
       "name": "joint3", 
       "maxPosition": 3.9269, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n93", 
+      "transformID": "n82", 
       "name": "joint4", 
       "maxPosition": 2.967, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n97", 
+      "transformID": "n86", 
       "name": "joint5", 
       "maxPosition": 1.7453, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n106", 
+      "transformID": "n94", 
       "name": "joint6", 
       "maxPosition": 4.6425, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n144", 
+      "transformID": "n127", 
       "name": "joint_GripperL", 
       "maxPosition": 0.01, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n127", 
+      "transformID": "n112", 
       "name": "joint_GripperR", 
       "maxPosition": 0.01, 
       "position": 0, 

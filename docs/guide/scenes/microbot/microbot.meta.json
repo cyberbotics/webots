@@ -2,7 +2,7 @@
   "name": "microbot", 
   "devices": [
     {
-      "transformID": "n81", 
+      "transformID": "n74", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n93", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,11 +20,11 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n33"
-      ], 
-      "transformID": "n29", 
+      "transformID": "n26", 
       "name": "left led", 
+      "ledPBRAppearanceIDs": [
+        "n29"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -32,11 +32,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n40"
-      ], 
-      "transformID": "n36", 
+      "transformID": "n32", 
       "name": "right led", 
+      "ledPBRAppearanceIDs": [
+        "n35"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -44,17 +44,17 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n67", 
+      "transformID": "n60", 
       "type": "DistanceSensor", 
       "name": "floor sensor"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n38", 
       "type": "TouchSensor", 
       "name": "left bumper"
     }, 
     {
-      "transformID": "n81", 
+      "transformID": "n74", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
@@ -64,12 +64,12 @@
       "name": "push button"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n49", 
       "type": "TouchSensor", 
       "name": "right bumper"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n93", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

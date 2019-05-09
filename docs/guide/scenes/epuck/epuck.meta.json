@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n53", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,107 +20,107 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
+      "transformID": "n230", 
+      "name": "led0", 
+      "ledPBRAppearanceIDs": [
+        "n232"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n234", 
+      "name": "led1", 
+      "ledPBRAppearanceIDs": [
+        "n236"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n238", 
+      "name": "led2", 
+      "ledPBRAppearanceIDs": [
+        "n240"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n242", 
+      "name": "led3", 
+      "ledPBRAppearanceIDs": [
+        "n244"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n246", 
+      "name": "led4", 
+      "ledPBRAppearanceIDs": [
+        "n248"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n251", 
+      "name": "led5", 
+      "ledPBRAppearanceIDs": [
+        "n253"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n255", 
+      "name": "led6", 
+      "ledPBRAppearanceIDs": [
+        "n257"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n259", 
+      "name": "led7", 
+      "ledPBRAppearanceIDs": [
+        "n261"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n263", 
+      "name": "led8", 
+      "ledPBRAppearanceIDs": [
         "n265"
       ], 
-      "transformID": "n262", 
-      "name": "led0", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n270"
-      ], 
-      "transformID": "n267", 
-      "name": "led1", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n275"
-      ], 
-      "transformID": "n272", 
-      "name": "led2", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n280"
-      ], 
-      "transformID": "n277", 
-      "name": "led3", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n285"
-      ], 
-      "transformID": "n282", 
-      "name": "led4", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n291"
-      ], 
-      "transformID": "n288", 
-      "name": "led5", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n296"
-      ], 
-      "transformID": "n293", 
-      "name": "led6", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n301"
-      ], 
-      "transformID": "n298", 
-      "name": "led7", 
-      "ledColors": [
-        "1 0 0"
-      ], 
-      "ledGradual": false, 
-      "type": "LED"
-    }, 
-    {
-      "ledMaterialsIDs": [
-        "n306"
-      ], 
-      "transformID": "n303", 
-      "name": "led8", 
       "ledColors": [
         "0 1 0"
       ], 
@@ -128,11 +128,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n312"
-      ], 
-      "transformID": "n309", 
+      "transformID": "n268", 
       "name": "led9", 
+      "ledPBRAppearanceIDs": [
+        "n270"
+      ], 
       "ledColors": [
         "1 0.3 0"
       ], 
@@ -145,7 +145,7 @@
       "name": "accelerometer"
     }, 
     {
-      "transformID": "n253", 
+      "transformID": "n222", 
       "type": "Camera", 
       "name": "camera"
     }, 
@@ -208,42 +208,42 @@
       "name": "ls7"
     }, 
     {
-      "transformID": "n158", 
+      "transformID": "n143", 
       "type": "DistanceSensor", 
       "name": "ps0"
     }, 
     {
-      "transformID": "n169", 
+      "transformID": "n152", 
       "type": "DistanceSensor", 
       "name": "ps1"
     }, 
     {
-      "transformID": "n180", 
+      "transformID": "n161", 
       "type": "DistanceSensor", 
       "name": "ps2"
     }, 
     {
-      "transformID": "n191", 
+      "transformID": "n170", 
       "type": "DistanceSensor", 
       "name": "ps3"
     }, 
     {
-      "transformID": "n202", 
+      "transformID": "n179", 
       "type": "DistanceSensor", 
       "name": "ps4"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n188", 
       "type": "DistanceSensor", 
       "name": "ps5"
     }, 
     {
-      "transformID": "n224", 
+      "transformID": "n197", 
       "type": "DistanceSensor", 
       "name": "ps6"
     }, 
     {
-      "transformID": "n235", 
+      "transformID": "n206", 
       "type": "DistanceSensor", 
       "name": "ps7"
     }, 
@@ -253,9 +253,14 @@
       "name": "receiver"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n53", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
+    }, 
+    {
+      "transformID": "n13", 
+      "type": "Speaker", 
+      "name": "speaker"
     }
   ]
 }

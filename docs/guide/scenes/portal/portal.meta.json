@@ -2,7 +2,7 @@
   "name": "portal", 
   "devices": [
     {
-      "transformID": "n144", 
+      "transformID": "n108", 
       "name": "gear", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n130", 
+      "transformID": "n96", 
       "name": "gate", 
       "maxPosition": 0.3, 
       "position": 0.03, 
@@ -20,7 +20,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n125", 
+      "transformID": "n91", 
       "name": "rail", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,11 +29,11 @@
       "axis": "0 1 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n120"
-      ], 
-      "transformID": "n115", 
+      "transformID": "n82", 
       "name": "lamp", 
+      "ledPBRAppearanceIDs": [
+        "n86"
+      ], 
       "ledColors": [
         "1 0.878431 0"
       ], 
@@ -41,37 +41,37 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n216", 
+      "transformID": "n167", 
       "type": "TouchSensor", 
       "name": "closed"
     }, 
     {
-      "transformID": "n130", 
+      "transformID": "n96", 
       "type": "PositionSensor", 
       "name": "gate_sensor"
     }, 
     {
-      "transformID": "n144", 
+      "transformID": "n108", 
       "type": "PositionSensor", 
       "name": "gear_sensor"
     }, 
     {
-      "transformID": "n333", 
+      "transformID": "n266", 
       "type": "TouchSensor", 
       "name": "inside button"
     }, 
     {
-      "transformID": "n183", 
+      "transformID": "n139", 
       "type": "TouchSensor", 
       "name": "open"
     }, 
     {
-      "transformID": "n365", 
+      "transformID": "n293", 
       "type": "DistanceSensor", 
       "name": "optical barrier"
     }, 
     {
-      "transformID": "n301", 
+      "transformID": "n239", 
       "type": "TouchSensor", 
       "name": "outside button"
     }

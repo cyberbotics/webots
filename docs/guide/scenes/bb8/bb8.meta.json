@@ -2,7 +2,7 @@
   "name": "bb8", 
   "devices": [
     {
-      "transformID": "n30", 
+      "transformID": "n29", 
       "name": "body pitch motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n26", 
+      "transformID": "n25", 
       "name": "body yaw motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n49", 
       "name": "head yaw motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,12 +29,12 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n30", 
+      "transformID": "n29", 
       "type": "Accelerometer", 
       "name": "body accelerometer"
     }, 
     {
-      "transformID": "n30", 
+      "transformID": "n29", 
       "type": "Gyro", 
       "name": "body gyro"
     }, 
@@ -51,12 +51,12 @@
       "name": "counterweight gyro"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n49", 
       "type": "Accelerometer", 
       "name": "head accelerometer"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n49", 
       "type": "Gyro", 
       "name": "head gyro"
     }

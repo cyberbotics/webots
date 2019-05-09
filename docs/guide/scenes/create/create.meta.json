@@ -2,7 +2,7 @@
   "name": "create", 
   "devices": [
     {
-      "transformID": "n26", 
+      "transformID": "n28", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n45", 
+      "transformID": "n47", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,11 +20,11 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n88"
-      ], 
-      "transformID": "n85", 
+      "transformID": "n87", 
       "name": "led_on", 
+      "ledPBRAppearanceIDs": [
+        "n89"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -32,11 +32,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
+      "transformID": "n92", 
+      "name": "led_play", 
+      "ledPBRAppearanceIDs": [
         "n94"
       ], 
-      "transformID": "n91", 
-      "name": "led_play", 
       "ledColors": [
         "0 1 0"
       ], 
@@ -44,11 +44,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n100"
-      ], 
       "transformID": "n97", 
       "name": "led_step", 
+      "ledPBRAppearanceIDs": [
+        "n99"
+      ], 
       "ledColors": [
         "0 1 0"
       ], 
@@ -90,7 +90,7 @@
       "name": "cliff_right"
     }, 
     {
-      "transformID": "n26", 
+      "transformID": "n28", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
@@ -101,7 +101,7 @@
       "name": "receiver"
     }, 
     {
-      "transformID": "n45", 
+      "transformID": "n47", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

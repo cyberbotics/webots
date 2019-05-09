@@ -2,7 +2,7 @@
   "name": "sojourner", 
   "devices": [
     {
-      "transformID": "n76", 
+      "transformID": "n79", 
       "name": "BackLeftArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n63", 
+      "transformID": "n67", 
       "name": "BackLeftBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n80", 
+      "transformID": "n83", 
       "name": "BackLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n204", 
+      "transformID": "n207", 
       "name": "BackRightArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n197", 
+      "transformID": "n200", 
       "name": "BackRightBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n214", 
+      "transformID": "n217", 
       "name": "BackRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n162", 
+      "transformID": "n165", 
       "name": "FrontLeftArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n146", 
+      "transformID": "n149", 
       "name": "FrontLeftBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -74,7 +74,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n172", 
+      "transformID": "n175", 
       "name": "FrontLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -83,7 +83,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n296", 
+      "transformID": "n299", 
       "name": "FrontRightArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -92,7 +92,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n280", 
+      "transformID": "n283", 
       "name": "FrontRightBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -101,7 +101,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n300", 
+      "transformID": "n303", 
       "name": "FrontRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -110,7 +110,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n114", 
+      "transformID": "n117", 
       "name": "MiddleLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -119,7 +119,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n236", 
+      "transformID": "n239", 
       "name": "MiddleRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
