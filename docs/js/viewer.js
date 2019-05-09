@@ -293,7 +293,7 @@ function redirectTextures(x3dScene, robotName) {
       var material = child.material;
       for (var m = 0; m < maps.length; m++) {
         var map = maps[m];
-        if (map in material && material[map] && material[map].isTexture) {
+        if (map in material && material[map] && material[map].isTexture && material[map].userData) {
           redirectTexture(material, map, targetPath + material[map].userData.url, function() {
             x3dScene.render();
           });
