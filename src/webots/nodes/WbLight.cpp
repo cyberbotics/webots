@@ -234,7 +234,7 @@ void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
     const WbNode *n = this;
     while (n && !n->isWorldRoot()) {
       if (n->isDefNode() && n->useCount() > 0) {
-        warn("DEF/USE mechanism for light nodes could not work in some X3D viewers, like X3DOM.");
+        warn("DEF/USE mechanism for light nodes could not work in some X3D viewers.");  // TODO check
         break;
       }
       n = n->parent();

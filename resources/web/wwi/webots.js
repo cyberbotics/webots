@@ -166,7 +166,7 @@ webots.View = class View {
   open(url, mode) {
     this.url = url;
     if (typeof mode === 'undefined')
-      mode = 'x3dom';
+      mode = 'x3d';
     this.mode = mode;
 
     var initWorld = () => {
@@ -308,7 +308,7 @@ webots.View = class View {
       initWorld();
       return;
     }
-    if (mode !== 'x3dom') {
+    if (mode !== 'x3d') {
       console.log('Error: webots.View.open: wrong mode argument: ' + mode);
       return;
     }

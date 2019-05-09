@@ -493,12 +493,12 @@ void WbStreamingServer::processTextMessage(QString message) {
     const QStringRef content = message.midRef(message.indexOf('\n') + 1);
     file.write(content.toUtf8());
     file.close();
-  } else if (message.startsWith("x3dom")) {
-    WbLog::info(tr("Streaming server: Client set mode to: X3DOM."));
+  } else if (message.startsWith("x3d")) {
+    WbLog::info(tr("Streaming server: Client set mode to: X3D."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
 
     if (!WbWorld::instance()->isLoading())
-      startX3domStreaming(client);
+      startX3dStreaming(client);
     // else streaming is started once the world loading is completed
   } else if (message.startsWith("video: ")) {
     QStringList resolution = message.mid(7).split("x");
@@ -523,7 +523,7 @@ void WbStreamingServer::processTextMessage(QString message) {
     WbLog::error(tr("Streaming server: Unsupported message: %1.").arg(message));
 }
 
-void WbStreamingServer::startX3domStreaming(QWebSocket *client) {
+void WbStreamingServer::startX3dStreaming(QWebSocket *client) {
   try {
     if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
       generateX3dWorld();
