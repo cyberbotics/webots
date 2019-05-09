@@ -18,7 +18,7 @@ The artificial muscle is represented using a spheroid where the symmetry axis is
 The other two axes have the same length computed based on the symmetry axis length so that the volume remains constant during stretching.
 In order to define the spheroid's volume, the `minPosition` and `maxPosition` limits of the parent [Motor](motor.md) node have to be defined.
 
-Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Hinge2Joint](hinge2joint.md) or [Track](track.md) node.
+Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Track](track.md) node.
 
 ### Field Summary
 
