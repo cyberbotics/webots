@@ -638,7 +638,6 @@ function resetRobotComponent(robot) {
 }
 
 function toggleDeviceComponent(robot) {
-  /*
   var deviceMenu = document.querySelector('#' + robot + '-device-component');
   var robotView = document.querySelector('.robot-view');
   if (deviceMenu.style.display === 'none') {
@@ -648,7 +647,7 @@ function toggleDeviceComponent(robot) {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
-  */
+  getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
 }
 
 function quaternionToAxisAngle(q) {
