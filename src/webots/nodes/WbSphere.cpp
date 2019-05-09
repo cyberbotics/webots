@@ -83,6 +83,7 @@ void WbSphere::postFinalize() {
 void WbSphere::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
+  sanitizeFields();
   buildWrenMesh();
 
   if (isInBoundingObject())
@@ -136,9 +137,6 @@ void WbSphere::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!sanitizeFields())
-    return;
-
   WbGeometry::computeWrenRenderable();
 
   mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value());
@@ -185,7 +183,7 @@ void WbSphere::updateSubdivision() {
 }
 
 void WbSphere::updateLineScale() {
-  if (!isAValidBoundingObject() || !sanitizeFields())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -196,9 +194,6 @@ void WbSphere::updateLineScale() {
 }
 
 void WbSphere::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mRadius->value()),
                    static_cast<float>(mRadius->value())};
   wr_transform_set_scale(wrenNode(), scale);

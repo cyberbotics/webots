@@ -19,7 +19,8 @@ try:
     from ikpy.link import OriginLink, URDFLink
 except ImportError:
     import sys
-    sys.exit('The "ikpy" Python module is not installed. To run this sample, please upgrade "pip" and install ikpy with this command: "pip install ikpy"')
+    sys.exit('The "ikpy" Python module is not installed. '
+             'To run this sample, please upgrade "pip" and install ikpy with this command: "pip install ikpy"')
 
 import math
 from controller import Supervisor
