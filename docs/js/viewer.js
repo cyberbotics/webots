@@ -281,7 +281,6 @@ function redirectTexture(material, map, url, onload) {
     undefined,
     undefined
   );
-  // console.log(ret);
 }
 
 function redirectTextures(x3dScene, robotName) {
@@ -302,16 +301,6 @@ function redirectTextures(x3dScene, robotName) {
       }
     }
   });
-
-  /*
-  var textures = node.querySelectorAll('ImageTexture');
-  var targetPath = computeTargetPath();
-  for (var i = 0; i < textures.length; i++) {
-    var texture = textures[i];
-    var url = texture.getAttribute('url').slice(1, -1);
-    texture.setAttribute('url', targetPath + 'scenes/' + robotName + '/' + url);
-  }
-  */
 }
 
 function applyAnchor() {
