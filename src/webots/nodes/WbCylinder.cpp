@@ -91,7 +91,7 @@ void WbCylinder::createWrenObjects() {
   if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCylinder::updateLineScale);
 
-    if (!isUseNode() && mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
       // silently reset the subdivision on node initialization
       mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
   }
@@ -136,7 +136,8 @@ void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
 bool WbCylinder::sanitizeFields() {
   if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
-  if (!isUseNode() && isInBoundingObject() && mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION) {
+  if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
+      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
     warn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
             "A minimum value of %2 is used for the representation.")
            .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
