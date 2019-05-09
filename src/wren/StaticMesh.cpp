@@ -388,8 +388,8 @@ namespace wren {
       mesh->estimateIndexCount(indexCount);
 
       for (int i = 0; i < subdivision + 1; ++i) {
-        double x = glm::sin(i * k);
-        double y = glm::cos(i * k);
+        const double x = glm::sin(i * k + glm::pi<float>());
+        const double y = glm::cos(i * k + glm::pi<float>());
 
         mesh->addCoord(glm::vec3(x, -h, y));
         mesh->addCoord(glm::vec3(x, h, y));
