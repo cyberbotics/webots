@@ -736,14 +736,15 @@ function sliderMotorCallback(transform, slider) {
 }
 
 function unhighlightX3DElement(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  if (robotComponent.billboardOrigin) {
+    robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
+    robotComponent.billboardOrigin = undefined;
+  }
+
   /*
   var view3d = document.querySelector('#' + robot + '-robot-webots-view');
   var billboards = view3d.querySelectorAll('Transform[highlighted]');
-  for (var b = 0; b < billboards.length; b++) {
-    var billboard = billboards[b];
-    billboard.parentNode.removeChild(billboard);
-  }
-
   var materials = view3d.querySelectorAll('Material[highlighted]');
   for (var m = 0; m < materials.length; m++) {
     var material = materials[m];
@@ -763,8 +764,6 @@ function highlightX3DElement(robot, deviceElement) {
   var object = scene.getObjectByID(id);
 
   if (object) {
-    if (robotComponent.billboardOrigin)
-      robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
     var originBillboard = robotComponent.billboardOriginMesh.clone();
     object.add(originBillboard);
     robotComponent.billboardOrigin = originBillboard;
