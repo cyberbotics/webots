@@ -36,9 +36,9 @@ void RosGyro::publishValue(ros::Publisher publisher) {
   value.orientation.z = 0.0;
   value.orientation.w = 0.0;
   value.orientation_covariance[0] = -1.0;  // means no orientation information
-  value.angular_velocity.x = mGyro->getValues()[1];
-  value.angular_velocity.y = mGyro->getValues()[2];
-  value.angular_velocity.z = mGyro->getValues()[3];
+  value.angular_velocity.x = mGyro->getValues()[0];
+  value.angular_velocity.y = mGyro->getValues()[1];
+  value.angular_velocity.z = mGyro->getValues()[2];
   for (int i = 0; i < 9; ++i)  // means "covariance unknown"
     value.angular_velocity_covariance[i] = 0;
   value.linear_acceleration.x = 0.0;
