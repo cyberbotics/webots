@@ -10,5 +10,5 @@ Muscle {
   field SFBool     visible      TRUE   # show/hide the graphical mucle representation
 
   # deprecated fields (R2019b)
-  deprecatedField SFFloat maxRadius 0.2 # radius value is used to compute the muscle spheroid volume
+  deprecatedField SFFloat maxRadius 0  # radius value is used to compute the muscle spheroid volume
 }

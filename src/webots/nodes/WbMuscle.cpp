@@ -55,8 +55,8 @@ void WbMuscle::init() {
 
   // deprected field
   mMaxRadius = findSFDouble("maxRadius");
-  if (mVolume->isDefault() && !mMaxRadius->isDefault())
-    warn(tr("'maxRadius' field replaced by the 'volume' field, use this new field instead.")));
+  if (mVolume->value() == 0.01 && mMaxRadius->value() != 0.0)
+    warn(tr("'maxRadius' field replaced by the 'volume' field, use this new field instead."));
 
   mEndPoint = NULL;
   mHeight = 0.1;
