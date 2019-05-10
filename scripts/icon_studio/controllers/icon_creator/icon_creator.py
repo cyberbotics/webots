@@ -88,10 +88,10 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
     for pixel in pixels:
         hls_pixel = colorsys.rgb_to_hls(float(pixel[RED]) / 255.0, float(pixel[GREEN]) / 255.0, float(pixel[BLUE]) / 255.0)
         if abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold:  # If pixel color is close to background.
-            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN]
-                              + iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
-            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN]
-                              + background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
+            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN] +
+                              iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
+            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN] +
+                              background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
             if alphaChanel < alphaRejectionThreshold * 255:
                 alphaChanel = 0
             newPixels.append((colorChanel, colorChanel, colorChanel, alphaChanel))

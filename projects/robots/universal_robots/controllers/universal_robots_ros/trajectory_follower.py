@@ -85,7 +85,8 @@ def interp_cubic(p0, p1, t_abs):
 
 
 def sample_trajectory(trajectory, t):
-    """Return (q, qdot, qddot) for sampling the JointTrajectory at time t, the time t is the time since the trajectory was started."""
+    """Return (q, qdot, qddot) for sampling the JointTrajectory at time t,
+       the time t is the time since the trajectory was started."""
     # First point
     if t <= 0.0:
         return copy.deepcopy(trajectory.points[0])
