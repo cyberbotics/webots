@@ -19,7 +19,7 @@ The other two axes have the same length computed based on the symmetry axis leng
 
 Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Track](track.md) node.
 
-### Field Summary   muscle spheroid constant volume
+### Field Summary
 
 - The `volume` field specifies the constant volume of the graphical spheroid.
 This value is used to recompute the shape of the muscle when the joint moves.
