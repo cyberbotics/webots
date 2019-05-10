@@ -4,6 +4,7 @@ WorldInfo {
 Viewpoint {
   orientation 0.7173 0.6609 0.2205 5.3858
   position -2.607 4 3.808
+  ambientOcclusionRadius 0.1
 }
 TexturedBackground {
   texture "noon_sunny_empty"
