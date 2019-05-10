@@ -20,6 +20,22 @@ import c3d
 import math
 import os.path
 import sys
+import transforms3d
+
+angleSignAndOrder = {
+    'RShoulderAngles': ((-1, 1, -1), 'rxzy'),
+    'RElbowAngles': ((-1, 0, 0), 'rxzy'),
+    'RWristAngles': ((-1, 1, -1), 'rxzy'),
+    'LShoulderAngles': ((-1, 1, -1), 'rxzy'),
+    'LElbowAngles': ((-1, 0, 0), 'rxzy'),
+    'LWristAngles': ((-1, 1, -1), 'rxzy'),
+    'LHipAngles': ((-1, 1, -1), 'rxzy'),
+    'LKneeAngles': ((-1, 1, -1), 'rxzy'),
+    'LAnkleAngles': ((-1, 1, -1), 'rxzy'),
+    'RHipAngles': ((-1, 1, -1), 'rxzy'),
+    'RKneeAngles': ((-1, 1, -1), 'rxzy'),
+    'RAnkleAngles': ((-1, 1, -1), 'rxzy')
+}
 
 
 def isVirtualMarker(name):
@@ -320,7 +336,12 @@ while supervisor.step(timestep) != -1:
                         z = points[j][1]
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
             if labels[j] in bodyRotations:
-                bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
+                rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
+                                                       angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,
+                                                       angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
+                                                       axes=angleSignAndOrder[labels[j]][1])
+                bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
+                # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
             if labels[j] in bodyTranslations:
                 x = points[j][0] * scale
                 y = points[j][2] * scale
