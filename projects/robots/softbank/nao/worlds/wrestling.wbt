@@ -57,3 +57,8 @@ Nao {
   color 0 0.333333 1
   controller "wrestler_blue"
 }
+Robot {
+  name "Referee"
+  supervisor TRUE
+  controller "wrestling_referee"
+}
