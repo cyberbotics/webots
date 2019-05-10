@@ -14,18 +14,32 @@
 
 """Referee supervisor controller for the Robot Wrestling Tournament."""
 
-from controller import Supervisor
+from controller import Supervisor, Display
 
 
 class Referee (Supervisor):
 
     def run(self):
+        display = self.getDisplay("display")
+        display.setFont("Arial", 32, True)
         matchDuration = 3 * 60 * 1000  # a match lasts 3 minutes
         timeStep = int(self.getBasicTimeStep())  # retrieves the WorldInfo.basicTimeTime (ms) from the world file
         time = 0
-        self.setLabel(0, "Wreslting match", 0.2, 0.4, 0.2, 0xffffff, 0, "Impact")
-        while self.step(timeStep) != -1 and time < matchDuration:  # runs in a loop until Webots quits or the match is over
-            pass
+        seconds = -1
+        display.drawText("Robot Wrestling", 20, 20)
+        display.drawText("Tournament", 60, 70)
+        while True:
+            s = int(time / 1000) % 60
+            if seconds != s:
+                seconds = s
+                minutes = int(time / 60000)
+                # display.setColor(0x000000)
+                # display.fillRectangle(320, 20, 192, 160)
+                # display.setColor(0xffffff)
+                # display.drawText("%02i:%02i" % (minutes, seconds), 320, 20)
+            if self.step(timeStep) == -1 or time > matchDuration:  # runs in a loop until Webots quits or the match is over
+                break
+            time += timeStep
 
 
 # create the referee instance and run main loop
