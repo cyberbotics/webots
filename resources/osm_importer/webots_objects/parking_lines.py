@@ -57,8 +57,12 @@ class ParkingLines(WebotsObject):
                     continue
 
             # Coordinates extration
-            c0 = (OSMCoord.coordDictionnary[parkingLines.ref[0]].x, OSMCoord.coordDictionnary[parkingLines.ref[0]].y, OSMCoord.coordDictionnary[parkingLines.ref[0]].z)
-            c1 = (OSMCoord.coordDictionnary[parkingLines.ref[1]].x, OSMCoord.coordDictionnary[parkingLines.ref[1]].y, OSMCoord.coordDictionnary[parkingLines.ref[1]].z)
+            c0 = (OSMCoord.coordDictionnary[parkingLines.ref[0]].x,
+                  OSMCoord.coordDictionnary[parkingLines.ref[0]].y,
+                  OSMCoord.coordDictionnary[parkingLines.ref[0]].z)
+            c1 = (OSMCoord.coordDictionnary[parkingLines.ref[1]].x,
+                  OSMCoord.coordDictionnary[parkingLines.ref[1]].y,
+                  OSMCoord.coordDictionnary[parkingLines.ref[1]].z)
 
             # Compute the length and the angle
             v0 = Vector2D(c0[0], c0[2])
@@ -67,7 +71,8 @@ class ParkingLines(WebotsObject):
             length = deltaV.norm()
             angle = - deltaV.angle() + math.pi
             expectedCarParkWidth = 2.4
-            nCarParks = int((length + expectedCarParkWidth // 2) // expectedCarParkWidth)  # cf. http://stackoverflow.com/questions/3950372/round-with-integer-division
+            # cf. http://stackoverflow.com/questions/3950372/round-with-integer-division
+            nCarParks = int((length + expectedCarParkWidth // 2) // expectedCarParkWidth)
             carParkWidth = length / nCarParks
 
             file.write("ParkingLines {\n")

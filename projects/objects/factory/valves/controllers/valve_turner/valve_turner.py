@@ -15,7 +15,6 @@
 """valve_turner controller."""
 
 from controller import Robot
-from controller import PositionSensor
 import sys
 
 robot = Robot()
