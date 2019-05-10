@@ -228,6 +228,10 @@ void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate, 
     mStatus = 1.0;
   if (mStatus < -1.0)
     mStatus = -1.0;
+  if (mStatus > 0.0)  // relaxing
+    mDirectionInverted = mHeight > mPreviousHeight;
+  else if (mStatus < 0.0)  // contracting
+    mDirectionInverted = mHeight < mPreviousHeight;
 
   if (immediateUpdate)
     computeStretchedDimensions();
@@ -243,9 +247,8 @@ void WbMuscle::computeStretchedDimensions() {
 
   const WbVector3 t =
     mEndPoint->rotation().toMatrix3() * mEndOffset->value() + mEndPoint->translation() - mStartOffset->value();
-  mHeight = t.length();
-  mDirectionInverted = mHeight < mPreviousHeight;
   mPreviousHeight = mHeight;
+  mHeight = t.length();
   // keep spheroid volume constant: V = 4 / 3 * M_PI * height * radius^2
   mRadius = sqrt((3.0 * mVolume->value()) / (4.0 * M_PI * mHeight));
 
