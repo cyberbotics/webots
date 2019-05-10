@@ -64,7 +64,8 @@ os.remove(targetAnimationFile)
 
 # Simplified JSON file.
 # - keep only the interested robot.
-assert os.path.exists(targetMetaFile), 'The meta file does not exists. Please run Webots with the "--enable-x3d-meta-file-export" argument.'
+assert os.path.exists(targetMetaFile), 'The meta file does not exists. ' \
+    'Please run Webots with the "--enable-x3d-meta-file-export" argument.'
 robotsMetaData = json.load(open(targetMetaFile))
 robotData = None
 for _robotData in robotsMetaData:
