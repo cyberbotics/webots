@@ -46,18 +46,22 @@ const int SUBDIVISION = 16;            // ellipsoid subdivision
 WbVector2 *gCircleCoordinates = NULL;  // based on SUBDIVISION value
 
 void WbMuscle::init() {
-  mMaxRadius = findSFDouble("maxRadius");
+  mVolume = findSFDouble("volume");
   mStartOffset = findSFVector3("startOffset");
   mEndOffset = findSFVector3("endOffset");
   mColors = findMFColor("color");
   mCastShadows = findSFBool("castShadows");
   mVisible = findSFBool("visible");
 
+  // deprected field
+  mMaxRadius = findSFDouble("maxRadius");
+  if (mVolume->isDefault() && !mMaxRadius->isDefault())
+    warn(tr("'maxRadius' field replaced by the 'volume' field, use this new field instead.")));
+
   mEndPoint = NULL;
   mHeight = 0.1;
+  mPreviousHeight = 0.1;
   mRadius = 0.1;
-  mMinHeight = 0.0;
-  mValidLimits = true;
   mStatus = 0.0;
   mMaterialStatus = mStatus;
   mDirectionInverted = false;
@@ -122,60 +126,19 @@ void WbMuscle::postFinalize() {
   updateMaterial();
 
   connect(joint, &WbJoint::endPointChanged, this, &WbMuscle::updateEndPoint);
-  connect(mMaxRadius, &WbSFDouble::changed, this, &WbMuscle::updateRadius);
-  connect(mStartOffset, &WbSFVector3::changed, this, &WbMuscle::updateRadius);
-  connect(mEndOffset, &WbSFVector3::changed, this, &WbMuscle::updateRadius);
+  connect(mVolume, &WbSFDouble::changed, this, &WbMuscle::updateVolume);
+  connect(mStartOffset, &WbSFVector3::changed, this, &WbMuscle::computeStretchedDimensions);
+  connect(mEndOffset, &WbSFVector3::changed, this, &WbMuscle::computeStretchedDimensions);
   connect(mColors, &WbMFColor::changed, this, &WbMuscle::updateMaterial);
   connect(mCastShadows, &WbSFBool::changed, this, &WbMuscle::updateCastShadows);
   connect(mVisible, &WbSFBool::changed, this, &WbMuscle::updateVisible);
 }
 
-void WbMuscle::updateRadius() {
-  const WbMotor *motor = dynamic_cast<WbMotor *>(parent());
-  const double minPosition = motor->minPosition();
-  const double maxPosition = motor->maxPosition();
-  if (minPosition == 0 && maxPosition == 0) {
-    warn(tr("Muscle graphical animation can only be displayed if soft limits "
-            "'minPosition' and 'maxPosition' are activated."));
-    mValidLimits = false;
-
-    if (areWrenObjectsInitialized())
-      wr_node_set_visible(WR_NODE(mTransform), false);
-
+void WbMuscle::updateVolume() {
+  if (WbFieldChecker::checkDoubleIsNonNegative(this, mVolume, 0.2))
     return;
-  }
 
-  WbFieldChecker::checkDoubleIsPositive(this, mMaxRadius, 0.2);
-  mDirectionInverted = false;
-  const WbNode *jointNode = motor->parent();
-  const WbSliderJoint *slider = dynamic_cast<const WbSliderJoint *>(jointNode);
-  if (slider) {
-    const double referencePosition = qMin(fabs(minPosition), fabs(maxPosition));
-    if (fabs(minPosition) > fabs(maxPosition))
-      mDirectionInverted = true;
-    mMinHeight = (slider->zeroEndPointTranslation() + mEndPoint->rotationMatrix() * mEndOffset->value() +
-                  referencePosition * slider->axis() - mStartOffset->value())
-                   .length();
-  } else {
-    const WbHingeJoint *hinge = dynamic_cast<const WbHingeJoint *>(jointNode);
-    assert(hinge);  // hinge2 and ball joint doesn't support the muscle animation
-    if (hinge) {
-      const WbVector3 &a = hinge->anchor();
-      const WbVector3 endPosition = hinge->zeroEndPointTranslation() + mEndOffset->value() - a;
-      const WbVector3 ax = hinge->axis().normalized();
-      const WbQuaternion qmin(ax, minPosition);
-      const WbQuaternion qmax(ax, maxPosition);
-      mMinHeight = (qmin * endPosition + a - mStartOffset->value()).length();
-      const double maxHeight = (qmax * endPosition + a - mStartOffset->value()).length();
-      if (maxHeight < mMinHeight) {
-        mMinHeight = maxHeight;
-        mDirectionInverted = true;
-      }
-    }
-  }
-
-  updateVisibility();
-  mValidLimits = true;
+  // field check
   if (areWrenObjectsInitialized())
     computeStretchedDimensions();
 }
@@ -225,8 +188,7 @@ void WbMuscle::updateVisible() {
 }
 
 void WbMuscle::updateVisibility() const {
-  const bool visible = mVisible->value() && mValidLimits;
-  wr_node_set_visible(WR_NODE(mTransform), visible);
+  wr_node_set_visible(WR_NODE(mTransform), mVisible->value());
 }
 
 void WbMuscle::updateEndPointPosition() {
@@ -254,7 +216,7 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
     }
   }
 
-  updateRadius();
+  computeStretchedDimensions();
 }
 
 void WbMuscle::updateStretchForce(double forcePercentage, bool immediateUpdate, int motorIndex) {
@@ -282,8 +244,10 @@ void WbMuscle::computeStretchedDimensions() {
   const WbVector3 t =
     mEndPoint->rotation().toMatrix3() * mEndOffset->value() + mEndPoint->translation() - mStartOffset->value();
   mHeight = t.length();
+  mDirectionInverted = mHeight < mPreviousHeight;
+  mPreviousHeight = mHeight;
   // keep spheroid volume constant: V = 4 / 3 * M_PI * height * radius^2
-  mRadius = mMaxRadius->value() * sqrt(mMinHeight / mHeight);
+  mRadius = sqrt((3.0 * mVolume->value()) / (4.0 * M_PI * mHeight));
 
   // compute mesh matrix
   mMatrix.setIdentity();

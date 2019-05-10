@@ -217,13 +217,6 @@ void WbMotor::updateSound() {
 }
 
 void WbMotor::updateMuscles() {
-  WbMFIterator<WbMFNode, WbNode *> it(mMuscles);
-  while (it.hasNext()) {
-    WbMuscle *muscle = dynamic_cast<WbMuscle *>(it.next());
-    assert(muscle);
-    connect(mMinPosition, &WbSFDouble::changed, muscle, &WbMuscle::updateRadius, Qt::UniqueConnection);
-    connect(mMaxPosition, &WbSFDouble::changed, muscle, &WbMuscle::updateRadius, Qt::UniqueConnection);
-  }
   setupJointFeedback();
 }
 
