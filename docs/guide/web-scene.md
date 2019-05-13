@@ -48,14 +48,14 @@ The resources (`CSS`, `JavaScript`, etc.) on the [Cyberbotics Website](https://w
 
 All the graphical nodes ([Box](../reference/box.md), [Sphere](../reference/sphere.md), [Appearance](../reference/appearance.md), [Material](../reference/material.md), [ImageTexture](../reference/imagetexture.md), [Light](../reference/light.md), [Transform](../reference/transform.md), etc.) are supported.
 
-The rendering of the Webots player is performed using the [THREE.js](https://threejs.org/) library.
+The rendering of the Webots player is performed using the [three.js](https://threejs.org/) library.
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
 
 ### Remarks on the Used Technologies and Their Limitations
 
-The Webots player is using internally the `THREE.js` library (based on `WebGL`).
+The Webots player is using internally the `three.js` library (based on `WebGL`).
 
-`THREE.js` is supported in recent versions of Firefox, Chrome, Edge, Internet Explorer and Safari on macOS (see details on the [THREE.js website](https://threejs.org/)).
+`three.js` is supported in recent versions of Firefox, Chrome, Edge, Internet Explorer and Safari on macOS (see details on the [three.js website](https://threejs.org/)).
 In case of related issues, make sure that `WebGL` is enabled in your Web browser settings.
 
 **Note**: The Chrome browser cannot open local files using the file protocol by default, while this is required by the Webots player to open the `X3D` file and the textures.
