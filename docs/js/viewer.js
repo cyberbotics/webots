@@ -270,36 +270,6 @@ function redirectImages(node) {
   }
 }
 
-function redirectTexture(material, map, url, onload) {
-  var loader = new THREE.TextureLoader();
-  material[map] = loader.load(
-    url,
-    function(image) {
-      material.needsUpdate = true;
-      onload();
-    }
-  );
-}
-
-function redirectTextures(x3dScene, robotName) {
-  // redirect ImageTexture's url
-  var targetPath = computeTargetPath() + 'scenes/' + robotName + '/';
-  var maps = ['map', 'roughnessMap', 'metalnessMap', 'normalMap', 'emissiveMap', 'aoMap'];
-  x3dScene.scene.traverse(function(child) {
-    if (child.isMesh && child.material) {
-      var material = child.material;
-      for (var m = 0; m < maps.length; m++) {
-        var map = maps[m];
-        if (map in material && material[map] && material[map].isTexture && material[map].userData) {
-          redirectTexture(material, map, targetPath + material[map].userData.url, function() {
-            x3dScene.render();
-          });
-        }
-      }
-    }
-  });
-}
-
 function applyAnchor() {
   var firstAnchor = document.querySelector("[name='" + localSetup.anchor + "']");
   if (firstAnchor) {
@@ -810,8 +780,6 @@ function createRobotComponent(view) {
     robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
       var camera = webotsView.x3dScene.getCamera();
-      // correct the URL textures.
-      redirectTextures(webotsView.x3dScene, robotName);
 
       // Make sure the billboard remains well oriented.
       webotsView.x3dScene.preRender = function() {
@@ -843,7 +811,11 @@ function createRobotComponent(view) {
     };
 
     // Load the robot X3D file.
-    webotsView.open(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
+    webotsView.open(
+      computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d',
+      undefined,
+      computeTargetPath() + 'scenes/' + robotName + '/'
+    );
 
     // Load the robot meta JSON file.
     $.ajax({

@@ -22,6 +22,10 @@ var TextureLoader = {
     this._getInstance().streamingMode = enabled;
   },
 
+  setTexturePathPrefix: function(texturePathPrefix) {
+    this._getInstance().texturePathPrefix = texturePathPrefix;
+  },
+
   _getInstance: function() {
     if (typeof this.instance === 'undefined')
       this.instance = new _TextureLoaderObject();

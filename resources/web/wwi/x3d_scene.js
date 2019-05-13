@@ -14,7 +14,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
   }
 
-  init() {
+  init(texturePathPrefix = '') {
     this.renderer = new THREE.WebGLRenderer({'antialias': true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
@@ -49,6 +49,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
     this.destroyWorld();
 
+    TextureLoader.setTexturePathPrefix(texturePathPrefix);
     TextureLoader.setOnTextureLoad(() => this.render());
   }
 
