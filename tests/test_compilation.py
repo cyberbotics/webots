@@ -14,6 +14,7 @@
 
 """Test suite for ROS."""
 
+import glob
 import os
 import multiprocessing
 
@@ -28,3 +29,5 @@ command = Command('make -C %s distrib -j%d' % (path, multiprocessing.cpu_count()
 command.run(silent=False)
 if command.returncode != 0:
     raise RuntimeError('Error when executing the Make command')
+
+assert len(glob.glob(path + os.sep + 'distribution') > 2)
