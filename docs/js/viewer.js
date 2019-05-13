@@ -777,65 +777,26 @@ function highlightX3DElement(robot, deviceElement) {
 
     scene.render();
   }
-
-  /*
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var id = deviceElement.getAttribute('webots-transform-id');
-  var transform = view3d.querySelector('[id=' + id + ']');
-  if (transform) {
-    if (deviceElement.getAttribute('webots-type') === 'LED') {
-      var materialsIDs = deviceElement.getAttribute('ledMaterialsIDs').split(' ');
-      for (var m = 0; m < materialsIDs.length; m++) {
-        var materialID = materialsIDs[m];
-        if (materialID) {
-          var material = view3d.querySelector('[id=' + materialID + ']');
-          if (material) {
-            material.setAttribute('highlighted', 'true');
-            material.setAttribute('previousEmissive', material.getAttribute('emissiveColor'));
-            material.setAttribute('emissiveColor', deviceElement.getAttribute('targetColor'));
-          }
-        }
-      }
-    }
-  }
-  */
 }
 
-function estimateRobotScale(robot) {
-  /*
+function estimateRobotScale(scene) {
   // Estimate roughly the robot scale based on the number of transform and their scaled translation.
 
-  function x3domAttributeToFloatArray(el, name) {
-    // Convert x3dom string attribute to an array of floats.
-    if (!el.hasAttribute(name))
-      return [];
-    var arr = el.getAttribute(name).split(/[\s,]+/);
-    for (var a = 0; a < arr.length; a++)
-      arr[a] = parseFloat(arr[a]);
-    return arr;
-  }
-  function estimateRobotScaleRec(el, s) {
-    if (!el.tagName)
-      return 0.0;
-    // Get the max scale component.
-    var scale = x3domAttributeToFloatArray(el, 'scale');
-    if (scale.length > 0)
-      s *= Math.max.apply(null, scale);
-    // Get the max translation component.
-    var max = 0.0;
-    var translation = x3domAttributeToFloatArray(el, 'translation');
-    if (translation.length > 0)
-      max = s * Math.max.apply(null, translation);
-    // Recursion
-    for (var c = 0; c < el.childNodes.length; c++)
-      max = Math.max(max, estimateRobotScaleRec(el.childNodes[c], s));
-    return max;
+  function getMaxComponent(vec3) {
+    return Math.max(vec3.x, Math.max(vec3.y, vec3.z));
   }
 
-  var nTransforms = robot.querySelectorAll('transform').length + 1;
-  return Math.log2(nTransforms) * estimateRobotScaleRec(robot, 1.0);
-  */
-  return 1.0;
+  var nTransforms = 0;
+  var estimation = 0.0;
+  scene.traverse(function(object) {
+    if (object.isObject3D && object.userData && object.userData.x3dType === 'Transform') {
+      nTransforms += 1;
+      var scale = new THREE.Vector3();
+      object.matrixWorld.decompose(new THREE.Vector3(), new THREE.Quaternion(), scale);
+      estimation = Math.max(estimation, scale.length() * getMaxComponent(object.position));
+    }
+  });
+  return Math.max(0.05, Math.log2(nTransforms) * estimation) / 100.0;
 }
 
 function getRobotComponentByRobotName(robotName) {
@@ -855,19 +816,6 @@ function createRobotComponent(view) {
       // correct the URL textures.
       redirectTextures(webotsView.x3dScene, robotName);
 
-      // Create the origin billboard mesh.
-      var loader = new THREE.TextureLoader();
-      var planeGeometry = new THREE.PlaneGeometry(0.02, 0.02);
-      var planeMaterial = new THREE.MeshBasicMaterial({
-        depthTest: false,
-        transparent: true,
-        opacity: 0.5,
-        map: loader.load(
-          computeTargetPath() + '../css/images/center.png'
-        )
-      });
-      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-      robotComponent.billboardOriginMesh.renderOrder = 1;
       // Make sure the billboard remains well oriented.
       webotsView.x3dScene.preRender = function() {
         if (robotComponent.billboardOrigin)
@@ -879,11 +827,22 @@ function createRobotComponent(view) {
       camera.userData.initialQuaternion = camera.quaternion.clone();
       camera.userData.initialPosition = camera.position.clone();
 
-      /*
       // Rough estimation of the robot scale.
-      var robotScale = Math.max(0.05, estimateRobotScale(webotsViewElement));
-      viewpoint.setAttribute('robotScale', robotScale);
-      */
+      var robotScale = estimateRobotScale(webotsView.x3dScene.scene);
+
+      // Create the origin billboard mesh.
+      var loader = new THREE.TextureLoader();
+      var planeGeometry = new THREE.PlaneGeometry(robotScale, robotScale);
+      var planeMaterial = new THREE.MeshBasicMaterial({
+        depthTest: false,
+        transparent: true,
+        opacity: 0.5,
+        map: loader.load(
+          computeTargetPath() + '../css/images/center.png'
+        )
+      });
+      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+      robotComponent.billboardOriginMesh.renderOrder = 1;
     };
 
     // Load the robot X3D file.
