@@ -107,14 +107,14 @@ void WbPhysics::reset() {
 
 void WbPhysics::checkMass() {
   if (mDensity->value() <= 0.0)
-    WbFieldChecker::checkDoubleIsPositive(this, mMass, 1);
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mMass, -1, -1);
+    WbFieldChecker::resetDoubleIfNonPositive(this, mMass, 1);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mMass, -1, -1);
 }
 
 void WbPhysics::checkDensity() {
   if (mMass->value() <= 0.0)
-    WbFieldChecker::checkDoubleIsPositive(this, mDensity, 1000);
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mDensity, 1000, -1);
+    WbFieldChecker::resetDoubleIfNonPositive(this, mDensity, 1000);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mDensity, 1000, -1);
 }
 
 void WbPhysics::checkMassAndDensity() const {

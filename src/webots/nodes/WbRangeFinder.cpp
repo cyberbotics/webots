@@ -117,7 +117,7 @@ void WbRangeFinder::createWrenCamera() {
 /////////////////////
 
 void WbRangeFinder::updateNear() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mNear, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.01))
     return;
 
   if (mNear->value() > mMinRange->value()) {
@@ -133,7 +133,7 @@ void WbRangeFinder::updateNear() {
 }
 
 void WbRangeFinder::updateMinRange() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mMinRange, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mMinRange, 0.01))
     return;
 
   if (mMinRange->value() < mNear->value()) {
@@ -191,7 +191,7 @@ void WbRangeFinder::updateMaxRange() {
 }
 
 void WbRangeFinder::updateResolution() {
-  if (WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0))
     return;
 
   if (hasBeenSetup())

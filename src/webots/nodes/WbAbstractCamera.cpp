@@ -574,7 +574,7 @@ void WbAbstractCamera::updateLens() {
 }
 
 void WbAbstractCamera::updateFieldOfView() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mFieldOfView, 0.7854))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mFieldOfView, 0.7854))
     return;
   if (!mSpherical->value() && fieldOfView() > M_PI) {
     warn(tr("Invalid 'fieldOfView' changed to 0.7854. The field of view is limited to pi if the 'spherical' field is FALSE."));
@@ -614,7 +614,7 @@ void WbAbstractCamera::updateAntiAliasing() {
 }
 
 void WbAbstractCamera::updateMotionBlur() {
-  if (!mMotionBlur || WbFieldChecker::checkDoubleIsNonNegative(this, mMotionBlur, 0.0))
+  if (!mMotionBlur || WbFieldChecker::resetDoubleIfNegative(this, mMotionBlur, 0.0))
     return;
 
   if (hasBeenSetup())
@@ -622,7 +622,7 @@ void WbAbstractCamera::updateMotionBlur() {
 }
 
 void WbAbstractCamera::updateNoise() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mNoise, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mNoise, 0.0))
     return;
 
   if (hasBeenSetup())

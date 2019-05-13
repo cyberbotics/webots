@@ -125,7 +125,7 @@ bool WbCapsule::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 bool WbCapsule::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 4, 1000, 4))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 4, 1000, 4))
     return false;
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
       !WbNodeUtilities::hasAUseNodeAncestor(this)) {
@@ -136,10 +136,10 @@ bool WbCapsule::sanitizeFields() {
     return false;
   }
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHeight, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
     return false;
 
   return true;

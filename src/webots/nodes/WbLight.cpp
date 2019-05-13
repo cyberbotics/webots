@@ -151,7 +151,7 @@ void WbLight::createWrenObjects() {
 }
 
 void WbLight::updateAmbientIntensity() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0,
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0,
                                                            mAmbientIntensity->value() > 1.0 ? 1.0 : 0.0))
     return;
 
@@ -160,7 +160,7 @@ void WbLight::updateAmbientIntensity() {
 }
 
 void WbLight::updateIntensity() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mIntensity, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mIntensity, 1.0))
     return;
 
   if (areWrenObjectsInitialized())
@@ -181,7 +181,7 @@ void WbLight::updateOn() {
 }
 
 void WbLight::updateColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mColor))
     return;
 
   if (areWrenObjectsInitialized())

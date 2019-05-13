@@ -261,13 +261,13 @@ void WbDistanceSensor::updateRaySetup() {
     mRayType = SONAR;
 
   // correct invalid input values
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mAperture, -mAperture->value()))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mAperture, -mAperture->value()))
     return;  // in order to avoiding passing twice in this function
-  if (WbFieldChecker::checkIntIsGreaterOrEqual(this, mNumberOfRays, 1, 1))
+  if (WbFieldChecker::resetIntIfLess(this, mNumberOfRays, 1, 1))
     return;  // in order to avoiding passing twice in this function
-  if (WbFieldChecker::checkDoubleIsPositive(this, mGaussianWidth, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mGaussianWidth, 1.0))
     return;  // in order to avoiding passing twice in this function
-  if (WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1, -1))
+  if (WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1, -1))
     return;  // in order to avoiding passing twice in this function
   if (mRayType == LASER && mNumberOfRays->value() > 1) {
     warn(tr("'type' \"laser\" must have one single ray."));
