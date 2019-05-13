@@ -116,7 +116,7 @@ class _TextureLoaderObject {
         indices.forEach((indice) => {
           if (indice === 2 || indice === 3)
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
-            image.src = flipImage(image.src);
+            image.src = flipImage(image);
           textureObject.images[indice] = image;
         });
         delete missingImages[name];
@@ -144,18 +144,14 @@ function flipImage(base64Image) {
   var offScreenCanvas = document.createElement('canvas');
   var context = offScreenCanvas.getContext('2d');
 
-  // Create a new Image.
-  var img = new Image();
-  img.src = base64Image;
-
   // Set its dimension to rotated size.
-  offScreenCanvas.width = img.width;
-  offScreenCanvas.height = img.height;
+  offScreenCanvas.width = base64Image.width;
+  offScreenCanvas.height = base64Image.height;
 
   // Rotate and draw source image into the off-screen canvas.
   context.scale(-1, -1);
   context.translate(-offScreenCanvas.height, -offScreenCanvas.width);
-  context.drawImage(img, 0, 0);
+  context.drawImage(base64Image, 0, 0);
 
   // Encode the image to data-uri with base64:
   return offScreenCanvas.toDataURL('image/jpeg', 95);
