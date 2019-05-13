@@ -34,7 +34,8 @@ angleSignAndOrder = {
     'LAnkleAngles': ((-1, -1, -1), 'rxyz'),
     'RHipAngles': ((-1, 1, 1), 'rxzy'),
     'RKneeAngles': ((1, 1, 1), 'rxzy'),
-    'RAnkleAngles': ((-1, 1, 1), 'rxyz')
+    'RAnkleAngles': ((-1, 1, 1), 'rxyz'),
+    'LPelvisAngles': ((1, 1, -1), 'rxzy')
 }
 
 
