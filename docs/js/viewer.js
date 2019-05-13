@@ -277,17 +277,14 @@ function redirectTexture(material, map, url, onload) {
     function(image) {
       material.needsUpdate = true;
       onload();
-    },
-    undefined,
-    undefined
+    }
   );
 }
 
 function redirectTextures(x3dScene, robotName) {
   // redirect ImageTexture's url
   var targetPath = computeTargetPath() + 'scenes/' + robotName + '/';
-  // var maps = ['map', 'roughnessMap', 'metalnessMap', 'normalMap', 'emissiveMap', 'aoMap'];
-  var maps = ['map'];
+  var maps = ['map', 'roughnessMap', 'metalnessMap', 'normalMap', 'emissiveMap', 'aoMap'];
   x3dScene.scene.traverse(function(child) {
     if (child.isMesh && child.material) {
       var material = child.material;
