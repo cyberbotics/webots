@@ -43,6 +43,7 @@ class _TextureLoaderObject {
   }
 
   loadOrRetrieve(name, texture, cubeTextureIndex) {
+    name = this.texturePathPrefix + name;
     if (this.textures[name])
       return this.textures[name];
 
@@ -91,6 +92,7 @@ class _TextureLoaderObject {
   }
 
   loadFromUri(uri, name) {
+    name = this.texturePathPrefix + name;
     var image = new Image();
     if (this.loadingTextures[name])
       this.loadingTextures[name].data = image;
