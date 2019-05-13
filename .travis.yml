@@ -13,6 +13,33 @@ addons:
   apt:
     packages:
       - clang-format-5.0
+      - g++
+      - cmake
+      - libusb-dev
+      - swig
+      - python2.7-dev
+      - libglu1-mesa-dev
+      - libglib2.0-dev
+      - libfreeimage-dev
+      - libfreetype6-dev
+      - libxml2-dev
+      - libzzip-0-13
+      - libssl-dev
+      - libboost-dev
+      - libjpeg8-dev
+      - libavcodec-extra
+      - libpci-dev
+      - libgd-dev
+      - libtiff5-dev
+      - libssh-dev
+      - libzip-dev
+      - python-pip
+      - libreadline-dev
+      - libassimp-dev
+      - libpng12-dev
+      - libav-tools
+      - python3.5-dev
+      - openjdk-8-jdk
 script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
