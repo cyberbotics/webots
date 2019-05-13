@@ -43,3 +43,4 @@ addons:
 script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
+  - make debug
