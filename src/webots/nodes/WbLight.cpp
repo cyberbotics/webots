@@ -152,7 +152,7 @@ void WbLight::createWrenObjects() {
 
 void WbLight::updateAmbientIntensity() {
   if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0,
-                                                           mAmbientIntensity->value() > 1.0 ? 1.0 : 0.0))
+                                                                mAmbientIntensity->value() > 1.0 ? 1.0 : 0.0))
     return;
 
   if (areWrenObjectsInitialized())
