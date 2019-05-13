@@ -150,9 +150,6 @@ DEF NORMAL_PER_VERTEX_FLAT Transform {
         coordIndex [
           0, 2, 1, -1, 1, 2, 3, -1
         ]
-        normalIndex [
-          0, 2, 1, -1, 1, 2, 3, -1
-        ]
       }
     }
   ]
