@@ -16,6 +16,7 @@
 
 from controller import Supervisor
 import json
+import glob
 import os
 import shutil
 from lxml import etree
@@ -61,6 +62,8 @@ supervisor.step(timeStep)
 # Remove useless files.
 os.remove(targetHTMLFile)
 os.remove(targetAnimationFile)
+for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'noon_cloudy_mountains*.jpg')):
+    os.remove(fl)
 
 # Simplified JSON file.
 # - keep only the interested robot.
@@ -80,13 +83,22 @@ with open(targetMetaFile, 'w') as f:
     json.dump(robotData, f, indent=2)
     f.write('\n')
 
-# Hard-code the shadows parameters (to be independant on the export settings).
+# Corrections on the XML file.
 tree = etree.parse(targetX3DFile)
+# Hard-code the shadows parameters (to be independant on the export settings).
 lights = tree.xpath('//DirectionalLight')
 lights[0].attrib['shadowIntensity'] = '0.5'
 lights[0].attrib['shadowMapSize'] = '512'
 lights[0].attrib['shadowFilterSize'] = '2'
 lights[0].attrib['shadowCascades'] = '3'
+# Global texture paths.
+background = tree.xpath('//Background')
+background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
+background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
+background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
+background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
+background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
+background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
 tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
 supervisor.step(timeStep)
