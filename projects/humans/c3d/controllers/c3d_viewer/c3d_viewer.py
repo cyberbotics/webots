@@ -23,18 +23,18 @@ import sys
 import transforms3d
 
 angleSignAndOrder = {
-    'RShoulderAngles': ((-1, 1, -1), 'rxzy'),
+    'RShoulderAngles': ((1, -1, 1), 'rxzy'),
     'RElbowAngles': ((-1, 0, 0), 'rxzy'),
     'RWristAngles': ((-1, 1, -1), 'rxzy'),
     'LShoulderAngles': ((-1, 1, -1), 'rxzy'),
     'LElbowAngles': ((-1, 0, 0), 'rxzy'),
     'LWristAngles': ((-1, 1, -1), 'rxzy'),
-    'LHipAngles': ((-1, 1, -1), 'rxzy'),
-    'LKneeAngles': ((-1, 1, -1), 'rxzy'),
-    'LAnkleAngles': ((-1, 1, -1), 'rxzy'),
-    'RHipAngles': ((-1, 1, -1), 'rxzy'),
-    'RKneeAngles': ((-1, 1, -1), 'rxzy'),
-    'RAnkleAngles': ((-1, 1, -1), 'rxzy')
+    'LHipAngles': ((-1, -1, -1), 'rxzy'),
+    'LKneeAngles': ((1, -1, -1), 'rxzy'),
+    'LAnkleAngles': ((-1, -1, -1), 'rxyz'),
+    'RHipAngles': ((-1, 1, 1), 'rxzy'),
+    'RKneeAngles': ((1, 1, 1), 'rxzy'),
+    'RAnkleAngles': ((-1, 1, 1), 'rxyz')
 }
 
 
