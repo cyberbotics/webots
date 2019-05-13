@@ -707,7 +707,7 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
   // need to remove duplicates from the arrays to save space in the
   // saved file and adapt the indexes consequently
 
-  // export the original loaded mesh if we're not writing to x3DOM
+  // export the original loaded mesh if we're not writing to X3D
   if (!writer.isX3d()) {
     WbNode::exportNodeContents(writer);
     return;
