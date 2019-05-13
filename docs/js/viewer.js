@@ -746,24 +746,22 @@ function highlightX3DElement(robot, deviceElement) {
   }
 }
 
-function estimateRobotScale(scene) {
-  // Estimate roughly the robot scale based on the number of transform and their scaled translation.
-
-  function getMaxComponent(vec3) {
-    return Math.max(vec3.x, Math.max(vec3.y, vec3.z));
-  }
-
-  var nTransforms = 0;
-  var estimation = 0.0;
+function setBillboardSize(robotComponent, scene) {
+  // Estimate roughly the robot scale based on the AABB.
+  var robotID = robotComponent.getAttribute('robot-node-id');
+  if (typeof robotID === 'undefined')
+    return;
+  var robot;
   scene.traverse(function(object) {
-    if (object.isObject3D && object.userData && object.userData.x3dType === 'Transform') {
-      nTransforms += 1;
-      var scale = new THREE.Vector3();
-      object.matrixWorld.decompose(new THREE.Vector3(), new THREE.Quaternion(), scale);
-      estimation = Math.max(estimation, scale.length() * getMaxComponent(object.position));
-    }
+    if (object.isObject3D && object.userData && object.userData.id === robotID)
+      robot = object;
   });
-  return Math.max(0.05, Math.log2(nTransforms) * estimation) / 100.0;
+  if (typeof robot === 'undefined')
+    return;
+  var aabb = new THREE.Box3().setFromObject(robot);
+  var max = Math.max(aabb.max.x - aabb.min.x, Math.max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
+  var size = Math.max(0.01, max) / 30.0;
+  robotComponent.billboardOriginMesh.geometry = new THREE.PlaneGeometry(size, size);
 }
 
 function getRobotComponentByRobotName(robotName) {
@@ -792,12 +790,9 @@ function createRobotComponent(view) {
       camera.userData.initialQuaternion = camera.quaternion.clone();
       camera.userData.initialPosition = camera.position.clone();
 
-      // Rough estimation of the robot scale.
-      var robotScale = estimateRobotScale(webotsView.x3dScene.scene);
-
       // Create the origin billboard mesh.
       var loader = new THREE.TextureLoader();
-      var planeGeometry = new THREE.PlaneGeometry(robotScale, robotScale);
+      var planeGeometry = new THREE.PlaneGeometry(0.05, 0.05);
       var planeMaterial = new THREE.MeshBasicMaterial({
         depthTest: false,
         transparent: true,
@@ -808,6 +803,8 @@ function createRobotComponent(view) {
       });
       robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
       robotComponent.billboardOriginMesh.renderOrder = 1;
+
+      setBillboardSize(robotComponent, webotsView.x3dScene.scene);
     };
 
     // Load the robot X3D file.
@@ -827,6 +824,8 @@ function createRobotComponent(view) {
         var deviceComponent = view.querySelector('#' + robotName + '-device-component');
         var data = JSON.parse(content);
         var categories = {};
+        robotComponent.setAttribute('robot-node-id', data['robotID']);
+        setBillboardSize(robotComponent, webotsView.x3dScene.scene);
         if (data['devices'].length === 0)
           toggleDeviceComponent(robotName);
         for (var d = 0; d < data['devices'].length; d++) {

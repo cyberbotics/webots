@@ -474,6 +474,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
       deviceArray.push_back(deviceObject);
     }
     robotObject.insert("name", robot->name());
+    robotObject.insert("robotID", QString("n%1").arg(robot->uniqueId()));
     robotObject.insert("devices", deviceArray);
     robotArray.push_back(robotObject);
   }
