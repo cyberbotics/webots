@@ -122,10 +122,10 @@ void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 bool WbSphere::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
   return true;

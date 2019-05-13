@@ -83,7 +83,7 @@ void WbGyro::updateLookupTable() {
 }
 
 void WbGyro::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbGyro::handleMessage(QDataStream &stream) {

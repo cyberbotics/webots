@@ -86,17 +86,17 @@ void WbEmitter::updateTransmissionSetup() {
     mMediumType = WbDataPacket::RADIO;
   }
 
-  WbFieldChecker::checkDoubleIsInRangeWithIncludedBoundsOrDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mMaxRange, -1, -1);
-  WbFieldChecker::checkIntIsGreaterOrEqual(this, mByteSize, 8, 8);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBoundsAndNotDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mMaxRange, -1, -1);
+  WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 }
 
 void WbEmitter::updateBufferSize() {
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBufferSize, -1, -1);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBufferSize, -1, -1);
   mNeedToSetBufferSize = true;
 }
 void WbEmitter::updateRange() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mRange, -1, -1);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mRange, -1, -1);
   if (mMaxRange->value() != -1.0 && (mRange->value() > mMaxRange->value() || mRange->value() == -1.0)) {
     warn(tr("'range' must be less than or equal to 'maxRange'."));
     mRange->setValue(mMaxRange->value());
