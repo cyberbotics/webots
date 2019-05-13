@@ -1,7 +1,7 @@
 dist: xenial
 git:
   depth: 3
-  submodules: false
+  submodules: true
 language: python
 python:
   - "2.7"
