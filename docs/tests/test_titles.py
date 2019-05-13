@@ -69,7 +69,8 @@ class TestTitles(unittest.TestCase):
         for t in self.titles:
             title = re.sub(r'`.+?(?=`)`', '', t['title'])  # Remove code-quoted statements.
             title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.
-            self.assertTrue(re.search(r'[^\\]_', title) is None, msg='%s: Title "%s" contains unprotected underscore(s).' % (t['md'], t['title']))
+            self.assertTrue(re.search(r'[^\\]_', title) is None, msg='%s: Title "%s" contains unprotected underscore(s).' %
+                            (t['md'], t['title']))
 
     def test_words_are_capitalized(self):
         """Test that title words are capitalized."""
@@ -86,16 +87,21 @@ class TestTitles(unittest.TestCase):
             words = re.split(r'[ :\(\),/\?\']', title)
             for w in range(len(words)):
                 word = words[w]
-                if not word or word.startswith('wb') or word.endswith('.wbt') or word.endswith('.wbt]') or word in exceptions or numberPattern.match(word) or len(word) == 1:
+                if (not word or word.startswith('wb') or word.endswith('.wbt') or word.endswith('.wbt]') or
+                        word in exceptions or numberPattern.match(word) or len(word) == 1):
                     continue  # Exceptions.
                 if w == 0:
-                    self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' % (t['md'], t['title']))
+                    self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' %
+                                    (t['md'], t['title']))
                 elif w == len(words) - 1:
-                    self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' % (t['md'], t['title']))
+                    self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' %
+                                    (t['md'], t['title']))
                 elif word.lower() in articles or word.lower() in conjunctions or word.lower() in prepositions:
-                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' % (t['md'], word, t['title']))
+                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
+                                    (t['md'], word, t['title']))
                 else:
-                    self.assertTrue(uppercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in uppercase.' % (t['md'], word, t['title']))
+                    self.assertTrue(uppercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in uppercase.' %
+                                    (t['md'], word, t['title']))
 
     def test_first_heading_has_the_highest_level(self):
         """Test that the first heading has the highest level."""
@@ -106,4 +112,6 @@ class TestTitles(unittest.TestCase):
                 minLevel = title_level(t['title'])
                 currentMD = t['md']
             else:
-                self.assertTrue(minLevel < title_level(t['title']), msg='%s: title "%s" has a level higher than or equals to the first heading level of this page.' % (t['md'], t['title']))
+                self.assertTrue(minLevel < title_level(t['title']),
+                                msg='%s: title "%s" has a level higher than or equals to the first heading level of this page.'
+                                % (t['md'], t['title']))
