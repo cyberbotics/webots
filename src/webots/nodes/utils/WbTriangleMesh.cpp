@@ -136,7 +136,7 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mNormals.reserve(3 * estimateSize);
 
   // passes to create the final arrays
-  indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex) ? normalIndex : coordIndex,
+  indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex && isNormalIndexDefined) ? normalIndex : coordIndex,
               (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
   if (mNormalsValid && !mNormalPerVertex && mNTriangles > normal->size()) {
