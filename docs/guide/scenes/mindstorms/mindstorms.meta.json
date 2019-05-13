@@ -2,7 +2,7 @@
   "name": "mindstorms", 
   "devices": [
     {
-      "transformID": "n40", 
+      "transformID": "n39", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n53", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,29 +20,29 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n40", 
+      "transformID": "n39", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n53", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "-0.024 0.016 -0.0246", 
       "type": "TouchSensor", 
       "name": "S1"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "0 0.01 -0.0146", 
       "type": "DistanceSensor", 
       "name": "S2"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "0.024 0.016 -0.0246", 
       "type": "TouchSensor", 
       "name": "S3"

@@ -2,7 +2,7 @@
   "name": "boebot", 
   "devices": [
     {
-      "transformID": "n189", 
+      "transformID": "n188", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n161", 
+      "transformID": "n160", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,10 +20,10 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n131", 
+      "transformID": "n130", 
       "name": "left_led", 
       "ledPBRAppearanceIDs": [
-        "n134"
+        "n133"
       ], 
       "ledColors": [
         "1 0 0"
@@ -32,10 +32,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n115", 
+      "transformID": "n114", 
       "name": "right_led", 
       "ledPBRAppearanceIDs": [
-        "n118"
+        "n117"
       ], 
       "ledColors": [
         "1 0 0"
@@ -44,42 +44,42 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n58", 
+      "transformID": "n57", 
       "type": "DistanceSensor", 
       "name": "lds"
     }, 
     {
-      "transformID": "n189", 
+      "transformID": "n188", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n152", 
+      "transformID": "n151", 
       "type": "TouchSensor", 
       "name": "left_whisker"
     }, 
     {
-      "transformID": "n95", 
+      "transformID": "n94", 
       "type": "LightSensor", 
       "name": "lls"
     }, 
     {
-      "transformID": "n41", 
+      "transformID": "n40", 
       "type": "DistanceSensor", 
       "name": "rds"
     }, 
     {
-      "transformID": "n161", 
+      "transformID": "n160", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n147", 
+      "transformID": "n146", 
       "type": "TouchSensor", 
       "name": "right_whisker"
     }, 
     {
-      "transformID": "n75", 
+      "transformID": "n74", 
       "type": "LightSensor", 
       "name": "rls"
     }

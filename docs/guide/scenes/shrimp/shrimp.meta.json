@@ -2,7 +2,7 @@
   "name": "shrimp", 
   "devices": [
     {
-      "transformID": "n120", 
+      "transformID": "n119", 
       "name": "back wheel rotation", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n424", 
+      "transformID": "n423", 
       "name": "front wheel rotation", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n445", 
+      "transformID": "n444", 
       "name": "wheel motor 00", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n336", 
+      "transformID": "n335", 
       "name": "wheel motor 01", 
       "maxPosition": 0, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n230", 
+      "transformID": "n229", 
       "name": "wheel motor 02", 
       "maxPosition": 0, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n296", 
+      "transformID": "n295", 
       "name": "wheel motor 03", 
       "maxPosition": 0, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n190", 
+      "transformID": "n189", 
       "name": "wheel motor 04", 
       "maxPosition": 0, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "name": "wheel motor 05", 
       "maxPosition": 0, 
       "position": 0, 
@@ -74,32 +74,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n445", 
+      "transformID": "n444", 
       "type": "PositionSensor", 
       "name": "wheel sensor 00"
     }, 
     {
-      "transformID": "n336", 
+      "transformID": "n335", 
       "type": "PositionSensor", 
       "name": "wheel sensor 01"
     }, 
     {
-      "transformID": "n230", 
+      "transformID": "n229", 
       "type": "PositionSensor", 
       "name": "wheel sensor 02"
     }, 
     {
-      "transformID": "n296", 
+      "transformID": "n295", 
       "type": "PositionSensor", 
       "name": "wheel sensor 03"
     }, 
     {
-      "transformID": "n190", 
+      "transformID": "n189", 
       "type": "PositionSensor", 
       "name": "wheel sensor 04"
     }, 
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "type": "PositionSensor", 
       "name": "wheel sensor 05"
     }

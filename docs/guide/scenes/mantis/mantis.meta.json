@@ -2,7 +2,7 @@
   "name": "mantis", 
   "devices": [
     {
-      "transformID": "n292", 
+      "transformID": "n291", 
       "name": "LAC", 
       "maxPosition": 0, 
       "position": -0.700161, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n308", 
+      "transformID": "n307", 
       "name": "LAF", 
       "maxPosition": 0, 
       "position": 0.786181, 
@@ -20,7 +20,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n323", 
+      "transformID": "n322", 
       "name": "LAT", 
       "maxPosition": 0, 
       "position": -2.29996, 
@@ -29,7 +29,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n379", 
+      "transformID": "n378", 
       "name": "LMC", 
       "maxPosition": 0, 
       "position": -0.000160523, 
@@ -38,7 +38,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n395", 
+      "transformID": "n394", 
       "name": "LMF", 
       "maxPosition": 0, 
       "position": 0.786182, 
@@ -47,7 +47,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n410", 
+      "transformID": "n409", 
       "name": "LMT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -56,7 +56,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n466", 
+      "transformID": "n465", 
       "name": "LPC", 
       "maxPosition": 0, 
       "position": 0.699839, 
@@ -65,7 +65,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n482", 
+      "transformID": "n481", 
       "name": "LPF", 
       "maxPosition": 0, 
       "position": 0.786183, 
@@ -74,7 +74,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n497", 
+      "transformID": "n496", 
       "name": "LPT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -83,7 +83,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n205", 
+      "transformID": "n204", 
       "name": "RAC", 
       "maxPosition": 0, 
       "position": 0.700158, 
@@ -92,7 +92,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n221", 
+      "transformID": "n220", 
       "name": "RAF", 
       "maxPosition": 0, 
       "position": 0.786181, 
@@ -101,7 +101,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n236", 
+      "transformID": "n235", 
       "name": "RAT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -110,7 +110,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n118", 
+      "transformID": "n117", 
       "name": "RMC", 
       "maxPosition": 0, 
       "position": 0.000333208, 
@@ -119,7 +119,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n134", 
+      "transformID": "n133", 
       "name": "RMF", 
       "maxPosition": 0, 
       "position": 0.786182, 
@@ -128,7 +128,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n149", 
+      "transformID": "n148", 
       "name": "RMT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -137,7 +137,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n31", 
+      "transformID": "n30", 
       "name": "RPC", 
       "maxPosition": 0, 
       "position": -0.699842, 
@@ -146,7 +146,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n46", 
       "name": "RPF", 
       "maxPosition": 0, 
       "position": 0.786183, 
@@ -155,7 +155,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n62", 
+      "transformID": "n61", 
       "name": "RPT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -164,10 +164,10 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n335", 
+      "transformID": "n334", 
       "name": "LAANKLE", 
       "ledPBRAppearanceIDs": [
-        "n337"
+        "n336"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -179,10 +179,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n367", 
+      "transformID": "n366", 
       "name": "LACLED", 
       "ledPBRAppearanceIDs": [
-        "n369"
+        "n368"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -193,10 +193,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n359", 
+      "transformID": "n358", 
       "name": "LAFLED", 
       "ledPBRAppearanceIDs": [
-        "n361"
+        "n360"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -207,10 +207,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n351", 
+      "transformID": "n350", 
       "name": "LATLED", 
       "ledPBRAppearanceIDs": [
-        "n353"
+        "n352"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -221,10 +221,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n339", 
+      "transformID": "n338", 
       "name": "LATOUCH", 
       "ledPBRAppearanceIDs": [
-        "n341"
+        "n340"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -236,10 +236,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n422", 
+      "transformID": "n421", 
       "name": "LMANKLE", 
       "ledPBRAppearanceIDs": [
-        "n424"
+        "n423"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -251,10 +251,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n454", 
+      "transformID": "n453", 
       "name": "LMCLED", 
       "ledPBRAppearanceIDs": [
-        "n456"
+        "n455"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -265,10 +265,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n446", 
+      "transformID": "n445", 
       "name": "LMFLED", 
       "ledPBRAppearanceIDs": [
-        "n448"
+        "n447"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -279,10 +279,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n438", 
+      "transformID": "n437", 
       "name": "LMTLED", 
       "ledPBRAppearanceIDs": [
-        "n440"
+        "n439"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -293,10 +293,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n426", 
+      "transformID": "n425", 
       "name": "LMTOUCH", 
       "ledPBRAppearanceIDs": [
-        "n428"
+        "n427"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -308,10 +308,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n509", 
+      "transformID": "n508", 
       "name": "LPANKLE", 
       "ledPBRAppearanceIDs": [
-        "n511"
+        "n510"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -323,10 +323,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n541", 
+      "transformID": "n540", 
       "name": "LPCLED", 
       "ledPBRAppearanceIDs": [
-        "n543"
+        "n542"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -337,10 +337,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n533", 
+      "transformID": "n532", 
       "name": "LPFLED", 
       "ledPBRAppearanceIDs": [
-        "n535"
+        "n534"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -351,10 +351,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n525", 
+      "transformID": "n524", 
       "name": "LPTLED", 
       "ledPBRAppearanceIDs": [
-        "n527"
+        "n526"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -365,10 +365,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n513", 
+      "transformID": "n512", 
       "name": "LPTOUCH", 
       "ledPBRAppearanceIDs": [
-        "n515"
+        "n514"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -380,10 +380,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n248", 
+      "transformID": "n247", 
       "name": "RAANKLE", 
       "ledPBRAppearanceIDs": [
-        "n250"
+        "n249"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -395,10 +395,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n280", 
+      "transformID": "n279", 
       "name": "RACLED", 
       "ledPBRAppearanceIDs": [
-        "n282"
+        "n281"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -409,10 +409,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n272", 
+      "transformID": "n271", 
       "name": "RAFLED", 
       "ledPBRAppearanceIDs": [
-        "n274"
+        "n273"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -423,10 +423,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n264", 
+      "transformID": "n263", 
       "name": "RATLED", 
       "ledPBRAppearanceIDs": [
-        "n266"
+        "n265"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -437,10 +437,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n252", 
+      "transformID": "n251", 
       "name": "RATOUCH", 
       "ledPBRAppearanceIDs": [
-        "n254"
+        "n253"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -452,10 +452,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n161", 
+      "transformID": "n160", 
       "name": "RMANKLE", 
       "ledPBRAppearanceIDs": [
-        "n163"
+        "n162"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -467,10 +467,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n192", 
       "name": "RMCLED", 
       "ledPBRAppearanceIDs": [
-        "n195"
+        "n194"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -481,10 +481,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n185", 
+      "transformID": "n184", 
       "name": "RMFLED", 
       "ledPBRAppearanceIDs": [
-        "n187"
+        "n186"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -495,10 +495,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n177", 
+      "transformID": "n176", 
       "name": "RMTLED", 
       "ledPBRAppearanceIDs": [
-        "n179"
+        "n178"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -509,10 +509,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n165", 
+      "transformID": "n164", 
       "name": "RMTOUCH", 
       "ledPBRAppearanceIDs": [
-        "n167"
+        "n166"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -524,10 +524,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n78", 
+      "transformID": "n77", 
       "name": "RPANKLE", 
       "ledPBRAppearanceIDs": [
-        "n80"
+        "n79"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -539,10 +539,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n106", 
+      "transformID": "n105", 
       "name": "RPCLED", 
       "ledPBRAppearanceIDs": [
-        "n108"
+        "n107"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -553,10 +553,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n98", 
+      "transformID": "n97", 
       "name": "RPFLED", 
       "ledPBRAppearanceIDs": [
-        "n100"
+        "n99"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -567,10 +567,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n90", 
+      "transformID": "n89", 
       "name": "RPTLED", 
       "ledPBRAppearanceIDs": [
-        "n92"
+        "n91"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -581,10 +581,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "name": "RPTOUCH", 
       "ledPBRAppearanceIDs": [
-        "n76"
+        "n75"
       ], 
       "ledColors": [
         "0 0.501961 0", 
@@ -596,32 +596,32 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n343", 
+      "transformID": "n342", 
       "type": "TouchSensor", 
       "name": "LAS"
     }, 
     {
-      "transformID": "n430", 
+      "transformID": "n429", 
       "type": "TouchSensor", 
       "name": "LMS"
     }, 
     {
-      "transformID": "n517", 
+      "transformID": "n516", 
       "type": "TouchSensor", 
       "name": "LPS"
     }, 
     {
-      "transformID": "n256", 
+      "transformID": "n255", 
       "type": "TouchSensor", 
       "name": "RAS"
     }, 
     {
-      "transformID": "n169", 
+      "transformID": "n168", 
       "type": "TouchSensor", 
       "name": "RMS"
     }, 
     {
-      "transformID": "n82", 
+      "transformID": "n81", 
       "type": "TouchSensor", 
       "name": "RPS"
     }

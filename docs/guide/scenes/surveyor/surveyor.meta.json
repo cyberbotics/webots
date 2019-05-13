@@ -2,7 +2,7 @@
   "name": "surveyor", 
   "devices": [
     {
-      "transformID": "n250", 
+      "transformID": "n249", 
       "name": "wheel_motor00", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n258", 
+      "transformID": "n257", 
       "name": "wheel_motor01", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n266", 
+      "transformID": "n265", 
       "name": "wheel_motor02", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n274", 
+      "transformID": "n273", 
       "name": "wheel_motor03", 
       "maxPosition": 0, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n282", 
+      "transformID": "n281", 
       "name": "wheel_motor04", 
       "maxPosition": 0, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n290", 
+      "transformID": "n289", 
       "name": "wheel_motor05", 
       "maxPosition": 0, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n298", 
+      "transformID": "n297", 
       "name": "wheel_motor06", 
       "maxPosition": 0, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n306", 
+      "transformID": "n305", 
       "name": "wheel_motor07", 
       "maxPosition": 0, 
       "position": 0, 
@@ -74,7 +74,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n314", 
+      "transformID": "n313", 
       "name": "wheel_motor08", 
       "maxPosition": 0, 
       "position": 0, 
@@ -83,7 +83,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n322", 
+      "transformID": "n321", 
       "name": "wheel_motor09", 
       "maxPosition": 0, 
       "position": 0, 
@@ -92,88 +92,88 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n237", 
+      "transformID": "n236", 
       "type": "Camera", 
       "name": "camera"
     }, 
     {
-      "transformID": "n326", 
+      "transformID": "n325", 
       "type": "DistanceSensor", 
       "name": "ds0"
     }, 
     {
-      "transformID": "n348", 
+      "transformID": "n347", 
       "type": "DistanceSensor", 
       "name": "ds1"
     }, 
     {
-      "transformID": "n370", 
+      "transformID": "n369", 
       "type": "DistanceSensor", 
       "name": "ds2"
     }, 
     {
-      "transformID": "n392", 
+      "transformID": "n391", 
       "type": "DistanceSensor", 
       "name": "ds3"
     }, 
     {
-      "transformID": "n227", 
+      "transformID": "n226", 
       "type": "Emitter", 
       "name": "emitter"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "-0.017 0.08 -0.002", 
       "type": "Receiver", 
       "name": "receiver"
     }, 
     {
-      "transformID": "n250", 
+      "transformID": "n249", 
       "type": "PositionSensor", 
       "name": "wheel_sensor00"
     }, 
     {
-      "transformID": "n258", 
+      "transformID": "n257", 
       "type": "PositionSensor", 
       "name": "wheel_sensor01"
     }, 
     {
-      "transformID": "n266", 
+      "transformID": "n265", 
       "type": "PositionSensor", 
       "name": "wheel_sensor02"
     }, 
     {
-      "transformID": "n274", 
+      "transformID": "n273", 
       "type": "PositionSensor", 
       "name": "wheel_sensor03"
     }, 
     {
-      "transformID": "n282", 
+      "transformID": "n281", 
       "type": "PositionSensor", 
       "name": "wheel_sensor04"
     }, 
     {
-      "transformID": "n290", 
+      "transformID": "n289", 
       "type": "PositionSensor", 
       "name": "wheel_sensor05"
     }, 
     {
-      "transformID": "n298", 
+      "transformID": "n297", 
       "type": "PositionSensor", 
       "name": "wheel_sensor06"
     }, 
     {
-      "transformID": "n306", 
+      "transformID": "n305", 
       "type": "PositionSensor", 
       "name": "wheel_sensor07"
     }, 
     {
-      "transformID": "n314", 
+      "transformID": "n313", 
       "type": "PositionSensor", 
       "name": "wheel_sensor08"
     }, 
     {
-      "transformID": "n322", 
+      "transformID": "n321", 
       "type": "PositionSensor", 
       "name": "wheel_sensor09"
     }

@@ -2,7 +2,7 @@
   "name": "koala", 
   "devices": [
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n99", 
+      "transformID": "n98", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,92 +20,92 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n135", 
+      "transformID": "n134", 
       "type": "DistanceSensor", 
       "name": "ds0"
     }, 
     {
-      "transformID": "n139", 
+      "transformID": "n138", 
       "type": "DistanceSensor", 
       "name": "ds1"
     }, 
     {
-      "transformID": "n175", 
+      "transformID": "n174", 
       "type": "DistanceSensor", 
       "name": "ds10"
     }, 
     {
-      "transformID": "n179", 
+      "transformID": "n178", 
       "type": "DistanceSensor", 
       "name": "ds11"
     }, 
     {
-      "transformID": "n183", 
+      "transformID": "n182", 
       "type": "DistanceSensor", 
       "name": "ds12"
     }, 
     {
-      "transformID": "n187", 
+      "transformID": "n186", 
       "type": "DistanceSensor", 
       "name": "ds13"
     }, 
     {
-      "transformID": "n191", 
+      "transformID": "n190", 
       "type": "DistanceSensor", 
       "name": "ds14"
     }, 
     {
-      "transformID": "n195", 
+      "transformID": "n194", 
       "type": "DistanceSensor", 
       "name": "ds15"
     }, 
     {
-      "transformID": "n143", 
+      "transformID": "n142", 
       "type": "DistanceSensor", 
       "name": "ds2"
     }, 
     {
-      "transformID": "n147", 
+      "transformID": "n146", 
       "type": "DistanceSensor", 
       "name": "ds3"
     }, 
     {
-      "transformID": "n151", 
+      "transformID": "n150", 
       "type": "DistanceSensor", 
       "name": "ds4"
     }, 
     {
-      "transformID": "n155", 
+      "transformID": "n154", 
       "type": "DistanceSensor", 
       "name": "ds5"
     }, 
     {
-      "transformID": "n159", 
+      "transformID": "n158", 
       "type": "DistanceSensor", 
       "name": "ds6"
     }, 
     {
-      "transformID": "n163", 
+      "transformID": "n162", 
       "type": "DistanceSensor", 
       "name": "ds7"
     }, 
     {
-      "transformID": "n167", 
+      "transformID": "n166", 
       "type": "DistanceSensor", 
       "name": "ds8"
     }, 
     {
-      "transformID": "n171", 
+      "transformID": "n170", 
       "type": "DistanceSensor", 
       "name": "ds9"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n99", 
+      "transformID": "n98", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

@@ -2,7 +2,7 @@
   "name": "pr2", 
   "devices": [
     {
-      "transformID": "n128", 
+      "transformID": "n127", 
       "name": "bl_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "name": "bl_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n118", 
       "name": "bl_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n169", 
+      "transformID": "n168", 
       "name": "br_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n182", 
+      "transformID": "n181", 
       "name": "br_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n160", 
+      "transformID": "n159", 
       "name": "br_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n46", 
+      "transformID": "n45", 
       "name": "fl_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n58", 
       "name": "fl_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -74,7 +74,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n37", 
+      "transformID": "n36", 
       "name": "fl_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -83,7 +83,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n87", 
+      "transformID": "n86", 
       "name": "fr_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -92,7 +92,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n100", 
+      "transformID": "n99", 
       "name": "fr_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -101,7 +101,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n78", 
+      "transformID": "n77", 
       "name": "fr_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -110,7 +110,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n221", 
+      "transformID": "n220", 
       "name": "head_pan_joint", 
       "maxPosition": 3.007, 
       "position": 0, 
@@ -119,7 +119,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n231", 
+      "transformID": "n230", 
       "name": "head_tilt_joint", 
       "maxPosition": 1.39626, 
       "position": 0, 
@@ -128,7 +128,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n553", 
+      "transformID": "n552", 
       "name": "l_elbow_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -137,7 +137,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n563", 
+      "transformID": "n562", 
       "name": "l_forearm_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -146,7 +146,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n622", 
+      "transformID": "n621", 
       "name": "l_gripper_l_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -155,7 +155,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n632", 
+      "transformID": "n631", 
       "name": "l_gripper_l_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -164,7 +164,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n615", 
+      "transformID": "n614", 
       "name": "l_gripper_motor_screw_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -173,7 +173,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n648", 
+      "transformID": "n647", 
       "name": "l_gripper_r_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -182,7 +182,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n659", 
+      "transformID": "n658", 
       "name": "l_gripper_r_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -191,7 +191,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n528", 
+      "transformID": "n527", 
       "name": "l_shoulder_lift_joint", 
       "maxPosition": 1.3963, 
       "position": 0, 
@@ -200,7 +200,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n517", 
+      "transformID": "n516", 
       "name": "l_shoulder_pan_joint", 
       "maxPosition": 2.2853981634, 
       "position": 0, 
@@ -209,7 +209,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n538", 
+      "transformID": "n537", 
       "name": "l_upper_arm_roll_joint", 
       "maxPosition": 3.9, 
       "position": 0, 
@@ -218,7 +218,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n579", 
+      "transformID": "n578", 
       "name": "l_wrist_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -227,7 +227,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n589", 
+      "transformID": "n588", 
       "name": "l_wrist_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -236,7 +236,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n290", 
+      "transformID": "n289", 
       "name": "laser_tilt_mount_joint", 
       "maxPosition": 1.48353, 
       "position": 0, 
@@ -245,7 +245,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n344", 
+      "transformID": "n343", 
       "name": "r_elbow_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -254,7 +254,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n354", 
+      "transformID": "n353", 
       "name": "r_forearm_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -263,7 +263,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n408", 
+      "transformID": "n407", 
       "name": "r_gripper_l_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -272,7 +272,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n418", 
+      "transformID": "n417", 
       "name": "r_gripper_l_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -281,7 +281,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n434", 
+      "transformID": "n433", 
       "name": "r_gripper_r_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -290,7 +290,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n445", 
+      "transformID": "n444", 
       "name": "r_gripper_r_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -299,7 +299,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n319", 
+      "transformID": "n318", 
       "name": "r_shoulder_lift_joint", 
       "maxPosition": 1.3963, 
       "position": 0, 
@@ -308,7 +308,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n308", 
+      "transformID": "n307", 
       "name": "r_shoulder_pan_joint", 
       "maxPosition": 0.714601836603, 
       "position": 0, 
@@ -317,7 +317,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n329", 
+      "transformID": "n328", 
       "name": "r_upper_arm_roll_joint", 
       "maxPosition": 0.8, 
       "position": 0, 
@@ -326,7 +326,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n370", 
+      "transformID": "n369", 
       "name": "r_wrist_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -335,7 +335,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n380", 
+      "transformID": "n379", 
       "name": "r_wrist_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -344,7 +344,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n741", 
+      "transformID": "n740", 
       "name": "torso_lift_motor_screw_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -353,7 +353,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n669", 
+      "transformID": "n668", 
       "name": "l_gripper_joint", 
       "maxPosition": 0.09, 
       "position": 0, 
@@ -362,7 +362,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n610", 
+      "transformID": "n609", 
       "name": "l_gripper_motor_slider_joint", 
       "maxPosition": 0.1, 
       "position": 0, 
@@ -371,7 +371,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n455", 
+      "transformID": "n454", 
       "name": "r_gripper_joint", 
       "maxPosition": 0.09, 
       "position": 0, 
@@ -380,7 +380,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n402", 
+      "transformID": "n401", 
       "name": "r_gripper_motor_slider_joint", 
       "maxPosition": 0.1, 
       "position": 0, 
@@ -389,7 +389,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n201", 
+      "transformID": "n200", 
       "name": "torso_lift_joint", 
       "maxPosition": 0.33, 
       "position": 0, 
@@ -398,7 +398,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n391", 
+      "transformID": "n390", 
       "name": "r_gripper_led", 
       "ledPBRAppearanceIDs": [], 
       "ledColors": [
@@ -408,272 +408,272 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n30", 
+      "transformID": "n29", 
       "type": "Lidar", 
       "name": "base_laser"
     }, 
     {
-      "transformID": "n128", 
+      "transformID": "n127", 
       "type": "PositionSensor", 
       "name": "bl_caster_l_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "type": "PositionSensor", 
       "name": "bl_caster_r_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n118", 
       "type": "PositionSensor", 
       "name": "bl_caster_rotation_joint_sensor"
     }, 
     {
-      "transformID": "n169", 
+      "transformID": "n168", 
       "type": "PositionSensor", 
       "name": "br_caster_l_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n182", 
+      "transformID": "n181", 
       "type": "PositionSensor", 
       "name": "br_caster_r_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n160", 
+      "transformID": "n159", 
       "type": "PositionSensor", 
       "name": "br_caster_rotation_joint_sensor"
     }, 
     {
-      "transformID": "n46", 
+      "transformID": "n45", 
       "type": "PositionSensor", 
       "name": "fl_caster_l_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n58", 
       "type": "PositionSensor", 
       "name": "fl_caster_r_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n37", 
+      "transformID": "n36", 
       "type": "PositionSensor", 
       "name": "fl_caster_rotation_joint_sensor"
     }, 
     {
-      "transformID": "n87", 
+      "transformID": "n86", 
       "type": "PositionSensor", 
       "name": "fr_caster_l_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n100", 
+      "transformID": "n99", 
       "type": "PositionSensor", 
       "name": "fr_caster_r_wheel_joint_sensor"
     }, 
     {
-      "transformID": "n78", 
+      "transformID": "n77", 
       "type": "PositionSensor", 
       "name": "fr_caster_rotation_joint_sensor"
     }, 
     {
-      "transformID": "n221", 
+      "transformID": "n220", 
       "type": "PositionSensor", 
       "name": "head_pan_joint_sensor"
     }, 
     {
-      "transformID": "n231", 
+      "transformID": "n230", 
       "type": "PositionSensor", 
       "name": "head_tilt_joint_sensor"
     }, 
     {
-      "transformID": "n248", 
+      "transformID": "n247", 
       "type": "Camera", 
       "name": "high_def_sensor"
     }, 
     {
-      "transformID": "n214", 
+      "transformID": "n213", 
       "type": "InertialUnit", 
       "name": "imu_sensor"
     }, 
     {
-      "transformID": "n553", 
+      "transformID": "n552", 
       "type": "PositionSensor", 
       "name": "l_elbow_flex_joint_sensor"
     }, 
     {
-      "transformID": "n689", 
+      "transformID": "n688", 
       "type": "Camera", 
       "name": "l_forearm_cam_sensor"
     }, 
     {
-      "transformID": "n563", 
+      "transformID": "n562", 
       "type": "PositionSensor", 
       "name": "l_forearm_roll_joint_sensor"
     }, 
     {
-      "transformID": "n622", 
+      "transformID": "n621", 
       "type": "PositionSensor", 
       "name": "l_gripper_l_finger_joint_sensor"
     }, 
     {
-      "transformID": "n632", 
+      "transformID": "n631", 
       "type": "TouchSensor", 
       "name": "l_gripper_l_finger_tip_contact_sensor"
     }, 
     {
-      "transformID": "n632", 
+      "transformID": "n631", 
       "type": "PositionSensor", 
       "name": "l_gripper_l_finger_tip_joint_sensor"
     }, 
     {
-      "transformID": "n602", 
+      "transformID": "n601", 
       "type": "Accelerometer", 
       "name": "l_gripper_motor_accelerometer"
     }, 
     {
-      "transformID": "n615", 
+      "transformID": "n614", 
       "type": "PositionSensor", 
       "name": "l_gripper_motor_screw_joint_sensor"
     }, 
     {
-      "transformID": "n648", 
+      "transformID": "n647", 
       "type": "PositionSensor", 
       "name": "l_gripper_r_finger_joint_sensor"
     }, 
     {
-      "transformID": "n659", 
+      "transformID": "n658", 
       "type": "TouchSensor", 
       "name": "l_gripper_r_finger_tip_contact_sensor"
     }, 
     {
-      "transformID": "n659", 
+      "transformID": "n658", 
       "type": "PositionSensor", 
       "name": "l_gripper_r_finger_tip_joint_sensor"
     }, 
     {
-      "transformID": "n528", 
+      "transformID": "n527", 
       "type": "PositionSensor", 
       "name": "l_shoulder_lift_joint_sensor"
     }, 
     {
-      "transformID": "n517", 
+      "transformID": "n516", 
       "type": "PositionSensor", 
       "name": "l_shoulder_pan_joint_sensor"
     }, 
     {
-      "transformID": "n538", 
+      "transformID": "n537", 
       "type": "PositionSensor", 
       "name": "l_upper_arm_roll_joint_sensor"
     }, 
     {
-      "transformID": "n579", 
+      "transformID": "n578", 
       "type": "PositionSensor", 
       "name": "l_wrist_flex_joint_sensor"
     }, 
     {
-      "transformID": "n589", 
+      "transformID": "n588", 
       "type": "PositionSensor", 
       "name": "l_wrist_roll_joint_sensor"
     }, 
     {
-      "transformID": "n298", 
+      "transformID": "n297", 
       "type": "Lidar", 
       "name": "laser_tilt"
     }, 
     {
-      "transformID": "n290", 
+      "transformID": "n289", 
       "type": "PositionSensor", 
       "name": "laser_tilt_mount_joint_sensor"
     }, 
     {
-      "transformID": "n344", 
+      "transformID": "n343", 
       "type": "PositionSensor", 
       "name": "r_elbow_flex_joint_sensor"
     }, 
     {
-      "transformID": "n474", 
+      "transformID": "n473", 
       "type": "Camera", 
       "name": "r_forearm_cam_sensor"
     }, 
     {
-      "transformID": "n354", 
+      "transformID": "n353", 
       "type": "PositionSensor", 
       "name": "r_forearm_roll_joint_sensor"
     }, 
     {
-      "transformID": "n408", 
+      "transformID": "n407", 
       "type": "PositionSensor", 
       "name": "r_gripper_l_finger_joint_sensor"
     }, 
     {
-      "transformID": "n418", 
+      "transformID": "n417", 
       "type": "TouchSensor", 
       "name": "r_gripper_l_finger_tip_contact_sensor"
     }, 
     {
-      "transformID": "n418", 
+      "transformID": "n417", 
       "type": "PositionSensor", 
       "name": "r_gripper_l_finger_tip_joint_sensor"
     }, 
     {
-      "transformID": "n394", 
+      "transformID": "n393", 
       "type": "Accelerometer", 
       "name": "r_gripper_motor_accelerometer"
     }, 
     {
-      "transformID": "n434", 
+      "transformID": "n433", 
       "type": "PositionSensor", 
       "name": "r_gripper_r_finger_joint_sensor"
     }, 
     {
-      "transformID": "n445", 
+      "transformID": "n444", 
       "type": "TouchSensor", 
       "name": "r_gripper_r_finger_tip_contact_sensor"
     }, 
     {
-      "transformID": "n445", 
+      "transformID": "n444", 
       "type": "PositionSensor", 
       "name": "r_gripper_r_finger_tip_joint_sensor"
     }, 
     {
-      "transformID": "n319", 
+      "transformID": "n318", 
       "type": "PositionSensor", 
       "name": "r_shoulder_lift_joint_sensor"
     }, 
     {
-      "transformID": "n308", 
+      "transformID": "n307", 
       "type": "PositionSensor", 
       "name": "r_shoulder_pan_joint_sensor"
     }, 
     {
-      "transformID": "n329", 
+      "transformID": "n328", 
       "type": "PositionSensor", 
       "name": "r_upper_arm_roll_joint_sensor"
     }, 
     {
-      "transformID": "n370", 
+      "transformID": "n369", 
       "type": "PositionSensor", 
       "name": "r_wrist_flex_joint_sensor"
     }, 
     {
-      "transformID": "n380", 
+      "transformID": "n379", 
       "type": "PositionSensor", 
       "name": "r_wrist_roll_joint_sensor"
     }, 
     {
-      "transformID": "n201", 
+      "transformID": "n200", 
       "type": "PositionSensor", 
       "name": "torso_lift_joint_sensor"
     }, 
     {
-      "transformID": "n741", 
+      "transformID": "n740", 
       "type": "PositionSensor", 
       "name": "torso_lift_motor_screw_joint_sensor"
     }, 
     {
-      "transformID": "n260", 
+      "transformID": "n259", 
       "type": "Camera", 
       "name": "wide_stereo_l_stereo_camera_sensor"
     }, 
     {
-      "transformID": "n265", 
+      "transformID": "n264", 
       "type": "Camera", 
       "name": "wide_stereo_r_stereo_camera_sensor"
     }

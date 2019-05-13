@@ -2,7 +2,7 @@
   "name": "ure", 
   "devices": [
     {
-      "transformID": "n194", 
+      "transformID": "n193", 
       "name": "elbow_joint", 
       "maxPosition": 3.14159265359, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n143", 
+      "transformID": "n142", 
       "name": "shoulder_lift_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n118", 
       "name": "shoulder_pan_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n234", 
+      "transformID": "n233", 
       "name": "wrist_1_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n258", 
+      "transformID": "n257", 
       "name": "wrist_2_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n282", 
+      "transformID": "n281", 
       "name": "wrist_3_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -56,32 +56,32 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n194", 
+      "transformID": "n193", 
       "type": "PositionSensor", 
       "name": "elbow_joint_sensor"
     }, 
     {
-      "transformID": "n143", 
+      "transformID": "n142", 
       "type": "PositionSensor", 
       "name": "shoulder_lift_joint_sensor"
     }, 
     {
-      "transformID": "n119", 
+      "transformID": "n118", 
       "type": "PositionSensor", 
       "name": "shoulder_pan_joint_sensor"
     }, 
     {
-      "transformID": "n234", 
+      "transformID": "n233", 
       "type": "PositionSensor", 
       "name": "wrist_1_joint_sensor"
     }, 
     {
-      "transformID": "n258", 
+      "transformID": "n257", 
       "type": "PositionSensor", 
       "name": "wrist_2_joint_sensor"
     }, 
     {
-      "transformID": "n282", 
+      "transformID": "n281", 
       "type": "PositionSensor", 
       "name": "wrist_3_joint_sensor"
     }

@@ -2,7 +2,7 @@
   "name": "firebird6", 
   "devices": [
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n123", 
+      "transformID": "n122", 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,112 +20,112 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "type": "Accelerometer", 
       "name": "accelerometer_01"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "type": "Compass", 
       "name": "compassXY_01"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "type": "Compass", 
       "name": "compassZ_01"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "type": "Gyro", 
       "name": "gyro_01"
     }, 
     {
-      "transformID": "n141", 
+      "transformID": "n140", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n33", 
+      "transformID": "n32", 
       "type": "DistanceSensor", 
       "name": "ps0"
     }, 
     {
-      "transformID": "n38", 
+      "transformID": "n37", 
       "type": "DistanceSensor", 
       "name": "ps1"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "type": "DistanceSensor", 
       "name": "ps2"
     }, 
     {
-      "transformID": "n48", 
+      "transformID": "n47", 
       "type": "DistanceSensor", 
       "name": "ps3"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "type": "DistanceSensor", 
       "name": "ps4"
     }, 
     {
-      "transformID": "n58", 
+      "transformID": "n57", 
       "type": "DistanceSensor", 
       "name": "ps5"
     }, 
     {
-      "transformID": "n63", 
+      "transformID": "n62", 
       "type": "DistanceSensor", 
       "name": "ps6"
     }, 
     {
-      "transformID": "n68", 
+      "transformID": "n67", 
       "type": "DistanceSensor", 
       "name": "ps7"
     }, 
     {
-      "transformID": "n123", 
+      "transformID": "n122", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n73", 
+      "transformID": "n72", 
       "type": "DistanceSensor", 
       "name": "sharp_00"
     }, 
     {
-      "transformID": "n77", 
+      "transformID": "n76", 
       "type": "DistanceSensor", 
       "name": "sharp_01"
     }, 
     {
-      "transformID": "n81", 
+      "transformID": "n80", 
       "type": "DistanceSensor", 
       "name": "sharp_02"
     }, 
     {
-      "transformID": "n85", 
+      "transformID": "n84", 
       "type": "DistanceSensor", 
       "name": "sharp_03"
     }, 
     {
-      "transformID": "n89", 
+      "transformID": "n88", 
       "type": "DistanceSensor", 
       "name": "sharp_04"
     }, 
     {
-      "transformID": "n93", 
+      "transformID": "n92", 
       "type": "DistanceSensor", 
       "name": "sharp_05"
     }, 
     {
-      "transformID": "n97", 
+      "transformID": "n96", 
       "type": "DistanceSensor", 
       "name": "sharp_06"
     }, 
     {
-      "transformID": "n101", 
+      "transformID": "n100", 
       "type": "DistanceSensor", 
       "name": "sharp_07"
     }

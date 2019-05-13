@@ -2,7 +2,7 @@
   "name": "irb4600-40", 
   "devices": [
     {
-      "transformID": "n24", 
+      "transformID": "n23", 
       "name": "A motor", 
       "maxPosition": 3.1415, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n34", 
+      "transformID": "n33", 
       "name": "B motor", 
       "maxPosition": 2.61799, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n44", 
+      "transformID": "n43", 
       "name": "C motor", 
       "maxPosition": 1.309, 
       "position": 0, 
@@ -29,7 +29,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n53", 
       "name": "D motor", 
       "maxPosition": 6.98132, 
       "position": 0, 
@@ -38,7 +38,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n64", 
+      "transformID": "n63", 
       "name": "E motor", 
       "maxPosition": 2.0944, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "name": "F motor", 
       "maxPosition": 6.98132, 
       "position": 0, 
@@ -56,32 +56,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n24", 
+      "transformID": "n23", 
       "type": "PositionSensor", 
       "name": "A sensor"
     }, 
     {
-      "transformID": "n34", 
+      "transformID": "n33", 
       "type": "PositionSensor", 
       "name": "B sensor"
     }, 
     {
-      "transformID": "n44", 
+      "transformID": "n43", 
       "type": "PositionSensor", 
       "name": "C sensor"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n53", 
       "type": "PositionSensor", 
       "name": "D sensor"
     }, 
     {
-      "transformID": "n64", 
+      "transformID": "n63", 
       "type": "PositionSensor", 
       "name": "E sensor"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "type": "PositionSensor", 
       "name": "F sensor"
     }

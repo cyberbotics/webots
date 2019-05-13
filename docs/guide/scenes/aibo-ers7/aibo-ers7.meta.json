@@ -2,7 +2,7 @@
   "name": "aibo-ers7", 
   "devices": [
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "name": "PRM:/r1/c1-Joint2:11", 
       "maxPosition": 0.0524, 
       "position": -0.5236, 
@@ -11,7 +11,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n51", 
+      "transformID": "n50", 
       "name": "PRM:/r1/c1/c2-Joint2:12", 
       "maxPosition": 1.6232, 
       "position": 0, 
@@ -20,7 +20,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "name": "PRM:/r1/c1/c2/c3-Joint2:13", 
       "maxPosition": 0.8727, 
       "position": 0.5236, 
@@ -29,7 +29,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n120", 
+      "transformID": "n119", 
       "name": "PRM:/r1/c1/c2/c3/c4-Joint2:14", 
       "maxPosition": 0, 
       "position": -0.0523599, 
@@ -38,7 +38,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n88", 
+      "transformID": "n87", 
       "name": "PRM:/r1/c1/c2/c3/e5-Joint4:15", 
       "maxPosition": 0.2618, 
       "position": 0, 
@@ -47,7 +47,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n104", 
+      "transformID": "n103", 
       "name": "PRM:/r1/c1/c2/c3/e6-Joint4:16", 
       "maxPosition": 0.2618, 
       "position": 0, 
@@ -56,7 +56,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n259", 
+      "transformID": "n258", 
       "name": "PRM:/r2/c1-Joint2:21", 
       "maxPosition": 2.3562, 
       "position": 0, 
@@ -65,7 +65,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n268", 
+      "transformID": "n267", 
       "name": "PRM:/r2/c1/c2-Joint2:22", 
       "maxPosition": 1.6232, 
       "position": 0, 
@@ -74,7 +74,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n277", 
+      "transformID": "n276", 
       "name": "PRM:/r2/c1/c2/c3-Joint2:23", 
       "maxPosition": 2.2166, 
       "position": 0.523653, 
@@ -83,7 +83,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n309", 
+      "transformID": "n308", 
       "name": "PRM:/r3/c1-Joint2:31", 
       "maxPosition": 2.0944, 
       "position": 0, 
@@ -92,7 +92,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n318", 
+      "transformID": "n317", 
       "name": "PRM:/r3/c1/c2-Joint2:32", 
       "maxPosition": 1.6232, 
       "position": 0, 
@@ -101,7 +101,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n327", 
+      "transformID": "n326", 
       "name": "PRM:/r3/c1/c2/c3-Joint2:33", 
       "maxPosition": 2.2166, 
       "position": 0.523598, 
@@ -110,7 +110,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n163", 
+      "transformID": "n162", 
       "name": "PRM:/r4/c1-Joint2:41", 
       "maxPosition": 2.3562, 
       "position": 0, 
@@ -119,7 +119,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n172", 
+      "transformID": "n171", 
       "name": "PRM:/r4/c1/c2-Joint2:42", 
       "maxPosition": 1.6232, 
       "position": 0, 
@@ -128,7 +128,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n181", 
+      "transformID": "n180", 
       "name": "PRM:/r4/c1/c2/c3-Joint2:43", 
       "maxPosition": 2.2166, 
       "position": 0.523619, 
@@ -137,7 +137,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n212", 
       "name": "PRM:/r5/c1-Joint2:51", 
       "maxPosition": 2.0944, 
       "position": 0, 
@@ -146,7 +146,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n222", 
+      "transformID": "n221", 
       "name": "PRM:/r5/c1/c2-Joint2:52", 
       "maxPosition": 1.6232, 
       "position": 0, 
@@ -155,7 +155,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n231", 
+      "transformID": "n230", 
       "name": "PRM:/r5/c1/c2/c3-Joint2:53", 
       "maxPosition": 2.2166, 
       "position": 0.523598, 
@@ -164,7 +164,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n138", 
+      "transformID": "n137", 
       "name": "PRM:/r6/c1-Joint2:61", 
       "maxPosition": 1.1345, 
       "position": 0, 
@@ -173,7 +173,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n146", 
+      "transformID": "n145", 
       "name": "PRM:/r6/c2-Joint2:62", 
       "maxPosition": 1.0472, 
       "position": 0, 
@@ -182,110 +182,110 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "0 -0.00425 -0.10864", 
       "type": "DistanceSensor", 
       "name": "PRM:/p1-Sensor:p1"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "transformOffset": "0 -0.0146 -0.08106", 
       "type": "Camera", 
       "name": "PRM:/r1/c1/c2/c3/i1-FbkImageSensor:F1"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "transformOffset": "0.00325 0 -0.0769", 
       "type": "DistanceSensor", 
       "name": "PRM:/r1/c1/c2/c3/p1-Sensor:p1"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "transformOffset": "-0.00695 0 -0.0769", 
       "type": "DistanceSensor", 
       "name": "PRM:/r1/c1/c2/c3/p2-Sensor:p2"
     }, 
     {
-      "transformID": "n268", 
+      "transformID": "n267", 
       "type": "PositionSensor", 
       "name": "PRM:/r2/c1/c2-JointSensor2:22"
     }, 
     {
-      "transformID": "n277", 
+      "transformID": "n276", 
       "type": "PositionSensor", 
       "name": "PRM:/r2/c1/c2/c3-JointSensor2:23"
     }, 
     {
-      "transformID": "n277", 
+      "transformID": "n276", 
       "transformOffset": "0 -0.0658 0.0055", 
       "type": "TouchSensor", 
       "name": "PRM:/r2/c1/c2/c3/c4-Sensor:24"
     }, 
     {
-      "transformID": "n309", 
+      "transformID": "n308", 
       "type": "PositionSensor", 
       "name": "PRM:/r3/c1-JointSensor2:31"
     }, 
     {
-      "transformID": "n318", 
+      "transformID": "n317", 
       "type": "PositionSensor", 
       "name": "PRM:/r3/c1/c2-JointSensor2:32"
     }, 
     {
-      "transformID": "n327", 
+      "transformID": "n326", 
       "type": "PositionSensor", 
       "name": "PRM:/r3/c1/c2/c3-JointSensor2:33"
     }, 
     {
-      "transformID": "n327", 
+      "transformID": "n326", 
       "transformOffset": "0 -0.0676 -0.01409", 
       "type": "TouchSensor", 
       "name": "PRM:/r3/c1/c2/c3/c4-Sensor:34"
     }, 
     {
-      "transformID": "n163", 
+      "transformID": "n162", 
       "type": "PositionSensor", 
       "name": "PRM:/r4/c1-JointSensor2:41"
     }, 
     {
-      "transformID": "n172", 
+      "transformID": "n171", 
       "type": "PositionSensor", 
       "name": "PRM:/r4/c1/c2-JointSensor2:42"
     }, 
     {
-      "transformID": "n181", 
+      "transformID": "n180", 
       "type": "PositionSensor", 
       "name": "PRM:/r4/c1/c2/c3-JointSensor2:43"
     }, 
     {
-      "transformID": "n181", 
+      "transformID": "n180", 
       "transformOffset": "0 -0.0658 0.0055", 
       "type": "TouchSensor", 
       "name": "PRM:/r4/c1/c2/c3/c4-Sensor:44"
     }, 
     {
-      "transformID": "n213", 
+      "transformID": "n212", 
       "type": "PositionSensor", 
       "name": "PRM:/r5/c1-JointSensor2:51"
     }, 
     {
-      "transformID": "n222", 
+      "transformID": "n221", 
       "type": "PositionSensor", 
       "name": "PRM:/r5/c1/c2-JointSensor2:52"
     }, 
     {
-      "transformID": "n231", 
+      "transformID": "n230", 
       "type": "PositionSensor", 
       "name": "PRM:/r5/c1/c2/c3-JointSensor2:53"
     }, 
     {
-      "transformID": "n231", 
+      "transformID": "n230", 
       "transformOffset": "0 -0.0676 -0.014087", 
       "type": "TouchSensor", 
       "name": "PRM:/r5/c1/c2/c3/c4-Sensor:54"
     }, 
     {
-      "transformID": "n259", 
+      "transformID": "n258", 
       "type": "PositionSensor", 
       "name": "RM:/r2/c1-JointSensor2:21"
     }

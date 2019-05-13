@@ -2,7 +2,7 @@
   "name": "thymio2", 
   "devices": [
     {
-      "transformID": "n91", 
+      "transformID": "n90", 
       "name": "motor.left", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +11,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "name": "motor.right", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,32 +20,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n437", 
+      "transformID": "n436", 
       "name": "leds.bottom.left", 
       "ledPBRAppearanceIDs": [
-        "n441", 
-        "n446"
+        "n440", 
+        "n445"
       ], 
       "ledColors": [], 
       "ledGradual": true, 
       "type": "LED"
     }, 
     {
-      "transformID": "n450", 
+      "transformID": "n449", 
       "name": "leds.bottom.right", 
       "ledPBRAppearanceIDs": [
-        "n454", 
-        "n459"
+        "n453", 
+        "n458"
       ], 
       "ledColors": [], 
       "ledGradual": true, 
       "type": "LED"
     }, 
     {
-      "transformID": "n211", 
+      "transformID": "n210", 
       "name": "leds.buttons.led0", 
       "ledPBRAppearanceIDs": [
-        "n215"
+        "n214"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -86,10 +86,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n218", 
+      "transformID": "n217", 
       "name": "leds.buttons.led1", 
       "ledPBRAppearanceIDs": [
-        "n222"
+        "n221"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -130,10 +130,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n225", 
+      "transformID": "n224", 
       "name": "leds.buttons.led2", 
       "ledPBRAppearanceIDs": [
-        "n229"
+        "n228"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -174,10 +174,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n232", 
+      "transformID": "n231", 
       "name": "leds.buttons.led3", 
       "ledPBRAppearanceIDs": [
-        "n236"
+        "n235"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -218,10 +218,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n239", 
+      "transformID": "n238", 
       "name": "leds.circle.led0", 
       "ledPBRAppearanceIDs": [
-        "n243"
+        "n242"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -262,10 +262,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n246", 
+      "transformID": "n245", 
       "name": "leds.circle.led1", 
       "ledPBRAppearanceIDs": [
-        "n250"
+        "n249"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -306,10 +306,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n253", 
+      "transformID": "n252", 
       "name": "leds.circle.led2", 
       "ledPBRAppearanceIDs": [
-        "n257"
+        "n256"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -350,10 +350,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n260", 
+      "transformID": "n259", 
       "name": "leds.circle.led3", 
       "ledPBRAppearanceIDs": [
-        "n264"
+        "n263"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -394,10 +394,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n267", 
+      "transformID": "n266", 
       "name": "leds.circle.led4", 
       "ledPBRAppearanceIDs": [
-        "n271"
+        "n270"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -438,10 +438,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n274", 
+      "transformID": "n273", 
       "name": "leds.circle.led5", 
       "ledPBRAppearanceIDs": [
-        "n278"
+        "n277"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -482,10 +482,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n281", 
+      "transformID": "n280", 
       "name": "leds.circle.led6", 
       "ledPBRAppearanceIDs": [
-        "n285"
+        "n284"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -526,10 +526,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n288", 
+      "transformID": "n287", 
       "name": "leds.circle.led7", 
       "ledPBRAppearanceIDs": [
-        "n292"
+        "n291"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -570,10 +570,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n295", 
+      "transformID": "n294", 
       "name": "leds.prox.h.led0", 
       "ledPBRAppearanceIDs": [
-        "n299"
+        "n298"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -614,10 +614,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n302", 
+      "transformID": "n301", 
       "name": "leds.prox.h.led1", 
       "ledPBRAppearanceIDs": [
-        "n306"
+        "n305"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -658,10 +658,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n309", 
+      "transformID": "n308", 
       "name": "leds.prox.h.led2", 
       "ledPBRAppearanceIDs": [
-        "n313"
+        "n312"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -702,10 +702,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n316", 
+      "transformID": "n315", 
       "name": "leds.prox.h.led3", 
       "ledPBRAppearanceIDs": [
-        "n320"
+        "n319"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -746,10 +746,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n323", 
+      "transformID": "n322", 
       "name": "leds.prox.h.led4", 
       "ledPBRAppearanceIDs": [
-        "n327"
+        "n326"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -790,10 +790,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n330", 
+      "transformID": "n329", 
       "name": "leds.prox.h.led5", 
       "ledPBRAppearanceIDs": [
-        "n334"
+        "n333"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -834,10 +834,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n337", 
+      "transformID": "n336", 
       "name": "leds.prox.h.led6", 
       "ledPBRAppearanceIDs": [
-        "n341"
+        "n340"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -878,10 +878,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n344", 
+      "transformID": "n343", 
       "name": "leds.prox.h.led7", 
       "ledPBRAppearanceIDs": [
-        "n348"
+        "n347"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -922,11 +922,11 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n379", 
+      "transformID": "n378", 
       "name": "leds.prox.v.led0", 
       "ledPBRAppearanceIDs": [
-        "n383", 
-        "n388"
+        "n382", 
+        "n387"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -967,11 +967,11 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n392", 
+      "transformID": "n391", 
       "name": "leds.prox.v.led1", 
       "ledPBRAppearanceIDs": [
-        "n396", 
-        "n401"
+        "n395", 
+        "n400"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -1012,10 +1012,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n358", 
+      "transformID": "n357", 
       "name": "leds.rc", 
       "ledPBRAppearanceIDs": [
-        "n362"
+        "n361"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -1056,10 +1056,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n351", 
+      "transformID": "n350", 
       "name": "leds.sound", 
       "ledPBRAppearanceIDs": [
-        "n355"
+        "n354"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -1100,10 +1100,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n372", 
+      "transformID": "n371", 
       "name": "leds.temperature.blue", 
       "ledPBRAppearanceIDs": [
-        "n376"
+        "n375"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -1144,10 +1144,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n365", 
+      "transformID": "n364", 
       "name": "leds.temperature.red", 
       "ledPBRAppearanceIDs": [
-        "n369"
+        "n368"
       ], 
       "ledColors": [
         "0 0 0", 
@@ -1188,103 +1188,103 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n405", 
+      "transformID": "n404", 
       "name": "leds.top", 
       "ledPBRAppearanceIDs": [
-        "n409", 
-        "n414", 
-        "n419", 
-        "n424", 
-        "n429", 
-        "n434"
+        "n408", 
+        "n413", 
+        "n418", 
+        "n423", 
+        "n428", 
+        "n433"
       ], 
       "ledColors": [], 
       "ledGradual": true, 
       "type": "LED"
     }, 
     {
-      "transformID": "n13", 
+      "transformID": "n12", 
       "transformOffset": "-0.02 0.03 0.015", 
       "type": "Accelerometer", 
       "name": "acc"
     }, 
     {
-      "transformID": "n120", 
+      "transformID": "n119", 
       "type": "TouchSensor", 
       "name": "button.backward"
     }, 
     {
-      "transformID": "n125", 
+      "transformID": "n124", 
       "type": "TouchSensor", 
       "name": "button.center"
     }, 
     {
-      "transformID": "n110", 
+      "transformID": "n109", 
       "type": "TouchSensor", 
       "name": "button.forward"
     }, 
     {
-      "transformID": "n105", 
+      "transformID": "n104", 
       "type": "TouchSensor", 
       "name": "button.left"
     }, 
     {
-      "transformID": "n115", 
+      "transformID": "n114", 
       "type": "TouchSensor", 
       "name": "button.right"
     }, 
     {
-      "transformID": "n91", 
+      "transformID": "n90", 
       "type": "PositionSensor", 
       "name": "motor.left.position"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "type": "PositionSensor", 
       "name": "motor.right.position"
     }, 
     {
-      "transformID": "n193", 
+      "transformID": "n192", 
       "type": "DistanceSensor", 
       "name": "prox.ground.0"
     }, 
     {
-      "transformID": "n202", 
+      "transformID": "n201", 
       "type": "DistanceSensor", 
       "name": "prox.ground.1"
     }, 
     {
-      "transformID": "n130", 
+      "transformID": "n129", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.0"
     }, 
     {
-      "transformID": "n139", 
+      "transformID": "n138", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.1"
     }, 
     {
-      "transformID": "n148", 
+      "transformID": "n147", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.2"
     }, 
     {
-      "transformID": "n157", 
+      "transformID": "n156", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.3"
     }, 
     {
-      "transformID": "n166", 
+      "transformID": "n165", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.4"
     }, 
     {
-      "transformID": "n175", 
+      "transformID": "n174", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.5"
     }, 
     {
-      "transformID": "n184", 
+      "transformID": "n183", 
       "type": "DistanceSensor", 
       "name": "prox.horizontal.6"
     }
