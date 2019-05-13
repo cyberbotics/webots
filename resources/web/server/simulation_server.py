@@ -18,7 +18,7 @@
 
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates
+    nvmlDeviceGetUtilizationRates
 from requests import session
 
 import errno
@@ -211,8 +211,8 @@ class Client:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
-            client.client_websocket.write_message('webots:' + protocol + '//'
-                                                  + hostname + ':' + str(port))
+            client.client_websocket.write_message('webots:' + protocol + '//' +
+                                                  hostname + ':' + str(port))
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':

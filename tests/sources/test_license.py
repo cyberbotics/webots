@@ -154,17 +154,21 @@ class TestLicense(unittest.TestCase):
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_C),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_C)
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
+                            (source, APACHE2_LICENSE_C)
                     )
                 elif source.endswith('.cpp') or source.endswith('.hpp') or source.endswith('.java'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_CPP),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_CPP)
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
+                            (source, APACHE2_LICENSE_CPP)
                     )
                 elif source.endswith('.py') or source.endswith('Makefile'):
                     self.assertTrue(
-                        content.startswith(APACHE2_LICENSE_PYTHON) or content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
-                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' % (source, APACHE2_LICENSE_PYTHON)
+                        content.startswith(APACHE2_LICENSE_PYTHON) or
+                        content.startswith(PYTHON_OPTIONAL_HEADER + APACHE2_LICENSE_PYTHON),
+                        msg='Source file "%s" doesn\'t contain the correct Apache 2.0 License:\n%s' %
+                            (source, APACHE2_LICENSE_PYTHON)
                     )
                 else:
                     self.assertTrue(

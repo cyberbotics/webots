@@ -16,7 +16,7 @@ Released on xx xxth, 2019
 <li><b>New Robots</b></li>
 <ul>
 <li>Added an ABB IRB 4600/40 arm model.</li>
-<li>Added an Universal Robots UR5e model.</li>
+<li>Added Universal Robots UR3e, UR5e and UR10e models.</li>
 <li>Added a ROBOTIQ 3-Finger gripper model.<li>
 <li>Added a Clearpath Moose model.</li>
 </ul>
@@ -61,6 +61,7 @@ Released on xx xxth, 2019
 <li><b>Enhancements</b></li>
 <ul>
 <li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
+<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
 </ul>
 <li><b>Bug fixes</b></li>
 <ul>
@@ -77,6 +78,8 @@ Released on xx xxth, 2019
 <li>Fixed availability of Muscle node in case of an Hinge2Joint ancestor (thanks to Florin).</li>
 <li>Fixed crash in streaming mode if a client connects while a world is loading.</li>
 <li>Fixed crash when using an 'infra-red' DistanceSensor node on a painted surface.</li>
+<li>Fixed geometry not created on world loading if invalid geometry fields are written in the file.</li>
+<li>Fixed mismatch between boundingObject outline and graphical representation of a Cylinder if the subdivision field is set to an odd value.</li>
 </ul>
 </ul>
 
