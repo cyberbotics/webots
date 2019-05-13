@@ -50,12 +50,12 @@ void RemoteControlWidget::clear() {
 // constructor
 RemoteControlWidget::RemoteControlWidget(QWidget *parent) :
   QWidget(parent),
+  mHexFileName(""),
   mProgressDialog(NULL),
   mPressButtonDialog(NULL),
   mConnectProgressDialog(NULL) {
   mConnectFutureWatcher = new QFutureWatcher<int>(this);
   mUploadFutureWatcher = new QFutureWatcher<int>(this);
-  mHexFileName = "";
 
   // create and set the combo box into this widget
   mLayout = new QGridLayout();

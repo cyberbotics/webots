@@ -185,7 +185,6 @@ int main(int argc, char **argv) {
     }
     double time = wb_robot_get_time();
 
-    int i;
     int enlighted_cicle_led_index = ((int)time) % N_LEDS_CIRCLE;
     for (i = 0; i < N_LEDS_CIRCLE; ++i)
       wb_led_set(leds_circle[i], (enlighted_cicle_led_index == i) ? 32 : 0);
