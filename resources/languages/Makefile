@@ -20,8 +20,6 @@ release debug profile clean:
 	@echo "#"; echo "# *** languages ***"
 	@echo "# make" $@ cpp;
 	+make -s -C cpp $@
-	@echo "# make" $@ java;
-	+make -s -C java $@
 ifeq ($(OSTYPE),linux)
 	@echo "# make" $@ python2.7;
 	+PYTHON_COMMAND=python2.7 make -s -C python $@
