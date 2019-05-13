@@ -712,14 +712,17 @@ THREE.X3DLoader = class X3DLoader {
 
     var count = coordStrArray.length;
     var colorStrArray;
-    if (typeof color === 'undefined')
+    geometry.userData.isColorPerVertex = false;
+    if (typeof color !== 'undefined') {
       colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
-    if (typeof colorStrArray === 'undefined' && count !== colorStrArray.length) {
-      count = Math.min(count, colorStrArray.length);
-      console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
-      geometry.userData.isColorPerVertex = false;
-    } else
-      geometry.userData.isColorPerVertex = true;
+      if (typeof colorStrArray !== 'undefined') {
+        if (count !== colorStrArray.length) {
+          count = Math.min(count, colorStrArray.length);
+          console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
+        }
+        geometry.userData.isColorPerVertex = true;
+      }
+    }
 
     var positions = new Float32Array(count);
     for (let i = 0; i < count; i++)
