@@ -40,7 +40,9 @@ addons:
       - libav-tools
       - python3.5-dev
       - openjdk-8-jdk
+before_script:
+  - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
-  - make debug
+  - python tests/test_compilation.py
