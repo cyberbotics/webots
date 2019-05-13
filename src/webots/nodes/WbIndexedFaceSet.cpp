@@ -85,7 +85,7 @@ void WbIndexedFaceSet::preFinalize() {
 
   WbGeometry::preFinalize();
 
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCreaseAngle, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCreaseAngle, 0.0);
 
   mMeshKey.set(this);
   WbTriangleMeshCache::useTriangleMesh(this);
@@ -296,7 +296,7 @@ void WbIndexedFaceSet::updateTexCoordIndex() {
 }
 
 void WbIndexedFaceSet::updateCreaseAngle() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mCreaseAngle, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mCreaseAngle, 0.0))
     return;
 
   buildWrenMesh(true);

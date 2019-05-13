@@ -198,19 +198,19 @@ void WbElevationGrid::rescale(const WbVector3 &scale) {
 }
 
 bool WbElevationGrid::sanitizeFields() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mThickness, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mThickness, 0.0))
     return false;
 
-  if (WbFieldChecker::checkIntIsNonNegative(this, mXDimension, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mXDimension, 0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mXSpacing, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mXSpacing, 1.0))
     return false;
 
-  if (WbFieldChecker::checkIntIsNonNegative(this, mZDimension, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mZDimension, 0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mZSpacing, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mZSpacing, 1.0))
     return false;
 
   checkHeight();

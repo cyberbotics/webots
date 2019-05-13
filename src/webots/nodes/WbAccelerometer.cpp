@@ -83,7 +83,7 @@ void WbAccelerometer::updateLookupTable() {
 }
 
 void WbAccelerometer::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbAccelerometer::handleMessage(QDataStream &stream) {

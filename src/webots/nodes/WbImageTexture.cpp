@@ -204,7 +204,7 @@ void WbImageTexture::updateRepeatT() {
 }
 
 void WbImageTexture::updateFiltering() {
-  if (WbFieldChecker::checkIntIsNonNegative(this, mFiltering, 0))
+  if (WbFieldChecker::resetIntIfNegative(this, mFiltering, 0))
     return;
 
   int maxHardwareAfLevel = wr_gl_state_max_texture_anisotropy();

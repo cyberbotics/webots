@@ -79,7 +79,7 @@ WbPen::~WbPen() {
 void WbPen::preFinalize() {
   WbSolidDevice::preFinalize();
 
-  WbFieldChecker::checkAndClampDoubleInRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
+  WbFieldChecker::clampDoubleToRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
 }
 
 void WbPen::handleMessage(QDataStream &stream) {
@@ -101,7 +101,7 @@ void WbPen::handleMessage(QDataStream &stream) {
       unsigned char density = 0;
       stream >> (unsigned char &)density;
       mInkDensity->setValue((double)density / 255.0);
-      WbFieldChecker::checkAndClampDoubleInRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
+      WbFieldChecker::clampDoubleToRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
       return;
     }
     default:
