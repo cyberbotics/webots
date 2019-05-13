@@ -166,12 +166,12 @@ void WbReceiver::updateTransmissionSetup() {
     mMediumType = WbDataPacket::RADIO;
   }
 
-  WbFieldChecker::checkDoubleIsInRangeWithIncludedBoundsOrDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
-  WbFieldChecker::checkDoubleIsNonNegative(this, mSignalStrengthNoise, 0);
-  WbFieldChecker::checkDoubleIsNonNegative(this, mDirectionNoise, 0);
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBufferSize, -1, -1);
-  WbFieldChecker::checkIntIsPositiveOrDisabled(this, mBaudRate, -1, -1);
-  WbFieldChecker::checkIntIsGreaterOrEqual(this, mByteSize, 8, 8);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBoundsAndNotDisabled(this, mAperture, 0, 2 * M_PI, -1, -1);
+  WbFieldChecker::resetDoubleIfNegative(this, mSignalStrengthNoise, 0);
+  WbFieldChecker::resetDoubleIfNegative(this, mDirectionNoise, 0);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBufferSize, -1, -1);
+  WbFieldChecker::resetIntIfNonPositiveAndNotDisabled(this, mBaudRate, -1, -1);
+  WbFieldChecker::resetIntIfLess(this, mByteSize, 8, 8);
 
   mNeedToConfigure = true;
 }
