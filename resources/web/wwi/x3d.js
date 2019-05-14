@@ -664,10 +664,25 @@ THREE.X3DLoader = class X3DLoader {
     var radius = getNodeAttribute(cone, 'bottomRadius', '0');
     var height = getNodeAttribute(cone, 'height', '0');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() !== 'true';
-    // var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
-    // set thetaStart = Math.PI / 2 to match X3D texture mapping
-    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
+    var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
+    var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
+    var coneGeometry;
+    if (side && bottom)
+      coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, false, Math.PI / 2);
+    else {
+      coneGeometry = new THREE.Geometry();
+      if (side) {
+        var sideGeometry = new THREE.ConeGeometry(radius, height, subdivision, 1, true, Math.PI / 2);
+        coneGeometry.merge(sideGeometry);
+      }
+      if (bottom) {
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
+        bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
+        bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
+        coneGeometry.merge(bottomGeometry, bottomMatrix);
+      }
+    }
     coneGeometry.userData = { 'x3dType': 'Cone' };
     coneGeometry.rotateY(Math.PI / 2);
     return coneGeometry;
@@ -677,11 +692,33 @@ THREE.X3DLoader = class X3DLoader {
     var radius = getNodeAttribute(cylinder, 'radius', '0');
     var height = getNodeAttribute(cylinder, 'height', '0');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() !== 'true';
-    // var openSided = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true' ? false : true;
-    // var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
-    // set thetaStart = Math.PI / 2 to match X3D texture mapping
-    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
+    var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
+    var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
+    var top = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true';
+    var cylinderGeometry;
+    if (bottom && side && top)
+      cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, false, Math.PI / 2);
+    else {
+      cylinderGeometry = new THREE.Geometry();
+      if (side) {
+        var sideGeometry = new THREE.CylinderGeometry(radius, radius, height, subdivision, 1, true, Math.PI / 2);
+        cylinderGeometry.merge(sideGeometry);
+      }
+      if (top) {
+        var topGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var topMatrix = new THREE.Matrix4();
+        topMatrix.makeRotationFromEuler(new THREE.Euler(-Math.PI / 2, 0, -Math.PI / 2));
+        topMatrix.setPosition(new THREE.Vector3(0, height / 2, 0));
+        cylinderGeometry.merge(topGeometry, topMatrix);
+      }
+      if (bottom) {
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
+        bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
+        bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
+        cylinderGeometry.merge(bottomGeometry, bottomMatrix);
+      }
+    }
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     cylinderGeometry.rotateY(Math.PI / 2);
     return cylinderGeometry;
