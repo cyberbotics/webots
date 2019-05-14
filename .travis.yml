@@ -5,6 +5,9 @@ git:
 language: python
 python:
   - "2.7"
+  - "3.7"
+jdk:
+  - openjdk8
 cache: pip
 before_install:
   - sudo add-apt-repository ppa:deadsnakes/ppa -y
