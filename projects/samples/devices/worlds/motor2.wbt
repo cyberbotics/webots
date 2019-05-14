@@ -4,12 +4,11 @@ WorldInfo {
     "Example world demonstrating the use of a controlled Hinge2Joint."
   ]
   title "Motor"
-  basicTimeStep 4
   lineScale 0.3
 }
 Viewpoint {
   orientation 0.31324569058818835 0.9231043879286132 0.22305924395745047 5.044773530408996
-  position -0.5094033080429194 0.32598248434245214 0.24993670263764542
+  position -0.511237145293597 0.34036277934454845 0.22835165427329018
 }
 TexturedBackground {
 }
@@ -129,12 +128,14 @@ Robot {
           }
           device [
             RotationalMotor {
-              name "rotational motor 1"
+              name "motor 1"
+              maxVelocity 1
             }
           ]
           device2 [
             RotationalMotor {
-              name "rotational motor 2"
+              name "motor 2"
+              maxVelocity 1
             }
           ]
           endPoint Solid {
@@ -216,4 +217,5 @@ Robot {
       }
     }
   ]
+  controller "motor2"
 }
