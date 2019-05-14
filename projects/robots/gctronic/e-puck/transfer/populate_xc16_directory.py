@@ -81,7 +81,7 @@ files = [
     'support/dsPIC30F/inc/p30Fxxxx.inc'
 ]
 
-print ('copying files...')
+print('copying files...')
 sys.stdout.flush()
 for f in files:
     if platform.system() != 'Windows':
@@ -103,9 +103,9 @@ for f in files:
             raise RuntimeError("Unable to copy file. %s" % e)
 
 
-print ('zipping xc16 directory...')
+print('zipping xc16 directory...')
 sys.stdout.flush()
 zipf = zipfile.ZipFile('xc16-' + xc16_version + '.zip', 'w')
 zipdir('xc16', zipf)
 zipf.close()
-print ('done.')
+print('done.')

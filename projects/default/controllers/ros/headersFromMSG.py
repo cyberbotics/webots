@@ -26,14 +26,14 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "h", ["help"])
     except getopt.GetoptError:
-        print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+        print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+            print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
         elif opt in ("-h", "--help"):
-            print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+            print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
     MSGFile = open(args[0], 'r')
     filename = args[0].split('/')[-1]
