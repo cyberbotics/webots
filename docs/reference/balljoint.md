@@ -39,6 +39,6 @@ If these fields are empty, the `springConstant`, `dampingConstant` and `staticFr
 
 - `device`, `device2` and `device3`: These fields optionally specify a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for each axes.
 If no motor is specified, the corresponding axis is passive.
-The `minPosition` and `maxPosition` fields of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constraint to the range [-pi/2; pi/2].
+The `minPosition` and `maxPosition` fields of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constrained to the range [-pi/2; pi/2].
 
 - `position`, `position2` and `position3`: These fields are not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).
