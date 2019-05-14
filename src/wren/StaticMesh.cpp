@@ -23,6 +23,7 @@
 
 #include <glad/glad.h>
 
+#include <algorithm>
 #include <unordered_map>
 #include <vector>
 
@@ -1522,11 +1523,9 @@ namespace wren {
   }
 
   size_t StaticMesh::cachedItemCount() {
-    size_t nonPersistentCount = 0;
-    for (std::pair<cache::Key, cache::MeshData> cachedMesh : cCache)
-      if (!cachedMesh.second.mIsCachePersistent)
-        ++nonPersistentCount;
-    return nonPersistentCount;
+    return std::count_if(cCache.begin(), cCache.end(), [](const std::pair<cache::Key, cache::MeshData> &cachedMesh) {
+      return !cachedMesh.second.mIsCachePersistent;
+    });
   }
 
   void StaticMesh::setCachePersistency(bool persistent) {

@@ -48,11 +48,8 @@ namespace wren {
   }
 
   int Transform::computeChildCount() const {
-    int count = mChildren.size();
-    for (Node *n : mChildren)
-      count += n->computeChildCount();
-
-    return count;
+    return std::accumulate(mChildren.begin(), mChildren.end(), mChildren.size(),
+                           [](int sum, const Node *n) { return sum + n->computeChildCount(); });
   }
 
   Transform::Transform() {}

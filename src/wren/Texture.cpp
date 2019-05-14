@@ -21,6 +21,8 @@
 
 #include <glad/glad.h>
 
+#include <algorithm>
+
 namespace wren {
 
   const Texture::UsageParams Texture::DEFAULT_USAGE_PARAMS(WR_TEXTURE_WRAP_MODE_REPEAT, WR_TEXTURE_WRAP_MODE_REPEAT,
@@ -169,12 +171,9 @@ namespace wren {
 
   void Texture::addMaterialUser(Material *material) {
     assert(material);
-    for (auto &user : mMaterialsUsingThisTexture) {
-      if (user == material)
-        return;
-    }
-
-    mMaterialsUsingThisTexture.push_back(material);
+    if (!std::any_of(mMaterialsUsingThisTexture.begin(), mMaterialsUsingThisTexture.end(),
+                     [material](const Material *user) { return user == material; }))
+      mMaterialsUsingThisTexture.push_back(material);
   }
 
   void Texture::removeMaterialUser(Material *material) {

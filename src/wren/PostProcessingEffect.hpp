@@ -18,6 +18,7 @@
 #include "Constants.hpp"
 #include "Texture.hpp"
 
+#include <algorithm>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -209,11 +210,8 @@ namespace wren {
     }
 
     Pass *pass(const std::string &name) {
-      for (Pass *p : mPasses) {
-        if (p->name() == name)
-          return p;
-      }
-      return NULL;
+      std::vector<Pass *>::iterator it = std::find_if(mPasses.begin(), mPasses.end(), [name](Pass *p) { return p->name() == name; });
+      return it == mPasses.end() ? NULL : *it;
     }
 
     void setup();

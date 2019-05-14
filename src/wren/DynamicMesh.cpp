@@ -542,6 +542,7 @@ namespace wren {
     }
 
     for (const auto &it : edgeMap)
+      // cppcheck-suppress useStlAlgorithm ; raw loop is much simpler and readable
       mEdges.push_back(it.second);
   }
 

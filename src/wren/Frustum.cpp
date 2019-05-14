@@ -17,6 +17,8 @@
 #include "Camera.hpp"
 #include "Debug.hpp"
 
+#include <algorithm>
+
 namespace wren {
 
   Frustum::Frustum(const glm::mat4 &matrix) { recomputeFromMatrix(matrix); }
@@ -67,21 +69,13 @@ namespace wren {
   }
 
   bool Frustum::isInside(const primitive::Aabb &aabb) const {
-    for (const primitive::Plane &plane : mPlanes) {
-      if (!primitive::isAabbAbovePlane(plane, aabb))
-        return false;
-    }
-
-    return true;
+    return std::all_of(mPlanes.begin(), mPlanes.end(),
+                       [aabb](const primitive::Plane &plane) { return primitive::isAabbAbovePlane(plane, aabb); });
   }
 
   bool Frustum::isInside(const primitive::Sphere &sphere) const {
-    for (const primitive::Plane &plane : mPlanes) {
-      if (!primitive::isSphereAbovePlane(plane, sphere))
-        return false;
-    }
-
-    return true;
+    return std::all_of(mPlanes.begin(), mPlanes.end(),
+                       [sphere](const primitive::Plane &plane) { return primitive::isSphereAbovePlane(plane, sphere); });
   }
 
 }  // namespace wren

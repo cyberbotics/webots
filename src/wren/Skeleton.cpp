@@ -19,6 +19,7 @@
 #include "SkeletonBone.hpp"
 
 #include <wren/skeleton.h>
+#include <algorithm>
 #include <string>
 
 namespace wren {
@@ -70,19 +71,17 @@ namespace wren {
   }
 
   SkeletonBone *Skeleton::getBoneByName(const char *name) {
-    for (SkeletonBone *bone : mBones) {
-      if (std::string(name) == bone->name())
-        return bone;
-    }
-    return NULL;
+    std::vector<SkeletonBone *>::iterator it = std::find_if(mBones.begin(), mBones.end(),
+                         [name](const SkeletonBone *bone) { return std::string(name) == bone->name(); });
+    return it == mBones.end() ? NULL : *it;
   }
 
   void Skeleton::normalizeWeights() {
     for (DynamicMesh *mesh : mMeshes) {
       for (size_t i = 0; i < mesh->coords().size(); ++i) {
-        float totalWeight = 0.0f;
-        for (unsigned int boneIndex : mVertexBones[mesh][i])
-          totalWeight += mBones[boneIndex]->vertexWeight(mesh, i);
+        float totalWeight = std::accumulate(
+          mVertexBones[mesh][i].begin(), mVertexBones[mesh][i].end(), 0.0f,
+          [mesh, i, this](float sum, size_t boneIndex) { return sum + mBones[boneIndex]->vertexWeight(mesh, i); });
 
         assert(totalWeight > 0.0f);
         for (unsigned int boneIndex : mVertexBones[mesh][i]) {

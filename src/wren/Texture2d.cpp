@@ -21,6 +21,7 @@
 
 #include <glad/glad.h>
 
+#include <algorithm>
 #include <cstring>
 
 namespace wren {
@@ -51,11 +52,9 @@ namespace wren {
   }
 
   size_t Texture2d::cachedItemCount() {
-    size_t nonPersistentCount = 0;
-    for (std::pair<cache::Key, cache::Texture2dData> cachedTexture : cCache)
-      if (!cachedTexture.second.mIsCachePersistent)
-        ++nonPersistentCount;
-    return nonPersistentCount;
+    return std::count_if(cCache.begin(), cCache.end(), [](const std::pair<cache::Key, cache::Texture2dData> &cachedTexture) {
+      return !cachedTexture.second.mIsCachePersistent;
+    });
   }
 
   void Texture2d::setup() {

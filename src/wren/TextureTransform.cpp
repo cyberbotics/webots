@@ -18,6 +18,7 @@
 
 #include <wren/texture_transform.h>
 
+#include <algorithm>
 #include <cmath>
 
 namespace wren {
@@ -88,12 +89,9 @@ namespace wren {
 
   void TextureTransform::addMaterialUser(Material *material) {
     assert(material);
-    for (auto &user : mMaterialsUsingThisInstance) {
-      if (user == material)
-        return;
-    }
-
-    mMaterialsUsingThisInstance.push_back(material);
+    if (!std::any_of(mMaterialsUsingThisInstance.begin(), mMaterialsUsingThisInstance.end(),
+                     [material](const Material *user) { return user == material; }))
+      mMaterialsUsingThisInstance.push_back(material);
   }
 
   void TextureTransform::removeMaterialUser(Material *material) {
