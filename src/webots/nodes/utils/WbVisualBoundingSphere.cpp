@@ -39,7 +39,8 @@ void WbVisualBoundingSphere::enable(bool enabled, const WbBaseNode *node) {
 
 void WbVisualBoundingSphere::createSphere(
   /* const Ogre::String &meshName, const float r, const int nRings, const int nSegments */) {
-  // TODO_WREN
+  // TODO_WREN: port the functionality to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
 }
 
 WbVisualBoundingSphere::WbVisualBoundingSphere() : QObject() {
@@ -52,7 +53,9 @@ WbVisualBoundingSphere::~WbVisualBoundingSphere() {
 }
 
 void WbVisualBoundingSphere::show(const WbBaseNode *node) {
-  // TODO_WREN
+  // TODO_WREN: port the functionality from Ogre to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
+
   // WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
   // if (!boundingSphere || !gEnabled) {
   //   if (mSceneNode)
@@ -89,7 +92,9 @@ void WbVisualBoundingSphere::show(const WbBaseNode *node) {
 }
 
 void WbVisualBoundingSphere::clear() {
-  // TODO_WREN
+  // TODO_WREN: port the functionality from Ogre to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
+
   // if (!mSceneNode)
   //   return;
 
