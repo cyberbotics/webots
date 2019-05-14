@@ -55,4 +55,5 @@ script:
   - export PATH="$JAVA_HOME/bin/javac:$PATH"
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
+  - export DISPLAY=:0.0
   - python tests/test_compilation.py
