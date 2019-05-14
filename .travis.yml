@@ -9,7 +9,9 @@ cache: pip
 before_install:
   - sudo add-apt-repository ppa:deadsnakes/ppa
   - sudo apt update
+  - sudo apt install python3.6-dev
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  - sudo apt install nodejs
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -44,9 +46,7 @@ addons:
       - libav-tools
       - python3.5-dev
       - openjdk-8-jdk
-      - python3.6-dev
       - curl
-      - nodejs
 before_script:
   - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 script:
