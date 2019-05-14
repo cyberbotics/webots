@@ -59,7 +59,7 @@ namespace wren {
       cShowBoundingSpheres = show;
       if (show) {
         if (!cSphereMesh)
-          cSphereMesh = StaticMesh::createUnitSphere(2);
+          cSphereMesh = StaticMesh::createUnitIcosphere(2);
       } else if (cSphereMesh) {
         Mesh::deleteMesh(cSphereMesh);
         cSphereMesh = NULL;

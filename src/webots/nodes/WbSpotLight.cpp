@@ -177,11 +177,8 @@ void WbSpotLight::updateCutOffAngle() {
   if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mCutOffAngle, 0.0, M_PI_2, M_PI_2))
     return;
 
-  if (mCutOffAngle->value() < mBeamWidth->value()) {
-    mBeamWidth->blockSignals(true);
-    mBeamWidth->setValue(mCutOffAngle->value());
-    mBeamWidth->blockSignals(false);
-  }
+  if (mCutOffAngle->value() < mBeamWidth->value())
+    mBeamWidth->setValueNoSignal(mCutOffAngle->value());
 
   if (areWrenObjectsInitialized())
     applyLightBeamWidthAndCutOffAngleToWren();
