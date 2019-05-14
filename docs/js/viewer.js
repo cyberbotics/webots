@@ -600,7 +600,7 @@ function resetRobotComponent(robot) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
     var id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectByCustomId(robotComponent.webotsView.x3dScene.scene, id), slider);
+    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectById(id), slider);
   }
   robotComponent.webotsView.x3dScene.render();
 }
@@ -715,7 +715,7 @@ function highlightX3DElement(robot, deviceElement) {
   var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
   var type = deviceElement.getAttribute('webots-type');
-  var object = scene.getObjectByCustomId(scene.scene, id);
+  var object = scene.getObjectById(id);
 
   if (object) {
     // Show billboard origin.
@@ -884,7 +884,7 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-type', deviceType);
             slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
               var id = e.target.getAttribute('webots-transform-id');
-              sliderMotorCallback(webotsView.x3dScene.getObjectByCustomId(webotsView.x3dScene.scene, id), e.target);
+              sliderMotorCallback(webotsView.x3dScene.getObjectById(id), e.target);
               webotsView.x3dScene.render();
             });
 

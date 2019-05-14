@@ -967,12 +967,12 @@ THREE.X3DLoader = class X3DLoader {
       return undefined;
 
     // Look for node in previously parsed objects
-    var defNode = this.scene.getObjectByCustomId(this.parsedObjects, useNodeId);
+    var defNode = this.scene.getObjectById(useNodeId, this.parsedObjects);
     if (typeof defNode !== 'undefined')
       return defNode;
 
     // Look for node in the already loaded scene
-    defNode = this.scene.getObjectByCustomId(this.scene.root, useNodeId);
+    defNode = this.scene.getObjectById(useNodeId, this.scene.root);
     if (typeof defNode === 'undefined')
       console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
     return defNode;

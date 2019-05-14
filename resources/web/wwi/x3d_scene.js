@@ -92,7 +92,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
 
   deleteObject(id) {
     var context = {};
-    var object = this.getObjectByCustomId(this.scene, 'n' + id, context);
+    var object = this.getObjectById('n' + id, 'scene', context);
     if (typeof object !== 'undefined') {
       var parent;
       if (typeof context !== 'undefined' && typeof context.field !== 'undefined') {
@@ -140,7 +140,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   loadObject(x3dObject, parentId) {
     var parentObject;
     if (parentId && parentId !== 0)
-      parentObject = this.getObjectByCustomId(this.scene, 'n' + parentId);
+      parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
     var objects = loader.parse(x3dObject);
     if (typeof parentObject !== 'undefined') {
@@ -162,7 +162,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (key === 'id')
         continue;
       var newValue = pose[key];
-      var object = this.getObjectByCustomId(this.scene, 'n' + id);
+      var object = this.getObjectById('n' + id);
       if (typeof object === 'undefined')
         continue; // error
 
@@ -235,17 +235,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return node;
   }
 
-  getObjectByCustomId(object, id, context) {
+  getObjectById(id, object = 'scene', context = {}) {
+    // @param 'object':
+    //     Global case: object is the root object in which to search for.
+    //     Special case to have a good default value: if object === 'scene', then the scene is used.
+    if (object === 'scene')
+      object = this.scene;
+
     if (Array.isArray(object)) {
       for (let i = 0, l = object.length; i < l; i++) {
-        var o = this.getObjectByCustomId(object[i], id, context);
+        var o = this.getObjectById(id, object[i], context);
         if (typeof o !== 'undefined')
           return o;
       }
     }
-
-    if (typeof context === 'undefined')
-      context = {};
 
     if (!object) {
       context.parent = undefined;
@@ -267,56 +270,56 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (object.children) {
       object.children.forEach((child) => {
         context.parent = object;
-        childObject = this.getObjectByCustomId(child, id, context);
+        childObject = this.getObjectById(id, child, context);
         if (typeof childObject !== 'undefined')
           return childObject;
       });
     }
     if (object.isMesh) {
-      childObject = this.getObjectByCustomId(object.material, id, context);
+      childObject = this.getObjectById(id, object.material, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'material';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.geometry, id, context);
+      childObject = this.getObjectById(id, object.geometry, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'geometry';
         context.parent = object;
         return childObject;
       }
     } else if (object.isMaterial) {
-      childObject = this.getObjectByCustomId(object.map, id, context);
+      childObject = this.getObjectById(id, object.map, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'map';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.aoMap, id, context);
+      childObject = this.getObjectById(id, object.aoMap, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'aoMap';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.roughnessMap, id, context);
+      childObject = this.getObjectById(id, object.roughnessMap, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'roughnessMap';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.metalnessMap, id, context);
+      childObject = this.getObjectById(id, object.metalnessMap, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'metalnessMap';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.normalMap, id, context);
+      childObject = this.getObjectById(id, object.normalMap, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'normalMap';
         context.parent = object;
         return childObject;
       }
-      childObject = this.getObjectByCustomId(object.emissiveMap, id, context);
+      childObject = this.getObjectById(id, object.emissiveMap, context);
       if (typeof childObject !== 'undefined') {
         context.field = 'emissiveMap';
         context.parent = object;
@@ -386,7 +389,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (typeof source !== 'undefined') {
         this.useNodeCache[id].target = [];
         source.userData.USE.split(';').forEach((useId) => {
-          var useObject = this.getObjectByCustomId(this.scene, useId);
+          var useObject = this.getObjectById(useId);
           if (typeof useObject !== 'undefined')
             this.useNodeCache[id].target.push(useObject);
         });
