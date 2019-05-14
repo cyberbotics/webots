@@ -63,7 +63,7 @@ class Parser(object):
         except:
             pass
         if self.country is None:
-            print ('Warning: Failed to determine the country.')
+            print('Warning: Failed to determine the country.')
 
     def get_tags(self, element):
         """Return a dictionnary of tags belonging to this element."""
