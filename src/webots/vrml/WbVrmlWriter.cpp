@@ -141,9 +141,6 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
       *this << "</head>\n";
       *this << "<Scene>\n";
-      *this << "<NavigationInfo headlight=\"false\" type=\"NONE\" />\n";  // disable automatic light, disable default X3DOM
-                                                                          // navigation
-      *this << "<Environment shadowExcludeTransparentObjects=\"true\"";
       *this << "/>\n";
       return;
     default:
