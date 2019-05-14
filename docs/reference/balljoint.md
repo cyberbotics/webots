@@ -1,17 +1,12 @@
 ## BallJoint
 
-Derived from [Joint](joint.md).
+Derived from [Hinge2Joint](hinge2joint.md).
 
 ```
 BallJoint {
-  SFNode     jointParameters2  NULL   # {JointParameters, PROTO}
-  SFNode     jointParameters3  NULL   # {JointParameters, PROTO}
-  MFNode     device            [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
-  MFNode     device2           [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
-  MFNode     device3           [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
-  SFFloat    position          0      # [0, inf)
-  SFFloat    position2         0      # [0, inf)
-  SFFloat    position3         0      # [0, inf)
+  SFNode  jointParameters3 NULL   # {JointParameters, PROTO}
+  MFNode  device3          [ ]    # {RotationalMotor, PositionSensor, Brake, PROTO}
+  SFFloat position3        0      # [0, inf)
 }
 ```
 
@@ -31,14 +26,15 @@ Its 3 perpendicular axes can be controlled independently using [RotationalMotors
 The axes are defined in the [JointParameters](jointparameters.md) nodes in the `jointParameters2` and `jointParameters3` fields (the third axis is computed automatically to be perpendicular to the two first one).
 If the `jointParameters2` and/or `jointParameters3` fields are empty, the default axes are used instead (respectively `(1, 0, 0)` and `(0, 0, 1)`).
 
+> **Note**: The `minPosition` and `maxPosition` fields of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constrained to the range [-pi/2; pi/2]..
+
 ### Field Summary
 
-- `jointParameters2` and `jointParameters3`: These fields optionally specify [JointParameters](jointparameters.md) nodes.
-They contain, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
-If these fields are empty, the `springConstant`, `dampingConstant` and `staticFriction` are homogeneous along each rotation axes.
+- `jointParameters3`: This field optionally specifies [JointParameters](jointparameters.md) nodes.
+It contains, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
+If this field is empty, the `springConstant`, `dampingConstant` and `staticFriction` are homogeneous along each rotation axes.
 
-- `device`, `device2` and `device3`: These fields optionally specify a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for each axes.
+- `device3`: this field optionally specifies a [RotationalMotor](rotationalmotor.md), an angular [PositionSensor](positionsensor.md) and/or a [Brake](brake.md) device for the third axis.
 If no motor is specified, the corresponding axis is passive.
-The `minPosition` and `maxPosition` fields of the [RotationalMotor](rotationalmotor.md) in the `device2` field are constrained to the range [-pi/2; pi/2].
 
-- `position`, `position2` and `position3`: These fields are not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).
+- `position3`: This field is not visible from the Scene Tree, see [joint's hidden position field](joint.md#joints-hidden-position-fields).

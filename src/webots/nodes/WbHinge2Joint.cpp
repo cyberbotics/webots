@@ -73,7 +73,7 @@ void WbHinge2Joint::preFinalize() {
     if (device2(i) && !device2(i)->isPreFinalizedCalled())
       device2(i)->preFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPreFinalizedCalled())
     p2->preFinalize();
@@ -90,7 +90,7 @@ void WbHinge2Joint::postFinalize() {
     if (device2(i) && !device2(i)->isPostFinalizedCalled())
       device2(i)->postFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();

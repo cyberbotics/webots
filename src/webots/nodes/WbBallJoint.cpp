@@ -408,7 +408,7 @@ void WbBallJoint::preFinalize() {
     if (device3(i) && !device3(i)->isPreFinalizedCalled())
       device3(i)->preFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p3 = dynamic_cast<WbBaseNode *>(mParameters3->value());
   if (p3 && !p3->isPreFinalizedCalled())
     p3->preFinalize();
@@ -430,7 +430,7 @@ void WbBallJoint::postFinalize() {
     if (device3(i) && !device3(i)->isPostFinalizedCalled())
       device3(i)->postFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p3 = dynamic_cast<WbBaseNode *>(mParameters3->value());
   if (p3 && !p3->isPostFinalizedCalled())
     p3->postFinalize();

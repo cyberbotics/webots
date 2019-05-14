@@ -4,13 +4,7 @@ Derived from [JointParameters](jointparameters.md).
 
 ```
 BallJointParameters {
-  SFFloat position        0       # (-inf, inf)
-  SFVec3f anchor          0 0 0   # any vector
-  SFFloat minStop         0       # [-pi, pi]
-  SFFloat maxStop         0       # [-pi, pi]
-  SFFloat springConstant  0       # [0, inf)
-  SFFloat dampingConstant 0       # [0, inf)
-  SFFloat staticFriction  0       # [0, inf)
+  SFVec3f anchor  0 0 0   # any vector
 }
 ```
 
