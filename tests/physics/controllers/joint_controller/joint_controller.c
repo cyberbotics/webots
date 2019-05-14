@@ -11,7 +11,6 @@
 #define POS_3 -2.45
 
 int main(int argc, char **argv) {
-  /* necessary to initialize webots stuff */
   wb_robot_init();
 
   WbDeviceTag mot1 = wb_robot_get_device("rotational motor");
