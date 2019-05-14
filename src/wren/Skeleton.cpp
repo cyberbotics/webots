@@ -71,8 +71,8 @@ namespace wren {
   }
 
   SkeletonBone *Skeleton::getBoneByName(const char *name) {
-    std::vector<SkeletonBone *>::iterator it = std::find_if(mBones.begin(), mBones.end(),
-                         [name](const SkeletonBone *bone) { return std::string(name) == bone->name(); });
+    std::vector<SkeletonBone *>::iterator it = std::find_if(
+      mBones.begin(), mBones.end(), [name](const SkeletonBone *bone) { return std::string(name) == bone->name(); });
     return it == mBones.end() ? NULL : *it;
   }
 
