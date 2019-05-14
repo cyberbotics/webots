@@ -134,7 +134,6 @@ THREE.X3DLoader = class X3DLoader {
   parseTransform(transform) {
     var object = new THREE.Object3D();
     object.userData.x3dType = 'Transform';
-    object.userData.id = getNodeAttribute(transform, 'id', '');
     object.userData.solid = getNodeAttribute(transform, 'solid', 'false').toLowerCase() === 'true';
     object.userData.window = getNodeAttribute(transform, 'window', '');
     var controller = getNodeAttribute(transform, 'controller', undefined);
@@ -350,7 +349,6 @@ THREE.X3DLoader = class X3DLoader {
 
     var mat = new THREE.MeshStandardMaterial(materialSpecifications);
     mat.userData.x3dType = 'PBRAppearance';
-    mat.userData.id = getNodeAttribute(pbrAppearance, 'id', '');
     if (isTransparent)
       mat.transparent = true;
     mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;

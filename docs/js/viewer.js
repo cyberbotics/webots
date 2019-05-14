@@ -600,7 +600,7 @@ function resetRobotComponent(robot) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
     var id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectByID(id), slider);
+    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectByCustomId(robotComponent.webotsView.x3dScene.scene, id), slider);
   }
   robotComponent.webotsView.x3dScene.render();
 }
@@ -715,7 +715,7 @@ function highlightX3DElement(robot, deviceElement) {
   var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
   var type = deviceElement.getAttribute('webots-type');
-  var object = scene.getObjectByID(id);
+  var object = scene.getObjectByCustomId(scene.scene, id);
 
   if (object) {
     // Show billboard origin.
@@ -731,7 +731,7 @@ function highlightX3DElement(robot, deviceElement) {
           var ledColor = deviceElement.getAttribute('targetColor').split(' ');
           ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
           object.traverse(function(child) {
-            if (child.material && child.material.userData && child.material.userData.id === pbrID) {
+            if (child.material && child.material.name === pbrID) {
               if (!child.material.userData.initialEmissive)
                 child.material.userData.initialEmissive = child.material.emissive.clone();
               child.material.emissive.set(ledColor);
@@ -753,7 +753,7 @@ function setBillboardSize(robotComponent, scene) {
     return;
   var robot;
   scene.traverse(function(object) {
-    if (object.isObject3D && object.userData && object.userData.id === robotID)
+    if (object.isObject3D && object.name === robotID)
       robot = object;
   });
   if (typeof robot === 'undefined')
@@ -884,7 +884,7 @@ function createRobotComponent(view) {
             slider.setAttribute('webots-type', deviceType);
             slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
               var id = e.target.getAttribute('webots-transform-id');
-              sliderMotorCallback(webotsView.x3dScene.getObjectByID(id), e.target);
+              sliderMotorCallback(webotsView.x3dScene.getObjectByCustomId(webotsView.x3dScene.scene, id), e.target);
               webotsView.x3dScene.render();
             });
 
