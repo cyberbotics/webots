@@ -30,7 +30,7 @@ If the `jointParameters2` and/or `jointParameters3` fields are empty, the defaul
 
 ### Field Summary
 
-- `jointParameters3`: This field optionally specifies [JointParameters](jointparameters.md) nodes.
+- `jointParameters3`: This field optionally specifies a [JointParameters](jointparameters.md) node.
 It contains, among others, the joint position, the axis position expressed in relative coordinates and the stop positions.
 If this field is empty, the `springConstant`, `dampingConstant` and `staticFriction` are homogeneous along each rotation axes.
 
