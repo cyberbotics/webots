@@ -213,7 +213,7 @@ for i in range(len(names)):
 # get body visualization
 bodyRotations = {}
 bodyTranslations = {}
-if float(sys.argv[9]) > 0.0:  # body transparency is not 0
+if float(sys.argv[9]) < 1.0:  # body transparency is not 1
     bodyNode = None
     markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %s %s %s }' %
                                        (sys.argv[9], sys.argv[10], sys.argv[10], sys.argv[10]))
