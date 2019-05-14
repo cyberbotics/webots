@@ -65,6 +65,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var width = this.domElement.clientWidth;
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
+    if (this.viewpoint.camera.fovX)
+      this.viewpoint.camera.fov = this.viewpoint.camera.fovX / this.viewpoint.camera.aspect;
     this.viewpoint.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);

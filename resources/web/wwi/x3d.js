@@ -892,18 +892,20 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseViewpoint(viewpoint) {
-    var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
+    var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')));
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     if (typeof this.scene.viewpoint !== 'undefined') {
-      this.scene.viewpoint.camera.fov = fov;
       this.scene.viewpoint.camera.near = near;
       this.scene.viewpoint.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(0.785, 1, near, far);
     }
+    this.scene.viewpoint.camera.fovX = fov;
+    this.scene.viewpoint.camera.fov = fov / this.scene.viewpoint.camera.aspect; // to be updated at each window resize.
+    console.log(this.scene.viewpoint.camera.aspect);
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
