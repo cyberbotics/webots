@@ -15,19 +15,18 @@
 #include "WbBallJointParameters.hpp"
 
 void WbBallJointParameters::init() {
-  mSpringConstant = findSFDouble("springConstant");
-  mDampingConstant = findSFDouble("dampingConstant");
+  mAnchor = findSFVector3("anchor");
 }
 
-WbBallJointParameters::WbBallJointParameters(WbTokenizer *tokenizer) : WbAnchorParameter("BallJointParameters", tokenizer) {
+WbBallJointParameters::WbBallJointParameters(WbTokenizer *tokenizer) : WbJointParameters("BallJointParameters", tokenizer) {
   init();
 }
 
-WbBallJointParameters::WbBallJointParameters(const WbBallJointParameters &other) : WbAnchorParameter(other) {
+WbBallJointParameters::WbBallJointParameters(const WbBallJointParameters &other) : WbJointParameters(other) {
   init();
 }
 
-WbBallJointParameters::WbBallJointParameters(const WbNode &other) : WbAnchorParameter(other) {
+WbBallJointParameters::WbBallJointParameters(const WbNode &other) : WbJointParameters(other) {
   init();
 }
 
@@ -35,34 +34,11 @@ WbBallJointParameters::~WbBallJointParameters() {
 }
 
 void WbBallJointParameters::preFinalize() {
-  WbAnchorParameter::preFinalize();
-
-  updateSpringConstant();
-  updateDampingConstant();
+  WbJointParameters::preFinalize();
 }
 
 void WbBallJointParameters::postFinalize() {
-  WbAnchorParameter::postFinalize();
-  connect(mSpringConstant, &WbSFDouble::changed, this, &WbBallJointParameters::updateSpringConstant);
-  connect(mDampingConstant, &WbSFDouble::changed, this, &WbBallJointParameters::updateDampingConstant);
-}
+  WbJointParameters::postFinalize();
 
-void WbBallJointParameters::updateSpringConstant() {
-  if (mSpringConstant->value() < 0.0) {
-    warn(tr("'springConstant' must be greater than or equal to zero."));
-    mSpringConstant->makeAbsolute();
-    return;
-  }
-
-  emit springAndDampingConstantsChanged();
-}
-
-void WbBallJointParameters::updateDampingConstant() {
-  if (mDampingConstant->value() < 0.0) {
-    warn(tr("'dampingConstant' must be greater than or equal to zero."));
-    mDampingConstant->makeAbsolute();
-    return;
-  }
-
-  emit springAndDampingConstantsChanged();
+  connect(mAnchor, &WbSFVector3::changed, this, &WbBallJointParameters::anchorChanged);
 }

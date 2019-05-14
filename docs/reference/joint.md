@@ -21,14 +21,11 @@ Using a [SolidReference](solidreference.md) inside `endPoint` enables you to clo
 These nodes contain common joint parameters such as position, stops, anchor or axis if existing.
 This field must be filled with an [HingeJointParameters](hingejointparameters.md) node for an [HingeJoint](hingejoint.md) or an [Hinge2Joint](hinge2joint.md), with a [JointParameters](jointparameters.md) node for a [SliderJoint](sliderjoint.md) (anchor-less) and with a [BallJointParameters](balljointparameters.md) node for a [BallJoint](balljoint.md).
 
-    For an [Hinge2Joint](hinge2joint.md), the `jointParameters` field is related to
-    the first rotation axis while an additional field called `jointParameters2`
-    refers to the second rotation axis.
+    For an [Hinge2Joint](hinge2joint.md), the `jointParameters` field is related to the first rotation axis while an additional field called `jointParameters2` refers to the second rotation axis.
 
-    3D-vector parameters (e.g `axis, anchor`) are always expressed in relative
-    coordinates with respect to the closest upper [Transform](transform.md)'s frame using
-    the meter as unit. If the `jointParameters` field is not specified, parameters
-    are set with the default values defined in the corresponding parameter node.
+    For a [BallJoint](balljoint.md), the `jointParameters` field is related to the first rotation axis while two additional fields called `jointParameters2` and `jointParameters3` refer to the second and third rotation axes.
+
+    3D-vector parameters (e.g `axis, anchor`) are always expressed in relative coordinates with respect to the closest upper [Transform](transform.md)'s frame using the meter as unit. If the `jointParameters` field is not specified, parameters are set with the default values defined in the corresponding parameter node.
 
 - `endPoint`: this field specifies which [Solid](solid.md) will be subjected to the joint constraints.
 It must be either a [Solid](solid.md) child, or a reference to an existing [Solid](solid.md), i.e. a [SolidReference](solidreference.md).
