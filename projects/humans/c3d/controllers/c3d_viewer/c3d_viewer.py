@@ -23,7 +23,7 @@ import sys
 import transforms3d
 
 angleSignAndOrder = {
-    'RShoulderAngles': ((1, -1, 1), 'rxzy'),
+    'RShoulderAngles': ((-1, -1, 1), 'rxzy'),
     'RElbowAngles': ((-1, 0, 0), 'rxzy'),
     'RWristAngles': ((1, -1, -1), 'rxzy'),
     'LShoulderAngles': ((-1, 1, -1), 'rxzy'),
