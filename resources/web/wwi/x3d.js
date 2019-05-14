@@ -905,7 +905,6 @@ THREE.X3DLoader = class X3DLoader {
     }
     this.scene.viewpoint.camera.fovX = fov;
     this.scene.viewpoint.camera.fov = fov / this.scene.viewpoint.camera.aspect; // to be updated at each window resize.
-    console.log(this.scene.viewpoint.camera.aspect);
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
