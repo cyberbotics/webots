@@ -38,7 +38,8 @@ namespace wren {
     static StaticMesh *createUnitElevationGrid(int dimensionX, int dimensionZ, const float *heightData, float thickness,
                                                bool outline);
     static StaticMesh *createUnitRectangle(bool outline);
-    static StaticMesh *createUnitSphere(int subdivision);
+    static StaticMesh *createUnitIcosphere(int subdivision);
+    static StaticMesh *createUnitUVSphere(int subdivision, bool outline);
     static StaticMesh *createCapsule(int subdivision, float radius, float height, bool hasSide, bool hasTop, bool hasBottom,
                                      bool outline);
     static StaticMesh *createQuad();

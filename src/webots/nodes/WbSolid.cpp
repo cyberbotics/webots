@@ -401,6 +401,9 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
         const WbJointParameters *const param2 = joint->parameters2();
         if (param2)
           v[1] = joint->position(2);
+        const WbJointParameters *const param3 = joint->parameters3();
+        if (param3)
+          v[2] = joint->position(3);
         previousP->insert(jointIndex, new WbVector3(v));
       }
 
