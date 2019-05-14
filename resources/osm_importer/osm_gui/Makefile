@@ -33,7 +33,7 @@ CFLAGS = -fPIC
 endif
 
 ifeq ($(OSTYPE),linux)
- LIBRARIES += -rpath,$(WEBOTS_HOME_PATH)/lib
+ LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib
 endif
 
 CURDIR = controllers/osm_gui # hawful hack to generate an executable outside of the 'controllers' directory
