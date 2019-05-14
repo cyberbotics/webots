@@ -20,8 +20,6 @@ release debug profile clean:
 	@echo "#"; echo "# *** languages ***"
 	@echo "# make" $@ cpp;
 	+make -s -C cpp $@
-	@echo $(shell javac -version)
-	@echo $(shell locate javac)
 	@echo "# make" $@ java;
 	+make -s -C java $@
 ifeq ($(OSTYPE),linux)
