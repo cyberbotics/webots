@@ -27,7 +27,7 @@ If the `subdivision` field is set to 3, then the sphere will have 3 rings and 3 
 With a `subdivision` field set to 32, the faces are 1024.
 
 The `ico` field specifies whether the sphere is rendered as an icosahedron (TRUE) or a UV sphere (FALSE).
-By default [Sphere](#sphere) nodes created in Webots are icosahedrons with `subdivision` value of 1, whether sphere geometries imported from VRML are UV spheres with a `subdivision` value of 24.
+By default [Sphere](#sphere) nodes created in Webots are icosahedrons with `subdivision` value of 1, whereas sphere geometries imported from VRML are UV spheres with a `subdivision` value of 24.
 
 %figure "Sphere tessellations"
 

@@ -32,7 +32,8 @@ class TestWorldsWarnings(unittest.TestCase):
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
             'ComposedShader is experimental.',
-            'Failed to contact master at',  # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
+            # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
+            'Failed to contact master at',
             self.crashError  # To remove once #6125 is fixed
         ]
         # Get all the worlds from projects
@@ -66,7 +67,8 @@ class TestWorldsWarnings(unittest.TestCase):
         problematicWorlds = []
         crashedWorlds = []
         for world in self.worlds:
-            self.process = Popen([self.webotsFullPath, '--stdout', '--stderr', '--mode=pause', '--minimize', world], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            self.process = Popen([self.webotsFullPath, '--stdout', '--stderr', '--mode=pause', '--minimize', world], stdin=PIPE,
+                                 stdout=PIPE, stderr=PIPE)
             t = Timer(5.0, self.stop_webots)
             t.start()
             output, error = self.process.communicate()

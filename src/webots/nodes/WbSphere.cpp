@@ -81,6 +81,7 @@ void WbSphere::postFinalize() {
 void WbSphere::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
+  sanitizeFields();
   buildWrenMesh();
 
   if (isInBoundingObject())
@@ -231,9 +232,6 @@ void WbSphere::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!sanitizeFields())
-    return;
-
   WbGeometry::computeWrenRenderable();
 
   const bool createOutlineMesh = isInBoundingObject();
@@ -281,7 +279,7 @@ void WbSphere::updateMesh() {
 }
 
 void WbSphere::updateLineScale() {
-  if (!isAValidBoundingObject() || !sanitizeFields())
+  if (!isAValidBoundingObject())
     return;
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
