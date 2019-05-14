@@ -275,7 +275,7 @@ void WbBallJoint::checkMotorLimit() {
     }
     if (motor->maxPosition() > M_PI_2) {
       motor->setMaxPosition(M_PI_2);
-      warn(tr("The upper limit of the motor associated to the second axis greater than pi / 2."));
+      warn(tr("The upper limit of the motor associated to the second axis shouldn't be greater than pi/2."));
     }
   }
 }
