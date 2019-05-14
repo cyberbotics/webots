@@ -99,7 +99,7 @@ for f in files:
         basename = os.path.basename(path)
         try:
             shutil.copy(path, dstdirpath + basename)
-        except IOError, e:
+        except IOError as e:
             raise RuntimeError("Unable to copy file. %s" % e)
 
 
