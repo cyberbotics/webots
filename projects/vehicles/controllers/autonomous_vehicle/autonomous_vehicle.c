@@ -281,7 +281,7 @@ void update_display() {
 
 void compute_gps_speed() {
   const double *coords = wb_gps_get_values(gps);
-  const double spees_ms = wb_gps_get_speed(gps);
+  const double speed_ms = wb_gps_get_speed(gps);
   // store into global variables
   gps_speed = spees_ms * 3.6;  // convert from m/s to km/h
   memcpy(gps_coords, coords, sizeof(gps_coords));
