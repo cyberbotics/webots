@@ -290,12 +290,6 @@ bool WbGuiApplication::setup() {
     } else if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss")
       udpateStyleSheet();
   }
-
-  // Show guided tour if first ever launch and no command line world argument is given
-  bool showGuidedTour =
-    prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
-  
   return true;
 }
 
