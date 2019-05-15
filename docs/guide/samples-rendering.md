@@ -19,7 +19,7 @@ In this directory, you will find the following world files:
 %figure "Screenshots of the physically based rendering sample environment."
 
 |                                                                                       |                                                                                     |
-|---------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+|:-------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
 | ![apartment_a.png](images/samples/physically_based_rendering_telephone.thumbnail.jpg) | ![apartment_b.png](images/samples/physically_based_rendering_sphere_grid.thumbnail.jpg) |
 
 %end

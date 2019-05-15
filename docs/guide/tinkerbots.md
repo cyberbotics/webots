@@ -528,7 +528,7 @@ Note that the custom controller of this robot is written in Python.
 #### roadster.wbt and racer.wbt
 
 | | |
-| --- | --- |
+|:---:|:---:|
 | ![roadster.wbt.png](images/robots/tinkerbots/roadster.wbt.thumbnail.jpg) | ![racer.wbt.png](images/robots/tinkerbots/racer.wbt.thumbnail.jpg) |
 
 In these two examples, two car-looking robots move randomly using the "two_wheeled_vehicle" controller.
@@ -536,7 +536,7 @@ In these two examples, two car-looking robots move randomly using the "two_wheel
 #### donnergugi.wbt and top\_dog.wbt
 
 | | |
-| --- | --- |
+|:---:|:---:|
 | ![top_dog.wbt.png](images/robots/tinkerbots/top_dog.wbt.thumbnail.jpg) | ![donnergugi.wbt.png](images/robots/tinkerbots/donnergugi.wbt.thumbnail.jpg) |
 
 In these two examples, two animal-like robots move randomly using "tinkerbots_demo" controller.

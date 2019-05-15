@@ -15,7 +15,7 @@ In this directory, you will find the following world files:
 %figure "Screenshots of the apartment environment."
 
 |                                                              |                                                              |
-|--------------------------------------------------------------|--------------------------------------------------------------|
+|:------------------------------------------------------------:|:------------------------------------------------------------:|
 | ![apartment_a.png](images/samples/apartment_a.thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b.thumbnail.jpg) |
 | ![apartment_c.png](images/samples/apartment_c.thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d.thumbnail.jpg) |
 
@@ -35,7 +35,7 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 %figure "Screenshots of the factory environment."
 
 |                                                          |                                                          |
-|----------------------------------------------------------|----------------------------------------------------------|
+|:--------------------------------------------------------:|:--------------------------------------------------------:|
 | ![factory_a.png](images/samples/factory_a.thumbnail.jpg) | ![factory_b.png](images/samples/factory_b.thumbnail.jpg) |
 
 %end
