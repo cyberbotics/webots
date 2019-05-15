@@ -30,4 +30,4 @@ command.run(silent=False)
 if command.returncode != 0:
     raise RuntimeError('Error when executing the Make command')
 
-assert len(glob.glob(path + os.sep + 'distribution') > 2)
+assert len(glob.glob(path + os.sep + 'distribution')) > 2
