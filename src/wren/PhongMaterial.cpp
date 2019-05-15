@@ -58,8 +58,11 @@ namespace wren {
     material.mEmissiveAndOpacity = glm::vec4(gVec3Zeros, 1.0f);
     material.mTextureFlags = glm::vec4(0.0f);
 
-    std::fill(mTextures.begin(), mTextures.end(), std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS));
-    std::fill(mTextureCubes.begin(), mTextureCubes.end(), std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS));
+    for (auto &texture : mTextures)
+      texture = std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS);
+
+    for (auto &textureCube : mTextureCubes)
+      textureCube = std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS);
 
     mTextureTransform = NULL;
 

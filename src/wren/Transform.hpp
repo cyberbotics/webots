@@ -60,7 +60,6 @@ namespace wren {
         std::vector<primitive::Aabb> aabbs;
         aabbs.reserve(mChildren.size());
         for (Node *child : mChildren)
-          // cppcheck-suppress useStlAlgorithm ; raw loop is much simpler and readable
           aabbs.push_back(child->aabb());
 
         mAabb = primitive::Aabb(aabbs);
@@ -73,7 +72,6 @@ namespace wren {
         std::vector<primitive::Sphere> spheres;
         spheres.reserve(mChildren.size());
         for (Node *child : mChildren)
-          // cppcheck-suppress useStlAlgorithm ; raw loop is much simpler and readable
           spheres.push_back(child->boundingSphere());
 
         mBoundingSphere = primitive::mergeBoundingSpheres(spheres);

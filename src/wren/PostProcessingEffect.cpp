@@ -27,6 +27,8 @@
 
 #include <glad/glad.h>
 
+#include <algorithm>
+
 namespace wren {
 
   void PostProcessingEffect::Pass::setup() {

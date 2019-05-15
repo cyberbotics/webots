@@ -24,8 +24,6 @@
 
 #include <glad/glad.h>
 
-#include <algorithm>
-
 namespace wren {
 
   void Material::setTexture(Texture *texture, size_t index) {
@@ -44,9 +42,9 @@ namespace wren {
     if (texture)
       texture->addMaterialUser(this);
 
-    mHasPremultipliedAlpha = std::any_of(
-      mTextures.begin(), mTextures.end(),
-      [](const std::pair<Texture *, Texture::UsageParams> &t) { return t.first && t.first->hasPremultipliedAlpha(); });
+    mHasPremultipliedAlpha = false;
+    for (auto &t : mTextures)
+      mHasPremultipliedAlpha |= t.first && t.first->hasPremultipliedAlpha();
   }
 
   void Material::setTextureTransform(TextureTransform *transform) {
@@ -93,9 +91,12 @@ namespace wren {
   }
 
   void Material::updateTranslucency() {
-    mIsTranslucent = std::any_of(mTextures.begin(), mTextures.end(), [](const std::pair<Texture *, Texture::UsageParams> &t) {
-      return t.first && t.first->isTranslucent();
-    });
+    mIsTranslucent = false;
+
+    for (auto &t : mTextures) {
+      if (t.first && t.first->isTranslucent())
+        mIsTranslucent = true;
+    }
   }
 
   void Material::useProgram() const {
@@ -144,8 +145,12 @@ namespace wren {
   }
 
   int Material::countTextureInstances(Texture *texture) {
-    return std::count_if(mTextures.begin(), mTextures.end(),
-                         [texture](const std::pair<Texture *, Texture::UsageParams> &t) { return t.first == texture; });
+    int instances = 0;
+    for (auto &textureInstance : mTextures) {
+      if (textureInstance.first == texture)
+        ++instances;
+    }
+    return instances;
   }
 
 }  // namespace wren

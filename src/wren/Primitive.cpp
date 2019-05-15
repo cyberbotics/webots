@@ -341,8 +341,9 @@ namespace wren {
     Sphere mergeBoundingSpheres(const std::vector<Sphere> &spheres) {
       assert(spheres.size());
 
-      glm::vec3 center = std::accumulate(spheres.begin(), spheres.end(), glm::vec3(0.0f),
-                                         [](glm::vec3 sum, const Sphere &sphere) { return sum + sphere.mCenter; });
+      glm::vec3 center(0.0f);
+      for (const Sphere &sphere : spheres)
+        center += sphere.mCenter;
 
       center /= static_cast<float>(spheres.size());
 

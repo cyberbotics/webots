@@ -73,8 +73,11 @@ namespace wren {
       mOutputDrawBuffers[index].mGlNamePbo = 0;
     }
 
-    mIsCopyingEnabled = std::any_of(mOutputDrawBuffers.begin(), mOutputDrawBuffers.end(),
-                                    [](const DrawBuffer &buffer) { return buffer.mGlNamePbo; });
+    mIsCopyingEnabled = false;
+    for (const DrawBuffer &buffer : mOutputDrawBuffers) {
+      if (buffer.mGlNamePbo)
+        mIsCopyingEnabled = true;
+    }
   }
 
   void FrameBuffer::enableDrawBuffer(size_t index, bool enable) {
