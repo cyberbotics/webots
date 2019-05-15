@@ -803,7 +803,7 @@ THREE.X3DLoader = class X3DLoader {
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
       lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
-      lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
+      lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0.000001'));
       lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
       lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));
     }
