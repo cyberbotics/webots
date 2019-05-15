@@ -646,6 +646,37 @@ function quaternionToAxisAngle(q) {
   }
 };
 
+function matrix4ToAxisAngle(m) {
+  var axis = new THREE.Vector3(0.0, 1.0, 0.0);
+  var angle = 0.0;
+
+  var mEl = m.elements;
+  var cosAngle = 0.5 * (mEl[0] + mEl[5] + mEl[10] - 1.0);
+  var absCosAngle = Math.abs(cosAngle);
+
+  if (absCosAngle > 1.0) {
+    if ((absCosAngle - 1.0) > 0.0000001) {
+      // exception
+      axis.x = 1.0;
+      axis.y = 0.0;
+      axis.z = 0.0;
+      angle = 0.0;
+      return [axis, angle];
+    }
+    if (cosAngle < 0.0)
+      cosAngle = -1.0;
+    else
+      cosAngle = 1.0;
+  }
+
+  axis.x = mEl[6] - mEl[9];
+  axis.y = mEl[8] - mEl[2];
+  axis.z = mEl[1] - mEl[4];
+  angle = Math.acos(cosAngle);
+
+  return [axis, angle];
+}
+
 function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
@@ -675,9 +706,11 @@ function sliderMotorCallback(transform, slider) {
     if ('initialAngle' in transform.userData) // Get initial angle.
       angle = transform.userData.initialAngle;
     else { // Store initial angle.
-      var aa = quaternionToAxisAngle(transform.quaternion);
+      // var aa = quaternionToAxisAngle(transform.quaternion);
+      var aa = matrix4ToAxisAngle(transform.matrix);
       angle = aa[1];
       transform.userData.initialAngle = angle;
+      console.log('initial angle: ' + angle);
     }
     angle += value - position;
     // Apply the new axis-angle.
