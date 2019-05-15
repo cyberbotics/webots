@@ -263,7 +263,6 @@ int WbGuiApplication::exec() {
 }
 
 bool WbGuiApplication::setup() {
-  WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
 
