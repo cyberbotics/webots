@@ -245,7 +245,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       object = this.scene;
 
     if (Array.isArray(object)) {
-      for (let i = 0, l = object.length; i < l; i++) {
+      for (let i = 0; i < object.length; i++) {
         var o = this.getObjectById(id, skipBoundingObject, object[i], context);
         if (typeof o !== 'undefined')
           return o;
