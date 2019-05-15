@@ -275,7 +275,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
         childObject = this.getObjectById(id, object.children[childIndex], context);
         if (typeof childObject !== 'undefined')
           return childObject;
-      });
+      };
     }
     if (object.isMesh || object.isLineSegments || object.isPoints) {
       childObject = this.getObjectById(id, object.material, context);
