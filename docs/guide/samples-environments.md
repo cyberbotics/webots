@@ -34,8 +34,8 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 %figure "Screenshots of the factory environment."
 
-|                                                          |                                                          |
-|:--------------------------------------------------------:|:--------------------------------------------------------:|
+|     |     |
+|:---:|:---:|
 | ![factory_a.png](images/samples/factory_a.thumbnail.jpg) | ![factory_b.png](images/samples/factory_b.thumbnail.jpg) |
 
 %end
