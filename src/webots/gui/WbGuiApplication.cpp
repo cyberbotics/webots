@@ -263,6 +263,7 @@ int WbGuiApplication::exec() {
 }
 
 bool WbGuiApplication::setup() {
+  WbPreferences *const prefs = WbPreferences::instance();
   if (mStartupMode == WbSimulationState::NONE)
     mStartupMode = startupModeFromPreferences();
 
@@ -289,6 +290,121 @@ bool WbGuiApplication::setup() {
     } else if (WbPreferences::instance()->value("General/theme").toString() != "webots_classic.qss")
       udpateStyleSheet();
   }
+
+  // Show guided tour if first ever launch and no command line world argument is given
+  bool showGuidedTour =
+    prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
+  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
+
+#ifndef _WIN32
+  // create main window on Linux and macOS before the splash screen otherwise, the
+  // image in the splash screen is empty...
+  // Doing the same on Windows slows down the popup of the SplashScreen, therefore
+  // the main window is created later on Windows.
+  mMainWindow = new WbMainWindow(mShouldMinimize);
+#endif
+
+  if (!mShouldMinimize) {
+    // splash screen
+    // Warning: using heap allocated splash screen and/or pixmap cause crash while
+    // showing tooltips in the main window under Linux.
+    const QDir screenshotLocation = QDir("images:splash_images/", "*.png");
+    const QString webotsLogoName("webots.png");
+    mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
+    mSplash->setWindowFlags(Qt::SplashScreen);
+#ifdef _WIN32
+    mSplash->setWindowModality(Qt::ApplicationModal);
+#endif
+
+    if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
+      // we need to center the splash screen on the same window as the mainWindow,
+      // which is positioned wherever the mouse is on launch
+      QDesktopWidget *desktopWidget = desktop();
+      QPoint mousePosition = QCursor::pos();
+      int mainWindowScreenIndex = desktopWidget->screenNumber(mousePosition);
+      QRect mainWindowScreenRect = desktopWidget->screenGeometry(mainWindowScreenIndex);
+      QPoint targetPosition = mainWindowScreenRect.center();
+      targetPosition.setX(targetPosition.x() - mSplash->width() / 2);
+      targetPosition.setY(targetPosition.y() - mSplash->height() / 2);
+      mSplash->move(targetPosition);
+    }
+
+    // now we can safely show the splash screen, knowing it will be in the right place
+    mSplash->show();
+#ifdef __APPLE__
+    // On macOS, when the WbSplashScreen is shown, Qt calls a resize event on the QMainWindow (not shown yet) with the size of
+    // the splash screen. This overrides the WbMainWindow size preferences. This sounds like a Qt bug.
+    mMainWindow->restorePreferredGeometry(mShouldMinimize);
+#endif
+    connect(WbLog::instance(), &WbLog::popupOpen, mSplash, &QSplashScreen::hide);
+    connect(WbLog::instance(), &WbLog::popupClosed, mSplash, &QSplashScreen::show);
+    processEvents();
+    setSplashMessage(tr("Starting up..."));
+  } else
+    mSplash = NULL;
+  // otherwise get it from the list of recent files
+  if (mStartWorldName.isEmpty() || showGuidedTour) {
+    const QString defaultFileName = WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName();
+    mStartWorldName = prefs->value("RecentFiles/file0", defaultFileName).toString();
+  }
+  setSplashMessage(tr("Loading world..."));
+
+#ifdef __APPLE__
+  /**
+   * Fixed the floating docks which are not rendered (gray panel)
+   * This is a know issue between Qt 5.0.0 and 5.0.2
+   * Hopefully this can be removed later.
+   * cf: https://bugreports.qt-project.org/browse/QTBUG-30655
+   **/
+  setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+#endif
+
+  /**
+   * Hopefully improved the icon resolution
+   * http://blog.qt.digia.com/blog/2013/04/25/retina-display-support-for-mac-os-ios-and-x11/
+   **/
+  setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+#ifdef _WIN32
+  // create main window
+  mMainWindow = new WbMainWindow(mShouldMinimize);
+#endif
+
+  if (mShouldMinimize)
+    mMainWindow->showMinimized();
+  else {
+    WbPreferences *const prefs = WbPreferences::instance();
+    if (prefs->value("MainWindow/maximized", false).toBool())
+      mMainWindow->showMaximized();
+    else
+      mMainWindow->showNormal();
+  }
+
+  connect(mMainWindow, &WbMainWindow::restartRequested, this, &WbGuiApplication::restart);
+  connect(mMainWindow, &WbMainWindow::splashScreenCloseRequested, this, &WbGuiApplication::closeSplashScreenIfNeeded);
+  mApplication->setup();
+
+#ifdef __linux__
+  // popup a warning message if the preferences file is not writable
+  prefs->checkIsWritable();
+  if (WbSysInfo::isRootUser())
+    WbLog::warning("It is not recommended to run Webots as root.");
+
+  if (prefs->value("Internal/firstLaunch", true).toBool()) {
+    // delete previous desktop application info file in order to update it to the current installation data
+    const QString desktopFilePath = QDir::homePath() + "/.local/share/applications/webots.desktop";
+    if (QFile::exists(desktopFilePath))
+      QFile::remove(desktopFilePath);
+  }
+#endif
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+  WbSysInfo::initializeOpenGlInfo();
+  WbWrenOpenGlContext::doneWren();
+
+  if (showGuidedTour)
+    mMainWindow->showGuidedTour();
+
   return true;
 }
 
