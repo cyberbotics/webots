@@ -14,29 +14,34 @@
 
 """Referee supervisor controller for the Robot Wrestling Tournament."""
 
-from controller import Supervisor, Display
+from controller import Supervisor
 
 
 class Referee (Supervisor):
 
     def run(self):
         display = self.getDisplay("display")
-        display.setFont("Arial", 32, True)
         matchDuration = 3 * 60 * 1000  # a match lasts 3 minutes
         timeStep = int(self.getBasicTimeStep())  # retrieves the WorldInfo.basicTimeTime (ms) from the world file
         time = 0
         seconds = -1
-        display.drawText("Robot Wrestling", 20, 20)
-        display.drawText("Tournament", 60, 70)
+        background = display.imageLoad("wrestling_board.png")
+        display.imagePaste(background, 0, 0, False)
+        display.setFont("Arial", 28, True)
+        display.drawText("Robot Wrestling", 14, 14)
+        display.drawText("Tournament", 54, 62)
+        display.setFont("Arial", 53, True)
         while True:
             s = int(time / 1000) % 60
             if seconds != s:
                 seconds = s
                 minutes = int(time / 60000)
-                # display.setColor(0x000000)
-                # display.fillRectangle(320, 20, 192, 160)
-                # display.setColor(0xffffff)
-                # display.drawText("%02i:%02i" % (minutes, seconds), 320, 20)
+                display.setColor(0x636061)  # grey background
+                display.fillRectangle(320, 32, 180, 17)
+                display.setColor(0x000000)  # black background
+                display.fillRectangle(320, 49, 180, 37)
+                display.setColor(0xffffff)
+                display.drawText("%02i:%02i" % (minutes, seconds), 320, 32)
             if self.step(timeStep) == -1 or time > matchDuration:  # runs in a loop until Webots quits or the match is over
                 break
             time += timeStep
