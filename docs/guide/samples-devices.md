@@ -240,6 +240,18 @@ A ruler indicates the linear motor progression.
 ![motor.png](images/samples/motor.png) In this example, a rotational motor is controlled in force mode to push a cardboard.
 The force feedback applied on the motor and the energy consumed by the robot are displayed in the `Console`.
 
+### [motor2.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/motor2.wbt)
+
+**Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [Hinge2Joint](../reference/hinge2joint.md)
+
+![motor2.png](images/samples/motor2.png) In this example, two rotational motors are controlling a [Hinge2Joint](../reference/hinge2joint.md) in position.
+
+### [motor3.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/motor3.wbt)
+
+**Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [BallJoint](../reference/balljoint.md)
+
+![motor3.png](images/samples/motor3.png) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
+
 ### [pen.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/pen.wbt)
 
 **Keywords**: [Pen](../reference/pen.md), keyboard
