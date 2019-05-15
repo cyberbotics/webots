@@ -60,7 +60,7 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER)
 	+@cd $(WEBOTS_HOME_PATH) ; git clean -fdf | sed -e 's/^/# - /' ; cd src/packaging
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
-	+@echo "# updating proto cache"
+	+@echo "# updating proto cache" $(TRAVIS)
 ifneq ($(TRAVIS),"true")
 	+@$(WEBOTS) --update-proto-cache
 endif
