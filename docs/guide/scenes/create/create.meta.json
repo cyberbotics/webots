@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "create", 
   "devices": [
     {
-      "transformID": "n27", 
+      "transformID": "n26", 
       "initialPosition": 0, 
       "name": "left wheel motor", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n46", 
+      "transformID": "n45", 
       "initialPosition": 0, 
       "name": "right wheel motor", 
       "maxPosition": 0, 
@@ -23,10 +23,10 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n86", 
+      "transformID": "n85", 
       "name": "led_on", 
       "ledPBRAppearanceIDs": [
-        "n88"
+        "n87"
       ], 
       "ledColors": [
         "1 0 0"
@@ -35,10 +35,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n91", 
+      "transformID": "n90", 
       "name": "led_play", 
       "ledPBRAppearanceIDs": [
-        "n93"
+        "n92"
       ], 
       "ledColors": [
         "0 1 0"
@@ -47,10 +47,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n96", 
+      "transformID": "n95", 
       "name": "led_step", 
       "ledPBRAppearanceIDs": [
-        "n98"
+        "n97"
       ], 
       "ledColors": [
         "0 1 0"
@@ -59,52 +59,52 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "TouchSensor", 
       "name": "bumper_left"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "TouchSensor", 
       "name": "bumper_right"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "-0.04 0 -0.15", 
       "type": "DistanceSensor", 
       "name": "cliff_front_left"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "0.04 0 -0.15", 
       "type": "DistanceSensor", 
       "name": "cliff_front_right"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "-0.15 0 -0.07", 
       "type": "DistanceSensor", 
       "name": "cliff_left"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "0.15 0 -0.07", 
       "type": "DistanceSensor", 
       "name": "cliff_right"
     }, 
     {
-      "transformID": "n27", 
+      "transformID": "n26", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "0 0.037 -0.152", 
       "type": "Receiver", 
       "name": "receiver"
     }, 
     {
-      "transformID": "n46", 
+      "transformID": "n45", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }

@@ -1,36 +1,36 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "blimp", 
   "devices": [
     {
-      "transformID": "n72", 
+      "transformID": "n71", 
       "type": "Camera", 
       "name": "camera"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "0.54 0 0", 
       "type": "DistanceSensor", 
       "name": "ds0"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "transformOffset": "0 0 -0.26", 
       "type": "DistanceSensor", 
       "name": "ds6"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "Emitter", 
       "name": "emitter"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "GPS", 
       "name": "gps"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "Receiver", 
       "name": "receiver"
     }

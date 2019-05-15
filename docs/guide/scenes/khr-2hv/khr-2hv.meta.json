@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "khr-2hv", 
   "devices": [
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n158", 
+      "transformID": "n157", 
       "initialPosition": 0, 
       "name": "Left_Ankle", 
       "maxPosition": 0, 
@@ -23,7 +23,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n474", 
+      "transformID": "n473", 
       "initialPosition": 0, 
       "name": "Left_Arm1", 
       "maxPosition": 0, 
@@ -33,7 +33,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n184", 
+      "transformID": "n183", 
       "initialPosition": 0, 
       "name": "Left_Foot", 
       "maxPosition": 0, 
@@ -43,7 +43,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n500", 
+      "transformID": "n499", 
       "initialPosition": 0, 
       "name": "Left_Hand", 
       "maxPosition": 0, 
@@ -53,7 +53,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n76", 
+      "transformID": "n75", 
       "initialPosition": 0, 
       "name": "Left_Hip", 
       "maxPosition": 0, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n102", 
+      "transformID": "n101", 
       "initialPosition": 0, 
       "name": "Left_Leg1", 
       "maxPosition": 0, 
@@ -73,7 +73,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n128", 
+      "transformID": "n127", 
       "initialPosition": 0, 
       "name": "Left_Leg3", 
       "maxPosition": 0, 
@@ -83,7 +83,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n456", 
+      "transformID": "n455", 
       "initialPosition": 0, 
       "name": "Left_Shoulder", 
       "maxPosition": 0, 
@@ -93,7 +93,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n348", 
+      "transformID": "n347", 
       "initialPosition": 0, 
       "name": "Right_Ankle", 
       "maxPosition": 0, 
@@ -103,7 +103,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n590", 
+      "transformID": "n589", 
       "initialPosition": 0, 
       "name": "Right_Arm1", 
       "maxPosition": 0, 
@@ -113,7 +113,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n374", 
+      "transformID": "n373", 
       "initialPosition": 0, 
       "name": "Right_Foot", 
       "maxPosition": 0, 
@@ -123,7 +123,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n620", 
+      "transformID": "n619", 
       "initialPosition": 0, 
       "name": "Right_Hand", 
       "maxPosition": 0, 
@@ -133,7 +133,7 @@
       "axis": "0 -1 0"
     }, 
     {
-      "transformID": "n266", 
+      "transformID": "n265", 
       "initialPosition": 0, 
       "name": "Right_Hip", 
       "maxPosition": 0, 
@@ -143,7 +143,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n292", 
+      "transformID": "n291", 
       "initialPosition": 0, 
       "name": "Right_Leg1", 
       "maxPosition": 0, 
@@ -153,7 +153,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n318", 
+      "transformID": "n317", 
       "initialPosition": 0, 
       "name": "Right_leg3", 
       "maxPosition": 0, 
@@ -163,7 +163,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n572", 
+      "transformID": "n571", 
       "initialPosition": 0, 
       "name": "Right_Shoulder", 
       "maxPosition": 0, 
@@ -173,97 +173,97 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n55", 
+      "transformID": "n54", 
       "type": "PositionSensor", 
       "name": "Head_Sensor"
     }, 
     {
-      "transformID": "n158", 
+      "transformID": "n157", 
       "type": "PositionSensor", 
       "name": "Left_Ankle_Sensor"
     }, 
     {
-      "transformID": "n474", 
+      "transformID": "n473", 
       "type": "PositionSensor", 
       "name": "Left_Arm1_Sensor"
     }, 
     {
-      "transformID": "n184", 
+      "transformID": "n183", 
       "type": "PositionSensor", 
       "name": "Left_Foot_Sensor"
     }, 
     {
-      "transformID": "n500", 
+      "transformID": "n499", 
       "type": "PositionSensor", 
       "name": "Left_Hand_Sensor"
     }, 
     {
-      "transformID": "n76", 
+      "transformID": "n75", 
       "type": "PositionSensor", 
       "name": "Left_Hip_Sensor"
     }, 
     {
-      "transformID": "n102", 
+      "transformID": "n101", 
       "type": "PositionSensor", 
       "name": "Left_Leg1_Sensor"
     }, 
     {
-      "transformID": "n128", 
+      "transformID": "n127", 
       "type": "PositionSensor", 
       "name": "Left_Leg3_Sensor"
     }, 
     {
-      "transformID": "n456", 
+      "transformID": "n455", 
       "type": "PositionSensor", 
       "name": "Left_Shoulder_Sensor"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "Accelerometer", 
       "name": "RCB3_K_ACCELEROMETER"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "Gyro", 
       "name": "RCB3_K_GYRO"
     }, 
     {
-      "transformID": "n348", 
+      "transformID": "n347", 
       "type": "PositionSensor", 
       "name": "Right_Ankle_Sensor"
     }, 
     {
-      "transformID": "n590", 
+      "transformID": "n589", 
       "type": "PositionSensor", 
       "name": "Right_Arm1_Sensor"
     }, 
     {
-      "transformID": "n374", 
+      "transformID": "n373", 
       "type": "PositionSensor", 
       "name": "Right_Foot_Sensor"
     }, 
     {
-      "transformID": "n620", 
+      "transformID": "n619", 
       "type": "PositionSensor", 
       "name": "Right_Hand_Sensor"
     }, 
     {
-      "transformID": "n266", 
+      "transformID": "n265", 
       "type": "PositionSensor", 
       "name": "Right_Hip_Sensor"
     }, 
     {
-      "transformID": "n292", 
+      "transformID": "n291", 
       "type": "PositionSensor", 
       "name": "Right_Leg1_Sensor"
     }, 
     {
-      "transformID": "n318", 
+      "transformID": "n317", 
       "type": "PositionSensor", 
       "name": "Right_leg3_Sensor"
     }, 
     {
-      "transformID": "n572", 
+      "transformID": "n571", 
       "type": "PositionSensor", 
       "name": "Right_Shoulder_Sensor"
     }

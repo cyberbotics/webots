@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "salamander", 
   "devices": [
     {
-      "transformID": "n137", 
+      "transformID": "n136", 
       "initialPosition": 0, 
       "name": "motor_1", 
       "maxPosition": 1.13446, 
@@ -13,7 +13,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n150", 
+      "transformID": "n149", 
       "initialPosition": 0, 
       "name": "motor_2", 
       "maxPosition": 1.13446, 
@@ -23,7 +23,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n163", 
+      "transformID": "n162", 
       "initialPosition": 0, 
       "name": "motor_3", 
       "maxPosition": 1.13446, 
@@ -33,7 +33,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n278", 
+      "transformID": "n277", 
       "initialPosition": 0, 
       "name": "motor_4", 
       "maxPosition": 1.13446, 
@@ -43,7 +43,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n291", 
+      "transformID": "n290", 
       "initialPosition": 0, 
       "name": "motor_5", 
       "maxPosition": 1.13446, 
@@ -53,7 +53,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n304", 
+      "transformID": "n303", 
       "initialPosition": 0, 
       "name": "motor_6", 
       "maxPosition": 1.13446, 
@@ -63,7 +63,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n46", 
       "initialPosition": 0, 
       "name": "motor_leg_1", 
       "maxPosition": 0, 
@@ -73,7 +73,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n92", 
+      "transformID": "n91", 
       "initialPosition": 3.14159, 
       "name": "motor_leg_2", 
       "maxPosition": 0, 
@@ -83,7 +83,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n188", 
+      "transformID": "n187", 
       "initialPosition": 0, 
       "name": "motor_leg_3", 
       "maxPosition": 0, 
@@ -93,7 +93,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n233", 
+      "transformID": "n232", 
       "initialPosition": 3.14159, 
       "name": "motor_leg_4", 
       "maxPosition": 0, 
@@ -103,17 +103,17 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n24", 
+      "transformID": "n23", 
       "type": "DistanceSensor", 
       "name": "ds_left"
     }, 
     {
-      "transformID": "n28", 
+      "transformID": "n27", 
       "type": "DistanceSensor", 
       "name": "ds_right"
     }, 
     {
-      "transformID": "n12", 
+      "transformID": "n11", 
       "type": "GPS", 
       "name": "gps"
     }

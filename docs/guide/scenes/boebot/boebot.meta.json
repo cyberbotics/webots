@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "boebot", 
   "devices": [
     {
-      "transformID": "n188", 
+      "transformID": "n187", 
       "initialPosition": 0.4, 
       "name": "left wheel motor", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n160", 
+      "transformID": "n159", 
       "initialPosition": 1.74327, 
       "name": "right wheel motor", 
       "maxPosition": 0, 
@@ -23,10 +23,10 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n130", 
+      "transformID": "n129", 
       "name": "left_led", 
       "ledPBRAppearanceIDs": [
-        "n133"
+        "n132"
       ], 
       "ledColors": [
         "1 0 0"
@@ -35,10 +35,10 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n114", 
+      "transformID": "n113", 
       "name": "right_led", 
       "ledPBRAppearanceIDs": [
-        "n117"
+        "n116"
       ], 
       "ledColors": [
         "1 0 0"
@@ -47,42 +47,42 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n57", 
+      "transformID": "n56", 
       "type": "DistanceSensor", 
       "name": "lds"
     }, 
     {
-      "transformID": "n188", 
+      "transformID": "n187", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n151", 
+      "transformID": "n150", 
       "type": "TouchSensor", 
       "name": "left_whisker"
     }, 
     {
-      "transformID": "n94", 
+      "transformID": "n93", 
       "type": "LightSensor", 
       "name": "lls"
     }, 
     {
-      "transformID": "n40", 
+      "transformID": "n39", 
       "type": "DistanceSensor", 
       "name": "rds"
     }, 
     {
-      "transformID": "n160", 
+      "transformID": "n159", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n146", 
+      "transformID": "n145", 
       "type": "TouchSensor", 
       "name": "right_whisker"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n73", 
       "type": "LightSensor", 
       "name": "rls"
     }

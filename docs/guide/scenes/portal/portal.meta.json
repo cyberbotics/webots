@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "portal", 
   "devices": [
     {
-      "transformID": "n107", 
+      "transformID": "n106", 
       "initialPosition": 0, 
       "name": "gear", 
       "maxPosition": 0, 
@@ -13,7 +13,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n95", 
+      "transformID": "n94", 
       "initialPosition": 1.5708, 
       "name": "gate", 
       "maxPosition": 0.3, 
@@ -23,7 +23,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n90", 
+      "transformID": "n89", 
       "initialPosition": 0, 
       "name": "rail", 
       "maxPosition": 0, 
@@ -33,10 +33,10 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n81", 
+      "transformID": "n80", 
       "name": "lamp", 
       "ledPBRAppearanceIDs": [
-        "n85"
+        "n84"
       ], 
       "ledColors": [
         "1 0.878431 0"
@@ -45,37 +45,37 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n166", 
+      "transformID": "n165", 
       "type": "TouchSensor", 
       "name": "closed"
     }, 
     {
-      "transformID": "n95", 
+      "transformID": "n94", 
       "type": "PositionSensor", 
       "name": "gate_sensor"
     }, 
     {
-      "transformID": "n107", 
+      "transformID": "n106", 
       "type": "PositionSensor", 
       "name": "gear_sensor"
     }, 
     {
-      "transformID": "n265", 
+      "transformID": "n264", 
       "type": "TouchSensor", 
       "name": "inside button"
     }, 
     {
-      "transformID": "n138", 
+      "transformID": "n137", 
       "type": "TouchSensor", 
       "name": "open"
     }, 
     {
-      "transformID": "n292", 
+      "transformID": "n291", 
       "type": "DistanceSensor", 
       "name": "optical barrier"
     }, 
     {
-      "transformID": "n238", 
+      "transformID": "n237", 
       "type": "TouchSensor", 
       "name": "outside button"
     }

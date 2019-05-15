@@ -85,10 +85,6 @@ with open(targetMetaFile, 'w') as f:
 
 # Corrections on the XML file.
 tree = etree.parse(targetX3DFile)
-# Hard-code the shadows parameters (to be independant on the export settings).
-lights = tree.xpath('//DirectionalLight')
-lights[0].attrib['shadowIntensity'] = '0.5'
-lights[0].attrib['shadowMapSize'] = '1024'
 # Global texture paths.
 background = tree.xpath('//Background')
 background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')

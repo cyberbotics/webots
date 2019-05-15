@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "irb4600-40", 
   "devices": [
     {
-      "transformID": "n23", 
+      "transformID": "n22", 
       "initialPosition": 0, 
       "name": "A motor", 
       "maxPosition": 3.1415, 
@@ -13,7 +13,7 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n33", 
+      "transformID": "n32", 
       "initialPosition": 0, 
       "name": "B motor", 
       "maxPosition": 2.61799, 
@@ -23,7 +23,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "initialPosition": 0, 
       "name": "C motor", 
       "maxPosition": 1.309, 
@@ -33,7 +33,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "initialPosition": 0, 
       "name": "D motor", 
       "maxPosition": 6.98132, 
@@ -43,7 +43,7 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n63", 
+      "transformID": "n62", 
       "initialPosition": 0, 
       "name": "E motor", 
       "maxPosition": 2.0944, 
@@ -53,7 +53,7 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n73", 
+      "transformID": "n72", 
       "initialPosition": 0, 
       "name": "F motor", 
       "maxPosition": 6.98132, 
@@ -63,32 +63,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n23", 
+      "transformID": "n22", 
       "type": "PositionSensor", 
       "name": "A sensor"
     }, 
     {
-      "transformID": "n33", 
+      "transformID": "n32", 
       "type": "PositionSensor", 
       "name": "B sensor"
     }, 
     {
-      "transformID": "n43", 
+      "transformID": "n42", 
       "type": "PositionSensor", 
       "name": "C sensor"
     }, 
     {
-      "transformID": "n53", 
+      "transformID": "n52", 
       "type": "PositionSensor", 
       "name": "D sensor"
     }, 
     {
-      "transformID": "n63", 
+      "transformID": "n62", 
       "type": "PositionSensor", 
       "name": "E sensor"
     }, 
     {
-      "transformID": "n73", 
+      "transformID": "n72", 
       "type": "PositionSensor", 
       "name": "F sensor"
     }

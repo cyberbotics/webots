@@ -1,9 +1,9 @@
 {
-  "robotID": "n12", 
+  "robotID": "n11", 
   "name": "yamor", 
   "devices": [
     {
-      "transformID": "n30", 
+      "transformID": "n29", 
       "initialPosition": 0, 
       "name": "motor", 
       "maxPosition": 1.5708, 
@@ -13,12 +13,12 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n35", 
+      "transformID": "n34", 
       "type": "Connector", 
       "name": "front_connector"
     }, 
     {
-      "transformID": "n22", 
+      "transformID": "n21", 
       "type": "Connector", 
       "name": "rear_connector"
     }

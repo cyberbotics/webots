@@ -16,15 +16,17 @@ Solid {
     Shape {
       appearance PBRAppearance {
         baseColor 0.8 0.8 0.8
-        roughness 0.15
+        roughness 0.2
         metalness 0
       }
-      geometry DEF P Plane {
-        size 5 5
+      geometry DEF P Cylinder {
+        radius 5
+        height 0.001
+        side FALSE
+        bottom FALSE
       }
     }
   ]
-  boundingObject USE P
 }
 Robot {
   controller "web_component_studio_supervisor"
