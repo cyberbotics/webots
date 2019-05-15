@@ -38,7 +38,7 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### salamander.wbt
 
-![salamander.wbt.png](images/robots/salamander/salamander.wbt.png) A salamander-shaped robot walks down a slope and reaches a pool where it starts to swim.
+![salamander.wbt.png](images/robots/salamander/salamander.wbt_thumbnail.jpg) A salamander-shaped robot walks down a slope and reaches a pool where it starts to swim.
 The controller uses two different types of locomotion: it walks on the ground and swims in the water.
 This demo simulates propulsive forces caused by the undulations of the body and the resistance caused by the robot's shape.
 In addition, the buoyancy of the robot's body is also simulated using Archimedes' principle.

@@ -39,4 +39,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### portal\_pe.wbt
 
-![portal_pe.wbt.png](images/robots/portal/portal_pe.wbt.png) This simulation shows the portal model.
+![portal_pe.wbt.png](images/robots/portal/portal_pe.wbt_thumbnail.jpg) This simulation shows the portal model.

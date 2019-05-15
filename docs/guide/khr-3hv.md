@@ -39,5 +39,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### khr-3hv.wbt
 
-![khr-3hv.wbt.png](images/robots/khr-3hv/khr-3hv.wbt.png) This simulation shows a KHR-3HV robot.
+![khr-3hv.wbt.png](images/robots/khr-3hv/khr-3hv.wbt_thumbnail.jpg) This simulation shows a KHR-3HV robot.
 You can play with its motors using the generic robot window.

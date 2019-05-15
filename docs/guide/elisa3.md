@@ -42,4 +42,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### elisa3.wbt
 
-![elisa3.wbt.png](images/robots/elisa3/elisa3.wbt.png) This simulation shows 10 Elisa robots moving randomly in a square arena with obstacles.
+![elisa3.wbt.png](images/robots/elisa3/elisa3.wbt_thumbnail.jpg) This simulation shows 10 Elisa robots moving randomly in a square arena with obstacles.

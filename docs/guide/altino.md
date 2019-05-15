@@ -36,7 +36,7 @@ You will find the following example in this folder: "WEBOTS\_HOME/projects/robot
 
 #### altino.wbt
 
-![altino.wbt.png](images/robots/altino/altino.wbt.png) This simulation shows the ALTINO model in a simple environment.
+![altino.wbt.png](images/robots/altino/altino.wbt_thumbnail.jpg) This simulation shows the ALTINO model in a simple environment.
 The ALTINO controller, written in Python, shows a collision avoidance behavior based on a Braitenberg vehicle.
 Alternatively, the vehicle can be controlled manually using the computer keyboard.
 Please refer to the Webots console to learn the control keys.

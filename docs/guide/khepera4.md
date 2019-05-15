@@ -54,5 +54,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### khepera4.wbt
 
-![khepera4.wbt.png](images/robots/khepera4/khepera4.wbt.png) This simulation shows a Khepera IV moving in a square arena.
+![khepera4.wbt.png](images/robots/khepera4/khepera4.wbt_thumbnail.jpg) This simulation shows a Khepera IV moving in a square arena.
 Its camera is enabled.

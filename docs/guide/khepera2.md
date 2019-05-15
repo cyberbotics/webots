@@ -35,4 +35,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### khepera2.wbt
 
-![khepera2.wbt.png](images/robots/khepera2/khepera2.wbt.png) In this example, you can see a Khepera II robot moving inside an arena while avoiding the walls.
+![khepera2.wbt.png](images/robots/khepera2/khepera2.wbt_thumbnail.jpg) In this example, you can see a Khepera II robot moving inside an arena while avoiding the walls.

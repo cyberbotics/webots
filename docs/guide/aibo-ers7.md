@@ -112,5 +112,5 @@ The worlds and controllers can be accessed in the "WEBOTS\_HOME/projects/robots/
 
 #### aibo\_ers7.wbt
 
-![aibo_ers7.wbt.png](images/robots/aibo-ers7/aibo_ers7.wbt.png) In this example, you can see a silver Aibo ERS-7 robot walking on a textured soccer field.
+![aibo_ers7.wbt.png](images/robots/aibo-ers7/aibo_ers7.wbt_thumbnail.jpg) In this example, you can see a silver Aibo ERS-7 robot walking on a textured soccer field.
 On this field you can also see its toys : a ball, a charger and a bone.

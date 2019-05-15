@@ -43,15 +43,15 @@ You will find some samples in this folder: "WEBOTS\_HOME/projects/robots/kuka/yo
 
 #### youbot.wbt
 
-![youbot.wbt.png](images/robots/youbot/youbot.wbt.png) This simulation shows the youBot grabbing a box, releasing it on its plate, moving to a target, and leaving it on the ground.
+![youbot.wbt.png](images/robots/youbot/youbot.wbt_thumbnail.jpg) This simulation shows the youBot grabbing a box, releasing it on its plate, moving to a target, and leaving it on the ground.
 Once this automatic behavior is completed, you can move the robot and its arm using the computer keyboard (please refer to the instruction displayed in the Webots console).
 A small C library called "youbot_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot_control") facilitate the robot control.
 
 #### youbot\_matlab.wbt
 
-![youbot.wbt.png](images/robots/youbot/youbot.wbt.png) The same simulation as above, but with a controller written in MATLAB.
+![youbot.wbt.png](images/robots/youbot/youbot.wbt_thumbnail.jpg) The same simulation as above, but with a controller written in MATLAB.
 
 #### tower\_of\_hanoi.wbt
 
-![tower_of_hanoi.wbt.png](images/robots/youbot/tower_of_hanoi.wbt.png) In this simulation, the youBot is moving a pyramid of colored blocks from one position to another, using a temporary slot.
+![tower_of_hanoi.wbt.png](images/robots/youbot/tower_of_hanoi.wbt_thumbnail.jpg) In this simulation, the youBot is moving a pyramid of colored blocks from one position to another, using a temporary slot.
 This example is based on the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) mathematical game.
