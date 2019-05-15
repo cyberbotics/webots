@@ -800,59 +800,59 @@
   "projects/objects/trees/protos/Tree": {
     "background": [1.0, 0.0, 0.0]
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsBase": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase": {
     "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
     "background": [1.0, 0.0, 1.0]
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsAxle": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsAxle { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsBrickAdapter": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsBrickAdapter { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCube": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCube { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieBoxWithCrossSlots { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieBoxWithRoundSlots { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubieFemaleCube": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieFemaleCube { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubieMaleCube": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieMaleCube": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieMaleCube { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubiePyramid": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubiePyramid": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubiePyramid { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsCubieTriangle": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieTriangle { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsDistanceSensor": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsDistanceSensor { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsFinger": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger": {
     "nodeString": "Robot { rotation 0.09269165825812836 -0.704062955298831 -0.7040622213023753 3.326453232984257 children [ Slot { endPoint TinkerbotsFinger { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsGrabber": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsGrabber { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsLightSensor": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsLightSensor { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsMotor": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsMotor { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsPivot": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsPivot { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsTwister": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister": {
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsTwister { } } ] }"
   },
-  "projects/robots/tinkerbots/protos/TinkerbotsWheel": {
+  "projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel": {
     "nodeString": "Robot { translation 0 0.027 0 rotation -0.6087598420165832 1.0122819105744343e-6 -0.7933545580299642 3.1415961372248167 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
   "projects/robots/clearpath/moose/protos/Moose.proto": {
