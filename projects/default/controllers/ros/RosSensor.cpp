@@ -57,7 +57,6 @@ bool RosSensor::sensorEnableCallback(webots_ros::set_int::Request &req, webots_r
       mPublishList.back().mPublisher = createPublisher();
       if (minPeriod == req.value)
         rosEnable(req.value);
-      res.success = true;
     }
     res.success = true;
   } else {

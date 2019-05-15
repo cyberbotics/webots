@@ -475,8 +475,8 @@ static void handleDisplayMessage(WbRequest *r, WbDeviceTag tag, unsigned char c)
             // CALL_INTERFACE_FUNCTION(wbr_display_image_save, tag, id);
             break;
           case C_DISPLAY_IMAGE_GET_ALL: {
-            int width = request_read_int16(r);
-            int height = request_read_int16(r);
+            width = request_read_int16(r);
+            height = request_read_int16(r);
             unsigned char *im = request_read_data(r, 4 * width * height);
             CALL_INTERFACE_FUNCTION(wbr_display_image_new, tag, -1, width, height, im, WB_IMAGE_RGBA);
             CALL_INTERFACE_FUNCTION(wbr_display_image_paste, tag, -1, 0, 0);
