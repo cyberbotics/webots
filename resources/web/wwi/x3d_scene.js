@@ -244,18 +244,18 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (object === 'scene')
       object = this.scene;
 
+    if (!object ||
+        (skipBoundingObject && typeof object.userData !== 'undefined' && object.userData.x3dType === 'Switch')) {
+      context.parent = undefined;
+      return undefined;
+    }
+
     if (Array.isArray(object)) {
       for (let i = 0; i < object.length; i++) {
         var o = this.getObjectById(id, skipBoundingObject, object[i], context);
         if (typeof o !== 'undefined')
           return o;
       }
-    }
-
-    if (!object ||
-        (skipBoundingObject && typeof object.userData !== 'undefined' && object.userData.x3dType === 'Switch')) {
-      context.parent = undefined;
-      return undefined;
     }
 
     if (typeof this.objectsIdCache[id] !== 'undefined') {
@@ -279,54 +279,70 @@ class X3dScene { // eslint-disable-line no-unused-vars
       };
     }
     if (object.isMesh || object.isLineSegments || object.isPoint) {
-      childObject = this.getObjectById(id, skipBoundingObject, object.material, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'material';
-        context.parent = object;
-        return childObject;
+      if (object.material) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.material, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'material';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.geometry, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'geometry';
-        context.parent = object;
-        return childObject;
+      if (object.geometry) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.geometry, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'geometry';
+          context.parent = object;
+          return childObject;
+        }
       }
     } else if (object.isMaterial) {
-      childObject = this.getObjectById(id, skipBoundingObject, object.map, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'map';
-        context.parent = object;
-        return childObject;
+      if (object.map) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.map, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'map';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.aoMap, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'aoMap';
-        context.parent = object;
-        return childObject;
+      if (object.aoMap) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.aoMap, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'aoMap';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.roughnessMap, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'roughnessMap';
-        context.parent = object;
-        return childObject;
+      if (object.roughnessMap) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.roughnessMap, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'roughnessMap';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.metalnessMap, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'metalnessMap';
-        context.parent = object;
-        return childObject;
+      if (object.metalnessMap) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.metalnessMap, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'metalnessMap';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.normalMap, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'normalMap';
-        context.parent = object;
-        return childObject;
+      if (object.normalMap) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.normalMap, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'normalMap';
+          context.parent = object;
+          return childObject;
+        }
       }
-      childObject = this.getObjectById(id, skipBoundingObject, object.emissiveMap, context);
-      if (typeof childObject !== 'undefined') {
-        context.field = 'emissiveMap';
-        context.parent = object;
-        return childObject;
+      if (object.emissiveMap) {
+        childObject = this.getObjectById(id, skipBoundingObject, object.emissiveMap, context);
+        if (typeof childObject !== 'undefined') {
+          context.field = 'emissiveMap';
+          context.parent = object;
+          return childObject;
+        }
       }
       // only fields set in x3d.js are checked
     }
