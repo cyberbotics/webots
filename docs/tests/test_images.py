@@ -56,6 +56,7 @@ class TestImages(unittest.TestCase):
                 self.assertTrue(
                     found, msg='Image "%s" not referenced in any MD file.' % image_path
                 )
+                # in case of thumbnail make sure the original file is available
                 if image_path.endswith('_thumbnail.jpg'):
                     self.assertTrue(
                         image_path.replace('_thumbnail.jpg', '.png') in images_paths,
