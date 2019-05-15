@@ -17,7 +17,7 @@ from controller import Robot
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 
-print ('Move forward until an obstabcle is detected.')
+print('Move forward until an obstabcle is detected.')
 
 robot.getLED('motor led').set(0xFF0000)
 robot.getLED('distance sensor led').set(0x00FF00)
@@ -33,7 +33,7 @@ distanceSensor.enable(timestep)
 while robot.step(timestep) != -1:
     distance = distanceSensor.getValue()
     if distance < 100:
-        print ('Obstacle detected. Stop the motor.')
+        print('Obstacle detected. Stop the motor.')
         motor.setVelocity(0)
         robot.step(timestep)
         break

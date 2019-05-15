@@ -6,11 +6,11 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
-print ('LEDS:')
+print('LEDS:')
 for d in range(robot.getNumberOfDevices()):
     device = robot.getDeviceByIndex(d)
     if device.getNodeType() == Node.LED:
-        print (device.getName())
+        print(device.getName())
         device.set(1)
 
 while robot.step(timestep) != -1:
