@@ -81,13 +81,13 @@ graph LR
   Light -.-> PointLight[[PointLight](pointlight.md)]
   Light -.-> SpotLight[[SpotLight](spotlight.md)]
 
-  Joint([Joint](joint.md)) -.-> BallJoint[[BallJoint](balljoint.md)]
-  Joint -.-> HingeJoint[[HingeJoint](hingejoint.md)]
-    HingeJoint --> Hinge2Joint([Hinge2Joint](hinge2joint.md))
+  Joint([Joint](joint.md)) -.-> HingeJoint[[HingeJoint](hingejoint.md)]
+    HingeJoint --> Hinge2Joint[[Hinge2Joint](hinge2joint.md)]
+      Hinge2Joint --> BallJoint[[BallJoint](balljoint.md)]
   Joint -.-> SliderJoint[[SliderJoint](sliderjoint.md)]
 
-  BallJointParameters[[BallJointParameters](balljointparameters.md)]
   JointParameters[[JointParameters](jointparameters.md)] --> HingeJointParameters[[HingeJointParameters](hingejointparameters.md)]
+  JointParameters --> BallJointParameters[[BallJointParameters](balljointparameters.md)]
 
   subgraph other Nodes
     Appearance[[Appearance](appearance.md)]
