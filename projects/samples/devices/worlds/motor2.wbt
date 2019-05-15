@@ -3,7 +3,7 @@ WorldInfo {
   info [
     "Example world demonstrating the use of a controlled Hinge2Joint."
   ]
-  title "Motor"
+  title "Motor 2"
   lineScale 0.3
 }
 Viewpoint {
@@ -15,6 +15,11 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
 }
 Robot {
   children [
