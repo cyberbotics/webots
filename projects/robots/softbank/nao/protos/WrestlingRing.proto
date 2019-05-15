@@ -15,7 +15,8 @@ PROTO WrestlingRing [
     name IS name
     children [
       Shape {
-        appearance ChequeredParquetry {
+        appearance ScuffedPlastic {
+          colorOverride 0.95 0.9 0.8
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -32,16 +33,16 @@ PROTO WrestlingRing [
           }
           texCoord TextureCoordinate {
             point [
-              4 4
-              0 4
+              0.25 0.25
+              0 0.25
               0 0
-              4 0
-              4 1
+              0.25 0
+              0.25 1
               0 1
               0 0
-              4 0
-              1 4
-              0 4
+              0.25 0
+              1 0.25
+              0 0.25
               0 0
               1 0
             ]

@@ -2,20 +2,19 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.7173 0.6609 0.2205 5.3858
-  position -2.607 4 3.808
-  ambientOcclusionRadius 0.1
+  orientation -0.07016741279862594 -0.9785281133518205 -0.19380212991934323 2.491688993727497
+  position -2.1094997226723913 2.0591146678369983 -3.025739391390138
+  ambientOcclusionRadius 0.19999999999999998
 }
 TexturedBackground {
-  texture "noon_sunny_empty"
+  texture "music_hall"
 }
 TexturedBackgroundLight {
+  texture "music_hall"
 }
 Floor {
-  appearance Parquetry {
-    textureTransform TextureTransform {
-      scale 0.3333 0.3333
-    }
+  size 6 6
+  appearance VarnishedPine {
   }
 }
 WrestlingRing {
@@ -52,20 +51,15 @@ Nao {
 }
 Nao {
   translation 0.88 0.834 -0.01
-  rotation 0 0.7071 0.7071 -3.1416
+  rotation 0 0.7071067811865476 0.7071067811865476 -3.1416
   name "NAO 2"
   color 0 0.333333 1
   controller "wrestler_blue"
 }
 Robot {
   translation 0 0.21 1.1
-  name "Referee"
-  controller "wrestling_referee"
-  supervisor TRUE
   children [
     Display {
-      width 512
-      height 128
       children [
         Shape {
           appearance Appearance {
@@ -85,7 +79,6 @@ Robot {
                 0.9 -0.2 0
               ]
             }
-            coordIndex [ 0 1 2 3 -1 ]
             texCoord TextureCoordinate {
               point [
                 1 1
@@ -94,10 +87,20 @@ Robot {
                 1 0
               ]
             }
-            texCoordIndex [ 0 1 2 3 -1 ]
+            coordIndex [
+              0, 1, 2, 3, -1
+            ]
+            texCoordIndex [
+              0, 1, 2, 3, -1
+            ]
           }
         }
       ]
+      width 512
+      height 128
     }
   ]
+  name "Referee"
+  controller "wrestling_referee"
+  supervisor TRUE
 }
