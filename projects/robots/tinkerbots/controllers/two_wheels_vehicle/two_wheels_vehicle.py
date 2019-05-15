@@ -17,7 +17,7 @@ from controller import Robot
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 
-print ('Move forward and avoid obstabcles.')
+print('Move forward and avoid obstabcles.')
 
 leftMotor = robot.getMotor('left motor')
 robot.getLED('left motor led').set(0xFFFF00)

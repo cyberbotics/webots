@@ -2444,7 +2444,6 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   create_and_append_field_request(f, IMPORT_FROM_STRING, position, data, false);
   imported_nodes_number = -1;
   wb_robot_flush_unlocked();
-  printf("imported_nodes_number %d\n", imported_nodes_number);
   if (imported_nodes_number > 0)
     f->count += imported_nodes_number;
   robot_mutex_unlock_step();

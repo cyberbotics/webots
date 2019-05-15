@@ -33,7 +33,7 @@ except ImportError:
 def download(url, target_file_path):
     """Download URL to file."""
     if not silent:
-        print ('# downloading %s' % url)
+        print('# downloading %s' % url)
 
     # Prepare the target directory
     target_directory = os.path.dirname(target_file_path)

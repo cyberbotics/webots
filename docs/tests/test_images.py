@@ -50,9 +50,10 @@ class TestImages(unittest.TestCase):
             for image_path in images_paths:
                 found = False
                 for md_path in book.md_paths:
-                    if image_path in open(md_path).read():
-                        found = True
-                        break
+                    with open(md_path) as file:
+                        if image_path in file.read():
+                            found = True
+                            break
                 self.assertTrue(
                     found, msg='Image "%s" not referenced in any MD file.' % image_path
                 )
