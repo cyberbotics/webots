@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n414", 
+      "initialPosition": 0, 
       "name": "back_left_1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n424", 
+      "initialPosition": 0, 
       "name": "back_left_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n450", 
+      "initialPosition": 0, 
       "name": "back_left_3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n494", 
+      "initialPosition": 0, 
       "name": "back_right_1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n504", 
+      "initialPosition": 3.14159, 
       "name": "back_right_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n530", 
+      "initialPosition": 0, 
       "name": "back_right_3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n44", 
+      "initialPosition": 0, 
       "name": "front_left_1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n54", 
+      "initialPosition": 0, 
       "name": "front_left_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n80", 
+      "initialPosition": 0, 
       "name": "front_left_3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n270", 
+      "initialPosition": 0, 
       "name": "front_right_1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n280", 
+      "initialPosition": 3.14159, 
       "name": "front_right_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n306", 
+      "initialPosition": 0, 
       "name": "front_right_3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n194", 
+      "initialPosition": 0, 
       "name": "head", 
       "maxPosition": 0, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n139", 
+      "initialPosition": 0, 
       "name": "neck_1", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n149", 
+      "initialPosition": 0, 
       "name": "neck_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n369", 
+      "initialPosition": 0, 
       "name": "pelvis", 
       "maxPosition": 0, 
       "position": 0, 

@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n25", 
+      "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n216", 
+      "initialPosition": 0, 
       "name": "LeftAnkle", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n48", 
+      "initialPosition": 0, 
       "name": "LeftArm", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n206", 
+      "initialPosition": 0, 
       "name": "LeftCrus", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n58", 
+      "initialPosition": 0, 
       "name": "LeftElbow", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n196", 
+      "initialPosition": 0, 
       "name": "LeftFemur", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n176", 
+      "initialPosition": 0, 
       "name": "LeftFemurHead1", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n186", 
+      "initialPosition": 0, 
       "name": "LeftFemurHead2", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n226", 
+      "initialPosition": 0, 
       "name": "LeftFoot", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n68", 
+      "initialPosition": 0, 
       "name": "LeftForearm", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n38", 
+      "initialPosition": 0, 
       "name": "LeftShoulder", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n310", 
+      "initialPosition": 0, 
       "name": "RightAnkle", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n112", 
+      "initialPosition": 0, 
       "name": "RightArm", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n300", 
+      "initialPosition": 0, 
       "name": "RightCrus", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n122", 
+      "initialPosition": 0, 
       "name": "RightElbow", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n290", 
+      "initialPosition": 0, 
       "name": "RightFemur", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n270", 
+      "initialPosition": 0, 
       "name": "RightFemurHead1", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -157,6 +174,7 @@
     }, 
     {
       "transformID": "n280", 
+      "initialPosition": 0, 
       "name": "RightFemurHead2", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -166,6 +184,7 @@
     }, 
     {
       "transformID": "n320", 
+      "initialPosition": 0, 
       "name": "RightFoot", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -175,6 +194,7 @@
     }, 
     {
       "transformID": "n132", 
+      "initialPosition": 0, 
       "name": "RightForearm", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -184,6 +204,7 @@
     }, 
     {
       "transformID": "n102", 
+      "initialPosition": 0, 
       "name": "RightShoulder", 
       "maxPosition": 2.356, 
       "position": 0, 
@@ -193,6 +214,7 @@
     }, 
     {
       "transformID": "n166", 
+      "initialPosition": 0, 
       "name": "Waist", 
       "maxPosition": 2.356, 
       "position": 0, 

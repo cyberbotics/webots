@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n42", 
+      "initialPosition": 0, 
       "name": "arm1", 
       "maxPosition": 2.9496, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n62", 
+      "initialPosition": 0, 
       "name": "arm2", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n80", 
+      "initialPosition": 0, 
       "name": "arm3", 
       "maxPosition": 2.54818, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n104", 
+      "initialPosition": 0, 
       "name": "arm4", 
       "maxPosition": 1.78024, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n120", 
+      "initialPosition": 0, 
       "name": "arm5", 
       "maxPosition": 2.92343, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n180", 
+      "initialPosition": 0, 
       "name": "wheel1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n221", 
+      "initialPosition": 0, 
       "name": "wheel2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n262", 
+      "initialPosition": 0, 
       "name": "wheel3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n303", 
+      "initialPosition": 0, 
       "name": "wheel4", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n129", 
+      "initialPosition": 4.71239, 
       "name": "finger1", 
       "maxPosition": 0.025, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n144", 
+      "initialPosition": 3.14159, 
       "name": "finger2", 
       "maxPosition": 0.025, 
       "position": 0, 

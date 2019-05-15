@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n23", 
+      "initialPosition": 0, 
       "name": "A motor", 
       "maxPosition": 3.1415, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n33", 
+      "initialPosition": 0, 
       "name": "B motor", 
       "maxPosition": 2.61799, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n43", 
+      "initialPosition": 0, 
       "name": "C motor", 
       "maxPosition": 1.309, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n53", 
+      "initialPosition": 0, 
       "name": "D motor", 
       "maxPosition": 6.98132, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n63", 
+      "initialPosition": 0, 
       "name": "E motor", 
       "maxPosition": 2.0944, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n73", 
+      "initialPosition": 0, 
       "name": "F motor", 
       "maxPosition": 6.98132, 
       "position": 0, 

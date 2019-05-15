@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n127", 
+      "initialPosition": 0, 
       "name": "bl_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n140", 
+      "initialPosition": 0, 
       "name": "bl_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n118", 
+      "initialPosition": 0, 
       "name": "bl_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n168", 
+      "initialPosition": 0, 
       "name": "br_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n181", 
+      "initialPosition": 0, 
       "name": "br_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n159", 
+      "initialPosition": 0, 
       "name": "br_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n45", 
+      "initialPosition": 0, 
       "name": "fl_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n58", 
+      "initialPosition": 0, 
       "name": "fl_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n36", 
+      "initialPosition": 0, 
       "name": "fl_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n86", 
+      "initialPosition": 0, 
       "name": "fr_caster_l_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n99", 
+      "initialPosition": 0, 
       "name": "fr_caster_r_wheel_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n77", 
+      "initialPosition": 0, 
       "name": "fr_caster_rotation_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n220", 
+      "initialPosition": 0, 
       "name": "head_pan_joint", 
       "maxPosition": 3.007, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n230", 
+      "initialPosition": 0, 
       "name": "head_tilt_joint", 
       "maxPosition": 1.39626, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n552", 
+      "initialPosition": 0, 
       "name": "l_elbow_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n562", 
+      "initialPosition": 0, 
       "name": "l_forearm_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n621", 
+      "initialPosition": 0, 
       "name": "l_gripper_l_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -157,6 +174,7 @@
     }, 
     {
       "transformID": "n631", 
+      "initialPosition": 0, 
       "name": "l_gripper_l_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -166,6 +184,7 @@
     }, 
     {
       "transformID": "n614", 
+      "initialPosition": 0, 
       "name": "l_gripper_motor_screw_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -175,6 +194,7 @@
     }, 
     {
       "transformID": "n647", 
+      "initialPosition": 0, 
       "name": "l_gripper_r_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -184,6 +204,7 @@
     }, 
     {
       "transformID": "n658", 
+      "initialPosition": 0, 
       "name": "l_gripper_r_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -193,6 +214,7 @@
     }, 
     {
       "transformID": "n527", 
+      "initialPosition": 0, 
       "name": "l_shoulder_lift_joint", 
       "maxPosition": 1.3963, 
       "position": 0, 
@@ -202,6 +224,7 @@
     }, 
     {
       "transformID": "n516", 
+      "initialPosition": 0, 
       "name": "l_shoulder_pan_joint", 
       "maxPosition": 2.2853981634, 
       "position": 0, 
@@ -211,6 +234,7 @@
     }, 
     {
       "transformID": "n537", 
+      "initialPosition": 0, 
       "name": "l_upper_arm_roll_joint", 
       "maxPosition": 3.9, 
       "position": 0, 
@@ -220,6 +244,7 @@
     }, 
     {
       "transformID": "n578", 
+      "initialPosition": 0, 
       "name": "l_wrist_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -229,6 +254,7 @@
     }, 
     {
       "transformID": "n588", 
+      "initialPosition": 0, 
       "name": "l_wrist_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -238,6 +264,7 @@
     }, 
     {
       "transformID": "n289", 
+      "initialPosition": 0, 
       "name": "laser_tilt_mount_joint", 
       "maxPosition": 1.48353, 
       "position": 0, 
@@ -247,6 +274,7 @@
     }, 
     {
       "transformID": "n343", 
+      "initialPosition": 0, 
       "name": "r_elbow_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -256,6 +284,7 @@
     }, 
     {
       "transformID": "n353", 
+      "initialPosition": 0, 
       "name": "r_forearm_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -265,6 +294,7 @@
     }, 
     {
       "transformID": "n407", 
+      "initialPosition": 0, 
       "name": "r_gripper_l_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -274,6 +304,7 @@
     }, 
     {
       "transformID": "n417", 
+      "initialPosition": 0, 
       "name": "r_gripper_l_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -283,6 +314,7 @@
     }, 
     {
       "transformID": "n433", 
+      "initialPosition": 0, 
       "name": "r_gripper_r_finger_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -292,6 +324,7 @@
     }, 
     {
       "transformID": "n444", 
+      "initialPosition": 0, 
       "name": "r_gripper_r_finger_tip_joint", 
       "maxPosition": 0.548, 
       "position": 0, 
@@ -301,6 +334,7 @@
     }, 
     {
       "transformID": "n318", 
+      "initialPosition": 0, 
       "name": "r_shoulder_lift_joint", 
       "maxPosition": 1.3963, 
       "position": 0, 
@@ -310,6 +344,7 @@
     }, 
     {
       "transformID": "n307", 
+      "initialPosition": 0, 
       "name": "r_shoulder_pan_joint", 
       "maxPosition": 0.714601836603, 
       "position": 0, 
@@ -319,6 +354,7 @@
     }, 
     {
       "transformID": "n328", 
+      "initialPosition": 0, 
       "name": "r_upper_arm_roll_joint", 
       "maxPosition": 0.8, 
       "position": 0, 
@@ -328,6 +364,7 @@
     }, 
     {
       "transformID": "n369", 
+      "initialPosition": 0, 
       "name": "r_wrist_flex_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -337,6 +374,7 @@
     }, 
     {
       "transformID": "n379", 
+      "initialPosition": 0, 
       "name": "r_wrist_roll_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -346,6 +384,7 @@
     }, 
     {
       "transformID": "n740", 
+      "initialPosition": 0, 
       "name": "torso_lift_motor_screw_joint", 
       "maxPosition": 0, 
       "position": 0, 
@@ -355,6 +394,7 @@
     }, 
     {
       "transformID": "n668", 
+      "initialPosition": 0, 
       "name": "l_gripper_joint", 
       "maxPosition": 0.09, 
       "position": 0, 
@@ -364,6 +404,7 @@
     }, 
     {
       "transformID": "n609", 
+      "initialPosition": 0, 
       "name": "l_gripper_motor_slider_joint", 
       "maxPosition": 0.1, 
       "position": 0, 
@@ -373,6 +414,7 @@
     }, 
     {
       "transformID": "n454", 
+      "initialPosition": 0, 
       "name": "r_gripper_joint", 
       "maxPosition": 0.09, 
       "position": 0, 
@@ -382,6 +424,7 @@
     }, 
     {
       "transformID": "n401", 
+      "initialPosition": 0, 
       "name": "r_gripper_motor_slider_joint", 
       "maxPosition": 0.1, 
       "position": 0, 
@@ -391,6 +434,7 @@
     }, 
     {
       "transformID": "n200", 
+      "initialPosition": 0, 
       "name": "torso_lift_joint", 
       "maxPosition": 0.33, 
       "position": 0, 

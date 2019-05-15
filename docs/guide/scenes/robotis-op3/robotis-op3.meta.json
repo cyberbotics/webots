@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n523", 
+      "initialPosition": 0, 
       "name": "AnkleL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n1089", 
+      "initialPosition": 0, 
       "name": "AnkleR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n1410", 
+      "initialPosition": 0, 
       "name": "ArmLowerL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n1670", 
+      "initialPosition": 0, 
       "name": "ArmLowerR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n1359", 
+      "initialPosition": 0, 
       "name": "ArmUpperL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n1619", 
+      "initialPosition": 0, 
       "name": "ArmUpperR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n568", 
+      "initialPosition": 0, 
       "name": "FootL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n1134", 
+      "initialPosition": 0, 
       "name": "FootR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n1884", 
+      "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n380", 
+      "initialPosition": 0, 
       "name": "LegLowerL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n946", 
+      "initialPosition": 0, 
       "name": "LegLowerR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n277", 
+      "initialPosition": 0, 
       "name": "LegUpperL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n843", 
+      "initialPosition": 0, 
       "name": "LegUpperR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n1764", 
+      "initialPosition": 0, 
       "name": "Neck", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n233", 
+      "initialPosition": 0, 
       "name": "PelvL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n799", 
+      "initialPosition": 0, 
       "name": "PelvR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n107", 
+      "initialPosition": 0, 
       "name": "PelvYL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -157,6 +174,7 @@
     }, 
     {
       "transformID": "n673", 
+      "initialPosition": 0, 
       "name": "PelvYR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -166,6 +184,7 @@
     }, 
     {
       "transformID": "n1239", 
+      "initialPosition": 0, 
       "name": "ShoulderL", 
       "maxPosition": 2.82743338823, 
       "position": 0, 
@@ -175,6 +194,7 @@
     }, 
     {
       "transformID": "n1499", 
+      "initialPosition": 0, 
       "name": "ShoulderR", 
       "maxPosition": 2.82743338823, 
       "position": 0, 

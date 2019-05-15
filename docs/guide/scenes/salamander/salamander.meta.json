@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n137", 
+      "initialPosition": 0, 
       "name": "motor_1", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n150", 
+      "initialPosition": 0, 
       "name": "motor_2", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n163", 
+      "initialPosition": 0, 
       "name": "motor_3", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n278", 
+      "initialPosition": 0, 
       "name": "motor_4", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n291", 
+      "initialPosition": 0, 
       "name": "motor_5", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n304", 
+      "initialPosition": 0, 
       "name": "motor_6", 
       "maxPosition": 1.13446, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n47", 
+      "initialPosition": 0, 
       "name": "motor_leg_1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n92", 
+      "initialPosition": 3.14159, 
       "name": "motor_leg_2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n188", 
+      "initialPosition": 0, 
       "name": "motor_leg_3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n233", 
+      "initialPosition": 3.14159, 
       "name": "motor_leg_4", 
       "maxPosition": 0, 
       "position": 0, 

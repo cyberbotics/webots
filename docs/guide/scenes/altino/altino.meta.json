@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n517", 
+      "initialPosition": 0, 
       "name": "left_front_wheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n563", 
+      "initialPosition": 0, 
       "name": "left_rear_wheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n517", 
+      "initialPosition": 0, 
       "name": "left_steer", 
       "maxPosition": 1.34, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n494", 
+      "initialPosition": 0, 
       "name": "right_front_wheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n540", 
+      "initialPosition": 0, 
       "name": "right_rear_wheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n494", 
+      "initialPosition": 0, 
       "name": "right_steer", 
       "maxPosition": 1.34, 
       "position": 0, 

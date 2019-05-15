@@ -618,65 +618,6 @@ function toggleDeviceComponent(robot) {
   getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
 }
 
-function quaternionToAxisAngle(q) {
-  // refrerence: https://github.com/omichel/webots/blob/169014e3e511880c14b479a2aaad2e033d5b9a01/src/webots/maths/WbRotation.cpp#L20
-  var axis = new THREE.Vector3(0.0, 1.0, 0.0);
-  var angle = 0.0;
-
-  if (q.w >= 1.0)
-    angle = 0.0;
-  else if (q.w <= -1.0)
-    angle = 2.0 * Math.PI;
-  else
-    angle = 2.0 * Math.acos(q.w);
-
-  if (angle < 0.000001) {
-    axis.x = 0.0;
-    axis.y = 1.0;
-    axis.z = 0.0;
-    angle = 0.0;
-    return [axis, angle];
-  } else {
-    // normalise axes
-    var inv = 1.0 / Math.sqrt(q.x * q.x + q.y * q.y + q.z * q.z);
-    axis.x = q.x * inv;
-    axis.y = q.y * inv;
-    axis.z = q.z * inv;
-    return [axis, angle];
-  }
-};
-
-function matrix4ToAxisAngle(m) {
-  var axis = new THREE.Vector3(0.0, 1.0, 0.0);
-  var angle = 0.0;
-
-  var mEl = m.elements;
-  var cosAngle = 0.5 * (mEl[0] + mEl[5] + mEl[10] - 1.0);
-  var absCosAngle = Math.abs(cosAngle);
-
-  if (absCosAngle > 1.0) {
-    if ((absCosAngle - 1.0) > 0.0000001) {
-      // exception
-      axis.x = 1.0;
-      axis.y = 0.0;
-      axis.z = 0.0;
-      angle = 0.0;
-      return [axis, angle];
-    }
-    if (cosAngle < 0.0)
-      cosAngle = -1.0;
-    else
-      cosAngle = 1.0;
-  }
-
-  axis.x = mEl[6] - mEl[9];
-  axis.y = mEl[8] - mEl[2];
-  axis.z = mEl[1] - mEl[4];
-  angle = Math.acos(cosAngle);
-
-  return [axis, angle];
-}
-
 function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;
@@ -686,6 +627,7 @@ function sliderMotorCallback(transform, slider) {
 
   var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
+  var initialPosition = parseFloat(slider.getAttribute('webots-initial-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
     // Compute translation
@@ -702,16 +644,7 @@ function sliderMotorCallback(transform, slider) {
     transform.updateMatrix();
   } else {
     // Compute angle.
-    var angle = 0.0;
-    if ('initialAngle' in transform.userData) // Get initial angle.
-      angle = transform.userData.initialAngle;
-    else { // Store initial angle.
-      // var aa = quaternionToAxisAngle(transform.quaternion);
-      var aa = matrix4ToAxisAngle(transform.matrix);
-      angle = aa[1];
-      transform.userData.initialAngle = angle;
-      console.log('initial angle: ' + angle);
-    }
+    var angle = initialPosition;
     angle += value - position;
     // Apply the new axis-angle.
     var q = new THREE.Quaternion();
@@ -912,6 +845,7 @@ function createRobotComponent(view) {
             }
             slider.setAttribute('value', device['position']);
             slider.setAttribute('webots-position', device['position']);
+            slider.setAttribute('webots-initial-position', device['initialPosition']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-type', deviceType);

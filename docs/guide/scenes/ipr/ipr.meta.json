@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n47", 
+      "initialPosition": 0.124791, 
       "name": "base", 
       "maxPosition": 6.0335, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n102", 
+      "initialPosition": -2.2218, 
       "name": "forearm", 
       "maxPosition": 4.2149, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n242", 
+      "initialPosition": 0, 
       "name": "left_gripper", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n278", 
+      "initialPosition": 0, 
       "name": "right_gripper", 
       "maxPosition": 1.22171, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n206", 
+      "initialPosition": 2.99319, 
       "name": "rotational_wrist", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n88", 
+      "initialPosition": 0.597775, 
       "name": "upperarm", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n154", 
+      "initialPosition": 2.03331, 
       "name": "wrist", 
       "maxPosition": 0, 
       "position": 0, 

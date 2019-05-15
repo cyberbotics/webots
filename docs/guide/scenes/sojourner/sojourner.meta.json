@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n78", 
+      "initialPosition": 0, 
       "name": "BackLeftArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n66", 
+      "initialPosition": 0.1, 
       "name": "BackLeftBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n82", 
+      "initialPosition": 0, 
       "name": "BackLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n206", 
+      "initialPosition": 0, 
       "name": "BackRightArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n199", 
+      "initialPosition": 0.1, 
       "name": "BackRightBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n216", 
+      "initialPosition": 0, 
       "name": "BackRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n164", 
+      "initialPosition": 0, 
       "name": "FrontLeftArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n148", 
+      "initialPosition": 0.1, 
       "name": "FrontLeftBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n174", 
+      "initialPosition": 0, 
       "name": "FrontLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n298", 
+      "initialPosition": 0, 
       "name": "FrontRightArm", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n282", 
+      "initialPosition": 0.1, 
       "name": "FrontRightBogie", 
       "maxPosition": 0, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n302", 
+      "initialPosition": 0, 
       "name": "FrontRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n116", 
+      "initialPosition": 0, 
       "name": "MiddleLeftWheel", 
       "maxPosition": 0, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n238", 
+      "initialPosition": 0, 
       "name": "MiddleRightWheel", 
       "maxPosition": 0, 
       "position": 0, 
