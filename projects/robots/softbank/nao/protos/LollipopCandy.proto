@@ -23,8 +23,8 @@ Solid {
                 metalness 0
               }
               geometry Sphere {
-                subdivision 3
                 radius 0.0125
+                subdivision 3
               }
             }
           ]

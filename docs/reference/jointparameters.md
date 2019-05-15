@@ -12,21 +12,21 @@ JointParameters {
 }
 ```
 
-> **Note**: The default value of the axis field may change in a derived class.
-For instance, the axis default value of an [HingeJointParameters](hingejointparameters.md) is `1 0 0`.
+> **Note**: The axis field may change in a derived class.
+For instance, the axis default value of an [HingeJointParameters](hingejointparameters.md) is `1 0 0`, and there is no `axis` field in a [BallJointParameters](balljointparameters.md)
 
 ### Description
 
 The [JointParameters](#jointparameters) node is a concrete base node used to specify various joint parameters related to an axis along which, or around which, the motion is allowed.
-As an instantiated node it can be used within the jointParameters field of [SliderJoint](sliderjoint.md) or within the jointParameters2 field of [Hinge2Joint](hinge2joint.md).
+As an instantiated node it can be used within the jointParameters field of [SliderJoint](sliderjoint.md) or within the jointParameters2 field of [Hinge2Joint](hinge2joint.md) or [BallJointParameters](balljointparameters.md) and jointParameters3 field of [BallJointParameters](balljointparameters.md).
 Unlike the other joint parameters node, it has no anchor.
 
 ### Field Summary
 
 - The `position` field represents the current *position* of the joint, in radians or meters.
-For an hinge, it is the current rotation angle in radians.
+For an hinge or ball, it is the current rotation angle in radians.
 For a slider, it is the magnitude of the current translation in meters.
-When changing the `position` field from the Webots scene tree, Webots also changes the corresponding `rotation` (for a hinge) or `translation` (for a slider) field in the `endPoint` solid of the parent joint node to keep the consistency of the model.
+When changing the `position` field from the Webots scene tree, Webots also changes the corresponding `rotation` (for a hinge or ball) or `translation` (for a slider) field in the `endPoint` solid of the parent joint node to keep the consistency of the model.
 Similarly, when changing the `position` field of a [JointParameters](#jointparameters) node in a text editor, you should take care of also changing the corresponding `rotation` or `translation` field accordingly.
 
 - The `minStop` and `maxStop` fields specify the position of physical (or mechanical) stops.
@@ -39,7 +39,7 @@ These fields are described in more detail in the "Springs and Dampers" section, 
 
 ### Units
 
-The position of a rotational joint ([HingeJoint](hingejoint.md) or [Hinge2Joint](hinge2joint.md)) is expressed in *radians* while the position of a linear joint ([SliderJoint](sliderjoint.md)) is expressed in *meters*.
+The position of a rotational joint ([HingeJoint](hingejoint.md), [Hinge2Joint](hinge2joint.md) or [BallJoint](balljoint.md)) is expressed in *radians* while the position of a linear joint ([SliderJoint](sliderjoint.md)) is expressed in *meters*.
 See [this table](#joint-units):
 
 %figure "Joint Units"
@@ -66,7 +66,7 @@ See [this table](#joint-units):
 
 The `position` field is a scalar representing an angle (in radians) or a distance (in meters) computed with respect to the initial `translation` and `rotation` of the [Joint](joint.md)'s [Solid](solid.md) child.
 If its value is zero, then the [Joint](joint.md)'s child is *by definition* set with its initial `translation` and `rotation`.
-For a joint with one or two rotational degrees of freedom (e.g., [HingeJoint](hingejoint.md), [Hinge2Joint](hinge2joint.md)), the `position` field value is the rotation angle around one the joint axes that was applied to the [Joint](joint.md)'s child initially in zero position.
+For a joint with one, two or three rotational degrees of freedom (e.g., [HingeJoint](hingejoint.md), [Hinge2Joint](hinge2joint.md), [BallJoint](balljoint.md)), the `position` field value is the rotation angle around one of the joint axes that was applied to the [Joint](joint.md)'s child initially in zero position.
 For a slider joint, `position` is the translation length along the sliding axis that was applied to the [Joint](joint.md)'s child initially in zero position.
 
 For example if we have a [HingeJoint](hingejoint.md) and a `position` field value of 1.5708, this means that this [HingeJoint](joint.md) is 90 degrees from its initial rotation with respect to the hinge rotation axis.

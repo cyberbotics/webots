@@ -23,7 +23,7 @@ PROTO PingPongBall [
             url IS textureUrl
           }
           textureTransform TextureTransform {
-            scale 1 0.5
+            scale 1 0.6
             translation 0 0.3
           }
         }

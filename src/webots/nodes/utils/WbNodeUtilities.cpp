@@ -16,6 +16,7 @@
 
 #include "../../../include/controller/c/webots/nodes.h"
 #include "WbBackground.hpp"
+#include "WbBallJoint.hpp"
 #include "WbBallJointParameters.hpp"
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
@@ -269,6 +270,8 @@ namespace {
               << "Focus"
               << "immersionProperties"
               << "ImmersionProperties"
+              << "jointParameters3"
+              << "JointParameters"
               << "jointParameters2"
               << "JointParameters"
               << "lens"
@@ -324,7 +327,7 @@ namespace {
 
     } else if (fieldName == "device") {
       const WbJoint *joint = dynamic_cast<const WbJoint *>(node);
-      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller") {
+      if (parentModelName.startsWith("Hinge") || parentModelName == "Propeller" || parentModelName == "BallJoint") {
         if ((nodeName == "RotationalMotor" &&
              (WbNodeReader::current() || (joint && joint->motor() == NULL) || parentModelName == "Propeller")) ||
             (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor() == NULL))) ||
@@ -344,10 +347,18 @@ namespace {
 
     } else if (fieldName == "device2") {
       const WbHinge2Joint *joint = dynamic_cast<const WbHinge2Joint *>(node);
-      if (parentModelName == "Hinge2Joint" &&
+      if ((parentModelName == "Hinge2Joint" || parentModelName == "BallJoint") &&
           ((nodeName == "RotationalMotor" && (WbNodeReader::current() || (joint && joint->motor2() == NULL))) ||
            (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor2() == NULL))) ||
            (nodeName == "Brake" && (WbNodeReader::current() || (joint && joint->brake2() == NULL)))))
+        return WbNodeUtilities::hasARobotAncestor(node);
+
+    } else if (fieldName == "device3") {
+      const WbBallJoint *joint = dynamic_cast<const WbBallJoint *>(node);
+      if (parentModelName == "BallJoint" &&
+          ((nodeName == "RotationalMotor" && (WbNodeReader::current() || (joint && joint->motor3() == NULL))) ||
+           (nodeName == "PositionSensor" && (WbNodeReader::current() || (joint && joint->positionSensor3() == NULL))) ||
+           (nodeName == "Brake" && (WbNodeReader::current() || (joint && joint->brake3() == NULL)))))
         return WbNodeUtilities::hasARobotAncestor(node);
 
     } else if (fieldName == "jointParameters") {

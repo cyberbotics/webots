@@ -45,9 +45,12 @@ public:
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
   virtual WbJointParameters *parameters2() const { return NULL; }
+  virtual WbJointParameters *parameters3() const { return NULL; }
 
   WbPositionSensor *positionSensor() const;
   WbMotor *motor() const;
+  virtual WbMotor *motor2() const { return NULL; }
+  virtual WbMotor *motor3() const { return NULL; }
   WbBrake *brake() const;
 
   WbJointDevice *device(int index) const;

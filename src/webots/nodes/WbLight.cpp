@@ -230,17 +230,6 @@ void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
     return;
   }
 
-  if (writer.isX3d()) {
-    const WbNode *n = this;
-    while (n && !n->isWorldRoot()) {
-      if (n->isDefNode() && n->useCount() > 0) {
-        warn("DEF/USE mechanism for light nodes could not work in some X3D viewers, like X3DOM.");
-        break;
-      }
-      n = n->parent();
-    }
-  }
-
   findField("on", true)->write(writer);
   findField("color", true)->write(writer);
   findField("intensity", true)->write(writer);

@@ -687,7 +687,13 @@ THREE.X3DLoader = class X3DLoader {
   parseSphere(sphere) {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
+    var ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
+    var sphereGeometry;
+    if (ico) {
+      sphereGeometry = new THREE.IcosahedronBufferGeometry(radius, subdivision[0]);
+      sphereGeometry.rotateY(Math.PI / 2);
+    } else
+      sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
   }
@@ -712,14 +718,17 @@ THREE.X3DLoader = class X3DLoader {
 
     var count = coordStrArray.length;
     var colorStrArray;
-    if (typeof color === 'undefined')
+    geometry.userData.isColorPerVertex = false;
+    if (typeof color !== 'undefined') {
       colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
-    if (typeof colorStrArray === 'undefined' && count !== colorStrArray.length) {
-      count = Math.min(count, colorStrArray.length);
-      console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
-      geometry.userData.isColorPerVertex = false;
-    } else
-      geometry.userData.isColorPerVertex = true;
+      if (typeof colorStrArray !== 'undefined') {
+        if (count !== colorStrArray.length) {
+          count = Math.min(count, colorStrArray.length);
+          console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
+        }
+        geometry.userData.isColorPerVertex = true;
+      }
+    }
 
     var positions = new Float32Array(count);
     for (let i = 0; i < count; i++)
