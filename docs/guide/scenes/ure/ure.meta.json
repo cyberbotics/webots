@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n193", 
+      "initialPosition": 0, 
       "name": "elbow_joint", 
       "maxPosition": 3.14159265359, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n142", 
+      "initialPosition": 1.570796, 
       "name": "shoulder_lift_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n118", 
+      "initialPosition": 0, 
       "name": "shoulder_pan_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n233", 
+      "initialPosition": 1.570796, 
       "name": "wrist_1_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n257", 
+      "initialPosition": 0, 
       "name": "wrist_2_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n281", 
+      "initialPosition": 0, 
       "name": "wrist_3_joint", 
       "maxPosition": 6.28318530718, 
       "position": 0, 

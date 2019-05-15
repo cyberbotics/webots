@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n165", 
+      "initialPosition": 0, 
       "name": "left motor 1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n193", 
+      "initialPosition": 0, 
       "name": "left motor 2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n221", 
+      "initialPosition": 0, 
       "name": "left motor 3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n249", 
+      "initialPosition": 0, 
       "name": "left motor 4", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n53", 
+      "initialPosition": 0, 
       "name": "right motor 1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n81", 
+      "initialPosition": 0, 
       "name": "right motor 2", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n109", 
+      "initialPosition": 0, 
       "name": "right motor 3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n137", 
+      "initialPosition": 0, 
       "name": "right motor 4", 
       "maxPosition": 0, 
       "position": 0, 

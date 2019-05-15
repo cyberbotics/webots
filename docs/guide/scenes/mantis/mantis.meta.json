@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n291", 
+      "initialPosition": 2.44, 
       "name": "LAC", 
       "maxPosition": 0, 
       "position": -0.700161, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n307", 
+      "initialPosition": 0.785785, 
       "name": "LAF", 
       "maxPosition": 0, 
       "position": 0.786181, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n322", 
+      "initialPosition": -2.29998, 
       "name": "LAT", 
       "maxPosition": 0, 
       "position": -2.29996, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n378", 
+      "initialPosition": 3.14, 
       "name": "LMC", 
       "maxPosition": 0, 
       "position": -0.000160523, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n394", 
+      "initialPosition": 0.785786, 
       "name": "LMF", 
       "maxPosition": 0, 
       "position": 0.786182, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n409", 
+      "initialPosition": -2.29997, 
       "name": "LMT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n465", 
+      "initialPosition": 3.84, 
       "name": "LPC", 
       "maxPosition": 0, 
       "position": 0.699839, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n481", 
+      "initialPosition": 0.785787, 
       "name": "LPF", 
       "maxPosition": 0, 
       "position": 0.786183, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n496", 
+      "initialPosition": -2.29997, 
       "name": "LPT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n204", 
+      "initialPosition": 0.699997, 
       "name": "RAC", 
       "maxPosition": 0, 
       "position": 0.700158, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n220", 
+      "initialPosition": 0.785785, 
       "name": "RAF", 
       "maxPosition": 0, 
       "position": 0.786181, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n235", 
+      "initialPosition": -2.29997, 
       "name": "RAT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n117", 
+      "initialPosition": 0.000172162, 
       "name": "RMC", 
       "maxPosition": 0, 
       "position": 0.000333208, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n133", 
+      "initialPosition": 0.785786, 
       "name": "RMF", 
       "maxPosition": 0, 
       "position": 0.786182, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n148", 
+      "initialPosition": -2.29997, 
       "name": "RMT", 
       "maxPosition": 0, 
       "position": -2.29995, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n30", 
+      "initialPosition": 0.700003, 
       "name": "RPC", 
       "maxPosition": 0, 
       "position": -0.699842, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n46", 
+      "initialPosition": 0.785787, 
       "name": "RPF", 
       "maxPosition": 0, 
       "position": 0.786183, 
@@ -157,6 +174,7 @@
     }, 
     {
       "transformID": "n61", 
+      "initialPosition": 2.29995, 
       "name": "RPT", 
       "maxPosition": 0, 
       "position": -2.29995, 

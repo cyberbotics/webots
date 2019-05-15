@@ -432,6 +432,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
           deviceObject.insert("position", motor->position());
+          deviceObject.insert("initialPosition", motor->joint()->solidEndPoint()->rotation().angle());
           if (motor->positionIndex() == 2)
             deviceObject.insert("axis", motor->joint()->parameters2()->axis().toString(WbPrecision::FLOAT_MAX));
           else

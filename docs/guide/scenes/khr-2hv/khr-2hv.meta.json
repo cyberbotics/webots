@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n55", 
+      "initialPosition": 0, 
       "name": "Head", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n158", 
+      "initialPosition": 0, 
       "name": "Left_Ankle", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n474", 
+      "initialPosition": 0, 
       "name": "Left_Arm1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n184", 
+      "initialPosition": 0, 
       "name": "Left_Foot", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n500", 
+      "initialPosition": 0, 
       "name": "Left_Hand", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n76", 
+      "initialPosition": 0, 
       "name": "Left_Hip", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n102", 
+      "initialPosition": 0, 
       "name": "Left_Leg1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n128", 
+      "initialPosition": 0, 
       "name": "Left_Leg3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n456", 
+      "initialPosition": 0, 
       "name": "Left_Shoulder", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n348", 
+      "initialPosition": 0, 
       "name": "Right_Ankle", 
       "maxPosition": 0, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n590", 
+      "initialPosition": 0, 
       "name": "Right_Arm1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n374", 
+      "initialPosition": 0, 
       "name": "Right_Foot", 
       "maxPosition": 0, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n620", 
+      "initialPosition": 0, 
       "name": "Right_Hand", 
       "maxPosition": 0, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n266", 
+      "initialPosition": 0, 
       "name": "Right_Hip", 
       "maxPosition": 0, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n292", 
+      "initialPosition": 0, 
       "name": "Right_Leg1", 
       "maxPosition": 0, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n318", 
+      "initialPosition": 0, 
       "name": "Right_leg3", 
       "maxPosition": 0, 
       "position": 0, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n572", 
+      "initialPosition": 0, 
       "name": "Right_Shoulder", 
       "maxPosition": 0, 
       "position": 0, 

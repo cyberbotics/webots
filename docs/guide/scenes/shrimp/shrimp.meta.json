@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n119", 
+      "initialPosition": 0, 
       "name": "back wheel rotation", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n423", 
+      "initialPosition": 0, 
       "name": "front wheel rotation", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n444", 
+      "initialPosition": 0, 
       "name": "wheel motor 00", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n335", 
+      "initialPosition": 0, 
       "name": "wheel motor 01", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n229", 
+      "initialPosition": 0, 
       "name": "wheel motor 02", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n295", 
+      "initialPosition": 0, 
       "name": "wheel motor 03", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n189", 
+      "initialPosition": 0, 
       "name": "wheel motor 04", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n140", 
+      "initialPosition": 0, 
       "name": "wheel motor 05", 
       "maxPosition": 0, 
       "position": 0, 

@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n249", 
+      "initialPosition": 0, 
       "name": "wheel_motor00", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n257", 
+      "initialPosition": 0, 
       "name": "wheel_motor01", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n265", 
+      "initialPosition": 0, 
       "name": "wheel_motor02", 
       "maxPosition": 0, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n273", 
+      "initialPosition": 0, 
       "name": "wheel_motor03", 
       "maxPosition": 0, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n281", 
+      "initialPosition": 0, 
       "name": "wheel_motor04", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n289", 
+      "initialPosition": 0, 
       "name": "wheel_motor05", 
       "maxPosition": 0, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n297", 
+      "initialPosition": 0, 
       "name": "wheel_motor06", 
       "maxPosition": 0, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n305", 
+      "initialPosition": 0, 
       "name": "wheel_motor07", 
       "maxPosition": 0, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n313", 
+      "initialPosition": 0, 
       "name": "wheel_motor08", 
       "maxPosition": 0, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n321", 
+      "initialPosition": 0, 
       "name": "wheel_motor09", 
       "maxPosition": 0, 
       "position": 0, 

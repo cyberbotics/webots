@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n34", 
+      "initialPosition": 0, 
       "name": "joint1", 
       "maxPosition": 2.792, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n51", 
+      "initialPosition": 0, 
       "name": "joint2", 
       "maxPosition": 0.7854, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n77", 
+      "initialPosition": 0, 
       "name": "joint3", 
       "maxPosition": 3.9269, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n81", 
+      "initialPosition": 0, 
       "name": "joint4", 
       "maxPosition": 2.967, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n85", 
+      "initialPosition": 0, 
       "name": "joint5", 
       "maxPosition": 1.7453, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n93", 
+      "initialPosition": 0, 
       "name": "joint6", 
       "maxPosition": 4.6425, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n126", 
+      "initialPosition": 1.5708, 
       "name": "joint_GripperL", 
       "maxPosition": 0.01, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n111", 
+      "initialPosition": -1.5708, 
       "name": "joint_GripperR", 
       "maxPosition": 0.01, 
       "position": 0, 

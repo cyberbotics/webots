@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n28", 
+      "initialPosition": 0, 
       "name": "body pitch motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n24", 
+      "initialPosition": 0, 
       "name": "body yaw motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n48", 
+      "initialPosition": 0, 
       "name": "head yaw motor", 
       "maxPosition": 0, 
       "position": 0, 

@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n18", 
+      "initialPosition": 3.39668, 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n38", 
+      "initialPosition": 2.46162, 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 

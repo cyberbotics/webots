@@ -4,8 +4,7 @@
 <meta name="generator" content="Webots"/>
 </head>
 <Scene>
-<NavigationInfo headlight="false" type="NONE"/>
-<Environment shadowExcludeTransparentObjects="true"/>
+/&gt;
 <WorldInfo id="n1"/>
 <Viewpoint id="n2" orientation="-0.24022032 0.9532497 0.18332829 1.350208" position="3.6056755 2.3431053 1.0494056" zNear="0.05" followSmoothness="0.5"/>
 <Background id="n3" skyColor="0.33 0.66 1" rightUrl="&quot;../background/noon_cloudy_mountains_right.jpg&quot;" leftUrl="&quot;../background/noon_cloudy_mountains_left.jpg&quot;" topUrl="&quot;../background/noon_cloudy_mountains_top.jpg&quot;" bottomUrl="&quot;../background/noon_cloudy_mountains_bottom.jpg&quot;" frontUrl="&quot;../background/noon_cloudy_mountains_front.jpg&quot;" backUrl="&quot;../background/noon_cloudy_mountains_back.jpg&quot;"/>

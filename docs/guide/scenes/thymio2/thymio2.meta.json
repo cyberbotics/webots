@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n90", 
+      "initialPosition": 0, 
       "name": "motor.left", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n73", 
+      "initialPosition": 0, 
       "name": "motor.right", 
       "maxPosition": 0, 
       "position": 0, 

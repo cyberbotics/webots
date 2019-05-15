@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n71", 
+      "initialPosition": 0, 
       "name": "HeadPitch", 
       "maxPosition": 0.514872, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n71", 
+      "initialPosition": 0, 
       "name": "HeadYaw", 
       "maxPosition": 2.08567, 
       "position": 0, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n655", 
+      "initialPosition": 0, 
       "name": "LAnklePitch", 
       "maxPosition": 0.922581, 
       "position": 0, 
@@ -31,6 +34,7 @@
     }, 
     {
       "transformID": "n664", 
+      "initialPosition": 0, 
       "name": "LAnkleRoll", 
       "maxPosition": 0.769001, 
       "position": 0, 
@@ -40,6 +44,7 @@
     }, 
     {
       "transformID": "n329", 
+      "initialPosition": 0, 
       "name": "LElbowRoll", 
       "maxPosition": 0, 
       "position": 0, 
@@ -49,6 +54,7 @@
     }, 
     {
       "transformID": "n324", 
+      "initialPosition": 0, 
       "name": "LElbowYaw", 
       "maxPosition": 2.08567, 
       "position": 0, 
@@ -58,6 +64,7 @@
     }, 
     {
       "transformID": "n625", 
+      "initialPosition": 0, 
       "name": "LHipPitch", 
       "maxPosition": 0.48398, 
       "position": 0, 
@@ -67,6 +74,7 @@
     }, 
     {
       "transformID": "n612", 
+      "initialPosition": 0, 
       "name": "LHipRoll", 
       "maxPosition": 0.79046, 
       "position": 0, 
@@ -76,6 +84,7 @@
     }, 
     {
       "transformID": "n599", 
+      "initialPosition": 0, 
       "name": "LHipYawPitch", 
       "maxPosition": 0.740718, 
       "position": 0, 
@@ -85,6 +94,7 @@
     }, 
     {
       "transformID": "n638", 
+      "initialPosition": 0, 
       "name": "LKneePitch", 
       "maxPosition": 2.11255, 
       "position": 0, 
@@ -94,6 +104,7 @@
     }, 
     {
       "transformID": "n339", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx1", 
       "maxPosition": 1, 
       "position": 0, 
@@ -103,6 +114,7 @@
     }, 
     {
       "transformID": "n349", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx2", 
       "maxPosition": 1, 
       "position": 0, 
@@ -112,6 +124,7 @@
     }, 
     {
       "transformID": "n358", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx3", 
       "maxPosition": 1, 
       "position": 0, 
@@ -121,6 +134,7 @@
     }, 
     {
       "transformID": "n382", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx4", 
       "maxPosition": 1, 
       "position": 0, 
@@ -130,6 +144,7 @@
     }, 
     {
       "transformID": "n391", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx5", 
       "maxPosition": 1, 
       "position": 0, 
@@ -139,6 +154,7 @@
     }, 
     {
       "transformID": "n400", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx6", 
       "maxPosition": 1, 
       "position": 0, 
@@ -148,6 +164,7 @@
     }, 
     {
       "transformID": "n424", 
+      "initialPosition": 0, 
       "name": "LPhalanx7", 
       "maxPosition": 1, 
       "position": 0, 
@@ -157,6 +174,7 @@
     }, 
     {
       "transformID": "n433", 
+      "initialPosition": -0.96, 
       "name": "LPhalanx8", 
       "maxPosition": 1, 
       "position": 0, 
@@ -166,6 +184,7 @@
     }, 
     {
       "transformID": "n306", 
+      "initialPosition": 0, 
       "name": "LShoulderPitch", 
       "maxPosition": 2.08567, 
       "position": 0, 
@@ -175,6 +194,7 @@
     }, 
     {
       "transformID": "n306", 
+      "initialPosition": 0, 
       "name": "LShoulderRoll", 
       "maxPosition": 1.32645, 
       "position": 0, 
@@ -184,6 +204,7 @@
     }, 
     {
       "transformID": "n334", 
+      "initialPosition": 0, 
       "name": "LWristYaw", 
       "maxPosition": 1.82387, 
       "position": 0, 
@@ -193,6 +214,7 @@
     }, 
     {
       "transformID": "n538", 
+      "initialPosition": 0, 
       "name": "RAnklePitch", 
       "maxPosition": 0.932006, 
       "position": 0, 
@@ -202,6 +224,7 @@
     }, 
     {
       "transformID": "n547", 
+      "initialPosition": 0, 
       "name": "RAnkleRoll", 
       "maxPosition": 0.397935, 
       "position": 0, 
@@ -211,6 +234,7 @@
     }, 
     {
       "transformID": "n150", 
+      "initialPosition": 0, 
       "name": "RElbowRoll", 
       "maxPosition": 1.54462, 
       "position": 0, 
@@ -220,6 +244,7 @@
     }, 
     {
       "transformID": "n145", 
+      "initialPosition": 0, 
       "name": "RElbowYaw", 
       "maxPosition": 2.08567, 
       "position": 0, 
@@ -229,6 +254,7 @@
     }, 
     {
       "transformID": "n508", 
+      "initialPosition": 0, 
       "name": "RHipPitch", 
       "maxPosition": 0.48398, 
       "position": 0, 
@@ -238,6 +264,7 @@
     }, 
     {
       "transformID": "n495", 
+      "initialPosition": 0, 
       "name": "RHipRoll", 
       "maxPosition": 0.449597, 
       "position": 0, 
@@ -247,6 +274,7 @@
     }, 
     {
       "transformID": "n482", 
+      "initialPosition": 0, 
       "name": "RHipYawPitch", 
       "maxPosition": 0.740718, 
       "position": 0, 
@@ -256,6 +284,7 @@
     }, 
     {
       "transformID": "n521", 
+      "initialPosition": 0, 
       "name": "RKneePitch", 
       "maxPosition": 2.11255, 
       "position": 0, 
@@ -265,6 +294,7 @@
     }, 
     {
       "transformID": "n160", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx1", 
       "maxPosition": 1, 
       "position": 0, 
@@ -274,6 +304,7 @@
     }, 
     {
       "transformID": "n170", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx2", 
       "maxPosition": 1, 
       "position": 0, 
@@ -283,6 +314,7 @@
     }, 
     {
       "transformID": "n179", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx3", 
       "maxPosition": 1, 
       "position": 0, 
@@ -292,6 +324,7 @@
     }, 
     {
       "transformID": "n203", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx4", 
       "maxPosition": 1, 
       "position": 0, 
@@ -301,6 +334,7 @@
     }, 
     {
       "transformID": "n212", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx5", 
       "maxPosition": 1, 
       "position": 0, 
@@ -310,6 +344,7 @@
     }, 
     {
       "transformID": "n221", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx6", 
       "maxPosition": 1, 
       "position": 0, 
@@ -319,6 +354,7 @@
     }, 
     {
       "transformID": "n245", 
+      "initialPosition": 0, 
       "name": "RPhalanx7", 
       "maxPosition": 1, 
       "position": 0, 
@@ -328,6 +364,7 @@
     }, 
     {
       "transformID": "n254", 
+      "initialPosition": -0.96, 
       "name": "RPhalanx8", 
       "maxPosition": 1, 
       "position": 0, 
@@ -337,6 +374,7 @@
     }, 
     {
       "transformID": "n127", 
+      "initialPosition": 0, 
       "name": "RShoulderPitch", 
       "maxPosition": 2.08567, 
       "position": 0, 
@@ -346,6 +384,7 @@
     }, 
     {
       "transformID": "n127", 
+      "initialPosition": 0, 
       "name": "RShoulderRoll", 
       "maxPosition": 0.314159, 
       "position": 0, 
@@ -355,6 +394,7 @@
     }, 
     {
       "transformID": "n155", 
+      "initialPosition": 0, 
       "name": "RWristYaw", 
       "maxPosition": 1.82387, 
       "position": 0, 

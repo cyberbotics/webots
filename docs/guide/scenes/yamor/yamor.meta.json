@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n30", 
+      "initialPosition": 0, 
       "name": "motor", 
       "maxPosition": 1.5708, 
       "position": 0, 

@@ -4,6 +4,7 @@
   "devices": [
     {
       "transformID": "n107", 
+      "initialPosition": 0, 
       "name": "gear", 
       "maxPosition": 0, 
       "position": 0, 
@@ -13,6 +14,7 @@
     }, 
     {
       "transformID": "n95", 
+      "initialPosition": 1.5708, 
       "name": "gate", 
       "maxPosition": 0.3, 
       "position": 0.03, 
@@ -22,6 +24,7 @@
     }, 
     {
       "transformID": "n90", 
+      "initialPosition": 0, 
       "name": "rail", 
       "maxPosition": 0, 
       "position": 0, 
