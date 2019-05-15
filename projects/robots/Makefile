@@ -31,7 +31,7 @@ CONTROLLERS=\
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
   irobot/create/controllers.Makefile \
-  kinematics/sphero/bb8/controllers.Makefile \
+  kinematics/tinkerbots/controllers.Makefile \
   k-team/hemisson/controllers.Makefile \
   k-team/khepera1/controllers.Makefile \
   k-team/khepera3/controllers.Makefile \
@@ -49,8 +49,8 @@ CONTROLLERS=\
   robotis/bioloid/controllers.Makefile \
   robotis/darwin-op/controllers.Makefile \
   sony/qrio/controllers.Makefile \
+  sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
-  tinkerbots/controllers.Makefile \
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 
