@@ -24,10 +24,10 @@ path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 
-#if 'TRAVIS_EVENT_TYPE' in os.environ and os.environ['TRAVIS_EVENT_TYPE'] == 'cron':
+# if 'TRAVIS_EVENT_TYPE' in os.environ and os.environ['TRAVIS_EVENT_TYPE'] == 'cron':
 command = Command('make -C %s distrib -j%d' % (path, multiprocessing.cpu_count()))
 command.run(silent=False)
 if command.returncode != 0:
     raise RuntimeError('Error when executing the Make command')
 
-assert len(glob.glob(path + os.sep + 'distribution')) > 2
+assert len(glob.glob(path + os.sep + 'distribution' + os.sep + '*')) > 2
