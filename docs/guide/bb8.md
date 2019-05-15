@@ -39,7 +39,7 @@ BB-8 {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/sphero/protos/BB-8.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/sphero/bb8/protos/BB-8.proto"
 
 #### BB-8 Field Summary
 
@@ -65,7 +65,7 @@ BB-8 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sphero/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sphero/bb8/worlds".
 
 #### bb-8.wbt
 
