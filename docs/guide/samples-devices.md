@@ -250,7 +250,7 @@ The force feedback applied on the motor and the energy consumed by the robot are
 
 **Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [BallJoint](../reference/balljoint.md)
 
-![motor3.png](images/samples/motor.png) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
+![motor3.png](images/samples/motor3.png) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
 
 ### [pen.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/pen.wbt)
 
