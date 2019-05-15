@@ -38,6 +38,6 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### sojourner.wbt
 
-![sojourner.wbt.png](images/robots/sojourner/sojourner.wbt_thumbnail.jpg) This simulation shows the Sojourner model in a Mars-like environment.
+![sojourner.wbt.png](images/robots/sojourner/sojourner.wbt.thumbnail.jpg) This simulation shows the Sojourner model in a Mars-like environment.
 A large obstacle is placed in front of the robot so that it is possible to observe how the robot climbs over it.
 The keyboard can be used to control the motion of the robot.

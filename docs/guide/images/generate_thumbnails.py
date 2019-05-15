@@ -47,4 +47,4 @@ for image in images:
     print('Generating thumbnail for: ' + image)
     im = Image.open(image)
     im.thumbnail(size)
-    im.convert('RGB').save(image.replace('.png', '_thumbnail.jpg'), 'JPEG')
+    im.convert('RGB').save(image.replace('.png', '.thumbnail.jpg'), 'JPEG')

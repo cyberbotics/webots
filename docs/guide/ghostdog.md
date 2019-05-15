@@ -39,5 +39,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### ghostdog.wbt
 
-![ghostdog.png](images/robots/ghostdog/ghostdog.wbt_thumbnail.jpg) This example shows the GhostDog robot which gallops.
+![ghostdog.png](images/robots/ghostdog/ghostdog.wbt.thumbnail.jpg) This example shows the GhostDog robot which gallops.
 The keyboard can be used to control the robot's direction and to change the amplitude of the galloping motion.

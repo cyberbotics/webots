@@ -37,4 +37,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### fire\_bird\_6.wbt
 
-![fire_bird_6.wbt.png](images/robots/firebird6/fire_bird_6.wbt_thumbnail.jpg) The FireBird 6 moves inside a squared arena and avoid obstacles.
+![fire_bird_6.wbt.png](images/robots/firebird6/fire_bird_6.wbt.thumbnail.jpg) The FireBird 6 moves inside a squared arena and avoid obstacles.

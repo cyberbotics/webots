@@ -35,4 +35,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### koala.wbt
 
-![koala.wbt.png](images/robots/koala/koala.wbt_thumbnail.jpg) This simulation shows a Koala avoiding obstacles in a square arena.
+![koala.wbt.png](images/robots/koala/koala.wbt.thumbnail.jpg) This simulation shows a Koala avoiding obstacles in a square arena.

@@ -87,5 +87,5 @@ Please refer to [this documenation](robotis-op2.md#motion-manager).
 
 #### robotis\_op3\_motion\_player.wbt
 
-![robotis_op3_motion_player.wbt.png](images/robots/robotis-op3/robotis_op3_motion_player.wbt_thumbnail.jpg) In this example, the ROBOTIS OP3 robot plays successively motions loaded from the ROBOTIS OP3 motion file of the real robot.
+![robotis_op3_motion_player.wbt.png](images/robots/robotis-op3/robotis_op3_motion_player.wbt.thumbnail.jpg) In this example, the ROBOTIS OP3 robot plays successively motions loaded from the ROBOTIS OP3 motion file of the real robot.
 It demonstrates also the use of its loudspeaker.

@@ -41,4 +41,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### puma560.wbt
 
-![puma560.wbt.png](images/robots/puma/puma560.wbt_thumbnail.jpg) This simulation shows the PUMA robot which moves to different targets.
+![puma560.wbt.png](images/robots/puma/puma560.wbt.thumbnail.jpg) This simulation shows the PUMA robot which moves to different targets.

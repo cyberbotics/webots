@@ -35,5 +35,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### boebot.wbt
 
-![boebot.wbt.png](images/robots/boebot/boebot.wbt_thumbnail.jpg) In this example, BoeBot moves inside an arena while avoiding the walls.
+![boebot.wbt.png](images/robots/boebot/boebot.wbt.thumbnail.jpg) In this example, BoeBot moves inside an arena while avoiding the walls.
 When the robot detects an obstacle with one of its [DistanceSensors](../reference/distancesensor.md), it turns the corresponding [LED](../reference/led.md) on.

@@ -15,5 +15,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### icub\_stand.wbt
 
-![icub_stand.wbt.png](images/robots/icub/icub_stand.wbt_thumbnail.jpg) This simulation shows a standing iCub.
+![icub_stand.wbt.png](images/robots/icub/icub_stand.wbt.thumbnail.jpg) This simulation shows a standing iCub.
 You can move the robot motors using the generic robot window (by double-clicking on the robot).

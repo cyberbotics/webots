@@ -16,8 +16,8 @@ In this directory, you will find the following world files:
 
 |                                                              |                                                              |
 |--------------------------------------------------------------|--------------------------------------------------------------|
-| ![apartment_a.png](images/samples/apartment_a_thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b_thumbnail.jpg) |
-| ![apartment_c.png](images/samples/apartment_c_thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d_thumbnail.jpg) |
+| ![apartment_a.png](images/samples/apartment_a.thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b.thumbnail.jpg) |
+| ![apartment_c.png](images/samples/apartment_c.thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d.thumbnail.jpg) |
 
 %end
 
@@ -36,7 +36,7 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 |                                                          |                                                          |
 |----------------------------------------------------------|----------------------------------------------------------|
-| ![factory_a.png](images/samples/factory_a_thumbnail.jpg) | ![factory_b.png](images/samples/factory_b_thumbnail.jpg) |
+| ![factory_a.png](images/samples/factory_a.thumbnail.jpg) | ![factory_b.png](images/samples/factory_b.thumbnail.jpg) |
 
 %end
 
@@ -49,7 +49,7 @@ This means that a robot could grab a hammer, or turn a valve handle.
 
 **Keywords**: kitchen, utensil
 
-![kitchen.png](images/samples/kitchen_thumbnail.jpg) This example shows a kitchen created by using some of the domestic objects included in Webots.
+![kitchen.png](images/samples/kitchen.thumbnail.jpg) This example shows a kitchen created by using some of the domestic objects included in Webots.
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other kitchen layouts.
 A robot can interact with the kitchen utensils, the glasses, the bottles, the plates, the pans or the food.
 The shelves doors and drawers are also interactive.
