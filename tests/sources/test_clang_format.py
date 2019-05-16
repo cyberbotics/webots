@@ -91,7 +91,7 @@ class TestClangFormat(unittest.TestCase):
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
         clangFormatCommand = "clang-format"
-        if 'TRAVIS' in os.environ:
+        if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
             clangFormatCommand = "clang-format-5.0"
         return subprocess.check_output([clangFormatCommand, "-style=file", f])
 
