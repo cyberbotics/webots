@@ -60,6 +60,7 @@ addons:
       - fakeroot
   homebrew:
     packages:
+      - clang-format
       - cmake
       - swig
       - wget
