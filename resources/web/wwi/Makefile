@@ -40,7 +40,7 @@ BABEL_JS_SOURCES = \
 
 DEPENDENCIES_PATH = dependencies
 THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/100/three.min.js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js
 
 # Token file used to determine when the last successful installation occurred.
 INSTALL_TOKEN = install.token
