@@ -281,11 +281,13 @@ var THREE = THREE || {};
   };
   THREE.GPUPicker.prototype.setRenderer = function(renderer) {
     this.renderer = renderer;
-    var size = renderer.getSize();
-    this.resizeTexture(size.width, size.height);
+    var size = new THREE.Vector2();
+    renderer.getSize(size);
+    this.resizeTexture(size.x, size.y);
     this.needUpdate = true;
   };
   THREE.GPUPicker.prototype.resizeTexture = function(width, height) {
+    if (this.debug) console.log('resizeTexture: ' + width + 'x' + height);
     this.pickingTexture.setSize(width, height);
     this.pixelBuffer = new Uint8Array(4 * width * height);
     this.needUpdate = true;
@@ -296,12 +298,14 @@ var THREE = THREE || {};
   };
   THREE.GPUPicker.prototype.update = function() {
     if (this.needUpdate) {
-      this.renderer.render(this.pickingScene, this.camera, this.pickingTexture);
+      var rt = this.renderer.getRenderTarget();
+      this.renderer.setRenderTarget(this.pickingTexture);
+      this.renderer.render(this.pickingScene, this.camera);
       // read the rendering texture
       this.renderer.readRenderTargetPixels(this.pickingTexture, 0, 0, this.pickingTexture.width, this.pickingTexture.height, this.pixelBuffer);
+      this.renderer.setRenderTarget(rt);
       this.needUpdate = false;
-      if (this.debug)
-        console.log('GPUPicker rendering updated');
+      if (this.debug) console.log('GPUPicker rendering updated');
     }
   };
   THREE.GPUPicker.prototype.setFilter = function(func) {
@@ -335,6 +339,7 @@ var THREE = THREE || {};
       if (object.raycastWithID) {
         var intersect = object.raycastWithID(elementId, raycaster);
         intersect.object = object.originalObject;
+        if (this.debug) console.log('intersect:', intersect);
         return intersect;
       }
     }
@@ -344,7 +349,7 @@ var THREE = THREE || {};
    * get object by id
    */
   THREE.GPUPicker.prototype._getObject = function(object, baseId, id) {
-    // if (this.debug) console.log('_getObject ', baseId);
+    if (this.debug) console.log('_getObject ', baseId);
     if (object.elementsCount !== undefined && id >= baseId && id < baseId + object.elementsCount)
       return [baseId, object];
     if (object.elementsCount !== undefined)
@@ -471,7 +476,9 @@ var THREE = THREE || {};
       object.material.linewidth = linewidth + this.lineShell; // make the line a little wider to hit
       object.material.setBaseID(baseId);
       object.material.setPointSize(pointSize + this.pointShell); // make the point a little wider to hit
-      object.material.setPointScale(this.renderer.getSize().height * this.renderer.getPixelRatio() / 2);
+      var size = new THREE.Vector2();
+      this.renderer.getSize(size);
+      object.material.setPointScale(size.y * this.renderer.getPixelRatio() / 2);
       return object.elementsCount;
     }
     return 0;
