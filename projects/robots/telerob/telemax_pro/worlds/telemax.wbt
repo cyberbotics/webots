@@ -198,12 +198,12 @@ TelemaxPro {
     }
   ]
   cameraSlot0 [
-    TelemaxCamera {
+    TelemaxZoomCamera {
       name "camera 0"
     }
   ]
   cameraSlot1 [
-    TelemaxCamera {
+    TelemaxZoomCamera {
       name "camera 1"
     }
   ]

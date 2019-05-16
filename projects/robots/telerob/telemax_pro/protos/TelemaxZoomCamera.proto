@@ -2,13 +2,13 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
-# An articulated camera to be inserted in the camera fields of the Telemax PRO robot.
+# An articulated camera with zoom to be inserted in the camera fields of the Telemax PRO robot.
 
-PROTO TelemaxCamera [
+PROTO TelemaxZoomCamera [
   field  SFVec3f     translation             0 0 0
-  field  SFRotation  rotation                0 0 1 4.712389225333682
+  field  SFRotation  rotation                0 0 1 4.712389
   field  SFString    name                    "camera"
-  field  SFFloat     ambientOcclusionRadius  1.0                      # Defines the ambient occlusion radius of the camera.
+  field  SFFloat     ambientOcclusionRadius  1.0             # Defines the ambient occlusion radius of the camera.
 ]
 {
   Solid {
