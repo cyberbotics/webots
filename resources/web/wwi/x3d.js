@@ -666,6 +666,7 @@ THREE.X3DLoader = class X3DLoader {
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
     var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
+    // Note: the three.js Cone is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
     var coneGeometry;
     if (side && bottom)
       coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, false, Math.PI / 2);
@@ -695,6 +696,7 @@ THREE.X3DLoader = class X3DLoader {
     var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
     var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
     var top = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true';
+    // Note: the three.js Cylinder is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
     var cylinderGeometry;
     if (bottom && side && top)
       cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, false, Math.PI / 2);
