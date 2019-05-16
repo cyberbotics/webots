@@ -41,6 +41,6 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### mantis.wbt
 
-![mantis.wbt.png](images/robots/mantis/mantis.wbt.png) The Mantis robot moves forwards on an uneven field.
+![mantis.wbt.png](images/robots/mantis/mantis.wbt.thumbnail.jpg) The Mantis robot moves forwards on an uneven field.
 Each Mantis motor is actuated by a simple sinusoidal function.
 The parameters of these sinusoidal functions (amplitude, phase and offset) are unique for each motor and have been found empirically.
