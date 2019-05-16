@@ -5,7 +5,9 @@ dist: xenial
 git:
   depth: 3
   submodules: true
-language: python
+python:
+  - "2.7"
+  - "3.7"
 jdk: openjdk8
 cache: pip
 before_install:
