@@ -323,7 +323,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
     if (computeScale) {
       // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-      this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(THREE.Math.degToRad(0.5 * this.scene.viewpoint.camera.fovX));
+      this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
       var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
       var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
       this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
