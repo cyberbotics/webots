@@ -1,3 +1,6 @@
+os:
+  - linux
+  - osx
 dist: xenial
 git:
   depth: 3
