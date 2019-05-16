@@ -185,7 +185,7 @@ bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 bool WbPlane::sanitizeFields() {
-  if (WbFieldChecker::checkVector2IsPositive(this, mSize, WbVector2(1.0, 1.0)))
+  if (WbFieldChecker::resetVector2IfNonPositive(this, mSize, WbVector2(1.0, 1.0)))
     return false;
 
   return true;

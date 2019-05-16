@@ -37,4 +37,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### microbot\_pe.wbt
 
-![microbot_pe.wbt.png](images/robots/microbot/microbot_pe.wbt.png) This simulation shows a Microbot robot which follows a black line drawn on the ground.
+![microbot_pe.wbt.png](images/robots/microbot/microbot_pe.wbt.thumbnail.jpg) This simulation shows a Microbot robot which follows a black line drawn on the ground.

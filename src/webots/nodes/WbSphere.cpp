@@ -214,13 +214,13 @@ void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
 bool WbSphere::sanitizeFields() {
   bool invalidValue;
   if (mIco->value()) {
-    invalidValue = WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 5, 1);
+    invalidValue = WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 1, 5, 1);
   } else
-    invalidValue = WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 32, 24);
+    invalidValue = WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 32, 24);
   if (invalidValue)
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
   return true;
