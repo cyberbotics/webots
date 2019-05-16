@@ -244,13 +244,13 @@ The force feedback applied on the motor and the energy consumed by the robot are
 
 **Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [Hinge2Joint](../reference/hinge2joint.md)
 
-![motor2.png](images/samples/motor2.png) In this example, two rotational motors are controlling a [Hinge2Joint](../reference/hinge2joint.md) in position.
+![motor2.png](images/samples/motor2.thumbnail.jpg) In this example, two rotational motors are controlling a [Hinge2Joint](../reference/hinge2joint.md) in position.
 
 ### [motor3.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/motor3.wbt)
 
 **Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [BallJoint](../reference/balljoint.md)
 
-![motor3.png](images/samples/motor3.png) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
+![motor3.png](images/samples/motor3.thumbnail.jpg) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
 
 ### [pen.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/pen.wbt)
 

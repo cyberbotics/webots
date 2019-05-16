@@ -14,8 +14,8 @@ In this directory, you will find the following world files:
 
 %figure "Screenshots of the apartment environment."
 
-|                                                              |                                                              |
-|:------------------------------------------------------------:|:------------------------------------------------------------:|
+|     |     |
+|:---:|:---:|
 | ![apartment_a.png](images/samples/apartment_a.thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b.thumbnail.jpg) |
 | ![apartment_c.png](images/samples/apartment_c.thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d.thumbnail.jpg) |
 
@@ -51,10 +51,10 @@ This means that a robot could grab a hammer, or turn a valve handle.
 
 %figure "Screenshots of the hall environment."
 
-|                                          |                                          |
-|------------------------------------------|------------------------------------------|
-| ![hall_a.png](images/samples/hall_a.png) | ![hall_b.png](images/samples/hall_b.png) |
-| ![hall_c.png](images/samples/hall_c.png) | ![hall_d.png](images/samples/hall_d.png) |
+|     |     |
+|:---:|:---:|
+| ![hall_a.png](images/samples/hall_a.thumbnail.jpg) | ![hall_b.png](images/samples/hall_b.thumbnail.jpg) |
+| ![hall_c.png](images/samples/hall_c.thumbnail.jpg) | ![hall_d.png](images/samples/hall_d.thumbnail.jpg) |
 
 %end
 
