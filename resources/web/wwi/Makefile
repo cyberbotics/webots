@@ -38,6 +38,10 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
+DEPENDENCIES_PATH = dependencies
+THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/100/three.min.js
+
 # Token file used to determine when the last successful installation occurred.
 INSTALL_TOKEN = install.token
 
@@ -52,11 +56,16 @@ else
 release debug profile update: webots.min.js
 endif
 
-webots.min.js: $(JS_SOURCES) $(INSTALL_TOKEN)
+webots.min.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.max.js --presets "@babel/preset-env"
-	@node_modules/.bin/minify webots.max.js -o webots.min.js
-	@rm webots.max.js
+	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
+	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
+	@rm webots.tmp2.js webots.tmp1.js
+
+$(THREEJS_SOURCE):
+	mkdir -p $(DEPENDENCIES_PATH)
+	wget -qN -O $@ $(THREEJS_URL)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
@@ -69,4 +78,4 @@ cleanse: clean
 	@rm -fr node_modules $(INSTALL_TOKEN)
 
 clean:
-	@rm -f *.min.js
+	@rm -fr *.min.js $(DEPENDENCIES_PATH)
