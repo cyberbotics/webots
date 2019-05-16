@@ -9,6 +9,9 @@ python:
 jdk:
   - openjdk8
 cache: pip
+env:
+  global:
+    - DISPLAY=:99.0
 before_install:
   - sudo add-apt-repository ppa:deadsnakes/ppa -y
   - sudo apt update
@@ -18,6 +21,7 @@ before_install:
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
+  - sh -e /etc/init.d/xvfb start
 addons:
   apt:
     packages:
@@ -51,6 +55,7 @@ addons:
       - openjdk-8-jdk
       - curl
       - libwebpdemux1
+      - fakeroot
 script:
   - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
   - export PATH="$JAVA_HOME/bin/javac:$PATH"
