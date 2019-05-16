@@ -48,6 +48,8 @@ PROTO TelemaxCamera [
         device [
           RotationalMotor {
             name %{= "\"" .. fields.name.value .. " pan motor\"" }%
+            minPosition -3.49
+            maxPosition 3.84
             maxVelocity 0.2
           }
           PositionSensor {
@@ -89,6 +91,8 @@ PROTO TelemaxCamera [
               device [
                 RotationalMotor {
                   name %{= "\"" .. fields.name.value .. " tilt motor\"" }%
+                  minPosition -1.5708
+                  maxPosition 1.5708
                   maxVelocity 0.2
                 }
                 PositionSensor {
@@ -148,9 +152,14 @@ PROTO TelemaxCamera [
                     translation 0.0198 -0.03 0.124
                     rotation 0 -0.7071067862723035 -0.7071067761007916 3.141592660370801
                     name IS name
+                    fieldOfView 0.80285
+                    width 752
+                    height 582
                     ambientOcclusionRadius IS ambientOcclusionRadius
-                    width 256
-                    height 256
+                    zoom Zoom {
+                      maxFieldOfView 0.80285
+                      minFieldOfView 0.002  # zoom 40x
+                    }
                   }
                 ]
                 boundingObject Transform {
@@ -162,6 +171,8 @@ PROTO TelemaxCamera [
                   ]
                 }
                 physics Physics {
+                  density -1
+                  mass 0.1
                 }
               }
             }
@@ -189,6 +200,8 @@ PROTO TelemaxCamera [
             ]
           }
           physics Physics {
+            density -1
+            mass 0.1
           }
         }
       }
@@ -203,6 +216,8 @@ PROTO TelemaxCamera [
       ]
     }
     physics Physics {
+      density -1
+      mass 0.2
     }
   }
 }
