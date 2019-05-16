@@ -1,0 +1,138 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  info [
+    "Example world demonstrating the use of a controlled BallJoint."
+  ]
+  title "Motor 3"
+  lineScale 0.3
+}
+Viewpoint {
+  orientation 0.3768456500966819 -0.8899212316133752 -0.25695827974000546 4.982679297792563
+  position 0.4529021612176601 0.38499556206886615 0.201699738865924
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorAppearance ThreadMetalPlate {
+    textureTransform TextureTransform {
+      scale 2 2
+    }
+  }
+}
+Robot {
+  children [
+    SolidRoundedBox {
+      size 0.2 0.01 0.2
+      borderRadius 0.005
+      appearance GalvanizedMetal {
+      }
+    }
+    SolidTorus {
+      majorRadius 0.03
+      minorRadius 0.02
+      appearance BrushedAluminium {
+      }
+    }
+    CapScrew {
+      translation -0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+    }
+    CapScrew {
+      translation 0.08 0.005 -0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(1)"
+    }
+    CapScrew {
+      translation 0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(2)"
+    }
+    CapScrew {
+      translation -0.08 0.005 0.08
+      rotation 1 0 0 1.570796
+      name "cap screw(3)"
+    }
+    Solid {
+      translation 0 0.06 0
+      children [
+        Shape {
+          appearance BrushedAluminium {
+            textureTransform TextureTransform {
+              rotation 1.5708
+            }
+          }
+          geometry DEF CYLINDER Cylinder {
+            height 0.1
+            radius 0.02
+          }
+        }
+        BallJoint {
+          jointParameters BallJointParameters {
+            anchor 0 0.05 0
+          }
+          device [
+            RotationalMotor {
+              name "motor 1"
+              maxVelocity 1
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "motor 2"
+              maxVelocity 1
+              minPosition -1.5707963267948966
+              maxPosition 1.5707963267948966
+            }
+          ]
+          device3 [
+            RotationalMotor {
+              name "motor 3"
+              maxVelocity 1
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.05 0
+            children [
+              Shape {
+                appearance BrushedAluminium {
+                }
+                geometry DEF SPHERE Sphere {
+                  radius 0.03
+                  subdivision 32
+                  ico FALSE
+                }
+              }
+              Solid {
+                translation 0 0.067 0
+                children [
+                  Shape {
+                    appearance HammeredCopper {
+                      textureTransform TextureTransform {
+                        scale 0.2 1
+                      }
+                    }
+                    geometry DEF BOX Box {
+                      size 0.02 0.1 0.02
+                    }
+                  }
+                ]
+                boundingObject USE BOX
+                physics Physics {
+                }
+              }
+            ]
+            boundingObject USE SPHERE
+            physics Physics {
+            }
+          }
+        }
+      ]
+      boundingObject USE CYLINDER
+      physics Physics {
+      }
+    }
+  ]
+  controller "motor3"
+}
