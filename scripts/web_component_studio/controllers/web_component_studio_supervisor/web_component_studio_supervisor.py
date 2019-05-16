@@ -21,16 +21,20 @@ import shutil
 from lxml import etree
 
 
+def _cmp(a, b):
+    return (a > b) - (a < b)
+
+
 def _compareDevice(d1, d2):
     priortyDeviceTypes = ['RotationalMotor', 'LinearMotor', 'LED']  # Device types appearing first.
     for priortyDeviceType in priortyDeviceTypes:
         if d1['type'] == priortyDeviceType and d2['type'] == priortyDeviceType:
-            return cmp(d1['name'].lower(), d2['name'].lower())
+            return _cmp(d1['name'].lower(), d2['name'].lower())
         elif d1['type'] == priortyDeviceType:
             return -1
         elif d2['type'] == priortyDeviceType:
             return 1
-    return cmp(d1['name'].lower(), d2['name'].lower())
+    return _cmp(d1['name'].lower(), d2['name'].lower())
 
 
 userGuidePath = os.path.join(os.getenv('WEBOTS_HOME'), 'docs', 'guide')
