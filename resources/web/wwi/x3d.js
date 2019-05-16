@@ -937,7 +937,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseViewpoint(viewpoint) {
-    var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785')));
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'));
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     if (typeof this.scene.viewpoint !== 'undefined') {
@@ -948,8 +948,10 @@ THREE.X3DLoader = class X3DLoader {
       // Set default aspect ratio to 1. It will be updated on window resize.
       this.scene.viewpoint.camera = new THREE.PerspectiveCamera(0.785, 1, near, far);
     }
-    this.scene.viewpoint.camera.fovX = fov;
-    this.scene.viewpoint.camera.fov = fov / this.scene.viewpoint.camera.aspect; // to be updated at each window resize.
+
+    // camera.fov should be updated at each window resize.
+    this.scene.viewpoint.camera.fovX = fov; // radians
+    this.scene.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(fov, this.scene.viewpoint.camera.aspect)); // degrees
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
@@ -1072,4 +1074,18 @@ function convertStringToQuaternion(s) {
 function convertStringTorgb(s) {
   var v = convertStringToVec3(s);
   return new THREE.Color(v.x, v.y, v.z);
+}
+
+function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
+  // Units of the angles: radians.
+  // reference: WbViewpoint::updateFieldOfViewY()
+  var tanHalfFieldOfViewY = Math.tan(0.5 * hFov);
+  // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
+  // the view angle is taken with respect to the largest dimension
+  if (aspectRatio < 1.0)
+    return hFov;
+  else {
+    tanHalfFieldOfViewY /= aspectRatio;
+    return 2.0 * Math.atan(tanHalfFieldOfViewY);
+  }
 }

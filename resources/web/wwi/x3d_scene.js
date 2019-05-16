@@ -1,5 +1,5 @@
 /* global THREE, Selector, TextureLoader, Viewpoint */
-/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb */
+/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
@@ -66,7 +66,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var height = this.domElement.clientHeight;
     this.viewpoint.camera.aspect = width / height;
     if (this.viewpoint.camera.fovX)
-      this.viewpoint.camera.fov = this.viewpoint.camera.fovX / this.viewpoint.camera.aspect;
+      this.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(this.viewpoint.camera.fovX, this.viewpoint.camera.aspect));
     this.viewpoint.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
