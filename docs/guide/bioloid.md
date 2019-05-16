@@ -49,7 +49,7 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### bioloid.wbt
 
-![bioloid.wbt.png](images/robots/bioloid/bioloid.wbt.png) In this example, the dog-like robot model walks on a flat floor.
+![bioloid.wbt.png](images/robots/bioloid/bioloid.wbt.thumbnail.jpg) In this example, the dog-like robot model walks on a flat floor.
 
 Using the keyboard, the user can control the quadruped robot by setting the walking direction (forward or backwards) and also the heading direction (right or left).
 Keyboard actions include:
