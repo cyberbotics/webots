@@ -72,5 +72,6 @@ class TestHyperlinks(unittest.TestCase):
                 path = h['url'].replace('https://github.com/omichel/webots/tree/master', os.environ['WEBOTS_HOME'])
                 self.assertTrue(
                     os.path.isfile(path) or os.path.isdir(path),
-                    msg='Hyperlink "%s" is pointing to a non-existing file or directory "%s" (in file "%s").' % (h['md'], path, h['file'])
+                    msg='Hyperlink "%s" is pointing to a non-existing file or directory "%s" (in file "%s").' %
+                        (h['md'], path, h['file'])
                 )
