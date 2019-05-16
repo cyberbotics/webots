@@ -57,10 +57,10 @@ addons:
       - fakeroot
   homebrew:
     packages:
-    - cmake
-    - swig
-    - wget
-    - node
+      - cmake
+      - swig
+      - wget
+      - node
 script:
   - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
   - export PATH="$JAVA_HOME/bin/javac:$PATH"
