@@ -52,7 +52,6 @@ addons:
       - curl
       - libwebpdemux1
       - fakeroot
-      - python3.6-dev
 script:
   - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
   - export PATH="$JAVA_HOME/bin/javac:$PATH"
