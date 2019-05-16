@@ -61,7 +61,7 @@ addons:
       - wget
       - node
 script:
-  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then export PATH="$JAVA_HOME/bin/javac:$PATH"; fi
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
