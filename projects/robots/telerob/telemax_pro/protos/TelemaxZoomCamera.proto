@@ -151,6 +151,20 @@ PROTO TelemaxZoomCamera [
                   Camera {
                     translation 0.0198 -0.03 0.124
                     rotation 0 -0.7071067862723035 -0.7071067761007916 3.141592660370801
+                    children [
+                      LED {
+                        children [
+                          SpotLight {
+                            attenuation 0 0 1
+                            beamWidth 0.4
+                            color 1 1 1
+                            cutOffAngle 0.6
+                            on FALSE
+                          }
+                        ]
+                        name %{= "\"" .. fields.name.value .. " led\"" }%
+                      }
+                    ]
                     name IS name
                     fieldOfView 0.80285
                     width 752
