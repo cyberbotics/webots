@@ -64,8 +64,9 @@ webots.min.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@rm webots.tmp2.js webots.tmp1.js
 
 $(THREEJS_SOURCE):
-	mkdir -p $(DEPENDENCIES_PATH)
-	wget -qN -O $@ $(THREEJS_URL)
+	@echo "# downloading $(THREEJS_URL)"
+	@mkdir -p $(DEPENDENCIES_PATH)
+	@wget -qN -O $@ $(THREEJS_URL)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
