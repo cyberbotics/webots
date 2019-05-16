@@ -61,7 +61,6 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER)
 	+@echo "# generating project files"
 	+@./generate_projects_files.py > files_projects.txt
 	+@echo "# updating proto cache"
-	+@$(WEBOTS) --update-proto-cache
 ifeq ($(TRAVIS),)
 	+@$(WEBOTS) --update-proto-cache
 endif
