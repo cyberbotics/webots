@@ -202,7 +202,7 @@ void WbLightSensor::updateLookupTable() {
 }
 
 void WbLightSensor::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbLightSensor::prePhysicsStep(double ms) {

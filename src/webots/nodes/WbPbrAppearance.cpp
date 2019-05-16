@@ -420,14 +420,14 @@ void WbPbrAppearance::updateBaseColorMap() {
 }
 
 void WbPbrAppearance::updateTransparency() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.0))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbPbrAppearance::updateRoughness() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mRoughness, 0.0, 1.0, 0.0))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mRoughness, 0.0, 1.0, 0.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();
@@ -442,7 +442,7 @@ void WbPbrAppearance::updateRoughnessMap() {
 }
 
 void WbPbrAppearance::updateMetalness() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mMetalness, 0.0, 1.0, 0.0))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mMetalness, 0.0, 1.0, 0.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();
@@ -466,7 +466,7 @@ void WbPbrAppearance::updateEnvironmentMap() {
 }
 
 void WbPbrAppearance::updateIblStrength() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mIblStrength, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mIblStrength, 1.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();
@@ -481,7 +481,7 @@ void WbPbrAppearance::updateNormalMap() {
 }
 
 void WbPbrAppearance::updateNormalMapFactor() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mNormalMapFactor, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mNormalMapFactor, 1.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();
@@ -495,7 +495,7 @@ void WbPbrAppearance::updateOcclusionMap() {
 }
 
 void WbPbrAppearance::updateOcclusionMapStrength() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mOcclusionMapStrength, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mOcclusionMapStrength, 1.0))
     return;
   if (isPostFinalizedCalled())
     emit changed();

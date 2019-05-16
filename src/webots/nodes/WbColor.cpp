@@ -49,7 +49,7 @@ void WbColor::postFinalize() {
 }
 
 void WbColor::updateColor() {
-  if (WbFieldChecker::checkMultipleColorIsValid(this, mColor))
+  if (WbFieldChecker::resetMultipleColorIfInvalid(this, mColor))
     return;
   emit changed();
 }
