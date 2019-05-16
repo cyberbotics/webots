@@ -8,7 +8,7 @@ The result at the end of this tutorial is shown in [this figure](#simulation-aft
 
 ### New Simulation
 
-> **Hands on #1**: From the results of the previous tutorial, create a new simulation called "appearance.wbt" by using the `File / Save World As...` menu.
+> **Hands-on #1**: From the results of the previous tutorial, create a new simulation called "appearance.wbt" by using the `File / Save World As...` menu.
 
 ### Lights
 
