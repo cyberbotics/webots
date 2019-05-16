@@ -1,11 +1,12 @@
+/* global THREE */
+
 'use strict';
 
 // Inspiration:
 // https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 // @author https://github.com/brianxu
 
-var THREE = THREE || {};
-(function (THREE) {
+(function(THREE) {
   var FaceIDShader = {
     vertexShader: [
       'attribute float id;',
