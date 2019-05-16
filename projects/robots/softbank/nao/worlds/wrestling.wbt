@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.10328320653657279 -0.9767590222679082 -0.1878147802111528 2.1877198479236557
-  position -4.927726424239859 3.3650247795383366 -2.76275508568337
+  orientation -0.34038650694068734 0.9262123457637164 0.1620731823825008 0.9108688386658816
+  position 3.1874273372747868 1.979675960787358 2.716704002369045
   ambientOcclusionRadius 0.19999999999999998
 }
 TexturedBackground {
@@ -20,6 +20,25 @@ Floor {
   }
 }
 WrestlingRing {
+}
+StraightStairs {
+  translation -1.58 0 0
+  name "straight stairs(1)"
+  stepSize 0.13 0.03 0.4
+  stepRise 0.0835
+  stringerWidth 0.03
+  leftRail []
+  rightRail []
+}
+StraightStairs {
+  translation 1.58 0 0
+  rotation 0 1 0 3.1415927
+  name "straight stairs(2)"
+  stepSize 0.13 0.03 0.4
+  stepRise 0.0835
+  stringerWidth 0.03
+  leftRail []
+  rightRail []
 }
 WrestlingPole {
   translation 0.96 0.745 0.96
@@ -47,12 +66,12 @@ RubberDuck {
   name "rubber duck 2"
 }
 Nao {
-  translation -0.9 0.834 0
+  translation -0.88 0.834 0
   name "NAO 1"
   controller "wrestler_red"
 }
 Nao {
-  translation 0.88 0.834 -0.01
+  translation 0.88 0.834 0
   rotation 0 0.7071067811865476 0.7071067811865476 -3.1416
   name "NAO 2"
   color 0 0.333333 1
