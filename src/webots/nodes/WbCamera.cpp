@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbCamera.hpp"
+
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbFieldChecker.hpp"
@@ -860,14 +861,14 @@ void WbCamera::updateExposure() {
 }
 
 void WbCamera::updateAmbientOcclusionRadius() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mAmbientOcclusionRadius, 2.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mAmbientOcclusionRadius, 2.0);
 
   if (mWrenCamera)
     mWrenCamera->setAmbientOcclusionRadius(mAmbientOcclusionRadius->value());
 }
 
 void WbCamera::updateBloomThreshold() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 21.0, -1.0);
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
 
   if (mWrenCamera)
     mWrenCamera->setBloomThreshold(mBloomThreshold->value());
