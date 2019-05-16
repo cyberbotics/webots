@@ -13,6 +13,7 @@
 # limitations under the License.
 
 JS_SOURCES = \
+  gpu_picker.js \
   util.js \
   dialog_window.js \
   console.js \
