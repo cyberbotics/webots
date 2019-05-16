@@ -30,7 +30,7 @@ The aim of this subsection is to color the walls in blue.
 The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pbrappearance.md) nodes of the [Shape](../reference/shape.md) node determine the graphical appearance of the object.
 Among other things, these nodes are responsible for the color and texture of objects.
 
-> **Hands on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
+> **Hands-on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
 Set its `baseColor` field to blue using the color selector.
 Set its `metalness` field to 0 using the field editor.
 Finally, set its `roughness` field to 0.5 using the field editor.
@@ -41,7 +41,7 @@ If the DEF-USE mechanism of the previous tutorial has been correctly implemented
 The aim of this subsection is to apply a texture on the ball.
 A texture on a rolling object can help to appreciate its movement.
 
-> **Hands on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
+> **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
 Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/omichel/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
 
@@ -63,7 +63,7 @@ A UV mapping function maps a 2D image representation to a 3D model.
 
 Webots offers several rendering modes available in the `View` menu.
 
-> **Hands on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
+> **Hands-on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
 Then restore the plain rendering mode: `View / Plain Rendering`.
 
 ### Conclusion
