@@ -339,8 +339,10 @@
     if (object) {
       if (object.raycastWithID) {
         var intersect = object.raycastWithID(elementId, raycaster);
-        intersect.object = object.originalObject;
-        if (this.debug) console.log('intersect:', intersect);
+        if (intersect) {
+          intersect.object = object.originalObject;
+          if (this.debug) console.log('intersect:', intersect);
+        }
         return intersect;
       }
     }
