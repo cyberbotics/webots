@@ -9,6 +9,7 @@ PROTO TelemaxZoomCamera [
   field  SFRotation  rotation                0 0 1 4.712389
   field  SFString    name                    "camera"
   field  SFFloat     ambientOcclusionRadius  1.0             # Defines the ambient occlusion radius of the camera.
+  field  SFBool      castShadows             FALSE           # Defines wheather the built-in led casts shadows.
 ]
 {
   Solid {
@@ -159,10 +160,14 @@ PROTO TelemaxZoomCamera [
                             beamWidth 0.4
                             color 1 1 1
                             cutOffAngle 0.6
-                            on FALSE
+                            intensity 25
+                            on TRUE
+                            castShadows IS castShadows
                           }
                         ]
                         name %{= "\"" .. fields.name.value .. " led\"" }%
+                        color [ 1 1 1 ]
+                        gradual TRUE
                       }
                     ]
                     name IS name

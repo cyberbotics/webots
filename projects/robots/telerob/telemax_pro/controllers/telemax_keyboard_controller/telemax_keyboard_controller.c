@@ -65,6 +65,7 @@ int main(int argc, char **argv) {
   WbDeviceTag front_right_motor = (WbDeviceTag)0;
   WbDeviceTag rear_left_motor = (WbDeviceTag)0;
   WbDeviceTag rear_right_motor = (WbDeviceTag)0;
+  WbDeviceTag led = (WbDeviceTag)0;
   int i = 0;
   int nuber_of_devices = wb_robot_get_number_of_devices();
   for (i = 0; i < nuber_of_devices; i++) {
@@ -89,6 +90,9 @@ int main(int argc, char **argv) {
         wb_motor_set_position(tag, INFINITY);
         wb_motor_set_velocity(tag, 0.0);
       }
+    } else if (type == WB_NODE_LED) {
+      if (strcmp(name, "camera 0 led") == 0)
+        led = tag;
     }
   }
 
@@ -113,6 +117,7 @@ int main(int argc, char **argv) {
   double angle = 0.0;
   bool led_key_pressed[3] = {false, false, false};
   bool camera_key_pressed = false;
+  int led_value = 0;
 
   while (wb_robot_step(TIME_STEP) != -1) {
     int key = wb_keyboard_get_key();
@@ -209,6 +214,20 @@ int main(int argc, char **argv) {
             else
               wb_camera_enable(camera, 32);
           }
+          break;
+        case 'X':
+          if (led && led_value < 100) {
+            led_value++;
+            wb_led_set(led, led_value);
+          }
+          printf("%d\n", led_value);
+          break;
+        case 'Y':
+          if (led && led_value > 0) {
+            led_value--;
+            wb_led_set(led, led_value);
+          }
+          printf("%d\n", led_value);
           break;
         default:
           printf("Unrecognized key: %d %d %d\n", key, '+', '+' + WB_KEYBOARD_SHIFT);
