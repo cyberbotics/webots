@@ -1079,13 +1079,12 @@ function convertStringTorgb(s) {
 function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
   // Units of the angles: radians.
   // reference: WbViewpoint::updateFieldOfViewY()
-  var tanHalfFieldOfViewY = Math.tan(0.5 * hFov);
+
   // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
   // the view angle is taken with respect to the largest dimension
+
   if (aspectRatio < 1.0)
     return hFov;
-  else {
-    tanHalfFieldOfViewY /= aspectRatio;
-    return 2.0 * Math.atan(tanHalfFieldOfViewY);
-  }
+
+  return 2.0 * Math.atan(Math.tan(0.5 * hFov) / aspectRatio);
 }
