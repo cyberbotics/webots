@@ -35,4 +35,4 @@ You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/
 
 #### atlas.wbt
 
-![atlas.wbt.png](images/robots/atlas/atlas.wbt.png) This simulation shows an Atlas robot in a simple environment. The robot is moving its right arm.
+![atlas.wbt.png](images/robots/atlas/atlas.wbt.thumbnail.jpg) This simulation shows an Atlas robot in a simple environment. The robot is moving its right arm.
