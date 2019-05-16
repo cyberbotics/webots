@@ -71,7 +71,7 @@ class HeadersGenerator:
                 if message in self.predifinedMD5:
                     l = l.replace(message, self.predifinedMD5[message])
                 else:
-                    print ('Error: undefined MD5 for: ' + message)
+                    print('Error: undefined MD5 for: ' + message)
             if l.startswith('---'):  # lenient, by request
                 accum = text_out
             else:
@@ -114,7 +114,7 @@ class HeadersGenerator:
                 elif '/' in type:  # composed type
                     tagReplacementString += messageNames[messageNumber] + '()'
                 else:
-                    print ('Error: unsupported message type:' + type)
+                    print('Error: unsupported message type:' + type)
                 if messageNumber >= 1:
                     tagReplacementString += '\n    , '
                 messageNumber -= 1
@@ -135,7 +135,7 @@ class HeadersGenerator:
                 elif '/' in type:  # composed type
                     tagReplacementString += messageNames[messageNumber] + '(_alloc)'
                 else:
-                    print ('Error: unsupported message type:' + type)
+                    print('Error: unsupported message type:' + type)
                 if messageNumber >= 1:
                     tagReplacementString += '\n    , '
                 messageNumber -= 1
@@ -186,7 +186,7 @@ class HeadersGenerator:
                         tagReplacementString += ' ::' + type.split('/')[0] + '::' + type.split('/')[1]
                         tagReplacementString += '_<ContainerAllocator> '
                 else:
-                    print ('Error: unsupported message type:' + type)
+                    print('Error: unsupported message type:' + type)
                 tagReplacementString += ' _' + messageNames[messageNumber] + '_type;\n'
                 tagReplacementString += '  _' + messageNames[messageNumber] + '_type ' + messageNames[messageNumber] + ';\n\n'
                 messageNumber -= 1
@@ -305,7 +305,7 @@ class HeadersGenerator:
                         tagReplacementString += '_<ContainerAllocator> >::stream(s, indent + "  ", v.'
                         tagReplacementString += messageNames[messageNumber] + ');\n'
                 else:
-                    print ('Error: unsupported message type:' + type)
+                    print('Error: unsupported message type:' + type)
                 messageNumber -= 1
             line = line.replace(self.messageTags['messageValuePrint'], tagReplacementString)
         elif line.find(self.messageTags['messageRequiredHeader']) != -1:

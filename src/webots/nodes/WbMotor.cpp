@@ -171,19 +171,19 @@ void WbMotor::updateMinAndMaxPosition() {
     p = parentJoint->parameters()->position();
 
   // current joint position should lie between min and max position
-  WbFieldChecker::checkDoubleIsGreaterOrEqual(this, mMaxPosition, p, p);
-  WbFieldChecker::checkDoubleIsLessOrEqual(this, mMinPosition, p, p);
+  WbFieldChecker::resetDoubleIfLess(this, mMaxPosition, p, p);
+  WbFieldChecker::resetDoubleIfGreater(this, mMinPosition, p, p);
 
   mNeedToConfigure = true;
 }
 
 void WbMotor::updateMaxForceOrTorque() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMaxForceOrTorque, 10.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxForceOrTorque, 10.0);
   mNeedToConfigure = true;
 }
 
 void WbMotor::updateMaxVelocity() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMaxVelocity, -mMaxVelocity->value());
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxVelocity, -mMaxVelocity->value());
   mNeedToConfigure = true;
 }
 
@@ -228,7 +228,7 @@ void WbMotor::updateMuscles() {
 }
 
 void WbMotor::updateMaxAcceleration() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mAcceleration, -1, -1);
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mAcceleration, -1, -1);
   mNeedToConfigure = true;
 }
 

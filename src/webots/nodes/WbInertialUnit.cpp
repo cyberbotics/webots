@@ -81,7 +81,7 @@ void WbInertialUnit::updateLookupTable() {
 }
 
 void WbInertialUnit::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbInertialUnit::handleMessage(QDataStream &stream) {

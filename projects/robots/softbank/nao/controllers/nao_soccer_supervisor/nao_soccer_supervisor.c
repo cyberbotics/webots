@@ -1535,9 +1535,9 @@ static void run_penalty_kick(double delay, int team_color) {
 }
 
 static void run_victory(int team_color) {
-  char message[128];
-  sprintf(message, "%s WINS!", get_team_name(team_color));
-  show_message(message);
+  char winMessage[128];
+  sprintf(winMessage, "%s WINS!", get_team_name(team_color));
+  show_message(winMessage);
   run_finished_state();
 }
 
