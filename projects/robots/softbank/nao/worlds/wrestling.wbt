@@ -77,51 +77,5 @@ Nao {
   color 0 0.333333 1
   controller "wrestler_blue"
 }
-Robot {
-  translation 0 0.21 1.01
-  children [
-    Display {
-      children [
-        Shape {
-          appearance Appearance {
-            material Material {
-              diffuseColor 1 1 1
-              emissiveColor 1 1 1
-            }
-            texture ImageTexture {
-            }
-          }
-          geometry IndexedFaceSet {
-            coord Coordinate {
-              point [
-                0.9 0.2 0
-                -0.9 0.2 0
-                -0.9 -0.2 0
-                0.9 -0.2 0
-              ]
-            }
-            texCoord TextureCoordinate {
-              point [
-                1 1
-                0 1
-                0 0
-                1 0
-              ]
-            }
-            coordIndex [
-              0, 1, 2, 3, -1
-            ]
-            texCoordIndex [
-              0, 1, 2, 3, -1
-            ]
-          }
-        }
-      ]
-      width 512
-      height 128
-    }
-  ]
-  name "Referee"
-  controller "wrestling_referee"
-  supervisor TRUE
+WrestlingReferee {
 }

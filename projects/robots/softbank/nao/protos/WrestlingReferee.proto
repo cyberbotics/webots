@@ -1,0 +1,88 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A wrestling referee, including a timer display for the NAO robots
+
+PROTO WrestlingReferee [
+  field SFVec3f translation -0.9 0.04 1.01
+  field SFRotation rotation 0 1 0 0
+  field SFString name "wrestling referee"
+  field SFString controller "wrestling_referee"
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    scale 0.0035156 0.0035156 0.0035156  # 1.8 / 512
+    name IS name
+    controller IS controller
+    supervisor TRUE
+    children [
+      Shape {
+        appearance Appearance {
+          material Material {
+            diffuseColor 1 1 1
+            emissiveColor 1 1 1
+          }
+          texture ImageTexture {
+            url "textures/wrestling_display.jpg"
+          }
+        }
+        geometry IndexedFaceSet {
+          coord Coordinate {
+            point [
+              325 128 0
+              0 128 0
+              0 0 0
+              325 0 0
+              325 103 0
+              375 103 0
+              400 103 0
+              512 128 0
+              500 103 0
+              500 13 0
+              512 0 0
+              400 13 0
+              375 13 0
+              325 13 0
+            ]
+          }
+          texCoord TextureCoordinate {
+            point [
+              0.6348 0.5
+              0 0.5
+              0 0
+              0.6348 0
+              0.6348 0.4023
+              0.7324 0.4023
+              0.7812 0.4023
+              1 0.5
+              0.9766 0.4023
+              0.9766 0.0508
+              1 0
+              0.7812 0.0508
+              0.7324 0.0508
+              0.6348 0.0508
+            ]
+          }
+          coordIndex [
+            0, 1, 2, -1,
+            0, 2, 3, -1,
+            0, 4, 5, -1,
+            0, 5, 6, -1,
+            0, 6, 7, -1,
+            7, 6, 8, -1,
+            7, 8, 9, -1,
+            7, 9, 10, -1,
+            9, 11, 10, -1,
+            10, 11, 3, -1,
+            11, 12, 3, -1,
+            12, 13, 3, -1,
+            6, 5, 12, -1,
+            6, 12, 11, -1,
+          ]
+        }
+      }
+    ]
+  }
+}
