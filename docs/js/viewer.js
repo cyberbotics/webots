@@ -3,6 +3,7 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
+/* global THREE */
 /* global webots */
 /* exported resetRobotComponent */
 /* exported toggleDeviceComponent */
@@ -31,7 +32,6 @@ function isInternetExplorer() {
 };
 
 var localSetup = (typeof setup === 'undefined') ? {} : setup;
-
 var isCyberboticsUrl = location.href.indexOf('cyberbotics.com/doc') !== -1;
 
 function setupCyberboticsUrl(url) {
@@ -267,17 +267,6 @@ function redirectImages(node) {
     var match = /^images\/(.*)$/.exec(src);
     if (match && match.length === 2)
       img.setAttribute('src', targetPath + 'images/' + match[1]);
-  }
-}
-
-function redirectTextures(node, robotName) {
-  // redirect ImageTexture's url
-  var textures = node.querySelectorAll('ImageTexture');
-  var targetPath = computeTargetPath();
-  for (var i = 0; i < textures.length; i++) {
-    var texture = textures[i];
-    var url = texture.getAttribute('url').slice(1, -1);
-    texture.setAttribute('url', targetPath + 'scenes/' + robotName + '/' + url);
   }
 }
 
@@ -600,17 +589,20 @@ function highlightCode(view) {
 
 function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
-  // Reset the Viewpoint and the motor sliders.
-  var robotComponent = document.querySelector('#' + robot + '-robot-component');
-  var viewpoint = robotComponent.querySelector('Viewpoint');
-  viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
-  viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
+  var robotComponent = getRobotComponentByRobotName(robot);
+  // Reset the Viewpoint
+  var camera = robotComponent.webotsView.x3dScene.getCamera();
+  camera.position.copy(camera.userData.initialPosition);
+  camera.quaternion.copy(camera.userData.initialQuaternion);
+  // Reset the motor sliders.
   var sliders = robotComponent.querySelectorAll('.motor-slider');
   for (var s = 0; s < sliders.length; s++) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
-    sliderMotorCallback(robot, slider);
+    var id = slider.getAttribute('webots-transform-id');
+    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectById(id, true), slider);
   }
+  robotComponent.webotsView.x3dScene.render();
 }
 
 function toggleDeviceComponent(robot) {
@@ -623,160 +615,170 @@ function toggleDeviceComponent(robot) {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
+  getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
 }
 
-function sliderMotorCallback(robot, slider) {
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var transform = view3d.querySelector('[id=' + slider.getAttribute('webots-transform-id') + ']');
-  if (!transform)
-    return; // This may occur when the x3d is loading.
-  var axis = slider.getAttribute('webots-axis');
+function sliderMotorCallback(transform, slider) {
+  if (typeof transform === 'undefined')
+    return;
+
+  var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
+  axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
+
+  var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
+  var initialPosition = parseFloat(slider.getAttribute('webots-initial-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
-    var translation = null;
-    if (transform.hasAttribute('initalTranslation')) // Get initial translation.
-      translation = transform.getAttribute('initalTranslation');
-    else if (transform.hasAttribute('translation')) { // Store initial translation.
-      translation = transform.getAttribute('translation');
-      transform.setAttribute('initalTranslation', translation);
+    // Compute translation
+    var translation = new THREE.Vector3();
+    if ('initialTranslation' in transform.userData)
+      translation = transform.userData.initialTranslation.clone();
+    else {
+      translation = transform.position;
+      transform.userData.initialTranslation = translation.clone();
     }
-    translation = translation.split(/[\s,]+/);
-    axis = axis.split(/[\s,]+/);
-    for (var a = 0; a < axis.length; a++)
-      translation[a] = parseFloat(translation[a]) + parseFloat(axis[a]) * slider.value;
-
-    transform.setAttribute('translation', translation.join(','));
+    translation = translation.add(axis.multiplyScalar(value - position));
+    // Apply the new position.
+    transform.position.copy(translation);
+    transform.updateMatrix();
   } else {
-    var angle = 0.0;
-    if (transform.hasAttribute('initialAngle')) // Get initial angle.
-      angle = parseFloat(transform.getAttribute('initialAngle'));
-    else if (transform.hasAttribute('rotation')) { // Store initial angle.
-      angle = parseFloat(transform.getAttribute('rotation').split(/[\s,]+/)[3]);
-      transform.setAttribute('initialAngle', angle);
-    }
-    angle += parseFloat(slider.value); // Add the slider value.
-    angle -= position;
-
+    // Compute angle.
+    var angle = initialPosition;
+    angle += value - position;
     // Apply the new axis-angle.
-    axis = axis.split(' ').join(',');
-    transform.setAttribute('rotation', axis + ',' + angle);
+    var q = new THREE.Quaternion();
+    q.setFromAxisAngle(
+      axis,
+      angle
+    );
+    transform.quaternion.copy(q);
+    transform.updateMatrix();
   }
 }
 
 function unhighlightX3DElement(robot) {
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var billboards = view3d.querySelectorAll('Transform[highlighted]');
-  for (var b = 0; b < billboards.length; b++) {
-    var billboard = billboards[b];
-    billboard.parentNode.removeChild(billboard);
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = robotComponent.webotsView.x3dScene;
+
+  if (robotComponent.billboardOrigin) {
+    robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
+    robotComponent.billboardOrigin = undefined;
   }
 
-  var materials = view3d.querySelectorAll('Material[highlighted]');
-  for (var m = 0; m < materials.length; m++) {
-    var material = materials[m];
-    material.removeAttribute('highlighted');
-    material.setAttribute('emissiveColor', material.getAttribute('emissiveColorBack'));
+  for (var h = 0; h < robotComponent.highlightedAppearances.length; h++) {
+    var appearance = robotComponent.highlightedAppearances[h];
+    appearance.emissive.set(appearance.userData.initialEmissive);
   }
+  robotComponent.highlightedAppearances = [];
+  scene.render();
 }
 
 function highlightX3DElement(robot, deviceElement) {
   unhighlightX3DElement(robot);
 
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
-  var transform = view3d.querySelector('[id=' + id + ']');
-  if (transform) {
-    if (deviceElement.getAttribute('webots-type') === 'LED') {
-      var materialsIDs = deviceElement.getAttribute('ledMaterialsIDs').split(' ');
-      for (var m = 0; m < materialsIDs.length; m++) {
-        var materialID = materialsIDs[m];
-        if (materialID) {
-          var material = view3d.querySelector('[id=' + materialID + ']');
-          if (material) {
-            material.setAttribute('highlighted', 'true');
-            material.setAttribute('emissiveColorBack', material.getAttribute('emissiveColor'));
-            material.setAttribute('emissiveColor', deviceElement.getAttribute('targetColor'));
-          }
+  var type = deviceElement.getAttribute('webots-type');
+  var object = scene.getObjectById(id, true);
+
+  if (object) {
+    // Show billboard origin.
+    var originBillboard = robotComponent.billboardOriginMesh.clone();
+    object.add(originBillboard);
+    robotComponent.billboardOrigin = originBillboard;
+
+    if (type === 'LED') {
+      var pbrIDs = deviceElement.getAttribute('ledPBRAppearanceIDs').split(' ');
+      for (var p = 0; p < pbrIDs.length; p++) {
+        var pbrID = pbrIDs[p];
+        if (pbrID) {
+          var ledColor = deviceElement.getAttribute('targetColor').split(' ');
+          ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
+          object.traverse(function(child) {
+            if (child.material && child.material.name === pbrID) {
+              if (!child.material.userData.initialEmissive)
+                child.material.userData.initialEmissive = child.material.emissive.clone();
+              child.material.emissive.set(ledColor);
+              robotComponent.highlightedAppearances.push(child.material);
+            }
+          });
         }
       }
     }
 
-    var scale = parseFloat(view3d.querySelector('Viewpoint').getAttribute('robotScale')) / 50.0;
-    var billboard = document.createElement('Transform');
-    billboard.setAttribute('highlighted', 'true');
-    if (deviceElement.hasAttribute('webots-transform-offset'))
-      billboard.setAttribute('translation', deviceElement.getAttribute('webots-transform-offset'));
-
-    billboard.innerHTML =
-      '<Billboard axisOfRotation="0 0 0">\n' +
-      '  <Shape>\n' +
-      '    <Appearance sortType="transparent" sortKey="10000">\n' +
-      '      <Material transparency="0.7"></Material>\n' +
-      '      <DepthMode depthfunc="always"></DepthMode>\n' +
-      '      <ImageTexture url="' + computeTargetPath() + '../css/images/center.png"></ImageTexture>\n' +
-      '    </Appearance>\n' +
-      '    <Plane size="' + scale + ' ' + scale + '"></Plane>\n' +
-      '  </Shape>\n' +
-      '</Billboard>\n';
-    transform.appendChild(billboard);
+    scene.render();
   }
 }
 
-function estimateRobotScale(robot) {
-  // Estimate roughly the robot scale based on the number of transform and their scaled translation.
+function setBillboardSize(robotComponent, scene) {
+  // Estimate roughly the robot scale based on the AABB.
+  var robotID = robotComponent.getAttribute('robot-node-id');
+  if (typeof robotID === 'undefined')
+    return;
+  var robot;
+  scene.traverse(function(object) {
+    if (object.isObject3D && object.name === robotID)
+      robot = object;
+  });
+  if (typeof robot === 'undefined')
+    return;
+  var aabb = new THREE.Box3().setFromObject(robot);
+  var max = Math.max(aabb.max.x - aabb.min.x, Math.max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
+  var size = Math.max(0.01, max) / 30.0;
+  robotComponent.billboardOriginMesh.geometry = new THREE.PlaneGeometry(size, size);
+}
 
-  function x3domAttributeToFloatArray(el, name) {
-    // Convert x3dom string attribute to an array of floats.
-    if (!el.hasAttribute(name))
-      return [];
-    var arr = el.getAttribute(name).split(/[\s,]+/);
-    for (var a = 0; a < arr.length; a++)
-      arr[a] = parseFloat(arr[a]);
-    return arr;
-  }
-  function estimateRobotScaleRec(el, s) {
-    if (!el.tagName)
-      return 0.0;
-    // Get the max scale component.
-    var scale = x3domAttributeToFloatArray(el, 'scale');
-    if (scale.length > 0)
-      s *= Math.max.apply(null, scale);
-    // Get the max translation component.
-    var max = 0.0;
-    var translation = x3domAttributeToFloatArray(el, 'translation');
-    if (translation.length > 0)
-      max = s * Math.max.apply(null, translation);
-    // Recursion
-    for (var c = 0; c < el.childNodes.length; c++)
-      max = Math.max(max, estimateRobotScaleRec(el.childNodes[c], s));
-    return max;
-  }
-
-  var nTransforms = robot.querySelectorAll('transform').length + 1;
-  return Math.log2(nTransforms) * estimateRobotScaleRec(robot, 1.0);
+function getRobotComponentByRobotName(robotName) {
+  return document.querySelector('#' + robotName + '-robot-component');
 }
 
 function createRobotComponent(view) {
-  var webotsViewElements = document.querySelectorAll('.robot-webots-view');
-  for (var e = 0; e < webotsViewElements.length; e++) { // foreach robot components of this page.
-    var webotsViewElement = webotsViewElements[e];
+  var robotComponents = document.querySelectorAll('.robot-component');
+  for (var c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
+    var robotComponent = robotComponents[c];
+    var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
     var webotsView = new webots.View(webotsViewElement);
+    robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
-      // correct the URL textures.
-      redirectTextures(webotsViewElement, robotName);
+      var camera = webotsView.x3dScene.getCamera();
+
+      // Make sure the billboard remains well oriented.
+      webotsView.x3dScene.preRender = function() {
+        if (robotComponent.billboardOrigin)
+          robotComponent.billboardOrigin.lookAt(camera.position);
+      };
+      robotComponent.highlightedAppearances = [];
+
       // Store viewpoint.
-      var viewpoint = webotsViewElement.querySelector('Viewpoint');
-      viewpoint.setAttribute('initialOrientation', viewpoint.getAttribute('orientation'));
-      viewpoint.setAttribute('initialPosition', viewpoint.getAttribute('position'));
-      // Rough estimation of the robot scale.
-      var robotScale = Math.max(0.05, estimateRobotScale(webotsViewElement));
-      viewpoint.setAttribute('robotScale', robotScale);
+      camera.userData.initialQuaternion = camera.quaternion.clone();
+      camera.userData.initialPosition = camera.position.clone();
+
+      // Create the origin billboard mesh.
+      var loader = new THREE.TextureLoader();
+      var planeGeometry = new THREE.PlaneGeometry(0.05, 0.05);
+      var planeMaterial = new THREE.MeshBasicMaterial({
+        depthTest: false,
+        transparent: true,
+        opacity: 0.5,
+        map: loader.load(
+          computeTargetPath() + '../css/images/center.png'
+        )
+      });
+      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+      robotComponent.billboardOriginMesh.renderOrder = 1;
+
+      setBillboardSize(robotComponent, webotsView.x3dScene.scene);
     };
 
     // Load the robot X3D file.
-    webotsView.open(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
+    webotsView.open(
+      computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d',
+      undefined,
+      computeTargetPath() + 'scenes/' + robotName + '/'
+    );
 
     // Load the robot meta JSON file.
     $.ajax({
@@ -788,6 +790,8 @@ function createRobotComponent(view) {
         var deviceComponent = view.querySelector('#' + robotName + '-device-component');
         var data = JSON.parse(content);
         var categories = {};
+        robotComponent.setAttribute('robot-node-id', data['robotID']);
+        setBillboardSize(robotComponent, webotsView.x3dScene.scene);
         if (data['devices'].length === 0)
           toggleDeviceComponent(robotName);
         for (var d = 0; d < data['devices'].length; d++) {
@@ -841,15 +845,15 @@ function createRobotComponent(view) {
             }
             slider.setAttribute('value', device['position']);
             slider.setAttribute('webots-position', device['position']);
+            slider.setAttribute('webots-initial-position', device['initialPosition']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-type', deviceType);
-            if (isInternetExplorer()) {
-              slider.addEventListener('change', function(e) {
-                sliderMotorCallback(robotName, e.target);
-              });
-            } else
-              slider.setAttribute('oninput', 'sliderMotorCallback("' + robotName + '", this)');
+            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
+              var id = e.target.getAttribute('webots-transform-id');
+              sliderMotorCallback(webotsView.x3dScene.getObjectById(id, true), e.target);
+              webotsView.x3dScene.render();
+            });
 
             var motorDiv = document.createElement('div');
             motorDiv.classList.add('motor-component');
@@ -860,11 +864,11 @@ function createRobotComponent(view) {
           }
 
           // LED case: set the target color.
-          if (deviceType === 'LED' && 'ledColors' in device && 'ledMaterialsIDs' in device) {
+          if (deviceType === 'LED' && 'ledColors' in device && 'ledPBRAppearanceIDs' in device) {
             // For now, simply take the first color. More complex mechanism could be implemented if required.
             var targetColor = (device['ledColors'].length > 0) ? device['ledColors'][0] : '0 0 1';
             deviceDiv.setAttribute('targetColor', targetColor);
-            deviceDiv.setAttribute('ledMaterialsIDs', device['ledMaterialsIDs'].join(' '));
+            deviceDiv.setAttribute('ledPBRAppearanceIDs', device['ledPBRAppearanceIDs'].join(' '));
           }
 
           category.appendChild(deviceDiv);
