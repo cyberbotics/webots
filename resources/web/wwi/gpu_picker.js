@@ -441,7 +441,9 @@ var THREE = THREE || {};
           }
 
           __pickingGeometry.computeVertexNormals();
-          Object.setPrototypeOf(object, THREE.LineSegments.prototype);
+
+          // make the renderer render as line segments
+          object.__proto__ = THREE.LineSegments.prototype; // eslint-disable-line
         }
         var attributes = __pickingGeometry.attributes;
         var positions = attributes.position.array;
