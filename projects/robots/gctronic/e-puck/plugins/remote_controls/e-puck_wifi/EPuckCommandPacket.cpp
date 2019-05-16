@@ -147,7 +147,8 @@ int EPuckCommandPacket::apply(int simulationTime) {
   }
   if (DeviceManager::instance()->positionSensor(0)->isEnabled() || DeviceManager::instance()->positionSensor(1)->isEnabled()) {
     mEncoderRequested = true;
-    mData[1] |= 2;  // enable packet sensor
+    // FIXME uncomment when next assignment is fixed
+    // mData[1] |= 2;  // enable packet sensor
   }
   mData[1] = 3;  // FIXME: remove this
   return mData[1];

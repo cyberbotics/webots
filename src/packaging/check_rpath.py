@@ -91,5 +91,5 @@ for f in (controllerFiles + binaryFiles + qtBinaryFiles):
 
 
 if success:
-    print 'Dylibs dependencies: ok'
-    print 'Frameworks dependencies: ok'
+    print('Dylibs dependencies: ok')
+    print('Frameworks dependencies: ok')

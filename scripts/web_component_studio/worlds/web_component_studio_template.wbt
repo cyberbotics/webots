@@ -5,36 +5,28 @@ DEF VIEWPOINT Viewpoint {
   orientation %VIEWPOINT_ORIENTATION%
   position %VIEWPOINT_POSITION%
 }
-Background {
-  skyColor [
-    0.94 0.94 0.94
-  ]
+TexturedBackground {
+  texture "noon_cloudy_mountains"
 }
-DirectionalLight {
-  ambientIntensity 1
-  direction -1 -1 -0.6
-  intensity 0.6
-  castShadows TRUE
-}
-DirectionalLight {
-  direction -0.2 -0.3 0.3
-  intensity 0.3
+TexturedBackgroundLight {
+  texture "noon_cloudy_mountains"
 }
 Solid {
   children [
     Shape {
-      appearance Appearance {
-        material DEF FLOOR_MATERIAL Material {
-          ambientIntensity 0.4
-          diffuseColor 0.94 0.94 0.94
-        }
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.2
+        metalness 0
       }
-      geometry DEF P Plane {
-        size 10 10
+      geometry DEF P Cylinder {
+        radius 5
+        height 0.001
+        side FALSE
+        bottom FALSE
       }
     }
   ]
-  boundingObject USE P
 }
 Robot {
   controller "web_component_studio_supervisor"

@@ -45,7 +45,7 @@ TinkerbotsBase {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsBase.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -81,7 +81,7 @@ TinkerbotsGrabber {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsGrabber.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -107,7 +107,7 @@ TinkerbotsMotor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsMotor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -136,7 +136,7 @@ TinkerbotsPivot {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsPivot.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -161,7 +161,7 @@ TinkerbotsTwister {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsTwister.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -186,7 +186,7 @@ TinkerbotsDistanceSensor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -211,7 +211,7 @@ TinkerbotsLightSensor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsLightSensor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -236,7 +236,7 @@ TinkerbotsCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -261,7 +261,7 @@ TinkerbotsAxle {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsAxle.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -289,7 +289,7 @@ TinkerbotsBrickAdapter {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -313,7 +313,7 @@ TinkerbotsCubieBoxWithCrossSlots {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/kinematics/TinkerbotsCubieBoxWithCrossSlots.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -338,7 +338,7 @@ TinkerbotsCubieBoxWithRoundSlots {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -367,7 +367,7 @@ TinkerbotsCubieFemaleCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -392,7 +392,7 @@ TinkerbotsCubieMaleCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieMaleCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieMaleCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -417,7 +417,7 @@ TinkerbotsCubiePyramid {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubiePyramid.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubiePyramid.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -442,7 +442,7 @@ TinkerbotsCubieTriangle {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -465,7 +465,7 @@ TinkerbotsFinger {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsFinger.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -488,24 +488,24 @@ TinkerbotsWheel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsWheel.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### Samples
 
-You will find the following examples in this folder: "WEBOTS\_HOME/projects/robots/tinkerbots/worlds".
+You will find the following examples in this folder: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/worlds".
 
 #### tinkerbots\_demo.wbt
 
-![tinkerbots_demo.wbt.png](images/robots/tinkerbots/tinkerbots_demo.wbt.png) In this example, two robots work collaboratively in a fictitious factory.
+![tinkerbots_demo.wbt.png](images/robots/tinkerbots/tinkerbots_demo.wbt.thumbnail.jpg) In this example, two robots work collaboratively in a fictitious factory.
 A plastic object passes from one robot to the other with the help of two conveyor belts.
 The robots detect the presence of the plastic objects using their distance sensors.
 
 #### android\_l30.wbt
 
-![android_l30.wbt.png](images/robots/tinkerbots/android_l30.wbt.png) This example probably shows the simplest possible model.
+![android_l30.wbt.png](images/robots/tinkerbots/android_l30.wbt.thumbnail.jpg) This example probably shows the simplest possible model.
 Indeed, it has only one motor and two wheels plugged on it.
 It is controlled by the random controller called "tinkerbots_demo".
 This demo controller actuates the motors with random sinusoidal functions and chooses the color of the LEDs from a predefined color set.
@@ -513,35 +513,35 @@ This controller is used in most of the following examples.
 
 #### braitenberg.wbt
 
-![braitenberg.wbt.png](images/robots/tinkerbots/braitenberg.wbt.png) In this example, a robot with two motors and two distance sensors moves avoiding obstacles in a circular world.
+![braitenberg.wbt.png](images/robots/tinkerbots/braitenberg.wbt.thumbnail.jpg) In this example, a robot with two motors and two distance sensors moves avoiding obstacles in a circular world.
 In addition, it pushes a Tinkerbots cubie.
 Note that the custom controller of this robot is written in Python.
 
 #### grabber\_base.wbt
 
-![grabber_base.wbt.png](images/robots/tinkerbots/grabber_base.wbt.png) The crane in this example can be controlled by the computer keyboard following the instructions displayed in the Webots console.
+![grabber_base.wbt.png](images/robots/tinkerbots/grabber_base.wbt.thumbnail.jpg) The crane in this example can be controlled by the computer keyboard following the instructions displayed in the Webots console.
 
 #### vision\_car.wbt
 
-![vision_car.wbt.wbt.png](images/robots/tinkerbots/vision_car.wbt.png) In this example, a robot moves forward until it detects an obstacle.
+![vision_car.wbt.wbt.png](images/robots/tinkerbots/vision_car.wbt.thumbnail.jpg) In this example, a robot moves forward until it detects an obstacle.
 
 #### roadster.wbt and racer.wbt
 
 | | |
-| --- | --- |
-| ![roadster.wbt.png](images/robots/tinkerbots/roadster.wbt.png) | ![racer.wbt.png](images/robots/tinkerbots/racer.wbt.png) |
+|:---:|:---:|
+| ![roadster.wbt.png](images/robots/tinkerbots/roadster.wbt.thumbnail.jpg) | ![racer.wbt.png](images/robots/tinkerbots/racer.wbt.thumbnail.jpg) |
 
 In these two examples, two car-looking robots move randomly using the "two_wheeled_vehicle" controller.
 
 #### donnergugi.wbt and top\_dog.wbt
 
 | | |
-| --- | --- |
-| ![top_dog.wbt.png](images/robots/tinkerbots/top_dog.wbt.png) | ![donnergugi.wbt.png](images/robots/tinkerbots/donnergugi.wbt.png) |
+|:---:|:---:|
+| ![top_dog.wbt.png](images/robots/tinkerbots/top_dog.wbt.thumbnail.jpg) | ![donnergugi.wbt.png](images/robots/tinkerbots/donnergugi.wbt.thumbnail.jpg) |
 
 In these two examples, two animal-like robots move randomly using "tinkerbots_demo" controller.
 
 #### sensoric\_mega\_set.wbt
 
-![sensoric_mega_set.wbt.png](images/robots/tinkerbots/sensoric_mega_set.wbt.png) This example shows a robot made up of all Tinkerbots blocks that contain an Arduino component.
+![sensoric_mega_set.wbt.png](images/robots/tinkerbots/sensoric_mega_set.wbt.thumbnail.jpg) This example shows a robot made up of all Tinkerbots blocks that contain an Arduino component.
 Here too, the robot moves randomly.

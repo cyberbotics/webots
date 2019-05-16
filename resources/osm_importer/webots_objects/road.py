@@ -144,13 +144,13 @@ class Road(WebotsObject):
         if 'turn:lanes:forward' in self.tags:
             self.turnLanesForward = self.tags['turn:lanes:forward']
             if len(self.turnLanesForward.split('|')) != self.forwardLanes:
-                print ('Invalid "turn:lanes:forward" tag for "%s"' % self.name)
+                print('Invalid "turn:lanes:forward" tag for "%s"' % self.name)
                 self.turnLanesForward = None
 
         if 'turn:lanes:backward' in self.tags:
             self.turnLanesBackward = self.tags['turn:lanes:backward']
             if len(self.turnLanesBackward.split('|')) != self.backwardLanes:
-                print ('Invalid "turn:lanes:backward" tag for "%s"' % self.name)
+                print('Invalid "turn:lanes:backward" tag for "%s"' % self.name)
                 self.turnLanesBackward = None
 
         self.width = None
@@ -181,7 +181,7 @@ class Road(WebotsObject):
                     self.width = None
             if self.width is None:
                 # Failed to extract width.
-                print ('Warning: Invalid "width" tag for "%s" OSMID.: "%s"' % (self.osmid, self.tags['width']))
+                print('Warning: Invalid "width" tag for "%s" OSMID.: "%s"' % (self.osmid, self.tags['width']))
 
         if self.width is None:
             laneWidth = 3.5

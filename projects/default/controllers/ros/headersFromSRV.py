@@ -26,14 +26,14 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "h", ["help"])
     except getopt.GetoptError:
-        print ('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
+        print('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
+            print('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
             sys.exit(2)
         elif opt in ("-h", "--help"):
-            print ('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
+            print('usage: headersFromSRV.py <servicefile.srv> [templatesFolder]')
             sys.exit(2)
     SRVFile = open(args[0], 'r')
     filename = args[0].split('/')[-1]

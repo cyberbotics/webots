@@ -10,17 +10,17 @@ In this directory, you will find the following world files:
 
 **Keywords**: [PBRAppearance](../reference/pbrappearance.md), skin, animation, salamander, normal map, bump map, metalness, roughness.
 
-![animated_skin.png](images/samples/animated_skin.png) This example shows the use of an animated Skin node on a salamander robot. This Skin node supports the use of the [PBRAppearance](../reference/pbrappearance.md) node to generate very realistic images.
+![animated_skin.png](images/samples/animated_skin.thumbnail.jpg) This example shows the use of an animated Skin node on a salamander robot. This Skin node supports the use of the [PBRAppearance](../reference/pbrappearance.md) node to generate very realistic images.
 
-### [physically\_based\_rendering.wbt](https://github.com/omichel/webots/tree/master/projects/samples/rendering/worlds/Physically_based_rendering.wbt)
+### [physically\_based\_rendering.wbt](https://github.com/omichel/webots/tree/master/projects/samples/rendering/worlds/physically_based_rendering.wbt)
 
 **Keywords**: [PBRAppearance](../reference/pbrappearance.md), physically based rendering, shadows, ambient occlusion, normal map, bump map, metalness, roughness.
 
 %figure "Screenshots of the physically based rendering sample environment."
 
-|                                                                             |                                                                           |
-|-----------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| ![apartment_a.png](images/samples/physically_based_rendering_telephone.png) | ![apartment_b.png](images/samples/physically_based_rendering_sphere_grid.png) |
+|     |     |
+|:---:|:---:|
+| ![apartment_a.png](images/samples/physically_based_rendering_telephone.thumbnail.jpg) | ![apartment_b.png](images/samples/physically_based_rendering_sphere_grid.thumbnail.jpg) |
 
 %end
 
@@ -30,4 +30,4 @@ This example illustrates the capabilities of the [PBRAppearance](../reference/pb
 
 **Keywords**: [PBRAppearance](../reference/pbrappearance.md), sponza, ambient occlusion, rendering, post-processing.
 
-![sponza.png](images/samples/sponza.png) This world contains an untextured version of the Sponza Palace in Dubrovnik, Croatia. This model was used while developing our Ambient Occlusion technique to visually test its implementation, but we have included it as a sample as it looks quite good!
+![sponza.png](images/samples/sponza.thumbnail.jpg) This world contains an untextured version of the Sponza Palace in Dubrovnik, Croatia. This model was used while developing our Ambient Occlusion technique to visually test its implementation, but we have included it as a sample as it looks quite good!

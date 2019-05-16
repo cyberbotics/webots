@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbCamera.hpp"
+
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbFieldChecker.hpp"
@@ -814,7 +815,7 @@ void WbCamera::updateLensFlare() {
 }
 
 void WbCamera::updateNear() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mNear, 0.01))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mNear, 0.01))
     return;
 
   mNeedToConfigure = true;
@@ -835,7 +836,7 @@ void WbCamera::updateNear() {
 }
 
 void WbCamera::updateFar() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mFar, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mFar, 0.0))
     return;
 
   if (mFar->value() > 0.0 and mFar->value() < mNear->value()) {
@@ -852,7 +853,7 @@ void WbCamera::updateFar() {
 }
 
 void WbCamera::updateExposure() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mExposure, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mExposure, 1.0))
     return;
 
   if (mWrenCamera)
@@ -860,14 +861,14 @@ void WbCamera::updateExposure() {
 }
 
 void WbCamera::updateAmbientOcclusionRadius() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mAmbientOcclusionRadius, 2.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mAmbientOcclusionRadius, 2.0);
 
   if (mWrenCamera)
     mWrenCamera->setAmbientOcclusionRadius(mAmbientOcclusionRadius->value());
 }
 
 void WbCamera::updateBloomThreshold() {
-  WbFieldChecker::checkDoubleIsNonNegativeOrDisabled(this, mBloomThreshold, 21.0, -1.0);
+  WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
 
   if (mWrenCamera)
     mWrenCamera->setBloomThreshold(mBloomThreshold->value());

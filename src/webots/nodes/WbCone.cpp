@@ -114,13 +114,13 @@ bool WbCone::sanitizeFields() {
   if (isInBoundingObject())
     return false;
 
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mBottomRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mBottomRadius, 1.0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHeight, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
     return false;
 
   return true;

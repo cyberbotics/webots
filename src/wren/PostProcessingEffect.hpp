@@ -209,9 +209,9 @@ namespace wren {
     }
 
     Pass *pass(const std::string &name) {
-      for (Pass *pass : mPasses) {
-        if (pass->name() == name)
-          return pass;
+      for (Pass *p : mPasses) {
+        if (p->name() == name)
+          return p;
       }
       return NULL;
     }

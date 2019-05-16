@@ -66,8 +66,8 @@ class Pedestrian (Supervisor):
         opt_parser.add_option("--step", type=int, help="Specify time step (otherwise world time step is used)")
         options, args = opt_parser.parse_args()
         if not options.trajectory or len(options.trajectory.split(',')) < 2:
-            print ("You should specify the trajectory using the '--trajectory' option.")
-            print ("The trajectory shoulld have at least 2 points.")
+            print("You should specify the trajectory using the '--trajectory' option.")
+            print("The trajectory shoulld have at least 2 points.")
             return
         if options.speed and options.speed > 0:
             self.speed = options.speed
