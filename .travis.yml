@@ -5,9 +5,14 @@ dist: xenial
 git:
   depth: 3
   submodules: true
+language: python
 python:
   - "2.7"
   - "3.7"
+matrix:
+  include:
+    - os: osx
+      language: generic
 jdk: openjdk8
 cache: pip
 before_install:
@@ -59,6 +64,7 @@ addons:
       - swig
       - wget
       - node
+      - python
 script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then export PATH="$JAVA_HOME/bin/javac:$PATH"; fi
