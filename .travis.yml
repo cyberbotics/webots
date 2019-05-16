@@ -1,6 +1,4 @@
-os:
-  - linux
-  - osx
+os: linux
 dist: xenial
 git:
   depth: 3
@@ -9,7 +7,7 @@ language: python
 python:
   - "2.7"
   - "3.7"
-matrix:
+matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
   include:
     - os: osx
       language: generic
