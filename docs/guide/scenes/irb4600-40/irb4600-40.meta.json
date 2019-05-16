@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "irb4600-40", 
   "devices": [
     {
-      "transformID": "n24", 
+      "transformID": "n22", 
+      "initialPosition": 0, 
       "name": "A motor", 
       "maxPosition": 3.1415, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n34", 
+      "transformID": "n32", 
+      "initialPosition": 0, 
       "name": "B motor", 
       "maxPosition": 2.61799, 
       "position": 0, 
@@ -20,7 +23,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n44", 
+      "transformID": "n42", 
+      "initialPosition": 0, 
       "name": "C motor", 
       "maxPosition": 1.309, 
       "position": 0, 
@@ -29,7 +33,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n52", 
+      "initialPosition": 0, 
       "name": "D motor", 
       "maxPosition": 6.98132, 
       "position": 0, 
@@ -38,7 +43,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n64", 
+      "transformID": "n62", 
+      "initialPosition": 0, 
       "name": "E motor", 
       "maxPosition": 2.0944, 
       "position": 0, 
@@ -47,7 +53,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n72", 
+      "initialPosition": 0, 
       "name": "F motor", 
       "maxPosition": 6.98132, 
       "position": 0, 
@@ -56,32 +63,32 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n24", 
+      "transformID": "n22", 
       "type": "PositionSensor", 
       "name": "A sensor"
     }, 
     {
-      "transformID": "n34", 
+      "transformID": "n32", 
       "type": "PositionSensor", 
       "name": "B sensor"
     }, 
     {
-      "transformID": "n44", 
+      "transformID": "n42", 
       "type": "PositionSensor", 
       "name": "C sensor"
     }, 
     {
-      "transformID": "n54", 
+      "transformID": "n52", 
       "type": "PositionSensor", 
       "name": "D sensor"
     }, 
     {
-      "transformID": "n64", 
+      "transformID": "n62", 
       "type": "PositionSensor", 
       "name": "E sensor"
     }, 
     {
-      "transformID": "n74", 
+      "transformID": "n72", 
       "type": "PositionSensor", 
       "name": "F sensor"
     }
