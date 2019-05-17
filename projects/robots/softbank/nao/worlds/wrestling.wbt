@@ -2,9 +2,9 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.39760196753164145 -0.9028479208619474 -0.16364078712297253 5.466393935447413
-  position 2.4408034928434184 1.673220223837429 2.6491476661058186
-  ambientOcclusionRadius 0.19999999999999998
+  orientation 0.3976 -0.9028 -0.1636 5.4664
+  position 2.4408 1.6732 2.6491
+  ambientOcclusionRadius 0.2
 }
 TexturedBackground {
   texture "music_hall"
@@ -22,18 +22,18 @@ WrestlingRing {
 }
 StraightStairs {
   translation -1.58 0 0
-  name "straight stairs(1)"
+  name "straight stairs red"
   stepSize 0.13 0.03 0.4
   stepRise 0.0835
   stringerWidth 0.03
   stepAppearance VarnishedPine {
-    colorOverride 0.478431 0.39999999999999997 0.341176
+    colorOverride 0.4784 0.4 0.3412
     textureTransform TextureTransform {
       scale 4 4
     }
   }
   stringerAppearance VarnishedPine {
-    colorOverride 0.478431 0.39999999999999997 0.341176
+    colorOverride 0.4784 0.4 0.3412
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -43,19 +43,19 @@ StraightStairs {
 }
 StraightStairs {
   translation 1.58 0 0
-  rotation 0 1 0 3.1415927
-  name "straight stairs(2)"
+  rotation 0 1 0 3.1416
+  name "straight stairs blue"
   stepSize 0.13 0.03 0.4
   stepRise 0.0835
   stringerWidth 0.03
   stepAppearance VarnishedPine {
-    colorOverride 0.478431 0.39999999999999997 0.341176
+    colorOverride 0.4784 0.4 0.3412
     textureTransform TextureTransform {
       scale 4 4
     }
   }
   stringerAppearance VarnishedPine {
-    colorOverride 0.478431 0.39999999999999997 0.341176
+    colorOverride 0.4784 0.4 0.3412
     textureTransform TextureTransform {
       scale 4 4
     }
@@ -88,16 +88,16 @@ RubberDuck {
   translation 0 0.525 -0.935
   name "rubber duck 2"
 }
-Nao {
+DEF WRESTLER_RED Nao {
   translation -0.88 0.834 0
-  name "NAO 1"
+  name "wreslter red"
   controller "wrestler_red"
 }
-Nao {
+DEF WRESTLER_BLUE Nao {
   translation 0.88 0.834 0
-  rotation 0 0.7071067811865476 0.7071067811865476 -3.1416
-  name "NAO 2"
-  color 0 0.333333 1
+  rotation 0 0.7071 0.7071 -3.1416
+  name "wrestler blue"
+  color 0 0.3333 1
   controller "wrestler_blue"
 }
 WrestlingReferee {
