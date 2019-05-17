@@ -10,6 +10,7 @@ python:
 matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
   include:
     - os: osx
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic
 jdk: openjdk8
 cache: pip
