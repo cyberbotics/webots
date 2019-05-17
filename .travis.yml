@@ -61,6 +61,7 @@ addons:
     packages:
       - clang-format
       - python
+      - python3
       - cmake
       - swig
       - wget
