@@ -59,11 +59,11 @@ addons:
   homebrew:
     packages:
       - clang-format
+      - python
       - cmake
       - swig
       - wget
       - node
-      - python
 script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then export PATH="$JAVA_HOME/bin/javac:$PATH"; fi
