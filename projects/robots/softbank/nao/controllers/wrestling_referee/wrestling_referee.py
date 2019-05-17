@@ -34,7 +34,7 @@ class Referee (Supervisor):
         for i in range(2):
             self.min[i] = self.robot[i].getPosition()
             self.max[i] = self.robot[i].getPosition()
-        self.score = [0] * 2
+        self.coverage = [0] * 2
         self.koCount = [0] * 2
 
     def displayTime(self, minutes, seconds):
@@ -71,7 +71,7 @@ class Referee (Supervisor):
                         box[j] = self.max[i][j] - self.min[i][j]
                         coverage += box[j] * box[j]
                     coverage = math.sqrt(coverage)
-                    self.score[i] = coverage
+                    self.coverage[i] = coverage
                     if position[1] < 0.75:  # low position threshold
                         self.koCount[i] = self.koCount[i] + 200
                         if self.koCount[i] > 10000:  # 10 seconds
@@ -83,23 +83,18 @@ class Referee (Supervisor):
                     elif self.koCount[1] > self.koCount[0]:
                         print("\fblue KO: %d" % (10 - self.koCount[1] // 1000))
                     else:
-                        print("\fred: %1.3f - blue: %1.3f" % (self.score[0], self.score[1]))
+                        print("\fred: %1.3f - blue: %1.3f" % (self.coverage[0], self.coverage[1]))
             if self.step(timeStep) == -1 or time > matchDuration or ko != -1:
                 break
             time += timeStep
-        if ko == 0 and self.koCount[1] == 0:
+        if ko == 0:
             print("Wrestler red is KO. Wrestler blue wins!")
-        elif ko == 1 and self.koCount[0] == 0:
+        elif ko == 1:
             print("Wrestler blue is KO. Wrestler red wins!")
-        elif ko == -1:
-            if self.score[0] > self.score[1]:
-                print("Wresler red wins: %s > %s" % (self.score[0], self.score[1]))
-            elif self.score[1] > self.score[0]:
-                print("Wresler blue wins: %s > %s" % (self.score[1], self.score[0]))
-            else:
-                print("Draw: nobody wins... (same coverage)")
+        elif self.coverage[0] >= self.coverage[1]:  # in case of coverage equality, red wins
+            print("Wresler red wins: %s >= %s" % (self.coverage[0], self.coverage[1]))
         else:
-            print("Draw: nobody wins... (both wreslers are KO)")
+            print("Wresler blue wins: %s > %s" % (self.coverage[1], self.coverage[0]))
 
 
 # create the referee instance and run main loop
