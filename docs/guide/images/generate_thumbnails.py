@@ -21,10 +21,10 @@ import fnmatch
 
 from PIL import Image
 
-size = (256, 256)
-pathes = [
-    'samples'
-]
+pathes = {
+    'samples': (256, 256),
+    'appearances': (512, 512),
+}
 
 skipped = [
     'samples/mybot.png'
@@ -33,18 +33,18 @@ skipped = [
 images = []
 
 # list images from 'pathes'
-for path in pathes:
+for path, size in pathes.items():
     for image in glob.glob(path + os.sep + "*.png"):
         if image not in skipped:
-            images.append(image)
+            images.append([image, size])
 
 # specific robot worlds case
 for rootPath, dirNames, fileNames in os.walk('robots'):
     for fileName in fnmatch.filter(fileNames, '*.wbt.png'):
-        images.append(os.path.join(rootPath, fileName))
+        images.append([os.path.join(rootPath, fileName), (256, 256)])
 
 for image in images:
-    print('Generating thumbnail for: ' + image)
-    im = Image.open(image)
-    im.thumbnail(size)
-    im.convert('RGB').save(image.replace('.png', '.thumbnail.jpg'), 'JPEG')
+    print('Generating thumbnail(%dx%d) for: %s' % (image[1][0], image[1][1], image[0]))
+    im = Image.open(image[0])
+    im.thumbnail(image[1])
+    im.convert('RGB').save(image[0].replace('.png', '.thumbnail.jpg'), 'JPEG')
