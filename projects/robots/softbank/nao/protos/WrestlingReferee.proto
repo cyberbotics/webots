@@ -13,13 +13,12 @@ PROTO WrestlingReferee [
   Robot {
     translation IS translation
     rotation IS rotation
-    scale 0.0035156 0.0035156 0.0035156  # 1.8 / 512
     name IS name
     controller IS controller
     supervisor TRUE
     children [
       Shape {
-        appearance Appearance {
+        appearance DEF BOARD_APPEARANCE Appearance {
           material Material {
             diffuseColor 1 1 1
             emissiveColor 1 1 1
@@ -31,20 +30,20 @@ PROTO WrestlingReferee [
         geometry IndexedFaceSet {
           coord Coordinate {
             point [
-              325 128 0
-              0 128 0
+              1.1426 0.45 0
+              0 0.45 0
               0 0 0
-              325 0 0
-              325 103 0
-              375 103 0
-              400 103 0
-              512 128 0
-              500 103 0
-              500 13 0
-              512 0 0
-              400 13 0
-              375 13 0
-              325 13 0
+              1.1426 0 0
+              1.1426 0.3621 0
+              1.3184 0.3621 0
+              1.4062 0.3621 0
+              1.8 0.45 0
+              1.7578 0.3621 0
+              1.7578 0.0457 0
+              1.8 0 0
+              1.4062 0.0457 0
+              1.3184 0.0457 0
+              1.1426 0.0457 0
             ]
           }
           texCoord TextureCoordinate {
@@ -83,6 +82,59 @@ PROTO WrestlingReferee [
           ]
         }
       }
+      %{ for j = 0, 2 do for i = 0, 9 do
+        x = j * 0.17578
+        if j > 0 then
+          x = x + 0.0878305
+        end
+        y = 1000
+        t0 = 0.0098 + i * 0.09766
+        t1 = 0.0098 + (i + 1) * 0.09766
+        name = "digit " .. j .. i
+        solid = "digit solid " .. j .. i
+      }%
+      SliderJoint {
+        jointParameters JointParameters {
+          position 1000
+          axis 0 1 0
+        }
+        device LinearMotor {
+          maxForce 1e20
+          maxVelocity 1e20
+          name "%{= name}%"
+        }
+        endPoint Solid {
+          translation %{= x }% %{= y }% 0
+          name "%{= solid }%"
+          children [
+            Shape {
+              appearance USE BOARD_APPEARANCE
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    1.3184 0.3621 0
+                    1.1426 0.3621 0
+                    1.1426 0.0457 0
+                    1.3184 0.0457 0
+                  ]
+                }
+                coordIndex [
+                  0, 1, 2, 3, -1
+                ]
+                texCoord TextureCoordinate {
+                  point [
+                    %{= t1 }% 0.9
+                    %{= t0 }% 0.9
+                    %{= t0 }% 0.557
+                    %{= t1 }% 0.557
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+      %{ end end }%
     ]
   }
 }
