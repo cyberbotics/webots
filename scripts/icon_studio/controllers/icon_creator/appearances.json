@@ -74,6 +74,9 @@
   "ScrewThread": {
     "fields": "textureTransform TextureTransform { rotation 1.5708 scale 4 2 }"
   },
+  "ScuffedPlastic": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
   "ShinyLeather": {
     "fields": "colorOverride 0.56 0.35 0 textureTransform TextureTransform { scale 2 2 }"
   },
@@ -90,6 +93,9 @@
     "fields": "textureTransform TextureTransform { scale 2 3 }"
   },
   "WireFence": {
+    "fields": "textureTransform TextureTransform { scale 4 2 }"
+  },
+  "WornBurlap": {
     "fields": "textureTransform TextureTransform { scale 4 2 }"
   }
 }
