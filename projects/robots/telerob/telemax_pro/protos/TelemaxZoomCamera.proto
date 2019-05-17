@@ -161,7 +161,6 @@ PROTO TelemaxZoomCamera [
                             color 1 1 1
                             cutOffAngle 0.6
                             intensity 25
-                            on TRUE
                             castShadows IS castShadows
                           }
                         ]
