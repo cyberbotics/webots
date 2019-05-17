@@ -17,6 +17,7 @@ Blackboard {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "blackboard"
+  SFBool     castShadows TRUE
 }
 ```
 
@@ -24,6 +25,10 @@ Blackboard {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### Blackboard Field Summary
+
+- `castShadows`: Defines whether this object should cast shadows.
 
 ## Book
 
