@@ -16,6 +16,7 @@
 # limitations under the License.
 
 import fnmatch
+import io
 import os
 import re
 import sys
@@ -60,7 +61,7 @@ for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep 
 fileList = sorted(fileList)
 
 # create the 'appearances' page
-with open('appearances.md', 'wb') as file:
+with io.open('appearances.md', 'w', newline='') as file:
     file.write('# Appearances\n')
     file.write('This chapter describes the list of available appearance PROTO nodes based on the '
                '[PBRAppearance](../reference/pbrappearance.md) node.\n\n')
@@ -91,7 +92,7 @@ for proto in prioritaryProtoList + fileList:
     describedField = []
     skipProto = False
     # parse the PROTO file
-    with open(proto, 'r') as file:
+    with io.open(proto, 'r', newline='') as file:
         content = file.read()
         # header
         matches = re.finditer(r'^#.*\n', content, re.MULTILINE)
@@ -152,7 +153,7 @@ for proto in prioritaryProtoList + fileList:
     # use the cache file to get the baseType
     cacheFile = proto.replace(os.path.basename(proto), '.' + os.path.basename(proto)).replace('.proto', '.cache')
     if os.path.isfile(cacheFile):
-        with open(cacheFile, 'r') as file:
+        with io.open(cacheFile, 'r', newline='') as file:
             for line in file.readlines():
                 match = re.match(r'baseType:\s*([a-zA-Z]*)', line)
                 if match:
@@ -162,13 +163,13 @@ for proto in prioritaryProtoList + fileList:
         sys.stderr.write('Could not find cache file: "%s"\n' % cacheFile)
 
     # add documentation for this PROTO file
-    mode = 'ab'
+    mode = 'a'
     filename = 'object-' + upperCategoryName + '.md'
     if upperCategory == 'projects':
         filename = 'appearances.md'
     elif upperCategory not in upperCategories:
-        mode = 'wb'
-    with open(filename, mode) as file:
+        mode = 'w'
+    with io.open(filename, mode, newline='') as file:
         if upperCategory not in upperCategories and not upperCategory == category and not upperCategory == 'projects':
             file.write('# %s\n\n' % upperCategory.replace('_', ' ').title())
         headerPrefix = '#'
@@ -229,7 +230,7 @@ for proto in prioritaryProtoList + fileList:
 del upperCategories['projects']
 upperCategoriesList = sorted(upperCategories.keys())
 categoriesList = []
-with open('objects.md', 'wb') as file:
+with io.open('objects.md', 'w', newline='') as file:
     file.write('# Objects\n\n')
     file.write('## Sections\n\n')
     for upperCategory in upperCategoriesList:
