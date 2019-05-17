@@ -6,6 +6,10 @@ language: python
 python:
   - "2.7"
   - "3.7"
+matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+  include:
+    - os: osx
+      language: generic
 cache: pip
 install:
   - pip install -r tests/sources/requirements.txt
@@ -14,6 +18,10 @@ addons:
   apt:
     packages:
       - clang-format-5.0
+  homebrew:
+    packages:
+      - clang-format
+      - python
 script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
