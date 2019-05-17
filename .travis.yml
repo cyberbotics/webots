@@ -52,6 +52,7 @@ addons:
       - libpng12-dev
       - libav-tools
       - python3.5-dev
+      - python3.7-dev
       - openjdk-8-jdk
       - curl
       - libwebpdemux1
