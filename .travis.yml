@@ -70,6 +70,4 @@ script:
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
   - python3 --version
-  - python3.7 --version
-  - which python3.7
   - travis_wait 45 python tests/test_compilation.py
