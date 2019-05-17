@@ -14,6 +14,7 @@
 
 """Referee supervisor controller for the Robot Wrestling Tournament."""
 
+import math
 from controller import Supervisor
 
 
@@ -25,6 +26,16 @@ class Referee (Supervisor):
             for i in range(10):
                 self.digit[j][i] = self.getMotor("digit " + str(j) + str(i))
         self.currentDigit = [0, 0, 0]  # 0:00
+        self.robot = [0] * 2
+        self.robot[0] = self.getFromDef("WRESTLER_RED")
+        self.robot[1] = self.getFromDef("WRESTLER_BLUE")
+        self.min = [[0] * 3 for i in range(2)]
+        self.max = [[0] * 3 for i in range(2)]
+        for i in range(2):
+            self.min[i] = self.robot[i].getPosition()
+            self.max[i] = self.robot[i].getPosition()
+        self.score = [0] * 2
+        self.koCount = [0] * 2
 
     def displayTime(self, minutes, seconds):
         for j in range(3):
@@ -40,15 +51,55 @@ class Referee (Supervisor):
         timeStep = int(self.getBasicTimeStep())  # retrieves the WorldInfo.basicTimeTime (ms) from the world file
         time = 0
         seconds = -1
+        ko = -1
         while True:
-            s = int(time / 1000) % 60
-            if seconds != s:
-                seconds = s
-                minutes = int(time / 60000)
-                self.displayTime(minutes, seconds)
-            if self.step(timeStep) == -1 or time > matchDuration:  # runs in a loop until Webots quits or the match is over
+            if time % 200 == 0:
+                s = int(time / 1000) % 60
+                if seconds != s:
+                    seconds = s
+                    minutes = int(time / 60000)
+                    self.displayTime(minutes, seconds)
+                box = [0] * 3
+                for i in range(2):
+                    position = self.robot[i].getPosition()
+                    coverage = 0
+                    for j in range(3):
+                        if position[j] < self.min[i][j]:
+                            self.min[i][j] = position[j]
+                        elif position[j] > self.max[i][j]:
+                            self.max[i][j] = position[j]
+                        box[j] = self.max[i][j] - self.min[i][j]
+                        coverage += box[j] * box[j]
+                    coverage = math.sqrt(coverage)
+                    self.score[i] = coverage
+                    if position[1] < 0.75:  # low position threshold
+                        self.koCount[i] = self.koCount[i] + 200
+                        if self.koCount[i] > 10000:  # 10 seconds
+                            ko = i
+                    else:
+                        self.koCount[i] = 0
+                    if self.koCount[0] > self.koCount[1]:
+                        print("\fred KO: %d" % (10 - self.koCount[0] // 1000))
+                    elif self.koCount[1] > self.koCount[0]:
+                        print("\fblue KO: %d" % (10 - self.koCount[1] // 1000))
+                    else:
+                        print("\fred: %1.3f - blue: %1.3f" % (self.score[0], self.score[1]))
+            if self.step(timeStep) == -1 or time > matchDuration or ko != -1:
                 break
             time += timeStep
+        if ko == 0 and self.koCount[1] == 0:
+            print("Wrestler red is KO. Wrestler blue wins!")
+        elif ko == 1 and self.koCount[0] == 0:
+            print("Wrestler blue is KO. Wrestler red wins!")
+        elif ko == -1:
+            if self.score[0] > self.score[1]:
+                print("Wresler red wins: %s > %s" % (self.score[0], self.score[1]))
+            elif self.score[1] > self.score[0]:
+                print("Wresler blue wins: %s > %s" % (self.score[1], self.score[0]))
+            else:
+                print("Draw: nobody wins... (same coverage)")
+        else:
+            print("Draw: nobody wins... (both wreslers are KO)")
 
 
 # create the referee instance and run main loop

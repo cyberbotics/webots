@@ -56,16 +56,16 @@ class Wrestler (Robot):
 
         while self.step(self.timeStep) != -1:
             t = self.getTime()
-            if t == 23.2:
+            if t == 22:
                 self.forwards.stop()
                 self.turnLeft60.play()
                 self.RShoulderPitch.setPosition(0)  # upercut
-            elif t == 25.44:
+            elif t == 25:
                 self.turnLeft60.stop()
                 self.forwards.play()  # push
-            elif t == 27.04:
+            elif t == 27:
                 self.forwards.stop()  # stop
-            elif t == 27.52:
+            elif t == 28:
                 self.LShoulderPitch.setPosition(-1.57)  # victory
                 self.RShoulderPitch.setPosition(-1.57)
 

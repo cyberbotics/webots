@@ -1,5 +1,6 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
+  basicTimeStep 20
 }
 Viewpoint {
   orientation 0.3976 -0.9028 -0.1636 5.4664
