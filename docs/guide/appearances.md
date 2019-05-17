@@ -7,7 +7,7 @@ An asphalt material. The color can be overridden using the `colorOverride` field
 
 %figure
 
-![Asphalt](images/appearances/Asphalt.png)
+![Asphalt](images/appearances/Asphalt.thumbnail.png)
 
 %end
 
@@ -22,7 +22,7 @@ Asphalt {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Asphalt.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -76,7 +76,7 @@ A brushed aluminum material.
 
 %figure
 
-![BrushedAluminium](images/appearances/BrushedAluminium.png)
+![BrushedAluminium](images/appearances/BrushedAluminium.thumbnail.png)
 
 %end
 
@@ -91,7 +91,7 @@ BrushedAluminium {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/BrushedAluminium.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -112,7 +112,7 @@ A woolen carpet material. Useful with the `Floor` PROTO.
 
 %figure
 
-![CarpetFibers](images/appearances/CarpetFibers.png)
+![CarpetFibers](images/appearances/CarpetFibers.thumbnail.png)
 
 %end
 
@@ -127,7 +127,7 @@ CarpetFibers {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/CarpetFibers.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -148,7 +148,7 @@ A wooden material in a chequered pattern covered with a layer of varnish. Useful
 
 %figure
 
-![ChequeredParquetry](images/appearances/ChequeredParquetry.png)
+![ChequeredParquetry](images/appearances/ChequeredParquetry.thumbnail.png)
 
 %end
 
@@ -162,7 +162,7 @@ ChequeredParquetry {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ChequeredParquetry.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ChequeredParquetry.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/ChequeredParquetry.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -181,7 +181,7 @@ A corroded metal material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![CorrodedMetal](images/appearances/CorrodedMetal.png)
+![CorrodedMetal](images/appearances/CorrodedMetal.thumbnail.png)
 
 %end
 
@@ -196,7 +196,7 @@ CorrodedMetal {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/CorrodedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -217,7 +217,7 @@ A corrugated metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![CorrugatedMetal](images/appearances/CorrugatedMetal.png)
+![CorrugatedMetal](images/appearances/CorrugatedMetal.thumbnail.png)
 
 %end
 
@@ -232,7 +232,7 @@ CorrugatedMetal {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/CorrugatedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -253,7 +253,7 @@ A damascus steel material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![DamascusSteel](images/appearances/DamascusSteel.png)
+![DamascusSteel](images/appearances/DamascusSteel.thumbnail.png)
 
 %end
 
@@ -268,7 +268,7 @@ DamascusSteel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/DamascusSteel.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -289,7 +289,7 @@ An electric conduit material. The color can be overridden using the `colorOverri
 
 %figure
 
-![ElectricConduit](images/appearances/ElectricConduit.png)
+![ElectricConduit](images/appearances/ElectricConduit.thumbnail.png)
 
 %end
 
@@ -304,7 +304,7 @@ ElectricConduit {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/ElectricConduit.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -325,7 +325,7 @@ A flexible aluminium duct material. The color can be overridden using the `color
 
 %figure
 
-![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.png)
+![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.thumbnail.png)
 
 %end
 
@@ -340,7 +340,7 @@ FlexibleAluminiumDuct {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/FlexibleAluminiumDuct.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -361,7 +361,7 @@ A galvanized metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![GalvanizedMetal](images/appearances/GalvanizedMetal.png)
+![GalvanizedMetal](images/appearances/GalvanizedMetal.thumbnail.png)
 
 %end
 
@@ -376,7 +376,7 @@ GalvanizedMetal {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/GalvanizedMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -397,7 +397,7 @@ A glossy paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![GlossyPaint](images/appearances/GlossyPaint.png)
+![GlossyPaint](images/appearances/GlossyPaint.thumbnail.png)
 
 %end
 
@@ -412,7 +412,7 @@ GlossyPaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/GlossyPaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -433,7 +433,7 @@ An hammered copper steel material. The color can be overridden using the `colorO
 
 %figure
 
-![HammeredCopper](images/appearances/HammeredCopper.png)
+![HammeredCopper](images/appearances/HammeredCopper.thumbnail.png)
 
 %end
 
@@ -448,7 +448,7 @@ HammeredCopper {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/HammeredCopper.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -469,7 +469,7 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Leather](images/appearances/Leather.png)
+![Leather](images/appearances/Leather.thumbnail.png)
 
 %end
 
@@ -485,7 +485,7 @@ Leather {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Leather.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Leather.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Leather.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -508,7 +508,7 @@ A matte paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![MattePaint](images/appearances/MattePaint.png)
+![MattePaint](images/appearances/MattePaint.thumbnail.png)
 
 %end
 
@@ -523,7 +523,7 @@ MattePaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/MattePaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -544,7 +544,7 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %figure
 
-![MetalPipePaint](images/appearances/MetalPipePaint.png)
+![MetalPipePaint](images/appearances/MetalPipePaint.thumbnail.png)
 
 %end
 
@@ -558,7 +558,7 @@ MetalPipePaint {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/MetalPipePaint.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -577,7 +577,7 @@ An old battered steel material.
 
 %figure
 
-![OldSteel](images/appearances/OldSteel.png)
+![OldSteel](images/appearances/OldSteel.thumbnail.png)
 
 %end
 
@@ -592,7 +592,7 @@ OldSteel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/OldSteel.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -613,7 +613,7 @@ An OSB wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![OsbWood](images/appearances/OsbWood.png)
+![OsbWood](images/appearances/OsbWood.thumbnail.png)
 
 %end
 
@@ -628,7 +628,7 @@ OsbWood {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/OsbWood.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -649,7 +649,7 @@ A painted wood material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![PaintedWood](images/appearances/PaintedWood.png)
+![PaintedWood](images/appearances/PaintedWood.thumbnail.png)
 
 %end
 
@@ -664,7 +664,7 @@ PaintedWood {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/PaintedWood.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -685,7 +685,7 @@ A wooden material in a tesselated block pattern covered with a layer of varnish.
 
 %figure
 
-![Parquetry](images/appearances/Parquetry.png)
+![Parquetry](images/appearances/Parquetry.thumbnail.png)
 
 %end
 
@@ -700,7 +700,7 @@ Parquetry {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Parquetry.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -721,7 +721,7 @@ A plaster material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Plaster](images/appearances/Plaster.png)
+![Plaster](images/appearances/Plaster.thumbnail.png)
 
 %end
 
@@ -736,7 +736,7 @@ Plaster {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Plaster.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plaster.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Plaster.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -757,7 +757,7 @@ A tiled brick material. Useful with the `Wall` PROTO.
 
 %figure
 
-![RedBricks](images/appearances/RedBricks.png)
+![RedBricks](images/appearances/RedBricks.thumbnail.png)
 
 %end
 
@@ -771,7 +771,7 @@ RedBricks {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/RedBricks.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -790,7 +790,7 @@ A rough concrete material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![RoughConcrete](images/appearances/RoughConcrete.png)
+![RoughConcrete](images/appearances/RoughConcrete.thumbnail.png)
 
 %end
 
@@ -805,7 +805,7 @@ RoughConcrete {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/RoughConcrete.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -826,7 +826,7 @@ A rough oak material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughOak](images/appearances/RoughOak.png)
+![RoughOak](images/appearances/RoughOak.thumbnail.png)
 
 %end
 
@@ -841,7 +841,7 @@ RoughOak {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/RoughOak.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -862,7 +862,7 @@ A pine wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughPine](images/appearances/RoughPine.png)
+![RoughPine](images/appearances/RoughPine.thumbnail.png)
 
 %end
 
@@ -877,7 +877,7 @@ RoughPine {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/RoughPine.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -898,7 +898,7 @@ A rough plaster material. Useful with the `Wall` PROTO.
 
 %figure
 
-![Roughcast](images/appearances/Roughcast.png)
+![Roughcast](images/appearances/Roughcast.thumbnail.png)
 
 %end
 
@@ -913,7 +913,7 @@ Roughcast {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Roughcast.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -968,7 +968,7 @@ The color can be overridden using the `colorOverride` field and the amount of ru
 
 %figure
 
-![RustyMetal](images/appearances/RustyMetal.png)
+![RustyMetal](images/appearances/RustyMetal.thumbnail.png)
 
 %end
 
@@ -984,7 +984,7 @@ RustyMetal {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/RustyMetal.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1007,7 +1007,7 @@ A sandy ground material. The color can be selected using the `colorOverride` fie
 
 %figure
 
-![SandyGround](images/appearances/SandyGround.png)
+![SandyGround](images/appearances/SandyGround.thumbnail.png)
 
 %end
 
@@ -1022,7 +1022,7 @@ SandyGround {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/SandyGround.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1043,7 +1043,7 @@ A screw thread material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![ScrewThread](images/appearances/ScrewThread.png)
+![ScrewThread](images/appearances/ScrewThread.thumbnail.png)
 
 %end
 
@@ -1058,7 +1058,7 @@ ScrewThread {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/ScrewThread.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1079,7 +1079,7 @@ A shiny leather material. The color can be selected using the `colorOverride` fi
 
 %figure
 
-![ShinyLeather](images/appearances/ShinyLeather.png)
+![ShinyLeather](images/appearances/ShinyLeather.thumbnail.png)
 
 %end
 
@@ -1094,7 +1094,7 @@ ShinyLeather {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/ShinyLeather.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1115,7 +1115,7 @@ A square pavement material. The color can be overridden using the `colorOverride
 
 %figure
 
-![SquarePavement](images/appearances/SquarePavement.png)
+![SquarePavement](images/appearances/SquarePavement.thumbnail.png)
 
 %end
 
@@ -1130,7 +1130,7 @@ SquarePavement {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SquarePavement.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/SquarePavement.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1151,7 +1151,7 @@ A stone pavement material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![StonePavement](images/appearances/StonePavement.png)
+![StonePavement](images/appearances/StonePavement.thumbnail.png)
 
 %end
 
@@ -1166,7 +1166,7 @@ StonePavement {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/StonePavement.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/StonePavement.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/StonePavement.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1187,7 +1187,7 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %figure
 
-![ThreadMetalPlate](images/appearances/ThreadMetalPlate.png)
+![ThreadMetalPlate](images/appearances/ThreadMetalPlate.thumbnail.png)
 
 %end
 
@@ -1202,7 +1202,7 @@ ThreadMetalPlate {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/ThreadMetalPlate.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1223,7 +1223,7 @@ A pine wood material covered with a layer of varnish. The color can be overridde
 
 %figure
 
-![VarnishedPine](images/appearances/VarnishedPine.png)
+![VarnishedPine](images/appearances/VarnishedPine.thumbnail.png)
 
 %end
 
@@ -1238,7 +1238,7 @@ VarnishedPine {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/VarnishedPine.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -1259,7 +1259,7 @@ A wire fence material. The color can be overridden using the `colorOverride` fie
 
 %figure
 
-![WireFence](images/appearances/WireFence.png)
+![WireFence](images/appearances/WireFence.thumbnail.png)
 
 %end
 
@@ -1274,7 +1274,7 @@ WireFence {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/WireFence.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WireFence.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/WireFence.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
