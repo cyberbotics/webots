@@ -163,7 +163,7 @@ webots.View = class View {
     this.animation = new Animation(url, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode) {
+  open(url, mode, texturePathPrefix = '') {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';
@@ -322,7 +322,7 @@ webots.View = class View {
       this.x3dDiv.className = 'webots3DView';
       this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
-      this.x3dScene.init();
+      this.x3dScene.init(texturePathPrefix);
       var param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;

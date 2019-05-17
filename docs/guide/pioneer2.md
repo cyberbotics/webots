@@ -34,5 +34,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### pioneer2.wbt
 
-![pioneer2.wbt.png](images/robots/pioneer2/pioneer2.wbt.png) In this example, you can see a Pioneer 2 robot moving inside an arena while avoiding the walls.
+![pioneer2.wbt.png](images/robots/pioneer2/pioneer2.wbt.thumbnail.jpg) In this example, you can see a Pioneer 2 robot moving inside an arena while avoiding the walls.
 Like many other examples, this one uses the `braitenberg` controller.

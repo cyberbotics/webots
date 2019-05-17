@@ -114,7 +114,7 @@ void WbPointLight::updateOptionalRendering(int option) {
 }
 
 void WbPointLight::updateAttenuation() {
-  if (WbFieldChecker::checkVector3IsNonNegative(this, mAttenuation, WbVector3()))
+  if (WbFieldChecker::resetVector3IfNegative(this, mAttenuation, WbVector3()))
     return;
 
   checkAmbientAndAttenuationExclusivity();
@@ -130,7 +130,7 @@ void WbPointLight::updateLocation() {
 }
 
 void WbPointLight::updateRadius() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mRadius, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mRadius, 0.0))
     return;
 
   if (areWrenObjectsInitialized())

@@ -221,19 +221,19 @@ void WbGps::postFinalize() {
 }
 
 void WbGps::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbGps::updateSpeedNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mSpeedNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mSpeedNoise, 0.0);
 }
 
 void WbGps::updateSpeedResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mSpeedResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mSpeedResolution, -1.0, -1.0);
 }
 
 void WbGps::updateCorrelation() {
-  WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mNoiseCorrelation, 0.0, 1.0, 0.0);
+  WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mNoiseCorrelation, 0.0, 1.0, 0.0);
 }
 
 void WbGps::updateCoordinateSystem() {

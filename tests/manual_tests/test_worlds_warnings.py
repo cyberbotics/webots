@@ -54,7 +54,7 @@ class TestWorldsWarnings(unittest.TestCase):
             else:
                 self.webotsFullPath = '..' + os.sep + '..' + os.sep + webotsBinary
             if not os.path.isfile(self.webotsFullPath):
-                print 'Error: ' + webotsBinary + ' binary not found'
+                print('Error: ' + webotsBinary + ' binary not found')
                 sys.exit(1)
             self.webotsFullPath = os.path.normpath(self.webotsFullPath)
 

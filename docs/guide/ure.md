@@ -42,7 +42,7 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### [ure.wbt](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/worlds/ure.wbt)
 
-![ure.wbt.png](images/robots/ure/ure.wbt.png) This simulation shows an UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
+![ure.wbt.png](images/robots/ure/ure.wbt.thumbnail.jpg) This simulation shows an UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
 
 ### ROS
 

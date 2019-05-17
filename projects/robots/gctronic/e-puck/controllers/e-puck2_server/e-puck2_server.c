@@ -122,7 +122,7 @@ static bool socket_cleanup() {
 static int create_socket_server(int port) {
   int sfd, rc;
   struct sockaddr_in address;
-  if (socket_init() == -1)
+  if (!socket_init())
     return -1;
   sfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sfd == -1) {
@@ -198,9 +198,7 @@ int main(int argc, char *argv[]) {
   image_buffer[0] = 0x01;
   while (wb_robot_step(time_step) != -1) {
     play_melody_step(time_step);
-    int n;
     struct timeval tv = {0, 0};
-    int number;
     if (fd == 0) {
       fd = socket_accept(sfd);
       if (fd > 0)
@@ -211,9 +209,9 @@ int main(int argc, char *argv[]) {
     if (fd) {
       FD_ZERO(&rfds);
       FD_SET(fd, &rfds);
-      number = select(fd + 1, &rfds, NULL, NULL, &tv);
+      int number = select(fd + 1, &rfds, NULL, NULL, &tv);
       if (number != 0) {
-        n = recv(fd, (char *)command_buffer, 21, 0);
+        int n = recv(fd, (char *)command_buffer, 21, 0);
         if (n < 0) {
 #ifdef _WIN32
           int e = WSAGetLastError();

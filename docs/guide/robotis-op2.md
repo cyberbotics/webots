@@ -779,7 +779,7 @@ sudo apt-get purge bluez-alsa
 
 #### soccer.wbt
 
-![soccer.wbt.png](images/robots/robotis-op2/soccer.wbt.png) This is a very complete example which used the three managers and almost all of the sensors.
+![soccer.wbt.png](images/robots/robotis-op2/soccer.wbt.thumbnail.jpg) This is a very complete example which used the three managers and almost all of the sensors.
 The controller is a very simple soccer player.
 It relies on most of the tools used in previous examples.
 We recommend you to study it by yourself and of course to improve it.
@@ -792,7 +792,7 @@ But we recommend you to test it on a soft ground and away from any source of dan
 
 #### symmetry.wbt
 
-![symmetry.wbt.png](images/robots/robotis-op2/symmetry.wbt.png) This example is very basic and explains the use of the motors.
+![symmetry.wbt.png](images/robots/robotis-op2/symmetry.wbt.thumbnail.jpg) This example is very basic and explains the use of the motors.
 It starts by setting the motor force of the three motors of the right arm to zero in order to completely release this arm.
 Then, in an infinite loop, the position of the previous three motors is read and displayed.
 Finally, still in the loop, the opposite position of each motor of the right arm is applied to the corresponding motor of the left arm in order to mimic the motion of the right arm.
@@ -817,7 +817,7 @@ A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSI
 
 #### visual\_tracking.wbt
 
-![visual_tracking.wbt.png](images/robots/robotis-op2/visual_tracking.wbt.png) This example illustrates the use of the camera (including the [Vision Manager](#vision-manager)) and the use of the RGB [LEDs](../reference/led.md).
+![visual_tracking.wbt.png](images/robots/robotis-op2/visual_tracking.wbt.thumbnail.jpg) This example illustrates the use of the camera (including the [Vision Manager](#vision-manager)) and the use of the RGB [LEDs](../reference/led.md).
 
 In the infinite loop the [Vision Manager](#vision-manager) is used to find the red ball.
 Then, if the ball has been found the head led is set to green and otherwise to red.
@@ -844,7 +844,7 @@ This example can also be used as a tool to tune the parameters of the [Vision Ma
 
 #### walk.wbt
 
-![walk.wbt.png](images/robots/robotis-op2/walk.wbt.png) This example illustrates the use of the [Gait Manager](#gait-manager) and [Motion manager](#motion-manager), the use of the keyboard, and also the use of the accelerometer.
+![walk.wbt.png](images/robots/robotis-op2/walk.wbt.thumbnail.jpg) This example illustrates the use of the [Gait Manager](#gait-manager) and [Motion manager](#motion-manager), the use of the keyboard, and also the use of the accelerometer.
 
 At the beginning of the controller, the [Motion manager](#motion-manager) is used to make the robot stand up, then the controller enters an infinite loop:
 - The first thing done in the loop is to check if the robot has not fallen down, this is achieved by using the accelerometer.

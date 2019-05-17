@@ -106,7 +106,7 @@ void WbTouchSensor::updateType() {
 }
 
 void WbTouchSensor::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbTouchSensor::handleMessage(QDataStream &stream) {
