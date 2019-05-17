@@ -8,6 +8,6 @@ selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
 textFiles: 0 "controllers/telemax_demo/telemax_demo.c"
-renderingDevicePerspectives: telemax:gripper camera;1;0.389063;0.76106;0.696126
-renderingDevicePerspectives: telemax:camera 1;0;1;0.78607;0
-renderingDevicePerspectives: telemax:camera 0;1;1;0;0
+renderingDevicePerspectives: telemax:gripper camera;1;0.5;0.711671;0.645278
+renderingDevicePerspectives: telemax:camera 1;0;1;0.424866;0
+renderingDevicePerspectives: telemax:camera 0;1;0.50133;0;0
