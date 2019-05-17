@@ -587,6 +587,11 @@ function highlightCode(view) {
   }
 }
 
+function toogleFullscreen(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  robotComponent.requestFullscreen();
+}
+
 function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
   var robotComponent = getRobotComponentByRobotName(robot);
