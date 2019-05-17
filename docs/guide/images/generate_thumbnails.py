@@ -21,10 +21,10 @@ import fnmatch
 
 from PIL import Image
 
-pathes = {
-    'samples': (256, 256),
-    'appearances': (512, 512),
-}
+pathes = [
+    ['samples', 'jpg', 256, 256],
+    ['appearances', 'png', 512, 512]
+]
 
 skipped = [
     'samples/mybot.png'
@@ -33,18 +33,21 @@ skipped = [
 images = []
 
 # list images from 'pathes'
-for path, size in pathes.items():
-    for image in glob.glob(path + os.sep + "*.png"):
+for path in pathes:
+    for image in glob.glob(path[0] + os.sep + "*.png"):
         if image not in skipped:
-            images.append([image, size])
+            images.append([image, path[1], path[2], path[3]])
 
 # specific robot worlds case
 for rootPath, dirNames, fileNames in os.walk('robots'):
     for fileName in fnmatch.filter(fileNames, '*.wbt.png'):
-        images.append([os.path.join(rootPath, fileName), (256, 256)])
+        images.append([os.path.join(rootPath, fileName), 'jpg', 256, 256])
 
 for image in images:
-    print('Generating thumbnail(%dx%d) for: %s' % (image[1][0], image[1][1], image[0]))
+    print('Generating thumbnail(%dx%d) for: %s' % (image[2], image[3], image[0]))
     im = Image.open(image[0])
-    im.thumbnail(image[1])
-    im.convert('RGB').save(image[0].replace('.png', '.thumbnail.jpg'), 'JPEG')
+    im.thumbnail((image[2], image[3]))
+    if image[1] == 'jpg':
+        im.convert('RGB').save(image[0].replace('.png', '.thumbnail.jpg'), 'JPEG')
+    else:
+        im.save(image[0].replace('.png', '.thumbnail.png'), 'PNG')

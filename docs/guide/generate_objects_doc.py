@@ -187,7 +187,7 @@ for proto in prioritaryProtoList + fileList:
 
         imagePath = 'images/objects/%s/%s/model.png' % (category, protoName)
         if upperCategory == 'projects':
-            imagePath = 'images/%s/%s.thumbnail.jpg' % (category, protoName)
+            imagePath = 'images/%s/%s.thumbnail.png' % (category, protoName)
         if os.path.isfile(imagePath):
             file.write('%figure\n\n')
             file.write('![%s](%s)\n\n' % (protoName, imagePath))
