@@ -232,8 +232,10 @@ elif options.appearance:
                         parameters = data[protoName]
                         if 'fields' in parameters:
                             nodeString += parameters['fields']
+                    else:
+                        continue
                     nodeString += ' } '
-                    nodeString += 'geometry Sphere { subdivision 6 } } ] }'
+                    nodeString += 'geometry Sphere { subdivision 5 } } ] }'
 
                     objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
                     if not os.path.exists(objectDirectory):
