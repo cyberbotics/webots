@@ -61,6 +61,7 @@ int main(int argc, char **argv) {
   WbDeviceTag camera_pan = wb_robot_get_device("camera 0 pan motor");
   WbDeviceTag camera_tilt = wb_robot_get_device("camera 0 tilt motor");
   WbDeviceTag camera = wb_robot_get_device("camera 0");
+  WbDeviceTag camera_led = wb_robot_get_device("camera 0 led");
 
   // go out of the box
   wb_motor_set_position(front_left_track, INFINITY);
@@ -79,6 +80,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_left_track, 0.0);
   wb_motor_set_velocity(rear_right_track, 0.0);
   wb_camera_enable(camera, TIME_STEP);
+  wb_led_set(camera_led, 100);
   wb_motor_set_position(camera_pan, 1.0);
   wait(2000);
   wb_motor_set_position(camera_pan, -1.0);
