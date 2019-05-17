@@ -19,6 +19,8 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; sudo update-java-alternatives --list; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; sudo update-alternatives --config java; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo update-alternatives --config javac; fi
 install:
   - pip install -r tests/sources/requirements.txt
