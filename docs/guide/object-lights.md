@@ -26,6 +26,7 @@ CeilingLight {
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFBool     pointLightCastShadows      FALSE
+  SFBool     castShadows                TRUE
 }
 ```
 
@@ -54,6 +55,8 @@ CeilingLight {
 
 - `pointLightCastShadows`: Defines whether the point light should cast shadows.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## DoubleFluorescentLamp
 
 A double fluorescent lamp.
@@ -76,7 +79,7 @@ DoubleFluorescentLamp {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/omichel/webots/tree/master/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

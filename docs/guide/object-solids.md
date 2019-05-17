@@ -23,6 +23,7 @@ SolidBox {
   SFString   contactMaterial "default"
   SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics         NULL
+  SFBool     castShadows     TRUE
 }
 ```
 
@@ -36,6 +37,8 @@ SolidBox {
 - `size`: Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
 
 - `appearance`: Defines the appearance of the box.
+
+- `castShadows`: Defines whether this object should cast shadows.
 
 ## SolidPipe
 
