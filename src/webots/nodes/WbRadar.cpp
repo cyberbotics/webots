@@ -165,7 +165,7 @@ void WbRadar::updateOptionalRendering(int option) {
 }
 
 void WbRadar::updateMinRange() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMinRange, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMinRange, 0.0);
   if (mMaxRange->value() <= mMinRange->value()) {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
@@ -185,7 +185,7 @@ void WbRadar::updateMinRange() {
 }
 
 void WbRadar::updateMaxRange() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMaxRange, mMinRange->value() + 1.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMaxRange, mMinRange->value() + 1.0);
 
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
@@ -198,19 +198,19 @@ void WbRadar::updateMaxRange() {
 }
 
 void WbRadar::updateHorizontalFieldOfView() {
-  WbFieldChecker::checkDoubleInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mHorizontalFieldOfView, 0.0, 2 * M_PI, 0.78);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
 void WbRadar::updateVerticalFieldOfView() {
-  WbFieldChecker::checkDoubleInRangeWithExcludedBounds(this, mVerticalFieldOfView, 0.0, M_PI_2, 0.1);
+  WbFieldChecker::resetDoubleIfNotInRangeWithExcludedBounds(this, mVerticalFieldOfView, 0.0, M_PI_2, 0.1);
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
 
 void WbRadar::updateMinAbsoluteRadialSpeed() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mMinAbsoluteRadialSpeed, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mMinAbsoluteRadialSpeed, 0.0);
 }
 
 void WbRadar::updateMinAndMaxRadialSpeed() {
@@ -228,27 +228,27 @@ void WbRadar::updateMinAndMaxRadialSpeed() {
 }
 
 void WbRadar::updateCellDistance() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCellDistance, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCellDistance, 0.0);
 }
 
 void WbRadar::updateCellSpeed() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCellSpeed, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCellSpeed, 0.0);
 }
 
 void WbRadar::updateRangeNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mRangeNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mRangeNoise, 0.0);
 }
 
 void WbRadar::updateSpeedNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mSpeedNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mSpeedNoise, 0.0);
 }
 
 void WbRadar::updateAngularNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mAngularNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mAngularNoise, 0.0);
 }
 
 void WbRadar::updateFrequency() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mFrequency, 24.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mFrequency, 24.0);
   updateReceivedPowerFactor();
 }
 

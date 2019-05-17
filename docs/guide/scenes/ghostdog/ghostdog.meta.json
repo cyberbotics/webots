@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "ghostdog", 
   "devices": [
     {
-      "transformID": "n50", 
+      "transformID": "n43", 
+      "initialPosition": 0, 
       "name": "head", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n93", 
+      "transformID": "n79", 
+      "initialPosition": 0, 
       "name": "hip0", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -20,7 +23,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n208", 
+      "transformID": "n178", 
+      "initialPosition": 0, 
       "name": "hip1", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -29,7 +33,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n144", 
+      "transformID": "n123", 
+      "initialPosition": 0, 
       "name": "hip2", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -38,7 +43,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n259", 
+      "transformID": "n222", 
+      "initialPosition": 0, 
       "name": "hip3", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -47,7 +53,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n112", 
+      "transformID": "n95", 
+      "initialPosition": 0.7, 
       "name": "knee0", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -56,7 +63,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n227", 
+      "transformID": "n194", 
+      "initialPosition": 0.7, 
       "name": "knee1", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -65,7 +73,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n163", 
+      "transformID": "n139", 
+      "initialPosition": 0.7, 
       "name": "knee2", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -74,7 +83,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n278", 
+      "transformID": "n238", 
+      "initialPosition": 0.7, 
       "name": "knee3", 
       "maxPosition": 1.5708, 
       "position": 0, 
@@ -83,7 +93,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n22", 
+      "transformID": "n19", 
+      "initialPosition": 2.3562, 
       "name": "neck0", 
       "maxPosition": 1, 
       "position": 0, 
@@ -92,7 +103,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n36", 
+      "transformID": "n31", 
+      "initialPosition": 0.7854, 
       "name": "neck1", 
       "maxPosition": 0.6, 
       "position": 0, 
@@ -101,7 +113,8 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n195", 
+      "transformID": "n167", 
+      "initialPosition": 0, 
       "name": "spine", 
       "maxPosition": 0.6, 
       "position": 0, 
@@ -110,32 +123,32 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n60", 
+      "transformID": "n51", 
       "type": "Camera", 
       "name": "left camera"
     }, 
     {
-      "transformID": "n66", 
+      "transformID": "n56", 
       "type": "Camera", 
       "name": "right camera"
     }, 
     {
-      "transformID": "n121", 
+      "transformID": "n103", 
       "type": "TouchSensor", 
       "name": "touch0"
     }, 
     {
-      "transformID": "n236", 
+      "transformID": "n202", 
       "type": "TouchSensor", 
       "name": "touch1"
     }, 
     {
-      "transformID": "n172", 
+      "transformID": "n147", 
       "type": "TouchSensor", 
       "name": "touch2"
     }, 
     {
-      "transformID": "n287", 
+      "transformID": "n246", 
       "type": "TouchSensor", 
       "name": "touch3"
     }

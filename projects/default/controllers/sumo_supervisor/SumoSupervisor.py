@@ -524,7 +524,7 @@ class SumoSupervisor (Supervisor):
             try:
                 self.traci.simulationStep()
             except self.traci.exceptions.FatalTraCIError:
-                print ("Sumo closed")
+                print("Sumo closed")
                 self.sumoClosed = True
                 break
 

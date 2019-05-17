@@ -63,11 +63,11 @@ void WbPositionSensor::postFinalize() {
 }
 
 void WbPositionSensor::updateNoise() {
-  WbFieldChecker::checkDoubleIsNonNegative(this, mNoise, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mNoise, 0.0);
 }
 
 void WbPositionSensor::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbPositionSensor::writeConfigure(QDataStream &stream) {

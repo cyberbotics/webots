@@ -135,7 +135,7 @@ void WbMuscle::postFinalize() {
 }
 
 void WbMuscle::updateVolume() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mVolume, 0.2))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mVolume, 0.2))
     return;
 
   // field check

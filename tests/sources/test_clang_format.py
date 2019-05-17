@@ -20,6 +20,7 @@ import unittest
 import difflib
 import os
 import subprocess
+import sys
 import fnmatch
 
 from distutils.spawn import find_executable
@@ -90,7 +91,7 @@ class TestClangFormat(unittest.TestCase):
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
         clangFormatCommand = "clang-format"
-        if 'TRAVIS' in os.environ:
+        if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
             clangFormatCommand = "clang-format-5.0"
         return subprocess.check_output([clangFormatCommand, "-style=file", f])
 
@@ -109,12 +110,19 @@ class TestClangFormat(unittest.TestCase):
         """Test that sources are ClangFormat compliant."""
         for source in self.sources:
             diff = ''
-            for line in difflib.context_diff(self._runClangFormat(source).splitlines(), open(source).read().splitlines()):
-                diff += line + '\n'
-            self.assertTrue(
-                len(diff) == 0,
-                msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
-            )
+            with open(source) as file:
+                if sys.version_info[0] < 3:
+                    for line in difflib.context_diff(self._runClangFormat(source).splitlines(),
+                                                     file.read().splitlines()):
+                        diff += line + '\n'
+                else:
+                    for line in difflib.context_diff(self._runClangFormat(source).decode('utf-8').splitlines(),
+                                                     file.read().splitlines()):
+                        diff += line + '\n'
+                self.assertTrue(
+                    len(diff) == 0,
+                    msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
+                )
 
 
 if __name__ == '__main__':

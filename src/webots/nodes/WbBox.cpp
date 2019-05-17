@@ -135,7 +135,7 @@ void WbBox::rescale(const WbVector3 &scale) {
 }
 
 bool WbBox::sanitizeFields() {
-  if (WbFieldChecker::checkVector3IsPositive(this, mSize, WbVector3(1.0, 1.0, 1.0)))
+  if (WbFieldChecker::resetVector3IfNonPositive(this, mSize, WbVector3(1.0, 1.0, 1.0)))
     return false;
 
   return true;

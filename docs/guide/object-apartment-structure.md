@@ -21,6 +21,7 @@ Ceiling {
   SFVec2f    size             10 10
   SFNode     appearance       Roughcast { textureTransform TextureTransform { scale 10 10 } }
   SFBool     locked           TRUE
+  SFBool     castShadows      TRUE
 }
 ```
 
@@ -34,6 +35,8 @@ Ceiling {
 - `size`: Defines the size of the ceiling.
 
 - `appearance`: Defines the appearance of the ceiling.
+
+- `castShadows`: Defines whether this object should cast shadows.
 
 ## Door
 
@@ -64,6 +67,7 @@ Door {
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
   SFNode     doorHandle             DoorLever {}
+  SFBool     castShadows            TRUE
 }
 ```
 
@@ -98,6 +102,8 @@ Door {
 
 - `doorHandle`: Defines an optional door handle.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## DoorKnob
 
 A door knob.
@@ -121,6 +127,7 @@ DoorKnob {
   SFFloat    distanceFromDoor 0.065
   SFNode     appearance       BrushedAluminium {}
   SFFloat    mass             0.7
+  SFBool     castShadows      TRUE
 }
 ```
 
@@ -140,6 +147,8 @@ DoorKnob {
 - `appearance`: Defines the appearance of the handle.
 
 - `mass`: Defines the mass of the handle.
+
+- `castShadows`: Defines whether this object should cast shadows.
 
 ## DoorLever
 
@@ -168,6 +177,7 @@ DoorLever {
   SFNode     appearance       BrushedAluminium {}
   SFFloat    mass             0.7
   SFBool     hasStaticParent  FALSE
+  SFBool     castShadows      TRUE
 }
 ```
 
@@ -195,6 +205,8 @@ DoorLever {
 - `mass`: Defines the mass of the lever.
 
 - `hasStaticParent`: Defines whether the parent door has physics or not.
+
+- `castShadows`: Defines whether this object should cast shadows.
 
 ## GenericDoorAppearance
 
@@ -250,7 +262,7 @@ Radiator {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/Radiator.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/Radiator.proto](https://github.com/omichel/webots/tree/master/projects/objects/apartment_structure/protos/Radiator.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -319,7 +331,7 @@ WallPlug {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/apartment_structure/protos/WallPlug.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/apartment\_structure/protos/WallPlug.proto](https://github.com/omichel/webots/tree/master/projects/objects/apartment_structure/protos/WallPlug.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -357,6 +369,7 @@ Window {
   SFVec2f    windowSillSize         0.1 0.05
   SFNode     wallAppearance         Roughcast {}
   SFNode     frameAppearance        VarnishedPine {}
+  SFBool     castShadows            TRUE
 }
 ```
 
@@ -382,4 +395,6 @@ Window {
 - `wallAppearance`: Defines the appearance of the wall.
 
 - `frameAppearance`: Defines the appearance of the frame.
+
+- `castShadows`: Defines whether this object should cast shadows.
 

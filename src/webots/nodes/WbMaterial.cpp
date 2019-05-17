@@ -93,42 +93,42 @@ const WbRgb &WbMaterial::diffuseColor() const {
 }
 
 void WbMaterial::updateAmbientIntensity() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0, 0.5))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0, 0.5))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbMaterial::updateDiffuseColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mDiffuseColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mDiffuseColor))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbMaterial::updateEmissiveColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mEmissiveColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mEmissiveColor))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbMaterial::updateShininess() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mShininess, 0.0, 1.0, 0.5))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mShininess, 0.0, 1.0, 0.5))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbMaterial::updateSpecularColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mSpecularColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mSpecularColor))
     return;
   if (isPostFinalizedCalled())
     emit changed();
 }
 
 void WbMaterial::updateTransparency() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.5))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mTransparency, 0.0, 1.0, 0.5))
     return;
   if (isPostFinalizedCalled())
     emit changed();

@@ -253,7 +253,7 @@ void WbBackground::destroySkyBox() {
 }
 
 void WbBackground::updateColor() {
-  if (WbFieldChecker::checkMultipleColorIsValid(this, mSkyColor))
+  if (WbFieldChecker::resetMultipleColorIfInvalid(this, mSkyColor))
     return;
 
   if (areWrenObjectsInitialized())

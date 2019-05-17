@@ -9,7 +9,7 @@ projects/robots/k-team/khepera3/worlds/khepera3_gripper.wbt 20
 projects/robots/kuka/youbot/worlds/youbot.wbt 40
 projects/robots/robotis/darwin-op/worlds/robotis_op3_motion_player.wbt 20
 projects/samples/rendering/worlds/animated_skin.wbt 30
-projects/robots/tinkerbots/worlds/tinkerbots_demo.wbt 20
+projects/robots/kinematics/tinkerbots/worlds/tinkerbots_demo.wbt 20
 projects/robots/irobot/create/worlds/create.wbt 60
 projects/samples/demos/worlds/stewart_platform.wbt 26
 projects/vehicles/worlds/city.wbt 60

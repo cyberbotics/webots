@@ -110,7 +110,7 @@ Projection.initProjection(long0, lat0, options.projection)
 
 # Deal with the `extract-projection` argument
 if options.extractProjection:
-    print (Projection.getProjectionString())
+    print(Projection.getProjectionString())
     sys.exit()
 
 # apply options to Webots objects

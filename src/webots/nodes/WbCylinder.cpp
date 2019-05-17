@@ -134,7 +134,7 @@ void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
 }
 
 bool WbCylinder::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
       !WbNodeUtilities::hasAUseNodeAncestor(this)) {
@@ -145,10 +145,10 @@ bool WbCylinder::sanitizeFields() {
     return false;
   }
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHeight, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
     return false;
 
   return true;

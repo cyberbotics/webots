@@ -40,4 +40,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### moose\_demo.wbt
 
-![moose_demo.wbt.png](images/robots/moose/moose_demo.wbt.png) This simulation shows a Moose robot following a predefined path on an uneven terrain. It carries a cardboard box.
+![moose_demo.wbt.png](images/robots/moose/moose_demo.wbt.thumbnail.jpg) This simulation shows a Moose robot following a predefined path on an uneven terrain. It carries a cardboard box.
