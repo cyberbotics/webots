@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.3699071543957626 0.915814665331046 0.1563719792399313 0.8244083600963587
-  position 2.5790363019353095 1.6853486376365676 2.6521773002912847
+  orientation 0.39760196753164145 -0.9028479208619474 -0.16364078712297253 5.466393935447413
+  position 2.4408034928434184 1.673220223837429 2.6491476661058186
   ambientOcclusionRadius 0.19999999999999998
 }
 TexturedBackground {
@@ -13,7 +13,9 @@ TexturedBackgroundLight {
   texture "music_hall"
 }
 Floor {
-  appearance VarnishedPine {
+  size 6 6
+  tileSize 1 1
+  appearance Parquetry {
   }
 }
 WrestlingRing {
