@@ -81,5 +81,5 @@ wb_*.ts: $(WEBOTS_SOURCES)
 	@echo "# updating $@"
 	@$(LUPDATE) $(LUPDATE_FLAGS) $(WEBOTS_SRC_PATH) -ts $@
 
-clean:
+clean cleanse:
 	rm -f *.qm

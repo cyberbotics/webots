@@ -14,12 +14,21 @@
 
 TARGETS=plugins/physics.Makefile libraries/qt_utils.Makefile plugins/robot_windows/generic.Makefile plugins/robot_windows/generic_window.Makefile controllers/void.Makefile
 
-.PHONY: release debug profile clean
+
+ifeq ($(MAKECMDGOALS),cleanse)
+MAKETARGET = clean
+else
+MAKETARGET = $(MAKECMDGOALS)
+endif
+
+.PHONY: release debug profile clean cleanse
+
+cleanse: clean
 
 release debug profile clean: $(TARGETS)
 
 plugins/robot_windows/generic_window.Makefile: libraries/qt_utils.Makefile
 
 %.Makefile:
-	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
-	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+	+@echo "# make" $(MAKETARGET) $(@:.Makefile=)
+	+@make -s -C $(@:.Makefile=) $(MAKETARGET)

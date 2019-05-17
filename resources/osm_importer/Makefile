@@ -16,6 +16,8 @@ release debug profile:
 	@echo "# make gui utility"
 	+@make -s -C osm_gui $@ ;
 
+cleanse: clean
+
 clean:
 	+@make -s -C osm_gui $@ ;
 	@-rm -rf *.pyc webots_objects/*.pyc utils/*.pyc
