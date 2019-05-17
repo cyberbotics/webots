@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.34038650694068734 0.9262123457637164 0.1620731823825008 0.9108688386658816
-  position 3.1874273372747868 1.979675960787358 2.716704002369045
+  orientation -0.3699071543957626 0.915814665331046 0.1563719792399313 0.8244083600963587
+  position 2.5790363019353095 1.6853486376365676 2.6521773002912847
   ambientOcclusionRadius 0.19999999999999998
 }
 TexturedBackground {
@@ -13,10 +13,7 @@ TexturedBackgroundLight {
   texture "music_hall"
 }
 Floor {
-  appearance Parquetry {
-    textureTransform TextureTransform {
-      scale 0.3333 0.3333
-    }
+  appearance VarnishedPine {
   }
 }
 WrestlingRing {
@@ -27,6 +24,18 @@ StraightStairs {
   stepSize 0.13 0.03 0.4
   stepRise 0.0835
   stringerWidth 0.03
+  stepAppearance VarnishedPine {
+    colorOverride 0.478431 0.39999999999999997 0.341176
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
+  stringerAppearance VarnishedPine {
+    colorOverride 0.478431 0.39999999999999997 0.341176
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
   leftRail []
   rightRail []
 }
@@ -37,6 +46,18 @@ StraightStairs {
   stepSize 0.13 0.03 0.4
   stepRise 0.0835
   stringerWidth 0.03
+  stepAppearance VarnishedPine {
+    colorOverride 0.478431 0.39999999999999997 0.341176
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
+  stringerAppearance VarnishedPine {
+    colorOverride 0.478431 0.39999999999999997 0.341176
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
   leftRail []
   rightRail []
 }
