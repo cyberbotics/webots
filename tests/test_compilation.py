@@ -16,6 +16,7 @@
 
 import glob
 import os
+import sys
 import multiprocessing
 
 from command import Command
@@ -29,4 +30,7 @@ command.run(silent=False)
 if command.returncode != 0:
     raise RuntimeError('Error when executing the Make command')
 
-assert len(glob.glob(path + os.sep + 'distribution' + os.sep + '*')) > 2
+if sys.platform.startswith('linux'):
+    assert len(glob.glob(path + os.sep + 'distribution' + os.sep + '*')) > 2
+else:
+    assert len(glob.glob(path + os.sep + 'distribution' + os.sep + '*')) > 1
