@@ -70,4 +70,6 @@ script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
   - python -m unittest discover -s tests/sources
   - python -m unittest discover -s docs/tests
+  - python3.7 --version
+  - which python3.7
   - travis_wait 45 python tests/test_compilation.py
