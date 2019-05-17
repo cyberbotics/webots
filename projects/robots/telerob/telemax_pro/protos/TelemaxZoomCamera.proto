@@ -3,6 +3,7 @@
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
 # An articulated camera with zoom to be inserted in the camera fields of the Telemax PRO robot.
+# A LED whose name is '<<name>> led' is also included.
 
 PROTO TelemaxZoomCamera [
   field  SFVec3f     translation             0 0 0
