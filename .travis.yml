@@ -20,7 +20,6 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-  - brew upgrade mongodb
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
