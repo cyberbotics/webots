@@ -17,7 +17,7 @@ cache: pip
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
 install:
@@ -53,7 +53,6 @@ addons:
       - libpng12-dev
       - libav-tools
       - python3.5-dev
-      - python3.7-dev
       - openjdk-8-jdk
       - curl
       - libwebpdemux1
