@@ -362,20 +362,18 @@ THREE.X3DLoader = class X3DLoader {
     if (typeof texture !== 'undefined')
       return texture;
 
-    texture = new THREE.Texture();
-
     var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter((n) => { return n; });
     if (filename[0] == null)
       return undefined;
 
+    // create THREE.Texture or THREE.DataTexture based on image extension.
+    texture = TextureLoader.createEmptyTexture(filename[0]);
+
     // Look for already loaded texture or load the texture in an asynchronous way.
     var image = TextureLoader.loadOrRetrieve(filename[0], texture);
     if (typeof image !== 'undefined') { // else it could be updated later
-      if (image.isDataTexture)
-        texture = image.clone();
-      else
-        texture.image = image;
+      texture.image = image;
       texture.needsUpdate = true;
     }
     texture.userData = {

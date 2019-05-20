@@ -3,6 +3,18 @@
 'use strict';
 
 var TextureLoader = {
+  createEmptyTexture: function(name) {
+    if (hasHDRExtension(name)) {
+      var texture = new THREE.DataTexture();
+      texture.encoding = THREE.RGBEEncoding;
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+      texture.flipY = true;
+      return texture;
+    }
+    return new THREE.Texture();
+  },
+
   loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
@@ -85,24 +97,20 @@ class _TextureLoaderObject {
 
     // Load from url.
     var loader;
-    var isHDR = name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
+    var isHDR = hasHDRExtension(name);
     if (isHDR)
       loader = new THREE.RGBELoader();
     else
       loader = new THREE.ImageLoader();
     loader.load(
       name,
-      (image) => {
+      (data) => {
         if (this.loadingTextures[name]) {
-          if (isHDR) {
-            // HDR images are cached as THREE.DataTexture objects
-            // other images are cached as Image objects.
-            image.encoding = THREE.RGBEEncoding;
-            image.minFilter = THREE.NearestFilter;
-            image.magFilter = THREE.NearestFilter;
-            image.flipY = true;
-          }
-          this.loadingTextures[name].data = image;
+          if (isHDR)
+            // HDR loader returns a THREE.DataTexture object
+            this.loadingTextures[name].data = data.image;
+          else // data has Image type
+            this.loadingTextures[name].data = data;
           this._onImageLoaded(name);
         } // else image already loaded
       },
@@ -121,7 +129,7 @@ class _TextureLoaderObject {
     if (!this.loadingTextures[name])
       this.loadingTextures[name] = {objects: [], onLoad: []};
 
-    var isHDR = name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
+    var isHDR = hasHDRExtension(name);
     if (isHDR) {
       var loader = new THREE.HDRTextureLoader();
       loader.load(
@@ -148,7 +156,8 @@ class _TextureLoaderObject {
     this.textures[name] = image;
     var textureObjects = this.loadingTextures[name].objects;
     // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
-    var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
+    var isJPEG = hasJPEGExtension(name);
+    var isHDR = isJPEG ? false : hasHDRExtension(name);
     textureObjects.forEach((textureObject) => {
       if (textureObject instanceof THREE.CubeTexture) {
         var missingImages = this.loadingCubeTextureObjects[textureObject];
@@ -165,12 +174,9 @@ class _TextureLoaderObject {
           delete this.loadingCubeTextureObjects[textureObject];
         }
       } else {
-        if (image.isDataTexture)
-          textureObject = image.clone();
-        else {
-          textureObject.image = image;
+        if (!isHDR)
           textureObject.format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
-        }
+        textureObject.image = image;
         textureObject.needsUpdate = true;
       }
     });
@@ -205,4 +211,12 @@ function flipImage(base64Image) {
 
   // Encode the image to data-uri with base64:
   return offScreenCanvas.toDataURL('image/jpeg', 95);
+}
+
+function hasJPEGExtension(name) {
+  return name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
+}
+
+function hasHDRExtension(name) {
+  return name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
 }
