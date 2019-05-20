@@ -51,7 +51,9 @@ class TestImages(unittest.TestCase):
                 found = False
                 for md_path in book.md_paths:
                     with open(md_path) as file:
-                        if image_path in file.read() or image_path.replace('.png', '.thumbnail.jpg') in images_paths:
+                        if (image_path in file.read() or
+                                image_path.replace('.png', '.thumbnail.jpg') in images_paths or
+                                image_path.replace('.png', '.thumbnail.png') in images_paths):
                             found = True
                             break
                 self.assertTrue(

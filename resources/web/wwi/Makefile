@@ -76,7 +76,7 @@ $(INSTALL_TOKEN): package.json
 cleanse: clean
 	@echo "# uninstalling npm dependencies"
 	@npm --silent uninstall 1> /dev/null
-	@rm -fr node_modules $(INSTALL_TOKEN)
+	@rm -fr node_modules $(INSTALL_TOKEN) package-lock.json
 
 clean:
 	@rm -fr *.min.js $(DEPENDENCIES_PATH)
