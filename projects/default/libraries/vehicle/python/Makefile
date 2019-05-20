@@ -66,14 +66,14 @@ C_FLAGS         = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) 
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
-LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
-PYTHON_INCLUDES = -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
-LIB            += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
-LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifeq ($(PYTHON_SHORT_VERSION), 37)
 PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
 LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
 endif
+LD_FLAGS         = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
+PYTHON_INCLUDES += -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
+LIB             += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
+LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 endif
 
 TARGET = $(PYOUT) $(LIBRARY)
