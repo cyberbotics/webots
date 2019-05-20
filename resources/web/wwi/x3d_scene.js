@@ -349,6 +349,23 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
+  applyEquirectangularBackground(texture) {
+    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: 512 });
+    this.scene.background = cubemapGenerator.renderTarget;
+    /*
+    var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
+    pmremGenerator.update(this.renderer);
+
+    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
+    pmremCubeUVPacker.update(this.renderer);
+
+    this.backgroundEnvMap = pmremCubeUVPacker.CubeUVRenderTarget;
+
+    pmremGenerator.dispose();
+    pmremCubeUVPacker.dispose();
+    */
+  }
+
   // private functions
   _setupLights(directionalLights) {
     if (!this.root)
