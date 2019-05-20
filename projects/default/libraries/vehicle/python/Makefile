@@ -70,6 +70,10 @@ LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERS
 PYTHON_INCLUDES = -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
 LIB            += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
+ifeq ($(PYTHON_SHORT_VERSION), 37)
+PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
+LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+endif
 endif
 
 TARGET = $(PYOUT) $(LIBRARY)
