@@ -68,9 +68,13 @@ endif
 LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LIBS            = -L"$(PYTHON_PATH)/lib" -L"$(BREW_PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
 LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
-PYTHON_INCLUDES = -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m" -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)" -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
+PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)" -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+ifeq ($(PYTHON_SHORT_VERSION), 37)
+PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
+LIBS += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+endif
 endif
 
 ifeq ($(OSTYPE),linux)
