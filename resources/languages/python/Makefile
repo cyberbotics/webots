@@ -73,7 +73,7 @@ LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
 ifeq ($(PYTHON_SHORT_VERSION), 37)
 PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
-LIBS += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
 endif
 endif
 
@@ -102,6 +102,7 @@ release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
+	@echo $(LIBS)
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIBS) -o "$@"
