@@ -6,6 +6,7 @@ Viewpoint {
   orientation 0.3976 -0.9028 -0.1636 5.4664
   position 2.4408 1.6732 2.6491
   ambientOcclusionRadius 0.2
+  bloomThreshold 5
 }
 TexturedBackground {
   texture "music_hall"
