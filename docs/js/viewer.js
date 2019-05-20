@@ -605,17 +605,30 @@ function resetRobotComponent(robot) {
   robotComponent.webotsView.x3dScene.render();
 }
 
-function toggleDeviceComponent(robot) {
-  var deviceMenu = document.querySelector('#' + robot + '-device-component');
-  var robotView = document.querySelector('.robot-view');
-  if (deviceMenu.style.display === 'none') {
+function updateRobotComponentDimension(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var deviceMenu = robotComponent.querySelector('.device-component');
+  var robotView = robotComponent.querySelector('.robot-view');
+
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  if (robotComponent.showDeviceComponent === true) {
     deviceMenu.style.display = '';
     robotView.style.width = '70%';
   } else {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
-  getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
+
+  robotComponent.webotsView.x3dScene.resize();
+}
+
+function toggleDeviceComponent(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
+  updateRobotComponentDimension(robot);
 }
 
 function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
@@ -645,7 +658,7 @@ function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unuse
     else if (element.msRequestFullscreen)
       element.msRequestFullscreen();
   }
-  element.webotsView.x3dScene.resize();
+  updateRobotComponentDimension(robot);
 }
 
 function sliderMotorCallback(transform, slider) {
