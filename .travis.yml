@@ -72,4 +72,5 @@ script:
   - python3 --version
   - python3 tests/tmp.py
   - ls /usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m
+  - ls /usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib
   - travis_wait 45 python tests/test_compilation.py
