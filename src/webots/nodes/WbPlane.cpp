@@ -144,6 +144,8 @@ void WbPlane::createWrenObjects() {
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
 
+  sanitizeFields();
+
   const bool createOutlineMesh = isInBoundingObject();
 
   mWrenMesh = wr_static_mesh_unit_rectangle_new(createOutlineMesh);
@@ -183,7 +185,7 @@ bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 bool WbPlane::sanitizeFields() {
-  if (WbFieldChecker::checkVector2IsPositive(this, mSize, WbVector2(1.0, 1.0)))
+  if (WbFieldChecker::resetVector2IfNonPositive(this, mSize, WbVector2(1.0, 1.0)))
     return false;
 
   return true;
@@ -217,7 +219,7 @@ void WbPlane::updateSize() {
 }
 
 void WbPlane::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -231,9 +233,6 @@ void WbPlane::updateLineScale() {
 }
 
 void WbPlane::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   // allow the bounding sphere to scale down
   float scaleY = 0.1f * std::min(mSize->value().x(), mSize->value().y());
 

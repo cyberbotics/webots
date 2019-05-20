@@ -84,9 +84,15 @@ void WbCapsule::postFinalize() {
 void WbCapsule::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
-  if (isInBoundingObject())
+  if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCapsule::updateLineScale);
 
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
+      // silently reset the subdivision on node initialization
+      mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+  }
+
+  sanitizeFields();
   buildWrenMesh();
 
   emit wrenObjectsCreated();
@@ -119,13 +125,21 @@ bool WbCapsule::areSizeFieldsVisibleAndNotRegenerator() const {
 }
 
 bool WbCapsule::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 4, 1000, 4))
+  if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 4, 1000, 4))
+    return false;
+  if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
+      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
+    warn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
+            "A minimum value of %2 is used for the representation.")
+           .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
+    mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
+    return false;
+  }
+
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
-    return false;
-
-  if (WbFieldChecker::checkDoubleIsPositive(this, mHeight, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mHeight, 1.0))
     return false;
 
   return true;
@@ -137,9 +151,6 @@ void WbCapsule::buildWrenMesh() {
 
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
-
-  if (!sanitizeFields())
-    return;
 
   if (mBottom->isFalse() && mSide->isFalse() && mTop->isFalse())
     return;
@@ -162,9 +173,12 @@ void WbCapsule::buildWrenMesh() {
   setPickable(isPickable());
 
   const bool createOutlineMesh = isInBoundingObject();
+  const int subdivision = (createOutlineMesh && mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION) ?
+                            MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION :
+                            mSubdivision->value();
 
-  mWrenMesh = wr_static_mesh_capsule_new(mSubdivision->value(), mRadius->value(), mHeight->value(), mSide->isTrue(),
-                                         mTop->isTrue(), mBottom->isTrue(), createOutlineMesh);
+  mWrenMesh = wr_static_mesh_capsule_new(subdivision, mRadius->value(), mHeight->value(), mSide->isTrue(), mTop->isTrue(),
+                                         mBottom->isTrue(), createOutlineMesh);
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 }
@@ -270,7 +284,7 @@ void WbCapsule::updateSubdivision() {
 }
 
 void WbCapsule::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;

@@ -89,7 +89,7 @@ void WbIndexedFaceSet::preFinalize() {
 
   WbGeometry::preFinalize();
 
-  WbFieldChecker::checkDoubleIsNonNegative(this, mCreaseAngle, 0.0);
+  WbFieldChecker::resetDoubleIfNegative(this, mCreaseAngle, 0.0);
 
   mMeshKey.set(this);
   WbTriangleMeshCache::useTriangleMesh(this);
@@ -342,7 +342,7 @@ void WbIndexedFaceSet::updateTexCoordIndex() {
 }
 
 void WbIndexedFaceSet::updateCreaseAngle() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mCreaseAngle, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mCreaseAngle, 0.0))
     return;
 
   buildWrenMesh(true);
@@ -707,7 +707,7 @@ void WbIndexedFaceSet::exportNodeContents(WbVrmlWriter &writer) const {
   // need to remove duplicates from the arrays to save space in the
   // saved file and adapt the indexes consequently
 
-  // export the original loaded mesh if we're not writing to x3DOM
+  // export the original loaded mesh if we're not writing to X3D
   if (!writer.isX3d()) {
     WbNode::exportNodeContents(writer);
     return;

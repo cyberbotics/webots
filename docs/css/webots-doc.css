@@ -471,6 +471,10 @@ body {
   background-color: #f0f0f0;
   margin-bottom: 10px;
 }
+.robot-component:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
 .robot-component .robot-view {
   width: 70%;
   height: 100%;
@@ -508,11 +512,17 @@ body {
 .robot-component .menu .menu-button {
   background-image: url(../css/images/menu.png);
 }
+.robot-component .menu .fullscreen-button {
+  background-image: url(../css/images/fullscreen.png);
+}
 .robot-component .menu .reset-button:hover {
   background-image: url(../css/images/reset_hover.png);
 }
 .robot-component .menu .menu-button:hover {
   background-image: url(../css/images/menu_hover.png);
+}
+.robot-component .menu .fullscreen-button:hover {
+  background-image: url(../css/images/fullscreen_hover.png);
 }
 .robot-component .device-component {
   width: 30%;

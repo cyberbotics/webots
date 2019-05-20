@@ -163,17 +163,17 @@ webots.View = class View {
     this.animation = new Animation(url, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode) {
+  open(url, mode, texturePathPrefix = '') {
     this.url = url;
     if (typeof mode === 'undefined')
-      mode = 'x3dom';
+      mode = 'x3d';
     this.mode = mode;
 
     var initWorld = () => {
       if (this.isWebSocketProtocol) {
         this.progress = document.createElement('div');
         this.progress.id = 'webotsProgress';
-        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiUrl() + "images/load_animation.gif'>" +
+        this.progress.innerHTML = "<div><img src='" + DefaultUrl.wwiImagesUrl() + "load_animation.gif'>" +
                                   "</div><div id='webotsProgressMessage'>Initializing...</div>" +
                                   "</div><div id='webotsProgressPercent'></div>";
         this.view3D.appendChild(this.progress);
@@ -308,7 +308,7 @@ webots.View = class View {
       initWorld();
       return;
     }
-    if (mode !== 'x3dom') {
+    if (mode !== 'x3d') {
       console.log('Error: webots.View.open: wrong mode argument: ' + mode);
       return;
     }
@@ -322,7 +322,7 @@ webots.View = class View {
       this.x3dDiv.className = 'webots3DView';
       this.view3D.appendChild(this.x3dDiv);
       this.x3dScene = new X3dScene(this.x3dDiv);
-      this.x3dScene.init();
+      this.x3dScene.init(texturePathPrefix);
       var param = document.createElement('param');
       param.name = 'showProgress';
       param.value = false;

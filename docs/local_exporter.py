@@ -33,7 +33,7 @@ except ImportError:
 def download(url, target_file_path):
     """Download URL to file."""
     if not silent:
-        print ('# downloading %s' % url)
+        print('# downloading %s' % url)
 
     # Prepare the target directory
     target_directory = os.path.dirname(target_file_path)
@@ -87,7 +87,10 @@ if __name__ == "__main__":
                     dependencies.append(line)
     jsString = ''
     cssString = ''
-    repositories = ['https://cyberbotics.com/', 'https://cdnjs.cloudflare.com/ajax/libs/']
+    repositories = [
+        'https://cyberbotics.com/',
+        'https://cdnjs.cloudflare.com/ajax/libs/'
+    ]
     for dependency in dependencies:
         if dependency.endswith('.css'):
             d = dependency

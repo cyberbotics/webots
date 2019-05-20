@@ -1,4 +1,5 @@
 /install.token
+/dependencies
 /node_modules
 /package-lock.json
 /webots.min.js

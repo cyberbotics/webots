@@ -33,7 +33,7 @@ namespace wren {
     // Generic key struct for hashmaps
     struct Key {
       Key();
-      explicit Key(const uint64_t hash);
+      explicit Key(const uint64_t hashValue);
       bool operator==(const Key &other) const;
 
       size_t mHash;

@@ -145,7 +145,7 @@ void WbMuscle::updateRadius() {
     return;
   }
 
-  WbFieldChecker::checkDoubleIsPositive(this, mMaxRadius, 0.2);
+  WbFieldChecker::resetDoubleIfNonPositive(this, mMaxRadius, 0.2);
   mDirectionInverted = false;
   const WbNode *jointNode = motor->parent();
   const WbSliderJoint *slider = dynamic_cast<const WbSliderJoint *>(jointNode);

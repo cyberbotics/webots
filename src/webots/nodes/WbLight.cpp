@@ -151,8 +151,8 @@ void WbLight::createWrenObjects() {
 }
 
 void WbLight::updateAmbientIntensity() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0,
-                                                           mAmbientIntensity->value() > 1.0 ? 1.0 : 0.0))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mAmbientIntensity, 0.0, 1.0,
+                                                                mAmbientIntensity->value() > 1.0 ? 1.0 : 0.0))
     return;
 
   if (areWrenObjectsInitialized())
@@ -160,7 +160,7 @@ void WbLight::updateAmbientIntensity() {
 }
 
 void WbLight::updateIntensity() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mIntensity, 1.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mIntensity, 1.0))
     return;
 
   if (areWrenObjectsInitialized())
@@ -181,7 +181,7 @@ void WbLight::updateOn() {
 }
 
 void WbLight::updateColor() {
-  if (WbFieldChecker::checkColorIsValid(this, mColor))
+  if (WbFieldChecker::resetColorIfInvalid(this, mColor))
     return;
 
   if (areWrenObjectsInitialized())
@@ -228,17 +228,6 @@ void WbLight::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isWebots()) {
     WbBaseNode::exportNodeFields(writer);
     return;
-  }
-
-  if (writer.isX3d()) {
-    const WbNode *n = this;
-    while (n && !n->isWorldRoot()) {
-      if (n->isDefNode() && n->useCount() > 0) {
-        warn("DEF/USE mechanism for light nodes could not work in some X3D viewers, like X3DOM.");
-        break;
-      }
-      n = n->parent();
-    }
   }
 
   findField("on", true)->write(writer);

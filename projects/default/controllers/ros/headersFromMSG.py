@@ -17,30 +17,30 @@
 import os
 import sys
 import getopt
-import string
 
 from headersGenerator import HeadersGenerator
+
 
 def main(argv):
     headersGenerator = HeadersGenerator()
     try:
         opts, args = getopt.getopt(argv, "h", ["help"])
     except getopt.GetoptError:
-        print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+        print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+            print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
-        elif opt in ("-h","--help"):
-            print ('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
+        elif opt in ("-h", "--help"):
+            print('usage: headersFromMSG.py <servicefile.msg> [templatesFolder]')
             sys.exit(2)
-    MSGFile = open(args[0],'r')
+    MSGFile = open(args[0], 'r')
     filename = args[0].split('/')[-1]
     filename = filename.split('.')[0]
     templateFolder = 'include'
     if len(args) > 1:
-      templateFolder = args[1]
+        templateFolder = args[1]
     messageType = []
     messageName = []
     for line in MSGFile:
@@ -59,12 +59,13 @@ def main(argv):
             pass
 
     headersGenerator.replace_template_tags(templateFolder + '/templateMessage.h', filename + 'tempFile.txt', filename, args[0])
-    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + '.h', messageName, messageType)
+    headersGenerator.replace_message_tags(filename + 'tempFile.txt', 'include/webots_ros/' + filename + '.h',
+                                          messageName, messageType)
 
     try:
         os.remove(filename + 'tempFile.txt')
     except OSError:
-       print ('failed to remove tempFile for ' + filename)
+        print('failed to remove tempFile for ' + filename)
 
 
 if __name__ == "__main__":

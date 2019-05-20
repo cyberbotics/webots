@@ -375,7 +375,10 @@ THREE.X3DLoader = class X3DLoader {
       texture.image = image;
       texture.needsUpdate = true;
     }
-    texture.userData = { 'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true' };
+    texture.userData = {
+      'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
+      'url': filename[0]
+    };
 
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
@@ -661,10 +664,26 @@ THREE.X3DLoader = class X3DLoader {
     var radius = getNodeAttribute(cone, 'bottomRadius', '0');
     var height = getNodeAttribute(cone, 'height', '0');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() !== 'true';
-    // var openSided = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true' ? false : true;
-    // set thetaStart = Math.PI / 2 to match X3D texture mapping
-    var coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, openEnded, Math.PI / 2);
+    var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
+    var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
+    // Note: the three.js Cone is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
+    var coneGeometry;
+    if (side && bottom)
+      coneGeometry = new THREE.ConeBufferGeometry(radius, height, subdivision, 1, false, Math.PI / 2);
+    else {
+      coneGeometry = new THREE.Geometry();
+      if (side) {
+        var sideGeometry = new THREE.ConeGeometry(radius, height, subdivision, 1, true, Math.PI / 2);
+        coneGeometry.merge(sideGeometry);
+      }
+      if (bottom) {
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
+        bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
+        bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
+        coneGeometry.merge(bottomGeometry, bottomMatrix);
+      }
+    }
     coneGeometry.userData = { 'x3dType': 'Cone' };
     coneGeometry.rotateY(Math.PI / 2);
     return coneGeometry;
@@ -674,11 +693,34 @@ THREE.X3DLoader = class X3DLoader {
     var radius = getNodeAttribute(cylinder, 'radius', '0');
     var height = getNodeAttribute(cylinder, 'height', '0');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
-    var openEnded = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() !== 'true';
-    // var openSided = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true' ? false : true;
-    // var openTop = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true' ? false : true;
-    // set thetaStart = Math.PI / 2 to match X3D texture mapping
-    var cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, openEnded, Math.PI / 2);
+    var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
+    var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
+    var top = getNodeAttribute(cylinder, 'top', 'true').toLowerCase() === 'true';
+    // Note: the three.js Cylinder is created with thetaStart = Math.PI / 2 to match X3D texture mapping.
+    var cylinderGeometry;
+    if (bottom && side && top)
+      cylinderGeometry = new THREE.CylinderBufferGeometry(radius, radius, height, subdivision, 1, false, Math.PI / 2);
+    else {
+      cylinderGeometry = new THREE.Geometry();
+      if (side) {
+        var sideGeometry = new THREE.CylinderGeometry(radius, radius, height, subdivision, 1, true, Math.PI / 2);
+        cylinderGeometry.merge(sideGeometry);
+      }
+      if (top) {
+        var topGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var topMatrix = new THREE.Matrix4();
+        topMatrix.makeRotationFromEuler(new THREE.Euler(-Math.PI / 2, 0, -Math.PI / 2));
+        topMatrix.setPosition(new THREE.Vector3(0, height / 2, 0));
+        cylinderGeometry.merge(topGeometry, topMatrix);
+      }
+      if (bottom) {
+        var bottomGeometry = new THREE.CircleGeometry(radius, subdivision);
+        var bottomMatrix = new THREE.Matrix4();
+        bottomMatrix.makeRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, Math.PI / 2));
+        bottomMatrix.setPosition(new THREE.Vector3(0, -height / 2, 0));
+        cylinderGeometry.merge(bottomGeometry, bottomMatrix);
+      }
+    }
     cylinderGeometry.userData = { 'x3dType': 'Cylinder' };
     cylinderGeometry.rotateY(Math.PI / 2);
     return cylinderGeometry;
@@ -687,7 +729,13 @@ THREE.X3DLoader = class X3DLoader {
   parseSphere(sphere) {
     var radius = getNodeAttribute(sphere, 'radius', '1');
     var subdivision = getNodeAttribute(sphere, 'subdivision', '8,8').split(',');
-    var sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
+    var ico = getNodeAttribute(sphere, 'ico', 'false').toLowerCase() === 'true';
+    var sphereGeometry;
+    if (ico) {
+      sphereGeometry = new THREE.IcosahedronBufferGeometry(radius, subdivision[0]);
+      sphereGeometry.rotateY(Math.PI / 2);
+    } else
+      sphereGeometry = new THREE.SphereBufferGeometry(radius, subdivision[0], subdivision[1], -Math.PI / 2); // thetaStart: -Math.PI/2
     sphereGeometry.userData = { 'x3dType': 'Sphere' };
     return sphereGeometry;
   }
@@ -712,14 +760,17 @@ THREE.X3DLoader = class X3DLoader {
 
     var count = coordStrArray.length;
     var colorStrArray;
-    if (typeof color === 'undefined')
+    geometry.userData.isColorPerVertex = false;
+    if (typeof color !== 'undefined') {
       colorStrArray = getNodeAttribute(color, 'color', '').trim().split(/\s/);
-    if (typeof colorStrArray === 'undefined' && count !== colorStrArray.length) {
-      count = Math.min(count, colorStrArray.length);
-      console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
-      geometry.userData.isColorPerVertex = false;
-    } else
-      geometry.userData.isColorPerVertex = true;
+      if (typeof colorStrArray !== 'undefined') {
+        if (count !== colorStrArray.length) {
+          count = Math.min(count, colorStrArray.length);
+          console.error("X3DLoader:parsePointSet: 'coord' and 'color' fields size doesn't match.");
+        }
+        geometry.userData.isColorPerVertex = true;
+      }
+    }
 
     var positions = new Float32Array(count);
     for (let i = 0; i < count; i++)
@@ -753,8 +804,8 @@ THREE.X3DLoader = class X3DLoader {
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
       lightObject.shadow.mapSize.width = shadowMapSize;
       lightObject.shadow.mapSize.height = shadowMapSize;
-      lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1'));
-      lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0'));
+      lightObject.shadow.radius = parseFloat(getNodeAttribute(light, 'shadowsRadius', '1.5'));
+      lightObject.shadow.bias = parseFloat(getNodeAttribute(light, 'shadowBias', '0.000001'));
       lightObject.shadow.camera.near = parseFloat(getNodeAttribute(light, 'zNear', '0.001;'));
       lightObject.shadow.camera.far = parseFloat(getNodeAttribute(light, 'zFar', '2000'));
     }
@@ -886,18 +937,21 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseViewpoint(viewpoint) {
-    var fov = THREE.Math.radToDeg(parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'))) * 0.5;
+    var fov = parseFloat(getNodeAttribute(viewpoint, 'fieldOfView', '0.785'));
     var near = parseFloat(getNodeAttribute(viewpoint, 'zNear', '0.1'));
     var far = parseFloat(getNodeAttribute(viewpoint, 'zFar', '2000'));
     if (typeof this.scene.viewpoint !== 'undefined') {
-      this.scene.viewpoint.camera.fov = fov;
       this.scene.viewpoint.camera.near = near;
       this.scene.viewpoint.camera.far = far;
     } else {
       console.log('Parse Viewpoint: error camera');
       // Set default aspect ratio to 1. It will be updated on window resize.
-      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(fov, 1, near, far);
+      this.scene.viewpoint.camera = new THREE.PerspectiveCamera(0.785, 1, near, far);
     }
+
+    // camera.fov should be updated at each window resize.
+    this.scene.viewpoint.camera.fovX = fov; // radians
+    this.scene.viewpoint.camera.fov = THREE.Math.radToDeg(horizontalToVerticalFieldOfView(fov, this.scene.viewpoint.camera.aspect)); // degrees
 
     if ('position' in viewpoint.attributes) {
       var position = getNodeAttribute(viewpoint, 'position', '0 0 10');
@@ -961,12 +1015,12 @@ THREE.X3DLoader = class X3DLoader {
       return undefined;
 
     // Look for node in previously parsed objects
-    var defNode = this.scene.getObjectByCustomId(this.parsedObjects, useNodeId);
+    var defNode = this.scene.getObjectById(useNodeId, false, this.parsedObjects);
     if (typeof defNode !== 'undefined')
       return defNode;
 
     // Look for node in the already loaded scene
-    defNode = this.scene.getObjectByCustomId(this.scene.root, useNodeId);
+    defNode = this.scene.getObjectById(useNodeId, false, this.scene.root);
     if (typeof defNode === 'undefined')
       console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
     return defNode;
@@ -1020,4 +1074,17 @@ function convertStringToQuaternion(s) {
 function convertStringTorgb(s) {
   var v = convertStringToVec3(s);
   return new THREE.Color(v.x, v.y, v.z);
+}
+
+function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
+  // Units of the angles: radians.
+  // reference: WbViewpoint::updateFieldOfViewY()
+
+  // According to VRML standards, the meaning of mFieldOfView depends on the aspect ratio:
+  // the view angle is taken with respect to the largest dimension
+
+  if (aspectRatio < 1.0)
+    return hFov;
+
+  return 2.0 * Math.atan(Math.tan(0.5 * hFov) / aspectRatio);
 }

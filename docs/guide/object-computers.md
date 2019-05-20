@@ -34,7 +34,7 @@ ComputerMouse {
 
 - `bottomColor`: Defines the color of the bottom part of the mouse.
 
-- `mass`: Defines the mass of the mouse in kg.
+- `mass`: Defines the mass of the mouse in kg. A value smaller or equal to 0 removes the physics of the mouse.
 
 ## DesktopComputer
 
@@ -67,7 +67,7 @@ DesktopComputer {
 
 - `powerbuttonColor`: Defines the color of the computer power button.
 
-- `mass`: Defines the mass of the computer in kg. A value smaller or equal to 0 remove the physics of the computer.
+- `mass`: Defines the mass of the computer in kg. A value smaller or equal to 0 removes the physics of the computer.
 
 ## Keyboard
 
@@ -100,7 +100,7 @@ Keyboard {
 
 - `color`: Defines the color of the keyboard.
 
-- `mass`: Defines the mass of the keyboard in kg. A value smaller or equal to 0 remove the physics of the keyboard.
+- `mass`: Defines the mass of the keyboard in kg. A value smaller or equal to 0 removes the physics of the keyboard.
 
 ## Laptop
 
@@ -164,5 +164,5 @@ Monitor {
 
 - `color`: Defines the color of the monitor.
 
-- `mass`: Defines the mass of the monitor in kg. A value smaller or equal to 0 remove the physics of the monitor.
+- `mass`: Defines the mass of the monitor in kg. A value smaller or equal to 0 removes the physics of the monitor.
 
