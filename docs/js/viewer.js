@@ -618,6 +618,36 @@ function toggleDeviceComponent(robot) {
   getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
 }
 
+function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
+  // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
+  var element = getRobotComponentByRobotName(robot);
+  if (
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement
+  ) {
+    if (document.exitFullscreen)
+      document.exitFullscreen();
+    else if (document.mozCancelFullScreen)
+      document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen)
+      document.webkitExitFullscreen();
+    else if (document.msExitFullscreen)
+      document.msExitFullscreen();
+  } else {
+    if (element.requestFullscreen)
+      element.requestFullscreen();
+    else if (element.mozRequestFullScreen)
+      element.mozRequestFullScreen();
+    else if (element.webkitRequestFullscreen)
+      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    else if (element.msRequestFullscreen)
+      element.msRequestFullscreen();
+  }
+  element.webotsView.x3dScene.resize();
+}
+
 function sliderMotorCallback(transform, slider) {
   if (typeof transform === 'undefined')
     return;

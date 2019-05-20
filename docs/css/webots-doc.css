@@ -508,11 +508,17 @@ body {
 .robot-component .menu .menu-button {
   background-image: url(../css/images/menu.png);
 }
+.robot-component .menu .fullscreen-button {
+  background-image: url(../css/images/fullscreen.png);
+}
 .robot-component .menu .reset-button:hover {
   background-image: url(../css/images/reset_hover.png);
 }
 .robot-component .menu .menu-button:hover {
   background-image: url(../css/images/menu_hover.png);
+}
+.robot-component .menu .fullscreen-button:hover {
+  background-image: url(../css/images/fullscreen_hover.png);
 }
 .robot-component .device-component {
   width: 30%;
