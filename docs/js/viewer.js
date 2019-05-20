@@ -605,17 +605,72 @@ function resetRobotComponent(robot) {
   robotComponent.webotsView.x3dScene.render();
 }
 
-function toggleDeviceComponent(robot) {
-  var deviceMenu = document.querySelector('#' + robot + '-device-component');
-  var robotView = document.querySelector('.robot-view');
-  if (deviceMenu.style.display === 'none') {
+function updateRobotComponentDimension(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var deviceMenu = robotComponent.querySelector('.device-component');
+  var robotView = robotComponent.querySelector('.robot-view');
+
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  if (robotComponent.showDeviceComponent === true) {
     deviceMenu.style.display = '';
     robotView.style.width = '70%';
   } else {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
-  getRobotComponentByRobotName(robot).webotsView.x3dScene.resize();
+
+  robotComponent.webotsView.x3dScene.resize();
+}
+
+function toggleDeviceComponent(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
+  updateRobotComponentDimension(robot);
+}
+
+function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
+  // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
+  var element = getRobotComponentByRobotName(robot);
+  if (
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement
+  ) {
+    if (document.exitFullscreen)
+      document.exitFullscreen();
+    else if (document.mozCancelFullScreen)
+      document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen)
+      document.webkitExitFullscreen();
+    else if (document.msExitFullscreen)
+      document.msExitFullscreen();
+  } else {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+      document.addEventListener('fullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+      document.addEventListener('mozfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      document.addEventListener('webkitfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+      document.addEventListener('msfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    }
+  }
 }
 
 function sliderMotorCallback(transform, slider) {
