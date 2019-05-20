@@ -71,5 +71,4 @@ script:
   - python -m unittest discover -s docs/tests
   - python3 --version
   - python3 tests/tmp.py
-  - if [ $TRAVIS_OS_NAME = osx ]; then export PYTHON_PATH=/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7; fi
   - travis_wait 45 python tests/test_compilation.py
