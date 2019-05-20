@@ -118,6 +118,7 @@ ConveyorBelt {
   SFRotation rotation         0 1 0 0
   SFString   name             "conveyor belt"
   SFVec3f    size             1.5 0.6 0.5
+  SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }
   SFFloat    borderThickness  0.03
   SFFloat    borderHeight     0.01
   SFFloat    speed            0.5
@@ -133,6 +134,8 @@ ConveyorBelt {
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 #### ConveyorBelt Field Summary
+
+- `appearance`: Defines the appearance of the conveyor belt.
 
 - `borderThickness`: Defines the thickness of the metal part around the conveyor belt.
 
@@ -169,7 +172,7 @@ FireExtinguisher {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/fire\_extinguisher/protos/FireExtinguisher.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto)"
 
 > **License**: Attribution-NonCommercial 4.0 International (original model by 3DHaupt)
 [More information.](https://creativecommons.org/licenses/by-nc/4.0)
@@ -202,7 +205,7 @@ SquareManhole {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/manhole/protos/SquareManhole.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/manhole/protos/SquareManhole.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/manhole/protos/SquareManhole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -476,7 +479,7 @@ CapScrew {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/CapScrew.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/CapScrew.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/CapScrew.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -514,7 +517,7 @@ ElectricalPlug {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/ElectricalPlug.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/ElectricalPlug.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/ElectricalPlug.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -550,7 +553,7 @@ EmergencyButton {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/EmergencyButton.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/EmergencyButton.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/EmergencyButton.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -583,7 +586,7 @@ EyeScrew {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/EyeScrew.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/EyeScrew.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/EyeScrew.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -738,7 +741,7 @@ ScrewHole {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/ScrewHole.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/ScrewHole.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/ScrewHole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -793,7 +796,7 @@ Washer {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/objects/factory/tools/protos/Washer.proto"
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/tools/protos/Washer.proto](https://github.com/omichel/webots/tree/master/projects/objects/factory/tools/protos/Washer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

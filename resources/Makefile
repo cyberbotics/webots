@@ -27,4 +27,4 @@ clean:
 	@+make -s -C projects $@
 	@+make -s -C osm_importer $@
 	@-rm -rf sumo_exporter/*.pyc
-	@+make -s -C web/wwi $@
+	@+make -s -C web/wwi $(MAKECMDGOALS)

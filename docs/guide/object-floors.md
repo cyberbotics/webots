@@ -114,6 +114,8 @@ RectangleArena {
   SFNode     wallAppearance  BrushedAluminium {}
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+  hiddenField SFColor    wallColor 0.8 0.8 0.8
+  hiddenField SFVec2f    wallTileSize 0.5 0.5
 }
 ```
 
@@ -189,3 +191,4 @@ UnevenTerrain {
 - `flatBounds`: Defines whether the bounds of the terrain should be flat.
 
 - `perlinNOctaves`: Defines the number of octaves of the perlin noise.
+

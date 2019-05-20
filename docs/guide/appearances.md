@@ -7,7 +7,7 @@ An asphalt material. The color can be overridden using the `colorOverride` field
 
 %figure
 
-![Asphalt](images/appearances/Asphalt.png)
+![Asphalt](images/appearances/Asphalt.thumbnail.png)
 
 %end
 
@@ -43,7 +43,7 @@ A brushed aluminum material.
 
 %figure
 
-![BrushedAluminium](images/appearances/BrushedAluminium.png)
+![BrushedAluminium](images/appearances/BrushedAluminium.thumbnail.png)
 
 %end
 
@@ -79,7 +79,7 @@ A woolen carpet material. Useful with the `Floor` PROTO.
 
 %figure
 
-![CarpetFibers](images/appearances/CarpetFibers.png)
+![CarpetFibers](images/appearances/CarpetFibers.thumbnail.png)
 
 %end
 
@@ -115,7 +115,7 @@ A wooden material in a chequered pattern covered with a layer of varnish. Useful
 
 %figure
 
-![ChequeredParquetry](images/appearances/ChequeredParquetry.png)
+![ChequeredParquetry](images/appearances/ChequeredParquetry.thumbnail.png)
 
 %end
 
@@ -148,7 +148,7 @@ A corroded metal material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![CorrodedMetal](images/appearances/CorrodedMetal.png)
+![CorrodedMetal](images/appearances/CorrodedMetal.thumbnail.png)
 
 %end
 
@@ -184,7 +184,7 @@ A corrugated metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![CorrugatedMetal](images/appearances/CorrugatedMetal.png)
+![CorrugatedMetal](images/appearances/CorrugatedMetal.thumbnail.png)
 
 %end
 
@@ -220,7 +220,7 @@ A damascus steel material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![DamascusSteel](images/appearances/DamascusSteel.png)
+![DamascusSteel](images/appearances/DamascusSteel.thumbnail.png)
 
 %end
 
@@ -256,7 +256,7 @@ An electric conduit material. The color can be overridden using the `colorOverri
 
 %figure
 
-![ElectricConduit](images/appearances/ElectricConduit.png)
+![ElectricConduit](images/appearances/ElectricConduit.thumbnail.png)
 
 %end
 
@@ -292,7 +292,7 @@ A flexible aluminium duct material. The color can be overridden using the `color
 
 %figure
 
-![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.png)
+![FlexibleAluminiumDuct](images/appearances/FlexibleAluminiumDuct.thumbnail.png)
 
 %end
 
@@ -328,7 +328,7 @@ A galvanized metal material. The color can be overridden using the `colorOverrid
 
 %figure
 
-![GalvanizedMetal](images/appearances/GalvanizedMetal.png)
+![GalvanizedMetal](images/appearances/GalvanizedMetal.thumbnail.png)
 
 %end
 
@@ -364,7 +364,7 @@ A glossy paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![GlossyPaint](images/appearances/GlossyPaint.png)
+![GlossyPaint](images/appearances/GlossyPaint.thumbnail.png)
 
 %end
 
@@ -400,7 +400,7 @@ An hammered copper steel material. The color can be overridden using the `colorO
 
 %figure
 
-![HammeredCopper](images/appearances/HammeredCopper.png)
+![HammeredCopper](images/appearances/HammeredCopper.thumbnail.png)
 
 %end
 
@@ -436,7 +436,7 @@ A leather material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Leather](images/appearances/Leather.png)
+![Leather](images/appearances/Leather.thumbnail.png)
 
 %end
 
@@ -475,7 +475,7 @@ A matte paint material. The color can be selected in the `baseColor` field.
 
 %figure
 
-![MattePaint](images/appearances/MattePaint.png)
+![MattePaint](images/appearances/MattePaint.thumbnail.png)
 
 %end
 
@@ -511,7 +511,7 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %figure
 
-![MetalPipePaint](images/appearances/MetalPipePaint.png)
+![MetalPipePaint](images/appearances/MetalPipePaint.thumbnail.png)
 
 %end
 
@@ -544,7 +544,7 @@ An old battered steel material.
 
 %figure
 
-![OldSteel](images/appearances/OldSteel.png)
+![OldSteel](images/appearances/OldSteel.thumbnail.png)
 
 %end
 
@@ -580,7 +580,7 @@ An OSB wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![OsbWood](images/appearances/OsbWood.png)
+![OsbWood](images/appearances/OsbWood.thumbnail.png)
 
 %end
 
@@ -616,7 +616,7 @@ A painted wood material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![PaintedWood](images/appearances/PaintedWood.png)
+![PaintedWood](images/appearances/PaintedWood.thumbnail.png)
 
 %end
 
@@ -652,7 +652,7 @@ A wooden material in a tesselated block pattern covered with a layer of varnish.
 
 %figure
 
-![Parquetry](images/appearances/Parquetry.png)
+![Parquetry](images/appearances/Parquetry.thumbnail.png)
 
 %end
 
@@ -688,7 +688,7 @@ A plaster material. The color can be overridden using the `colorOverride` field.
 
 %figure
 
-![Plaster](images/appearances/Plaster.png)
+![Plaster](images/appearances/Plaster.thumbnail.png)
 
 %end
 
@@ -724,7 +724,7 @@ A tiled brick material. Useful with the `Wall` PROTO.
 
 %figure
 
-![RedBricks](images/appearances/RedBricks.png)
+![RedBricks](images/appearances/RedBricks.thumbnail.png)
 
 %end
 
@@ -757,7 +757,7 @@ A rough concrete material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![RoughConcrete](images/appearances/RoughConcrete.png)
+![RoughConcrete](images/appearances/RoughConcrete.thumbnail.png)
 
 %end
 
@@ -793,7 +793,7 @@ A rough oak material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughOak](images/appearances/RoughOak.png)
+![RoughOak](images/appearances/RoughOak.thumbnail.png)
 
 %end
 
@@ -829,7 +829,7 @@ A pine wood material. The color can be overridden using the `colorOverride` fiel
 
 %figure
 
-![RoughPine](images/appearances/RoughPine.png)
+![RoughPine](images/appearances/RoughPine.thumbnail.png)
 
 %end
 
@@ -865,7 +865,7 @@ A rough plaster material. Useful with the `Wall` PROTO.
 
 %figure
 
-![Roughcast](images/appearances/Roughcast.png)
+![Roughcast](images/appearances/Roughcast.thumbnail.png)
 
 %end
 
@@ -902,7 +902,7 @@ The color can be overridden using the `colorOverride` field and the amount of ru
 
 %figure
 
-![RustyMetal](images/appearances/RustyMetal.png)
+![RustyMetal](images/appearances/RustyMetal.thumbnail.png)
 
 %end
 
@@ -941,7 +941,7 @@ A sandy ground material. The color can be selected using the `colorOverride` fie
 
 %figure
 
-![SandyGround](images/appearances/SandyGround.png)
+![SandyGround](images/appearances/SandyGround.thumbnail.png)
 
 %end
 
@@ -977,7 +977,7 @@ A screw thread material. The color can be overridden using the `colorOverride` f
 
 %figure
 
-![ScrewThread](images/appearances/ScrewThread.png)
+![ScrewThread](images/appearances/ScrewThread.thumbnail.png)
 
 %end
 
@@ -1049,7 +1049,7 @@ A shiny leather material. The color can be selected using the `colorOverride` fi
 
 %figure
 
-![ShinyLeather](images/appearances/ShinyLeather.png)
+![ShinyLeather](images/appearances/ShinyLeather.thumbnail.png)
 
 %end
 
@@ -1085,7 +1085,7 @@ A square pavement material. The color can be overridden using the `colorOverride
 
 %figure
 
-![SquarePavement](images/appearances/SquarePavement.png)
+![SquarePavement](images/appearances/SquarePavement.thumbnail.png)
 
 %end
 
@@ -1121,7 +1121,7 @@ A stone pavement material. The color can be overridden using the `colorOverride`
 
 %figure
 
-![StonePavement](images/appearances/StonePavement.png)
+![StonePavement](images/appearances/StonePavement.thumbnail.png)
 
 %end
 
@@ -1157,7 +1157,7 @@ A worn paint layer on a metal surface. Useful with the `PipeSection` PROTO or an
 
 %figure
 
-![ThreadMetalPlate](images/appearances/ThreadMetalPlate.png)
+![ThreadMetalPlate](images/appearances/ThreadMetalPlate.thumbnail.png)
 
 %end
 
@@ -1193,7 +1193,7 @@ A pine wood material covered with a layer of varnish. The color can be overridde
 
 %figure
 
-![VarnishedPine](images/appearances/VarnishedPine.png)
+![VarnishedPine](images/appearances/VarnishedPine.thumbnail.png)
 
 %end
 
@@ -1229,7 +1229,7 @@ A wire fence material. The color can be overridden using the `colorOverride` fie
 
 %figure
 
-![WireFence](images/appearances/WireFence.png)
+![WireFence](images/appearances/WireFence.thumbnail.png)
 
 %end
 
