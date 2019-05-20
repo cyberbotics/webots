@@ -146,8 +146,6 @@ THREE.GPUPicker = class GPUPicker {
     var index = mouse.x + (this.pickingTexture.height - mouse.y) * this.pickingTexture.width;
     // interpret the pixel as an ID
     var id = (this.pixelBuffer[index * 4 + 2] * 255 * 255) + (this.pixelBuffer[index * 4 + 1] * 255) + (this.pixelBuffer[index * 4 + 0]);
-    // get object with this id in range
-    // var object = this._getObject(id);
     var result = this._getObject(this.pickingScene, 0, id);
     var object = result[1];
     var elementId = id - result[0];
