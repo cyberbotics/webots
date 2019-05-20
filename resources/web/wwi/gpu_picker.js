@@ -9,37 +9,37 @@
 THREE.FaceIDShader = {
   vertexShader: [
     'attribute float id;',
-    '',
+
     'uniform float size;',
     'uniform float scale;',
     'uniform float baseId;',
-    '',
+
     'varying vec4 worldId;',
-    '',
+
     'void main() {',
-    '  vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );',
-    '  gl_PointSize = size * ( scale / length( mvPosition.xyz ) );',
+    '  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);',
+    '  gl_PointSize = size * (scale / length(mvPosition.xyz));',
     '  float i = baseId + id;',
-    '  vec3 a = fract(vec3(1.0/255.0, 1.0/(255.0*255.0), 1.0/(255.0*255.0*255.0)) * i);',
-    '  a -= a.xxy * vec3(0.0, 1.0/255.0, 1.0/255.0);',
-    '  worldId = vec4(a,1);',
-    '  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+    '  vec3 a = fract(vec3(1.0 / 255.0, 1.0 / (255.0 * 255.0), 1.0 / (255.0 * 255.0 * 255.0)) * i);',
+    '  a -= a.xxy * vec3(0.0, 1.0 / 255.0, 1.0 / 255.0);',
+    '  worldId = vec4(a, 1);',
+    '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
     '}'
   ].join('\n'),
   fragmentShader: [
-    '#ifdef GL_ES\n',
-    'precision highp float;\n',
-    '#endif\n',
-    '',
+    '#ifdef GL_ES',
+    'precision highp float;',
+    '#endif',
+
     'varying vec4 worldId;',
-    '',
+
     'void main() {',
     '  gl_FragColor = worldId;',
     '}'
   ].join('\n')
 };
 
-class FaceIDMaterial extends THREE.ShaderMaterial {
+THREE.FaceIDMaterial = class FaceIDMaterial extends THREE.ShaderMaterial {
   constructor() {
     super({
       uniforms: {
@@ -70,25 +70,25 @@ class FaceIDMaterial extends THREE.ShaderMaterial {
   setPointScale(scale) {
     this.uniforms.scale.value = scale;
   }
-}
+};
 
 THREE.GPUPicker = class GPUPicker {
-  constructor(option) {
-    if (option === undefined)
-      option = {};
+  constructor(option = {}) {
     this.pickingScene = new THREE.Scene();
     this.pickingTexture = new THREE.WebGLRenderTarget();
     this.pickingTexture.texture.minFilter = THREE.LinearFilter;
     this.pickingTexture.texture.generateMipmaps = false;
-    this.lineShell = option.lineShell !== undefined ? option.lineShell : 4;
-    this.pointShell = option.pointShell !== undefined ? option.pointShell : 0.1;
+    this.lineShell = typeof option.lineShell !== 'undefined' ? option.lineShell : 4;
+    this.pointShell = typeof option.pointShell !== 'undefined' ? option.pointShell : 0.1;
     this.needUpdate = true;
+
     if (option.renderer)
       this.setRenderer(option.renderer);
 
     // array of original objects
     this.container = [];
     this.objectsMap = {};
+
     // default filter
     this.setFilter();
   }
@@ -129,7 +129,7 @@ THREE.GPUPicker = class GPUPicker {
       this.filterFunc = func;
     else {
       // default filter
-      this.filterFunc = function(object) {
+      this.filterFunc = (object) => {
         return true;
       };
     }
@@ -163,9 +163,9 @@ THREE.GPUPicker = class GPUPicker {
 
   // get object by id
   _getObject(object, baseId, id) {
-    if (object.elementsCount !== undefined && id >= baseId && id < baseId + object.elementsCount)
+    if (typeof object.elementsCount !== 'undefined' && id >= baseId && id < baseId + object.elementsCount)
       return [baseId, object];
-    if (object.elementsCount !== undefined)
+    if (typeof object.elementsCount !== 'undefined')
       baseId += object.elementsCount;
     var result = [baseId, undefined];
     for (let i = 0; i < object.children.length; i++) {
@@ -185,7 +185,7 @@ THREE.GPUPicker = class GPUPicker {
   }
 
   _addElementID(object, baseId) {
-    if (!this.filterFunc(object) && object.geometry !== undefined) {
+    if (!this.filterFunc(object) && typeof object.geometry !== 'undefined') {
       object.visible = false;
       return 0;
     }
@@ -278,7 +278,7 @@ THREE.GPUPicker = class GPUPicker {
 
       var pointSize = object.material.size || 0.01;
       var linewidth = object.material.linewidth || 1;
-      object.material = new FaceIDMaterial();
+      object.material = new THREE.FaceIDMaterial();
       object.material.linewidth = linewidth + this.lineShell; // make the line a little wider to hit
       object.material.setBaseID(baseId);
       object.material.setPointSize(pointSize + this.pointShell); // make the point a little wider to hit
@@ -341,17 +341,20 @@ THREE.GPUPicker = class GPUPicker {
     var ray = new THREE.Ray();
     var intersectionPointWorld = new THREE.Vector3();
     var intersectionPoint = new THREE.Vector3();
+
     function checkIntersection(object, raycaster, ray, pA, pB, pC, point) {
       var intersect;
       intersect = ray.intersectTriangle(pC, pB, pA, false, point);
       var plane = new THREE.Plane();
       plane.setFromCoplanarPoints(pA, pB, pC);
       intersect = ray.intersectPlane(plane, new THREE.Vector3());
-      if (intersect === null) return null;
+      if (intersect === null)
+        return null;
       intersectionPointWorld.copy(point);
       intersectionPointWorld.applyMatrix4(object.matrixWorld);
       var distance = raycaster.ray.origin.distanceTo(intersectionPointWorld);
-      if (distance < raycaster.near || distance > raycaster.far) return null;
+      if (distance < raycaster.near || distance > raycaster.far)
+        return null;
       return {
         distance: distance,
         point: intersectionPointWorld.clone(),
@@ -395,11 +398,11 @@ THREE.GPUPicker = class GPUPicker {
   THREE.Line.prototype.raycastWithID = (function() {
     var inverseMatrix = new THREE.Matrix4();
     var ray = new THREE.Ray();
-
     var vStart = new THREE.Vector3();
     var vEnd = new THREE.Vector3();
     var interSegment = new THREE.Vector3();
     var interRay = new THREE.Vector3();
+
     return function(elID, raycaster) {
       inverseMatrix.getInverse(this.matrixWorld);
       ray.copy(raycaster.ray).applyMatrix4(inverseMatrix);
