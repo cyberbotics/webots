@@ -649,16 +649,28 @@ function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unuse
     else if (document.msExitFullscreen)
       document.msExitFullscreen();
   } else {
-    if (element.requestFullscreen)
+    if (element.requestFullscreen) {
       element.requestFullscreen();
-    else if (element.mozRequestFullScreen)
+      document.addEventListener('fullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.mozRequestFullScreen) {
       element.mozRequestFullScreen();
-    else if (element.webkitRequestFullscreen)
+      document.addEventListener('mozfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.webkitRequestFullscreen) {
       element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    else if (element.msRequestFullscreen)
+      document.addEventListener('webkitfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.msRequestFullscreen) {
       element.msRequestFullscreen();
+      document.addEventListener('msfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    }
   }
-  updateRobotComponentDimension(robot);
 }
 
 function sliderMotorCallback(transform, slider) {
