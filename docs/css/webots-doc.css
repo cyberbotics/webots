@@ -471,6 +471,10 @@ body {
   background-color: #f0f0f0;
   margin-bottom: 10px;
 }
+.robot-component:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
 .robot-component .robot-view {
   width: 70%;
   height: 100%;
