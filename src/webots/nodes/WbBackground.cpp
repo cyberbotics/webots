@@ -162,6 +162,8 @@ WbBackground::~WbBackground() {
   // Delete skybox
   // Shader program is not deleted, a singleton instance is kept in WbWrenShaders
   wr_node_delete(WR_NODE(mHdrClearRenderable));
+  mHdrClearRenderable = NULL;
+  wr_scene_set_hdr_clear_quad(wr_scene_get_instance(), mHdrClearRenderable);
 
   if (mHdrClearMaterial)
     wr_material_delete(mHdrClearMaterial);
