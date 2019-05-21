@@ -41,11 +41,7 @@ class Wrestler (Robot):
 
         # load motion files
         self.forwards = Motion('../../motions/Forwards50.motion')
-        self.backwards = Motion('../../motions/Backwards.motion')
-        self.sideStepLeft = Motion('../../motions/SideStepLeft.motion')
-        self.sideStepRight = Motion('../../motions/SideStepRight.motion')
         self.turnLeft60 = Motion('../../motions/TurnLeft60.motion')
-        self.turnRight60 = Motion('../../motions/TurnRight60.motion')
 
     def run(self):
         self.RShoulderPitch.setPosition(1.57)  # arms down
@@ -53,6 +49,9 @@ class Wrestler (Robot):
 
         self.forwards.setLoop(True)
         self.forwards.play()
+
+        self.leds[0].set(0xff0000)  # set eyes to red
+        self.leds[1].set(0xff0000)
 
         while self.step(self.timeStep) != -1:
             t = self.getTime()
@@ -68,6 +67,8 @@ class Wrestler (Robot):
             elif t == 28:
                 self.LShoulderPitch.setPosition(-1.57)  # victory
                 self.RShoulderPitch.setPosition(-1.57)
+                self.leds[0].set(0x00ff00)  # set eyes to green
+                self.leds[1].set(0x00ff00)
 
             pass
 
