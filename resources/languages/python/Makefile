@@ -100,9 +100,15 @@ release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
+	@echo $(LIBS)
+	@echo $(BREW_PYTHON_PATH)
+	@echo $(wildcard $(BREW_PYTHON_PATH))
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
+	@echo $(LIBS)
+	@echo $(BREW_PYTHON_PATH)
+	@echo $(wildcard $(BREW_PYTHON_PATH))
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIBS) -o "$@"
