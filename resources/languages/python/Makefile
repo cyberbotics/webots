@@ -77,6 +77,10 @@ ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
 LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
 endif
+ifeq ($(PYTHON_SHORT_VERSION), 37)
+PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
+LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+endif
 endif
 
 ifeq ($(OSTYPE),linux)
