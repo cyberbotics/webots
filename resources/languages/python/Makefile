@@ -54,12 +54,12 @@ endif
 ifeq ($(OSTYPE),darwin)
 ifeq ($(PYTHON_SHORT_VERSION), 27)
 PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-BREW_PYTHON_PATH = /usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC =
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC = m
 endif
+BREW_PYTHON_PATH = /usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_BIN      = $(PYTHON_PATH)/bin/
 C_FLAGS         = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
