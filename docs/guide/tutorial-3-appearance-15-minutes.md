@@ -18,7 +18,7 @@ A [DirectionalLight](../reference/directionallight.md) simulates a light which i
 Each type of light node can cast shadows.
 You can find their complete documentation in the [Reference Manual](../reference/nodes-and-api-functions.md).
 
-Lights are costly in term of performance and reduce the simulation speed (especially when they cast shadows)
+Lights are costly in term of performance and reduce the simulation speed (especially when they cast shadows).
 Minimizing the number of lights increases the rendering speed.
 A [PointLight](../reference/pointlight.md) is more efficient than a [SpotLight](../reference/spotlight.md), but less than a [DirectionalLight](../reference/directionallight.md).
 
