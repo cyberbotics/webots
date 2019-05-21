@@ -72,7 +72,7 @@ LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSI
 PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
-ifeq ($(PYTHON_SHORT_VERSION), 37)
+ifneq ("$(wildcard $(BREW_PYTHON_PATH))", "")
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
 LIBS += -L"$(BREW_PYTHON_PATH)/lib"
 endif
