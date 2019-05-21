@@ -498,6 +498,7 @@ void WbTrack::updateAnimatedGeometries() {
       object->geometry = geom;
       object->material = shapeNodes[i]->wrenMaterial();
       object->castShadows = shapeNodes[i]->isCastShadowsEnabled();
+      connect(shapeNodes[i], &WbShape::wrenMaterialChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
 
       // Hide WREN node (visible by default)
       wr_node_set_visible(wrenNode, false);
