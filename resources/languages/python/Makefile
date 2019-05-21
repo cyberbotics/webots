@@ -72,6 +72,8 @@ LIBOUT           = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERS
 PYTHON_INCLUDES  = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER    = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
+LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
 LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
