@@ -61,20 +61,20 @@ PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC = m
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-PYTHON_BIN      = $(PYTHON_PATH)/bin/
-C_FLAGS         = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+PYTHON_BIN       = $(PYTHON_PATH)/bin/
+C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
-C_FLAGS        += -Wno-self-assign
+C_FLAGS         += -Wno-self-assign
 endif
-LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
-LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
-PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
-ifneq ("$(wildcard $(BREW_PYTHON_PATH))", "")
+LD_FLAGS         = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+LIBS             = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
+LIBOUT           = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
+PYTHON_INCLUDES  = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
+LIBCONTROLLER    = $(WEBOTS_HOME_PATH)/lib/libController.dylib
+LIBCPPCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
-LIBS += -L"$(BREW_PYTHON_PATH)/lib"
+LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
 endif
 endif
 
