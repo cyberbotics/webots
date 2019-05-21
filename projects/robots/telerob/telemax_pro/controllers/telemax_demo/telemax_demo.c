@@ -87,8 +87,17 @@ int main(int argc, char **argv) {
   wait(4000);
   wb_motor_set_position(camera_pan, 0.0);
   wait(2000);
-  wb_motor_set_position(camera_tilt, -0.5);
+  wb_motor_set_position(camera_tilt, -0.4);
   wait(2000);
+  // camera zoom
+  while (wb_camera_get_fov(camera) > 0.05) {
+    wb_camera_set_fov(camera, 0.99 * wb_camera_get_fov(camera));
+    wait(16);
+  }
+  while (wb_camera_get_fov(camera) < 0.78) {
+    wb_camera_set_fov(camera, 1.01 * wb_camera_get_fov(camera));
+    wait(16);
+  }
   wb_motor_set_position(camera_tilt, 0.5);
   wait(4000);
   wb_motor_set_position(camera_tilt, -0.1);
