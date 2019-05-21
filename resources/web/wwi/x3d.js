@@ -892,15 +892,21 @@ THREE.X3DLoader = class X3DLoader {
   parseBackground(background) {
     var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.scene.background = color;
-
+    var cubeRotation = new THREE.Matrix3(); // to match with the VRML specifications.
+    cubeRotation.set(
+      -1, 0, 0,
+      0, 1, 0,
+      0, 0, -1
+    );
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTexture;
     if (typeof hdrCubeMapUrl !== 'undefined') {
       // TODO load HDR cube map.
       cubeTexture = new THREE.CubeTexture();
+      cubeTexture.rotation.copy(cubeRotation);
     } else {
       var cubeTextureEnabled = false;
-      var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+      var attributeNames = ['rightUrl', 'leftUrl', 'topUrl', 'bottomUrl', 'frontUrl', 'backUrl'];
       var urls = [];
       for (let i = 0; i < 6; i++) {
         var url = getNodeAttribute(background, attributeNames[i], undefined);
@@ -913,6 +919,7 @@ THREE.X3DLoader = class X3DLoader {
 
       if (cubeTextureEnabled) {
         cubeTexture = new THREE.CubeTexture();
+        cubeTexture.rotation.copy(cubeRotation);
         var missing = 0;
         for (let i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
