@@ -60,6 +60,7 @@ addons:
   homebrew:
     packages:
       - clang-format
+      - cppcheck
       - python
       - cmake
       - swig
