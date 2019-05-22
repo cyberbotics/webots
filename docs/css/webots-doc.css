@@ -348,7 +348,7 @@ body {
   line-height: 140%;
   word-wrap: break-word;
 }
-.modal-window {
+.webots-doc .modal-window {
   display: none;
   position: fixed;
   z-index: 100;
@@ -361,13 +361,13 @@ body {
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.9);
 }
-.modal-window-image-content {
+.webots-doc .modal-window-image-content {
   margin: auto;
   display: block;
   cursor: pointer;
   transition: 0.05s;
 }
-.modal-window-close-button {
+.webots-doc .modal-window-close-button {
   position: absolute;
   top: 10px;
   right: 35px;
@@ -376,13 +376,13 @@ body {
   font-weight: bold;
   transition: 0.2s;
 }
-.modal-window-close-button:hover,
-.modal-window-close-button:focus {
+.webots-doc .modal-window-close-button:hover,
+.webots-doc .modal-window-close-button:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
 }
-.modal-window-caption {
+.webots-doc .modal-window-caption {
   margin: auto;
   display: block;
   max-width: 700px;
