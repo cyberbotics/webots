@@ -94,10 +94,10 @@ maxlon = float('nan')
 lines = open(options.inFile).read().splitlines()
 for line in lines:
     if 'bounds' in line:
-        minlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
-        minlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
-        maxlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
-        maxlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
+        minlat = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
+        minlon = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
+        maxlat = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
+        maxlon = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
 if math.isnan(minlat) or math.isnan(minlon) or math.isnan(maxlat) or math.isnan(maxlon):
     sys.stderr.write('Warning: impossible to get the map bounds from the OSM file,'
                      ' make sure the file contains the "bounds" tag.\n')
