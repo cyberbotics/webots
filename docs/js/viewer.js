@@ -289,6 +289,7 @@ function setupModalWindow() {
 
   var image = document.createElement('img');
   image.classList.add('modal-window-image-content');
+  image.setAttribute('src', computeTargetPath() + '../css/images/load.gif');
 
   var caption = document.createElement('div');
   caption.classList.add('modal-window-caption');
@@ -303,8 +304,10 @@ function setupModalWindow() {
   doc.appendChild(modal);
 
   window.onclick = function(event) {
-    if (event.target === modal)
+    if (event.target === modal) {
       modal.style.display = 'none';
+      image.src = computeTargetPath() + '../css/images/load.gif';
+    }
   };
 }
 
@@ -317,8 +320,6 @@ function updateModalEvents(view) {
   var imgs = view.querySelectorAll('img');
   for (var i = 0; i < imgs.length; i++) {
     imgs[i].onclick = function(event) {
-      image.src = computeTargetPath() + '../css/images/load.gif';
-
       var img = event.target;
       // The modal window is only enabled on big enough images and on thumbnail.
       if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
@@ -329,6 +330,7 @@ function updateModalEvents(view) {
         image.onerror = function() {
           // Hide the modal window if neither the original .png or .jpg is found.
           modal.style.display = 'none';
+          image.src = computeTargetPath() + '../css/images/load.gif';
         };
         image.src = img.src.replace('.thumbnail.jpg', '.png');
       };
