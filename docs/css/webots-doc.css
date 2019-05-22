@@ -877,7 +877,7 @@ body {
   display: none;
   position: fixed;
   z-index: 100;
-  padding-top: 100px;
+  padding-top: 60px;
   left: 0;
   top: 0;
   width: 100%;
@@ -887,10 +887,11 @@ body {
   background-color: rgba(0,0,0,0.9);
 }
 
-.momo-img {
-  margin: 0 auto;
+.momo-img { /* TODO: move this rule above .webots-doc img to remove the !important statements. */
+  max-width: 95% !important;
+  max-height: 80% !important;
+  margin: auto;
   display: block;
-  border-radius: 4px;
   cursor: pointer;
   transition: 0.05s;
   box-shadow: 0px 5px 20px 6px rgba(0, 0, 0, 1);
@@ -898,7 +899,7 @@ body {
 
 .momo-close {
   position: absolute;
-  top: 40px;
+  top: 10px;
   right: 35px;
   color: #f1f1f1;
   font-size: 30px;
@@ -920,7 +921,6 @@ body {
   text-align: center;
   color: #ccc;
   padding: 10px 0;
-  margin-bottom: 150px;
   -webkit-animation-name: zoom;
   -webkit-animation-duration: 0.6s;
   animation-name: zoom;
