@@ -661,7 +661,7 @@ using namespace std;
     int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
-      PyObject *ret = PyList_New(width);
+      ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
         PyList_SetItem(ret, x, dim2);
