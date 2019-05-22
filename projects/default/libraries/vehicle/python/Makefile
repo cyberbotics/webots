@@ -73,7 +73,7 @@ PYTHON_INCLUDES  = -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMA
 LIB             += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTHON_PATH)/lib" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
-PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
+PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
 endif
 endif
