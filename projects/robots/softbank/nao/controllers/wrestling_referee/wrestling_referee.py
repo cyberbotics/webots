@@ -36,6 +36,9 @@ class Referee (Supervisor):
             self.max[i] = self.robot[i].getPosition()
         self.coverage = [0] * 2
         self.koCount = [0] * 2
+        self.indicator = [0] * 2
+        self.indicator[0] = self.getMotor("red coverage")
+        self.indicator[1] = self.getMotor("blue coverage")
 
     def displayTime(self, minutes, seconds):
         for j in range(3):
@@ -72,18 +75,18 @@ class Referee (Supervisor):
                         coverage += box[j] * box[j]
                     coverage = math.sqrt(coverage)
                     self.coverage[i] = coverage
-                    if position[1] < 0.75:  # low position threshold
-                        self.koCount[i] = self.koCount[i] + 200
-                        if self.koCount[i] > 10000:  # 10 seconds
-                            ko = i
-                    else:
-                        self.koCount[i] = 0
-                    if self.koCount[0] > self.koCount[1]:
-                        print("\fred KO: %d" % (10 - self.koCount[0] // 1000))
-                    elif self.koCount[1] > self.koCount[0]:
-                        print("\fblue KO: %d" % (10 - self.koCount[1] // 1000))
-                    else:
-                        print("\fred: %1.3f - blue: %1.3f" % (self.coverage[0], self.coverage[1]))
+                    self.indicator[i].setPosition(self.coverage[i] / 7)
+                if position[1] < 0.75:  # low position threshold
+                    self.koCount[i] = self.koCount[i] + 200
+                    if self.koCount[i] > 10000:  # 10 seconds
+                        ko = i
+                else:
+                    self.koCount[i] = 0
+                if self.koCount[0] > self.koCount[1]:
+                    print("\fred KO: %d" % (10 - self.koCount[0] // 1000))
+                elif self.koCount[1] > self.koCount[0]:
+                    print("\fblue KO: %d" % (10 - self.koCount[1] // 1000))
+                #  print("\fred: %1.3f - blue: %1.3f" % (self.coverage[0], self.coverage[1]))
             if self.step(timeStep) == -1 or time > matchDuration or ko != -1:
                 break
             time += timeStep
