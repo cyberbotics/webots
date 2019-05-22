@@ -274,28 +274,28 @@ function setupModalWindow() {
   var doc = document.querySelector('#webots-doc');
 
   // Create the following HTML tags:
-  // <div id="modal-doc" class="momo">
-  //   <span class="momo-close">&times;</span>
-  //   <img class="momo-img" />
-  //   <div class="momo-caption"></div>
+  // <div id="modal-window" class="modal-window">
+  //   <span class="modal-window-close-button">&times;</span>
+  //   <img class="modal-window-image-content" />
+  //   <div class="modal-window-caption"></div>
   // </div>
 
   var close = document.createElement('span');
-  close.classList.add('momo-close');
+  close.classList.add('modal-window-close-button');
   close.innerHTML = '&times;';
   close.onclick = function() {
     modal.style.display = 'none';
   };
 
   var image = document.createElement('img');
-  image.classList.add('momo-img');
+  image.classList.add('modal-window-image-content');
 
   var caption = document.createElement('div');
-  caption.classList.add('momo-caption');
+  caption.classList.add('modal-window-caption');
 
   var modal = document.createElement('div');
-  modal.setAttribute('id', 'modal-doc');
-  modal.classList.add('momo');
+  modal.setAttribute('id', 'modal-window');
+  modal.classList.add('modal-window');
 
   modal.appendChild(close);
   modal.appendChild(image);
@@ -309,9 +309,9 @@ function setupModalWindow() {
 }
 
 function updateModalEvents(view) {
-  var modal = document.querySelector('#modal-doc');
-  var image = modal.querySelector('.momo-img');
-  var caption = modal.querySelector('.momo-caption');
+  var modal = document.querySelector('#modal-window');
+  var image = modal.querySelector('.modal-window-image-content');
+  var caption = modal.querySelector('.modal-window-caption');
 
   // Add the modal events on each image.
   var imgs = view.querySelectorAll('img');
