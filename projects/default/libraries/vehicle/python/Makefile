@@ -74,7 +74,7 @@ LIB             += -L"$(WEBOTS_HOME)/lib" -lController -lCppController -L"$(PYTH
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
-LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
+LIB             += -L"$(BREW_PYTHON_PATH)/lib"
 endif
 endif
 
