@@ -317,7 +317,8 @@ function updateModalEvents(view) {
   var imgs = view.querySelectorAll('img');
   for (var i = 0; i < imgs.length; i++) {
     imgs[i].onclick = function(event) {
-      image.src = '#';
+      image.src = computeTargetPath() + '../css/images/load.gif';
+
       var img = event.target;
       // The modal window is only enabled on big enough images and on thumbnail.
       if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
