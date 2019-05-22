@@ -172,7 +172,7 @@ PROTO WrestlingReferee [
         device LinearMotor {
           maxForce 1e20
           maxVelocity 1e20
-          name "red coverage"
+          name "red indicator"
         }
         endPoint Solid {
           translation 0 0 0
@@ -207,7 +207,7 @@ PROTO WrestlingReferee [
         device LinearMotor {
           maxForce 1e20
           maxVelocity 1e20
-          name "blue coverage"
+          name "blue indicator"
         }
         endPoint Solid {
           translation 0 0 0

@@ -37,8 +37,8 @@ class Referee (Supervisor):
         self.coverage = [0] * 2
         self.koCount = [0] * 2
         self.indicator = [0] * 2
-        self.indicator[0] = self.getMotor("red coverage")
-        self.indicator[1] = self.getMotor("blue coverage")
+        self.indicator[0] = self.getMotor("red indicator")
+        self.indicator[1] = self.getMotor("blue indicator")
 
     def displayTime(self, minutes, seconds):
         for j in range(3):
