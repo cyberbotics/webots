@@ -361,6 +361,11 @@ body {
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.9);
 }
+.webots-doc .modal-window-load-image {
+  margin: auto;
+  display: block;
+  cursor: pointer;
+}
 .webots-doc .modal-window-image-content {
   margin: auto;
   display: block;
@@ -904,10 +909,6 @@ body {
 
 .blog #view img:hover {
   opacity: 0.7;
-}
-
-.blog #view .modal img:hover {
-  opacity: 1.0;
 }
 
 .blog #view #publish-data {

@@ -287,9 +287,12 @@ function setupModalWindow() {
     modal.style.display = 'none';
   };
 
+  var loadImage = document.createElement('img');
+  loadImage.classList.add('modal-window-load-image');
+  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load.gif');
+
   var image = document.createElement('img');
   image.classList.add('modal-window-image-content');
-  image.setAttribute('src', computeTargetPath() + '../css/images/load.gif');
 
   var caption = document.createElement('div');
   caption.classList.add('modal-window-caption');
@@ -299,6 +302,7 @@ function setupModalWindow() {
   modal.classList.add('modal-window');
 
   modal.appendChild(close);
+  modal.appendChild(loadImage);
   modal.appendChild(image);
   modal.appendChild(caption);
   doc.appendChild(modal);
@@ -306,7 +310,8 @@ function setupModalWindow() {
   window.onclick = function(event) {
     if (event.target === modal) {
       modal.style.display = 'none';
-      image.src = computeTargetPath() + '../css/images/load.gif';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
     }
   };
 }
@@ -314,6 +319,7 @@ function setupModalWindow() {
 function updateModalEvents(view) {
   var modal = document.querySelector('#modal-window');
   var image = modal.querySelector('.modal-window-image-content');
+  var loadImage = modal.querySelector('.modal-window-load-image');
   var caption = modal.querySelector('.modal-window-caption');
 
   // Add the modal events on each image.
@@ -325,20 +331,28 @@ function updateModalEvents(view) {
       if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
         return;
 
+      // Actually show the image and the caption.
+      modal.style.display = 'block';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
+
+      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
+
       // In case of thumbnail, search for the original png or jpg
+      image.onload = function() {
+        loadImage.style.display = 'none';
+        image.style.display = 'block';
+      };
       image.onerror = function() {
         image.onerror = function() {
           // Hide the modal window if neither the original .png or .jpg is found.
           modal.style.display = 'none';
-          image.src = computeTargetPath() + '../css/images/load.gif';
+          loadImage.style.display = 'block';
+          image.style.display = 'none';
         };
         image.src = img.src.replace('.thumbnail.jpg', '.png');
       };
       image.src = img.src.replace('.thumbnail.jpg', '.jpg');
-
-      // Actually show the image and the caption.
-      modal.style.display = 'block';
-      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
     };
   }
 }
