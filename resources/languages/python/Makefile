@@ -61,8 +61,8 @@ PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC = m
 endif
 BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-PYTHON_BIN      = $(PYTHON_PATH)/bin/
-C_FLAGS         = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+PYTHON_BIN       = $(PYTHON_PATH)/bin/
+C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
@@ -72,9 +72,9 @@ LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSI
 PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
-ifeq ($(PYTHON_SHORT_VERSION), 37)
-PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
-LIBS += -L"$(BREW_PYTHON_PATH)/lib"
+ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
+PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
+LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
 endif
 endif
 
@@ -100,21 +100,12 @@ release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
-	@echo $(LIBS)
-	@echo $(BREW_PYTHON_PATH)
-	@echo $(wildcard $(BREW_PYTHON_PATH))
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
-	@echo $(LIBS)
-	@echo $(BREW_PYTHON_PATH)
-	@echo $(wildcard $(BREW_PYTHON_PATH))
 
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
 	$(CXX) $(LD_FLAGS) $< $(DEF) $(LIBS) -o "$@"
-	@echo $(LIBS)
-	@echo $(BREW_PYTHON_PATH)
-	@echo $(wildcard $(BREW_PYTHON_PATH))
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist"
