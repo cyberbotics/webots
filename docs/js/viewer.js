@@ -292,7 +292,7 @@ function createModalEvents(view) {
       var img = event.target;
       image.src = img.src;
       modal.style.display = 'block';
-      caption.innerHTML = this.parentNode.childNodes[1].innerHTML;
+      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
     };
   }
 }
