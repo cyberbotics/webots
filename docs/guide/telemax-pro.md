@@ -6,7 +6,7 @@ The [Telemax PRO robot](https://www.telerob.com/en/products/telemax-family) from
 
 ### Movie Presentation
 
-![youtube video](https://youtu.be/vU086Fd22-0)  TODO: update
+![youtube video](https://www.youtube.com/watch?v=lUWMGk0i9Tc)
 
 ### Telemax PRO PROTO
 
