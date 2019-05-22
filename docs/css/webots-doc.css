@@ -348,6 +348,53 @@ body {
   line-height: 140%;
   word-wrap: break-word;
 }
+.momo {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.9);
+}
+.momo-img {
+  margin: auto;
+  display: block;
+  cursor: pointer;
+  transition: 0.05s;
+  box-shadow: 0px 5px 20px 6px rgba(0, 0, 0, 1);
+}
+.momo-close {
+  position: absolute;
+  top: 10px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 30px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.momo-close:hover,
+.momo-close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+.momo-caption {
+  margin: auto;
+  display: block;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.4s;
+}
 .webots-doc img {
   max-width: 100%;
   max-height: 500px;
@@ -871,60 +918,6 @@ body {
   padding-bottom: 2px;
   margin-bottom: 2px;
   display:block;
-}
-
-.momo {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  padding-top: 60px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.9);
-}
-
-.momo-img { /* TODO: move this rule above .webots-doc img to remove the !important statements. */
-  max-width: 95% !important;
-  max-height: 80% !important;
-  margin: auto;
-  display: block;
-  cursor: pointer;
-  transition: 0.05s;
-  box-shadow: 0px 5px 20px 6px rgba(0, 0, 0, 1);
-}
-
-.momo-close {
-  position: absolute;
-  top: 10px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 30px;
-  font-weight: bold;
-  transition: 0.2s;
-}
-
-.momo-close:hover,
-.momo-close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.momo-caption {
-  margin: auto;
-  display: block;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.6s;
-  animation-name: zoom;
-  animation-duration: 0.4s;
 }
 
 .blog .webm {
