@@ -349,21 +349,29 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
-  applyEquirectangularBackground(texture) {
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: 512 });
+  applyEquirectangularBackground(image) {
+    var texture = new THREE.DataTexture(image.data, image.width, image.height);
+    texture.encoding = THREE.RGBEEncoding;
+    texture.minFilter = THREE.NearestFilter;
+    texture.magFilter = THREE.NearestFilter;
+    texture.needsUpdate = true;
+
+    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
     this.scene.background = cubemapGenerator.renderTarget;
-    /*
+
+    var cubeMapTexture = cubemapGenerator.update(this.renderer);
+
     var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
     pmremGenerator.update(this.renderer);
 
     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
     pmremCubeUVPacker.update(this.renderer);
 
-    this.backgroundEnvMap = pmremCubeUVPacker.CubeUVRenderTarget;
+    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture);
 
+    texture.dispose();
     pmremGenerator.dispose();
     pmremCubeUVPacker.dispose();
-    */
   }
 
   // private functions
@@ -390,14 +398,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap() {
+  _setupEnvironmentMap(envMap = undefined) {
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
+    if (typeof envMap !== 'undefined')
+      backgroundMap = envMap;
+    else if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
+        material.needsUpdate = true;
       }
     });
   }
