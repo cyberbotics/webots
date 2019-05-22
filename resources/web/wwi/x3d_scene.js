@@ -350,6 +350,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   applyEquirectangularBackground(image) {
+    // expected HDR image
     var texture = new THREE.DataTexture(image.data, image.width, image.height);
     texture.encoding = THREE.RGBEEncoding;
     texture.minFilter = THREE.NearestFilter;
