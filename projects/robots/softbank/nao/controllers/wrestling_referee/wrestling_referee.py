@@ -67,9 +67,9 @@ class Referee (Supervisor):
                     position = self.robot[i].getPosition()
                     coverage = 0
                     for j in range(3):
-                        if position[j] < self.min[i][j]:
+                        if position[j] < self.min[i][j] and position[j] > -1:
                             self.min[i][j] = position[j]
-                        elif position[j] > self.max[i][j]:
+                        elif position[j] > self.max[i][j] and position[j] < 1:
                             self.max[i][j] = position[j]
                         box[j] = self.max[i][j] - self.min[i][j]
                         coverage += box[j] * box[j]
