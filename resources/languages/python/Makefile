@@ -55,12 +55,12 @@ endif
 ifeq ($(OSTYPE),darwin)
 ifeq ($(PYTHON_SHORT_VERSION), 27)
 PYTHON_PATH ?= /System/Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
-BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC =
 else
 PYTHON_PATH ?= /Library/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_PYMALLOC = m
 endif
+BREW_PYTHON_PATH = /usr/local/Cellar/python/$(PYTHON_FULL_VERSION)/Frameworks/Python.framework/Versions/$(PYTHON_VERSION)
 PYTHON_BIN      = $(PYTHON_PATH)/bin/
 C_FLAGS         = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
@@ -73,8 +73,8 @@ PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMA
 LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
 LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
 ifeq ($(PYTHON_SHORT_VERSION), 37)
-PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
-LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python3.7m"
+LIBS += -L"$(BREW_PYTHON_PATH)/lib"
 endif
 endif
 
