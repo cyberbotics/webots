@@ -270,6 +270,33 @@ function redirectImages(node) {
   }
 }
 
+function setupModalWindow() {
+  var modal = document.querySelector('#modal-doc');
+  var close = modal.querySelector('.momo-close');
+  close.onclick = function() {
+    modal.style.display = 'none';
+  };
+  window.onclick = function(event) {
+    if (event.target === modal)
+      modal.style.display = 'none';
+  };
+}
+
+function createModalEvents(view) {
+  var modal = document.querySelector('#modal-doc');
+  var image = modal.querySelector('.momo-img');
+  var caption = modal.querySelector('.momo-caption');
+  var imgs = view.querySelectorAll('img');
+  for (var i = 0; i < imgs.length; i++) {
+    var img = imgs[i];
+    img.onclick = function(event) {
+      image.src = img.src;
+      modal.style.display = 'block';
+      caption.innerHTML = this.parentNode.childNodes[1].innerHTML;
+    };
+  }
+}
+
 function applyAnchor() {
   var firstAnchor = document.querySelector("[name='" + localSetup.anchor + "']");
   if (firstAnchor) {
@@ -531,6 +558,7 @@ function populateViewDiv(mdContent) {
   createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
+  createModalEvents(view);
   redirectUrls(view);
   collapseMovies(view);
 
@@ -1387,6 +1415,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   addContributionBanner();
+  setupModalWindow();
   applyToTitleDiv();
   getMDFile();
   getMenuFile();
