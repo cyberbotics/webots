@@ -271,18 +271,44 @@ function redirectImages(node) {
 }
 
 function setupModalWindow() {
-  var modal = document.querySelector('#modal-doc');
-  var close = modal.querySelector('.momo-close');
+  var doc = document.querySelector('#webots-doc');
+
+  // Create the following HTML tags:
+  // <div id="modal-doc" class="momo">
+  //   <span class="momo-close">&times;</span>
+  //   <img class="momo-img" />
+  //   <div class="momo-caption"></div>
+  // </div>
+
+  var close = document.createElement('span');
+  close.classList.add('momo-close');
+  close.innerHTML = '&times;';
   close.onclick = function() {
     modal.style.display = 'none';
   };
+
+  var image = document.createElement('img');
+  image.classList.add('momo-img');
+
+  var caption = document.createElement('div');
+  caption.classList.add('momo-caption');
+
+  var modal = document.createElement('div');
+  modal.setAttribute('id', 'modal-doc');
+  modal.classList.add('momo');
+
+  modal.appendChild(close);
+  modal.appendChild(image);
+  modal.appendChild(caption);
+  doc.appendChild(modal);
+
   window.onclick = function(event) {
     if (event.target === modal)
       modal.style.display = 'none';
   };
 }
 
-function createModalEvents(view) {
+function updateModalEvents(view) {
   var modal = document.querySelector('#modal-doc');
   var image = modal.querySelector('.momo-img');
   var caption = modal.querySelector('.momo-caption');
@@ -518,7 +544,7 @@ function populateViewDiv(mdContent) {
   createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
-  createModalEvents(view);
+  updateModalEvents(view);
   redirectUrls(view);
   collapseMovies(view);
 
