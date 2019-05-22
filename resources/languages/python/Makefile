@@ -66,9 +66,10 @@ C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS         += -Wno-self-assign
 endif
+ifeq ($(PYTHON_SHORT_VERSION), 37)
 PYTHON_INCLUDES += -I"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/include/python3.7m"
-LIBS            += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
-LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
+LIBS += -L"/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib"
+endif
 LD_FLAGS         = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LIBS            += -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
 LIBOUT           = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
