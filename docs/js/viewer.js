@@ -312,11 +312,27 @@ function updateModalEvents(view) {
   var modal = document.querySelector('#modal-doc');
   var image = modal.querySelector('.momo-img');
   var caption = modal.querySelector('.momo-caption');
+
+  // Add the modal events on each image.
   var imgs = view.querySelectorAll('img');
   for (var i = 0; i < imgs.length; i++) {
     imgs[i].onclick = function(event) {
       var img = event.target;
-      image.src = img.src;
+      // The modal window is only enabled on big enough images and on thumbnail.
+      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
+        return;
+
+      // In case of thumbnail, search for the original png or jpg
+      image.onerror = function() {
+        image.onerror = function() {
+          // Hide the modal window if neither the original .png or .jpg is found.
+          modal.style.display = 'none';
+        };
+        image.src = img.src.replace('.thumbnail.jpg', '.png');
+      };
+      image.src = img.src.replace('.thumbnail.jpg', '.jpg');
+
+      // Actually show the image and the caption.
       modal.style.display = 'block';
       caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
     };
