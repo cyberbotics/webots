@@ -65,11 +65,13 @@ class Referee (Supervisor):
                 box = [0] * 3
                 for i in range(2):
                     position = self.robot[i].getPosition()
+                    if abs(position[0]) > 1 or abs(position[1]) > 1:  # outside of the ring
+                        continue
                     coverage = 0
                     for j in range(3):
-                        if position[j] < self.min[i][j] and position[j] > -1:
+                        if position[j] < self.min[i][j]:
                             self.min[i][j] = position[j]
-                        elif position[j] > self.max[i][j] and position[j] < 1:
+                        elif position[j] > self.max[i][j]:
                             self.max[i][j] = position[j]
                         box[j] = self.max[i][j] - self.min[i][j]
                         coverage += box[j] * box[j]
