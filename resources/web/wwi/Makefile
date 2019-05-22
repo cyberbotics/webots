@@ -44,7 +44,7 @@ THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
 THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.min.js
 
 # external sources to be downloaded and minified
-THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js/r$(THEEEJS_VERSION)/examples/js/
+THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
   loaders/EquirectangularToCubeGenerator.js \
   loaders/RGBELoader.js \
@@ -82,7 +82,7 @@ $(LOCAL_THREEJS_EXAMPLE_SOURCES):
 	$(eval FILENAME=$(@:$(DEPENDENCIES_PATH)/%=%))
 	@echo "# downloading three.js $@"
 	@mkdir -p $(dir $@)
-	@wget -qN -O $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
+	wget -qN -O $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
