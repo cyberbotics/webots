@@ -43,7 +43,7 @@ A bakelite plastic.
 
 %figure
 
-![BakelitePlastic](images/appearances/BakelitePlastic.png)
+![BakelitePlastic](images/appearances/BakelitePlastic.thumbnail.png)
 
 %end
 
@@ -934,7 +934,7 @@ A rubber material.
 
 %figure
 
-![Rubber](images/appearances/Rubber.png)
+![Rubber](images/appearances/Rubber.thumbnail.png)
 
 %end
 
