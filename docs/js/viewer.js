@@ -288,8 +288,8 @@ function createModalEvents(view) {
   var caption = modal.querySelector('.momo-caption');
   var imgs = view.querySelectorAll('img');
   for (var i = 0; i < imgs.length; i++) {
-    var img = imgs[i];
-    img.onclick = function(event) {
+    imgs[i].onclick = function(event) {
+      var img = event.target;
       image.src = img.src;
       modal.style.display = 'block';
       caption.innerHTML = this.parentNode.childNodes[1].innerHTML;
