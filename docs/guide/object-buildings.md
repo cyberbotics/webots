@@ -6,7 +6,7 @@ A classic auditoruim.
 
 %figure
 
-![Auditorium](images/objects/buildings/Auditorium/model.png)
+![Auditorium](images/objects/buildings/Auditorium/model.thumbnail.png)
 
 %end
 
@@ -56,7 +56,7 @@ A customizable building, the size, appearance and geometry can fully be defined.
 
 %figure
 
-![Building](images/objects/buildings/Building/model.png)
+![Building](images/objects/buildings/Building/model.thumbnail.png)
 
 %end
 
@@ -126,7 +126,7 @@ Building under construction with scaffolding.
 
 %figure
 
-![BuildingUnderConstruction](images/objects/buildings/BuildingUnderConstruction/model.png)
+![BuildingUnderConstruction](images/objects/buildings/BuildingUnderConstruction/model.thumbnail.png)
 
 %end
 
@@ -201,7 +201,7 @@ A carwash with optional boundingObject.
 
 %figure
 
-![Carwash](images/objects/buildings/Carwash/model.png)
+![Carwash](images/objects/buildings/Carwash/model.thumbnail.png)
 
 %end
 
@@ -261,7 +261,7 @@ A commercial building.
 
 %figure
 
-![CommercialBuilding](images/objects/buildings/CommercialBuilding/model.png)
+![CommercialBuilding](images/objects/buildings/CommercialBuilding/model.thumbnail.png)
 
 %end
 
@@ -316,7 +316,7 @@ The Cyberbotics tower.
 
 %figure
 
-![CyberboticsTower](images/objects/buildings/CyberboticsTower/model.png)
+![CyberboticsTower](images/objects/buildings/CyberboticsTower/model.thumbnail.png)
 
 %end
 
@@ -341,7 +341,7 @@ A customizable fast food restaurant.
 
 %figure
 
-![FastFoodRestaurant](images/objects/buildings/FastFoodRestaurant/model.png)
+![FastFoodRestaurant](images/objects/buildings/FastFoodRestaurant/model.thumbnail.png)
 
 %end
 
@@ -383,7 +383,7 @@ A gas station with optional boundingObject.
 
 %figure
 
-![GasStation](images/objects/buildings/GasStation/model.png)
+![GasStation](images/objects/buildings/GasStation/model.thumbnail.png)
 
 %end
 
@@ -413,7 +413,7 @@ A hollow building.
 
 %figure
 
-![HollowBuilding](images/objects/buildings/HollowBuilding/model.png)
+![HollowBuilding](images/objects/buildings/HollowBuilding/model.thumbnail.png)
 
 %end
 
@@ -531,7 +531,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![ModernHouse](images/objects/buildings/ModernHouse/model.png)
+![ModernHouse](images/objects/buildings/ModernHouse/model.thumbnail.png)
 
 %end
 
@@ -567,7 +567,7 @@ A modern suburban house with optional boundingObject.
 
 %figure
 
-![ModernSuburbanHouse](images/objects/buildings/ModernSuburbanHouse/model.png)
+![ModernSuburbanHouse](images/objects/buildings/ModernSuburbanHouse/model.thumbnail.png)
 
 %end
 
@@ -597,7 +597,7 @@ A motel reception with optional boundingObject.
 
 %figure
 
-![MotelReception](images/objects/buildings/MotelReception/model.png)
+![MotelReception](images/objects/buildings/MotelReception/model.thumbnail.png)
 
 %end
 
@@ -627,7 +627,7 @@ An old museum.
 
 %figure
 
-![Museum](images/objects/buildings/Museum/model.png)
+![Museum](images/objects/buildings/Museum/model.thumbnail.png)
 
 %end
 
@@ -687,7 +687,7 @@ The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it
 
 %figure
 
-![RandomBuilding](images/objects/buildings/RandomBuilding/model.png)
+![RandomBuilding](images/objects/buildings/RandomBuilding/model.thumbnail.png)
 
 %end
 
@@ -756,7 +756,7 @@ A residential building.
 
 %figure
 
-![ResidentialBuilding](images/objects/buildings/ResidentialBuilding/model.png)
+![ResidentialBuilding](images/objects/buildings/ResidentialBuilding/model.thumbnail.png)
 
 %end
 
@@ -814,7 +814,7 @@ A residential tower with variable number of floor and optional boundingObject.
 
 %figure
 
-![ResidentialTower](images/objects/buildings/ResidentialTower/model.png)
+![ResidentialTower](images/objects/buildings/ResidentialTower/model.thumbnail.png)
 
 %end
 
@@ -886,7 +886,7 @@ The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it
 
 %figure
 
-![SimpleBuilding](images/objects/buildings/SimpleBuilding/model.png)
+![SimpleBuilding](images/objects/buildings/SimpleBuilding/model.thumbnail.png)
 
 %end
 
@@ -1059,7 +1059,7 @@ A small residential tower with variable number of floor and optional boundingObj
 
 %figure
 
-![SmallResidentialTower](images/objects/buildings/SmallResidentialTower/model.png)
+![SmallResidentialTower](images/objects/buildings/SmallResidentialTower/model.thumbnail.png)
 
 %end
 
@@ -1128,7 +1128,7 @@ A suburban house with optional boundingObject.
 
 %figure
 
-![SuburbanHouse](images/objects/buildings/SuburbanHouse/model.png)
+![SuburbanHouse](images/objects/buildings/SuburbanHouse/model.thumbnail.png)
 
 %end
 
@@ -1158,7 +1158,7 @@ A group of three towers.
 
 %figure
 
-![TheThreeTowers](images/objects/buildings/TheThreeTowers/model.png)
+![TheThreeTowers](images/objects/buildings/TheThreeTowers/model.thumbnail.png)
 
 %end
 
@@ -1208,7 +1208,7 @@ A warehouse with optional boundingObject.
 
 %figure
 
-![Warehouse](images/objects/buildings/Warehouse/model.png)
+![Warehouse](images/objects/buildings/Warehouse/model.thumbnail.png)
 
 %end
 

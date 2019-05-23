@@ -85,7 +85,7 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %figure
 
-![SoccerBall](images/objects/balls/SoccerBall/model.png)
+![SoccerBall](images/objects/balls/SoccerBall/model.thumbnail.png)
 
 %end
 

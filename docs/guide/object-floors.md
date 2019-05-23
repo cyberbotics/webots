@@ -6,7 +6,7 @@ A configurable circle arena composed of floor surrounded by wall.
 
 %figure
 
-![CircleArena](images/objects/floors/CircleArena/model.png)
+![CircleArena](images/objects/floors/CircleArena/model.thumbnail.png)
 
 %end
 
@@ -57,7 +57,7 @@ Configurable standard flat floor.
 
 %figure
 
-![Floor](images/objects/floors/Floor/model.png)
+![Floor](images/objects/floors/Floor/model.thumbnail.png)
 
 %end
 

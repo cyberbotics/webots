@@ -4,7 +4,7 @@ Webots GUI is composed of four principal windows: the *3D window* that displays 
 
 %figure "Webots GUI"
 
-![main_window.png](images/main_window.png)
+![main_window.png](images/main_window.thumbnail.jpg)
 
 %end
 

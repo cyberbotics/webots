@@ -6,7 +6,7 @@ A chair (0.5 x 1 x 0.5 m).
 
 %figure
 
-![Chair](images/objects/chairs/Chair/model.png)
+![Chair](images/objects/chairs/Chair/model.thumbnail.png)
 
 %end
 

@@ -31,7 +31,7 @@ A bench.
 
 %figure
 
-![Bench](images/objects/street_furniture/Bench/model.png)
+![Bench](images/objects/street_furniture/Bench/model.thumbnail.png)
 
 %end
 
@@ -67,7 +67,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BusStop](images/objects/street_furniture/BusStop/model.png)
+![BusStop](images/objects/street_furniture/BusStop/model.thumbnail.png)
 
 %end
 
@@ -109,7 +109,7 @@ A cloth recycling container.
 
 %figure
 
-![ClothRecyclingContainer](images/objects/street_furniture/ClothRecyclingContainer/model.png)
+![ClothRecyclingContainer](images/objects/street_furniture/ClothRecyclingContainer/model.thumbnail.png)
 
 %end
 
@@ -159,7 +159,7 @@ An electrical cabinet.
 
 %figure
 
-![ElectricalCabinet](images/objects/street_furniture/ElectricalCabinet/model.png)
+![ElectricalCabinet](images/objects/street_furniture/ElectricalCabinet/model.thumbnail.png)
 
 %end
 
@@ -281,7 +281,7 @@ A fire hydrant.
 
 %figure
 
-![FireHydrant](images/objects/street_furniture/FireHydrant/model.png)
+![FireHydrant](images/objects/street_furniture/FireHydrant/model.thumbnail.png)
 
 %end
 
@@ -347,7 +347,7 @@ A glass recycling container.
 
 %figure
 
-![GlassRecyclingContainer](images/objects/street_furniture/GlassRecyclingContainer/model.png)
+![GlassRecyclingContainer](images/objects/street_furniture/GlassRecyclingContainer/model.thumbnail.png)
 
 %end
 
@@ -422,7 +422,7 @@ A mailbox.
 
 %figure
 
-![Mailbox](images/objects/street_furniture/Mailbox/model.png)
+![Mailbox](images/objects/street_furniture/Mailbox/model.thumbnail.png)
 
 %end
 
@@ -447,7 +447,7 @@ A metallic trash with optional physics.
 
 %figure
 
-![MetallicTrash](images/objects/street_furniture/MetallicTrash/model.png)
+![MetallicTrash](images/objects/street_furniture/MetallicTrash/model.thumbnail.png)
 
 %end
 
@@ -502,7 +502,7 @@ An old bench.
 
 %figure
 
-![OldBench](images/objects/street_furniture/OldBench/model.png)
+![OldBench](images/objects/street_furniture/OldBench/model.thumbnail.png)
 
 %end
 
@@ -583,7 +583,7 @@ Resizable public toilet with two different displays.
 
 %figure
 
-![PublicToilet](images/objects/street_furniture/PublicToilet/model.png)
+![PublicToilet](images/objects/street_furniture/PublicToilet/model.thumbnail.png)
 
 %end
 
@@ -659,7 +659,7 @@ A simple bench.
 
 %figure
 
-![SimpleBench](images/objects/street_furniture/SimpleBench/model.png)
+![SimpleBench](images/objects/street_furniture/SimpleBench/model.thumbnail.png)
 
 %end
 
@@ -709,7 +709,7 @@ A snack stand.
 
 %figure
 
-![SnackStand](images/objects/street_furniture/SnackStand/model.png)
+![SnackStand](images/objects/street_furniture/SnackStand/model.thumbnail.png)
 
 %end
 
@@ -789,7 +789,7 @@ A trash bin.
 
 %figure
 
-![TrashBin](images/objects/street_furniture/TrashBin/model.png)
+![TrashBin](images/objects/street_furniture/TrashBin/model.thumbnail.png)
 
 %end
 
@@ -823,7 +823,7 @@ A trash container with optional physics.
 
 %figure
 
-![TrashContainer](images/objects/street_furniture/TrashContainer/model.png)
+![TrashContainer](images/objects/street_furniture/TrashContainer/model.thumbnail.png)
 
 %end
 
@@ -878,7 +878,7 @@ An urban fence with optional boundingObject.
 
 %figure
 
-![UrbanFence](images/objects/street_furniture/UrbanFence/model.png)
+![UrbanFence](images/objects/street_furniture/UrbanFence/model.thumbnail.png)
 
 %end
 
@@ -908,7 +908,7 @@ A work trash container.
 
 %figure
 
-![WorkTrashContainer](images/objects/street_furniture/WorkTrashContainer/model.png)
+![WorkTrashContainer](images/objects/street_furniture/WorkTrashContainer/model.thumbnail.png)
 
 %end
 

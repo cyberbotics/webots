@@ -7,7 +7,7 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %figure "3D view of the 4 wheels robot. Note that the coordinate system representations of the robot body and of its wheels are oriented the same way. Their +x-vector (in red) defines the left of the robot, their +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented in a different way, their +x-vector indicates the direction of the sensor."
 
-![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.png)
+![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.thumbnail.jpg)
 
 %end
 

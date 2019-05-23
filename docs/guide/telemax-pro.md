@@ -51,4 +51,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### [telemax.wbt](https://github.com/omichel/webots/tree/master/projects/robots/telerob/telemax_pro/worlds/telemax.wbt)
 
-![telemax.wbt.png](images/robots/telemax-pro/telemax.wbt.png) This simulation shows the Telemax PRO robot climbing stairs and opening a door.
+![telemax.wbt.png](images/robots/telemax-pro/telemax.wbt.thumbnail.jpg) This simulation shows the Telemax PRO robot climbing stairs and opening a door.

@@ -75,6 +75,6 @@ Pioneer3at {
 
 #### pioneer3at.wbt
 
-![pioneer3at_avoidance.png](images/robots/pioneer-3at/pioneer3at_avoidance.wbt.png) The "pioneer3at.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of a SICK LMS 291 [Lidar](../reference/lidar.md) (see the "obstacle\_avoidance\_with\_lidar.c" controller file in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/controller" directory).
+![pioneer3at_avoidance.png](images/robots/pioneer-3at/pioneer3at_avoidance.wbt.thumbnail.png) The "pioneer3at.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of a SICK LMS 291 [Lidar](../reference/lidar.md) (see the "obstacle\_avoidance\_with\_lidar.c" controller file in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/controller" directory).
 The [Lidar](../reference/lidar.md) depth output is used to compute two stimuli in front of the robot.
 These two stimuli are computed by a [Gaussian function](https://en.wikipedia.org/wiki/Gaussian_function) applied slightly on the front left, and respectively on the front right of the robot.

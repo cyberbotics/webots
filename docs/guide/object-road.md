@@ -413,7 +413,7 @@ A customizable crossroad which can contain optionally references to its connecte
 
 %figure
 
-![Crossroad](images/objects/road/Crossroad/model.png)
+![Crossroad](images/objects/road/Crossroad/model.thumbnail.png)
 
 %end
 
@@ -591,7 +591,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.png)
+![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -820,7 +820,7 @@ A simple and customizable roads intersection, all the road are crossing at the s
 
 %figure
 
-![RoadIntersection](images/objects/road/RoadIntersection/model.png)
+![RoadIntersection](images/objects/road/RoadIntersection/model.thumbnail.png)
 
 %end
 
@@ -945,7 +945,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![RoadPillars](images/objects/road/RoadPillars/model.png)
+![RoadPillars](images/objects/road/RoadPillars/model.thumbnail.png)
 
 %end
 
@@ -999,7 +999,7 @@ A simple and customizable roundabout, all the roads are equally separated in ori
 
 %figure
 
-![Roundabout](images/objects/road/Roundabout/model.png)
+![Roundabout](images/objects/road/Roundabout/model.thumbnail.png)
 
 %end
 

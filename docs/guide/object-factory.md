@@ -42,7 +42,7 @@ A plastic crate.
 
 %figure
 
-![PlasticCrate](images/objects/containers/PlasticCrate/model.png)
+![PlasticCrate](images/objects/containers/PlasticCrate/model.thumbnail.png)
 
 %end
 
@@ -69,7 +69,7 @@ A wooden box.
 
 %figure
 
-![WoodenBox](images/objects/containers/WoodenBox/model.png)
+![WoodenBox](images/objects/containers/WoodenBox/model.thumbnail.png)
 
 %end
 
@@ -106,7 +106,7 @@ A customizable conveyor belt moving at a constant speed.
 
 %figure
 
-![ConveyorBelt](images/objects/conveyor_belt/ConveyorBelt/model.png)
+![ConveyorBelt](images/objects/conveyor_belt/ConveyorBelt/model.thumbnail.png)
 
 %end
 
@@ -224,7 +224,7 @@ Simple and configurable wooden pallet.
 
 %figure
 
-![WoodenPallet](images/objects/pallet/WoodenPallet/model.png)
+![WoodenPallet](images/objects/pallet/WoodenPallet/model.thumbnail.png)
 
 %end
 
@@ -267,7 +267,7 @@ Simple and configurable wooden pallet stack.
 
 %figure
 
-![WoodenPalletStack](images/objects/pallet/WoodenPalletStack/model.png)
+![WoodenPalletStack](images/objects/pallet/WoodenPalletStack/model.thumbnail.png)
 
 %end
 
@@ -391,7 +391,7 @@ PipeSection {
 
 %figure
 
-![TJoint](images/objects/pipes/TJoint/model.png)
+![TJoint](images/objects/pipes/TJoint/model.thumbnail.png)
 
 %end
 
@@ -668,7 +668,7 @@ A 4kg bucket of paint, with HingeJoint-based handle.
 
 %figure
 
-![PaintBucket](images/objects/tools/PaintBucket/model.png)
+![PaintBucket](images/objects/tools/PaintBucket/model.thumbnail.png)
 
 %end
 
@@ -694,7 +694,7 @@ A platform cart with overall dimensions 90Lx50Wx85H cm.
 
 %figure
 
-![PlatformCart](images/objects/tools/PlatformCart/model.png)
+![PlatformCart](images/objects/tools/PlatformCart/model.thumbnail.png)
 
 %end
 
@@ -815,7 +815,7 @@ A 15cm Open-End wrench.
 
 %figure
 
-![Wrench](images/objects/tools/Wrench/model.png)
+![Wrench](images/objects/tools/Wrench/model.thumbnail.png)
 
 %end
 
@@ -848,7 +848,7 @@ Large Wheel-based valve. Handle can be moved in either direction by the angle (r
 
 %figure
 
-![LargeValve](images/objects/valves/LargeValve/model.png)
+![LargeValve](images/objects/valves/LargeValve/model.thumbnail.png)
 
 %end
 
@@ -886,7 +886,7 @@ Lever-based valve. Handle can be moved in either direction (from up) of 45 degre
 
 %figure
 
-![LeverValve](images/objects/valves/LeverValve/model.png)
+![LeverValve](images/objects/valves/LeverValve/model.thumbnail.png)
 
 %end
 
@@ -917,7 +917,7 @@ Small Wheel-based valve. Handle can be moved in either direction by the angle (r
 
 %figure
 
-![SmallValve](images/objects/valves/SmallValve/model.png)
+![SmallValve](images/objects/valves/SmallValve/model.thumbnail.png)
 
 %end
 

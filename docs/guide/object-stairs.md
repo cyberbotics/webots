@@ -6,7 +6,7 @@ Generic and customizable stairs model.
 
 %figure
 
-![StraightStairs](images/objects/stairs/StraightStairs/model.png)
+![StraightStairs](images/objects/stairs/StraightStairs/model.thumbnail.png)
 
 %end
 
