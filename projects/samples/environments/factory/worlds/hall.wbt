@@ -32,7 +32,7 @@ Floor {
   appearance BakelitePlastic {
   }
 }
-Solid {
+Transform {
   translation -3.2 0 -4.985
   children [
     Shape {
@@ -64,9 +64,6 @@ Solid {
       }
     }
   ]
-  name "floor(1)"
-  model "floor"
-  locked TRUE
 }
 SquareManhole {
   translation 8.06 -0.048 -1.45
