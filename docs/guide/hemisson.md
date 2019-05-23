@@ -36,6 +36,6 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### hemisson.wbt
 
-![hemisson.wbt.png](images/robots/hemisson/hemisson.wbt.thumbnail.jpg) This simulation shows an Hemisson robot which draws on the floor.
+![hemisson.wbt.png](images/robots/hemisson/hemisson.wbt.png) This simulation shows an Hemisson robot which draws on the floor.
 The robot is moving randomly while avoiding obstacles.
 The ink evaporates continuously.

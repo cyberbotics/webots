@@ -35,4 +35,4 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### qrio.wbt
 
-![qrio.wbt.png](images/robots/qrio/qrio.wbt.thumbnail.jpg) In this example, the QRIO performs endless gymnastic movements.
+![qrio.wbt.png](images/robots/qrio/qrio.wbt.png) In this example, the QRIO performs endless gymnastic movements.

@@ -69,6 +69,6 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### bb-8.wbt
 
-![bb-8.wbt.png](images/robots/bb8/bb-8.wbt.thumbnail.jpg) This simulation shows the BB-8 moving on a sandy uneven terrain.
+![bb-8.wbt.png](images/robots/bb8/bb-8.wbt.png) This simulation shows the BB-8 moving on a sandy uneven terrain.
 When starting up, the robot moves randomly.
 You can disable the auto-pilot mode and control the robot (please refer to the corresponding instructions in the Webots console).
