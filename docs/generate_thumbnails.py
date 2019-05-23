@@ -36,13 +36,17 @@ paths = [
     os.path.join('automobile', 'images')
 ]
 
-# Get all the images
+# Get all the images and remove the thumbnails.
 images = []
 for path in paths:
     for root, dirnames, filenames in os.walk(path):
         for filename in filenames:
-            if filename.endswith(('.jpg', '.png')) and 'thumbnail' not in filename:
-                images.append(os.path.join(root, filename))
+            if filename.endswith(('.jpg', '.png')):
+                image = os.path.join(root, filename)
+                if 'thumbnail' not in filename:
+                    images.append(image)
+                else:
+                    os.remove(image)
 
 # Get all the MD files
 mdFiles = []
