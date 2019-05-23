@@ -51,6 +51,7 @@ CONTROLLERS=\
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
+  telerob/telemax_pro/controllers.Makefile \
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 

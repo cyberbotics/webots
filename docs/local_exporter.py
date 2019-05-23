@@ -89,8 +89,7 @@ if __name__ == "__main__":
     cssString = ''
     repositories = [
         'https://cyberbotics.com/',
-        'https://cdnjs.cloudflare.com/ajax/libs/',
-        'https://cdn.jsdelivr.net/gh/brianxu/'
+        'https://cdnjs.cloudflare.com/ajax/libs/'
     ]
     for dependency in dependencies:
         if dependency.endswith('.css'):

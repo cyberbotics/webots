@@ -15,7 +15,6 @@
 """Importer for writing a Webots worlds from an Open Street Map file."""
 
 import codecs
-import math
 import optparse
 import os
 import re
@@ -87,18 +86,27 @@ if not os.path.isfile(options.inFile):
 random.seed(0)
 
 # check for the bounds of the world
-minlat = float('nan')
-minlon = float('nan')
-maxlat = float('nan')
-maxlon = float('nan')
+minlat = None
+minlon = None
+maxlat = None
+maxlon = None
 lines = open(options.inFile).read().splitlines()
 for line in lines:
     if 'bounds' in line:
-        minlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
-        minlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
-        maxlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
-        maxlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
-if math.isnan(minlat) or math.isnan(minlon) or math.isnan(maxlat) or math.isnan(maxlon):
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
+        if minlat is None or minlat > temp:
+            minlat = temp
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
+        if minlon is None or minlon > temp:
+            minlon = temp
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
+        if maxlat is None or maxlat < temp:
+            maxlat = temp
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
+        if maxlon is None or maxlon < temp:
+            maxlon = temp
+
+if minlat is None or minlon is None or maxlat is None or maxlon is None:
     sys.stderr.write('Warning: impossible to get the map bounds from the OSM file,'
                      ' make sure the file contains the "bounds" tag.\n')
     sys.exit(0)

@@ -711,7 +711,7 @@ static void create_file(const char *name, int m) {
       }
 
       // check and copy the .*.cache hidden files
-      if (strcasecmp(&buffer[l - 6], ".proto") == 0 && strstr(buffer, "/protos/")) {
+      if (strcasecmp(&buffer[l - 6], ".proto") == 0 && strstr(buffer, "/protos/") && !getenv("TRAVIS")) {
         sprintf(big_buffer, "%s/%s", webots_home, buffer);
         // we need to expand the possible wildcard
         int n;
@@ -801,7 +801,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s libopencv_core.2.4.3.dylib libopencv_core.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.2.4.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.dylib\n");
-      fprintf(fd, "ln -s libode.3.dylib libode.dylib\n");
       fprintf(fd, "ln -s libssh.4.dylib libssh.dylib\n");
       fprintf(fd, "ln -s libzip.2.dylib libzip.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);

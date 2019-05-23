@@ -21,7 +21,7 @@ Solid {
     local mass = fields.mass.value
 
     local max_size = 3
-    local min_size = 0.1
+    local min_size = 0.01
 
     if size.x > max_size then
       io.stderr:write("'size.x' greater than " .. max_size .. "\n")
