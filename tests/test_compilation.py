@@ -25,6 +25,7 @@ path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 
+print('make -C %s distrib -j%d' % (path, multiprocessing.cpu_count()))
 command = Command('make -C %s distrib -j%d' % (path, multiprocessing.cpu_count()))
 command.run(silent=False)
 if command.returncode != 0:
