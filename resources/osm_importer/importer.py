@@ -15,7 +15,6 @@
 """Importer for writing a Webots worlds from an Open Street Map file."""
 
 import codecs
-import math
 import optparse
 import os
 import re
