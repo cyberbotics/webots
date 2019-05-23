@@ -289,7 +289,7 @@ function setupModalWindow() {
 
   var loadImage = document.createElement('img');
   loadImage.classList.add('modal-window-load-image');
-  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load.gif');
+  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load_animation.gif');
 
   var image = document.createElement('img');
   image.classList.add('modal-window-image-content');
