@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
 import os
 
 from PIL import Image
@@ -97,6 +98,11 @@ for image in images:
         im.save(thumbnail, targetFormat)
         print('=> Thumbnail "%s" created (%dx%d)' % (thumbnail, im.size[0], im.size[1]))
 
+        # Compute paths by removing books.
+        imagePath = image[(image.find('/') + 1):]
+        thumbnailPath = thumbnail[(thumbnail.find('/') + 1):]
+
         # Modify the MD files accordingly.
         for mdFile in mdFiles:
-            search_and_replace(mdFile, '(%s)' % image, '(%s)' % thumbnail)
+            print(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)
+            search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)
