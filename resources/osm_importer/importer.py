@@ -97,7 +97,7 @@ for line in lines:
         temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
         if minlat is None or minlat > temp:
             minlat = temp
-        temp = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
         if minlon is None or minlon > temp:
             minlon = temp
         temp = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
