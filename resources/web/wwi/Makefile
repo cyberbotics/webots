@@ -13,6 +13,7 @@
 # limitations under the License.
 
 JS_SOURCES = \
+  equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
   dialog_window.js \
@@ -46,7 +47,6 @@ THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
-  loaders/EquirectangularToCubeGenerator.js \
   loaders/RGBELoader.js \
   pmrem/PMREMCubeUVPacker.js \
   pmrem/PMREMGenerator.js
