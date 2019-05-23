@@ -94,7 +94,7 @@ maxlon = None
 lines = open(options.inFile).read().splitlines()
 for line in lines:
     if 'bounds' in line:
-        temp = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
         if minlat is None or minlat > temp:
             minlat = temp
         temp = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
