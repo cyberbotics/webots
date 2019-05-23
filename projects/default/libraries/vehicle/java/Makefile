@@ -77,7 +77,7 @@ $(JAR): JAVA_CLASSES
 	@jar cfv "$@" $(MODULE_PATH)/*.class > /dev/null
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	@javac -target 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/java/Controller.jar $(JAVA_SOURCES) -d .
+	@javac -target 1.8 -source 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/java/Controller.jar $(JAVA_SOURCES) -d .
 
 $(JAVA_SOURCES): $(WRAPPER)
 
