@@ -15,39 +15,88 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import glob
 import os
-import fnmatch
 
 from PIL import Image
 
-pathes = [
-    ['samples', 'jpg', 256, 256],
-    ['appearances', 'png', 512, 512]
+
+def search_and_replace(filename, fromString, toString):
+    """Search and replace string in a file."""
+    with open(filename, 'r') as file:
+        data = file.read()
+    data = data.replace(fromString, toString)
+    with open(filename, 'w') as file:
+        file.write(data)
+
+
+paths = [
+    os.path.join('guide', 'images'),
+    os.path.join('reference', 'images'),
+    os.path.join('automobile', 'images')
 ]
 
-skipped = [
-    'samples/mybot.png'
-]
-
+# Get all the images
 images = []
+for path in paths:
+    for root, dirnames, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.endswith(('.jpg', '.png')) and 'thumbnail' not in filename:
+                images.append(os.path.join(root, filename))
 
-# list images from 'pathes'
-for path in pathes:
-    for image in glob.glob(path[0] + os.sep + "*.png"):
-        if image not in skipped and '.thumbnail.' not in image:
-            images.append([image, path[1], path[2], path[3]])
+# Get all the MD files
+mdFiles = []
+for root, dirnames, filenames in os.walk('.'):
+    for filename in filenames:
+        if filename.endswith(('.md')):
+            mdFiles.append(os.path.join(root, filename))
 
-# specific robot worlds case
-for rootPath, dirNames, fileNames in os.walk('robots'):
-    for fileName in fnmatch.filter(fileNames, '*.wbt.png'):
-        images.append([os.path.join(rootPath, fileName), 'jpg', 256, 256])
+# Revert all the thumbnail in the MD files.
+for mdFile in mdFiles:
+    print('Revert thumbnails in "%s"', mdFile)
+    search_and_replace(mdFile, '.thumbnail.png', '.png')
+    search_and_replace(mdFile, '.thumbnail.jpg', '.png')
 
+# Foreach image:
 for image in images:
-    print('Generating thumbnail(%dx%d) for: %s' % (image[2], image[3], image[0]))
-    im = Image.open(image[0])
-    im.thumbnail((image[2], image[3]))
-    if image[1] == 'jpg':
-        im.convert('RGB').save(image[0].replace('.png', '.thumbnail.jpg'), 'JPEG')
-    else:
-        im.save(image[0].replace('.png', '.thumbnail.png'), 'PNG')
+    im = Image.open(image)
+    width, height = im.size
+    print('Check image "%s" (%dx%d)' % (image, width, height))
+
+    # Compute the expected maximum size depending on the path.
+    expectedSize = 256
+    if ('appearances' + os.sep) in image:
+        expectedSize = 512
+
+    # Condition to create the thumbnail.
+    # - The image is big enough.
+    shouldCreateThumbnail = \
+        width > expectedSize or height > expectedSize
+
+    if shouldCreateThumbnail:
+        # Condition to convert to JPG.
+        shouldConvertToJPG = im.mode == 'RGB'
+        if im.mode == 'RGBA':
+            # Take a 3 pixel samples to determine if the alpha is used.
+            shouldConvertToJPG = \
+                im.getpixel((0, 0))[3] == 255 and \
+                im.getpixel((width / 2, height / 2))[3] == 255 and \
+                im.getpixel((width - 1, height - 1))[3] == 255
+
+        # Actually resize the image.
+        im.thumbnail((expectedSize, expectedSize))
+        thumbnail = image.replace('.png', '.thumbnail.png')
+        targetFormat = 'PNG'
+
+        # JPEG convertion exception.
+        if shouldConvertToJPG:
+            thumbnail = thumbnail.replace('.png', '.jpg')
+            im = im.convert('RGB')
+            targetFormat = 'JPEG'
+
+        # Save the result.
+        im.save(thumbnail, targetFormat)
+        print('=> Thumbnail "%s" created (%dx%d)' % (thumbnail, im.size[0], im.size[1]))
+
+        # Modify the MD files accordingly.
+        for mdFile in mdFiles:
+            search_and_replace(mdFile, '(%s)' % image, '(%s)' % thumbnail)
