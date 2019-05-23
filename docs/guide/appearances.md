@@ -57,7 +57,7 @@ BakelitePlastic {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/BakelitePlastic.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
@@ -948,7 +948,7 @@ Rubber {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/appearances/protos/Rubber.proto"
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Rubber.proto)"
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
