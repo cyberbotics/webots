@@ -29,38 +29,41 @@ Floor {
   translation -0.14 0 0
   size 22.54 6.95
   tileSize 2 2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/floor_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/floor_roughness.jpg"
-      ]
-    }
-    metalness 0
+  appearance BakelitePlastic {
   }
 }
-Floor {
+Transform {
   translation -3.2 0 -4.985
-  name "floor(1)"
-  size 6.3 3.02
-  tileSize 2 2
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/floor_base_color.jpg"
-      ]
+  children [
+    Shape {
+      appearance BakelitePlastic {
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            -3.15 0 -1.51
+            3.15 0 -1.51
+            -3.15 0 1.51
+            3.15 0 1.51
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            3.15 0
+            0 1.51
+            3.15 1.51
+          ]
+        }
+        coordIndex [
+          0, 2, 3, 1, -1
+        ]
+        texCoordIndex [
+          0, 2, 3, 1, -1
+        ]
+      }
     }
-    roughnessMap ImageTexture {
-      url [
-        "textures/floor_roughness.jpg"
-      ]
-    }
-    metalness 0
-  }
+  ]
 }
 SquareManhole {
   translation 8.06 -0.048 -1.45
@@ -1777,7 +1780,7 @@ OfficeTelephone {
   enablePhysics FALSE
 }
 FireExtinguisher {
-  translation 9.653742769265888 0 3.380528379034876
+  translation 9.653743 0 3.360528
   name "fire extinguisher(1)"
 }
 Table {

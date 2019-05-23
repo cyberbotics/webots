@@ -37,5 +37,6 @@ DEF ROBOT %ROBOT% {
   translation %ROBOT_TRANSLATION%
   rotation %ROBOT_ROTATION%
   name "%ROBOT_NAME%"
+  %ROBOT_FIELDS%
 }
 %ROBOT_FOOTER%
