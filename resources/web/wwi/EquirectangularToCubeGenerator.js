@@ -1,136 +1,115 @@
-/**
-* @author Richard M. / https://github.com/richardmonette
-* @author WestLangley / http://github.com/WestLangley
-*/
+/* global THREE */
 
-THREE.EquirectangularToCubeGenerator = ( function () {
+// @author Richard M. / https://github.com/richardmonette
+// @author WestLangley / http://github.com/WestLangley
 
-	var camera = new THREE.PerspectiveCamera( 90, 1, 0.1, 10 );
-	var scene = new THREE.Scene();
-	var boxMesh = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 1 ), getShader() );
-	boxMesh.material.side = THREE.BackSide;
-	scene.add( boxMesh );
+THREE.EquirectangularToCubeGenerator = (function() {
+  var camera = new THREE.PerspectiveCamera(90, 1, 0.1, 10);
+  var scene = new THREE.Scene();
+  var boxMesh = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), getShader());
+  boxMesh.material.side = THREE.BackSide;
+  scene.add(boxMesh);
 
-	var EquirectangularToCubeGenerator = function ( sourceTexture, options ) {
+  class EquirectangularToCubeGenerator {
+    constructor(sourceTexture, options) {
+      options = options || {};
 
-		options = options || {};
+      this.sourceTexture = sourceTexture;
+      this.resolution = options.resolution || 512;
+      this.flipX = Boolean(options.flipX);
 
-		this.sourceTexture = sourceTexture;
-		this.resolution = options.resolution || 512;
-		this.flipX = Boolean(options.flipX);
+      this.views = [
+        { t: [ 1, 0, 0 ], u: [ 0, -1, 0 ] },
+        { t: [ -1, 0, 0 ], u: [ 0, -1, 0 ] },
+        { t: [ 0, 1, 0 ], u: [ 0, 0, 1 ] },
+        { t: [ 0, -1, 0 ], u: [ 0, 0, -1 ] },
+        { t: [ 0, 0, 1 ], u: [ 0, -1, 0 ] },
+        { t: [ 0, 0, -1 ], u: [ 0, -1, 0 ] }
+      ];
 
-		this.views = [
-			{ t: [ 1, 0, 0 ], u: [ 0, - 1, 0 ] },
-			{ t: [ - 1, 0, 0 ], u: [ 0, - 1, 0 ] },
-			{ t: [ 0, 1, 0 ], u: [ 0, 0, 1 ] },
-			{ t: [ 0, - 1, 0 ], u: [ 0, 0, - 1 ] },
-			{ t: [ 0, 0, 1 ], u: [ 0, - 1, 0 ] },
-			{ t: [ 0, 0, - 1 ], u: [ 0, - 1, 0 ] },
-		];
+      var params = {
+        format: options.format || this.sourceTexture.format,
+        magFilter: this.sourceTexture.magFilter,
+        minFilter: this.sourceTexture.minFilter,
+        type: options.type || this.sourceTexture.type,
+        generateMipmaps: this.sourceTexture.generateMipmaps,
+        anisotropy: this.sourceTexture.anisotropy,
+        encoding: this.sourceTexture.encoding
+      };
 
-		var params = {
-			format: options.format || this.sourceTexture.format,
-			magFilter: this.sourceTexture.magFilter,
-			minFilter: this.sourceTexture.minFilter,
-			type: options.type || this.sourceTexture.type,
-			generateMipmaps: this.sourceTexture.generateMipmaps,
-			anisotropy: this.sourceTexture.anisotropy,
-			encoding: this.sourceTexture.encoding
-		};
+      this.renderTarget = new THREE.WebGLRenderTargetCube(this.resolution, this.resolution, params);
+    }
 
-		this.renderTarget = new THREE.WebGLRenderTargetCube( this.resolution, this.resolution, params );
+    update(renderer) {
+      var currentRenderTarget = renderer.getRenderTarget();
 
-	};
+      boxMesh.material.uniforms.equirectangularMap.value = this.sourceTexture;
+      boxMesh.material.uniforms.flipX.value = this.flipX;
 
-	EquirectangularToCubeGenerator.prototype = {
+      for (let i = 0; i < 6; i++) {
+        var v = this.views[ i ];
 
-		constructor: EquirectangularToCubeGenerator,
+        camera.position.set(0, 0, 0);
+        camera.up.set(v.u[ 0 ], v.u[ 1 ], v.u[ 2 ]);
+        camera.lookAt(v.t[ 0 ], v.t[ 1 ], v.t[ 2 ]);
 
-		update: function ( renderer ) {
+        renderer.setRenderTarget(this.renderTarget, i);
+        renderer.clear();
+        renderer.render(scene, camera);
+      }
 
-			var currentRenderTarget = renderer.getRenderTarget();
+      renderer.setRenderTarget(currentRenderTarget);
 
-			boxMesh.material.uniforms.equirectangularMap.value = this.sourceTexture;
-			boxMesh.material.uniforms.flipX.value = this.flipX;
+      return this.renderTarget.texture;
+    }
 
-			for ( var i = 0; i < 6; i ++ ) {
+    dispose() {
+      this.renderTarget.dispose();
+    }
+  };
 
-				var v = this.views[ i ];
+  function getShader() {
+    var shaderMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        'equirectangularMap': { value: null },
+        'flipX': { value: false }
+      },
+      vertexShader:
+`varying vec3 localPosition;
 
-				camera.position.set( 0, 0, 0 );
-				camera.up.set( v.u[ 0 ], v.u[ 1 ], v.u[ 2 ] );
-				camera.lookAt( v.t[ 0 ], v.t[ 1 ], v.t[ 2 ] );
+void main() {
+  localPosition = position;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}`,
+      fragmentShader:
+`#include <common>
+varying vec3 localPosition;
+uniform sampler2D equirectangularMap;
+uniform bool flipX;
 
-				renderer.setRenderTarget( this.renderTarget, i );
-				renderer.clear();
-				renderer.render( scene, camera );
+#define RECIPROCAL_PI 0.31830988618
+#define RECIPROCAL_PI2 0.15915494
+vec2 EquirectangularSampleUV(vec3 v) {
+  vec2 uv = vec2(atan(v.z, v.x), asin(v.y));
+  if (flipX)
+    uv *= vec2(-RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan
+  else
+    uv *= vec2(RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan
+  uv += 0.5;
+  return uv;
+}
 
-			}
+void main() {
+  vec2 uv = EquirectangularSampleUV(normalize(localPosition));
+  gl_FragColor = texture2D(equirectangularMap, uv);
+}`,
+      blending: THREE.NoBlending
+    });
 
-			renderer.setRenderTarget( currentRenderTarget );
+    shaderMaterial.type = 'EquirectangularToCubeGenerator';
 
-			return this.renderTarget.texture;
+    return shaderMaterial;
+  }
 
-		},
-
-		dispose: function () {
-
-			this.renderTarget.dispose();
-
-		}
-
-	};
-
-	function getShader() {
-
-		var shaderMaterial = new THREE.ShaderMaterial( {
-
-			uniforms: {
-				"equirectangularMap": { value: null },
-				"flipX": { value: false }
-			},
-
-			vertexShader:
-        "varying vec3 localPosition;\n\
-        \n\
-        void main() {\n\
-          localPosition = position;\n\
-          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\
-        }",
-
-			fragmentShader:
-        "#include <common>\n\
-        varying vec3 localPosition;\n\
-        uniform sampler2D equirectangularMap;\n\
-        uniform bool flipX;\n\
-        \n\
-        #define RECIPROCAL_PI 0.31830988618\n\
-	#define RECIPROCAL_PI2 0.15915494\n\
-        vec2 EquirectangularSampleUV(vec3 v) {\n\
-          vec2 uv = vec2(atan(v.z, v.x), asin(v.y));\n\
-          if (flipX)\n\
-            uv *= vec2(-RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan\n\
-          else\n\
-            uv *= vec2(RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan\n\
-          uv += 0.5;\n\
-          return uv;\n\
-        }\n\
-        \n\
-        void main() {\n\
-          vec2 uv = EquirectangularSampleUV(normalize(localPosition));\n\
-          gl_FragColor = texture2D(equirectangularMap, uv);\n\
-        }",
-
-			blending: THREE.NoBlending
-
-		} );
-
-		shaderMaterial.type = 'EquirectangularToCubeGenerator';
-
-		return shaderMaterial;
-
-	}
-
-	return EquirectangularToCubeGenerator;
-
-} )();
+  return EquirectangularToCubeGenerator;
+})();
