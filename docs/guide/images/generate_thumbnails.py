@@ -35,7 +35,7 @@ images = []
 # list images from 'pathes'
 for path in pathes:
     for image in glob.glob(path[0] + os.sep + "*.png"):
-        if image not in skipped:
+        if image not in skipped and '.thumbnail.' not in image:
             images.append([image, path[1], path[2], path[3]])
 
 # specific robot worlds case
