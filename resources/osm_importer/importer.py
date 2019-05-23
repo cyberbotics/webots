@@ -103,7 +103,7 @@ for line in lines:
         temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
         if maxlat is None or maxlat < temp:
             maxlat = temp
-        temp = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
+        temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
         if maxlon is None or maxlon < temp:
             maxlon = temp
 
