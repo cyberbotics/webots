@@ -355,9 +355,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     texture.encoding = THREE.RGBEEncoding;
     texture.minFilter = THREE.NearestFilter;
     texture.magFilter = THREE.NearestFilter;
+    texture.flipY = true;
     texture.needsUpdate = true;
 
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
+    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width, flipX: true });
     this.scene.background = cubemapGenerator.renderTarget;
 
     var cubeMapTexture = cubemapGenerator.update(this.renderer);
