@@ -1,5 +1,6 @@
 /* global THREE */
 
+// Source: https://github.com/mrdoob/three.js/blob/r104/examples/js/loaders/EquirectangularToCubeGenerator.js
 // @author Richard M. / https://github.com/richardmonette
 // @author WestLangley / http://github.com/WestLangley
 
