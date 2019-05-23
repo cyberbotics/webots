@@ -104,5 +104,4 @@ for image in images:
 
         # Modify the MD files accordingly.
         for mdFile in mdFiles:
-            print(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)
             search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)
