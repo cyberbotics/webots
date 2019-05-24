@@ -29,7 +29,7 @@ WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
 }
 
 WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
-  QTextStream(target, QIODevice::ReadWrite) QTextStream(device),
+  QTextStream(target, QIODevice::ReadWrite),
   mFileName(fileName),
   mIndent(0),
   mIsWritingToFile(true) {

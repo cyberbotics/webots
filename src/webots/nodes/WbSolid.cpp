@@ -1511,7 +1511,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       continue;
     }
 
-    WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
+    WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(n);
     if (joint) {
       jointChildren.append(joint);
       WbSolid *const ep = joint->solidEndPoint();
@@ -1521,7 +1521,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       }
     }
 
-    WbPropeller *const propeller = dynamic_cast<WbPropeller *>(n);
+    WbPropeller *propeller = dynamic_cast<WbPropeller *>(n);
     if (propeller) {
       propellerChildren.append(propeller);
       continue;

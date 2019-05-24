@@ -898,7 +898,7 @@ bool WbNodeUtilities::isSelected(const WbNode *node) {
 WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
-    WbProtoModel *const proto = n->proto();
+    WbProtoModel *proto = n->proto();
     if (proto)
       return proto;
     else {
