@@ -148,24 +148,24 @@ public:
   operator dSpaceID() const
     { return (dSpaceID) _id; }
 
-  void setCleanup (int mode)
+  void setCleanup (int mode) const
     { dSpaceSetCleanup (id(), mode); }
-  int getCleanup()
+  int getCleanup() const
     { return dSpaceGetCleanup (id()); }
 
-  void add (dGeomID x)
+  void add (dGeomID x) const
     { dSpaceAdd (id(), x); }
-  void remove (dGeomID x)
+  void remove (dGeomID x) const
     { dSpaceRemove (id(), x); }
-  int query (dGeomID x)
+  int query (dGeomID x) const
     { return dSpaceQuery (id(),x); }
 
-  int getNumGeoms()
+  int getNumGeoms() const
     { return dSpaceGetNumGeoms (id()); }
   dGeomID getGeom (int i)
     { return dSpaceGetGeom (id(),i); }
 
-  void collide (void *data, dNearCallback *callback)
+  void collide (void *data, dNearCallback *callback) const
     { dSpaceCollide (id(),data,callback); }
 };
 
@@ -196,7 +196,7 @@ public:
   dHashSpace (dSpaceID space)
     { _id = (dGeomID) dHashSpaceCreate (space); }
 
-  void setLevels (int minlevel, int maxlevel)
+  void setLevels (int minlevel, int maxlevel) const
     { dHashSpaceSetLevels (id(),minlevel,maxlevel); }
 };
 

@@ -594,9 +594,9 @@ public:
     { dJointGetBallAnchor (get_id(), result); }
   void getAnchor2 (dVector3 result) const
     { dJointGetBallAnchor2 (get_id(), result); }
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetBallParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetBallParam (get_id(), parameter); }
   // TODO: expose params through methods
 } ;
@@ -651,9 +651,9 @@ public:
   dReal getAngleRate() const
     { return dJointGetHingeAngleRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetHingeParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetHingeParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -702,9 +702,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetSliderPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetSliderParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetSliderParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -763,9 +763,9 @@ public:
   void getAxis2 (dVector3 result) const
     { dJointGetUniversalAxis2 (get_id(), result); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetUniversalParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetUniversalParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -843,9 +843,9 @@ public:
   dReal getAngle2Rate() const
     { return dJointGetHinge2Angle2Rate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetHinge2Param (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetHinge2Param (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -912,9 +912,9 @@ public:
   dReal getAngleRate() const
     { return dJointGetPRAngleRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetPRParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPRParam (get_id(), parameter); }
 };
 
@@ -993,9 +993,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetPUPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
   { dJointSetPUParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPUParam (get_id(), parameter); }
   // TODO: expose params through methods
 };
@@ -1052,9 +1052,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetPistonPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
   { dJointSetPistonParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPistonParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -1095,10 +1095,10 @@ public:
   void set()
     { dJointSetFixed (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetFixedParam (get_id(), parameter, value); }
 
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetFixedParam (get_id(), parameter); }
   // TODO: expose params through methods
 };
@@ -1219,9 +1219,9 @@ public:
   dReal getAngleRate (int anum)
     { return dJointGetAMotorAngleRate (get_id(), anum); }
 
-  void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetAMotorParam (get_id(), parameter, value); }
-  dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetAMotorParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -1270,9 +1270,9 @@ public:
   void getAxis (int anum, dVector3 result) const
     { dJointGetLMotorAxis (get_id(), anum, result); }
 
-  void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetLMotorParam (get_id(), parameter, value); }
-  dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetLMotorParam (get_id(), parameter); }
   // TODO: expose params through methods
 };
