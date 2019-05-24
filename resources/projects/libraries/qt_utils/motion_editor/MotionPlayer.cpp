@@ -89,6 +89,7 @@ void MotionPlayer::writeActuators() {
   }
 
   // apply the found poses to the motor
+  // cppcheck-suppress nullPointerRedundantCheck
   if (beforePose && afterPose) {
     assert(beforePose->states().count() == afterPose->states().count());
 

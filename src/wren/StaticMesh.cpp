@@ -535,6 +535,7 @@ namespace wren {
     const std::array<float, 3> params = {{static_cast<float>(dimensionX), static_cast<float>(dimensionZ), thickness2}};
 
     uint64_t hash = cache::sipHash13c(reinterpret_cast<const char *>(&params[0]), params.size() * sizeof(float));
+    // cppcheck-suppress uninitvar
     hash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(heightData)),
                               sizeof(float) * dimensionX * dimensionZ);
     const cache::Key key(hash);
@@ -1358,6 +1359,7 @@ namespace wren {
     uint64_t hash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
                                       sizeof(glm::vec3) * coordCount);
     if (colorData) {
+      // cppcheck-suppress uninitvar
       hash ^= cache::sipHash13c("colorData", 9);
       hash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(colorData)),
                                 sizeof(glm::vec3) * coordCount);
@@ -1400,6 +1402,7 @@ namespace wren {
     uint64_t hash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
                                       sizeof(glm::vec3) * coordCount);
     if (colorData) {
+      // cppcheck-suppress uninitvar
       hash ^= cache::sipHash13c("colorData", 9);
       hash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(colorData)),
                                 sizeof(glm::vec3) * coordCount);
@@ -1443,6 +1446,7 @@ namespace wren {
                                              const unsigned int *indexData, bool outline) {
     uint64_t hash = cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(coordData)),
                                       sizeof(glm::vec3) * coordCount);
+    // cppcheck-suppress uninitvar
     hash ^= cache::sipHash13c(reinterpret_cast<const char *>(reinterpret_cast<const void *>(normalData)),
                               sizeof(glm::vec3) * coordCount);
     uint64_t texCoordDataHash = 0;
