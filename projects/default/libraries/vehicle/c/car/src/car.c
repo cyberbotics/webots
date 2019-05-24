@@ -207,7 +207,7 @@ void wbu_car_init() {
   for (i = 0; i < n_devices; i++) {
     WbDeviceTag tag = wb_robot_get_device_by_index(i);
     const char *name = wb_device_get_name(tag);
-    int i = 0;
+    int j = 0;
     // Check for motors without warning
     for (j = 0; j < 4; j++) {
       if (strcmp(name, motorNames[j + 2]) == 0)

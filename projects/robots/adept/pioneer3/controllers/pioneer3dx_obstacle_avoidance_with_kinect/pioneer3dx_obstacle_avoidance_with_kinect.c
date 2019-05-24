@@ -67,7 +67,7 @@ int main() {
   // init dynamic variables
   double left_obstacle = 0.0, right_obstacle = 0.0;
   double left_speed, right_speed;
-  float value = 0.0;
+  float value;
   int i;
 
   // control loop
