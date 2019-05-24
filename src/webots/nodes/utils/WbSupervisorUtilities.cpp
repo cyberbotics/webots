@@ -512,7 +512,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_START_MOVIE: {
       int width, height;
-      unsigned char codec, quality, acceleration, caption;
+      unsigned char codec = 0, quality = 0, acceleration = 0, caption = 0;
       stream >> (int &)width;
       stream >> (int &)height;
       stream >> (unsigned char &)codec;
@@ -738,8 +738,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(node);
       assert(baseNode);
       if (camera)
+        // cppcheck-suppress redundantAssignment
         camera->setNodeVisibility(baseNode, visible == 1);
       else if (viewpoint)
+        // cppcheck-suppress redundantAssignment
         viewpoint->setNodeVisibility(baseNode, visible == 1);
       return;
     }
@@ -907,12 +909,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_MF_BOOL: {
           unsigned char value = 0;
           stream >> (unsigned char &)value;
+          // cppcheck-suppress redundantAssignment
           (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
           break;
         }
         case WB_MF_INT32: {
           int value = 0;
           stream >> (int &)value;
+          // cppcheck-suppress redundantAssignment
           (dynamic_cast<WbMFInt *>(field->value()))->insertItem(index, value);
           break;
         }

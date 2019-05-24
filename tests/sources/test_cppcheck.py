@@ -131,6 +131,7 @@ class TestCppCheck(unittest.TestCase):
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
+        command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq '
         command += '--output-file=' + self.reportFilename
         for include in self.includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'

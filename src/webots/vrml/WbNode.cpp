@@ -1822,9 +1822,9 @@ bool WbNode::hasAreferredDefNodeDescendant(const WbNode *root) const {
     if (sfnode && sfnode->value()) {
       const WbNode *node = sfnode->value();
       const int nodeCount = node->useCount();
-      const QList<WbNode *> &useNodes = node->useNodes();
+      const QList<WbNode *> &nodeUseNodes = node->useNodes();
       for (int i = 0; i < nodeCount; ++i) {
-        if (!root->isAnAncestorOf(useNodes.at(i)))
+        if (!root->isAnAncestorOf(nodeUseNodes.at(i)))
           return true;
       }
       const bool subtreeHasDef = node->hasAreferredDefNodeDescendant(root);

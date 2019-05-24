@@ -46,6 +46,7 @@ namespace WbTriangleMeshCache {
     int offsetHash = sizetbytes;
     int offsetResult = 0;
     while (offsetHash < uint64bytes) {
+      // nullPointerArithmetic
       *(startResult + offsetResult) ^= *(startHash + offsetHash);
       ++offsetHash;
       if (++offsetResult >= sizetbytes)
