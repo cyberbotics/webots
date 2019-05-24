@@ -131,8 +131,10 @@ void MotionPlayer::writeActuators() {
   // bounds management
   else if (beforePose || afterPose) {
     Pose *pose = beforePose ? beforePose : afterPose;
+    // cppcheck-suppress nullPointerRedundantCheck
     pose->select();
 
+    // cppcheck-suppress nullPointerRedundantCheck
     int count = pose->states().count();
 
     for (int i = 0; i < count; i++) {

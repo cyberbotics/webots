@@ -521,6 +521,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> (unsigned char &)caption;
       QString filename = readString(stream);
       makeFilenameAbsolute(filename);
+      // cppcheck-suppress knownConditionTrueFalse
       WbApplication::instance()->startVideoCapture(filename, codec, width, height, quality, acceleration, caption == 1);
       return;
     }
@@ -738,10 +739,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(node);
       assert(baseNode);
       if (camera)
-        // cppcheck-suppress redundantAssignment
+        // cppcheck-suppress knownConditionTrueFalse
         camera->setNodeVisibility(baseNode, visible == 1);
       else if (viewpoint)
-        // cppcheck-suppress redundantAssignment
+        // cppcheck-suppress knownConditionTrueFalse
         viewpoint->setNodeVisibility(baseNode, visible == 1);
       return;
     }
@@ -909,14 +910,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_MF_BOOL: {
           unsigned char value = 0;
           stream >> (unsigned char &)value;
-          // cppcheck-suppress redundantAssignment
+          // cppcheck-suppress knownConditionTrueFalse
           (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
           break;
         }
         case WB_MF_INT32: {
           int value = 0;
           stream >> (int &)value;
-          // cppcheck-suppress redundantAssignment
           (dynamic_cast<WbMFInt *>(field->value()))->insertItem(index, value);
           break;
         }

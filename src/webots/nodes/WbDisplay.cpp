@@ -260,7 +260,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       bool antiAliasing = false;
       stream >> (unsigned int &)fontSize;
       stream >> (unsigned char &)antiAliasing;
-      // cppcheck-suppress redundantAssignment
+      // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
       stream >> (unsigned short &)size;
       char font[size];
