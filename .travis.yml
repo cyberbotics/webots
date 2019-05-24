@@ -17,8 +17,8 @@ cache: pip
 deploy:
   provider: releases
   file: distribution/webots-R2019a-rev2-x86-64.tar.bz2
-  api_key:
-    secure: f4aa7b689eaa29fbf10005b81c956fd3abc10f87
+  user: DavidMansolino
+  password: $DAVID_PASSWORD
   skip_cleanup: true
   draft: true
   on:
