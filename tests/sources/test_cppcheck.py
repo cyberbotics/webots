@@ -36,7 +36,7 @@ class TestCppCheck(unittest.TestCase):
 
         self.includeDirs = [
             'include/controller/c',
-            'include/ode',
+            #'include/ode',
             'include/qt/QtCore',
             'include/qt/QtGui',
             'include/qt/QtWidgets',
@@ -113,7 +113,7 @@ class TestCppCheck(unittest.TestCase):
         """Run Cppcheck command and check for errors."""
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
-            
+
         os.system(command)
 
         if os.path.isfile(self.reportFilename):
@@ -130,7 +130,7 @@ class TestCppCheck(unittest.TestCase):
         """Test Webots with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
-        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm '
+        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += '--output-file=' + self.reportFilename
         for include in self.includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'

@@ -354,7 +354,7 @@ void WbIndexedFaceSet::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, const Wb
   }
   unsigned int *iBuf = buffers->indexBuffer();
   if (iBuf) {
-    int start = buffers->vertexIndex() / 3;
+    start = buffers->vertexIndex() / 3;
     int i = buffers->index();
     for (int t = 0; t < n; ++t) {  // foreach triangle
       for (int v = 0; v < 3; ++v)  // foreach vertex
