@@ -903,7 +903,7 @@ WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
       return proto;
     else {
       const WbNode *const protoParameterNode = n->protoParameterNode();
-      WbProtoModel *const proto = protoParameterNode ? protoParameterNode->proto() : NULL;
+      proto = protoParameterNode ? protoParameterNode->proto() : NULL;
       if (proto)
         return proto;
 

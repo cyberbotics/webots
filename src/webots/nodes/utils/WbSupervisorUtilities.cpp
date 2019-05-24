@@ -672,7 +672,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_SET_VELOCITY: {
       unsigned int id;
-      double a0, a1, a2, l0, l1, l2;
+      double a0 = 0.0, a1 = 0.0, a2 = 0.0, l0 = 0.0, l1 = 0.0, l2 = 0.0;
 
       stream >> (unsigned int &)id;
       stream >> (double &)l0;
@@ -725,7 +725,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_SET_VISIBILITY: {
       unsigned int nodeId, fromId;
-      unsigned char visible;
+      unsigned char visible = 0;
 
       stream >> (unsigned int &)nodeId;
       stream >> (unsigned int &)fromId;
@@ -905,7 +905,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       switch (field->type()) {  // import value
         case WB_MF_BOOL: {
-          unsigned char value;
+          unsigned char value = 0;
           stream >> (unsigned char &)value;
           (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
           break;
