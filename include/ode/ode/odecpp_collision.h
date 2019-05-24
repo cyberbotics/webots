@@ -177,9 +177,9 @@ class dSimpleSpace : public dSpace {
 public:
   dSimpleSpace ()
     { _id = (dGeomID) dSimpleSpaceCreate (0); }
-  dSimpleSpace (dSpace &space)
+  explicit dSimpleSpace (dSpace &space)
     { _id = (dGeomID) dSimpleSpaceCreate (space.id()); }
-  dSimpleSpace (dSpaceID space)
+  explicit dSimpleSpace (dSpaceID space)
     { _id = (dGeomID) dSimpleSpaceCreate (space); }
 };
 
@@ -191,9 +191,9 @@ class dHashSpace : public dSpace {
 public:
   dHashSpace ()
     { _id = (dGeomID) dHashSpaceCreate (0); }
-  dHashSpace (dSpace &space)
+  explicit dHashSpace (dSpace &space)
     { _id = (dGeomID) dHashSpaceCreate (space.id()); }
-  dHashSpace (dSpaceID space)
+  explicit dHashSpace (dSpaceID space)
     { _id = (dGeomID) dHashSpaceCreate (space); }
 
   void setLevels (int minlevel, int maxlevel) const
@@ -221,7 +221,7 @@ class dSphere : public dGeom {
 
 public:
   dSphere () { }
-  dSphere (dReal radius)
+  explicit dSphere (dReal radius)
     { _id = dCreateSphere (0, radius); }
   dSphere (dSpace &space, dReal radius)
     { _id = dCreateSphere (space.id(), radius); }
@@ -346,7 +346,7 @@ class dRay : public dGeom {
 
 public:
   dRay() { }
-  dRay (dReal length)
+  explicit dRay (dReal length)
     { _id = dCreateRay (0,length); }
   dRay (dSpace &space, dReal length)
     { _id = dCreateRay (space.id(),length); }
@@ -404,9 +404,9 @@ class dGeomTransform : public dGeom {
 
 public:
   dGeomTransform() { }
-  dGeomTransform (dSpace &space)
+  explicit dGeomTransform (dSpace &space)
     { _id = dCreateGeomTransform (space.id()); }
-  dGeomTransform (dSpaceID space)
+  explicit dGeomTransform (dSpaceID space)
     { _id = dCreateGeomTransform (space); }
 
   void create (dSpaceID space=0) {
