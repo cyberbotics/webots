@@ -18,7 +18,7 @@ deploy:
   provider: releases
   file: distribution/webots-R2019a-rev2-x86-64.tar.bz2
   user: DavidMansolino
-  password: $DAVID_PASSWORD
+  password: b4e7662683c15bfb8667476da3b12bcb2e3e4990
   skip_cleanup: true
   draft: true
   on:
