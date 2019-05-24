@@ -27,7 +27,7 @@ Camera::Camera(WbDeviceTag tag) : Sensor(tag, 0) {
 }
 
 bool Camera::rawToBgraImage(unsigned char *bgraImage, const unsigned char *rawImage) const {
-  int index = 0;
+  int index;
   int counter = 0;
   unsigned char red, green, blue;
 

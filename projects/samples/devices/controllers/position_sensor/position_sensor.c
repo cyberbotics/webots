@@ -54,7 +54,6 @@ int main(int argc, char **argv) {
 
   previous_position = 0;
   integral = 0.0;
-  speed = 0.0;
 
   while (wb_robot_step(time_step) != -1) {
     const double position = wb_position_sensor_get_value(position_sensor);
