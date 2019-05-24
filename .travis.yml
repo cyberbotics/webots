@@ -14,6 +14,13 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
       language: generic
 jdk: openjdk8
 cache: pip
+deploy:
+  provider: releases
+  file: distribution/webots-R2019a-rev2-x86-64.tar.bz2
+  api_key:
+    secure: f4aa7b689eaa29fbf10005b81c956fd3abc10f87
+  skip_cleanup: true
+  draft: true
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
