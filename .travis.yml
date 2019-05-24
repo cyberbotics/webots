@@ -21,7 +21,9 @@ deploy:
     secure: f4aa7b689eaa29fbf10005b81c956fd3abc10f87
   skip_cleanup: true
   draft: true
-  all_branches: true  # https://docs.travis-ci.com/user/deployment#conditional-releases-with-on
+  on:
+    branch: travis-test
+  all_branches: true
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
