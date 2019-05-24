@@ -36,6 +36,7 @@ class TestCppCheck(unittest.TestCase):
 
         self.includeDirs = [
             'include/controller/c',
+            'include/ode',
             'include/qt/QtCore',
             'include/qt/QtGui',
             'include/qt/QtWidgets',

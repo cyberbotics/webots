@@ -68,6 +68,6 @@ addons:
       - node
 script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-  - travis_wait 30 python -m unittest discover -s tests/sources
+  - if [ $TRAVIS_OS_NAME = linux ]; then python -m unittest discover -s tests/sources; else travis_wait 30 python -m unittest discover -s tests/sources; fi
   - python -m unittest discover -s docs/tests
   - if [ $TRAVIS_EVENT_TYPE = cron ]; then travis_wait 45 python tests/test_compilation.py; fi
