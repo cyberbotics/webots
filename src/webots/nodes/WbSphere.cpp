@@ -19,6 +19,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFInt.hpp"
@@ -230,6 +231,10 @@ void WbSphere::applyToOdeData(bool correctSolidMass) {
 
   assert(dGeomGetClass(mOdeGeom) == dSphereClass);
   dGeomSphereSetRadius(mOdeGeom, scaledRadius());
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (correctSolidMass)
     applyToOdeMass();

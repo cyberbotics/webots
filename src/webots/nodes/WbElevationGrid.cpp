@@ -24,6 +24,7 @@
 #include "WbMFDouble.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbRgb.hpp"
@@ -471,6 +472,9 @@ void WbElevationGrid::applyToOdeData(bool correctSolidMass) {
   assert(dGeomGetClass(mOdeGeom) == dHeightfieldClass);
 
   dGeomHeightfieldSetHeightfieldData(mOdeGeom, mHeightfieldData);
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
   mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
 }
 
