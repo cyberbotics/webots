@@ -80,3 +80,4 @@ script:
   - python -m unittest discover -s docs/tests
   - export QT_QPA_PLATFORM=offscreen
   - travis_wait 45 python tests/test_compilation.py
+  - ls distribution/
