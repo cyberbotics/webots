@@ -188,9 +188,9 @@ protected:
 public:
   dBodyTemplate()
     { }
-  dBodyTemplate (dWorldID world)
+  explicit dBodyTemplate (dWorldID world)
     { set_id(dBodyCreate(world)); }
-  dBodyTemplate (dWorldTemplate<dWorldTemplateBase>& world)
+  explicit dBodyTemplate (dWorldTemplate<dWorldTemplateBase>& world)
     { set_id(dBodyCreate(world.id())); }
 
   void create (dWorldID world) {
