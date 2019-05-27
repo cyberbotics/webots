@@ -694,6 +694,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   wg1->setColliding();
   wg2->setColliding();
 
+  // if the geometry of one colliding object has changed this step, we need to enable the other body
+  // (otherwise if the changed geometry is kinematic the other body will not move)
   if (odeGeomData1->lastChangeTime() > 0.0) {
     if (odeGeomData1->lastChangeTime() >= WbSimulationState::instance()->time()) {
       if (b2)
