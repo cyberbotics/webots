@@ -341,10 +341,17 @@ function updateModalEvents(view) {
         image.style.display = 'block';
       } else {
         // this is a thumbnail => load the actual image.
-        loadImage.style.display = 'block';
-        image.style.display = 'none';
-
         var url = img.src.replace('.thumbnail.', '.');
+        if (image.src === url) {
+          // The image has already been loaded.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
+          return;
+        } else {
+          // The image has to be loaded: show the loading image.
+          loadImage.style.display = 'block';
+          image.style.display = 'none';
+        }
         // In case of thumbnail, search for the original png or jpg
         image.onload = function() {
           // The original image has been loaded successfully => show it.
