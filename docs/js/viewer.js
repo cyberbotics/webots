@@ -270,6 +270,93 @@ function redirectImages(node) {
   }
 }
 
+function setupModalWindow() {
+  var doc = document.querySelector('#webots-doc');
+
+  // Create the following HTML tags:
+  // <div id="modal-window" class="modal-window">
+  //   <span class="modal-window-close-button">&times;</span>
+  //   <img class="modal-window-image-content" />
+  //   <div class="modal-window-caption"></div>
+  // </div>
+
+  var close = document.createElement('span');
+  close.classList.add('modal-window-close-button');
+  close.innerHTML = '&times;';
+  close.onclick = function() {
+    modal.style.display = 'none';
+  };
+
+  var loadImage = document.createElement('img');
+  loadImage.classList.add('modal-window-load-image');
+  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load_animation.gif');
+
+  var image = document.createElement('img');
+  image.classList.add('modal-window-image-content');
+
+  var caption = document.createElement('div');
+  caption.classList.add('modal-window-caption');
+
+  var modal = document.createElement('div');
+  modal.setAttribute('id', 'modal-window');
+  modal.classList.add('modal-window');
+
+  modal.appendChild(close);
+  modal.appendChild(loadImage);
+  modal.appendChild(image);
+  modal.appendChild(caption);
+  doc.appendChild(modal);
+
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
+    }
+  };
+}
+
+function updateModalEvents(view) {
+  var modal = document.querySelector('#modal-window');
+  var image = modal.querySelector('.modal-window-image-content');
+  var loadImage = modal.querySelector('.modal-window-load-image');
+  var caption = modal.querySelector('.modal-window-caption');
+
+  // Add the modal events on each image.
+  var imgs = view.querySelectorAll('img');
+  for (var i = 0; i < imgs.length; i++) {
+    imgs[i].onclick = function(event) {
+      var img = event.target;
+      // The modal window is only enabled on big enough images and on thumbnail.
+      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
+        return;
+
+      // Actually show the image and the caption.
+      modal.style.display = 'block';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
+
+      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
+
+      // In case of thumbnail, search for the original png or jpg
+      image.onload = function() {
+        loadImage.style.display = 'none';
+        image.style.display = 'block';
+      };
+      image.onerror = function() {
+        image.onerror = function() {
+          // Hide the modal window if neither the original .png or .jpg is found.
+          modal.style.display = 'none';
+          loadImage.style.display = 'block';
+          image.style.display = 'none';
+        };
+        image.src = img.src.replace('.thumbnail.jpg', '.png');
+      };
+      image.src = img.src.replace('.thumbnail.jpg', '.jpg');
+    };
+  }
+}
+
 function applyAnchor() {
   var firstAnchor = document.querySelector("[name='" + localSetup.anchor + "']");
   if (firstAnchor) {
@@ -387,46 +474,6 @@ function setupBlogFunctionalitiesIfNeeded() {
     document.querySelector('.release-tag').style.display = 'none';
 
     document.title = document.title.replace('documentation', 'Blog');
-
-    var figures = document.querySelectorAll('figure');
-    if (figures.length > 0) {
-      var modal = document.createElement('div');
-      var caption = document.createElement('div');
-      var close = document.createElement('span');
-      var modalContent = document.createElement('img');
-
-      modal.setAttribute('class', 'modal');
-      modalContent.setAttribute('class', 'modal-content');
-      caption.setAttribute('id', 'caption');
-
-      close.setAttribute('class', 'close');
-      close.innerHTML = '&times;';
-      close.onclick = function() {
-        modal.style.display = 'none';
-      };
-
-      modal.appendChild(close);
-      modal.appendChild(modalContent);
-      modal.appendChild(caption);
-
-      figures[0].parentNode.appendChild(modal);
-
-      window.onclick = function(event) {
-        if (event.target === modal)
-          modal.style.display = 'none';
-      };
-
-      var images = [];
-      for (var i = figures.length - 1; i >= 0; i--) {
-        figures[i].onclick = null;
-        images[i] = figures[i].firstChild;
-        images[i].onclick = function() {
-          modal.style.display = 'block';
-          modalContent.src = this.src;
-          caption.innerHTML = this.parentNode.childNodes[1].innerHTML;
-        };
-      }
-    }
   }
 }
 
@@ -531,6 +578,7 @@ function populateViewDiv(mdContent) {
   createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
+  updateModalEvents(view);
   redirectUrls(view);
   collapseMovies(view);
 
@@ -1387,6 +1435,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   addContributionBanner();
+  setupModalWindow();
   applyToTitleDiv();
   getMDFile();
   getMenuFile();

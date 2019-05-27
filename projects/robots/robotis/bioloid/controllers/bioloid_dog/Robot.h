@@ -102,9 +102,6 @@ private:
 
   WbDeviceTag _gps;     // for measuring the current position
   WbDeviceTag _camera;  // for displaying camera images
-
-  int _selectedMotorId;  // motor being updated
-  int _offset;           // offset applied to the selected motor
 };
 
 #endif
