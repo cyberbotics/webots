@@ -337,6 +337,7 @@ function updateModalEvents(view) {
 
       if (img.src.indexOf('.thumbnail.') === -1) {
         // this is not a thumbnail => show the image directly.
+        image.src = img.src;
         loadImage.style.display = 'none';
         image.style.display = 'block';
       } else {
