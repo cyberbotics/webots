@@ -145,7 +145,7 @@ class TestCppCheck(unittest.TestCase):
         """Test projects with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
-        command += '--std=c++03 --output-file=' + self.reportFilename
+        command += '--xml --std=c++03 --output-file=' + self.reportFilename
         for source in self.projectsSkippedDirs:
             command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
         for source in self.projectsSourceDirs:
