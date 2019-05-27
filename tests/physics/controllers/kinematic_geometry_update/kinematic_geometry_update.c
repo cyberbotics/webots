@@ -31,6 +31,6 @@ int main(int argc, char **argv) {
   ts_assert_vec3_not_in_delta(new_postion[0], new_postion[1], new_postion[2], position[0], position[1], position[2], 0.01,
                               "Solid 'SOLID' didn't moved when changing the size of the box.");
 
-  wb_robot_cleanup();
+  ts_send_success();
   return EXIT_SUCCESS;
 }
