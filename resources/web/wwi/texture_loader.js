@@ -133,7 +133,7 @@ class _TextureLoaderObject {
     if (isHDR) {
       var loader = new THREE.RGBELoader();
       loader.load(
-        name,
+        uri,
         (texture) => {
           this.loadingTextures[name].data = texture.image;
           this._onImageLoaded(name);
