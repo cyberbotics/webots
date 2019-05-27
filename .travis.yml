@@ -85,5 +85,5 @@ script:
   - export QT_QPA_PLATFORM=offscreen
   - make release -j2
   - python tests/test_suite.py
-  - travis_wait 45 python tests/test_compilation.py 
+  - travis_wait 45 python tests/test_compilation.py
   - ls distribution/
