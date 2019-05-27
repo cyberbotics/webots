@@ -331,28 +331,39 @@ function updateModalEvents(view) {
       if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
         return;
 
-      // Actually show the image and the caption.
+      // Show the modal window and the caption.
       modal.style.display = 'block';
-      loadImage.style.display = 'block';
-      image.style.display = 'none';
-
       caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
 
-      // In case of thumbnail, search for the original png or jpg
-      image.onload = function() {
+      if (img.src.indexOf('.thumbnail.') === -1) {
+        // this is not a thumbnail => show the image directly.
         loadImage.style.display = 'none';
         image.style.display = 'block';
-      };
-      image.onerror = function() {
-        image.onerror = function() {
-          // Hide the modal window if neither the original .png or .jpg is found.
-          modal.style.display = 'none';
-          loadImage.style.display = 'block';
-          image.style.display = 'none';
+      } else {
+        // this is a thumbnail => load the actual image.
+        loadImage.style.display = 'block';
+        image.style.display = 'none';
+
+        var url = img.src.replace('.thumbnail.', '.');
+        // In case of thumbnail, search for the original png or jpg
+        image.onload = function() {
+          // The original image has been loaded successfully => show it.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
         };
-        image.src = img.src.replace('.thumbnail.jpg', '.png');
-      };
-      image.src = img.src.replace('.thumbnail.jpg', '.jpg');
+        image.onerror = function() {
+          // The original image has not been loaded successfully => try to change the extension and reload it.
+          image.onerror = function() {
+            // The original image has not been loaded successfully => abort.
+            modal.style.display = 'none';
+            loadImage.style.display = 'block';
+            image.style.display = 'none';
+          };
+          url = img.src.replace('.thumbnail.jpg', '.png');
+          image.src = url;
+        };
+        image.src = url;
+      }
     };
   }
 }
