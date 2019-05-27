@@ -47,6 +47,7 @@ THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
+  WebGL.js \
   loaders/RGBELoader.js \
   pmrem/PMREMCubeUVPacker.js \
   pmrem/PMREMGenerator.js

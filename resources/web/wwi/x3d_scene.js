@@ -15,7 +15,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-    this.renderer = new THREE.WebGLRenderer({'antialias': true});
+    var parameters = {};
+    if (WEBGL.isWebGL2Available()) {
+      var canvas = document.createElement('canvas');
+      parameters.canvas = canvas;
+      parameters.context = canvas.getContext('webgl2', {antialias: true});
+    } else
+      parameters.antialias = true;
+    this.renderer = new THREE.WebGLRenderer(parameters);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
@@ -358,7 +365,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     texture.flipY = true;
     texture.needsUpdate = true;
 
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width, flipX: true });
+    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
     this.scene.background = cubemapGenerator.renderTarget;
 
     var cubeMapTexture = cubemapGenerator.update(this.renderer);
