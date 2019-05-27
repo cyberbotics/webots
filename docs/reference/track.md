@@ -100,7 +100,7 @@ children [
 
 %figure "Convex track's belt shape example"
 
-![track_belt_convex.png](images/track_belt_convex.thumbnail.png)
+![track_belt_convex.png](images/track_belt_convex.thumbnail.jpg)
 
 %end
 
@@ -128,6 +128,6 @@ children [
 
 %figure "Concave track's belt shape example"
 
-![track_belt_concave.png](images/track_belt_concave.thumbnail.png)
+![track_belt_concave.png](images/track_belt_concave.thumbnail.jpg)
 
 %end

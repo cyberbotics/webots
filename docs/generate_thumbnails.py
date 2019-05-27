@@ -83,9 +83,9 @@ for image in images:
         if im.mode == 'RGBA':
             # Take a 3 pixel samples to determine if the alpha is used.
             shouldConvertToJPG = \
-                im.getpixel((0, 0))[3] == 255 and \
+                im.getpixel((1, 1))[3] == 255 and \
                 im.getpixel((width / 2, height / 2))[3] == 255 and \
-                im.getpixel((width - 1, height - 1))[3] == 255
+                im.getpixel((width - 2, height - 2))[3] == 255
 
         # Actually resize the image.
         im.thumbnail((expectedSize, expectedSize))
