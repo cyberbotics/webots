@@ -1,5 +1,7 @@
 os: linux
 dist: xenial
+services:
+  - xvfb
 git:
   depth: 3
   submodules: true
