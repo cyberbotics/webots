@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
   // Because the robot should run out of battery in the middle of the previous loop,
   // the motor should be stopped and its position should match the one below.
   double position = wb_position_sensor_get_value(position_sensor);
-  ts_assert_double_in_delta(position, 0.5739, 0.001,
+  ts_assert_double_in_delta(position, 3572458.46, 0.001,
                             "The position value measured by the position sensor should be 0.5739 and not %g", position);
 
   battery_level = wb_robot_battery_sensor_get_value();
