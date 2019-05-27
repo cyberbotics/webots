@@ -104,8 +104,10 @@ void FireBird6InputPacket::decode(int simulationTime, const FireBird6OutputPacke
   if (outputPacket.isMagnetometerRequested()) {
     double values[3];
     values[0] = readShortAt_MSBFirst(currentPos) / 1100.0;
+    // cppcheck-suppress constArgument
     values[1] = readShortAt_MSBFirst(currentPos + 2) / 1100.0;
     // different scaling for Z Axis
+    // cppcheck-suppress constArgument
     values[2] = readShortAt_MSBFirst(currentPos + 4) / 980.0;
 
     // set the 3 values in X, Y and Z of both XY and Z sensor.
