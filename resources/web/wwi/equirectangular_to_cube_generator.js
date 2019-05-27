@@ -17,7 +17,6 @@ THREE.EquirectangularToCubeGenerator = (function() {
 
       this.sourceTexture = sourceTexture;
       this.resolution = options.resolution || 512;
-      this.flipX = Boolean(options.flipX);
 
       this.views = [
         { t: [ 1, 0, 0 ], u: [ 0, -1, 0 ] },
@@ -45,7 +44,6 @@ THREE.EquirectangularToCubeGenerator = (function() {
       var currentRenderTarget = renderer.getRenderTarget();
 
       boxMesh.material.uniforms.equirectangularMap.value = this.sourceTexture;
-      boxMesh.material.uniforms.flipX.value = this.flipX;
 
       for (let i = 0; i < 6; i++) {
         var v = this.views[ i ];
@@ -86,16 +84,12 @@ void main() {
 `#include <common>
 varying vec3 localPosition;
 uniform sampler2D equirectangularMap;
-uniform bool flipX;
 
 #define RECIPROCAL_PI 0.31830988618
 #define RECIPROCAL_PI2 0.15915494
 vec2 EquirectangularSampleUV(vec3 v) {
   vec2 uv = vec2(atan(v.z, v.x), asin(v.y));
-  if (flipX)
-    uv *= vec2(-RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan
-  else
-    uv *= vec2(RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan
+  uv *= vec2(-RECIPROCAL_PI2, RECIPROCAL_PI); // inverse atan and flipX to match Webots orientation
   uv += 0.5;
   return uv;
 }
