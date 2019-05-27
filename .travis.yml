@@ -87,5 +87,3 @@ script:
   - make release -j2
   - ./webots --sysinfo
   - python tests/test_suite.py
-  - travis_wait 45 python tests/test_compilation.py
-  - ls distribution/
