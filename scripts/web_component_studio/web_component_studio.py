@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,6 +55,7 @@ for component in json.load(open(ROBOTS))['components']:
     search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
     search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
     search_and_replace(WORLD, '%ROBOT_NAME%', component['name'])
+    search_and_replace(WORLD, '%ROBOT_FIELDS%', component['fields'] if 'fields' in component else '')
     search_and_replace(WORLD, '%VIEWPOINT_POSITION%', component['viewpoint']['position'])
     search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
 
