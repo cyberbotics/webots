@@ -91,6 +91,12 @@ void ts_assert_vec3_in_delta(double v0, double v1, double v2, double e0, double 
   TS_FINAL_CHECK();
 }
 
+void ts_assert_vec3_not_in_delta(double v0, double v1, double v2, double e0, double e1, double e2, double delta,
+                                 const char *error_message, ...) {
+  bool correct = !TS_DOUBLE_IN_DELTA(v0, e0, delta) || !TS_DOUBLE_IN_DELTA(v1, e1, delta) || !TS_DOUBLE_IN_DELTA(v2, e2, delta);
+  TS_FINAL_CHECK();
+}
+
 void ts_assert_doubles_equal(int size, const double *value, const double *expected, const char *error_message, ...) {
   int i;
   bool correct = true;
