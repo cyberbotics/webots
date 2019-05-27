@@ -30,9 +30,10 @@ def search_and_replace(filename, fromString, toString):
 
 
 paths = [
+    os.path.join('automobile', 'images'),
+    os.path.join('blog', 'images'),
     os.path.join('guide', 'images'),
-    os.path.join('reference', 'images'),
-    os.path.join('automobile', 'images')
+    os.path.join('reference', 'images')
 ]
 
 # Get all the images and remove the thumbnails.
