@@ -52,10 +52,11 @@ endif
 FILES_TO_REMOVE = $(TARGET_ODE_LIBRARY) libode.a ode.a
 WEBOTS_DISABLE_BINARY_COPY=true
 
-CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD -std=c++11
+CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
 ifneq ($(OSTYPE),darwin)
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
+CXXFLAGS = -std=c++11
 INCLUDE = -I../../include/ode -I../../include/ode/ode/fluid_dynamics -Iode/src -Iode/src/fluid_dynamics -Ilibccd/src -IOPCODE
 
 # define the source files
