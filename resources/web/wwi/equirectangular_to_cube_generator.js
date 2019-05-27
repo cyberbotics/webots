@@ -70,8 +70,7 @@ THREE.EquirectangularToCubeGenerator = (function() {
   function getShader() {
     var shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        'equirectangularMap': { value: null },
-        'flipX': { value: false }
+        'equirectangularMap': { value: null }
       },
       vertexShader:
 `varying vec3 localPosition;
