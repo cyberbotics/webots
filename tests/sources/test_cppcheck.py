@@ -31,8 +31,6 @@ class TestCppCheck(unittest.TestCase):
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
         self.cppcheck = 'cppcheck'
-        if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
-            self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
 
         self.includeDirs = [
             'include/controller/c',
