@@ -93,10 +93,11 @@ for image in images:
         targetFormat = 'PNG'
 
         # JPEG convertion exception.
-        if shouldConvertToJPG:
+        if image.endswith('.jpg') or shouldConvertToJPG:
             thumbnail = thumbnail.replace('.png', '.jpg')
-            im = im.convert('RGB')
             targetFormat = 'JPEG'
+        if shouldConvertToJPG:
+            im = im.convert('RGB')
 
         # Save the result.
         im.save(thumbnail, targetFormat)
