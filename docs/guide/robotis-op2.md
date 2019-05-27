@@ -1,6 +1,6 @@
 ## ROBOTIS' Robotis OP2
 
-%robot robotis-op2 images/robots/robotis-op2/model.png
+%robot robotis-op2 images/robots/robotis-op2/model.thumbnail.png
 
 The ROBOTIS OP2 is an open source miniature humanoid robot platform with advanced computational power.
 It is developed and manufactured by ROBOTIS (a Korean robot manufacturer) in collaboration with the University of Pennsylvania.

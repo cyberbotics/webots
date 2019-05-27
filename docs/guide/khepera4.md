@@ -1,6 +1,6 @@
 ## K-Team's Khepera IV
 
-%robot khepera4 images/robots/khepera4/model.png
+%robot khepera4 images/robots/khepera4/model.thumbnail.png
 
 The "Khepera IV" robot is a two-wheeled robot produced by [K-Team](https://www.k-team.com/mobile-robotics-products/khepera-iv).
 It is mounted by multiple sensors including 8 distance sensors.

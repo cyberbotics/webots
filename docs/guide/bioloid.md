@@ -1,6 +1,6 @@
 ## Robotis's Bioloid
 
-%robot bioloid images/robots/bioloid/model.png)
+%robot bioloid images/robots/bioloid/model.thumbnail.png)
 
 The [Bioloid Comprehensive Kit](https://en.wikipedia.org/wiki/Robotis_Bioloid) allows to create articulated robots.
 This kit is developed by [Robotis](http://www.robotis.com).

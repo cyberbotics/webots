@@ -107,4 +107,5 @@ for image in images:
 
         # Modify the MD files accordingly.
         for mdFile in mdFiles:
-            search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)
+            search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
+            search_and_replace(mdFile, ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.

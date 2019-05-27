@@ -1,6 +1,6 @@
 ## NEX Robotics' FireBird 6
 
-%robot firebird6 images/robots/firebird6/model.png
+%robot firebird6 images/robots/firebird6/model.thumbnail.png
 
 "Fire Bird VI" is a Robotic Research Platform designed by [NEX Robotics](http://www.nex-robotics.com/products/fire-bird-vi-robot/fire-bird-vi-robotic-research-platform.html).
 It is a two-wheeled robot including 8 ultrasonic sensors and more.

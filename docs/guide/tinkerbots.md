@@ -1,6 +1,6 @@
 ## Tinkerbots
 
-%robot tinkerbots images/robots/tinkerbots/model.png
+%robot tinkerbots images/robots/tinkerbots/model.thumbnail.png
 
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
