@@ -1,4 +1,4 @@
-/* global THREE, Selector, TextureLoader, Viewpoint */
+/* global WEBGL, THREE, Selector, TextureLoader, Viewpoint */
 /* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
