@@ -132,7 +132,8 @@ class TestCppCheck(unittest.TestCase):
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
         command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq'
-        command += ' --xml --output-file=' + self.reportFilename
+        # command += ' --xml '  # Uncomment this line to get more information on the errors
+        command += ' --output-file=' + self.reportFilename
         for include in self.includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'
         for source in self.skippedDirs:
@@ -145,7 +146,8 @@ class TestCppCheck(unittest.TestCase):
         """Test projects with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
-        command += '--xml --std=c++03 --output-file=' + self.reportFilename
+        # command += '--xml '  # Uncomment this line to get more information on the errors
+        command += '--std=c++03 --output-file=' + self.reportFilename
         for source in self.projectsSkippedDirs:
             command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
         for source in self.projectsSourceDirs:
