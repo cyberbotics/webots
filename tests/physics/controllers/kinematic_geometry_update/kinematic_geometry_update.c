@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
   WbNodeRef solid = wb_supervisor_node_get_from_def("SOLID");
 
   // let the 'SOLID' Solid go in sleep mode
-  wb_robot_step(2000);
+  wb_robot_step(320);
 
   double position[3];
   memcpy(position, wb_supervisor_node_get_position(solid), 3 * sizeof(double));
@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_vec3f(kinematic_box_size_field, size);
 
   // let the 'SOLID' Solid move
-  wb_robot_step(512);
+  wb_robot_step(320);
 
   const double *new_postion = wb_supervisor_node_get_position(solid);
   ts_assert_vec3_not_in_delta(new_postion[0], new_postion[1], new_postion[2], position[0], position[1], position[2], 0.01,
