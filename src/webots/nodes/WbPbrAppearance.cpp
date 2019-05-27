@@ -47,7 +47,6 @@ void WbPbrAppearance::init() {
   mRoughnessMap = findSFNode("roughnessMap");
   mMetalness = findSFDouble("metalness");
   mMetalnessMap = findSFNode("metalnessMap");
-  mEnvironmentMap = findSFNode("environmentMap");
   mIblStrength = findSFDouble("IBLStrength");
   mNormalMap = findSFNode("normalMap");
   mNormalMapFactor = findSFDouble("normalMapFactor");
@@ -92,9 +91,6 @@ void WbPbrAppearance::preFinalize() {
   if (metalnessMap())
     metalnessMap()->preFinalize();
 
-  if (environmentMap())
-    environmentMap()->preFinalize();
-
   if (normalMap())
     normalMap()->preFinalize();
 
@@ -107,7 +103,6 @@ void WbPbrAppearance::preFinalize() {
   updateBaseColorMap();
   updateRoughnessMap();
   updateMetalnessMap();
-  updateEnvironmentMap();
   updateNormalMap();
   updateOcclusionMap();
   updateEmissiveColorMap();
@@ -136,9 +131,6 @@ void WbPbrAppearance::postFinalize() {
   if (metalnessMap())
     metalnessMap()->postFinalize();
 
-  if (environmentMap())
-    environmentMap()->postFinalize();
-
   if (normalMap())
     normalMap()->postFinalize();
 
@@ -155,7 +147,6 @@ void WbPbrAppearance::postFinalize() {
   connect(mRoughnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateRoughnessMap);
   connect(mMetalness, &WbSFDouble::changed, this, &WbPbrAppearance::updateMetalness);
   connect(mMetalnessMap, &WbSFNode::changed, this, &WbPbrAppearance::updateMetalnessMap);
-  connect(mEnvironmentMap, &WbSFNode::changed, this, &WbPbrAppearance::updateEnvironmentMap);
   connect(mIblStrength, &WbSFDouble::changed, this, &WbPbrAppearance::updateIblStrength);
   connect(mNormalMap, &WbSFNode::changed, this, &WbPbrAppearance::updateNormalMap);
   connect(mNormalMapFactor, &WbSFDouble::changed, this, &WbPbrAppearance::updateNormalMapFactor);
@@ -187,9 +178,6 @@ void WbPbrAppearance::reset() {
   if (metalnessMap())
     metalnessMap()->reset();
 
-  if (environmentMap())
-    environmentMap()->reset();
-
   if (normalMap())
     normalMap()->reset();
 
@@ -215,9 +203,6 @@ void WbPbrAppearance::createWrenObjects() {
 
   if (metalnessMap())
     metalnessMap()->createWrenObjects();
-
-  if (environmentMap())
-    environmentMap()->createWrenObjects();
 
   if (normalMap())
     normalMap()->createWrenObjects();
@@ -256,10 +241,7 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
     metalnessMap()->modifyWrenMaterial(wrenMaterial, 2, 7);
 
   WbBackground *background = WbBackground::firstInstance();
-  if (environmentMap()) {
-    environmentMap()->loadWrenTexture();
-    environmentMap()->modifyWrenMaterial(wrenMaterial);
-  } else if (background) {
+  if (background) {
     WbCubemap *backgroundCubemap = background->cubemap();
     if (backgroundCubemap) {
       if (backgroundCubemap->isValid()) {
@@ -272,9 +254,8 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
       clearCubemap(wrenMaterial);
       connect(background, &WbBackground::cubemapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
     }
-  } else {
+  } else
     clearCubemap(wrenMaterial);
-  }
 
   if (normalMap())
     normalMap()->modifyWrenMaterial(wrenMaterial, 4, 7);
@@ -327,10 +308,6 @@ WbImageTexture *WbPbrAppearance::roughnessMap() const {
 
 WbImageTexture *WbPbrAppearance::metalnessMap() const {
   return dynamic_cast<WbImageTexture *>(mMetalnessMap->value());
-}
-
-WbCubemap *WbPbrAppearance::environmentMap() const {
-  return dynamic_cast<WbCubemap *>(mEnvironmentMap->value());
 }
 
 WbImageTexture *WbPbrAppearance::normalMap() const {
@@ -451,15 +428,6 @@ void WbPbrAppearance::updateMetalness() {
 void WbPbrAppearance::updateMetalnessMap() {
   if (metalnessMap())
     connect(metalnessMap(), &WbImageTexture::changed, this, &WbPbrAppearance::updateMetalnessMap, Qt::UniqueConnection);
-
-  if (isPostFinalizedCalled())
-    emit changed();
-}
-
-void WbPbrAppearance::updateEnvironmentMap() {
-  if (environmentMap()) {
-    connect(environmentMap(), &WbCubemap::changed, this, &WbPbrAppearance::updateEnvironmentMap, Qt::UniqueConnection);
-  }
 
   if (isPostFinalizedCalled())
     emit changed();
@@ -596,10 +564,6 @@ void WbPbrAppearance::exportNodeFooter(WbVrmlWriter &writer) const {
   if (metalnessMap()) {
     metalnessMap()->setRole("metalness");
     metalnessMap()->write(writer);
-  }
-  if (environmentMap()) {
-    environmentMap()->setRole("environment");
-    environmentMap()->write(writer);
   }
   if (normalMap()) {
     normalMap()->setRole("normal");
