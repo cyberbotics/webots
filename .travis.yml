@@ -13,12 +13,14 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic
 jdk: openjdk8
-cache: pip
+cache:
+  pip
+  directories: dependencies
 deploy:
   provider: releases
   file: distribution/webots-R2019a-rev2-x86-64.tar.bz2
-  user: DavidMansolino
-  password: b4e7662683c15bfb8667476da3b12bcb2e3e4990
+  user: cyberbotics-jenkins
+  password: $JENKINS_PASSWORD
   skip_cleanup: true
   draft: true
   on:
