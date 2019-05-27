@@ -37,6 +37,39 @@ Asphalt {
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
+## BakelitePlastic
+
+A bakelite plastic.
+
+%figure
+
+![BakelitePlastic](images/appearances/BakelitePlastic.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+BakelitePlastic {
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/BakelitePlastic.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### BakelitePlastic Field Summary
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
 ## BrushedAluminium
 
 A brushed aluminum material.
@@ -888,6 +921,39 @@ Roughcast {
 ### Roughcast Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+
+## Rubber
+
+A rubber material.
+
+%figure
+
+![Rubber](images/appearances/Rubber.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Rubber {
+  SFNode  textureTransform NULL
+  SFNode  environmentMap   NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/Rubber.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### Rubber Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
 

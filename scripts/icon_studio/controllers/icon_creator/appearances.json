@@ -68,6 +68,9 @@
   "RoughPine": {
     "fields": "textureTransform TextureTransform { scale 6 1 }"
   },
+  "Rubber": {
+    "fields": "textureTransform TextureTransform { scale 3 2 }"
+  },
   "RustyMetal": {
     "fields": "rustLevel 2 textureTransform TextureTransform { scale 2 2 }"
   },
