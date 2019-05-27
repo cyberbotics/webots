@@ -8,7 +8,7 @@ A cardboard box.
 
 %figure
 
-![CardboardBox](images/objects/containers/CardboardBox/model.png)
+![CardboardBox](images/objects/containers/CardboardBox/model.thumbnail.png)
 
 %end
 
@@ -157,7 +157,7 @@ A simple fire extinguisher with optional physics.
 
 %figure
 
-![FireExtinguisher](images/objects/fire_extinguisher/FireExtinguisher/model.png)
+![FireExtinguisher](images/objects/fire_extinguisher/FireExtinguisher/model.thumbnail.png)
 
 %end
 
@@ -189,7 +189,7 @@ A simple square manhole.
 
 %figure
 
-![SquareManhole](images/objects/manhole/SquareManhole/model.png)
+![SquareManhole](images/objects/manhole/SquareManhole/model.thumbnail.png)
 
 %end
 
@@ -321,7 +321,7 @@ WoodenPalletStack {
 
 %figure
 
-![LJoint](images/objects/pipes/LJoint/model.png)
+![LJoint](images/objects/pipes/LJoint/model.thumbnail.png)
 
 %end
 
@@ -605,7 +605,7 @@ A 25cm asymmetric club hammer.
 
 %figure
 
-![Hammer](images/objects/tools/Hammer/model.png)
+![Hammer](images/objects/tools/Hammer/model.thumbnail.png)
 
 %end
 
@@ -752,7 +752,7 @@ A Philips screwdriver. The blade and handle are balanced.
 
 %figure
 
-![Screwdriver](images/objects/tools/Screwdriver/model.png)
+![Screwdriver](images/objects/tools/Screwdriver/model.thumbnail.png)
 
 %end
 

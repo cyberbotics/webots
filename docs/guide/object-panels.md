@@ -51,7 +51,7 @@ A gray panel with tubes.
 
 %figure
 
-![PannelWithTubes](images/objects/panels/PannelWithTubes/model.png)
+![PannelWithTubes](images/objects/panels/PannelWithTubes/model.thumbnail.png)
 
 %end
 

@@ -11,7 +11,7 @@ The physical dimensions, friction coefficients and mass distribution have been e
 
 %figure "Comparison of a real Bioloid dog-like robot and its Webots model"
 
-![real_robot.png](images/robots/bioloid/real_robot.png)
+![real_robot.png](images/robots/bioloid/real_robot.thumbnail.jpg)
 
 %end
 

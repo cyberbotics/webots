@@ -256,7 +256,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.png)
+![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -368,7 +368,7 @@ A customizable crash barrier.
 
 %figure
 
-![CrashBarrier](images/objects/road/CrashBarrier/model.png)
+![CrashBarrier](images/objects/road/CrashBarrier/model.thumbnail.png)
 
 %end
 
@@ -702,7 +702,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![LaneSeparation](images/objects/road/LaneSeparation/model.png)
+![LaneSeparation](images/objects/road/LaneSeparation/model.thumbnail.png)
 
 %end
 
@@ -910,7 +910,7 @@ This node should be used in the `lines` field of a road node.
 
 %figure
 
-![RoadLine](images/objects/road/RoadLine/model.png)
+![RoadLine](images/objects/road/RoadLine/model.thumbnail.png)
 
 %end
 

@@ -200,7 +200,7 @@ A pine tree with optional boundingObject.
 
 %figure
 
-![Pine](images/objects/trees/Pine/model.png)
+![Pine](images/objects/trees/Pine/model.thumbnail.png)
 
 %end
 
@@ -230,7 +230,7 @@ A sassafras tree with optional boundingObject.
 
 %figure
 
-![Sassafras](images/objects/trees/Sassafras/model.png)
+![Sassafras](images/objects/trees/Sassafras/model.thumbnail.png)
 
 %end
 

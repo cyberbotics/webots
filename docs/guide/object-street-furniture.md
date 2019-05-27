@@ -6,7 +6,7 @@ An ATM.
 
 %figure
 
-![Atm](images/objects/street_furniture/Atm/model.png)
+![Atm](images/objects/street_furniture/Atm/model.thumbnail.png)
 
 %end
 
@@ -134,7 +134,7 @@ A drinking fountain.
 
 %figure
 
-![DrinkingFountain](images/objects/street_furniture/DrinkingFountain/model.png)
+![DrinkingFountain](images/objects/street_furniture/DrinkingFountain/model.thumbnail.png)
 
 %end
 
@@ -184,7 +184,7 @@ An emergency phone.
 
 %figure
 
-![EmergencyPhone](images/objects/street_furniture/EmergencyPhone/model.png)
+![EmergencyPhone](images/objects/street_furniture/EmergencyPhone/model.thumbnail.png)
 
 %end
 
@@ -218,7 +218,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Fence](images/objects/street_furniture/Fence/model.png)
+![Fence](images/objects/street_furniture/Fence/model.thumbnail.png)
 
 %end
 
@@ -311,7 +311,7 @@ A configurable fountain.
 
 %figure
 
-![Fountain](images/objects/street_furniture/Fountain/model.png)
+![Fountain](images/objects/street_furniture/Fountain/model.thumbnail.png)
 
 %end
 
@@ -372,7 +372,7 @@ A guard shelter.
 
 %figure
 
-![GuardShelter](images/objects/street_furniture/GuardShelter/model.png)
+![GuardShelter](images/objects/street_furniture/GuardShelter/model.thumbnail.png)
 
 %end
 
@@ -397,7 +397,7 @@ An ice freezer container.
 
 %figure
 
-![IceFreezerContainer](images/objects/street_furniture/IceFreezerContainer/model.png)
+![IceFreezerContainer](images/objects/street_furniture/IceFreezerContainer/model.thumbnail.png)
 
 %end
 
@@ -477,7 +477,7 @@ A news stand.
 
 %figure
 
-![NewsStand](images/objects/street_furniture/NewsStand/model.png)
+![NewsStand](images/objects/street_furniture/NewsStand/model.thumbnail.png)
 
 %end
 
@@ -527,7 +527,7 @@ A phone booth.
 
 %figure
 
-![PhoneBooth](images/objects/street_furniture/PhoneBooth/model.png)
+![PhoneBooth](images/objects/street_furniture/PhoneBooth/model.thumbnail.png)
 
 %end
 
@@ -552,7 +552,7 @@ A public bin.
 
 %figure
 
-![PublicBin](images/objects/street_furniture/PublicBin/model.png)
+![PublicBin](images/objects/street_furniture/PublicBin/model.thumbnail.png)
 
 %end
 
@@ -684,7 +684,7 @@ A small kiosk.
 
 %figure
 
-![SmallKiosk](images/objects/street_furniture/SmallKiosk/model.png)
+![SmallKiosk](images/objects/street_furniture/SmallKiosk/model.thumbnail.png)
 
 %end
 
@@ -739,7 +739,7 @@ A simple bench made of stone.
 
 %figure
 
-![StoneBench](images/objects/street_furniture/StoneBench/model.png)
+![StoneBench](images/objects/street_furniture/StoneBench/model.thumbnail.png)
 
 %end
 
@@ -764,7 +764,7 @@ A fountain made of stones.
 
 %figure
 
-![StoneFountain](images/objects/street_furniture/StoneFountain/model.png)
+![StoneFountain](images/objects/street_furniture/StoneFountain/model.thumbnail.png)
 
 %end
 
@@ -853,7 +853,7 @@ An underground container.
 
 %figure
 
-![UndergroundContainer](images/objects/street_furniture/UndergroundContainer/model.png)
+![UndergroundContainer](images/objects/street_furniture/UndergroundContainer/model.thumbnail.png)
 
 %end
 

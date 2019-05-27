@@ -6,7 +6,7 @@ A computer mouse.
 
 %figure
 
-![ComputerMouse](images/objects/computers/ComputerMouse/model.png)
+![ComputerMouse](images/objects/computers/ComputerMouse/model.thumbnail.png)
 
 %end
 

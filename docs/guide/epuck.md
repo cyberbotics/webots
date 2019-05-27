@@ -15,7 +15,7 @@ E-puck is also available for [purchase](https://www.cyberbotics.com/buy) from Cy
 
 %figure "The e-puck robot at work"
 
-![real_robot.png](images/robots/epuck/real_robot.png)
+![real_robot.png](images/robots/epuck/real_robot.thumbnail.jpg)
 
 %end
 
@@ -142,7 +142,7 @@ The resolution of the camera was limited to 52x39 pixels, as this is the maximum
 
 %figure "e-puck2 model"
 
-![epuck2.png](images/robots/epuck/epuck2.png)
+![epuck2.png](images/robots/epuck/epuck2.thumbnail.png)
 
 %end
 
@@ -254,7 +254,7 @@ Changing this `window` to an empty string will disable this control window.
 
 %figure "BotStudio window"
 
-![botstudio.png](images/robots/epuck/botstudio.png)
+![botstudio.png](images/robots/epuck/botstudio.thumbnail.jpg)
 
 %end
 

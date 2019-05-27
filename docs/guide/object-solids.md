@@ -140,7 +140,7 @@ Physically, the SolidTorus is defined as a set of N spheres, where N is the subd
 
 %figure
 
-![SolidTorus](images/objects/solids/SolidTorus/model.png)
+![SolidTorus](images/objects/solids/SolidTorus/model.thumbnail.png)
 
 %end
 

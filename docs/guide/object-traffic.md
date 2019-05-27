@@ -176,7 +176,7 @@ Alternatively it is possible to add other *.ttf files in the PROJECT\_HOME/fonts
 
 %figure
 
-![DirectionPanel](images/objects/traffic/DirectionPanel/model.png)
+![DirectionPanel](images/objects/traffic/DirectionPanel/model.thumbnail.png)
 
 %end
 
@@ -275,7 +275,7 @@ Traffic panel: Exit panel.
 
 %figure
 
-![ExitPanel](images/objects/traffic/ExitPanel/model.png)
+![ExitPanel](images/objects/traffic/ExitPanel/model.thumbnail.png)
 
 %end
 
@@ -388,7 +388,7 @@ Different types of poles are available: "cylinder", "box", or "H-shape".
 
 %figure
 
-![HighwayPole](images/objects/traffic/HighwayPole/model.png)
+![HighwayPole](images/objects/traffic/HighwayPole/model.thumbnail.png)
 
 %end
 
@@ -448,7 +448,7 @@ Resizable sign with front texture option.
 
 %figure
 
-![HighwaySign](images/objects/traffic/HighwaySign/model.png)
+![HighwaySign](images/objects/traffic/HighwaySign/model.thumbnail.png)
 
 %end
 
@@ -564,7 +564,7 @@ Parking lines for several consecutive cars.
 
 %figure
 
-![ParkingLines](images/objects/traffic/ParkingLines/model.png)
+![ParkingLines](images/objects/traffic/ParkingLines/model.thumbnail.png)
 
 %end
 
@@ -602,7 +602,7 @@ A parking meter.
 
 %figure
 
-![ParkingMeter](images/objects/traffic/ParkingMeter/model.png)
+![ParkingMeter](images/objects/traffic/ParkingMeter/model.thumbnail.png)
 
 %end
 
@@ -627,7 +627,7 @@ A pedestrian crossing 20 x 8 meters (0.1m thick).
 
 %figure
 
-![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.png)
+![PedestrianCrossing](images/objects/traffic/PedestrianCrossing/model.thumbnail.png)
 
 %end
 
@@ -693,7 +693,7 @@ A simple rectangular traffic pannel.
 
 %figure
 
-![RectangularPanel](images/objects/traffic/RectangularPanel/model.png)
+![RectangularPanel](images/objects/traffic/RectangularPanel/model.thumbnail.png)
 
 %end
 
@@ -1056,7 +1056,7 @@ A big metallic pole above the road for traffic lights.
 
 %figure
 
-![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.png)
+![TrafficLightBigPole](images/objects/traffic/TrafficLightBigPole/model.thumbnail.png)
 
 %end
 

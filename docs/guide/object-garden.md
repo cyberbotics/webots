@@ -150,7 +150,7 @@ A picket fence with a door and optional boundingObject.
 
 %figure
 
-![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.png)
+![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.thumbnail.png)
 
 %end
 
@@ -230,7 +230,7 @@ A swing couch.
 
 %figure
 
-![SwingCouch](images/objects/garden/SwingCouch/model.png)
+![SwingCouch](images/objects/garden/SwingCouch/model.thumbnail.png)
 
 %end
 
@@ -255,7 +255,7 @@ A table with a central umbrella and optional physics.
 
 %figure
 
-![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.png)
+![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.thumbnail.png)
 
 %end
 

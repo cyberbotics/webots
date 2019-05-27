@@ -6,7 +6,7 @@ A configurable standard ceiling.
 
 %figure
 
-![Ceiling](images/objects/apartment_structure/Ceiling/model.png)
+![Ceiling](images/objects/apartment_structure/Ceiling/model.thumbnail.png)
 
 %end
 
@@ -111,7 +111,7 @@ This object can be used in the 'doorHandle' field of the Door object.
 
 %figure
 
-![DoorKnob](images/objects/apartment_structure/DoorKnob/model.png)
+![DoorKnob](images/objects/apartment_structure/DoorKnob/model.thumbnail.png)
 
 %end
 
@@ -281,7 +281,7 @@ A customizable wall.
 
 %figure
 
-![Wall](images/objects/apartment_structure/Wall/model.png)
+![Wall](images/objects/apartment_structure/Wall/model.thumbnail.png)
 
 %end
 

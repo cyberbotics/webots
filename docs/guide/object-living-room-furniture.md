@@ -6,7 +6,7 @@ An armchair (1 x 0.8 x 1.1 m).
 
 %figure
 
-![Armchair](images/objects/living_room_furniture/Armchair/model.png)
+![Armchair](images/objects/living_room_furniture/Armchair/model.thumbnail.png)
 
 %end
 

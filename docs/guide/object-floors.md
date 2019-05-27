@@ -144,7 +144,7 @@ Randomly generated uneven terrain based on Perlin noise.
 
 %figure
 
-![UnevenTerrain](images/objects/floors/UnevenTerrain/model.png)
+![UnevenTerrain](images/objects/floors/UnevenTerrain/model.thumbnail.png)
 
 %end
 

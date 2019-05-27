@@ -115,7 +115,7 @@ The resulting range of measured values is shown in [this figure](#sensor-respons
 
 %figure "Sensor response versus obstacle distance with opposite response-noise increase"
 
-![khepera_sonar_lut.png](images/khepera_sonar_lut.png)
+![khepera_sonar_lut.png](images/khepera_sonar_lut.thumbnail.png)
 
 %end
 

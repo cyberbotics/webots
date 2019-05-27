@@ -67,14 +67,14 @@ for image in images:
     print('Check image "%s" (%dx%d)' % (image, width, height))
 
     # Compute the expected maximum size depending on the path.
-    expectedSize = 512
+    expectedSize = 400
     if '.wbt.' in image:
         expectedSize = 256
 
     # Condition to create the thumbnail.
     # - The image is big enough and it is meaningful to do it.
     shouldCreateThumbnail = \
-        width > 2 * expectedSize or height > 2 * expectedSize
+        width > 1.5 * expectedSize or height > 1.5 * expectedSize
 
     if shouldCreateThumbnail:
         # Condition to convert to JPG.

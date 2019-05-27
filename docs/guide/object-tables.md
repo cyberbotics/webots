@@ -70,7 +70,7 @@ Customizable table.
 
 %figure
 
-![Table](images/objects/tables/Table/model.png)
+![Table](images/objects/tables/Table/model.thumbnail.png)
 
 %end
 

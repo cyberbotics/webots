@@ -151,7 +151,7 @@ An hot plate.
 
 %figure
 
-![HotPlate](images/objects/components/HotPlate/model.png)
+![HotPlate](images/objects/components/HotPlate/model.thumbnail.png)
 
 %end
 
@@ -211,7 +211,7 @@ A customizable (size, texture, etc.) worktop.
 
 %figure
 
-![Worktop](images/objects/components/Worktop/model.png)
+![Worktop](images/objects/components/Worktop/model.thumbnail.png)
 
 %end
 
@@ -343,7 +343,7 @@ A cookware.
 
 %figure
 
-![Cookware](images/objects/utensils/Cookware/model.png)
+![Cookware](images/objects/utensils/Cookware/model.thumbnail.png)
 
 %end
 
@@ -406,7 +406,7 @@ A glass.
 
 %figure
 
-![Glass](images/objects/utensils/Glass/model.png)
+![Glass](images/objects/utensils/Glass/model.thumbnail.png)
 
 %end
 

@@ -43,7 +43,7 @@ Therefore they are static, i.e. physics is not applied on them.
 
 **Keywords**: [IndexedFaceSet](../reference/indexedfaceset.md), High resolution mesh
 
-![high_resolution_indexedfaceset.png](images/samples/high_resolution_indexedfaceset.png) This example simply displays a high resolution mesh.
+![high_resolution_indexedfaceset.png](images/samples/high_resolution_indexedfaceset.thumbnail.jpg) This example simply displays a high resolution mesh.
 This mesh is a textured high resolution version of the [Blender's mascot, Suzanne](https://en.wikipedia.org/wiki/Blender_(software)#Suzanne).
 It is composed of 8000 triangles with UV mapping.
 It has been imported from [Blender](https://www.blender.org/).
@@ -65,7 +65,7 @@ Depending on the joint motion, one muscle is contracted, and the other one is re
 
 **Keywords**: Collisions, physics primitives
 
-![physics_primitives.png](images/samples/physics_primitives.png) This example demonstrates a large set of the possible collisions between the basic physics primitives.
+![physics_primitives.png](images/samples/physics_primitives.thumbnail.jpg) This example demonstrates a large set of the possible collisions between the basic physics primitives.
 Three identical sets of primitives composed of [Box](../reference/box.md), a [Capsule](../reference/capsule.md), a [Cylinder](../reference/cylinder.md), a [Sphere](../reference/sphere.md) and an [IndexedFaceSet](../reference/indexedfaceset.md) nodes fall onto three surfaces respectively; a [Box](../reference/box.md), a [Plane](../reference/plane.md) and an [ElevationGrid](../reference/elevationgrid.md) node.
 
 ### [polygons.wbt](https://github.com/omichel/webots/tree/master/projects/samples/geometries/worlds/polygons.wbt)

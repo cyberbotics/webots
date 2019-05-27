@@ -20,7 +20,7 @@ The studied devices are attached on this robot.
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
 
-![battery.png](images/samples/battery.png) In this example, `MyBot` moves in a closed arena filled with obstacles.
+![battery.png](images/samples/battery.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 The energy consumed by the wheel motors slowly discharges the robot's battery.
 When the battery level reaches zero, the robot is powered off and stops moving.
 In order to remain powered, the robot must recharge its battery at energy chargers.
@@ -32,7 +32,7 @@ The color of a charger changes with its energy level: it is red when completely 
 
 **Keywords**: [TouchSensor](../reference/touchsensor.md), bumper
 
-![bumper.png](images/samples/bumper.png) In this example, `MyBot` moves in a closed arena filled with obstacles.
+![bumper.png](images/samples/bumper.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
 
@@ -72,7 +72,7 @@ The noise mask is determined by the `Camera.noiseMaskUrl` field.
 
 **Keywords**: [Camera](../reference/camera.md), pattern recognition, smart camera
 
-![camera_recognition.png](images/samples/camera_recognition.png) In this example, `MyBot` demonstrates object recognition capabilities.
+![camera_recognition.png](images/samples/camera_recognition.thumbnail.jpg) In this example, `MyBot` demonstrates object recognition capabilities.
 The robot camera displays yellow rectangles around the recognized objects.
 Information about the objects currently recognized are displayed in the `Console`.
 The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionColors` field is not empty.
@@ -93,7 +93,7 @@ All the robots in this simulation use the same controller; the different behavio
 
 **Keywords**: [Display](../reference/display.md), write in textures, overlay
 
-![display.png](images/samples/display.png) This example demonstrates several use of the [Display](../reference/display.md) device.
+![display.png](images/samples/display.thumbnail.jpg) This example demonstrates several use of the [Display](../reference/display.md) device.
 
 - The `MyBot` [Display](../reference/display.md) called "emoticon_display" is displayed as a 2D overlay on top of the 3D window, and is displayed as a texture on the screen mounted on the `MyBot`.
 It loads the [emoticons.png](https://github.com/omichel/webots/tree/master/projects/samples/devices/controllers/display/emoticons.png) image which contains a grid of emoticons (as a sprite sheet), and randomly selects an emoticon from this image every 30 steps.
@@ -124,7 +124,7 @@ Note that the communication between "infra-red" [Emitters](../reference/emitter.
 
 **Keywords**: [PositionSensor](../reference/positionsensor.md), encoders
 
-![encoders.png](images/samples/encoders.png) This example demonstrates the usage of the wheel encoders of two-wheeled robots.
+![encoders.png](images/samples/encoders.thumbnail.jpg) This example demonstrates the usage of the wheel encoders of two-wheeled robots.
 The controller randomly chooses target encoder positions, then it rotates its wheels until the encoder values reach the chosen target position.
 Then the encoders are reset and the controller chooses new random values.
 [PositionSensor](../reference/positionsensor.md) nodes applied on [HingeJoint](../reference/hingejoint.md) nodes model the encoders.
@@ -182,7 +182,7 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 
 **Keywords**: Hokuyo, [Lidar](../reference/lidar.md), [Display](../reference/display.md) plot
 
-![hokuyo.png](images/samples/hokuyo.png) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
+![hokuyo.png](images/samples/hokuyo.thumbnail.jpg) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
 
@@ -229,7 +229,7 @@ The light source can be moved with the mouse; the robot will follow it.
 
 **Keywords**: [LinearMotor](../reference/linearmotor.md), set motor position
 
-![linear_motor.png](images/samples/linear_motor.png) In this example, a linear motor from position `0` and then progresses by steps of `2 [cm]` until it reaches `20 [cm]`.
+![linear_motor.png](images/samples/linear_motor.thumbnail.jpg) In this example, a linear motor from position `0` and then progresses by steps of `2 [cm]` until it reaches `20 [cm]`.
 Once done, it comes back to position `0` and restarts.
 A ruler indicates the linear motor progression.
 
@@ -319,7 +319,7 @@ The Webots sound should be enabled to hear the result on the computer loudspeake
 
 **Keywords**: [Speaker](../reference/speaker.md), text-to-speech, TTS
 
-![speaker_text_to_speech.png](images/samples/speaker_text_to_speech.png) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
+![speaker_text_to_speech.png](images/samples/speaker_text_to_speech.thumbnail.jpg) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
 A text formated in XML is played in this speaker.
 This text is containing voice modulations including pitch, rate and volume modifications.
 The Webots sound should be enabled to hear the result on the computer loudspeakers.

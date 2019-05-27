@@ -213,6 +213,6 @@ ScooterSimple and MotorbikeSimple are examples of actual TwoWheelerSimple PROTO 
 
 %figure "Models of ScooterSimple and MotorbikeSimple currently available"
 
-![two_wheelers.png](images/two_wheelers.png)
+![two_wheelers.png](images/two_wheelers.thumbnail.png)
 
 %end

@@ -13,7 +13,7 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %figure "Top view of the 4 wheels robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the devices."
 
-![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.png)
+![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.thumbnail.jpg)
 
 %end
 

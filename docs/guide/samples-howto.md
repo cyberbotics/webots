@@ -50,7 +50,7 @@ This can be visualized with the `View / Optional Rendering / Show Center of Mass
 
 **Keywords**: custom robot window, [controller plugin](controller-plugin.md), HTML, Javascript, CSS
 
-![custom_html_robot_window.png](images/samples/custom_html_robot_window.png) This example shows a simple custom robot window.
+![custom_html_robot_window.png](images/samples/custom_html_robot_window.thumbnail.jpg) This example shows a simple custom robot window.
 The HTML file contains the page content.
 The CSS file contains the page style.
 The Javascript and C files deal with the interactions between the page and the robot, using the WWI API to exchange string messages.
@@ -66,7 +66,7 @@ A [Supervisor](../reference/supervisor.md) controller gets information on the co
 
 **Keywords**: Force control, linear motor, spring and damper
 
-![force_control.png](images/samples/force_control.png) This world shows two boxes connected by a [LinearMotor](../reference/linearmotor.md).
+![force_control.png](images/samples/force_control.thumbnail.jpg) This world shows two boxes connected by a [LinearMotor](../reference/linearmotor.md).
 Here, the purpose is to demonstrate the usage of the `wb_motor_set_force` function to control a [LinearMotor](../reference/linearmotor.md) with a user specified force.
 In this example, the `wb_motor_set_force` function is used to simulate the effect of a spring and a damper between the two boxes.
 When the simulation starts, the motor force is used to move the boxes apart.
@@ -103,7 +103,7 @@ This is known as the "Inverted Pendulum Problem", and it is solved in our exampl
 
 **Keywords**: Mouse events, user input
 
-![mouse_events.png](images/samples/mouse_events.png) This example shows the use of the [Supervisor API](../reference/supervisor.md) to retrieve mouse events.
+![mouse_events.png](images/samples/mouse_events.thumbnail.jpg) This example shows the use of the [Supervisor API](../reference/supervisor.md) to retrieve mouse events.
 When the simulation is running, the [Supervisor](../reference/supervisor.md) controller called `mouse_events.c` waits for a mouse event and displays in the `Console` the 3D and 2D coordinates of the mouse and the name of the hit object.
 The controller of this simulation is blocking, which means it will block until a mouse click is detected and it will not advance the simulation time.
 An alternative non blocking controller called `mouse_events_non_blocking.c` is also available for this example.
@@ -196,7 +196,7 @@ The [Camera](../reference/camera.md) image is given to OpenCV, OpenCV filters ar
 
 **Keywords**: PID control, Ziegler-Nichols method, plot
 
-![ziegler_nichols.png](images/samples/ziegler_nichols.png) This example shows the use of the `wb_motor_set_pid` function.
+![ziegler_nichols.png](images/samples/ziegler_nichols.thumbnail.jpg) This example shows the use of the `wb_motor_set_pid` function.
 It adapts its PID parameters as specified by the [Ziegler-Nichols tuning method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method).
 Each P-controller is tested during a period of 400 time steps, i.e. 12.8 seconds.
 A P-controller 'succeeds' if a constant error amplitude repeats at least 10 times during the test period.

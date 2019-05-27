@@ -119,7 +119,7 @@ Default stairs handrail.
 
 %figure
 
-![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.png)
+![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.thumbnail.png)
 
 %end
 

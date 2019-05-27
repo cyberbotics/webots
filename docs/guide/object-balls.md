@@ -7,7 +7,7 @@ You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 %figure
 
-![Ball](images/objects/balls/Ball/model.png)
+![Ball](images/objects/balls/Ball/model.thumbnail.png)
 
 %end
 

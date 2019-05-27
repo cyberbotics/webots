@@ -31,7 +31,7 @@ A big glass tower.
 
 %figure
 
-![BigGlassTower](images/objects/buildings/BigGlassTower/model.png)
+![BigGlassTower](images/objects/buildings/BigGlassTower/model.thumbnail.png)
 
 %end
 
@@ -153,7 +153,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BungalowStyleHouse](images/objects/buildings/BungalowStyleHouse/model.png)
+![BungalowStyleHouse](images/objects/buildings/BungalowStyleHouse/model.thumbnail.png)
 
 %end
 
@@ -231,7 +231,7 @@ A church with optional boundingObject.
 
 %figure
 
-![Church](images/objects/buildings/Church/model.png)
+![Church](images/objects/buildings/Church/model.thumbnail.png)
 
 %end
 
@@ -286,7 +286,7 @@ A house composed of several parts with optional boundingObject.
 
 %figure
 
-![ComposedHouse](images/objects/buildings/ComposedHouse/model.png)
+![ComposedHouse](images/objects/buildings/ComposedHouse/model.thumbnail.png)
 
 %end
 
@@ -438,7 +438,7 @@ A big hotel.
 
 %figure
 
-![Hotel](images/objects/buildings/Hotel/model.png)
+![Hotel](images/objects/buildings/Hotel/model.thumbnail.png)
 
 %end
 
@@ -463,7 +463,7 @@ A house with a garage and optional boundingObject.
 
 %figure
 
-![HouseWithGarage](images/objects/buildings/HouseWithGarage/model.png)
+![HouseWithGarage](images/objects/buildings/HouseWithGarage/model.thumbnail.png)
 
 %end
 
@@ -493,7 +493,7 @@ A large residential tower with variable number of floors and optional boundingOb
 
 %figure
 
-![LargeResidentialTower](images/objects/buildings/LargeResidentialTower/model.png)
+![LargeResidentialTower](images/objects/buildings/LargeResidentialTower/model.thumbnail.png)
 
 %end
 
@@ -652,7 +652,7 @@ An old residential building with optional boundingObject.
 
 %figure
 
-![OldResidentialBuilding](images/objects/buildings/OldResidentialBuilding/model.png)
+![OldResidentialBuilding](images/objects/buildings/OldResidentialBuilding/model.thumbnail.png)
 
 %end
 
@@ -781,7 +781,7 @@ A residential building with a rounded front face and optional boundingObject.
 
 %figure
 
-![ResidentialBuildingWithRoundFront](images/objects/buildings/ResidentialBuildingWithRoundFront/model.png)
+![ResidentialBuildingWithRoundFront](images/objects/buildings/ResidentialBuildingWithRoundFront/model.thumbnail.png)
 
 %end
 
@@ -963,7 +963,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![SimpleTwoFloorsHouse](images/objects/buildings/SimpleTwoFloorsHouse/model.png)
+![SimpleTwoFloorsHouse](images/objects/buildings/SimpleTwoFloorsHouse/model.thumbnail.png)
 
 %end
 
@@ -996,7 +996,7 @@ A small manor with optional boundingObject.
 
 %figure
 
-![SmallManor](images/objects/buildings/SmallManor/model.png)
+![SmallManor](images/objects/buildings/SmallManor/model.thumbnail.png)
 
 %end
 
@@ -1183,7 +1183,7 @@ A building with a "U" form.
 
 %figure
 
-![UBuilding](images/objects/buildings/UBuilding/model.png)
+![UBuilding](images/objects/buildings/UBuilding/model.thumbnail.png)
 
 %end
 
@@ -1238,7 +1238,7 @@ A windmill with optional boundingObject.
 
 %figure
 
-![Windmill](images/objects/buildings/Windmill/model.png)
+![Windmill](images/objects/buildings/Windmill/model.thumbnail.png)
 
 %end
 
