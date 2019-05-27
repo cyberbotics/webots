@@ -103,10 +103,12 @@ for image in images:
         print('=> Thumbnail "%s" created (%dx%d)' % (thumbnail, im.size[0], im.size[1]))
 
         # Compute paths by removing books.
+        book = image[:image.find('/')]
         imagePath = image[(image.find('/') + 1):]
         thumbnailPath = thumbnail[(thumbnail.find('/') + 1):]
 
         # Modify the MD files accordingly.
         for mdFile in mdFiles:
-            search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
-            search_and_replace(mdFile, ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
+            if mdFile.startswith('./' + book):
+                search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
+                search_and_replace(mdFile, ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
