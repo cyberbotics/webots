@@ -158,8 +158,10 @@ WbBackground::~WbBackground() {
   // Shader program is not deleted, a singleton instance is kept in WbWrenShaders
   wr_node_delete(WR_NODE(mSkyboxRenderable));
 
-  if (mSkyboxMaterial)
+  if (mSkyboxMaterial) {
     wr_material_delete(mSkyboxMaterial);
+    mSkyboxMaterial = NULL;
+  }
 
   wr_node_delete(WR_NODE(mSkyboxTransform));
   wr_static_mesh_delete(mSkyboxMesh);
@@ -339,6 +341,8 @@ void WbBackground::applySkyBoxToWren() {
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
     WbWrenOpenGlContext::doneWren();
+
+    connect(skyColorMap(), &WbCubemap::destroyed, this, &WbBackground::updateSkyColorMap, Qt::UniqueConnection);
 
     emit texturesLoaded();
   }
