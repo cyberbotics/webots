@@ -277,7 +277,7 @@ Any user chosen format is suitable, as long as emitters and receivers agree.
 
 %figure "Receiver's packet queue"
 
-![receiver_queue.png](images/receiver_queue.png)
+![receiver_queue.png](images/receiver_queue.thumbnail.png)
 
 %end
 

@@ -2,7 +2,7 @@
 
 %figure "iCub model in Webots"
 
-![model.png](images/robots/icub/model.png)
+![model.png](images/robots/icub/model.thumbnail.png)
 
 %end
 

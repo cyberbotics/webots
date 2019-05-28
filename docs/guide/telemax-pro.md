@@ -1,6 +1,6 @@
 ## Telerob Telemax PRO
 
-%robot telemax-pro images/robots/telemax-pro/model.png
+%robot telemax-pro images/robots/telemax-pro/model.thumbnail.png
 
 The [Telemax PRO robot](https://www.telerob.com/en/products/telemax-family) from [Telerob](https://www.telerob.com) is a tracked robot equipped with a 7-axis manipulator.
 

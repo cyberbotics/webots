@@ -1,6 +1,6 @@
 ## Saeon's ALTINO
 
-%robot altino images/robots/altino/model.png
+%robot altino images/robots/altino/model.thumbnail.png
 
 The "ALTINO System" is a robot platform designed for education.
 It is a four-wheeled robot based on an Ackermann vehicle frame.

@@ -1,6 +1,6 @@
 ## K-Team's Hemisson
 
-%robot hemisson images/robots/hemisson/model.png
+%robot hemisson images/robots/hemisson/model.thumbnail.png
 
 The "Hemisson" is a two-wheeled robot designed for education and teaching developped by [K-TEAM](https://www.k-team.com/mobile-robotics-products/old-products/hemisson).
 Equipped with several sensors and a programmable 8bit MCU, the robot is able to avoid obstacles, detect ambient light intensity and follow a line on the floor.

@@ -26,7 +26,7 @@ PBRAppearance {
 
 %figure "An Oxidised Copper Sphere made with the PBRAppearance node"
 
-![pbrappearance.png](images/pbrappearance.png)
+![pbrappearance.png](images/pbrappearance.thumbnail.png)
 
 %end
 

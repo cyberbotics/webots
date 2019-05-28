@@ -1,6 +1,6 @@
 ## KONDO's KHR-3HV
 
-%robot khr-3hv images/robots/khr-3hv/model.png
+%robot khr-3hv images/robots/khr-3hv/model.thumbnail.png
 
 The "Kondo KHR-3HV" is an humanoid robot with 17 degrees of freedom.
 
