@@ -33,13 +33,6 @@ DEF FLOOR Solid {
         metalness 0
       }
       geometry ElevationGrid {
-        color Color {
-          color [
-            1 1 1
-            0.4 0.4 0.4
-          ]
-        }
-        colorPerVertex FALSE
         xDimension 31
         xSpacing 0.01
         zDimension 43
