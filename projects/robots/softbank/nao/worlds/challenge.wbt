@@ -28,7 +28,7 @@ Viewpoint {
   position 3.586979233245826 2.512310849351606 6.8670595512583645
 }
 Background {
-  cubemap Cubemap {
+  skyColorMap Cubemap {
     textureBaseName "brown_floor"
   }
 }

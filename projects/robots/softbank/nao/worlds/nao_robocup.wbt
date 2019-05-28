@@ -25,7 +25,7 @@ Background {
   skyColor [
     0.3333333333333333 0.3333333333333333 1
   ]
-  cubemap Cubemap {
+  skyColorMap Cubemap {
     textureBaseName "noon_sunny_empty"
   }
 }

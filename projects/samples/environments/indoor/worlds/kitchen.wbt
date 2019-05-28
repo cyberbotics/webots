@@ -8,7 +8,7 @@ Viewpoint {
   exposure 0.7999999999999999
 }
 Background {
-  cubemap Cubemap {
+  skyColorMap Cubemap {
     textureBaseName "brown_floor"
   }
 }

@@ -47,9 +47,9 @@ static QString gUrlNames[6] = {"rightUrl", "leftUrl", "topUrl", "bottomUrl", "fr
 
 void WbBackground::init() {
   mSkyColor = findMFColor("skyColor");
-  mCubemap = findSFNode("cubemap");
+  mSkyColorMap = findSFNode("skyColorMap");
 
-  if (!mCubemap->value()) {
+  if (!mSkyColorMap->value()) {
     // backward compatibility before R2018b and import from VRML97
     WbMFString *urlFields[6];
     for (int i = 0; i < 6; ++i)
@@ -63,7 +63,7 @@ void WbBackground::init() {
         // empty url
         isValid = false;
         if (i != 0)
-          warn(tr("Impossible to create the cubemap because not all the url fields are defined."));
+          warn(tr("Impossible to create the skyColorMap cubemap because not all the url fields are defined."));
         break;
       }
       const QFileInfo fileInfo(urlFields[i]->item(0));
@@ -74,7 +74,8 @@ void WbBackground::init() {
       if (index < 0) {
         // suffix not found
         isValid = false;
-        warn(tr("Impossible to create the cubemap because the texture file defined in the '%1' field doesn't end with the '%2' "
+        warn(tr("Impossible to create the skyColorMap cubemap because the texture file defined in the '%1' field doesn't end "
+                "with the '%2' "
                 "suffix.")
                .arg(gUrlNames[i])
                .arg(WbCubemap::textureSuffixes()[i]));
@@ -96,7 +97,7 @@ void WbBackground::init() {
     if (isValid) {
       WbNode *previousParent = WbNode::globalParent();
       WbNodeOperations::instance()->importNode(
-        this, findField("cubemap"), 0, "",
+        this, findField("skyColorMap"), 0, "",
         QString("Cubemap { textureBaseName \"" + textureBaseName + "\" directory \"" + directory + "\" }"));
       WbNode::setGlobalParent(previousParent);
     }
@@ -175,8 +176,8 @@ WbBackground::~WbBackground() {
 void WbBackground::preFinalize() {
   WbBaseNode::preFinalize();
 
-  if (cubemap())
-    cubemap()->preFinalize();
+  if (skyColorMap())
+    skyColorMap()->preFinalize();
 
   cBackgroundList << this;
 }
@@ -194,22 +195,22 @@ void WbBackground::activate() {
   if (!areWrenObjectsInitialized())
     createWrenObjects();
 
-  if (cubemap())
-    cubemap()->postFinalize();
+  if (skyColorMap())
+    skyColorMap()->postFinalize();
 
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
-  connect(mCubemap, &WbSFNode::changed, this, &WbBackground::updateCubemap);
+  connect(mSkyColorMap, &WbSFNode::changed, this, &WbBackground::updateSkyColorMap);
 
   updateColor();
 
-  updateCubemap();
+  updateSkyColorMap();
 }
 
 void WbBackground::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
-  if (cubemap())
-    cubemap()->createWrenObjects();
+  if (skyColorMap())
+    skyColorMap()->createWrenObjects();
 
   mSkyboxShaderProgram = WbWrenShaders::skyboxShader();
   mSkyboxMaterial = wr_phong_material_new();
@@ -250,8 +251,8 @@ void WbBackground::destroySkyBox() {
   wr_scene_set_skybox(wr_scene_get_instance(), NULL);
   if (mSkyboxMaterial)
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
-  if (cubemap())
-    cubemap()->clearWrenTexture();
+  if (skyColorMap())
+    skyColorMap()->clearWrenTexture();
 }
 
 void WbBackground::updateColor() {
@@ -264,10 +265,10 @@ void WbBackground::updateColor() {
   emit WbWrenRenderingContext::instance()->backgroundColorChanged();
 }
 
-void WbBackground::updateCubemap() {
-  if (cubemap()) {
-    connect(cubemap(), &WbCubemap::changed, this, &WbBackground::updateCubemap, Qt::UniqueConnection);
-    emit cubemapChanged();
+void WbBackground::updateSkyColorMap() {
+  if (skyColorMap()) {
+    connect(skyColorMap(), &WbCubemap::changed, this, &WbBackground::updateSkyColorMap, Qt::UniqueConnection);
+    emit skyColorMapChanged();
   }
 
   if (areWrenObjectsInitialized())
@@ -297,13 +298,13 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 void WbBackground::applySkyBoxToWren() {
   destroySkyBox();
 
-  if (!cubemap())
+  if (!skyColorMap())
     return;
 
-  cubemap()->loadWrenTexture();
+  skyColorMap()->loadWrenTexture();
 
-  if (cubemap()->isValid()) {
-    wr_material_set_texture_cubemap(mSkyboxMaterial, cubemap()->skyboxMap(), 0);
+  if (skyColorMap()->isValid()) {
+    wr_material_set_texture_cubemap(mSkyboxMaterial, skyColorMap()->skyboxMap(), 0);
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
@@ -315,8 +316,8 @@ WbRgb WbBackground::skyColor() const {
   return (mSkyColor->size() > 0 ? mSkyColor->item(0) : WbRgb());
 }
 
-WbCubemap *WbBackground::cubemap() const {
-  return dynamic_cast<WbCubemap *>(mCubemap->value());
+WbCubemap *WbBackground::skyColorMap() const {
+  return dynamic_cast<WbCubemap *>(mSkyColorMap->value());
 }
 
 void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
@@ -327,14 +328,14 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   findField("skyColor", true)->write(writer);
 
-  if (!cubemap() || !cubemap()->isValid())
+  if (!skyColorMap() || !skyColorMap()->isValid())
     return;
 
-  if (cubemap()->isEquirectangular()) {
+  if (skyColorMap()->isEquirectangular()) {
     // supported only for x3d export
     if (!writer.isX3d())
       return;
-    const QString &textureUrl(cubemap()->equirectangularTextureUrl());
+    const QString &textureUrl(skyColorMap()->equirectangularTextureUrl());
     const QFileInfo &cubeInfo(textureUrl);
     QString outputFileName;
     if (writer.isWritingToFile())
@@ -349,13 +350,13 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   QString outputFileNames[6];
   for (int i = 0; i < 6; ++i) {
-    const QFileInfo &cubeInfo(cubemap()->textureUrls(i));
+    const QFileInfo &cubeInfo(skyColorMap()->textureUrls(i));
     if (writer.isWritingToFile())
-      outputFileNames[i] = WbUrl::exportTexture(this, cubemap()->textureUrls(i), cubemap()->textureUrls(i),
+      outputFileNames[i] = WbUrl::exportTexture(this, skyColorMap()->textureUrls(i), skyColorMap()->textureUrls(i),
                                                 writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
     else
       outputFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(outputFileNames[i], cubemap()->textureUrls(i));
+    writer.addTextureToList(outputFileNames[i], skyColorMap()->textureUrls(i));
   }
 
   if (writer.isX3d()) {

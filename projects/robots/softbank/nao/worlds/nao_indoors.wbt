@@ -23,7 +23,7 @@ Viewpoint {
   follow "NAO"
 }
 Background {
-  cubemap Cubemap {
+  skyColorMap Cubemap {
     textureBaseName "brown_floor"
   }
 }

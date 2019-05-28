@@ -399,7 +399,7 @@ namespace {
     } else if (fieldName == "emissiveColorMap" && parentModelName == "PBRAppearance") {
       return nodeName == "ImageTexture";
 
-    } else if (fieldName == "cubemap" && parentModelName == "Background") {
+    } else if (fieldName == "skyColorMap" && parentModelName == "Background") {
       return nodeName == "Cubemap";
 
     } else if (fieldName == "motor" && parentModelName == "Track") {

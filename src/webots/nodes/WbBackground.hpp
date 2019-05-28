@@ -46,10 +46,10 @@ public:
 
   // accessor
   WbRgb skyColor() const;
-  WbCubemap *cubemap() const;
+  WbCubemap *skyColorMap() const;
 
 signals:
-  void cubemapChanged();
+  void skyColorMapChanged();
 
 protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
@@ -73,7 +73,7 @@ private:
 
   // user accessible fields
   WbMFColor *mSkyColor;
-  WbSFNode *mCubemap;
+  WbSFNode *mSkyColorMap;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;
@@ -91,7 +91,7 @@ private:
 
 private slots:
   void updateColor();
-  void updateCubemap();
+  void updateSkyColorMap();
 };
 
 #endif

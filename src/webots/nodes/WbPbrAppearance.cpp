@@ -242,17 +242,17 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
 
   WbBackground *background = WbBackground::firstInstance();
   if (background) {
-    WbCubemap *backgroundCubemap = background->cubemap();
-    if (backgroundCubemap) {
-      if (backgroundCubemap->isValid()) {
-        backgroundCubemap->modifyWrenMaterial(wrenMaterial);
-        connect(backgroundCubemap, &WbCubemap::cubeTexturesDestroyed, this, &WbPbrAppearance::updateCubeMap,
+    WbCubemap *backgroundSkyColorMap = background->skyColorMap();
+    if (backgroundSkyColorMap) {
+      if (backgroundSkyColorMap->isValid()) {
+        backgroundSkyColorMap->modifyWrenMaterial(wrenMaterial);
+        connect(backgroundSkyColorMap, &WbCubemap::cubeTexturesDestroyed, this, &WbPbrAppearance::updateCubeMap,
                 Qt::UniqueConnection);
       } else
-        connect(backgroundCubemap, &WbCubemap::bakeCompleted, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
+        connect(backgroundSkyColorMap, &WbCubemap::bakeCompleted, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
     } else {
       clearCubemap(wrenMaterial);
-      connect(background, &WbBackground::cubemapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
+      connect(background, &WbBackground::skyColorMapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
     }
   } else
     clearCubemap(wrenMaterial);
