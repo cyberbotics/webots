@@ -908,7 +908,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       switch (field->type()) {  // import value
         case WB_MF_BOOL: {
-          unsigned char value = 0;
+          // cppcheck-suppress uninitvar
+          unsigned char value;
           stream >> (unsigned char &)value;
           // cppcheck-suppress knownConditionTrueFalse
           (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
