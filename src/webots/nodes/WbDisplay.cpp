@@ -257,7 +257,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       break;
     case C_DISPLAY_SET_FONT: {
       unsigned int fontSize;
-      // cppcheck-suppress uninitvar
+      // cppcheck-suppress unassignedVariable
       bool antiAliasing;
       stream >> (unsigned int &)fontSize;
       stream >> (unsigned char &)antiAliasing;
