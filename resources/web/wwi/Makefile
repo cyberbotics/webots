@@ -51,14 +51,9 @@ THREEJS_EXAMPLE_SOURCES = \
   pmrem/PMREMCubeUVPacker.js \
   pmrem/PMREMGenerator.js \
   shaders/CopyShader.js \
-  shaders/DepthLimitedBlurShader.js \
   shaders/FXAAShader.js \
-  shaders/GammaCorrectionShader.js \
-  shaders/SAOShader.js \
-  shaders/UnpackDepthRGBAShader.js \
   postprocessing/EffectComposer.js \
   postprocessing/RenderPass.js \
-  postprocessing/SAOPass.js \
   postprocessing/ShaderPass.js
 LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
