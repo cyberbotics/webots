@@ -86,4 +86,5 @@ script:
   - export QT_QPA_PLATFORM=offscreen
   - make release -j2
   - ./webots --sysinfo
-  - python tests/test_suite.py
+  - cd ./tests
+  - python ./test_suite.py
