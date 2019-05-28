@@ -79,18 +79,18 @@ QStringList WbWindowsRegistry::subKeys() const {
   FILETIME lastWriteTime;                // last write time
 
   // Get the class name and the value count.
-  DWORD retCode = RegQueryInfoKey(mCurrentKey,          // key handle
-                                  className,            // buffer for class name
-                                  &nClassName,          // size of class string
-                                  NULL,                 // reserved
-                                  &nSubKeys,            // number of subkeys
-                                  &maxSubKey,           // longest subkey size
-                                  &maxClass,            // longest class string
-                                  &values,              // number of values for this key
-                                  &maxValue,            // longest value name
-                                  &maxValueData,        // longest value data
-                                  &securityDescriptor,  // security descriptor
-                                  &lastWriteTime        // last write time
+  RegQueryInfoKey(mCurrentKey,          // key handle
+                  className,            // buffer for class name
+                  &nClassName,          // size of class string
+                  NULL,                 // reserved
+                  &nSubKeys,            // number of subkeys
+                  &maxSubKey,           // longest subkey size
+                  &maxClass,            // longest class string
+                  &values,              // number of values for this key
+                  &maxValue,            // longest value name
+                  &maxValueData,        // longest value data
+                  &securityDescriptor,  // security descriptor
+                  &lastWriteTime        // last write time
   );
 
   // Enumerate the subkeys, until RegEnumKeyEx fails.
