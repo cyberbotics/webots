@@ -1,6 +1,6 @@
 ## ROBOTIS' Robotis OP3
 
-%robot robotis-op3 images/robots/robotis-op3/model.png
+%robot robotis-op3 images/robots/robotis-op3/model.thumbnail.png
 
 The ROBOTIS OP3 is an open source miniature humanoid robot platform with advanced computational power.
 It is developed and manufactured by ROBOTIS (a Korean robot manufacturer) in collaboration with the University of Pennsylvania.

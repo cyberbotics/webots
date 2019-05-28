@@ -1,6 +1,6 @@
 ## BioRob Salamander
 
-%robot salamander images/robots/salamander/model.png
+%robot salamander images/robots/salamander/model.thumbnail.png
 
 The "Salamander" robot is a salamander-like robot developed by the [EPFL BioRob laboratory](https://biorob.epfl.ch/).
 

@@ -1,6 +1,6 @@
 ## BioRob Yamor
 
-%robot yamor images/robots/yamor/model.png
+%robot yamor images/robots/yamor/model.thumbnail.png
 
 The "Yamor" robot is a modular robot developed by the [EPFL BioRob laboratory](https://biorob.epfl.ch/).
 

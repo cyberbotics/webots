@@ -49,7 +49,7 @@ A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 
 %figure
 
-![RubberDuck](images/objects/toys/RubberDuck/model.png)
+![RubberDuck](images/objects/toys/RubberDuck/model.thumbnail.png)
 
 %end
 

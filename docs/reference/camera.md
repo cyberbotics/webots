@@ -190,7 +190,7 @@ If the mouse cursor is over one of these rectangles and the simulator is paused,
 
 %figure "Display of a recognized object."
 
-![camera_recognition.png](images/camera_recognition.png)
+![camera_recognition.png](images/camera_recognition.thumbnail.jpg)
 
 %end
 

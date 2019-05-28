@@ -12,7 +12,7 @@ The studied devices are attached on this robot.
 
 %figure "MyBot in a squared arena."
 
-![mybot.png](images/samples/mybot.png)
+![mybot.png](images/samples/mybot.thumbnail.png)
 
 %end
 

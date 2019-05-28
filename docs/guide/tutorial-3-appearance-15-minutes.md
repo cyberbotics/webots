@@ -55,7 +55,7 @@ A UV mapping function maps a 2D image representation to a 3D model.
 
 %figure "Simulation after having setup the Light and the `PBRAppearance` nodes."
 
-![tutorial_appearance.png](images/tutorial_appearance.png)
+![tutorial_appearance.png](images/tutorial_appearance.thumbnail.jpg)
 
 %end
 

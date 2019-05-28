@@ -14,7 +14,7 @@ Hinge2Joint {
 
 %figure "Hinge 2 joint"
 
-![hinge2Joint.png](images/hinge2Joint.png)
+![hinge2Joint.png](images/hinge2Joint.thumbnail.png)
 
 %end
 
