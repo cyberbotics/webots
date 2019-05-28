@@ -17,15 +17,15 @@
 #include "WbCubemap.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
-#include "WbGroup.hpp"
 #include "WbMFColor.hpp"
 #include "WbMFString.hpp"
-#include "WbMathsUtilities.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbPreferences.hpp"
 #include "WbSFNode.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
+#include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
@@ -37,6 +37,7 @@
 #include <wren/shader_program.h>
 #include <wren/static_mesh.h>
 #include <wren/texture_cubemap.h>
+#include <wren/texture_cubemap_baker.h>
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
@@ -114,6 +115,9 @@ void WbBackground::init() {
   mHdrClearMaterial = NULL;
   mHdrClearTransform = NULL;
   mHdrClearMesh = NULL;
+
+  mDiffuseIrradianceCubeTexture = NULL;
+  mSpecularIrradianceCubeTexture = NULL;
 }
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
@@ -251,6 +255,15 @@ void WbBackground::destroySkyBox() {
   wr_scene_set_skybox(wr_scene_get_instance(), NULL);
   if (mSkyboxMaterial)
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
+  emit texturesDestroyed();
+  if (mDiffuseIrradianceCubeTexture) {
+    wr_texture_delete(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
+    mDiffuseIrradianceCubeTexture = NULL;
+  }
+  if (mSpecularIrradianceCubeTexture) {
+    wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
+    mSpecularIrradianceCubeTexture = NULL;
+  }
   if (skyColorMap())
     skyColorMap()->clearWrenTexture();
 }
@@ -304,11 +317,30 @@ void WbBackground::applySkyBoxToWren() {
   skyColorMap()->loadWrenTexture();
 
   if (skyColorMap()->isValid()) {
-    wr_material_set_texture_cubemap(mSkyboxMaterial, skyColorMap()->skyboxMap(), 0);
+    WbWrenOpenGlContext::makeWrenCurrent();
+
+    mDiffuseIrradianceCubeTexture = wr_texture_cubemap_bake_diffuse_irradiance(
+      skyColorMap()->texture(), WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
+
+    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
+    // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
+    const int offset = (skyColorMap()->isEquirectangular() &&
+                        (quality < 2 || WbPreferences::instance()->value("OpenGL/limitBakingResolution", false).toBool())) ?
+                         5 :
+                         6;
+    const int resolution = 1 << (offset + quality);
+    mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
+      skyColorMap()->texture(), WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
+    wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
+
+    wr_material_set_texture_cubemap(mSkyboxMaterial, skyColorMap()->texture(), 0);
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+    WbWrenOpenGlContext::doneWren();
+
+    emit texturesLoaded();
   }
 }
 
@@ -318,6 +350,28 @@ WbRgb WbBackground::skyColor() const {
 
 WbCubemap *WbBackground::skyColorMap() const {
   return dynamic_cast<WbCubemap *>(mSkyColorMap->value());
+}
+
+void WbBackground::modifyWrenMaterial(WrMaterial *material) {
+  if (!material)
+    return;
+
+  // diffuse irradiance map
+  wr_material_set_texture_cubemap(material, mDiffuseIrradianceCubeTexture, 0);
+  wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+  wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+  wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+  wr_material_set_texture_cubemap_anisotropy(material, 8, 0);
+  wr_material_set_texture_cubemap_enable_interpolation(material, true, 0);
+
+  // specular irradiance map
+  wr_material_set_texture_cubemap(material, mSpecularIrradianceCubeTexture, 1);
+  wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
+  wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
+  wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
+  wr_material_set_texture_cubemap_anisotropy(material, 8, 1);
+  wr_material_set_texture_cubemap_enable_interpolation(material, true, 1);
+  wr_material_set_texture_cubemap_enable_mip_maps(material, true, 1);
 }
 
 void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {

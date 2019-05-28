@@ -18,7 +18,6 @@
 #include "WbBaseNode.hpp"
 
 struct WrTextureCubeMap;
-struct WrMaterial;
 
 class WbCubemap : public WbBaseNode {
   Q_OBJECT
@@ -37,17 +36,13 @@ public:
   void loadWrenTexture();
   void clearWrenTexture();
 
-  void modifyWrenMaterial(WrMaterial *material);
-
   bool isValid() const { return mIsValid; }
   bool isEquirectangular() const { return mIsEquirectangular; }
 
   QString textureUrls(int index) const { return mTextureUrls[index]; }
   QString equirectangularTextureUrl() const;
 
-  WrTextureCubeMap *skyboxMap() const { return mDefaultCubeTexture; }
-  WrTextureCubeMap *diffuseIrradianceMap() const { return mDiffuseIrradianceCubeTexture; }
-  WrTextureCubeMap *specularIrradianceMap() const { return mSpecularIrradianceCubeTexture; }
+  WrTextureCubeMap *texture() const { return mTexture; }
 
   void setRole(const QString &role) { mRole = role; }
 
@@ -55,8 +50,6 @@ public:
 
 signals:
   void changed();
-  void bakeCompleted();
-  void cubeTexturesDestroyed();
 
 protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
@@ -78,9 +71,7 @@ private:
   QImage *mQImages[6];
 
   // skybox related fields
-  WrTextureCubeMap *mDefaultCubeTexture;
-  WrTextureCubeMap *mDiffuseIrradianceCubeTexture;
-  WrTextureCubeMap *mSpecularIrradianceCubeTexture;
+  WrTextureCubeMap *mTexture;
   bool mIsValid;
   bool mIsEquirectangular;
 

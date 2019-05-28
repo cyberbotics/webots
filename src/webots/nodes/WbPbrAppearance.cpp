@@ -15,7 +15,6 @@
 #include "WbPbrAppearance.hpp"
 
 #include "WbBackground.hpp"
-#include "WbCubemap.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbImageTexture.hpp"
@@ -159,8 +158,8 @@ void WbPbrAppearance::postFinalize() {
   connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::backgroundColorChanged, this,
           &WbPbrAppearance::updateBackgroundColor);
 
-  // we need to do one more background probe if there is no local cubemap
-  updateCubeMap();
+  // we need to do one more background probe
+  updateCubeMaps();
 
   if (!WbWorld::instance()->isLoading())
     emit changed();
@@ -242,18 +241,10 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
 
   WbBackground *background = WbBackground::firstInstance();
   if (background) {
-    WbCubemap *backgroundSkyColorMap = background->skyColorMap();
-    if (backgroundSkyColorMap) {
-      if (backgroundSkyColorMap->isValid()) {
-        backgroundSkyColorMap->modifyWrenMaterial(wrenMaterial);
-        connect(backgroundSkyColorMap, &WbCubemap::cubeTexturesDestroyed, this, &WbPbrAppearance::updateCubeMap,
-                Qt::UniqueConnection);
-      } else
-        connect(backgroundSkyColorMap, &WbCubemap::bakeCompleted, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
-    } else {
-      clearCubemap(wrenMaterial);
-      connect(background, &WbBackground::skyColorMapChanged, this, &WbPbrAppearance::updateCubeMap, Qt::UniqueConnection);
-    }
+    background->modifyWrenMaterial(wrenMaterial);
+    connect(background, &WbBackground::texturesLoaded, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
+    connect(background, &WbBackground::texturesDestroyed, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
+    connect(background, &WbBackground::skyColorMapChanged, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
   } else
     clearCubemap(wrenMaterial);
 
@@ -373,7 +364,7 @@ double WbPbrAppearance::getRedValueInTexture(const WbImageTexture *texture, cons
   return 0.0;  // default value
 }
 
-void WbPbrAppearance::updateCubeMap() {
+void WbPbrAppearance::updateCubeMaps() {
   if (isPostFinalizedCalled())
     emit changed();
 }

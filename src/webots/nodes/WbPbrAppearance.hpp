@@ -104,7 +104,7 @@ private:
   WbRgb mInitialEmissiveColor;
 
 private slots:
-  void updateCubeMap();
+  void updateCubeMaps();
   void updateBackgroundColor();
   void updateBaseColor();
   void updateBaseColorMap();

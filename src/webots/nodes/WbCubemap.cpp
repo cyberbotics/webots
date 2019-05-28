@@ -15,20 +15,17 @@
 #include "WbCubemap.hpp"
 
 #include "WbNodeUtilities.hpp"
-#include "WbPreferences.hpp"
 #include "WbSFInt.hpp"
 #include "WbSFString.hpp"
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
-#include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION  // needed for include to work properly
 #include <stb_image.h>
 
 #include <wren/gl_state.h>
-#include <wren/material.h>
 #include <wren/texture.h>
 #include <wren/texture_2d.h>
 #include <wren/texture_cubemap.h>
@@ -51,9 +48,7 @@ const QString *WbCubemap::textureSuffixes() {
 void WbCubemap::init() {
   mTextureBaseName = findSFString("textureBaseName");
   mDirectory = findSFString("directory");
-  mDefaultCubeTexture = NULL;
-  mDiffuseIrradianceCubeTexture = NULL;
-  mSpecularIrradianceCubeTexture = NULL;
+  mTexture = NULL;
   mIsValid = false;
   mIsEquirectangular = false;
   mRole = "";
@@ -94,19 +89,11 @@ void WbCubemap::postFinalize() {
 }
 
 void WbCubemap::clearWrenTexture() {
-  if (mIsValid) {
-    wr_texture_delete(WR_TEXTURE(mDefaultCubeTexture));
-    wr_texture_delete(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
-    wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
-  }
+  if (mIsValid)
+    wr_texture_delete(WR_TEXTURE(mTexture));
 
-  mDefaultCubeTexture = NULL;
-  mDiffuseIrradianceCubeTexture = NULL;
-  mSpecularIrradianceCubeTexture = NULL;
-
+  mTexture = NULL;
   mIsValid = false;
-
-  emit cubeTexturesDestroyed();
 }
 
 void WbCubemap::updateWrenTexture() {
@@ -143,8 +130,8 @@ void WbCubemap::loadWrenTexture() {
     WbWrenOpenGlContext::makeWrenCurrent();
     wr_texture_setup(WR_TEXTURE(equirectangularWrenTexture));
     stbi_image_free(data);
-    mDefaultCubeTexture = wr_texture_cubemap_bake_equirectangular_to_cube(equirectangularWrenTexture,
-                                                                          WbWrenShaders::iblEquirectangularShader(), 1024);
+    mTexture = wr_texture_cubemap_bake_equirectangular_to_cube(equirectangularWrenTexture,
+                                                               WbWrenShaders::iblEquirectangularShader(), 1024);
     wr_texture_delete(WR_TEXTURE(equirectangularWrenTexture));
     WbWrenOpenGlContext::doneWren();
 
@@ -174,7 +161,7 @@ void WbCubemap::loadWrenTexture() {
       return;
     }
 
-    mDefaultCubeTexture = wr_texture_cubemap_new();
+    mTexture = wr_texture_cubemap_new();
 
     int edgeLength = 0;
     bool alpha = false;
@@ -218,7 +205,7 @@ void WbCubemap::loadWrenTexture() {
           image->swap(tmp);
         }
 
-        wr_texture_cubemap_set_data(mDefaultCubeTexture, reinterpret_cast<const char *>(image->bits()),
+        wr_texture_cubemap_set_data(mTexture, reinterpret_cast<const char *>(image->bits()),
                                     static_cast<WrTextureOrientation>(i));
       } else {
         warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
@@ -227,57 +214,17 @@ void WbCubemap::loadWrenTexture() {
       }
       lastFile = imageReader.fileName();
     }
-    wr_texture_set_size(WR_TEXTURE(mDefaultCubeTexture), edgeLength, edgeLength);
-    wr_texture_set_internal_format(WR_TEXTURE(mDefaultCubeTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+    wr_texture_set_size(WR_TEXTURE(mTexture), edgeLength, edgeLength);
+    wr_texture_set_internal_format(WR_TEXTURE(mTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
     WbWrenOpenGlContext::makeWrenCurrent();
 
-    wr_texture_setup(WR_TEXTURE(mDefaultCubeTexture));
+    wr_texture_setup(WR_TEXTURE(mTexture));
 
     WbWrenOpenGlContext::doneWren();
   }
 
-  WbWrenOpenGlContext::makeWrenCurrent();
-
-  mDiffuseIrradianceCubeTexture =
-    wr_texture_cubemap_bake_diffuse_irradiance(mDefaultCubeTexture, WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
-
-  const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-  // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
-  const int offset =
-    (mIsEquirectangular && (quality < 2 || WbPreferences::instance()->value("OpenGL/limitBakingResolution", false).toBool())) ?
-      5 :
-      6;
-  const int resolution = 1 << (offset + quality);
-  mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
-    mDefaultCubeTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
-  wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
-
-  WbWrenOpenGlContext::doneWren();
   mIsValid = true;
-  emit bakeCompleted();
-}
-
-void WbCubemap::modifyWrenMaterial(WrMaterial *material) {
-  if (!material)
-    return;
-
-  // diffuse irradiance map
-  wr_material_set_texture_cubemap(material, mDiffuseIrradianceCubeTexture, 0);
-  wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_anisotropy(material, 8, 0);
-  wr_material_set_texture_cubemap_enable_interpolation(material, true, 0);
-
-  // specular irradiance map
-  wr_material_set_texture_cubemap(material, mSpecularIrradianceCubeTexture, 1);
-  wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-  wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-  wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
-  wr_material_set_texture_cubemap_anisotropy(material, 8, 1);
-  wr_material_set_texture_cubemap_enable_interpolation(material, true, 1);
-  wr_material_set_texture_cubemap_enable_mip_maps(material, true, 1);
 }
 
 void WbCubemap::exportNodeFields(WbVrmlWriter &writer) const {

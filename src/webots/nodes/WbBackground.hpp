@@ -24,6 +24,7 @@ struct WrShaderProgram;
 struct WrRenderable;
 struct WrMaterial;
 struct WrStaticMesh;
+struct WrTextureCubeMap;
 
 class WbBackground : public WbBaseNode {
   Q_OBJECT
@@ -46,9 +47,12 @@ public:
 
   // accessor
   WbRgb skyColor() const;
-  WbCubemap *skyColorMap() const;
+
+  void modifyWrenMaterial(WrMaterial *material);
 
 signals:
+  void texturesLoaded();
+  void texturesDestroyed();
   void skyColorMapChanged();
 
 protected:
@@ -62,6 +66,7 @@ private:
 
   // misc functions
   WbBackground &operator=(const WbBackground &);  // non copyable
+  WbCubemap *skyColorMap() const;
   void init();
   void destroySkyBox();
   void applyColourToWren(const WbRgb &color);
@@ -88,6 +93,9 @@ private:
   WrMaterial *mHdrClearMaterial;
   WrTransform *mHdrClearTransform;
   WrStaticMesh *mHdrClearMesh;
+
+  WrTextureCubeMap *mDiffuseIrradianceCubeTexture;
+  WrTextureCubeMap *mSpecularIrradianceCubeTexture;
 
 private slots:
   void updateColor();
