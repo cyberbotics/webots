@@ -399,9 +399,6 @@ namespace {
     } else if (fieldName == "emissiveColorMap" && parentModelName == "PBRAppearance") {
       return nodeName == "ImageTexture";
 
-    } else if (fieldName == "environmentMap" && parentModelName == "PBRAppearance") {
-      return nodeName == "Cubemap";
-
     } else if (fieldName == "cubemap" && parentModelName == "Background") {
       return nodeName == "Cubemap";
 

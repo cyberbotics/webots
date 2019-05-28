@@ -49,7 +49,6 @@ public:
   WbImageTexture *baseColorMap() const;
   WbImageTexture *roughnessMap() const;
   WbImageTexture *metalnessMap() const;
-  WbCubemap *environmentMap() const;
   WbImageTexture *normalMap() const;
   WbImageTexture *occlusionMap() const;
   WbImageTexture *emissiveColorMap() const;
@@ -93,7 +92,6 @@ private:
   WbSFNode *mRoughnessMap;
   WbSFDouble *mMetalness;
   WbSFNode *mMetalnessMap;
-  WbSFNode *mEnvironmentMap;
   WbSFDouble *mIblStrength;
   WbSFNode *mNormalMap;
   WbSFDouble *mNormalMapFactor;
@@ -115,7 +113,6 @@ private slots:
   void updateRoughnessMap();
   void updateMetalness();
   void updateMetalnessMap();
-  void updateEnvironmentMap();
   void updateIblStrength();
   void updateNormalMap();
   void updateNormalMapFactor();
