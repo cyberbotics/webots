@@ -15,14 +15,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-    var parameters = {};
-    if (WEBGL.isWebGL2Available()) {
-      var canvas = document.createElement('canvas');
-      parameters.canvas = canvas;
-      parameters.context = canvas.getContext('webgl2', {antialias: true});
-    } else
-      parameters.antialias = true;
-    this.renderer = new THREE.WebGLRenderer(parameters);
+    this.renderer = new THREE.WebGLRenderer({'antialias': false});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
@@ -52,6 +45,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.viewpoint.camera);
 
+    // add antialiasing post-processing effects
+    this.composer = new THREE.EffectComposer(this.renderer);
+    let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
+    this.composer.addPass(renderPass);
+    var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    this.composer.addPass(fxaaPass);
+
     this.resize();
 
     this.destroyWorld();
@@ -63,7 +63,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   render() {
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
-    this.renderer.render(this.scene, this.viewpoint.camera);
+    this.composer.render();
     if (typeof this.postRender === 'function')
       this.postRender(this.scene, this.viewpoint.camera);
   }
@@ -77,6 +77,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.viewpoint.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
+    this.composer.setSize(width, height);
     this.render();
   }
 

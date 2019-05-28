@@ -95,7 +95,7 @@ vec2 EquirectangularSampleUV(vec3 v) {
 
 void main() {
   vec2 uv = EquirectangularSampleUV(normalize(localPosition));
-  gl_FragColor = texture(equirectangularMap, uv);
+  gl_FragColor = texture2D(equirectangularMap, uv);
 }`,
       blending: THREE.NoBlending
     });

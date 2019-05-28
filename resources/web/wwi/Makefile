@@ -47,10 +47,19 @@ THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
 THREEJS_EXAMPLE_SOURCES = \
-  WebGL.js \
   loaders/RGBELoader.js \
   pmrem/PMREMCubeUVPacker.js \
-  pmrem/PMREMGenerator.js
+  pmrem/PMREMGenerator.js \
+  shaders/CopyShader.js \
+  shaders/DepthLimitedBlurShader.js \
+  shaders/FXAAShader.js \
+  shaders/GammaCorrectionShader.js \
+  shaders/SAOShader.js \
+  shaders/UnpackDepthRGBAShader.js \
+  postprocessing/EffectComposer.js \
+  postprocessing/RenderPass.js \
+  postprocessing/SAOPass.js \
+  postprocessing/ShaderPass.js
 LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.
