@@ -75,7 +75,7 @@ void WbStreamingServer::cleanup() {
 WbStreamingServer::WbStreamingServer() :
   QObject(),
   mX3dWorldGenerationTime(-1.0),
-  mServer(NULL),
+  mWebSocketServer(NULL),
   mMonitorActivity(false),
   mDisableTextStreams(false),
   mSsl(false),
@@ -98,7 +98,7 @@ WbStreamingServer::WbStreamingServer() :
 }
 
 WbStreamingServer::~WbStreamingServer() {
-  if (mServer)
+  if (mWebSocketServer)
     stop();
 }
 
@@ -192,9 +192,17 @@ void WbStreamingServer::stop() {
 }
 
 void WbStreamingServer::create(int port) {
+  // Create a simple HTTP server, serving:
+  // - a websocket on "/"
+  // - images on "/images/dir/image.[jpg|png|hdr]"
+
+  // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
+  // - https://bugreports.qt.io/browse/QTBUG-54276
+
   generateX3dWorld();
   QWebSocketServer::SslMode sslMode = mSsl ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
-  mServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
+  mWebSocketServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
+  mTcpServer = new QTcpServer();
   if (mSsl) {
     QSslConfiguration sslConfiguration;
     QFile privateKeyFile(WbStandardPaths::resourcesWebPath() + "server/ssl/privkey.pem");
@@ -206,11 +214,12 @@ void WbStreamingServer::create(int port) {
       QSslCertificate::fromPath(WbStandardPaths::resourcesWebPath() + "server/ssl/cert.pem");
     sslConfiguration.setLocalCertificateChain(localCertificateChain);
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    mServer->setSslConfiguration(sslConfiguration);
+    mWebSocketServer->setSslConfiguration(sslConfiguration);
   }
-  if (!mServer->listen(QHostAddress::Any, port))
-    throw tr("Cannot set the server in listen mode: %1").arg(mServer->errorString());
-  connect(mServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewConnection);
+  if (!mTcpServer->listen(QHostAddress::Any, port))
+    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
+  connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewWebSocketConnection);
+  connect(mTcpServer, &QTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
   if (!mDisableTextStreams) {
@@ -230,8 +239,8 @@ void WbStreamingServer::destroy() {
     disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
   }
 
-  if (mServer)
-    mServer->close();
+  if (mWebSocketServer)
+    mWebSocketServer->close();
 
   foreach (QWebSocket *client, mClients) {
     disconnect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
@@ -240,16 +249,62 @@ void WbStreamingServer::destroy() {
   qDeleteAll(mClients);
   mClients.clear();
 
-  delete mServer;
-  mServer = NULL;
+  delete mWebSocketServer;
+  mWebSocketServer = NULL;
+
+  delete mTcpServer;
+  mTcpServer = NULL;
 
   if (gCleanedFromPostRoutine == false)
     // calling WbLog from the post routine can crash Webots if WbLog is deleted before
     WbLog::info(tr("Streaming server closed"));
 }
 
-void WbStreamingServer::onNewConnection() {
-  QWebSocket *client = mServer->nextPendingConnection();
+void WbStreamingServer::onNewTcpConnection() {
+  QTcpSocket *socket = mTcpServer->nextPendingConnection();
+  mWebSocketServer->handleConnection(socket);
+  connect(socket, &QTcpSocket::readyRead, this, &WbStreamingServer::onNewTcpData);
+}
+
+void WbStreamingServer::onNewTcpData() {
+  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+
+  QString line(socket->peek(1000));
+  QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
+  if (tokens[0] == "GET") {
+    QUrl origin(tokens[1]);
+    if (origin != QUrl("/")) { // "/" is reserved for the websocket.
+      // Reference: https://stackoverflow.com/a/34007267/2210777
+      QString answer = QString(
+        "<html>\n"
+        "  <body>\n"
+        "    <h1>Hello, World!</h1>\n"
+        "    <p>url: <span>%1</span></p>\n"
+        "  </body>\n"
+        "</html>"
+      ).arg(origin.toString());
+      socket->write(
+        QString(
+          "HTTP/1.1 200 OK\r\n"
+          "Content-Type: text/html\r\n"
+          "Content-Length: %1\n"
+          "Connection: close\r\n"
+          "Pragma: no-cache\r\n"
+          "\r\n"
+          "<!DOCTYPE html>\r\n"
+          "%2"
+        )
+        .arg(answer.length())
+        .arg(answer)
+        .toUtf8()
+      );
+      socket->disconnectFromHost();
+    }
+  }
+}
+
+void WbStreamingServer::onNewWebSocketConnection() {
+  QWebSocket *client = mWebSocketServer->nextPendingConnection();
   if (client) {
     connect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
     connect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
@@ -633,7 +688,7 @@ void WbStreamingServer::sendToClients(const QString &message) {
 }
 
 void WbStreamingServer::newWorld() {
-  if (mServer == NULL)
+  if (mWebSocketServer == NULL)
     return;
 
   if (mMonitorActivity) {
@@ -681,7 +736,7 @@ void WbStreamingServer::newWorld() {
 }
 
 void WbStreamingServer::deleteWorld() {
-  if (mServer == NULL)
+  if (mWebSocketServer == NULL)
     return;
   WbAnimationRecorder::instance()->cleanupFromStreamingServer();
   foreach (QWebSocket *client, mClients)
@@ -697,7 +752,7 @@ void WbStreamingServer::setWorldLoadingProgress(const int progress) {
 }
 
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
-  if (mServer == NULL || WbWorld::instance() == NULL)
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
@@ -730,7 +785,7 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
 }
 
 void WbStreamingServer::propagateNodeDeletion(WbNode *node) {
-  if (mServer == NULL || WbWorld::instance() == NULL)
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
   foreach (QWebSocket *client, mClients)
@@ -738,7 +793,7 @@ void WbStreamingServer::propagateNodeDeletion(WbNode *node) {
 }
 
 void WbStreamingServer::propagateSimulationStateChange() {
-  if (mServer == NULL || WbWorld::instance() == NULL || mClients.isEmpty())
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL || mClients.isEmpty())
     return;
 
   QString message;

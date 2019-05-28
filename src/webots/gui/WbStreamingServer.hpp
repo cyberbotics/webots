@@ -22,8 +22,9 @@
 
 #include "WbLog.hpp"
 
-class QWebSocketServer;
+class QTcpServer;
 class QWebSocket;
+class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
@@ -41,8 +42,6 @@ public:
   void setView3D(WbView3D *);
   void setMainWindow(WbMainWindow *mainWindow);
 
-public slots:
-
 private slots:
   void propagateNodeAddition(WbNode *node);
   void propagateNodeDeletion(WbNode *node);
@@ -52,7 +51,9 @@ private slots:
   void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
   void start(int port);
   void stop();
-  void onNewConnection();
+  void onNewWebSocketConnection();
+  void onNewTcpConnection();
+  void onNewTcpData();
   void socketDisconnected();
   void processTextMessage(QString);
   void sendUpdatePackageToClients();
@@ -87,7 +88,8 @@ private:
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
   QString mX3dWorldReferenceFile;
-  QWebSocketServer *mServer;
+  QWebSocketServer *mWebSocketServer;
+  QTcpServer *mTcpServer;
   QList<QWebSocket *> mClients;
   QStringList mEditableControllers;
 
