@@ -25,8 +25,10 @@ def list_dependencies(package):
 
 d = list_dependencies('make')
 d += list_dependencies('coreutils')
-d += list_dependencies('gcc')
+d += list_dependencies('mingw-w64-x86_64-gcc')
 d += list_dependencies('mingw-w64-i686-gcc')
+d.remove('mingw-w64-x86_64-windows-default-manifest')  # if present, default-manifest.o will be linked with ld
+d.remove('mingw-w64-i686-windows-default-manifest')    # and fail if path contains spaces (due to a windres bug)
 
 # remove duplicate packages
 seen = set()
