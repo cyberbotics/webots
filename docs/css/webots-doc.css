@@ -209,12 +209,12 @@ body {
 }
 .webots-doc a {
   font-family: "Roboto";
-  color: #317589;
+  color: #3e95af;
   text-decoration: none;
   outline: 0;
 }
 .webots-doc a:hover {
-  color: black;
+  color: #2a6576;
   text-decoration: none;
   outline: 0;
 }
@@ -222,7 +222,7 @@ body {
 .webots-doc a:focus {
   outline: 0;
   text-decoration: none;
-  color: black;
+  color: #2a6576;
 }
 .webots-doc pre {
   padding: 20px 10px 20px 40px;
