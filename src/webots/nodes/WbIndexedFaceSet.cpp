@@ -21,6 +21,7 @@
 #include "WbMFInt.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -431,6 +432,10 @@ void WbIndexedFaceSet::applyToOdeData(bool correctSolidMass) {
   assert(dGeomGetClass(mOdeGeom) == dTriMeshClass);
 
   dGeomTriMeshSetData(mOdeGeom, mTrimeshData);
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (mCorrectSolidMass)
     applyToOdeMass();
