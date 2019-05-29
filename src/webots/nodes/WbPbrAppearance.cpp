@@ -245,6 +245,10 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
     connect(background, &WbBackground::texturesLoaded, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
     connect(background, &WbBackground::texturesDestroyed, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
     connect(background, &WbBackground::skyColorMapChanged, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
+    connect(background, &WbBackground::specularIrradianceMapChanged, this, &WbPbrAppearance::updateCubeMaps,
+            Qt::UniqueConnection);
+    connect(background, &WbBackground::diffuseIrradianceMapChanged, this, &WbPbrAppearance::updateCubeMaps,
+            Qt::UniqueConnection);
   } else
     clearCubemap(wrenMaterial);
 

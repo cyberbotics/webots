@@ -221,7 +221,8 @@ void WbBackground::activate() {
 
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
   connect(mSkyColorMap, &WbSFNode::changed, this, &WbBackground::updateSkyColorMap);
-  // TODO: connects
+  connect(mSpecularIrradianceMap, &WbSFNode::changed, this, &WbBackground::updateSpecularIrradianceMap);
+  connect(mDiffuseIrradianceMap, &WbSFNode::changed, this, &WbBackground::updateDiffuseIrradianceMap);
 
   updateColor();
 
@@ -294,10 +295,14 @@ void WbBackground::destroySkyBox() {
     skyColorMap()->clearWrenTexture();
     disconnect(skyColorMap(), &WbCubemap::destroyed, this, &WbBackground::updateSkyColorMap);
   }
-  if (specularIrradianceMap())
+  if (specularIrradianceMap()) {
     specularIrradianceMap()->clearWrenTexture();
-  if (diffuseIrradianceMap())
+    disconnect(specularIrradianceMap(), &WbCubemap::destroyed, this, &WbBackground::updateSpecularIrradianceMap);
+  }
+  if (diffuseIrradianceMap()) {
     diffuseIrradianceMap()->clearWrenTexture();
+    disconnect(diffuseIrradianceMap(), &WbCubemap::destroyed, this, &WbBackground::updateDiffuseIrradianceMap);
+  }
 }
 
 void WbBackground::updateColor() {
@@ -321,11 +326,24 @@ void WbBackground::updateSkyColorMap() {
 }
 
 void WbBackground::updateSpecularIrradianceMap() {
-  // TODO
+  if (specularIrradianceMap()) {
+    connect(specularIrradianceMap(), &WbCubemap::changed, this, &WbBackground::updateSpecularIrradianceMap,
+            Qt::UniqueConnection);
+    emit specularIrradianceMapChanged();
+  }
+
+  if (areWrenObjectsInitialized())
+    applySkyBoxToWren();
 }
 
 void WbBackground::updateDiffuseIrradianceMap() {
-  // TODO
+  if (diffuseIrradianceMap()) {
+    connect(diffuseIrradianceMap(), &WbCubemap::changed, this, &WbBackground::updateDiffuseIrradianceMap, Qt::UniqueConnection);
+    emit diffuseIrradianceMapChanged();
+  }
+
+  if (areWrenObjectsInitialized())
+    applySkyBoxToWren();
 }
 
 void WbBackground::updateLuminosity() {
@@ -355,24 +373,32 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 void WbBackground::applySkyBoxToWren() {
   destroySkyBox();
 
-  if (!skyColorMap())
-    return;
-
-  skyColorMap()->loadWrenTexture();
-
-  if (skyColorMap()->isValid()) {
-    WbWrenOpenGlContext::makeWrenCurrent();
-
-    if (specularIrradianceMap())
-      specularIrradianceMap()->loadWrenTexture();
-    if (diffuseIrradianceMap())
-      diffuseIrradianceMap()->loadWrenTexture();
-    // TODO only if missing cubemap
+  if (skyColorMap()) {
     skyColorMap()->loadWrenTexture();
-    skyColorMap()->loadWrenTexture();
+    if (skyColorMap()->isValid())
+      connect(skyColorMap(), &WbCubemap::destroyed, this, &WbBackground::updateSkyColorMap, Qt::UniqueConnection);
+  }
+  if (specularIrradianceMap()) {
+    specularIrradianceMap()->loadWrenTexture();
+    if (specularIrradianceMap()->isValid())
+      connect(specularIrradianceMap(), &WbCubemap::destroyed, this, &WbBackground::updateSpecularIrradianceMap,
+              Qt::UniqueConnection);
+  }
+  if (diffuseIrradianceMap()) {
+    diffuseIrradianceMap()->loadWrenTexture();
+    if (diffuseIrradianceMap()->isValid())
+      connect(diffuseIrradianceMap(), &WbCubemap::destroyed, this, &WbBackground::updateDiffuseIrradianceMap,
+              Qt::UniqueConnection);
+  }
+
+  WbWrenOpenGlContext::makeWrenCurrent();
+
+  if (!diffuseIrradianceMap() || !diffuseIrradianceMap()->isValid()) {
     mDiffuseIrradianceCubeTexture = wr_texture_cubemap_bake_diffuse_irradiance(
       skyColorMap()->texture(), WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
+  }
 
+  if (!specularIrradianceMap() || !specularIrradianceMap()->isValid()) {
     const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
     // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
     const int offset = (skyColorMap()->isEquirectangular() &&
@@ -383,18 +409,19 @@ void WbBackground::applySkyBoxToWren() {
     mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
       skyColorMap()->texture(), WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
     wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
+  }
 
+  if (skyColorMap() && skyColorMap()->isValid()) {
     wr_material_set_texture_cubemap(mSkyboxMaterial, skyColorMap()->texture(), 0);
     wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
-    WbWrenOpenGlContext::doneWren();
-
-    connect(skyColorMap(), &WbCubemap::destroyed, this, &WbBackground::updateSkyColorMap, Qt::UniqueConnection);
-
-    emit texturesLoaded();
   }
+
+  WbWrenOpenGlContext::doneWren();
+
+  emit texturesLoaded();
 }
 
 WbRgb WbBackground::skyColor() const {
@@ -418,7 +445,10 @@ void WbBackground::modifyWrenMaterial(WrMaterial *material) {
     return;
 
   // diffuse irradiance map
-  wr_material_set_texture_cubemap(material, mDiffuseIrradianceCubeTexture, 0);
+  if (diffuseIrradianceMap() && diffuseIrradianceMap()->isValid())
+    wr_material_set_texture_cubemap(material, diffuseIrradianceMap()->texture(), 0);
+  else
+    wr_material_set_texture_cubemap(material, mDiffuseIrradianceCubeTexture, 0);
   wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
   wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
   wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
@@ -426,7 +456,10 @@ void WbBackground::modifyWrenMaterial(WrMaterial *material) {
   wr_material_set_texture_cubemap_enable_interpolation(material, true, 0);
 
   // specular irradiance map
-  wr_material_set_texture_cubemap(material, mSpecularIrradianceCubeTexture, 1);
+  if (specularIrradianceMap() && specularIrradianceMap()->isValid())
+    wr_material_set_texture_cubemap(material, specularIrradianceMap()->texture(), 1);
+  else
+    wr_material_set_texture_cubemap(material, mSpecularIrradianceCubeTexture, 1);
   wr_material_set_texture_cubemap_wrap_r(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
   wr_material_set_texture_cubemap_wrap_s(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);
   wr_material_set_texture_cubemap_wrap_t(material, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 1);

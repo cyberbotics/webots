@@ -54,6 +54,8 @@ signals:
   void texturesLoaded();
   void texturesDestroyed();
   void skyColorMapChanged();
+  void specularIrradianceMapChanged();
+  void diffuseIrradianceMapChanged();
 
 protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
