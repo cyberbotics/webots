@@ -17,6 +17,7 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbApplication.hpp"
 #include "WbField.hpp"
+#include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbMultimediaStreamer.hpp"
@@ -274,30 +275,19 @@ void WbStreamingServer::onNewTcpData() {
   if (tokens[0] == "GET") {
     QUrl origin(tokens[1]);
     if (origin != QUrl("/")) { // "/" is reserved for the websocket.
-      // Reference: https://stackoverflow.com/a/34007267/2210777
-      QString answer = QString(
+      QString reply;
+      WbHttpReply httpReply;
+      httpReply.setHtmlContent(QString(
         "<html>\n"
         "  <body>\n"
         "    <h1>Hello, World!</h1>\n"
         "    <p>url: <span>%1</span></p>\n"
         "  </body>\n"
         "</html>"
-      ).arg(origin.toString());
-      socket->write(
-        QString(
-          "HTTP/1.1 200 OK\r\n"
-          "Content-Type: text/html\r\n"
-          "Content-Length: %1\n"
-          "Connection: close\r\n"
-          "Pragma: no-cache\r\n"
-          "\r\n"
-          "<!DOCTYPE html>\r\n"
-          "%2"
-        )
-        .arg(answer.length())
-        .arg(answer)
-        .toUtf8()
-      );
+      ).arg(origin.toString()));
+      bool success = httpReply.computeReply(reply);
+      if (success)
+        socket->write(reply.toUtf8());
       socket->disconnectFromHost();
     }
   }

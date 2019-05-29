@@ -489,6 +489,7 @@ OTHER_SOURCES = \
   WbFieldModel.cpp \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
+  WbHttpReply.cpp \
   WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \
