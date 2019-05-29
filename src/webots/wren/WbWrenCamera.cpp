@@ -48,8 +48,8 @@
 #include <QtCore/QTime>
 #include <QtGui/QImageReader>
 
-static const float cDofFarBlurCutoff = 1.5f;
-static const float cDofBlurTextureSize[2] = {320.0f, 320.0f};
+#define DOF_FAR_BLUR_CUTOFF 1.5f
+#define DOF_BLUR_TEXTURE_RESOLUTION 320.0f
 
 WbWrenCamera::WbWrenCamera(WrTransform *node, int width, int height, float nearValue, float minRange, float maxRange, float fov,
                            char type, bool hasAntiAliasing, bool isSpherical) :
@@ -698,8 +698,8 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
   // depth of field
   if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
     mWrenDepthOfField[index]->setTextureFormat(mTextureFormat);
-    mWrenDepthOfField[index]->setTextureWidth(cDofBlurTextureSize[0]);
-    mWrenDepthOfField[index]->setTextureHeight(cDofBlurTextureSize[1]);
+    mWrenDepthOfField[index]->setTextureWidth(DOF_BLUR_TEXTURE_RESOLUTION);
+    mWrenDepthOfField[index]->setTextureHeight(DOF_BLUR_TEXTURE_RESOLUTION);
     if (mIsSpherical) {
       mWrenDepthOfField[index]->setColorTexture(WR_TEXTURE(wr_frame_buffer_get_output_texture(mCameraFrameBuffer[index], 0)));
       mWrenDepthOfField[index]->setDepthTexture(WR_TEXTURE(wr_frame_buffer_get_depth_texture(mCameraFrameBuffer[index])));
@@ -797,7 +797,7 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   if (mFocusDistance > 0.0f && mFocusLength > 0.0f) {
     mWrenDepthOfField[index]->setCameraParams(wr_camera_get_near(mCamera[index]), wr_camera_get_far(mCamera[index]));
     mWrenDepthOfField[index]->setDepthOfFieldParams(mFocusDistance - mFocusLength, mFocusDistance,
-                                                    mFocusDistance + mFocusLength, cDofFarBlurCutoff);
+                                                    mFocusDistance + mFocusLength, DOF_FAR_BLUR_CUTOFF);
   }
 
   if (mMotionBlurIntensity > 0.0f) {

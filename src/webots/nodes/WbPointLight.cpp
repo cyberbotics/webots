@@ -43,10 +43,10 @@ void WbPointLight::init() {
 
 WbPointLight::WbPointLight(WbTokenizer *tokenizer) : WbLight("PointLight", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mLocation->setYnoSignal(0.3);
-  if (tokenizer == NULL)
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+  }
 }
 
 WbPointLight::WbPointLight(const WbPointLight &other) : WbLight(other) {
@@ -61,10 +61,8 @@ WbPointLight::~WbPointLight() {
   if (areWrenObjectsInitialized()) {
     detachFromUpperTransform();
     wr_node_delete(WR_NODE(mWrenLight));
-  }
-
-  if (areWrenObjectsInitialized())
     delete mLightRepresentation;
+  }
 }
 
 void WbPointLight::preFinalize() {

@@ -788,7 +788,7 @@ void WbSolid::setupSolidMerger() {
       createOdeMass();
     mSolidMerger->appendSolid(this);
     // Recursively assigns the WbSolid body to every non-space ODE dGeom
-    dGeomID g = odeGeom();
+    g = odeGeom();
     if (g)
       mSolidMerger->attachGeomsToBody(g);
     if (mSolidMerger->isSet())
@@ -1511,7 +1511,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       continue;
     }
 
-    WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
+    WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(n);
     if (joint) {
       jointChildren.append(joint);
       WbSolid *const ep = joint->solidEndPoint();
@@ -1521,7 +1521,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       }
     }
 
-    WbPropeller *const propeller = dynamic_cast<WbPropeller *>(n);
+    WbPropeller *propeller = dynamic_cast<WbPropeller *>(n);
     if (propeller) {
       propellerChildren.append(propeller);
       continue;
@@ -1544,7 +1544,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
         else if (slot->groupEndPoint())
           collectSolidChildren(slot->groupEndPoint(), connectSignals, solidChildren, jointChildren, propellerChildren);
         else {
-          WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(slot->endPoint());
+          joint = dynamic_cast<WbBasicJoint *>(slot->endPoint());
           if (joint) {
             jointChildren.append(joint);
             WbSolid *const ep = joint->solidEndPoint();
@@ -1554,7 +1554,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
             }
           }
 
-          WbPropeller *const propeller = dynamic_cast<WbPropeller *>(slot->endPoint());
+          propeller = dynamic_cast<WbPropeller *>(slot->endPoint());
           if (propeller) {
             propellerChildren.append(propeller);
             continue;
