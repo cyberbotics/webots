@@ -5,6 +5,7 @@ services:
 git:
   depth: 3
   submodules: true
+sudo: required
 language: python
 python:
   - "2.7"
@@ -33,6 +34,10 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
+  - sudo add-apt-repository -y ppa:oibaf/graphics-drivers
+  - sudo apt-get update -qq -y
+  - export DEBIAN_FRONTEND=noninteractive
+- sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -70,6 +75,24 @@ addons:
       - curl
       - libwebpdemux1
       - fakeroot
+      - libglew-dev
+      - freeglut3-dev
+      - libxi-dev
+      - libxmu-dev
+      - xserver-xorg-video-dummy
+      - xpra
+      - xorg-dev
+      - opencl-headers
+      - libgl1-mesa-dev
+      - libxcursor-dev
+      - libpulse-dev
+      - libxinerama-dev
+      - libxrandr-dev
+      - libxv-dev
+      - libasound2-dev
+      - libudev-dev
+      - mesa-utils
+- libgl1-mesa-glx
   homebrew:
     packages:
       - clang-format
@@ -83,6 +106,7 @@ script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
 #  - python -m unittest discover -s tests/sources
 #  - python -m unittest discover -s docs/tests
+#  - xpra --xvfb="Xorg +extension GLX +extension RANDR +extension RENDER -config `pwd`/test/dummy.xorg.conf -logfile ${HOME}/.xpra/xorg.log"  start :99
   - export QT_QPA_PLATFORM=offscreen
   - glxinfo
   - make release -j2
