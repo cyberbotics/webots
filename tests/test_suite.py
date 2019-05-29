@@ -48,11 +48,12 @@ if len(sys.argv) > 1:
 testGroups = ['api', 'physics', 'protos', 'parser', 'rendering']
 
 # global files
-outputFilename = 'output.txt'
-defaultProjectPath = 'default' + os.sep
+testsFolderPath = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep
+outputFilename = testsFolderPath + 'output.txt'
+defaultProjectPath = testsFolderPath + 'default' + os.sep
 supervisorControllerName = 'test_suite_supervisor'
 protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
-tempWorldCounterFilename = 'world_counter.txt'
+tempWorldCounterFilename = testsFolderPath + 'world_counter.txt'
 webotsStdOutFilename = 'webots_stdout.txt'
 webotsStdErrFilename = 'webots_stderr.txt'
 
@@ -65,7 +66,7 @@ def setupWebots():
     """Find webots binary thanks to WEBOTS_HOME."""
     os.putenv('WEBOTS_TEST_SUITE', 'TRUE')
     os.putenv('WEBOTS_EMPTY_PROJECT_PATH',
-              os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep +
+              testsFolderPath +
               defaultProjectPath)
 
     global webotsFullPath
@@ -172,7 +173,7 @@ def generateWorldsList(groupName, worldsFilename):
 
     # generate the list from 'ls worlds/*.wbt'
     else:
-        filenames = glob.glob(groupName + os.sep + 'worlds' + os.sep + '*.wbt')
+        filenames = glob.glob(testsFolderPath + groupName + os.sep + 'worlds' + os.sep + '*.wbt')
 
         # remove the generic name
         for filename in filenames:
@@ -220,15 +221,15 @@ for groupName in testGroups:
     open(webotsStdErrFilename, 'w').close()
     open(webotsStdOutFilename, 'w').close()
 
-    worldsFilename = groupName + os.sep + 'worlds.txt'
-    indexFilename = groupName + os.sep + 'worlds_index.txt'
+    worldsFilename = testsFolderPath + groupName + os.sep + 'worlds.txt'
+    indexFilename = testsFolderPath + groupName + os.sep + 'worlds_index.txt'
 
     # init temporary world counter file
     tempFile = open(tempWorldCounterFilename, 'w')
     tempFile.write('0')
     tempFile.close()
 
-    supervisorTargetDirectory = groupName + os.sep + 'controllers' + os.sep + \
+    supervisorTargetDirectory = testsFolderPath + groupName + os.sep + 'controllers' + os.sep + \
         supervisorControllerName
     if not os.path.exists(supervisorTargetDirectory):
         os.makedirs(supervisorTargetDirectory)
@@ -239,7 +240,7 @@ for groupName in testGroups:
         supervisorTargetDirectory + os.sep + supervisorControllerName + '.py'
     )
     # parser tests uses a slightly different Supervisor PROTO
-    protosTargetDirectory = groupName + os.sep + 'protos'
+    protosTargetDirectory = testsFolderPath + groupName + os.sep + 'protos'
     protosSourceDirectory = defaultProjectPath + 'protos' + os.sep
     if not os.path.exists(protosTargetDirectory):
         os.makedirs(protosTargetDirectory)

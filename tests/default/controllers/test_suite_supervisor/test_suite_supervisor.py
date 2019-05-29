@@ -223,9 +223,7 @@ class TestSuite (Supervisor):
             self.simulationQuit(0)
         else:
             newIndex = self.indexFileManager.incrementIndex()
-            nextSimulationFilename = self.cwdPrefix + '../' + \
-                self.simulationFileManager.filenameAtLine(newIndex)
-            self.worldLoad(nextSimulationFilename)
+            self.worldLoad(self.simulationFileManager.filenameAtLine(newIndex))
 
     def run(self):
         """Supervisor run function."""
