@@ -276,12 +276,11 @@ void WbStreamingServer::onNewTcpData() {
     QUrl origin(tokens[1]);
     if (origin != QUrl("/")) { // "/" is reserved for the websocket.
       QByteArray reply;
-      WbHttpReply httpReply;
-      httpReply.setImageContent("/Users/fabien/repos/webots/docs/guide/images/1234web.png");
-      // httpReply.setHtmlContent("<html><body><p>Hello world!</p></body></html>");
-      bool success = httpReply.computeReply(reply);
-      if (success)
-        socket->write(reply);
+      if (rand() % 2)
+        reply = WbHttpReply::forgeImageReply("/Users/fabien/repos/webots/docs/guide/images/1234web.png");
+      else
+        reply = WbHttpReply::forgeHTMLReply("<html><body><p>Hello world!</p></body></html>");
+      socket->write(reply);
       socket->disconnectFromHost();
     }
   }

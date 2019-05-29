@@ -17,19 +17,9 @@
 
 #include <QtCore/QString>
 
-class WbHttpReply {
-public:
-  WbHttpReply() {}
-  virtual ~WbHttpReply() {}
-
-  void setHtmlContent(const QString &htmlContent) { mHtmlContent = htmlContent; }
-  void setImageContent(const QString &fileName) { mImageFileName = fileName; }
-
-  bool computeReply(QByteArray &reply);
-
-private:
-  QString mHtmlContent;
-  QString mImageFileName;
+namespace WbHttpReply {
+  QByteArray forgeHTMLReply(const QString &htmlContent);
+  QByteArray forgeImageReply(const QString &imageFileName);
 };
 
 #endif
