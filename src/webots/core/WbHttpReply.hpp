@@ -25,7 +25,7 @@ public:
   void setHtmlContent(const QString &htmlContent) { mHtmlContent = htmlContent; }
   void setImageContent(const QString &fileName) { mImageFileName = fileName; }
 
-  bool computeReply(QString &reply);
+  bool computeReply(QByteArray &reply);
 
 private:
   QString mHtmlContent;

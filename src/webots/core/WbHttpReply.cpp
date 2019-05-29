@@ -1,6 +1,9 @@
 #include "WbHttpReply.hpp"
 
-bool WbHttpReply::computeReply(QString &reply) {
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
+
+bool WbHttpReply::computeReply(QByteArray &reply) {
   reply.clear();
 
   if (mHtmlContent.isEmpty() && mImageFileName.isEmpty())
@@ -16,13 +19,17 @@ bool WbHttpReply::computeReply(QString &reply) {
     reply.append(mHtmlContent);
     return true;
   } else if (!mImageFileName.isEmpty()) {
-    // int imageData = ...;
-    // imageData = ...;
-    // QString imageExtension = ...;
-    // reply.append(QString("Content-Type: text/%1\r\n").arg(imageExtension));
-    // reply.append(QString("Content-Length: %1\r\n").arg(imageSize));
-    // // reply.append("<!DOCTYPE html>\r\n");
-    // reply.append(imageData);
+    QFile imageFile(mImageFileName);
+    if (!imageFile.open(QIODevice::ReadOnly))
+      return false;
+    QByteArray imageData = imageFile.readAll();
+    int imageSize = imageData.length();
+    QFileInfo fi(imageFile);
+    QString imageExtension = fi.suffix().toLower();
+    reply.append(QString("Content-Type: image/%1\r\n").arg(imageExtension));
+    reply.append(QString("Content-Length: %1\r\n").arg(imageSize));
+    reply.append("\r\n");
+    reply.append(imageData);
     return true;
   }
 

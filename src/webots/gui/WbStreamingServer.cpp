@@ -275,19 +275,13 @@ void WbStreamingServer::onNewTcpData() {
   if (tokens[0] == "GET") {
     QUrl origin(tokens[1]);
     if (origin != QUrl("/")) { // "/" is reserved for the websocket.
-      QString reply;
+      QByteArray reply;
       WbHttpReply httpReply;
-      httpReply.setHtmlContent(QString(
-        "<html>\n"
-        "  <body>\n"
-        "    <h1>Hello, World!</h1>\n"
-        "    <p>url: <span>%1</span></p>\n"
-        "  </body>\n"
-        "</html>"
-      ).arg(origin.toString()));
+      httpReply.setImageContent("/Users/fabien/repos/webots/docs/guide/images/1234web.png");
+      // httpReply.setHtmlContent("<html><body><p>Hello world!</p></body></html>");
       bool success = httpReply.computeReply(reply);
       if (success)
-        socket->write(reply.toUtf8());
+        socket->write(reply);
       socket->disconnectFromHost();
     }
   }
