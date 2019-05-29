@@ -153,7 +153,7 @@ def appendToOutputFile(txt):
 
 def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
-    command = Command('make release -j ' + str(multiprocessing.cpu_count()))
+    command = Command('make release -j%d -C %stests' % (multiprocessing.cpu_count(), os.environ['WEBOTS_HOME'] + os.sep))
     command.run(silent=False)
     if command.returncode != 0:
         raise RuntimeError('Error when executing the Make command')
