@@ -27,7 +27,9 @@ deploy:
   file: distribution/webots*
   overwrite: true
   skip_cleanup: true
-  draft: true
+  name: Webots Nightly Build
+  body: This is a nightly build of Webots from the revision branch
+  draft: true  # we probably want 'prerelease' instead
   on:
     repo: omichel/webots
     branch: travis-nighly-releases
