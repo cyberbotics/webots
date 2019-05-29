@@ -13,6 +13,7 @@
 # limitations under the License.
 
 JS_SOURCES = \
+  equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
   dialog_window.js \
@@ -39,8 +40,22 @@ BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
 DEPENDENCIES_PATH = dependencies
+THEEEJS_VERSION = 104
 THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.min.js
+
+# external sources to be downloaded and minified
+THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
+THREEJS_EXAMPLE_SOURCES = \
+  loaders/RGBELoader.js \
+  pmrem/PMREMCubeUVPacker.js \
+  pmrem/PMREMGenerator.js \
+  shaders/CopyShader.js \
+  shaders/FXAAShader.js \
+  postprocessing/EffectComposer.js \
+  postprocessing/RenderPass.js \
+  postprocessing/ShaderPass.js
+LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.
 INSTALL_TOKEN = install.token
@@ -56,9 +71,9 @@ else
 release debug profile update: webots.min.js
 endif
 
-webots.min.js: $(JS_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	@node_modules/.bin/babel $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
 	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
 	@rm webots.tmp2.js webots.tmp1.js
@@ -67,6 +82,12 @@ $(THREEJS_SOURCE):
 	@echo "# downloading $(THREEJS_URL)"
 	@mkdir -p $(DEPENDENCIES_PATH)
 	@wget -qN -O $@ $(THREEJS_URL)
+
+$(LOCAL_THREEJS_EXAMPLE_SOURCES):
+	$(eval FILENAME=$(@:$(DEPENDENCIES_PATH)/%=%))
+	@echo "# downloading three.js $@"
+	@mkdir -p $(dir $@)
+	wget -qN -O $@ $(THREEJS_EXAMPLE_URL)$(FILENAME)
 
 $(INSTALL_TOKEN): package.json
 	@echo "# installing npm dependencies"
