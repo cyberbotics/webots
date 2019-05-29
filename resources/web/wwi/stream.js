@@ -109,16 +109,6 @@ class Stream { // eslint-disable-line no-unused-vars
       var currentWorld = data.substring(0, data.indexOf(':')).trim();
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
-    } else if (data.startsWith('image')) {
-      /*
-      // Extract texture url: the url should only contain escaped ']' characters.
-      var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
-      var match = urlPattern.exec(data);
-      var textureUrlEndIndex = match.index + 1;
-      var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
-      data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
-      TextureLoader.loadFromUri(data, textureUrl);
-      */
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');
