@@ -34,10 +34,10 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-  - sudo add-apt-repository -y ppa:oibaf/graphics-drivers
-  - sudo apt-get update -qq -y
-  - export DEBIAN_FRONTEND=noninteractive
-  - sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb
+  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository -y ppa:oibaf/graphics-drivers; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update -qq -y; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then export DEBIAN_FRONTEND=noninteractive; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb; fi
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -108,7 +108,7 @@ script:
 #  - python -m unittest discover -s docs/tests
 #  - xpra --xvfb="Xorg +extension GLX +extension RANDR +extension RENDER -config `pwd`/test/dummy.xorg.conf -logfile ${HOME}/.xpra/xorg.log"  start :99
 #  - export QT_QPA_PLATFORM=offscreen
-  - glxinfo
+  - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
   - make release -j2
   - ./webots --sysinfo
   - python tests/test_suite.py
