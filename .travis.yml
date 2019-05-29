@@ -20,7 +20,9 @@ deploy:
   provider: releases
   api_key:
     secure: ILf+mnaXPZ658G7/hd4RLY1gH8gCiSc8IpI4/rlkvrLWNl55tkIqsitcavayTsBOeqE2GA1SHk0t7BlauLpNg73G7KcL6VjRVAaEo5cNz5i/pABvK4RgPskksrLTCqlT3rL/xUGm5b3RyJno9RvjQjw7AygSdFQhE2buU4bZgbOfSc16ZhU6Nm7X7HZ3t2rh5jv1nYf1mV9cskn1Xl2zqzPjLjww4T98bOVMzKrO/QYR8EZ4YocGyy0Hd6iY++G7Xtz5F9PgZVCptI9KzEm1r3/CAxr1JO4LJ2Ok3v7xp7AIjHLM/mYDOKDBrS+xnvRUHaSXCPKfrhdDiGFE3DYj1153xnl2QLpljqYi/upnjQ0Cnnp7p/mmpvqWP2Ci5L6LtvzbHQaFbkWCY83jYr5Mi0z0pC5BsVvz+E4bq5tzrp2iX0NUc0mrPM7PK/b0QFR2ibjeMl4yNh0Z7zJ/24XSRehD4VbB/R2e0RKo0tXVAwR0fIRMgMhYYDEms8/PFwwkcACdLkKkdywRoCkVSjAPHDoQ/BNUDoWY21AOjnBrU4kQIg8n2T5or30YHhcCkEfe4YaLqJ+ikTZPlT9H6HgGeZhJMadj0GBu/vn2s7jc5DtudhGPua6U2tTyzm+qyzFusjILueO5Lk0CaCy2qwf4bjuiBS+xKtdsCsOFRBI0l9U=
-  file: distribution/webots-R2019a-rev2-x86-64.tar.bz2
+  file:
+  - distribution/webots_2019a-rev2_amd64.deb
+  - distribution/webots-R2019a-rev2-x86-64.tar.bz2
   skip_cleanup: true
   draft: true
   on:
