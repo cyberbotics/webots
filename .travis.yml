@@ -92,7 +92,7 @@ addons:
       - libasound2-dev
       - libudev-dev
       - mesa-utils
-- libgl1-mesa-glx
+      - libgl1-mesa-glx
   homebrew:
     packages:
       - clang-format
