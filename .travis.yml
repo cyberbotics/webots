@@ -110,5 +110,4 @@ script:
 #  - export QT_QPA_PLATFORM=offscreen
   - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
   - make release -j2
-  - ./webots --sysinfo
-  - python tests/test_suite.py
+  - python tests/test_suite.py --no-ansi-escape
