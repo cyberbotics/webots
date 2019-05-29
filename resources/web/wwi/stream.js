@@ -2,17 +2,18 @@
 'use strict';
 
 class Stream { // eslint-disable-line no-unused-vars
-  constructor(url, view, onready) {
-    this.url = url;
+  constructor(wsServer, httpServer, view, onready) {
+    this.wsServer = wsServer;
+    this.httpServer = httpServer;
     this.view = view;
     this.onready = onready;
     this.socket = null;
     this.videoStream = null;
-    TextureLoader.setStreamingMode(true);
+    TextureLoader.setStreamingMode(true, this.httpServer);
   }
 
   connect() {
-    this.socket = new WebSocket(this.url);
+    this.socket = new WebSocket(this.wsServer);
     $('#webotsProgressMessage').html('Connecting to Webots instance...');
     this.socket.onopen = (event) => { this.onSocketOpen(event); };
     this.socket.onmessage = (event) => { this.onSocketMessage(event); };
@@ -40,7 +41,7 @@ class Stream { // eslint-disable-line no-unused-vars
   }
 
   onSocketClose(event) {
-    this.view.onerror('Disconnected from ' + this.url + ' (' + event.code + ')');
+    this.view.onerror('Disconnected from ' + this.wsServer + ' (' + event.code + ')');
     if ((event.code > 1001 && event.code < 1016) || (event.code === 1001 && this.view.quitting === false)) { // https://tools.ietf.org/html/rfc6455#section-7.4.1
       webots.alert('Streaming server error',
         'Connection closed abnormally.<br>(Error code: ' + event.code + ')<br><br>' +
@@ -109,6 +110,7 @@ class Stream { // eslint-disable-line no-unused-vars
       data = data.substring(data.indexOf(':') + 1).trim();
       this.view.updateWorldList(currentWorld, data.split(';'));
     } else if (data.startsWith('image')) {
+      /*
       // Extract texture url: the url should only contain escaped ']' characters.
       var urlPattern = /[^\\]\]/g; // first occurrence of non-escaped ']'
       var match = urlPattern.exec(data);
@@ -116,6 +118,7 @@ class Stream { // eslint-disable-line no-unused-vars
       var textureUrl = data.substring(data.indexOf('[') + 1, textureUrlEndIndex).replace(/\\]/g, ']');
       data = data.substring(data.indexOf(':', textureUrlEndIndex) + 1);
       TextureLoader.loadFromUri(data, textureUrl);
+      */
     } else if (data.startsWith('video: ')) {
       console.log('Received data = ' + data);
       var list = data.split(' ');

@@ -190,7 +190,8 @@ webots.View = class View {
           this.server = new Server(this.url, this, callback);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
-          this.stream = new Stream(this.url, this, finalizeWorld);
+          var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images.
+          this.stream = new Stream(this.url, httpServerUrl, this, finalizeWorld);
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file

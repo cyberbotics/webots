@@ -30,8 +30,9 @@ var TextureLoader = {
     this._getInstance().onTextureLoad = onLoad;
   },
 
-  setStreamingMode: function(enabled) {
+  setStreamingMode: function(enabled, textureServerUrl = '') {
     this._getInstance().streamingMode = enabled;
+    this._getInstance().textureServerUrl = textureServerUrl;
   },
 
   setTexturePathPrefix: function(texturePathPrefix) {
@@ -52,11 +53,15 @@ class _TextureLoaderObject {
     this.loadingCubeTextureObjects = [];
     this.streamingMode = false;
     this.onTextureLoad = undefined;
+    this.textureServerUrl = '';
     this.texturePathPrefix = '';
   }
 
   loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
-    name = this.texturePathPrefix + name;
+    if (this.textureServerUrl)
+      name = this.textureServerUrl + '/' + name;
+    if (this.texturePathPrefix)
+      name = this.texturePathPrefix + name;
     if (this.textures[name]) {
       if (typeof onLoad !== 'undefined')
         onLoad(this.textures[name]);
@@ -91,9 +96,6 @@ class _TextureLoaderObject {
       this.loadingTextures[name].objects.push(texture);
     if (typeof onLoad !== 'undefined')
       this.loadingTextures[name].onLoad.push(onLoad);
-
-    if (this.streamingMode)
-      return; // textures will be sent throug socket
 
     // Load from url.
     var loader;

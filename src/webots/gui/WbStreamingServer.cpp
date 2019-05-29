@@ -195,7 +195,7 @@ void WbStreamingServer::stop() {
 void WbStreamingServer::create(int port) {
   // Create a simple HTTP server, serving:
   // - a websocket on "/"
-  // - images on "/images/dir/image.[jpg|png|hdr]"
+  // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
@@ -270,16 +270,16 @@ void WbStreamingServer::onNewTcpConnection() {
 void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  QString line(socket->peek(1000));
+  QString line(socket->peek(1024)); // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
-    QUrl origin(tokens[1]);
-    if (origin != QUrl("/")) { // "/" is reserved for the websocket.
+    QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    if (!requestedUrl.isEmpty()) { // "/" is reserved for the websocket.
       QByteArray reply;
-      if (rand() % 2)
-        reply = WbHttpReply::forgeImageReply("/Users/fabien/repos/webots/docs/guide/images/1234web.png");
+      if (mX3dWorldTextures.contains(requestedUrl))
+        reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
       else
-        reply = WbHttpReply::forgeHTMLReply("<html><body><p>Hello world!</p></body></html>");
+        reply = WbHttpReply::forge404Reply();
       socket->write(reply);
       socket->disconnectFromHost();
     }
@@ -848,6 +848,7 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   client->sendTextMessage("scene load completed");
 }
 
+// TODO: to be commented out.
 void WbStreamingServer::sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures) {
   QHashIterator<QString, QString> it(textures);
   while (it.hasNext()) {
