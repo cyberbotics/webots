@@ -270,11 +270,11 @@ void WbStreamingServer::onNewTcpConnection() {
 void WbStreamingServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  QString line(socket->peek(1024)); // Peek the request header to determine the requested url.
+  QString line(socket->peek(1024));  // Peek the request header to determine the requested url.
   QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
   if (tokens[0] == "GET") {
     QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
-    if (!requestedUrl.isEmpty()) { // "/" is reserved for the websocket.
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
       QByteArray reply;
       if (mX3dWorldTextures.contains(requestedUrl))
         reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
