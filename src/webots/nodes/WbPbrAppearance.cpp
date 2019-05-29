@@ -240,8 +240,11 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
     metalnessMap()->modifyWrenMaterial(wrenMaterial, 2, 7);
 
   WbBackground *background = WbBackground::firstInstance();
+  float backgroundLuminosity = 1.0;
   if (background) {
     background->modifyWrenMaterial(wrenMaterial);
+    backgroundLuminosity = background->luminosity();
+    connect(background, &WbBackground::luminosityChanged, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
     connect(background, &WbBackground::texturesLoaded, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
     connect(background, &WbBackground::texturesDestroyed, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
     connect(background, &WbBackground::skyColorMapChanged, this, &WbPbrAppearance::updateCubeMaps, Qt::UniqueConnection);
@@ -287,8 +290,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
 
   // set material properties
   wr_pbr_material_set_all_parameters(wrenMaterial, backgroundColor, baseColor, mTransparency->value(), mRoughness->value(),
-                                     mMetalness->value(), mIblStrength->value(), mNormalMapFactor->value(),
-                                     mOcclusionMapStrength->value(), emissiveColor, mEmissiveIntensity->value());
+                                     mMetalness->value(), backgroundLuminosity * mIblStrength->value(),
+                                     mNormalMapFactor->value(), mOcclusionMapStrength->value(), emissiveColor,
+                                     mEmissiveIntensity->value());
 
   return wrenMaterial;
 }

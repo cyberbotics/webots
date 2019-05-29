@@ -219,6 +219,7 @@ void WbBackground::activate() {
   if (diffuseIrradianceMap())
     diffuseIrradianceMap()->postFinalize();
 
+  connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
   connect(mSkyColorMap, &WbSFNode::changed, this, &WbBackground::updateSkyColorMap);
   connect(mSpecularIrradianceMap, &WbSFNode::changed, this, &WbBackground::updateSpecularIrradianceMap);
@@ -347,7 +348,10 @@ void WbBackground::updateDiffuseIrradianceMap() {
 }
 
 void WbBackground::updateLuminosity() {
-  // TODO
+  if (WbFieldChecker::resetDoubleIfNegative(this, mLuminosity, 1.0))
+    return;
+
+  emit luminosityChanged();
 }
 
 void WbBackground::applyColourToWren(const WbRgb &color) {

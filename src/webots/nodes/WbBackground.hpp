@@ -16,6 +16,7 @@
 #define WB_BACKGROUND_HPP
 
 #include "WbBaseNode.hpp"
+#include "WbSFDouble.hpp"
 
 class WbRgb;
 class WbCubemap;
@@ -47,6 +48,7 @@ public:
 
   // accessor
   WbRgb skyColor() const;
+  double luminosity() const { return mLuminosity->value(); }
 
   void modifyWrenMaterial(WrMaterial *material);
 
@@ -56,6 +58,7 @@ signals:
   void skyColorMapChanged();
   void specularIrradianceMapChanged();
   void diffuseIrradianceMapChanged();
+  void luminosityChanged();
 
 protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
