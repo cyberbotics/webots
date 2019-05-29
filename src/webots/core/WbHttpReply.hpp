@@ -18,6 +18,7 @@
 #include <QtCore/QString>
 
 namespace WbHttpReply {
+  QByteArray forge404Reply();
   QByteArray forgeHTMLReply(const QString &htmlContent);
   QByteArray forgeImageReply(const QString &imageFileName);
 };

@@ -3,6 +3,13 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
+QByteArray WbHttpReply::forge404Reply() {
+  static QByteArray reply;
+  if (reply.isEmpty())
+    reply.append("HTTP/1.1 404 Not Found\r\n");
+  return reply;
+}
+
 QByteArray WbHttpReply::forgeHTMLReply(const QString &htmlContent) {
   QByteArray reply;
   reply.append("HTTP/1.1 200 OK\r\n");
@@ -18,7 +25,8 @@ QByteArray WbHttpReply::forgeImageReply(const QString &imageFileName) {
 
   QFile imageFile(imageFileName);
   if (!imageFile.open(QIODevice::ReadOnly))
-    return reply;
+    return forge404Reply();
+
   QByteArray imageData = imageFile.readAll();
   int imageSize = imageData.length();
   QFileInfo fi(imageFile);
