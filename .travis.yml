@@ -98,6 +98,7 @@ script:
 #  - xpra --xvfb="Xorg +extension GLX +extension RANDR +extension RENDER -config `pwd`/test/dummy.xorg.conf -logfile ${HOME}/.xpra/xorg.log"  start :99
 #  - export QT_QPA_PLATFORM=offscreen
   - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
+  - export AUDIODEV=null
   - make release -j2
   - make release -j -C tests
   - python tests/test_suite.py --no-ansi-escape --nomake
