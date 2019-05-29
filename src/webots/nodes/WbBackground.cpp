@@ -49,6 +49,9 @@ static QString gUrlNames[6] = {"rightUrl", "leftUrl", "topUrl", "bottomUrl", "fr
 void WbBackground::init() {
   mSkyColor = findMFColor("skyColor");
   mSkyColorMap = findSFNode("skyColorMap");
+  mSpecularIrradianceMap = findSFNode("specularIrradianceMap");
+  mDiffuseIrradianceMap = findSFNode("diffuseIrradianceMap");
+  mLuminosity = findSFDouble("luminosity");
 
   if (!mSkyColorMap->value()) {
     // backward compatibility before R2018b and import from VRML97
@@ -185,6 +188,12 @@ void WbBackground::preFinalize() {
   if (skyColorMap())
     skyColorMap()->preFinalize();
 
+  if (specularIrradianceMap())
+    specularIrradianceMap()->preFinalize();
+
+  if (diffuseIrradianceMap())
+    diffuseIrradianceMap()->preFinalize();
+
   cBackgroundList << this;
 }
 
@@ -204,12 +213,21 @@ void WbBackground::activate() {
   if (skyColorMap())
     skyColorMap()->postFinalize();
 
+  if (specularIrradianceMap())
+    specularIrradianceMap()->postFinalize();
+
+  if (diffuseIrradianceMap())
+    diffuseIrradianceMap()->postFinalize();
+
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
   connect(mSkyColorMap, &WbSFNode::changed, this, &WbBackground::updateSkyColorMap);
+  // TODO: connects
 
   updateColor();
 
   updateSkyColorMap();
+  updateSpecularIrradianceMap();
+  updateDiffuseIrradianceMap();
 }
 
 void WbBackground::createWrenObjects() {
@@ -217,6 +235,12 @@ void WbBackground::createWrenObjects() {
 
   if (skyColorMap())
     skyColorMap()->createWrenObjects();
+
+  if (specularIrradianceMap())
+    specularIrradianceMap()->createWrenObjects();
+
+  if (diffuseIrradianceMap())
+    diffuseIrradianceMap()->createWrenObjects();
 
   mSkyboxShaderProgram = WbWrenShaders::skyboxShader();
   mSkyboxMaterial = wr_phong_material_new();
@@ -266,8 +290,14 @@ void WbBackground::destroySkyBox() {
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
     mSpecularIrradianceCubeTexture = NULL;
   }
-  if (skyColorMap())
+  if (skyColorMap()) {
     skyColorMap()->clearWrenTexture();
+    disconnect(skyColorMap(), &WbCubemap::destroyed, this, &WbBackground::updateSkyColorMap);
+  }
+  if (specularIrradianceMap())
+    specularIrradianceMap()->clearWrenTexture();
+  if (diffuseIrradianceMap())
+    diffuseIrradianceMap()->clearWrenTexture();
 }
 
 void WbBackground::updateColor() {
@@ -288,6 +318,18 @@ void WbBackground::updateSkyColorMap() {
 
   if (areWrenObjectsInitialized())
     applySkyBoxToWren();
+}
+
+void WbBackground::updateSpecularIrradianceMap() {
+  // TODO
+}
+
+void WbBackground::updateDiffuseIrradianceMap() {
+  // TODO
+}
+
+void WbBackground::updateLuminosity() {
+  // TODO
 }
 
 void WbBackground::applyColourToWren(const WbRgb &color) {
@@ -321,6 +363,13 @@ void WbBackground::applySkyBoxToWren() {
   if (skyColorMap()->isValid()) {
     WbWrenOpenGlContext::makeWrenCurrent();
 
+    if (specularIrradianceMap())
+      specularIrradianceMap()->loadWrenTexture();
+    if (diffuseIrradianceMap())
+      diffuseIrradianceMap()->loadWrenTexture();
+    // TODO only if missing cubemap
+    skyColorMap()->loadWrenTexture();
+    skyColorMap()->loadWrenTexture();
     mDiffuseIrradianceCubeTexture = wr_texture_cubemap_bake_diffuse_irradiance(
       skyColorMap()->texture(), WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
 
@@ -356,6 +405,14 @@ WbCubemap *WbBackground::skyColorMap() const {
   return dynamic_cast<WbCubemap *>(mSkyColorMap->value());
 }
 
+WbCubemap *WbBackground::specularIrradianceMap() const {
+  return dynamic_cast<WbCubemap *>(mSpecularIrradianceMap->value());
+}
+
+WbCubemap *WbBackground::diffuseIrradianceMap() const {
+  return dynamic_cast<WbCubemap *>(mDiffuseIrradianceMap->value());
+}
+
 void WbBackground::modifyWrenMaterial(WrMaterial *material) {
   if (!material)
     return;
@@ -385,6 +442,8 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   }
 
   findField("skyColor", true)->write(writer);
+
+  // TODO: export
 
   if (!skyColorMap() || !skyColorMap()->isValid())
     return;

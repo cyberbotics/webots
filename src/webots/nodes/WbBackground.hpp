@@ -67,6 +67,8 @@ private:
   // misc functions
   WbBackground &operator=(const WbBackground &);  // non copyable
   WbCubemap *skyColorMap() const;
+  WbCubemap *specularIrradianceMap() const;
+  WbCubemap *diffuseIrradianceMap() const;
   void init();
   void destroySkyBox();
   void applyColourToWren(const WbRgb &color);
@@ -79,6 +81,9 @@ private:
   // user accessible fields
   WbMFColor *mSkyColor;
   WbSFNode *mSkyColorMap;
+  WbSFNode *mSpecularIrradianceMap;
+  WbSFNode *mDiffuseIrradianceMap;
+  WbSFDouble *mLuminosity;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;
@@ -100,6 +105,9 @@ private:
 private slots:
   void updateColor();
   void updateSkyColorMap();
+  void updateSpecularIrradianceMap();
+  void updateDiffuseIrradianceMap();
+  void updateLuminosity();
 };
 
 #endif
