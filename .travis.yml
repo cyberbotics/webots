@@ -107,7 +107,7 @@ script:
 #  - python -m unittest discover -s tests/sources
 #  - python -m unittest discover -s docs/tests
 #  - xpra --xvfb="Xorg +extension GLX +extension RANDR +extension RENDER -config `pwd`/test/dummy.xorg.conf -logfile ${HOME}/.xpra/xorg.log"  start :99
-  - export QT_QPA_PLATFORM=offscreen
+#  - export QT_QPA_PLATFORM=offscreen
   - glxinfo
   - make release -j2
   - ./webots --sysinfo
