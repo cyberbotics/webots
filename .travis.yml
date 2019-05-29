@@ -25,7 +25,7 @@ deploy:
   draft: true
   on:
     repo: omichel/webots
-    branch: travis-releases
+    branch: travis-nighly-releases
 before_install:
 - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
 - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
