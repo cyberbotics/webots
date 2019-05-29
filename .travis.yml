@@ -28,7 +28,7 @@ deploy:
   overwrite: true
   skip_cleanup: true
   name: Webots Nightly Build
-  body: This is a nightly build of Webots from the revision branch
+  body: This is a nightly build of Webots from the $TRAVIS_BRANCH branch (built on Travis CI with $TRAVIS_OS_NAME)
   draft: true  # we probably want 'prerelease' instead
   tags: false
   on:
