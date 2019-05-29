@@ -90,6 +90,7 @@ script:
 - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
 - export QT_QPA_PLATFORM=offscreen
 - ls dependencies
+- ls dependencies/assimp
 - travis_wait 45 make distrib -j2
 - ls dependencies
 - number=`ls -1 distribution | wc -l`; if [ "$number" -lt "1" ]; then exit 1; fi
