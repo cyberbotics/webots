@@ -760,10 +760,8 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     QString nodeString;
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
-    foreach (QWebSocket *client, mClients) {
+    foreach (QWebSocket *client, mClients)
       client->sendTextMessage(QString("node:%1:%2").arg(node->parent()->uniqueId()).arg(nodeString));
-      sendTexturesToClient(client, writer.texturesList());
-    }
   }
 }
 
@@ -831,8 +829,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   if (ret < mX3dWorld.size())
     throw tr("Cannot sent the entire world");
 
-  sendTexturesToClient(client, mX3dWorldTextures);
-
   QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
@@ -846,38 +842,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   }
 
   client->sendTextMessage("scene load completed");
-}
-
-// TODO: to be commented out.
-void WbStreamingServer::sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures) {
-  QHashIterator<QString, QString> it(textures);
-  while (it.hasNext()) {
-    it.next();
-    QString url = it.key();
-    assert(!url.isEmpty());
-    const QString &escapedUrl = url.replace("]", "\\]");  // escape ']'
-
-    const QFileInfo &textureFileInfo(it.value());
-    QFile imageFile(textureFileInfo.absoluteFilePath());
-    if (!imageFile.open(QIODevice::ReadOnly))
-      throw tr("Cannot open the texture file '%1'.").arg(textureFileInfo.absoluteFilePath());
-
-    const QByteArray &image = imageFile.readAll();
-    const QString &encoded = QString(image.toBase64());
-    QString suffix;
-    if (textureFileInfo.suffix() == "png")
-      suffix = "png";
-    else if (textureFileInfo.suffix() == "hdr")
-      suffix = "hdr";
-    else
-      suffix = "jpeg";
-
-    const qint64 ret =
-      client->sendTextMessage(QString("image[%1]:data:image/%2;base64,").arg(escapedUrl).arg(suffix) + encoded);
-
-    if (ret < image.size())
-      throw tr("Cannot sent the entire texture '%1'.").arg(textureFileInfo.absoluteFilePath());
-  }
 }
 
 void WbStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) {

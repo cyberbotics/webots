@@ -78,7 +78,6 @@ private:
   void sendFileToClient(QWebSocket *client, const QString &type, const QString &folder, const QString &path,
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
-  void sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures);
   void startX3dStreaming(QWebSocket *client);
   void generateX3dWorld();
   void propagateLogToClients(WbLog::Level level, const QString &message);
