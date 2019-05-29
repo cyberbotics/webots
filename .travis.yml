@@ -37,7 +37,7 @@ before_install:
   - sudo add-apt-repository -y ppa:oibaf/graphics-drivers
   - sudo apt-get update -qq -y
   - export DEBIAN_FRONTEND=noninteractive
-- sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb
+  - sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
