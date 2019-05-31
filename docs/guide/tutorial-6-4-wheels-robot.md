@@ -419,7 +419,7 @@ for i in range(2):
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for i in range(4):
-    wheels[i] = robot.getMotor(wheelsNames[i])
+    wheels.append(robot.getMotor(wheelsNames[i]))
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 avoidObstacleCounter = 0
