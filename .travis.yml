@@ -71,7 +71,7 @@ jobs:
       addons: *linux_addons
       script: make release -j2
     - stage: Compilation
-      os: macos
+      os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
       python: *python_version
