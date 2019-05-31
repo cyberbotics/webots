@@ -23,10 +23,9 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository -y ppa:oibaf/graphics-drivers; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update -qq -y; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then export DEBIAN_FRONTEND=noninteractive; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb; fi
+#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository -y ppa:oibaf/graphics-drivers; fi
+#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update -qq -y; fi
+#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb; fi
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -95,10 +94,8 @@ script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
 #  - python -m unittest discover -s tests/sources
 #  - python -m unittest discover -s docs/tests
-#  - xpra --xvfb="Xorg +extension GLX +extension RANDR +extension RENDER -config `pwd`/test/dummy.xorg.conf -logfile ${HOME}/.xpra/xorg.log"  start :99
 #  - export QT_QPA_PLATFORM=offscreen
   - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
-  - export AUDIODEV=null
   - make release -j2
   - make release -j -C tests
   - python tests/test_suite.py --no-ansi-escape --nomake
