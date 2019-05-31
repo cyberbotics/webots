@@ -8,20 +8,24 @@ cache:
   - dependencies
 jobs:
   include:
-    - stage: Doc Tests
-      os: macos
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
-      script: python -m unittest discover -s docs/tests
-    - stage: Doc Tests
+    - stage: Tests
       os: linux
-      script: python -m unittest discover -s docs/tests
+      dist: xenial
+      script: &test_script
+        - python -m unittest discover -s tests/sources
+        - python -m unittest discover -s docs/tests
       language: python
       python: &python_version
         - "2.7"
         - "3.7"
+    - stage: Tests
+      os: macos
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      script: *test_script
     - stage: Compilation
       os: linux
+      dist: xenial
       language: python
       python: *python_version
       script: make release -j2
@@ -83,5 +87,3 @@ addons:
       - swig
       - wget
       - node
-
-script:
