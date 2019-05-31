@@ -1,9 +1,5 @@
-os: 
-  - linux
-  - osx
+os: linux
 dist: xenial
-osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-#language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
 git:
   depth: 3
   submodules: true
@@ -18,6 +14,14 @@ cache:
   - dependencies
 jobs:
   include:
+    - stage: Doc Tests
+      os: macos
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      script: python -m unittest discover -s docs/tests
+    - stage: Doc Tests
+      os: linux
+      script: python -m unittest discover -s docs/tests
     - stage: Compilation
       script: make release -j2
 before_install:
