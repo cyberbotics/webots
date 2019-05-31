@@ -1,12 +1,6 @@
-os: linux
-dist: xenial
 git:
   depth: 3
   submodules: true
-language: python
-python: &python_version
-  - "2.7"
-  - "3.7"
 jdk: openjdk8
 cache:
   pip: true
@@ -22,9 +16,14 @@ jobs:
     - stage: Doc Tests
       os: linux
       script: python -m unittest discover -s docs/tests
-      python: *python_version
+      language: python
+      python: &python_version
+        - "2.7"
+        - "3.7"
     - stage: Compilation
       os: linux
+      language: python
+      python: *python_version
       script: make release -j2
     - stage: Compilation
       os: macos
