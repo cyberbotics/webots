@@ -54,8 +54,8 @@ defaultProjectPath = testsFolderPath + 'default' + os.sep
 supervisorControllerName = 'test_suite_supervisor'
 protoFileNames = ['TestSuiteSupervisor.proto', 'TestSuiteEmitter.proto']
 tempWorldCounterFilename = testsFolderPath + 'world_counter.txt'
-webotsStdOutFilename = 'webots_stdout.txt'
-webotsStdErrFilename = 'webots_stderr.txt'
+webotsStdOutFilename = testsFolderPath + 'webots_stdout.txt'
+webotsStdErrFilename = testsFolderPath + 'webots_stderr.txt'
 
 # Webots setup (cf. setupWebots() below)
 webotsFullPath = ''
@@ -65,9 +65,7 @@ webotsVersion = ''
 def setupWebots():
     """Find webots binary thanks to WEBOTS_HOME."""
     os.putenv('WEBOTS_TEST_SUITE', 'TRUE')
-    os.putenv('WEBOTS_EMPTY_PROJECT_PATH',
-              testsFolderPath +
-              defaultProjectPath)
+    os.putenv('WEBOTS_EMPTY_PROJECT_PATH', defaultProjectPath)
 
     global webotsFullPath
     global webotsVersion
