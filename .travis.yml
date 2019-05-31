@@ -17,8 +17,8 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
 jdk: openjdk8
 cache:
   pip: true
-  directories:
-  - dependencies
+#  directories:
+#  - dependencies
 deploy:
   provider: releases
   api_key:
