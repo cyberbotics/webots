@@ -15,8 +15,8 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
     osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
     language: generic
 jdk: openjdk8
-cache:
-  pip: true
+cache: pip
+#  pip: true
 #  directories:
 #  - dependencies
 deploy:
