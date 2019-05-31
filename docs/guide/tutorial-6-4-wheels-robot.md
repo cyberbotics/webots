@@ -317,55 +317,39 @@ Here is the complete code of the controller detailed in the previous subsection.
 
 int main(int argc, char **argv) {
   wb_robot_init();
-
   int i;
   bool avoid_obstacle_counter = 0;
-
-  // initialise distance sensors
   WbDeviceTag ds[2];
   char ds_names[2][10] = {"ds_left", "ds_right"};
   for (i = 0; i < 2; i++) {
     ds[i] = wb_robot_get_device(ds_names[i]);
     wb_distance_sensor_enable(ds[i], TIME_STEP);
   }
-
-  // initialise motors
   WbDeviceTag wheels[4];
   char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
   for (i = 0; i < 4; i++) {
     wheels[i] = wb_robot_get_device(wheels_names[i]);
     wb_motor_set_position(wheels[i], INFINITY);
   }
-
-  // control loop
   while (wb_robot_step(TIME_STEP) != -1) {
-    // init speeds
     double left_speed = 1.0;
     double right_speed = 1.0;
-
     if (avoid_obstacle_counter > 0) {
       avoid_obstacle_counter--;
       left_speed = 1.0;
       right_speed = -1.0;
-    } else {
-      // read sensors outputs
+    } else { // read sensors
       double ds_values[2];
       for (i = 0; i < 2; i++)
         ds_values[i] = wb_distance_sensor_get_value(ds[i]);
-
-      // increase counter in case of obstacle
       if (ds_values[0] < 950.0 || ds_values[1] < 950.0)
         avoid_obstacle_counter = 100;
     }
-
-    // write actuators inputs
     wb_motor_set_velocity(wheels[0], left_speed);
     wb_motor_set_velocity(wheels[1], right_speed);
     wb_motor_set_velocity(wheels[2], left_speed);
     wb_motor_set_velocity(wheels[3], right_speed);
   }
-
-  // cleanup the Webots API
   wb_robot_cleanup();
   return 0;  // EXIT_SUCCESS
 }
@@ -378,23 +362,17 @@ int main(int argc, char **argv) {
 #include <webots/Motor.hpp>
 #include <webots/Robot.hpp>
 
-// time in [ms] of a simulation step
 #define TIME_STEP 64
 using namespace webots;
 
-// entry point of the controller
 int main(int argc, char **argv) {
-  // create the Robot instance.
   Robot *robot = new Robot();
-
-  // initialize devices
   DistanceSensor *ds[2];
   char dsNames[2][10] = {"ds_right", "ds_left"};
   for (int i = 0; i < 2; i++) {
     ds[i] = robot->getDistanceSensor(dsNames[i]);
     ds[i]->enable(TIME_STEP);
   }
-
   Motor *wheels[4];
   char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
   for (int i = 0; i < 4; i++) {
@@ -403,7 +381,6 @@ int main(int argc, char **argv) {
     wheels[i]->setVelocity(0.0);
   }
   int avoidObstacleCounter = 0;
-  // feedback loop: step simulation until an exit event is received
   while (robot->step(TIME_STEP) != -1) {
     double leftSpeed = 1.0;
     double rightSpeed = 1.0;
@@ -411,26 +388,58 @@ int main(int argc, char **argv) {
       avoidObstacleCounter--;
       leftSpeed = 1.0;
       rightSpeed = -1.0;
-    } else {
-      // read sensors outputs
+    } else { // read sensors
       for (int i = 0; i < 2; i++) {
         if (ds[i]->getValue() < 950.0)
           avoidObstacleCounter = 100;
       }
     }
-    // write actuators inputs
     wheels[0]->setVelocity(leftSpeed);
     wheels[1]->setVelocity(rightSpeed);
     wheels[2]->setVelocity(leftSpeed);
     wheels[3]->setVelocity(rightSpeed);
   }
-
   delete robot;
   return 0;  // EXIT_SUCCESS
 }
 ```
 %tab-end
 
+%tab "Python"
+```python
+from controller import Robot
+
+TIME_STEP = 64
+robot = Robot()
+ds = []
+dsNames = ['ds_right', 'ds_left']
+for i in range(2):
+    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds[i].enable(TIME_STEP)
+wheels = []
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+for i in range(4):
+    wheels[i] = robot.getMotor(wheelsNames[i])
+    wheels[i].setPosition(float('inf'))
+    wheels[i].setVelocity(0.0)
+avoidObstacleCounter = 0
+while robot.step(TIME_STEP) != -1:
+    leftSpeed = 1.0
+    rightSpeed = 1.0
+    if avoidObstacleCounter > 0:
+        avoidObstacleCounter += 1
+        leftSpeed = 1.0
+        rightSpeed = -1.0
+    else:  # read sensors
+        for i in range(2):
+            if ds[i].getValue() < 950.0:
+                avoidObstacleCounter = 100
+    wheels[0].setVelocity(leftSpeed)
+    wheels[1].setVelocity(rightSpeed)
+    wheels[2].setVelocity(leftSpeed)
+    wheels[3].setVelocity(rightSpeed)
+```
+%tab-end
 
 %end
 
