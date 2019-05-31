@@ -71,6 +71,4 @@ addons:
       - node
 script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-  - python -m unittest discover -s docs/tests
-  - travis_wait 30 python -m unittest discover -s tests/sources
-  - travis_wait 45 python tests/test_compilation.py
+  - make distrib -j2

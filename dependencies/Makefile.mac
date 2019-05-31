@@ -50,7 +50,7 @@ assimp-clean:
 
 assimp: $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib
 
-$(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
+$(WEBOTS_HOME)/lib/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
 	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME)/lib
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
@@ -217,7 +217,7 @@ pico-clean:
 
 pico: $(WEBOTS_HOME)/lib/libpico.dylib
 
-$(WEBOTS_HOME)/lib/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
+$(WEBOTS_HOME)/lib/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	tar xvjfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
