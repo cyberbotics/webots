@@ -48,7 +48,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 assimp-clean:
 	rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME)/lib/libassimp.dylib
 
-assimp: $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib
+assimp: $(WEBOTS_HOME)/assimp/build/code/libassimp.dylib
 
 $(WEBOTS_HOME)/lib/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
 	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME)/lib
