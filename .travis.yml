@@ -80,7 +80,6 @@ script:
 #  - python -m unittest discover -s tests/sources
 #  - python -m unittest discover -s docs/tests
 #  - export QT_QPA_PLATFORM=offscreen
-  - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
   - make release -j2
   - make release -j -C tests
   - python tests/test_suite.py --no-ansi-escape --nomake
