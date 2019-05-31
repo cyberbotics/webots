@@ -460,7 +460,7 @@ public class FourWheelsCollisionAvoidance {
     Motor[] wheels = new Motor[4];
     String[] wheelsNames = {"wheel1", "wheel2", "wheel3", "wheel4"};
     for (int i = 0; i < 4; i++) {
-      wheels[i] = robot.getMotor(wheels_names[i]);
+      wheels[i] = robot.getMotor(wheelsNames[i]);
       wheels[i].setPosition(Double.POSITIVE_INFINITY);
       wheels[i].setVelocity(0.0);
     }
