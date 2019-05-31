@@ -472,14 +472,12 @@ public class FourWheelsCollisionAvoidance {
         avoidObstacleCounter--;
         leftSpeed = 1.0;
         rightSpeed = -1.0;
-      } else {
-        // read sensors outputs
+      } else { // read sensors
         for (int i = 0; i < 2; i++) {
           if (ds[i].getValue() < 950.0)
             avoidObstacleCounter = 100;
         }
       }
-      // write actuators inputs
       wheels[0].setVelocity(leftSpeed);
       wheels[1].setVelocity(rightSpeed);
       wheels[2].setVelocity(leftSpeed);
