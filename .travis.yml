@@ -71,4 +71,4 @@ addons:
       - node
 script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-  - make distrib -j2
+  - make release -j2
