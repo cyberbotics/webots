@@ -12,9 +12,7 @@ jobs:
       os: linux
       dist: xenial
       language: python
-      python: &python_version
-        - "2.7"
-        - "3.7"
+      python: '2.7'
       addons: &linux_addons
         apt:
           packages:
@@ -52,6 +50,13 @@ jobs:
       script: &test_script
         - python -m unittest discover -s tests/sources
         - python -m unittest discover -s docs/tests
+    - stage: Tests
+      os: linux
+      dist: xenial
+      language: python
+      python: '3.7'
+      addons: *linux_addons
+      script: *test_script
     - stage: Tests
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
