@@ -4,7 +4,7 @@ git:
   depth: 3
   submodules: true
 language: python
-python:
+python: &python_version
   - "2.7"
   - "3.7"
 jdk: openjdk8
@@ -22,7 +22,14 @@ jobs:
     - stage: Doc Tests
       os: linux
       script: python -m unittest discover -s docs/tests
+      python: *python_version
     - stage: Compilation
+      os: linux
+      script: make release -j2
+    - stage: Compilation
+      os: macos
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
       script: make release -j2
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
@@ -78,6 +85,4 @@ addons:
       - wget
       - node
 
-script: 
-  - python -m unittest discover -s docs/tests
-  - python -m unittest discover -s tests/sources
+script:
