@@ -177,7 +177,7 @@ class TestSuite (Supervisor):
             line.strip()
             if len(line) != 0:
                 [world, expected] = shlex.split(line)
-                if os.path.normpath(world) == self.currentSimulationFilename:
+                if os.path.normpath(world) == self.currentSimulationFilename.replace(os.environ['WEBOTS_HOME'], ''):
                     found = True
                     if expected != 'VOID':
                         self.expectedString = expected
