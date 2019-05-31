@@ -23,9 +23,6 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository -y ppa:oibaf/graphics-drivers; fi
-#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get update -qq -y; fi
-#  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get -yq --force-yes install libgl1-mesa-dev libgl1-mesa-glx mesa-common-dev libglapi-mesa libgbm1 libgl1-mesa-dri libxatracker-dev xvfb; fi
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -63,22 +60,10 @@ addons:
       - curl
       - libwebpdemux1
       - fakeroot
-      - libglew-dev
-      - freeglut3-dev
-      - libxi-dev
-      - libxmu-dev
       - xserver-xorg-video-dummy
       - xpra
       - xorg-dev
-      - opencl-headers
       - libgl1-mesa-dev
-      - libxcursor-dev
-      - libpulse-dev
-      - libxinerama-dev
-      - libxrandr-dev
-      - libxv-dev
-      - libasound2-dev
-      - libudev-dev
       - mesa-utils
       - libgl1-mesa-glx
   homebrew:
@@ -95,7 +80,6 @@ script:
 #  - python -m unittest discover -s tests/sources
 #  - python -m unittest discover -s docs/tests
 #  - export QT_QPA_PLATFORM=offscreen
-  - if [ $TRAVIS_OS_NAME = linux ]; then glxinfo; fi
   - make release -j2
   - make release -j -C tests
   - python tests/test_suite.py --no-ansi-escape --nomake
