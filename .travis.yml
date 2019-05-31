@@ -48,8 +48,8 @@ jobs:
             - libwebpdemux1
             - fakeroot
       script: &test_script
-        - python -m unittest discover -s tests/sources
         - python -m unittest discover -s docs/tests
+        - travis_wait 30 python -m unittest discover -s tests/sources
     - stage: Tests
       os: linux
       dist: xenial
