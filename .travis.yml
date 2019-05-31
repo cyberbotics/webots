@@ -19,14 +19,10 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
       language: generic
 jobs:
   include:
-    - stage: Tests
+    - stage: Compilation
       os:
         - osx
         - linux
-      script: 
-        - python -m unittest discover -s docs/tests
-        - python -m unittest discover -s tests/sources
-    - stage: Compilation
       script: make release -j2
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
@@ -81,3 +77,7 @@ addons:
       - swig
       - wget
       - node
+
+script: 
+  - python -m unittest discover -s docs/tests
+  - python -m unittest discover -s tests/sources
