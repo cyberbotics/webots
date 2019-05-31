@@ -1,5 +1,3 @@
-os: linux
-dist: xenial
 git:
   depth: 3
   submodules: true
@@ -7,17 +5,15 @@ language: python
 python:
   - "2.7"
   - "3.7"
-matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
-  include:
-    - os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-language: generic
 jobs:
   include:
     - stage: Tests
-      os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic
+      os:
+        osx:
+          language: generic # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+          osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+        linux:
+          dist: xenial
       script: 
         - python -m unittest discover -s docs/tests
         - python -m unittest discover -s tests/sources
