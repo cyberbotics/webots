@@ -13,7 +13,10 @@ matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic
 jdk: openjdk8
-cache: pip
+cache:
+  pip: true
+  directories:
+  - dependencies
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
@@ -70,4 +73,4 @@ script:
   - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
   - python -m unittest discover -s docs/tests
   - travis_wait 30 python -m unittest discover -s tests/sources
-  - if [ $TRAVIS_EVENT_TYPE = cron ]; then travis_wait 45 python tests/test_compilation.py; fi
+  - travis_wait 45 python tests/test_compilation.py
