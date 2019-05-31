@@ -80,7 +80,7 @@ minlat = float('nan')
 minlon = float('nan')
 maxlat = float('nan')
 maxlon = float('nan')
-lines = open(options.inFile).read().splitlines()
+lines = codecs.open(options.inFile, 'r', 'utf-8').read().splitlines()
 for line in lines:
     if 'bounds' in line:
         minlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
