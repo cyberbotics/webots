@@ -11,28 +11,65 @@ jobs:
     - stage: Tests
       os: linux
       dist: xenial
-      script: &test_script
-        - python -m unittest discover -s tests/sources
-        - python -m unittest discover -s docs/tests
       language: python
       python: &python_version
         - "2.7"
         - "3.7"
+      addons: &linux_addons
+        apt:
+          packages:
+            - clang-format-5.0
+            - g++
+            - cmake
+            - libusb-dev
+            - swig
+            - python2.7-dev
+            - libglu1-mesa-dev
+            - libglib2.0-dev
+            - libfreeimage-dev
+            - libfreetype6-dev
+            - libxml2-dev
+            - libzzip-0-13
+            - libssl-dev
+            - libboost-dev
+            - libjpeg8-dev
+            - libavcodec-extra
+            - libpci-dev
+            - libgd-dev
+            - libtiff5-dev
+            - libssh-dev
+            - libzip-dev
+            - python-pip
+            - libreadline-dev
+            - libassimp-dev
+            - libpng12-dev
+            - libav-tools
+            - python3.5-dev
+            - openjdk-8-jdk
+            - curl
+            - libwebpdemux1
+            - fakeroot
+      script: &test_script
+        - python -m unittest discover -s tests/sources
+        - python -m unittest discover -s docs/tests
     - stage: Tests
       os: macos
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      python: *python_version
       script: *test_script
     - stage: Compilation
       os: linux
       dist: xenial
       language: python
       python: *python_version
+      addons: *linux_addons
       script: make release -j2
     - stage: Compilation
       os: macos
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      python: *python_version
       script: make release -j2
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
@@ -45,39 +82,6 @@ install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
 addons:
-  apt:
-    packages:
-      - clang-format-5.0
-      - g++
-      - cmake
-      - libusb-dev
-      - swig
-      - python2.7-dev
-      - libglu1-mesa-dev
-      - libglib2.0-dev
-      - libfreeimage-dev
-      - libfreetype6-dev
-      - libxml2-dev
-      - libzzip-0-13
-      - libssl-dev
-      - libboost-dev
-      - libjpeg8-dev
-      - libavcodec-extra
-      - libpci-dev
-      - libgd-dev
-      - libtiff5-dev
-      - libssh-dev
-      - libzip-dev
-      - python-pip
-      - libreadline-dev
-      - libassimp-dev
-      - libpng12-dev
-      - libav-tools
-      - python3.5-dev
-      - openjdk-8-jdk
-      - curl
-      - libwebpdemux1
-      - fakeroot
   homebrew:
     packages:
       - clang-format
