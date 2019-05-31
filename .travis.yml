@@ -21,8 +21,8 @@ jobs:
   include:
     - stage: Compilation
       os:
-        - osx
-        - linux
+        osx
+        linux
       script: make release -j2
 before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
