@@ -7,11 +7,17 @@ language: python
 python:
   - "2.7"
   - "3.7"
-matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+jobs:
   include:
-    - os: osx
+    - stage: Tests
+      os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic
+      script: 
+        - python -m unittest discover -s docs/tests
+        - python -m unittest discover -s tests/sources
+    - stage: Compilation
+      script: make release -j2
 jdk: openjdk8
 cache:
   pip: true
@@ -23,6 +29,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
   - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
+  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
 install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
@@ -69,6 +76,3 @@ addons:
       - swig
       - wget
       - node
-script:
-  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-  - make release -j2
