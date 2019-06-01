@@ -52,7 +52,7 @@ jobs:
       addons:
         apt:
           packages:
-            - <<: *apt-packages
+            <<: *apt-packages
             - g++
             - cmake
             - libusb-dev
@@ -99,7 +99,7 @@ jobs:
       addons:
         homebrew:
           packages:
-            - <<: *homebrew_packages
+            <<: *homebrew_packages
             - cmake
             - swig
             - wget
