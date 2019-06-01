@@ -1,7 +1,3 @@
-git:
-  depth: 3
-  submodules: true
-jdk: openjdk8
 cache:
   pip: true
   directories:
@@ -9,6 +5,9 @@ cache:
 jobs:
   include:
     - stage: Tests
+      git: &git_tests
+        depth: 3
+        submodules: false
       os: linux
       dist: xenial
       language: python
@@ -24,6 +23,7 @@ jobs:
         - python -m unittest discover -s docs/tests
         - travis_wait 30 python -m unittest discover -s tests/sources
     - stage: Tests
+      git: *git_tests
       os: linux
       dist: xenial
       language: python
@@ -32,6 +32,7 @@ jobs:
       install: *pip_install
       script: *test_script
     - stage: Tests
+      git: *git_tests
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
@@ -45,10 +46,14 @@ jobs:
       install: *pip_install
       script: *test_script
     - stage: Compilation
+      git: &git_compilation
+        depth: 3
+        submodules: true
       os: linux
       dist: xenial
       language: python
       python: *python_version
+      jdk: openjdk8
       addons:
         apt:
           packages:
@@ -91,10 +96,12 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script: make release -j2
     - stage: Compilation
+      git: *git_compilation
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
       python: *python_version
+      jdk: openjdk8
       addons:
         homebrew:
           packages:
