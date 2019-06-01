@@ -15,8 +15,44 @@ jobs:
       python: '2.7'
       addons: &linux_addons
         apt:
-          packages:
+          packages: &apt-packages
             - clang-format-5.0
+      install: &pip_install
+        - pip install -r tests/sources/requirements.txt
+        - pip install -r docs/tests/requirements.txt
+      script: &test_script
+        - python -m unittest discover -s docs/tests
+        - travis_wait 30 python -m unittest discover -s tests/sources
+    - stage: Tests
+      os: linux
+      dist: xenial
+      language: python
+      python: '3.7'
+      addons: *linux_addons
+      install: *pip_install
+      script: *test_script
+    - stage: Tests
+      os: osx
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      python: *python_version
+      addons:
+        homebrew:
+          packages: *homebrew_packages
+            - clang-format
+            - cppcheck
+            - python
+      install: *pip_install
+      script: *test_script
+    - stage: Compilation
+      os: linux
+      dist: xenial
+      language: python
+      python: *python_version
+      addons:
+        apt:
+          packages:
+            - <<: *apt-packages
             - g++
             - cmake
             - libusb-dev
@@ -47,52 +83,27 @@ jobs:
             - curl
             - libwebpdemux1
             - fakeroot
-      script: &test_script
-        - python -m unittest discover -s docs/tests
-        - travis_wait 30 python -m unittest discover -s tests/sources
-    - stage: Tests
-      os: linux
-      dist: xenial
-      language: python
-      python: '3.7'
-      addons: *linux_addons
-      script: *test_script
-    - stage: Tests
-      os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
-      python: *python_version
-      script: *test_script
-    - stage: Compilation
-      os: linux
-      dist: xenial
-      language: python
-      python: *python_version
-      addons: *linux_addons
+      before_install: &linux_before_install
+        - sudo add-apt-repository ppa:deadsnakes/ppa -y
+        - then sudo apt update
+        - sudo apt install python3.6-dev python3.7-dev
+        - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+        - sudo apt install nodejs
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script: make release -j2
     - stage: Compilation
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
       python: *python_version
+      addons:
+        homebrew:
+          packages:
+            - <<: *homebrew_packages
+            - cmake
+            - swig
+            - wget
+            - node
+      before_install: &osx_before_install
+        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
       script: make release -j2
-before_install:
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-install:
-  - pip install -r tests/sources/requirements.txt
-  - pip install -r docs/tests/requirements.txt
-addons:
-  homebrew:
-    packages:
-      - clang-format
-      - cppcheck
-      - python
-      - cmake
-      - swig
-      - wget
-      - node
