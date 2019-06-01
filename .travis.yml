@@ -37,7 +37,7 @@ jobs:
             - python
     - &compilation_staging
       stage: Compilation
-#      if: type = cron
+      if: type = cron
       git:
         depth: 3
         submodules: true
