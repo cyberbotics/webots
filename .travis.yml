@@ -44,7 +44,7 @@ jobs:
       dist: xenial
       install: skip # bundle install is not required
       language: python
-      python: *python_version
+      python: 3.7
       jdk: openjdk8
       addons:
         apt:
@@ -81,7 +81,7 @@ jobs:
             - fakeroot
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
-        - then sudo apt update
+        - sudo apt update
         - sudo apt install python3.6-dev python3.7-dev
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
