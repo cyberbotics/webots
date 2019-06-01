@@ -4,53 +4,45 @@ cache:
   - dependencies
 jobs:
   include:
-    - stage: Tests
-      git: &git_tests
+    - &tests_staging
+      stage: Tests
+      git:
         depth: 3
         submodules: false
       os: linux
       dist: xenial
       language: python
-      python: '2.7'
-      addons: &linux_addons
+      python: '3.7'
+      addons:
         apt:
           packages:
             - clang-format-5.0
-      install: &pip_install
+      install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
-      script: &test_script
+      script:
         - python -m unittest discover -s docs/tests
         - travis_wait 30 python -m unittest discover -s tests/sources
-    - stage: Tests
-      git: *git_tests
-      os: linux
-      dist: xenial
-      language: python
-      python: '3.7'
-      addons: *linux_addons
-      install: *pip_install
-      script: *test_script
-    - stage: Tests
-      git: *git_tests
+    - <<: *tests_staging
+      python: '2.7'
+    - <<: *tests_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
-      python: *python_version
       addons:
         homebrew:
           packages:
             - clang-format
             - cppcheck
             - python
-      install: *pip_install
-      script: *test_script
-    - stage: Compilation
-      git: &git_compilation
+    - &compilation_staging
+      stage: Compilation
+      git:
         depth: 3
         submodules: true
       os: linux
       dist: xenial
+      install: skip # bundle install is not required
       language: python
       python: *python_version
       jdk: openjdk8
@@ -87,7 +79,7 @@ jobs:
             - curl
             - libwebpdemux1
             - fakeroot
-      before_install: &linux_before_install
+      before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - then sudo apt update
         - sudo apt install python3.6-dev python3.7-dev
@@ -95,13 +87,10 @@ jobs:
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script: make release -j2
-    - stage: Compilation
-      git: *git_compilation
+    - <<: *compilation_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
-      python: *python_version
-      jdk: openjdk8
       addons:
         homebrew:
           packages:
@@ -110,6 +99,5 @@ jobs:
             - swig
             - wget
             - node
-      before_install: &osx_before_install
+      before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-      script: make release -j2
