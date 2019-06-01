@@ -37,7 +37,7 @@ jobs:
             - python
     - &compilation_staging
       stage: Compilation
-      if: type = cron
+#      if: type = cron
       git:
         depth: 3
         submodules: true
@@ -87,7 +87,7 @@ jobs:
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-      script: if [ $TRAVIS_EVENT_TYPE = cron ]; then travis_wait 45 python tests/test_compilation.py; fi
+      script: travis_wait 45 python tests/test_compilation.py
     - <<: *compilation_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
