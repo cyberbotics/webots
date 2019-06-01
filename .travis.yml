@@ -15,7 +15,7 @@ jobs:
       python: '2.7'
       addons: &linux_addons
         apt:
-          packages: &apt-packages
+          packages:
             - clang-format-5.0
       install: &pip_install
         - pip install -r tests/sources/requirements.txt
@@ -38,7 +38,7 @@ jobs:
       python: *python_version
       addons:
         homebrew:
-          packages: *homebrew_packages
+          packages:
             - clang-format
             - cppcheck
             - python
@@ -52,7 +52,6 @@ jobs:
       addons:
         apt:
           packages:
-            <<: *apt-packages
             - g++
             - cmake
             - libusb-dev
@@ -99,7 +98,7 @@ jobs:
       addons:
         homebrew:
           packages:
-            <<: *homebrew_packages
+            - python
             - cmake
             - swig
             - wget
