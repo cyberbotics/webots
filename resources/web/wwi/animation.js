@@ -6,7 +6,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.url = url;
     this.scene = scene;
     this.view = view;
-    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
+    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this.loop = typeof loop === 'undefined' ? true : loop;
     this.sliding = false;
     this.onReady = null;
@@ -24,26 +24,6 @@ class Animation { // eslint-disable-line no-unused-vars
     xmlhttp.send();
   }
 
-  moveSlider(event) {
-    if (!this.playSlider || !this.sliding)
-      return;
-
-    var w = event.target.clientWidth - 66; // size of the borders of the slider
-    var x = event.clientX - event.target.getBoundingClientRect().left - 48; // size of the left border (including play button) of the slider
-    // transform and clamp slider position to value in range [0, 100[
-    var value = 100 * x / w;
-    if (value < 0)
-      value = 0;
-    else if (value >= 100)
-      value = 99.999; // set maximum value to get valid step index in _updateSlider function
-    this.playSlider.slider('value', value);
-    // Setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
-    // therefore, we need to trigger this event manually.
-    var ui = {};
-    ui.value = value;
-    this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
-  }
-
   // private methods
   _setup(data) {
     this.data = data;
@@ -55,8 +35,8 @@ class Animation { // eslint-disable-line no-unused-vars
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
-    var action = (this.gui === 'play') ? 'pause' : 'play';
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiUrl() + action + '.png)';
+    var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
@@ -89,7 +69,7 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _triggerPlayPauseButton() {
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this.gui + '.png)';
-    if (this.gui === 'play') {
+    if (this.gui === 'real_time') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
         this.start = new Date().getTime();
@@ -97,7 +77,7 @@ class Animation { // eslint-disable-line no-unused-vars
       } else
         this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
     } else {
-      this.gui = 'play';
+      this.gui = 'real_time';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
@@ -117,7 +97,8 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _updateSlider(value) {
-    this.step = Math.floor(this.data.frames.length * value / 100);
+    var clampedValued = Math.min(value, 99); // set maximum value to get valid step index
+    this.step = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
     this._updateAnimationState(false);
   }
@@ -133,7 +114,7 @@ class Animation { // eslint-disable-line no-unused-vars
             this.start = new Date().getTime();
           } else
             return;
-        } else if (this.gui === 'play') {
+        } else if (this.gui === 'real_time') {
           this._triggerPlayPauseButton();
           return;
         } else
@@ -188,7 +169,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _updateAnimation() {
-    if (this.gui === 'play') {
+    if (this.gui === 'real_time') {
       this._updateAnimationState(true);
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
