@@ -20,11 +20,7 @@
 /mingw64/bin/libicuin64.dll
 /mingw64/bin/libicudt64.dll
 /mingw64/bin/libminizip-1.dll
-/mingw64/bin/libstdc++-6.dll
-/mingw64/bin/libgcc_s_seh-1.dll
 /mingw64/bin/libbz2-1.dll
-/mingw64/bin/libwinpthread-1.dll
-/mingw64/bin/libiconv-2.dll
 /mingw64/bin/libsqlite3-0.dll
 /mingw64/bin/libxslt-1.dll
 /mingw64/bin/libcrypto-1_1-x64.dll
@@ -68,7 +64,6 @@
 /mingw64/bin/avdevice-58.dll
 /mingw64/bin/avcodec-58.dll
 /mingw64/bin/libcelt0-2.dll
-/mingw64/bin/libgmp-10.dll
 /mingw64/bin/libgsm.dll
 /mingw64/bin/libmp3lame-0.dll
 /mingw64/bin/libopencore-amrnb-0.dll
@@ -113,7 +108,6 @@
 /mingw64/bin/libopenblas.dll
 /mingw64/bin/libopencv_core*.dll
 /mingw64/bin/libopencv_imgproc*.dll
-/mingw64/bin/libquadmath-0.dll
 /mingw64/bin/tbb.dll
 
 # needed to compile binaries having a dependency on OpenCV
