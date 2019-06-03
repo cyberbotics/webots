@@ -185,7 +185,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 period = wb_robot_step(duration)
 ```
 
@@ -441,7 +441,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_robot_get_device('name')
 ```
 
@@ -533,7 +533,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 size = wb_robot_get_number_of_devices()
 tag = wb_robot_get_device_by_index(index)
 ```
@@ -664,7 +664,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_EVENT_QUIT, WB_EVENT_NO_EVENT, WB_EVENT_MOUSE_CLICK, WB_EVENT_MOUSE_MOVE, WB_EVENT_KEYBOARD, WB_EVENT_JOYSTICK_BUTTON, WB_EVENT_JOYSTICK_AXIS, WB_EVENT_JOYSTICK_POV
 
 event_type = wb_robot_wait_for_user_input_event(event_type, timeout)
@@ -792,7 +792,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_robot_battery_sensor_enable(sampling_period)
 wb_robot_battery_sensor_disable()
 period = wb_robot_battery_sensor_get_sampling_period()
@@ -885,7 +885,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 step = wb_robot_get_basic_time_step()
 ```
 
@@ -983,7 +983,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL
 
 mode = wb_robot_get_mode()
@@ -1082,7 +1082,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_robot_get_name()
 ```
 
@@ -1159,7 +1159,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_robot_get_model()
 ```
 
@@ -1247,7 +1247,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 data = wb_robot_get_custom_data()
 wb_robot_set_custom_data('data')
 ```
@@ -1332,7 +1332,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 type = wb_robot_get_type()
 ```
 
@@ -1412,7 +1412,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 path = wb_robot_get_project_path()
 ```
 
@@ -1495,7 +1495,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 path = wb_robot_get_world_path()
 ```
 
@@ -1582,7 +1582,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_robot_get_controller_name()
 name = wb_robot_get_controller_arguments()
 ```
@@ -1664,7 +1664,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 sync = wb_robot_get_supervisor()
 ```
 
@@ -1745,7 +1745,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 sync = wb_robot_get_synchronization()
 ```
 
@@ -1825,7 +1825,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 time = wb_robot_get_time()
 ```
 
@@ -1989,7 +1989,7 @@ public class Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_robot_wwi_send_text(text)
 text = wb_robot_wwi_receive_text()
 ```

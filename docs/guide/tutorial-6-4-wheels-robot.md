@@ -237,7 +237,7 @@ for (int i = 0; i < wheelsNames.length; i++)
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 % initialize motors
 wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
 wheels = [];
@@ -286,7 +286,7 @@ wheels[0].setVelocity(speed);
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 speed = -1.5; % [rad/s]
 wb_motor_set_position(wheels[0], inf);
 wb_motor_set_velocity(wheels[0], speed);

@@ -92,7 +92,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 node = wb_supervisor_node_get_root()
 node = wb_supervisor_node_get_self()
 node = wb_supervisor_node_get_from_def('def')
@@ -217,7 +217,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
@@ -467,7 +467,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_NODE_NO_NODE,
 % 3D rendering
 WB_NODE_APPEARANCE, WB_NODE_BACKGROUND, WB_NODE_BOX, WB_NODE_CAPSULE,
@@ -594,7 +594,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_remove(node)
 ```
 
@@ -674,7 +674,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 field = wb_supervisor_node_get_field(node, 'field_name')
 ```
 
@@ -765,7 +765,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 position = wb_supervisor_node_get_position(node)
 orientation = wb_supervisor_node_get_orientation(node)
 ```
@@ -878,7 +878,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 com = wb_supervisor_node_get_center_of_mass(node)
 ```
 
@@ -970,7 +970,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 contact_point = wb_supervisor_node_get_contact_point(node, index)
 number_of_contacts = wb_supervisor_node_get_number_of_contact_points(node)
 ```
@@ -1064,7 +1064,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 balance = wb_supervisor_node_get_static_balance(node)
 ```
 
@@ -1153,7 +1153,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 velocity = wb_supervisor_node_get_velocity(node)
 wb_supervisor_node_set_velocity(node, velocity)
 ```
@@ -1245,7 +1245,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_reset_physics(node)
 ```
 
@@ -1329,7 +1329,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_restart_controller(node)
 ```
 
@@ -1411,7 +1411,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_move_viewpoint(node)
 ```
 
@@ -1492,7 +1492,7 @@ public class Node {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_node_set_visibility(node, from, visible)
 ```
 
@@ -1581,7 +1581,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency)
 ```
 
@@ -1713,7 +1713,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_quit(status)
 ```
 
@@ -1872,7 +1872,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_SUPERVISOR_SIMULATION_MODE_PAUSE, WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME, WB_SUPERVISOR_SIMULATION_MODE_RUN, WB_SUPERVISOR_SIMULATION_MODE_FAST
 
 mode = wb_supervisor_simulation_get_mode()
@@ -1976,7 +1976,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_reset()
 ```
 
@@ -2059,7 +2059,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_simulation_reset_physics()
 ```
 
@@ -2155,7 +2155,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_world_load('filename')
 success = wb_supervisor_world_save()
 success = wb_supervisor_world_save('filename')
@@ -2257,7 +2257,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_export_image('filename', quality)
 ```
 
@@ -2362,7 +2362,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_movie_start_recording('filename', width, height, codec, quality,
 acceleration, caption)
 wb_supervisor_movie_stop_recording()
@@ -2475,7 +2475,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_supervisor_animation_start_recording('filename')
 success = wb_supervisor_animation_stop_recording()
 ```
@@ -2593,7 +2593,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_SF_BOOL, WB_SF_INT32, WB_SF_FLOAT, WB_SF_VEC2F, WB_SF_VEC3F, WB_SF_ROTATION, WB_SF_COLOR,
 WB_SF_STRING, WB_SF_NODE, WB_MF, WB_MF_INT32, WB_MF_FLOAT, B_MF_VEC2F, WB_MF_VEC3F,
 WB_MF_COLOR, WB_MF_STRING, WB_MF_NODE
@@ -2779,7 +2779,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 b = wb_supervisor_field_get_sf_bool(field)
 i = wb_supervisor_field_get_sf_int32(field)
 f = wb_supervisor_field_get_sf_float(field)
@@ -2968,7 +2968,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_set_sf_bool(field, value)
 wb_supervisor_field_set_sf_int32(field, value)
 wb_supervisor_field_set_sf_float(field, value)
@@ -3140,7 +3140,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_insert_mf_bool(field, index, value)
 wb_supervisor_field_insert_mf_int32(field, index, value)
 wb_supervisor_field_insert_mf_float(field, index, value)
@@ -3254,7 +3254,7 @@ public class Field {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_supervisor_field_import_mf_node(field, position, 'filename')
 wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
 ```
@@ -3390,7 +3390,7 @@ public class Supervisor extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 used = wb_supervisor_virtual_reality_headset_is_used()
 position = wb_supervisor_virtual_reality_headset_get_position()
 orientation = wb_supervisor_virtual_reality_headset_get_orientation()

@@ -227,7 +227,7 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 
 %tab "MATLAB"
 > **Hands on #3**: In Matlab there is no main function, the program starts it's execution from the start of the file:
->```matlab
+>```MATLAB
 > % initialize devices
 > % feedback loop: step simulation until receiving an exit event
 > while wb_robot_step(TIME_STEP) ~= -1
