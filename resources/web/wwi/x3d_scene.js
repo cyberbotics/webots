@@ -166,16 +166,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.onSceneUpdate();
   }
 
-  applyPose(pose) {
+  applyPose(pose, appliedFields = []) {
     var id = pose.id;
+    var fields = appliedFields;
     for (let key in pose) {
       if (key === 'id')
+        continue;
+      if (fields.indexOf(key) !== -1)
         continue;
       var newValue = pose[key];
       var object = this.getObjectById('n' + id, true);
       if (typeof object === 'undefined')
         continue; // error
 
+      var valid = true;
       if (key === 'translation') {
         if (object.isTexture) {
           var translation = convertStringToVec2(newValue);
@@ -210,9 +214,15 @@ class X3dScene { // eslint-disable-line no-unused-vars
         object.emissive = emissiveColor;
       } else if (key === 'render' && object.isObject3D)
         object.visible = newValue.toLowerCase() === 'true';
+      else
+        valid = false;
+
+      if (valid)
+        fields.push(key);
 
       this._updateUseNodesIfNeeded(object, id);
     }
+    return fields;
   }
 
   pick(relativePosition, screenPosition) {

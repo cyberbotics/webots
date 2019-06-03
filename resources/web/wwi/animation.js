@@ -125,10 +125,9 @@ class Animation { // eslint-disable-line no-unused-vars
     var appliedIds = [];
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
       var poses = this.data.frames[this.step].poses;
-      for (p = 0; p < poses.length; p++) {
-        this.scene.applyPose(poses[p]);
-        appliedIds[appliedIds.length] = poses[p].id;
-      }
+      for (p = 0; p < poses.length; p++)
+        appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
+
     }
     var x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
@@ -142,16 +141,12 @@ class Animation { // eslint-disable-line no-unused-vars
       var allIds = this.data.ids.split(';');
       for (let i in allIds) {
         var id = parseInt(allIds[i]);
-        if (appliedIds.indexOf(id) === -1) {
-          outer:
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
-            if (this.data.frames[f].poses) {
-              for (p = 0; p < this.data.frames[f].poses.length; p++) {
-                if (this.data.frames[f].poses[p].id === id) {
-                  x3dScene.applyPose(this.data.frames[f].poses[p]);
-                  break outer;
-                }
-              }
+        var appliedFields = appliedIds[id];
+        for (let f = this.step - 1; f >= previousPoseStep; f--) {
+          if (this.data.frames[f].poses) {
+            for (p = 0; p < this.data.frames[f].poses.length; p++) {
+              if (this.data.frames[f].poses[p].id === id)
+                appliedFields = x3dScene.applyPose(this.data.frames[f].poses[p], appliedFields);
             }
           }
         }
