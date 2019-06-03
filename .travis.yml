@@ -2,8 +2,8 @@ cache:
   pip: true
   directories:
   - dependencies
-services:
-  - xvfb
+#services:
+#  - xvfb
 jobs:
   include:
     - &tests_staging
@@ -87,6 +87,7 @@ jobs:
             - libgl1-mesa-dev
             - mesa-utils
             - libgl1-mesa-glx
+            - xvfb
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
@@ -95,6 +96,7 @@ jobs:
       script:
         - make debug -j2
         - make debug -j2 -C tests
+        - Xvfb :99 -screen 0 1024x768x16 &
         - python tests/test_suite.py --no-ansi-escape --nomake
     - &compilation_staging
       stage: Compilation
