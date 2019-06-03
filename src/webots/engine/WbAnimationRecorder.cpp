@@ -272,14 +272,13 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   out << ",\"poses\":[";
   foreach (WbAnimationCommand *command, commands) {
-    out << "{";
-    out << QString("\"id\":%1,").arg(command->node()->uniqueId());
     QList<QString> keys = command->fields();
-    foreach (const QString &fieldName, keys) {
-      out << QString("\"%1\":\"%2\"").arg(fieldName).arg(command->fieldValue(fieldName));
-      if (fieldName != keys.last())
-        out << ",";
-    }
+    if (keys.isEmpty())
+      continue;
+    out << "{";
+    out << QString("\"id\":%1").arg(command->node()->uniqueId());
+    foreach (const QString &fieldName, keys)
+      out << QString(",\"%1\":\"%2\"").arg(fieldName).arg(command->fieldValue(fieldName));
     if (command == commands.last())
       out << "}";
     else
