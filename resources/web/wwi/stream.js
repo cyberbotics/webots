@@ -1,15 +1,13 @@
-/* global webots, TextureLoader */
+/* global webots */
 'use strict';
 
 class Stream { // eslint-disable-line no-unused-vars
-  constructor(wsServer, httpServer, view, onready) {
+  constructor(wsServer, view, onready) {
     this.wsServer = wsServer;
-    this.httpServer = httpServer;
     this.view = view;
     this.onready = onready;
     this.socket = null;
     this.videoStream = null;
-    TextureLoader.setStreamingMode(true, this.httpServer);
   }
 
   connect() {

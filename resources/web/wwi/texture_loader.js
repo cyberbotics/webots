@@ -26,11 +26,6 @@ var TextureLoader = {
     this._getInstance().onTextureLoad = onLoad;
   },
 
-  setStreamingMode: function(enabled, textureServerUrl = '') {
-    this._getInstance().streamingMode = enabled;
-    this._getInstance().textureServerUrl = textureServerUrl;
-  },
-
   setTexturePathPrefix: function(texturePathPrefix) {
     this._getInstance().texturePathPrefix = texturePathPrefix;
   },
@@ -47,15 +42,11 @@ class _TextureLoaderObject {
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
-    this.streamingMode = false;
     this.onTextureLoad = undefined;
-    this.textureServerUrl = '';
     this.texturePathPrefix = '';
   }
 
   loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
-    if (this.textureServerUrl)
-      name = this.textureServerUrl + '/' + name;
     if (this.texturePathPrefix)
       name = this.texturePathPrefix + name;
     if (this.textures[name]) {

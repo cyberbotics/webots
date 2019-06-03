@@ -20,7 +20,7 @@
  */
 
 /* global webots */
-/* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow */
+/* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
 /* global Server, Stream, Toolbar, Video, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
@@ -190,8 +190,9 @@ webots.View = class View {
           this.server = new Server(this.url, this, callback);
           this.server.connect();
         } else { // url expected form: "ws://cyberbotics2.cyberbotics.com:80"
-          var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images.
-          this.stream = new Stream(this.url, httpServerUrl, this, finalizeWorld);
+          var httpServerUrl = this.url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
+          this.stream = new Stream(this.url, this, finalizeWorld);
+          TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
