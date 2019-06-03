@@ -99,7 +99,7 @@ QStringList WbWindowsRegistry::subKeys() const {
     for (i = 0; i < nSubKeys; i++) {
       name = MAX_KEY_LENGTH;
       TCHAR subKeyName[MAX_KEY_LENGTH];
-      retCode = RegEnumKeyEx(mCurrentKey, i, subKeyName, &name, NULL, NULL, NULL, &lastWriteTime);
+      DWORD retCode = RegEnumKeyEx(mCurrentKey, i, subKeyName, &name, NULL, NULL, NULL, &lastWriteTime);
       if (retCode == ERROR_SUCCESS)
         keys << QString(subKeyName);
     }
