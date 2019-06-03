@@ -127,7 +127,6 @@ class Animation { // eslint-disable-line no-unused-vars
       var poses = this.data.frames[this.step].poses;
       for (p = 0; p < poses.length; p++)
         appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
-
     }
     var x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
