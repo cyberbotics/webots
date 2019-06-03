@@ -304,7 +304,7 @@ As usual a possible solution of this exercise is located in the tutorials direct
 
 ### The Controller Code
 
-Here is the complete code of the controller detailed in the previous subsection.
+Here is the complete code of the controller developed through the previous subsection.
 
 %tab-component
 %tab "C"
