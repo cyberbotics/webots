@@ -56,10 +56,12 @@ $(TARGET_PATH):
 open-vr-clean:
 	rm -rf "$(WEBOTS_HOME_PATH)/include/openvr" $(TARGET_PATH)/openvr_api.dll "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
-open-vr: $(TARGET_PATH)/openvr_api.dll
+open-vr: $(TARGET_PATH)/openvr_api.dll $(WEBOTS_HOME_PATH)/include/openvr
+
+$(WEBOTS_HOME_PATH)/include/openvr: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
+	cp -rf "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers "$(WEBOTS_HOME_PATH)/include/openvr"
 
 $(TARGET_PATH)/openvr_api.dll: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
-	cp -rf "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/*.h "$(WEBOTS_HOME_PATH)/include/openvr"
 	mkdir -p $(TARGET_PATH)
 	cp "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7/bin/win64/openvr_api.dll" "$@"
 
@@ -76,7 +78,8 @@ lua-clean:
 
 lua: $(TARGET_PATH)/lua52.dll
 
-$(TARGET_PATH)/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(TARGET_PATH)
+$(TARGET_PATH)/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	mkdir -p $(TARGET_PATH)
 	cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
@@ -91,7 +94,8 @@ ois-clean:
 
 ois: $(TARGET_PATH)/OIS.dll
 
-$(TARGET_PATH)/OIS.dll: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(TARGET_PATH)
+$(TARGET_PATH)/OIS.dll: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	mkdir -p $(TARGET_PATH)
 	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
 	mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$@"
 	touch "$@"
@@ -107,7 +111,8 @@ pico-clean:
 
 pico: $(TARGET_PATH)/libpico.dll
 
-$(TARGET_PATH)/libpico.dll: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) $(TARGET_PATH)
+$(TARGET_PATH)/libpico.dll: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	mkdir -p $(TARGET_PATH)
 	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
 	mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$@"
 	touch "$@"
@@ -122,7 +127,8 @@ lua-gd-clean:
 
 lua-gd: $(TARGET_PATH)/gd.dll
 
-$(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(TARGET_PATH)
+$(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	mkdir -p $(TARGET_PATH)
 	unzip "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
 	touch "$@"
 
