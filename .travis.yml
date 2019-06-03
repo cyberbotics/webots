@@ -2,7 +2,7 @@ cache:
   pip: true
   directories:
   - dependencies
-#services:
+# services:
 #  - xvfb
 jobs:
   include:
