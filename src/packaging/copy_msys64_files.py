@@ -28,15 +28,6 @@ d += list_dependencies('coreutils')
 d += list_dependencies('mingw-w64-x86_64-gcc')
 d += list_dependencies('mingw-w64-i686-gcc')
 
-# If present, default-manifest.o will be linked to any executable at link time by gcc.
-# However, the link command will fail if gcc installation path contains spaces.
-# This is due to a bug in gcc which is about to be fixed in MSYS2: https://github.com/msys2/MINGW-packages/pull/5450
-# and in gcc as well: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90692
-# Meanwhile, we simply remove the default-manifest.o file to work around this bug.
-# Hence the two following lines could be removed once the bug is fixed in MSYS2.
-d.remove('mingw-w64-x86_64-windows-default-manifest')
-d.remove('mingw-w64-i686-windows-default-manifest')
-
 # remove duplicate packages
 seen = set()
 dependencies = []
