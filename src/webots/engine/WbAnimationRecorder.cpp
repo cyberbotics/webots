@@ -168,9 +168,14 @@ void WbAnimationRecorder::populateCommands() {
   if (world) {
     QList<WbNode *> nodes = WbWorld::instance()->root()->subNodes(true);
     for (int i = 0; i < nodes.size(); ++i) {
-      QStringList fields = nodes.at(i)->fieldsToSynchronizeWithX3D();
+      WbNode *node = nodes.at(i);
+      if (node->isUseNode())
+        // skip updates for USE nodes
+        // DEF/USE mechanism is handled in webots.min.js
+        continue;
+      QStringList fields = node->fieldsToSynchronizeWithX3D();
       if (fields.size() > 0) {
-        WbAnimationCommand *command = new WbAnimationCommand(nodes.at(i), fields);
+        WbAnimationCommand *command = new WbAnimationCommand(node, fields);
         mCommands << command;
       }
     }
@@ -277,8 +282,6 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   out << ",\"poses\":[";
   foreach (WbAnimationCommand *command, commands) {
     QList<QString> keys = command->fields();
-    if (keys.isEmpty())
-      continue;
     out << "{";
     out << QString("\"id\":%1").arg(command->node()->uniqueId());
     foreach (const QString &fieldName, keys)
