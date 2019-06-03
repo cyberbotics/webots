@@ -19,6 +19,7 @@ JS_SOURCES = \
   dialog_window.js \
   console.js \
   help_window.js \
+  hdr_resolve.js \
   robot_window.js \
   toolbar.js \
   editor.js \
