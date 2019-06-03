@@ -94,7 +94,7 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script:
         - make debug -j2
-        - make debug -j -C tests
+        - make debug -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
     - &compilation_staging
       stage: Compilation
