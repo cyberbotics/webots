@@ -38,6 +38,7 @@ WbAnimationCommand::WbAnimationCommand(WbNode *n, QStringList fields) : mNode(n)
       connect(field, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
       connect(field, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
       mFields.append(field);
+      updateFieldValue(field, true);
     }
   }
 }
@@ -64,14 +65,14 @@ void WbAnimationCommand::updateAllFieldValues() {
   }
 }
 
-void WbAnimationCommand::updateFieldValue(WbField *field) {
+void WbAnimationCommand::updateFieldValue(WbField *field, bool force) {
   WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
   WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
     WbVector3 translationRounded =
       WbVector3(ROUND(sfVector3->x(), 0.001), ROUND(sfVector3->y(), 0.001), ROUND(sfVector3->z(), 0.001));
-    if (translationRounded != mLastTranslation) {
+    if (force || translationRounded != mLastTranslation) {
       mChangedValues["translation"] = QString("%1 %2 %3")
                                         .arg(ROUND(sfVector3->x(), 0.0001))
                                         .arg(ROUND(sfVector3->y(), 0.0001))
@@ -83,7 +84,7 @@ void WbAnimationCommand::updateFieldValue(WbField *field) {
     // special rotation case
     WbRotation rotationRounded = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                             ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
-    if (rotationRounded != mLastRotation) {
+    if (force || rotationRounded != mLastRotation) {
       mChangedValues["rotation"] = QString("%1 %2 %3 %4")
                                      .arg(ROUND(sfRotation->x(), 0.0001))
                                      .arg(ROUND(sfRotation->y(), 0.0001))
@@ -174,6 +175,9 @@ void WbAnimationRecorder::populateCommands() {
       }
     }
   }
+
+  // save initial state
+  mChangedCommands = mCommands;
 
   foreach (WbAnimationCommand *command, mCommands) {
     connect(command, &WbAnimationCommand::changed, this, &WbAnimationRecorder::addChangedCommandToList);

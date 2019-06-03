@@ -46,7 +46,7 @@ signals:
   void changed(WbAnimationCommand *command);
 
 private:
-  void updateFieldValue(WbField *field);
+  void updateFieldValue(WbField *field, bool force = false);
 
   WbNode *mNode;
   QList<WbField *> mFields;
