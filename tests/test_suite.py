@@ -262,7 +262,7 @@ for groupName in testGroups:
     command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=3 * 60)  # 3 minutes
+    command.runTest(timeout=10 * 60)  # 10 minutes
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
