@@ -28,7 +28,7 @@ jobs:
     - <<: *tests_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
           packages:
@@ -91,7 +91,7 @@ jobs:
     - <<: *compilation_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic     # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+      language: generic     # Travis doesn't support python on macos yet
       addons:
         homebrew:
           packages:
