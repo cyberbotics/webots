@@ -30,7 +30,7 @@ Some definitions are required before giving rules to create a robot model.
 The set containing the [Solid](../reference/solid.md) node and all its derived nodes is called the *solid nodes*.
 A similar definition is applied for the [Device](../reference/device.md), [Robot](../reference/robot.md), [Joint](../reference/joint.md) and [Motor](../reference/motor.md) nodes.
 You can get more information about the node hierarchy in the [nodes chart diagram](../reference/node-chart.md).
-Note that most of the sensors and actuators are [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
+Most sensors and actuators are both [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
 
 The main structure of a [Robot](../reference/robot.md) model is a tree of [Solid](../reference/solid.md) nodes linked together.
 The root node of this tree should be a [Robot](../reference/robot.md) node.
