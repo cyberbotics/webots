@@ -83,7 +83,7 @@ jobs:
             - libwebpdemux1
             - fakeroot
             - xserver-xorg-video-dummy  # TODO: identify which of the following packages are really needed
-            - xpra
+#            - xpra
 #            - xorg-dev
 #            - libgl1-mesa-dev
             - mesa-utils
