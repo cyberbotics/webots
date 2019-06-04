@@ -33,8 +33,6 @@ int main(int argc, char **argv) {
   wb_camera_enable(attached_camera, TIME_STEP);
   wb_display_attach_camera(display, attached_camera);
 
-  wb_robot_step(2 * TIME_STEP);
-  wb_camera_save_image(camera, "blue.jpg", 95);
   wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 40, 40, BLUE, "Wrong display attaching the camera (blue shape not detected)");
 
