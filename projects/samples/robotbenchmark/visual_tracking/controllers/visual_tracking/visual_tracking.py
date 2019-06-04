@@ -6,8 +6,8 @@ import os
 import sys
 import tempfile
 
-if sys.version_info.major > 2:
-    sys.exit("This controller program only works with Python 2.7.")
+if sys.version_info.major < 3:
+    sys.exit("This controller program only works with Python 3. See comments in the code to adapt it to Python 2.7.")
 
 try:
     import numpy as np
@@ -122,10 +122,10 @@ while robot.step(timestep) != -1:
     maskRGB = np.zeros([height, width], np.uint8)
     for j in range(0, height):
         for i in range(0, width):
-            # Camera image pixel format: BGRA.
-            b = ord(rawString[index])
-            g = ord(rawString[index + 1])
-            r = ord(rawString[index + 2])
+            # Camera image pixel format: BGRA. To use with python 2.7, you should write:
+            b = rawString[index]      # b = ord(rawString[index])
+            g = rawString[index + 1]  # g = ord(rawString[index + 1])
+            r = rawString[index + 2]  # r = ord(rawString[index + 2])
             index += 4
             # Yellow color threshold.
             if b < 50 and g > 180 and r > 180:
