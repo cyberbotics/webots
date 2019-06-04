@@ -1,0 +1,34 @@
+#VRML_SIM R2019b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static, hidden
+
+PROTO MooseWheel [
+  field SFString name "moose wheel"
+]
+{
+  VehicleWheel {
+    name IS name
+    thickness 0.35
+    tireRadius 0.32
+    curvatureFactor 0.5
+    edgeSubdivision 3
+    rimRadius 0.14
+    rimBeamNumber 8
+    rimBeamWidth 0.05
+    centralInnerRadius 0.08
+    centralOuterRadius 0.09
+    rimBeamThickness 0.05
+    rimBeamOffset -0.13
+    contactMaterial "moose wheel"
+    rimAppearance PBRAppearance {
+      baseColor 0.24798962386511025 0.24588387884336613 0.24954604409857328
+      roughness 0.2
+      metalness 1
+    }
+    physics Physics {
+      density -1
+      mass 20
+    }
+  }
+}

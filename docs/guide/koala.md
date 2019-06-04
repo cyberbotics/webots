@@ -1,6 +1,6 @@
 ## K-Team's Koala
 
-%robot koala images/robots/koala/model.png
+%robot koala images/robots/koala/model.thumbnail.png
 
 The "Koala" robot is a six-wheeled indoor robot produced by [K-Team](https://www.k-team.com/mobile-robotics-products/koala).
 It is mounted by multiple sensors including 16 distance sensors.

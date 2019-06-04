@@ -6,7 +6,7 @@ A rock (10 cm).
 
 %figure
 
-![Rock10cm](images/objects/rocks/Rock10cm/model.png)
+![Rock10cm](images/objects/rocks/Rock10cm/model.thumbnail.png)
 
 %end
 

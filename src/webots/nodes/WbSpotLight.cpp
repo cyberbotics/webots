@@ -51,6 +51,7 @@ WbSpotLight::WbSpotLight(WbTokenizer *tokenizer) : WbLight("SpotLight", tokenize
   if (tokenizer == NULL) {
     mDirection->setValueNoSignal(0, 1, -1);
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+    mBeamWidth->setValueNoSignal(0.7);
   }
 }
 
@@ -176,11 +177,8 @@ void WbSpotLight::updateCutOffAngle() {
   if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mCutOffAngle, 0.0, M_PI_2, M_PI_2))
     return;
 
-  if (mCutOffAngle->value() < mBeamWidth->value()) {
-    mBeamWidth->blockSignals(true);
-    mBeamWidth->setValue(mCutOffAngle->value());
-    mBeamWidth->blockSignals(false);
-  }
+  if (mCutOffAngle->value() < mBeamWidth->value())
+    mBeamWidth->setValueNoSignal(mCutOffAngle->value());
 
   if (areWrenObjectsInitialized())
     applyLightBeamWidthAndCutOffAngleToWren();

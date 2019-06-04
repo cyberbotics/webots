@@ -14,8 +14,8 @@ In this directory, you will find the following world files:
 
 %figure "Screenshots of the apartment environment."
 
-|                                                              |                                                              |
-|:------------------------------------------------------------:|:------------------------------------------------------------:|
+|     |     |
+|:---:|:---:|
 | ![apartment_a.png](images/samples/apartment_a.thumbnail.jpg) | ![apartment_b.png](images/samples/apartment_b.thumbnail.jpg) |
 | ![apartment_c.png](images/samples/apartment_c.thumbnail.jpg) | ![apartment_d.png](images/samples/apartment_d.thumbnail.jpg) |
 
@@ -44,6 +44,24 @@ This example shows a possible layout for some of the industrial objects included
 These objects are Webots PROTO nodes, and can be easily moved and resized to create other factory layouts.
 The tools and valves are interactive.
 This means that a robot could grab a hammer, or turn a valve handle.
+
+### [hall.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/factory/worlds/hall.wbt)
+
+**Keywords**: hall, workbench, tools, industrial pipes, industrial stairs
+
+%figure "Screenshots of the hall environment."
+
+|     |     |
+|:---:|:---:|
+| ![hall_a.png](images/samples/hall_a.thumbnail.jpg) | ![hall_b.png](images/samples/hall_b.thumbnail.jpg) |
+| ![hall_c.png](images/samples/hall_c.thumbnail.jpg) | ![hall_d.png](images/samples/hall_d.thumbnail.jpg) |
+
+%end
+
+This example uses some of the industrial objects included in Webots to create a factory hall.
+These objects are Webots PROTO nodes, and can be easily moved and resized to create other configurations.
+The tools, valves and doors are interactive.
+This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door.
 
 ### [kitchen.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/indoor/worlds/kitchen.wbt)
 

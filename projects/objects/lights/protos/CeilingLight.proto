@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A ceiling light (0.19 x 0.8 x 0.19 m).
@@ -16,6 +16,7 @@ PROTO CeilingLight [
   field SFColor    pointLightColor            1 1 1                                    # Defines the color of the point light.
   field SFFloat    pointLightIntensity        1                                        # Defines the intensity of the point light.
   field SFBool     pointLightCastShadows      FALSE                                    # Defines whether the point light should cast shadows.
+  field SFBool     castShadows                TRUE                                     # Defines whether this object should cast shadows.
 ]
 {
 Solid {
@@ -353,6 +354,7 @@ Solid {
           203, -1
         ]
       }
+      castShadows IS castShadows
     }
     Transform {
       translation 0 -0.55 0
@@ -372,6 +374,7 @@ Solid {
             radius 0.15
             subdivision 4
           }
+          castShadows IS castShadows
         }
       ]
     }

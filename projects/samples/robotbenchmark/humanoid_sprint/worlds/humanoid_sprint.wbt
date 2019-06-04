@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "The humanoid sprint benchmark aims at programing a NAO robot in Python to run a 10 meter race. "
@@ -33,18 +33,30 @@ TexturedBackgroundLight {
 DEF TRACK Floor {
   size 11.78 3
   tileSize 11.78 3
-  texture [
-    "textures/nao_10m_track.jpg"
-  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/nao_10m_track.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
 }
 DEF GRASS Floor {
   translation 0 -0.005 0
   name "grass"
   size 20 10
   tileSize 1 1
-  texture [
-    "textures/grass.jpg"
-  ]
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/grass.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+  }
 }
 DEF NAO Nao {
   translation -5.345 0.334 -0.65

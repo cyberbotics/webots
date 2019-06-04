@@ -36,7 +36,7 @@ The documentation on the API functions can be found in [Reference Manual](../ref
 
 %figure "Top view of the e-puck model. The green arrow indicates the front of the robot. The red lines represent the directions of the infrared distance sensors. The string labels corresponds to the distance sensor names."
 
-![tutorial_e-puck_top_view.png](images/tutorial_e-puck_top_view.png)
+![tutorial_e-puck_top_view.png](images/tutorial_e-puck_top_view.thumbnail.jpg)
 
 %end
 

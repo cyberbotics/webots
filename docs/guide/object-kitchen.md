@@ -8,7 +8,7 @@ A customizable (size, texture, etc.) biscuit box.
 
 %figure
 
-![BiscuitBox](images/objects/breakfast/BiscuitBox/model.png)
+![BiscuitBox](images/objects/breakfast/BiscuitBox/model.thumbnail.png)
 
 %end
 
@@ -44,7 +44,7 @@ A customizable (size, texture, etc.) cereal box.
 
 %figure
 
-![CerealBox](images/objects/breakfast/CerealBox/model.png)
+![CerealBox](images/objects/breakfast/CerealBox/model.thumbnail.png)
 
 %end
 
@@ -80,7 +80,7 @@ A honey jar.
 
 %figure
 
-![HoneyJar](images/objects/breakfast/HoneyJar/model.png)
+![HoneyJar](images/objects/breakfast/HoneyJar/model.thumbnail.png)
 
 %end
 
@@ -116,7 +116,7 @@ A jam jar.
 
 %figure
 
-![JamJar](images/objects/breakfast/JamJar/model.png)
+![JamJar](images/objects/breakfast/JamJar/model.thumbnail.png)
 
 %end
 
@@ -151,7 +151,7 @@ An hot plate.
 
 %figure
 
-![HotPlate](images/objects/components/HotPlate/model.png)
+![HotPlate](images/objects/components/HotPlate/model.thumbnail.png)
 
 %end
 
@@ -181,7 +181,7 @@ A sink.
 
 %figure
 
-![Sink](images/objects/components/Sink/model.png)
+![Sink](images/objects/components/Sink/model.thumbnail.png)
 
 %end
 
@@ -211,7 +211,7 @@ A customizable (size, texture, etc.) worktop.
 
 %figure
 
-![Worktop](images/objects/components/Worktop/model.png)
+![Worktop](images/objects/components/Worktop/model.thumbnail.png)
 
 %end
 
@@ -249,7 +249,7 @@ A fridge with 2 doors (0.7 x 1.8 x 0.7 m).
 
 %figure
 
-![Fridge](images/objects/fridge/Fridge/model.png)
+![Fridge](images/objects/fridge/Fridge/model.thumbnail.png)
 
 %end
 
@@ -281,7 +281,7 @@ An oven (0.5 x 0.68 x 0.44 m).
 
 %figure
 
-![Oven](images/objects/oven/Oven/model.png)
+![Oven](images/objects/oven/Oven/model.thumbnail.png)
 
 %end
 
@@ -313,7 +313,7 @@ A carafe.
 
 %figure
 
-![Carafe](images/objects/utensils/Carafe/model.png)
+![Carafe](images/objects/utensils/Carafe/model.thumbnail.png)
 
 %end
 
@@ -343,7 +343,7 @@ A cookware.
 
 %figure
 
-![Cookware](images/objects/utensils/Cookware/model.png)
+![Cookware](images/objects/utensils/Cookware/model.thumbnail.png)
 
 %end
 
@@ -376,7 +376,7 @@ A fork.
 
 %figure
 
-![Fork](images/objects/utensils/Fork/model.png)
+![Fork](images/objects/utensils/Fork/model.thumbnail.png)
 
 %end
 
@@ -406,7 +406,7 @@ A glass.
 
 %figure
 
-![Glass](images/objects/utensils/Glass/model.png)
+![Glass](images/objects/utensils/Glass/model.thumbnail.png)
 
 %end
 
@@ -436,7 +436,7 @@ A knife.
 
 %figure
 
-![Knife](images/objects/utensils/Knife/model.png)
+![Knife](images/objects/utensils/Knife/model.thumbnail.png)
 
 %end
 
@@ -466,7 +466,7 @@ A lid.
 
 %figure
 
-![Lid](images/objects/utensils/Lid/model.png)
+![Lid](images/objects/utensils/Lid/model.thumbnail.png)
 
 %end
 
@@ -499,7 +499,7 @@ A customizable (dimensions, texture, etc. ) plate.
 
 %figure
 
-![Plate](images/objects/utensils/Plate/model.png)
+![Plate](images/objects/utensils/Plate/model.thumbnail.png)
 
 %end
 
@@ -538,7 +538,7 @@ A spoon.
 
 %figure
 
-![Spoon](images/objects/utensils/Spoon/model.png)
+![Spoon](images/objects/utensils/Spoon/model.thumbnail.png)
 
 %end
 
@@ -571,7 +571,7 @@ A wine glass.
 
 %figure
 
-![Wineglass](images/objects/utensils/Wineglass/model.png)
+![Wineglass](images/objects/utensils/Wineglass/model.thumbnail.png)
 
 %end
 
@@ -601,7 +601,7 @@ A wooden spoon.
 
 %figure
 
-![WoodenSpoon](images/objects/utensils/WoodenSpoon/model.png)
+![WoodenSpoon](images/objects/utensils/WoodenSpoon/model.thumbnail.png)
 
 %end
 

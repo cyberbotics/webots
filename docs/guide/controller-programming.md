@@ -226,7 +226,7 @@ The following [figure](#synchronization-of-simulation-and-controller-steps) depi
 
 %figure "Synchronization of simulation and controller steps"
 
-![controller_synchronization.png](images/controller_synchronization.png)
+![controller_synchronization.png](images/controller_synchronization.thumbnail.png)
 
 %end
 

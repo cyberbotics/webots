@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -21,7 +21,7 @@ Solid {
     local mass = fields.mass.value
 
     local max_size = 3
-    local min_size = 0.1
+    local min_size = 0.01
 
     if size.x > max_size then
       io.stderr:write("'size.x' greater than " .. max_size .. "\n")

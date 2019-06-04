@@ -70,7 +70,6 @@ void wr_phong_material_set_shininess(WrMaterial *material, float shininess);
 void wr_phong_material_set_transparency(WrMaterial *material, float transparency);
 void wr_phong_material_set_all_parameters(WrMaterial *material, const float *ambient, const float *diffuse,
                                           const float *specular, const float *emissive, float shininess, float transparency);
-void wr_phong_material_get_linear_diffuse(WrMaterial *material, float *diffuse);
 bool wr_phong_material_is_translucent(const WrMaterial *material);
 void wr_phong_material_set_color_per_vertex(WrMaterial *material, bool enabled);
 

@@ -7,13 +7,13 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %figure "3D view of the 4 wheels robot. Note that the coordinate system representations of the robot body and of its wheels are oriented the same way. Their +x-vector (in red) defines the left of the robot, their +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented in a different way, their +x-vector indicates the direction of the sensor."
 
-![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.png)
+![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.thumbnail.jpg)
 
 %end
 
 %figure "Top view of the 4 wheels robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the devices."
 
-![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.png)
+![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.thumbnail.jpg)
 
 %end
 

@@ -81,7 +81,7 @@ Finally, *spot[i]* is a factor used only in case of a [SpotLight](spotlight.md),
 
 %figure "SpotLight factor"
 
-![spot_light_formula.png](images/spot_light_formula.png)
+![spot_light_formula.png](images/spot_light_formula.thumbnail.png)
 
 %end
 

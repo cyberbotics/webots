@@ -28,12 +28,12 @@
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
-#include "WbMaterial.hpp"
 #include "WbMotor.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
+#include "WbPbrAppearance.hpp"
 #include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -302,6 +302,8 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
       animationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
       setAnimation = "\n          view.setAnimation(\"" + QFileInfo(animationFilename).fileName() + "\", \"play\", true);";
     }
+
+    templateValues << QPair<QString, QString>("%wwiPath%", WbStandardPaths::resourcesWebPath() + "wwi/");
     templateValues << QPair<QString, QString>("%setAnimation%", setAnimation);
     templateValues << QPair<QString, QString>("%title%", titleString);
     templateValues << QPair<QString, QString>("%description%", infoString);
@@ -430,6 +432,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           deviceObject.insert("minPosition", motor->minPosition());
           deviceObject.insert("maxPosition", motor->maxPosition());
           deviceObject.insert("position", motor->position());
+          deviceObject.insert("initialPosition", motor->joint()->solidEndPoint()->rotation().angle());
           if (motor->positionIndex() == 2)
             deviceObject.insert("axis", motor->joint()->parameters2()->axis().toString(WbPrecision::FLOAT_MAX));
           else
@@ -463,15 +466,16 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           for (int c = 0; c < led->colorsCount(); ++c)
             colorArray.push_back(led->color(c).toString(WbPrecision::FLOAT_MAX));
           deviceObject.insert("ledColors", colorArray);
-          QJsonArray materialArray;
-          foreach (const WbMaterial *material, led->materials())
-            materialArray.push_back(QString("n%1").arg(material->uniqueId()));
-          deviceObject.insert("ledMaterialsIDs", materialArray);
+          QJsonArray appearanceArray;
+          foreach (const WbPbrAppearance *appearance, led->pbrAppearances())
+            appearanceArray.push_back(QString("n%1").arg(appearance->uniqueId()));
+          deviceObject.insert("ledPBRAppearanceIDs", appearanceArray);
         }
       }
       deviceArray.push_back(deviceObject);
     }
     robotObject.insert("name", robot->name());
+    robotObject.insert("robotID", QString("n%1").arg(robot->uniqueId()));
     robotObject.insert("devices", deviceArray);
     robotArray.push_back(robotObject);
   }

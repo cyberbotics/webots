@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 #include "WbHinge2Joint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
@@ -47,6 +47,10 @@ void WbHinge2Joint::init() {
   mInitialPosition2 = mPosition2;
 }
 
+WbHinge2Joint::WbHinge2Joint(const QString &modelName, WbTokenizer *tokenizer) : WbHingeJoint(modelName, tokenizer) {
+  init();
+}
+
 WbHinge2Joint::WbHinge2Joint(WbTokenizer *tokenizer) : WbHingeJoint("Hinge2Joint", tokenizer) {
   init();
 }
@@ -69,7 +73,7 @@ void WbHinge2Joint::preFinalize() {
     if (device2(i) && !device2(i)->isPreFinalizedCalled())
       device2(i)->preFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPreFinalizedCalled())
     p2->preFinalize();
@@ -86,7 +90,7 @@ void WbHinge2Joint::postFinalize() {
     if (device2(i) && !device2(i)->isPostFinalizedCalled())
       device2(i)->postFinalize();
   }
-  // the following code could be simplified
+
   WbBaseNode *const p2 = dynamic_cast<WbBaseNode *>(mParameters2->value());
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();

@@ -48,6 +48,8 @@ private slots:
   void propagateNodeDeletion(WbNode *node);
   void newWorld();
   void deleteWorld();
+  void setWorldLoadingProgress(const int progress);
+  void setWorldLoadingStatus(const QString &status) { mCurrentWorldLoadingStatus = status; }
   void start(int port);
   void stop();
   void onNewConnection();
@@ -76,7 +78,7 @@ private:
                         const QString &filename);
   void sendWorldStateToClient(QWebSocket *client, const QString &state);
   void sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures);
-  void startX3domStreaming(QWebSocket *client);
+  void startX3dStreaming(QWebSocket *client);
   void generateX3dWorld();
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
@@ -91,6 +93,7 @@ private:
 
   qint64 mLastUpdateTime;
 
+  QString mCurrentWorldLoadingStatus;
   QString mMessageToClients;
   bool mMonitorActivity;
   bool mDisableTextStreams;

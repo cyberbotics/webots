@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -195,7 +195,7 @@ PROTO RangeRoverSportSVR [
       }
       # vehicle shape
       DEF COACHWORK_PRIMARY Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color
         }
         geometry RangeRoverSportSVRCoachworkPrimaryMesh {

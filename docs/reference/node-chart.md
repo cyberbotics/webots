@@ -81,13 +81,13 @@ graph LR
   Light -.-> PointLight[[PointLight](pointlight.md)]
   Light -.-> SpotLight[[SpotLight](spotlight.md)]
 
-  Joint([Joint](joint.md)) -.-> BallJoint[[BallJoint](balljoint.md)]
-  Joint -.-> HingeJoint[[HingeJoint](hingejoint.md)]
-    HingeJoint --> Hinge2Joint([Hinge2Joint](hinge2joint.md))
+  Joint([Joint](joint.md)) -.-> HingeJoint[[HingeJoint](hingejoint.md)]
+    HingeJoint --> Hinge2Joint[[Hinge2Joint](hinge2joint.md)]
+      Hinge2Joint --> BallJoint[[BallJoint](balljoint.md)]
   Joint -.-> SliderJoint[[SliderJoint](sliderjoint.md)]
 
-  BallJointParameters[[BallJointParameters](balljointparameters.md)]
   JointParameters[[JointParameters](jointparameters.md)] --> HingeJointParameters[[HingeJointParameters](hingejointparameters.md)]
+  JointParameters --> BallJointParameters[[BallJointParameters](balljointparameters.md)]
 
   subgraph other Nodes
     Appearance[[Appearance](appearance.md)]
@@ -105,6 +105,7 @@ graph LR
     LensFlare[[LensFlare](lensflare.md)]
     Material[[Material](material.md)]
     Muscle[[Muscle](muscle.md)]
+    Normal[[Normal](normal.md)]
     PBRAppearance[[PBRAppearance](pbrappearance.md)]
     Physics[[Physics](physics.md)]
     Recognition[[Recognition](recognition.md)]
@@ -125,7 +126,7 @@ graph LR
   class AbstractClass,Device,Geometry,Joint,JointDevice,Light,Motor,SolidDevice AbstractClassStyle;
   class BoundingObject,Capsule,Plane secondaryNode;
   class Box,Cylinder,EleveationGrid,IndexedFaceSet,Sphere highlightedSecondaryNode;
-  class Appearance,Background,Color,Cone,Coordinate,DirectionalLight,Fog,Group,ImageTexture,IndexedLineSet,Material,PointLight,PointSet,Shape,SpotLight,TextureCoordinate,TextureTransform,Transform,Viewpoint,WorldInfo highlightedNode;
+  class Appearance,Background,Color,Cone,Coordinate,DirectionalLight,Fog,Group,ImageTexture,IndexedLineSet,Material,Normal,PointLight,PointSet,Shape,SpotLight,TextureCoordinate,TextureTransform,Transform,Viewpoint,WorldInfo highlightedNode;
   class AbstractClassDefinition,BoundingObjectDefinition,VRML97Definition DefinitionStyle;
 %end
 %end

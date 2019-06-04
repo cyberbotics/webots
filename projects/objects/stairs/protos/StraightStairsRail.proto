@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -16,7 +16,7 @@ PROTO StraightStairsRail [
   field SFFloat    balusterRadius   0.01                                                               # Defines the radius of the balusters.
   field SFInt32    nBalusters       20                                                                 # Defines the number of balusters.
   field SFNode     appearance       VarnishedPine { textureTransform TextureTransform { scale 4 4 } }  # Defines the appearance of the rail.
-  field SFString   contactMaterial "default"                                                           # Is `Solid.contactMaterial`.  
+  field SFString   contactMaterial "default"                                                           # Is `Solid.contactMaterial`.
 ]
 {
   %{
@@ -55,8 +55,8 @@ PROTO StraightStairsRail [
       io.stderr:write("'balusterRadius' must be positive\n")
       balusterRadius = fields.balusterRadius.defaultValue
     end
-    if fields.nBalusters.value <= 0.0 then
-      io.stderr:write("'nBalusters' must be positive\n")
+    if fields.nBalusters.value < 0.0 then
+      io.stderr:write("'nBalusters' must be non-negative\n")
       nBalusters = fields.nBalusters.defaultValue
     end
 
