@@ -82,7 +82,7 @@ jobs:
             - curl
             - libwebpdemux1
             - fakeroot
-            - xserver-xorg-video-dummy
+            - xserver-xorg-video-dummy  # TODO: identify which of the following packages are really needed
             - xpra
             - xorg-dev
             - libgl1-mesa-dev
@@ -93,7 +93,7 @@ jobs:
         - sudo apt update
         - sudo apt install -y python3.6-dev python3.7-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - sudo usermod -a -G audio travis
+        - sudo usermod -a -G audio travis  # TODO: maybe this is useless for debuging speaker test
         - sudo apt install -y portaudio19-dev
         - sudo apt install -y libasound2-dev alsa-utils alsa-oss
       script:
