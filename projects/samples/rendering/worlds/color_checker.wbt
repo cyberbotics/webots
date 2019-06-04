@@ -2,13 +2,10 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.6322496256155302 -0.7552361083029172 -0.17285494388210676 0.6946527911765291
+  orientation -0.6322494625242187 -0.7552362603019459 -0.17285487630659566 0.6946524859420807
   position -1.15755639572047 0.9368712107386485 1.652438327229894
 }
-Background {
-  skyColor [
-    1 1 1
-  ]
+TexturedBackground {
 }
 Transform {
   translation 0 0 -0.5
@@ -21,6 +18,8 @@ Transform {
             "textures/color_checker_chart.png"
           ]
         }
+        metalness 0
+        roughness 0.2
       }
       geometry Plane {
         size 1 0.66
