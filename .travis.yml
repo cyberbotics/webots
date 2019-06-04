@@ -8,6 +8,7 @@ jobs:
   include:
     - &tests_staging
       stage: Tests
+      if: type = cron
       git:
         depth: 3
         submodules: false
