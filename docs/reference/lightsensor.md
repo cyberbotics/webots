@@ -188,7 +188,7 @@ public class LightSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_light_sensor_enable(tag, sampling_period)
 wb_light_sensor_disable(tag)
 period = wb_light_sensor_get_sampling_period(tag)

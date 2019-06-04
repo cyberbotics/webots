@@ -247,7 +247,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_camera_enable(tag, sampling_period)
 wb_camera_disable(tag)
 period = wb_camera_get_sampling_period(tag)
@@ -352,7 +352,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 fov = wb_camera_get_fov(tag)
 fov = wb_camera_get_min_fov(tag)
 fov = wb_camera_get_max_fov(tag)
@@ -460,7 +460,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 fov = wb_camera_get_focal_length(tag)
 fov = wb_camera_get_focal_distance(tag)
 fov = wb_camera_get_max_focal_distance(tag)
@@ -551,7 +551,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 width = wb_camera_get_width(tag)
 height = wb_camera_get_height(tag)
 ```
@@ -632,7 +632,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 near = wb_camera_get_near(tag)
 ```
 
@@ -741,7 +741,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 image = wb_camera_get_image(tag)
 ```
 
@@ -846,7 +846,7 @@ The first two dimensions of the array are the width and the height of camera's i
 The `wb_camera_get_range_image` function returns a 2-dimensional array of `float('single')`.
 The dimensions of the array are the width and the length of camera's image and the float values are the metric distance values deduced from the OpenGL z-buffer.
 
-> ```matlab
+> ```MATLAB
 > camera = wb_robot_get_device('camera');
 > wb_camera_enable(camera,TIME_STEP);
 > half_width = floor(wb_camera_get_width(camera) / 2);
@@ -923,7 +923,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_camera_save_image(tag, 'filename', quality)
 ```
 
@@ -1041,7 +1041,7 @@ public class Camera extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 value = wb_camera_has_recognition(tag)
 wb_camera_recognition_disable(tag)
 wb_camera_recognition_enable(tag, sampling_period)
@@ -1171,7 +1171,7 @@ public class CameraRecognitionObject {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 structs.WbCameraRecognitionObject.members = struct(
   'id', 'int32',
   'position', 'double#3',
