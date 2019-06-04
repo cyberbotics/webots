@@ -949,7 +949,7 @@ while wb_robot_step(TIME_STEP) ~= -1
     % turn right
     left_speed  += 0.5 * MAX_SPEED;
     right_speed -= 0.5 * MAX_SPEED;
-  else if (right_obstacle)
+  elseif right_obstacle
     % turn left
     left_speed  -= 0.5 * MAX_SPEED;
     right_speed += 0.5 * MAX_SPEED;
