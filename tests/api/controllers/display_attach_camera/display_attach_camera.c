@@ -17,12 +17,9 @@ static void quick_assert_color(WbDeviceTag camera, int px, int py, int expected,
   const unsigned char *image = wb_camera_get_image(camera);
   int w = wb_camera_get_width(camera);
 
-  printf("%s %d %d %d\n", error_msg, wb_camera_image_get_red(image, w, px, py), wb_camera_image_get_green(image, w, px, py),
-         wb_camera_image_get_blue(image, w, px, py));
   ts_assert_color_in_delta(wb_camera_image_get_red(image, w, px, py), wb_camera_image_get_green(image, w, px, py),
                            wb_camera_image_get_blue(image, w, px, py), (expected >> 16) & 0xFF, (expected >> 8) & 0xFF,
-                           expected & 0xFF, 1, "%s %d %d %d", error_msg, wb_camera_image_get_red(image, w, px, py),
-                           wb_camera_image_get_green(image, w, px, py), wb_camera_image_get_blue(image, w, px, py));
+                           expected & 0xFF, 1, error_msg);
 }
 
 int main(int argc, char **argv) {
@@ -49,8 +46,6 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera, "0xCFCFCF.jpg", 95);
-  wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 40, 40, 0xCFCFCF, "Wrong initial display color.");
 
   wb_display_set_alpha(display, 0.0);
@@ -61,8 +56,6 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera, "0x00CF00.jpg", 95);
-  wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 20, 40, 0x00CF00, "Wrong display green color after 'wb_display_draw_rectangle'.");
   quick_assert_color(camera, 60, 40, RED, "Wrong display red color after 'wb_display_draw_rectangle'.");
 
@@ -70,8 +63,6 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera, "0x00EF00.jpg", 95);
-  wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 20, 40, 0x00CF00, "Wrong display attaching the camera (green shape not detected)");
   quick_assert_color(camera, 60, 40, BLUE, "Wrong display attaching the camera (blue shape not detected)");
 
@@ -79,8 +70,6 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera, "RED.jpg", 95);
-  wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 20, 40, 0x00CF00, "Wrong display green color after detatching the camera.");
   quick_assert_color(camera, 60, 40, RED, "Wrong display red color after detaching the camera.");
 
@@ -89,8 +78,6 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_camera_save_image(camera, "wb_display_draw_rectangle.jpg", 95);
-  wb_robot_step(TIME_STEP);
   quick_assert_color(camera, 40, 40, 0xCFCFCF, "Wrong display color after 'wb_display_draw_rectangle'.");
 
   ts_send_success();
