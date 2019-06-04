@@ -86,8 +86,8 @@ jobs:
 #            - xpra
 #            - xorg-dev
 #            - libgl1-mesa-dev
-            - mesa-utils
-            - libgl1-mesa-glx
+#            - mesa-utils
+#            - libgl1-mesa-glx
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
