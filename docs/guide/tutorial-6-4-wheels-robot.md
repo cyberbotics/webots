@@ -219,7 +219,7 @@ for (int i = 0; i < 4 ; i++)
 %tab "Python"
 ```python
 # initialize motors
-Motor wheels = []
+wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
     wheels.append(robot.getMotor(name))
