@@ -1,0 +1,32 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.6322496256155302 -0.7552361083029172 -0.17285494388210676 0.6946527911765291
+  position -1.15755639572047 0.9368712107386485 1.652438327229894
+}
+Background {
+  skyColor [
+    1 1 1
+  ]
+}
+Transform {
+  translation 0 0 -0.5
+  rotation 1 0 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "textures/color_checker_chart.png"
+          ]
+        }
+      }
+      geometry Plane {
+        size 1 0.66
+      }
+    }
+  ]
+}
+ColorCheckerChart {
+}
