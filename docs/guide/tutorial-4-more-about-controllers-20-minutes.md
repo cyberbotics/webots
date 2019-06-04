@@ -575,11 +575,11 @@ Finally, use the information about the obstacle to actuate the wheels as follows
 > left_speed  = 0.5 * MAX_SPEED;
 > right_speed = 0.5 * MAX_SPEED;
 > % modify speeds according to obstacles
-> if (left_obstacle)
+> if left_obstacle
 >   % turn right
 >   left_speed  += 0.5 * MAX_SPEED;
 >   right_speed -= 0.5 * MAX_SPEED;
-> else if (right_obstacle)
+> elseif right_obstacle
 >   % turn left
 >   left_speed  -= 0.5 * MAX_SPEED;
 >   right_speed += 0.5 * MAX_SPEED;
@@ -945,7 +945,7 @@ while wb_robot_step(TIME_STEP) ~= -1
   left_speed  = 0.5 * MAX_SPEED;
   right_speed = 0.5 * MAX_SPEED;
   % modify speeds according to obstacles
-  if (left_obstacle)
+  if left_obstacle
     % turn right
     left_speed  += 0.5 * MAX_SPEED;
     right_speed -= 0.5 * MAX_SPEED;
