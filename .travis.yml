@@ -92,7 +92,7 @@ jobs:
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
-        - sudo apt install python3.7-dev
+        - sudo apt install python3.6-dev python3.7-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script:
         - make release -j2
