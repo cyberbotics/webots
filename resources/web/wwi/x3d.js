@@ -894,7 +894,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseBackground(background) {
-    var color = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'), false);
+    var color = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.scene.background = color;
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
