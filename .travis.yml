@@ -2,8 +2,8 @@ cache:
   pip: true
   directories:
   - dependencies
-# services:
-#  - xvfb
+services:
+  - xvfb
 jobs:
   include:
     - &tests_staging
@@ -96,7 +96,7 @@ jobs:
       script:
         - make release -j2
         - make release -j2 -C tests
-        - Xvfb :99 -screen 0 1024x768x16 &
+#        - Xvfb :99 -screen 0 1024x768x16 &
         - python tests/test_suite.py --no-ansi-escape --nomake
     - &compilation_staging
       stage: Compilation
