@@ -88,7 +88,6 @@ jobs:
             - libgl1-mesa-dev
             - mesa-utils
             - libgl1-mesa-glx
-            - xvfb
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
