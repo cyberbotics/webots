@@ -62,7 +62,10 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  quick_assert_color(camera, 20, 40, 0x00EF00, "Wrong display attaching the camera (green shape not detected)");
+  quick_assert_color(camera, 20, 40, 0x00EF00, "Wrong display attaching the camera (green shape not detected) %d %d %d",
+                     wb_camera_image_get_red(wb_camera_get_image(camera), wb_camera_get_width(camera), 20, 40),
+                     wb_camera_image_get_green(wb_camera_get_image(camera), wb_camera_get_width(camera), 20, 40),
+                     wb_camera_image_get_blue(wb_camera_get_image(camera), wb_camera_get_width(camera), 20, 40));
   quick_assert_color(camera, 60, 40, BLUE, "Wrong display attaching the camera (blue shape not detected)");
 
   wb_display_detach_camera(display);
