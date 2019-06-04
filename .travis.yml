@@ -84,8 +84,8 @@ jobs:
             - fakeroot
             - xserver-xorg-video-dummy  # TODO: identify which of the following packages are really needed
             - xpra
-            - xorg-dev
-            - libgl1-mesa-dev
+#            - xorg-dev
+#            - libgl1-mesa-dev
             - mesa-utils
             - libgl1-mesa-glx
       before_install:
