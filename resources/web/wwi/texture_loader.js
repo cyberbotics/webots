@@ -15,6 +15,61 @@ var TextureLoader = {
     return new THREE.Texture();
   },
 
+  createTexture: function(color, width = 1, height = 1) {
+    var size = width * height;
+    var data = new Uint8Array(3 * size);
+    var r = Math.floor(color.r * 255);
+    var g = Math.floor(color.g * 255);
+    var b = Math.floor(color.b * 255);
+    for (let i = 0; i < size; i++) {
+      let stride = i * 3;
+      data[ stride ] = r;
+      data[ stride + 1 ] = g;
+      data[ stride + 2 ] = b;
+    }
+    var dataTexture = new THREE.DataTexture(data, width, height, THREE.RGBFormat);
+    dataTexture.needsUpdate = true;
+    return dataTexture;
+  },
+
+  createColoredCubeTexture: function(color, width = 1, height = 1) {
+    // Create an off-screen canvas.
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    // Create RGB values.
+    var r = Math.floor(color.r * 255);
+    var g = Math.floor(color.g * 255);
+    var b = Math.floor(color.b * 255);
+
+    // Push pixels.
+    var data = context.createImageData(width, height);
+    var size = width * height;
+    for (let i = 0; i < size; i++) {
+      let stride = i * 4;
+      data.data[stride + 0] = r;
+      data.data[stride + 1] = g;
+      data.data[stride + 2] = b;
+      data.data[stride + 3] = 255;
+    }
+    context.putImageData(data, 0, 0);
+
+    // Encode the image to data-uri with base64:
+    var img = document.createElement('img');
+    img.src = canvas.toDataURL();
+    img.style.width = width + 'px';
+    img.style.height = height + 'px';
+
+    console.image(img.src);
+
+    var cubemap = new THREE.CubeTexture(
+      [img, img, img, img, img, img]
+    );
+    return cubemap;
+  },
+
   loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
