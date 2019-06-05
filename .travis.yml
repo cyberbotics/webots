@@ -7,7 +7,7 @@ jobs:
     - &tests_staging
       stage: Tests
       git:
-        depth: 3
+        depth: 100
         submodules: false
       os: linux
       dist: xenial
