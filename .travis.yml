@@ -100,7 +100,6 @@ jobs:
         - sudo apt-get install -y ros-kinetic-desktop-full ros-kinetic-sensor-msgs
         - sudo rosdep init
         - rosdep update
-        - sudo pip3 install rospkg catkin_pkg empy defusedxml netifaces --target=/usr/lib/python3.5  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
         - make release -j2 -C tests
