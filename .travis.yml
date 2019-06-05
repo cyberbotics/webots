@@ -101,7 +101,7 @@ jobs:
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'  # should we move ros to a dedicated stage ?
         - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
         - sudo apt update -qq
-        - sudo apt-get install -y ros-kinetic-desktop-full ros-kinetic-sensor-msgs
+        - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs
         - sudo rosdep init
         - rosdep update
       script:
