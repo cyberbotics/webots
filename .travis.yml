@@ -4,6 +4,12 @@ cache:
   - dependencies
 services:
   - xvfb
+notifications:
+  email:
+    recipients:
+      - support@cyberbotics.com
+    on_success: change
+    on_failure: always
 jobs:
   include:
     - &source_tests_staging
