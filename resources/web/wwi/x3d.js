@@ -971,6 +971,7 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.viewpoint.camera.userData.x3dType = 'Viewpoint';
     this.scene.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
     this.scene.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    this.scene.viewpoint.camera.userData.exposure = parseFloat(getNodeAttribute(viewpoint, 'exposure', '1.0'));
     return undefined;
   }
 
