@@ -50,6 +50,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
     var hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
+    hdrResolvePass.material.uniforms['exposure'].value = 2.0; // empirically found.
     this.composer.addPass(hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
