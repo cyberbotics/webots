@@ -72,6 +72,9 @@ class TestCppCheck(unittest.TestCase):
         self.sourceFiles = []
         self.projectsSourceFiles = []
         for line in output:
+            extension = os.path.splitext(line)[1][1:].lower()
+            if extension not in ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']:
+                continue
             for sourceDir in candidateSourceDirs:
                 if line.startswith(sourceDir):
                     for skippedDir in skippedDirs:
