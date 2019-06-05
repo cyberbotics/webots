@@ -334,7 +334,8 @@ THREE.X3DLoader = class X3DLoader {
         }
       } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
-        materialSpecifications.roughness = roughnessFactor * roughness;
+        if (roughness <= 0.0)
+          materialSpecifications.roughness = roughnessFactor;
       } else if (type === 'metalness')
         materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'normal')
