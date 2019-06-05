@@ -40,7 +40,7 @@ jobs:
             - python
     - &test_suite_staging
       stage: Test Suite
-      if: type = cron OR commit_message IN (travis unit, travis distrib, travis deploy)
+      if: type = cron OR commit_message IN (unit, distrib, deploy)
       git: &compilation_git
         depth: 3
         submodules: true
@@ -100,7 +100,7 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
     - &compilation_staging
       stage: Compilation
-      if: type = cron OR commit_message IN (travis distrib, travis deploy)
+      if: type = cron OR commit_message IN (distrib, deploy)
       git: *compilation_git
       os: linux
       dist: xenial
