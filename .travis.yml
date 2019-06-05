@@ -8,7 +8,7 @@ jobs:
   include:
     - &tests_staging
       stage: Tests
-      if: type = cron  #TODO: move this to test_suite stage
+      if: type = cron  #TODO: remove
       git:
         depth: 3
         submodules: false
@@ -40,6 +40,7 @@ jobs:
             - python
     - &test_suite_staging
       stage: Test Suite
+      if: type = cron OR commit_message IN (travis unit, travis distrib, travis deploy)
       git: &compilation_git
         depth: 3
         submodules: true
@@ -99,7 +100,7 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
     - &compilation_staging
       stage: Compilation
-      if: type = cron
+      if: type = cron OR commit_message IN (travis distrib, travis deploy)
       git: *compilation_git
       os: linux
       dist: xenial
