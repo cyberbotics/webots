@@ -19,7 +19,6 @@ import unittest
 import os
 import multiprocessing
 import subprocess
-import sys
 
 from distutils.spawn import find_executable
 
