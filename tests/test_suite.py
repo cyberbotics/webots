@@ -30,6 +30,9 @@ import multiprocessing
 
 from command import Command
 
+# monitor failures
+failures = 0
+
 # parse arguments
 filesArguments = []
 nomakeOption = False
@@ -262,14 +265,16 @@ for groupName in testGroups:
     command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=5 * 60)  # 5 minutes
+    command.runTest(timeout=10 * 60)  # 10 minutes
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
+            failures += 1
             appendToOutputFile(
                 'FAILURE: Webots has been terminated ' +
                 'by the test suite script\n')
         else:
+            failures += 1
             appendToOutputFile(
                 'FAILURE: Webots exits abnormally with this error code: ' +
                 str(command.returncode) + '\n')
@@ -284,6 +289,10 @@ for groupName in testGroups:
             appendToOutputFile('FAILURE: Some tests have not been executed\n')
             appendToOutputFile('- expected number of worlds: %d\n' % (worldsCount))
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
+        else:
+            with open(webotsStdErrFilename, 'r') as file:
+                if 'Failure' in file.read():
+                    failures += 1
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -314,3 +323,5 @@ appendToOutputFile('\n' + finalMessage + '\n')
 time.sleep(1)
 if monitorOutputCommand.isRunning():
     monitorOutputCommand.terminate(force=True)
+
+sys.exit(failures)
