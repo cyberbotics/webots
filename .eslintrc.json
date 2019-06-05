@@ -1,11 +1,12 @@
 {
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 6
   },
 
   "env": {
     "browser": true,
-    "jquery": true
+    "jquery": true,
+    "es6": true
   },
 
   "globals": {

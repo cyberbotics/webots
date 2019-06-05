@@ -123,6 +123,8 @@ void WbMotor::postFinalize() {
   connect(mControlPID, &WbSFVector3::changed, this, &WbMotor::updateControlPID);
   connect(mMinPosition, &WbSFDouble::changed, this, &WbMotor::updateMinAndMaxPosition);
   connect(mMaxPosition, &WbSFDouble::changed, this, &WbMotor::updateMinAndMaxPosition);
+  connect(mMinPosition, &WbSFDouble::changed, this, &WbMotor::minPositionChanged);
+  connect(mMaxPosition, &WbSFDouble::changed, this, &WbMotor::maxPositionChanged);
   connect(mSound, &WbSFString::changed, this, &WbMotor::updateSound);
   connect(mMuscles, &WbSFNode::changed, this, &WbMotor::updateMuscles);
   connect(mMaxForceOrTorque, &WbSFDouble::changed, this, &WbMotor::updateMaxForceOrTorque);

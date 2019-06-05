@@ -1,17 +1,21 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
 # A customizable conveyor belt moving at a constant speed.
 
 PROTO ConveyorBelt [
-  field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
-  field SFString   name            "conveyor belt"
-  field SFVec3f    size            1.5 0.6 0.5
-  field SFFloat    borderThickness 0.03            # Defines the thickness of the metal part around the conveyor belt.
-  field SFFloat    borderHeight    0.01            # Defines the height of the border around the conveyor.
-  field SFFloat    speed           0.5             # Defines the rubber band speed in meters per second.
+  field SFVec3f    translation      0 0 0
+  field SFRotation rotation         0 1 0 0
+  field SFString   name             "conveyor belt"
+  field SFVec3f    size             1.5 0.6 0.5
+  field SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }  # Defines the appearance of the conveyor belt.
+  field SFFloat    borderThickness  0.03                                                                 # Defines the thickness of the metal part around the conveyor belt.
+  field SFFloat    borderHeight     0.01                                                                 # Defines the height of the border around the conveyor.
+  field SFFloat    speed            0.5                                                                  # Defines the rubber band speed in meters per second.
+  field SFFloat    acceleration     -1                                                                   # Defines the acceleration of the conveyor belt.
+  field SFFloat    timer            0.0                                                                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
+  field SFFloat    textureAnimation 0.008                                                                # defines the speed of the texture animation.
 ]
 {
   %{
@@ -34,7 +38,7 @@ PROTO ConveyorBelt [
     rotation IS rotation
     name IS name
     controller "conveyor_belt"
-    controllerArgs "%{=fields.speed.value}%"
+    controllerArgs "%{=fields.speed.value}% %{=fields.timer.value}%"
     children [
       Track {
         translation 0 %{=0.75 * size.y}% 0
@@ -84,43 +88,15 @@ PROTO ConveyorBelt [
         device [
           LinearMotor {
             name "belt_motor"
+            acceleration IS acceleration
             maxVelocity %{= math.abs(fields.speed.value) }%
             sound ""
           }
         ]
-        textureAnimation %{=-0.008 / size.x}% 0
+        textureAnimation %{=-fields.textureAnimation.value / size.x}% 0
       }
       Shape {
-        appearance DEF BORDER_APPERANCE_A PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/corrugated_plates_base_color.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/corrugated_plates_normal.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/corrugated_plates_roughness.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/corrugated_plates_occlusion.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "textures/corrugated_plates_metalness.jpg"
-            ]
-          }
-          textureTransform TextureTransform {
-            scale 2 2
-          }
-        }
+        appearance IS appearance
         geometry IndexedFaceSet {
           %{
             local xA = 0.5 * size.x

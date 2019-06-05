@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3dx
@@ -75,7 +75,7 @@ PROTO Pioneer3dx [
                 url [
                   "textures/body_3dx_occlusion.jpg"
                 ]
-              } 
+              }
             }
             geometry IndexedFaceSet {
               coord DEF coord_BODY_MESH Coordinate {
@@ -477,7 +477,7 @@ PROTO Pioneer3dx [
                         url [
                           "textures/caster_wheel_occlusion.jpg"
                         ]
-                      }                      
+                      }
                     }
                     geometry IndexedFaceSet {
                       coord Coordinate {
@@ -680,7 +680,7 @@ PROTO Pioneer3dx [
                   url [
                     "textures/smooth_rubber_occlusion.jpg"
                   ]
-                } 
+                }
               }
               geometry IndexedFaceSet {
                 coord DEF coord_LEFT_TIRE Coordinate {

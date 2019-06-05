@@ -80,7 +80,7 @@ public class Brake extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_ROTATIONAL, WB_LINEAR
 
 wb_brake_set_damping_constant(tag, damping_constant)
@@ -179,7 +179,7 @@ public class Brake extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_brake_get_motor(tag)
 tag = wb_brake_get_position_sensor(tag)
 ```

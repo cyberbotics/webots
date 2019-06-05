@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -16,6 +16,7 @@ PROTO Window [
   field SFVec2f    windowSillSize         0.1 0.05          # Defines the size of the sill below the window.
   field SFNode     wallAppearance         Roughcast {}      # Defines the appearance of the wall.
   field SFNode     frameAppearance        VarnishedPine {}  # Defines the appearance of the frame.
+  field SFBool     castShadows            TRUE              # Defines whether this object should cast shadows.
 ]
 {
   %{
@@ -89,6 +90,7 @@ PROTO Window [
               geometry Box {
                 size %{= size.x }% %{= bottomWallHeight }% %{= size.z }%
               }
+              castShadows IS castShadows
             }
           ]
           name "bottom wall"
@@ -107,6 +109,7 @@ PROTO Window [
               geometry Box {
                 size %{= size.x }% %{= topWallHeight }% %{= size.z }%
               }
+              castShadows IS castShadows
             }
           ]
           name "top wall"
@@ -124,6 +127,7 @@ PROTO Window [
           metalness 0
           transparency 0.8
         }
+        castShadows IS castShadows
       }
       %{ if windowSillSize.x > 0 and windowSillSize.y > 0 then }%
         SolidBox { # window sill
@@ -131,6 +135,7 @@ PROTO Window [
           name "sill"
           size %{= size.x }% %{= windowSillSize.y }% %{= 2 * windowSillSize.x + size.z + 2 * frameSize.z }%
           appearance IS frameAppearance
+          castShadows IS castShadows
         }
       %{ end }%
       %{ if frameSize.x > 0 or frameSize.y > 0 then }%
@@ -139,24 +144,28 @@ PROTO Window [
           name "bottom frame"
           size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
           appearance IS frameAppearance
+          castShadows IS castShadows
         }
         SolidBox { # top frame
           translation 0 %{= bottomWallHeight + windowHeight - 0.5 * frameSize.y }% 0
           name "top frame"
           size %{= size.x - 2 * frameSize.x }% %{= frameSize.y }% %{= size.z + 2 * frameSize.z }%
           appearance IS frameAppearance
+          castShadows IS castShadows
         }
         SolidBox { # right frame
           translation %{= 0.5 * size.x - 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
           name "right frame"
           size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
           appearance IS frameAppearance
+          castShadows IS castShadows
         }
         SolidBox { # left frame
           translation %{= -0.5 * size.x + 0.5 * frameSize.x }% %{= bottomWallHeight + 0.5 * windowHeight }% 0
           name "left frame"
           size %{= frameSize.x }% %{= windowHeight }% %{= size.z + 2 * frameSize.z }%
           appearance IS frameAppearance
+          castShadows IS castShadows
         }
       %{ end }%
     ]

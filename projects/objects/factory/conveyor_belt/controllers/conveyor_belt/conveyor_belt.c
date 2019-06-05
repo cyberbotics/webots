@@ -23,18 +23,26 @@
 
 int main(int argc, char *argv[]) {
   wb_robot_init();
-  assert(argc == 2);  // speed excepted as argument.
+  assert(argc == 3);  // speed and timer excepted as argument.
 
   const int timestep = (int)wb_robot_get_basic_time_step();
 
   double speed;
   sscanf(argv[1], "%lf", &speed);
 
+  double timer;
+  sscanf(argv[2], "%lf", &timer);
+
   WbDeviceTag belt_motor = wb_robot_get_device("belt_motor");
   wb_motor_set_position(belt_motor, INFINITY);
   wb_motor_set_velocity(belt_motor, speed);
 
   while (wb_robot_step(timestep) != -1) {
+    if (timer > 0 && wb_robot_get_time() >= timer) {
+      wb_motor_set_velocity(belt_motor, 0.0);
+      wb_robot_step(timestep);
+      break;
+    }
   }
 
   wb_robot_cleanup();

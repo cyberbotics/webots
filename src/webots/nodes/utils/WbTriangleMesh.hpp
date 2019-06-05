@@ -37,8 +37,9 @@ public:
   virtual ~WbTriangleMesh();
 
   // to be initialized from a WbIndexedFaceSet
-  QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex,
-               double creaseAngle, bool counterClockwise);
+  QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
+               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
+               bool normalPerVertex);
   void cleanup();
 
   bool isValid() const { return mValid; }
@@ -85,22 +86,27 @@ private:
 
   bool mValid;
   bool mTextureCoordinatesValid;
+  bool mNormalsValid;
+  bool mNormalPerVertex;
   int mNTriangles;
 
   // populate mTmpCoordIndices and mTmpTexIndices
-  void indicesPass(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFInt *texCoordIndex);
+  void indicesPass(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFInt *normalIndex,
+                   const WbMFInt *texCoordIndex);
   // contains triplet of coordinate indices (valid triangles)
   QVarLengthArray<int, 1> mCoordIndices;
+  // contains doublet of normal indices (match with the mTmpNormalIndices order) or nothing
+  QVarLengthArray<int, 1> mTmpNormalIndices;
   // contains doublet of texture indices (match with the mTmpCoordIndices order) or nothing
   QVarLengthArray<int, 1> mTmpTexIndices;
   // populate mTmpTriangleNormals and mTmpVertexNormals
-  QString tmpNormalsPass(const WbMFVector3 *coord);
+  QString tmpNormalsPass(const WbMFVector3 *coord, const WbMFVector3 *normal);
   // contains normal vectors for each triangle (match with the mTmpCoordIndices order)
   QVarLengthArray<WbVector3, 1> mTmpTriangleNormals;
   // contains a map coordIndex->triangleIndex
   QMultiHash<int, int> mTmpVertexToTriangle;
   // populate mIndices, mVertices, mTextureCoordinates and mNormals
-  void finalPass(const WbMFVector3 *coord, const WbMFVector2 *texCoord, double creaseAngle);
+  void finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord, double creaseAngle);
   // populate mTextureCoordinates with default values
   void setDefaultTextureCoordinates(const WbMFVector3 *coord);
   // contains triplets representing the vertices (match with the mIndices order)
@@ -114,8 +120,8 @@ private:
   // contains triplet representing the normals (either per triangle or per vertex) (match with the mIndices order)
   QVarLengthArray<double, 1> mNormals;
   // improve tesselation problems by cutting bad triangles
-  QList<QPair<int, int>> cutTriangleIfNeeded(const WbMFVector3 *coord, const QList<QPair<int, int>> &tesselatedPolygon,
-                                             const int triangleIndex);
+  QList<QVector<int>> cutTriangleIfNeeded(const WbMFVector3 *coord, const QList<QVector<int>> &tesselatedPolygon,
+                                          const int triangleIndex);
   QStringList mWarnings;
 
   enum { X = 0, Y = 1, Z = 2 };

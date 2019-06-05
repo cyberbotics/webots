@@ -25,7 +25,7 @@ Additionally, in order to work correctly, the [Track](#track) node has to fulfil
 
 %figure "Track's bounding object example"
 
-![track_bounding_object.png](images/track_bounding_object.png)
+![track_bounding_object.png](images/track_bounding_object.thumbnail.jpg)
 
 %end
 
@@ -100,7 +100,7 @@ children [
 
 %figure "Convex track's belt shape example"
 
-![track_belt_convex.png](images/track_belt_convex.png)
+![track_belt_convex.png](images/track_belt_convex.thumbnail.jpg)
 
 %end
 
@@ -128,6 +128,6 @@ children [
 
 %figure "Concave track's belt shape example"
 
-![track_belt_concave.png](images/track_belt_concave.png)
+![track_belt_concave.png](images/track_belt_concave.thumbnail.jpg)
 
 %end

@@ -6,7 +6,7 @@ A painting (1.5 x 1 x 0.05 m).
 
 %figure
 
-![LandscapePainting](images/objects/paintings/LandscapePainting/model.png)
+![LandscapePainting](images/objects/paintings/LandscapePainting/model.thumbnail.png)
 
 %end
 
@@ -39,7 +39,7 @@ A painting (0.82 x 1.01 x 0.05 m).
 
 %figure
 
-![PortraitPainting](images/objects/paintings/PortraitPainting/model.png)
+![PortraitPainting](images/objects/paintings/PortraitPainting/model.thumbnail.png)
 
 %end
 

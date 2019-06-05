@@ -168,8 +168,7 @@ void WbPerformanceLog::writeTotalValues() {
 
   WbPreferences *prefs = WbPreferences::instance();
   out << "Shadows disabled: " << (prefs->value("OpenGL/disableShadows").toBool() ? "true" : "false") << "\n";
-  out << "Camera Anti Aliasing disabled: " << (prefs->value("OpenGL/disableCameraAntiAliasing").toBool() ? "true" : "false")
-      << "\n";
+  out << "Anti-aliasing disabled: " << (prefs->value("OpenGL/disableAntiAliasing").toBool() ? "true" : "false") << "\n";
 
   QList<QString> devicesKeys = mRenderingDevicesValues.keys();
   QList<QString> controllersKeys = mControllersValues.keys();

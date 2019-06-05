@@ -338,6 +338,9 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
     return cancelWorldLoading(true, true);
   }
   WbSimulationState::instance()->setEnabled(true);
+
+  WbNodeOperations::instance()->updateDictionary(true, mWorld->root());
+
   emit postWorldLoaded(reloading, isFirstLoad);
 
   emit deleteWorldLoadingProgressDialog();

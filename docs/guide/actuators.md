@@ -19,3 +19,13 @@ Using the nodes described [below](#generic-actuator-list) and their correspondin
 | ![RotationalMotor.png](images/actuators/RotationalMotor.png) | [RotationalMotor](../reference/rotationalmotor.md) | *Simulates a rotational motor.* |
 | ![Speaker.png](images/actuators/Speaker.png) | [Speaker](../reference/speaker.md) | *Simulates a loudspeaker device.* |
 | ![Track.png](images/actuators/Track.png) | [Track](../reference/track.md) | *Simulates a track for conveyor belts or tank robots.* |
+
+### Commercially Available Actuators
+
+Please [contact us](https://www.cyberbotics.com/contact) if you would like to see your favorite actuator here.
+
+#### Gripper
+
+| Preview | Name |  Manufacturer |
+| :---: | --- | --- | --- |
+| ![robotiq_3f_gripper_icon.png](images/actuators/robotiq_3f_gripper_icon.png) | [3F Gripper](gripper-actuators.md#robotiq-3f-gripper) | ROBOTIQ |

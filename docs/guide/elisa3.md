@@ -1,6 +1,6 @@
 ## GCTronic' Elisa 3
 
-%robot elisa3 images/robots/elisa3/model.png
+%robot elisa3 images/robots/elisa3/model.thumbnail.png
 
 The [GCTronic Elisa 3](http://www.gctronic.com/doc/index.php/Elisa-3) is a small size two-wheeled robot able to move horizontally or vertically thanks to its magnetic wheels.
 It has multiple sensors including IR distance sensors, accelerometer and an RF radio.

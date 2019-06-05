@@ -107,7 +107,7 @@ public class LidarPoint {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 structs.WbLidarPoint.members = struct(
   'x', 'single',
   'y', 'single',
@@ -267,7 +267,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_lidar_enable(tag, sampling_period)
 wb_lidar_disable(tag)
 period = wb_lidar_get_sampling_period(tag)
@@ -366,7 +366,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_lidar_enable_point_cloud(tag)
 wb_lidar_disable_point_cloud(tag)
 state = wb_lidar_is_point_cloud_enabled(tag)
@@ -461,7 +461,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 range = wb_lidar_get_range_image(tag)
 range = wb_lidar_get_layer_range_image(tag, layer)
 ```
@@ -570,7 +570,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 points = wb_lidar_get_point_cloud(tag)
 points = wb_lidar_get_layer_point_cloud(tag, layer)
 number_of_points = wb_lidar_get_number_of_points(tag)
@@ -671,7 +671,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 frequency = wb_lidar_get_frequency(tag)
 wb_lidar_set_frequency(tag, frequency)
 ```
@@ -761,7 +761,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 horizontal_resolution = wb_lidar_get_horizontal_resolution(tag)
 number_of_layers = wb_lidar_get_number_of_layers(tag)
 ```
@@ -849,7 +849,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 min_frequency = wb_lidar_get_min_frequency(tag)
 max_frequency = wb_lidar_get_max_frequency(tag)
 ```
@@ -935,7 +935,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 fov = wb_lidar_get_fov(tag)
 vertical_fov = wb_lidar_get_vertical_fov(tag)
 ```
@@ -1023,7 +1023,7 @@ public class Lidar extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 min_range = wb_lidar_get_min_range(tag)
 max_range = wb_lidar_get_max_range(tag)
 ```

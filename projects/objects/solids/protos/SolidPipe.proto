@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -16,7 +16,7 @@ PROTO SolidPipe [
   field SFFloat    thickness       0.1                                                                                                           # Defines the thickness of the pipe.
   field SFInt32    subdivision     24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
   field SFFloat    accuracy        0.0001                                                                                                        # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
-  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.  
+  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
   field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
   field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
 ]
@@ -67,9 +67,6 @@ PROTO SolidPipe [
       io.stderr:write("Either 'thickness' or 'subdivision' are too small for the box subdivision algorithm.\n")
       su = math.abs(su)
     end
-    local sv = height
-    local sw = radius * math.sin(alpha) * 2.0
-    local boxRadius = innerRadius + su / 2.0
   }%
   Solid {
     translation IS translation
@@ -191,31 +188,12 @@ PROTO SolidPipe [
     name IS name
     model "pipe"
     contactMaterial IS contactMaterial
-    boundingObject Group { # set of boxes
-      children [
-        %{ for i = 0, (subdivision - 1) do }%
-          %{
-            -- position of an internal box
-            local gamma = beta * i + beta / 2
-            local ax = boxRadius * math.sin(gamma)
-            local ay = 0
-            local az = boxRadius * math.cos(gamma)
-            local angle = gamma + 0.5 * math.pi
-            -- add small offset to boxes y translation to reduce constraints
-            -- on the top and bottm face due to co-planarity
-            local offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
-          }%
-          Transform {
-            translation %{= ax}% %{= ay + offset }% %{= az}%
-            rotation 0 1 0 %{= angle }%
-            children [
-              Box {
-                size %{= su}% %{= sv}% %{= sw}%
-              }
-            ]
-          }
-        %{ end }%
-      ]
+    boundingObject PipeBoundingObject {
+      height %{= height }%
+      radius %{= radius }%
+      thickness %{= thickness }%
+      subdivision %{= subdivision }%
+      accuracy IS accuracy
     }
     physics IS physics
   }

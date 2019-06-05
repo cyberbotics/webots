@@ -405,10 +405,6 @@ QString WbNode::fullName() const {
     return modelName();
 }
 
-const QString &WbNode::vrmlName() const {
-  return WbNodeFactory::instance()->modelToVrmlName(nodeModelName());
-}
-
 QString WbNode::fullVrmlName() const {
   if (isUseNode())
     return "USE " + mUseName;
@@ -1083,7 +1079,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
-    writer << "</" << vrmlName() << ">";
+    writer << "</" << x3dName() << ">";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();

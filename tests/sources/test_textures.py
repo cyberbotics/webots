@@ -43,14 +43,7 @@ duplicatedTextures = [
     'small_residential_building_wall_light_grey_base_color.jpg',
     'small_residential_building_wall_light_grey_occlusion.jpg',
     'dawn_cloudy_empty_bottom.jpg',
-    'noon_stormy_empty_bottom.jpg',
-    # to fix on develop
-    'pavement.jpg',
-    'car_leather_occlusion.jpg',
-    'car_leather_roughness.jpg',
-    'car_leather_normal.jpg',
-    'car_light_leather_base_color.jpg',
-    'car_dark_leather_base_color.jpg',
+    'noon_stormy_empty_bottom.jpg'
 ]
 
 duplicatedTexturePaths = [
