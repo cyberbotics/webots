@@ -90,7 +90,7 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - sudo apt-get update -qq
         - sudo usermod -a -G audio travis
-        - sudo apt-get install -y portaudio19-dev
+        - sudo apt-get install -y portaudio19-dev snd-dummy
         - sudo apt-get install -y libasound2-dev alsa-utils alsa-oss
         - sudo bash tests/prep-dummy-soundcard.sh
         - sudo apt-get install -y lame
