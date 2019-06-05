@@ -1100,7 +1100,7 @@ function convertStringToColor(s, sRGB = true) {
   var v = convertStringToVec3(s);
   var color = new THREE.Color(v.x, v.y, v.z);
   if (sRGB)
-    color = color.convertSRGBToLinear();
+    color.convertSRGBToLinear();
   return color;
 }
 
