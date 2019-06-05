@@ -3,8 +3,11 @@
 THREE.HDRResolveShader = {
   uniforms: {
     'tDiffuse': { value: null },
-    'gamma': { value: 2.2 }, // TODO: this should be fix.
     'exposure': { value: 1.0 }
+  },
+
+  defines: {
+    'GAMMA': 2.2
   },
 
   vertexShader: [
@@ -24,7 +27,7 @@ THREE.HDRResolveShader = {
     'void main() {',
     '  vec4 tex = texture2D( tDiffuse, vec2( vUv.x, vUv.y ) );',
     '  vec3 mapped = vec3(1.0) - exp(-tex.xyz * exposure);',
-    '  mapped = pow(mapped, vec3(1.0 / gamma));',
+    '  mapped = pow(mapped, vec3(1.0 / GAMMA));',
     '  gl_FragColor = vec4(mapped, 1.0);',
     '}'
   ].join('\n')
