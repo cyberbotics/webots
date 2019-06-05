@@ -48,7 +48,7 @@ jobs:
       dist: xenial
       install: skip # bundle install is not required
       language: python
-      python: 3.7
+      python: 2.7
       jdk: openjdk8
       addons: &apt_packages
         apt:
