@@ -88,10 +88,17 @@ jobs:
         - sudo apt update
         - sudo apt install -y python3.6-dev python3.7-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'  # should we move ros to a dedicated stage ?
+        - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+        - sudo apt-get install ros-kinetic-desktop-full ros-kinetic-sensor-msgs
+        - sudo rosdep init
+        - rosdep update
+        - sudo pip3 install rospkg catkin_pkg empy defusedxml netifaces --target=/usr/lib/python3.5  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
+        - ./tests/ros.sh
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_deploy)
