@@ -61,6 +61,7 @@ namespace webotsQtUtils {
     void stateDeleted(int index);
 
   private:
+    Pose &operator=(const Pose &);  // non copyable
     MotorTargetState *createOrRetrieve(Motor *motor);
     void clear();
     int computeStateToIndex(MotorTargetState *s) const;
