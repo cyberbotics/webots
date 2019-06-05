@@ -18,6 +18,8 @@
 import unittest
 import os
 import multiprocessing
+import subprocess
+import sys
 
 from distutils.spawn import find_executable
 
@@ -30,9 +32,10 @@ class TestCppCheck(unittest.TestCase):
         self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
-        self.cppcheck = 'cppcheck'
         if 'TRAVIS' in os.environ:
             self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
+        else:
+            self.cppcheck = 'cppcheck'
 
         self.includeDirs = [
             'include/controller/c',
@@ -71,7 +74,7 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/wren'
         ]
 
-        self.sourceDirs = [
+        candidateSourceDirs = [
             'src/webots',
             'src/wren',
             'src/lib/Controller',
@@ -84,8 +87,15 @@ class TestCppCheck(unittest.TestCase):
             'include/opencv2'
         ]
 
-        self.projectsSourceDirs = [
-            'projects'
+        candidateProjectsSourceDirs = [
+            'projects/default',
+            'projects/devices',
+            'projects/humans',
+            'projects/languages',
+            'projects/objects',
+            'projects/robots',
+            'projects/samples',
+            'projects/vehicles'
         ]
 
         self.projectsSkippedDirs = [
@@ -101,6 +111,25 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
+        output = subprocess.check_output(['bash', 'files_diff.sh']).decode('utf-8').split()
+        self.sourceDirs = []
+        self.projectsSourceDirs = []
+        f = open("output.txt", "w")
+        for line in output:
+            done = False
+            for sourceDir in candidateSourceDirs:
+                if line.startswith(sourceDir):
+                    self.sourceDirs.append(sourceDir)
+                    f.write(sourceDir)
+                    f.write("\n")
+                    done = True
+            if not done:
+                for projectsSourceDir in candidateProjectsSourceDirs:
+                    if line.startswith(projectsSourceDir):
+                        self.projectsSourceDirs.append(projectsSourceDir)
+                        done = True
+
+        f.close()
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
@@ -115,6 +144,8 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
 
         if 'TRAVIS' not in os.environ:
+            print('Executing ' + command + '\n')
+            sys.stdout.flush()
             os.system(command)
 
         if os.path.isfile(self.reportFilename):
