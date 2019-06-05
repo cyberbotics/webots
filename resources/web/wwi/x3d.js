@@ -833,9 +833,20 @@ THREE.X3DLoader = class X3DLoader {
     var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.PointLight(color.getHex(), intensity);
-    lightObject.decay = attenuation.x;
+    var lightObject = new THREE.PointLight(color.getHex());
+
+    // Tradeoff to let cohabit VRML light attenuation and the threejs light "physically correct mode".
+    // - The intensity is attenuated by the total amount of the VRML attenuation.
+    // - The biggest attenuation component defines the `decay` "exponent".
+    lightObject.intensity = intensity / attenuation.manhattanLength();
+    if (attenuation.x > 0)
+      lightObject.decay = 0;
+    if (attenuation.y > 0)
+      lightObject.decay = 1;
+    if (attenuation.z > 0)
+      lightObject.decay = 2;
     lightObject.distance = radius;
+
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
@@ -866,14 +877,23 @@ THREE.X3DLoader = class X3DLoader {
     var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.SpotLight(color.getHex(), intensity);
+    var lightObject = new THREE.SpotLight(color.getHex());
+
+    lightObject.intensity = intensity / attenuation.manhattanLength();
+    if (attenuation.x > 0)
+      lightObject.decay = 0;
+    if (attenuation.y > 0)
+      lightObject.decay = 1;
+    if (attenuation.z > 0)
+      lightObject.decay = 2;
+    lightObject.distance = radius;
+
     lightObject.angle = cutOffAngle;
     if (beamWidth > cutOffAngle)
       lightObject.penumbra = 0.0;
     else
       lightObject.penumbra = 1.0 - (beamWidth / cutOffAngle);
-    lightObject.decay = attenuation.x;
-    lightObject.distance = radius;
+
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));

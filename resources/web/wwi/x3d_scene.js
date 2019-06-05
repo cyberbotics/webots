@@ -22,6 +22,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
     this.renderer.gammaInput = false;
     this.renderer.gammaOutput = false;
+    this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
