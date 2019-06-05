@@ -119,7 +119,7 @@ static void random_position(void) {
 int main() {
   wb_robot_init();
 
-  int i = 0;
+  int i;
   float f;
   float outbuffer[2];
 

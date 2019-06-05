@@ -10,7 +10,7 @@ If the MATLAB code uses graphics, it is necessary to call the `drawnow` command 
 
 Here is a simple MATLAB controller example:
 
-```matlab
+```MATLAB
 % uncomment the next two lines to use the MATLAB desktop
 %desktop;
 %keyboard;
@@ -42,7 +42,7 @@ In order to avoid cluttering the desktop with too many windows, Webots starts MA
 The *-nodesktop* option starts MATLAB without user interface and therefore it keeps the memory usage low which is useful in particular for multi-robot experiments.
 If you would like to use the MATLAB desktop to interact with your controller you just need to add these two MATLAB commands somewhere at the beginning of your controller m-file:
 
-```matlab
+```MATLAB
 desktop;
 keyboard;
 ```
@@ -58,7 +58,7 @@ Finally the execution of the controller can be terminated with `Ctrl-C` key comb
 Once the controller is terminated, the connection with Webots remains active.
 Therefore it becomes possible to issue Webots commands directly on the MATLAB prompt, for example you can interactively issue commands to query the sensors, etc.:
 
-```matlab
+```MATLAB
 >> wb_robot_step(1000);
 >> wb_gps_get_values(gps)
 
