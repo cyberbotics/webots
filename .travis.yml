@@ -50,7 +50,7 @@ jobs:
       language: python
       python: 2.7
       jdk: openjdk8
-      addons:
+      addons: &apt_packages
         apt:
           packages:
             - g++
@@ -102,39 +102,7 @@ jobs:
       language: python
       python: 3.7
       jdk: openjdk8
-      addons:
-        apt:
-          packages:
-            - g++
-            - cmake
-            - libusb-dev
-            - swig
-            - python2.7-dev
-            - libglu1-mesa-dev
-            - libglib2.0-dev
-            - libfreeimage-dev
-            - libfreetype6-dev
-            - libxml2-dev
-            - libzzip-0-13
-            - libssl-dev
-            - libboost-dev
-            - libjpeg8-dev
-            - libavcodec-extra
-            - libpci-dev
-            - libgd-dev
-            - libtiff5-dev
-            - libssh-dev
-            - libzip-dev
-            - python-pip
-            - libreadline-dev
-            - libassimp-dev
-            - libpng12-dev
-            - libav-tools
-            - python3.5-dev
-            - openjdk-8-jdk
-            - curl
-            - libwebpdemux1
-            - fakeroot
+      addons: *apt_packages
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
