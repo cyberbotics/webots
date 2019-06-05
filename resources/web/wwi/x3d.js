@@ -937,10 +937,6 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
-    console.log(this.scene.scene.background);
-
-    // this.scene.scene.add(new THREE.AmbientLight(cubeTextureEnabled ? 0x000000 : color));
-
     return undefined;
   }
 

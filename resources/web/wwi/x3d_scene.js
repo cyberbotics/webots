@@ -420,8 +420,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var backgroundMap;
     if (typeof envMap !== 'undefined')
       backgroundMap = envMap;
-    else if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
-      backgroundMap = this.scene.background;
+    else if (typeof this.scene.background !== 'undefined') {
+      if (this.scene.background.isCubeTexture)
+        backgroundMap = this.scene.background;
+      else if (this.scene.background.isColor)
+        backgroundMap = TextureLoader.createColoredCubeTexture(this.scene.background, 16, 16);
+    }
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
