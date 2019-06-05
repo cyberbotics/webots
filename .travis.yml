@@ -6,8 +6,8 @@ services:
   - xvfb
 jobs:
   include:
-    - &tests_staging
-      stage: Tests
+    - &source_tests_staging
+      stage: Sources Tests
       if: type = cron  #TODO: remove
       git:
         depth: 3
@@ -26,9 +26,9 @@ jobs:
       script:
         - python -m unittest discover -s docs/tests
         - travis_wait 30 python -m unittest discover -s tests/sources
-    - <<: *tests_staging
+    - <<: *source_tests_staging
       python: '2.7'
-    - <<: *tests_staging
+    - <<: *source_tests_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
@@ -38,9 +38,9 @@ jobs:
             - clang-format
             - cppcheck
             - python
-    - &test_suite_staging
-      stage: Test Suite
-      if: type = cron OR commit_message IN (unit, distrib, deploy)
+    - &unit_tests_staging
+      stage: Unit Tests
+      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_deploy)
       git: &compilation_git
         depth: 3
         submodules: true
@@ -98,9 +98,9 @@ jobs:
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
-    - &compilation_staging
-      stage: Compilation
-      if: type = cron OR commit_message IN (distrib, deploy)
+    - &distribution_staging
+      stage: Distribution
+      if: type = cron OR commit_message IN (travis_distrib, travis_deploy)
       git: *compilation_git
       os: linux
       dist: xenial
@@ -149,7 +149,7 @@ jobs:
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script: travis_wait 45 python tests/test_compilation.py
-    - <<: *compilation_staging
+    - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
