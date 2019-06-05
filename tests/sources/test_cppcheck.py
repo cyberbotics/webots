@@ -31,13 +31,95 @@ class TestCppCheck(unittest.TestCase):
         """Set up the include and source directories."""
         self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
-
         if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
             self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
         else:
             self.cppcheck = 'cppcheck'
+        candidateSourceDirs = [
+            'src/webots',
+            'src/wren',
+            'src/lib/Controller',
+            'resources/languages/cpp',
+            'resources/projects'
+        ]
+        skippedDirs = [
+            'src/webots/external',
+            'include/opencv2'
+        ]
+        candidateProjectsSourceDirs = [
+            'projects/default',
+            'projects/devices',
+            'projects/humans',
+            'projects/languages',
+            'projects/objects',
+            'projects/robots',
+            'projects/samples',
+            'projects/vehicles'
+        ]
+        projectsSkippedDirs = [
+            'projects/default/controllers/ros/include',
+            'projects/default/libraries/vehicle/java',
+            'projects/default/libraries/vehicle/python',
+            'projects/robots/gctronic/e-puck/transfer',
+            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
+            'projects/robots/mobsya/thymio/libraries/dashel',
+            'projects/robots/mobsya/thymio/libraries/dashel-src',
+            'projects/robots/robotis/darwin-op/libraries/python',
+            'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
+            'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
+            'projects/vehicles/controllers/ros_automobile/include'
+        ]
+        output = subprocess.check_output(['bash', 'files_diff.sh']).decode('utf-8').split()
+        self.sourceFiles = []
+        self.projectsSourceFiles = []
+        for line in output:
+            for sourceDir in candidateSourceDirs:
+                if line.startswith(sourceDir):
+                    for skippedDir in skippedDirs:
+                        if not line.startswith(skippedDir):
+                            self.sourceFiles.append(line)
+                            break
+                    continue
+            for projectsSourceDir in candidateProjectsSourceDirs:
+                if line.startswith(projectsSourceDir):
+                    for projectSkippedDir in projectsSkippedDirs:
+                        if not line.startswith(projectSkippedDir):
+                            self.projectsSourceFiles.append(line)
+                            break
 
-        self.includeDirs = [
+    def test_cppcheck_is_correctly_installed(self):
+        """Test Cppcheck is correctly installed."""
+        self.assertTrue(
+            find_executable(self.cppcheck) is not None,
+            msg='Cppcheck is not installed on this computer.'
+        )
+
+    def run_cppcheck(self, command):
+        """Run Cppcheck command and check for errors."""
+        if os.path.isfile(self.reportFilename):
+            os.remove(self.reportFilename)
+        os.system(command)
+        if os.path.isfile(self.reportFilename):
+            reportFile = open(self.reportFilename, 'r')
+            reportText = reportFile.read()
+            self.assertTrue(
+                len(reportText) == 0,
+                msg='Cppcheck detected some errors:\n\n%s' % reportText
+            )
+            reportFile.close()
+            os.remove(self.reportFilename)
+
+    def test_sources_with_cppcheck(self):
+        """Test Webots with Cppcheck."""
+        if not self.sourceFiles:
+            return
+        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
+        command += ' -j %s' % str(multiprocessing.cpu_count())
+        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
+        command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq'
+        # command += ' --xml '  # Uncomment this line to get more information on the errors
+        command += ' --output-file=' + self.reportFilename
+        includeDirs = [
             'include/controller/c',
             'include/ode',
             'include/qt/QtCore',
@@ -73,116 +155,21 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-
-        candidateSourceDirs = [
-            'src/webots',
-            'src/wren',
-            'src/lib/Controller',
-            'resources/languages/cpp',
-            'resources/projects'
-        ]
-
-        self.skippedDirs = [
-            'src/webots/external',
-            'include/opencv2'
-        ]
-
-        candidateProjectsSourceDirs = [
-            'projects/default',
-            'projects/devices',
-            'projects/humans',
-            'projects/languages',
-            'projects/objects',
-            'projects/robots',
-            'projects/samples',
-            'projects/vehicles'
-        ]
-
-        self.projectsSkippedDirs = [
-            'projects/default/controllers/ros/include',
-            'projects/default/libraries/vehicle/java',
-            'projects/default/libraries/vehicle/python',
-            'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
-            'projects/robots/robotis/darwin-op/libraries/python',
-            'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
-            'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include'
-        ]
-        output = subprocess.check_output(['bash', 'files_diff.sh']).decode('utf-8').split()
-        self.sourceDirs = []
-        self.projectsSourceDirs = []
-        f = open("output.txt", "w")
-        for line in output:
-            done = False
-            for sourceDir in candidateSourceDirs:
-                if line.startswith(sourceDir):
-                    self.sourceDirs.append(sourceDir)
-                    f.write(sourceDir)
-                    f.write("\n")
-                    done = True
-            if not done:
-                for projectsSourceDir in candidateProjectsSourceDirs:
-                    if line.startswith(projectsSourceDir):
-                        self.projectsSourceDirs.append(projectsSourceDir)
-                        done = True
-
-        f.close()
-
-    def test_cppcheck_is_correctly_installed(self):
-        """Test Cppcheck is correctly installed."""
-        self.assertTrue(
-            find_executable(self.cppcheck) is not None,
-            msg='Cppcheck is not installed on this computer.'
-        )
-
-    def run_cppcheck(self, command):
-        """Run Cppcheck command and check for errors."""
-        if os.path.isfile(self.reportFilename):
-            os.remove(self.reportFilename)
-
-        print('Executing ' + command + '\n')
-        sys.stdout.flush()
-
-        os.system(command)
-
-        if os.path.isfile(self.reportFilename):
-            reportFile = open(self.reportFilename, 'r')
-            reportText = reportFile.read()
-            self.assertTrue(
-                len(reportText) == 0,
-                msg='Cppcheck detected some errors:\n\n%s' % reportText
-            )
-            reportFile.close()
-            os.remove(self.reportFilename)
-
-    def test_sources_with_cppcheck(self):
-        """Test Webots with Cppcheck."""
-        command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
-        command += ' -j %s' % str(multiprocessing.cpu_count())
-        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
-        command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq'
-        # command += ' --xml '  # Uncomment this line to get more information on the errors
-        command += ' --output-file=' + self.reportFilename
-        for include in self.includeDirs:
+        for include in includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'
-        for source in self.skippedDirs:
-            command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
-        for source in self.sourceDirs:
+        for source in self.sourceFiles:
             command += ' \"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
         self.run_cppcheck(command)
 
     def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
+        if not self.projectsSourceFiles:
+            return
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=' + self.reportFilename
-        for source in self.projectsSkippedDirs:
-            command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
-        for source in self.projectsSourceDirs:
+        for source in self.projectsSourceFiles:
             command += ' \"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'
         self.run_cppcheck(command)
 
