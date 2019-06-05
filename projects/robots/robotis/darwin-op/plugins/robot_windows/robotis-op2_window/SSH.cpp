@@ -447,7 +447,6 @@ int SSH::updateWrapper(const QString &username, const QString &password) {
   const QString webotsHomePath = QProcessEnvironment::systemEnvironment().value("WEBOTS_HOME");
   const QString managerDir = webotsHomePath + "/projects/robots/robotis/darwin-op/libraries/managers";
   const QString robotisDir = webotsHomePath + "/projects/robots/robotis/darwin-op";
-  const QString controllerDir = webotsHomePath + "/projects/robots/robotis/darwin-op/controllers";
   const QString installArchive =
     QDir::tempPath() + "/webots_robotis_" + QString::number((int)QCoreApplication::applicationPid()) + "_install.zip";
 

@@ -78,7 +78,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_joystick_enable(sampling_period)
 wb_joystick_disable()
 period = wb_joystick_get_sampling_period()
@@ -169,7 +169,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 connected = wb_joystick_is_connected()
 ```
 
@@ -249,7 +249,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_joystick_get_model()
 ```
 
@@ -336,7 +336,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 axes_number = wb_joystick_get_number_of_axes()
 axis_value = wb_joystick_get_axis_value(axis)
 ```
@@ -425,7 +425,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 povs_number = wb_joystick_get_number_of_povs()
 pov_value = wb_joystick_get_pov_value(pov)
 ```
@@ -509,7 +509,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 button = wb_joystick_get_pressed_button()
 ```
 
@@ -615,7 +615,7 @@ public class Joystick {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_joystick_set_constant_force(level)
 wb_joystick_set_constant_force_duration(duration)
 wb_joystick_set_auto_centering_gain(gain)

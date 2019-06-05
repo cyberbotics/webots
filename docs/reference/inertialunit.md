@@ -124,7 +124,7 @@ public class InertialUnit extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_inertial_unit_enable(tag, sampling_period)
 wb_inertial_unit_disable(tag)
 period = wb_inertial_unit_get_sampling_period(tag)

@@ -16,6 +16,7 @@ namespace webotsQtUtils {
     const QColor &color() const { return mColor; }
 
   private:
+    Point2D &operator=(const Point2D &);  // non copyable
     double mX;
     double mY;
     QColor mColor;
