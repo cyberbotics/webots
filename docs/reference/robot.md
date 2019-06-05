@@ -33,7 +33,7 @@ For example, if the field value is "my\_controller" then the controller program 
 The ".exe" extension is added on the Windows platforms only.
 If this field is left empty, the robot will run no controller at all.
 Doing so may lead to better performance than using the `void` controller.
-Setting the value of this field to "<extern>" will make this robot runnable from an [extern robot controller](../guide/running-extern-robot-controllers.md).
+Setting the value of this field to `<extern>` will make this robot runnable from an [extern robot controller](../guide/running-extern-robot-controllers.md).
 
 > **Note**: If the controller is not started the robot window will not work.
 If the robot window is required it is recommended to assign the `void` controller instead of an empty string.

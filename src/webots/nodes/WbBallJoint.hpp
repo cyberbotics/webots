@@ -81,6 +81,7 @@ protected slots:
   void checkMotorLimit();
 
 private:
+  WbBallJoint &operator=(const WbBallJoint &);  // non copyable
   WbRotationalMotor *rotationalMotor3() const;
   void updateParameters3();
   WbSFNode *mParameters3;
