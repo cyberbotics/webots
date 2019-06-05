@@ -119,19 +119,19 @@ const char *wbu_system_webots_tmp_path() {
   int webots_pid = 0;
   if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
     sscanf(WEBOTS_PID, "%d", &webots_pid);
-  const size_t buffer_size = l + 32;  // enough room to hold tmp + "/webots-XXXX...XXX" (pid_t maximum string length)
-  char *buffer = malloc(buffer_size);
+  const size_t path_buffer_size = l + 32;  // enough room to hold tmp + "/webots-XXXX...XXX" (pid_t maximum string length)
+  char *path_buffer = malloc(path_buffer_size);
   if (webots_pid == 0) {  // get the webots pid from the most recent "webots-XXX" folder
     DIR *dir;
-    struct dirent *entry;
     dir = opendir(tmp);
     if (dir) {
+      struct dirent *entry;
       time_t most_recent = 0;
       while ((entry = readdir(dir))) {
         if (strncmp(entry->d_name, "webots-", 7) == 0) {
           struct stat s;
-          snprintf(buffer, buffer_size, "%s/%s", tmp, entry->d_name);
-          if (stat(buffer, &s) < 0)
+          snprintf(path_buffer, path_buffer_size, "%s/%s", tmp, entry->d_name);
+          if (stat(path_buffer, &s) < 0)
             continue;
           if (!S_ISDIR(s.st_mode))
             continue;
@@ -144,7 +144,7 @@ const char *wbu_system_webots_tmp_path() {
       closedir(dir);
     }
   }
-  snprintf(buffer, buffer_size, "%s/webots-%d", tmp, webots_pid);
-  WEBOTS_TMP_PATH = buffer;
+  snprintf(path_buffer, path_buffer_size, "%s/webots-%d", tmp, webots_pid);
+  WEBOTS_TMP_PATH = path_buffer;
   return WEBOTS_TMP_PATH;
 }
