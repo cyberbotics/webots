@@ -47,9 +47,7 @@ jobs:
     - &unit_tests_staging
       stage: Unit Tests
       after_failure:
-        - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-        - chmod +x send.sh
-        - ./send.sh failure $DISCORD_WEBHOOK
+        - curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed: $TRAVIS_BUILD_WEB_URL \"}" https://discordapp.com/api/webhooks/585912613154717747/RpD5QrNkwCQbtgR39mQUylZ0N09AVfz5wA9pqLZYGg6XSKVDZur1Bu0Dx5acyagGneFT
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_deploy)
       git: &compilation_git
         depth: 3
@@ -105,6 +103,8 @@ jobs:
         - sudo rosdep init
         - rosdep update
         - sudo pip install rospkg catkin_pkg empy defusedxml netifaces --target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
+        - echo $PYTHONPATH
+        - pip --version
       script:
         - make release -j2
         - make release -j2 -C tests
