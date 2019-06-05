@@ -68,7 +68,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
-        output = subprocess.check_output(['bash', 'files_diff.sh']).decode('utf-8').split()
+        output = subprocess.check_output(['bash', self.WEBOTS_HOME + '/tests/sources/files_diff.sh']).decode('utf-8').split()
         self.sourceFiles = []
         self.projectsSourceFiles = []
         for line in output:
