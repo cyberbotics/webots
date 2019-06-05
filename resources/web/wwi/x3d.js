@@ -300,10 +300,12 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parsePBRAppearance(pbrAppearance) {
+    const roughnessFactor = 2.0; // This factor has been empirically found to match the Webots rendering.
+
     var isTransparent = false;
 
     var baseColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
-    var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0'));
+    var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0')) * roughnessFactor;
     var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
     var emissiveColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
     var transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
@@ -332,7 +334,7 @@ THREE.X3DLoader = class X3DLoader {
         }
       } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
-        materialSpecifications.roughness = 1.0;
+        materialSpecifications.roughness = roughnessFactor * roughness;
       } else if (type === 'metalness')
         materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'normal')
