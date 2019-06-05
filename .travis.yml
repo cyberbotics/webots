@@ -8,7 +8,7 @@ jobs:
   include:
     - &tests_staging
       stage: Tests
-      if: type = cron
+      if: type = cron  #TODO: move this to test_suite stage
       git:
         depth: 3
         submodules: false
