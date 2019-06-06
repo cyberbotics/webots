@@ -1,9 +1,5 @@
 environment:
   global:
-    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-    # /E:ON and /V:ON options are not enabled in the batch script intepreter
-    # See: http://stackoverflow.com/a/13751649/163740
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     WEBOTS_HOME: "C:\\projects\\webots"
 
   matrix:
@@ -12,7 +8,7 @@ environment:
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
-      PATH: "C:\\msys64\\%MSYSTEM%\\bin;C:\\msys64\\usr\\bin;%PATH%"
+      #PATH: "C:\\msys64\\%MSYSTEM%\\bin;C:\\msys64\\usr\\bin;%PATH%"
       PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "64"
