@@ -14,10 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Generate a list of modified files with respect to the parent branch."""
+"""Generate a list of modified files with respect to the parent branch.
+This script is used only by Travis."""
 import os
 import subprocess
-
+import sys
 
 branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
 if branch is not None:
@@ -25,3 +26,5 @@ if branch is not None:
     f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'files_diff.txt'), 'w')
     f.write(output)
     f.close()
+else:
+    sys.exit('TRAVIS_BRANCH environment variable is not set.')
