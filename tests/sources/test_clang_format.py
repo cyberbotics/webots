@@ -106,7 +106,7 @@ class TestClangFormat(unittest.TestCase):
                             shouldContinue = True
                             break
                     for directory in skippedDirectories:
-                        currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
+                        currentDirectories = rootPath.replace(self.WEBOTS_HOME, '').split(os.sep)
                         if directory in currentDirectories:
                             shouldContinue = True
                             break
