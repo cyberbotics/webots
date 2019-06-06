@@ -99,7 +99,7 @@ jobs:
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'  # should we move ros to a dedicated stage ?
         - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
         - sudo apt update -qq
-        - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs
+        - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs ros-kinetic-tf
         - sudo rosdep init
         - rosdep update
         - sudo pip install rospkg catkin_pkg empy defusedxml netifaces --target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
