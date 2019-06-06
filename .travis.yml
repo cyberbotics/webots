@@ -107,9 +107,9 @@ jobs:
         - pip --version  #TODO: remove
         - echo $TRAVIS_PYTHON_VERSION  #TODO: remove
       script:
-        - make release -j2
-        - make release -j2 -C tests
-        - python tests/test_suite.py --no-ansi-escape --nomake
+#        - make release -j2
+#        - make release -j2 -C tests
+#        - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
     - &distribution_staging
       stage: Distribution
