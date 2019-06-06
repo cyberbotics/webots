@@ -106,8 +106,8 @@ jobs:
         - rosdep update
         - pip --version  #TODO: remove
         - sudo pip --version  #TODO: remove
-        - sudo pip install rospkg catkin_pkg empy defusedxml netifaces #--target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
-        - sudo pip install rospkg catkin_pkg empy defusedxml netifaces 
+        - pip install rospkg catkin_pkg empy defusedxml netifaces #--target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
+        - pip install rospkg catkin_pkg empy defusedxml netifaces 
         - echo $PYTHONPATH  #TODO: remove
         - pip --version  #TODO: remove
         - echo $TRAVIS_PYTHON_VERSION  #TODO: remove
