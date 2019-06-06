@@ -7,17 +7,25 @@ environment:
     WEBOTS_HOME: "C:\\projects\\webots"
 
   matrix:
-    - PYTHON: "C:\\Python34-x64"
+    - compiler: msys2
+      ARCH: x64
+      MSYS2_ARCH: x86_64
+      MSYS2_DIR: msys64
+      MSYSTEM: MINGW64
+      PATH: "C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%"
+      PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "64"
     
 install:
-  - pip install -r tests/sources/requirements.txt
-  - pip install -r docs/tests/requirements.txt
+  - bash -lc "pacman --noconfirm --sync --refresh --refresh pacman"
+  - bash -lc "pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
+  - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
+  - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
   
 build_script:
   - python --version
   
 test_script:
-  - python -m unittest discover -s docs/tests
-  - python -m unittest discover -s tests/sources
+  - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/docs/tests
+  - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/tests/sources
