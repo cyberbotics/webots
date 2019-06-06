@@ -4,7 +4,7 @@ environment:
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
-    WEBOTS_HOME="C:\\projects\\webots"
+    WEBOTS_HOME: "C:\\projects\\webots"
 
   matrix:
     - PYTHON: "C:\\Python34-x64"
