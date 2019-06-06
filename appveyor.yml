@@ -28,5 +28,5 @@ build_script:
   - python --version
   
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/docs/tests"
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/tests/sources"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s docs/tests"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s tests/sources"
