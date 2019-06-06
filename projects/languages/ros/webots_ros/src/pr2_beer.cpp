@@ -561,7 +561,7 @@ int main(int argc, char **argv) {
       }
       sequence = 1;
     }
-    // turn 180° on itself to face fridge
+    // turn 180 degrees on itself to face fridge
     else if (imu_rpy[2] > -2.75 && sequence < 3) {
       if (sequence == 1) {
         ROS_INFO("PR2 rotates to face the fridge.");
@@ -839,7 +839,7 @@ int main(int argc, char **argv) {
       }
       sequence = 22;
     }
-    // rotate 180° on itself
+    // rotate 180 degrees on itself
     else if (imu_rpy[2] < -0.35 && sequence < 24) {
       if (sequence == 22) {
         ROS_INFO("PR2 rotates back to go to the lounge.");
@@ -879,7 +879,7 @@ int main(int argc, char **argv) {
       }
       sequence = 26;
     }
-    // rotate 90° on itself to face table
+    // rotate 90 degrees on itself to face table
     else if (imu_rpy[2] > -1.15 && sequence < 28) {
       if (sequence == 26) {
         ROS_INFO("PR2 faces the table.");
