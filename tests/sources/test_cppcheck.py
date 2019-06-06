@@ -174,7 +174,8 @@ class TestCppCheck(unittest.TestCase):
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
         if os.path.isfile(files_diff):
             added = False
-            file = open(files_diff, 'r')
+            with open(files_diff, 'r') as file:
+               ...
             for line in file:
                 line = line.strip()
                 extension = os.path.splitext(line)[1][1:].lower()
