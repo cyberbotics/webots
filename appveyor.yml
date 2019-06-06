@@ -14,8 +14,8 @@ environment:
       PYTHON_ARCH: "64"
     
 install:
-  - C:\\msys64\\usr\\bin\\bash.exe --login -c "update-core"
-  - C:\\msys64\\usr\\bin\\msys2_shell.bat --login -c pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
+#  - C:\\msys64\\usr\\bin\\bash.exe --login -c "update-core"
+  - C:\\msys64\\usr\\bin\\msys2_shell.bat --login -c pacman -S --noconfirm mingw-w64-x86_64-cppcheck
 #  - bash -lc "pacman --noconfirm --sync --refresh --refresh pacman"
 #  - bash -xlc "pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
