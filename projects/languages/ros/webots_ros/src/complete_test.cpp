@@ -2257,7 +2257,7 @@ int main(int argc, char **argv) {
   // range_finder_get_info
   get_info_client = n.serviceClient<webots_ros::range_finder_get_info>(model_name + "/range_finder/get_info");
   webots_ros::range_finder_get_info get_range_finder_info_srv;
-  if (get_info_client.call(get_range_finder_info_srv))
+  if (get_info_client.call(get_range_finder_info_srv) && false)
     ROS_INFO(
       "Range-finder of %s has a width of %d, a height of %d, a field of view of %f, a min range of %f and a max range of %f.",
       model_name.c_str(), get_range_finder_info_srv.response.width, get_range_finder_info_srv.response.height,
