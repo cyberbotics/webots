@@ -29,6 +29,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbStreamingTcpServer.hpp"
 #include "WbSupervisorUtilities.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbView3D.hpp"
@@ -44,7 +45,6 @@
 #include <QtNetwork/QSslCertificate>
 #include <QtNetwork/QSslConfiguration>
 #include <QtNetwork/QSslKey>
-#include <QtNetwork/QTcpServer>
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
@@ -203,7 +203,7 @@ void WbStreamingServer::create(int port) {
   generateX3dWorld();
   QWebSocketServer::SslMode sslMode = mSsl ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
-  mTcpServer = new QTcpServer();
+  mTcpServer = new WbStreamingTcpServer();
   if (mSsl) {
     QSslConfiguration sslConfiguration;
     QFile privateKeyFile(WbStandardPaths::resourcesWebPath() + "server/ssl/privkey.pem");
@@ -216,11 +216,12 @@ void WbStreamingServer::create(int port) {
     sslConfiguration.setLocalCertificateChain(localCertificateChain);
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
     mWebSocketServer->setSslConfiguration(sslConfiguration);
+    mTcpServer->setSslConfiguration(sslConfiguration);
   }
   if (!mTcpServer->listen(QHostAddress::Any, port))
     throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewWebSocketConnection);
-  connect(mTcpServer, &QTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
+  connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
   if (!mDisableTextStreams) {

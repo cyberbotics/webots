@@ -22,12 +22,13 @@
 
 #include "WbLog.hpp"
 
-class QTcpServer;
+class QSslSocket;
 class QWebSocket;
 class QWebSocketServer;
 
 class WbMainWindow;
 class WbNode;
+class WbStreamingTcpServer;
 class WbView3D;
 
 class WbStreamingServer : public QObject {
@@ -88,7 +89,7 @@ private:
   double mX3dWorldGenerationTime;
   QString mX3dWorldReferenceFile;
   QWebSocketServer *mWebSocketServer;
-  QTcpServer *mTcpServer;
+  WbStreamingTcpServer *mTcpServer;
   QList<QWebSocket *> mClients;
   QStringList mEditableControllers;
 

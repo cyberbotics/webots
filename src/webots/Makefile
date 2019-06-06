@@ -418,6 +418,7 @@ QT_SOURCES += \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
+  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
   WbStreamingServer.cpp \
   WbSupervisorUtilities.cpp \
