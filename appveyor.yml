@@ -16,7 +16,6 @@ environment:
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm mingw-w64-x86_64-cppcheck
-  - C:\\msys64\\usr\\bin\\bash --login -c "ls"
 #  - C:\\msys64\\usr\\bin\\bash.exe --login -c "update-core"
 #  - C:\\msys64\\usr\\bin\\msys2_shell.bat --login -c pacman -S --noconfirm mingw-w64-x86_64-cppcheck
 #  - bash -lc "pacman --noconfirm --sync --refresh --refresh pacman"
@@ -26,7 +25,9 @@ install:
   
 build_script:
   - python --version
+  - C:\\msys64\\usr\\bin\\bash --login -c "ls"
+  - C:\\msys64\\usr\\bin\\bash --login -c "echo $(PWD)"
   
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s docs/tests"
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s tests/sources"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s C:\\projects\\webots\\docs\\tests"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s C:\\projects\\webots\\tests\\sources"
