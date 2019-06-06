@@ -33,7 +33,7 @@ public:
   typedef WbMFIterator<WbMFString, QString> Iterator;
 
   WbMFString(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFString(const WbMFString &other) { mVector = other.mVector; }
+  WbMFString(const WbMFString &other) : mVector(other.mVector) {}
   virtual ~WbMFString() {}
   WbValue *clone() const override { return new WbMFString(*this); }
   bool equals(const WbValue *other) const override;

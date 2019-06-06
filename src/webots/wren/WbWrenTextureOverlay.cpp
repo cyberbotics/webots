@@ -463,8 +463,11 @@ void WbWrenTextureOverlay::restorePerspective(QStringList &perspective, bool glo
   assert(perspective.size() >= 4);
 
   bool isVisible = perspective.takeFirst() == "1";
+  // cppcheck-suppress duplicateAssignExpression
   double pixelSize = perspective.takeFirst().toDouble();
+  // cppcheck-suppress duplicateAssignExpression
   double x = perspective.takeFirst().toDouble();
+  // cppcheck-suppress duplicateAssignExpression
   double y = perspective.takeFirst().toDouble();
   resize(pixelSize);
   updatePercentagePosition(x, y);

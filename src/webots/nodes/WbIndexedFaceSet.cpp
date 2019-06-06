@@ -22,6 +22,7 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbNormal.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -400,7 +401,7 @@ void WbIndexedFaceSet::buildGeomIntoBuffers(WbWrenMeshBuffers *buffers, const Wb
   }
   unsigned int *iBuf = buffers->indexBuffer();
   if (iBuf) {
-    int start = buffers->vertexIndex() / 3;
+    start = buffers->vertexIndex() / 3;
     int i = buffers->index();
     for (int t = 0; t < n; ++t) {  // foreach triangle
       for (int v = 0; v < 3; ++v)  // foreach vertex
@@ -477,6 +478,10 @@ void WbIndexedFaceSet::applyToOdeData(bool correctSolidMass) {
   assert(dGeomGetClass(mOdeGeom) == dTriMeshClass);
 
   dGeomTriMeshSetData(mOdeGeom, mTrimeshData);
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (mCorrectSolidMass)
     applyToOdeMass();

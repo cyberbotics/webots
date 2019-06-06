@@ -107,7 +107,7 @@ public class PositionSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_ROTATIONAL, WB_LINEAR
 
 wb_position_sensor_enable(tag, sampling_period)
@@ -219,7 +219,7 @@ public class PositionSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_motor(tag)
 ```

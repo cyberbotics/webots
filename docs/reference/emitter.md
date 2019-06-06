@@ -133,7 +133,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_emitter_send(tag, data)
 ```
 
@@ -209,7 +209,7 @@ Here is an example of sending a Java string in a way that is compatible with a C
 
 > **Note** [Matlab]: If you want to send strings you have to convert them to unsigned integer arrays:
 
-> ```matlab
+> ```MATLAB
 >   wb_emitter_send(emitter, uint8('Hello World'));
 > ```
 
@@ -284,7 +284,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_CHANNEL_BROADCAST
 
 wb_emitter_set_channel(tag, channel)
@@ -380,7 +380,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_emitter_set_range(tag, range)
 range = wb_emitter_get_range(tag)
 ```
@@ -467,7 +467,7 @@ public class Emitter extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 size = wb_emitter_get_buffer_size(tag)
 ```
 

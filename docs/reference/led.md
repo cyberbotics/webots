@@ -95,7 +95,7 @@ public class LED extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_led_set(tag, value)
 value = wb_led_get(tag)
 ```

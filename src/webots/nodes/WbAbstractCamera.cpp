@@ -816,8 +816,8 @@ void WbAbstractCamera::applyFrustumToWren() {
       const float y = f * sinf(angleY[k]);
       const float z = -f * helper * cosf(angleX[k]);
       addVertex(vertices, colors, zero, frustumColor);
-      const float vertex[3] = {x, y, z};
-      addVertex(vertices, colors, vertex, frustumColor);
+      const float outlineVertex[3] = {x, y, z};
+      addVertex(vertices, colors, outlineVertex, frustumColor);
     }
   } else {
     const float frustumOutline[8][3] = {{dw1, dh1, n1},  {dw2, dh2, n2},  {-dw1, dh1, n1},  {-dw2, dh2, n2},
