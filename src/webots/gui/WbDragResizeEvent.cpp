@@ -90,15 +90,6 @@ void WbDragResizeHandleEvent::computeRatio(const QPoint &currentMousePosition) {
     mResizeRatio = 1.0;
     return;
   }
-  WbMatrix4 unscaledMatrix = mSelectedGeometry->matrix();
-  WbVector3 absoluteScale = unscaledMatrix.scale();
-  unscaledMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
-
-  // compute and set position of detached handle on the axis
-  WbVector4 handlePositionOnAxis(mAbsoluteScaleRatio * mViewDistanceUnscaling *
-                                 mManipulator->relativeHandlePosition(mHandleNumber));
-  handlePositionOnAxis[mCoordinate] = localMousePosition[mCoordinate] - mMouseOffset + mGeomCenterOffset;
-  handlePositionOnAxis = unscaledMatrix * handlePositionOnAxis;  // global position
 
   mSizeValue = newSizeValue;
 }

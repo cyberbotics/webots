@@ -293,7 +293,6 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the
@@ -372,7 +371,6 @@ bool WbGuiApplication::setup() {
   if (mShouldMinimize)
     mMainWindow->showMinimized();
   else {
-    WbPreferences *const prefs = WbPreferences::instance();
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else

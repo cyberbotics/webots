@@ -1,73 +1,104 @@
-os: linux
-dist: xenial
-git:
-  depth: 3
-  submodules: true
-language: python
-python:
-  - "2.7"
-  - "3.7"
-matrix:  # macos can't be listed in 'os' as we need to set 'generic' as language (because travis doesn't support python on macos for now)
+cache:
+  pip: true
+  directories:
+  - dependencies
+jobs:
   include:
-    - os: osx
+    - &tests_staging
+      stage: Tests
+      git:
+        depth: 3
+        submodules: false
+      os: linux
+      dist: xenial
+      language: python
+      python: '3.7'
+      addons:
+        apt:
+          packages:
+            - clang-format-5.0
+      install:
+        - pip install -r tests/sources/requirements.txt
+        - pip install -r docs/tests/requirements.txt
+      script:
+        - python -m unittest discover -s docs/tests
+        - travis_wait 30 python -m unittest discover -s tests/sources
+    - <<: *tests_staging
+      python: '2.7'
+    - <<: *tests_staging
+      os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic
-jdk: openjdk8
-cache: pip
-before_install:
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo add-apt-repository ppa:deadsnakes/ppa -y; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt update; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install python3.6-dev python3.7-dev; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt install nodejs; fi
-install:
-  - pip install -r tests/sources/requirements.txt
-  - pip install -r docs/tests/requirements.txt
-addons:
-  apt:
-    packages:
-      - clang-format-5.0
-      - g++
-      - cmake
-      - libusb-dev
-      - swig
-      - python2.7-dev
-      - libglu1-mesa-dev
-      - libglib2.0-dev
-      - libfreeimage-dev
-      - libfreetype6-dev
-      - libxml2-dev
-      - libzzip-0-13
-      - libssl-dev
-      - libboost-dev
-      - libjpeg8-dev
-      - libavcodec-extra
-      - libpci-dev
-      - libgd-dev
-      - libtiff5-dev
-      - libssh-dev
-      - libzip-dev
-      - python-pip
-      - libreadline-dev
-      - libassimp-dev
-      - libpng12-dev
-      - libav-tools
-      - python3.5-dev
-      - openjdk-8-jdk
-      - curl
-      - libwebpdemux1
-      - fakeroot
-  homebrew:
-    packages:
-      - clang-format
-      - cppcheck
-      - python
-      - cmake
-      - swig
-      - wget
-      - node
-script:
-  - if [ $TRAVIS_OS_NAME = linux ]; then export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; else export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"; fi
-  - python -m unittest discover -s tests/sources
-  - python -m unittest discover -s docs/tests
-  - if [ $TRAVIS_EVENT_TYPE = cron ]; then travis_wait 45 python tests/test_compilation.py; fi
+      language: generic     # Travis doesn't support python on macos yet
+      addons:
+        homebrew:
+          packages:
+            - clang-format
+            - cppcheck
+            - python
+    - &compilation_staging
+      stage: Compilation
+      if: type = cron
+      git:
+        depth: 3
+        submodules: true
+      os: linux
+      dist: xenial
+      install: skip # bundle install is not required
+      language: python
+      python: 3.7
+      jdk: openjdk8
+      addons:
+        apt:
+          packages:
+            - g++
+            - cmake
+            - libusb-dev
+            - swig
+            - python2.7-dev
+            - libglu1-mesa-dev
+            - libglib2.0-dev
+            - libfreeimage-dev
+            - libfreetype6-dev
+            - libxml2-dev
+            - libzzip-0-13
+            - libssl-dev
+            - libboost-dev
+            - libjpeg8-dev
+            - libavcodec-extra
+            - libpci-dev
+            - libgd-dev
+            - libtiff5-dev
+            - libssh-dev
+            - libzip-dev
+            - python-pip
+            - libreadline-dev
+            - libassimp-dev
+            - libpng12-dev
+            - libav-tools
+            - python3.5-dev
+            - openjdk-8-jdk
+            - curl
+            - libwebpdemux1
+            - fakeroot
+      before_install:
+        - sudo add-apt-repository ppa:deadsnakes/ppa -y
+        - sudo apt update
+        - sudo apt install python3.6-dev python3.7-dev
+        - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+        - sudo apt install nodejs
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      script: travis_wait 45 python tests/test_compilation.py
+    - <<: *compilation_staging
+      os: osx
+      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
+      language: generic     # Travis doesn't support python on macos yet
+      addons:
+        homebrew:
+          packages:
+            - python
+            - cmake
+            - swig
+            - wget
+            - node
+      before_install:
+        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"

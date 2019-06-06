@@ -31,7 +31,7 @@ class TestCppCheck(unittest.TestCase):
         self.reportFilename = self.WEBOTS_HOME + '/tests/cppcheck_report.txt'
 
         self.cppcheck = 'cppcheck'
-        if 'TRAVIS' in os.environ:
+        if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
             self.cppcheck = self.WEBOTS_HOME + '/tests/sources/bin/cppcheck'
 
         self.includeDirs = [
@@ -114,8 +114,7 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
 
-        if 'TRAVIS' not in os.environ:
-            os.system(command)
+        os.system(command)
 
         if os.path.isfile(self.reportFilename):
             reportFile = open(self.reportFilename, 'r')
@@ -131,8 +130,10 @@ class TestCppCheck(unittest.TestCase):
         """Test Webots with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' -j %s' % str(multiprocessing.cpu_count())
-        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm '
-        command += '--output-file=' + self.reportFilename
+        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
+        command += ' --suppress=noCopyConstructor  --suppress=noOperatorEq'
+        # command += ' --xml '  # Uncomment this line to get more information on the errors
+        command += ' --output-file=' + self.reportFilename
         for include in self.includeDirs:
             command += ' -I\"' + os.path.normpath(self.WEBOTS_HOME + '/' + include) + '\"'
         for source in self.skippedDirs:
@@ -145,6 +146,7 @@ class TestCppCheck(unittest.TestCase):
         """Test projects with Cppcheck."""
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
+        # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=' + self.reportFilename
         for source in self.projectsSkippedDirs:
             command += ' -i\"' + os.path.normpath(self.WEBOTS_HOME + '/' + source) + '\"'

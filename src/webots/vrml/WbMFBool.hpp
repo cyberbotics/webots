@@ -34,7 +34,7 @@ public:
 
   WbMFBool() {}
   WbMFBool(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFBool(const WbMFBool &other) { mVector = other.mVector; }
+  WbMFBool(const WbMFBool &other) : mVector(other.mVector) {}
   virtual ~WbMFBool() {}
   WbValue *clone() const override { return new WbMFBool(*this); }
   bool equals(const WbValue *other) const override;

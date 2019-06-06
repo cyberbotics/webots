@@ -71,7 +71,7 @@ public class Speaker extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_speaker_play_sound(left, right, sound, volume, pitch, balance, loop)
 ```
 
@@ -175,7 +175,7 @@ public class Speaker extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_speaker_stop(tag, sound)
 ```
 
@@ -259,7 +259,7 @@ public class Speaker extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_speaker_is_sound_playing(tag, sound)
 ```
 
@@ -366,7 +366,7 @@ public class Speaker extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 engine = wb_speaker_get_engine(tag)
 language = wb_speaker_get_language(tag)
 success = wb_speaker_set_engine(tag, engine)

@@ -20,7 +20,7 @@
 
 #include <ft2build.h>
 #ifdef FT_FREETYPE_H
-// cppcheck-suppress missingInclude
+// cppcheck-suppress preprocessorErrorDirective
 #include FT_FREETYPE_H
 #endif
 
