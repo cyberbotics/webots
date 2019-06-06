@@ -19,7 +19,6 @@ environment:
     
 install:
   - bash -lc "pacman --noconfirm --sync --refresh --refresh pacman"
-  - bash -lc "pacman --noconfirm --sync --refresh --refresh --sysupgrade --sysupgrade"
   - bash -xlc "pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
