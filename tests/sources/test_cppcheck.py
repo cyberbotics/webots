@@ -37,7 +37,7 @@ class TestCppCheck(unittest.TestCase):
         self.includeDirs = [
             'include/controller/c',
             'include/ode',
-            # 'include/qt/QtCore',  # For some reason, on Windows this prevents cppcheck from detecting errors
+            'include/qt/QtCore',
             'include/qt/QtGui',
             'include/qt/QtWidgets',
             'include/qt/QtPrintSupport',
