@@ -14,7 +14,8 @@ install:
   - pip install -r tests/sources/requirements.txt
   - pip install -r docs/tests/requirements.txt
   
+build_script:
+  - "echo build"
+  
 test_script:
-  # Run the project tests and store results in .xml log
-  - ps: |
-      python -m unittest discover -s docs/tests
+  - "%CMD_IN_ENV% python -m unittest discover -s docs/tests"
