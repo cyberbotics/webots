@@ -1,7 +1,6 @@
 environment:
   global:
     WEBOTS_HOME: "/C/projects/webots"
-    MSYS_BASH: "C:\\msys64\\usr\\bin\\bash"
 
   matrix:
     - compiler: msys2
@@ -9,9 +8,6 @@ environment:
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
-      PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.x" # currently 3.4.3
-      PYTHON_ARCH: "64"
     
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
