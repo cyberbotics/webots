@@ -15,7 +15,8 @@ install:
   - pip install -r docs/tests/requirements.txt
   
 build_script:
-  - "echo build"
+  - echo build
   
 test_script:
-  - "python -m unittest discover -s docs/tests"
+  - python -m unittest discover -s docs/tests
+  - python -m unittest discover -s tests/sources
