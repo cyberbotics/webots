@@ -341,7 +341,7 @@ webots.View = class View {
     }
 
     if (typeof this.mouseEvents === 'undefined')
-      this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv);
+      this.mouseEvents = new MouseEvents(this.x3dScene, this.contextMenu, this.x3dDiv, this.mobileDevice);
 
     if (typeof this.console === 'undefined')
       this.console = new Console(this.view3D, this.mobileDevice);
