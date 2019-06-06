@@ -12,14 +12,15 @@ environment:
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
-      PATH: "C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%"
+      PATH: "C:\\msys64\\%MSYSTEM%\\bin;C:\\msys64\\usr\\bin;%PATH%"
       PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "64"
     
 install:
   - bash -lc "pacman --noconfirm --sync --refresh --refresh pacman"
-  - bash -lc "pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
+  - bash -lc "pacman --noconfirm --sync --refresh --refresh --sysupgrade --sysupgrade"
+  - bash -xlc "pacman -S --noconfirm mingw-w64-x86_64-cppcheck"
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
   
