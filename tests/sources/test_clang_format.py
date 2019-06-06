@@ -102,7 +102,7 @@ class TestClangFormat(unittest.TestCase):
                 for rootPath, dirNames, fileNames in os.walk(path):
                     shouldContinue = False
                     for path in skippedPaths:
-                        if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
+                        if rootPath.startswith(self.WEBOTS_HOME + os.sep + path.replace('/', os.sep)):
                             shouldContinue = True
                             break
                     for directory in skippedDirectories:
