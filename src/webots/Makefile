@@ -418,6 +418,7 @@ QT_SOURCES += \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
+  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
   WbStreamingServer.cpp \
   WbSupervisorUtilities.cpp \
@@ -489,6 +490,7 @@ OTHER_SOURCES = \
   WbFieldModel.cpp \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
+  WbHttpReply.cpp \
   WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \

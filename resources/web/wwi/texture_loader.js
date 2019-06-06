@@ -52,16 +52,8 @@ var TextureLoader = {
     return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex, onLoad);
   },
 
-  loadFromUri: function(uri, name) {
-    this._getInstance().loadFromUri(uri, name);
-  },
-
   setOnTextureLoad: function(onLoad) {
     this._getInstance().onTextureLoad = onLoad;
-  },
-
-  setStreamingMode: function(enabled) {
-    this._getInstance().streamingMode = enabled;
   },
 
   setTexturePathPrefix: function(texturePathPrefix) {
@@ -80,13 +72,13 @@ class _TextureLoaderObject {
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
-    this.streamingMode = false;
     this.onTextureLoad = undefined;
     this.texturePathPrefix = '';
   }
 
   loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
-    name = this.texturePathPrefix + name;
+    if (this.texturePathPrefix)
+      name = this.texturePathPrefix + name;
     if (this.textures[name]) {
       if (typeof onLoad !== 'undefined')
         onLoad(this.textures[name]);
@@ -122,9 +114,6 @@ class _TextureLoaderObject {
     if (typeof onLoad !== 'undefined')
       this.loadingTextures[name].onLoad.push(onLoad);
 
-    if (this.streamingMode)
-      return; // textures will be sent throug socket
-
     // Load from url.
     var loader;
     var isHDR = hasHDRExtension(name);
@@ -151,31 +140,6 @@ class _TextureLoaderObject {
       }
     );
     return undefined;
-  }
-
-  loadFromUri(uri, name) {
-    name = this.texturePathPrefix + name;
-
-    if (!this.loadingTextures[name])
-      this.loadingTextures[name] = {objects: [], onLoad: []};
-
-    var isHDR = hasHDRExtension(name);
-    if (isHDR) {
-      var loader = new THREE.RGBELoader();
-      loader.load(
-        uri,
-        (texture) => {
-          this.loadingTextures[name].data = texture.image;
-          this._onImageLoaded(name);
-        }
-      );
-      return;
-    }
-
-    var image = new Image();
-    this.loadingTextures[name].data = image;
-    image.onload = () => { this._onImageLoaded(name); };
-    image.src = uri;
   }
 
   _onImageLoaded(name) {
