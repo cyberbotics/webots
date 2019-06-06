@@ -50,11 +50,11 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(self.reportFilename):
             reportFile = open(self.reportFilename, 'r')
             reportText = reportFile.read()
+            reportFile.close()
             self.assertTrue(
                 len(reportText) == 0,
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
             )
-            reportFile.close()
             os.remove(self.reportFilename)
 
     def test_sources_with_cppcheck(self):
