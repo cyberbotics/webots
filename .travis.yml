@@ -22,7 +22,7 @@ jobs:
         - pip install -r docs/tests/requirements.txt
       script:
         - python -m unittest discover -s docs/tests
-        - python test/sources/generate_diff.py
+        - python tests/sources/generate_diff.py
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *tests_staging
       python: '2.7'
