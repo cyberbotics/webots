@@ -1,6 +1,7 @@
 environment:
   global:
-    WEBOTS_HOME: "C:\\projects\\webots"
+    WEBOTS_HOME: "/C/projects/webots"
+    MSYS_BASH: "C:\\msys64\\usr\\bin\\bash"
 
   matrix:
     - compiler: msys2
@@ -8,7 +9,6 @@ environment:
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
-      #PATH: "C:\\msys64\\%MSYSTEM%\\bin;C:\\msys64\\usr\\bin;%PATH%"
       PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "64"
@@ -27,5 +27,5 @@ build_script:
   - python --version
   
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s /C/projects/webots/docs/tests"
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s /C/projects/webots/tests/sources"
+  - %MSYS_BASH% --login -c "python -m unittest discover -s /C/projects/webots/docs/tests"
+  - %MSYS_BASH% --login -c "python -m unittest discover -s /C/projects/webots/tests/sources"
