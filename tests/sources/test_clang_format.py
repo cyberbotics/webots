@@ -89,14 +89,12 @@ class TestClangFormat(unittest.TestCase):
         sources = []
         if os.path.isfile(files_diff):
             with open(files_diff, 'r') as file:
-                ...
-            for line in file:
-                line = line.strip()
-                extension = os.path.splitext(line)[1][1:].lower()
-                if extension not in extensions:
-                    continue
-                sources.append(line)
-            file.close()
+                for line in file:
+                    line = line.strip()
+                    extension = os.path.splitext(line)[1][1:].lower()
+                    if extension not in extensions:
+                        continue
+                    sources.append(line)
         else:
             for directory in directories:
                 path = self.WEBOTS_HOME + os.sep + directory.replace('/', os.sep)

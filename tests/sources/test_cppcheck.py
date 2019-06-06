@@ -175,20 +175,18 @@ class TestCppCheck(unittest.TestCase):
         if os.path.isfile(files_diff):
             added = False
             with open(files_diff, 'r') as file:
-               ...
-            for line in file:
-                line = line.strip()
-                extension = os.path.splitext(line)[1][1:].lower()
-                if extension not in self.extensions:
-                    continue
-                for projectsSourceDir in projectsSourceDirs:
-                    if line.startswith(projectsSourceDir):
-                        for projectSkippedDir in projectsSkippedDirs:
-                            if not line.startswith(projectSkippedDir):
-                                command += ' \"' + line + '\"'
-                                added = True
-                                break
-            file.close()
+                for line in file:
+                    line = line.strip()
+                    extension = os.path.splitext(line)[1][1:].lower()
+                    if extension not in self.extensions:
+                        continue
+                    for projectsSourceDir in projectsSourceDirs:
+                        if line.startswith(projectsSourceDir):
+                            for projectSkippedDir in projectsSkippedDirs:
+                                if not line.startswith(projectSkippedDir):
+                                    command += ' \"' + line + '\"'
+                                    added = True
+                                    break
             if not added:
                 return
         else:
