@@ -29,5 +29,5 @@ build_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "echo $(PWD)"
   
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s C:\\projects\\webots\\docs\\tests"
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s C:\\projects\\webots\\tests\\sources"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s /C/projects/webots/docs/tests"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s /C/projects/webots/tests/sources"
