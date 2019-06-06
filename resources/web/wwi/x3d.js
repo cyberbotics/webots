@@ -4,8 +4,7 @@
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
 THREE.X3DLoader = class X3DLoader {
-  constructor(scene, loadManager) {
-    this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
+  constructor(scene) {
     this.scene = scene;
     this.parsedObjects = [];
     this.directionalLights = [];

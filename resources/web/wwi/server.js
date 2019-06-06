@@ -1,4 +1,4 @@
-/* global webots, Stream */
+/* global webots, Stream, TextureLoader */
 'use strict';
 
 class Server { // eslint-disable-line no-unused-vars
@@ -68,7 +68,10 @@ class Server { // eslint-disable-line no-unused-vars
   onMessage(event) {
     var message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
-      this.view.stream = new Stream(message.substring(7), this.view, this.onready);
+      var url = message.substring(7);
+      var httpServerUrl = url.replace(/ws/, 'http'); // Serve the texture images. SSL prefix is supported.
+      TextureLoader.setTexturePathPrefix(httpServerUrl + '/');
+      this.view.stream = new Stream(url, this.view, this.onready);
       this.view.stream.connect();
     } else if (message.indexOf('controller:') === 0) {
       var n = message.indexOf(':', 11);
