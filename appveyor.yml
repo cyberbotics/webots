@@ -23,5 +23,5 @@ build_script:
   - python --version
   
 test_script:
-  - $MSYS_BASH --login -c "python -m unittest discover -s %WEBOTS_HOME%/docs/tests"
-  - $MSYS_BASH --login -c "python -m unittest discover -s %WEBOTS_HOME%/tests/sources"
+  - C:\\msys64\\usr\\bin\\bas --login -c "python -m unittest discover -s %WEBOTS_HOME%/docs/tests"
+  - C:\\msys64\\usr\\bin\\bas --login -c "python -m unittest discover -s %WEBOTS_HOME%/tests/sources"
