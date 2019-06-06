@@ -31,6 +31,7 @@ public:
     mFluid(fluid),
     mSolid(NULL),
     mGeometry(geometry),
+    mLastChangeTime(0.0),
     mMagicNumber(0x7765626F7473LL) {}
   virtual ~WbOdeGeomData() {}
 
@@ -38,12 +39,15 @@ public:
   WbSolid *solid() const { return mSolid; }
   WbFluid *fluid() const { return mFluid; }
   WbGeometry *geometry() const { return mGeometry; }
+  double lastChangeTime() const { return mLastChangeTime; }
+  void setLastChangeTime(double time) { mLastChangeTime = time; }
   const long long int &magicNumber() const { return mMagicNumber; }
 
 private:
   WbFluid *mFluid;
   WbSolid *mSolid;
   WbGeometry *mGeometry;
+  double mLastChangeTime;
   const long long int mMagicNumber;  // this number allows to distinguish WbOdeGeomData from users' own data put into an ODE
                                      // dGeomID (in "webots" replace each character by its hex. ascii)
 };

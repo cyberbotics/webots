@@ -669,15 +669,15 @@ $(BUILD_GOAL_DIR)/%.o:%.c
 
 $(BUILD_GOAL_DIR)/%.o:%.cc
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.c++
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
-	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_DIR)/%.moc.cpp: %.hpp
 	@echo "# moc-generating" $(notdir $<)

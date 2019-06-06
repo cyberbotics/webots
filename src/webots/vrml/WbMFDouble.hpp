@@ -35,7 +35,7 @@ public:
   typedef WbMFIterator<WbMFDouble, double> Iterator;
 
   WbMFDouble(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFDouble(const WbMFDouble &other) { mVector = other.mVector; }
+  WbMFDouble(const WbMFDouble &other) : mVector(other.mVector) {}
   virtual ~WbMFDouble() {}
   WbValue *clone() const override { return new WbMFDouble(*this); }
   bool equals(const WbValue *other) const override;

@@ -196,7 +196,7 @@ void WbMuscle::updateMaterial() {
   if (index >= mColors->size())
     index = mColors->size() - 1;
   if (index != 0) {
-    WbRgb rgb(mColors->item(index));
+    rgb = mColors->item(index);
     const double percent = abs(mStatus);
     const double oneMinusPercent = 1.0f - percent;
     c[0] = c[0] * oneMinusPercent + rgb.red() * percent;
@@ -389,7 +389,7 @@ void WbMuscle::createMeshBuffers() {
   // body
   float v = invSub;
   for (int j = 1; j < SUBDIVISION; ++j, v += invSub) {
-    float u = 0;
+    u = 0;
     for (int i = 0; i <= SUBDIVISION; ++i, u += invSub) {
       const float UvCoordinate[2] = {u, v};
       wr_dynamic_mesh_add_texture_coordinate(mMesh, UvCoordinate);

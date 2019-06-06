@@ -549,29 +549,29 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
   const int coordSize = coord->size();
 
   // populate the vertex array
-  WbVector3 v = coord->item(0);
-  mMax[X] = v.x();
-  mMax[Y] = v.y();
-  mMax[Z] = v.z();
+  WbVector3 vertex = coord->item(0);
+  mMax[X] = vertex.x();
+  mMax[Y] = vertex.y();
+  mMax[Z] = vertex.z();
   mMin[X] = mMax[X];
   mMin[Y] = mMax[Y];
   mMin[Z] = mMax[Z];
   for (int i = 0; i < coordSize; ++i) {
-    v = coord->item(i);
+    vertex = coord->item(i);
 
-    const double x = v.x();
+    const double x = vertex.x();
     if (mMax[X] < x)
       mMax[X] = x;
     else if (mMin[X] > x)
       mMin[X] = x;
 
-    const double y = v.y();
+    const double y = vertex.y();
     if (mMax[Y] < y)
       mMax[Y] = y;
     else if (mMin[Y] > y)
       mMin[Y] = y;
 
-    const double z = v.z();
+    const double z = vertex.z();
     if (mMax[Z] < z)
       mMax[Z] = z;
     else if (mMin[Z] > z)
@@ -683,9 +683,9 @@ void WbTriangleMesh::reverseIndexOrder() {
     mCoordIndices[i1] = third;
 
     if (mTextureCoordinatesValid) {
-      const int third = mTmpTexIndices.at(i2);
+      const int thirdIndex = mTmpTexIndices.at(i2);
       mTmpTexIndices[i2] = mTmpTexIndices.at(i1);
-      mTmpTexIndices[i1] = third;
+      mTmpTexIndices[i1] = thirdIndex;
     }
   }
 }

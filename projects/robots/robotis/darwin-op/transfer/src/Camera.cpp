@@ -54,9 +54,8 @@ void ::webots::Camera::enable(int samplingPeriod) {
 
 void ::webots::Camera::disable() {
   if (mIsActive) {
-    int error = 0;
     // End the thread
-    if ((error = pthread_cancel(this->mCameraThread)) != 0)
+    if (pthread_cancel(this->mCameraThread) != 0)
       exit(-1);
     mIsActive = false;
   }

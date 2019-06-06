@@ -512,7 +512,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_START_MOVIE: {
       int width, height;
-      unsigned char codec, quality, acceleration, caption;
+      unsigned char codec = 0, quality = 0, acceleration = 0, caption = 0;
       stream >> (int &)width;
       stream >> (int &)height;
       stream >> (unsigned char &)codec;
@@ -521,6 +521,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> (unsigned char &)caption;
       QString filename = readString(stream);
       makeFilenameAbsolute(filename);
+      // cppcheck-suppress knownConditionTrueFalse
       WbApplication::instance()->startVideoCapture(filename, codec, width, height, quality, acceleration, caption == 1);
       return;
     }
@@ -672,7 +673,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_SET_VELOCITY: {
       unsigned int id;
-      double a0, a1, a2, l0, l1, l2;
+      double a0 = 0.0, a1 = 0.0, a2 = 0.0, l0 = 0.0, l1 = 0.0, l2 = 0.0;
 
       stream >> (unsigned int &)id;
       stream >> (double &)l0;
@@ -725,7 +726,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_SET_VISIBILITY: {
       unsigned int nodeId, fromId;
-      unsigned char visible;
+      unsigned char visible = 0;
 
       stream >> (unsigned int &)nodeId;
       stream >> (unsigned int &)fromId;
@@ -738,8 +739,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(node);
       assert(baseNode);
       if (camera)
+        // cppcheck-suppress knownConditionTrueFalse
         camera->setNodeVisibility(baseNode, visible == 1);
       else if (viewpoint)
+        // cppcheck-suppress knownConditionTrueFalse
         viewpoint->setNodeVisibility(baseNode, visible == 1);
       return;
     }
@@ -905,8 +908,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       switch (field->type()) {  // import value
         case WB_MF_BOOL: {
+          // cppcheck-suppress unassignedVariable
           unsigned char value;
           stream >> (unsigned char &)value;
+          // cppcheck-suppress knownConditionTrueFalse
           (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
           break;
         }

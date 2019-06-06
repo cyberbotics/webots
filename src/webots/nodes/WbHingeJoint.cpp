@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbHingeJoint.hpp"
+
 #include "WbBrake.hpp"
 #include "WbHingeJointParameters.hpp"
 #include "WbMathsUtilities.hpp"
@@ -170,6 +171,7 @@ void WbHingeJoint::applyToOdeAnchor() {
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
+  // cppcheck-suppress knownConditionTrueFalse
   else if (nodeType() == WB_NODE_BALL_JOINT)
     dJointSetBallAnchor(mJoint, t.x(), t.y(), t.z());
   else

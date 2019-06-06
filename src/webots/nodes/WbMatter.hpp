@@ -94,8 +94,8 @@ protected:
   WbMatter(const QString &modelName, WbTokenizer *tokenizer);
 
   const QString &vrmlName() const override {
-    static const QString name("Transform");
-    return name;
+    static const QString returnedName("Transform");
+    return returnedName;
   }
 
   // Renders the frame axes and the center of mass

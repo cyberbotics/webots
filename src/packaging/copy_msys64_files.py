@@ -25,7 +25,7 @@ def list_dependencies(package):
 
 d = list_dependencies('make')
 d += list_dependencies('coreutils')
-d += list_dependencies('gcc')
+d += list_dependencies('mingw-w64-x86_64-gcc')
 d += list_dependencies('mingw-w64-i686-gcc')
 
 # remove duplicate packages

@@ -12,21 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-distrib: release
+# Webots Makefile system 
+#
+# You may add some variable definitions hereafter to customize the build process
+# See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
-release debug profile:
-	@+make -s -C translations $@
-	@+make -s -C languages $@
-	@+make -s -C projects $@
-	@+make -s -C osm_importer $@
-	@+make -s -C web/wwi $@
 
-cleanse: clean
-
-clean:
-	@+make -s -C translations $@
-	@+make -s -C languages $@
-	@+make -s -C projects $@
-	@+make -s -C osm_importer $@
-	@-rm -rf sumo_exporter/*.pyc
-	@+make -s -C web/wwi $(MAKECMDGOALS)
+# Do not modify the following: this includes Webots global Makefile.include
+space :=
+space +=
+WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -68,7 +68,7 @@ webots::Robot::Robot() {
 
   // Make each motors go to the start position slowly
   const int msgLength = 5;  // id + Goal Position (L + H) + Moving speed (L + H)
-  int value = 0, changed_motors = 0, n = 0;
+  int value, changed_motors = 0, n = 0;
   int param[20 * msgLength];
 
   for (motorIt = Motor::mNamesToIDs.begin(); motorIt != Motor::mNamesToIDs.end(); ++motorIt) {
