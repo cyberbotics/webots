@@ -25,8 +25,6 @@ install:
   
 build_script:
   - python --version
-  - C:\\msys64\\usr\\bin\\bash --login -c "ls"
-  - C:\\msys64\\usr\\bin\\bash --login -c "echo $(PWD)"
   
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s /C/projects/webots/docs/tests"
