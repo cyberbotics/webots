@@ -57,6 +57,31 @@ class TestCppCheck(unittest.TestCase):
             )
             os.remove(self.reportFilename)
 
+    def add_source_files(self, sourceDirs, skippedDirs):
+        command = ''
+        files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
+        if os.path.isfile(files_diff):
+            file = open(files_diff, 'r')
+            for line in file:
+                line = line.strip()
+                extension = os.path.splitext(line)[1][1:].lower()
+                if extension not in self.extensions:
+                    continue
+                for sourceDir in sourceDirs:
+                    if line.startswith(sourceDir):
+                        for skippedDir in skippedDirs:
+                            if not line.startswith(skippedDir):
+                                command += ' \"' + line + '\"'
+                                break
+                        continue
+            file.close()
+        else:
+            for source in skippedDirs:
+                command += ' -i\"' + source + '\"'
+            for source in sourceDirs:
+                command += ' \"' + source + '\"'
+        return command
+
     def test_sources_with_cppcheck(self):
         """Test Webots with Cppcheck."""
         sourceDirs = [
@@ -68,7 +93,8 @@ class TestCppCheck(unittest.TestCase):
         ]
         skippedDirs = [
             'src/webots/external',
-            'include/opencv2'
+            'include/opencv2',
+            'include/qt'
         ]
         includeDirs = [
             'include/controller/c',
@@ -114,37 +140,16 @@ class TestCppCheck(unittest.TestCase):
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
             command += ' -I\"' + include + '\"'
-        files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
-        if os.path.isfile(files_diff):
-            added = False
-            file = open(files_diff, 'r')
-            for line in file:
-                line = line.strip()
-                extension = os.path.splitext(line)[1][1:].lower()
-                if extension not in self.extensions:
-                    continue
-                for sourceDir in sourceDirs:
-                    if line.startswith(sourceDir):
-                        for skippedDir in skippedDirs:
-                            if not line.startswith(skippedDir):
-                                command += ' \"' + line + '\"'
-                                added = True
-                                break
-                        continue
-            file.close()
-            if not added:
-                return
-        else:
-            for source in skippedDirs:
-                command += ' -i\"' + source + '\"'
-            for source in sourceDirs:
-                command += ' \"' + source + '\"'
+        sources = self.add_source_files(sourceDirs, skippedDirs)
+        if not sources:
+            return
+        command += sources
         os.chdir(self.WEBOTS_HOME)
         self.run_cppcheck(command)
 
     def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
-        projectsSourceDirs = [
+        sourceDirs = [
             'projects/default',
             'projects/devices',
             'projects/humans',
@@ -154,7 +159,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/samples',
             'projects/vehicles'
         ]
-        projectsSkippedDirs = [
+        skippedDirs = [
             'projects/default/controllers/ros/include',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
@@ -172,29 +177,10 @@ class TestCppCheck(unittest.TestCase):
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
-        if os.path.isfile(files_diff):
-            added = False
-            with open(files_diff, 'r') as file:
-                for line in file:
-                    line = line.strip()
-                    extension = os.path.splitext(line)[1][1:].lower()
-                    if extension not in self.extensions:
-                        continue
-                    for projectsSourceDir in projectsSourceDirs:
-                        if line.startswith(projectsSourceDir):
-                            for projectSkippedDir in projectsSkippedDirs:
-                                if not line.startswith(projectSkippedDir):
-                                    command += ' \"' + line + '\"'
-                                    added = True
-                                    break
-                file.close()
-            if not added:
-                return
-        else:
-            for source in projectsSkippedDirs:
-                command += ' -i\"' + source + '\"'
-            for source in projectsSourceDirs:
-                command += ' \"' + source + '\"'
+        sources = self.add_source_files(sourceDirs, skippedDirs)
+        if not sources:
+            return
+        command += sources
         os.chdir(self.WEBOTS_HOME)
         self.run_cppcheck(command)
 
