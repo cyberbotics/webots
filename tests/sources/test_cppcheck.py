@@ -187,6 +187,7 @@ class TestCppCheck(unittest.TestCase):
                                     command += ' \"' + line + '\"'
                                     added = True
                                     break
+                file.close()
             if not added:
                 return
         else:
