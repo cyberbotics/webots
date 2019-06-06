@@ -18,4 +18,4 @@ build_script:
   - "echo build"
   
 test_script:
-  - "%CMD_IN_ENV% python -m unittest discover -s docs/tests"
+  - "%CMD_IN_ENV% python -m unittest discover -s C:\projects\webots\docs\tests"
