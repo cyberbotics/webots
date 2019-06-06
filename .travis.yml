@@ -104,8 +104,8 @@ jobs:
         - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs ros-kinetic-tf
         - sudo rosdep init
         - rosdep update
-        - sudo pip install rospkg catkin_pkg empy defusedxml netifaces #--target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
-        - sudo pip install rospkg catkin_pkg empy defusedxml netifaces 
+        - sudo pip3 install rospkg catkin_pkg empy defusedxml netifaces #--target=/usr/lib/python3.7  # by default ros only comes with python2.7 libraries
+        - sudo pip3 install rospkg catkin_pkg empy defusedxml netifaces 
         - echo $PYTHONPATH  #TODO: remove
         - pip --version  #TODO: remove
         - echo $TRAVIS_PYTHON_VERSION  #TODO: remove
