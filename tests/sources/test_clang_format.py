@@ -88,7 +88,8 @@ class TestClangFormat(unittest.TestCase):
         files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
         sources = []
         if os.path.isfile(files_diff):
-            file = open(files_diff, 'r')
+            with open(files_diff, 'r') as file:
+                ...
             for line in file:
                 line = line.strip()
                 extension = os.path.splitext(line)[1][1:].lower()
