@@ -22,6 +22,8 @@ import os
 import subprocess
 import sys
 
+from io import open
+
 from distutils.spawn import find_executable
 
 
