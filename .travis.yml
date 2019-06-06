@@ -106,6 +106,8 @@ jobs:
         - echo $PYTHONPATH
         - pip --version  #TODO: remove
         - echo $TRAVIS_PYTHON_VERSION  #TODO: remove
+        - export PYTHONPATH=/usr/lib/python3.7
+        - ls $PYTHONPATH
       script:
 #        - make release -j2
 #        - make release -j2 -C tests
