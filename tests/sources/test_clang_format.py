@@ -98,7 +98,7 @@ class TestClangFormat(unittest.TestCase):
             file.close()
         else:
             for directory in directories:
-                path = os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)
+                path = self.WEBOTS_HOME + os.sep + directory.replace('/', os.sep)
                 for rootPath, dirNames, fileNames in os.walk(path):
                     shouldContinue = False
                     for path in skippedPaths:
