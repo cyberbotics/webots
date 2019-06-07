@@ -1,6 +1,6 @@
 environment:
   global:
-    WEBOTS_HOME: "/C/projects/webots"
+    WEBOTS_HOME: %APPVEYOR_BUILD_FOLDER%
   matrix:
     - compiler: msys2
       ARCH: x64
