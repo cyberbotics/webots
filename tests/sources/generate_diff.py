@@ -20,11 +20,7 @@ import os
 import subprocess
 import sys
 
-branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
-if branch is not None and os.getenv('TRAVIS_EVENT_TYPE') == 'pull_request':
-    output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
-    f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
-    f.write(output)
-    f.close()
-else:
-    sys.exit('TRAVIS_BRANCH environment variable is not set.')
+if len(sys.argv) != 2:
+    sys.exit('Usage: generate_diff.py parent_branch')
+with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    file.write(subprocess.check_output(['git', 'diff', '--name-only', sys.argv[1]]).decode('utf-8'))
