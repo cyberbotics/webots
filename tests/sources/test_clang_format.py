@@ -120,16 +120,12 @@ class TestClangFormat(unittest.TestCase):
         for source in sources:
             diff = ''
             with open(source, encoding='utf8') as file:
-                if sys.version_info[0] < 3:
-                    for line in difflib.context_diff(self._runClangFormat(source).splitlines(), file.read().splitlines()):
+                try:
+                    for line in difflib.context_diff(self._runClangFormat(source).decode('utf-8').splitlines(),
+                                                     file.read().splitlines()):
                         diff += line + '\n'
-                else:
-                    try:
-                        for line in difflib.context_diff(self._runClangFormat(source).decode('utf-8').splitlines(),
-                                                         file.read().splitlines()):
-                            diff += line + '\n'
-                    except UnicodeDecodeError:
-                        self.assertTrue(False, msg='utf-8 decode problem in %s' % source)
+                except UnicodeDecodeError:
+                    self.assertTrue(False, msg='utf-8 decode problem in %s' % source)
                 self.assertTrue(
                     len(diff) == 0,
                     msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
