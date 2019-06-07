@@ -21,6 +21,7 @@ import datetime
 import os
 import fnmatch
 
+from io import open
 
 APACHE2_LICENSE_C = """/*
  * Copyright 1996-20XX Cyberbotics Ltd.
@@ -149,7 +150,7 @@ class TestLicense(unittest.TestCase):
     def test_sources_have_license(self):
         """Test that sources have the license."""
         for source in self.sources:
-            with open(source, 'r') as content_file:
+            with open(source, 'r', encoding='utf-8') as content_file:
                 content = content_file.read()
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(
