@@ -1,7 +1,7 @@
 environment:
   global:
-    WEBOTS_HOME_PROTECTED: "C:\\projects\\webots"
-    WEBOTS_HOME: "C:\projects\webots"
+    WEBOTS_HOME_PROTECTED: "C:\\\\projects\\\\webots"
+    WEBOTS_HOME: "C:\\projects\\webots"
     
     
   matrix:
