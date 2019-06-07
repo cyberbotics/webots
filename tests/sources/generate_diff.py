@@ -23,7 +23,7 @@ import sys
 branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
 if branch is not None:
     output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
-    f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'files_diff.txt'), 'w')
+    f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
     f.write(output)
     f.close()
 else:

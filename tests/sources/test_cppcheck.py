@@ -59,9 +59,9 @@ class TestCppCheck(unittest.TestCase):
 
     def add_source_files(self, sourceDirs, skippedDirs):
         command = ''
-        files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
-        if os.path.isfile(files_diff):
-            file = open(files_diff, 'r')
+        modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
+        if os.path.isfile(modified_files):
+            file = open(modified_files, 'r')
             for line in file:
                 line = line.strip()
                 extension = os.path.splitext(line)[1][1:].lower()
@@ -172,7 +172,6 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
-        files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
         command = self.cppcheck + ' --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         # command += '--xml '  # Uncomment this line to get more information on the errors

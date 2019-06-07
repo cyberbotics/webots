@@ -85,10 +85,10 @@ class TestClangFormat(unittest.TestCase):
             'java'
         ]
         extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++', 'vert', 'frag']
-        files_diff = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'files_diff.txt')
+        modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         sources = []
-        if os.path.isfile(files_diff):
-            with open(files_diff, 'r') as file:
+        if os.path.isfile(modified_files):
+            with open(modified_files, 'r') as file:
                 for line in file:
                     line = line.strip()
                     extension = os.path.splitext(line)[1][1:].lower()
