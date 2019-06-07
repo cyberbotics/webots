@@ -16,8 +16,7 @@ install:
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
 
-build_script:
-  - python --version  # The 'build_script' step is mandatory
+build: off
 
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "clang-format --version"
