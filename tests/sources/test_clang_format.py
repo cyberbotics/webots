@@ -35,10 +35,11 @@ class TestClangFormat(unittest.TestCase):
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
-        clangFormatCommand = "clang-format"
+        clangFormatCommand = 'clang-format'
         if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
-            clangFormatCommand = "clang-format-5.0"
-        return subprocess.check_output([clangFormatCommand, "-style=file", f])
+            clangFormatCommand = 'clang-format-5.0'
+        print([clangFormatCommand, '-style=file', f])
+        return subprocess.check_output([clangFormatCommand, '-style=file', '--version'])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
@@ -113,7 +114,7 @@ class TestClangFormat(unittest.TestCase):
                     for fileName in fileNames:
                         extension = os.path.splitext(fileName)[1][1:].lower()
                         if extension in extensions:
-                            sources.append(os.path.join(rootPath, fileName).replace('\\', os.sep))
+                            sources.append(os.path.join(rootPath, fileName))
         curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
         for source in sources:
