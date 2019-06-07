@@ -64,7 +64,6 @@ all: $(WEBOTS_DISTRO_EXE) $(ISCC_FORMATTER)
 	+@$(WEBOTS) --update-proto-cache
 ifeq ($(OSTYPE),darwin)
 	+@echo "# checking RPATH system"
-	+@rm -rf $(WEBOTS_HOME_PATH)/lib/qt/plugins/platforms/libqoffscreen.dylib  # temporary to avoid rpath check failure
 	+@./check_rpath.py
 endif
 	+@echo "# checking submodules update"
