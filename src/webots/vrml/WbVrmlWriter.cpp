@@ -32,7 +32,7 @@ WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
   QTextStream(target, QIODevice::ReadWrite),
   mFileName(fileName),
   mIndent(0),
-  mIsWritingToFile(true) {
+  mIsWritingToFile(false) {
   setVrmlType();
 }
 
