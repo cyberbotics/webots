@@ -12,11 +12,12 @@ notifications:
       - support@cyberbotics.com
     on_success: change
     on_failure: always
+after_failure: > 
+  if [ $TRAVIS_EVENT_TYPE == cron ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage: $(echo $TRAVIS_BUILD_WEB_URL)\" }" $DISCORD_WEBHOOK; fi
 jobs:
   include:
     - &source_tests_staging
       stage: Sources Tests
-      if: type = cron  #TODO: remove
       git:
         depth: 3
         submodules: false
@@ -48,10 +49,6 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-#      after_failure: > 
-#        curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage: $(echo $TRAVIS_BUILD_WEB_URL)\" }" $DISCORD_WEBHOOK
-      after_success: >
-        curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"I have a good news for you my friends, you can now burn your Jenkins server ;-)\" }" $DISCORD_WEBHOOK
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_deploy)
       git: &compilation_git
         depth: 3
