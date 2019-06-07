@@ -48,9 +48,8 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
         os.system(command)  # warning: on Windows, the length of command is limited to 8192 characters
         if os.path.isfile(self.reportFilename):
-            reportFile = open(self.reportFilename, 'r')
-            reportText = reportFile.read()
-            reportFile.close()
+            with open(self.reportFilename, 'r') as reportFile:
+                reportText = reportFile.read()
             self.assertTrue(
                 len(reportText) == 0,
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
@@ -61,20 +60,19 @@ class TestCppCheck(unittest.TestCase):
         command = ''
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         if os.path.isfile(modified_files):
-            file = open(modified_files, 'r')
-            for line in file:
-                line = line.strip()
-                extension = os.path.splitext(line)[1][1:].lower()
-                if extension not in self.extensions:
-                    continue
-                for sourceDir in sourceDirs:
-                    if line.startswith(sourceDir):
-                        for skippedDir in skippedDirs:
-                            if not line.startswith(skippedDir):
-                                command += ' \"' + line + '\"'
-                                break
+            with open(modified_files, 'r') as file:
+                for line in file:
+                    line = line.strip()
+                    extension = os.path.splitext(line)[1][1:].lower()
+                    if extension not in self.extensions:
                         continue
-            file.close()
+                    for sourceDir in sourceDirs:
+                        if line.startswith(sourceDir):
+                            for skippedDir in skippedDirs:
+                                if not line.startswith(skippedDir):
+                                    command += ' \"' + line + '\"'
+                                    break
+                            continue
         else:
             for source in skippedDirs:
                 command += ' -i\"' + source + '\"'
@@ -99,17 +97,6 @@ class TestCppCheck(unittest.TestCase):
         includeDirs = [
             'include/controller/c',
             'include/ode',
-            # 'include/qt/QtCore', for some reason, on Windows this prevents cppcheck from detecting errors
-            'include/qt/QtGui',
-            'include/qt/QtWidgets',
-            'include/qt/QtPrintSupport',
-            'include/qt/QtOpenGL',
-            'include/qt/QtNetwork',
-            'include/qt/QtWebEngineCore',
-            'include/qt/QtWebEngineWidgets',
-            'include/qt/QtWebChannel',
-            'include/qt/QtWebSockets',
-            'include/qt/QtXml',
             'include/wren',
             'include/glad',
             'src/webots/app',
