@@ -125,11 +125,11 @@ void MainApplicationPrivate::updateGui() {
 #ifdef _WIN32
   DWORD bytesAvailable = 0;
   QAbstractEventDispatcher *disp = QAbstractEventDispatcher::instance();
-  while (bytesAvailable <= 0) {
+  while (bytesAvailable == 0) {
     if (disp->hasPendingEvents())
       processEvents();
     PeekNamedPipe((HANDLE)mPipeInHandler, NULL, 0, NULL, &bytesAvailable, NULL);
-    if (bytesAvailable <= 0)
+    if (bytesAvailable == 0)
       Sleep(1);
   }
 #else
