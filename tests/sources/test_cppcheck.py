@@ -44,6 +44,8 @@ class TestCppCheck(unittest.TestCase):
 
     def run_cppcheck(self, command):
         """Run Cppcheck command and check for errors."""
+        curdir = os.getcwd()
+        os.chdir(self.WEBOTS_HOME)
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
         os.system(command)  # warning: on Windows, the length of command is limited to 8192 characters
@@ -55,6 +57,7 @@ class TestCppCheck(unittest.TestCase):
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
             )
             os.remove(self.reportFilename)
+        os.chdir(curdir)
 
     def add_source_files(self, sourceDirs, skippedDirs):
         command = ''
@@ -131,7 +134,6 @@ class TestCppCheck(unittest.TestCase):
         if not sources:
             return
         command += sources
-        os.chdir(self.WEBOTS_HOME)
         self.run_cppcheck(command)
 
     def test_projects_with_cppcheck(self):
@@ -167,7 +169,6 @@ class TestCppCheck(unittest.TestCase):
         if not sources:
             return
         command += sources
-        os.chdir(self.WEBOTS_HOME)
         self.run_cppcheck(command)
 
 

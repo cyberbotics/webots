@@ -115,6 +115,7 @@ class TestClangFormat(unittest.TestCase):
                         extension = os.path.splitext(fileName)[1][1:].lower()
                         if extension in extensions:
                             sources.append(os.path.join(rootPath, fileName))
+        curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
         for source in sources:
             diff = ''
@@ -133,6 +134,7 @@ class TestClangFormat(unittest.TestCase):
                     len(diff) == 0,
                     msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
                 )
+        os.chdir(curdir)
 
 
 if __name__ == '__main__':
