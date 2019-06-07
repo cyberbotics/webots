@@ -20,7 +20,6 @@ import unittest
 import difflib
 import os
 import subprocess
-import sys
 
 from io import open
 
