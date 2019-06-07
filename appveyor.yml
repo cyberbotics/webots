@@ -20,5 +20,6 @@ build_script:
   - python --version  # The 'build_script' step is mandatory
 
 test_script:
+  - C:\\msys64\\usr\\bin\\bash --login -c "clang-format --version"
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
