@@ -45,7 +45,7 @@ The internal device names used to retrieve the devices from the controller can b
 
 %figure "MultiSenseS21 stereoscopic camera"
 
-![multisense_s21.png](images/sensors/multisense_s21.png)
+![multisense_s21.png](images/sensors/multisense_s21.thumbnail.png)
 
 %end
 

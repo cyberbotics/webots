@@ -32,7 +32,7 @@ WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
   QTextStream(target, QIODevice::ReadWrite),
   mFileName(fileName),
   mIndent(0),
-  mIsWritingToFile(true) {
+  mIsWritingToFile(false) {
   setVrmlType();
 }
 
@@ -143,11 +143,6 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
       *this << "</head>\n";
       *this << "<Scene>\n";
-      *this << "<NavigationInfo headlight=\"false\" type=\"NONE\" />\n";  // disable automatic light, disable default X3DOM
-                                                                          // navigation
-      *this << "<Environment shadowExcludeTransparentObjects=\"true\"";
-      if (!mFrustumCullingValue.isEmpty())
-        *this << " frustumCulling=\"" << mFrustumCullingValue << "\"";
       *this << "/>\n";
       return;
     default:

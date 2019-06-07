@@ -1,6 +1,6 @@
 ## Tinkerbots
 
-%robot tinkerbots images/robots/tinkerbots/model.png
+%robot tinkerbots images/robots/tinkerbots/model.thumbnail.png
 
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
@@ -24,7 +24,7 @@ Derived from [Robot](../reference/robot.md).
 
 %figure
 
-![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.png)
+![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.thumbnail.png)
 
 %end
 
@@ -45,7 +45,7 @@ TinkerbotsBase {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsBase.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -66,7 +66,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.png)
+![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.thumbnail.png)
 
 %end
 
@@ -81,7 +81,7 @@ TinkerbotsGrabber {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsGrabber.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -92,7 +92,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.png)
+![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.thumbnail.png)
 
 %end
 
@@ -107,7 +107,7 @@ TinkerbotsMotor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsMotor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -122,7 +122,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.png)
+![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.thumbnail.png)
 
 %end
 
@@ -136,7 +136,7 @@ TinkerbotsPivot {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsPivot.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -147,7 +147,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.png)
+![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.thumbnail.png)
 
 %end
 
@@ -161,7 +161,7 @@ TinkerbotsTwister {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsTwister.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.png)
+![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.thumbnail.png)
 
 %end
 
@@ -186,7 +186,7 @@ TinkerbotsDistanceSensor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -197,7 +197,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.png)
+![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.thumbnail.png)
 
 %end
 
@@ -211,7 +211,7 @@ TinkerbotsLightSensor {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsLightSensor.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -222,7 +222,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.png)
+![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.thumbnail.png)
 
 %end
 
@@ -236,7 +236,7 @@ TinkerbotsCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -261,7 +261,7 @@ TinkerbotsAxle {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsAxle.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -289,7 +289,7 @@ TinkerbotsBrickAdapter {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -300,7 +300,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.png)
+![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.thumbnail.png)
 
 %end
 
@@ -313,7 +313,7 @@ TinkerbotsCubieBoxWithCrossSlots {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/kinematics/TinkerbotsCubieBoxWithCrossSlots.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -324,7 +324,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.png)
+![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.thumbnail.png)
 
 %end
 
@@ -338,7 +338,7 @@ TinkerbotsCubieBoxWithRoundSlots {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -367,7 +367,7 @@ TinkerbotsCubieFemaleCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -392,7 +392,7 @@ TinkerbotsCubieMaleCube {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieMaleCube.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieMaleCube.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -417,7 +417,7 @@ TinkerbotsCubiePyramid {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubiePyramid.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubiePyramid.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -442,7 +442,7 @@ TinkerbotsCubieTriangle {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -465,7 +465,7 @@ TinkerbotsFinger {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsFinger.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -476,7 +476,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross male" type.
 
 %figure
 
-![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.png)
+![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.thumbnail.png)
 
 %end
 
@@ -488,14 +488,14 @@ TinkerbotsWheel {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/tinkerbots/protos/TinkerbotsWheel.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
 ### Samples
 
-You will find the following examples in this folder: "WEBOTS\_HOME/projects/robots/tinkerbots/worlds".
+You will find the following examples in this folder: "WEBOTS\_HOME/projects/robots/kinematics/tinkerbots/worlds".
 
 #### tinkerbots\_demo.wbt
 

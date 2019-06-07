@@ -198,7 +198,7 @@ In the motion editor different fonts and colors are used to identify the status 
 
 %figure "Motion editor view"
 
-![motion_editor.png](images/motion_editor.png)
+![motion_editor.png](images/motion_editor.thumbnail.jpg)
 
 %end
 

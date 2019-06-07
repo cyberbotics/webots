@@ -2,14 +2,17 @@
 
 ```
 IndexedFaceSet {
-  SFNode  coord         NULL   # {Coordinate, PROTO}
-  SFNode  texCoord      NULL   # {TextureCoordinate, PROTO}
-  SFBool  solid         TRUE   # {TRUE, FALSE}
-  SFBool  ccw           TRUE   # {TRUE, FALSE}
-  SFBool  convex        TRUE   # {TRUE, FALSE}
-  MFInt32 coordIndex    [ ]    # [-1, inf)
-  MFInt32 texCoordIndex [ ]    # [-1, inf)
-  SFFloat creaseAngle   0      # [0, inf)
+  SFNode  coord           NULL   # {Coordinate, PROTO}
+  SFNode  normal          NULL   # {Normal, PROTO}
+  SFNode  texCoord        NULL   # {TextureCoordinate, PROTO}
+  SFBool  solid           TRUE   # {TRUE, FALSE}
+  SFBool  ccw             TRUE   # {TRUE, FALSE}
+  SFBool  convex          TRUE   # {TRUE, FALSE}
+  SFBool  normalPerVertex TRUE   # {TRUE, FALSE}
+  MFInt32 coordIndex      [ ]    # [-1, inf)
+  MFInt32 normalIndex     [ ]    # [-1, inf)
+  MFInt32 texCoordIndex   [ ]    # [-1, inf)
+  SFFloat creaseAngle     0      # [0, inf)
 }
 ```
 
@@ -35,6 +38,14 @@ Each face of the [IndexedFaceSet](#indexedfaceset) shall have:
 Otherwise, the results are undefined.
 
 When used for collision detection (boundingObject), each face of the [IndexedFaceSet](#indexedfaceset) must contain exactly three vertices, hence defining a triangle mesh (or trimesh).
+
+If the `normal` field is not NULL, then it must contain a [Normal](normal.md) node.
+The normals in that node are applied to the vertices or faces of the [IndexedFaceSet](#indexedfaceset) as follows:
+
+If the `normalPerVertex` field is TRUE, the `normalIndex` is used to determine the normal at each vertex.
+The `normalCoordIndex` field must contain at least as many indices as the `coordIndex` field, and must contain end-of-face markers (-1) in exactly the same places as the `coordIndex` field.
+
+If the `normalPerVertex` field is FALSE, each normal defines the normal of one face.
 
 If the `texCoord` field is not NULL, then it must contain a [TextureCoordinate](texturecoordinate.md) node.
 The texture coordinates in that node are applied to the vertices of the [IndexedFaceSet](#indexedfaceset) as follows:

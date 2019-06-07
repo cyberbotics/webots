@@ -30,9 +30,6 @@ public:
   // return the current proto list
   static WbProtoList *current();
 
-  // update cache of modules protos (for example after downloading new modules)
-  static void updateProjectsProtoCache();
-
   // return all proto files stored in valid project folders located in the given path
   static void findProtosRecursively(const QString &dirPath, QFileInfoList &protoList, bool inProtos = false);
 
@@ -77,9 +74,12 @@ private:
 
   static QFileInfoList gResourcesProtoCache;
   static QFileInfoList gProjectsProtoCache;
+  static QFileInfoList gExtraProtoCache;
   QFileInfoList mPrimaryProtoCache;
 
+  static void updateProjectsProtoCache();
   static void updateResourcesProtoCache();
+  static void updateExtraProtoCache();
   void updatePrimaryProtoCache();
 };
 

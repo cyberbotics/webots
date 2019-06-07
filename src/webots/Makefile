@@ -233,7 +233,6 @@ QT_SOURCES += \
   WbActionManager.cpp \
   WbAddInertiaMatrixDialog.cpp \
   WbAddNodeDialog.cpp \
-  WbAnchorParameter.cpp \
   WbAnimationRecorder.cpp \
   WbAppearance.cpp \
   WbApplication.cpp \
@@ -350,6 +349,7 @@ QT_SOURCES += \
   WbNodeOperations.cpp \
   WbNodePane.cpp \
   WbNodeReader.cpp \
+  WbNormal.cpp \
   WbOdeContext.cpp \
   WbOpenSampleWorldDialog.cpp \
   WbPaintTexture.cpp \
@@ -418,6 +418,7 @@ QT_SOURCES += \
   WbSplashScreen.cpp \
   WbSphere.cpp \
   WbSpotLight.cpp \
+  WbStreamingTcpServer.cpp \
   WbStringEditor.cpp \
   WbStreamingServer.cpp \
   WbSupervisorUtilities.cpp \
@@ -489,6 +490,7 @@ OTHER_SOURCES = \
   WbFieldModel.cpp \
   WbFileUtil.cpp \
   WbHiddenKinematicParameters.cpp \
+  WbHttpReply.cpp \
   WbImage.cpp \
   WbIniParser.cpp \
   WbKinematicDifferentialWheels.cpp \

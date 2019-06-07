@@ -1,6 +1,6 @@
 ## Clearpath Robotics' PR2
 
-%robot pr2 images/robots/pr2/model.png
+%robot pr2 images/robots/pr2/model.thumbnail.png
 
 The [clearpath's PR2 robot](http://wiki.ros.org/Robots/PR2) is a mobile manipulation platform.
 The robot is mounted on four directional wheels, had two articulated arms with grippers, an articulated body and head.

@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
   // internal variables
   int i;
-  bool avoid_obstacle_counter = 0;
+  int avoid_obstacle_counter = 0;
 
   // initialise distance sensors
   WbDeviceTag ds[2];

@@ -524,8 +524,7 @@ void WbCylinder::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
 }
 
-// if a cylinder has nothing to draw, then it shouldn't be exported to X3D at it will make X3DOM 1.4 display some errors in the
-// console
+// if a cylinder has nothing to draw, then it shouldn't be exported to X3D
 bool WbCylinder::shallExport() const {
   return mBottom->value() || mTop->value() || mSide->value();
 }

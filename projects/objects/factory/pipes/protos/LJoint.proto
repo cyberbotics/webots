@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # 90-degree L-joint for connecting pipes.
@@ -8,6 +8,7 @@ PROTO LJoint [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "L joint pipe"
   field SFVec3f    scale       1 1 1
+  field SFNode     appearance  OldSteel { textureTransform TextureTransform { rotation 0.78 scale 2 2 } }  # Defines the appearance of the pipe.
 ]
 {
   Solid {
@@ -16,12 +17,7 @@ PROTO LJoint [
     scale IS scale
     children [
       Shape {
-        appearance OldSteel {
-          textureTransform TextureTransform {
-            rotation 0.78
-            scale 2 2
-          }
-        }
+        appearance IS appearance
         geometry IndexedFaceSet {
           coord Coordinate {
             point [

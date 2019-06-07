@@ -27,6 +27,7 @@ from pyflakes import checker
 from pyflakes.reporter import Reporter
 
 skippedDirectories = [
+    'dependencies',
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',

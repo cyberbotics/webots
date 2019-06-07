@@ -31,8 +31,10 @@ struct WrTexture;
 struct WrTexture2d;
 struct WrViewport;
 
+class WbWrenBloom;
 class WbWrenColorNoise;
 class WbWrenDepthOfField;
+class WbWrenGtao;
 class WbWrenHdr;
 class WbWrenLensDistortion;
 class WbWrenMotionBlur;
@@ -74,6 +76,8 @@ public:
   void setNear(float nearValue);
   void setFar(float farValue);
   void setExposure(float exposure);
+  void setAmbientOcclusionRadius(float radius);
+  void setBloomThreshold(float threshold);
   void setMinRange(float minRange);
   void setMaxRange(float maxRange);
   void setFieldOfView(float fov);
@@ -127,6 +131,8 @@ private:
   int mHeight;
   float mNear;
   float mExposure;
+  float mAmbientOcclusionRadius;
+  float mBloomThreshold;
   float mMinRange;
   float mMaxRange;
   float mFieldOfView;
@@ -159,15 +165,18 @@ private:
   WrFrameBuffer *mResultFrameBuffer;
   WrTextureInternalFormat mTextureFormat;
 
+  WbWrenBloom *mWrenBloom[CAMERA_ORIENTATION_COUNT];
   WbWrenColorNoise *mWrenColorNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenDepthOfField *mWrenDepthOfField[CAMERA_ORIENTATION_COUNT];
-  WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
+  WbWrenGtao *mWrenGtao[CAMERA_ORIENTATION_COUNT];
   WbWrenHdr *mWrenHdr[CAMERA_ORIENTATION_COUNT];
+  WbWrenLensDistortion *mWrenLensDistortion[CAMERA_ORIENTATION_COUNT];
   WbWrenMotionBlur *mWrenMotionBlur[CAMERA_ORIENTATION_COUNT];
   WbWrenNoiseMask *mWrenNoiseMask[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeNoise *mWrenRangeNoise[CAMERA_ORIENTATION_COUNT];
   WbWrenRangeQuantization *mWrenRangeQuantization[CAMERA_ORIENTATION_COUNT];
   WbWrenSmaa *mWrenSmaa[CAMERA_ORIENTATION_COUNT];
+  const float *mInverseViewMatrix[CAMERA_ORIENTATION_COUNT];
 
   float mColorNoiseIntensity;
   float mRangeNoiseIntensity;

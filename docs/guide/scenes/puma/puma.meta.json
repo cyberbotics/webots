@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "puma", 
   "devices": [
     {
-      "transformID": "n39", 
+      "transformID": "n33", 
+      "initialPosition": 0, 
       "name": "joint1", 
       "maxPosition": 2.792, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n59", 
+      "transformID": "n50", 
+      "initialPosition": 0, 
       "name": "joint2", 
       "maxPosition": 0.7854, 
       "position": 0, 
@@ -20,7 +23,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n89", 
+      "transformID": "n76", 
+      "initialPosition": 0, 
       "name": "joint3", 
       "maxPosition": 3.9269, 
       "position": 0, 
@@ -29,7 +33,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n93", 
+      "transformID": "n80", 
+      "initialPosition": 0, 
       "name": "joint4", 
       "maxPosition": 2.967, 
       "position": 0, 
@@ -38,7 +43,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n97", 
+      "transformID": "n84", 
+      "initialPosition": 0, 
       "name": "joint5", 
       "maxPosition": 1.7453, 
       "position": 0, 
@@ -47,7 +53,8 @@
       "axis": "0 0 -1"
     }, 
     {
-      "transformID": "n106", 
+      "transformID": "n92", 
+      "initialPosition": 0, 
       "name": "joint6", 
       "maxPosition": 4.6425, 
       "position": 0, 
@@ -56,7 +63,8 @@
       "axis": "0 1 0"
     }, 
     {
-      "transformID": "n144", 
+      "transformID": "n125", 
+      "initialPosition": 1.5708, 
       "name": "joint_GripperL", 
       "maxPosition": 0.01, 
       "position": 0, 
@@ -65,7 +73,8 @@
       "axis": "1 0 0"
     }, 
     {
-      "transformID": "n127", 
+      "transformID": "n110", 
+      "initialPosition": -1.5708, 
       "name": "joint_GripperR", 
       "maxPosition": 0.01, 
       "position": 0, 

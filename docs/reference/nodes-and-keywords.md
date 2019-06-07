@@ -7,7 +7,7 @@ In the other hand, Webots also adds many nodes, which are not part of the VRML97
 
 The following VRML97 nodes are supported by Webots:
 
-`Appearance, Background, Box, Color, Cone, Coordinate, Cylinder, DirectionalLight, ElevationGrid, Fog, Group, ImageTexture, IndexedFaceSet, IndexedLineSet, Material, PointLight, PointSet, Shape, Sphere, SpotLight, TextureCoordinate, TextureTransform, Transform, Viewpoint` and `WorldInfo`.
+`Appearance, Background, Box, Color, Cone, Coordinate, Cylinder, DirectionalLight, ElevationGrid, Fog, Group, ImageTexture, IndexedFaceSet, IndexedLineSet, Material, Normal, PointLight, PointSet, Shape, Sphere, SpotLight, TextureCoordinate, TextureTransform, Transform, Viewpoint` and `WorldInfo`.
 
 Please refer to [this chapter](nodes-and-api-functions.md) for a detailed description of Webots nodes and fields.
 It specifies which fields are actually used.

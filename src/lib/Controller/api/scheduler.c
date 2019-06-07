@@ -18,7 +18,6 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include <locale.h>
 #include <stdio.h>
 #include <string.h>  // strlen, memcpy
 #include <unistd.h>
@@ -46,17 +45,10 @@ unsigned int scheduler_actual_step = 0;
 char *scheduler_data = NULL;
 GPipe *scheduler_pipe = NULL;
 
-int scheduler_init() {
-  setlocale(LC_NUMERIC, "C");
-  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  if (WEBOTS_SERVER == NULL || strlen(WEBOTS_SERVER) < 7) {
-    fprintf(stderr, "This Webots controller program must be launched by Webots\n");
-    return false;
-  }
-
-  scheduler_pipe = g_pipe_new(WEBOTS_SERVER);
+int scheduler_init(const char *pipe) {
+  scheduler_pipe = g_pipe_new(pipe);
   if (scheduler_pipe == NULL) {
-    fprintf(stderr, "Cannot connect to Webots\n");
+    fprintf(stderr, "Cannot connect to Webots on pipe: %s\n", pipe);
     return false;
   }
   // set WEBOTS_PIPE_IN to facilitate the robot window pipe listening
@@ -68,7 +60,6 @@ int scheduler_init() {
   sprintf(pipe_buffer, "%d", scheduler_get_pipe_handle());
   setenv("WEBOTS_PIPE_IN", pipe_buffer, true);
 #endif
-
   scheduler_data = malloc(SCHEDULER_DATA_CHUNK);
   scheduler_data_size = SCHEDULER_DATA_CHUNK;
   return true;

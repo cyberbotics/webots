@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A 15cm Open-End wrench.
@@ -7,7 +7,8 @@ PROTO Wrench [
   field SFVec3f    translation     0 0 0
   field SFRotation rotation        0 1 0 0
   field SFString   name            "wrench"
-  field SFString   contactMaterial "default"  # Is `Solid.contactMaterial`.
+  field SFNode     appearance       OldSteel {}  # Defines the appearance of the wrench.
+  field SFString   contactMaterial "default"     # Is `Solid.contactMaterial`.
 ]
 {
   Solid {
@@ -19,9 +20,7 @@ PROTO Wrench [
         translation 0 0.0033 0
         children [
           DEF WRENCH Shape {
-            appearance PBRAppearance {
-              roughness 0.2
-            }
+            appearance IS appearance
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [

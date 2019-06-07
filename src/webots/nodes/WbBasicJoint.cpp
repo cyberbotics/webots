@@ -88,7 +88,6 @@ void WbBasicJoint::preFinalize() {
   updateParameters();
   updateEndPointZeroTranslationAndRotation();
 
-  // the following code could be simplified
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPreFinalizedCalled())
@@ -106,7 +105,6 @@ void WbBasicJoint::setMatrixNeedUpdate() {
 void WbBasicJoint::postFinalize() {
   WbBaseNode::postFinalize();
 
-  // the following code could be simplified
   WbBaseNode *const p = dynamic_cast<WbBaseNode *>(mParameters->value());
   WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
   if (p && !p->isPostFinalizedCalled())
