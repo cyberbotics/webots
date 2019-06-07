@@ -2,15 +2,14 @@ environment:
   global:
     WEBOTS_HOME_PROTECTED: "C:\\\\projects\\\\webots"
     WEBOTS_HOME: "C:\\projects\\webots"
-    
-    
+
   matrix:
     - compiler: msys2
       ARCH: x64
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
-    
+
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm mingw-w64-x86_64-cppcheck mingw-w64-x86_64-clang
