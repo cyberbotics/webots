@@ -20,7 +20,10 @@ import os
 import subprocess
 import sys
 
-if len(sys.argv) != 2:
-    sys.exit('Usage: generate_diff.py parent_branch')
+if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from script
+    script = os.getenv("WEBOTS_HOME") + os.sep + 'tests' + os.sep + 'sources' + os.sep + 'parent_branch.sh'
+    branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
+else:
+    branch = sys.argv[1]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
-    file.write(subprocess.check_output(['git', 'diff', '--name-only', sys.argv[1]]).decode('utf-8'))
+    file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
