@@ -1,7 +1,6 @@
 environment:
   global:
-    WEBOTS_HOME: "C:\\\\projects\\\\webots"
-
+    WEBOTS_HOME: "/C/projects/webots"
   matrix:
     - compiler: msys2
       ARCH: x64
@@ -12,12 +11,13 @@ environment:
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm mingw-w64-x86_64-cppcheck mingw-w64-x86_64-clang
-  - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
-  - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
-  
+  - pip install -r %WEBOTS_HOME%/tests/sources/requirements.txt
+  - pip install -r %WEBOTS_HOME%/docs/tests/requirements.txt
+
 build_script:
+  - python --version
   - python --version  # The 'build_script' step is mandatory
-  
+
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/docs/tests"
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%/tests/sources"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME%/docs/tests"
+  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME%/tests/sources"
