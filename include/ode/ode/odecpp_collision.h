@@ -148,24 +148,24 @@ public:
   operator dSpaceID() const
     { return (dSpaceID) _id; }
 
-  void setCleanup (int mode)
+  void setCleanup (int mode) const
     { dSpaceSetCleanup (id(), mode); }
-  int getCleanup()
+  int getCleanup() const
     { return dSpaceGetCleanup (id()); }
 
-  void add (dGeomID x)
+  void add (dGeomID x) const
     { dSpaceAdd (id(), x); }
-  void remove (dGeomID x)
+  void remove (dGeomID x) const
     { dSpaceRemove (id(), x); }
-  int query (dGeomID x)
+  int query (dGeomID x) const
     { return dSpaceQuery (id(),x); }
 
-  int getNumGeoms()
+  int getNumGeoms() const
     { return dSpaceGetNumGeoms (id()); }
   dGeomID getGeom (int i)
     { return dSpaceGetGeom (id(),i); }
 
-  void collide (void *data, dNearCallback *callback)
+  void collide (void *data, dNearCallback *callback) const
     { dSpaceCollide (id(),data,callback); }
 };
 
@@ -177,9 +177,9 @@ class dSimpleSpace : public dSpace {
 public:
   dSimpleSpace ()
     { _id = (dGeomID) dSimpleSpaceCreate (0); }
-  dSimpleSpace (dSpace &space)
+  explicit dSimpleSpace (dSpace &space)
     { _id = (dGeomID) dSimpleSpaceCreate (space.id()); }
-  dSimpleSpace (dSpaceID space)
+  explicit dSimpleSpace (dSpaceID space)
     { _id = (dGeomID) dSimpleSpaceCreate (space); }
 };
 
@@ -191,12 +191,12 @@ class dHashSpace : public dSpace {
 public:
   dHashSpace ()
     { _id = (dGeomID) dHashSpaceCreate (0); }
-  dHashSpace (dSpace &space)
+  explicit dHashSpace (dSpace &space)
     { _id = (dGeomID) dHashSpaceCreate (space.id()); }
-  dHashSpace (dSpaceID space)
+  explicit dHashSpace (dSpaceID space)
     { _id = (dGeomID) dHashSpaceCreate (space); }
 
-  void setLevels (int minlevel, int maxlevel)
+  void setLevels (int minlevel, int maxlevel) const
     { dHashSpaceSetLevels (id(),minlevel,maxlevel); }
 };
 
@@ -221,7 +221,7 @@ class dSphere : public dGeom {
 
 public:
   dSphere () { }
-  dSphere (dReal radius)
+  explicit dSphere (dReal radius)
     { _id = dCreateSphere (0, radius); }
   dSphere (dSpace &space, dReal radius)
     { _id = dCreateSphere (space.id(), radius); }
@@ -346,7 +346,7 @@ class dRay : public dGeom {
 
 public:
   dRay() { }
-  dRay (dReal length)
+  explicit dRay (dReal length)
     { _id = dCreateRay (0,length); }
   dRay (dSpace &space, dReal length)
     { _id = dCreateRay (space.id(),length); }
@@ -404,9 +404,9 @@ class dGeomTransform : public dGeom {
 
 public:
   dGeomTransform() { }
-  dGeomTransform (dSpace &space)
+  explicit dGeomTransform (dSpace &space)
     { _id = dCreateGeomTransform (space.id()); }
-  dGeomTransform (dSpaceID space)
+  explicit dGeomTransform (dSpaceID space)
     { _id = dCreateGeomTransform (space); }
 
   void create (dSpaceID space=0) {

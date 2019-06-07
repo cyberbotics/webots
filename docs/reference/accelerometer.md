@@ -107,7 +107,7 @@ public class Accelerometer extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_accelerometer_enable(tag, sampling_period)
 wb_accelerometer_disable(tag)
 period = wb_accelerometer_get_sampling_period(tag)

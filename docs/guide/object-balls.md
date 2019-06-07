@@ -7,7 +7,7 @@ You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 %figure
 
-![Ball](images/objects/balls/Ball/model.png)
+![Ball](images/objects/balls/Ball/model.thumbnail.png)
 
 %end
 
@@ -85,7 +85,7 @@ This object is physics-enabled so it will roll or bounce when hit.
 
 %figure
 
-![SoccerBall](images/objects/balls/SoccerBall/model.png)
+![SoccerBall](images/objects/balls/SoccerBall/model.thumbnail.png)
 
 %end
 

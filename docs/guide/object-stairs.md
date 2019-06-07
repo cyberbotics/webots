@@ -6,7 +6,7 @@ Generic and customizable stairs model.
 
 %figure
 
-![StraightStairs](images/objects/stairs/StraightStairs/model.png)
+![StraightStairs](images/objects/stairs/StraightStairs/model.thumbnail.png)
 
 %end
 
@@ -119,7 +119,7 @@ Default stairs handrail.
 
 %figure
 
-![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.png)
+![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.thumbnail.png)
 
 %end
 

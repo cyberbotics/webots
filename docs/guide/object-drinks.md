@@ -6,7 +6,7 @@ A beer bottle.
 
 %figure
 
-![BeerBottle](images/objects/drinks/BeerBottle/model.png)
+![BeerBottle](images/objects/drinks/BeerBottle/model.thumbnail.png)
 
 %end
 
@@ -60,7 +60,7 @@ A water bottle.
 
 %figure
 
-![WaterBottle](images/objects/drinks/WaterBottle/model.png)
+![WaterBottle](images/objects/drinks/WaterBottle/model.thumbnail.png)
 
 %end
 

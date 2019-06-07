@@ -2,9 +2,7 @@
 
 ```
 ElevationGrid {
-  SFNode  color          NULL   # {Color, PROTO}
   MFFloat height         [ ]    # (-inf, inf)
-  SFBool  colorPerVertex TRUE   # {TRUE, FALSE}
   SFInt32 xDimension     0      # [0, inf)
   SFFloat xSpacing       1      # [0, inf)
   SFInt32 zDimension     0      # [0, inf)
@@ -47,15 +45,6 @@ where 0 <= i < xDimension and 0 <= j < zDimension,
 and P[0,0] is height[0] units above/below the origin of the local
 coordinate system
 ```
-
-The `color` field specifies per-vertex or per-quadrilateral colors for the [ElevationGrid](#elevationgrid) node depending on the value of `colorPerVertex`.
-If the `color` field is NULL, the [ElevationGrid](#elevationgrid) node is rendered with the overall attributes of the [Shape](shape.md) node enclosing the [ElevationGrid](#elevationgrid) node.
-If only two colors are supplied, these two colors are used alternatively to display a checkerboard structure.
-
-The `colorPerVertex` field determines whether colors specified in the color field are applied to each vertex or each quadrilateral of the [ElevationGrid](#elevationgrid) node.
-If `colorPerVertex` is `FALSE` and the `color` field is not NULL, the `color` field shall specify a [Color](color.md) node containing at least (`xDimension`-1) x (`zDimension`-1) colors.
-
-If `colorPerVertex` is `TRUE` and the `color` field is not NULL, the `color` field shall specify a [Color](color.md) node containing at least `xDimension` x `zDimension` colors, one for each vertex.
 
 The `thickness` field specifies the thickness of the bounding box which is added below the lowest point of the `height` field, to prevent objects from falling through very thin [ElevationGrid](#elevationgrid)s.
 

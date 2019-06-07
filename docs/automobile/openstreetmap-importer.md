@@ -95,8 +95,8 @@ Using JOSM you can easily edit a map in order to add some elements, correct some
 
 %figure "Left: the OSM file created in JOSM. Right: the resulting world open in Webots after conversion"
 
-![osm_input.png](images/osm_input.png)
-![osm_output.png](images/osm_output.png)
+![osm_input.png](images/osm_input.thumbnail.jpg)
+![osm_output.png](images/osm_output.thumbnail.jpg)
 
 %end
 
@@ -206,7 +206,7 @@ This grapical interface can easily be started from the last tab of the [robot wi
 
 %figure "The OpenStreetMap importer graphical user interface"
 
-![osm_gui.png](images/osm_gui.png)
+![osm_gui.png](images/osm_gui.thumbnail.png)
 
 %end
 

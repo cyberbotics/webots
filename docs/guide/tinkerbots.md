@@ -1,6 +1,6 @@
 ## Tinkerbots
 
-%robot tinkerbots images/robots/tinkerbots/model.png
+%robot tinkerbots images/robots/tinkerbots/model.thumbnail.png
 
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
@@ -24,7 +24,7 @@ Derived from [Robot](../reference/robot.md).
 
 %figure
 
-![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.png)
+![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.thumbnail.png)
 
 %end
 
@@ -66,7 +66,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.png)
+![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.thumbnail.png)
 
 %end
 
@@ -92,7 +92,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.png)
+![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.thumbnail.png)
 
 %end
 
@@ -122,7 +122,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.png)
+![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.thumbnail.png)
 
 %end
 
@@ -147,7 +147,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.png)
+![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.thumbnail.png)
 
 %end
 
@@ -172,7 +172,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.png)
+![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.thumbnail.png)
 
 %end
 
@@ -197,7 +197,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.png)
+![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.thumbnail.png)
 
 %end
 
@@ -222,7 +222,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
 
 %figure
 
-![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.png)
+![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.thumbnail.png)
 
 %end
 
@@ -300,7 +300,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.png)
+![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.thumbnail.png)
 
 %end
 
@@ -324,7 +324,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.png)
+![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.thumbnail.png)
 
 %end
 
@@ -476,7 +476,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross male" type.
 
 %figure
 
-![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.png)
+![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.thumbnail.png)
 
 %end
 

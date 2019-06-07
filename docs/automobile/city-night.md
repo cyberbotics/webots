@@ -2,7 +2,7 @@
 
 %figure "The City night world"
 
-![city_night.png](images/city_night.png)
+![city_night.png](images/city_night.thumbnail.jpg)
 
 %end
 

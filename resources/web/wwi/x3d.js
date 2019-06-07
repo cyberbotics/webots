@@ -4,8 +4,7 @@
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
 THREE.X3DLoader = class X3DLoader {
-  constructor(scene, loadManager) {
-    this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
+  constructor(scene) {
     this.scene = scene;
     this.parsedObjects = [];
     this.directionalLights = [];
@@ -362,12 +361,13 @@ THREE.X3DLoader = class X3DLoader {
     if (typeof texture !== 'undefined')
       return texture;
 
-    texture = new THREE.Texture();
-
     var filename = getNodeAttribute(imageTexture, 'url', '');
     filename = filename.split(/['"\s]/).filter((n) => { return n; });
     if (filename[0] == null)
       return undefined;
+
+    // create THREE.Texture or THREE.DataTexture based on image extension.
+    texture = TextureLoader.createEmptyTexture(filename[0]);
 
     // Look for already loaded texture or load the texture in an asynchronous way.
     var image = TextureLoader.loadOrRetrieve(filename[0], texture);
@@ -894,16 +894,18 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.scene.background = color;
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
-    var cubeTexture;
+    var cubeTextureEnabled = false;
     if (typeof hdrCubeMapUrl !== 'undefined') {
-      // TODO load HDR cube map.
-      cubeTexture = new THREE.CubeTexture();
+      // Load HDR equirectangular map
+      TextureLoader.loadOrRetrieve(hdrCubeMapUrl, undefined, undefined, (texture) => {
+        this.scene.applyEquirectangularBackground(texture);
+      });
+      cubeTextureEnabled = true;
     } else {
-      var cubeTextureEnabled = false;
       var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
       var urls = [];
       for (let i = 0; i < 6; i++) {
-        var url = getNodeAttribute(background, attributeNames[i], undefined);
+        let url = getNodeAttribute(background, attributeNames[i], undefined);
         if (typeof url !== 'undefined') {
           cubeTextureEnabled = true;
           url = url.split(/['"\s]/).filter((n) => { return n; })[0];
@@ -912,14 +914,14 @@ THREE.X3DLoader = class X3DLoader {
       }
 
       if (cubeTextureEnabled) {
-        cubeTexture = new THREE.CubeTexture();
-        var missing = 0;
+        let cubeTexture = new THREE.CubeTexture();
+        let missing = 0;
         for (let i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
-          var image = TextureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
+          let image = TextureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
           if (typeof image !== 'undefined') {
             cubeTexture.images[i] = image;
             missing--;
@@ -931,7 +933,7 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
-    this.scene.scene.add(new THREE.AmbientLight(cubeTexture ? 0x404040 : color));
+    this.scene.scene.add(new THREE.AmbientLight(cubeTextureEnabled ? 0x404040 : color));
 
     return undefined;
   }

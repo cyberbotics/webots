@@ -15,7 +15,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   init(texturePathPrefix = '') {
-    this.renderer = new THREE.WebGLRenderer({'antialias': true});
+    this.renderer = new THREE.WebGLRenderer({'antialias': false});
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
@@ -45,6 +45,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.gpuPicker.setScene(this.scene);
     this.gpuPicker.setCamera(this.viewpoint.camera);
 
+    // add antialiasing post-processing effects
+    this.composer = new THREE.EffectComposer(this.renderer);
+    let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
+    this.composer.addPass(renderPass);
+    var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    this.composer.addPass(fxaaPass);
+
     this.resize();
 
     this.destroyWorld();
@@ -56,7 +63,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   render() {
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
-    this.renderer.render(this.scene, this.viewpoint.camera);
+    this.composer.render();
     if (typeof this.postRender === 'function')
       this.postRender(this.scene, this.viewpoint.camera);
   }
@@ -70,6 +77,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.viewpoint.camera.updateProjectionMatrix();
     this.gpuPicker.resizeTexture(width, height);
     this.renderer.setSize(width, height);
+    this.composer.setSize(width, height);
     this.render();
   }
 
@@ -349,6 +357,39 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
+  applyEquirectangularBackground(image) {
+    var texture;
+    if (image.data) {
+      texture = new THREE.DataTexture(image.data, image.width, image.height);
+      texture.encoding = THREE.RGBEEncoding;
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+      texture.flipY = true;
+    } else {
+      texture = new THREE.Texture(image);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+    }
+    texture.needsUpdate = true;
+
+    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
+    this.scene.background = cubemapGenerator.renderTarget;
+
+    var cubeMapTexture = cubemapGenerator.update(this.renderer);
+
+    var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
+    pmremGenerator.update(this.renderer);
+
+    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
+    pmremCubeUVPacker.update(this.renderer);
+
+    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture);
+
+    texture.dispose();
+    pmremGenerator.dispose();
+    pmremCubeUVPacker.dispose();
+  }
+
   // private functions
   _setupLights(directionalLights) {
     if (!this.root)
@@ -373,14 +414,17 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap() {
+  _setupEnvironmentMap(envMap = undefined) {
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
+    if (typeof envMap !== 'undefined')
+      backgroundMap = envMap;
+    else if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
       backgroundMap = this.scene.background;
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
+        material.needsUpdate = true;
       }
     });
   }

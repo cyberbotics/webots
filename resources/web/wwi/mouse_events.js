@@ -2,10 +2,11 @@
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
-  constructor(scene, contextMenu, domElement) {
+  constructor(scene, contextMenu, domElement, mobileDevice) {
     this.scene = scene;
     this.contextMenu = contextMenu;
     this.domElement = domElement;
+    this.mobileDevice = mobileDevice;
 
     this.state = {
       'initialized': false,
@@ -21,13 +22,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.onmousemove = (event) => { this._onMouseMove(event); };
     this.onmouseup = (event) => { this._onMouseUp(event); };
     this.ontouchmove = (event) => { this._onTouchMove(event); };
-    this.ontouchend = (event) => {
-      this._clearMouseMove();
-      this.domElement.removeEventListener('touchend', this._onTouchEnd, true);
-      this.domElement.removeEventListener('touchmove', this._onTouchMove, true);
-      if (typeof this._onTouchEnd === 'function')
-        this._onTouchEnd(event);
-    };
+    this.ontouchend = (event) => { this._onTouchEnd(event); };
     domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
     domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
     domElement.addEventListener('mouseleave', (event) => { this._onMouseLeave(event); }, false);
@@ -121,17 +116,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onMouseUp(event) {
     this._clearMouseMove();
-    if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
-      var object = this.intersection.object;
-      if (object)
-        object = this.scene.getTopX3dNode(object);
-      this.scene.selector.select(object);
-
-      if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
-        this.hiddenContextMenu === false && this.contextMenu)
-        // Right click: show popup menu.
-        this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
-    }
+    this._selectAndHandleClick();
 
     document.removeEventListener('mousemove', this.onmousemove, false);
     document.removeEventListener('mouseup', this.onmouseup, false);
@@ -281,6 +266,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onTouchEnd(event) {
     this._clearMouseMove();
+    this._selectAndHandleClick();
+
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
     this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
@@ -333,7 +320,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _clearMouseMove() {
-    const timeDelay = this.state.mobileDevice ? 100 : 1000;
+    const timeDelay = this.mobileDevice ? 100 : 1000;
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
     if (this.state.moved === false) {
       this.previousSelection = this.selection;
@@ -346,6 +333,20 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.initialX = null;
     this.state.initialY = null;
     this.moveParams = {};
+  }
+
+  _selectAndHandleClick() {
+    if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
+      var object = this.intersection.object;
+      if (object)
+        object = this.scene.getTopX3dNode(object);
+      this.scene.selector.select(object);
+
+      if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
+        this.hiddenContextMenu === false && this.contextMenu)
+        // Right click: show popup menu.
+        this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
+    }
   }
 }
 

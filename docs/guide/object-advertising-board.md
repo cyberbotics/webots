@@ -7,7 +7,7 @@ Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 
 %figure
 
-![AdvertisingBoard](images/objects/advertising_board/AdvertisingBoard/model.png)
+![AdvertisingBoard](images/objects/advertising_board/AdvertisingBoard/model.thumbnail.png)
 
 %end
 

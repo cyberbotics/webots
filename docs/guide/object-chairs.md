@@ -6,7 +6,7 @@ A chair (0.5 x 1 x 0.5 m).
 
 %figure
 
-![Chair](images/objects/chairs/Chair/model.png)
+![Chair](images/objects/chairs/Chair/model.thumbnail.png)
 
 %end
 
@@ -40,7 +40,7 @@ This object is physics-enabled so it can be pushed.
 
 %figure
 
-![SimpleChair](images/objects/chairs/SimpleChair/model.png)
+![SimpleChair](images/objects/chairs/SimpleChair/model.thumbnail.png)
 
 %end
 
@@ -76,7 +76,7 @@ A wooden chair (0.42 x 0.944 x 0.44 m).
 
 %figure
 
-![WoodenChair](images/objects/chairs/WoodenChair/model.png)
+![WoodenChair](images/objects/chairs/WoodenChair/model.thumbnail.png)
 
 %end
 

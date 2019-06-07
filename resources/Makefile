@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+distrib: release
+
 release debug profile:
 	@+make -s -C translations $@
 	@+make -s -C languages $@

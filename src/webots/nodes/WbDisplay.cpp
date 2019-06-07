@@ -229,7 +229,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
   short size, x, y, w, h;
   int *px = NULL, *py = NULL;
   int id, channel;
-  bool blend;
+  bool blend = false;
   unsigned char uc, format;
   char *img;
   unsigned short int cameraTag;
@@ -257,9 +257,11 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       break;
     case C_DISPLAY_SET_FONT: {
       unsigned int fontSize;
+      // cppcheck-suppress unassignedVariable
       bool antiAliasing;
       stream >> (unsigned int &)fontSize;
       stream >> (unsigned char &)antiAliasing;
+      // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
       stream >> (unsigned short &)size;
       char font[size];

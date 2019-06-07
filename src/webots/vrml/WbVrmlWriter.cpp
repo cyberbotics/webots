@@ -20,17 +20,19 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QStringListIterator>
 
-WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) : QTextStream(device) {
-  mFileName = fileName;
-  mIndent = 0;
-  mIsWritingToFile = true;
+WbVrmlWriter::WbVrmlWriter(QIODevice *device, const QString &fileName) :
+  QTextStream(device),
+  mFileName(fileName),
+  mIndent(0),
+  mIsWritingToFile(true) {
   setVrmlType();
 }
 
-WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) : QTextStream(target, QIODevice::ReadWrite) {
-  mFileName = fileName;
-  mIndent = 0;
-  mIsWritingToFile = false;
+WbVrmlWriter::WbVrmlWriter(QString *target, const QString &fileName) :
+  QTextStream(target, QIODevice::ReadWrite),
+  mFileName(fileName),
+  mIndent(0),
+  mIsWritingToFile(false) {
   setVrmlType();
 }
 
