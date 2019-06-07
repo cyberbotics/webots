@@ -34,6 +34,7 @@ jobs:
         - pip install -r docs/tests/requirements.txt
       script:
         - python -m unittest discover -s docs/tests
+        - if [ $TRAVIS_EVENT_TYPE != cron ]; then python tests/sources/generate_diff.py; fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
       python: '2.7'
