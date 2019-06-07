@@ -17,7 +17,6 @@ after_failure: >
 jobs:
   include:
     - &source_tests_staging
-      if: type = cron
       stage: Sources Tests
       git:
         depth: 3
