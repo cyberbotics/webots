@@ -142,6 +142,7 @@ class TestLicense(unittest.TestCase):
                     continue
                 for extension in extensions:
                     for fileName in fnmatch.filter(fileNames, extension):
+                        print([os.path.join(relativeRootPath, fileName) in skippedFilePaths, os.path.join(relativeRootPath, fileName)])
                         if os.path.join(relativeRootPath, fileName) in skippedFilePaths:
                             continue
                         file = os.path.join(rootPath, fileName)
