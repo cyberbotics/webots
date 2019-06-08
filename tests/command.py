@@ -14,6 +14,7 @@
 
 """Launch a system command."""
 
+import os
 import subprocess
 import sys
 import threading
@@ -161,8 +162,8 @@ class Command(object):
             outFile.close()
             errFile.close()
 
-        self.outFileName = 'webots_stdout.txt'
-        self.errFileName = 'webots_stderr.txt'
+        self.outFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stdout.txt'
+        self.errFileName = os.environ['WEBOTS_HOME'] + os.sep + 'tests' + os.sep + 'webots_stderr.txt'
         self.resetAttributes()
 
         self.silent = silent
