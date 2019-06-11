@@ -21,7 +21,12 @@ import subprocess
 import sys
 
 branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
-if branch is not None and os.getenv('TRAVIS_EVENT_TYPE') == 'pull_request':
+if branch is None or os.getenv('TRAVIS_EVENT_TYPE') != 'pull_request':
+    branch = os.getenv('APPVEYOR_REPO_BRANCH')
+    if os.getenv('APPVEYOR_PULL_REQUEST_NUMBER') is None:
+        branch = None
+
+if branch is not None:
     output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
     f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
     f.write(output)
