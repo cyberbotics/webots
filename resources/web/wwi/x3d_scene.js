@@ -388,7 +388,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
     pmremCubeUVPacker.update(this.renderer);
 
-    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture);
+    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture, true);
 
     texture.dispose();
     pmremGenerator.dispose();
@@ -419,7 +419,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap(envMap = undefined) {
+  _setupEnvironmentMap(envMap = undefined, isHDR = false) {
     var backgroundMap;
     if (typeof envMap !== 'undefined')
       backgroundMap = envMap;
@@ -437,6 +437,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
+        if (isHDR)
+          material.envMapIntensity = 0.2;
         material.needsUpdate = true;
       }
     });

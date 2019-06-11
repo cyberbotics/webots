@@ -804,7 +804,7 @@ THREE.X3DLoader = class X3DLoader {
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity * 0.5);
+    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
@@ -921,7 +921,8 @@ THREE.X3DLoader = class X3DLoader {
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTextureEnabled = false;
-    if (typeof hdrCubeMapUrl !== 'undefined') {
+    var isHDR = typeof hdrCubeMapUrl !== 'undefined';
+    if (isHDR) {
       // Load HDR equirectangular map
       TextureLoader.loadOrRetrieve(hdrCubeMapUrl, undefined, undefined, (texture) => {
         this.scene.applyEquirectangularBackground(texture);
@@ -957,6 +958,11 @@ THREE.X3DLoader = class X3DLoader {
         if (missing === 0)
           cubeTexture.needsUpdate = true;
       }
+    }
+
+    if (cubeTextureEnabled) {
+      var ambientLight = new THREE.AmbientLight(isHDR ? 0x333333 : 0xffffff);
+      this.scene.scene.add(ambientLight);
     }
 
     return undefined;
