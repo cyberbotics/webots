@@ -144,7 +144,7 @@ jobs:
             - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-    - &deploy
+    - &deploy 
       stage: Deploy
       if: commit_message IN (travis_deploy)  # type = cron OR
       git: *compilation_git
