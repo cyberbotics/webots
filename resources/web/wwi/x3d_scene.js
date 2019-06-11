@@ -64,7 +64,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
-    this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure;
+    this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
 
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
@@ -438,7 +438,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
         var material = child.material;
         material.envMap = backgroundMap;
         if (isHDR)
-          material.envMapIntensity = 0.2;
+          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
         material.needsUpdate = true;
       }
     });
