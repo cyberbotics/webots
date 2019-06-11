@@ -94,7 +94,7 @@ class TestClangFormat(unittest.TestCase):
                     extension = os.path.splitext(line)[1][1:].lower()
                     if extension not in extensions:
                         continue
-                    sources.append(line)
+                    sources.append(line.replace('/', os.sep))
         else:
             for directory in directories:
                 path = self.WEBOTS_HOME + os.sep + directory.replace('/', os.sep)
