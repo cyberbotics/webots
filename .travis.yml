@@ -105,7 +105,6 @@ jobs:
         - sudo rosdep init
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces # by default ros only comes with python2.7 libraries
-        - pip install PyGithub # used to upload packages to Github releases
       script:
         - make release -j2
         - make release -j2 -C tests
@@ -129,6 +128,7 @@ jobs:
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - pip install PyGithub # used to upload packages to Github releases
       script:
         - travis_wait 45 python tests/test_compilation.py
         - src/packaging/publish_release.py
