@@ -27,7 +27,8 @@ if branch is None or os.getenv('TRAVIS_EVENT_TYPE') != 'pull_request':
         branch = None
 
 if branch is not None:
-    output = subprocess.check_output(['git', 'diff', '--name-only', branch, os.getenv('WEBOTS_HOME')]).decode('utf-8')
+    os.chdir(os.getenv('WEBOTS_HOME'))
+    output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
     f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
     f.write(output)
     f.close()
