@@ -13,13 +13,13 @@
 # limitations under the License.
 
 JS_SOURCES = \
+  shaders/hdr_resolve.js \
   equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
   dialog_window.js \
   console.js \
   help_window.js \
-  hdr_resolve.js \
   robot_window.js \
   toolbar.js \
   editor.js \
