@@ -711,7 +711,7 @@ static void create_file(const char *name, int m) {
       }
 
       // check and copy the .*.cache hidden files
-      if (strcasecmp(&buffer[l - 6], ".proto") == 0 && strstr(buffer, "/protos/") && !getenv("TRAVIS")) {
+      if (strcasecmp(&buffer[l - 6], ".proto") == 0 && strstr(buffer, "/protos/")) {
         sprintf(big_buffer, "%s/%s", webots_home, buffer);
         // we need to expand the possible wildcard
         int n;

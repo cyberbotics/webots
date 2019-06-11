@@ -177,7 +177,8 @@ class TestSuite (Supervisor):
             line.strip()
             if len(line) != 0:
                 [world, expected] = shlex.split(line)
-                if os.path.normpath(world) == self.currentSimulationFilename:
+                if os.path.normpath(world) == self.currentSimulationFilename.replace(os.environ['WEBOTS_HOME'] +
+                                                                                     os.sep + 'tests' + os.sep, ''):
                     found = True
                     if expected != 'VOID':
                         self.expectedString = expected
@@ -223,9 +224,7 @@ class TestSuite (Supervisor):
             self.simulationQuit(0)
         else:
             newIndex = self.indexFileManager.incrementIndex()
-            nextSimulationFilename = self.cwdPrefix + '../' + \
-                self.simulationFileManager.filenameAtLine(newIndex)
-            self.worldLoad(nextSimulationFilename)
+            self.worldLoad(self.simulationFileManager.filenameAtLine(newIndex))
 
     def run(self):
         """Supervisor run function."""
