@@ -1501,7 +1501,6 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
           return;
         } else if (overlay->isInsideCloseButton(position.x(), position.y())) {
           renderingDevice->toggleOverlayVisibility(false, true);
-          displayOverlayClicked = false;
 
           // reset double click timer on close area
           delete mMousePressTime;
@@ -1550,7 +1549,7 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   if (!mDragOverlay) {
     WbRenderingDevice *renderingDevice = WbRenderingDevice::fromMousePosition(position.x(), position.y());
     if (renderingDevice) {
-      WbWrenTextureOverlay *overlay = renderingDevice->overlay();
+      overlay = renderingDevice->overlay();
       if (overlay) {
         if (overlay->isInsideCloseButton(position.x(), position.y()))
           renderingDevice->toggleOverlayVisibility(false, true);

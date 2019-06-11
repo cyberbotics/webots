@@ -34,7 +34,7 @@
 int main(int argc, char **argv) {
   WbDeviceTag position_sensor, left_motor, right_motor;
   double time_step;
-  double speed, previous_position;
+  double previous_position;
   double integral;
 
   wb_robot_init();
@@ -54,7 +54,6 @@ int main(int argc, char **argv) {
 
   previous_position = 0;
   integral = 0.0;
-  speed = 0.0;
 
   while (wb_robot_step(time_step) != -1) {
     const double position = wb_position_sensor_get_value(position_sensor);
@@ -66,7 +65,7 @@ int main(int argc, char **argv) {
     // PID control
     integral += (position + previous_position) * 0.5;
     const double derivative = (position - previous_position);
-    speed = KP * position + KI * integral + KD * derivative;
+    double speed = KP * position + KI * integral + KD * derivative;
 
     // check maximum speed
     if (speed > 100)

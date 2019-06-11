@@ -539,7 +539,7 @@ void rcb3_simulator::run() {
   if (m_realtime_mixing_count != 0)
     apply_mixing(true);
   wait(100);
-  k = wb_keyboard_get_key();
+  wb_keyboard_get_key();
 }
 
 void rcb3_simulator::wait(int ms) {

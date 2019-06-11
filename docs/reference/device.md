@@ -69,7 +69,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 model = wb_device_get_model(tag)
 ```
 
@@ -151,7 +151,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 name = wb_device_get_name(tag)
 ```
 
@@ -233,7 +233,7 @@ public class Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 type = wb_device_get_node_type(tag)
 ```
 

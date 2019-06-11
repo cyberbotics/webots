@@ -211,8 +211,6 @@ void WbControlledWorld::addControllerConnection() {
       robotName = buffer;
       delete[] buffer;
     }
-  }
-  if (robotId == 0) {
     foreach (WbRobot *const robot, robots()) {
       if (robot->isControllerStarted())
         continue;

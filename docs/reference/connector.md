@@ -213,7 +213,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_enable_presence(tag, sampling_period)
 wb_connector_disable_presence(tag)
 period = wb_connector_get_presence_sampling_period(tag)
@@ -338,7 +338,7 @@ public class Connector extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_connector_lock(tag)
 wb_connector_unlock(tag)
 ```

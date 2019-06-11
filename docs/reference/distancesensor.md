@@ -241,7 +241,7 @@ public class DistanceSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_distance_sensor_enable(tag, sampling_period)
 wb_distance_sensor_disable(tag)
 period = wb_distance_sensor_get_sampling_period(tag)
@@ -346,7 +346,7 @@ public class DistanceSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 max_value = wb_distance_sensor_get_max_value(tag)
 min_value = wb_distance_sensor_get_min_value(tag)
 aperture = wb_distance_sensor_get_aperture(tag)
@@ -448,7 +448,7 @@ public class DistanceSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_DISTANCE_SENSOR_GENERIC, WB_DISTANCE_SENSOR_INFRA_RED, WB_DISTANCE_SENSOR_SONAR, WB_DISTANCE_SENSOR_LASER
 
 type = wb_distance_sensor_get_type(tag)

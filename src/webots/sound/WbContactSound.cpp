@@ -31,14 +31,13 @@ WbContactSound::WbContactSound(const dGeomID &geom1, const dGeomID &geom2, const
   mType(NONE),
   mGeom1(geom1),
   mGeom2(geom2),
+  mBody1(dGeomGetBody(geom1)),
+  mBody2(dGeomGetBody(geom2)),
   mEnergy(0.0),
   mDerivativeEnergy(0.0),
   mDoubleDerivativeEnergy(0.0),
   mMass1(0.0),
   mMass2(0.0) {
-  mBody1 = dGeomGetBody(geom1);
-  mBody2 = dGeomGetBody(geom2);
-
   dMass mass;
   if (mBody1) {
     dBodyGetMass(mBody1, &mass);

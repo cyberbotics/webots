@@ -20,8 +20,8 @@ import unittest
 import difflib
 import os
 import subprocess
-import sys
-import fnmatch
+
+from io import open
 
 from distutils.spawn import find_executable
 
@@ -30,63 +30,8 @@ class TestClangFormat(unittest.TestCase):
     """Unit test for ClangFormat compliance."""
 
     def setUp(self):
-        """Get all the C / C++ source files compliant with ClangFormat."""
-        directories = [
-            'include/controller',
-            'projects',
-            'resources/projects',
-            'resources/languages/cpp',
-            'resources/wren/shaders',
-            'tests',
-            'include/wren',
-            'src/lib/Controller',
-            'src/license/sign',
-            'src/webots',
-            'src/wren'
-        ]
-
-        skippedPathes = [
-            'projects/default/controllers/ros/include',
-            'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
-            'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
-            'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include',
-            'src/webots/external'
-        ]
-
-        skippedDirectories = [
-            'build',
-            'python',
-            'java'
-        ]
-
-        extensions = ['*.c', '*.cpp', '*.h', '*.hpp', '*.vert', '*.frag']
-
-        self.sources = []
-        for directory in directories:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
-                shouldContinue = False
-                for path in skippedPathes:
-                    if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
-                        shouldContinue = True
-                        break
-                for directory in skippedDirectories:
-                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
-                    if directory in currentDirectories:
-                        shouldContinue = True
-                        break
-                if shouldContinue:
-                    continue
-                for extension in extensions:
-                    for fileName in fnmatch.filter(fileNames, extension):
-                        file = os.path.join(rootPath, fileName)
-                        self.sources.append(file)
-
-        # Get ClangFormat configuration file
-        self.clangFormatConfigFile = os.environ['WEBOTS_HOME'] + os.sep + '.clang-format'
+        """Set up called before each test."""
+        self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
@@ -101,28 +46,90 @@ class TestClangFormat(unittest.TestCase):
             find_executable('clang-format') is not None,
             msg='ClangFormat is not installed on this computer.'
         )
+        clangFormatConfigFile = self.WEBOTS_HOME + os.sep + '.clang-format'
         self.assertTrue(
-            os.path.exists(self.clangFormatConfigFile),
-            msg=self.clangFormatConfigFile + ' not found.'
+            os.path.exists(clangFormatConfigFile),
+            msg=clangFormatConfigFile + ' not found.'
         )
 
     def test_sources_are_clang_format_compliant(self):
         """Test that sources are ClangFormat compliant."""
-        for source in self.sources:
+        directories = [
+            'include/controller',
+            'projects',
+            'resources/projects',
+            'resources/languages/cpp',
+            'resources/wren/shaders',
+            'tests',
+            'include/wren',
+            'src/lib/Controller',
+            'src/license/sign',
+            'src/webots',
+            'src/wren'
+        ]
+        skippedPaths = [
+            'projects/default/controllers/ros/include',
+            'projects/robots/gctronic/e-puck/transfer',
+            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
+            'projects/robots/mobsya/thymio/libraries/dashel',
+            'projects/robots/mobsya/thymio/libraries/dashel-src',
+            'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
+            'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
+            'projects/vehicles/controllers/ros_automobile/include',
+            'src/webots/external'
+        ]
+        skippedDirectories = [
+            'build',
+            'python',
+            'java'
+        ]
+        extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++', 'vert', 'frag']
+        modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
+        sources = []
+        if os.path.isfile(modified_files):
+            with open(modified_files, 'r') as file:
+                for line in file:
+                    line = line.strip()
+                    extension = os.path.splitext(line)[1][1:].lower()
+                    if extension not in extensions:
+                        continue
+                    sources.append(line)
+        else:
+            for directory in directories:
+                path = self.WEBOTS_HOME + os.sep + directory.replace('/', os.sep)
+                for rootPath, dirNames, fileNames in os.walk(path):
+                    shouldContinue = False
+                    for path in skippedPaths:
+                        if rootPath.startswith(self.WEBOTS_HOME + os.sep + path.replace('/', os.sep)):
+                            shouldContinue = True
+                            break
+                    for directory in skippedDirectories:
+                        currentDirectories = rootPath.replace(self.WEBOTS_HOME, '').split(os.sep)
+                        if directory in currentDirectories:
+                            shouldContinue = True
+                            break
+                    if shouldContinue:
+                        continue
+                    for fileName in fileNames:
+                        extension = os.path.splitext(fileName)[1][1:].lower()
+                        if extension in extensions:
+                            sources.append(os.path.join(rootPath, fileName))
+        curdir = os.getcwd()
+        os.chdir(self.WEBOTS_HOME)
+        for source in sources:
             diff = ''
-            with open(source) as file:
-                if sys.version_info[0] < 3:
-                    for line in difflib.context_diff(self._runClangFormat(source).splitlines(),
-                                                     file.read().splitlines()):
-                        diff += line + '\n'
-                else:
+            with open(source, encoding='utf8') as file:
+                try:
                     for line in difflib.context_diff(self._runClangFormat(source).decode('utf-8').splitlines(),
                                                      file.read().splitlines()):
                         diff += line + '\n'
+                except UnicodeDecodeError:
+                    self.assertTrue(False, msg='utf-8 decode problem in %s' % source)
                 self.assertTrue(
                     len(diff) == 0,
                     msg='Source file "%s" is not compliant with ClangFormat:\n\nDIFF:%s' % (source, diff)
                 )
+        os.chdir(curdir)
 
 
 if __name__ == '__main__':

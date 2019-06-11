@@ -330,11 +330,6 @@ void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {
 
   if (mScaleRatio <= 0.01)
     mScaleRatio = 1.0;
-
-  // compute and set position of detached handle on the axis
-  WbVector4 handlePositionOnAxis(mTotalScale * mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber));
-  handlePositionOnAxis[mCoordinate] = localMousePosition[mCoordinate] - mLocalMouseOffset;
-  handlePositionOnAxis = mTransform->matrix() * handlePositionOnAxis;  // global position
 }
 
 void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {

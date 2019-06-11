@@ -47,34 +47,16 @@ Released on xx xxth, 2019
 <li>Connector nodes can now be part of the static environment.</li>
 <li>Improved the infra-red DistanceSensor model by taking into account the roughness and occlusion of the surface.</li>
 <li>Improved the default SpotLight.beamWidth value.</li>
+<li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
+<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
 </ul>
 <li><b>Bug fix</b></li>
 <ul>
 <li>Renamed some PROTO appearances ('MatteCarPaint' -> 'MattePaint', 'GlossyCarPaint' -> 'GlossyPaint', 'CarLeather' -> 'Leather').</li>
 <li>Fixed DoorLever 'name' field not connected when its 'canTurn' field is set to TRUE.</li>
 <li>Fixed mirrored texture in Floor PROTO.</li>
-<li>Fixed VRML import and export of Webots Sphere geometries (icospheres).</li>
 <li>Fixed animation player not working correctly when loading previous pose.</li>
-</ul>
-<li><b>Cleanup</b></li>
-<ul>
-<li>Deprecated the Python 2.7 API.</li>
-<li>Removed the 'environmentMap' field of the PBRAppearance node.</li>
-<li>Removed broken 'colorPerVertex' and 'color' fields of the ElevationGrid node.</li> 
-</ul>
-</ul>
-
-<h2>Webots R2019a revision 2</h2>
-Released on xx xxth, 2019
-
-<ul>
-<li><b>Enhancements</b></li>
-<ul>
-<li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
-<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
-</ul>
-<li><b>Bug fixes</b></li>
-<ul>
+<li>Fixed VRML import and export of Webots Sphere geometries (icospheres).</li>
 <li>Fixed invalid webots_ros::RecognitionObject::colors value published by the Camera 'recognition_objects' ROS topic.</li>
 <li>Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.</li>
 <li>Fixed PNG images with a useless alpha layer that were falsly considered as transparent by Webots causing alpha sorting problems.</li>
@@ -93,6 +75,13 @@ Released on xx xxth, 2019
 <li>Fixed geometry not created on world loading if invalid geometry fields are written in the file.</li>
 <li>Fixed mismatch between boundingObject outline and graphical representation of a Cylinder if the subdivision field is set to an odd value.</li>
 <li>Fixed 'getRangeImageArray' function in the Python API returning always None.</li>
+<li>Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.</li>
+</ul>
+<li><b>Cleanup</b></li>
+<ul>
+<li>Deprecated the Python 2.7 API.</li>
+<li>Removed the 'environmentMap' field of the PBRAppearance node.</li>
+<li>Removed broken 'colorPerVertex' and 'color' fields of the ElevationGrid node.</li>
 </ul>
 </ul>
 
