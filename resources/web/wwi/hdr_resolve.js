@@ -1,5 +1,7 @@
 /* global THREE */
 
+// equivalent of: WEBOTS_HOME/resources/wren/shaders/hdr_resolve.frag
+
 THREE.HDRResolveShader = {
   uniforms: {
     'tDiffuse': { value: null },
