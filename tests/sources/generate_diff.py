@@ -23,6 +23,8 @@ import sys
 branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
 if branch is None or os.getenv('TRAVIS_EVENT_TYPE') != 'pull_request':
     branch = os.getenv('APPVEYOR_REPO_BRANCH')
+    print(['aa', branch])
+    print(['aa', os.getenv('APPVEYOR_PULL_REQUEST_NUMBER')])
     if os.getenv('APPVEYOR_PULL_REQUEST_NUMBER') is None:
         branch = None
 
