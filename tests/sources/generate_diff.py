@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Generate a list of modified files with respect to the parent branch. If not passed as an argument, the parent branch is automatically
-computed. This list of modified files is used by Travis for testing only the files modified by the current pull request (during the sources
-tests) and hence run the CI tests significantly faster."""
+"""Generate a list of modified files with respect to the parent branch. If not passed as an argument, the
+parent branch is automatically computed. This list of modified files is used by Travis for testing only the
+files modified by the current pull request (during the sources tests) and hence run the CI tests
+significantly faster."""
 import os
 import subprocess
 import sys
