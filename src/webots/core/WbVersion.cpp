@@ -21,7 +21,7 @@ WbVersion::WbVersion(int major, int minor, int revision) :
   mMajor(major),
   mMinor(minor),
   mRevision(revision),
-  mCommit(0),
+  mCommit(""),
   mIsWebots(false) {
 }
 
@@ -37,11 +37,11 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   mMajor = 0;
   mMinor = 0;
   mRevision = 0;
-  mCommit = 0;
+  mCommit = "";
   mIsWebots = false;
 
   // Check for version format R2018 or R2018a revision 1 or R2018a-rev1 (needed in WbWebotsUpdateManager)
-  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-commit(\\d+))?" + suffix);
+  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-commit-(.+))?" + suffix);
   int pos = rx.indexIn(text);
   if (pos != -1) {
     mMajor = rx.cap(expressionCountInPrefix + 1).toInt();
@@ -52,7 +52,7 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
     else if (!rx.cap(expressionCountInPrefix + 4).isEmpty())
       mRevision = rx.cap(expressionCountInPrefix + 4).toInt();
     if (!rx.cap(expressionCountInPrefix + 5).isEmpty())
-      mCommit = rx.cap(expressionCountInPrefix + 5).toInt();
+      mCommit = rx.cap(expressionCountInPrefix + 5);
     mIsWebots = true;
     return true;
   }
@@ -73,7 +73,7 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
 
 QString WbVersion::toString(bool revision, bool digitsOnly, bool nightly) const {
   if (!digitsOnly && mIsWebots) {
-    QString nightlyString = (mCommit > 0 && nightly) ? QString(QObject::tr("Nightly Build %1").arg(mCommit)) : "";
+    QString nightlyString = (!mCommit.isEmpty() && nightly) ? QString(QObject::tr("Nightly Build %1").arg(mCommit)) : "";
     if (revision && mRevision > 0)
       return QString("R%1%2 revision %3 %4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
     else

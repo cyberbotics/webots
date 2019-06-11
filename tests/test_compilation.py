@@ -25,6 +25,14 @@ path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 
+if 'TRAVIS_COMMIT' in os.environ:
+    commit = os.environ['TRAVIS_COMMIT']
+    content = ''
+    with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'r') as f:
+        content = f.read().replace('R2019b', 'R2019b' + '-commit-' + os.environ['TRAVIS_COMMIT'])
+    with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'w') as f:
+        f.write(content)
+
 command = Command('make -C %s distrib -j%d' % (path, multiprocessing.cpu_count()))
 command.run(silent=False)
 if command.returncode != 0:
