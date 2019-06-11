@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """Generate a list of modified files with respect to the parent branch.
-This script is used only by Travis."""
+If not passed as an argument, the parent branch is automatically computed."""
 import os
 import subprocess
 import sys
