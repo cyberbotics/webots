@@ -131,7 +131,7 @@ jobs:
         - export WEBOTS_COMPILATION_COMMIT=$TRAVIS_COMMIT
       script:
         - travis_wait 45 python tests/test_compilation.py
-        - tests/sources/publish_release.py
+        - src/packaging/publish_release.py
     - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14

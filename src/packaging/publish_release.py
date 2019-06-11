@@ -33,5 +33,7 @@ if not releaseExists:
 
 for release in repo.get_releases():
     if release.title == title:
-        for file in os.listdir(os.environ['WEBOTS_HOME'] + os.sep + "distribution"):
-            release.upload_asset(file)
+        for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
+            path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
+            if file != '.gitignore' and not os.path.isdir(path):
+                release.upload_asset(path)
