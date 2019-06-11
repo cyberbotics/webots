@@ -20,8 +20,12 @@ import os
 import fnmatch
 
 ignoredProtos = [
-    "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
-    "projects/samples/tutorials/protos/FourWheelsRobot.proto"
+    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
+    'projects/samples/tutorials/protos/FourWheelsRobot.proto'
+]
+
+skippedDirectories = [
+    'dependencies'
 ]
 
 
@@ -44,6 +48,11 @@ class TestHeaderVersion(unittest.TestCase):
                 for ignoredProto in ignoredProtos:
                     path = os.environ['WEBOTS_HOME'] + os.sep + ignoredProto.replace('/', os.sep)
                     if proto == path:
+                        shouldIgnore = True
+                        break
+                for directory in skippedDirectories:
+                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '')
+                    if directory in currentDirectories:
                         shouldIgnore = True
                         break
                 if not shouldIgnore:
