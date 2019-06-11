@@ -51,7 +51,7 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append("&file=");
   data.append(QUrl::toPercentEncoding(mFile));
   data.append("&version=");
-  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString()));
+  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString(true, false, true)));
   data.append("&os=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::sysInfo()));
   data.append("&glVendor=");

@@ -25,6 +25,9 @@ const WbVersion &WbApplicationInfo::version() {
 
   if (firstCall) {
     static QString webotsVersionString = "R2019b";  // updated by script
+#ifdef WEBOTS_COMPILATION_COMMIT
+    webotsVersionString += "-commit" + QString::number(WEBOTS_COMPILATION_COMMIT);
+#endif
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));

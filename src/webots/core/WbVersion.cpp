@@ -13,15 +13,23 @@
 // limitations under the License.
 
 #include "WbVersion.hpp"
+
+#include <QtCore/QObject>
 #include <QtCore/QRegExp>
 
-WbVersion::WbVersion(int major, int minor, int revision) : mMajor(major), mMinor(minor), mRevision(revision), mIsWebots(false) {
+WbVersion::WbVersion(int major, int minor, int revision) :
+  mMajor(major),
+  mMinor(minor),
+  mRevision(revision),
+  mCommit(0),
+  mIsWebots(false) {
 }
 
 WbVersion::WbVersion(const WbVersion &other) :
   mMajor(other.mMajor),
   mMinor(other.mMinor),
   mRevision(other.mRevision),
+  mCommit(other.mCommit),
   mIsWebots(false) {
 }
 
@@ -29,10 +37,11 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   mMajor = 0;
   mMinor = 0;
   mRevision = 0;
+  mCommit = 0;
   mIsWebots = false;
 
   // Check for version format R2018 or R2018a revision 1 or R2018a-rev1 (needed in WbWebotsUpdateManager)
-  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?" + suffix);
+  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-commit(\\d+))?" + suffix);
   int pos = rx.indexIn(text);
   if (pos != -1) {
     mMajor = rx.cap(expressionCountInPrefix + 1).toInt();
@@ -42,6 +51,8 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
       mRevision = rx.cap(expressionCountInPrefix + 3).toInt();
     else if (!rx.cap(expressionCountInPrefix + 4).isEmpty())
       mRevision = rx.cap(expressionCountInPrefix + 4).toInt();
+    if (!rx.cap(expressionCountInPrefix + 5).isEmpty())
+      mCommit = rx.cap(expressionCountInPrefix + 5).toInt();
     mIsWebots = true;
     return true;
   }
@@ -60,12 +71,13 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   return false;
 }
 
-QString WbVersion::toString(bool revision, bool digitsOnly) const {
+QString WbVersion::toString(bool revision, bool digitsOnly, bool nightly) const {
   if (!digitsOnly && mIsWebots) {
+    QString nightlyString = (mCommit > 0 && nightly) ? QString(QObject::tr("Nightly Build %1").arg(mCommit)) : "";
     if (revision && mRevision > 0)
-      return QString("R%1%2 revision %3").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision);
+      return QString("R%1%2 revision %3 %4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
     else
-      return QString("R%1%2").arg(mMajor).arg(QChar(mMinor + 'a'));
+      return QString("R%1%2 %3").arg(mMajor).arg(QChar(mMinor + 'a')).arg(nightlyString);
   }
 
   if (revision)

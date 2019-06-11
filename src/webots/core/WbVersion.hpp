@@ -44,7 +44,7 @@ public:
   // Webots version is a special case and the string will have the form
   // "R2018a revision 1" or "R2018a" if revision is false, and
   // "2018.0.1 if digitsOnly is true ('a' = 0)
-  QString toString(bool revision = true, bool digitsOnly = false) const;
+  QString toString(bool revision = true, bool digitsOnly = false, bool nightly = false) const;
 
   // copy
   WbVersion &operator=(const WbVersion &other) {
@@ -82,6 +82,7 @@ private:
   int mMajor;
   int mMinor;  // in case of Webots version 0 corresponds to 'a'
   int mRevision;
+  int mCommit;
 
   bool mIsWebots;
 };

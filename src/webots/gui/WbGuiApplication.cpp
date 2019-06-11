@@ -60,7 +60,7 @@ using namespace std;
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL) {
   setApplicationName("Webots");
-  setApplicationVersion(WbApplicationInfo::version().toString());
+  setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
