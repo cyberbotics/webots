@@ -38,8 +38,7 @@ class TestClangFormat(unittest.TestCase):
         clangFormatCommand = 'clang-format'
         if 'TRAVIS' in os.environ and 'TRAVIS_OS_NAME' in os.environ and os.environ['TRAVIS_OS_NAME'] == 'linux':
             clangFormatCommand = 'clang-format-5.0'
-        print([clangFormatCommand, '-style=file', f])
-        return subprocess.check_output([clangFormatCommand, '-style=file', 'C:\\projects\\webots\\include\\controller\\c\\webots\\accelerometer.h'])
+        return subprocess.check_output([clangFormatCommand, '-style=file', f])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
@@ -114,7 +113,7 @@ class TestClangFormat(unittest.TestCase):
                     for fileName in fileNames:
                         extension = os.path.splitext(fileName)[1][1:].lower()
                         if extension in extensions:
-                            sources.append(os.path.join(rootPath, fileName))
+                            sources.append(os.path.join(rootPath, fileName).replace('/', os.sep))
         curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
         for source in sources:
