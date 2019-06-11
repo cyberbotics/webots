@@ -19,6 +19,5 @@ install:
 build: off
 
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "clang-format C:\\\\projects\\\\webots\\\\include\\\\controller\\\\c\\\\webots\\\\accelerometer.h"
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
