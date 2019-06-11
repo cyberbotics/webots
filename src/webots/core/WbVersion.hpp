@@ -52,6 +52,7 @@ public:
     mMinor = other.mMinor;
     mRevision = other.mRevision;
     mIsWebots = other.mIsWebots;
+    mRevision = other.mRevision;
     return *this;
   }
   // comparison operators
