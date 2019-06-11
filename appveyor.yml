@@ -20,4 +20,5 @@ build: off
 
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
+  - if [ "$APPVEYOR_SCHEDULED_BUILD" != "True" ]; then C:\\msys64\\usr\\bin\\bash --login -c "python %WEBOTS_HOME_PROTECTED%/tests/sources/generate_diff.py"; fi
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
