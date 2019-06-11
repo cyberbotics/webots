@@ -116,9 +116,7 @@ class TestClangFormat(unittest.TestCase):
                         if extension in extensions:
                             sources.append(os.path.join(rootPath, fileName).replace('/', os.sep))
         curdir = os.getcwd()
-        print(curdir)
         os.chdir(self.WEBOTS_HOME)
-        print(os.getcwd())
         for source in sources:
             diff = ''
             with open(source, encoding='utf8') as file:
