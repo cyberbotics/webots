@@ -31,8 +31,9 @@ now = datetime.datetime.now()
 title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
 tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
 if 'TRAVIS_TAG' in os.environ:
-    tag = os.environ['TRAVIS_TAG']
-    title = tag
+    print(os.environ['TRAVIS_TAG'])
+#    tag = os.environ['TRAVIS_TAG']
+#    title = tag
 for release in repo.get_releases():
     print([release.title, release.prerelease, release.published_at])  # TODO: remove
     if release.title == title:
@@ -41,6 +42,7 @@ for release in repo.get_releases():
 
 if not releaseExists:
     message = 'This is a nightly build of Webots from "%s" branch' % os.environ['TRAVIS_BRANCH']
+    print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, os.environ['TRAVIS_COMMIT']))
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
