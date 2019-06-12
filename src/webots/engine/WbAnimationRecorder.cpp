@@ -30,7 +30,10 @@
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
-WbAnimationCommand::WbAnimationCommand(WbNode *n, QStringList fields) : mNode(n) {
+WbAnimationCommand::WbAnimationCommand(WbNode *n, QStringList fields, bool saveInitialValue) :
+  mNode(n),
+  mChangedFromStart(false) {
+  QString state;
   for (int i = 0; i < fields.size(); ++i) {
     WbField *field = mNode->findField(fields[i], true);
     if (field) {
@@ -38,8 +41,36 @@ WbAnimationCommand::WbAnimationCommand(WbNode *n, QStringList fields) : mNode(n)
       connect(field, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
       connect(field, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
       mFields.append(field);
-      updateFieldValue(field, true);
+
+      if (saveInitialValue) {
+        const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
+        const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
+        const QString fieldName = field->name();
+        if (!state.isEmpty())
+          state += ",";
+        state += "\"" + fieldName + "\":\"";
+        if (sfVector3 && fieldName.compare("translation") == 0) {
+          // special translation case
+          state += QString("%1 %2 %3")
+                     .arg(ROUND(sfVector3->x(), 0.0001))
+                     .arg(ROUND(sfVector3->y(), 0.0001))
+                     .arg(ROUND(sfVector3->z(), 0.0001));
+        } else if (sfRotation && fieldName.compare("rotation") == 0) {
+          // special rotation case
+          state += QString("%1 %2 %3 %4")
+                     .arg(ROUND(sfRotation->x(), 0.0001))
+                     .arg(ROUND(sfRotation->y(), 0.0001))
+                     .arg(ROUND(sfRotation->z(), 0.0001))
+                     .arg(ROUND(sfRotation->angle(), 0.0001));
+        } else  // generic case
+          state += field->value()->toString(WbPrecision::FLOAT_MAX);
+        state += fieldName + "\"";
+      }
     }
+  }
+
+  if (!state.isEmpty()) {
+    mInitialState = QString("{\"id\":\"%1\",%2}").arg(n->uniqueId()).arg(state);
   }
 }
 
@@ -65,37 +96,40 @@ void WbAnimationCommand::updateAllFieldValues() {
   }
 }
 
-void WbAnimationCommand::updateFieldValue(WbField *field, bool force) {
+void WbAnimationCommand::updateFieldValue(WbField *field) {
   WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
   WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
     WbVector3 translationRounded =
       WbVector3(ROUND(sfVector3->x(), 0.001), ROUND(sfVector3->y(), 0.001), ROUND(sfVector3->z(), 0.001));
-    if (force || translationRounded != mLastTranslation) {
+    if (translationRounded != mLastTranslation) {
       mChangedValues["translation"] = QString("%1 %2 %3")
                                         .arg(ROUND(sfVector3->x(), 0.0001))
                                         .arg(ROUND(sfVector3->y(), 0.0001))
                                         .arg(ROUND(sfVector3->z(), 0.0001));
       mLastTranslation = translationRounded;
+      mChangedFromStart = true;
       emit changed(this);
     }
   } else if (sfRotation && field->name().compare("rotation") == 0) {
     // special rotation case
     WbRotation rotationRounded = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                             ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
-    if (force || rotationRounded != mLastRotation) {
+    if (rotationRounded != mLastRotation) {
       mChangedValues["rotation"] = QString("%1 %2 %3 %4")
                                      .arg(ROUND(sfRotation->x(), 0.0001))
                                      .arg(ROUND(sfRotation->y(), 0.0001))
                                      .arg(ROUND(sfRotation->z(), 0.0001))
                                      .arg(ROUND(sfRotation->angle(), 0.0001));
       mLastRotation = rotationRounded;
+      mChangedFromStart = true;
       emit changed(this);
     }
   } else {
     // generic case
     mChangedValues[field->name()] = field->value()->toString(WbPrecision::FLOAT_MAX);
+    mChangedFromStart = true;
     emit changed(this);
   }
 }
@@ -175,14 +209,11 @@ void WbAnimationRecorder::populateCommands() {
         continue;
       QStringList fields = node->fieldsToSynchronizeWithX3D();
       if (fields.size() > 0) {
-        WbAnimationCommand *command = new WbAnimationCommand(node, fields);
+        WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
         mCommands << command;
       }
     }
   }
-
-  // save initial state
-  mChangedCommands = mCommands;
 
   foreach (WbAnimationCommand *command, mCommands) {
     connect(command, &WbAnimationCommand::changed, this, &WbAnimationRecorder::addChangedCommandToList);
@@ -221,7 +252,7 @@ void WbAnimationRecorder::handleNodeVisibilityChange(WbNode *node, bool visibili
     }
   }
   if (!newCommand) {
-    newCommand = new WbAnimationCommand(node, QStringList());
+    newCommand = new WbAnimationCommand(node, QStringList(), !mStreamingServer);
     mArtificialCommands << newCommand;
   }
   if (visibility)
@@ -281,7 +312,9 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   out << ",\"poses\":[";
   foreach (WbAnimationCommand *command, commands) {
-    QList<QString> keys = command->fields();
+    const QList<QString> keys = command->fields();
+    if (keys.isEmpty())
+      continue;
     out << "{";
     out << QString("\"id\":%1").arg(command->node()->uniqueId());
     foreach (const QString &fieldName, keys)
@@ -301,13 +334,17 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 }
 
 void WbAnimationRecorder::startRecording(const QString &targetFile) {
+  // clear previous data
+  mFileHeader.clear();
+
   mFile = new QFile(targetFile);
   if (!mFile->open(QIODevice::WriteOnly))
     throw tr("Cannot open HTML5 animation file '%1'").arg(mFile->fileName());
 
   populateCommands();
 
-  QTextStream out(mFile);
+  // save data to be written at the beginning of the file at the end of the animation recording
+  QTextStream out(&mFileHeader);
   out << "{\n";
   WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
   double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
@@ -331,8 +368,6 @@ void WbAnimationRecorder::startRecording(const QString &targetFile) {
 }
 
 void WbAnimationRecorder::stop() {
-  cleanCommands();
-
   try {
     stopRecording();
   } catch (const QString &e) {
@@ -371,7 +406,33 @@ void WbAnimationRecorder::stopRecording() {
   if (!mFile)
     return;
 
+  // Prepend header and initial state to the file containing updates.
+  mFile->close();
+  mFile->open(QFile::ReadOnly | QFile::Text);
+  const QByteArray updates = mFile->readAll();
+  mFile->close();
+  mFile->open(QFile::WriteOnly | QFile::Text);
   QTextStream out(mFile);
+  out << mFileHeader;
+
+  // write initial state
+  out << "{\"time\":0,\"poses\":[";
+  bool firstState = true;
+  foreach (WbAnimationCommand *command, mCommands) {
+    if (command->isChangedFromStart()) {
+      if (!firstState)
+        out << ",";
+      else
+        firstState = false;
+      out << command->initialState();
+    }
+  }
+  cleanCommands();
+  out << "]}";
+  if (!updates.isEmpty()) {
+    out << ",\n";
+    out << updates;
+  }
   out << "\n ]\n}\n";
   mFile->close();
 
