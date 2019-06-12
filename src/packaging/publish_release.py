@@ -30,12 +30,11 @@ releaseExists = False
 now = datetime.datetime.now()
 title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
 tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-if 'TRAVIS_TAG' in os.environ:
+if 'TRAVIS_TAG' in os.environ and os.environ['TRAVIS_TAG']:
     print(os.environ['TRAVIS_TAG'])
 #    tag = os.environ['TRAVIS_TAG']
 #    title = tag
 for release in repo.get_releases():
-    print([release.title, release.prerelease, release.published_at])  # TODO: remove
     if release.title == title:
         releaseExists = True
         break
@@ -57,9 +56,16 @@ for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
 
 for release in repo.get_releases():
     if release.title == title:
+        assets = {}
+        for asset in release.get_assets():
+            print(asset.name)
+            assets[asset.name] = asset
         for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
             path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
+                if file in assets:
+                    print('Removing previous "s" asset' % file)
+                    release.delete_asset(asset[assets])
                 print('Uploading "%s"' % file)
                 release.upload_asset(path)
         break
