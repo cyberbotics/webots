@@ -404,7 +404,7 @@ void WbAnimationRecorder::stopRecording() {
   if (!mFile)
     return;
 
-  // Prepend header and initial state to the file containing updates.
+  // prepend header and initial state to the file containing updates
   mFile->close();
   mFile->open(QFile::ReadOnly | QFile::Text);
   const QByteArray updates = mFile->readAll();
