@@ -65,7 +65,7 @@ for release in repo.get_releases():
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Removing previous "s" asset' % file)
-                    release.delete_asset(asset[assets])
+                    # release.delete_asset(asset[assets])
                 print('Uploading "%s"' % file)
                 release.upload_asset(path)
         break
