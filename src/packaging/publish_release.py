@@ -62,5 +62,5 @@ for release in repo.get_releases():
             if file != '.gitignore' and not os.path.isdir(path):
                 print('Uploading "%s"' % file)
                 release.upload_asset(path)
-                break
+        break
 print('Upload finished.')
