@@ -142,7 +142,7 @@ class TestLicense(unittest.TestCase):
                     continue
                 for extension in extensions:
                     for fileName in fnmatch.filter(fileNames, extension):
-                        if os.path.join(relativeRootPath, fileName) in skippedFilePaths:
+                        if os.path.join(relativeRootPath, fileName).replace(os.sep, '/') in skippedFilePaths:
                             continue
                         file = os.path.join(rootPath, fileName)
                         self.sources.append(file)
