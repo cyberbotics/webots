@@ -23,7 +23,6 @@ PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\)
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 PYTHON_LIB_FOLDER = ../python$(PYTHON_SHORT_VERSION)
-#WEBOTS_LIBRARY = 1
 MODULE_NAME = managers
 
 INTERFACE          = $(MODULE_NAME).i
