@@ -77,7 +77,7 @@ QString WbVersion::toString(bool revision, bool digitsOnly, bool nightly) const 
     if (revision && mRevision > 0)
       return QString("R%1%2 revision %3 %4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
     else
-      return QString("R%1%2 %3").arg(mMajor).arg(QChar(mMinor + 'a')).arg(nightlyString);
+      return QString("R%1%2").arg(mMajor).arg(QChar(mMinor + 'a'));
   }
 
   if (revision)
