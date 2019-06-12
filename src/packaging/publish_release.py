@@ -41,7 +41,7 @@ for release in repo.get_releases():
         break
 
 if not releaseExists:
-    message = 'This is a nightly build of Webots from "%s" branch' % os.environ['TRAVIS_BRANCH']
+    message = 'This is a nightly build of Webots from the "%s" branch.' % os.environ['TRAVIS_BRANCH']
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, os.environ['TRAVIS_COMMIT']))
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
