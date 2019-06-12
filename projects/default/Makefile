@@ -37,9 +37,11 @@ controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
+ifneq ($(ROS_DEPENDENCIES),)
 $(ROS_DEPENDENCIES):
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+endif
 
 resources.Makefile:
 	@echo "#"; echo "# *** resources ***"
