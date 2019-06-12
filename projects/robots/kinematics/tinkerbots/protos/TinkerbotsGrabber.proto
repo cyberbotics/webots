@@ -9,9 +9,9 @@ PROTO TinkerbotsGrabber [
   field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0   # Is `Transform.rotation`.
   field SFString   name        "grabber" # Is `Solid.name`.
-  field SFNode     fingerASlot NULL      # Type: "lego cross female"
-  field SFNode     fingerBSlot NULL      # Type: "lego cross female"
-  field SFNode     fingerCSlot NULL      # Type: "lego cross female"
+  field SFNode     fingerASlot NULL      # Type: "lego cross-"
+  field SFNode     fingerBSlot NULL      # Type: "lego cross-"
+  field SFNode     fingerCSlot NULL      # Type: "lego cross-"
 ]
 {
   Slot {
@@ -108,7 +108,7 @@ PROTO TinkerbotsGrabber [
                 rotation 1 0 0 -0.0655
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS fingerASlot
                   }
                 ]
@@ -169,7 +169,7 @@ PROTO TinkerbotsGrabber [
                 rotation -0.0251757 -0.0436056 0.998732 2.09549
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS fingerBSlot
                   }
                 ]
@@ -230,7 +230,7 @@ PROTO TinkerbotsGrabber [
                 rotation 0.0251757 -0.0436056 0.998732 4.1877
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS fingerCSlot
                   }
                 ]
