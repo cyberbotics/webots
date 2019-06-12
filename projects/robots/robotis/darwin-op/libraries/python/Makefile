@@ -83,7 +83,7 @@ SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33m(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
+	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
 else ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
