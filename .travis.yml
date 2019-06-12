@@ -147,6 +147,5 @@ jobs:
             - wget
             - node
       before_install:
-        - clang --version
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - pip install PyGithub # used to upload packages to Github releases

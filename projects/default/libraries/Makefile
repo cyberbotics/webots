@@ -38,6 +38,7 @@ endif
 ROS_SOURCE=$(basename $(basename $(ROS_PACKAGE)))
 
 release debug profile: $(ROS_TARGET)
+	@echo "ROS TEST 1 $(ROS_PACKAGE) $(ROS_TARGET)"
 
 $(ROS_PACKAGE):
 	@if ! $(WGET) -h > /dev/null ; then echo "You need to download the" $(ROS_PACKAGE) "package and copy it in this directory"; fi
@@ -57,6 +58,7 @@ endif
 	@touch $(ROS_TARGET) # update modification date on Linux and Mac
 
 $(ROS_TARGET): $(ROS_PACKAGE)
+	@echo "ROS TEST 2"
 
 clean:
 	rm -rf $(ROS_TARGET)/*$(SHARED_LIB_EXTENSION).* $(ROS_TARGET)/*$(SHARED_LIB_EXTENSION)
