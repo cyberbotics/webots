@@ -134,7 +134,7 @@ jobs:
 #        - travis_wait 45 python tests/test_compilation.py
         - make distrib -j2
         - ls -l distribution | grep -v ^l | wc -l
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required file are generated
+#        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required file are generated
         - src/packaging/publish_release.py
         - ls projects/default/libraries/ros
     - <<: *distribution_staging
