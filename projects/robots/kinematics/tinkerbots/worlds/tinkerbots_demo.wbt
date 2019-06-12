@@ -33,23 +33,7 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/parquet_base_color.png"
-          ]
-        }
-        roughness 0.3
-        normalMap ImageTexture {
-          url [
-            "textures/parquet_normal.png"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/parquet_occlusion.png"
-          ]
-        }
+      appearance DarkParquetry {
         textureTransform TextureTransform {
           scale 100 100
         }
