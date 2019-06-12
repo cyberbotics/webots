@@ -45,7 +45,7 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
       if (saveInitialValue) {
         const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
         const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
-        const QString fieldName = field->name();
+        const QString &fieldName = field->name();
         if (!state.isEmpty())
           state += ",";
         state += "\"" + fieldName + "\":\"";
@@ -64,7 +64,7 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->angle(), 0.0001));
         } else  // generic case
           state += field->value()->toString(WbPrecision::FLOAT_MAX);
-        state += fieldName + "\"";
+        state += "\"";
       }
     }
   }
