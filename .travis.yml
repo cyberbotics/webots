@@ -146,3 +146,4 @@ jobs:
             - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - pip install PyGithub # used to upload packages to Github releases
