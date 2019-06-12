@@ -52,6 +52,9 @@ if not releaseExists:
                                     draft=True,  # TODO: prerelase instead
                                     prerelease=False)
 
+for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
+    print(file)
+
 for release in repo.get_releases():
     if release.title == title:
         for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
@@ -59,3 +62,5 @@ for release in repo.get_releases():
             if file != '.gitignore' and not os.path.isdir(path):
                 print('Uploading "%s"' % file)
                 release.upload_asset(path)
+                break
+print('Upload finished.')
