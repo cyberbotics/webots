@@ -113,7 +113,7 @@ class TestClangFormat(unittest.TestCase):
                     for fileName in fileNames:
                         extension = os.path.splitext(fileName)[1][1:].lower()
                         if extension in extensions:
-                            sources.append(os.path.join(rootPath, fileName).replace('/', os.sep))
+                            sources.append(os.path.normpath(os.path.join(rootPath, fileName)))
         curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
         for source in sources:
