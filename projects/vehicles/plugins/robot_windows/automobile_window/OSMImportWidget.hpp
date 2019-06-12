@@ -35,7 +35,9 @@ public slots:
   void launchExecutable();
 
 protected:
+  // cppcheck-suppress unsafeClassCanLeak
   QPushButton *mPushButton;
+  // cppcheck-suppress unsafeClassCanLeak
   QVBoxLayout *mLayout;
 };
 
