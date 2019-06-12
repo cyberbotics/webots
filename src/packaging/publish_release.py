@@ -32,8 +32,8 @@ title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
 tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
 if 'TRAVIS_TAG' in os.environ and os.environ['TRAVIS_TAG']:
     print(os.environ['TRAVIS_TAG'])
-#    tag = os.environ['TRAVIS_TAG']
-#    title = tag
+    tag = os.environ['TRAVIS_TAG']
+    title = tag
 for release in repo.get_releases():
     if release.title == title:
         releaseExists = True
@@ -66,7 +66,8 @@ for release in repo.get_releases():
                 if file in assets:
                     print('Removing previous "%s" asset' % file)
                     # release.delete_asset(asset[assets])
-                print('Uploading "%s"' % file)
-                release.upload_asset(path)
+                else:
+                    print('Uploading "%s"' % file)
+                    release.upload_asset(path)
         break
 print('Upload finished.')
