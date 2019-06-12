@@ -30,9 +30,9 @@ class WbAnimationCommand : public QObject {
   Q_OBJECT
 
 public:
-  WbAnimationCommand(WbNode *n, QStringList fields, bool saveInitialValue);
+  WbAnimationCommand(const WbNode *n, const QStringList &fields, bool saveInitialValue);
 
-  WbNode *node() const { return mNode; }
+  const WbNode *node() const { return mNode; }
   QList<QString> fields() const { return mChangedValues.keys(); }
   QString fieldValue(const QString &field) const { return mChangedValues[field]; }
 
@@ -50,9 +50,9 @@ signals:
   void changed(WbAnimationCommand *command);
 
 private:
-  void updateFieldValue(WbField *field);
+  void updateFieldValue(const WbField *field);
 
-  WbNode *mNode;
+  const WbNode *mNode;
   QList<WbField *> mFields;
   QHash<QString, QString> mChangedValues;
   WbVector3 mLastTranslation;

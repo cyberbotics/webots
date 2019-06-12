@@ -30,7 +30,7 @@
 // this function is used to round the transform position coordinates
 #define ROUND(x, precision) (roundf((x) / precision) * precision)
 
-WbAnimationCommand::WbAnimationCommand(WbNode *n, QStringList fields, bool saveInitialValue) :
+WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &fields, bool saveInitialValue) :
   mNode(n),
   mChangedFromStart(false) {
   QString state;
@@ -83,25 +83,25 @@ void WbAnimationCommand::addArtificialFieldChange(const QString &fieldName, cons
 }
 
 void WbAnimationCommand::updateValue() {
-  WbField *field = dynamic_cast<WbField *>(sender());
+  const WbField *field = dynamic_cast<WbField *>(sender());
   if (field)
     updateFieldValue(field);
 }
 
 void WbAnimationCommand::updateAllFieldValues() {
   for (int i = 0; i < mFields.size(); ++i) {
-    WbField *field = mFields.at(i);
+    const WbField *field = mFields.at(i);
     if (!mChangedValues.contains(field->name()))
       updateFieldValue(field);
   }
 }
 
-void WbAnimationCommand::updateFieldValue(WbField *field) {
-  WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
-  WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
+void WbAnimationCommand::updateFieldValue(const WbField *field) {
+  const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
+  const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
-    WbVector3 translationRounded =
+    const WbVector3 translationRounded =
       WbVector3(ROUND(sfVector3->x(), 0.001), ROUND(sfVector3->y(), 0.001), ROUND(sfVector3->z(), 0.001));
     if (translationRounded != mLastTranslation) {
       mChangedValues["translation"] = QString("%1 %2 %3")
@@ -114,8 +114,8 @@ void WbAnimationCommand::updateFieldValue(WbField *field) {
     }
   } else if (sfRotation && field->name().compare("rotation") == 0) {
     // special rotation case
-    WbRotation rotationRounded = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
-                                            ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
+    const WbRotation rotationRounded = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
+                                                  ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
     if (rotationRounded != mLastRotation) {
       mChangedValues["rotation"] = QString("%1 %2 %3 %4")
                                      .arg(ROUND(sfRotation->x(), 0.0001))
@@ -198,16 +198,16 @@ void WbAnimationRecorder::propagateNodeAddition(WbNode *node) {
 void WbAnimationRecorder::populateCommands() {
   cleanCommands();
 
-  WbWorld *world = WbWorld::instance();
+  const WbWorld *world = WbWorld::instance();
   if (world) {
     QList<WbNode *> nodes = WbWorld::instance()->root()->subNodes(true);
     for (int i = 0; i < nodes.size(); ++i) {
-      WbNode *node = nodes.at(i);
+      const WbNode *node = nodes.at(i);
       if (node->isUseNode())
         // skip updates for USE nodes
         // DEF/USE mechanism is handled in webots.min.js
         continue;
-      QStringList fields = node->fieldsToSynchronizeWithX3D();
+      const QStringList fields = node->fieldsToSynchronizeWithX3D();
       if (fields.size() > 0) {
         WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
         mCommands << command;
@@ -278,7 +278,7 @@ void WbAnimationRecorder::updateCommandsAfterNodeDeletion(QObject *node) {
 void WbAnimationRecorder::update() {
   double currentTime = WbSimulationState::instance()->time();
   if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-    QString data = computeUpdateData();
+    const QString data = computeUpdateData();
     if (data.isEmpty())
       return;
 
@@ -303,9 +303,9 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   }
   QString result;
   QTextStream out(&result);
-  double time = WbSimulationState::instance()->time();
+  const double time = WbSimulationState::instance()->time();
   out << "{\"time\":" << QString::number(time);
-  QList<WbAnimationCommand *> commands = mChangedCommands + mArtificialCommands;
+  const QList<WbAnimationCommand *> commands = mChangedCommands + mArtificialCommands;
   if (commands.size() == 0) {
     out << "}";
     return result;
@@ -377,20 +377,18 @@ void WbAnimationRecorder::stop() {
 }
 
 void WbAnimationRecorder::start(const QString &fileName) {
-  WbWorld *world = WbWorld::instance();
+  const WbWorld *world = WbWorld::instance();
   connect(world, &WbWorld::destroyed, this, &WbAnimationRecorder::stop);
 
   mAnimationFilename = fileName;
   mAnimationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
 
   try {
-    bool success = world->exportAsHtml(fileName, true);
+    const bool success = world->exportAsHtml(fileName, true);
     if (!success)
       throw tr("HTML5 export failed");
 
-    QString animationFilename(mAnimationFilename);
-
-    startRecording(animationFilename);
+    startRecording(mAnimationFilename);
 
     emit animationStartStatusChanged(true);
   } catch (const QString &e) {
