@@ -470,7 +470,7 @@ static void create_file(const char *name, int m) {
               "AppVerName=%s %s\n"
               "AppCopyright=Copyright (c) %d Cyberbotics, Ltd.\n"
               "AppPublisher=Cyberbotics, Ltd.\n"
-              "AppPublisherURL=http://www.cyberbotics.com\n"
+              "AppPublisherURL=https://www.cyberbotics.com\n"
               "ChangesEnvironment=yes\n"  // tells Windows Explorer to reload environment variables (e.g., WEBOTS_HOME)
               "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
