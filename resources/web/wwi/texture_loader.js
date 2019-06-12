@@ -15,6 +15,36 @@ var TextureLoader = {
     return new THREE.Texture();
   },
 
+  createColoredCubeTexture: function(color, width = 1, height = 1) {
+    // Create an off-screen canvas.
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    // Create RGB values.
+    var r = Math.floor(color.r * 255);
+    var g = Math.floor(color.g * 255);
+    var b = Math.floor(color.b * 255);
+
+    // Push pixels.
+    var data = context.createImageData(width, height);
+    var size = width * height;
+    for (let i = 0; i < size; i++) {
+      let stride = i * 4;
+      data.data[stride + 0] = r;
+      data.data[stride + 1] = g;
+      data.data[stride + 2] = b;
+      data.data[stride + 3] = 255;
+    }
+    context.putImageData(data, 0, 0);
+
+    // Create the CubeTexture.
+    var src = canvas.toDataURL();
+    var loader = new THREE.CubeTextureLoader();
+    return loader.load([src, src, src, src, src, src]);
+  },
+
   loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
