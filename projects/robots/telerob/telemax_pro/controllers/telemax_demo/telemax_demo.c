@@ -24,9 +24,10 @@
 
 #define TIME_STEP 32
 
-void wait(int time) {
+void noop(int n_steps) {
+  // Wait without applying commands during 'n_steps' steps.
   int counter = 0;
-  while (counter < time) {
+  while (counter < n_steps) {
     counter += TIME_STEP;
     if (wb_robot_step(TIME_STEP) == -1) {
       wb_robot_cleanup();
@@ -72,7 +73,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-  wait(20000);
+  noop(20000);
 
   // look around with camera
   wb_motor_set_velocity(front_left_track, 0.0);
@@ -82,24 +83,24 @@ int main(int argc, char **argv) {
   wb_camera_enable(camera, TIME_STEP);
   wb_led_set(camera_led, 100);
   wb_motor_set_position(camera_pan, 1.0);
-  wait(2000);
+  noop(2000);
   wb_motor_set_position(camera_pan, -1.0);
-  wait(4000);
+  noop(4000);
   wb_motor_set_position(camera_pan, 0.0);
-  wait(2000);
+  noop(2000);
   wb_motor_set_position(camera_tilt, -0.4);
-  wait(2000);
+  noop(2000);
   // camera zoom
   while (wb_camera_get_fov(camera) > 0.05) {
     wb_camera_set_fov(camera, 0.99 * wb_camera_get_fov(camera));
-    wait(16);
+    noop(16);
   }
   while (wb_camera_get_fov(camera) < 0.78) {
     wb_camera_set_fov(camera, 1.01 * wb_camera_get_fov(camera));
-    wait(16);
+    noop(16);
   }
   wb_motor_set_position(camera_tilt, 0.5);
-  wait(4000);
+  noop(4000);
   wb_motor_set_position(camera_tilt, -0.1);
 
   // prepare tracks for stairs
@@ -109,23 +110,23 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_right_track, 0.02);
   wb_motor_set_position(front_motor, 1.0);
   wb_motor_set_position(rear_motor, -0.2);
-  wait(7000);
+  noop(7000);
 
   // climb stairs
   wb_motor_set_velocity(front_left_track, -0.1);
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-  wait(13000);
+  noop(13000);
 
   // align fron tracks with stairs
   wb_motor_set_position(front_motor, 0.25);
-  wait(60000);
+  noop(60000);
 
   // put tracks in 'flat' position
   wb_motor_set_position(front_motor, 0.0);
   wb_motor_set_position(rear_motor, 0.0);
-  wait(3000);
+  noop(3000);
 
   // go in 'high' position
   wb_motor_set_velocity(front_left_track, 0.1);
@@ -134,7 +135,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_right_track, 0.1);
   wb_motor_set_position(front_motor, -1.2);
   wb_motor_set_position(rear_motor, -1.2);
-  wait(4500);
+  noop(4500);
 
   // stop tracks and move arm
   wb_motor_set_velocity(front_left_track, 0.0);
@@ -148,17 +149,17 @@ int main(int argc, char **argv) {
   wb_motor_set_position(arm_motors[4], -0.0);
   wb_motor_set_position(arm_motors[5], -0.75);
   wb_motor_set_position(arm_motors[6], 0.0);
-  wait(5000);
+  noop(5000);
 
   // actuate gripper
   wb_camera_enable(gripper_camera, TIME_STEP);
   for (i = 0; i < 3; ++i) {
     wb_motor_set_position(left_gripper, 0.012);
     wb_motor_set_position(right_gripper, 0.012);
-    wait(1000);
+    noop(1000);
     wb_motor_set_position(left_gripper, -0.005);
     wb_motor_set_position(right_gripper, -0.005);
-    wait(1000);
+    noop(1000);
   }
 
   // push the door
@@ -166,7 +167,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(front_right_track, -0.1);
   wb_motor_set_velocity(rear_left_track, 0.1);
   wb_motor_set_velocity(rear_right_track, 0.1);
-  wait(10000);
+  noop(10000);
 
   // rotate gripper camera to see in the other room
   wb_motor_set_velocity(front_left_track, 0.0);
