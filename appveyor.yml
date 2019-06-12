@@ -15,8 +15,7 @@ install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
-  - C:\\msys64\\usr\\bin\\bash --login -c "git submodule init %WEBOTS_HOME_PROTECTED%"
-  - C:\\msys64\\usr\\bin\\bash --login -c "git submodule update %WEBOTS_HOME_PROTECTED%"
+  - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; git submodule init; git submodule update"
   - C:\\msys64\\usr\\bin\\bash --login -c "%WEBOTS_HOME_PROTECTED%/src/install_scripts/msys64_installer.sh --all"
   - C:\\msys64\\usr\\bin\\bash --login -c "make -C %WEBOTS_HOME_PROTECTED% -j4"
 
