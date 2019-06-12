@@ -20,8 +20,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
+    this.renderer.gammaInput = false;
+    this.renderer.gammaOutput = false;
+    this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -49,6 +50,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
+    this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
 
@@ -61,6 +64,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
+
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
     this.composer.render();
@@ -393,7 +398,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
     pmremCubeUVPacker.update(this.renderer);
 
-    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture);
+    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture, true);
 
     texture.dispose();
     pmremGenerator.dispose();
@@ -424,16 +429,26 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap(envMap = undefined) {
+  _setupEnvironmentMap(envMap = undefined, isHDR = false) {
     var backgroundMap;
     if (typeof envMap !== 'undefined')
       backgroundMap = envMap;
-    else if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
-      backgroundMap = this.scene.background;
+    else if (typeof this.scene.background !== 'undefined') {
+      if (this.scene.background.isCubeTexture)
+        backgroundMap = this.scene.background;
+      else if (this.scene.background.isColor) {
+        let color = this.scene.background.clone();
+        color.convertLinearToSRGB();
+        backgroundMap = TextureLoader.createColoredCubeTexture(color);
+      }
+    }
+
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
+        if (isHDR)
+          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
         material.needsUpdate = true;
       }
     });
