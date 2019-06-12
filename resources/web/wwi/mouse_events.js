@@ -289,14 +289,13 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _setupMoveParameters(event, computeScale) {
     this.moveParams = {};
-    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
-    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
+    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer.domElement, event.clientX, event.clientY);
+    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.scene.renderer.domElement, event.clientX, event.clientY);
     this.intersection = this.scene.pick(relativePosition, screenPosition);
 
-    if (this.intersection && this.intersection.object) {
-      this.moveParams.pickPosition = new THREE.Vector3();
-      this.intersection.object.getWorldPosition(this.moveParams.pickPosition);
-    } else
+    if (this.intersection && this.intersection.object)
+      this.moveParams.pickPosition = this.intersection.point;
+    else
       this.moveParams.pickPosition = null;
 
     if (this.intersection == null) {
@@ -350,15 +349,16 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 }
 
-MouseEvents.convertMouseEventPositionToScreenPosition = (eventX, eventY) => {
-  return new THREE.Vector2(
-    (eventX / window.innerWidt) * 2 - 1,
-    -(eventY / window.innerHeight) * 2 + 1
-  );
+MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY) => {
+  var rect = element.getBoundingClientRect();
+  var pos = new THREE.Vector2();
+  pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  pos.y = -((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+  return pos;
 };
 
-MouseEvents.convertMouseEventPositionToRelativePosition = (renderer, eventX, eventY) => {
-  var rect = renderer.domElement.getBoundingClientRect();
+MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
+  var rect = element.getBoundingClientRect();
   var pos = new THREE.Vector2();
   pos.x = Math.round(eventX - rect.left);
   pos.y = Math.round(eventY - rect.top);
