@@ -93,6 +93,7 @@ jobs:
             - curl
             - libwebpdemux1
             - fakeroot
+            - pbzip2
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
