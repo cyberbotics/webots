@@ -73,9 +73,9 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
 
 QString WbVersion::toString(bool revision, bool digitsOnly, bool nightly) const {
   if (!digitsOnly && mIsWebots) {
-    QString nightlyString = (!mCommit.isEmpty() && nightly) ? QString(QObject::tr("Nightly Build %1").arg(mCommit)) : "";
+    QString nightlyString = (!mCommit.isEmpty() && nightly) ? QString(QObject::tr(" Nightly Build %1").arg(mCommit)) : "";
     if (revision && mRevision > 0)
-      return QString("R%1%2 revision %3 %4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
+      return QString("R%1%2 revision %3%4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
     else
       return QString("R%1%2").arg(mMajor).arg(QChar(mMinor + 'a'));
   }
