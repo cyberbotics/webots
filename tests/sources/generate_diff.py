@@ -14,17 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Generate a list of modified files with respect to the parent branch.
-This script is used only by Travis."""
+"""Generate a list of modified files with respect to the parent branch. If not passed as an argument, the
+parent branch is automatically computed. This list of modified files is used by Travis for testing only the
+files modified by the current pull request (during the sources tests) and hence run the CI tests
+significantly faster."""
 import os
 import subprocess
 import sys
 
-branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
-if branch is not None and os.getenv('TRAVIS_EVENT_TYPE') == 'pull_request':
-    output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
-    f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
-    f.write(output)
-    f.close()
+if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from script
+    script = os.path.join(os.getenv("WEBOTS_HOME"), 'tests', 'sources', 'parent_branch.sh')
+    branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
 else:
-    sys.exit('TRAVIS_BRANCH environment variable is not set.')
+    branch = sys.argv[1]
+with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
