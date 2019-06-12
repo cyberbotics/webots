@@ -17,7 +17,7 @@ PROTO TinkerbotsPivot [
 ]
 {
   Slot {
-    type "tinkerbots"
+    type "tinkerbots+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -107,7 +107,7 @@ PROTO TinkerbotsPivot [
                 translation 0 0 0.04
                 children [
                   Slot {
-                    type "tinkerbots"
+                    type "tinkerbots-"
                     endPoint IS slot
                   }
                 ]

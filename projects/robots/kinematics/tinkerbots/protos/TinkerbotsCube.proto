@@ -36,7 +36,7 @@ PROTO TinkerbotsCube [
 ]
 {
   Slot {
-    type "tinkerbots"
+    type "tinkerbots+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -45,7 +45,7 @@ PROTO TinkerbotsCube [
           translation 0 0 0.04
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS upSlot
             }
           ]
@@ -94,7 +94,7 @@ PROTO TinkerbotsCube [
           rotation 0 1 0 1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS leftSlot
             }
           ]
@@ -144,7 +144,7 @@ PROTO TinkerbotsCube [
           rotation 0 1 0 -1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS rightSlot
             }
           ]
@@ -194,7 +194,7 @@ PROTO TinkerbotsCube [
           rotation 1 0 0 -1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS frontSlot
             }
           ]
@@ -244,7 +244,7 @@ PROTO TinkerbotsCube [
           rotation 1 0 0 1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS backSlot
             }
           ]

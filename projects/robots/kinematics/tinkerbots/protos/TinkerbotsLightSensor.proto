@@ -32,7 +32,7 @@ PROTO TinkerbotsLightSensor [
 ]
 {
   Slot {
-    type "tinkerbots"
+    type "tinkerbots+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -63,7 +63,7 @@ PROTO TinkerbotsLightSensor [
           translation 0 0 0.04
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS upSlot
             }
           ]
@@ -112,7 +112,7 @@ PROTO TinkerbotsLightSensor [
           rotation 0 1 0 1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS leftSlot
             }
           ]
@@ -162,7 +162,7 @@ PROTO TinkerbotsLightSensor [
           rotation 0 1 0 -1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS rightSlot
             }
           ]
@@ -212,7 +212,7 @@ PROTO TinkerbotsLightSensor [
           rotation 1 0 0 1.57
           children [
             Slot {
-              type "tinkerbots"
+              type "tinkerbots-"
               endPoint IS backSlot
             }
           ]

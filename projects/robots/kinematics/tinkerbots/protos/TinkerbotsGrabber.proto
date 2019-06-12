@@ -15,7 +15,7 @@ PROTO TinkerbotsGrabber [
 ]
 {
   Slot {
-    type "tinkerbots"
+    type "tinkerbots+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation

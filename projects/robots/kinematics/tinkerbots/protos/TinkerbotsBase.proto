@@ -59,7 +59,7 @@ PROTO TinkerbotsBase [
         translation 0 0 0.02
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS upSlot
           }
         ]
@@ -108,7 +108,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -3.1415
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS downSlot
           }
         ]
@@ -158,7 +158,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS leftSlot
           }
         ]
@@ -208,7 +208,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS rightSlot
           }
         ]
@@ -258,7 +258,7 @@ PROTO TinkerbotsBase [
         rotation 1 0 0 1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS backSlot
           }
         ]
