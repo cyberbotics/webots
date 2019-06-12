@@ -83,7 +83,7 @@ SWIG_EXISTS = $(shell which swig 2> /dev/null)
 
 ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33mPython not installed, skipping Python API\033[0m"
+	@echo -e "# \033[0;33m(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
 else ifeq ($(SWIG_EXISTS),)
 release debug profile:
 	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
@@ -101,4 +101,4 @@ $(WRAPPER_OBJECT):$(WRAPPER)
 endif
 
 clean:
-	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc
+	@rm -fr *.o *.cpp $(PYOUT) $(LIBRARY) $(MODULE_NAME).pyc __pycache__ $(PYTHON_LIB_FOLDER)/__pycache__
