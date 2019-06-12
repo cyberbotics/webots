@@ -23,9 +23,12 @@ import subprocess
 import sys
 
 if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from script
-    script = os.path.join(os.getenv("WEBOTS_HOME"), 'tests', 'sources', 'parent_branch.sh')
+    script = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'parent_branch.sh')
     branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
 else:
     branch = sys.argv[1]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    curdir = os.getcwd()
+    os.chdir(os.getenv('WEBOTS_HOME'))
     file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
+    os.chdir(curdir)
