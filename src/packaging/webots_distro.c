@@ -1134,7 +1134,7 @@ static void create_file(const char *name, int m) {
       }
 
 #ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "fakeroot dpkg-deb --build debian %s\n", distribution_path);
+      fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 
       fprintf(fd, "echo creating the %s/%s-%s-%s.tar.bz2 tarball\n", distribution_path, application_name_lowercase_and_dashes,
