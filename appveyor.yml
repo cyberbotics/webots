@@ -15,10 +15,10 @@ install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
-
-build:
   - C:\\msys64\\usr\\bin\\bash --login -c "%WEBOTS_HOME_PROTECTED%/src/install_scripts/msys64_installer.sh --all"
   - C:\\msys64\\usr\\bin\\bash --login -c "make -C %WEBOTS_HOME_PROTECTED% -j4"
+
+build: off
 
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
