@@ -13,21 +13,21 @@ PROTO DarkParquetry [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/dark_parquetry/dark_parquetry_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/dark_parquetry/dark_parquetry_roughness.jpg"
+        "textures/dark_parquetry/dark_parquetry_base_color.png"
       ]
     }
     metalness 0
+    roughness 0.3
     normalMap ImageTexture {
       url [
-        "textures/dark_parquetry/dark_parquetry_normal.jpg"
+        "textures/dark_parquetry/dark_parquetry_normal.png"
       ]
     }
-    normalMapFactor 1
+    occlusionMap ImageTexture {
+      url [
+        "textures/dark_parquetry/dark_parquetry_occlusion.png"
+      ]
+    }
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }

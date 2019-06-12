@@ -13,21 +13,21 @@ PROTO OldPlywood [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "textures/old_plywood/old_plywood_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/old_plywood/old_plywood_roughness.jpg"
+        "textures/old_plywood/old_plywood_base_color.png"
       ]
     }
     metalness 0
+    roughness 0.5
     normalMap ImageTexture {
       url [
-        "textures/old_plywood/old_plywood_normal.jpg"
+        "textures/old_plywood/old_plywood_normal.png"
       ]
     }
-    normalMapFactor 1
+    occlusionMap ImageTexture {
+      url [
+        "textures/old_plywood/old_plywood_occlusion.png"
+      ]
+    }
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }
