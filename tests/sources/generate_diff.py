@@ -23,7 +23,7 @@ import subprocess
 import sys
 
 if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from script
-    script = os.getenv("WEBOTS_HOME") + os.sep + 'tests' + os.sep + 'sources' + os.sep + 'parent_branch.sh'
+    script = os.path.join(os.getenv("WEBOTS_HOME"), 'tests', 'sources', 'parent_branch.sh')
     branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
 else:
     branch = sys.argv[1]
