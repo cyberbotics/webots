@@ -9,15 +9,15 @@ PROTO TinkerbotsPivot [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0 # Is `Transform.rotation`.
   field SFString   name        "pivot" # Is `Solid.name`.
-  field SFNode     slot        NULL    # Type: "tinkerbots"
-  field SFNode     ASlot       NULL    # Type: "lego cross female"
-  field SFNode     BSlot       NULL    # Type: "lego cross female"
-  field SFNode     CSlot       NULL    # Type: "lego cross female"
-  field SFNode     DSlot       NULL    # Type: "lego cross female"
+  field SFNode     slot        NULL    # Type: "tinkerbots-"
+  field SFNode     ASlot       NULL    # Type: "lego cross-"
+  field SFNode     BSlot       NULL    # Type: "lego cross-"
+  field SFNode     CSlot       NULL    # Type: "lego cross-"
+  field SFNode     DSlot       NULL    # Type: "lego cross-"
 ]
 {
   Slot {
-    type "tinkerbots"
+    type "tinkerbots+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -107,7 +107,7 @@ PROTO TinkerbotsPivot [
                 translation 0 0 0.04
                 children [
                   Slot {
-                    type "tinkerbots"
+                    type "tinkerbots-"
                     endPoint IS slot
                   }
                 ]
@@ -117,7 +117,7 @@ PROTO TinkerbotsPivot [
                 rotation 0 0 1 -1.5708
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS ASlot
                   }
                 ]
@@ -127,7 +127,7 @@ PROTO TinkerbotsPivot [
                 rotation 0 0 1 3.1415
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS BSlot
                   }
                 ]
@@ -137,7 +137,7 @@ PROTO TinkerbotsPivot [
                 rotation 0 0 1 1.5708
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS CSlot
                   }
                 ]
@@ -146,7 +146,7 @@ PROTO TinkerbotsPivot [
                 translation 0.01 -0.01 0.035
                 children [
                   Slot {
-                    type "lego cross female"
+                    type "lego cross-"
                     endPoint IS DSlot
                   }
                 ]
