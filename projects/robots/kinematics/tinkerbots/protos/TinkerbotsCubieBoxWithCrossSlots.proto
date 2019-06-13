@@ -8,15 +8,15 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
   field SFVec3f    translation 0 0 0                        # Is `Transform.translation`.
   field SFRotation rotation    0 0 1 0                      # Is `Transform.rotation`.
   field SFString   name        "box with cross slots cubie" # Is `Solid.name`.
-  field SFNode     upSlot      NULL                         # Type: "lego cross female"
-  field SFNode     frontSlot   NULL                         # Type: "lego cross female"
-  field SFNode     backSlot    NULL                         # Type: "lego cross female"
-  field SFNode     leftSlot    NULL                         # Type: "lego cross female"
-  field SFNode     rightSlot   NULL                         # Type: "lego cross female"
+  field SFNode     upSlot      NULL                         # Type: "lego cross-"
+  field SFNode     frontSlot   NULL                         # Type: "lego cross-"
+  field SFNode     backSlot    NULL                         # Type: "lego cross-"
+  field SFNode     leftSlot    NULL                         # Type: "lego cross-"
+  field SFNode     rightSlot   NULL                         # Type: "lego cross-"
 ]
 {
   Slot {
-    type "lego cross female"
+    type "lego cross+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -25,7 +25,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
           translation -0.01 0 0.02
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS upSlot
             }
           ]
@@ -35,7 +35,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
           rotation 0 1 0 1.57
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS frontSlot
             }
           ]
@@ -45,7 +45,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
           rotation 0 1 0 -1.57
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS backSlot
             }
           ]
@@ -55,7 +55,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
           rotation 1 0 0 -1.57
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS rightSlot
             }
           ]
@@ -65,7 +65,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
           rotation 1 0 0 1.57
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS leftSlot
             }
           ]
