@@ -27,6 +27,8 @@ class Animation { // eslint-disable-line no-unused-vars
   // private methods
   _setup(data) {
     this.data = data;
+    // extract animated node ids: remove empty items and convert to integer
+    this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
     // Create play bar.
     var div = document.createElement('div');
@@ -142,9 +144,8 @@ class Animation { // eslint-disable-line no-unused-vars
         previousPoseStep = this.previousStep;
       else
         previousPoseStep = 0;
-      var allIds = this.data.ids.split(';');
-      for (let i in allIds) {
-        var id = parseInt(allIds[i]);
+      for (let i in this.allIds) {
+       var id = this.allIds[i];
         var appliedFields = appliedIds[id];
         for (let f = this.step - 1; f >= previousPoseStep; f--) {
           if (this.data.frames[f].poses) {
