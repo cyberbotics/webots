@@ -16,8 +16,6 @@ ifeq ($(WEBOTS_HOME),)
 WEBOTS_HOME_ARG=WEBOTS_HOME=$(shell cd .. ; pwd)
 endif
 
-cleanse: clean
-
 release profile debug clean:
 	@echo "#"; echo "# !!! languages !!!"
 	@+make -s -C languages $@ $(WEBOTS_HOME_ARG)
@@ -31,3 +29,5 @@ release profile debug clean:
 	@+make -s -C samples $@ $(WEBOTS_HOME_ARG)
 	@echo "#"; echo "# !!! vehicles !!!"
 	@+make -s -C vehicles $@ $(WEBOTS_HOME_ARG)
+
+cleanse: clean
