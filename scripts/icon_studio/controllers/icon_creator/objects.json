@@ -262,7 +262,7 @@
   "projects/objects/factory/tools/protos/ScrewHole": {
     "nodeString": "ScrewHole { translation 0 0.1 0 rotation 0 0 1 -1.44 }"
   },
-  "projects/objects/factory/tools/protos/Wahser": {
+  "projects/objects/factory/tools/protos/Washer": {
   },
   "projects/objects/factory/tools/protos/Wrench": {
   },
