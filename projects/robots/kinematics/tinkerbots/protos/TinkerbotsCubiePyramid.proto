@@ -9,12 +9,12 @@ PROTO TinkerbotsCubiePyramid [
   field SFRotation                 rotation    0 0 1 0         # Is `Transform.rotation`.
   field SFString                   name        "pyramid cubie" # Is `Solid.name`.
   field SFString{"yellow", "blue"} color       "yellow"        # Cubie color.
-  field SFNode                     frontSlot   NULL            # Type: "lego cross female"
-  field SFNode                     backSlot    NULL            # Type: "lego cross female"
+  field SFNode                     frontSlot   NULL            # Type: "lego cross-"
+  field SFNode                     backSlot    NULL            # Type: "lego cross-"
 ]
 {
   Slot {
-    type "lego cross female"
+    type "lego cross+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -24,7 +24,7 @@ PROTO TinkerbotsCubiePyramid [
           rotation 0 1 0 1.05
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS frontSlot
             }
           ]
@@ -34,7 +34,7 @@ PROTO TinkerbotsCubiePyramid [
           rotation 0 1 0 -1.05
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS backSlot
             }
           ]
