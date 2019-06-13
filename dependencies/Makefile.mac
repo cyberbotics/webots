@@ -213,7 +213,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
 
 
 pico-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)$(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME)/lib/libpico.dylib $(WEBOTS_HOME)/resources/pico
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) $(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME)/lib/libpico.dylib $(WEBOTS_HOME)/resources/pico
 
 pico: $(WEBOTS_HOME)/lib/libpico.dylib
 
