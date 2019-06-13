@@ -73,7 +73,7 @@ class Animation { // eslint-disable-line no-unused-vars
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
         this.start = new Date().getTime();
-        this._updateAnimationState(true);
+        this._updateAnimationState();
       } else
         this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
     } else {
@@ -98,18 +98,19 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _updateSlider(value) {
     var clampedValued = Math.min(value, 99); // set maximum value to get valid step index
-    this.step = Math.floor(this.data.frames.length * clampedValued / 100);
+    var requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
-    this._updateAnimationState(false);
+    this._updateAnimationState(requestedStep);
   }
 
-  _updateAnimationState(moveSlider) {
-    if (moveSlider) {
-      this.step = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
-      if (this.step < 0 || this.step >= this.data.frames.length) {
+  _updateAnimationState(requestedStep = undefined) {
+    var automaticMove = typeof requestedStep === 'undefined';
+    if (automaticMove) {
+      requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
+      if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
         if (this.loop) {
-          if (this.step > this.data.frames.length) {
-            this.step = 0;
+          if (requestedStep > this.data.frames.length) {
+            requestedStep = 0;
             this.previousStep = 0;
             this.start = new Date().getTime();
           } else
@@ -121,6 +122,10 @@ class Animation { // eslint-disable-line no-unused-vars
           return;
       }
     }
+    if (requestedStep === this.step)
+      return;
+    this.step = requestedStep;
+
     var p;
     var appliedIds = [];
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
@@ -151,20 +156,20 @@ class Animation { // eslint-disable-line no-unused-vars
         }
       }
     }
-    if (moveSlider) {
+    if (automaticMove) {
       this._disconnectSliderEvents();
       this.playSlider.slider('option', 'value', 100 * this.step / this.data.frames.length);
       this._connectSliderEvents();
     }
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    x3dScene.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
+    x3dScene.viewpoint.updateViewpointPosition(!automaticMove | this.step === 0, this.view.time);
     x3dScene.render();
   }
 
   _updateAnimation() {
     if (this.gui === 'real_time') {
-      this._updateAnimationState(true);
+      this._updateAnimationState();
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
   }
