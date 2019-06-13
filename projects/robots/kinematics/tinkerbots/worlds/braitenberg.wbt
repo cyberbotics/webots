@@ -19,23 +19,7 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/parquet_base_color.png"
-          ]
-        }
-        roughness 0.3
-        normalMap ImageTexture {
-          url [
-            "textures/parquet_normal.png"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/parquet_occlusion.png"
-          ]
-        }
+      appearance DarkParquetry {
         textureTransform TextureTransform {
           scale 100 100
         }
@@ -52,23 +36,7 @@ DEF WALLS SolidPipe {
   height 0.2
   thickness 0.05
   subdivision 60
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/older_plywood_base_color.png"
-      ]
-    }
-    roughness 0.5
-    normalMap ImageTexture {
-      url [
-        "textures/older_plywood_normal.png"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/older_plywood_occlusion.png"
-      ]
-    }
+  appearance OldPlywood {
     textureTransform TextureTransform {
       scale 20 1
     }
