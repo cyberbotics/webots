@@ -51,21 +51,16 @@ if not releaseExists:
                                     draft=True,  # TODO: prerelase instead
                                     prerelease=False)
 
-for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
-    print(file)
-
 for release in repo.get_releases():
     if release.title == title:
         assets = {}
         for asset in release.get_assets():
-            print(asset.name)
             assets[asset.name] = asset
         for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
             path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
-                    print('Removing previous "%s" asset' % file)
-                    # release.delete_asset(asset[assets])
+                    print('Asset "%s" already present in release' % file)
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)
