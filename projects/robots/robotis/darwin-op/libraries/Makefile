@@ -28,11 +28,10 @@ endif
 .PHONY: release debug profile clean
 
 release debug profile: $(TARGETS)
-	cp python27/_managers.* python  # kept for backword compatibility with < R2019b
-	cp python27/managers.py python
+	cp python27/*managers.* python  # kept for backword compatibility with < R2019b
 
 clean: $(TARGETS)
-	rm -rf python/_managers.so python/managers.py
+	rm -rf python/*managers.*
 
 managers.Makefile: robotis-op2.Makefile
 
