@@ -334,29 +334,11 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 }
 
 void WbAnimationRecorder::startRecording(const QString &targetFile) {
-  // clear previous data
-  mFileHeader.clear();
-
   mFile = new QFile(targetFile);
   if (!mFile->open(QIODevice::WriteOnly))
     throw tr("Cannot open HTML5 animation file '%1'").arg(mFile->fileName());
 
   populateCommands();
-
-  // save data to be written at the beginning of the file at the end of the animation recording
-  QTextStream out(&mFileHeader);
-  out << "{\n";
-  WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
-  double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
-  out << QString(" \"basicTimeStep\":%1,\n").arg(step);
-  out << " \"ids\":\"";
-  foreach (WbAnimationCommand *command, mCommands) {
-    out << command->node()->uniqueId();
-    if (command != mCommands.last())
-      out << ";";
-  }
-  out << "\",\n";
-  out << " \"frames\":[\n";
 
   connect(WbSimulationState::instance(), &WbSimulationState::physicsStepEnded, this, &WbAnimationRecorder::update);
 
@@ -410,18 +392,38 @@ void WbAnimationRecorder::stopRecording() {
   const QByteArray updates = mFile->readAll();
   mFile->close();
   mFile->open(QFile::WriteOnly | QFile::Text);
-  QTextStream out(mFile);
-  out << mFileHeader;
 
+  QTextStream out(mFile);
+  out << "{\n";
+  // write header
+  const WbWorldInfo *const worldInfo = WbWorld::instance()->worldInfo();
+  const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
+  out << QString(" \"basicTimeStep\":%1,\n").arg(step);
+  out << " \"ids\":\"";
+  bool firstCommand = true;
+  foreach (WbAnimationCommand *command, mCommands) {
+    // store only ids of nodes that changed during the animation
+    if (command->isChangedFromStart()) {
+      if (!firstCommand)
+        out << ";";
+      else
+        firstCommand = false;
+      out << command->node()->uniqueId();
+    }
+  }
+  out << "\",\n";
+
+  out << " \"frames\":[\n";
   // write initial state
   out << "{\"time\":0,\"poses\":[";
-  bool firstState = true;
+  firstCommand = true;
   foreach (WbAnimationCommand *command, mCommands) {
+    // store only initial state of nodes that changed during the animation
     if (command->isChangedFromStart()) {
-      if (!firstState)
+      if (!firstCommand)
         out << ",";
       else
-        firstState = false;
+        firstCommand = false;
       out << command->initialState();
     }
   }

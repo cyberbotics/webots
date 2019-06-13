@@ -121,8 +121,6 @@ private:
   QList<WbAnimationCommand *> mCommands;
   QList<WbAnimationCommand *> mChangedCommands;
   QList<WbAnimationCommand *> mArtificialCommands;
-
-  QString mFileHeader;  // text to be written at the beggining of the file
 };
 
 #endif
