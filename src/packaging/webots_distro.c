@@ -978,18 +978,18 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "sync\n");
       printf("A\n");
       fprintf(fd, "sync\n");
-      printf("A\n");
+      printf("AWbtEST\n");
       fprintf(fd, "sync\n");
-      printf("A\n");
+      printf("BWbtEST\n");
       fprintf(fd, "sync\n");
-      printf("A\n");
+      printf("CWbtEST\n");
       fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      printf("A\n");
+      printf("DWbtEST\n");
       fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
               application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      printf("A\n");
+      printf("EWbtEST\n");
       fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
-      printf("A\n");
+      printf("FWbtEST\n");
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
