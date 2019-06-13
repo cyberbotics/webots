@@ -2,6 +2,12 @@ environment:
   global:
     WEBOTS_HOME_PROTECTED: "/C/projects/webots"
     WEBOTS_HOME: "C:\\projects\\webots"
+    JAVA_HOME: "C:\\Program Files\\Java\\jdk1.8.0"
+    PYTHON27_HOME: "C:\\Python27-x64"
+    PYTHON37_HOME: "C:\\Python37-x64"
+    VISUAL_STUDIO_PATH: "C:\\Program Files (x86)\\Microsoft Visual Studio 10.0"
+    INNO_SETUP_HOME: "C:\\Program Files (x86)\\Inno Setup 6"
+    PATH: "C:\\Python37-x64:C:\\Python37-x64\\Scripts:C:\\msys64\\mingw64\\bin:C:\\msys64\\mingw64\\bin:C:\\msys64\\usr\\bin:C:\\Program Files\\Java\\jdk1.8.0\\bin:C:\\WINDOWS\\system32:C:\\WINDOWS"
 
   matrix:
     - compiler: msys2
