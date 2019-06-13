@@ -187,7 +187,7 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on travis because of missing sound drivers
-            if not filename.endswith('_temp.wbt') and not (os.environ['TRAVIS'] and filename.endswith('speaker.wbt')):
+            if not filename.endswith('_temp.wbt') and not ('TRAVIS' in os.environ and filename.endswith('speaker.wbt')):
                 f.write(filename + '\n')
                 worldsCount += 1
 
