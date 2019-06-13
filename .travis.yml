@@ -7,7 +7,7 @@ cache:
 services:
   - xvfb
 notifications:
-  email:
+  email: 
     recipients:
       - support@cyberbotics.com
     on_success: change
