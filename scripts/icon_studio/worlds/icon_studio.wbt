@@ -35,7 +35,6 @@ DEF SUPERVISOR Robot {
       height 2048
       near 0.8
       antiAliasing TRUE
-      ambientOcclusionRadius 2
     }
   ]
   controller "icon_creator"
