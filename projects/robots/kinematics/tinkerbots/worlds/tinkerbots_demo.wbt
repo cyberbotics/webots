@@ -245,14 +245,9 @@ DEF VEHICLE TinkerbotsBase {
     frontSlot TinkerbotsCube {
       backSlot TinkerbotsDistanceSensor {
         rotation 0 0 1 -1.5708
-        name "distance sensor A"
+        name "distance sensor"
         numberOfRays 3
         aperture 0.4
-        upSlot TinkerbotsDistanceSensor {
-          name "distance sensor B"
-          numberOfRays 3
-          aperture 0.4
-        }
       }
     }
   }
