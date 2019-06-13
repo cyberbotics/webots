@@ -10,7 +10,7 @@ PROTO TinkerbotsWheel [
 ]
 {
   Slot {
-    type "lego cross male"
+    type "lego cross-"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
