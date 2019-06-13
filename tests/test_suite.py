@@ -155,8 +155,11 @@ def appendToOutputFile(txt):
 
 def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
-    command = Command('make release -j%d -C %stests' % (multiprocessing.cpu_count(), os.environ['WEBOTS_HOME'] + os.sep))
+    curdir = os.getcwd()
+    os.chdir(os.path.join(os.environ['WEBOTS_HOME'], 'tests'))
+    command = Command('make release -j%d' % multiprocessing.cpu_count())
     command.run(silent=False)
+    os.chdir(curdir)
     if command.returncode != 0:
         raise RuntimeError('Error when executing the Make command')
 
@@ -187,7 +190,7 @@ def generateWorldsList(groupName, worldsFilename):
         # to file
         for filename in filenames:
             # speaker test not working on travis because of missing sound drivers
-            if not filename.endswith('_temp.wbt') and not (os.environ['TRAVIS'] and filename.endswith('speaker.wbt')):
+            if not filename.endswith('_temp.wbt') and not ('TRAVIS' in os.environ and filename.endswith('speaker.wbt')):
                 f.write(filename + '\n')
                 worldsCount += 1
 
