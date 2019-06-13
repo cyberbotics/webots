@@ -9,11 +9,11 @@ PROTO TinkerbotsCubieTriangle [
   field SFRotation                 rotation    0 0 1 0          # Is `Transform.rotation`.
   field SFString                   name        "triangle cubie" # Is `Solid.name`.
   field SFString{"yellow", "blue"} color       "yellow"         # Cubie color.
-  field SFNode                     slot        NULL             # Type: "lego cross female"
+  field SFNode                     slot        NULL             # Type: "lego cross-"
 ]
 {
   Slot {
-    type "lego cross female"
+    type "lego cross+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
@@ -23,7 +23,7 @@ PROTO TinkerbotsCubieTriangle [
           rotation 0 1 0 1.57
           children [
             Slot {
-              type "lego cross female"
+              type "lego cross-"
               endPoint IS slot
             }
           ]
