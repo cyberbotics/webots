@@ -37,7 +37,7 @@ controllers/%.Makefile libraries/%.Makefile: $(ROS_DEPENDENCIES)
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
-%.Makefile controllers/ros/%.Makefile:
+libraries.Makefile controllers/ros/include.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
 
