@@ -25,7 +25,7 @@
 #define TIME_STEP 32
 
 void noop(int duration) {
-  // Wait without applying any command during 'duration' simulation steps.
+  // Wait without applying any command during 'duration' milliseconds.
   int counter = 0;
   while (counter < duration) {
     counter += TIME_STEP;
