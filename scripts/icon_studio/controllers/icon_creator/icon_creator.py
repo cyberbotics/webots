@@ -295,5 +295,5 @@ else:
                     nodeString = value['nodeString'].encode('utf-8')
                 else:
                     nodeString = value['nodeString']
-            process_object(controller, key.split('/')[1], nodeString, background=[0, 1, 1], colorThreshold=0.05,
-                           alphaRejectionThreshold=0.4)
+            process_object(controller, key.split('/')[1], nodeString, background=background, colorThreshold=colorThreshold,
+                           alphaRejectionThreshold=alphaRejectionThreshold)
