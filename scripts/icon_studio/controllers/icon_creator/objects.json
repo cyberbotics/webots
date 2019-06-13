@@ -35,6 +35,7 @@
     "fields": "translation 0 0.29 0"
   },
   "projects/objects/apartment_structure/protos/Wall": {
+    "fields": "rotation 0 1 0 -2.0561943071795863"
   },
   "projects/objects/apartment_structure/protos/WallPlug": {
     "fields": "translation 0 0.04 0 rotation 0 1 0 2.88"
@@ -143,7 +144,7 @@
     "fields": "rotation 0 1 0 4.48879"
   },
   "projects/objects/buildings/protos/StripBuilding": {
-    "fields": "rotation 0 1 0 3.66519"
+    "fields": "rotation 0 1 0 -1.8325973071795865"
   },
   "projects/objects/buildings/protos/SuburbanHouse": {
     "fields": "rotation 0 1 0 4.22699"
@@ -171,8 +172,10 @@
   "projects/objects/chairs/protos/Chair": {
   },
   "projects/objects/chairs/protos/SimpleChair": {
+    "fields": "rotation 0 1 0 2.394395"
   },
   "projects/objects/chairs/protos/WoodenChair": {
+    "fields": "rotation 0 1 0 2.394395"
   },
   "projects/objects/computers/protos/ComputerMouse": {
   },
@@ -199,7 +202,8 @@
   },
   "projects/objects/drinks/protos/Can": {
     "colorThreshold": 0.01,
-    "background": [0.0, 0.0, 1.0]
+    "background": [0.0, 0.0, 1.0],
+    "fields": "rotation 0 1 0 -2.318"
   },
   "projects/objects/drinks/protos/WaterBottle": {
     "alphaRejectionThreshold": 0.35,
@@ -413,7 +417,7 @@
   "projects/objects/lights/protos/CeilingLight": {
     "colorThreshold": 0.1,
     "background": [1.0, 0.0, 0.0],
-    "fields": "translation 0 0.01 0 rotation 0 1 0 0.3"
+    "fields": "translation 0 0.7 0 rotation 0 1 0 0.3"
   },
   "projects/objects/lights/protos/DoubleFluorescentLamp": {
     "nodeString": "DoubleFluorescentLamp { rotation 0 1 0 1.3 }"
