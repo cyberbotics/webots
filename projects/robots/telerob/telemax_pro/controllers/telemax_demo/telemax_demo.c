@@ -24,10 +24,10 @@
 
 #define TIME_STEP 32
 
-void noop(int n_steps) {
-  // Wait without applying commands during 'n_steps' steps.
+void noop(int duration) {
+  // Wait without applying any command during 'duration' milliseconds.
   int counter = 0;
-  while (counter < n_steps) {
+  while (counter < duration) {
     counter += TIME_STEP;
     if (wb_robot_step(TIME_STEP) == -1) {
       wb_robot_cleanup();
