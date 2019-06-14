@@ -945,8 +945,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
       fprintf(fd, "sync\n");
       fprintf(fd, "sync\n");
-      //fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
+      fprintf(fd, "hdiutil detach \"/Volumes/%s\" -debug\n", application_name);
+      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg -debug\n", application_name_lowercase_and_dashes,
               application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
       //fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
       break;
