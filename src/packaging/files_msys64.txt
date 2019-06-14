@@ -34,13 +34,11 @@
 /mingw64/bin/libjasper-4.dll
 /mingw64/bin/liblcms2-2.dll
 /mingw64/bin/liblzma-5.dll
-/mingw64/bin/libopenjp2-7.dll
 /mingw64/bin/libpcre-1.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libtiff-5.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
-/mingw64/bin/libwebpmux-3.dll
 /mingw64/bin/libzzip-0-13.dll
 /mingw64/bin/libopenal-1.dll
 /mingw64/bin/libassimp.dll
@@ -49,9 +47,6 @@
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
 /mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt5/translations/*.qm
-
-# needed by webots.exe to check for updates
-/mingw64/bin/libssl-1_1-x64.dll
 
 # needed by ffmpeg.exe
 /mingw64/bin/ffmpeg.exe
@@ -86,7 +81,6 @@
 /mingw64/bin/libfontconfig-1.dll
 /mingw64/bin/libfribidi-0.dll
 /mingw64/bin/libbluray-2.dll
-/mingw64/bin/libxml2-2.dll
 /mingw64/bin/libgnutls-30.dll
 /mingw64/bin/libhogweed-4.dll
 /mingw64/bin/libnettle-6.dll
@@ -99,9 +93,6 @@
 /mingw64/bin/librtmp-1.dll
 /mingw64/bin/libsrt.dll
 /mingw64/bin/xvidcore.dll
-
-# needed to execute the ros.exe controller
-/mingw64/bin/libexpat-1.dll
 
 # needed to execute binaries having a dependency on OpenCV
 /mingw64/bin/libgfortran-5.dll
