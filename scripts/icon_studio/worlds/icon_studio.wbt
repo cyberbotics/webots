@@ -16,19 +16,11 @@ Background {
     textureBaseName "san_giuseppe_bridge_4k"
   }
 }
-DirectionalLight {
+DEF LIGHT DirectionalLight {
   ambientIntensity 1
   direction -0.6 -1 0.55
   intensity 2.7
   castShadows TRUE
-}
-DirectionalLight {
-  ambientIntensity 1
-  intensity 0
-}
-DirectionalLight {
-  ambientIntensity 1
-  intensity 0
 }
 Solid {
   children [
