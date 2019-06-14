@@ -414,7 +414,7 @@
   },
   "projects/objects/lights/protos/CeilingLight": {
     "background": [1.0, 0.0, 0.0],
-    "fields": "translation 0 0.7 0 rotation 0 1 0 0.3"
+    "nodeString": "CeilingLight { translation 0 0.7 0 rotation 0 1 0 0.3 pointLightIntensity 0 }"
   },
   "projects/objects/lights/protos/DoubleFluorescentLamp": {
     "nodeString": "DoubleFluorescentLamp { rotation 0 1 0 1.3 }"
@@ -433,7 +433,7 @@
     "colorThreshold": 0.001
   },
   "projects/objects/mirror/protos/Mirror": {
-    "fields": "rotation 0 -1 0 4.93"
+    "nodeString": "Mirror { translation 0.038 0.015 0.008 rotation -0.16 0.978 0.129 1.374353 fieldOfView 0.5 height 0.5 }"
   },
   "projects/objects/school_furniture/protos/Blackboard": {
     "background": [1.0, 0.0, 0.0],
