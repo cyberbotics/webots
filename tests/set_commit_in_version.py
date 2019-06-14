@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test suite for ROS."""
+"""This script should be called when creating the nightly builds to add the commit id to the Webots version."""
 
 import os
 
