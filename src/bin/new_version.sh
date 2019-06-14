@@ -31,7 +31,7 @@ echo "Update application and documentation version.."
 ./new_version_file.sh $old_version $new_version ../webots/core/WbApplicationInfo.cpp
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
-./new_version_file.sh $old_version $new_version ../../tests/test_compilation.py
+./new_version_file.sh $old_version $new_version ../../tests/set_commit_in_version.py
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
 ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$year ../../Contents/Info.plist
 
