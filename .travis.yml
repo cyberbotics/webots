@@ -131,7 +131,7 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - pip install PyGithub # used to upload packages to Github releases
       script:
-        - python tests/test_compilation.py
+        - python tests/set_commit_in_version.py
         - make distrib -j2
         - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
         - ls distribution  #TODO: remove
