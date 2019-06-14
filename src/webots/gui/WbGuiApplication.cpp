@@ -368,9 +368,16 @@ bool WbGuiApplication::setup() {
   mMainWindow = new WbMainWindow(mShouldMinimize);
 #endif
 
-  if (mShouldMinimize)
+  if (mShouldMinimize) {
+#ifdef __linux__
+    // on Ubuntu 18.04 showMinimized doesn't work
+    // https://bugreports.qt.io/browse/QTBUG-76354
+    mMainWindow->showNormal();
+    mMainWindow->setWindowState(Qt::WindowMinimized);
+#else
     mMainWindow->showMinimized();
-  else {
+#endif
+  } else {
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else

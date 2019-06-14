@@ -282,6 +282,38 @@ DamascusSteel {
 - `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+## DarkParquetry
+
+A dark parquetry material.
+
+%figure
+
+![DarkParquetry](images/appearances/DarkParquetry.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+DarkParquetry {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DarkParquetry.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/DarkParquetry.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### DarkParquetry Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ElectricConduit
 
@@ -570,6 +602,38 @@ MetalPipePaint {
 - `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+## OldPlywood
+
+An old plywood material.
+
+%figure
+
+![OldPlywood](images/appearances/OldPlywood.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+OldPlywood {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/OldPlywood.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### OldPlywood Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## OldSteel
 
