@@ -97,6 +97,7 @@
     "fields": "rotation 0 1 0 5.01239"
   },
   "projects/objects/buildings/protos/LargeResidentialTower": {
+    "colorThreshold": 0.01,
     "fields": "rotation 0 1 0 4.22699"
   },
   "projects/objects/buildings/protos/ModernHouse": {
@@ -135,9 +136,11 @@
     "fields": "rotation 0 1 0 1.3472"
   },
   "projects/objects/buildings/protos/SmallManor": {
+    "colorThreshold": 0.02,
     "fields": "rotation 0 1 0 4.488790192"
   },
   "projects/objects/buildings/protos/SmallResidentialBuilding": {
+    "colorThreshold": 0.01,
     "fields": "rotation 0 1 0 4.75059"
   },
   "projects/objects/buildings/protos/SmallResidentialTower": {
@@ -198,7 +201,9 @@
     "background": [1.0, 0.0, 0.0]
   },
   "projects/objects/drinks/protos/BeerBottle": {
-    "fields": "rotation 0 -1 0 3.88"
+    "fields": "rotation 0 -1 0 3.88",
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001
   },
   "projects/objects/drinks/protos/Can": {
     "colorThreshold": 0.01,
@@ -206,8 +211,10 @@
     "fields": "rotation 0 1 0 -2.318"
   },
   "projects/objects/drinks/protos/WaterBottle": {
-    "alphaRejectionThreshold": 0.35,
-    "background": [0.0, 1.0, 1.0]
+    "fields": "rotation 0 1 0 1.0854",
+    "colorThreshold": 0.04,
+    "alphaRejectionThreshold": 0.05,
+    "background": [0.0, 0.0, 0.0]
   },
   "projects/objects/factory/containers/protos/CardboardBox": {
   },
@@ -258,6 +265,7 @@
   "projects/objects/factory/tools/protos/Nut": {
   },
   "projects/objects/factory/tools/protos/PaintBucket": {
+    "fields": "rotation 0 1 0 -1.309"
   },
   "projects/objects/factory/tools/protos/PlatformCart": {
   },
@@ -384,7 +392,8 @@
     "fields": "rotation 0 1 0 3.44"
   },
   "projects/objects/kitchen/utensils/protos/Glass": {
-    "alphaRejectionThreshold": 0.25
+    "background": [0.0, 0.0, 0.0],
+    "colorThreshold": 0.005
   },
   "projects/objects/kitchen/utensils/protos/Knife": {
     "fields": "rotation 0 1 0 5.53"
@@ -400,7 +409,8 @@
     "fields": "rotation 0 1 0 5.535"
   },
   "projects/objects/kitchen/utensils/protos/Wineglass": {
-    "alphaRejectionThreshold": 0.25
+    "background": [0.0, 0.0, 0.0],
+    "colorThreshold": 0.005
   },
   "projects/objects/kitchen/utensils/protos/WoodenSpoon": {
   },
@@ -427,14 +437,14 @@
     "fields": "pointLightIntensity 0"
   },
   "projects/objects/living_room_furniture/protos/Armchair": {
-    "colorThreshold": 0.01,
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001
   },
   "projects/objects/living_room_furniture/protos/Carpet": {
   },
   "projects/objects/living_room_furniture/protos/Sofa": {
-    "colorThreshold": 0.01,
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001
   },
   "projects/objects/mirror/protos/Mirror": {
     "fields": "rotation 0 -1 0 4.93"
@@ -447,6 +457,8 @@
     "fields": "rotation 0 1 0 3.44"
   },
   "projects/objects/school_furniture/protos/Clock": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "fields": "translation 0 0.17 0 rotation 0 1 0 1.609"
   },
   "projects/objects/obstacles/protos/OilBarrel": {
@@ -518,8 +530,12 @@
     "fields": "translation 0 0.01 0"
   },
   "projects/objects/rocks/protos/Rock10cm": {
+    "background": [0.0, 0.0, 0.0],
+    "colorThreshold": 0.01
   },
   "projects/objects/rocks/protos/Rock17cm": {
+    "background": [0.0, 0.0, 0.0],
+    "colorThreshold": 0.01
   },
   "projects/objects/shapes/protos/TexturedBoxShape": {
     "nodeString": "Transform { translation 0 0.05 0 rotation 0 1 0 6.02 children [ TexturedBoxShape { } ] }"
@@ -575,8 +591,8 @@
   "projects/objects/street_furniture/protos/FireHydrant": {
   },
   "projects/objects/street_furniture/protos/Fountain": {
-    "colorThreshold": 0.01,
-    "background": [1.0, 0.0, 0.0]
+    "background": [0.0, 0.0, 0.0],
+    "colorThreshold": 0.01
   },
   "projects/objects/street_furniture/protos/GlassRecyclingContainer": {
     "background": [1.0, 0.0, 0.0]
@@ -603,6 +619,8 @@
   "projects/objects/street_furniture/protos/PublicBin": {
   },
   "projects/objects/street_furniture/protos/PublicToilet": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.002,
     "fields": "rotation 0 1 0 3.66519"
   },
   "projects/objects/street_furniture/protos/SimpleBench": {
@@ -615,6 +633,8 @@
     "fields": "rotation 0 1 0 4.22699"
   },
   "projects/objects/street_furniture/protos/StoneBench": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.002,
     "fields": "rotation 0 1 0 1.3472"
   },
   "projects/objects/street_furniture/protos/StoneFountain": {
@@ -695,11 +715,13 @@
     "fields": "translation 0 1.55 0 rotation 0 -1 0 6.24"
   },
   "projects/objects/traffic/protos/OrderPanel": {
-    "background": [0.0, 0.0, 1.0],
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "fields": "translation 0 0.33 0 rotation 0 1 0 4.48879"
   },
   "projects/objects/traffic/protos/OrderSign": {
-    "background": [0.0, 0.0, 1.0],
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "fields": "rotation 0 1 0 4.48879"
   },
   "projects/objects/traffic/protos/ParkingLines": {
@@ -777,32 +799,41 @@
     "fields": "rotation 0 1 0 4.75059"
   },
   "projects/objects/trees/protos/BigSassafras": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/Cypress": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/Forest": {
-    "background": [1.0, 0.0, 0.0],
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02,
     "fields": "translation 0 0.1 0 rotation 0 1 0 0.3"
   },
   "projects/objects/trees/protos/Oak": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/PalmTree": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/Pine": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/Sassafras": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/SimpleTree": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/objects/trees/protos/Tree": {
-    "background": [1.0, 0.0, 0.0]
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.02
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase": {
     "fields": "translation 0 0.02 0 rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393",
@@ -815,6 +846,8 @@
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsBrickAdapter { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCube { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots": {
@@ -836,27 +869,41 @@
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsCubieTriangle { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsDistanceSensor { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger": {
     "nodeString": "Robot { rotation 0.09269165825812836 -0.704062955298831 -0.7040622213023753 3.326453232984257 children [ Slot { endPoint TinkerbotsFinger { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber": {
+    "background": [0.8, 0.8, 0.8],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsGrabber { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsLightSensor { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsMotor { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsPivot { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { rotation 0.4769046650726887 0.6215142717757539 0.6215158488815559 4.031590667235393 children [ Slot { endPoint TinkerbotsTwister { } } ] }"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel": {
+    "background": [1.0, 1.0, 1.0],
+    "colorThreshold": 0.001,
     "nodeString": "Robot { translation 0 0.027 0 rotation -0.6087598420165832 1.0122819105744343e-6 -0.7933545580299642 3.1415961372248167 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
   "projects/robots/clearpath/moose/protos/Moose.proto": {

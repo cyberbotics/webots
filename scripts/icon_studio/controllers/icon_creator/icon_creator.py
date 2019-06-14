@@ -233,14 +233,14 @@ elif options.appearance:
                         if 'fields' in parameters:
                             nodeString += parameters['fields']
                     nodeString += ' } '
-                    nodeString += 'geometry Sphere { subdivision 5 } } ] }'
+                    nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
 
                     objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
                     if not os.path.exists(objectDirectory):
                         os.makedirs(objectDirectory)
                     else:
                         sys.exit('Multiple definition of ' + protoName)
-                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1,
+                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.002,
                                    alphaRejectionThreshold=0.6)
 else:
     with open(options.file) as json_data:

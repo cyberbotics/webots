@@ -7,7 +7,7 @@ The reflected image does not depend on the viewpoint position.
 
 %figure
 
-![Mirror](images/objects/mirror/Mirror/model.png)
+![Mirror](images/objects/mirror/Mirror/model.thumbnail.png)
 
 %end
 
