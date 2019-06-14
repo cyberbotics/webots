@@ -936,18 +936,11 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
       fprintf(fd, "           update without registering applications\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
       fprintf(fd, "           eject\n");
       fprintf(fd, "     end tell\n");
       fprintf(fd, "   end tell\n");
       fprintf(fd, "' | osascript\n");
       fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "sync\n");
       fprintf(fd, "sync\n");
       fprintf(fd, "sync\n");
       //fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
