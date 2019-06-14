@@ -636,17 +636,22 @@ static void create_file(const char *name, int m) {
         type |= (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS);
       if (type & TYPE_DLL && (mode == MAC || mode == DEB)) {  // prefix "lib" to the basename
         j = i - 1;
-        while (buffer[j] != '/' && j >= 0) {
-          buffer[j + 3] = buffer[j];
+        while (buffer[j] != '/' && j >= 0)
           j--;
+        if (buffer[j + 1] != '_') {
+          if (j >= 0) {
+            j = i - 1;
+            while (buffer[j] != '/' && j >= 0) {
+              buffer[j + 3] = buffer[j];
+              j--;
+            }
+            buffer[++j] = 'l';
+            buffer[++j] = 'i';
+            buffer[++j] = 'b';
+            i += 3;
+          } else
+            fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
         }
-        if (j >= 0) {
-          buffer[++j] = 'l';
-          buffer[++j] = 'i';
-          buffer[++j] = 'b';
-          i += 3;
-        } else
-          fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
       }
       if (mode == ISS) {
         if (type & TYPE_EXE) {
