@@ -917,84 +917,43 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
       fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
       fprintf(fd, "echo '\n");
-      printf("A\n");
       fprintf(fd, "   tell application \"Finder\"\n");
-      printf("A\n");
       fprintf(fd, "     tell disk \"%s\"\n", application_name);
-      printf("A\n");
       fprintf(fd, "           open\n");
-      printf("A\n");
       fprintf(fd, "           set current view of container window to icon view\n");
-      printf("A\n");
       fprintf(fd, "           set toolbar visible of container window to false\n");
-      printf("A\n");
       fprintf(fd, "           set statusbar visible of container window to false\n");
-      printf("A\n");
       fprintf(fd, "           set the bounds of container window to {400, 100, 880, 680}\n");
-      printf("A\n");
       fprintf(fd, "           set theViewOptions to the icon view options of container window\n");
-      printf("A\n");
       fprintf(fd, "           set arrangement of theViewOptions to not arranged\n");
-      printf("A\n");
       fprintf(fd, "           set icon size of theViewOptions to 72\n");
-      printf("A\n");
       fprintf(fd, "           set background picture of theViewOptions to file \".background:MacOSXBackground.png\"\n");
-      printf("A\n");
       fprintf(fd, "           set position of item \"%s\" of container window to {100, 100}\n", application_name);
-      printf("A\n");
       fprintf(fd, "           set position of item \"Applications\" of container window to {375, 100}\n");
-      printf("A\n");
       fprintf(fd, "           close\n");
-      printf("A\n");
       fprintf(fd, "           open\n");
-      printf("A\n");
       fprintf(fd, "           update without registering applications\n");
-      printf("A\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      printf("A\n");
       fprintf(fd, "           update without registering applications\n");
-      printf("A\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      printf("A\n");
       fprintf(fd, "           update without registering applications\n");
-      printf("A\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      printf("A\n");
       fprintf(fd, "           update without registering applications\n");
-      printf("A\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      printf("A\n");
       fprintf(fd, "           update without registering applications\n");
-      printf("A\n");
       fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
-      printf("A\n");
       fprintf(fd, "           eject\n");
-      printf("A\n");
       fprintf(fd, "     end tell\n");
-      printf("A\n");
       fprintf(fd, "   end tell\n");
-      printf("A\n");
       fprintf(fd, "' | osascript\n");
-      printf("A\n");
       fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
-      printf("A\n");
       fprintf(fd, "sync\n");
-      printf("A\n");
       fprintf(fd, "sync\n");
-      printf("A\n");
       fprintf(fd, "sync\n");
-      printf("AWbtEST\n");
-      fprintf(fd, "sync\n");
-      printf("BWbtEST\n");
-      fprintf(fd, "sync\n");
-      printf("CWbtEST\n");
-      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      printf("DWbtEST\n");
-      //fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
-      //        application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      printf("EWbtEST\n");
+      //fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
+      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
+              application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
       //fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
-      printf("FWbtEST\n");
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
