@@ -56,7 +56,7 @@ jobs:
         submodules: true
       os: linux
       dist: xenial
-      install: skip # bundle install is not required
+      install: skip  # bundle install is not required
       language: python
       python: 3.7
       jdk: openjdk8
@@ -105,7 +105,7 @@ jobs:
         - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs ros-kinetic-tf
         - sudo rosdep init
         - rosdep update
-        - pip install rospkg catkin_pkg empy defusedxml netifaces # by default ros only comes with python2.7 libraries
+        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
         - make release -j2 -C tests
@@ -117,7 +117,7 @@ jobs:
       git: *compilation_git
       os: linux
       dist: xenial
-      install: skip # bundle install is not required
+      install: skip  # bundle install is not required
       language: python
       python: 3.7
       jdk: openjdk8
@@ -131,13 +131,12 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - pip install PyGithub # used to upload packages to Github releases
       script:
-#        - travis_wait 45 python tests/test_compilation.py
+        - python tests/test_compilation.py
         - make distrib -j2
-        - ls -l distribution | grep -v ^l | wc -l
-        - ls distribution
+        - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
+        - ls distribution  #TODO: remove
 #        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required file are generated
         - src/packaging/publish_release.py
-        - ls projects/default/libraries/ros
     - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
@@ -152,4 +151,4 @@ jobs:
             - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        - pip install PyGithub # used to upload packages to Github releases
+        - pip install PyGithub  # used to upload packages to Github releases
