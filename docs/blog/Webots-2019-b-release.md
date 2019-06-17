@@ -2,6 +2,8 @@
 
 <p id="publish-data">By Fabien Rohrer - 17th June 2019</p>
 
+---
+
 Today we're happy to announce the release of the all-new Webots R2019b, packed with some great new features.
 We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html).
 
