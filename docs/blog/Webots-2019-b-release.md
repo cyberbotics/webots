@@ -7,6 +7,16 @@ We're going to talk about some of them here, but for a comprehensive list of cha
 
 ---
 
+## New Post-processing Effects Available in Robot Cameras
+
+In order to increase the realism of robot cameras, they can now be affected by post-processing effects already included in Webots such as Bloom and Ambient Occlusion.
+
+%figure "Ambient occlusion in a robot camera"
+![Camera PostProcessing](images/camera_post_processing.png)
+%end
+
+---
+
 ## Bunch of New Robot Models
 
 We've added a couple of new robot models in this release.
@@ -39,12 +49,6 @@ The [Telerob Telemax PRO robot](https://www.cyberbotics.com/doc/guide/telemax-pr
 
 ---
 
-## New Post-processing Effects Available in Robot Cameras
-
-In order to increase the realism of robot cameras, they can now be affected by post-processing effects already included in Webots such as Bloom and Ambient Occlusion.
-
----
-
 ## More Assets
 
 - Added the following PROTO objects: 'IntermodalContainer', 'IntermodalOfficeContainer', 'Radiator', 'WallPlug', 'FireExtinguisher', 'CapScrew', 'ElectricalPlug', 'EyeScrew', 'ScrewHole', 'Washer', 'DoubleFluorescentLamp' and 'OfficeTelephone'.
@@ -53,11 +57,15 @@ In order to increase the realism of robot cameras, they can now be affected by p
 
 ---
 
-## Blender to Webots exporter Add-on
+## Blender to Webots Exporter Add-on
 
+%figure "Export a Blender world to Webots"
 ![Blender Add-On](https://raw.githubusercontent.com/omichel/blender-webots-exporter/master/demo.gif)
+%end
 
-https://github.com/omichel/blender-webots-exporter
+We are glad to show [our new Blender tool](https://github.com/omichel/blender-webots-exporter
+) for importing your Blender creations to Webots.
+The model creation process can be greatly facilitated through this tool.
 
 ---
 
