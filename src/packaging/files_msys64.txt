@@ -39,6 +39,7 @@
 /mingw64/bin/libtiff-5.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
+/mingw64/bin/libxml2-2.dll
 /mingw64/bin/libzzip-0-13.dll
 /mingw64/bin/libopenal-1.dll
 /mingw64/bin/libassimp.dll
