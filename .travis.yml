@@ -50,7 +50,7 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distribTODO)  # TODO add tag
+      if: type = cron OR commit_message IN (travis_unit, travis_distribTODO) # OR tag IS present TODO
       git: &compilation_git
         depth: 3
         submodules: true
