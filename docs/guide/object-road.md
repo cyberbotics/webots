@@ -10,7 +10,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Road](images/objects/road/Road/model.png)
+![Road](images/objects/road/Road/model.thumbnail.png)
 
 %end
 
@@ -145,7 +145,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.png)
+![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -469,7 +469,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.png)
+![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -1106,7 +1106,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.png)
+![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.thumbnail.png)
 
 %end
 

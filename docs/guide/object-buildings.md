@@ -1026,7 +1026,7 @@ A small residential building with optional boundingObject.
 
 %figure
 
-![SmallResidentialBuilding](images/objects/buildings/SmallResidentialBuilding/model.png)
+![SmallResidentialBuilding](images/objects/buildings/SmallResidentialBuilding/model.thumbnail.png)
 
 %end
 
@@ -1092,7 +1092,7 @@ A strip of buildings of variable length.
 
 %figure
 
-![StripBuilding](images/objects/buildings/StripBuilding/model.png)
+![StripBuilding](images/objects/buildings/StripBuilding/model.thumbnail.png)
 
 %end
 

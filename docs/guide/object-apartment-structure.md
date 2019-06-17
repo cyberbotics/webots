@@ -223,7 +223,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 GenericDoorAppearance {
   SFColor colorOverride  1 1 1
-  SFNode  environmentMap   NULL
 }
 ```
 
@@ -236,15 +235,13 @@ GenericDoorAppearance {
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
-- `environmentMap`: Defines an optional `Cubemap` node that can override the world's skybox for this object.
-
 ## Radiator
 
 A radiator with a variable number of fins and optional bounding object.
 
 %figure
 
-![Radiator](images/objects/apartment_structure/Radiator/model.png)
+![Radiator](images/objects/apartment_structure/Radiator/model.thumbnail.png)
 
 %end
 
@@ -314,7 +311,7 @@ An electrical wall plug with optional bounding object.
 
 %figure
 
-![WallPlug](images/objects/apartment_structure/WallPlug/model.png)
+![WallPlug](images/objects/apartment_structure/WallPlug/model.thumbnail.png)
 
 %end
 

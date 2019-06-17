@@ -6,7 +6,7 @@ A paper boat (42.8 x 14.2 x 10.6 cm).
 
 %figure
 
-![PaperBoat](images/objects/toys/PaperBoat/model.png)
+![PaperBoat](images/objects/toys/PaperBoat/model.thumbnail.png)
 
 %end
 
