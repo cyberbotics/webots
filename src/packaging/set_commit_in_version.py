@@ -15,6 +15,7 @@
 """This script should be called when creating the nightly builds to add the commit id to the Webots version."""
 
 import os
+import sys
 
 path = '..'
 if 'WEBOTS_HOME' in os.environ:
