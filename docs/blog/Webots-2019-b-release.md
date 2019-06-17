@@ -2,6 +2,8 @@
 
 <p id="publish-data">By Fabien Rohrer - 17th June 2019</p>
 
+---
+
 Today we're happy to announce the release of the all-new Webots R2019b, packed with some great new features.
 We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html).
 
@@ -27,6 +29,8 @@ The Universal Robots [UR3e](https://www.cyberbotics.com/doc/guide/ure), [UR5e](h
 These arms can be equipped by the a [ROBOTIQ 3F Gripper is a 3-fingers adaptive robot gripper](https://www.cyberbotics.com/doc/guide/gripper-actuators#robotiq-3f-gripper).
 
 ![youtube video](https://www.youtube.com/watch?v=WIY9ebqSXUc)
+
+This model is fully compatible with the [universal\_robot ROS package](http://wiki.ros.org/action/show/universal_robots).
 
 ### Clearpath Moose
 
@@ -70,6 +74,15 @@ In order to improve our asset library, we have added many new configurable 3D ob
 
 We are glad to announce the release of [our new Blender tool](https://github.com/omichel/blender-webots-exporter) for importing your Blender creations to Webots.
 The model creation process can be greatly facilitated through this tool.
+
+---
+
+## Quality Matters
+
+To improve even more the quality of the source code and therefore of Webots, we have improved our testing procedure.
+Our workflow uses now [Travis](https://travis-ci.com/omichel/webots), [AppVeyor](https://ci.appveyor.com/project/omichel/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
+
+In addition, nightly builds are now created and uploaded to the [Github repository](https://github.com/omichel/webots/releases).
 
 ---
 
