@@ -64,6 +64,11 @@ In order to improve our asset library, we have added many new configurable 3D ob
 | ![Asset 7](images/assets/asset_7.png) |  ![Asset 8](images/assets/asset_8.png) |  ![Asset 1](images/assets/asset_9.png) |
 | ![Asset 10](images/assets/asset_10.png) |  ![Asset 11](images/assets/asset_11.png) |  ![Asset 1](images/assets/asset_12.png) |
 
+Most of these assets are used in our new [hall](https://www.cyberbotics.com/doc/guide/samples-environments#hall-wbt) environment.
+%figure "Hall Environment"
+![Hall Environment](images/hall.png)
+%end
+
 ---
 
 ## Blender to Webots Exporter Add-on
