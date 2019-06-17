@@ -56,8 +56,8 @@ for release in repo.get_releases():
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
-        for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
-            path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
+        for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution' if sys.platform == 'linux' else 'change_logs')):
+            path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution' if sys.platform == 'linux' else 'change_logs', file)
             if file != '.gitignore' and not os.path.isdir(path):
                 if file in assets:
                     print('Asset "%s" already present in release' % file)
