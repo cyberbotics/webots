@@ -73,6 +73,15 @@ The model creation process can be greatly facilitated through this tool.
 
 ---
 
+## Quality Matters
+
+To improve even more the quality of the source code and therefore of Webots, we have improved our testing procedure.
+Our workflow uses now [Travis](https://travis-ci.com/omichel/webots), [AppVeyor](https://ci.appveyor.com/project/omichel/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
+
+In addition, nightly builds are now created and uploaded to the [Github repository](https://github.com/omichel/webots/releases).
+
+---
+
 ## Webots Online 3D Viewer: Level Up!
 
 We completely refactored our Online 3D Viewer `webots.min.js`.
