@@ -64,7 +64,7 @@ It does not contain any actual Light node, it only uses emissive color.
 
 %figure
 
-![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.png)
+![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.thumbnail.png)
 
 %end
 

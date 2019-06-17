@@ -147,7 +147,7 @@ Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.thumbnail.png)
+![TinkerbotsTwister.png](images/robots/tinkerbots/TinkerbotsTwister.png)
 
 %end
 
@@ -300,7 +300,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.thumbnail.png)
+![TinkerbotsCubieBoxWithCrossSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithCrossSlots.png)
 
 %end
 
@@ -324,7 +324,7 @@ Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
-![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.thumbnail.png)
+![TinkerbotsCubieBoxWithRoundSlots.png](images/robots/tinkerbots/TinkerbotsCubieBoxWithRoundSlots.png)
 
 %end
 
