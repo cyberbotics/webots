@@ -49,16 +49,13 @@ int main(int argc, char **argv) {
   wb_motor_set_position(right_motor, INFINITY);
   WbDeviceTag right_motor_sensor = wb_robot_get_device("right motor sensor");
   wb_position_sensor_enable(right_motor_sensor, timestep);
-  WbDeviceTag distance_sensor_a = wb_robot_get_device("distance sensor A");
-  wb_distance_sensor_enable(distance_sensor_a, timestep);
-  WbDeviceTag distance_sensor_b = wb_robot_get_device("distance sensor B");
-  wb_distance_sensor_enable(distance_sensor_b, timestep);
+  WbDeviceTag distance_sensor = wb_robot_get_device("distance sensor");
+  wb_distance_sensor_enable(distance_sensor, timestep);
 
   // Set LED colors.
   wb_led_set(wb_robot_get_device("left motor led"), 0xFF0000);
   wb_led_set(wb_robot_get_device("right motor led"), 0x00FF00);
-  wb_led_set(wb_robot_get_device("distance sensor A led"), 0x0000FF);
-  wb_led_set(wb_robot_get_device("distance sensor B led"), 0xFF00FF);
+  wb_led_set(wb_robot_get_device("distance sensor led"), 0x0000FF);
 
   const double target_position = 15.5;
   const double max_speed = 10.0;
@@ -84,7 +81,7 @@ int main(int argc, char **argv) {
     if (fabs(delta) < 0.05) {
       forward = !forward;
       if (forward)
-        while (wb_distance_sensor_get_value(distance_sensor_a) > 110 || wb_distance_sensor_get_value(distance_sensor_b) > 110)
+        while (wb_distance_sensor_get_value(distance_sensor) > 120)
           step();
     }
   }

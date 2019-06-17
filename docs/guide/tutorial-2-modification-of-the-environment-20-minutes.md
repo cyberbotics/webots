@@ -91,7 +91,7 @@ The result is depicted in [this figure](#your-first-rigid-body-in-webots).
 
 %figure "Your first rigid body in Webots."
 
-![tutorial_ball.png](images/tutorial_ball.png)
+![tutorial_ball.png](images/tutorial_ball.thumbnail.jpg)
 
 %end
 
@@ -136,7 +136,7 @@ Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) n
 
 %figure "DEF-USE mechanism on the Sphere node called BALL_GEOMETRY."
 
-![tutorial_def_use.png](images/tutorial_def_use.png)
+![tutorial_def_use.png](images/tutorial_def_use.thumbnail.jpg)
 
 %end
 
@@ -174,7 +174,7 @@ The solution is located in the solution directory in "[obstacles.wbt](https://gi
 
 %figure "The simulation state at the end of this second tutorial."
 
-![tutorial_walls.png](images/tutorial_walls.png)
+![tutorial_walls.png](images/tutorial_walls.thumbnail.jpg)
 
 %end
 

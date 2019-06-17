@@ -3,23 +3,57 @@
 'use strict';
 
 var TextureLoader = {
-  loadOrRetrieve: function(name, texture, cubeTextureIndex) {
+  createEmptyTexture: function(name) {
+    if (hasHDRExtension(name)) {
+      var texture = new THREE.DataTexture();
+      texture.encoding = THREE.RGBEEncoding;
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+      texture.flipY = true;
+      return texture;
+    }
+    return new THREE.Texture();
+  },
+
+  createColoredCubeTexture: function(color, width = 1, height = 1) {
+    // Create an off-screen canvas.
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    // Create RGB values.
+    var r = Math.floor(color.r * 255);
+    var g = Math.floor(color.g * 255);
+    var b = Math.floor(color.b * 255);
+
+    // Push pixels.
+    var data = context.createImageData(width, height);
+    var size = width * height;
+    for (let i = 0; i < size; i++) {
+      let stride = i * 4;
+      data.data[stride + 0] = r;
+      data.data[stride + 1] = g;
+      data.data[stride + 2] = b;
+      data.data[stride + 3] = 255;
+    }
+    context.putImageData(data, 0, 0);
+
+    // Create the CubeTexture.
+    var src = canvas.toDataURL();
+    var loader = new THREE.CubeTextureLoader();
+    return loader.load([src, src, src, src, src, src]);
+  },
+
+  loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
       return undefined;
-    return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex);
-  },
-
-  loadFromUri: function(uri, name) {
-    this._getInstance().loadFromUri(uri, name);
+    return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex, onLoad);
   },
 
   setOnTextureLoad: function(onLoad) {
     this._getInstance().onTextureLoad = onLoad;
-  },
-
-  setStreamingMode: function(enabled) {
-    this._getInstance().streamingMode = enabled;
   },
 
   setTexturePathPrefix: function(texturePathPrefix) {
@@ -38,14 +72,18 @@ class _TextureLoaderObject {
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
-    this.streamingMode = false;
     this.onTextureLoad = undefined;
+    this.texturePathPrefix = '';
   }
 
-  loadOrRetrieve(name, texture, cubeTextureIndex) {
-    name = this.texturePathPrefix + name;
-    if (this.textures[name])
+  loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
+    if (this.texturePathPrefix)
+      name = this.texturePathPrefix + name;
+    if (this.textures[name]) {
+      if (typeof onLoad !== 'undefined')
+        onLoad(this.textures[name]);
       return this.textures[name];
+    }
 
     if (texture instanceof THREE.CubeTexture) {
       var missingImages;
@@ -63,22 +101,35 @@ class _TextureLoaderObject {
     }
 
     if (this.loadingTextures[name]) {
-      this.loadingTextures[name].objects.push(texture);
+      if (typeof texture !== 'undefined')
+        this.loadingTextures[name].objects.push(texture);
+      if (typeof onLoad !== 'undefined')
+        this.loadingTextures[name].onLoad.push(onLoad);
       return undefined; // texture is already loading
     }
 
-    this.loadingTextures[name] = {objects: [texture]};
-
-    if (this.streamingMode)
-      return; // textures will be sent throug socket
+    this.loadingTextures[name] = {objects: [], onLoad: []};
+    if (typeof texture !== 'undefined')
+      this.loadingTextures[name].objects.push(texture);
+    if (typeof onLoad !== 'undefined')
+      this.loadingTextures[name].onLoad.push(onLoad);
 
     // Load from url.
-    var loader = new THREE.ImageLoader();
+    var loader;
+    var isHDR = hasHDRExtension(name);
+    if (isHDR)
+      loader = new THREE.RGBELoader();
+    else
+      loader = new THREE.ImageLoader();
     loader.load(
       name,
-      (image) => {
+      (data) => {
         if (this.loadingTextures[name]) {
-          this.loadingTextures[name].data = image;
+          if (isHDR)
+            // HDR loader returns a THREE.DataTexture object
+            this.loadingTextures[name].data = data.image;
+          else // data has Image type
+            this.loadingTextures[name].data = data;
           this._onImageLoaded(name);
         } // else image already loaded
       },
@@ -91,17 +142,6 @@ class _TextureLoaderObject {
     return undefined;
   }
 
-  loadFromUri(uri, name) {
-    name = this.texturePathPrefix + name;
-    var image = new Image();
-    if (this.loadingTextures[name])
-      this.loadingTextures[name].data = image;
-    else
-      this.loadingTextures[name] = {data: image, objects: []};
-    image.onload = () => { this._onImageLoaded(name); };
-    image.src = uri;
-  }
-
   _onImageLoaded(name) {
     if (!this.loadingTextures[name])
       return;
@@ -110,7 +150,8 @@ class _TextureLoaderObject {
     this.textures[name] = image;
     var textureObjects = this.loadingTextures[name].objects;
     // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
-    var isJPEG = name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
+    var isJPEG = hasJPEGExtension(name);
+    var isHDR = isJPEG ? false : hasHDRExtension(name);
     textureObjects.forEach((textureObject) => {
       if (textureObject instanceof THREE.CubeTexture) {
         var missingImages = this.loadingCubeTextureObjects[textureObject];
@@ -127,10 +168,17 @@ class _TextureLoaderObject {
           delete this.loadingCubeTextureObjects[textureObject];
         }
       } else {
+        if (!isHDR)
+          textureObject.format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
         textureObject.image = image;
-        textureObject.format = isJPEG ? THREE.RGBFormat : THREE.RGBAFormat;
         textureObject.needsUpdate = true;
       }
+    });
+
+    var callbackFunctions = this.loadingTextures[name].onLoad;
+    callbackFunctions.forEach((callback) => {
+      if (typeof callback === 'function')
+        callback(image);
     });
     delete this.loadingTextures[name];
 
@@ -157,4 +205,12 @@ function flipImage(base64Image) {
 
   // Encode the image to data-uri with base64:
   return offScreenCanvas.toDataURL('image/jpeg', 95);
+}
+
+function hasJPEGExtension(name) {
+  return name.search(/\.jpe?g($|\?)/i) > 0 || name.search(/^data:image\/jpeg/) === 0;
+}
+
+function hasHDRExtension(name) {
+  return name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
 }

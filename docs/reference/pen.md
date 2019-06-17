@@ -115,7 +115,7 @@ public class Pen extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_pen_write(tag, write)
 ```
 
@@ -196,7 +196,7 @@ public class Pen extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_pen_set_ink_color(tag, [r g b], density)
 ```
 

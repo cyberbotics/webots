@@ -399,9 +399,6 @@ namespace {
     } else if (fieldName == "emissiveColorMap" && parentModelName == "PBRAppearance") {
       return nodeName == "ImageTexture";
 
-    } else if (fieldName == "environmentMap" && parentModelName == "PBRAppearance") {
-      return nodeName == "Cubemap";
-
     } else if (fieldName == "cubemap" && parentModelName == "Background") {
       return nodeName == "Cubemap";
 
@@ -911,12 +908,12 @@ bool WbNodeUtilities::isSelected(const WbNode *node) {
 WbProtoModel *WbNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
-    WbProtoModel *const proto = n->proto();
+    WbProtoModel *proto = n->proto();
     if (proto)
       return proto;
     else {
       const WbNode *const protoParameterNode = n->protoParameterNode();
-      WbProtoModel *const proto = protoParameterNode ? protoParameterNode->proto() : NULL;
+      proto = protoParameterNode ? protoParameterNode->proto() : NULL;
       if (proto)
         return proto;
 

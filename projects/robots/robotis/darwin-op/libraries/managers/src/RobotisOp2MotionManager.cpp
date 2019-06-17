@@ -314,6 +314,7 @@ void *RobotisOp2MotionManager::MotionThread(void *param) {
   instance->mAction->m_Joint.SetEnableBody(false, true);
   MotionStatus::m_CurrentJoints.SetEnableBody(false);
   MotionManager::GetInstance()->SetEnable(false);
+  // cppcheck-suppress redundantAssignment
   instance->mMotionPlaying = false;
   return NULL;
 }

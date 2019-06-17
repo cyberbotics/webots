@@ -42,7 +42,7 @@ Note that, the dialog's text panel is automatically filled with any comment plac
 
 %figure "Adding an instance of the TwoColorChair PROTO"
 
-![add_proto.png](images/add_proto.png)
+![add_proto.png](images/add_proto.thumbnail.jpg)
 
 %end
 
@@ -60,6 +60,6 @@ PROTO fields can be manipulated exactly like built-in node fields.
 
 %figure "Scene Tree with two instances of the TwoColorChair PROTO"
 
-![scene_tree_with_protos.png](images/scene_tree_with_protos.png)
+![scene_tree_with_protos.png](images/scene_tree_with_protos.thumbnail.jpg)
 
 %end

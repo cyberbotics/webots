@@ -6,7 +6,7 @@ A configurable circle arena composed of floor surrounded by wall.
 
 %figure
 
-![CircleArena](images/objects/floors/CircleArena/model.png)
+![CircleArena](images/objects/floors/CircleArena/model.thumbnail.png)
 
 %end
 
@@ -57,7 +57,7 @@ Configurable standard flat floor.
 
 %figure
 
-![Floor](images/objects/floors/Floor/model.png)
+![Floor](images/objects/floors/Floor/model.thumbnail.png)
 
 %end
 
@@ -94,7 +94,7 @@ A configurable rectangle arena composed of a floor surrounded by walls.
 
 %figure
 
-![RectangleArena](images/objects/floors/RectangleArena/model.png)
+![RectangleArena](images/objects/floors/RectangleArena/model.thumbnail.png)
 
 %end
 
@@ -144,7 +144,7 @@ Randomly generated uneven terrain based on Perlin noise.
 
 %figure
 
-![UnevenTerrain](images/objects/floors/UnevenTerrain/model.png)
+![UnevenTerrain](images/objects/floors/UnevenTerrain/model.thumbnail.png)
 
 %end
 

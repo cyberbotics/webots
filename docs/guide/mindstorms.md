@@ -1,6 +1,6 @@
 ## Lego's Mindstorms
 
-%robot mindstorms images/robots/mindstorms/model.png
+%robot mindstorms images/robots/mindstorms/model.thumbnail.png
 
 Robot models based on [Lego's Mindstorms](https://www.lego.com/en-us/mindstorms) can be created in Webots.
 

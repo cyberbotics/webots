@@ -23,12 +23,22 @@ Released on xx xxth, 2019
 </ul>
 <li><b>New Features</b></li>
 <ul>
+<li>Windows: Webots can now be installed without administrator privileges.</li>
+<li>Improved the Webots online 3D viewer: 'webots.min.js'</li>
+<ul>
+<li>Switched from 'X3DOM' to 'three.js'.</li>
+<li>Used ES6, Babel and minifyjs to provide 'webots.min.js' as a single and minified file.</li>
+<li>Reduced the rendering difference between Webots and 'webots.min.js'.</li>
+<li>Added support for PBR appearances and HDR textured background.</li>
+<li>Improved loading time and rendering speed.</li>
+<li>Extended the Webots websocket server to an HTTP server serving the texture images too.</li>
+</ul>
 <li>Added an 'ico' field to the Sphere node to select the tessellation method between uv-sphere and icosphere.</li>
 <li>Bloom and Ambient Occlusion are now also available as effects for color cameras.</li>
 <li>BallJoint nodes can now be controlled using RotationalMotor and Brake nodes and their angles can be measured using PositionSensor nodes.</li>
 <li>Extern robot controllers can be launched from outside of Webots.</li>
 <li>Added the following PROTO objects: 'IntermodalContainer', 'IntermodalOfficeContainer', 'Radiator', 'WallPlug', 'FireExtinguisher', 'CapScrew', 'ElectricalPlug', 'EyeScrew', 'ScrewHole', 'Washer', 'DoubleFluorescentLamp' and 'OfficeTelephone'.</li>
-<li>Added the following PROTO appearances: 'CorrodedMetal', 'CorrugatedMetal', 'DamascusSteel', 'ElectricConduit', 'FlexibleAluminiumDuct', 'GalvanizedMetal', 'HammeredCopper', 'OsbWood', 'Plaster', 'RustyMetal', 'ScrewThread' and 'WireFence'.</li>
+<li>Added the following PROTO appearances: 'CorrodedMetal', 'CorrugatedMetal', 'DamascusSteel', 'DarkParquetry', 'ElectricConduit', 'FlexibleAluminiumDuct', 'GalvanizedMetal', 'HammeredCopper', 'OldPlywood', 'OsbWood', 'Plaster', 'RustyMetal', 'ScrewThread' and 'WireFence'.</li>
 <li>Added a 'PipeBoundingObject' and a 'TorusBoundingObject' PROTO nodes to simplify the creation of complex bounding objects.</li>
 <li>Added a factory hall environment sample.</li>
 <li>Added support for normal definition (by face or by vertex) in IndexedFaceSet nodes.</li>
@@ -47,33 +57,19 @@ Released on xx xxth, 2019
 <li>Connector nodes can now be part of the static environment.</li>
 <li>Improved the infra-red DistanceSensor model by taking into account the roughness and occlusion of the surface.</li>
 <li>Improved the default SpotLight.beamWidth value.</li>
+<li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
+<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
+<li>Tinkerbots: Used Slot gender mechanism.</li>
 <li>Replaced the 'maxRadius' field of Muscle node by a 'volume' field.</li>
 <li>Added support for Muscle node insertion in RotationalMotors of Hinge2Joints.</li>
 </ul>
 <li><b>Bug fix</b></li>
 <ul>
+<li>Fixed --minimize starting option not working on Ubuntu 18.04.</li>
 <li>Renamed some PROTO appearances ('MatteCarPaint' -> 'MattePaint', 'GlossyCarPaint' -> 'GlossyPaint', 'CarLeather' -> 'Leather').</li>
 <li>Fixed DoorLever 'name' field not connected when its 'canTurn' field is set to TRUE.</li>
 <li>Fixed mirrored texture in Floor PROTO.</li>
 <li>Fixed VRML import and export of Webots Sphere geometries (icospheres).</li>
-</ul>
-<li><b>Cleanup</b></li>
-<ul>
-<li>Deprecated the Python 2.7 API.</li>
-</ul>
-</ul>
-
-<h2>Webots R2019a revision 2</h2>
-Released on xx xxth, 2019
-
-<ul>
-<li><b>Enhancements</b></li>
-<ul>
-<li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
-<li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
-</ul>
-<li><b>Bug fixes</b></li>
-<ul>
 <li>Fixed invalid webots_ros::RecognitionObject::colors value published by the Camera 'recognition_objects' ROS topic.</li>
 <li>Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.</li>
 <li>Fixed PNG images with a useless alpha layer that were falsly considered as transparent by Webots causing alpha sorting problems.</li>
@@ -92,6 +88,13 @@ Released on xx xxth, 2019
 <li>Fixed geometry not created on world loading if invalid geometry fields are written in the file.</li>
 <li>Fixed mismatch between boundingObject outline and graphical representation of a Cylinder if the subdivision field is set to an odd value.</li>
 <li>Fixed 'getRangeImageArray' function in the Python API returning always None.</li>
+<li>Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.</li>
+</ul>
+<li><b>Cleanup</b></li>
+<ul>
+<li>Deprecated the Python 2.7 API.</li>
+<li>Removed the 'environmentMap' field of the PBRAppearance node.</li>
+<li>Removed broken 'colorPerVertex' and 'color' fields of the ElevationGrid node.</li>
 </ul>
 </ul>
 

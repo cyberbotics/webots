@@ -293,7 +293,6 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the
@@ -369,10 +368,16 @@ bool WbGuiApplication::setup() {
   mMainWindow = new WbMainWindow(mShouldMinimize);
 #endif
 
-  if (mShouldMinimize)
+  if (mShouldMinimize) {
+#ifdef __linux__
+    // on Ubuntu 18.04 showMinimized doesn't work
+    // https://bugreports.qt.io/browse/QTBUG-76354
+    mMainWindow->showNormal();
+    mMainWindow->setWindowState(Qt::WindowMinimized);
+#else
     mMainWindow->showMinimized();
-  else {
-    WbPreferences *const prefs = WbPreferences::instance();
+#endif
+  } else {
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else

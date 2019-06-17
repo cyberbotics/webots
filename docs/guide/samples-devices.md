@@ -12,7 +12,7 @@ The studied devices are attached on this robot.
 
 %figure "MyBot in a squared arena."
 
-![mybot.png](images/samples/mybot.png)
+![mybot.png](images/samples/mybot.thumbnail.png)
 
 %end
 
@@ -93,7 +93,7 @@ All the robots in this simulation use the same controller; the different behavio
 
 **Keywords**: [Display](../reference/display.md), write in textures, overlay
 
-![display.png](images/samples/display.thumbnail.jpg) This example demonstrates several use of the [Display](../reference/display.md) device.
+![display.png](images/samples/display.thumbnail.jpg) This example demonstrates several uses of the [Display](../reference/display.md) device.
 
 - The `MyBot` [Display](../reference/display.md) called "emoticon_display" is displayed as a 2D overlay on top of the 3D window, and is displayed as a texture on the screen mounted on the `MyBot`.
 It loads the [emoticons.png](https://github.com/omichel/webots/tree/master/projects/samples/devices/controllers/display/emoticons.png) image which contains a grid of emoticons (as a sprite sheet), and randomly selects an emoticon from this image every 30 steps.

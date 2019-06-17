@@ -184,7 +184,7 @@ public class TouchSensor extends Device
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_touch_sensor_enable(tag, sampling_period)
 wb_touch_sensor_disable(tag)
 period = wb_touch_sensor_get_sampling_period(tag)
@@ -295,7 +295,7 @@ public class TouchSensor extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_TOUCH_SENSOR_BUMPER, WB_TOUCH_SENSOR_FORCE, WB_TOUCH_SENSOR_FORCE3D
 
 type = wb_touch_sensor_get_type(tag)

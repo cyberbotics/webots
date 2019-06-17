@@ -251,8 +251,6 @@ static void run() {
   } else if (buffer[0] == 'G') { /* set the position counter */
     int left, right;
     sscanf(buffer, "G,%d,%d", &left, &right);
-    left_encoder_offset = 50.0 * (wb_position_sensor_get_value(left_position_sensor) / M_PI) - left;
-    right_encoder_offset = 50.0 * (wb_position_sensor_get_value(right_position_sensor) / M_PI) - right;
     send(fd, "g\r\n", 3, 0);
 
   } else if (buffer[0] == 'B') { /* return a pretend version string */

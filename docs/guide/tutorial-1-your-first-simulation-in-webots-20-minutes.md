@@ -4,7 +4,7 @@ The objective of this first tutorial is to familiarize yourself with the user in
 You will create your first simulation containing a simple environment: an arena with floor and walls, a few boxes, an e-puck robot and a controller program that will make the robot move.
 
 %figure "What you should see at the end of the first tutorial."
-![tutorial_e-puck.png](images/tutorial_e-puck.png)
+![tutorial_e-puck.png](images/tutorial_e-puck.thumbnail.jpg)
 %end
 
 ### Start Webots
@@ -300,7 +300,7 @@ We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller t
 > **Hands on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
->```matlab
+>```MATLAB
 >TIME_STEP = 64;
 >
 >% get the motor devices
@@ -465,7 +465,7 @@ In order to control the motors of the wheels in speed you need to set the target
 
 %tab "MATLAB"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
->```matlab
+>```MATLAB
 >TIME_STEP = 64;
 >
 >MAX_SPEED = 6.28;

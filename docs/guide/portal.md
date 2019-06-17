@@ -1,6 +1,6 @@
 ## A4's PICAXE Portal
 
-%robot portal images/robots/portal/model.png
+%robot portal images/robots/portal/model.thumbnail.png
 
 The [A4 Portal](http://www.a4.fr/automatisme-et-robotique/maquettes-automatisees/portail-coulissant-automatise.html) is a sliding portal designed for teaching automatized systems.
 It uses the PICAXE programming kit.

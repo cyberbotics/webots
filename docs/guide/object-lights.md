@@ -6,7 +6,7 @@ A ceiling light (0.19 x 0.8 x 0.19 m).
 
 %figure
 
-![CeilingLight](images/objects/lights/CeilingLight/model.png)
+![CeilingLight](images/objects/lights/CeilingLight/model.thumbnail.png)
 
 %end
 
@@ -64,7 +64,7 @@ It does not contain any actual Light node, it only uses emissive color.
 
 %figure
 
-![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.png)
+![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.thumbnail.png)
 
 %end
 
@@ -94,7 +94,7 @@ A floor light (0.19 x 1.6 x 0.19 m).
 
 %figure
 
-![FloorLight](images/objects/lights/FloorLight/model.png)
+![FloorLight](images/objects/lights/FloorLight/model.thumbnail.png)
 
 %end
 

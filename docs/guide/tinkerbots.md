@@ -1,6 +1,6 @@
 ## Tinkerbots
 
-%robot tinkerbots images/robots/tinkerbots/model.png
+%robot tinkerbots images/robots/tinkerbots/model.thumbnail.png
 
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
@@ -24,7 +24,7 @@ Derived from [Robot](../reference/robot.md).
 
 %figure
 
-![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.png)
+![TinkerbotsBase.png](images/robots/tinkerbots/TinkerbotsBase.thumbnail.png)
 
 %end
 
@@ -39,8 +39,8 @@ TinkerbotsBase {
   field SFBool     supervisor                             FALSE
   field SFBool     synchronization                        TRUE
   field SFBool     selfCollision                          FALSE
-  field SFNode     [up|down|left|right|back]Slot          NULL              # type: "tinkerbots"
-  field SFNode     [up|down|left|right|back][A|B|C|D]Slot NULL              # type: "lego cross female"
+  field SFNode     [up|down|left|right|back]Slot          NULL              # type: "tinkerbots-"
+  field SFNode     [up|down|left|right|back][A|B|C|D]Slot NULL              # type: "lego cross-"
   field MFNode     extensionSlot                          []
 }
 ```
@@ -62,11 +62,11 @@ The letters of the `[up|down|left|right|back][A|B|C|D]Slot` slots (i.e. `A`, `B`
 
 #### TinkerbotsGrabber PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.png)
+![TinkerbotsGrabber.png](images/robots/tinkerbots/TinkerbotsGrabber.thumbnail.png)
 
 %end
 
@@ -75,9 +75,9 @@ TinkerbotsGrabber {
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "grabber"
-  field SFNode     fingerASlot NULL      # type: "lego cross female"
-  field SFNode     fingerBSlot NULL      # type: "lego cross female"
-  field SFNode     fingerCSlot NULL      # type: "lego cross female"
+  field SFNode     fingerASlot NULL      # type: "lego cross-"
+  field SFNode     fingerBSlot NULL      # type: "lego cross-"
+  field SFNode     fingerCSlot NULL      # type: "lego cross-"
 }
 ```
 
@@ -88,11 +88,11 @@ TinkerbotsGrabber {
 
 #### TinkerbotsMotor PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.png)
+![TinkerbotsMotor.png](images/robots/tinkerbots/TinkerbotsMotor.thumbnail.png)
 
 %end
 
@@ -101,9 +101,9 @@ TinkerbotsMotor {
   field SFVec3f    translation                  0 0 0
   field SFRotation rotation                     0 0 1 0
   field SFString   name                         "motor"
-  field SFNode     [up|left|right]Slot          NULL    # type: "tinkerbots"
-  field SFNode     [up|left|right][A|B|C|D]Slot NULL    # type: "lego cross female"
-  field SFNode     [front|back]Slot             NULL    # type: "lego cross female"
+  field SFNode     [up|left|right]Slot          NULL    # type: "tinkerbots-"
+  field SFNode     [up|left|right][A|B|C|D]Slot NULL    # type: "lego cross-"
+  field SFNode     [front|back]Slot             NULL    # type: "lego cross-"
 }
 ```
 
@@ -118,11 +118,11 @@ TinkerbotsMotor {
 
 #### TinkerbotsPivot PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.png)
+![TinkerbotsPivot.png](images/robots/tinkerbots/TinkerbotsPivot.thumbnail.png)
 
 %end
 
@@ -131,8 +131,8 @@ TinkerbotsPivot {
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0
   field SFString   name          "pivot"
-  field SFNode     slot          NULL  # type: "tinkerbots"
-  field SFNode     [A|B|C|D]Slot NULL  # type: "lego cross female"
+  field SFNode     slot          NULL  # type: "tinkerbots-"
+  field SFNode     [A|B|C|D]Slot NULL  # type: "lego cross-"
 }
 ```
 
@@ -143,7 +143,7 @@ TinkerbotsPivot {
 
 #### TinkerbotsTwister PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
@@ -156,8 +156,8 @@ TinkerbotsTwister {
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 0 1 0
   field SFString   name          "twister"
-  field SFNode     slot          NULL  # type: "tinkerbots"
-  field SFNode     [A|B|C|D]Slot NULL  # type: "lego cross female"
+  field SFNode     slot          NULL  # type: "tinkerbots-"
+  field SFNode     [A|B|C|D]Slot NULL  # type: "lego cross-"
 }
 ```
 
@@ -168,11 +168,11 @@ TinkerbotsTwister {
 
 #### TinkerbotsDistanceSensor PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.png)
+![TinkerbotsDistanceSensor.png](images/robots/tinkerbots/TinkerbotsDistanceSensor.thumbnail.png)
 
 %end
 
@@ -181,8 +181,8 @@ TinkerbotsDistanceSensor {
   field SFVec3f    translation                       0 0 0
   field SFRotation rotation                          0 0 1 0
   field SFString   name                              "distance sensor"
-  field SFNode     [up|left|right|back]Slot          NULL              # type: "tinkerbots"
-  field SFNode     [up|left|right|back][A|B|C|D]Slot NULL              # type: "lego cross female"
+  field SFNode     [up|left|right|back]Slot          NULL              # type: "tinkerbots-"
+  field SFNode     [up|left|right|back][A|B|C|D]Slot NULL              # type: "lego cross-"
 }
 ```
 
@@ -193,11 +193,11 @@ TinkerbotsDistanceSensor {
 
 #### TinkerbotsLightSensor PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.png)
+![TinkerbotsLightSensor.png](images/robots/tinkerbots/TinkerbotsLightSensor.thumbnail.png)
 
 %end
 
@@ -206,8 +206,8 @@ TinkerbotsLightSensor {
   field SFVec3f    translation                       0 0 0
   field SFRotation rotation                          0 0 1 0
   field SFString   name                              "light sensor"
-  field SFNode     [up|left|right|back]Slot          NULL           # type: "tinkerbots"
-  field SFNode     [up|left|right|back][A|B|C|D]Slot NULL           # type: "lego cross female"
+  field SFNode     [up|left|right|back]Slot          NULL           # type: "tinkerbots-"
+  field SFNode     [up|left|right|back][A|B|C|D]Slot NULL           # type: "lego cross-"
 }
 ```
 
@@ -218,11 +218,11 @@ TinkerbotsLightSensor {
 
 #### TinkerbotsCube PROTO
 
-Derived from [Slot](../reference/slot.md) of the "tinkerbots" type.
+Derived from [Slot](../reference/slot.md) of the "tinkerbots+" type.
 
 %figure
 
-![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.png)
+![TinkerbotsCube.png](images/robots/tinkerbots/TinkerbotsCube.thumbnail.png)
 
 %end
 
@@ -231,8 +231,8 @@ TinkerbotsCube {
   field SFVec3f    translation                             0 0 0
   field SFRotation rotation                                0 0 1 0
   field SFString   name                                    "name"
-  field SFNode     [up|left|right|front|back]Slot          NULL    # type: "tinkerbots"
-  field SFNode     [up|left|right|front|back][A|B|C|D]Slot NULL    # type: "lego cross female"
+  field SFNode     [up|left|right|front|back]Slot          NULL    # type: "tinkerbots-"
+  field SFNode     [up|left|right|front|back][A|B|C|D]Slot NULL    # type: "lego cross-"
 }
 ```
 
@@ -243,7 +243,7 @@ TinkerbotsCube {
 
 #### TinkerbotsAxle PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -256,7 +256,7 @@ TinkerbotsAxle {
   field SFVec3f                  translation 0 0 0
   field SFRotation               rotation    0 0 1 0
   field SFString                 name        "axle"
-  field SFNode                   endSlot     NULL    # type: "lego cross male"
+  field SFNode                   endSlot     NULL    # type: "lego cross+"
   field SFString{"2.2cm", "7cm"} length      "2.2cm"
 }
 ```
@@ -273,7 +273,7 @@ Either 2.2 centimeters or 7 centimeters.
 
 #### TinkerbotsBrickAdapter PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -296,7 +296,7 @@ TinkerbotsBrickAdapter {
 
 #### TinkerbotsCubieBoxWithCrossSlots PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -309,7 +309,7 @@ TinkerbotsCubieBoxWithCrossSlots {
   field SFVec3f    translation                     0 0 0
   field SFRotation rotation                        0 0 1 0
   field SFString   name                            "box with cross slots cubie"
-  field SFNode     [up|left|right|front|back]Slot  NULL                          # type: "lego cross female"
+  field SFNode     [up|left|right|front|back]Slot  NULL                          # type: "lego cross-"
 }
 ```
 
@@ -320,7 +320,7 @@ TinkerbotsCubieBoxWithCrossSlots {
 
 #### TinkerbotsCubieBoxWithRoundSlots PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -333,8 +333,8 @@ TinkerbotsCubieBoxWithRoundSlots {
   field SFVec3f    translation          0 0 0
   field SFRotation rotation             0 0 1 0
   field SFString   name                 "box with round slots cubie"
-  field SFNode     [up|left|right]Slot  NULL                          # type: "lego cross female"
-  field SFNode     axisSlot             NULL                          # type: "lego cross female"
+  field SFNode     [up|left|right]Slot  NULL                          # type: "lego cross-"
+  field SFNode     axisSlot             NULL                          # type: "lego cross-"
 }
 ```
 
@@ -350,7 +350,7 @@ This slot is mounted on a passive joint.
 
 #### TinkerbotsCubieFemaleCube PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -363,7 +363,7 @@ TinkerbotsCubieFemaleCube {
   field SFVec3f    translation                     0 0 0
   field SFRotation rotation                        0 0 1 0
   field SFString   name                            "female cube cubie"
-  field SFNode     [up|left|right|front|back]Slot  NULL                 # type: "lego cross female"
+  field SFNode     [up|left|right|front|back]Slot  NULL                 # type: "lego cross-"
 }
 ```
 
@@ -374,7 +374,7 @@ TinkerbotsCubieFemaleCube {
 
 #### TinkerbotsCubieMaleCube PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -387,8 +387,8 @@ TinkerbotsCubieMaleCube {
   field SFVec3f    translation               0 0 0
   field SFRotation rotation                  0 0 1 0
   field SFString   name                      "male cube cubie"
-  field SFNode     [up|left|front|back]Slot  NULL              # type: "lego cross female"
-  field SFNode     rightSlot                 NULL              # type: "lego cross male"
+  field SFNode     [up|left|front|back]Slot  NULL              # type: "lego cross-"
+  field SFNode     rightSlot                 NULL              # type: "lego cross+"
 }
 ```
 
@@ -399,7 +399,7 @@ TinkerbotsCubieMaleCube {
 
 #### TinkerbotsCubiePyramid PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -412,7 +412,7 @@ TinkerbotsCubiePyramid {
   field SFVec3f                    translation      0 0 0
   field SFRotation                 rotation         0 0 1 0
   field SFString                   name             "pyramid cubie"
-  field SFNode                     [front|back]Slot NULL            # type: "lego cross female"
+  field SFNode                     [front|back]Slot NULL            # type: "lego cross-"
   field SFString{"yellow", "blue"} color            "yellow"
 }
 ```
@@ -424,7 +424,7 @@ TinkerbotsCubiePyramid {
 
 #### TinkerbotsCubieTriangle PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -437,7 +437,7 @@ TinkerbotsCubieTriangle {
   field SFVec3f                    translation 0 0 0
   field SFRotation                 rotation    0 0 1 0
   field SFString                   name        "pyramid cubie"
-  field SFNode                     slot         NULL           # type: "lego cross female"
+  field SFNode                     slot         NULL           # type: "lego cross-"
   field SFString{"yellow", "blue"} color        "yellow"
 }
 ```
@@ -449,7 +449,7 @@ TinkerbotsCubieTriangle {
 
 #### TinkerbotsFinger PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross female" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross+" type.
 
 %figure
 
@@ -472,11 +472,11 @@ TinkerbotsFinger {
 
 #### TinkerbotsWheel PROTO
 
-Derived from [Slot](../reference/slot.md) of the "lego cross male" type.
+Derived from [Slot](../reference/slot.md) of the "lego cross-" type.
 
 %figure
 
-![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.png)
+![TinkerbotsWheel.png](images/robots/tinkerbots/TinkerbotsWheel.thumbnail.png)
 
 %end
 

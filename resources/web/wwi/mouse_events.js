@@ -2,10 +2,11 @@
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
-  constructor(scene, contextMenu, domElement) {
+  constructor(scene, contextMenu, domElement, mobileDevice) {
     this.scene = scene;
     this.contextMenu = contextMenu;
     this.domElement = domElement;
+    this.mobileDevice = mobileDevice;
 
     this.state = {
       'initialized': false,
@@ -21,13 +22,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.onmousemove = (event) => { this._onMouseMove(event); };
     this.onmouseup = (event) => { this._onMouseUp(event); };
     this.ontouchmove = (event) => { this._onTouchMove(event); };
-    this.ontouchend = (event) => {
-      this._clearMouseMove();
-      this.domElement.removeEventListener('touchend', this._onTouchEnd, true);
-      this.domElement.removeEventListener('touchmove', this._onTouchMove, true);
-      if (typeof this._onTouchEnd === 'function')
-        this._onTouchEnd(event);
-    };
+    this.ontouchend = (event) => { this._onTouchEnd(event); };
     domElement.addEventListener('mousedown', (event) => { this._onMouseDown(event); }, false);
     domElement.addEventListener('mouseover', (event) => { this._onMouseOver(event); }, false);
     domElement.addEventListener('mouseleave', (event) => { this._onMouseLeave(event); }, false);
@@ -121,17 +116,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onMouseUp(event) {
     this._clearMouseMove();
-    if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
-      var object = this.intersection.object;
-      if (object)
-        object = this.scene.getTopX3dNode(object);
-      this.scene.selector.select(object);
-
-      if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
-        this.hiddenContextMenu === false && this.contextMenu)
-        // Right click: show popup menu.
-        this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
-    }
+    this._selectAndHandleClick();
 
     document.removeEventListener('mousemove', this.onmousemove, false);
     document.removeEventListener('mouseup', this.onmouseup, false);
@@ -281,6 +266,8 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onTouchEnd(event) {
     this._clearMouseMove();
+    this._selectAndHandleClick();
+
     this.domElement.removeEventListener('touchend', this.ontouchend, true);
     this.domElement.removeEventListener('touchmove', this.ontouchmove, true);
 
@@ -302,14 +289,13 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _setupMoveParameters(event, computeScale) {
     this.moveParams = {};
-    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer, event.clientX, event.clientY);
-    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(event.clientX, event.clientY);
+    var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer.domElement, event.clientX, event.clientY);
+    var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.scene.renderer.domElement, event.clientX, event.clientY);
     this.intersection = this.scene.pick(relativePosition, screenPosition);
 
-    if (this.intersection && this.intersection.object) {
-      this.moveParams.pickPosition = new THREE.Vector3();
-      this.intersection.object.getWorldPosition(this.moveParams.pickPosition);
-    } else
+    if (this.intersection && this.intersection.object)
+      this.moveParams.pickPosition = this.intersection.point;
+    else
       this.moveParams.pickPosition = null;
 
     if (this.intersection == null) {
@@ -333,7 +319,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   }
 
   _clearMouseMove() {
-    const timeDelay = this.state.mobileDevice ? 100 : 1000;
+    const timeDelay = this.mobileDevice ? 100 : 1000;
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
     if (this.state.moved === false) {
       this.previousSelection = this.selection;
@@ -347,17 +333,32 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.initialY = null;
     this.moveParams = {};
   }
+
+  _selectAndHandleClick() {
+    if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
+      var object = this.intersection.object;
+      if (object)
+        object = this.scene.getTopX3dNode(object);
+      this.scene.selector.select(object);
+
+      if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
+        this.hiddenContextMenu === false && this.contextMenu)
+        // Right click: show popup menu.
+        this.contextMenu.show(object, {x: this.state.x, y: this.state.y});
+    }
+  }
 }
 
-MouseEvents.convertMouseEventPositionToScreenPosition = (eventX, eventY) => {
-  return new THREE.Vector2(
-    (eventX / window.innerWidt) * 2 - 1,
-    -(eventY / window.innerHeight) * 2 + 1
-  );
+MouseEvents.convertMouseEventPositionToScreenPosition = (element, eventX, eventY) => {
+  var rect = element.getBoundingClientRect();
+  var pos = new THREE.Vector2();
+  pos.x = ((eventX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  pos.y = -((eventY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+  return pos;
 };
 
-MouseEvents.convertMouseEventPositionToRelativePosition = (renderer, eventX, eventY) => {
-  var rect = renderer.domElement.getBoundingClientRect();
+MouseEvents.convertMouseEventPositionToRelativePosition = (element, eventX, eventY) => {
+  var rect = element.getBoundingClientRect();
   var pos = new THREE.Vector2();
   pos.x = Math.round(eventX - rect.left);
   pos.y = Math.round(eventY - rect.top);

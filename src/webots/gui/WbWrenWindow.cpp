@@ -282,6 +282,7 @@ void WbWrenWindow::resizeWren(int width, int height) {
 void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsigned char *destination, int sourceWidth,
                                                int sourceHeight, int scaleDownFactor) {
   // flip vertically the image and scale it down (about 3x faster than QImage::mirrored(), QImage::scaled())
+  // cppcheck-suppress unsafeClassDivZero
   const int h = sourceHeight / scaleDownFactor;
   const int w = sourceWidth / scaleDownFactor;
   const int yFactor = scaleDownFactor * sourceWidth;

@@ -76,7 +76,7 @@ namespace webots {
     // Deprecated since Webots 8.0.0, please use simulationResetPhysics() instead
     virtual void simulationPhysicsReset();
 
-    // deprecated since webots 8.3.0: please use the wb_supervisor_movie_*() functions instead
+    // deprecated since webots 8.3.0: please use the wb_supervisor_movie_*() functions instead
     virtual void startMovie(const std::string &file, int width, int height, int codec, int quality, int acceleration,
                             bool caption);
     virtual void stopMovie();
