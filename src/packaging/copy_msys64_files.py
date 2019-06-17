@@ -85,7 +85,7 @@ with open('files_msys64.txt', 'r') as f:
                 files.append(l)
 print("# processing ffmpeg dependencies (DLLs)")
 sys.stdout.flush()
-script = os.getenv('WEBOTS_HOME') + "\\src\\packaging\\ffmpeg_dependencies.sh"
+script = os.path.join(os.environ['WEBOTS_HOME'], 'src', 'packaging', 'ffmpeg_dependencies.sh')
 ffmpeg_dlls = subprocess.check_output(['bash', script]).decode('utf-8').split()
 for ffmpeg_dll in ffmpeg_dlls:
     files.append('/mingw64/bin/' + ffmpeg_dll)
