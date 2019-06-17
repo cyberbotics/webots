@@ -130,7 +130,7 @@ jobs:
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - pip install PyGithub # used to upload packages to Github releases
-      script:
+      script: 
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
