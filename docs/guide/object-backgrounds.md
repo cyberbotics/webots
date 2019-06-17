@@ -7,7 +7,7 @@ Background textured with a skybox.
 Supported values for the `texture` field:
 
 - dawn\_cloudy\_empty
-- empty\_office
+- empty\_office (HDR)
 - factory (HDR)
 - morning\_cloudy\_empty
 - noon\_building\_overcast (HDR)
