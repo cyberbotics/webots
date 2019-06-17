@@ -1,5 +1,5 @@
 /* global THREE, Selector, TextureLoader, Viewpoint */
-/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb, horizontalToVerticalFieldOfView */
+/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
@@ -211,12 +211,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
         this.sceneModified = true;
-      } else if ((key === 'diffuseColor' || key === 'baseColor') && object.isMaterial) {
-        var diffuseColor = convertStringTorgb(newValue);
-        object.color = diffuseColor;
-      } else if (key === 'emissiveColor' && object.isMaterial) {
-        var emissiveColor = convertStringTorgb(newValue);
-        object.emissive = emissiveColor;
+      } else if (object.isMaterial) {
+        if (key === 'baseColor')
+          object.color = convertStringToColor(newValue); // PBRAppearance node
+        else if (key === 'diffuseColor')
+          object.color = convertStringToColor(newValue, false); // Appearance node
+        else if (key === 'emissiveColor')
+          object.emissive = convertStringToColor(newValue, object.userData.x3dType === 'PBRAppearance');
       } else if (key === 'render' && object.isObject3D)
         object.visible = newValue.toLowerCase() === 'true';
       else
