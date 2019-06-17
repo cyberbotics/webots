@@ -34,8 +34,8 @@ jobs:
         - pip install -r docs/tests/requirements.txt
       script:
         - python -m unittest discover -s docs/tests
-#        - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
-#        - travis_wait 30 python -m unittest discover -s tests/sources
+        - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
+        - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
       python: '2.7'
     - <<: *source_tests_staging
@@ -50,7 +50,7 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distribTODO) # OR tag IS present TODO
+      if: type = cron OR commit_message IN (travis_unit, travis_distrib) OR tag IS present
       git: &compilation_git
         depth: 3
         submodules: true
@@ -153,7 +153,5 @@ jobs:
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
-        - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
-        - ls distribution  #TODO: remove
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
-        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=DavidMansolino/webots-test --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+#        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
+#        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=DavidMansolino/webots-test --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
