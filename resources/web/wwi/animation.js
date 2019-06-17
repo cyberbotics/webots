@@ -145,7 +145,7 @@ class Animation { // eslint-disable-line no-unused-vars
       else
         previousPoseStep = 0;
       for (let i in this.allIds) {
-       var id = this.allIds[i];
+        var id = this.allIds[i];
         var appliedFields = appliedIds[id];
         for (let f = this.step - 1; f >= previousPoseStep; f--) {
           if (this.data.frames[f].poses) {
