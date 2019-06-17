@@ -51,9 +51,14 @@ The [Telerob Telemax PRO robot](https://www.cyberbotics.com/doc/guide/telemax-pr
 
 ## More Assets
 
-- Added the following PROTO objects: 'IntermodalContainer', 'IntermodalOfficeContainer', 'Radiator', 'WallPlug', 'FireExtinguisher', 'CapScrew', 'ElectricalPlug', 'EyeScrew', 'ScrewHole', 'Washer', 'DoubleFluorescentLamp' and 'OfficeTelephone'.
-- Added the following PROTO appearances: 'CorrodedMetal', 'CorrugatedMetal', 'DamascusSteel', 'DarkParquetry', 'ElectricConduit', 'FlexibleAluminiumDuct', 'GalvanizedMetal', 'HammeredCopper', 'OldPlywood', 'OsbWood', 'Plaster', 'RustyMetal', 'ScrewThread' and 'WireFence'.
-- Added a 'PipeBoundingObject' and a 'TorusBoundingObject' PROTO nodes to simplify the creation of complex bounding objects.
+In order to improve our asset library, we have added many new configurable 3D objects and appearances.
+
+| | | |
+| :---: | :---: | :---: |
+| ![Asset 1](images/assets/asset_1.png) |  ![Asset 2](images/assets/asset_2.png) |  ![Asset 3](images/assets/asset_3.png) |
+| ![Asset 4](images/assets/asset_4.png) |  ![Asset 5](images/assets/asset_5.png) |  ![Asset 1](images/assets/asset_6.png) |
+| ![Asset 7](images/assets/asset_7.png) |  ![Asset 8](images/assets/asset_8.png) |  ![Asset 1](images/assets/asset_9.png) |
+| ![Asset 10](images/assets/asset_10.png) |  ![Asset 11](images/assets/asset_11.png) |  ![Asset 1](images/assets/asset_12.png) |
 
 ---
 
@@ -81,8 +86,8 @@ The model creation process can be greatly facilitated through this tool.
 
 ## Extra Goodies
 
-- Simplified Installation on Windows: Webots can now be installed without administrator privileges.
+The installation of Webots on Windows as been simplified: the administrator privileges are not needed anymore.
 
-- Deprecated the Python 2.7 API.
+To follow the announce of the Python 2.7 deprecation early next year, we also decided to display a deprecation message when using it before dropping it completely in the next release.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2019b today, so you don't miss out on all these great new features!**
