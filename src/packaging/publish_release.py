@@ -25,7 +25,8 @@ if 'GITHUB_API_KEY' not in os.environ:
     sys.exit('GITHUB_API_KEY environment variable is not set.')
 
 g = Github(os.environ['GITHUB_API_KEY'])
-repo = g.get_repo("omichel/webots")
+#repo = g.get_repo("omichel/webots")  TODO
+repo = g.get_repo("DavidMansolino/webots-test")
 releaseExists = False
 now = datetime.datetime.now()
 title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
@@ -48,8 +49,8 @@ if not releaseExists:
                                     release_message=message,
                                     object=os.environ['TRAVIS_COMMIT'],
                                     type='commit',
-                                    draft=True,  # TODO: prerelase instead
-                                    prerelease=False)
+                                    draft=False,  # TODO: prerelase instead
+                                    prerelease=True)
 
 for release in repo.get_releases():
     if release.title == title:
