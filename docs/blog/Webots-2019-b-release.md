@@ -73,14 +73,17 @@ The model creation process can be greatly facilitated through this tool.
 
 ---
 
-## Improved the Webots Online 3D Viewer: 'webots.min.js'
+## Webots Online 3D Viewer: Level Up!
 
-- Switched from 'X3DOM' to 'three.js'.
-- Used ES6, Babel and minifyjs to provide 'webots.min.js' as a single and minified file.
-- Reduced the rendering difference between Webots and 'webots.min.js'.
-- Added support for PBR appearances and HDR textured background.
-- Improved loading time and rendering speed.
-- Extended the Webots websocket server to an HTTP server serving the texture images too.
+We completely refactored our Online 3D Viewer `webots.min.js`.
+It is now using `Javascript ES6` and `three.js`.
+Our new rendering pipeline using PBR and HDR background textures is now supported in the web client, while loading time and rendering speed has been improved.
+
+%figure "Comparison of Webots (on the left) and `webots.min.js` in Chrome (on the right)"
+![webotsminjs-camera](images/webotsminjs-camera.png)
+![webotsminjs-youbot](images/webotsminjs-youbot.png)
+%end
+
 
 ---
 
