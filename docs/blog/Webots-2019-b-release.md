@@ -69,7 +69,7 @@ In order to improve our asset library, we have added many new configurable 3D ob
 ## Blender to Webots Exporter Add-on
 
 %figure "Export a Blender world to Webots"
-![Blender Add-On](https://raw.githubusercontent.com/omichel/blender-webots-exporter/master/demo.gif)
+![Blender Add-On](images/blender-add-on.gif)
 %end
 
 We are glad to announce the release of [our new Blender tool](https://github.com/omichel/blender-webots-exporter) for importing your Blender creations to Webots.
