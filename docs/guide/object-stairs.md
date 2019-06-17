@@ -61,7 +61,7 @@ Generic and customizable landing model for straight stairs.
 
 %figure
 
-![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.png)
+![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.thumbnail.png)
 
 %end
 

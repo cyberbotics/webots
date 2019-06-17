@@ -35,6 +35,8 @@ RED = 0
 GREEN = 1
 BLUE = 2
 HUE = 0
+LIGHTNESS = 1
+SATURATION = 2
 
 WHITE = [1, 1, 1]
 
@@ -72,7 +74,7 @@ def autocrop(im):
 
 
 def take_screenshot(camera, category, directory, protoDirectory, protoName, options, background, colorThreshold,
-                    alphaRejectionThreshold):
+                    shadowColor=None):
     """Take the screenshot."""
     # Convert Camera image to PIL image.
     image = camera.getImage()
@@ -82,20 +84,23 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     # Remove the background.
     background = [float(pixels[0][0]) / 255.0, float(pixels[0][1]) / 255.0, float(pixels[0][2]) / 255.0]
-    iBackground = [1.0 - background[RED], 1.0 - background[GREEN], 1.0 - background[BLUE]]
     newPixels = []
     hls_background_color = colorsys.rgb_to_hls(background[RED], background[GREEN], background[BLUE])
     for pixel in pixels:
         hls_pixel = colorsys.rgb_to_hls(float(pixel[RED]) / 255.0, float(pixel[GREEN]) / 255.0, float(pixel[BLUE]) / 255.0)
-        if abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold:  # If pixel color is close to background.
-            colorChanel = int((iBackground[RED] * pixel[RED] + iBackground[GREEN] * pixel[GREEN] +
-                              iBackground[BLUE] * pixel[BLUE]) / (iBackground[RED] + iBackground[GREEN] + iBackground[BLUE]))
-            alphaChanel = int(255 - (background[RED] * pixel[RED] + background[GREEN] * pixel[GREEN] +
-                              background[BLUE] * pixel[BLUE]) / (background[RED] + background[GREEN] + background[BLUE]))
-            if alphaChanel < alphaRejectionThreshold * 255:
-                alphaChanel = 0
-            newPixels.append((colorChanel, colorChanel, colorChanel, alphaChanel))
+        if (abs(hls_pixel[HUE] - hls_background_color[HUE]) < colorThreshold and
+                abs(hls_pixel[LIGHTNESS] - hls_background_color[LIGHTNESS]) < colorThreshold and
+                abs(hls_pixel[SATURATION] - hls_background_color[SATURATION]) < colorThreshold):
+            # Background
+            newPixels.append((0, 0, 0, 0))
+        elif (shadowColor is not None and
+                shadowColor[RED] == pixel[RED] and
+                shadowColor[GREEN] == pixel[GREEN] and
+                shadowColor[BLUE] == pixel[BLUE]):
+            # Shadows
+            newPixels.append((125, 125, 125, 120))
         else:
+            # Object
             newPixels.append(pixel)
     pilImage.putdata(newPixels)
 
@@ -138,7 +143,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
         shutil.copy2(directory + os.sep + 'model.png', modelPath)
 
 
-def process_object(supervisor, category, nodeString, background, colorThreshold, alphaRejectionThreshold):
+def process_object(supervisor, category, nodeString, background, colorThreshold):
     """Import object, take screenshot and remove it."""
     rootChildrenfield = controller.getRoot().getField('children')
 
@@ -177,9 +182,16 @@ def process_object(supervisor, category, nodeString, background, colorThreshold,
     take_original_screenshot(camera, objectDirectory)
 
     supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
+    lightIntensityField = supervisor.getFromDef('LIGHT').getField('intensity')
+    lightIntensity = lightIntensityField.getSFFloat()
+    lightIntensityField.setSFFloat(0)
+    supervisor.step(10 * timeStep)
+    pixel = camera.getImageArray()[0][0]
+    shadowColor = [pixel[0], pixel[1], pixel[2]]
+    lightIntensityField.setSFFloat(lightIntensity)
     supervisor.step(10 * timeStep)
     take_screenshot(camera, category, objectDirectory, os.path.dirname(protoPath), protoName, options, background,
-                    colorThreshold, alphaRejectionThreshold)
+                    colorThreshold, shadowColor)
 
     # remove the object
     supervisor.step(timeStep)
@@ -233,15 +245,14 @@ elif options.appearance:
                         if 'fields' in parameters:
                             nodeString += parameters['fields']
                     nodeString += ' } '
-                    nodeString += 'geometry Sphere { subdivision 5 } } ] }'
+                    nodeString += 'geometry Sphere { subdivision 5 } castShadows FALSE } ] }'
 
                     objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
                     if not os.path.exists(objectDirectory):
                         os.makedirs(objectDirectory)
                     else:
                         sys.exit('Multiple definition of ' + protoName)
-                    process_object(controller, 'appearances', nodeString, background=[0, 1, 0], colorThreshold=0.1,
-                                   alphaRejectionThreshold=0.6)
+                    process_object(controller, 'appearances', nodeString, background=[1, 1, 1], colorThreshold=0.01)
 else:
     with open(options.file) as json_data:
         data = json.load(json_data)
@@ -271,10 +282,6 @@ else:
                 colorThreshold = value['colorThreshold']
             else:
                 colorThreshold = data['default']['colorThreshold']
-            if 'alphaRejectionThreshold' in value:
-                alphaRejectionThreshold = value['alphaRejectionThreshold']
-            else:
-                alphaRejectionThreshold = data['default']['alphaRejectionThreshold']
             if 'background' in value:
                 background = value['background']
             else:
@@ -295,5 +302,4 @@ else:
                     nodeString = value['nodeString'].encode('utf-8')
                 else:
                     nodeString = value['nodeString']
-            process_object(controller, key.split('/')[1], nodeString, background=[0, 1, 1], colorThreshold=0.05,
-                           alphaRejectionThreshold=0.4)
+            process_object(controller, key.split('/')[1], nodeString, background=background, colorThreshold=colorThreshold)
