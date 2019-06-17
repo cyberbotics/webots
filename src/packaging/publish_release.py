@@ -40,16 +40,17 @@ releaseExists = False
 now = datetime.datetime.now()
 title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
 tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
+message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
 if options.tag:
     tag = options.tag
     title = options.tag
+    message = 'This is a nightly build of Webots from the "%s" tag.' % options.tag
 for release in repo.get_releases():
     if release.title == title:
         releaseExists = True
         break
 
 if not releaseExists:
-    message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
