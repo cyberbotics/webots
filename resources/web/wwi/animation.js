@@ -46,12 +46,8 @@ class Animation { // eslint-disable-line no-unused-vars
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
-    this.playSlider = $('#playSlider').slider({
-      change: (e, ui) => { this._updateSlider(ui.value); },
-      slide: (e, ui) => { this._updateSlider(ui.value); },
-      start: (e, ui) => { this.sliding = true; },
-      stop: (e, ui) => { this.sliding = false; }
-    });
+    this.playSlider = $('#playSlider').slider();
+    this._connectSliderEvents();
 
     // Initialize animation data.
     this.start = new Date().getTime();
@@ -87,7 +83,11 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _connectSliderEvents() {
     this.playSlider = this.playSlider.slider({
-      change: (e, ui) => { this._updateSlider(ui.value); },
+      change: (e, ui) => {
+        this._updateSlider(ui.value);
+        // continue running the animation
+        this._updateAnimation();
+      },
       slide: (e, ui) => { this._updateSlider(ui.value); },
       start: (e, ui) => { this.sliding = true; },
       stop: (e, ui) => { this.sliding = false; }
@@ -169,7 +169,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _updateAnimation() {
-    if (this.gui === 'real_time') {
+    if (this.gui === 'real_time' && !this.sliding) {
       this._updateAnimationState();
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
