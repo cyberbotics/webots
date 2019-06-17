@@ -917,7 +917,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
       fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
       fprintf(fd, "echo '\n");
-      fprintf(fd, "with timeout of 300 seconds\n");
       fprintf(fd, "   tell application \"Finder\"\n");
       fprintf(fd, "     tell disk \"%s\"\n", application_name);
       fprintf(fd, "           open\n");
@@ -934,21 +933,20 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "           close\n");
       fprintf(fd, "           open\n");
       fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
+      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
       fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 5\n");  // give time to the window to be displayed correctly
+      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
       fprintf(fd, "           eject\n");
       fprintf(fd, "     end tell\n");
       fprintf(fd, "   end tell\n");
-      fprintf(fd, "end timeout\n");
       fprintf(fd, "' | osascript\n");
       fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
       fprintf(fd, "sync\n");
       fprintf(fd, "sync\n");
-      fprintf(fd, "sudo hdiutil detach -force \"/Volumes/%s\" -debug\n", application_name);
-      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg -debug\n", application_name_lowercase_and_dashes,
+      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
+      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
               application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      //fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
