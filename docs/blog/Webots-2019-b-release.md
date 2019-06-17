@@ -28,6 +28,8 @@ These arms can be equipped by the a [ROBOTIQ 3F Gripper is a 3-fingers adaptive 
 
 ![youtube video](https://www.youtube.com/watch?v=WIY9ebqSXUc)
 
+This model is fully compatible with the [universal_robot ROS package](http://wiki.ros.org/action/show/universal_robots).
+
 ### Clearpath Moose
 
 The [Clearpath Robotics Moose robot](https://www.clearpathrobotics.com/moose-ugv/) is a large 8-wheeled all-terrain unmanned ground vehicle.
