@@ -17,37 +17,45 @@
 """Uploads the content of 'WEBOTS_HOME/distribution' to a Github release."""
 
 import datetime
+import optparse
 import os
 import sys
 from github import Github
 
+optParser = optparse.OptionParser(
+    usage="usage: %prog --key=... --repo=omichel/webots --branch=develop --commit=... [--tag=...]")
+optParser.add_option("--key", dest="key", default="", help="specifies the repo access key")
+optParser.add_option("--repo", dest="repo", default="omichel/webots", help="specifies the repo")
+optParser.add_option("--tag", dest="tag", default="", help="optionnally specifies a tag")
+optParser.add_option("--branch", dest="branch", default="", help="specifies the branch from which is uploaded the release.")
+optParser.add_option("--commit", dest="commit", default="", help="specifies the commit from which is uploaded the release.")
+options, args = optParser.parse_args()
+
 if 'GITHUB_API_KEY' not in os.environ:
     sys.exit('GITHUB_API_KEY environment variable is not set.')
 
-g = Github(os.environ['GITHUB_API_KEY'])
-#repo = g.get_repo("omichel/webots")  TODO
-repo = g.get_repo("DavidMansolino/webots-test")
+g = Github(options.key)
+repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
 title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
 tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-if 'TRAVIS_TAG' in os.environ and os.environ['TRAVIS_TAG']:
-    print(os.environ['TRAVIS_TAG'])
-    tag = os.environ['TRAVIS_TAG']
-    title = tag
+if options.tag:
+    tag = options.tag
+    title = options.tag
 for release in repo.get_releases():
     if release.title == title:
         releaseExists = True
         break
 
 if not releaseExists:
-    message = 'This is a nightly build of Webots from the "%s" branch.' % os.environ['TRAVIS_BRANCH']
-    print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, os.environ['TRAVIS_COMMIT']))
+    message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
+    print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
                                     release_message=message,
-                                    object=os.environ['TRAVIS_COMMIT'],
+                                    object=options.commit,
                                     type='commit',
                                     draft=False,
                                     prerelease=True)
