@@ -32,7 +32,7 @@ A can (0.03175 x 0.1222 x 0.03175 m).
 
 %figure
 
-![Can](images/objects/drinks/Can/model.png)
+![Can](images/objects/drinks/Can/model.thumbnail.png)
 
 %end
 
