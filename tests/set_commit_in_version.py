@@ -20,10 +20,12 @@ path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 
-if 'TRAVIS_COMMIT' in os.environ:
-    commit = os.environ['TRAVIS_COMMIT']
+if len(sys.argv) != 2: # no commit id passed as an argument
+    sys.exit('Commit id not passed as argument.')
+else:
+    commit = sys.argv[1]
     content = ''
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'r') as f:
-        content = f.read().replace('R2019b', 'R2019b' + '-commit-' + os.environ['TRAVIS_COMMIT'])
+        content = f.read().replace('R2019b', 'R2019b' + '-commit-' + commit)
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'w') as f:
         f.write(content)
