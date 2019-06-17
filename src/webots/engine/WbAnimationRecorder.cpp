@@ -69,9 +69,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
     }
   }
 
-  if (!state.isEmpty()) {
+  if (!state.isEmpty())
     mInitialState = QString("{\"id\":\"%1\",%2}").arg(n->uniqueId()).arg(state);
-  }
 }
 
 void WbAnimationCommand::resetChanges() {
