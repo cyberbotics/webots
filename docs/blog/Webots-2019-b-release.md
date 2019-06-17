@@ -63,8 +63,7 @@ The [Telerob Telemax PRO robot](https://www.cyberbotics.com/doc/guide/telemax-pr
 ![Blender Add-On](https://raw.githubusercontent.com/omichel/blender-webots-exporter/master/demo.gif)
 %end
 
-We are glad to show [our new Blender tool](https://github.com/omichel/blender-webots-exporter
-) for importing your Blender creations to Webots.
+We are glad to announce the release of [our new Blender tool](https://github.com/omichel/blender-webots-exporter) for importing your Blender creations to Webots.
 The model creation process can be greatly facilitated through this tool.
 
 ---
