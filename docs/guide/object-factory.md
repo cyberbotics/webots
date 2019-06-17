@@ -352,7 +352,7 @@ A section of pipe.
 
 %figure
 
-![PipeSection](images/objects/pipes/PipeSection/model.png)
+![PipeSection](images/objects/pipes/PipeSection/model.thumbnail.png)
 
 %end
 
@@ -461,7 +461,7 @@ A cap screw with variable radius and length.
 
 %figure
 
-![CapScrew](images/objects/tools/CapScrew/model.png)
+![CapScrew](images/objects/tools/CapScrew/model.thumbnail.png)
 
 %end
 
@@ -499,7 +499,7 @@ The bounding object and physics are optional.
 
 %figure
 
-![ElectricalPlug](images/objects/tools/ElectricalPlug/model.png)
+![ElectricalPlug](images/objects/tools/ElectricalPlug/model.thumbnail.png)
 
 %end
 
@@ -568,7 +568,7 @@ An eye screw with variable radius and length.
 
 %figure
 
-![EyeScrew](images/objects/tools/EyeScrew/model.png)
+![EyeScrew](images/objects/tools/EyeScrew/model.thumbnail.png)
 
 %end
 
@@ -725,7 +725,7 @@ A screw hole with variable radius and depth.
 
 %figure
 
-![ScrewHole](images/objects/tools/ScrewHole/model.png)
+![ScrewHole](images/objects/tools/ScrewHole/model.thumbnail.png)
 
 %end
 

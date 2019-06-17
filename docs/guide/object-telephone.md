@@ -30,7 +30,7 @@ An office telephone with optional physics.
 
 %figure
 
-![OfficeTelephone](images/objects/telephone/OfficeTelephone/model.png)
+![OfficeTelephone](images/objects/telephone/OfficeTelephone/model.thumbnail.png)
 
 %end
 

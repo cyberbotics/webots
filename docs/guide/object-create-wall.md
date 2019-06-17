@@ -6,7 +6,7 @@ Virtual walls are an accessory of the IRobot Create allowing to inform the robot
 
 %figure
 
-![CreateWall](images/objects/create_wall/CreateWall/model.png)
+![CreateWall](images/objects/create_wall/CreateWall/model.thumbnail.png)
 
 %end
 
