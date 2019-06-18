@@ -16,7 +16,7 @@ In this release, other than improving the rendering quality and extending our ro
 Realism of robot camera has been greatly improved. They can now be affected by the same post-processing effects that are already available for the Webots 3D scene such as Bloom and Ambient Occlusion.
 
 %figure "Ambient occlusion in a robot camera"
-![Camera PostProcessing](images/camera_post_processing.png)
+![Camera PostProcessing](images/camera_post_processing.thumbnail.jpg)
 %end
 
 ---
@@ -61,14 +61,14 @@ In order to improve our asset library, we have added many new configurable 3D ob
 
 | | | |
 | :---: | :---: | :---: |
-| ![Asset 1](images/assets/asset_1.png) |  ![Asset 2](images/assets/asset_2.png) |  ![Asset 3](images/assets/asset_3.png) |
-| ![Asset 4](images/assets/asset_4.png) |  ![Asset 5](images/assets/asset_5.png) |  ![Asset 1](images/assets/asset_6.png) |
-| ![Asset 7](images/assets/asset_7.png) |  ![Asset 8](images/assets/asset_8.png) |  ![Asset 1](images/assets/asset_9.png) |
-| ![Asset 10](images/assets/asset_10.png) |  ![Asset 11](images/assets/asset_11.png) |  ![Asset 1](images/assets/asset_12.png) |
+| ![Asset 1](images/assets/asset_1.thumbnail.png) |  ![Asset 2](images/assets/asset_2.png) |  ![Asset 3](images/assets/asset_3.thumbnail.png) |
+| ![Asset 4](images/assets/asset_4.thumbnail.png) |  ![Asset 5](images/assets/asset_5.thumbnail.png) |  ![Asset 1](images/assets/asset_6.thumbnail.png) |
+| ![Asset 7](images/assets/asset_7.thumbnail.png) |  ![Asset 8](images/assets/asset_8.thumbnail.png) |  ![Asset 1](images/assets/asset_9.thumbnail.png) |
+| ![Asset 10](images/assets/asset_10.thumbnail.png) |  ![Asset 11](images/assets/asset_11.thumbnail.png) |  ![Asset 1](images/assets/asset_12.thumbnail.png) |
 
 Most of these assets are used in our new [hall](https://www.cyberbotics.com/doc/guide/samples-environments#hall-wbt) environment.
 %figure "Hall Environment"
-![Hall Environment](images/hall.png)
+![Hall Environment](images/hall.thumbnail.jpg)
 %end
 
 ---
@@ -104,8 +104,8 @@ Our new rendering pipeline using [PBR](https://en.wikipedia.org/wiki/Physically_
 %figure "Comparison of Webots (on the left) and `webots.min.js` in Chrome (on the right)"
 | |
 | :---: |
-| ![webotsminjs-camera](images/webotsminjs-camera.png) |
-| ![webotsminjs-youbot](images/webotsminjs-youbot.png) |
+| ![webotsminjs-camera](images/webotsminjs-camera.thumbnail.jpg) |
+| ![webotsminjs-youbot](images/webotsminjs-youbot.thumbnail.jpg) |
 %end
 
 
