@@ -102,10 +102,9 @@ It is now using `Javascript ES6` and `three.js`.
 Our new rendering pipeline using [PBR](https://en.wikipedia.org/wiki/Physically_based_rendering) and [HDR](https://en.wikipedia.org/wiki/High_dynamic_range) background textures is now supported in the web client too, while loading time and rendering speed has been improved.
 
 %figure "Comparison of Webots (on the left) and `webots.min.js` in Chrome (on the right)"
-| |
-| :---: |
-| ![webotsminjs-camera](images/webotsminjs-camera.thumbnail.jpg) |
-| ![webotsminjs-youbot](images/webotsminjs-youbot.thumbnail.jpg) |
+| | |
+| :---: | :---: |
+| ![webotsminjs-camera](images/webotsminjs-camera.thumbnail.jpg) | ![webotsminjs-youbot](images/webotsminjs-youbot.thumbnail.jpg) |
 %end
 
 
