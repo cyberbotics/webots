@@ -42,7 +42,7 @@ We have added another robotics arm with inverse kinematics support: the [ABB IRB
 
 ### Telerob Telemax PRO
 
-The [Telerob Telemax PRO robot](https://www.cyberbotics.com/doc/guide/telemax-pro) is a tracked robot equipped with a 7-axis manipulator.
+The [Telerob Telemax PRO robot](https://www.cyberbotics.com/doc/guide/telemax-pro) is a tracked robot equipped with several cameras and a 7-axis manipulator.
 
 ![youtube video](https://www.youtube.com/watch?v=lUWMGk0i9Tc)
 
@@ -75,12 +75,12 @@ Most of these assets are used in our new [hall](https://www.cyberbotics.com/doc/
 
 ## Blender to Webots Exporter Add-on
 
-%figure "Export a Blender world to Webots"
+%figure "Export a Blender model to Webots"
 ![Blender Add-On](images/blender-add-on.gif)
 %end
 
 We are glad to announce the release of [our new Blender tool](https://github.com/omichel/blender-webots-exporter) for importing your Blender creations to Webots.
-Thanks to this tool the model creation process is now much simpler and smooth.
+Thanks to this tool the model creation process is now simpler and smoother.
 
 Install it and start modeling your Webots objects and robots!
 
@@ -88,10 +88,10 @@ Install it and start modeling your Webots objects and robots!
 
 ## Quality Matters
 
-To improve even more the quality of the source code and therefore of Webots, we have improved our testing procedure.
-Our workflow uses now [Travis](https://travis-ci.com/omichel/webots), [AppVeyor](https://ci.appveyor.com/project/omichel/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
+To improve even more the quality of the source code and therefore Webots itself, we have improved our testing procedures.
+Our workflow now uses [Travis](https://travis-ci.com/omichel/webots), [AppVeyor](https://ci.appveyor.com/project/omichel/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
 
-In addition, nightly builds are now created and uploaded to the [Github repository](https://github.com/omichel/webots/releases).
+Moreover, nightly builds are now created and uploaded to the [Github repository](https://github.com/omichel/webots/releases).
 
 ---
 
@@ -99,7 +99,7 @@ In addition, nightly builds are now created and uploaded to the [Github reposito
 
 We completely refactored our Online 3D Viewer `webots.min.js`.
 It is now using `Javascript ES6` and `three.js`.
-Our new rendering pipeline using PBR and HDR background textures is now supported in the web client too, while loading time and rendering speed has been improved.
+Our new rendering pipeline using [PBR](https://en.wikipedia.org/wiki/Physically_based_rendering) and [HDR](https://en.wikipedia.org/wiki/High_dynamic_range) background textures is now supported in the web client too, while loading time and rendering speed has been improved.
 
 %figure "Comparison of Webots (on the left) and `webots.min.js` in Chrome (on the right)"
 | |
@@ -113,8 +113,8 @@ Our new rendering pipeline using PBR and HDR background textures is now supporte
 
 ## Extra Goodies
 
-The installation of Webots on Windows has been simplified: the administrator privileges are not needed anymore.
+The installation of Webots on Windows has been simplified: administrator privileges are not needed anymore.
 
-Following the announce of the Python 2.7 deprecation early next year, we also decided to display a deprecation message when using it before dropping it completely in the next release.
+Following the announcement of Python 2.7 deprecation early next year, Webots now displays a deprecation message when a robot controller is using Python 2.7. We will drop Python 2.7 completely from the next release in favor of Python 3.
 
 **Go and [download](https://cyberbotics.com/#download) Webots R2019b today, so you don't miss out on all these great new features!**
