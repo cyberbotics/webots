@@ -2,7 +2,7 @@
 
 ```
 Muscle {
-  SFDouble maxRadius   0.2     # [0, inf) 
+  SFDouble maxRadius   0.2     # [0, inf)
   SFVec3f  startOffset 0 0 0   # any vector
   SFVec3f  endOffset   0 0 0   # any vector
   MFColor  color       [ ]     # any color
