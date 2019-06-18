@@ -69,38 +69,16 @@ int main(int argc, char **argv) {
   wb_motor_set_position(front_right_track, INFINITY);
   wb_motor_set_position(rear_left_track, INFINITY);
   wb_motor_set_position(rear_right_track, INFINITY);
-  wb_motor_set_velocity(front_left_track, -0.1);
-  wb_motor_set_velocity(front_right_track, -0.1);
-  wb_motor_set_velocity(rear_left_track, 0.1);
-  wb_motor_set_velocity(rear_right_track, 0.1);
-  noop(20000);
+  wb_motor_set_velocity(front_left_track, -0.3);
+  wb_motor_set_velocity(front_right_track, -0.3);
+  wb_motor_set_velocity(rear_left_track, 0.3);
+  wb_motor_set_velocity(rear_right_track, 0.3);
+  noop(7000);
 
-  // look around with camera
-  wb_motor_set_velocity(front_left_track, 0.0);
-  wb_motor_set_velocity(front_right_track, 0.0);
-  wb_motor_set_velocity(rear_left_track, 0.0);
-  wb_motor_set_velocity(rear_right_track, 0.0);
+  // enable the camera
   wb_camera_enable(camera, TIME_STEP);
-  wb_led_set(camera_led, 100);
-  wb_motor_set_position(camera_pan, 1.0);
-  noop(2000);
-  wb_motor_set_position(camera_pan, -1.0);
-  noop(4000);
-  wb_motor_set_position(camera_pan, 0.0);
-  noop(2000);
-  wb_motor_set_position(camera_tilt, -0.4);
-  noop(2000);
-  // camera zoom
-  while (wb_camera_get_fov(camera) > 0.05) {
-    wb_camera_set_fov(camera, 0.99 * wb_camera_get_fov(camera));
-    noop(16);
-  }
-  while (wb_camera_get_fov(camera) < 0.78) {
-    wb_camera_set_fov(camera, 1.01 * wb_camera_get_fov(camera));
-    noop(16);
-  }
-  wb_motor_set_position(camera_tilt, 0.5);
-  noop(4000);
+  wb_led_set(camera_led, 60);
+  
   wb_motor_set_position(camera_tilt, -0.1);
 
   // prepare tracks for stairs
@@ -121,11 +99,32 @@ int main(int argc, char **argv) {
 
   // align fron tracks with stairs
   wb_motor_set_position(front_motor, 0.25);
-  noop(60000);
+  
+  // look around with camera
+  wb_motor_set_position(camera_pan, 1.0);
+  noop(2000);
+  wb_motor_set_position(camera_pan, -1.0);
+  noop(4000);
+  wb_motor_set_position(camera_pan, 0.0);
+  noop(2000);
+  // camera zoom
+  while (wb_camera_get_fov(camera) > 0.2) {
+    wb_camera_set_fov(camera, 0.99 * wb_camera_get_fov(camera));
+    noop(16);
+  }
+  while (wb_camera_get_fov(camera) < 0.78) {
+    wb_camera_set_fov(camera, 1.01 * wb_camera_get_fov(camera));
+    noop(16);
+  }
+  wb_motor_set_position(camera_tilt, -0.4);
+  noop(2000);
+  wb_motor_set_position(camera_tilt, 0.5);
+  noop(40000);
 
   // put tracks in 'flat' position
   wb_motor_set_position(front_motor, 0.0);
   wb_motor_set_position(rear_motor, 0.0);
+    wb_motor_set_position(camera_tilt, 0.0);
   noop(3000);
 
   // go in 'high' position
