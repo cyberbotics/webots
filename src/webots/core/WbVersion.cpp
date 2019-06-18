@@ -22,6 +22,7 @@ WbVersion::WbVersion(int major, int minor, int revision) :
   mMinor(minor),
   mRevision(revision),
   mCommit(""),
+  mDate(""),
   mIsWebots(false) {
 }
 
@@ -30,6 +31,7 @@ WbVersion::WbVersion(const WbVersion &other) :
   mMinor(other.mMinor),
   mRevision(other.mRevision),
   mCommit(other.mCommit),
+  mDate(other.mDate),
   mIsWebots(false) {
 }
 
@@ -38,10 +40,11 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
   mMinor = 0;
   mRevision = 0;
   mCommit = "";
+  mDate = "";
   mIsWebots = false;
 
   // Check for version format R2018 or R2018a revision 1 or R2018a-rev1 (needed in WbWebotsUpdateManager)
-  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-commit-(.+))?" + suffix);
+  QRegExp rx(prefix + "R(\\d+)([a-z])(?:\\srevision\\s(\\d+)|-rev(\\d+))?(?:-(\\w*))?(?:-(\\w*\\/\\w*\\/\\w*))?" + suffix);
   int pos = rx.indexIn(text);
   if (pos != -1) {
     mMajor = rx.cap(expressionCountInPrefix + 1).toInt();
@@ -53,6 +56,8 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
       mRevision = rx.cap(expressionCountInPrefix + 4).toInt();
     if (!rx.cap(expressionCountInPrefix + 5).isEmpty())
       mCommit = rx.cap(expressionCountInPrefix + 5);
+    if (!rx.cap(expressionCountInPrefix + 6).isEmpty())
+      mDate = rx.cap(expressionCountInPrefix + 6);
     mIsWebots = true;
     return true;
   }
@@ -73,11 +78,13 @@ bool WbVersion::fromString(const QString &text, const QString &prefix, const QSt
 
 QString WbVersion::toString(bool revision, bool digitsOnly, bool nightly) const {
   if (!digitsOnly && mIsWebots) {
-    QString nightlyString = (!mCommit.isEmpty() && nightly) ? QString(QObject::tr(" Nightly Build %1").arg(mCommit)) : "";
+    QString nightlyString = (!mCommit.isEmpty() && !mDate.isEmpty() && nightly) ?
+                              QString(QObject::tr(" Nightly Build %1 %2").arg(mDate).arg(mCommit)) :
+                              "";
     if (revision && mRevision > 0)
       return QString("R%1%2 revision %3%4").arg(mMajor).arg(QChar(mMinor + 'a')).arg(mRevision).arg(nightlyString);
     else
-      return QString("R%1%2").arg(mMajor).arg(QChar(mMinor + 'a'));
+      return QString("R%1%2%3").arg(mMajor).arg(QChar(mMinor + 'a')).arg(nightlyString);
   }
 
   if (revision)
