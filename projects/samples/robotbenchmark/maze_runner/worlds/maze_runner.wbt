@@ -51,6 +51,21 @@ Table {
   size 1.8 0.61 1
   feetSize 0.05 0.4
   feetPadding 0.1
+  trayAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/table_top.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+    textureTransform TextureTransform {
+      scale 1 1.8
+    }
+  }
+  legAppearance VarnishedPine {
+    colorOverride 1 1 1
+  }
 }
 DEF MAZE_WALLS Group {
   children [
