@@ -34,8 +34,7 @@ Background {
 }
 CeilingLight {
   translation 0.2 2 1.25
-  pointLightAttenuation 0 0 7
-  pointLightIntensity 6
+  pointLightIntensity 2
 }
 NaoRoom {
 }
