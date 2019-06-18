@@ -60,7 +60,7 @@ Table {
     roughness 1
     metalness 0
     textureTransform TextureTransform {
-      scale 1 1.7999999999999998
+      scale 1 1.8
     }
   }
   legAppearance VarnishedPine {
