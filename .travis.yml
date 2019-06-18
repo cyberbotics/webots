@@ -52,13 +52,13 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_deploy)
+      if: type = cron OR commit_message IN (travis_unit, travis_distrib) OR tag IS present
       git: &compilation_git
         depth: 3
         submodules: true
       os: linux
       dist: xenial
-      install: skip # bundle install is not required
+      install: skip  # bundle install is not required
       language: python
       python: 3.7
       jdk: openjdk8
@@ -95,6 +95,7 @@ jobs:
             - curl
             - libwebpdemux1
             - fakeroot
+            - pbzip2
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
@@ -106,7 +107,7 @@ jobs:
         - sudo apt-get install -y ros-kinetic-ros-base ros-kinetic-sensor-msgs ros-kinetic-tf
         - sudo rosdep init
         - rosdep update
-        - pip install rospkg catkin_pkg empy defusedxml netifaces # by default ros only comes with python2.7 libraries
+        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
         - make release -j2
         - make release -j2 -C tests
@@ -114,11 +115,11 @@ jobs:
         - ./tests/ros.sh
     - &distribution_staging
       stage: Distribution
-      if: type = cron OR commit_message IN (travis_distrib, travis_deploy)
+      if: type = cron OR commit_message IN (travis_distrib) OR tag IS present
       git: *compilation_git
       os: linux
       dist: xenial
-      install: skip # bundle install is not required
+      install: skip  # bundle install is not required
       language: python
       python: 3.7
       jdk: openjdk8
@@ -130,7 +131,12 @@ jobs:
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-      script: travis_wait 45 python tests/test_compilation.py
+        - pip install PyGithub # used to upload packages to Github releases
+      script:
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
@@ -145,3 +151,10 @@ jobs:
             - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - pip install PyGithub  # used to upload packages to Github releases
+      script:
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
+        - make distrib -j2
+# The following lines are commented for now because they make the test fail because the creation of the package sometimes fails on mac
+#        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
+#        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG

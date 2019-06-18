@@ -1153,7 +1153,7 @@ static void create_file(const char *name, int m) {
       }
 
 #ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "fakeroot dpkg-deb --build debian %s\n", distribution_path);
+      fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 
       fprintf(fd, "echo creating the %s/%s-%s-%s.tar.bz2 tarball\n", distribution_path, application_name_lowercase_and_dashes,
@@ -1209,8 +1209,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cd debian/usr/local\n");
-      fprintf(fd, "tar cjf ../../../%s-%s-%s.tar.bz2 %s\n", application_name_lowercase_and_dashes, package_version, arch2,
-              application_name_lowercase_and_dashes);
+      fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
+              package_version, arch2, application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf debian\n");
       break;
     default:
