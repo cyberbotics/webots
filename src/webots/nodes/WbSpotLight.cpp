@@ -128,6 +128,10 @@ void WbSpotLight::updateAttenuation() {
   if (WbFieldChecker::resetVector3IfNegative(this, mAttenuation, WbVector3()))
     return;
 
+  if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
+    warn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
+            "Only the third component of the 'attenuation' field should be greater than 0."));
+
   checkAmbientAndAttenuationExclusivity();
 
   if (areWrenObjectsInitialized())
