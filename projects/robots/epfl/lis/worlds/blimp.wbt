@@ -583,7 +583,7 @@ DEF LIS_LOGO Solid {
       }
     }
   ]
-  name "lis logo 2"
+  name "lis logo"
 }
 Chair {
   translation 0.490773 0 -3.27998
