@@ -154,7 +154,7 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - sudo hdiutil detach -force /Volumes/Webots
-        - sudo hdiutil convert -format UDBZ webots.dmg -o webots-2.dmg -debug
+        - sudo hdiutil convert -format UDBZ distribution/webots.dmg -o distribution/webots-2.dmg -debug
         - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
         - ls distribution  #TODO: remove
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
