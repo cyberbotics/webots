@@ -564,7 +564,7 @@ DEF EPFL_LOGO_2 Solid {
   ]
   name "epfl logo 2"
 }
-DEF LIS_LOGO_2 Solid {
+DEF LIS_LOGO Solid {
   translation 6 1.5 0.873895
   rotation 0 1 0 1.5708
   children [
