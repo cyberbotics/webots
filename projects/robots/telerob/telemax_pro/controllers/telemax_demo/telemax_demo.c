@@ -79,7 +79,6 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_right_track, 0.3);
   noop(7000);
 
-
   // prepare tracks for stairs
   wb_motor_set_position(camera_tilt, -0.1);
   wb_motor_set_velocity(front_left_track, 0.02);
