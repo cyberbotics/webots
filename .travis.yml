@@ -117,7 +117,7 @@ jobs:
       git: *compilation_git
       os: linux
       dist: xenial
-      install: skip  # bundle install is not required
+      install: skip   # bundle install is not required
       language: python
       python: 3.7
       jdk: openjdk8
