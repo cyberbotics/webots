@@ -155,6 +155,7 @@ jobs:
         - make distrib -j2
         - sudo hdiutil detach -force /Volumes/Webots
         - sudo hdiutil convert -format UDBZ distribution/webots.dmg -o distribution/webots-2.dmg -debug
+        - rm -rf distribution/webots.dmg
         - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
         - ls distribution  #TODO: remove
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
