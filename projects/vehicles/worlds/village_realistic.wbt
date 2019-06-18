@@ -4129,48 +4129,64 @@ DEF MOUNTAIN_TUNNEL Solid {
   boundingObject USE SHAPE
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 442 4.4 -98.5
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 429 4.4 -105.4
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 414 4.4 -113.1
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 400 4.4 -120.4
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 385 4.4 -127.8
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 371 4.4 -135.1
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0
   location 357 4.4 -142.2
 }
 SpotLight {
+  attenuation 0 0 1
+  intensity 50
   beamWidth 0.7
   cutOffAngle 1
   direction 0 -1 0

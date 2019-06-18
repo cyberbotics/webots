@@ -11,7 +11,10 @@ Viewpoint {
 }
 TexturedBackground {
 }
-TexturedBackgroundLight {
+DirectionalLight {
+  direction -0.6 -1 0.55
+  intensity 1.5
+  castShadows TRUE
 }
 Portal {
   translation 0.0466329 0 0.0414059
