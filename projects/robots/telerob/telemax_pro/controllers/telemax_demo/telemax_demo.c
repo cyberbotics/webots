@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
   // put tracks in 'flat' position
   wb_motor_set_position(front_motor, 0.0);
   wb_motor_set_position(rear_motor, 0.0);
-    wb_motor_set_position(camera_tilt, 0.0);
+  wb_motor_set_position(camera_tilt, 0.0);
   noop(3000);
 
   // go in 'high' position
