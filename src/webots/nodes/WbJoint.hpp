@@ -57,7 +57,7 @@ public:
   virtual int devicesNumber() const;
 
 signals:
-  void updateMuscleStretch(double forcePercentage, bool immediateUpdate);
+  void updateMuscleStretch(double forcePercentage, bool immediateUpdate, int motorIndex);
 
 protected:
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);

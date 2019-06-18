@@ -29,13 +29,14 @@ PROTO ControlledStreetLight [
         children [
           SpotLight {
             beamWidth IS beamWidth
+            attenuation 0 0 1
             color 0 0 0
             cutOffAngle IS cutOffAngle
             direction IS direction
             location 0 7.2 -3.1
             radius IS radius
             castShadows IS castShadows
-            intensity 4
+            intensity 30
           }
         ]
         color IS color
