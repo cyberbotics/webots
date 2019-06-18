@@ -38,13 +38,15 @@ g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
-title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
-tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
 if options.tag:
     tag = options.tag
     title = options.tag
     message = 'This is a nightly build of Webots from the "%s" tag.' % options.tag
+else:
+    title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
+    tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
+    message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
+
 for release in repo.get_releases():
     if release.title == title:
         releaseExists = True
