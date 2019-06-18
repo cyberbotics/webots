@@ -5,6 +5,6 @@ sceneTreePerspectives: 000000ff0000000100000002000001c60000011201000000060100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: -1
+textFiles: 0 "controllers/e-puck_line_demo/e-puck_line_demo.c"
 globalOptionalRendering: DistanceSensorRays
 renderingDevicePerspectives: e-puck:camera;0;1;0.00110011;0.00138122
