@@ -912,6 +912,7 @@ This function returns the value of the `basicTimeStep` field of the [WorldInfo](
 ---
 
 #### `wb_robot_get_mode`
+#### `wb_robot_set_mode`
 
 %tab-component
 
