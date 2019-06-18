@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
   // enable the camera
   wb_camera_enable(camera, TIME_STEP);
   wb_led_set(camera_led, 60);
-  
+
   wb_motor_set_position(camera_tilt, -0.1);
 
   // prepare tracks for stairs
@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
 
   // align fron tracks with stairs
   wb_motor_set_position(front_motor, 0.25);
-  
+
   // look around with camera
   wb_motor_set_position(camera_pan, 1.0);
   noop(2000);
