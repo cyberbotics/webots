@@ -42,7 +42,7 @@ void WbSingleTaskApplication::run() {
   else if (mTask == WbGuiApplication::HELP)
     showHelp();
   else if (mTask == WbGuiApplication::VERSION)
-    cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString()).toUtf8().constData() << endl;
+    cout << tr("Webots version: %1").arg(WbApplicationInfo::version().toString(true, false, true)).toUtf8().constData() << endl;
   else if (mTask == WbGuiApplication::UPDATE_PROTO_CACHE)
     updateProtoCacheFiles(mTaskArgument);
   else if (mTask == WbGuiApplication::UPDATE_WORLD)
