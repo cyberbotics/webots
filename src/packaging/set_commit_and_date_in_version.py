@@ -14,6 +14,7 @@
 
 """This script should be called when creating the nightly builds to add the commit id to the Webots version."""
 
+import datetime
 import os
 import sys
 
@@ -31,6 +32,7 @@ else:
         version = f.readline().strip()
 
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'r') as f:
-        content = f.read().replace(version, version + '-commit-' + commit)
+        date = datetime.datetime.today()
+        content = f.read().replace(version, '%s-%s-%d/%d/%d' % (version, commit, date.day, date.month, date.year))
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'w') as f:
         f.write(content)
