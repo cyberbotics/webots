@@ -64,6 +64,10 @@ int main(int argc, char **argv) {
   WbDeviceTag camera = wb_robot_get_device("camera 0");
   WbDeviceTag camera_led = wb_robot_get_device("camera 0 led");
 
+  wb_camera_enable(camera, TIME_STEP);
+  wb_camera_enable(gripper_camera, TIME_STEP);
+  wb_led_set(camera_led, 60);
+
   // go out of the box
   wb_motor_set_position(front_left_track, INFINITY);
   wb_motor_set_position(front_right_track, INFINITY);
@@ -75,13 +79,9 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(rear_right_track, 0.3);
   noop(7000);
 
-  // enable the camera
-  wb_camera_enable(camera, TIME_STEP);
-  wb_led_set(camera_led, 60);
-
-  wb_motor_set_position(camera_tilt, -0.1);
 
   // prepare tracks for stairs
+  wb_motor_set_position(camera_tilt, -0.1);
   wb_motor_set_velocity(front_left_track, 0.02);
   wb_motor_set_velocity(front_right_track, 0.02);
   wb_motor_set_velocity(rear_left_track, 0.02);
@@ -151,7 +151,6 @@ int main(int argc, char **argv) {
   noop(5000);
 
   // actuate gripper
-  wb_camera_enable(gripper_camera, TIME_STEP);
   for (i = 0; i < 3; ++i) {
     wb_motor_set_position(left_gripper, 0.012);
     wb_motor_set_position(right_gripper, 0.012);
