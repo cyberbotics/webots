@@ -44,7 +44,6 @@ CardboardBox {
 }
 FloorLight {
   translation 0.351337 0 0.184194
-  pointLightAmbientIntensity 1
   pointLightCastShadows TRUE
 }
 WoodenBox {

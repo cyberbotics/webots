@@ -604,12 +604,10 @@ PottedTree {
 FloorLight {
   translation 4 0 8
   name "floor light(1)"
-  pointLightAttenuation 0 0 1
   pointLightIntensity 0.1
 }
 FloorLight {
   translation 0.3 0 5
-  pointLightAttenuation 0 0 1
   pointLightIntensity 0.1
 }
 LandscapePainting {
