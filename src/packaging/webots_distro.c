@@ -916,7 +916,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir \"/Volumes/%s/.background\"\n", application_name);
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
       fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
-      fprintf(fd, "echo '\n");
+      /*fprintf(fd, "echo '\n");
       fprintf(fd, "   tell application \"Finder\"\n");
       fprintf(fd, "     tell disk \"%s\"\n", application_name);
       fprintf(fd, "           open\n");
@@ -939,11 +939,11 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "           eject\n");
       fprintf(fd, "     end tell\n");
       fprintf(fd, "   end tell\n");
-      fprintf(fd, "' | osascript\n");
+      fprintf(fd, "' | osascript\n");*/
       fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
       fprintf(fd, "sync\n");
       fprintf(fd, "sync\n");
-      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
+      fprintf(fd, "sudo hdiutil detach -force \"/Volumes/%s\"\n", application_name);
       fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
               application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
       fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
