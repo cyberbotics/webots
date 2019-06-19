@@ -6,7 +6,7 @@ replace_string="${escaped_string//\\s/ }"
 echo "s/"$1"/"$replace_string"/g" > sed.cmd
 sed -e 's/@/ /g' sed.cmd > sed2.cmd
 sed -f sed2.cmd  $3 > tmp.bak
-if ! cmp tmp.bak $3 >/dev/null 2>&1
+if cmp -s tmp.bak $3
 then
   >&2 echo "Replacement failed in '$3'"
 fi
