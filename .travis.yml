@@ -25,6 +25,7 @@ jobs:
       dist: xenial
       language: python
       python: '3.7'
+      jdk: openjdk8
       addons:
         apt:
           packages:
@@ -32,7 +33,9 @@ jobs:
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       script:
+        - java -version
         - python -m unittest discover -s docs/tests
         - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
         - travis_wait 30 python -m unittest discover -s tests/sources
