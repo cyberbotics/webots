@@ -55,9 +55,9 @@ jobs:
         - java -version
       install:
         - java -version
-        - /usr/libexec/java_home -v 1.8
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - export PATH=$JAVA_HOME/bin:$PATH
+        - echo $JAVA_HOME
         - java -version
       addons:
         homebrew:
@@ -66,6 +66,12 @@ jobs:
             - cppcheck
             - python
             - java8
+      before_script:
+        - java -version
+        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - export PATH=$JAVA_HOME/bin:$PATH
+        - echo $JAVA_HOME
+        - java -version
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distribTODO) OR tag IS present
