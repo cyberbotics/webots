@@ -175,7 +175,7 @@ DEF TRACKED_ROBOT Robot {
               DEF WHEEL_BO Cylinder {
                 height 0.03
                 radius 0.1
-                subdivision 14
+                subdivision 16
               }
             ]
           }
