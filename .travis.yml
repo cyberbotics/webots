@@ -34,7 +34,7 @@ jobs:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        . export PATH=$JAVA_HOME/bin:$PATH
+        - export PATH=$JAVA_HOME/bin:$PATH
       script:
         - java -version
         - python -m unittest discover -s docs/tests
