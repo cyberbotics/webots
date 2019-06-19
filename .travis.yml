@@ -36,7 +36,7 @@ jobs:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         . export PATH=$JAVA_HOME/bin:$PATH
       script:
-        - java -version 
+        - java -version
         - python -m unittest discover -s docs/tests
         - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
         - travis_wait 30 python -m unittest discover -s tests/sources
