@@ -51,6 +51,8 @@ jobs:
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
+      before_install:
+        - java -version
       install:
         - java -version
         - /usr/libexec/java_home -v 1.8
