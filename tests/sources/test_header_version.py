@@ -66,7 +66,7 @@ class TestHeaderVersion(unittest.TestCase):
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.wbproj'):
                 projFile = os.path.join(rootPath, fileName)
-                self.files.append((projFile, '# Webots Project File version  %s' % self.version))
+                self.files.append((projFile, 'Webots Project File version %s' % self.version))
 
     def test_header_version(self):
         """Test that the PROTO and world files have the correct header."""
