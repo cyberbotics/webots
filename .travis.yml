@@ -46,6 +46,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       before_install:
         - java -version
+        - /usr/libexec/java_home -v 1.8
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - export PATH=$JAVA_HOME/bin:$PATH
         - java -version
