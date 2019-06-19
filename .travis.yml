@@ -53,7 +53,7 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       before_install:
         - java -version
-        - brew tap caskroom/versions
+#        - brew tap caskroom/versions
 #        - brew cask install oracle-jdk8
       install:
         - java -version
