@@ -45,6 +45,8 @@ jobs:
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       before_install:
+        - brew tap caskroom/versions
+        - brew cask install java8
         - java -version
         - /usr/libexec/java_home -v 1.8
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
