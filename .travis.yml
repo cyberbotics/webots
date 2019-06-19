@@ -49,9 +49,7 @@ jobs:
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
-      before_install:
-        - brew tap caskroom/versions
-        - brew cask install java8
+      install:
         - java -version
         - /usr/libexec/java_home -v 1.8
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
@@ -63,6 +61,7 @@ jobs:
             - clang-format
             - cppcheck
             - python
+            - java8
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distrib) OR tag IS present
