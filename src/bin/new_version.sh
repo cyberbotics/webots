@@ -2,8 +2,8 @@
 # usage ./new_version.sh R2018a 0 R2018a 1
 # moves version from R2018a R2018a revision 1
 
-if [ "$(uname)" != "Linux" ]; then
-  echo "This script is supported on Linux only"
+if [ "$(uname)" == "Darwin" ]; then
+  echo "This script does not work on macOS."
   exit 2
 fi
 
@@ -40,9 +40,9 @@ echo "Update application and documentation version.."
 ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$year ../../Contents/Info.plist
 
 # documentation
-./new_version_file.sh "major:\\s'"$old_version_without_revision"'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "full:\\s'"$old_version"'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "package:\\s'"$old_package"'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
+./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js
+./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
+./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "year:\\s[0-9]\+" "year: "$year ../../docs/js/showdown-extensions.js
 
 
