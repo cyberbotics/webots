@@ -25,7 +25,6 @@ jobs:
       dist: xenial
       language: python
       python: '3.7'
-      jdk: openjdk8
       addons:
         apt:
           packages:
@@ -33,10 +32,7 @@ jobs:
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
       script:
-        - java -version
         - python -m unittest discover -s docs/tests
         - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
         - travis_wait 30 python -m unittest discover -s tests/sources
@@ -105,6 +101,7 @@ jobs:
         - sudo apt update
         - sudo apt install -y python3.6-dev python3.7-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export PATH=$JAVA_HOME/bin:$PATH
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
         - sudo apt update -qq
@@ -135,6 +132,7 @@ jobs:
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
