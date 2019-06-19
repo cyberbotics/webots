@@ -16,7 +16,6 @@ TexturedBackgroundLight {
 RectangleArena {
   floorTileSize 0.25 0.25
   wallHeight 0.15
-  wallTileSize 0.1 0.1
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
