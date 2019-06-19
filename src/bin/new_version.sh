@@ -37,13 +37,13 @@ echo "Update application and documentation version.."
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
-./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$year ../../Contents/Info.plist
+./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$year ../../Contents/Info.plist silent
 
 # documentation
-./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js
+./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js silent
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "year:\\s[0-9]\+" "year: "$year ../../docs/js/showdown-extensions.js
+./new_version_file.sh "year:\\s[0-9]\+" "year: "$year ../../docs/js/showdown-extensions.js silent
 
 
 if [ $new_version_without_revision != $old_version_without_revision ];
