@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.6857 0.6744 0.2737 1.0463
-  position 1.5812 2.0510 1.6038
+  orientation -0.6857303305232934 0.6744298306911318 0.2737121065542153 1.0463
+  position 1.5812 2.051 1.6038
 }
 TexturedBackground {
 }
