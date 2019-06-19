@@ -34,6 +34,7 @@ projects/samples/devices/worlds/camera.wbt 20
 projects/samples/devices/worlds/camera_auto_focus.wbt 20
 projects/samples/devices/worlds/camera_motion_blur.wbt 20
 projects/samples/devices/worlds/camera_noise_mask.wbt 20
+projects/samples/devices/worlds/camera_recognition.wbt 20
 projects/samples/devices/worlds/compass.wbt 20
 projects/samples/devices/worlds/connector.wbt 20
 projects/samples/devices/worlds/display.wbt 20
@@ -53,6 +54,8 @@ projects/samples/devices/worlds/lidar.wbt 20
 projects/samples/devices/worlds/light_sensor.wbt 20
 projects/samples/devices/worlds/linear_motor.wbt 20
 projects/samples/devices/worlds/motor.wbt 20
+projects/samples/devices/worlds/motor2.wbt 20
+projects/samples/devices/worlds/motor3.wbt 20
 projects/samples/devices/worlds/pen.wbt 20
 projects/samples/devices/worlds/position_sensor.wbt 20
 projects/samples/devices/worlds/propeller.wbt 20
