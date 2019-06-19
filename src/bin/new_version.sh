@@ -2,6 +2,11 @@
 # usage ./new_version.sh R2018a 0 R2018a 1
 # moves version from R2018a R2018a revision 1
 
+if [ "$(uname)" != "Linux" ]; then
+  echo "This script is supported on Linux only"
+  exit 2
+fi
+
 if [ "$#" -ne 4 ]; then
   echo "Usage: $0 <old_version> <old_revision> <new_version> <new_revision>" >&2
   echo "Example: $0 R2018a 0 R2018a 1" >&2
@@ -55,5 +60,6 @@ then
   ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/osm_importer/utils/misc_utils.py
 
   ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/dependencies.txt
-  ./upload_wwi_files_to_ftp.sh $new_version_without_revision
+
+  echo "wwi resources on the cyberbotics FTP should be updated."
 fi
