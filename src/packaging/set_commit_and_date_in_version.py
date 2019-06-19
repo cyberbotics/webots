@@ -14,6 +14,7 @@
 
 """This script should be called when creating the nightly builds to add the commit id to the Webots version."""
 
+import datetime
 import os
 import sys
 
@@ -21,12 +22,17 @@ path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
 
-if len(sys.argv) != 2: # no commit id passed as an argument
+if len(sys.argv) != 2:  # no commit id passed as an argument
     sys.exit('Commit id not passed as argument.')
 else:
     commit = sys.argv[1]
     content = ''
+    version = None
+    with open(os.path.join(path, 'resources', 'version.txt'), 'r') as f:
+        version = f.readline().strip()
+
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'r') as f:
-        content = f.read().replace('R2019b', 'R2019b' + '-commit-' + commit)
+        date = datetime.datetime.today()
+        content = f.read().replace(version, '%s-%s-%d/%d/%d' % (version, commit, date.day, date.month, date.year))
     with open(os.path.join(path, 'src', 'webots', 'core', 'WbApplicationInfo.cpp'), 'w') as f:
         f.write(content)

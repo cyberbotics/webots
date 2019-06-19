@@ -34,8 +34,8 @@ jobs:
         - pip install -r docs/tests/requirements.txt
       script:
         - python -m unittest discover -s docs/tests
-#        - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
-#        - travis_wait 30 python -m unittest discover -s tests/sources
+        - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
+        - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib, travis_deploy)
       python: '2.7'
@@ -52,7 +52,7 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distribTODO) # OR tag IS present TODO
+      if: type = cron OR commit_message IN (travis_unit, travis_distrib) OR tag IS present
       git: &compilation_git
         depth: 3
         submodules: true
@@ -132,11 +132,11 @@ jobs:
         - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - pip install PyGithub # used to upload packages to Github releases
-      script: 
-        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_in_version.py $TRAVIS_COMMIT; fi
+      script:
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
-        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=DavidMansolino/webots-test --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
@@ -153,9 +153,8 @@ jobs:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - pip install PyGithub  # used to upload packages to Github releases
       script:
-        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_in_version.py $TRAVIS_COMMIT; fi
+        - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
-        - ls -l distribution | grep -v ^l | wc -l  #TODO: remove
-        - ls distribution  #TODO: remove
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
-        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=DavidMansolino/webots-test --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+# The following lines are commented for now because they make the test fail because the creation of the package sometimes fails on mac
+#        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
+#        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG

@@ -53,6 +53,7 @@ public:
     mRevision = other.mRevision;
     mIsWebots = other.mIsWebots;
     mCommit = other.mCommit;
+    mDate = other.mDate;
     return *this;
   }
   // comparison operators
@@ -84,6 +85,7 @@ private:
   int mMinor;  // in case of Webots version 0 corresponds to 'a'
   int mRevision;
   QString mCommit;
+  QString mDate;
 
   bool mIsWebots;
 };
