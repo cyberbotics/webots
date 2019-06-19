@@ -54,7 +54,7 @@ jobs:
       before_install:
         - java -version
         - brew tap caskroom/versions
-        - brew cask install oracle-jdk8
+#        - brew cask install oracle-jdk8
       install:
         - java -version
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
