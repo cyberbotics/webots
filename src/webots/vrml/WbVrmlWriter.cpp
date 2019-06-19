@@ -143,7 +143,6 @@ void WbVrmlWriter::writeHeader(const QString &title) {
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
       *this << "</head>\n";
       *this << "<Scene>\n";
-      *this << "/>\n";
       return;
     default:
       return;

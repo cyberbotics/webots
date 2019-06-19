@@ -119,7 +119,8 @@ PROTO RangeRoverSportSVR [
             children [
               %{ if frontSpotLights then }%
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction -0.2 -1 1
@@ -128,7 +129,8 @@ PROTO RangeRoverSportSVR [
                   on TRUE
                 }
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 0.2 -1 1

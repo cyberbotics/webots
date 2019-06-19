@@ -553,9 +553,8 @@ Table {
 }
 CeilingLight {
   translation 1.5 2.4 0.7
-  pointLightAttenuation 0 0 4
   pointLightColor 1 0.9764705882352941 0.9058823529411765
-  pointLightIntensity 7
+  pointLightIntensity 4
 }
 Chair {
   translation 0.5 0 0.64

@@ -28,7 +28,7 @@ endif
 .PHONY: release debug profile clean
 
 release debug profile: $(TARGETS)
-	cp python27/*managers.* python  # kept for backword compatibility with < R2019b
+	cp python27/*managers.* python  # kept for backward compatibility with < R2019b
 
 clean: $(TARGETS)
 	rm -rf python/*managers.*
