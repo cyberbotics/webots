@@ -13,6 +13,11 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0 0.6 0
+}
 RectangleArena {
 }
 DEF GREEN_BOX Solid {
@@ -86,12 +91,13 @@ DEF WHITE_BOX Solid {
     geometry USE BOX2
   }
 }
-DEF PINK_BOX Solid {
+DEF RED_BOX Solid {
   translation 0.42 0.05 -0.1
+  rotation 0 1 0 1.8325996938995748
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 1 0.1 0.3
+        baseColor 1 0 0
         roughness 0.16827074099999995
         metalness 0
       }
