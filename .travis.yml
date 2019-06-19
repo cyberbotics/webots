@@ -53,6 +53,8 @@ jobs:
       language: generic     # Travis doesn't support python on macos yet
       before_install:
         - java -version
+#        - brew tap caskroom/versions
+#        - brew cask install oracle-jdk8
       install:
         - java -version
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
@@ -65,7 +67,7 @@ jobs:
             - clang-format
             - cppcheck
             - python
-            - java8
+            - oracle-jdk8
       before_script:
         - java -version
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
