@@ -29,13 +29,6 @@ jobs:
         apt:
           packages:
             - clang-format-5.0
-      before_install:
-        - java -version
-        - javac -version
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - java -version
-        - javac -version
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
@@ -51,28 +44,12 @@ jobs:
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
-      before_install:
-        - java -version
-#        - brew tap caskroom/versions
-#        - brew cask install oracle-jdk8
-#      install:
-#        - java -version
-#        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-#        - export PATH=$JAVA_HOME/bin:$PATH
-#        - echo $JAVA_HOME
-#        - java -version
       addons:
         homebrew:
           packages:
             - clang-format
             - cppcheck
             - python
-      before_script:
-        - java -version
-        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-        - export PATH=$JAVA_HOME/bin:$PATH
-        - echo $JAVA_HOME
-        - java -version
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distribTODO) OR tag IS present
@@ -123,6 +100,8 @@ jobs:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
         - sudo apt install -y python3.6-dev python3.7-dev
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export PATH=$JAVA_HOME/bin:$PATH
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
         - sudo apt update -qq
@@ -131,8 +110,6 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - export PATH=$JAVA_HOME/bin:$PATH
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
@@ -154,10 +131,10 @@ jobs:
         - sudo apt install python3.6-dev python3.7-dev
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
-        - pip install PyGithub # used to upload packages to Github releases
-      script:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
+        - pip install PyGithub # used to upload packages to Github releases
+      script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
