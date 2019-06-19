@@ -208,6 +208,7 @@ Robot {
       ]
     }
   ]
+  name "robot(1)"
   boundingObject USE GROUP
   physics Physics {
   }
