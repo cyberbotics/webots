@@ -114,6 +114,12 @@ jobs:
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
+    - <<: *unit_tests_staging
+      python: '2.7'
+      script:
+        - make release -j2
+        - python src/packaging/update_all_worlds.py
+        - if [[ "$(git diff --numstat *.wbt | wc -l)" -ne "0" ]]; then exit -1; fi  # make sure not world has changed
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib) OR tag IS present
