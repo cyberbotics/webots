@@ -71,8 +71,8 @@ void WbVector2Editor::edit(bool copyOriginalValue) {
 }
 
 void WbVector2Editor::updateSpinBoxes() {
-  mSpinBoxes[0]->setValueNoSignals(mVector2.x());
-  mSpinBoxes[1]->setValueNoSignals(mVector2.y());
+  mSpinBoxes[0]->setValueNoSignals(WbPrecision::roundValue(mVector2.x(), WbPrecision::DOUBLE_MAX));
+  mSpinBoxes[1]->setValueNoSignals(WbPrecision::roundValue(mVector2.y(), WbPrecision::DOUBLE_MAX));
 }
 
 void WbVector2Editor::resetFocus() {
@@ -86,17 +86,19 @@ void WbVector2Editor::takeKeyboardFocus() {
 }
 
 void WbVector2Editor::applyIfNeeded() {
-  if (field() &&
-      ((field()->hasRestrictedValues() && mVector2 != WbVector2(mComboBox->currentText())) ||
-       (!field()->hasRestrictedValues() && (mVector2.x() != mSpinBoxes[0]->value() || mVector2.y() != mSpinBoxes[1]->value()))))
+  if (field() && ((field()->hasRestrictedValues() && mVector2 != WbVector2(mComboBox->currentText())) ||
+                  (!field()->hasRestrictedValues() &&
+                   (WbPrecision::roundValue(mVector2.x(), WbPrecision::DOUBLE_MAX) != mSpinBoxes[0]->value() ||
+                    WbPrecision::roundValue(mVector2.y(), WbPrecision::DOUBLE_MAX) != mSpinBoxes[1]->value()))))
     apply();
 }
 
 void WbVector2Editor::apply() {
-  mVector2.setXy(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
-                 WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM));
   if (field()->hasRestrictedValues())
     mVector2 = WbVector2(mComboBox->currentText());
+  else
+    mVector2.setXy(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::DOUBLE_MAX),
+                   WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::DOUBLE_MAX));
 
   if (singleValue()) {
     WbSFVector2 *const sfVector2 = static_cast<WbSFVector2 *>(singleValue());

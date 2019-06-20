@@ -86,7 +86,7 @@ void WbVector3Editor::takeKeyboardFocus() {
 void WbVector3Editor::updateSpinBoxes() {
   for (int i = 0; i < 3; ++i)
     if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus())  // in order to prevent updating while editing
-      mSpinBoxes[i]->setValueNoSignals(mVector3[i]);
+      mSpinBoxes[i]->setValueNoSignals(WbPrecision::roundValue(mVector3[i], WbPrecision::GUI_MEDIUM));
 }
 
 void WbVector3Editor::resetFocus() {
@@ -95,19 +95,21 @@ void WbVector3Editor::resetFocus() {
 }
 
 void WbVector3Editor::applyIfNeeded() {
-  if (field() &&
-      ((field()->hasRestrictedValues() && mVector3 != WbVector3(mComboBox->currentText())) ||
-       (!field()->hasRestrictedValues() && (mVector3.x() != mSpinBoxes[0]->value() || mVector3.y() != mSpinBoxes[1]->value() ||
-                                            mVector3.z() != mSpinBoxes[2]->value()))))
+  if (field() && ((field()->hasRestrictedValues() && mVector3 != WbVector3(mComboBox->currentText())) ||
+                  (!field()->hasRestrictedValues() &&
+                   (WbPrecision::roundValue(mVector3.x(), WbPrecision::GUI_MEDIUM) != mSpinBoxes[0]->value() ||
+                    WbPrecision::roundValue(mVector3.y(), WbPrecision::GUI_MEDIUM) != mSpinBoxes[1]->value() ||
+                    WbPrecision::roundValue(mVector3.z(), WbPrecision::GUI_MEDIUM) != mSpinBoxes[2]->value()))))
     apply();
 }
 
 void WbVector3Editor::apply() {
-  mVector3.setXyz(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
-                  WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
-                  WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
   if (field()->hasRestrictedValues())
     mVector3 = WbVector3(mComboBox->currentText());
+  else
+    mVector3.setXyz(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::DOUBLE_MAX),
+                    WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::DOUBLE_MAX),
+                    WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::DOUBLE_MAX));
 
   if (singleValue()) {
     WbSFVector3 *const sfVector3 = static_cast<WbSFVector3 *>(singleValue());

@@ -61,7 +61,7 @@ void WbDoubleEditor::edit(bool copyOriginalValue) {
   }
 
   if (!hasRetrictedValues)
-    mSpinBox->setValueNoSignals(mDouble);
+    mSpinBox->setValueNoSignals(WbPrecision::roundValue(mDouble, WbPrecision::GUI_MEDIUM));
 }
 
 void WbDoubleEditor::resetFocus() {
@@ -69,8 +69,9 @@ void WbDoubleEditor::resetFocus() {
 }
 
 void WbDoubleEditor::applyIfNeeded() {
-  if (field() && ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
-                  (!field()->hasRestrictedValues() && mDouble != mSpinBox->value())))
+  if (field() &&
+      ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
+       (!field()->hasRestrictedValues() && fabs(mDouble - mSpinBox->value()) > WbPrecision::epsilon(WbPrecision::GUI_MEDIUM))))
     apply();
 }
 
@@ -80,8 +81,7 @@ void WbDoubleEditor::takeKeyboardFocus() {
 }
 
 void WbDoubleEditor::apply() {
-  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() :
-                                             WbPrecision::roundValue(mSpinBox->value(), WbPrecision::GUI_MEDIUM);
+  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() : mSpinBox->text().toDouble();
   if (singleValue()) {
     WbSFDouble *const sfDouble = static_cast<WbSFDouble *>(singleValue());
     if (sfDouble->value() == mDouble)
