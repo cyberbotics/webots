@@ -42,6 +42,9 @@ if options.tag:
     tag = options.tag
     title = options.tag
     message = 'This is a nightly build of Webots from the "%s" tag.' % options.tag
+    if tag.startswith('nightly_'):
+        print('Skipping nightly build tag.')
+        exit(0)
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
