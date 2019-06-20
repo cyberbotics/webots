@@ -41,7 +41,7 @@ else:
     webotsFullPath = os.path.normpath(webotsFullPath)
 
 for i in range(len(worlds)):
-    sys.stdout.write("\r%d/%d" % (i + 1, len(worlds)))
+    sys.stdout.write("%d/%d" % (i + 1, len(worlds)))
     sys.stdout.flush()
-    call([webotsFullPath, worlds[i], "--minimize", "--mode=pause", "--update-world"])
+    call([webotsFullPath, worlds[i], '--minimize', '--mode=pause', '--update-world', '--batch', '--no-sandbox'])
 sys.stdout.write("\n")
