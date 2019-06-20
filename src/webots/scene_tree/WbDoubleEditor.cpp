@@ -71,7 +71,7 @@ void WbDoubleEditor::resetFocus() {
 void WbDoubleEditor::applyIfNeeded() {
   if (field() &&
       ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
-       (!field()->hasRestrictedValues() && fabs(mDouble - mSpinBox->value()) > WbPrecision::epsilon(WbPrecision::GUI_MEDIUM))))
+       (!field()->hasRestrictedValues() && fabs(mDouble - mSpinBox->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX))))
     apply();
 }
 
