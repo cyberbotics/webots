@@ -56,21 +56,27 @@ class TestHeaderVersion(unittest.TestCase):
                         shouldIgnore = True
                         break
                 if not shouldIgnore:
-                    self.files.append(proto)
+                    self.files.append((proto, '#VRML_SIM %s utf8' % self.version))
         # 3. Get all the world files
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
-                self.files.append(world)
+                self.files.append((world, '#VRML_SIM %s utf8' % self.version))
+        # 4. Get all the .wbproj files
+        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
+            for fileName in fnmatch.filter(fileNames, '*.wbproj'):
+                projFile = os.path.join(rootPath, fileName)
+                self.files.append((projFile, 'Webots Project File version %s' % self.version))
 
     def test_header_version(self):
         """Test that the PROTO and world files have the correct header."""
-        for fileToTest in self.files:
+        for currentFile in self.files:
+            fileToTest = currentFile[0]
             with open(fileToTest) as file:
                 content = file.read()
                 line = content.splitlines()[0].strip()
                 self.assertTrue(
-                    line.startswith('#VRML_SIM %s utf8' % self.version),
+                    line.startswith(currentFile[1]),
                     msg='Wrong header in file: "%s"' % fileToTest
                 )
 
