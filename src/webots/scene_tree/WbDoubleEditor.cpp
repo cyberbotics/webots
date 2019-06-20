@@ -69,9 +69,8 @@ void WbDoubleEditor::resetFocus() {
 }
 
 void WbDoubleEditor::applyIfNeeded() {
-  if (field() &&
-      ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
-       (!field()->hasRestrictedValues() && mDouble != mSpinBox->text().toDouble())))
+  if (field() && ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
+                  (!field()->hasRestrictedValues() && mDouble != mSpinBox->text().toDouble())))
     apply();
 }
 
