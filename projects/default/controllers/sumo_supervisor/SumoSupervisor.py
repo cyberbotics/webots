@@ -199,7 +199,7 @@ class SumoSupervisor (Supervisor):
             # correct position (origin of the car is not the same in Webots / sumo)
             vehicleLength = subscriptionResult[id][self.traci.constants.VAR_LENGTH]
             pos[0] += 0.5 * vehicleLength * math.sin(angle)
-            pos[2] = pos[2] - 0.5 * vehicleLength * math.cos(angle)
+            pos[2] -= 0.5 * vehicleLength * math.cos(angle)
             # if needed check the vehicle is in the visibility radius
             if self.radius > 0:
                 viewpointPosition = self.viewpointPosition.getSFVec3f()
