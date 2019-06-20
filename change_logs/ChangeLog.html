@@ -10,7 +10,7 @@
 <h1>Webots change log</h1>
 
 <h2><a href='https://cyberbotics.com/doc/blog/Webots-2018-b-release'>Webots R2019b</a></h2>
-Released on xx xxth, 2019
+Released on June 19th, 2019
 
 <ul>
 <li><b>New Robots</b></li>
@@ -44,12 +44,10 @@ Released on xx xxth, 2019
 <li>Added support for normal definition (by face or by vertex) in IndexedFaceSet nodes.</li>
 <li>Added two examples called 'motor2' and 'motor3' in 'samples/devices' to showcase controlled Hinge2Joint and BallJoint.</li>
 </ul>
-<li><b>Upgrade</b></li>
-<ul>
-</ul>
 <li><b>Enhancements</b></li>
 <ul>
 <li><font color="red">Improved the Sphere texture mapping that now applies UV mapping.</font></li>
+<li><font color="red">Encourage the use of realistic quadratic attenuation for PointLight and SpotLight nodes by displaying a warning in case the 'attenuation' field is not quadratic.</font></li>
 <li>Added an 'appearance' field to the 'Wrench', 'LJoint', 'PipeSection' and 'TJoint' PROTO nodes.</li>
 <li>Added a 'stringerWidth' field to the 'StraightStairs' PROTO node.</li>
 <li>Added the possibility to define the appearance, radius and length of the 'Bolt' and 'Nut' PROTO nodes.</li>
@@ -60,6 +58,9 @@ Released on xx xxth, 2019
 <li>Converted many PNG textures to JPEG to save disk space and network bandwidth.</li>
 <li>Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.</li>
 <li>Tinkerbots: Used Slot gender mechanism.</li>
+<li>Improved animation JSON file to list only nodes that changed during the animation recording and store their initial status.</li>
+<li>Replaced the 'maxRadius' field of Muscle node by a 'volume' field.</li>
+<li>Added support for Muscle node insertion in RotationalMotors of Hinge2Joints.</li>
 </ul>
 <li><b>Bug fix</b></li>
 <ul>
@@ -67,6 +68,7 @@ Released on xx xxth, 2019
 <li>Renamed some PROTO appearances ('MatteCarPaint' -> 'MattePaint', 'GlossyCarPaint' -> 'GlossyPaint', 'CarLeather' -> 'Leather').</li>
 <li>Fixed DoorLever 'name' field not connected when its 'canTurn' field is set to TRUE.</li>
 <li>Fixed mirrored texture in Floor PROTO.</li>
+<li>Fixed animation player not working correctly when loading previous poses.</li>
 <li>Fixed VRML import and export of Webots Sphere geometries (icospheres).</li>
 <li>Fixed invalid webots_ros::RecognitionObject::colors value published by the Camera 'recognition_objects' ROS topic.</li>
 <li>Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.</li>
@@ -88,6 +90,7 @@ Released on xx xxth, 2019
 <li>Fixed 'getRangeImageArray' function in the Python API returning always None.</li>
 <li>Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.</li>
 <li>Fixed insertion of USE PROTO node into a PROTO field from the Add Node dialog.</li>
+<li>Fixed native robot windows and physics plugins recompilation on Windows by upgrading from gcc 7.4.0 to gcc 9.1.0.</li>
 </ul>
 <li><b>Cleanup</b></li>
 <ul>

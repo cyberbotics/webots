@@ -25,7 +25,6 @@ RectangleArena {
     roughness 1
     metalness 0
   }
-  wallColor 1 0 0
   wallTextureUrl []
 }
 DEF RED_BRICK Solid {

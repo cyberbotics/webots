@@ -45,7 +45,6 @@ RectangleArena {
     metalness 0
   }
   wallHeight 0.5
-  wallTileSize 1 1
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [

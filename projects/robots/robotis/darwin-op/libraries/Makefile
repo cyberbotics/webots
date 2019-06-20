@@ -31,7 +31,8 @@ release debug profile: $(TARGETS)
 	cp python27/*managers.* python  # kept for backward compatibility with < R2019b
 
 clean: $(TARGETS)
-	rm -rf python/*managers.*
+	# Remove python/*managers.* except python/managers.i
+	ls -1 python/*managers.* | grep -v managers.i | xargs rm
 
 managers.Makefile: robotis-op2.Makefile
 
