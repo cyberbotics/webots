@@ -119,6 +119,7 @@ jobs:
       script:
         - make release -j2
         - python src/packaging/update_all_worlds.py
+        - git diff --numstat *.wbt
         - if [[ "$(git diff --numstat *.wbt | wc -l)" -ne "0" ]]; then exit -1; fi  # make sure not world has changed
     - &distribution_staging
       stage: Distribution
