@@ -43,16 +43,16 @@ Simply copy the `srv` and `msg` folders located in "projects/default/controllers
 To copy the Webots folders in `catkin_ws/src` you can use the following instructions:
 
 ```sh
-cp -r <webots>/projects/languages/ros/webots_ros .
-cp -r <webots>/projects/default/controllers/ros/include/srv webots_ros/
-cp -r <webots>/projects/default/controllers/ros/include/msg webots_ros/
+cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros .
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/
 ```
 
 The `webots_ros` package already contains a "CMakeLists.txt" with build instructions for the package.
 All you have to do, in order to build the package, is to run:
 
 ```sh
-cd catkin_ws
+cd ..
 catkin_make
 ```
 
