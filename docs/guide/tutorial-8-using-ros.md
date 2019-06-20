@@ -1,4 +1,4 @@
-## Tutorial 7: Using ROS
+## Tutorial 8: Using ROS
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
