@@ -71,8 +71,8 @@ void WbVector2Editor::edit(bool copyOriginalValue) {
 }
 
 void WbVector2Editor::updateSpinBoxes() {
-  mSpinBoxes[0]->setValueNoSignals(WbPrecision::roundValue(mVector2.x(), WbPrecision::DOUBLE_MAX));
-  mSpinBoxes[1]->setValueNoSignals(WbPrecision::roundValue(mVector2.y(), WbPrecision::DOUBLE_MAX));
+  mSpinBoxes[0]->setValueNoSignals(mVector2.x());
+  mSpinBoxes[1]->setValueNoSignals(mVector2.y());
 }
 
 void WbVector2Editor::resetFocus() {

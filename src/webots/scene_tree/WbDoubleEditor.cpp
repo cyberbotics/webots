@@ -61,7 +61,7 @@ void WbDoubleEditor::edit(bool copyOriginalValue) {
   }
 
   if (!hasRetrictedValues)
-    mSpinBox->setValueNoSignals(WbPrecision::roundValue(mDouble, WbPrecision::GUI_MEDIUM));
+    mSpinBox->setValueNoSignals(mDouble);
 }
 
 void WbDoubleEditor::resetFocus() {

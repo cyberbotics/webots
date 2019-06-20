@@ -86,7 +86,7 @@ void WbVector3Editor::takeKeyboardFocus() {
 void WbVector3Editor::updateSpinBoxes() {
   for (int i = 0; i < 3; ++i)
     if (WbSimulationState::instance()->isPaused() || !mSpinBoxes[i]->hasFocus())  // in order to prevent updating while editing
-      mSpinBoxes[i]->setValueNoSignals(WbPrecision::roundValue(mVector3[i], WbPrecision::GUI_MEDIUM));
+      mSpinBoxes[i]->setValueNoSignals(mVector3[i]);
 }
 
 void WbVector3Editor::resetFocus() {
