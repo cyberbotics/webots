@@ -197,8 +197,9 @@ class SumoSupervisor (Supervisor):
             dy = -math.sin(angle)
             yaw = -math.atan2(dy, -dx)
             # correct position (origin of the car is not the same in Webots / sumo)
-            pos[0] = pos[0] + 0.5 * subscriptionResult[id][self.traci.constants.VAR_LENGTH] * math.sin(angle)
-            pos[2] = pos[2] - 0.5 * subscriptionResult[id][self.traci.constants.VAR_LENGTH] * math.cos(angle)
+            vehicleLength = subscriptionResult[id][self.traci.constants.VAR_LENGTH]
+            pos[0] = pos[0] + 0.5 * vehicleLength * math.sin(angle)
+            pos[2] = pos[2] - 0.5 * vehicleLength * math.cos(angle)
             # if needed check the vehicle is in the visibility radius
             if self.radius > 0:
                 viewpointPosition = self.viewpointPosition.getSFVec3f()
@@ -240,7 +241,7 @@ class SumoSupervisor (Supervisor):
                         vehicle.roll = roll
                         # ajust height according to the pitch
                         if not pitch == 0:
-                            height = height + roadPos * math.sin(pitch)
+                            height += (roadPos - 0.5 * vehicleLength) * math.sin(pitch)
                         # ajust height according to the roll and lateral position of the vehicle
                         if not roll == 0.0:
                             laneIndex = subscriptionResult[id][self.traci.constants.VAR_LANE_INDEX]
