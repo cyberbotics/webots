@@ -88,8 +88,7 @@ void WbVector2Editor::takeKeyboardFocus() {
 void WbVector2Editor::applyIfNeeded() {
   if (field() && ((field()->hasRestrictedValues() && mVector2 != WbVector2(mComboBox->currentText())) ||
                   (!field()->hasRestrictedValues() &&
-                   (fabs(mVector2.x() - mSpinBoxes[0]->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX) ||
-                    fabs(mVector2.y() - mSpinBoxes[1]->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX)))))
+                   (mVector2.x() != mSpinBoxes[0]->text().toDouble() || mVector2.y() != mSpinBoxes[1]->text().toDouble()))))
     apply();
 }
 

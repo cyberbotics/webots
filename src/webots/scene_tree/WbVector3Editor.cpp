@@ -97,9 +97,8 @@ void WbVector3Editor::resetFocus() {
 void WbVector3Editor::applyIfNeeded() {
   if (field() && ((field()->hasRestrictedValues() && mVector3 != WbVector3(mComboBox->currentText())) ||
                   (!field()->hasRestrictedValues() &&
-                   (fabs(mVector3.x() - mSpinBoxes[0]->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX) ||
-                    fabs(mVector3.y() - mSpinBoxes[1]->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX) ||
-                    fabs(mVector3.z() - mSpinBoxes[2]->value()) > WbPrecision::epsilon(WbPrecision::DOUBLE_MAX)))))
+                   (mVector3.x() != mSpinBoxes[0]->text().toDouble() || mVector3.y() != mSpinBoxes[1]->text().toDouble() ||
+                    mVector3.z() != mSpinBoxes[2]->text().toDouble()))))
     apply();
 }
 
