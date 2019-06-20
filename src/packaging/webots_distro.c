@@ -906,6 +906,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd QtXml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
+      fprintf(fd, "cd %s/\n", distribution_path);
       fprintf(
         fd,
         "create-dmg --volname \"%s\" --background \"%s/src/packaging/MacOSXBackground.png\" --window-pos 100 100 --window-size "
