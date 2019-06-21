@@ -32,6 +32,8 @@ def json_wget(url):
         headers = {}
     else:
         headers = {'Authorization': 'token %s' % key}
+    print("Headers:")
+    print(headers)
     req = urllib.request.Request(url, headers=headers)
     response = urllib.request.urlopen(url)
     content = response.read()
