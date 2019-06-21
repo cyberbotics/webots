@@ -18,13 +18,21 @@
 parent branch is automatically computed. This list of modified files is used by Travis for testing only the
 files modified by the current pull request (during the sources tests) and hence run the CI tests
 significantly faster."""
+
+import json
 import os
 import subprocess
 import sys
+import urllib.request
 
 if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from script
-    script = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'parent_branch.sh')
-    branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
+    # script = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'parent_branch.sh')
+    # branch = subprocess.check_output(['bash', script]).decode('utf-8').strip()
+    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    j = json.loads(urllib.request.urlopen('https://api.github.com/search/issues?q=' + commit).read())
+    url = j["items"][0]["pull_request"]["url"]
+    j = json.loads(urllib.request.urlopen(url).read())
+    branch = j["base"]["ref"]
 else:
     branch = sys.argv[1]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
