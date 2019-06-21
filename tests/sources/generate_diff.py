@@ -28,14 +28,13 @@ import urllib.request
 
 def json_wget(url):
     key = os.getenv('GITHUB_API_KEY')
-    if key is None:
-        headers = {}
-    else:
-        headers = {'Authorization': 'token %s' % key}
-    print("Headers:")
-    print(headers)
-    req = urllib.request.Request(url, headers=headers)
+    # key = '638fa3b69c4942c37edbdb278ba58c0538674f42'
+    req = urllib.request.Request(url)
+    req.add_header('User-Agent', 'omichel')
+    if key is not None:
+        req.add_header('Authorization', 'token %s' % key)
     response = urllib.request.urlopen(url)
+    print(response.info())
     content = response.read()
     return json.loads(content)
 
