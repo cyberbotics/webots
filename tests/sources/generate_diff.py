@@ -33,6 +33,7 @@ def json_wget(url):
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
     response = urllib.request.urlopen(url)
+    print(response.info())
     content = response.read()
     return json.loads(content)
 
