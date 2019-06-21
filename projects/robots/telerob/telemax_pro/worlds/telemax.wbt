@@ -1,11 +1,10 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "This example uses some of the industrial objects included in Webots to create a factory hall."
-    "The tools, valves and doors are interactive."
-    "This means that a robot could grab a hammer, turn a valve handle, climb the stairs or open a door."
+    "The Telemax PRO robot from Telerob is a tracked robot equipped with a 7-axis manipulator."
+    "It can climb stairs and use its gripper to open doors."
   ]
-  title "A factory hall environment"
+  title "Telemax"
   basicTimeStep 16
   contactProperties [
     ContactProperties {
