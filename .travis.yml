@@ -36,16 +36,10 @@ jobs:
         - python -m unittest discover -s docs/tests
         - |
           if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]]; then
-            echo "no travis_ commit message"
             if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
-              echo "pull_request"
               python tests/sources/generate_diff.py $TRAVIS_BRANCH
             elif [ "$TRAVIS_EVENT_TYPE" = "push" ]; then
-                echo "branch"
                 python test/sources/generate_diff.py
-            else
-                echo "neither branch or pull_request"
-                echo "$TRAVIS_EVENT_TYPE"
             fi
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
