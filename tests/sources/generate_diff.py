@@ -34,7 +34,7 @@ def json_wget(url):
         req.add_header('Authorization', 'token %s' % key)
     try:
         response = urllib.request.urlopen(url)
-    except urllib.error.URLError as e:
+    except urllib.error.HTTPError as e:
         print(e.reason)
         print(response.info())
     content = response.read()
