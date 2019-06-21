@@ -28,7 +28,9 @@ import urllib.request
 curdir = os.getcwd()
 os.chdir(os.getenv('WEBOTS_HOME'))
 if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from GitHub API
-    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    commit = os.getenv("TRAVIS_COMMIT")
+    if commit is None:
+        commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
     j = json.loads(urllib.request.urlopen('https://api.github.com/search/issues?q=' + commit).read())
     url = j["items"][0]["pull_request"]["url"]
     j = json.loads(urllib.request.urlopen(url).read())
