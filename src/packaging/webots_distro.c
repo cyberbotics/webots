@@ -912,7 +912,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo \"{\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
-      fprintf(fd, "echo \"  \\\"icon-size\\\": 72,
+      fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\n");
       fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n", webots_home);
       fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
       fprintf(fd, "echo \"    \\\"position\\\": { \\\"x\\\": 400, \\\"y\\\": 100 },\" >> appdmg.json\n");
