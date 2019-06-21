@@ -39,7 +39,7 @@ jobs:
             if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
               python tests/sources/generate_diff.py $TRAVIS_BRANCH
             elif [ "$TRAVIS_EVENT_TYPE" = "push" ]; then
-                python test/sources/generate_diff.py
+              python tests/sources/generate_diff.py
             fi
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
