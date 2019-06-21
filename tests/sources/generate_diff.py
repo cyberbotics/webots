@@ -24,7 +24,7 @@ import os
 import subprocess
 import sys
 import urllib.request
-
+from urllib.error import URLError, HTTPError
 
 def json_wget(url):
     key = os.getenv('GITHUB_API_KEY')
@@ -34,7 +34,7 @@ def json_wget(url):
         req.add_header('Authorization', 'token %s' % key)
     try:
         response = urllib.request.urlopen(url)
-    except urllib.error.HTTPError as e:
+    except HTTPError as e:
         print(e.reason)
         print(response.info())
     content = response.read()
