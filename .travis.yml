@@ -45,6 +45,7 @@ jobs:
                 python test/sources/generate_diff.py
             else
                 echo "neither branch or pull_request"
+                echo "$TRAVIS_EVENT_TYPE"
             fi
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
