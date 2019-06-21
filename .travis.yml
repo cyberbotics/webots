@@ -138,7 +138,6 @@ jobs:
         - sudo apt install python3.6-dev python3.7-dev
         - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
         - sudo apt install nodejs
-        - sudo npm install -g appdmg
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
@@ -161,6 +160,7 @@ jobs:
             - node
       before_install:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - sudo npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
