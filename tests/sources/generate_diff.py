@@ -36,7 +36,7 @@ def json_wget(url):
         response = urllib.request.urlopen(url)
     except HTTPError as e:
         print(e.reason)
-        print(response.info())
+        print(e.info())
     content = response.read()
     return json.loads(content)
 
