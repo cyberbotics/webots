@@ -27,12 +27,15 @@ import urllib.request
 
 
 def json_wget(url):
-    # headers = {'Authorization': 'token %s' % os.getenv('GITHUB_API_KEY')}
-    headers = {}
-    req = urllib.request.Request(url)
+    key = os.getenv('GITHUB_API_KEY')
+    if key is None:
+        headers = {}
+    else:
+        headers = {'Authorization': 'token %s' % key}
+    req = urllib.request.Request(url, headers=headers)
     response = urllib.request.urlopen(url)
     content = response.read()
-    return json.load(content)
+    return json.loads(content)
 
 
 curdir = os.getcwd()
