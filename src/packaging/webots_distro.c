@@ -920,6 +920,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo \"}\" >> appdmg.json\n");
       
       fprintf(fd, "appdmg appdmg.json %s-%s.dmg\n", application_name_lowercase_and_dashes, package_version);
+      fprintf(fd, "rm -rf appdmg.json\n");
 
 
       /*fprintf(fd, "mkdir -p /tmp/empty\n");
