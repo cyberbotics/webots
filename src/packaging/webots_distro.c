@@ -914,9 +914,10 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
       fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n", webots_home);
+      fprintf(fd, "echo \"  \\\"format\\\": \\\"UDBZ\\\",\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
       fprintf(fd, "echo \"    \\\"position\\\": { \\\"x\\\": 400, \\\"y\\\": 100 },\" >> appdmg.json\n");
-      fprintf(fd, "echo \"    \\\"size\\\": { \\\"x\\\": 480, \\\"y\\\": 580 }\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"size\\\": { \\\"width\\\": 480, \\\"height\\\": 580 }\" >> appdmg.json\n");
       fprintf(fd, "echo \"  },\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"contents\\\": [\" >> appdmg.json\n");
       fprintf(fd, "echo \"    { \\\"x\\\": 375, \\\"y\\\": 100, \\\"type\\\": \\\"link\\\", \\\"path\\\": \\\"/Applications\\\" },\" >> appdmg.json\n");
