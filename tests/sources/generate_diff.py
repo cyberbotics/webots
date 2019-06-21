@@ -25,6 +25,16 @@ import subprocess
 import sys
 import urllib.request
 
+
+def json_wget(url):
+    # headers = {'Authorization': 'token %s' % os.getenv('GITHUB_API_KEY')}
+    headers = {}
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(url)
+    content = response.read()
+    return json.load(content)
+
+
 curdir = os.getcwd()
 os.chdir(os.getenv('WEBOTS_HOME'))
 if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it from GitHub API
@@ -32,10 +42,10 @@ if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it f
     if commit is None:
         commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
     print(commit)
-    j = json.loads(urllib.request.urlopen('https://api.github.com/search/issues?q=' + commit).read())
+    j = json_wget('https://api.github.com/search/issues?q=' + commit)
     url = j["items"][0]["pull_request"]["url"]
     print(url)
-    j = json.loads(urllib.request.urlopen(url).read())
+    j = json_wget(url)
     branch = j["base"]["ref"]
 else:
     branch = sys.argv[1]
