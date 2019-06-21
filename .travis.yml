@@ -19,7 +19,6 @@ jobs:
     - &source_tests_staging
       stage: Sources Tests
       git:
-        depth: 30
         submodules: false
       os: linux
       dist: xenial
