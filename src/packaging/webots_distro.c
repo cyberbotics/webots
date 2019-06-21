@@ -911,12 +911,12 @@ static void create_file(const char *name, int m) {
 
       fprintf(fd, "echo \"{\" >> appdmg.json\n");
       fprintf(fd, "echo \"{\" >> appdmg.json\n");
-      fprintf(fd, "echo \"  \\\\"title\\\\": \\\\"Webots\\\\",\" >> appdmg.json\n");
-//      fprintf(fd, "echo \"  \\\\"icon\\\\": \\\\"test-app.icns\\\\",\" >> appdmg.json\n");
-      fprintf(fd, "echo \"  \\\\"background\\\\": \\\\"MacOSXBackground.png\\\\",\" >> appdmg.json\n");
-      fprintf(fd, "echo \"  \\\\"contents\\\\": [\" >> appdmg.json\n");
-      fprintf(fd, "echo \"    { \\\\"x\\\\": 448, \\\\"y\\\\": 344, \\\\"type\\\\": \\\\"link\\\\", \\\\"path\\\\": \\\\"/Applications\\\\" },\" >> appdmg.json\n");
-      fprintf(fd, "echo \"    { \\\\"x\\\\": 192, \\\\"y\\\\": 344, \\\\"type\\\\": \\\\"file\\\\", \\\\"path\\\\": \\\\"%s\\\\" }\" >> appdmg.json\n", bundle_name);
+      fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
+      //fprintf(fd, "echo \"  \\\"icon\\\": \\\"test-app.icns\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"background\\\": \\\"MacOSXBackground.png\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"contents\\\": [\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\"x\\\": 448, \\\"y\\\": 344, \\\"type\\\": \\\"link\\\", \\\"path\\\": \\\"/Applications\\\" },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\"x\\\": 192, \\\"y\\\": 344, \\\"type\\\": \\\"file\\\", \\\"path\\\": \\\"%s\\\" }\" >> appdmg.json\n", bundle_name);
       fprintf(fd, "echo \"  ]\" >> appdmg.json\n");
       fprintf(fd, "echo \"}\" >> appdmg.json\n");
       
