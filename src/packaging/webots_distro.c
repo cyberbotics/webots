@@ -910,7 +910,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd %s/\n", distribution_path);
 
       fprintf(fd, "echo \"{\" >> appdmg.json\n");
-      fprintf(fd, "echo \"{\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
       //fprintf(fd, "echo \"  \\\"icon\\\": \\\"test-app.icns\\\",\" >> appdmg.json\n");
       fprintf(fd, "echo \"  \\\"background\\\": \\\"MacOSXBackground.png\\\",\" >> appdmg.json\n");
