@@ -32,8 +32,11 @@ def json_wget(url):
     req.add_header('User-Agent', 'omichel')
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
-    response = urllib.request.urlopen(url)
-    print(response.info())
+    try:
+        response = urllib.request.urlopen(url)
+    except urllib.error.URLError as e:
+        print(e.reason)
+        print(response.info())
     content = response.read()
     return json.loads(content)
 
