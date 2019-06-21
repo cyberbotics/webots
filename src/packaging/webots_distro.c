@@ -906,9 +906,24 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd QtXml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-
+      
       fprintf(fd, "cd %s/\n", distribution_path);
-      fprintf(fd, "mkdir -p /tmp/empty\n");
+
+      fprintf(fd, "echo \"{\" >> appdmg.json\n");
+      fprintf(fd, "echo \"{\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\\"title\\\\": \\\\"Webots\\\\",\" >> appdmg.json\n");
+//      fprintf(fd, "echo \"  \\\\"icon\\\\": \\\\"test-app.icns\\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\\"background\\\\": \\\\"MacOSXBackground.png\\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\\"contents\\\\": [\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\\"x\\\\": 448, \\\\"y\\\\": 344, \\\\"type\\\\": \\\\"link\\\\", \\\\"path\\\\": \\\\"/Applications\\\\" },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\\"x\\\\": 192, \\\\"y\\\\": 344, \\\\"type\\\\": \\\\"file\\\\", \\\\"path\\\\": \\\\"%s\\\\" }\" >> appdmg.json\n", bundle_name);
+      fprintf(fd, "echo \"  ]\" >> appdmg.json\n");
+      fprintf(fd, "echo \"}\" >> appdmg.json\n");
+      
+      fprintf(fd, "appdmg appdmg.json %s-%s.dmg\n", application_name_lowercase_and_dashes, package_version);
+
+
+      /*fprintf(fd, "mkdir -p /tmp/empty\n");
       fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 3000m %s.dmg\n",
               application_name, application_name_lowercase_and_dashes);
       fprintf(fd, "rmdir /tmp/empty\n");
@@ -950,7 +965,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
       fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
               application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);*/
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
