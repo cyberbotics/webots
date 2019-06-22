@@ -24,7 +24,7 @@ import os
 import subprocess
 import sys
 import urllib.request
-from urllib.error import URLError, HTTPError
+from urllib.error import HTTPError
 
 
 def json_wget(url):
@@ -56,7 +56,7 @@ if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it f
     branch = j["base"]["ref"]
 else:
     branch = sys.argv[1]
-branch = branch  # 'origin/' + branch
+branch = 'origin/' + branch
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
     file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
 os.chdir(curdir)
