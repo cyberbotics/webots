@@ -58,5 +58,6 @@ else:
     branch = sys.argv[1]
 branch = 'origin/' + branch
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    subprocess.checkoutput(['git', 'fetch'])
     file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
 os.chdir(curdir)
