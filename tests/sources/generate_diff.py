@@ -28,7 +28,7 @@ from urllib.error import HTTPError
 
 
 def json_wget(url):
-    key = os.getenv('GITHUB_API_KEY')
+    key = os.getenv('TRAVIS_GITHUB_API_KEY')
     req = urllib.request.Request(url)
     req.add_header('User-Agent', 'omichel')
     if key is not None:
