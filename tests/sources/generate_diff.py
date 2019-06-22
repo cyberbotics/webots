@@ -18,7 +18,6 @@
 testing only the files modified by the current pull request (during the sources tests) and hence run the CI tests
 significantly faster."""
 
-import git
 import json
 import os
 import subprocess
