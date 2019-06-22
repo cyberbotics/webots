@@ -26,6 +26,7 @@ import sys
 import urllib.request
 from urllib.error import URLError, HTTPError
 
+
 def json_wget(url):
     key = os.getenv('GITHUB_API_KEY')
     req = urllib.request.Request(url)
