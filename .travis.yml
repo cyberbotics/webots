@@ -32,6 +32,7 @@ jobs:
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
+        - pip install GitPython
       script:
         - python -m unittest discover -s docs/tests
         - |
