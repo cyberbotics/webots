@@ -44,10 +44,8 @@ def json_wget(url):
 commit = os.getenv("TRAVIS_COMMIT")
 if commit is None:
     commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
-print(commit)
 j = json_wget('https://api.github.com/search/issues?q=' + commit)
 url = j["items"][0]["pull_request"]["url"]
-print(url)
 j = json_wget(url)
 branch = j["base"]["ref"]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
