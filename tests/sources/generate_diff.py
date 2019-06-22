@@ -21,6 +21,7 @@ significantly faster."""
 import json
 import os
 import subprocess
+import time
 import urllib.request
 from urllib.error import HTTPError
 
@@ -45,9 +46,11 @@ if commit is None:
     commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
 j = json_wget('https://api.github.com/search/issues?q=' + commit)
 url = j["items"][0]["pull_request"]["url"]
+time.sleep(1)
 j = json_wget(url)
 branch = j["base"]["ref"]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    time.sleep(1)
     j = json_wget('https://api.github.com/repos/omichel/webots/compare/' + branch + '...' + commit)
     for f in j['files']:
         file.write(f['filename'] + '\n')
