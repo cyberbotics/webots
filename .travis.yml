@@ -32,9 +32,9 @@ jobs:
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
-        - pip install GitPython
       script:
         - python -m unittest discover -s docs/tests
+        - git diff --name-only develop
         - |
           if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]]; then
             if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
