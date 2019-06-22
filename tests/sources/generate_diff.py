@@ -56,8 +56,10 @@ if len(sys.argv) != 2:  # no parent branch passed as an argument, computing it f
     branch = j["base"]["ref"]
 else:
     branch = sys.argv[1]
-branch = 'origin/' + branch
+# branch = 'origin/' + branch
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
-    subprocess.checkoutput(['git', 'fetch'])
-    file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8'))
+    current_branch = subprocess.checkoutput(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode()
+    subprocess.checkoutput(['git', 'checkout', branch])
+    subprocess.checkoutput(['git', 'checkout', current_branch])
+    file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode())
 os.chdir(curdir)
