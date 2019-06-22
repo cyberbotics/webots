@@ -29,7 +29,7 @@ from urllib.error import HTTPError
 def github_api(url):
     d = time.time() - github_api.last_time
     if d < 1:
-         time.sleep(1 - d)  # wait at least one second between GitHub API calls
+        time.sleep(1 - d)  # wait at least one second between GitHub API calls
     key = os.getenv('GITHUB_API_KEY')
     req = urllib.request.Request(url)
     req.add_header('User-Agent', 'omichel/webots')
