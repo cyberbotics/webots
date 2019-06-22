@@ -19,6 +19,7 @@ parent branch is automatically computed. This list of modified files is used by 
 files modified by the current pull request (during the sources tests) and hence run the CI tests
 significantly faster."""
 
+import git
 import json
 import os
 import subprocess
@@ -58,9 +59,9 @@ else:
     branch = sys.argv[1]
 # branch = 'origin/' + branch
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
-    current_branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode()
-    subprocess.check_output(['git', 'fetch'])
-    subprocess.check_output(['git', 'checkout', branch])
-    subprocess.check_output(['git', 'checkout', current_branch])
-    file.write(subprocess.check_output(['git', 'diff', '--name-only', branch]).decode())
+    #  current_branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode()
+    #  subprocess.check_output(['git', 'fetch'])
+    #  subprocess.check_output(['git', 'checkout', branch])
+    #  subprocess.check_output(['git', 'checkout', current_branch])
+    file.write(subprocess.check_output("git diff --name-only " + branch, shell=True).decode())
 os.chdir(curdir)
