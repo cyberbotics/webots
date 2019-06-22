@@ -21,7 +21,6 @@ significantly faster."""
 import json
 import os
 import subprocess
-import sys
 import urllib.request
 from urllib.error import HTTPError
 
