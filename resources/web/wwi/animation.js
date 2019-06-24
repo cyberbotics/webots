@@ -26,6 +26,7 @@ class Animation { // eslint-disable-line no-unused-vars
 
   // Return the animation status: play or pause.
   // This should be used to store the current animation status and restore it later when calling webots.View.setAnimation().
+  // This is for example used in robotbenchmark.net benchmark page.
   getStatus() {
     return this.gui === 'real_time' ? 'play' : 'pause';
   }
