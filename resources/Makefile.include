@@ -63,7 +63,7 @@
 ### ---- Debug mode ----
 ### if you want to display the gcc command line for compilation and link, as
 ### well as the rm command details used for cleaning:
-VERBOSE = 1
+### VERBOSE = 1
 ###
 ###-----------------------------------------------------------------------------
 
