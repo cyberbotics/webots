@@ -68,3 +68,4 @@ with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_f
     j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
     for f in j['files']:
         file.write(f['filename'] + '\n')
+        print(f['filename'] + '\n')
