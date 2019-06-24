@@ -989,12 +989,18 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\"; "
                   "Flags: uninsdeletekey dontcreatekey\n");
       // On some systems (as already reported by two Chinese users), some unknown third party software badly installs a
-      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder. This is a very bad practise. Such DLLs conflicts
-      // with the same DLLs provided in the msys64 folder of Webots. So, we will delete any of these libraries from the
-      // C:\Windows\System32 folder before installing Webots.
+      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder.
+      // A similar problem occurs with the OpenSSL library needed to build ROS2 on Windows:
+      // https://index.ros.org/doc/ros2/Installation/Dashing/Windows-Install-Binary/#install-openssl
+      // recommends to install OpenSSL from https://slproweb.com/products/Win32OpenSSL.html
+      // By default, this installer copies libcrypto-1_1-x64.dll and libssl-1_1-x64.dll in C:\Windows\System32.
+      // This is a very bad practise as such DLLs conflicts with the same DLLs provided in the msys64 folder of Webots.
+      // So, we will delete any of these libraries from the C:\Windows\System32 folder before installing Webots.
       fprintf(fd, "\n[InstallDelete]\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\zlib1.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libeay32.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libcrypto-1_1-x64.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libssl-1_1-x64.dll\"\n");
       fprintf(fd, "\n[Code]\n");
       fprintf(fd, "function InitializeSetup(): Boolean;\n");
       fprintf(fd, "var\n");
