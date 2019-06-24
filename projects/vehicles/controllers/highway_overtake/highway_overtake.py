@@ -110,7 +110,7 @@ while driver.step() != -1:
     frontRange = sensors["front"].getMaxValue()
     speed = maxSpeed * frontDistance / frontRange
     if sensors["front right 0"].getValue() < 8.0 or sensors["front left 0"].getValue() < 8.0:
-        # a car is currently changing lane in front of us => emergency braking
+        # another vehicle is currently changing lane in front of the vehicle => emergency braking
         speed = min(0.5 * maxSpeed, speed)
     if overtakingSide is not None:
         # check if overtaking should be aborted
