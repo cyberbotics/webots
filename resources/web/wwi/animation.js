@@ -24,6 +24,10 @@ class Animation { // eslint-disable-line no-unused-vars
     xmlhttp.send();
   }
 
+  getStatus() {
+    return this.gui === 'real_time' ? 'play' : 'pause';
+  }
+
   // private methods
   _setup(data) {
     this.data = data;
