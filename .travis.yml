@@ -44,7 +44,7 @@ jobs:
         - mkdir -p $WEBOTS_HOME/dependencies/python37
         - wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7-complete.zip -P $WEBOTS_HOME/dependencies/python37
         - unzip $WEBOTS_HOME/dependencies/python37/python3.7-complete.zip -d $WEBOTS_HOME/dependencies/python37
-        - export PATH=$WEBOTS_HOME/dependencies/python37:$PATH
+        - export PATH=$WEBOTS_HOME/dependencies/python37/bin:$PATH
         - python --version
         - which python
         - python3 --version
