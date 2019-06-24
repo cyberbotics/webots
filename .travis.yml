@@ -46,7 +46,9 @@ jobs:
         - unzip $WEBOTS_HOME/dependencies/python37/python3.7-complete.zip -d $WEBOTS_HOME/dependencies/python37
         - export PATH=$WEBOTS_HOME/dependencies/python37:$PATH
         - python --version
+        - which python
         - python3 --version
+        - which python3
         - brew list
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR tag IS present
