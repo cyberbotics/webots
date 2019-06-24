@@ -43,7 +43,7 @@ jobs:
       script:
         - mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
         - wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7-complete.zip -P $WEBOTS_HOME/dependencies
-        - unzip -o $WEBOTS_HOME/dependencies/python3.7-complete.zip -d /Library/Frameworks/Python.framework/Versions/3.7
+        - sudo unzip -o $WEBOTS_HOME/dependencies/python3.7-complete.zip -d /Library/Frameworks/Python.framework/Versions/3.7
         - export PATH=/Library/Frameworks/Python.framework/Versions/3.7:/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
         - python --version
         - which python
