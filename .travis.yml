@@ -37,20 +37,6 @@ jobs:
         - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
-      os: osx
-      osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
-      language: generic     # Travis doesn't support python on macos yet
-      script:
-        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
-        - wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7-complete.zip -P $WEBOTS_HOME/dependencies
-        - sudo unzip -o $WEBOTS_HOME/dependencies/python3.7-complete.zip -d /Library/Frameworks/Python.framework/Versions/3.7
-        - export PATH=/Library/Frameworks/Python.framework/Versions/3.7:/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
-        - python --version
-        - which python
-        - python3 --version
-        - which python3
-        - brew list
-    - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR tag IS present
       python: '2.7'
     - <<: *source_tests_staging
@@ -169,7 +155,7 @@ jobs:
         - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
-        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7
+        - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
         - wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7-complete.zip -P $WEBOTS_HOME/dependencies
         - sudo unzip -o $WEBOTS_HOME/dependencies/python3.7-complete.zip -d /Library/Frameworks/Python.framework/Versions/3.7
         - export PATH=/Library/Frameworks/Python.framework/Versions/3.7:/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
