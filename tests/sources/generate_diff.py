@@ -25,29 +25,26 @@ import os
 import subprocess
 import sys
 import time
-try:
-    from urllib.request import Request, urlopen  # Python 3
-except ImportError:
-    from urllib2 import Request, urlopen  # Python 2
-try:
-    from urllib.error import HTTPError
-except ImportError:
-    from urllib2 import HTTPError  # Python 2
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 
 def github_api(request):
     """Send a GitHub API request and return the decoded JSON object."""
+    if not request.startswith('https://api.github.com/'):
+        request = 'https://api.github.com/' + request
     d = time.time() - github_api.last_time
     if d < 1:
         time.sleep(1 - d)  # wait at least one second between GitHub API calls
     key = os.getenv('GITHUB_API_KEY')
-    req = Request('https://api.github.com/' + request)
+    req = Request(request)
     req.add_header('User-Agent', 'omichel/webots')
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
     try:
         response = urlopen(req)
     except HTTPError as e:
+        print(request)
         print(e.reason)
         print(e.info())
     content = response.read()
@@ -61,7 +58,7 @@ if len(sys.argv) == 3:
     repo = sys.argv[2]
 else:
     commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
-    repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url'])
+    repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
 j = github_api('search/issues?q=' + commit)
 url = j["items"][0]["pull_request"]["url"]
