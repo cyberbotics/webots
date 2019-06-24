@@ -66,6 +66,7 @@ j = github_api(url)
 branch = j["base"]["ref"]
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
     j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
+    print('repos/' + repo + '/compare/' + branch + '...' + commit + '\n')
     for f in j['files']:
         file.write(f['filename'] + '\n')
         print(f['filename'] + '\n')
