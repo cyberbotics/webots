@@ -21,6 +21,6 @@ build: off
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -ge 1) { C:\\msys64\\usr\\bin\\bash --login -c "python $env:WEBOTS_HOME_PROTECTED/tests/sources/generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME" }
-  - type %WEBOTS_HOME_PROTECTED%/tests/sources/dump.txt
-  - type %WEBOTS_HOME_PROTECTED%/tests/sources/modified_files.txt  
+  - type %WEBOTS_HOME_PROTECTED%\\tests\\sources\\dump.txt
+  - type %WEBOTS_HOME_PROTECTED%\\tests\\sources\\modified_files.txt
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
