@@ -35,7 +35,7 @@ jobs:
       script:
         - python -m unittest discover -s docs/tests
         - |
-          if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]]; then
+          if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]]; then  # in case of manually triggered test, run complete test 
             if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
               tests/sources/generate_diff.py $TRAVIS_BRANCH
             elif [ "$TRAVIS_EVENT_TYPE" = "push" ]; then
