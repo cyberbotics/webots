@@ -38,17 +38,19 @@ g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
+warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the latest official release: ' \
+                 'https://github.com/omichel/webots/releases/latest'
 if options.tag:
     tag = options.tag
     title = options.tag
-    message = 'This is a nightly build of Webots from the "%s" tag.' % options.tag
+    message = 'This is a nightly build of Webots from the "%s" tag.%s' % (options.tag, warningMessage)
     if tag.startswith('nightly_'):
         print('Skipping nightly build tag.')
         exit(0)
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    message = 'This is a nightly build of Webots from the "%s" branch.' % options.branch
+    message = 'This is a nightly build of Webots from the "%s" branch.%s' % (options.branch, warningMessage)
 
 for release in repo.get_releases():
     if release.title == title:
