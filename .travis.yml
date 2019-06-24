@@ -41,6 +41,10 @@ jobs:
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
       script:
+        - mkdir -p $WEBOTS_HOME/dependencies/python37
+        - wget https://cyberbotics.com/files/repository/dependencies/mac/release/python3.7-complete.zip -P $WEBOTS_HOME/dependencies/python37
+        - unzip $WEBOTS_HOME/dependencies/python37/python3.7-complete.zip -d $WEBOTS_HOME/dependencies/python37
+        - export $WEBOTS_HOME/dependencies/python37:$PATH
         - python --version
         - python3 --version
         - brew list
