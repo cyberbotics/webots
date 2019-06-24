@@ -399,7 +399,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
     pmremCubeUVPacker.update(this.renderer);
 
-    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture, true);
+    this.scene.background.userData = {};
+    this.scene.background.userData.isHDR = true;
+    this.scene.background.userData.texture = pmremCubeUVPacker.CubeUVRenderTarget.texture;
+    this._setupEnvironmentMap();
 
     texture.dispose();
     pmremGenerator.dispose();
@@ -430,12 +433,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap(envMap = undefined, isHDR = false) {
+  _setupEnvironmentMap() {
+    var isHDR = false;
     var backgroundMap;
-    if (typeof envMap !== 'undefined')
-      backgroundMap = envMap;
-    else if (typeof this.scene.background !== 'undefined') {
-      if (this.scene.background.isCubeTexture)
+    if (typeof this.scene.background !== 'undefined') {
+      if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
+        isHDR = true;
+        backgroundMap = this.scene.background.userData.texture;
+      } else if (this.scene.background.isCubeTexture)
         backgroundMap = this.scene.background;
       else if (this.scene.background.isColor) {
         let color = this.scene.background.clone();
