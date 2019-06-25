@@ -38,7 +38,7 @@ def github_api(request):
         time.sleep(1 - d)  # wait at least one second between GitHub API calls
     key = os.getenv('GITHUB_API_KEY')
     req = Request(request)
-    req.add_header('User-Agent', 'omichel/webots')
+    req.add_header('User-Agent', github_api.user_agent)
     if key is not None:
         req.add_header('Authorization', 'token %s' % key)
     try:
@@ -51,7 +51,6 @@ def github_api(request):
     github_api.last_time = time.time()
     return json.loads(content)
 
-github_api.last_time = 0
 if len(sys.argv) == 3:
     commit = sys.argv[1]
     repo = sys.argv[2]
@@ -59,6 +58,8 @@ else:
     commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
     repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
     repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
+github_api.last_time = 0
+github_api.user_agent = repo
 j = github_api('search/issues?q=' + commit)
 url = j["items"][0]["pull_request"]["url"]
 j = github_api(url)
