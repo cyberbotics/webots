@@ -24,6 +24,11 @@ if [ "$4" -eq 0 ]; then
   new_version=$3
   new_package=$3
   silent=
+  if [ ${new_version:1:4} -eq ${old_version:1:4} ]; then
+    year_silent=silent
+  else
+    year_silent=
+  fi
 else
   new_version=$3"\srevision\s"$4
   new_package=$3"-rev"$4
@@ -42,29 +47,11 @@ echo "Update application and documentation version..."
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
-./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist $silent
+./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist $year_silent
 
 # documentation
 ./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js $silent
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js $silent
+./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js $year_silent
 ./new_version_file.sh "Webots-"$old_version_year"-"$old_version_letter"-release" "Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php $silent
-
-if [ $new_version_without_revision != $old_version_without_revision ];
-then
-  echo "Update file headers..."
-  ./new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
-  ./new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision ../../docs/reference/proto-example.md
-
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/projects/worlds/empty.wbt
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/README.md
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/index.html
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/setup_viewer.js
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/templates/x3d_playback.html
-  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/osm_importer/utils/misc_utils.py
-
-  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/dependencies.txt
-
-  echo "wwi resources on the cyberbotics FTP should be updated."
-fi
