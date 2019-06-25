@@ -51,6 +51,8 @@ def github_api(request):
     github_api.last_time = time.time()
     return json.loads(content)
 
+curdir = os.getcwd()
+os.chdir(os.getenv('WEBOTS_HOME'))
 github_api.last_time = 0
 if len(sys.argv) == 3:
     commit = sys.argv[1]
@@ -69,3 +71,4 @@ with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_f
     j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
     for f in j['files']:
         file.write(f['filename'] + '\n')
+os.chdir(curdir)
