@@ -906,47 +906,29 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd QtXml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-
       fprintf(fd, "cd %s/\n", distribution_path);
-      fprintf(fd, "mkdir -p /tmp/empty\n");
-      fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 3000m %s.dmg\n",
-              application_name, application_name_lowercase_and_dashes);
-      fprintf(fd, "rmdir /tmp/empty\n");
-      fprintf(fd, "ditto -rsrcFork \"%s\" \"/Volumes/%s/%s\"\n", bundle_name, application_name, bundle_name);
-      fprintf(fd, "mkdir \"/Volumes/%s/.background\"\n", application_name);
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
-      fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
-      fprintf(fd, "echo '\n");
-      fprintf(fd, "   tell application \"Finder\"\n");
-      fprintf(fd, "     tell disk \"%s\"\n", application_name);
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           set current view of container window to icon view\n");
-      fprintf(fd, "           set toolbar visible of container window to false\n");
-      fprintf(fd, "           set statusbar visible of container window to false\n");
-      fprintf(fd, "           set the bounds of container window to {400, 100, 880, 680}\n");
-      fprintf(fd, "           set theViewOptions to the icon view options of container window\n");
-      fprintf(fd, "           set arrangement of theViewOptions to not arranged\n");
-      fprintf(fd, "           set icon size of theViewOptions to 72\n");
-      fprintf(fd, "           set background picture of theViewOptions to file \".background:MacOSXBackground.png\"\n");
-      fprintf(fd, "           set position of item \"%s\" of container window to {100, 100}\n", application_name);
-      fprintf(fd, "           set position of item \"Applications\" of container window to {375, 100}\n");
-      fprintf(fd, "           close\n");
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           eject\n");
-      fprintf(fd, "     end tell\n");
-      fprintf(fd, "   end tell\n");
-      fprintf(fd, "' | osascript\n");
-      fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "sync\n");
-      fprintf(fd, "sync\n");
-      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
-              application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "echo \"{\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
+      fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n",
+              webots_home);
+      fprintf(fd, "echo \"  \\\"format\\\": \\\"UDBZ\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"position\\\": { \\\"x\\\": 400, \\\"y\\\": 100 },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"size\\\": { \\\"width\\\": 480, \\\"height\\\": 580 }\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"contents\\\": [\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\"x\\\": 375, \\\"y\\\": 100, \\\"type\\\": \\\"link\\\", \\\"path\\\": "
+                  "\\\"/Applications\\\" },\" >> appdmg.json\n");
+      fprintf(fd,
+              "echo \"    { \\\"x\\\": 100, \\\"y\\\": 100, \\\"type\\\": \\\"file\\\", \\\"path\\\": \\\"%s\\\" }\" >> "
+              "appdmg.json\n",
+              bundle_name);
+      fprintf(fd, "echo \"  ]\" >> appdmg.json\n");
+      fprintf(fd, "echo \"}\" >> appdmg.json\n");
+      fprintf(fd, "appdmg appdmg.json %s-%s.dmg\n", application_name_lowercase_and_dashes, package_version);
+      fprintf(fd, "rm -rf appdmg.json\n");
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
