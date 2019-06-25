@@ -32,7 +32,7 @@ release debug profile: $(TARGETS)
 
 clean: $(TARGETS)
 	# Remove python/*managers.* except python/managers.i
-	ls -1 python/*managers.* | grep -v managers.i | xargs rm
+	ls -1 python/*managers.* | grep -v managers.i | xargs rm -f
 
 managers.Makefile: robotis-op2.Makefile
 
