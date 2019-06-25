@@ -24,11 +24,9 @@ fi
 if [ "$4" -eq 0 ]; then
   new_version=$3
   new_package=$3
-  silent=
 else
   new_version=$3"\srevision\s"$4
   new_package=$3"-rev"$4
-  silent=silent
 fi
 
 old_version_without_revision=$1
