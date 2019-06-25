@@ -15,6 +15,10 @@
     header("Location: $request_uri");
     exit();
   }
+  if ($request_uri == "/doc/blog/index") {
+    header("Location: /doc/blog/Webots-2019-b-release");
+    exit();
+  }
   # the URL follow this format https://www.cyberbotics.com/doc/book/page?version=tagOrBranch&tab=C#anchor where version, tab and anchor are optional
   $uri = substr($request_uri, 5); // we remove the "/doc/" prefix
   $i = strpos($uri, '/');

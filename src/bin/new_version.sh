@@ -23,28 +23,34 @@ fi
 if [ "$4" -eq 0 ]; then
   new_version=$3
   new_package=$3
+  silent=""
 else
   new_version=$3"\srevision\s"$4
   new_package=$3"-rev"$4
+  silent="silent"
 fi
 
 old_version_without_revision=$1
+old_version_year=${old_version:1:4}
+old_version_letter=${old_version:5:1}
 new_version_without_revision=$3
-year=${new_version:1:4}
+new_version_year=${new_version:1:4}
+new_version_letter=${new_version:5:1}
 
 echo "Update application and documentation version.."
 ./new_version_file.sh $old_version $new_version ../webots/core/WbApplicationInfo.cpp
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
-./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$year ../../Contents/Info.plist silent
+./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist $silent
 
 # documentation
-./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js silent
+./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js $silent
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "year:\\s[0-9]\+" "year: "$year ../../docs/js/showdown-extensions.js silent
-
+./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js $silent
+./new_version_file.sh "/doc/blog/Webots-"$old_version_year"-"$old_version_letter"-release" \
+                      "/doc/blog/Webots-"$new_version_year"-"$new_version_letter"-release" ../../doc/doc.php $silent
 
 if [ $new_version_without_revision != $old_version_without_revision ];
 then
