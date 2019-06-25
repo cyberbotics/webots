@@ -20,11 +20,12 @@ else
   old_version=$1"\srevision\s"$2
   old_package=$1"-rev"$2
 fi
+
 if [ "$4" -eq 0 ]; then
   new_version=$3
   new_package=$3
   silent=
-  if [ ${new_version:1:4} -eq ${old_version:1:4} ]; then
+  if [ "${new_version:1:4}" -eq "${old_version:1:4}" ]; then
     year_silent=silent
   else
     year_silent=
@@ -38,6 +39,7 @@ fi
 old_version_without_revision=$1
 old_version_year=${old_version:1:4}
 old_version_letter=${old_version:5:1}
+
 new_version_without_revision=$3
 new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
