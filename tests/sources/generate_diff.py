@@ -51,7 +51,6 @@ def github_api(request):
     github_api.last_time = time.time()
     return json.loads(content)
 
-print('Executing generate_diff.py script')
 github_api.last_time = 0
 if len(sys.argv) == 3:
     commit = sys.argv[1]
