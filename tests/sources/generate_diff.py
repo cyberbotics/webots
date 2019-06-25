@@ -52,6 +52,9 @@ def github_api(request):
     return json.loads(content)
 
 
+with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'dump.txt'), 'w') as file:
+    file.write('repos/' + repo + '/compare/' + branch + '...' + commit)
+
 github_api.last_time = 0
 if len(sys.argv) == 3:
     commit = sys.argv[1]
@@ -64,8 +67,6 @@ j = github_api('search/issues?q=' + commit)
 url = j["items"][0]["pull_request"]["url"]
 j = github_api(url)
 branch = j["base"]["ref"]
-with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'dump.txt'), 'w') as file:
-    file.write('repos/' + repo + '/compare/' + branch + '...' + commit)
 with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
     j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
     for f in j['files']:
