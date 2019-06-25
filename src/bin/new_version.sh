@@ -55,3 +55,21 @@ fi
 if [ $new_version_year -ne $old_version_year ]; then
   ./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js
 fi
+
+if [ $new_version_without_revision != $old_version_without_revision ];
+then
+  echo "Update file headers.."
+  ./new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
+  ./new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision ../../docs/reference/proto-example.md
+
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/projects/worlds/empty.wbt
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/README.md
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/index.html
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/streaming_viewer/setup_viewer.js
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/web/templates/x3d_playback.html
+  ./new_version_file.sh $old_version_without_revision $new_version_without_revision ../../resources/osm_importer/utils/misc_utils.py
+
+  ./new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" ../../docs/dependencies.txt
+
+  echo "wwi resources on the cyberbotics FTP should be updated."
+fi
