@@ -42,8 +42,8 @@ int computeNumColorPixels() {
       color.b = wb_camera_image_get_blue(image, width, x, y);
       if (!isGray(color)) {
         numColorPixels++;
-        // printf("Pixel x %d y %d: r=%d, g=%d, b=%d\n", x, y, wb_camera_image_get_red(image, width, x, y),
-        //         wb_camera_image_get_green(image, width, x, y), wb_camera_image_get_blue(image, width, x, y));
+        // printf("Pixel(%d, %d): r=%d, g=%d, b=%d\n", x, y, wb_camera_image_get_red(image, width, x, y),
+        //        wb_camera_image_get_green(image, width, x, y), wb_camera_image_get_blue(image, width, x, y));
       }
     }
   }
@@ -92,9 +92,9 @@ int main(int argc, char **argv) {
 
   color = getPixelColor(13, 56);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (13, 56) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 206, 171,
-    58, color.r, color.g, color.b);
+    color.r, color.g, color.b, 185, 152, 60, 15,
+    "Pixel (13, 56) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 185, 152,
+    60, color.r, color.g, color.b);
 
   wb_robot_step(TIME_STEP);
 
@@ -121,9 +121,9 @@ int main(int argc, char **argv) {
 
   color = getPixelColor(28, 39);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (28, 39) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after second paint call", 206, 171,
-    58, color.r, color.g, color.b);
+    color.r, color.g, color.b, 185, 151, 50, 15,
+    "Pixel (28, 39) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after second paint call", 185, 151,
+    50, color.r, color.g, color.b);
 
   wb_robot_step(TIME_STEP);
 
@@ -150,9 +150,9 @@ int main(int argc, char **argv) {
 
   color = getPixelColor(34, 25);
   ts_assert_color_in_delta(
-    color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (34, 25) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after third paint call", 206, 171,
-    58, color.r, color.g, color.b);
+    color.r, color.g, color.b, 185, 151, 51, 15,
+    "Pixel (34, 25) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after third paint call", 185, 151,
+    51, color.r, color.g, color.b);
 
   ts_send_success();
   return EXIT_SUCCESS;

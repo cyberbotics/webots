@@ -34,7 +34,12 @@ jobs:
         - pip install -r docs/tests/requirements.txt
       script:
         - python -m unittest discover -s docs/tests
-        - if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then python tests/sources/generate_diff.py $TRAVIS_BRANCH; fi
+        - |
+          # in case of manually triggered test, planned test or tag test, run complete test
+          if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
+          then
+            tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG
+          fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR tag IS present
