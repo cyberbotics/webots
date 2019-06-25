@@ -50,6 +50,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    var bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    bloomPass.threshold = 21.0;
+    this.composer.addPass(bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);

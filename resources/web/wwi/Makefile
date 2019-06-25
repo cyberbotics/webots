@@ -14,6 +14,10 @@
 
 JS_SOURCES = \
   shaders/hdr_resolve.js \
+  shaders/bright_pass.js \
+  shaders/blend_bloom.js \
+  shaders/gaussian_blur_13_tap.js \
+  passes/bloom.js \
   equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
