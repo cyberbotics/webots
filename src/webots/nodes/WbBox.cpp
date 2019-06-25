@@ -20,6 +20,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
@@ -70,6 +71,8 @@ const WbVector3 &WbBox::size() const {
 void WbBox::createWrenObjects() {
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
+
+  sanitizeFields();
 
   const bool createOutlineMesh = isInBoundingObject();
   mWrenMesh = wr_static_mesh_unit_box_new(createOutlineMesh);
@@ -133,7 +136,7 @@ void WbBox::rescale(const WbVector3 &scale) {
 }
 
 bool WbBox::sanitizeFields() {
-  if (WbFieldChecker::checkVector3IsPositive(this, mSize, WbVector3(1.0, 1.0, 1.0)))
+  if (WbFieldChecker::resetVector3IfNonPositive(this, mSize, WbVector3(1.0, 1.0, 1.0)))
     return false;
 
   return true;
@@ -161,7 +164,7 @@ void WbBox::updateSize() {
 }
 
 void WbBox::updateLineScale() {
-  if (!sanitizeFields() || !isAValidBoundingObject())
+  if (!isAValidBoundingObject())
     return;
 
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
@@ -173,9 +176,6 @@ void WbBox::updateLineScale() {
 }
 
 void WbBox::updateScale() {
-  if (!sanitizeFields())
-    return;
-
   float scale[] = {static_cast<float>(mSize->value().x()), static_cast<float>(mSize->value().y()),
                    static_cast<float>(mSize->value().z())};
   wr_transform_set_scale(wrenNode(), scale);
@@ -218,6 +218,10 @@ void WbBox::applyToOdeData(bool correctSolidMass) {
   size *= absoluteScale().abs();
   assert(dGeomGetClass(mOdeGeom) == dBoxClass);
   dGeomBoxSetLengths(mOdeGeom, size.x(), size.y(), size.z());
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (correctSolidMass)
     applyToOdeMass();

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -10,7 +10,7 @@ PROTO TruckCab [
   Group {
     children [
       DEF COACHWORK Shape {
-        appearance GlossyCarPaint {
+        appearance GlossyPaint {
           baseColor IS color
         }
         geometry IndexedFaceSet {

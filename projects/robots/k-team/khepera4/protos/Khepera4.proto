@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/khepera4
@@ -479,21 +479,25 @@ PROTO Khepera4 [
         translation -0.0585 0.0045 -0.02
         rotation 0 0 1 -1.5708
         name "ground left infrared sensor"
+        shortRange TRUE
       }
       DEF GROUND_FRONT_LEFT_INFRARED_SENSOR Khepera4InfraredSensor {
         translation -0.01 0.0045 -0.062
         rotation -0.577352 0.57735 -0.57735 2.0944
         name "ground front left infrared sensor"
+        shortRange TRUE
       }
       DEF GROUND_FRONT_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
         translation 0.01 0.0045 -0.062
         rotation -0.577352 0.57735 -0.57735 2.0944
         name "ground front right infrared sensor"
+        shortRange TRUE
       }
       DEF GROUND_RIGHT_INFRARED_SENSOR Khepera4InfraredSensor {
         translation 0.0585 0.0045 -0.02
         rotation 0 0 1 -1.5708
         name "ground right infrared sensor"
+        shortRange TRUE
       }
       Camera {
         translation 0 0.0275 -0.06

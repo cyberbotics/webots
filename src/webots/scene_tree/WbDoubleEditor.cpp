@@ -70,7 +70,7 @@ void WbDoubleEditor::resetFocus() {
 
 void WbDoubleEditor::applyIfNeeded() {
   if (field() && ((field()->hasRestrictedValues() && mDouble != mComboBox->currentText().toDouble()) ||
-                  (!field()->hasRestrictedValues() && mDouble != mSpinBox->value())))
+                  (!field()->hasRestrictedValues() && mDouble != mSpinBox->text().toDouble())))
     apply();
 }
 
@@ -80,8 +80,7 @@ void WbDoubleEditor::takeKeyboardFocus() {
 }
 
 void WbDoubleEditor::apply() {
-  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() : mSpinBox->value();
-
+  mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() : mSpinBox->text().toDouble();
   if (singleValue()) {
     WbSFDouble *const sfDouble = static_cast<WbSFDouble *>(singleValue());
     if (sfDouble->value() == mDouble)

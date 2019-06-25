@@ -35,6 +35,8 @@ WbTriangleMesh::~WbTriangleMesh() {
 
 void WbTriangleMesh::cleanup() {
   mValid = false;
+  mNormalsValid = false;
+  mNormalPerVertex = true;
   mTextureCoordinatesValid = false;
   mNTriangles = 0;
 
@@ -75,9 +77,12 @@ void WbTriangleMesh::cleanupTmpArrays() {
   mTmpVertexToTriangle.reserve(0);
 }
 
-QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector2 *texCoord,
-                             const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise) {
+QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal,
+                             const WbMFInt *normalIndex, const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex,
+                             double creaseAngle, bool counterClockwise, bool normalPerVertex) {
   cleanup();
+
+  mNormalPerVertex = normalPerVertex;
 
   // initial obvious check
   if (!coord || coord->size() == 0)
@@ -95,9 +100,24 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 
   mTextureCoordinatesValid = isTexCoordDefined;
   if (isTexCoordDefined && isTexCoordIndexDefined && texCoordIndex->size() != coordIndex->size()) {
-    mWarnings.append(QObject::tr(
-      "Invalid texture mapping: size of 'coordIndex' and 'texCoordIndex' mismatch. The default texture mapping is applied."));
+    mWarnings.append(QObject::tr("Invalid texture mapping: the sizes of 'coordIndex' and 'texCoordIndex' mismatch. The default "
+                                 "texture mapping is applied."));
     mTextureCoordinatesValid = false;
+  }
+
+  // determine if the normal seems valid or not
+  // this value will be used to determine the content of mNormals
+  const bool isNormalDefined = normal && normal->size() > 0;
+  const bool isNormalIndexDefined = normalIndex && normalIndex->size() > 0;
+
+  mNormalsValid = isNormalDefined;
+  if (mNormalPerVertex) {
+    if (isNormalDefined && isNormalIndexDefined && normalIndex->size() != coordIndex->size()) {
+      mWarnings.append(
+        QObject::tr("Invalid normal definition: the sizes of 'coordIndex' and 'normalIndex' mismatch. The normals will "
+                    "be computed using the creaseAngle."));
+      mNormalsValid = false;
+    }
   }
 
   // memory allocation of the tmp arrays (overestimated)
@@ -116,18 +136,20 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
   mNormals.reserve(3 * estimateSize);
 
   // passes to create the final arrays
-  if (isTexCoordDefined && !isTexCoordIndexDefined)
-    // if texCoordIndex is empty use coordIndex
-    indicesPass(coord, coordIndex, coordIndex);
-  else
-    indicesPass(coord, coordIndex, texCoordIndex);
+  indicesPass(coord, coordIndex, (mNormalsValid && mNormalPerVertex && isNormalIndexDefined) ? normalIndex : coordIndex,
+              (isTexCoordDefined && isTexCoordIndexDefined) ? texCoordIndex : coordIndex);
   mNTriangles = mCoordIndices.size() / 3;
+  if (mNormalsValid && !mNormalPerVertex && mNTriangles > normal->size()) {
+    mWarnings.append(QObject::tr("Invalid normal definition: the size of 'normal' should equal the number of triangles when "
+                                 "'normalPerVertex' is FALSE. The normals will be computed using the creaseAngle."));
+    mNormalsValid = false;
+  }
   if (!counterClockwise)
     reverseIndexOrder();
-  const QString error = tmpNormalsPass(coord);
+  const QString error = tmpNormalsPass(coord, normal);
   if (!error.isEmpty())
     return error;
-  finalPass(coord, texCoord, creaseAngle);
+  finalPass(coord, normal, texCoord, creaseAngle);
 
   // unallocate the useless data
   cleanupTmpArrays();
@@ -149,11 +171,13 @@ QString WbTriangleMesh::init(const WbMFVector3 *coord, const WbMFInt *coordIndex
 }
 
 // populate mCoordIndices and mTmpTexIndices with valid indices
-void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFInt *texCoordIndex) {
+void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFInt *normalIndex,
+                                 const WbMFInt *texCoordIndex) {
+  assert(!mNormalsValid || normalIndex);
   assert(!mTextureCoordinatesValid || texCoordIndex);
 
   // parse coordIndex
-  QList<QPair<int, int>> currentFaceIndices;  // keep the coord and tex indices of the current face
+  QList<QVector<int>> currentFaceIndices;  // keep the coord, normal and tex indices of the current face
   const int coordIndexSize = coordIndex->size();
 
   for (int i = 0; i < coordIndexSize; ++i) {
@@ -164,7 +188,8 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
     // -> add a current index to the current face
     //    in order to have consistent data
     if (index != -1 && i == coordIndexSize - 1)
-      currentFaceIndices.append(QPair<int, int>(index, mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
+      currentFaceIndices.append(QVector<int>() << index << (mNormalsValid ? normalIndex->item(i) : 0)
+                                               << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
     const int cfiSize = currentFaceIndices.size();
     // add the current face
     if (index == -1 || i == coordIndexSize - 1) {
@@ -172,7 +197,7 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
       // by checking if the range of the new face indices is valid
       bool currentFaceValidity = true;
       for (int j = 0; j < cfiSize; ++j) {
-        const int cfi = currentFaceIndices[j].first;
+        const int cfi = currentFaceIndices[j][0];
         if (cfi < 0 || cfi >= coord->size())
           currentFaceValidity = false;
       }
@@ -180,11 +205,11 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
       // add a face
       // -> tesselate everything in order to optimize dummy user input -> ex: [0 0 0 -1], [0 -1] or [0 1 2 0 -1])
       if (currentFaceValidity) {
-        QList<QPair<int, int>> tesselatorOutput;
+        QList<QVector<int>> tesselatorOutput;
         QList<WbVector3> tesselatorVectorInput;
 
         for (int j = 0; j < cfiSize; ++j) {
-          const int cfi = currentFaceIndices[j].first;
+          const int cfi = currentFaceIndices[j][0];
           tesselatorVectorInput.append(coord->item(cfi));
         }
 
@@ -199,32 +224,47 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
         // it tesselates, so we can take shortcuts for triangles and quads
         // simplest case: polygon is triangle
         if (toSize == 3) {
-          mCoordIndices.append(tesselatorOutput[0].first);
-          mCoordIndices.append(tesselatorOutput[1].first);
-          mCoordIndices.append(tesselatorOutput[2].first);
+          mCoordIndices.append(tesselatorOutput[0][0]);
+          mCoordIndices.append(tesselatorOutput[1][0]);
+          mCoordIndices.append(tesselatorOutput[2][0]);
+
+          if (mNormalsValid) {
+            mTmpNormalIndices.append(tesselatorOutput[0][1]);
+            mTmpNormalIndices.append(tesselatorOutput[1][1]);
+            mTmpNormalIndices.append(tesselatorOutput[2][1]);
+          }
 
           if (mTextureCoordinatesValid) {
-            mTmpTexIndices.append(tesselatorOutput[0].second);
-            mTmpTexIndices.append(tesselatorOutput[1].second);
-            mTmpTexIndices.append(tesselatorOutput[2].second);
+            mTmpTexIndices.append(tesselatorOutput[0][2]);
+            mTmpTexIndices.append(tesselatorOutput[1][2]);
+            mTmpTexIndices.append(tesselatorOutput[2][2]);
           }
         }
         // polygon is quad (two triangles)
         else if (toSize == 6) {
-          mCoordIndices.append(tesselatorOutput[0].first);
-          mCoordIndices.append(tesselatorOutput[1].first);
-          mCoordIndices.append(tesselatorOutput[2].first);
-          mCoordIndices.append(tesselatorOutput[3].first);
-          mCoordIndices.append(tesselatorOutput[4].first);
-          mCoordIndices.append(tesselatorOutput[5].first);
+          mCoordIndices.append(tesselatorOutput[0][0]);
+          mCoordIndices.append(tesselatorOutput[1][0]);
+          mCoordIndices.append(tesselatorOutput[2][0]);
+          mCoordIndices.append(tesselatorOutput[3][0]);
+          mCoordIndices.append(tesselatorOutput[4][0]);
+          mCoordIndices.append(tesselatorOutput[5][0]);
+
+          if (mNormalsValid) {
+            mTmpNormalIndices.append(tesselatorOutput[0][1]);
+            mTmpNormalIndices.append(tesselatorOutput[1][1]);
+            mTmpNormalIndices.append(tesselatorOutput[2][1]);
+            mTmpNormalIndices.append(tesselatorOutput[3][1]);
+            mTmpNormalIndices.append(tesselatorOutput[4][1]);
+            mTmpNormalIndices.append(tesselatorOutput[5][1]);
+          }
 
           if (mTextureCoordinatesValid) {
-            mTmpTexIndices.append(tesselatorOutput[0].second);
-            mTmpTexIndices.append(tesselatorOutput[1].second);
-            mTmpTexIndices.append(tesselatorOutput[2].second);
-            mTmpTexIndices.append(tesselatorOutput[3].second);
-            mTmpTexIndices.append(tesselatorOutput[4].second);
-            mTmpTexIndices.append(tesselatorOutput[5].second);
+            mTmpTexIndices.append(tesselatorOutput[0][2]);
+            mTmpTexIndices.append(tesselatorOutput[1][2]);
+            mTmpTexIndices.append(tesselatorOutput[2][2]);
+            mTmpTexIndices.append(tesselatorOutput[3][2]);
+            mTmpTexIndices.append(tesselatorOutput[4][2]);
+            mTmpTexIndices.append(tesselatorOutput[5][2]);
           }
         }
         // 5+ vertex polygon
@@ -235,9 +275,9 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
         // left by the now-missing triangle back together to re-close the polygon
         else {
           for (int j = 0; j < toSize; j += 3) {
-            const WbVector3 &a = coord->item(tesselatorOutput[j].first);
-            const WbVector3 &b = coord->item(tesselatorOutput[j + 1].first);
-            const WbVector3 &c = coord->item(tesselatorOutput[j + 2].first);
+            const WbVector3 &a = coord->item(tesselatorOutput[j][0]);
+            const WbVector3 &b = coord->item(tesselatorOutput[j + 1][0]);
+            const WbVector3 &c = coord->item(tesselatorOutput[j + 2][0]);
 
             // check for colinear edges, and discard this triangle if found
             const WbVector3 d = b - a;
@@ -253,16 +293,21 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
               continue;
             }
             // see if this triangle has any overlapping vertices and snip triangle to improve tesselation and fill holes
-            const QList<QPair<int, int>> snippedIndices = cutTriangleIfNeeded(coord, tesselatorOutput, j);
+            const QList<QVector<int>> snippedIndices = cutTriangleIfNeeded(coord, tesselatorOutput, j);
             assert(snippedIndices.size() % 3 == 0);
             for (int k = 0; k < snippedIndices.size(); k += 3) {
-              mCoordIndices.append(snippedIndices[k].first);
-              mCoordIndices.append(snippedIndices[k + 1].first);
-              mCoordIndices.append(snippedIndices[k + 2].first);
+              mCoordIndices.append(snippedIndices[k][0]);
+              mCoordIndices.append(snippedIndices[k + 1][0]);
+              mCoordIndices.append(snippedIndices[k + 2][0]);
+              if (mNormalsValid) {
+                mTmpNormalIndices.append(snippedIndices[k][1]);
+                mTmpNormalIndices.append(snippedIndices[k + 1][1]);
+                mTmpNormalIndices.append(snippedIndices[k + 2][1]);
+              }
               if (mTextureCoordinatesValid) {
-                mTmpTexIndices.append(snippedIndices[k].second);
-                mTmpTexIndices.append(snippedIndices[k + 1].second);
-                mTmpTexIndices.append(snippedIndices[k + 2].second);
+                mTmpTexIndices.append(snippedIndices[k][2]);
+                mTmpTexIndices.append(snippedIndices[k + 1][2]);
+                mTmpTexIndices.append(snippedIndices[k + 2][2]);
               }
             }
           }
@@ -274,37 +319,41 @@ void WbTriangleMesh::indicesPass(const WbMFVector3 *coord, const WbMFInt *coordI
         for (int j = 0; j < cfiSize; ++j) {
           if (j != 0)
             IndicesString.append(", ");
-          IndicesString.append(QString::number(currentFaceIndices[j].first));
+          IndicesString.append(QString::number(currentFaceIndices[j][0]));
         }
         IndicesString.append("]");
         mWarnings.append(QObject::tr("Out-of-range index in: %1.").arg(IndicesString));
-        ;
       }
 
       currentFaceIndices.clear();
     }
     // add a coordIndex to the currentFace
     else
-      currentFaceIndices.append(QPair<int, int>(index, mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
+      currentFaceIndices.append(QVector<int>() << index << (mNormalsValid ? normalIndex->item(i) : 0)
+                                               << (mTextureCoordinatesValid ? texCoordIndex->item(i) : 0));
   }
 
+  assert(mCoordIndices.size() == mTmpNormalIndices.size() || mTmpNormalIndices.size() == 0);
   assert(mCoordIndices.size() == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
   assert(mCoordIndices.size() % 3 == 0);
 }
 
-QList<QPair<int, int>> WbTriangleMesh::cutTriangleIfNeeded(const WbMFVector3 *coord,
-                                                           const QList<QPair<int, int>> &tesselatedPolygon,
-                                                           const int triangleIndex) {
-  QList<QPair<int, int>> results;
+QList<QVector<int>> WbTriangleMesh::cutTriangleIfNeeded(const WbMFVector3 *coord, const QList<QVector<int>> &tesselatedPolygon,
+                                                        const int triangleIndex) {
+  QList<QVector<int>> results;
 
   // find the three vertices of this triangle from the tesselated polygon
-  const int firstVertexIndex = tesselatedPolygon[triangleIndex].first;
-  const int secondVertexIndex = tesselatedPolygon[triangleIndex + 1].first;
-  const int thirdVertexIndex = tesselatedPolygon[triangleIndex + 2].first;
+  const int firstVertexIndex = tesselatedPolygon[triangleIndex][0];
+  const int secondVertexIndex = tesselatedPolygon[triangleIndex + 1][0];
+  const int thirdVertexIndex = tesselatedPolygon[triangleIndex + 2][0];
 
-  const int firstTexCoordIndex = tesselatedPolygon[triangleIndex].second;
-  const int secondTexCoordIndex = tesselatedPolygon[triangleIndex + 1].second;
-  const int thirdTexCoordIndex = tesselatedPolygon[triangleIndex + 2].second;
+  const int firstNormalIndex = tesselatedPolygon[triangleIndex][1];
+  const int secondNormalIndex = tesselatedPolygon[triangleIndex + 1][1];
+  const int thirdNormalIndex = tesselatedPolygon[triangleIndex + 2][1];
+
+  const int firstTexCoordIndex = tesselatedPolygon[triangleIndex][2];
+  const int secondTexCoordIndex = tesselatedPolygon[triangleIndex + 1][2];
+  const int thirdTexCoordIndex = tesselatedPolygon[triangleIndex + 2][2];
 
   // prepare triangle edges for snipping checks
   const WbVector3 &firstEdgeStart = coord->item(firstVertexIndex);
@@ -320,92 +369,100 @@ QList<QPair<int, int>> WbTriangleMesh::cutTriangleIfNeeded(const WbMFVector3 *co
   // for all vertices not in this triangle
   for (int i = 0; i < tesselatedPolygon.size(); ++i) {
     // skip vertices from this triangle
-    if (tesselatedPolygon[i].first == firstVertexIndex || tesselatedPolygon[i].first == secondVertexIndex ||
-        tesselatedPolygon[i].first == thirdVertexIndex)
+    if (tesselatedPolygon[i][0] == firstVertexIndex || tesselatedPolygon[i][0] == secondVertexIndex ||
+        tesselatedPolygon[i][0] == thirdVertexIndex)
       continue;
     // skip vertices we've already checked
-    else if (checkedIndices.value(tesselatedPolygon[i].first))
+    else if (checkedIndices.value(tesselatedPolygon[i][0]))
       continue;
 
     // case 1: vertex is on the first edge of the triangle
-    else if (coord->item(tesselatedPolygon[i].first).isOnEdgeBetweenVertices(firstEdgeStart, firstEdgeEnd)) {
+    else if (coord->item(tesselatedPolygon[i][0]).isOnEdgeBetweenVertices(firstEdgeStart, firstEdgeEnd)) {
       // first triangle
-      results.append(QPair<int, int>(firstVertexIndex, firstTexCoordIndex));
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(thirdVertexIndex, thirdTexCoordIndex));
+      results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
       // second triangle
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(secondVertexIndex, secondTexCoordIndex));
-      results.append(QPair<int, int>(thirdVertexIndex, thirdTexCoordIndex));
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
+      results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
     }
     // case 2: vertex is on the second edge of the triangle
-    else if (coord->item(tesselatedPolygon[i].first).isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
+    else if (coord->item(tesselatedPolygon[i][0]).isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
       // first triangle
-      results.append(QPair<int, int>(secondVertexIndex, secondTexCoordIndex));
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(firstVertexIndex, firstTexCoordIndex));
+      results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
       // second triangle
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(thirdVertexIndex, thirdTexCoordIndex));
-      results.append(QPair<int, int>(firstVertexIndex, firstTexCoordIndex));
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
+      results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
     }
     // case 3: vertex is on the third edge of the triangle
-    else if (coord->item(tesselatedPolygon[i].first).isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
+    else if (coord->item(tesselatedPolygon[i][0]).isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
       // first triangle
-      results.append(QPair<int, int>(thirdVertexIndex, thirdTexCoordIndex));
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(secondVertexIndex, secondTexCoordIndex));
+      results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
       // second triangle
-      results.append(QPair<int, int>(tesselatedPolygon[i].first, tesselatedPolygon[i].second));
-      results.append(QPair<int, int>(firstVertexIndex, firstTexCoordIndex));
-      results.append(QPair<int, int>(secondVertexIndex, secondTexCoordIndex));
+      results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
+      results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
+      results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
     }
 
     // add this vertex to the list of those already checked
-    checkedIndices.insert(tesselatedPolygon[i].first, true);
+    checkedIndices.insert(tesselatedPolygon[i][0], true);
   }
   //  default - no need to cut the triangle, return it as-was
   if (results.isEmpty()) {
-    results.append(QPair<int, int>(firstVertexIndex, firstTexCoordIndex));
-    results.append(QPair<int, int>(secondVertexIndex, secondTexCoordIndex));
-    results.append(QPair<int, int>(thirdVertexIndex, thirdTexCoordIndex));
+    results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
+    results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
+    results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
   }
 
   return results;
 }
 
 // populate mTmpTriangleNormals from coord and mCoordIndices
-QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord) {
+QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVector3 *normal) {
   assert(mNTriangles == mCoordIndices.size() / 3);
   assert(mCoordIndices.size() % 3 == 0);
 
+  if (mNormalsValid && mNormalPerVertex)
+    return "";  // normal are already defined per vertex
+
   // 1. compute normals per triangle
   for (int i = 0; i < mNTriangles; ++i) {
-    const int j = 3 * i;
-    const int indexA = mCoordIndices[j];
-    const int indexB = mCoordIndices[j + 1];
-    const int indexC = mCoordIndices[j + 2];
+    if (mNormalsValid)
+      mTmpTriangleNormals.append(normal->item(i).normalized());
+    else {
+      const int j = 3 * i;
+      const int indexA = mCoordIndices[j];
+      const int indexB = mCoordIndices[j + 1];
+      const int indexC = mCoordIndices[j + 2];
 
-    assert(indexA >= 0 && indexA < coord->size());
-    assert(indexB >= 0 && indexB < coord->size());
-    assert(indexC >= 0 && indexC < coord->size());
+      assert(indexA >= 0 && indexA < coord->size());
+      assert(indexB >= 0 && indexB < coord->size());
+      assert(indexC >= 0 && indexC < coord->size());
 
-    const WbVector3 &posA = coord->item(indexA);
-    const WbVector3 &posB = coord->item(indexB);
-    const WbVector3 &posC = coord->item(indexC);
+      const WbVector3 &posA = coord->item(indexA);
+      const WbVector3 &posB = coord->item(indexB);
+      const WbVector3 &posC = coord->item(indexC);
 
-    const WbVector3 &v1 = posB - posA;
-    const WbVector3 &v2 = posC - posA;
-    WbVector3 normal(v1.cross(v2));
-    const double length = normal.length();
-    if (length == 0.0)
-      return QObject::tr("Null normal for face %1 %2 %3.\n This can be caused by duplicate vertices in your mesh. "
-                         "Try opening your model in 3D modeling software and removing duplicate vertices, then re-importing.")
-        .arg(indexA)
-        .arg(indexB)
-        .arg(indexC);
-    normal /= length;
-    mTmpTriangleNormals.append(normal);
+      const WbVector3 &v1 = posB - posA;
+      const WbVector3 &v2 = posC - posA;
+      WbVector3 normal(v1.cross(v2));
+      const double length = normal.length();
+      if (length == 0.0)
+        return QObject::tr("Null normal for face %1 %2 %3.\nThis can be caused by duplicate vertices in your mesh. "
+                           "Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the "
+                           "model in Webots.")
+          .arg(indexA)
+          .arg(indexB)
+          .arg(indexC);
+      normal /= length;
+      mTmpTriangleNormals.append(normal);
+    }
   }
 
   assert(mTmpTriangleNormals.size() == mNTriangles);
@@ -480,39 +537,41 @@ void WbTriangleMesh::setDefaultTextureCoordinates(const WbMFVector3 *coord) {
 }
 
 // populate mIndices, mVertices, mTextureCoordinates and mNormals
-void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector2 *texCoord, double creaseAngle) {
+void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *normal, const WbMFVector2 *texCoord,
+                               double creaseAngle) {
   assert(coord && coord->size() > 0);
-  assert(mTmpTriangleNormals.size() == mNTriangles);
+  assert(mTmpTriangleNormals.size() == mNTriangles || (mNormalsValid && mNormalPerVertex));
   assert(mNTriangles == mCoordIndices.size() / 3);
   assert(mCoordIndices.size() % 3 == 0);
   assert(mCoordIndices.size() == mTmpTexIndices.size() || mTmpTexIndices.size() == 0);
   const int texCoordSize = texCoord ? texCoord->size() : 0;
+  const int normalSize = normal ? normal->size() : 0;
   const int coordSize = coord->size();
 
   // populate the vertex array
-  WbVector3 v = coord->item(0);
-  mMax[X] = v.x();
-  mMax[Y] = v.y();
-  mMax[Z] = v.z();
+  WbVector3 vertex = coord->item(0);
+  mMax[X] = vertex.x();
+  mMax[Y] = vertex.y();
+  mMax[Z] = vertex.z();
   mMin[X] = mMax[X];
   mMin[Y] = mMax[Y];
   mMin[Z] = mMax[Z];
   for (int i = 0; i < coordSize; ++i) {
-    v = coord->item(i);
+    vertex = coord->item(i);
 
-    const double x = v.x();
+    const double x = vertex.x();
     if (mMax[X] < x)
       mMax[X] = x;
     else if (mMin[X] > x)
       mMin[X] = x;
 
-    const double y = v.y();
+    const double y = vertex.y();
     if (mMax[Y] < y)
       mMax[Y] = y;
     else if (mMin[Y] > y)
       mMin[Y] = y;
 
-    const double z = v.z();
+    const double z = vertex.z();
     if (mMax[Z] < z)
       mMax[Z] = z;
     else if (mMin[Z] > z)
@@ -529,51 +588,60 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector2 *texC
       const int index = k + v;
       const int indexCoord = mCoordIndices[index];
 
-      // compute the normal
-      WbVector3 normal;
-      const WbVector3 &faceNormal = mTmpTriangleNormals[t];
-      const QList<int> &linkedTriangles = mTmpVertexToTriangle.values(indexCoord);
-      const int ltSize = linkedTriangles.size();
-      // stores the normals of the linked triangles which are already used.
-      const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
-      int linkedTriangleNormalsIndex = 0;
-      for (int i = 0; i < ltSize; ++i) {
-        const int linkedTriangleIndex = linkedTriangles.at(i);
-        if (linkedTriangleIndex >= 0 && linkedTriangleIndex < mNTriangles) {
-          const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
-          // perform the creaseAngle check
-          if (faceNormal.angle(linkedTriangleNormal) < creaseAngle) {
-            bool found = false;
-            // we don't want coplanar face normals on e.g. a cylinder to bias a
-            // normal and cause discontinuities, so don't include duplicated
-            // normals in the smoothing pass
-            for (int lN = 0; lN < linkedTriangleNormalsIndex; ++lN) {
-              const WbVector3 *currentLinkedTriangleNormal = linkedTriangleNormals[lN];
-              if (currentLinkedTriangleNormal->almostEquals(linkedTriangleNormal, 0.0001)) {
-                found = true;
-                break;
+      // compute the normal per vertex (from normal per triangle)
+      if (!mNormalsValid || !mNormalPerVertex) {
+        WbVector3 normal;
+        const WbVector3 &faceNormal = mTmpTriangleNormals[t];
+        const QList<int> &linkedTriangles = mTmpVertexToTriangle.values(indexCoord);
+        const int ltSize = linkedTriangles.size();
+        // stores the normals of the linked triangles which are already used.
+        const WbVector3 **linkedTriangleNormals = new const WbVector3 *[ltSize];
+        int linkedTriangleNormalsIndex = 0;
+        for (int i = 0; i < ltSize; ++i) {
+          const int linkedTriangleIndex = linkedTriangles.at(i);
+          if (linkedTriangleIndex >= 0 && linkedTriangleIndex < mNTriangles) {
+            const WbVector3 &linkedTriangleNormal = mTmpTriangleNormals[linkedTriangleIndex];
+            // perform the creaseAngle check
+            if (faceNormal.angle(linkedTriangleNormal) < creaseAngle) {
+              bool found = false;
+              // we don't want coplanar face normals on e.g. a cylinder to bias a
+              // normal and cause discontinuities, so don't include duplicated
+              // normals in the smoothing pass
+              for (int lN = 0; lN < linkedTriangleNormalsIndex; ++lN) {
+                const WbVector3 *currentLinkedTriangleNormal = linkedTriangleNormals[lN];
+                if (currentLinkedTriangleNormal->almostEquals(linkedTriangleNormal, 0.0001)) {
+                  found = true;
+                  break;
+                }
               }
-            }
-            if (!found) {
-              normal += linkedTriangleNormal;
-              linkedTriangleNormals[linkedTriangleNormalsIndex] = &linkedTriangleNormal;
-              linkedTriangleNormalsIndex++;
+              if (!found) {
+                normal += linkedTriangleNormal;
+                linkedTriangleNormals[linkedTriangleNormalsIndex] = &linkedTriangleNormal;
+                linkedTriangleNormalsIndex++;
+              }
             }
           }
         }
+        delete[] linkedTriangleNormals;
+
+        if (normal.isNull())
+          normal = faceNormal;
+        else
+          normal.normalize();
+
+        // populate the remaining two final arrays
+        mNormals.append(normal[X]);
+        mNormals.append(normal[Y]);
+        mNormals.append(normal[Z]);
+      } else {  // normal already defined per vertex
+        const int indexNormal = mTmpNormalIndices[index];
+        if (indexNormal >= 0 && indexNormal < normalSize) {
+          const WbVector3 nor(normal->item(indexNormal));
+          mNormals.append(nor.x());
+          mNormals.append(nor.y());
+          mNormals.append(nor.z());
+        }
       }
-      delete[] linkedTriangleNormals;
-
-      if (normal.isNull())
-        normal = faceNormal;
-      else
-        normal.normalize();
-
-      // populate the remaining two final arrays
-
-      mNormals.append(normal[X]);
-      mNormals.append(normal[Y]);
-      mNormals.append(normal[Z]);
 
       if (mTextureCoordinatesValid) {
         const int indexTex = mTmpTexIndices[index];
@@ -615,9 +683,9 @@ void WbTriangleMesh::reverseIndexOrder() {
     mCoordIndices[i1] = third;
 
     if (mTextureCoordinatesValid) {
-      const int third = mTmpTexIndices.at(i2);
+      const int thirdIndex = mTmpTexIndices.at(i2);
       mTmpTexIndices[i2] = mTmpTexIndices.at(i1);
-      mTmpTexIndices[i1] = third;
+      mTmpTexIndices[i1] = thirdIndex;
     }
   }
 }

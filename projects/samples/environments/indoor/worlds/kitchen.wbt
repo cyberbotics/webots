@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
 }
 Viewpoint {
@@ -553,9 +553,8 @@ Table {
 }
 CeilingLight {
   translation 1.5 2.4 0.7
-  pointLightAttenuation 0 0 4
   pointLightColor 1 0.9764705882352941 0.9058823529411765
-  pointLightIntensity 7
+  pointLightIntensity 4
 }
 Chair {
   translation 0.5 0 0.64
@@ -703,7 +702,7 @@ Cookware {
 }
 Lid {
   translation -1.31968 0.960471 -1.66658
-  rotation 0.7083611653994737 6.470801510906041e-5 -0.7058501648131651 0.000636256
+  rotation 0.7083611653994737 6.470801510906041e-05 -0.7058501648131651 0.000636256
 }
 WoodenSpoon {
   translation -1.37605 0.889212 -1.24856

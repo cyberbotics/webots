@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: static
@@ -158,11 +158,13 @@ PROTO ResidentialBuildingWithRoundFront [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_metalness.jpg"' }%
             ]
           }
+          %{ if type ~= 'dark grey' and type ~= 'dark braun' then }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_normal.jpg"' }%
             ]
           }
+          %{ end }%
           occlusionMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_frames_' ..  texture .. '_occlusion.jpg"' }%
@@ -205,11 +207,13 @@ PROTO ResidentialBuildingWithRoundFront [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_metalness.jpg"' }%
             ]
           }
+          %{ if type ~= 'dark grey' and type ~= 'dark braun' then }%
           normalMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_normal.jpg"' }%
             ]
           }
+          %{ end }%
           occlusionMap ImageTexture {
             url [
               %{= '"textures/residential_building_textures/residential_building_with_round_front_windows_' ..  texture .. '_occlusion.jpg"' }%

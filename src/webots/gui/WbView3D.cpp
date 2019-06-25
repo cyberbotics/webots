@@ -1185,8 +1185,7 @@ void WbView3D::checkRendererCapabilities() {
 
   // 1. parameters which can be reduced
   bool disableShadows = false;
-  bool disableCameraAntiAliasing = false;
-  bool disableSMAA = false;
+  bool disableAntiAliasing = false;
   bool disableGTAO = false;
   int reduceTextureQuality = 0;
 
@@ -1206,8 +1205,7 @@ void WbView3D::checkRendererCapabilities() {
     message += '\n';
 
     disableShadows = true;
-    disableCameraAntiAliasing = true;
-    disableSMAA = true;
+    disableAntiAliasing = true;
     disableGTAO = true;
     reduceTextureQuality = 1;
   }
@@ -1221,7 +1219,7 @@ void WbView3D::checkRendererCapabilities() {
     int gpuGeneration = WbSysInfo::intelGPUGeneration(WbWrenOpenGlContext::instance()->functions());
     if (gpuGeneration < 5) {
       disableShadows = true;
-      disableCameraAntiAliasing = true;
+      disableAntiAliasing = true;
     }
 #endif
   }
@@ -1229,8 +1227,7 @@ void WbView3D::checkRendererCapabilities() {
   else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
     message += tr("Webots has detected that you are using an old AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
-    disableCameraAntiAliasing = true;
-    disableSMAA = true;
+    disableAntiAliasing = true;
     disableGTAO = true;
     reduceTextureQuality = 1;
   }
@@ -1260,16 +1257,10 @@ void WbView3D::checkRendererCapabilities() {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
   }
 
-  if (disableCameraAntiAliasing) {
+  if (disableAntiAliasing) {
     message += "\n - ";
-    message += tr("The anti-aliasing on the Camera devices has been deactivated.");
-    WbPreferences::instance()->setValue("OpenGL/disableCameraAntiAliasing", true);
-  }
-
-  if (disableSMAA) {
-    message += "\n - ";
-    message += tr("Main 3D view anti-aliasing has been de-activated.");
-    WbPreferences::instance()->setValue("OpenGL/SMAA", false);
+    message += tr("Anti-aliasing has been deactivated.");
+    WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
   }
 
   if (disableGTAO) {
@@ -1293,7 +1284,7 @@ void WbView3D::checkRendererCapabilities() {
   // 5. complete and display the message
   if (!message.isEmpty()) {
     message += "\n\n";
-    if (disableShadows || disableCameraAntiAliasing || disableSMAA || disableGTAO || reduceTextureQuality)
+    if (disableShadows || disableAntiAliasing || disableGTAO || reduceTextureQuality)
       message += tr("You can try to re-activate some OpenGL features from the Webots preferences.");
     else
       message +=
@@ -1510,7 +1501,6 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
           return;
         } else if (overlay->isInsideCloseButton(position.x(), position.y())) {
           renderingDevice->toggleOverlayVisibility(false, true);
-          displayOverlayClicked = false;
 
           // reset double click timer on close area
           delete mMousePressTime;
@@ -1559,7 +1549,7 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   if (!mDragOverlay) {
     WbRenderingDevice *renderingDevice = WbRenderingDevice::fromMousePosition(position.x(), position.y());
     if (renderingDevice) {
-      WbWrenTextureOverlay *overlay = renderingDevice->overlay();
+      overlay = renderingDevice->overlay();
       if (overlay) {
         if (overlay->isInsideCloseButton(position.x(), position.y()))
           renderingDevice->toggleOverlayVisibility(false, true);

@@ -18,7 +18,7 @@
 
 from io import BytesIO
 from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDeviceGetName, nvmlDeviceGetMemoryInfo, \
-                   nvmlDeviceGetUtilizationRates
+    nvmlDeviceGetUtilizationRates
 from requests import session
 
 import errno
@@ -75,7 +75,7 @@ def chmod_python_and_executable_files(directory):
         if os.path.isdir(fullname):
             chmod_python_and_executable_files(fullname)
         if filename.endswith('.py') or not os.path.splitext(filename)[1]:
-            os.chmod(fullname, 0775)
+            os.chmod(fullname, 0o775)
 
 
 class Snapshot:
@@ -211,8 +211,8 @@ class Client:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
-            client.client_websocket.write_message('webots:' + protocol + '//'
-                                                  + hostname + ':' + str(port))
+            client.client_websocket.write_message('webots:' + protocol + '//' +
+                                                  hostname + ':' + str(port))
             for line in iter(client.webots_process.stdout.readline, b''):
                 line = line.rstrip()
                 if line == 'pause':
@@ -326,14 +326,16 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
                 if n > 0:
                     host = host[:n]
                 keyFilename = os.path.join(config['keyDir'], host)
-                try:
-                    keyFile = open(keyFilename, "r")
-                except IOError:
-                    logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
-                    client.client_websocket.close()
-                    return
-                client.key = keyFile.readline().rstrip(os.linesep)
-
+                if (os.path.isfile(keyFilename)):
+                    try:
+                        keyFile = open(keyFilename, "r")
+                    except IOError:
+                        logging.error("Unknown host: " + host + " from " + self.request.remote_ip)
+                        client.client_websocket.close()
+                        return
+                    client.key = keyFile.readline().rstrip(os.linesep)
+                else:
+                    logging.warning("No key for: " + host)
                 logging.info('[%d] Setup client %s %s '
                              '(remote ip: %s, streaming_server_port: %s)'
                              % (id(client),

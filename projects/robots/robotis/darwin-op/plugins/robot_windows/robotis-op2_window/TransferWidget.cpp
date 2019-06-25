@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "TransferWidget.hpp"
+
 #include "SSH.hpp"
 #include "ZIP.hpp"
 
@@ -243,9 +244,6 @@ void TransferWidget::status(const QString &message) {
 }
 
 void TransferWidget::sendController() {
-  QString controller;
-  controller = QString(wb_robot_get_controller_name());
-
   if (mStatus == DISCONNECTED) {  // send controller
     mRemoteControlButton->setEnabled(false);
     mUninstallButton->setEnabled(false);

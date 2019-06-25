@@ -1,6 +1,6 @@
 ## Neuronics' IPR
 
-%robot ipr images/robots/ipr/model.png
+%robot ipr images/robots/ipr/model.thumbnail.png
 
 The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 It was developed by `Neuronics`.

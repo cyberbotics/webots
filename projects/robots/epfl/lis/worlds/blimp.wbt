@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "A blimp robot model demonstrating custom physics."
@@ -22,8 +22,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.9734759850985606 -0.22738937416319646 0.02527011978715204 5.827790069904052
-  position 1.881999838982753 6.989019698287106 14.94509009756716
+  orientation 0.05183724120983727 0.9912974151353603 0.12100551710441193 4.246832297580772
+  position -4.829595346803776 2.2974812497740222 0.21129896678536753
   bloomThreshold 100
 }
 TexturedBackground {
@@ -34,19 +34,17 @@ DEF blimp_lis Blimp {
 }
 FloorLight {
   translation -5.3289884184332035 0 -5.198742668282387
-  pointLightAttenuation 0 1 0
   pointLightIntensity 5
   pointLightCastShadows TRUE
 }
 CeilingLight {
   translation -0.778416458889009 3.0199999999999996 -2.5637438670646664
-  pointLightAttenuation 0 0 1
   pointLightIntensity 8
+  pointLightCastShadows TRUE
 }
 CeilingLight {
   translation 3.5035561583815937 3.010000000000003 4.758051372254145
   name "ceiling light(1)"
-  pointLightAttenuation 1 1 0
   pointLightIntensity 6
   pointLightCastShadows TRUE
 }
@@ -525,7 +523,7 @@ DEF INSIDE_CENTER_WALL_3 Solid {
   boundingObject USE CENTER_WALL_3
 }
 DEF INSIDE_CENTER_WALL_4 Solid {
-  translation 2.7 1.5 0.4
+  translation 2.7 1.49 0.4
   children [
     DEF CENTER_WALL_4 Shape {
       appearance USE CENTER_WALL_APP
@@ -538,8 +536,8 @@ DEF INSIDE_CENTER_WALL_4 Solid {
   boundingObject USE CENTER_WALL_4
 }
 DEF EPFL_LOGO_1 Solid {
-  translation -1.4703 1.8 3.57092
-  rotation 0 1 0 17.28
+  translation 0.281906 1.8 6
+  rotation 0 -1 0 -0.001240307179586786
   children [
     DEF EPFL_LOGO Shape {
       appearance PBRAppearance {
@@ -567,27 +565,6 @@ DEF EPFL_LOGO_2 Solid {
   name "epfl logo 2"
 }
 DEF LIS_LOGO Solid {
-  translation -0.909653 1.5 3.72995
-  rotation 0 1 0 1.5708
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/logo.png"
-          ]
-        }
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 3 1.5 0.01
-      }
-    }
-  ]
-  name "lis logo 1"
-}
-DEF LIS_LOGO_2 Solid {
   translation 6 1.5 0.873895
   rotation 0 1 0 1.5708
   children [
@@ -606,7 +583,7 @@ DEF LIS_LOGO_2 Solid {
       }
     }
   ]
-  name "lis logo 2"
+  name "lis logo"
 }
 Chair {
   translation 0.490773 0 -3.27998

@@ -64,14 +64,12 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/startupMode", "Real-time");
   setDefault("General/language", "");
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
-  setDefault("General/threadingPolicy", 0);
   setDefault("General/checkWebotsUpdateOnStartup", true);
   setDefault("General/disableSaveWarning", false);
   setDefault("Sound/mute", true);
   setDefault("Sound/volume", 80);
   setDefault("OpenGL/disableShadows", false);
-  setDefault("OpenGL/disableCameraAntiAliasing", false);
-  setDefault("OpenGL/SMAA", true);
+  setDefault("OpenGL/disableAntiAliasing", false);
   setDefault("OpenGL/GTAO", 2);
   setDefault("OpenGL/textureQuality", 2);
   setDefault("VirtualRealityHeadset/enable", false);

@@ -1,6 +1,6 @@
 ## NASA Sojourner
 
-%robot sojourner images/robots/sojourner/model.png
+%robot sojourner images/robots/sojourner/model.thumbnail.png
 
 [Sojourner](https://en.wikipedia.org/wiki/Sojourner_(rover)) is the [NASA Pathfinder robotic rover](https://www.nasa.gov/mission_pages/mars-pathfinder) that landed on 1997 in the Ares Vallis region, and explored Mars for around three months.
 

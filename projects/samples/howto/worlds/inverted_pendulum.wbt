@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "An example of hot to solve the Inverted Pendulum problem using a PID controller"
@@ -17,11 +17,12 @@ WorldInfo {
 Viewpoint {
   orientation 0.05317585096836776 0.9887920240003923 0.1395086454202659 3.609723118221519
   position -6.644331534525101 4.261264054273784 -9.7759672742021
+  follow "robot:solid"
 }
 TexturedBackground {
 }
 Floor {
-  size 2 60
+  size 2 10000
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -36,6 +37,7 @@ Robot {
   children [
     SliderJoint {
       jointParameters JointParameters {
+        dampingConstant 1.5
       }
       device [
         LinearMotor {
@@ -96,14 +98,9 @@ Robot {
             }
           }
           PointLight {
-            attenuation 0 1 0
-            intensity 0.8
-            location 0.5 0.9 0.3
-          }
-          PointLight {
-            attenuation 0 1 0
-            location -0.8 1.5 -0.65
-            castShadows TRUE
+            attenuation 0 0 1
+            intensity 5
+            location 0 2 0
           }
         ]
         contactMaterial "robot_basis"
@@ -123,6 +120,4 @@ Robot {
     mass 30
   }
   controller "inverted_pendulum"
-}
-TexturedBackgroundLight {
 }

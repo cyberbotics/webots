@@ -138,7 +138,7 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
     WrRenderable *renderable = wr_renderable_new();
     mRenderables.push_back(renderable);
 
-    WrStaticMesh *mesh = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
+    mesh = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
     mMeshes.push_back(mesh);
 
     wr_renderable_set_mesh(renderable, WR_MESH(mesh));

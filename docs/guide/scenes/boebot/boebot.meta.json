@@ -1,8 +1,10 @@
 {
+  "robotID": "n11", 
   "name": "boebot", 
   "devices": [
     {
-      "transformID": "n227", 
+      "transformID": "n187", 
+      "initialPosition": 0.4, 
       "name": "left wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -11,7 +13,8 @@
       "axis": "-1 0 0"
     }, 
     {
-      "transformID": "n195", 
+      "transformID": "n159", 
+      "initialPosition": 1.74327, 
       "name": "right wheel motor", 
       "maxPosition": 0, 
       "position": 0, 
@@ -20,11 +23,11 @@
       "axis": "-1 0 0"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n163"
-      ], 
-      "transformID": "n159", 
+      "transformID": "n129", 
       "name": "left_led", 
+      "ledPBRAppearanceIDs": [
+        "n132"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -32,11 +35,11 @@
       "type": "LED"
     }, 
     {
-      "ledMaterialsIDs": [
-        "n143"
-      ], 
-      "transformID": "n139", 
+      "transformID": "n113", 
       "name": "right_led", 
+      "ledPBRAppearanceIDs": [
+        "n116"
+      ], 
       "ledColors": [
         "1 0 0"
       ], 
@@ -44,42 +47,42 @@
       "type": "LED"
     }, 
     {
-      "transformID": "n68", 
+      "transformID": "n56", 
       "type": "DistanceSensor", 
       "name": "lds"
     }, 
     {
-      "transformID": "n227", 
+      "transformID": "n187", 
       "type": "PositionSensor", 
       "name": "left wheel sensor"
     }, 
     {
-      "transformID": "n185", 
+      "transformID": "n150", 
       "type": "TouchSensor", 
       "name": "left_whisker"
     }, 
     {
-      "transformID": "n114", 
+      "transformID": "n93", 
       "type": "LightSensor", 
       "name": "lls"
     }, 
     {
-      "transformID": "n47", 
+      "transformID": "n39", 
       "type": "DistanceSensor", 
       "name": "rds"
     }, 
     {
-      "transformID": "n195", 
+      "transformID": "n159", 
       "type": "PositionSensor", 
       "name": "right wheel sensor"
     }, 
     {
-      "transformID": "n179", 
+      "transformID": "n145", 
       "type": "TouchSensor", 
       "name": "right_whisker"
     }, 
     {
-      "transformID": "n89", 
+      "transformID": "n73", 
       "type": "LightSensor", 
       "name": "rls"
     }

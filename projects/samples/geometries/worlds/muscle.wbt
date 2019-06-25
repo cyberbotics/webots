@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Example world demonstrating the use of the Muscle node"
@@ -7,8 +7,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.998991375752244 -0.03858734683592488 -0.02296187790236507 0.38129082
-  position 0.065910609 0.19038357 0.4744376
+  orientation -0.6999154352723786 0.693914825736349 0.16911711353606218 0.8662245442115495
+  position 0.4456853743003715 0.43603729983476724 0.5098978527052462
 }
 TexturedBackground {
 }
@@ -78,7 +78,7 @@ DEF HINGE Robot {
           maxTorque 0.5
           muscles [
             Muscle {
-              maxRadius 0.02
+              volume 0.0001
               startOffset 0.01 0 0
               endOffset 0 0.05 0
               color [
@@ -88,7 +88,7 @@ DEF HINGE Robot {
               ]
             }
             Muscle {
-              maxRadius 0.007
+              volume 6e-05
               startOffset 0.106 -0.003 0
               endOffset 0.003 0.05 0
             }
@@ -149,6 +149,162 @@ DEF HINGE Robot {
   }
   controller "muscle"
 }
+DEF HINGE2 Robot {
+  translation 0.07 0.035 -0.17
+  children [
+    DEF BOX Transform {
+      translation -0.025 -0.01 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.06 0.08
+          }
+        }
+      ]
+    }
+    DEF JOINT Shape {
+      appearance PBRAppearance {
+        baseColor 0.337255 0.337255 0.337255
+        transparency 0.01
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.008
+      }
+    }
+    DEF BONE1 Transform {
+      translation 0.05 0 0
+      rotation 0 0 1 1.5707997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.1
+            radius 0.005
+          }
+        }
+      ]
+    }
+    Hinge2Joint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.1 0 0
+        dampingConstant 0.4
+      }
+      jointParameters2 JointParameters {
+        axis 0 1 0
+        dampingConstant 0.4
+      }
+      device [
+        RotationalMotor {
+          name "muscle"
+          controlPID 1 0.1 0
+          minPosition -0.5
+          maxPosition 3
+          maxTorque 0.5
+          muscles [
+            Muscle {
+              volume 2.9999999999999997e-05
+              startOffset 0 0.008 0
+              endOffset -0.01 0.05 0
+              color [
+                1 0 0
+                1 1 0
+                1 0 1
+              ]
+            }
+          ]
+        }
+        PositionSensor {
+        }
+      ]
+      device2 [
+        RotationalMotor {
+          name "muscle2"
+          controlPID 1 0.1 0
+          minPosition -0.5
+          maxPosition 2.5
+          maxTorque 0.5
+          muscles [
+            Muscle {
+              volume 9.999999999999999e-05
+              startOffset 0.01 -0.0083 0
+              endOffset 0.01 0.05 0
+              color [
+                1 0 0
+                1 1 0
+                1 0 1
+              ]
+            }
+          ]
+        }
+        PositionSensor {
+          name "position sensor2"
+        }
+      ]
+      endPoint Solid {
+        translation 0.1 0 0
+        rotation 0 0 1 4.9078177
+        children [
+          USE JOINT
+          DEF BONE2 Transform {
+            translation 0 0.0225 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Capsule {
+                  height 0.045
+                  radius 0.005
+                }
+              }
+            ]
+          }
+        ]
+        name "solid(1)"
+        boundingObject Group {
+          children [
+            USE JOINT
+            USE BONE2
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.6
+        }
+      }
+    }
+  ]
+  name "hinge2"
+  boundingObject Group {
+    children [
+      USE BOX
+      USE JOINT
+      USE BONE1
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 20
+    centerOfMass [
+      -0.03 -0.015 0
+    ]
+  }
+  controller "muscle"
+}
 DEF SLIDER Robot {
   translation -0.01 0.04 0.21
   children [
@@ -176,7 +332,7 @@ DEF SLIDER Robot {
           maxForce 0.3
           muscles [
             Muscle {
-              maxRadius 0.01
+              volume 0.0001
               color [
                 1 0 0
                 1 1 0

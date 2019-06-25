@@ -7,7 +7,7 @@ The color of the goal and the support polygons can be modified.
 
 %figure
 
-![RobotstadiumGoal](images/objects/robotstadium/RobotstadiumGoal/model.png)
+![RobotstadiumGoal](images/objects/robotstadium/RobotstadiumGoal/model.thumbnail.png)
 
 %end
 
@@ -42,7 +42,7 @@ The field dimensions (within the white lines) are 9 x 6 m.
 
 %figure
 
-![RobotstadiumSoccerField](images/objects/robotstadium/RobotstadiumSoccerField/model.png)
+![RobotstadiumSoccerField](images/objects/robotstadium/RobotstadiumSoccerField/model.thumbnail.png)
 
 %end
 

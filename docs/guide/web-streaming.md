@@ -8,7 +8,7 @@ The mechanism is similar to the [web animation export](web-animation.md) except 
 
 %figure "Screenshot of Webots streaming server"
 
-![streaming-server-screenshot.png](images/streaming-server-screenshot.png)
+![streaming-server-screenshot.png](images/streaming-server-screenshot.thumbnail.jpg)
 
 %end
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -100,7 +100,8 @@ PROTO CitroenCZero [
             children [
               %{ if frontSpotLights then }%
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction -0.2 -1 1
@@ -108,7 +109,8 @@ PROTO CitroenCZero [
                   radius 20
                 }
                 SpotLight {
-                  attenuation 0.2 0 0
+                  attenuation 0 0 1
+                  intensity 20
                   beamWidth 0.7
                   cutOffAngle 0.8
                   direction 0.2 -1 1

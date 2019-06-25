@@ -17,7 +17,6 @@
 #include "WbAppearance.hpp"
 #include "WbBrake.hpp"
 #include "WbDictionary.hpp"
-#include "WbElevationGrid.hpp"
 #include "WbField.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbLinearMotor.hpp"
@@ -238,12 +237,8 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
         // material automatically updated
         connect(s->geometryField(), &WbSFNode::changed, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
         connect(s, &WbShape::castShadowsChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
-        if (s->geometry()) {
+        if (s->geometry())
           connect(s->geometry(), &WbGeometry::changed, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
-          WbElevationGrid *eg = dynamic_cast<WbElevationGrid *>(s->geometry());
-          if (eg)
-            connect(eg, &WbElevationGrid::vertexColorChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
-        }
       }
       if (shapeList != NULL)
         shapeList->append(s);
@@ -487,17 +482,23 @@ void WbTrack::updateAnimatedGeometries() {
     if (ifs)
       ifs->updateTriangleMesh();
 
-    WrNode *wrenNode = WR_NODE(geom->wrenNode());
-    assert(wrenNode);  // wren objects have to be already initialized during node finalization
+    if (!geom->isPostFinalizedCalled())
+      connect(geom, &WbBaseNode::finalizationCompleted, this, &WbTrack::updateAnimatedGeometriesAfterFinalization,
+              Qt::UniqueConnection);
+    else {
+      WrNode *wrenNode = WR_NODE(geom->wrenNode());
+      assert(wrenNode);  // wren objects have to be already initialized during node finalization
 
-    AnimatedObject *object = new AnimatedObject();
-    object->geometry = geom;
-    object->material = shapeNodes[i]->wrenMaterial();
-    object->castShadows = shapeNodes[i]->isCastShadowsEnabled();
+      AnimatedObject *object = new AnimatedObject();
+      object->geometry = geom;
+      object->material = shapeNodes[i]->wrenMaterial();
+      object->castShadows = shapeNodes[i]->isCastShadowsEnabled();
+      connect(shapeNodes[i], &WbShape::wrenMaterialChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
 
-    // Hide WREN node (visible by default)
-    wr_node_set_visible(wrenNode, false);
-    mAnimatedObjectList.append(object);
+      // Hide WREN node (visible by default)
+      wr_node_set_visible(wrenNode, false);
+      mAnimatedObjectList.append(object);
+    }
   }
 
   initAnimatedGeometriesBeltPosition();
@@ -930,7 +931,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbVrmlWriter &writer) const {
       writer << "<Transform ";
       writer << "translation='" << position << "' ";
       writer << "rotation='" << rotation << "'>";
-      writer << "<Transform USE='" << defName << "'></Transform>";
+      writer << "<Transform USE='" << QString::number(node->uniqueId()) << "'></Transform>";
       writer << "</Transform>";
     } else {
       writer.indent();

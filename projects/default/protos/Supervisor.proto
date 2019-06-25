@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden, static
@@ -37,7 +37,7 @@ PROTO Supervisor [
   deprecatedField SFString data            ""
 ]
 {
-  %{ io.stderr:write("Deprecated 'Supervisor' node, please use instead the 'Robot' node and set it's 'supervisor' field to TRUE.\n") }%
+  %{ io.stderr:write("Deprecated 'Supervisor' node, please use the 'Robot' node instead and set its 'supervisor' field to TRUE.\n") }%
   Robot {
     translation IS translation
     rotation IS rotation

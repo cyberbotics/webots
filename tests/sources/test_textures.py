@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +15,55 @@
 # limitations under the License.
 
 """Test textures."""
+import hashlib
 import unittest
 import os
+import filecmp
 import fnmatch
 from PIL import Image
+
+duplicatedTextures = [
+    'mybot.png',
+    'soccer_quarter.jpg',
+    'pingpong_logo.jpg',
+    'conveyor_belt.png',
+    'line.png',
+    'floor.png',
+    # these textures are duplicated but very small and removing them would complexify the PROTO a lot.
+    'small_residential_tower_balcony_base_color.jpg',
+    'small_residential_tower_ground_floor_windows_base_color.jpg',
+    'residential_building_with_round_front_windows_dark_braun_base_color.jpg',
+    'residential_building_with_round_front_frames_dark_braun_base_color.jpg',
+    'residential_building_with_round_front_stair_dark_braun_metalness.jpg',
+    'residential_building_with_round_front_stair_dark_braun_occlusion.jpg',
+    'old_residential_building_roof_braun_black_base_color.jpg',
+    'residential_building_with_round_front_stair_dark_braun_roughness.jpg',
+    'residential_building_with_round_front_stair_green_base_color.jpg',
+    'small_residential_building_windows_medium_grey_base_color.jpg',
+    'small_residential_building_wall_light_grey_base_color.jpg',
+    'small_residential_building_wall_light_grey_occlusion.jpg',
+    'dawn_cloudy_empty_bottom.jpg',
+    'noon_stormy_empty_bottom.jpg'
+]
+
+duplicatedTexturePaths = [
+    'projects' + os.sep + 'samples' + os.sep + 'robotbenchmark',  # we don't want to change anything to robotbenchmark
+    'projects' + os.sep + 'objects' + os.sep + 'buildings' + os.sep + 'protos' + os.sep + 'textures' + os.sep +
+    'colored_textures'
+]
+
+
+def cmpHash(file1, file2):
+    """Compare the hash of two files."""
+    hash1 = hashlib.md5()
+    with open(file1, 'rb') as f:
+        hash1.update(f.read())
+        hash1 = hash1.hexdigest()
+    hash2 = hashlib.md5()
+    with open(file2, 'rb') as f:
+        hash2.update(f.read())
+        hash2 = hash2.hexdigest()
+    return hash1 == hash2
 
 
 class TestTextures(unittest.TestCase):
@@ -74,6 +121,27 @@ class TestTextures(unittest.TestCase):
                 im.info.get("icc_profile") is None,
                 msg='texture "%s" contains an ICC profile' % (texture)
             )
+
+    def test_textures_uniqueness(self):
+        """Test that the released textures are unique."""
+        toCompare = list(self.textures)  # copy
+        for texture in self.textures:
+            toCompare.remove(texture)
+            if any(path in texture for path in duplicatedTexturePaths):
+                continue
+            if os.path.basename(texture) in duplicatedTextures:
+                continue
+            for comparedTexture in toCompare:
+                if any(path in comparedTexture for path in duplicatedTexturePaths):
+                    continue
+                if os.path.basename(comparedTexture) in duplicatedTextures:
+                    continue
+
+                self.assertTrue(
+                    # filecmp is fast but gives false positive, this is why we check the hash too (if needed)
+                    (filecmp.cmp(texture, comparedTexture) and cmpHash(texture, comparedTexture)) is False,
+                    msg='texture "%s" and "%s" are equal' % (texture, comparedTexture)
+                )
 
 
 if __name__ == '__main__':

@@ -86,16 +86,17 @@ void WbVector2Editor::takeKeyboardFocus() {
 }
 
 void WbVector2Editor::applyIfNeeded() {
-  if (field() &&
-      ((field()->hasRestrictedValues() && mVector2 != WbVector2(mComboBox->currentText())) ||
-       (!field()->hasRestrictedValues() && (mVector2.x() != mSpinBoxes[0]->value() || mVector2.y() != mSpinBoxes[1]->value()))))
+  if (field() && ((field()->hasRestrictedValues() && mVector2 != WbVector2(mComboBox->currentText())) ||
+                  (!field()->hasRestrictedValues() &&
+                   (mVector2.x() != mSpinBoxes[0]->text().toDouble() || mVector2.y() != mSpinBoxes[1]->text().toDouble()))))
     apply();
 }
 
 void WbVector2Editor::apply() {
-  mVector2.setXy(mSpinBoxes[0]->value(), mSpinBoxes[1]->value());
   if (field()->hasRestrictedValues())
     mVector2 = WbVector2(mComboBox->currentText());
+  else
+    mVector2.setXy(mSpinBoxes[0]->text().toDouble(), mSpinBoxes[1]->text().toDouble());
 
   if (singleValue()) {
     WbSFVector2 *const sfVector2 = static_cast<WbSFVector2 *>(singleValue());

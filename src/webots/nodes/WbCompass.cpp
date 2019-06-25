@@ -82,7 +82,7 @@ void WbCompass::updateLookupTable() {
 }
 
 void WbCompass::updateResolution() {
-  WbFieldChecker::checkDoubleIsPositiveOrDisabled(this, mResolution, -1.0, -1.0);
+  WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
 void WbCompass::handleMessage(QDataStream &stream) {

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: static
@@ -41,24 +41,11 @@ PROTO PicketFence [
                     "textures/picket_fence_base_color.jpg"
                   ]
                 }
-                roughnessMap ImageTexture {
-                  url [
-                    "textures/picket_fence_roughness.jpg"
-                  ]
-                }
-                metalnessMap ImageTexture {
-                  url [
-                    "textures/picket_fence_metalness.jpg"
-                  ]
-                }
+                roughness 1
+                metalness 0
                 normalMap ImageTexture {
                   url [
                     "textures/picket_fence_normal.jpg"
-                  ]
-                }
-                occlusionMap ImageTexture {
-                  url [
-                    "textures/picket_fence_occlusion.jpg"
                   ]
                 }
               }

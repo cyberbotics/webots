@@ -21,7 +21,7 @@ timestep = int(supervisor.getBasicTimeStep())
 for i in range(10):
     supervisor.step(timestep)
 
-print ('Set BOX.size to [1, 1, 1].')
+print('Set BOX.size to [1, 1, 1].')
 node = supervisor.getFromDef("BOX")
 field = node.getField("size")
 field.setSFVec3f([1, 1, 1])

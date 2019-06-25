@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Aldebaran's Nao H25 V5.0"
@@ -104,13 +104,11 @@ Window {
 }
 CeilingLight {
   translation -2.5 2.4 -1
-  pointLightAttenuation 0 0 2
   pointLightColor 1 1 0.9411764705882353
-  pointLightIntensity 7
+  pointLightIntensity 2
 }
 FloorLight {
   translation -4.3 0 -4
-  pointLightAttenuation 0 0 5
   pointLightIntensity 6
 }
 Desk {

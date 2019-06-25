@@ -14,13 +14,6 @@
  * limitations under the License.
  */
 
-/***************************************************************************
-
-  DO NOT DISTRIBUTE THIS SOURCE CODE !!
-  IT IS OWNED BY jean-christophe.zufferey@epfl.ch (EPFL-STI-LIS)
-
-***************************************************************************/
-
 #include <stdio.h>
 #include <webots/distance_sensor.h>
 #include <webots/led.h>

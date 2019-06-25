@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -15,25 +15,30 @@ PROTO CircleArena [
   field SFFloat    wallThickness   0.01                   # Defines the thickness of the wall.
   field SFFloat    wallHeight      0.1                    # Defines the height of the wall.
   field SFNode     wallAppearance  BrushedAluminium {}    # Defines the appearance of the wall.
-  field SFVec2f    wallTileSize    0.5 0.5                # Defines the size of the texture used for the wall.
   field SFInt32    subdivision     48                     # Defines the subdivision of the wall cylinder.
 
   # Deprecated in R2019a
   hiddenField MFString   floorTextureUrl "textures/checkered_parquetry.jpg"
   hiddenField MFString   wallTextureUrl  "textures/metal.jpg"
+  # Deprecated in R2019-rev2
+  hiddenField SFVec2f    wallTileSize 0.5 0.5
+
 ]
 {
   %{
     local wbgeometry = require('wbgeometry')
 
-    local floorTextureUrl = fields.floorTextureUrl.value[0]
-    if floorTextureUrl ~= fields.floorTextureUrl.defaultValue[0] then
+    if fields.floorTextureUrl.value[0] ~= fields.floorTextureUrl.defaultValue[0] then
       io.stderr:write("The 'floorTextureUrl' field is deprecated, using the new 'floorAppearance' field instead.\n")
     end
 
-    local wallTextureUrl = fields.wallTextureUrl.value[0]
-    if wallTextureUrl ~= fields.wallTextureUrl.defaultValue[0] then
+    if fields.wallTextureUrl.value[0] ~= fields.wallTextureUrl.defaultValue[0] then
       io.stderr:write("The 'wallTextureUrl' field is deprecated, using the new 'wallAppearance' field instead.\n")
+    end
+
+    if (fields.wallTileSize.value.x ~= fields.wallTileSize.defaultValue.x or
+        fields.wallTileSize.value.y ~= fields.wallTileSize.defaultValue.y) then
+      io.stderr:write("The 'wallTileSize' field is deprecated, using the new 'wallAppearance' field instead.\n")
     end
 
     local subdivision = fields.subdivision.value
@@ -68,14 +73,6 @@ PROTO CircleArena [
       floorTextureScale.y =  fields.floorTileSize.value.y
     else
       io.stderr:write("'floorTextureScale' must contain positive values\n")
-    end
-
-    local wallTextureScale = { x = 1; y = 1 }
-    if fields.wallTileSize.value.x >= 0 and fields.wallTileSize.value.y > 0.0 then -- avoid a zero division and negative values
-      wallTextureScale.x = 2 * math.pi * radius / fields.wallTileSize.value.x
-      wallTextureScale.y = wallHeight / fields.wallTileSize.value.y
-    else
-      io.stderr:write("'wallTextureScale' must contain positive values\n")
     end
   }%
   Solid {

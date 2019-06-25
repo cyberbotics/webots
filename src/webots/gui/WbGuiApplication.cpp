@@ -60,7 +60,7 @@ using namespace std;
 // - http://www.qtcentre.org/archive/index.php/t-28785.html
 WbGuiApplication::WbGuiApplication(int &argc, char **argv) : QApplication(argc, argv), mMainWindow(NULL), mTask(NORMAL) {
   setApplicationName("Webots");
-  setApplicationVersion(WbApplicationInfo::version().toString());
+  setApplicationVersion(WbApplicationInfo::version().toString(true, false, true));
   setOrganizationName("Cyberbotics");
   setOrganizationDomain("cyberbotics.com");
 #ifdef _WIN32
@@ -119,6 +119,7 @@ void WbGuiApplication::parseArguments() {
   // faster when copied according to Qt's doc
   QStringList args = arguments();
   bool logPerformanceMode = false;
+  bool batch = false, stream = false;
 
   const int size = args.size();
   for (int i = 1; i < size; ++i) {
@@ -144,9 +145,10 @@ void WbGuiApplication::parseArguments() {
       mTask = SYSINFO;
     else if (arg == "--version")
       mTask = VERSION;
-    else if (arg == "--batch")
+    else if (arg == "--batch") {
+      batch = true;
       WbMessageBox::disable();
-    else if (arg.startsWith("--update-proto-cache")) {
+    } else if (arg.startsWith("--update-proto-cache")) {
       QStringList items = arg.split('=');
       if (items.size() > 1)
         mTaskArgument = items[1];
@@ -158,6 +160,7 @@ void WbGuiApplication::parseArguments() {
     else if (arg == "--enable-x3d-meta-file-export")
       WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--stream")) {
+      stream = true;
       QString serverArgument;
       int equalCharacterIndex = arg.indexOf('=');
       if (equalCharacterIndex != -1) {
@@ -216,6 +219,9 @@ void WbGuiApplication::parseArguments() {
     }
   }
 
+  if (stream && !batch)
+    cout << "Warning: you should also use --batch (in addition to --stream) for production." << endl;
+
   if (logPerformanceMode) {
     WbPerformanceLog::enableSystemInfoLog(mTask == SYSINFO);
     mTask = NORMAL;
@@ -223,8 +229,7 @@ void WbGuiApplication::parseArguments() {
 
   if (!qgetenv("WEBOTS_SAFE_MODE").isEmpty()) {
     WbPreferences::instance()->setValue("OpenGL/disableShadows", true);
-    WbPreferences::instance()->setValue("OpenGL/disableCameraAntiAliasing", true);
-    WbPreferences::instance()->setValue("OpenGL/SMAA", false);
+    WbPreferences::instance()->setValue("OpenGL/disableAntiAliasing", true);
     WbPreferences::instance()->setValue("OpenGL/GTAO", 0);
     WbPreferences::instance()->setValue("OpenGL/textureQuality", 0);
     mStartupMode = WbSimulationState::PAUSE;
@@ -288,7 +293,6 @@ bool WbGuiApplication::setup() {
   // Show guided tour if first ever launch and no command line world argument is given
   bool showGuidedTour =
     prefs->value("Internal/firstLaunch", true).toBool() && mStartWorldName.isEmpty() && WbMessageBox::enabled();
-  const QString fileName = mStartWorldName.isEmpty() ? prefs->value("RecentFiles/file0", "").toString() : mStartWorldName;
 
 #ifndef _WIN32
   // create main window on Linux and macOS before the splash screen otherwise, the
@@ -364,10 +368,16 @@ bool WbGuiApplication::setup() {
   mMainWindow = new WbMainWindow(mShouldMinimize);
 #endif
 
-  if (mShouldMinimize)
+  if (mShouldMinimize) {
+#ifdef __linux__
+    // on Ubuntu 18.04 showMinimized doesn't work
+    // https://bugreports.qt.io/browse/QTBUG-76354
+    mMainWindow->showNormal();
+    mMainWindow->setWindowState(Qt::WindowMinimized);
+#else
     mMainWindow->showMinimized();
-  else {
-    WbPreferences *const prefs = WbPreferences::instance();
+#endif
+  } else {
     if (prefs->value("MainWindow/maximized", false).toBool())
       mMainWindow->showMaximized();
     else

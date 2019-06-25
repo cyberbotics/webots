@@ -17,7 +17,7 @@ LensFlare {
 
 %figure "Lens flare effect"
 
-![lens_flare.png](images/lens_flare.png)
+![lens_flare.png](images/lens_flare.thumbnail.jpg)
 
 %end
 

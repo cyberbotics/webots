@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Benchmark objective: "
@@ -28,25 +28,44 @@ Viewpoint {
 TexturedBackground {
   texture "noon_cloudy_empty"
 }
+DirectionalLight {
+  direction -0.6 -1 0.55
+  intensity 1.7
+  castShadows TRUE
+}
 CeilingLight {
   translation -1.99 2.32 0
-  pointLightAmbientIntensity 0.6
   pointLightColor 1 0.992157 0.929412
-  pointLightIntensity 0.5
+  pointLightIntensity 0.2
+  castShadows FALSE
 }
 CeilingLight {
   translation 1.07 2.32 0
   name "ceiling light(1)"
-  pointLightAmbientIntensity 0.6
   pointLightColor 1 1 0.870588
-  pointLightIntensity 0.5
-  pointLightCastShadows TRUE
+  pointLightIntensity 0.2
+  castShadows FALSE
 }
 Table {
   translation 0.35906952 -1.0436096e-14 -0.01306105
   size 1.8 0.61 1
   feetSize 0.05 0.4
   feetPadding 0.1
+  trayAppearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/table_top.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
+    textureTransform TextureTransform {
+      scale 1 1.8
+    }
+  }
+  legAppearance VarnishedPine {
+    colorOverride 1 1 1
+  }
 }
 DEF MAZE_WALLS Group {
   children [
@@ -283,6 +302,7 @@ Door {
   doorHandle DoorLever {
     hasStaticParent TRUE
   }
+  castShadows FALSE
 }
 DEF CEILING Solid {
   translation 0 2.4 0
@@ -305,6 +325,7 @@ DEF CEILING Solid {
       geometry Plane {
         size 9.8 7.8
       }
+      castShadows FALSE
     }
   ]
   name "ceiling"
@@ -314,22 +335,16 @@ DEF DOOR_WALL Solid {
   rotation -0.5773516691887752 -0.5773495691887781 -0.5773495691887781 2.094393
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance DEF DOOR_WALL_APPEARANCE Roughcast {
+        colorOverride 0.415686 0.647059 0.545098
         textureTransform TextureTransform {
-          scale 37 15
+          scale 13 4
         }
       }
       geometry DEF DOOR_WALL_SHAPE Plane {
         size 7.8 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall"
@@ -340,22 +355,11 @@ DEF BACK_WALL Solid {
   rotation 0.5773488591887669 -0.577350969188764 -0.577350979188764 4.1887881
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          scale 37 15
-        }
-      }
+      appearance USE DOOR_WALL_APPEARANCE
       geometry Plane {
         size 7.81 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall(1)"
@@ -366,22 +370,16 @@ DEF SHORT_WINDOW_WALL Solid {
   rotation 1.2808956021483324e-06 0.7071067811859675 0.7071067811859675 3.1415952
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
+      appearance DEF SHORT_WALL_APPEARANCE Roughcast {
+        colorOverride 0.415686 0.647059 0.545098
         textureTransform TextureTransform {
-          scale 37 15
+          scale 5 4
         }
       }
       geometry DEF SHORT_WINDOW_WALL_SHAPE Plane {
         size 3.7 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall(2)"
@@ -392,22 +390,11 @@ DEF SHORT_WINDOW_WALL Solid {
   rotation 0.9999999999967557 -1.8066649999941388e-06 -1.7957889999941738e-06 4.712389
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          scale 37 15
-        }
-      }
+      appearance USE SHORT_WALL_APPEARANCE
       geometry Plane {
         size 3.7 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall(3)"
@@ -418,22 +405,11 @@ DEF LONG_WINDOW_WALL Solid {
   rotation -0.9999999999967901 1.7970751999942317e-06 1.7861991999942664e-06 1.5707963
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          scale 37 15
-        }
-      }
+      appearance USE SHORT_WALL_APPEARANCE
       geometry DEF LONG_WINDOW_WALL_SHAPE Plane {
         size 4.5 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall(4)"
@@ -444,22 +420,11 @@ DEF LONG_WINDOW_WALL Solid {
   rotation 1.2673335021256081e-06 0.7071067711859796 0.7071067911859797 3.1415952
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColor 0.415686 0.647059 0.545098
-        baseColorMap ImageTexture {
-          url [
-            "textures/wall.jpg"
-          ]
-        }
-        roughness 0.5
-        metalness 0
-        textureTransform TextureTransform {
-          scale 37 15
-        }
-      }
+      appearance USE SHORT_WALL_APPEARANCE
       geometry Plane {
         size 4.5 2.4
       }
+      castShadows FALSE
     }
   ]
   name "wall(6)"
@@ -468,23 +433,33 @@ DEF LONG_WINDOW_WALL Solid {
 Window {
   translation 0 0 -4
   windowSillSize 0.1 0.04
+  wallAppearance DEF WINDOW_WALL_APPEARANCE Roughcast {
+    colorOverride 0.415686 0.647059 0.545098
+  }
+  castShadows FALSE
 }
 Window {
   translation -0.8 0 -4
   name "window(1)"
   windowSillSize 0.1 0.04
+  wallAppearance USE WINDOW_WALL_APPEARANCE
+  castShadows FALSE
 }
 Window {
   translation 0 0 4
   rotation 0 1 0 3.1415
   name "window(2)"
   windowSillSize 0.1 0.04
+  wallAppearance USE WINDOW_WALL_APPEARANCE
+  castShadows FALSE
 }
 Window {
   translation -0.8 0 4
   rotation 0 1 0 3.14159
   name "window(3)"
   windowSillSize 0.1 0.04
+  wallAppearance USE WINDOW_WALL_APPEARANCE
+  castShadows FALSE
 }
 Cabinet {
   translation -4.0632531 3.2196468e-15 3.8764179
@@ -496,6 +471,7 @@ Cabinet {
 Blackboard {
   translation 4.87 1.19 0
   rotation 0 1 0 -1.5707997
+  castShadows FALSE
 }
 Clock {
   translation 4.89 1.873 2.4
@@ -545,6 +521,4 @@ Laptop {
   rotation 9.467616281065113e-07 0.9999996680000371 -0.0008148612883703071 -3.1415926
   name "laptop(1)"
   controller ""
-}
-TexturedBackgroundLight {
 }

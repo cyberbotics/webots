@@ -184,6 +184,9 @@ namespace wren {
     if (mPolygonMode != WR_VIEWPORT_POLYGON_MODE_FILL)
       return;
 
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CCW);
+
     if (mAmbientOcclusionEffect) {
       if (mFrameBuffer) {
         mAmbientOcclusionEffect->setInputFrameBuffer(mFrameBuffer);
@@ -196,6 +199,9 @@ namespace wren {
 
       mAmbientOcclusionEffect->apply();
     }
+
+    if (mCamera->flipY())
+      glstate::setFrontFace(GL_CW);
   }
 
   void Viewport::applyAntiAliasing() {

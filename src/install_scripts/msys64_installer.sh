@@ -27,16 +27,17 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-x86_64-boost"    # to recompile ROS controller
   "mingw-w64-x86_64-opencv"   # OpenCV howto demo
   "mingw-w64-x86_64-cmake"    # Thymio II dashel library
-  "gcc"                       # gcc 7 (distributed, works with paths including spaces)
   "mingw-w64-i686-gcc"        # libController (32 bit)
   "mingw-w64-i686-libtiff"    # libController (32 bit)
   "mingw-w64-i686-libpng"     # libController (32 bit)
+  "mingw-w64-x86_64-nodejs"   # webots.min.js
 )
 
 declare -a DEVELOPMENT_PACKAGES=(
   "mingw-w64-x86_64-clang"    # coding style tests
   "mingw-w64-x86_64-cppcheck" # coding style tests
   "mingw-w64-x86_64-gdb"      # debugging
+  "diffutils"                 # cmp and diff utilities
 )
 
 if [ "$1" == "--dev" ]; then

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Example use of a color Camera device with auto-focusing capabilities."
@@ -16,7 +16,6 @@ TexturedBackgroundLight {
 RectangleArena {
   floorTileSize 0.25 0.25
   wallHeight 0.15
-  wallTileSize 0.1 0.1
   wallAppearance PBRAppearance {
     baseColorMap ImageTexture {
       url [

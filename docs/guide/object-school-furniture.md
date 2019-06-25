@@ -6,7 +6,7 @@ A blackboard (about 1.3 x 2.5 m).
 
 %figure
 
-![Blackboard](images/objects/school_furniture/Blackboard/model.png)
+![Blackboard](images/objects/school_furniture/Blackboard/model.thumbnail.png)
 
 %end
 
@@ -17,6 +17,7 @@ Blackboard {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 1 0 0
   SFString   name        "blackboard"
+  SFBool     castShadows TRUE
 }
 ```
 
@@ -25,13 +26,17 @@ Blackboard {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### Blackboard Field Summary
+
+- `castShadows`: Defines whether this object should cast shadows.
+
 ## Book
 
 A book (0.2 x 0.15 x 0.02 m).
 
 %figure
 
-![Book](images/objects/school_furniture/Book/model.png)
+![Book](images/objects/school_furniture/Book/model.thumbnail.png)
 
 %end
 
@@ -67,7 +72,7 @@ A clock (radius 16.5 cm).
 
 %figure
 
-![Clock](images/objects/school_furniture/Clock/model.png)
+![Clock](images/objects/school_furniture/Clock/model.thumbnail.png)
 
 %end
 

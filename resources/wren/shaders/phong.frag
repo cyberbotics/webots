@@ -196,7 +196,7 @@ void main() {
       if (material.textureFlags.z == 0.0)
         texColor = mainColor;
       else
-        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), texColor.w + mainColor.w);
+        texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
     }
 
     // Mix with pen texture

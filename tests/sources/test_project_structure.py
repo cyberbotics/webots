@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +32,14 @@ class TestTextures(unittest.TestCase):
         self.worlds = []
         for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
-                image = os.path.join(rootPath, fileName)
-                self.worlds.append(image)
+                world = os.path.join(rootPath, fileName)
+                self.worlds.append(world)
+
+        self.wbproj = []
+        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+            for fileName in fnmatch.filter(fileNames, '*.wbproj'):
+                wbproj = os.path.join(rootPath, fileName)
+                self.wbproj.append(wbproj)
 
     def test_world_directories(self):
         """Test that the 'worlds' directory is correct."""
@@ -50,6 +58,25 @@ class TestTextures(unittest.TestCase):
                     'worlds' not in os.listdir(directory),
                     msg='This world is nested because an upper "worlds" directory exists: "%s"' % world
                 )
+
+    def test_wbproj(self):
+        """Test that each world has an associated '.wbproj' file and vice-versa."""
+        for world in self.worlds:
+            worldFile = os.path.basename(world)
+            projFile = '.' + worldFile.replace('wbt', 'wbproj')
+            projFile = world.replace(worldFile, projFile)
+            self.assertTrue(
+                os.path.isfile(projFile),
+                msg='Missing ".wproj" file: "%s"' % projFile
+            )
+        for wbproj in self.wbproj:
+            wbprojFile = os.path.basename(wbproj)
+            worldFile = wbprojFile.replace('wbproj', 'wbt')[1:]
+            worldFile = wbproj.replace(wbprojFile, worldFile)
+            self.assertTrue(
+                os.path.isfile(worldFile),
+                msg='.wbproj file not associated to any world: "%s"' % wbproj
+            )
 
 
 if __name__ == '__main__':

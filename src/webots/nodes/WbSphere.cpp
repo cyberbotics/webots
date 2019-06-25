@@ -19,11 +19,15 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
+#include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
+#include "WbVersion.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -35,23 +39,10 @@
 
 #include <cmath>
 
-static const double A = .525731112119133606;
-static const double B = .850650808352039932;
-
-static const double gVertices[12][3] = {{-A, 0.0, B}, {A, 0.0, B},   {-A, 0.0, -B}, {A, 0.0, -B}, {0.0, B, A},  {0.0, B, -A},
-                                        {0.0, -B, A}, {0.0, -B, -A}, {B, A, 0.0},   {-B, A, 0.0}, {B, -A, 0.0}, {-B, -A, 0.0}};
-
-static const int gIndices[20][3] = {{0, 4, 1}, {0, 9, 4},  {9, 5, 4},  {4, 5, 8},  {4, 8, 1},  {8, 10, 1}, {8, 3, 10},
-                                    {5, 3, 8}, {5, 2, 3},  {2, 7, 3},  {7, 10, 3}, {7, 6, 10}, {7, 11, 6}, {11, 0, 6},
-                                    {0, 1, 6}, {6, 1, 10}, {9, 0, 11}, {9, 11, 2}, {9, 2, 5},  {7, 2, 11}};
-
-const double *WbSphere::defaultVertex(int triangle, int vertex) {
-  return &gVertices[gIndices[triangle][vertex]][0];
-}
-
 void WbSphere::init() {
   mRadius = findSFDouble("radius");
   mSubdivision = findSFInt("subdivision");
+  mIco = findSFBool("ico");
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
 }
 
@@ -59,6 +50,13 @@ WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
   if (tokenizer == NULL)
     mRadius->setValueNoSignal(0.1);
+  else if (tokenizer->fileType() == WbTokenizer::MODEL) {
+    // ensure compatibility with VRML specifications
+    mIco->setValueNoSignal(false);
+    mSubdivision->blockSignals(true);
+    mSubdivision->setValue(24);
+    mSubdivision->blockSignals(false);
+  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {
@@ -77,12 +75,14 @@ void WbSphere::postFinalize() {
   WbGeometry::postFinalize();
 
   connect(mRadius, &WbSFDouble::changed, this, &WbSphere::updateRadius);
-  connect(mSubdivision, &WbSFInt::changed, this, &WbSphere::updateSubdivision);
+  connect(mSubdivision, &WbSFInt::changed, this, &WbSphere::updateMesh);
+  connect(mIco, &WbSFBool::changed, this, &WbSphere::updateMesh);
 }
 
 void WbSphere::createWrenObjects() {
   WbGeometry::createWrenObjects();
 
+  sanitizeFields();
   buildWrenMesh();
 
   if (isInBoundingObject())
@@ -114,17 +114,114 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
   return WbNodeUtilities::isVisible(radius) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
 }
 
+void WbSphere::write(WbVrmlWriter &writer) const {
+  if (writer.isVrml() && mIco->value())
+    writeExport(writer);
+  else
+    WbGeometry::write(writer);
+}
+
 void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << 8 * mSubdivision->value() << ',' << 8 * mSubdivision->value() << "\'";
+  if (!writer.isVrml() || !mIco->value()) {
+    WbGeometry::exportNodeFields(writer);
+    if (writer.isX3d()) {
+      writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
+      writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
+    }
+    return;
+  }
+
+  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
+  if (!mWrenMesh)
+    return;
+
+  writer.indent();
+  writer << "creaseAngle 1\n";
+
+  const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
+  unsigned int indices[indexCount];
+  writer.indent();
+  writer << "coordIndex [ ";
+  wr_static_mesh_read_data(mWrenMesh, NULL, NULL, NULL, indices);
+  for (int i = 0; i < indexCount; i += 3)
+    writer << indices[i] << " " << indices[i + 1] << " " << indices[i + 2] << " -1 ";
+  writer << "]\n";
+}
+
+void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
+  if (!writer.isVrml() || !mIco->value()) {
+    WbGeometry::exportNodeSubNodes(writer);
+    return;
+  }
+  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
+  if (!mWrenMesh)
+    return;
+
+  const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
+  float vertices[3 * vertexCount];
+  float normal_data[3 * vertexCount];
+  float tex_coord_data[2 * vertexCount];
+  wr_static_mesh_read_data(mWrenMesh, vertices, normal_data, tex_coord_data, NULL);
+  // Write with limited precision to reduce the size of the VRML file.
+  const int precision = 4;
+
+  // Coordinate
+  writer.indent();
+  writer << "coord Coordinate {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << "point [ ";
+  const double radius = mRadius->value();
+  for (int i = 0; i < vertexCount; i++) {
+    writer << QString::number(vertices[i * 3] * radius, 'f', precision) << " "
+           << QString::number(vertices[i * 3 + 1] * radius, 'f', precision) << " "
+           << QString::number(vertices[i * 3 + 2] * radius, 'f', precision) << " ";
+  }
+  writer << " ]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
+
+  // TextureCoordinate
+  writer.indent();
+  writer << "texCoord TextureCoordinate {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << "point [ ";
+  for (int i = 0; i < vertexCount; i++)
+    writer << QString::number(tex_coord_data[i * 2], 'f', precision) << " "
+           << QString::number(-tex_coord_data[i * 2 + 1], 'f', precision) << " ";
+  writer << " ]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
+
+  // Normal
+  writer.indent();
+  writer << "normal Normal {\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << " vector [ ";
+  for (int i = 0; i < vertexCount; i++)
+    writer << QString::number(normal_data[i * 3], 'f', precision) << " "
+           << QString::number(normal_data[i * 3 + 1], 'f', precision) << " "
+           << QString::number(normal_data[i * 3 + 2], 'f', precision) << " ";
+  writer << " ]\n";
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "}\n";
 }
 
 bool WbSphere::sanitizeFields() {
-  if (WbFieldChecker::checkIntInRangeWithIncludedBounds(this, mSubdivision, 1, 6, 1))
+  bool invalidValue;
+  if (mIco->value()) {
+    invalidValue = WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 1, 5, 1);
+  } else
+    invalidValue = WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 32, 24);
+  if (invalidValue)
     return false;
 
-  if (WbFieldChecker::checkDoubleIsPositive(this, mRadius, 1.0))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mRadius, 1.0))
     return false;
 
   return true;
@@ -136,19 +233,17 @@ void WbSphere::buildWrenMesh() {
   wr_static_mesh_delete(mWrenMesh);
   mWrenMesh = NULL;
 
-  if (!sanitizeFields())
-    return;
-
   WbGeometry::computeWrenRenderable();
 
-  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value());
+  const bool createOutlineMesh = isInBoundingObject();
+  mWrenMesh = wr_static_mesh_unit_sphere_new(mSubdivision->value(), mIco->value(), createOutlineMesh);
 
   // Restore pickable state
   setPickable(isPickable());
 
   wr_renderable_set_mesh(mWrenRenderable, WR_MESH(mWrenMesh));
 
-  if (isInBoundingObject())
+  if (createOutlineMesh)
     updateLineScale();
   else
     updateScale();
@@ -175,7 +270,7 @@ void WbSphere::updateRadius() {
   emit changed();
 }
 
-void WbSphere::updateSubdivision() {
+void WbSphere::updateMesh() {
   if (!sanitizeFields())
     return;
 
@@ -185,13 +280,12 @@ void WbSphere::updateSubdivision() {
 }
 
 void WbSphere::updateLineScale() {
-  if (!isAValidBoundingObject() || !sanitizeFields())
+  if (!isAValidBoundingObject())
     return;
 
-  float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
-
-  float scale[] = {static_cast<float>(mRadius->value() * (1.0 + offset)), static_cast<float>(mRadius->value() * (1.0 + offset)),
-                   static_cast<float>(mRadius->value() * (1.0 + offset))};
+  const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
+  const float scaledRadius = static_cast<float>(mRadius->value() * (1.0 + offset));
+  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -199,8 +293,8 @@ void WbSphere::updateScale() {
   if (!sanitizeFields())
     return;
 
-  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mRadius->value()),
-                   static_cast<float>(mRadius->value())};
+  const float scaledRadius = static_cast<float>(mRadius->value());
+  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -235,6 +329,10 @@ void WbSphere::applyToOdeData(bool correctSolidMass) {
 
   assert(dGeomGetClass(mOdeGeom) == dSphereClass);
   dGeomSphereSetRadius(mOdeGeom, scaledRadius());
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (correctSolidMass)
     applyToOdeMass();
@@ -273,10 +371,8 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
     pointOnTexture /= absoluteScale();
   }
 
-  double theta = atan2(pointOnTexture.x(), pointOnTexture.z()) + M_PI;
-  double u = theta / (2 * M_PI);
-  double radius = scaledRadius();
-  double v = 1 - (pointOnTexture.y() + radius) / (2 * radius);
+  const double u = 0.5 + atan2(pointOnTexture.x(), pointOnTexture.z()) * 0.5 * M_1_PI;
+  const double v = 0.5 - asin(pointOnTexture.y() / scaledRadius()) * M_1_PI;
 
   // result
   uv.setXy(u, v);

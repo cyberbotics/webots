@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Pioneer 3DX (Adept Mobile Robots)"
@@ -33,7 +33,6 @@ CardboardBox {
 }
 FloorLight {
   translation 0.351337 0 0.184194
-  pointLightAttenuation 0 0 1
   pointLightIntensity 10
   pointLightCastShadows TRUE
 }

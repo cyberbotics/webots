@@ -1,4 +1,4 @@
-#VRML_SIM R2018a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/sojourner
@@ -41,22 +41,22 @@ PROTO Sojourner [
                   roughness 0.2
                   baseColorMap ImageTexture {
                     url [
-                      "textures/gold_leaf_base_color.png"
+                      "textures/gold_leaf_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/gold_leaf_roughness.png"
+                      "textures/gold_leaf_roughness.jpg"
                     ]
                   }
                   normalMap ImageTexture {
                     url [
-                      "textures/gold_leaf_normal.png"
+                      "textures/gold_leaf_normal.jpg"
                     ]
                   }
                   occlusionMap ImageTexture {
                     url [
-                      "textures/gold_leaf_occlusion.png"
+                      "textures/gold_leaf_occlusion.jpg"
                     ]
                   }
                 }
@@ -129,12 +129,12 @@ PROTO Sojourner [
                 appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
-                      "textures/solar_cell_base_color.png"
+                      "textures/solar_cell_base_color.jpg"
                     ]
                   }
                   roughnessMap ImageTexture {
                     url [
-                      "textures/solar_cell_roughness.png"
+                      "textures/solar_cell_roughness.jpg"
                     ]
                   }
                   metalnessMap ImageTexture {

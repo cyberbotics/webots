@@ -64,6 +64,7 @@
 #include "WbMuscle.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbNormal.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbPen.hpp"
 #include "WbPhysics.hpp"
@@ -209,6 +210,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbMicrophone(tokenizer);
   if (modelName == "Muscle")
     return new WbMuscle(tokenizer);
+  if (modelName == "Normal")
+    return new WbNormal(tokenizer);
   if (modelName == "PBRAppearance")
     return new WbPbrAppearance(tokenizer);
   if (modelName == "Pen")
@@ -397,6 +400,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbMicrophone(original);
   if (modelName == "Muscle")
     return new WbMuscle(original);
+  if (modelName == "Normal")
+    return new WbNormal(original);
   if (modelName == "PBRAppearance")
     return new WbPbrAppearance(original);
   if (modelName == "Pen")
@@ -474,25 +479,6 @@ const QString WbConcreteNodeFactory::slotType(WbNode *node) {
 bool WbConcreteNodeFactory::validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node,
                                                       bool isInBoundingObject, QString &errorMessage) const {
   return WbNodeUtilities::validateExistingChildNode(field, childNode, node, isInBoundingObject, errorMessage);
-}
-
-const QString &WbConcreteNodeFactory::modelToVrmlName(const QString &modelName) {
-  static const QString indexedFaceSetString("IndexedFaceSet");
-  static const QString transformString("Transform");
-  static const QString appearanceString("Appearance");
-
-  if (modelName == "Plane")
-    return indexedFaceSetString;
-  if (modelName == "Capsule")
-    return indexedFaceSetString;
-  if (modelName == "PBRAppearance")
-    return appearanceString;
-  if (WbNodeUtilities::isMatterTypeName(modelName))
-    return transformString;
-  if (modelName == "TrackWheel")
-    return transformString;
-
-  return modelName;
 }
 
 void WbConcreteNodeFactory::exportAsVrml(const WbNode *node, WbVrmlWriter &writer) {

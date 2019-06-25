@@ -135,8 +135,7 @@ static void draw_on_display() {
  * for each cell using the NF1 (grassfire) algorithm.
  */
 static void init_map() {
-  int i = 0;
-  int j = 0;
+  int i, j;
   float vx, vy;
 
   // init to "infinity" or obstacle

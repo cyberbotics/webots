@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -114,11 +114,6 @@ PROTO SmallResidentialTowerFloor [
           metalnessMap ImageTexture {
             url [
               "textures/small_residential_tower_balcony_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/small_residential_tower_balcony_normal.jpg"
             ]
           }
           occlusionMap ImageTexture {

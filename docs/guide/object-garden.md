@@ -6,7 +6,7 @@ A barbecue with optional physics.
 
 %figure
 
-![Barbecue](images/objects/garden/Barbecue/model.png)
+![Barbecue](images/objects/garden/Barbecue/model.thumbnail.png)
 
 %end
 
@@ -36,7 +36,7 @@ A dog house.
 
 %figure
 
-![DogHouse](images/objects/garden/DogHouse/model.png)
+![DogHouse](images/objects/garden/DogHouse/model.thumbnail.png)
 
 %end
 
@@ -61,7 +61,7 @@ A gnome with optional physics.
 
 %figure
 
-![Gnome](images/objects/garden/Gnome/model.png)
+![Gnome](images/objects/garden/Gnome/model.thumbnail.png)
 
 %end
 
@@ -91,7 +91,7 @@ A pergola.
 
 %figure
 
-![Pergolas](images/objects/garden/Pergolas/model.png)
+![Pergolas](images/objects/garden/Pergolas/model.thumbnail.png)
 
 %end
 
@@ -117,7 +117,7 @@ Each segment is made of 11 pickets.
 
 %figure
 
-![PicketFence](images/objects/garden/PicketFence/model.png)
+![PicketFence](images/objects/garden/PicketFence/model.thumbnail.png)
 
 %end
 
@@ -150,7 +150,7 @@ A picket fence with a door and optional boundingObject.
 
 %figure
 
-![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.png)
+![PicketFenceWithDoor](images/objects/garden/PicketFenceWithDoor/model.thumbnail.png)
 
 %end
 
@@ -180,7 +180,7 @@ A slide.
 
 %figure
 
-![Slide](images/objects/garden/Slide/model.png)
+![Slide](images/objects/garden/Slide/model.thumbnail.png)
 
 %end
 
@@ -205,7 +205,7 @@ A swing.
 
 %figure
 
-![Swing](images/objects/garden/Swing/model.png)
+![Swing](images/objects/garden/Swing/model.thumbnail.png)
 
 %end
 
@@ -230,7 +230,7 @@ A swing couch.
 
 %figure
 
-![SwingCouch](images/objects/garden/SwingCouch/model.png)
+![SwingCouch](images/objects/garden/SwingCouch/model.thumbnail.png)
 
 %end
 
@@ -255,7 +255,7 @@ A table with a central umbrella and optional physics.
 
 %figure
 
-![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.png)
+![TableWithUmbrella](images/objects/garden/TableWithUmbrella/model.thumbnail.png)
 
 %end
 
@@ -285,7 +285,7 @@ A watering can with optional physics.
 
 %figure
 
-![WateringCan](images/objects/garden/WateringCan/model.png)
+![WateringCan](images/objects/garden/WateringCan/model.thumbnail.png)
 
 %end
 
@@ -315,7 +315,7 @@ A wheelbarrow with optional physics.
 
 %figure
 
-![Wheelbarrow](images/objects/garden/Wheelbarrow/model.png)
+![Wheelbarrow](images/objects/garden/Wheelbarrow/model.thumbnail.png)
 
 %end
 

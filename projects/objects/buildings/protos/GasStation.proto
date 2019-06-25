@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: static
@@ -32,19 +32,10 @@ PROTO GasStation [
               "textures/gas_station_store_cover_roughness.jpg"
             ]
           }
-          metalnessMap ImageTexture {
-            url [
-              "textures/gas_station_store_cover_metalness.jpg"
-            ]
-          }
+          metalness 0
           normalMap ImageTexture {
             url [
               "textures/gas_station_store_cover_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/gas_station_store_cover_occlusion.jpg"
             ]
           }
         }

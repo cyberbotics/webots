@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -9,7 +9,7 @@ PROTO Monitor [
   field SFRotation rotation    0 1 0 0
   field SFString   name        "monitor"
   field SFColor    color       0.15 0.15 0.15  # Defines the color of the monitor.
-  field SFFloat    mass        0               # Defines the mass of the monitor in kg. A value smaller or equal to 0 remove the physics of the monitor.
+  field SFFloat    mass        0               # Defines the mass of the monitor in kg. A value smaller or equal to 0 removes the physics of the monitor.
 ]
 {
 %{ local mass = fields.mass.value }%

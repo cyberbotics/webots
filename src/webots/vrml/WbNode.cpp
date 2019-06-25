@@ -306,13 +306,13 @@ WbNode::~WbNode() {
   mIsBeingDeleted = true;
 
   // qDeleteAll(mFields); // Delete always USE nodes before DEF nodes
-  const int n = mFields.size() - 1;
+  int n = mFields.size() - 1;
   for (int i = n; i >= 0; --i)
     delete mFields[i];
 
   if (mProto) {
     // qDeleteAll(mParameters); // Delete Always USE nodes before DEF nodes
-    const int n = mParameters.size() - 1;
+    n = mParameters.size() - 1;
     for (int i = n; i >= 0; --i)
       delete mParameters[i];
     mProto->unref();
@@ -403,10 +403,6 @@ QString WbNode::fullName() const {
     return "DEF " + mDefName + " " + modelName();
   else
     return modelName();
-}
-
-const QString &WbNode::vrmlName() const {
-  return WbNodeFactory::instance()->modelToVrmlName(nodeModelName());
 }
 
 QString WbNode::fullVrmlName() const {
@@ -1083,7 +1079,7 @@ void WbNode::exportNodeSubNodes(WbVrmlWriter &writer) const {
 
 void WbNode::exportNodeFooter(WbVrmlWriter &writer) const {
   if (writer.isX3d())
-    writer << "</" << vrmlName() << ">";
+    writer << "</" << x3dName() << ">";
   else {  // VRML
     writer.decreaseIndent();
     writer.indent();
@@ -1576,11 +1572,11 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   instance->setupDescendantAndNestedProtoFlags(topProto, false, fromSceneTree);
 
   // removed the fake parameters introduced in case of direct nested PROTOs
-  QMutableVectorIterator<WbField *> it(instance->mParameters);
-  while (it.hasNext()) {
-    WbField *field = it.next();
+  QMutableVectorIterator<WbField *> fieldIt(instance->mParameters);
+  while (fieldIt.hasNext()) {
+    WbField *field = fieldIt.next();
     if (!field->isHiddenParameter() && proto->findFieldModel(field->name()) == NULL) {
-      it.remove();
+      fieldIt.remove();
       delete field;
     }
   }
@@ -1821,10 +1817,10 @@ bool WbNode::hasAreferredDefNodeDescendant(const WbNode *root) const {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode && sfnode->value()) {
       const WbNode *node = sfnode->value();
-      const int count = node->useCount();
-      const QList<WbNode *> &useNodes = node->useNodes();
-      for (int i = 0; i < count; ++i) {
-        if (!root->isAnAncestorOf(useNodes.at(i)))
+      const int nodeCount = node->useCount();
+      const QList<WbNode *> &nodeUseNodes = node->useNodes();
+      for (int i = 0; i < nodeCount; ++i) {
+        if (!root->isAnAncestorOf(nodeUseNodes.at(i)))
           return true;
       }
       const bool subtreeHasDef = node->hasAreferredDefNodeDescendant(root);
@@ -1836,10 +1832,10 @@ bool WbNode::hasAreferredDefNodeDescendant(const WbNode *root) const {
         const int size = mfnode->size();
         for (int i = 0; i < size; ++i) {
           const WbNode *node = mfnode->item(i);
-          const int count = node->useCount();
-          const QList<WbNode *> &useNodes = node->useNodes();
-          for (int j = 0; j < count; ++j) {
-            if (!root->isAnAncestorOf(useNodes.at(j)))
+          const int nodeCount = node->useCount();
+          const QList<WbNode *> &nodeUseNodes = node->useNodes();
+          for (int j = 0; j < nodeCount; ++j) {
+            if (!root->isAnAncestorOf(nodeUseNodes.at(j)))
               return true;
           }
           const bool subtreeHasDef = node->hasAreferredDefNodeDescendant(root);

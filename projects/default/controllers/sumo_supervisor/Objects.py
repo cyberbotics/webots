@@ -133,7 +133,7 @@ class Vehicle:
         elif self.type in MOTORCYCLE_MODEL:
             self.vehicleClass = 'motorcycle'
         else:
-            print ("Vehicle type not supported: " + self.type)
+            print("Vehicle type not supported: " + self.type)
         self.wheelsAngularVelocity = []
         if self.type in MOTORCYCLE_MODEL:
             self.wheelsAngularVelocity.append(self.node.getField("frontWheelAngularVelocity"))
@@ -144,12 +144,13 @@ class Vehicle:
             self.wheelsAngularVelocity.append(self.node.getField("rearRightWheelAngularVelocity"))
             self.wheelsAngularVelocity.append(self.node.getField("rearLeftWheelAngularVelocity"))
         if self.vehicleClass == 'trailer':
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("frontLeftWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("frontRightWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("centerLeftWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("centerRightWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("rearLeftWheelAngularVelocity"))
-            self.wheelsAngularVelocity.append(self.node.getField("trailer").getSFNode().getField("rearRightWheelAngularVelocity"))
+            trailerNode = self.node.getField("trailer").getSFNode()
+            self.wheelsAngularVelocity.append(trailerNode.getField("frontLeftWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(trailerNode.getField("frontRightWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(trailerNode.getField("centerLeftWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(trailerNode.getField("centerRightWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(trailerNode.getField("rearLeftWheelAngularVelocity"))
+            self.wheelsAngularVelocity.append(trailerNode.getField("rearRightWheelAngularVelocity"))
 
     @staticmethod
     def generate_vehicle_string(index, vehicleClass):

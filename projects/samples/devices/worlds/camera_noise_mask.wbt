@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Example use of 'noiseMaskUrl' field of a color Camera device."
@@ -14,6 +14,11 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0 0.6 0
 }
 DEF GREEN_BOX Solid {
   translation -0.05 0.05 -0.25
@@ -32,7 +37,7 @@ DEF GREEN_BOX Solid {
   name "green box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 1.1102230246251565e-16
+      roughness 0
       metalness 0
     }
     geometry USE BOX0
@@ -49,14 +54,14 @@ DEF BLUE_BOX Solid {
         metalness 0
       }
       geometry DEF BOX1 Box {
-        size 0.1 0.1 0.1
+        size 0.2 0.1 0.1
       }
     }
   ]
   name "blue box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 1.1102230246251565e-16
+      roughness 0
       metalness 0
     }
     geometry USE BOX1
@@ -80,30 +85,31 @@ DEF WHITE_BOX Solid {
   name "gray box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 1.1102230246251565e-16
+      roughness 0
       metalness 0
     }
     geometry USE BOX2
   }
 }
-DEF PINK_BOX Solid {
+DEF RED_BOX Solid {
   translation 0.42 0.05 -0.1
+  rotation 0 1 0 1.8325996938995748
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 1 0.1 0.3
+        baseColor 1 0 0
         roughness 0.16827074099999995
         metalness 0
       }
       geometry DEF BOX3 Box {
-        size 0.15 0.1 0.08
+        size 0.2 0.1 0.08
       }
     }
   ]
   name "red box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 1.1102230246251565e-16
+      roughness 0
       metalness 0
     }
     geometry USE BOX3

@@ -6,7 +6,7 @@ Customizable simple panel.
 
 %figure
 
-![Panel](images/objects/panels/Panel/model.png)
+![Panel](images/objects/panels/Panel/model.thumbnail.png)
 
 %end
 
@@ -51,7 +51,7 @@ A gray panel with tubes.
 
 %figure
 
-![PannelWithTubes](images/objects/panels/PannelWithTubes/model.png)
+![PannelWithTubes](images/objects/panels/PannelWithTubes/model.thumbnail.png)
 
 %end
 

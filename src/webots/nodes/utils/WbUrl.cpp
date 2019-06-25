@@ -56,6 +56,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
         } else if (!webotsPROTOSearchPath.contains(proto->path()))
           webotsPROTOSearchPath.append(proto->path());
       }
+      if (!proto->projectPath().isEmpty() && !projectPROTOSearchPath.contains(proto->projectPath() + "/protos"))
+        projectPROTOSearchPath.append(proto->projectPath() + "/protos");
       proto = WbProtoList::current()->findModel(proto->ancestorProtoName(), "");
     }
     currentNode = currentNode->parent();
@@ -64,6 +66,8 @@ QStringList WbUrl::orderedSearchPaths(const WbNode *node) {
   QStringList searchPaths;
   searchPaths << projectPROTOSearchPath;
   searchPaths.append(WbProject::current()->worldsPath());
+  if (WbProject::extraDefaultProject())
+    searchPaths.append(WbProject::extraDefaultProject()->worldsPath());
   searchPaths << webotsPROTOSearchPath;
   searchPaths.append(WbStandardPaths::projectsPath() + "default/worlds");
   return searchPaths;

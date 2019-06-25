@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -50,8 +50,7 @@ E-puck {
         Shape {
           appearance PBRAppearance {
             baseColor 0.8 0.8 0.8
-            roughness 0.5
-            metalness 0
+            metalness 0.2
             textureTransform TextureTransform {
               rotation 1.5708
             }
@@ -87,7 +86,12 @@ E-puck {
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.8 0.8 0.8
-                  roughness 0.5
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/wood.jpg"
+                    ]
+                  }
+                  roughness 1
                   metalness 0
                   textureTransform TextureTransform {
                   }
@@ -105,12 +109,14 @@ E-puck {
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.8 0.8 0.8
-                  roughness 0.5
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/red_rubber.jpg"
+                    ]
+                  }
+                  roughness 1
                   metalness 0
                   textureTransform TextureTransform {
-                    rotation 1.5708
-                    scale 0.5 0.5
-                    translation 0.2 0
                   }
                 }
                 geometry Sphere {

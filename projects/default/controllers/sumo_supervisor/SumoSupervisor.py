@@ -197,8 +197,9 @@ class SumoSupervisor (Supervisor):
             dy = -math.sin(angle)
             yaw = -math.atan2(dy, -dx)
             # correct position (origin of the car is not the same in Webots / sumo)
-            pos[0] = pos[0] + 0.5 * subscriptionResult[id][self.traci.constants.VAR_LENGTH] * math.sin(angle)
-            pos[2] = pos[2] - 0.5 * subscriptionResult[id][self.traci.constants.VAR_LENGTH] * math.cos(angle)
+            vehicleLength = subscriptionResult[id][self.traci.constants.VAR_LENGTH]
+            pos[0] += 0.5 * vehicleLength * math.sin(angle)
+            pos[2] -= 0.5 * vehicleLength * math.cos(angle)
             # if needed check the vehicle is in the visibility radius
             if self.radius > 0:
                 viewpointPosition = self.viewpointPosition.getSFVec3f()
@@ -240,7 +241,7 @@ class SumoSupervisor (Supervisor):
                         vehicle.roll = roll
                         # ajust height according to the pitch
                         if not pitch == 0:
-                            height = height + roadPos * math.sin(pitch)
+                            height += (roadPos - 0.5 * vehicleLength) * math.sin(pitch)
                         # ajust height according to the roll and lateral position of the vehicle
                         if not roll == 0.0:
                             laneIndex = subscriptionResult[id][self.traci.constants.VAR_LANE_INDEX]
@@ -250,7 +251,7 @@ class SumoSupervisor (Supervisor):
                             numberOfLane = edge.getLaneNumber()
                             # compute lateral distance from the center of the lane
                             distance = math.fabs((laneIndex - numberOfLane / 2) + 0.5) * laneWidth
-                            if laneIndex >= (numberOfLane/2):
+                            if laneIndex >= (numberOfLane / 2):
                                 height = height - distance * math.sin(roll)
                             else:
                                 height = height + distance * math.sin(roll)
@@ -275,7 +276,8 @@ class SumoSupervisor (Supervisor):
                     # artificially add an angle depending on the lateral speed
                     artificialAngle = 0
                     if z1 > 0.0001:  # don't add the angle if speed is very small as atan2(0.0, 0.0) is unstable
-                        artificialAngle = 0.15 * math.atan2(x1, z1)  # the '0.15' factor was found empirically and should not depend on the simulation
+                        # the '0.15' factor was found empirically and should not depend on the simulation
+                        artificialAngle = 0.15 * math.atan2(x1, z1)
                     if (vehicle.laneChangeStartTime is not None and
                             vehicle.laneChangeStartTime > self.getTime() - laneChangeDelay and
                             abs(vehicle.laneChangeDistance) >= abs(x1)):  # lane change case
@@ -377,17 +379,17 @@ class SumoSupervisor (Supervisor):
                     self.trafficLights[id].trafficLightRecognitionColors[j] = trafficLightNode.getField("recognitionColors")
                 ledName = id + "_" + str(j) + "_"
                 if (ledName + "r") in LEDNames:
-                    self.trafficLights[id].LED[3*j + 0] = self.getLED(ledName + "r")
+                    self.trafficLights[id].LED[3 * j + 0] = self.getLED(ledName + "r")
                 else:
-                    self.trafficLights[id].LED[3*j + 0] = None
+                    self.trafficLights[id].LED[3 * j + 0] = None
                 if (ledName + "y") in LEDNames:
-                    self.trafficLights[id].LED[3*j + 1] = self.getLED(ledName + "y")
+                    self.trafficLights[id].LED[3 * j + 1] = self.getLED(ledName + "y")
                 else:
-                    self.trafficLights[id].LED[3*j + 1] = None
+                    self.trafficLights[id].LED[3 * j + 1] = None
                 if (ledName + "g") in LEDNames:
-                    self.trafficLights[id].LED[3*j + 2] = self.getLED(ledName + "g")
+                    self.trafficLights[id].LED[3 * j + 2] = self.getLED(ledName + "g")
                 else:
-                    self.trafficLights[id].LED[3*j + 2] = None
+                    self.trafficLights[id].LED[3 * j + 2] = None
 
     def update_traffic_light_state(self, subscriptionResult):
         """Update the traffic lights state in Webots."""
@@ -398,32 +400,32 @@ class SumoSupervisor (Supervisor):
                 self.trafficLights[id].previousState = currentState
                 for j in range(0, self.trafficLights[id].lightNumber):
                     # Update red LED if it exists
-                    if self.trafficLights[id].LED[3*j + 0]:
+                    if self.trafficLights[id].LED[3 * j + 0]:
                         if currentState[j] == 'r' or currentState[j] == 'R':
-                            self.trafficLights[id].LED[3*j + 0].set(1)
+                            self.trafficLights[id].LED[3 * j + 0].set(1)
                             # update recognition colors
                             if j in self.trafficLights[id].trafficLightRecognitionColors:
                                 self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0, 0])
                         else:
-                            self.trafficLights[id].LED[3*j + 0].set(0)
+                            self.trafficLights[id].LED[3 * j + 0].set(0)
                     # Update yellow LED if it exists
-                    if self.trafficLights[id].LED[3*j + 1]:
+                    if self.trafficLights[id].LED[3 * j + 1]:
                         if currentState[j] == 'y' or currentState[j] == 'Y':
-                            self.trafficLights[id].LED[3*j + 1].set(1)
+                            self.trafficLights[id].LED[3 * j + 1].set(1)
                             # update recognition colors
                             if j in self.trafficLights[id].trafficLightRecognitionColors:
                                 self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [1, 0.5, 0])
                         else:
-                            self.trafficLights[id].LED[3*j + 1].set(0)
+                            self.trafficLights[id].LED[3 * j + 1].set(0)
                     # Update green LED if it exists
-                    if self.trafficLights[id].LED[3*j + 2]:
+                    if self.trafficLights[id].LED[3 * j + 2]:
                         if currentState[j] == 'g' or currentState[j] == 'G':
-                            self.trafficLights[id].LED[3*j + 2].set(1)
+                            self.trafficLights[id].LED[3 * j + 2].set(1)
                             # update recognition colors
                             if j in self.trafficLights[id].trafficLightRecognitionColors:
                                 self.trafficLights[id].trafficLightRecognitionColors[j].setMFColor(1, [0, 1, 0])
                         else:
-                            self.trafficLights[id].LED[3*j + 2].set(0)
+                            self.trafficLights[id].LED[3 * j + 2].set(0)
 
     def run(self, port, disableTrafficLight, directory, step, rotateWheels,
             maxVehicles, radius, enableHeight, useDisplay, displayRefreshRate,
@@ -435,7 +437,8 @@ class SumoSupervisor (Supervisor):
             self.step(step)
             traci.init(port, numRetries=20)
         except:
-            sys.exit("Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try changing SUMO port using the '--port' argument.")
+            sys.exit('Unable to connect to SUMO, please make sure any previous instance of SUMO is closed.\n You can try'
+                     ' changing SUMO port using the "--port" argument.')
 
         self.traci = traci
         self.sumolib = sumolib
@@ -507,7 +510,8 @@ class SumoSupervisor (Supervisor):
             display = self.getDisplay('sumo')
             if display is not None:
                 from SumoDisplay import SumoDisplay
-                self.sumoDisplay = SumoDisplay(display, displayZoom, view, directory, displayRefreshRate, displayFitSize, self.traci)
+                self.sumoDisplay = SumoDisplay(display, displayZoom, view, directory, displayRefreshRate, displayFitSize,
+                                               self.traci)
 
         # Main simulation loop
         while self.step(step) >= 0:
@@ -521,7 +525,7 @@ class SumoSupervisor (Supervisor):
             try:
                 self.traci.simulationStep()
             except self.traci.exceptions.FatalTraCIError:
-                print ("Sumo closed")
+                print("Sumo closed")
                 self.sumoClosed = True
                 break
 

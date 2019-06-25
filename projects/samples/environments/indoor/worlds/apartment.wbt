@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -175,19 +175,16 @@ Wall {
 CeilingLight {
   translation 2.47061 2.4 1.3341
   name "ceiling light 1"
-  pointLightAttenuation 0 0 4
-  pointLightIntensity 7
+  pointLightIntensity 5
 }
 CeilingLight {
   translation 2.44317 2.4 7.10107
   name "ceiling light 2"
-  pointLightAttenuation 0 0 3
   pointLightIntensity 8
 }
 FloorLight {
   translation 0.745582 0 4.00427
-  pointLightAttenuation 1 0 4
-  pointLightIntensity 6
+  pointLightIntensity 2
 }
 Fridge {
   translation 0.5 0 0.52

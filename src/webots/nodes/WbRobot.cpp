@@ -459,12 +459,14 @@ void WbRobot::updateRemoteControl() {
 
 void WbRobot::updateControllerDir() {
   const QString &controllerName = mController->value();
-  if (!controllerName.isEmpty()) {
+  if (!controllerName.isEmpty() && controllerName != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName + '/';
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName) + '/';
+    if (WbProject::extraDefaultProject())
+      path << WbProject::extraDefaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName + '/';
     path << WbProject::system()->controllersPath() + controllerName + '/';
     path.removeDuplicates();
@@ -480,8 +482,8 @@ void WbRobot::updateControllerDir() {
 
     if (mControllerDir.isEmpty()) {
       QString warning(tr("The controller directory has not been found, searched the following locations:"));
-      const int size = path.size();
-      for (int i = 0; i < size; ++i)
+      const int otherSize = path.size();
+      for (int i = 0; i < otherSize; ++i)
         warning += "\n" + path[i];
       warn(warning);
     }
@@ -904,7 +906,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       QString message(nativeMessage);
       if (!message.endsWith('\n'))
         message += '\n';
-      // cppcheck-suppress redundantCondition
+      // cppcheck-suppress knownConditionTrueFalse
       emit appendMessageToConsole(message, streamChannel == 0);
       return;
     }

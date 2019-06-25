@@ -181,11 +181,11 @@ void WbWorldInfo::createOdeObjects() {
 }
 
 void WbWorldInfo::updateBasicTimeStep() {
-  WbFieldChecker::checkDoubleIsPositive(this, mBasicTimeStep, 32.0);
+  WbFieldChecker::resetDoubleIfNonPositive(this, mBasicTimeStep, 32.0);
 }
 
 void WbWorldInfo::updateFps() {
-  WbFieldChecker::checkDoubleIsPositive(this, mFps, 60.0);
+  WbFieldChecker::resetDoubleIfNonPositive(this, mFps, 60.0);
 }
 
 void WbWorldInfo::displayOptimalThreadCountWarning() {
@@ -204,12 +204,12 @@ void WbWorldInfo::updateOptimalThreadCount() {
   int threadPreferenceNumber = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
   if (mOptimalThreadCount->value() > threadPreferenceNumber)
     warn(tr("A limit of '%1' threads is set in the preferences.").arg(threadPreferenceNumber));
-  else if (!WbFieldChecker::checkIntIsPositive(this, mOptimalThreadCount, 1))
+  else if (!WbFieldChecker::resetIntIfNonPositive(this, mOptimalThreadCount, 1))
     emit optimalThreadCountChanged();
 }
 
 void WbWorldInfo::updateLineScale() {
-  if (WbFieldChecker::checkDoubleIsNonNegative(this, mLineScale, 0.0))
+  if (WbFieldChecker::resetDoubleIfNegative(this, mLineScale, 0.0))
     return;
 
   if (areWrenObjectsInitialized())
@@ -221,7 +221,7 @@ void WbWorldInfo::applyLineScaleToWren() {
 }
 
 void WbWorldInfo::updateRandomSeed() {
-  WbFieldChecker::checkIntIsNonNegativeOrDisabled(this, mRandomSeed, 0, -1);
+  WbFieldChecker::resetIntIfNegativeAndNotDisabled(this, mRandomSeed, 0, -1);
   emit randomSeedChanged();
 }
 
@@ -242,7 +242,7 @@ void WbWorldInfo::applyToOdeGravity() {
 }
 
 void WbWorldInfo::updateCfm() {
-  if (WbFieldChecker::checkDoubleIsPositive(this, mCfm, 0.00001))
+  if (WbFieldChecker::resetDoubleIfNonPositive(this, mCfm, 0.00001))
     return;
 
   if (areOdeObjectsCreated())
@@ -255,7 +255,7 @@ void WbWorldInfo::applyToOdeCfm() {
 }
 
 void WbWorldInfo::updateErp() {
-  if (WbFieldChecker::checkDoubleInRangeWithIncludedBounds(this, mErp, 0.0, 1.0, 0.2))
+  if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mErp, 0.0, 1.0, 0.2))
     return;
 
   if (areOdeObjectsCreated())
@@ -347,9 +347,6 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       }
       writer << "'";
     }
-
-    if (!findField("lineScale")->isDefault())
-      writer << " lineScale='" << mLineScale->value() << "'";
 
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";

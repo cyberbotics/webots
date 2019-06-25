@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 # license url: https://creativecommons.org/licenses/by/3.0/legalcode
 # tags: static
@@ -9,13 +9,13 @@ PROTO StreetLight [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
   field SFString   name          "street light"
-  field SFVec3f    attenuation   0 1 0
   field SFFloat    beamWidth     1.1             # Defines the beam width of the spot light.
   field SFColor    color         1 1 1           # Defines the color of the spot light.
   field SFFloat    cutOffAngle   1.4             # Defines the cut-off angle of the spot light.
   field SFVec3f    direction     0 -1 -0.1       # Defines the direction of the spot light.
   field SFBool     on            TRUE            # Defines whether the spot light is on or off.
   field SFFloat    radius        1000            # Defines the radius of the spot light.
+  field SFFloat    intensity     30              # Defines the radius of the spot light.
   field SFBool     castShadows   FALSE           # Defines whether the spot light casts shadows.
 ]
 {
@@ -30,21 +30,8 @@ Solid {
       scale 0.125 0.125 0.125
       children [
         DEF POLE Shape {
-          appearance PBRAppearance {
-            baseColor 0.01568627450980392 0.050980392156862744 0.00784313725490196
-            baseColorMap ImageTexture {
-              url [
-                "textures/street_light_base_color.png"
-              ]
-            }
-            roughness 0.35
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/street_light_normal.png"
-              ]
-            }
-            normalMapFactor 5
+          appearance MattePaint {
+            baseColor 0.0157 0.051 0.008
             textureTransform TextureTransform {
               scale 8 8
             }
@@ -58,7 +45,7 @@ Solid {
             coordIndex [
               24, 0, 1, -1, 25, 13, 12, -1, 24, 1 2, -1, 25, 14, 13, -1, 24, 2, 3, -1 25, 15, 14, -1, 24, 3, 4, -1, 25, 16 15, -1, 24, 4, 5, -1, 25, 17, 16, -1 24, 5, 6, -1, 25, 18, 17, -1, 24, 6 7, -1, 25, 19, 18, -1, 24, 7, 8, -1 25, 20, 19, -1, 24, 8, 9, -1, 25, 21 20, -1, 24, 9, 10, -1, 25, 22, 21, -1 24, 10, 11, -1, 25, 23, 22, -1, 11, 0 24, -1, 25, 12, 23, -1, 50, 38, 39, -1 50, 39, 40, -1, 50, 40, 41, -1, 50, 41 42, -1, 50, 42, 43, -1, 50, 43, 44, -1 50, 44, 45, -1, 50, 45, 46, -1, 50, 46 47, -1, 50, 47, 48, -1, 50, 48, 49, -1 50, 49, 38, -1, 26, 38, 39, 27, -1, 27 39, 40, 28, -1, 28, 40, 41, 29, -1, 29 41, 42, 30, -1, 30, 42, 43, 31, -1, 31 43, 44, 32, -1, 32, 44, 45, 33, -1, 33 45, 46, 34, -1, 34, 46, 47, 35, -1, 35 47, 48, 36, -1, 36, 48, 49, 37, -1, 38 26, 37, 49, -1, 37, 65, 64, 26, -1, 36 66, 65, 37, -1, 35, 67, 66, 36, -1, 34 68, 67, 35, -1, 33, 69, 68, 34, -1, 32 70, 69, 33, -1, 31, 71, 70, 32, -1, 30 72, 71, 31, -1, 29, 73, 72, 30, -1, 28 74, 73, 29, -1, 27, 75, 74, 28, -1, 26 64, 75, 27, -1, 51, 62, 63, -1, 51, 61 62, -1, 51, 60, 61, -1, 51, 59, 60, -1 51, 58, 59, -1, 51, 57, 58, -1, 51, 56 57, -1, 51, 55, 56, -1, 51, 54, 55, -1 51, 53, 54, -1, 51, 52, 53, -1, 52, 51 63, -1, 75, 64, 63, 62, -1, 74, 75, 62 61, -1, 73, 74, 61, 60, -1, 72, 73, 60 59, -1, 71, 72, 59, 58, -1, 70, 71, 58 57, -1, 69, 70, 57, 56, -1, 68, 69, 56 55, -1, 67, 68, 55, 54, -1, 66, 67, 54 53, -1, 65, 66, 53, 52, -1, 64, 65, 52 63, -1, 77, 76, 100, -1, 100, 78, 77, -1 100, 79, 78, -1, 100, 80, 79, -1, 100, 81 80, -1, 100, 82, 81, -1, 100, 83, 82, -1 100, 84, 83, -1, 100, 85, 84, -1, 100, 86 85, -1, 100, 87, 86, -1, 100, 76, 87, -1 76, 88, 89, -1, 76, 89, 77, -1, 77, 89 90, -1, 77, 90, 78, -1, 78, 90, 91, -1 78, 91, 79, -1, 79, 91, 92, -1, 79, 92 80, -1, 80, 92, 93, -1, 80, 93, 81, -1 81, 93, 94, -1, 81, 94, 82, -1, 82, 94 95, -1, 82, 95, 83, -1, 83, 95, 96, -1 83, 96, 84, -1, 84, 96, 97, -1, 84, 97 85, -1, 85, 97, 98, -1, 85, 98, 86, -1 86, 98, 99, -1, 86, 99, 87, -1, 87, 99 88, -1, 87, 88, 76, -1, 88, 99, 102, -1 88, 102, 113, -1, 99, 98, 103, -1, 99, 103 102, -1, 98, 97, 104, -1, 98, 104, 103, -1 97, 96, 105, -1, 97, 105, 104, -1, 96, 95 106, -1, 96, 106, 105, -1, 95, 94, 107, -1 95, 107, 106, -1, 94, 93, 108, -1, 94, 108 107, -1, 93, 92, 109, -1, 93, 109, 108, -1 92, 91, 110, -1, 92, 110, 109, -1, 91, 90 111, -1, 91, 111, 110, -1, 90, 89, 112, -1 90, 112, 111, -1, 89, 88, 113, -1, 89, 113 112, -1, 101, 112, 113, -1, 101, 111, 112, -1 101, 110, 111, -1, 101, 109, 110, -1, 101, 108 109, -1, 101, 107, 108, -1, 101, 106, 107, -1 101, 105, 106, -1, 101, 104, 105, -1, 101, 103 104, -1, 101, 102, 103, -1, 101, 113, 102, -1 137, 125, 124, 136, -1, 136, 124, 123, 135, -1 135, 123, 122, 134, -1, 134, 122, 121, 133, -1 133, 121, 120, 132, -1, 132, 120, 119, 131, -1 131, 119, 118, 130, -1, 130, 118, 117, 129, -1 129, 117, 116, 128, -1, 128, 116, 115, 127, -1 127, 115, 114, 126, -1, 125, 137, 126, 114, -1
             ]
-            creaseAngle 0.8
+            creaseAngle 1.5
           }
         }
         DEF BASE Shape {
@@ -124,7 +111,7 @@ Solid {
       ]
     }
     SpotLight {
-      attenuation IS attenuation
+      attenuation 0 0 1
       beamWidth IS beamWidth
       color IS color
       cutOffAngle IS cutOffAngle
@@ -133,7 +120,7 @@ Solid {
       on IS on
       radius IS radius
       castShadows IS castShadows
-      intensity 4
+      intensity IS intensity
     }
   ]
   name IS name
