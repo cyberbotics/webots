@@ -2,7 +2,7 @@
 
 ```
 Muscle {
-  SFDouble maxRadius   0.2     # [0, inf)
+  SFDouble volume      0.01    # [0, inf)
   SFVec3f  startOffset 0 0 0   # any vector
   SFVec3f  endOffset   0 0 0   # any vector
   MFColor  color       [ ]     # any color
@@ -16,14 +16,13 @@ Muscle {
 A [Muscle](#muscle) node can be used to graphically display the contraction of an artificial muscle implemented using [Joint](joint.md) and [Motor](motor.md) nodes.
 The artificial muscle is represented using a spheroid where the symmetry axis is the vector between the joint's closest upper [Transform](transform.md) node and the `endPoint` [Solid](solid.md) node.
 The other two axes have the same length computed based on the symmetry axis length so that the volume remains constant during stretching.
-In order to define the spheroid's volume, the `minPosition` and `maxPosition` limits of the parent [Motor](motor.md) node have to be defined.
 
-Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Hinge2Joint](hinge2joint.md) or [Track](track.md) node.
+Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Track](track.md) node.
 
 ### Field Summary
 
-- The `maxRadius` field specifies the length of the two equally sized axes of the graphical spheroid when the distance between the joint's parent [Transform](transform.md) and the `endPoint` [Solid](solid.md) nodes is minimal.
-This value is used to recompute the shape of the muscle when the joint moves in order to keep the spheroid volume constant.
+- The `volume` field specifies the constant volume of the graphical spheroid.
+This value is used to recompute the shape of the muscle when the joint moves.
 
 - The `startOffset` specifies the position of the bottom point of the muscle spheroid in the coordinate system of the closest upper [Transform](transform.md) node.
 If the `startOffset` is `[0, 0, 0]`, then the spheroid bottom point corresponds to the closest upper [Transform](transform.md) origin.

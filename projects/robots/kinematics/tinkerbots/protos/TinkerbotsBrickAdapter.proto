@@ -11,21 +11,11 @@ PROTO TinkerbotsBrickAdapter [
 ]
 {
   Slot {
-    type "lego cross female"
+    type "lego cross+"
     endPoint Solid {
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
-          translation 0.005 0 0.015
-          rotation 0 1 0 1.57
-          children [
-            Slot {
-              type "lego cross female"
-              endPoint IS slot
-            }
-          ]
-        }
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "grey"

@@ -38,7 +38,7 @@ A rock (17 cm).
 
 %figure
 
-![Rock17cm](images/objects/rocks/Rock17cm/model.png)
+![Rock17cm](images/objects/rocks/Rock17cm/model.thumbnail.png)
 
 %end
 

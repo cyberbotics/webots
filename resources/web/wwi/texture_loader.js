@@ -15,6 +15,36 @@ var TextureLoader = {
     return new THREE.Texture();
   },
 
+  createColoredCubeTexture: function(color, width = 1, height = 1) {
+    // Create an off-screen canvas.
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    // Create RGB values.
+    var r = Math.floor(color.r * 255);
+    var g = Math.floor(color.g * 255);
+    var b = Math.floor(color.b * 255);
+
+    // Push pixels.
+    var data = context.createImageData(width, height);
+    var size = width * height;
+    for (let i = 0; i < size; i++) {
+      let stride = i * 4;
+      data.data[stride + 0] = r;
+      data.data[stride + 1] = g;
+      data.data[stride + 2] = b;
+      data.data[stride + 3] = 255;
+    }
+    context.putImageData(data, 0, 0);
+
+    // Create the CubeTexture.
+    var src = canvas.toDataURL();
+    var loader = new THREE.CubeTextureLoader();
+    return loader.load([src, src, src, src, src, src]);
+  },
+
   loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
     if (typeof name === 'undefined' || name === '')
@@ -22,16 +52,8 @@ var TextureLoader = {
     return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex, onLoad);
   },
 
-  loadFromUri: function(uri, name) {
-    this._getInstance().loadFromUri(uri, name);
-  },
-
   setOnTextureLoad: function(onLoad) {
     this._getInstance().onTextureLoad = onLoad;
-  },
-
-  setStreamingMode: function(enabled) {
-    this._getInstance().streamingMode = enabled;
   },
 
   setTexturePathPrefix: function(texturePathPrefix) {
@@ -50,13 +72,13 @@ class _TextureLoaderObject {
     this.textures = [];
     this.loadingTextures = [];
     this.loadingCubeTextureObjects = [];
-    this.streamingMode = false;
     this.onTextureLoad = undefined;
     this.texturePathPrefix = '';
   }
 
   loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
-    name = this.texturePathPrefix + name;
+    if (this.texturePathPrefix)
+      name = this.texturePathPrefix + name;
     if (this.textures[name]) {
       if (typeof onLoad !== 'undefined')
         onLoad(this.textures[name]);
@@ -92,9 +114,6 @@ class _TextureLoaderObject {
     if (typeof onLoad !== 'undefined')
       this.loadingTextures[name].onLoad.push(onLoad);
 
-    if (this.streamingMode)
-      return; // textures will be sent throug socket
-
     // Load from url.
     var loader;
     var isHDR = hasHDRExtension(name);
@@ -121,31 +140,6 @@ class _TextureLoaderObject {
       }
     );
     return undefined;
-  }
-
-  loadFromUri(uri, name) {
-    name = this.texturePathPrefix + name;
-
-    if (!this.loadingTextures[name])
-      this.loadingTextures[name] = {objects: [], onLoad: []};
-
-    var isHDR = hasHDRExtension(name);
-    if (isHDR) {
-      var loader = new THREE.RGBELoader();
-      loader.load(
-        uri,
-        (texture) => {
-          this.loadingTextures[name].data = texture.image;
-          this._onImageLoaded(name);
-        }
-      );
-      return;
-    }
-
-    var image = new Image();
-    this.loadingTextures[name].data = image;
-    image.onload = () => { this._onImageLoaded(name); };
-    image.src = uri;
   }
 
   _onImageLoaded(name) {

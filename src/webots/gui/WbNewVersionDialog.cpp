@@ -47,8 +47,8 @@ bool WbNewVersionDialog::run() {
 WbNewVersionDialog::WbNewVersionDialog() {
   style()->polish(this);
 
-  const QString &versionString = WbApplicationInfo::version().toString();
   const WbVersion &version = WbApplicationInfo::version();
+  const QString &versionString = version.toString(true, false, true);
   setWindowTitle(tr("Welcome to Webots %1").arg(versionString));
 
   QVBoxLayout *vBoxLayout = new QVBoxLayout(this);

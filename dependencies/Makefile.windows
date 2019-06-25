@@ -59,7 +59,8 @@ open-vr-clean:
 open-vr: $(TARGET_PATH)/openvr_api.dll $(WEBOTS_HOME_PATH)/include/openvr
 
 $(WEBOTS_HOME_PATH)/include/openvr: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
-	cp -rf "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers "$(WEBOTS_HOME_PATH)/include/openvr"
+	mkdir "$(WEBOTS_HOME_PATH)/include/openvr"
+	cp -f "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/* "$(WEBOTS_HOME_PATH)/include/openvr"
 
 $(TARGET_PATH)/openvr_api.dll: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
 	mkdir -p $(TARGET_PATH)
@@ -71,7 +72,6 @@ $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
 	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
 	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
 	touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
-	mkdir "$(WEBOTS_HOME_PATH)/include/openvr"
 
 lua-clean:
 	rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"

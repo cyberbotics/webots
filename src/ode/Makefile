@@ -40,6 +40,9 @@ else ifeq ($(MAKECMDGOALS),install)
 $(TARGET_ODE_LIBRARY):
 	@echo "#" copying $(@F) to $@
 	@cp $(@F) $@
+ifeq ($(OSTYPE),darwin)
+	@install_name_tool -id @rpath/lib/libode.dylib $@
+endif
 
 install: $(TARGET_ODE_LIBRARY)
 

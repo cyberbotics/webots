@@ -70,7 +70,7 @@ This sound is used to play the sound of the motor.
 It is modulated in volume and pitch according to the velocity of the motor to produce a realistic motor sound.
 
 - The `muscles` field optionally specifies one or more [Muscle](muscle.md) nodes that graphically display the contraction of an artificial muscle connecting the parent [Solid](solid.md) node and the `endPoint` node of the [Joint](joint.md).
-This functionality is not available for [Hinge2Joint](hinge2joint.md) and [Track](track.md) nodes.
+This functionality is not available for the [Track](track.md) node.
 
 ### Units
 

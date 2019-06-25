@@ -94,7 +94,7 @@ A configurable rectangle arena composed of a floor surrounded by walls.
 
 %figure
 
-![RectangleArena](images/objects/floors/RectangleArena/model.png)
+![RectangleArena](images/objects/floors/RectangleArena/model.thumbnail.png)
 
 %end
 

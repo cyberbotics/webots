@@ -6,7 +6,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.url = url;
     this.scene = scene;
     this.view = view;
-    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'play' : 'pause';
+    this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real_time' : 'pause';
     this.loop = typeof loop === 'undefined' ? true : loop;
     this.sliding = false;
     this.onReady = null;
@@ -24,29 +24,18 @@ class Animation { // eslint-disable-line no-unused-vars
     xmlhttp.send();
   }
 
-  moveSlider(event) {
-    if (!this.playSlider || !this.sliding)
-      return;
-
-    var w = event.target.clientWidth - 66; // size of the borders of the slider
-    var x = event.clientX - event.target.getBoundingClientRect().left - 48; // size of the left border (including play button) of the slider
-    // transform and clamp slider position to value in range [0, 100[
-    var value = 100 * x / w;
-    if (value < 0)
-      value = 0;
-    else if (value >= 100)
-      value = 99.999; // set maximum value to get valid step index in _updateSlider function
-    this.playSlider.slider('value', value);
-    // Setting the value should trigger the change event, unfortunately, doesn't seem to work reliably,
-    // therefore, we need to trigger this event manually.
-    var ui = {};
-    ui.value = value;
-    this.playSlider.slider('option', 'change').call(this.playSlider, event, ui);
+  // Return the animation status: play or pause.
+  // This should be used to store the current animation status and restore it later when calling webots.View.setAnimation().
+  // This is for example used in robotbenchmark.net benchmark page.
+  getStatus() {
+    return this.gui === 'real_time' ? 'play' : 'pause';
   }
 
   // private methods
   _setup(data) {
     this.data = data;
+    // extract animated node ids: remove empty items and convert to integer
+    this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
     // Create play bar.
     var div = document.createElement('div');
@@ -55,8 +44,8 @@ class Animation { // eslint-disable-line no-unused-vars
 
     this.button = document.createElement('button');
     this.button.id = 'playPauseButton';
-    var action = (this.gui === 'play') ? 'pause' : 'play';
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiUrl() + action + '.png)';
+    var action = (this.gui === 'real_time') ? 'pause' : 'real_time';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + action + '.png)';
     this.button.style.padding = '0';
     this.button.addEventListener('click', () => { this._triggerPlayPauseButton(); });
     div.appendChild(this.button);
@@ -64,12 +53,8 @@ class Animation { // eslint-disable-line no-unused-vars
     var slider = document.createElement('div');
     slider.id = 'playSlider';
     div.appendChild(slider);
-    this.playSlider = $('#playSlider').slider({
-      change: (e, ui) => { this._updateSlider(ui.value); },
-      slide: (e, ui) => { this._updateSlider(ui.value); },
-      start: (e, ui) => { this.sliding = true; },
-      stop: (e, ui) => { this.sliding = false; }
-    });
+    this.playSlider = $('#playSlider').slider();
+    this._connectSliderEvents();
 
     // Initialize animation data.
     this.start = new Date().getTime();
@@ -89,15 +74,15 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _triggerPlayPauseButton() {
     this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this.gui + '.png)';
-    if (this.gui === 'play') {
+    if (this.gui === 'real_time') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
         this.start = new Date().getTime();
-        this._updateAnimationState(true);
+        this._updateAnimationState();
       } else
         this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
     } else {
-      this.gui = 'play';
+      this.gui = 'real_time';
       this.start = new Date().getTime() - this.data.basicTimeStep * this.step;
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
@@ -105,7 +90,11 @@ class Animation { // eslint-disable-line no-unused-vars
 
   _connectSliderEvents() {
     this.playSlider = this.playSlider.slider({
-      change: (e, ui) => { this._updateSlider(ui.value); },
+      change: (e, ui) => {
+        this._updateSlider(ui.value);
+        // continue running the animation
+        this._updateAnimation();
+      },
       slide: (e, ui) => { this._updateSlider(ui.value); },
       start: (e, ui) => { this.sliding = true; },
       stop: (e, ui) => { this.sliding = false; }
@@ -117,37 +106,41 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _updateSlider(value) {
-    this.step = Math.floor(this.data.frames.length * value / 100);
+    var clampedValued = Math.min(value, 99); // set maximum value to get valid step index
+    var requestedStep = Math.floor(this.data.frames.length * clampedValued / 100);
     this.start = (new Date().getTime()) - Math.floor(this.data.basicTimeStep * this.step);
-    this._updateAnimationState(false);
+    this._updateAnimationState(requestedStep);
   }
 
-  _updateAnimationState(moveSlider) {
-    if (moveSlider) {
-      this.step = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
-      if (this.step < 0 || this.step >= this.data.frames.length) {
+  _updateAnimationState(requestedStep = undefined) {
+    var automaticMove = typeof requestedStep === 'undefined';
+    if (automaticMove) {
+      requestedStep = Math.floor(this._elapsedTime() / this.data.basicTimeStep);
+      if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
         if (this.loop) {
-          if (this.step > this.data.frames.length) {
-            this.step = 0;
+          if (requestedStep > this.data.frames.length) {
+            requestedStep = 0;
             this.previousStep = 0;
             this.start = new Date().getTime();
           } else
             return;
-        } else if (this.gui === 'play') {
+        } else if (this.gui === 'real_time') {
           this._triggerPlayPauseButton();
           return;
         } else
           return;
       }
     }
+    if (requestedStep === this.step)
+      return;
+    this.step = requestedStep;
+
     var p;
     var appliedIds = [];
     if (this.data.frames[this.step].hasOwnProperty('poses')) {
       var poses = this.data.frames[this.step].poses;
-      for (p = 0; p < poses.length; p++) {
-        this.scene.applyPose(poses[p]);
-        appliedIds[appliedIds.length] = poses[p].id;
-      }
+      for (p = 0; p < poses.length; p++)
+        appliedIds[poses[p].id] = this.scene.applyPose(poses[p]);
     }
     var x3dScene = this.view.x3dScene;
     // lookback mechanism: search in history
@@ -158,38 +151,33 @@ class Animation { // eslint-disable-line no-unused-vars
         previousPoseStep = this.previousStep;
       else
         previousPoseStep = 0;
-      var allIds = this.data.ids.split(';');
-      for (let i in allIds) {
-        var id = parseInt(allIds[i]);
-        if (appliedIds.indexOf(id) === -1) {
-          outer:
-          for (let f = this.step - 1; f >= previousPoseStep; f--) {
-            if (this.data.frames[f].poses) {
-              for (p = 0; p < this.data.frames[f].poses.length; p++) {
-                if (this.data.frames[f].poses[p].id === id) {
-                  x3dScene.applyPose(this.data.frames[f].poses[p]);
-                  break outer;
-                }
-              }
+      for (let i in this.allIds) {
+        var id = this.allIds[i];
+        var appliedFields = appliedIds[id];
+        for (let f = this.step - 1; f >= previousPoseStep; f--) {
+          if (this.data.frames[f].poses) {
+            for (p = 0; p < this.data.frames[f].poses.length; p++) {
+              if (this.data.frames[f].poses[p].id === id)
+                appliedFields = x3dScene.applyPose(this.data.frames[f].poses[p], appliedFields);
             }
           }
         }
       }
     }
-    if (moveSlider) {
+    if (automaticMove) {
       this._disconnectSliderEvents();
       this.playSlider.slider('option', 'value', 100 * this.step / this.data.frames.length);
       this._connectSliderEvents();
     }
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
-    x3dScene.viewpoint.updateViewpointPosition(!moveSlider | this.step === 0, this.view.time);
+    x3dScene.viewpoint.updateViewpointPosition(!automaticMove | this.step === 0, this.view.time);
     x3dScene.render();
   }
 
   _updateAnimation() {
-    if (this.gui === 'play') {
-      this._updateAnimationState(true);
+    if (this.gui === 'real_time' && !this.sliding) {
+      this._updateAnimationState();
       window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
   }

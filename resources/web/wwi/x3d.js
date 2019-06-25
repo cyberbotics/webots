@@ -4,8 +4,7 @@
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
 
 THREE.X3DLoader = class X3DLoader {
-  constructor(scene, loadManager) {
-    this.manager = (typeof loadManager !== 'undefined') ? loadManager : THREE.DefaultLoadingManager;
+  constructor(scene) {
     this.scene = scene;
     this.parsedObjects = [];
     this.directionalLights = [];
@@ -267,9 +266,9 @@ THREE.X3DLoader = class X3DLoader {
       } else {
         // Pull out the standard colors.
         materialSpecifications = {
-          'color': convertStringTorgb(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8')),
-          'specular': convertStringTorgb(getNodeAttribute(material, 'specularColor', '0 0 0')),
-          'emissive': convertStringTorgb(getNodeAttribute(material, 'emissiveColor', '0 0 0')),
+          'color': convertStringToColor(getNodeAttribute(material, 'diffuseColor', '0.8 0.8 0.8'), false),
+          'specular': convertStringToColor(getNodeAttribute(material, 'specularColor', '0 0 0'), false),
+          'emissive': convertStringToColor(getNodeAttribute(material, 'emissiveColor', '0 0 0'), false),
           'shininess': parseFloat(getNodeAttribute(material, 'shininess', '0.2')),
           'transparent': getNodeAttribute(appearance, 'sortType', 'auto') === 'transparent'
         };
@@ -300,12 +299,14 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parsePBRAppearance(pbrAppearance) {
+    const roughnessFactor = 2.0; // This factor has been empirically found to match the Webots rendering.
+
     var isTransparent = false;
 
-    var baseColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
-    var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0'));
+    var baseColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'baseColor', '1 1 1'));
+    var roughness = parseFloat(getNodeAttribute(pbrAppearance, 'roughness', '0')) * roughnessFactor;
     var metalness = parseFloat(getNodeAttribute(pbrAppearance, 'metalness', '1'));
-    var emissiveColor = convertStringTorgb(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
+    var emissiveColor = convertStringToColor(getNodeAttribute(pbrAppearance, 'emissiveColor', '0 0 0'));
     var transparency = parseFloat(getNodeAttribute(pbrAppearance, 'transparency', '0'));
     var materialSpecifications = {
       color: baseColor,
@@ -332,7 +333,8 @@ THREE.X3DLoader = class X3DLoader {
         }
       } else if (type === 'roughness') {
         materialSpecifications.roughnessMap = this.parseImageTexture(imageTexture, textureTransform);
-        materialSpecifications.roughness = 1.0;
+        if (roughness <= 0.0)
+          materialSpecifications.roughness = roughnessFactor;
       } else if (type === 'metalness')
         materialSpecifications.metalnessMap = this.parseImageTexture(imageTexture, textureTransform);
       else if (type === 'normal')
@@ -385,6 +387,9 @@ THREE.X3DLoader = class X3DLoader {
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+
+    // This is the encoding used in Webots.
+    texture.encoding = THREE.sRGBEncoding;
 
     if (textureTransform && textureTransform[0]) {
       var defTexture = this._getDefNode(textureTransform[0]);
@@ -794,12 +799,12 @@ THREE.X3DLoader = class X3DLoader {
     if (!on)
       return;
 
-    var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity * 0.5);
+    var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '1024'));
@@ -824,15 +829,26 @@ THREE.X3DLoader = class X3DLoader {
       return;
 
     var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
-    var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var location = convertStringToVec3(getNodeAttribute(light, 'location', '0 0 0'));
     var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.PointLight(color.getHex(), intensity);
-    lightObject.decay = attenuation.x;
+    var lightObject = new THREE.PointLight(color.getHex());
+
+    // Tradeoff to let cohabit VRML light attenuation and the three.js light "physically correct mode".
+    // - The intensity is attenuated by the total amount of the VRML attenuation.
+    // - The biggest attenuation component defines the `decay` "exponent".
+    lightObject.intensity = intensity / attenuation.manhattanLength();
+    if (attenuation.x > 0)
+      lightObject.decay = 0;
+    if (attenuation.y > 0)
+      lightObject.decay = 1;
+    if (attenuation.z > 0)
+      lightObject.decay = 2;
     lightObject.distance = radius;
+
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
@@ -855,7 +871,7 @@ THREE.X3DLoader = class X3DLoader {
 
     var attenuation = convertStringToVec3(getNodeAttribute(light, 'attenuation', '1 0 0'));
     var beamWidth = parseFloat(getNodeAttribute(light, 'beamWidth', '0.785'));
-    var color = convertStringTorgb(getNodeAttribute(light, 'color', '1 1 1'));
+    var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
     var cutOffAngle = parseFloat(getNodeAttribute(light, 'cutOffAngle', '0.785'));
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
     var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
@@ -863,14 +879,23 @@ THREE.X3DLoader = class X3DLoader {
     var radius = parseFloat(getNodeAttribute(light, 'radius', '100'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
-    var lightObject = new THREE.SpotLight(color.getHex(), intensity);
+    var lightObject = new THREE.SpotLight(color.getHex());
+
+    lightObject.intensity = intensity / attenuation.manhattanLength();
+    if (attenuation.x > 0)
+      lightObject.decay = 0;
+    if (attenuation.y > 0)
+      lightObject.decay = 1;
+    if (attenuation.z > 0)
+      lightObject.decay = 2;
+    lightObject.distance = radius;
+
     lightObject.angle = cutOffAngle;
     if (beamWidth > cutOffAngle)
       lightObject.penumbra = 0.0;
     else
       lightObject.penumbra = 1.0 - (beamWidth / cutOffAngle);
-    lightObject.decay = attenuation.x;
-    lightObject.distance = radius;
+
     if (castShadows) {
       lightObject.castShadow = true;
       var shadowMapSize = parseFloat(getNodeAttribute(light, 'shadowMapSize', '512'));
@@ -891,12 +916,13 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseBackground(background) {
-    var color = convertStringTorgb(getNodeAttribute(background, 'skyColor', '0 0 0'));
+    var color = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.scene.background = color;
 
     var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTextureEnabled = false;
-    if (typeof hdrCubeMapUrl !== 'undefined') {
+    var isHDR = typeof hdrCubeMapUrl !== 'undefined';
+    if (isHDR) {
       // Load HDR equirectangular map
       TextureLoader.loadOrRetrieve(hdrCubeMapUrl, undefined, undefined, (texture) => {
         this.scene.applyEquirectangularBackground(texture);
@@ -934,7 +960,11 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
-    this.scene.scene.add(new THREE.AmbientLight(cubeTextureEnabled ? 0x404040 : color));
+    if (cubeTextureEnabled) {
+      // Light offset: empirically found to match the Webots rendering.
+      var ambientLight = new THREE.AmbientLight(isHDR ? 0x333333 : 0xffffff);
+      this.scene.scene.add(ambientLight);
+    }
 
     return undefined;
   }
@@ -970,6 +1000,7 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.viewpoint.camera.userData.x3dType = 'Viewpoint';
     this.scene.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
     this.scene.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
+    this.scene.viewpoint.camera.userData.exposure = parseFloat(getNodeAttribute(viewpoint, 'exposure', '1.0'));
     return undefined;
   }
 
@@ -979,7 +1010,7 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseFog(fog) {
-    var colorInt = convertStringTorgb(getNodeAttribute(fog, 'color', '1 1 1')).getHex();
+    var colorInt = convertStringToColor(getNodeAttribute(fog, 'color', '1 1 1'), false).getHex();
     var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
 
     var fogObject = null;
@@ -1074,9 +1105,12 @@ function convertStringToQuaternion(s) {
   return q;
 }
 
-function convertStringTorgb(s) {
+function convertStringToColor(s, sRGB = true) {
   var v = convertStringToVec3(s);
-  return new THREE.Color(v.x, v.y, v.z);
+  var color = new THREE.Color(v.x, v.y, v.z);
+  if (sRGB)
+    color.convertSRGBToLinear();
+  return color;
 }
 
 function horizontalToVerticalFieldOfView(hFov, aspectRatio) {

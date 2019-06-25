@@ -60,7 +60,6 @@ class RosTestSuite(object):
             if process in output:
                 return True
             time.sleep(1)
-        print(output)  # temporary debug print to check what are the running processes
         return False
 
     def launchRosCore(self, timeout):
