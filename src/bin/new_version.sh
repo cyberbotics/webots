@@ -44,14 +44,14 @@ echo "Update application and documentation version..."
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
-if [ $new_version_year -eq $old_version_year ]; then
+if [ $new_version_year -ne $old_version_year ]; then
   ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist
 fi
 # documentation
 ./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js $silent
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
-if [ $new_version_year -eq $old_version_year ]; then
+if [ $new_version_year -ne $old_version_year ]; then
   ./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js
 fi
 ./new_version_file.sh "Webots-"$old_version_year"-"$old_version_letter"-release" "Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php $silent
