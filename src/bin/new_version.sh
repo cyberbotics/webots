@@ -37,7 +37,7 @@ new_version_without_revision=$3
 new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
 
-echo "Update application and documentation version... $silent"
+echo "Update application and documentation version..."
 ./new_version_file.sh $old_version $new_version ../webots/core/WbApplicationInfo.cpp
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
@@ -53,7 +53,7 @@ echo "Update application and documentation version... $silent"
 
 if [ $new_version_without_revision != $old_version_without_revision ];
 then
-  echo "Update file headers.."
+  echo "Update file headers..."
   ./new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
   ./new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision ../../docs/reference/proto-example.md
 
