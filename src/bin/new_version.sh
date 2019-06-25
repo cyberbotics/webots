@@ -49,8 +49,7 @@ echo "Update application and documentation version... $silent"
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js $silent
-./new_version_file.sh "/doc/blog/Webots-"$old_version_year"-"$old_version_letter"-release" \
-                      "/doc/blog/Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php $silent
+./new_version_file.sh "/doc/blog/Webots-"$old_version_year"-"$old_version_letter"-release" "/doc/blog/Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php $silent
 
 if [ $new_version_without_revision != $old_version_without_revision ];
 then
