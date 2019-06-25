@@ -23,11 +23,11 @@ fi
 if [ "$4" -eq 0 ]; then
   new_version=$3
   new_package=$3
-  silent=""
+  silent=
 else
   new_version=$3"\srevision\s"$4
   new_package=$3"-rev"$4
-  silent="silent"
+  silent=silent
 fi
 
 old_version_without_revision=$1
@@ -37,7 +37,7 @@ new_version_without_revision=$3
 new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
 
-echo "Update application and documentation version..."
+echo "Update application and documentation version... $silent"
 ./new_version_file.sh $old_version $new_version ../webots/core/WbApplicationInfo.cpp
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
