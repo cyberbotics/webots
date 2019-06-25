@@ -48,7 +48,7 @@ if [ $new_version_year -ne $old_version_year ]; then
   ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist
 fi
 # documentation
-if [ $new_version_without_revision -ne $old_version_without_revision ]; then
+if [ $new_version_without_revision != $old_version_without_revision ]; then
   ./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js
   ./new_version_file.sh "Webots-"$old_version_year"-"$old_version_letter"-release" "Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php
 fi
