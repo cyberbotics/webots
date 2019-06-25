@@ -9,6 +9,9 @@ environment:
       MSYS2_ARCH: x86_64
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
+      PYTHON: C:\Python37-x64
+      PYTHON_VERSION: 3.7
+      PYTHON_ARCH: 64
 
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
