@@ -15,7 +15,7 @@ environment:
 
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-  - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck
+  - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck mingw-w64-x86_64-ca-certificates ca-certificates
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
 
