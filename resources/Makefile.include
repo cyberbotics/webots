@@ -364,11 +364,11 @@ ifeq ($(OSTYPE),darwin)
   LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/$(MAIN_TARGET)
  else
   CALLING_MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-  WEBOTS_RELATIVE_PATH = $(call computeRelativePath,$(WEBOTS_HOME),$(CALLING_MAKEFILE_DIR))
+  WEBOTS_RELATIVE_PATH = $(call computeRelativePath,$(WEBOTS_HOME_PATH),$(CALLING_MAKEFILE_DIR))
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
    ifdef BUILD_SHARED_LIBRARY
-    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
    endif
   endif
  endif

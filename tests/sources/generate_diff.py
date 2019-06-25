@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -15,16 +15,58 @@
 # limitations under the License.
 
 """Generate a list of modified files with respect to the parent branch.
-This script is used only by Travis."""
+
+This list of modified files for testing only the files modified by the current pull request (during the sources tests) and
+hence run the CI tests significantly faster.
+"""
+
+import json
 import os
 import subprocess
 import sys
+import time
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
-branch = os.getenv('TRAVIS_BRANCH')  # branch targeted by the pull request
-if branch is not None and os.getenv('TRAVIS_EVENT_TYPE') == 'pull_request':
-    output = subprocess.check_output(['git', 'diff', '--name-only', branch]).decode('utf-8')
-    f = open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w')
-    f.write(output)
-    f.close()
+
+def github_api(request):
+    """Send a GitHub API request and return the decoded JSON object."""
+    if not request.startswith('https://api.github.com/'):
+        request = 'https://api.github.com/' + request
+    d = time.time() - github_api.last_time
+    if d < 1:
+        time.sleep(1 - d)  # wait at least one second between GitHub API calls
+    key = os.getenv('GITHUB_API_KEY')
+    req = Request(request)
+    req.add_header('User-Agent', github_api.user_agent)
+    if key is not None:
+        req.add_header('Authorization', 'token %s' % key)
+    try:
+        response = urlopen(req)
+    except HTTPError as e:
+        print(request)
+        print(e.reason)
+        print(e.info())
+    content = response.read()
+    github_api.last_time = time.time()
+    return json.loads(content)
+
+if len(sys.argv) == 3:
+    commit = sys.argv[1]
+    repo = sys.argv[2]
 else:
-    sys.exit('TRAVIS_BRANCH environment variable is not set.')
+    commit = subprocess.check_output(['git', 'rev-parse', 'head']).decode('utf-8').strip()
+    repo = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
+    repo = repo[19:-4]  # remove leading 'https://github.com/' and trailing '.git'
+github_api.last_time = 0
+github_api.user_agent = repo
+j = github_api('search/issues?q=' + commit)
+url = j["items"][0]["pull_request"]["url"]
+j = github_api(url)
+branch = j["base"]["ref"]
+with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'dump.txt'), 'w') as file:
+    file.write('repos/' + repo + '/compare/' + branch + '...' + commit)
+with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
+    j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
+    for f in j['files']:
+        file.write(f['filename'] + '\n')

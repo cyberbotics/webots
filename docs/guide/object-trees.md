@@ -81,7 +81,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Forest](images/objects/trees/Forest/model.png)
+![Forest](images/objects/trees/Forest/model.thumbnail.png)
 
 %end
 

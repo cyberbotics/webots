@@ -1,4 +1,4 @@
-## Tutorial 7: Using ROS
+## Tutorial 8: Using ROS
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
@@ -12,7 +12,7 @@ To install the latest version of ROS on Ubuntu use the following commands:
 
 ```sh
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt-get update
 sudo apt-get install ros-melodic-desktop-full
 sudo apt-get install ros-melodic-sensor-msgs
@@ -43,16 +43,16 @@ Simply copy the `srv` and `msg` folders located in "projects/default/controllers
 To copy the Webots folders in `catkin_ws/src` you can use the following instructions:
 
 ```sh
-cp -r <webots>/projects/languages/ros/webots_ros .
-cp -r <webots>/projects/default/controllers/ros/include/srv webots_ros/
-cp -r <webots>/projects/default/controllers/ros/include/msg webots_ros/
+cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros .
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/
+cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/
 ```
 
 The `webots_ros` package already contains a "CMakeLists.txt" with build instructions for the package.
 All you have to do, in order to build the package, is to run:
 
 ```sh
-cd catkin_ws
+cd ..
 catkin_make
 ```
 

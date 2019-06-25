@@ -6,6 +6,8 @@ The Universal Robots [UR3e](https://www.universal-robots.com/products/ur3-robot/
 
 The Universal Robots UR3e, UR5e and UR10e models in Webots are fully compatible with ROS.
 
+These robot models and controllers are sponsored by the [ROSin european project](http://rosin-project.eu/ftp/cross-platform-ros-simulation-for-mobile-manipulators).
+
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=WIY9ebqSXUc)

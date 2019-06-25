@@ -309,7 +309,7 @@ Traffic sign: Exit sign.
 
 %figure
 
-![ExitSign](images/objects/traffic/ExitSign/model.png)
+![ExitSign](images/objects/traffic/ExitSign/model.thumbnail.png)
 
 %end
 

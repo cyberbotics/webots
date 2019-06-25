@@ -33,23 +33,7 @@ TexturedBackgroundLight {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/parquet_base_color.png"
-          ]
-        }
-        roughness 0.3
-        normalMap ImageTexture {
-          url [
-            "textures/parquet_normal.png"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/parquet_occlusion.png"
-          ]
-        }
+      appearance DarkParquetry {
         textureTransform TextureTransform {
           scale 100 100
         }
@@ -245,14 +229,8 @@ DEF VEHICLE TinkerbotsBase {
     frontSlot TinkerbotsCube {
       backSlot TinkerbotsDistanceSensor {
         rotation 0 0 1 -1.5708
-        name "distance sensor A"
         numberOfRays 3
         aperture 0.4
-        upSlot TinkerbotsDistanceSensor {
-          name "distance sensor B"
-          numberOfRays 3
-          aperture 0.4
-        }
       }
     }
   }

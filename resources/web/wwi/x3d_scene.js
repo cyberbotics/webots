@@ -1,5 +1,5 @@
 /* global THREE, Selector, TextureLoader, Viewpoint */
-/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringTorgb, horizontalToVerticalFieldOfView */
+/* global convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToColor, horizontalToVerticalFieldOfView */
 /* global createDefaultGeometry, createDefaultMaterial */
 'use strict';
 
@@ -20,8 +20,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
+    this.renderer.gammaInput = false;
+    this.renderer.gammaOutput = false;
+    this.renderer.physicallyCorrectLights = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -49,6 +50,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
+    this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
     this.composer.addPass(fxaaPass);
 
@@ -61,6 +64,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
+
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
     this.composer.render();
@@ -166,16 +171,20 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.onSceneUpdate();
   }
 
-  applyPose(pose) {
+  applyPose(pose, appliedFields = []) {
     var id = pose.id;
+    var fields = appliedFields;
     for (let key in pose) {
       if (key === 'id')
+        continue;
+      if (fields.indexOf(key) !== -1)
         continue;
       var newValue = pose[key];
       var object = this.getObjectById('n' + id, true);
       if (typeof object === 'undefined')
         continue; // error
 
+      var valid = true;
       if (key === 'translation') {
         if (object.isTexture) {
           var translation = convertStringToVec2(newValue);
@@ -202,17 +211,24 @@ class X3dScene { // eslint-disable-line no-unused-vars
         var quaternion = convertStringToQuaternion(newValue);
         object.quaternion.copy(quaternion);
         this.sceneModified = true;
-      } else if ((key === 'diffuseColor' || key === 'baseColor') && object.isMaterial) {
-        var diffuseColor = convertStringTorgb(newValue);
-        object.color = diffuseColor;
-      } else if (key === 'emissiveColor' && object.isMaterial) {
-        var emissiveColor = convertStringTorgb(newValue);
-        object.emissive = emissiveColor;
+      } else if (object.isMaterial) {
+        if (key === 'baseColor')
+          object.color = convertStringToColor(newValue); // PBRAppearance node
+        else if (key === 'diffuseColor')
+          object.color = convertStringToColor(newValue, false); // Appearance node
+        else if (key === 'emissiveColor')
+          object.emissive = convertStringToColor(newValue, object.userData.x3dType === 'PBRAppearance');
       } else if (key === 'render' && object.isObject3D)
         object.visible = newValue.toLowerCase() === 'true';
+      else
+        valid = false;
+
+      if (valid)
+        fields.push(key);
 
       this._updateUseNodesIfNeeded(object, id);
     }
+    return fields;
   }
 
   pick(relativePosition, screenPosition) {
@@ -383,7 +399,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
     pmremCubeUVPacker.update(this.renderer);
 
-    this._setupEnvironmentMap(pmremCubeUVPacker.CubeUVRenderTarget.texture);
+    this.scene.background.userData = {};
+    this.scene.background.userData.isHDR = true;
+    this.scene.background.userData.texture = pmremCubeUVPacker.CubeUVRenderTarget.texture;
+    this._setupEnvironmentMap();
 
     texture.dispose();
     pmremGenerator.dispose();
@@ -414,16 +433,28 @@ class X3dScene { // eslint-disable-line no-unused-vars
     });
   }
 
-  _setupEnvironmentMap(envMap = undefined) {
+  _setupEnvironmentMap() {
+    var isHDR = false;
     var backgroundMap;
-    if (typeof envMap !== 'undefined')
-      backgroundMap = envMap;
-    else if (typeof this.scene.background !== 'undefined' && this.scene.background.isCubeTexture)
-      backgroundMap = this.scene.background;
+    if (typeof this.scene.background !== 'undefined') {
+      if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
+        isHDR = true;
+        backgroundMap = this.scene.background.userData.texture;
+      } else if (this.scene.background.isCubeTexture)
+        backgroundMap = this.scene.background;
+      else if (this.scene.background.isColor) {
+        let color = this.scene.background.clone();
+        color.convertLinearToSRGB();
+        backgroundMap = TextureLoader.createColoredCubeTexture(color);
+      }
+    }
+
     this.scene.traverse((child) => {
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
+        if (isHDR)
+          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
         material.needsUpdate = true;
       }
     });

@@ -17,7 +17,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Asphalt {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -33,9 +32,7 @@ Asphalt {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## BakelitePlastic
 
@@ -52,7 +49,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 BakelitePlastic {
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -66,9 +62,7 @@ BakelitePlastic {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## BrushedAluminium
 
@@ -86,7 +80,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 BrushedAluminium {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -102,9 +95,7 @@ BrushedAluminium {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## CarpetFibers
 
@@ -122,7 +113,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 CarpetFibers {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -138,9 +128,7 @@ CarpetFibers {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ChequeredParquetry
 
@@ -157,7 +145,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 ChequeredParquetry {
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -171,9 +158,7 @@ ChequeredParquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## CorrodedMetal
 
@@ -191,7 +176,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 CorrodedMetal {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -207,9 +191,7 @@ CorrodedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## CorrugatedMetal
 
@@ -227,7 +209,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 CorrugatedMetal {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -243,9 +224,7 @@ CorrugatedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## DamascusSteel
 
@@ -263,7 +242,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 DamascusSteel {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -279,9 +257,40 @@ DamascusSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+## DarkParquetry
+
+A dark parquetry material.
+
+%figure
+
+![DarkParquetry](images/appearances/DarkParquetry.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+DarkParquetry {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DarkParquetry.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/DarkParquetry.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### DarkParquetry Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## ElectricConduit
 
@@ -299,7 +308,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ElectricConduit {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -315,9 +323,7 @@ ElectricConduit {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## FlexibleAluminiumDuct
 
@@ -335,7 +341,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 FlexibleAluminiumDuct {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -351,9 +356,7 @@ FlexibleAluminiumDuct {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## GalvanizedMetal
 
@@ -371,7 +374,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 GalvanizedMetal {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -387,9 +389,7 @@ GalvanizedMetal {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## GlossyPaint
 
@@ -407,7 +407,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 GlossyPaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -423,9 +422,7 @@ GlossyPaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## HammeredCopper
 
@@ -443,7 +440,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 HammeredCopper {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -459,9 +455,7 @@ HammeredCopper {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Leather
 
@@ -480,7 +474,6 @@ Leather {
   SFColor                    colorOverride     1 1 1
   SFString                   tone              "dark"
   SFNode                     textureTransform  NULL
-  SFNode                     environmentMap    NULL
   SFFloat                    IBLStrength       1
 }
 ```
@@ -498,9 +491,7 @@ Leather {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## MattePaint
 
@@ -518,7 +509,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 MattePaint {
   SFColor baseColor        1 1 1
   SFNode  textureTransform TextureTransform { scale 10 10 }
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -534,9 +524,7 @@ MattePaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## MetalPipePaint
 
@@ -553,7 +541,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 MetalPipePaint {
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -567,9 +554,40 @@ MetalPipePaint {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+## OldPlywood
+
+An old plywood material.
+
+%figure
+
+![OldPlywood](images/appearances/OldPlywood.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+OldPlywood {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto](https://github.com/omichel/webots/tree/master/projects/appearances/protos/OldPlywood.proto)"
+
+> **License**: Apache License 2.0
+[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### OldPlywood Field Summary
+
+- `colorOverride`: Defines the default color multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## OldSteel
 
@@ -587,7 +605,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 OldSteel {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -603,9 +620,7 @@ OldSteel {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## OsbWood
 
@@ -623,7 +638,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 OsbWood {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -639,9 +653,7 @@ OsbWood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## PaintedWood
 
@@ -659,7 +671,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 PaintedWood {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -675,9 +686,7 @@ PaintedWood {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Parquetry
 
@@ -695,7 +704,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Parquetry {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -711,9 +719,7 @@ Parquetry {
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
-
-- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
+- `IBLStrength`: Defines the strength of ambient lighting from the Background node.
 
 ## Plaster
 
@@ -731,7 +737,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Plaster {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -746,8 +751,6 @@ Plaster {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -766,7 +769,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 RedBricks {
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -779,8 +781,6 @@ RedBricks {
 ### RedBricks Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -800,7 +800,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 RoughConcrete {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -815,8 +814,6 @@ RoughConcrete {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -836,7 +833,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 RoughOak {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -851,8 +847,6 @@ RoughOak {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -872,7 +866,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 RoughPine {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -887,8 +880,6 @@ RoughPine {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -908,7 +899,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 Roughcast {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -923,8 +913,6 @@ Roughcast {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -943,7 +931,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Rubber {
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -956,8 +943,6 @@ Rubber {
 ### Rubber Field Summary
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -979,7 +964,6 @@ RustyMetal {
   SFInt32        rustLevel        1
   SFColor        colorOverride    1 1 1
   SFNode         textureTransform NULL
-  SFNode         environmentMap   NULL
   SFFloat        IBLStrength      1
 }
 ```
@@ -996,8 +980,6 @@ RustyMetal {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1017,7 +999,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 SandyGround {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform TextureTransform { scale 4 4 }
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1032,8 +1013,6 @@ SandyGround {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1053,7 +1032,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ScrewThread {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1068,8 +1046,6 @@ ScrewThread {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1125,7 +1101,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ShinyLeather {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform TextureTransform { scale 4 4 }
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1140,8 +1115,6 @@ ShinyLeather {
 - `colorOverride`: Defines the leather's color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines a `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1161,7 +1134,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 SquarePavement {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1176,8 +1148,6 @@ SquarePavement {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1197,7 +1167,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 StonePavement {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1212,8 +1181,6 @@ StonePavement {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1233,7 +1200,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ThreadMetalPlate {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1248,8 +1214,6 @@ ThreadMetalPlate {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1269,7 +1233,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 VarnishedPine {
   SFColor colorOverride    0.8039 0.6745 0.5764
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1284,8 +1247,6 @@ VarnishedPine {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
@@ -1305,7 +1266,6 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 WireFence {
   SFColor colorOverride    1 1 1
   SFNode  textureTransform NULL
-  SFNode  environmentMap   NULL
   SFFloat IBLStrength      1
 }
 ```
@@ -1320,8 +1280,6 @@ WireFence {
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
-
-- `environmentMap`: Defines an optional `Cubemap` node overriding the world's skybox for this object.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 

@@ -357,8 +357,6 @@ resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/web/wwi/
-resources/web/wwi/pause.png
-resources/web/wwi/play.png
 resources/web/wwi/request_methods.js
 resources/web/wwi/webots.min.js
 resources/web/wwi/wwi.css

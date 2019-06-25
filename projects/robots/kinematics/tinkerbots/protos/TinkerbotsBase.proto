@@ -14,31 +14,31 @@ PROTO TinkerbotsBase [
   field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE              # Is `Robot.synchronization`.
   field SFBool     selfCollision   FALSE             # Is `Robot.selfCollision`.
-  field SFNode     upSlot          NULL              # Type: "tinkerbots"
-  field SFNode     upASlot         NULL              # Type: "lego cross female"
-  field SFNode     upBSlot         NULL              # Type: "lego cross female"
-  field SFNode     upCSlot         NULL              # Type: "lego cross female"
-  field SFNode     upDSlot         NULL              # Type: "lego cross female"
-  field SFNode     downSlot        NULL              # Type: "tinkerbots"
-  field SFNode     downASlot       NULL              # Type: "lego cross female"
-  field SFNode     downBSlot       NULL              # Type: "lego cross female"
-  field SFNode     downCSlot       NULL              # Type: "lego cross female"
-  field SFNode     downDSlot       NULL              # Type: "lego cross female"
-  field SFNode     leftSlot        NULL              # Type: "tinkerbots"
-  field SFNode     leftASlot       NULL              # Type: "lego cross female"
-  field SFNode     leftBSlot       NULL              # Type: "lego cross female"
-  field SFNode     leftCSlot       NULL              # Type: "lego cross female"
-  field SFNode     leftDSlot       NULL              # Type: "lego cross female"
-  field SFNode     rightSlot       NULL              # Type: "tinkerbots"
-  field SFNode     rightASlot      NULL              # Type: "lego cross female"
-  field SFNode     rightBSlot      NULL              # Type: "lego cross female"
-  field SFNode     rightCSlot      NULL              # Type: "lego cross female"
-  field SFNode     rightDSlot      NULL              # Type: "lego cross female"
-  field SFNode     backSlot        NULL              # Type: "tinkerbots"
-  field SFNode     backASlot       NULL              # Type: "lego cross female"
-  field SFNode     backBSlot       NULL              # Type: "lego cross female"
-  field SFNode     backCSlot       NULL              # Type: "lego cross female"
-  field SFNode     backDSlot       NULL              # Type: "lego cross female"
+  field SFNode     upSlot          NULL              # Type: "tinkerbots-"
+  field SFNode     upASlot         NULL              # Type: "lego cross-"
+  field SFNode     upBSlot         NULL              # Type: "lego cross-"
+  field SFNode     upCSlot         NULL              # Type: "lego cross-"
+  field SFNode     upDSlot         NULL              # Type: "lego cross-"
+  field SFNode     downSlot        NULL              # Type: "tinkerbots-"
+  field SFNode     downASlot       NULL              # Type: "lego cross-"
+  field SFNode     downBSlot       NULL              # Type: "lego cross-"
+  field SFNode     downCSlot       NULL              # Type: "lego cross-"
+  field SFNode     downDSlot       NULL              # Type: "lego cross-"
+  field SFNode     leftSlot        NULL              # Type: "tinkerbots-"
+  field SFNode     leftASlot       NULL              # Type: "lego cross-"
+  field SFNode     leftBSlot       NULL              # Type: "lego cross-"
+  field SFNode     leftCSlot       NULL              # Type: "lego cross-"
+  field SFNode     leftDSlot       NULL              # Type: "lego cross-"
+  field SFNode     rightSlot       NULL              # Type: "tinkerbots-"
+  field SFNode     rightASlot      NULL              # Type: "lego cross-"
+  field SFNode     rightBSlot      NULL              # Type: "lego cross-"
+  field SFNode     rightCSlot      NULL              # Type: "lego cross-"
+  field SFNode     rightDSlot      NULL              # Type: "lego cross-"
+  field SFNode     backSlot        NULL              # Type: "tinkerbots-"
+  field SFNode     backASlot       NULL              # Type: "lego cross-"
+  field SFNode     backBSlot       NULL              # Type: "lego cross-"
+  field SFNode     backCSlot       NULL              # Type: "lego cross-"
+  field SFNode     backDSlot       NULL              # Type: "lego cross-"
   field MFNode     extensionSlot  []                 # Extends the robot with new nodes.
 ]
 {
@@ -59,7 +59,7 @@ PROTO TinkerbotsBase [
         translation 0 0 0.02
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS upSlot
           }
         ]
@@ -69,7 +69,7 @@ PROTO TinkerbotsBase [
         rotation 0 0 1 -1.5708
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS upASlot
           }
         ]
@@ -79,7 +79,7 @@ PROTO TinkerbotsBase [
         rotation 0 0 1 3.1415
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS upBSlot
           }
         ]
@@ -89,7 +89,7 @@ PROTO TinkerbotsBase [
         rotation 0 0 1 1.5708
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS upCSlot
           }
         ]
@@ -98,7 +98,7 @@ PROTO TinkerbotsBase [
         translation 0.01 -0.01 0.015
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS upDSlot
           }
         ]
@@ -108,7 +108,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -3.1415
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS downSlot
           }
         ]
@@ -118,7 +118,7 @@ PROTO TinkerbotsBase [
         rotation 0.707108 0.707105 0 3.14153
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS downASlot
           }
         ]
@@ -128,7 +128,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -3.1415
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS downBSlot
           }
         ]
@@ -138,7 +138,7 @@ PROTO TinkerbotsBase [
         rotation -0.707108 0.707105 0 3.14153
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS downCSlot
           }
         ]
@@ -148,7 +148,7 @@ PROTO TinkerbotsBase [
         rotation -1 0 0 3.14159
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS downDSlot
           }
         ]
@@ -158,7 +158,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS leftSlot
           }
         ]
@@ -168,7 +168,7 @@ PROTO TinkerbotsBase [
         rotation 0.707105 0.0000327581 0.707108 3.14153
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS leftASlot
           }
         ]
@@ -178,7 +178,7 @@ PROTO TinkerbotsBase [
         rotation 0.57735 0.57735 0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS leftBSlot
           }
         ]
@@ -188,7 +188,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 1.57
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS leftCSlot
           }
         ]
@@ -198,7 +198,7 @@ PROTO TinkerbotsBase [
         rotation -0.57735 0.57735 -0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS leftDSlot
           }
         ]
@@ -208,7 +208,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS rightSlot
           }
         ]
@@ -218,7 +218,7 @@ PROTO TinkerbotsBase [
         rotation 0 1 0 -1.57
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS rightASlot
           }
         ]
@@ -228,7 +228,7 @@ PROTO TinkerbotsBase [
         rotation 0.57735 -0.57735 -0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS rightBSlot
           }
         ]
@@ -238,7 +238,7 @@ PROTO TinkerbotsBase [
         rotation 0.707105 0 -0.707108 3.14153
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS rightCSlot
           }
         ]
@@ -248,7 +248,7 @@ PROTO TinkerbotsBase [
         rotation -0.57735 -0.57735 0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS rightDSlot
           }
         ]
@@ -258,7 +258,7 @@ PROTO TinkerbotsBase [
         rotation 1 0 0 1.57
         children [
           Slot {
-            type "tinkerbots"
+            type "tinkerbots-"
             endPoint IS backSlot
           }
         ]
@@ -268,7 +268,7 @@ PROTO TinkerbotsBase [
         rotation 0.57735 -0.57735 0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS backASlot
           }
         ]
@@ -278,7 +278,7 @@ PROTO TinkerbotsBase [
         rotation 1 0 0 1.57
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS backBSlot
           }
         ]
@@ -288,7 +288,7 @@ PROTO TinkerbotsBase [
         rotation 0.57735 0.57735 -0.577352 2.0944
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS backCSlot
           }
         ]
@@ -298,7 +298,7 @@ PROTO TinkerbotsBase [
         rotation 0 0.7071 -0.7071 3.14153
         children [
           Slot {
-            type "lego cross female"
+            type "lego cross-"
             endPoint IS backDSlot
           }
         ]

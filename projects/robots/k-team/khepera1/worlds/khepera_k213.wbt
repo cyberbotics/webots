@@ -15,8 +15,7 @@ TexturedBackgroundLight {
 }
 RectangleArena {
   floorSize 0.98 0.98
-  wallHeight 0.020000000000000004
-  wallColor 1 0.1 0.3
+  wallHeight 0.02
   wallTextureUrl []
 }
 DEF BOX Solid {
