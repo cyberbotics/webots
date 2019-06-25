@@ -39,22 +39,19 @@ new_version_without_revision=$3
 new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
 
-if [ $new_version_year -eq $old_version_year ]; then
-  year_silent=silent
-else
-  year_silent=
-fi
-
 echo "Update application and documentation version..."
 ./new_version_file.sh $old_version $new_version ../webots/core/WbApplicationInfo.cpp
 ./new_version_file.sh $old_version $new_version ../../resources/version.txt
 ./new_version_file.sh $old_version $new_version ../packaging/webots_version.txt
 ./new_version_file.sh $old_version $new_version ../../Contents/Info.plist
-./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist $year_silent
-
+if [ $new_version_year -eq $old_version_year ]; then
+  ./new_version_file.sh "Copyright 1998-[0-9]\+" "Copyright 1998-"$new_version_year ../../Contents/Info.plist
+fi
 # documentation
 ./new_version_file.sh "major:\\s'.*'" "major: '"$new_version_without_revision"'" ../../docs/js/showdown-extensions.js $silent
 ./new_version_file.sh "full:\\s'.*'" "full: '"$new_version"'" ../../docs/js/showdown-extensions.js
 ./new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" ../../docs/js/showdown-extensions.js
-./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js $year_silent
+if [ $new_version_year -eq $old_version_year ]; then
+  ./new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year ../../docs/js/showdown-extensions.js
+fi
 ./new_version_file.sh "Webots-"$old_version_year"-"$old_version_letter"-release" "Webots-"$new_version_year"-"$new_version_letter"-release" ../../docs/doc.php $silent
