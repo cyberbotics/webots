@@ -70,18 +70,23 @@ INSTALL_TOKEN = install.token
 NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
-release debug profile update:
+release profile update:
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
-release debug profile update: webots.min.js
+release profile update: webots.min.js
 endif
+debug: webots.debug.js
 
 webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
-	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
+	@node_modules/.bin/minify webots.tmp2.js -o $@
 	@rm webots.tmp2.js webots.tmp1.js
+
+webots.debug.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+	@echo "# creating webots.debug.js"
+	@cat $(THREEJS_SOURCE) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
 
 $(THREEJS_SOURCE):
 	@echo "# downloading $(THREEJS_URL)"
