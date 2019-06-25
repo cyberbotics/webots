@@ -10,8 +10,6 @@ environment:
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
       PYTHON: C:\Python37-x64
-      PYTHON_VERSION: 3.7
-      PYTHON_ARCH: 64
 
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
@@ -24,6 +22,6 @@ build: off
 test_script:
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
   - python -V
-  - %PYTHON%\\python.exe -V
+  - C:\\Python37-x64\\python.exe -V
   - ps: "$env:PYTHON\\python.exe $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME"
   - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
