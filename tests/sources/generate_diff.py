@@ -52,7 +52,7 @@ def github_api(request):
     return json.loads(content)
 
 curdir = os.getcwd()
-os.chdir(os.getenv('WEBOTS_HOME'))
+os.chdir(os.getenv('WEBOTS_HOME') + '\\tests\\sources')
 github_api.last_time = 0
 if len(sys.argv) == 3:
     commit = sys.argv[1]
