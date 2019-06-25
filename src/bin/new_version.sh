@@ -40,9 +40,9 @@ new_version_year=${new_version:1:4}
 new_version_letter=${new_version:5:1}
 
 if [ $new_version_year -eq $old_version_year ]; then
-  year_silent=
-else
   year_silent=$silent
+else
+  year_silent=
 fi
 
 echo "Update application and documentation version..."
