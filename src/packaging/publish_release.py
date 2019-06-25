@@ -19,7 +19,7 @@
 import datetime
 import optparse
 import os
-import sys
+import re
 from github import Github
 
 optParser = optparse.OptionParser(
@@ -30,9 +30,6 @@ optParser.add_option("--tag", dest="tag", default="", help="optionnally specifie
 optParser.add_option("--branch", dest="branch", default="", help="specifies the branch from which is uploaded the release.")
 optParser.add_option("--commit", dest="commit", default="", help="specifies the commit from which is uploaded the release.")
 options, args = optParser.parse_args()
-
-if 'GITHUB_API_KEY' not in os.environ:
-    sys.exit('GITHUB_API_KEY environment variable is not set.')
 
 g = Github(options.key)
 repo = g.get_repo(options.repo)
@@ -53,9 +50,20 @@ else:
     message = 'This is a nightly build of Webots from the "%s" branch.%s' % (options.branch, warningMessage)
 
 for release in repo.get_releases():
+    match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
     if release.title == title:
         releaseExists = True
         break
+    elif match:
+        date = now - datetime.datetime(year=int(match.group(3)), month=int(match.group(2)), day=int(match.group(1)))
+        if date > datetime.timedelta(days=2, hours=12):  # keep only 3 nightly releases in total
+            tagName = release.tag_name
+            print('Deleting release "%s"' % release.title)
+            release.delete_release()
+            ref = repo.get_git_ref('tags/' + tagName)
+            if ref:
+                print('Deleting tag "%s"' % tagName)
+                ref.delete()
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
