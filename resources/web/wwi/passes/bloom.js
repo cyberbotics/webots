@@ -174,6 +174,19 @@ THREE.Bloom = class Bloom extends THREE.Pass {
     renderer.clear();
     this.fsQuad.render(renderer);
 
+    /*
+    // Code to debug bloom passes.
+    if (this.debugMaterial) {
+      var width = renderer.getSize().x / 2;
+      var height = renderer.getSize().y / 2;
+      var texture = new THREE.DataTexture(undefined, width, height, THREE.RGBFormat);
+      texture.needsUpdate = true;
+      renderer.copyFramebufferToTexture(new THREE.Vector2(), texture);
+      this.debugMaterial.map = texture;
+      this.debugMaterial.needsUpdate = true;
+    }
+    */
+
     // 2. Blur All the mips progressively
 
     var inputRenderTarget = this.renderTargetBright;

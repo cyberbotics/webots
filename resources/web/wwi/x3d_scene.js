@@ -50,9 +50,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
-    var bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
-    bloomPass.threshold = 1.0; // TODO: link with Viewpoint.bloomThreshold
-    this.composer.addPass(bloomPass);
+    this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    this.bloomPass.threshold = 1.0; // TODO: link with Viewpoint.bloomThreshold
+    this.composer.addPass(this.bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
@@ -104,6 +104,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.root = undefined;
     this.scene.background = undefined;
+
+    /*
+    // Code to debug bloom passes.
+    var geometry = new THREE.PlaneGeometry(5, 5);
+    var material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
+    this.bloomPass.debugMaterial = material;
+    var plane = new THREE.Mesh(geometry, material);
+    this.scene.add(plane);
+    */
+
     this.onSceneUpdate();
     this.render();
   }
