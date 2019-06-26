@@ -131,7 +131,7 @@ endif
 THREADS = $$(($(NUMBER_OF_PROCESSORS) * 3 / 2))
 
 docs:
-ifneq (, $(shell which $($) 2> /dev/null))
+ifneq (, $(shell which python 2> /dev/null))
 	@+echo "#"; echo "# * documentation *";
 	-@+$python docs/local_exporter.py --silent
 else
