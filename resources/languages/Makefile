@@ -36,9 +36,9 @@ endif
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;
-	+PYTHON_HOME="$(PYTHON37_HOME)" make -s -C python $@
+	+make -s -C python $@
 	@echo "# make" $@ python2.7;
-	+PATH="$(PYTHON27_HOME):$(PATH)" PYTHON_HOME="$(PYTHON27_HOME)" make -s -C python $@
+	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $@
 endif
 ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
