@@ -55,9 +55,9 @@ endif
 endif
 ifeq ($(OSTYPE),windows)
 	@echo "# make" $@ python3.7;
-	+make -s -C python $(MAKECMDGOALS)
+	+make -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python2.7;
-	+PATH="$(PYTHON27_HOME):$(PATH)" make -s -C python $(MAKECMDGOALS)
+	+PATH="$(PYTHON27_HOME):$(PATH)" make -C python $(MAKECMDGOALS)
 endif
 ifeq ($(OSTYPE),darwin)
 	@echo "# make" $@ python2.7;
