@@ -1494,6 +1494,7 @@ void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
 
   if (writer.isX3d()) {
     writer << " exposure=\'" << mExposure->value() << "\'";
+    writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
     writer << " zNear=\'" << mNear->value() << "\'";
     writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
     if (mFollowedSolid)
