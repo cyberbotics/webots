@@ -25,6 +25,7 @@ install:
   - C:\\msys64\\usr\\bin\\bash --login -c "env"
   - C:\\msys64\\usr\\bin\\bash --login -c "python --version"
   - C:\\msys64\\usr\\bin\\bash --login -c "which cmake"
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - C:\\msys64\\usr\\bin\\bash --login -c "cmake --help"
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
