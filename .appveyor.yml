@@ -29,6 +29,7 @@ install:
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export VISUAL_STUDIO_PATH=\\\"/C/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 10.0\\\" >> ~/.bash_profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ \(x86\)/Inno\ Setup\ 6\\\" >> ~/.bash_profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export PATH=\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:/C/msys64/mingw64/bin\":/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS:$MATLAB_HOME/bin" >> ~/.bash_profile
+  - C:\\msys64\\usr\\bin\\bash --login -c "cat ~/.bash_profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "cat /etc/profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "env"
   - C:\\msys64\\usr\\bin\\bash --login -c "python --version"
