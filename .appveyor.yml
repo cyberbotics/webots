@@ -10,6 +10,9 @@ environment:
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
 
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
@@ -25,7 +28,6 @@ install:
   - C:\\msys64\\usr\\bin\\bash --login -c "env"
   - C:\\msys64\\usr\\bin\\bash --login -c "python --version"
   - C:\\msys64\\usr\\bin\\bash --login -c "which cmake"
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - C:\\msys64\\usr\\bin\\bash --login -c "cmake --help"
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
