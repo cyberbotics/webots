@@ -12,7 +12,6 @@ environment:
 
 install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-  - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck cmake
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; git submodule init; git submodule update"
