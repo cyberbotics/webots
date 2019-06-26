@@ -133,7 +133,7 @@ THREADS = $$(($(NUMBER_OF_PROCESSORS) * 3 / 2))
 docs:
 ifneq (, $(shell which python 2> /dev/null))
 	@+echo "#"; echo "# * documentation *";
-	-@+$python docs/local_exporter.py --silent
+	-@+python docs/local_exporter.py --silent
 else
 	@+echo "#"; echo -e "# \033[0;33mPython not installed, skipping documentation\033[0m";
 endif
