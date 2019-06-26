@@ -1144,6 +1144,8 @@ void WbViewpoint::updatePostProcessingEffects() {
       mWrenBloom->detachFromViewport();
     else
       mWrenBloom->setup(mWrenViewport);
+
+    mWrenBloom->setThreshold(mBloomThreshold->value());
   }
 
   emit refreshRequired();
