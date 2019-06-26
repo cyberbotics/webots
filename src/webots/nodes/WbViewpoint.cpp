@@ -356,6 +356,7 @@ void WbViewpoint::updateAmbientOcclusionRadius() {
 
 void WbViewpoint::updateBloomThreshold() {
   WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
+  updatePostProcessingEffects();
 }
 
 WbLensFlare *WbViewpoint::lensFlare() const {
