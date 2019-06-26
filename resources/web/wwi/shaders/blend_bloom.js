@@ -29,7 +29,7 @@ THREE.blendBloomShader = {
     'uniform sampler2D blurTexture4;',
     'uniform sampler2D blurTexture5;',
     'uniform sampler2D blurTexture6;',
-    '',
+
     'void main() {',
     '  gl_FragColor = vec4(0.1 * vec3(',
     '    0.1 * texture2D(blurTexture1, vUv).rgb + ',
