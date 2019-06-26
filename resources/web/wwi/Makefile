@@ -44,10 +44,14 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
+ifneq ($(MAKECMDGOALS),debug)
+THREEJS_SUFFIX = .min
+endif
+
 DEPENDENCIES_PATH = dependencies
 THEEEJS_VERSION = 104
-THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.min.js
+THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three$(THREEJS_SUFFIX).js
 
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
