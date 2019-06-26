@@ -11,7 +11,7 @@ THREE.Bloom = class Bloom extends THREE.Pass {
     this.clearColor = new THREE.Color(0, 0, 0);
 
     // render targets
-    var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };
+    var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: THREE.FloatType };
     this.renderTargetsHorizontal = [];
     this.renderTargetsVertical = [];
     var resx = Math.round(this.resolution.x / 2);
