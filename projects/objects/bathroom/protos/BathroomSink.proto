@@ -16,7 +16,6 @@ PROTO BathroomSink [
     rotation IS rotation
     translation IS translation
     name IS name
-    scale 0.7 0.7 0.7
     children [
       Shape {
         appearance PBRAppearance {
@@ -161,11 +160,36 @@ PROTO BathroomSink [
         }
       }
     ]
-    boundingObject Transform {
-      translation 0 0.03 0.02
+    boundingObject Group {
       children [
-        Box {
-          size 1.1 1 1.5
+        Transform {
+          translation 0 -0.18 0.01
+          rotation 1 0 0 1.5707959999999999
+          children [
+            Box {
+              size 0.7 0.1 0.35
+            }
+          ]
+        }
+        Transform {
+          translation 0.005 -0.23 0.07
+          rotation 1 0 0 1.5707959999999999
+          children [
+            Cylinder {
+              height 0.18
+              radius 0.21
+            }
+          ]
+        }
+        Transform {
+          translation 0.204 -0.075 0.19
+          rotation 1 0 0 1.5707959999999999
+          children [
+            Cylinder {
+              height 0.28
+              radius 0.025
+            }
+          ]
         }
       ]
     }

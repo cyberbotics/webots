@@ -116,5 +116,25 @@ PROTO Toilet [
         }
       }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 1.25 0.05
+          children [
+            Box {
+              size 2 2.5 2.6
+            }
+          ]
+        }
+        Transform {
+          translation 0 3.1 -1.6
+          children [
+            Box {
+              size 2.5 4 1.1
+            }
+          ]
+        }
+      ]
+    }
   }
 }
