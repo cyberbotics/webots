@@ -21,15 +21,14 @@ install:
   - C:\\msys64\\usr\\bin\\pacman --noconfirm -S --noconfirm git mingw-w64-x86_64-cppcheck cmake
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
-  - C:\\msys64\\usr\\bin\\bash --login -c "env"
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; git submodule init; git submodule update"
   - C:\\msys64\\usr\\bin\\bash --login -c "%WEBOTS_HOME_PROTECTED%/src/install_scripts/msys64_installer.sh --all"
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export JAVA_HOME=\\\"/C/Program\ Files/Java/jdk1.8.0\\\" >> ~/.bash_profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export PYTHON27_HOME=/C/Python27-x64 >> ~/.bash_profile"
   - C:\\msys64\\usr\\bin\\bash --login -c "echo export PYTHON37_HOME=/C/Python37-x64 >> ~/.bash_profile"
-#  - C:\\msys64\\usr\\bin\\bash --login -c "echo export VISUAL_STUDIO_PATH=\\\"/C/Program\ Files\ (x86)/Microsoft\ Visual\ Studio\ 10.0\\\""
-#  - C:\\msys64\\usr\\bin\\bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ (x86)/Inno\ Setup\ 6\\\""
-  - C:\\msys64\\usr\\bin\\bash --login -c "echo export PATH=\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:/C/msys64/mingw64/bin\":/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS:$MATLAB_HOME/bin"
+  - C:\\msys64\\usr\\bin\\bash --login -c "echo export VISUAL_STUDIO_PATH=\\\"/C/Program\ Files\ (x86)/Microsoft\ Visual\ Studio\ 10.0\\\" >> ~/.bash_profile"
+  - C:\\msys64\\usr\\bin\\bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ (x86)/Inno\ Setup\ 6\\\" >> ~/.bash_profile"
+  - C:\\msys64\\usr\\bin\\bash --login -c "echo export PATH=\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:/C/msys64/mingw64/bin\":/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS:$MATLAB_HOME/bin" >> ~/.bash_profile
   - C:\\msys64\\usr\\bin\\bash --login -c "env"
   - C:\\msys64\\usr\\bin\\bash --login -c "python --version"
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
