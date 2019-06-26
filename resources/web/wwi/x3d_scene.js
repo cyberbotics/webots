@@ -66,8 +66,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
     this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
+    this.bloomPass.enabled = this.bloomPass.threshold >= 0;
 
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
