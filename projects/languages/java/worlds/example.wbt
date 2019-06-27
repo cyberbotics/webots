@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The user drives a Supervisor by the Keyboard which drives slaves robots by using an emitter device."

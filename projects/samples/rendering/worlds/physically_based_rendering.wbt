@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Demo of a simulation world with objects rendered with a Physically Based Rendering (PBR) appearance."

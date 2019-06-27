@@ -33,7 +33,7 @@
 	<key>CFBundleExecutable</key>
 	<string>webots</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Webots R2019b revision 1, Copyright 1998-2019 Cyberbotics Ltd.</string>
+	<string>Webots R2020a, Copyright 1998-2020 Cyberbotics Ltd.</string>
 	<key>CFBundleIconFile</key>
 	<string>webots_icon</string>
 	<key>CFBundleIdentifier</key>
@@ -45,11 +45,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>R2019b revision 1</string>
+	<string>R2020a</string>
 	<key>CFBundleSignature</key>
 	<string>wbt </string>
 	<key>CFBundleVersion</key>
-	<string>R2019b revision 1</string>
+	<string>R2020a</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>

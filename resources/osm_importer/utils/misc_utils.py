@@ -31,7 +31,7 @@ def get_world_size(minlat, minlon, maxlat, maxlon):
 def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2019b utf8\n")
+    file.write("#VRML_SIM R2020a utf8\n")
     file.write("WorldInfo {\n")
     file.write("  info [\n")
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
