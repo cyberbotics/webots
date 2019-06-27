@@ -4,8 +4,8 @@
   <version>2.0.1</version>
   <description>The ROS package containing examples for interfacing ROS with the standard ROS controller of Webots</description>
 
+  <url>http://wiki.ros.org/webots_ros</url>
   <maintainer email="support@cyberbotics.com">Cyberbotics</maintainer>
-
 
   <license>Apache 2.0</license>
 
