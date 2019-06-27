@@ -383,13 +383,13 @@ THREE.X3DLoader = class X3DLoader {
       'url': filename[0]
     };
 
-    // wrap / repeat
+    // Map ImageTexture.repeat[ST] to THREE.Texture.wrap[ST].
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
 
-    // anisotropy / filtering
+    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
     texture.anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
     var textureProperties = imageTexture.getElementsByTagName('TextureProperties');
     if (textureProperties.length > 0)
