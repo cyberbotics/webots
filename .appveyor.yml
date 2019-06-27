@@ -16,7 +16,7 @@ init:
 install:
   - set PATH=C:\msys64\usr\bin;%PATH%
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-  - pacman --noconfirm -Syu
+  - pacman --noconfirm -Syuu
   - ps: Start-Sleep -s 3600
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
