@@ -383,10 +383,17 @@ THREE.X3DLoader = class X3DLoader {
       'url': filename[0]
     };
 
+    // Map ImageTexture.repeat[ST] to THREE.Texture.wrap[ST].
     var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
     var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
     texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+
+    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
+    texture.anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
+    var textureProperties = imageTexture.getElementsByTagName('TextureProperties');
+    if (textureProperties.length > 0)
+      texture.anisotropy = parseFloat(getNodeAttribute(textureProperties[0], 'anisotropicDegree', '8'));
 
     // This is the encoding used in Webots.
     texture.encoding = THREE.sRGBEncoding;
