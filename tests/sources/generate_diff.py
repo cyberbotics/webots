@@ -51,6 +51,7 @@ def github_api(request):
     github_api.last_time = time.time()
     return json.loads(content)
 
+
 if len(sys.argv) == 3:
     commit = sys.argv[1]
     repo = sys.argv[2]
@@ -61,11 +62,14 @@ else:
 github_api.last_time = 0
 github_api.user_agent = repo
 j = github_api('search/issues?q=' + commit)
-# if the PR doesn't exist, create an empty modified_files.txt so that no test is performed
-url = j["items"][0]["pull_request"]["url"]
-j = github_api(url)
-branch = j["base"]["ref"]
-with open(os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt'), 'w') as file:
-    j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
-    for f in j['files']:
-        file.write(f['filename'] + '\n')
+filename = os.path.join(os.getenv('WEBOTS_HOME'), 'tests', 'sources', 'modified_files.txt')
+if j['total_count'] == 0:  # if the PR doesn't exist, create an empty modified_files.txt so that no test is performed
+    open(filename, 'w').close()
+else:
+    url = j['items'][0]['pull_request']['url']
+    j = github_api(url)
+    branch = j['base']['ref']
+    with open(filename, 'w') as file:
+        j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
+        for f in j['files']:
+            file.write(f['filename'] + '\n')
