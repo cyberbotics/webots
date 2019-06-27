@@ -61,9 +61,13 @@ THREEJS_EXAMPLE_SOURCES = \
   pmrem/PMREMGenerator.js \
   shaders/CopyShader.js \
   shaders/FXAAShader.js \
+  shaders/DepthLimitedBlurShader.js \
+  shaders/SAOShader.js \
+  shaders/UnpackDepthRGBAShader.js \
   postprocessing/EffectComposer.js \
   postprocessing/RenderPass.js \
-  postprocessing/ShaderPass.js
+  postprocessing/ShaderPass.js \
+  postprocessing/SAOPass.js
 LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.
