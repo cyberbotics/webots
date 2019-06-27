@@ -356,6 +356,7 @@ void WbViewpoint::updateAmbientOcclusionRadius() {
 
 void WbViewpoint::updateBloomThreshold() {
   WbFieldChecker::resetDoubleIfNegativeAndNotDisabled(this, mBloomThreshold, 21.0, -1.0);
+  updatePostProcessingEffects();
 }
 
 WbLensFlare *WbViewpoint::lensFlare() const {
@@ -1144,6 +1145,8 @@ void WbViewpoint::updatePostProcessingEffects() {
       mWrenBloom->detachFromViewport();
     else
       mWrenBloom->setup(mWrenViewport);
+
+    mWrenBloom->setThreshold(mBloomThreshold->value());
   }
 
   emit refreshRequired();
@@ -1494,6 +1497,7 @@ void WbViewpoint::exportNodeFields(WbVrmlWriter &writer) const {
 
   if (writer.isX3d()) {
     writer << " exposure=\'" << mExposure->value() << "\'";
+    writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
     writer << " zNear=\'" << mNear->value() << "\'";
     writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
     if (mFollowedSolid)

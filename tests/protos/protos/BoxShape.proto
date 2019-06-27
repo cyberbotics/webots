@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 
 PROTO BoxShape [
   field SFVec3f size 0.1 0.1 0.1
