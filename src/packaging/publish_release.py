@@ -47,7 +47,7 @@ if options.tag:
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    message = 'This is a nightly build of Webots from the "%s" branch.%s' % (options.branch, warningMessage)
+    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (options.branch, warningMessage)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
@@ -81,6 +81,7 @@ for release in repo.get_releases():
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
+        releaseCommentModified = False
         for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
             path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
@@ -89,5 +90,11 @@ for release in repo.get_releases():
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)
+                    if releaseExists and not options.tag and not releaseCommentModified:
+                        print('Updating release description')
+                        releaseCommentModified = True
+                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % options.branch)
+                        release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
+                                               release.target_commitish)
         break
 print('Upload finished.')
