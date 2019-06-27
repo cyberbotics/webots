@@ -15,8 +15,9 @@ init:
 
 install:
   - set PATH=C:\msys64\usr\bin;%PATH%
+  - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+  - pacman --noconfirm -Syu
   - ps: Start-Sleep -s 3600
-  - C:\\msys64\\usr\\bin\\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pip install -r %APPVEYOR_BUILD_FOLDER%/tests/sources/requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%/docs/tests/requirements.txt
   - C:\\msys64\\usr\\bin\\bash --login -c "cd %WEBOTS_HOME_PROTECTED%; git submodule init; git submodule update"
