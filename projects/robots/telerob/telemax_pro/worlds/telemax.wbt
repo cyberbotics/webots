@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The Telemax PRO robot from Telerob is a tracked robot equipped with a 7-axis manipulator."
