@@ -4,7 +4,9 @@ import sys
 with open('ChangeLog.html', 'r') as file:
     fileContent = file.read()
     fileContent = fileContent.replace('<font color="red"><b>', '**').replace('</b></font>', '**')
+    fileContent = fileContent.replace('<b><font color="red">', '**').replace('</font></b>', '**')
     fileContent = fileContent.replace('<font color="red">', '**').replace('</font>', '**')
+    fileContent = fileContent.replace('<br>', ' ').replace('<break>', ' ').replace('</tt>', '__').replace('<tt>', '__')
     tree = html.fromstring(fileContent)
     body = tree[1]
     content = ''
@@ -42,10 +44,16 @@ with open('ChangeLog.html', 'r') as file:
                             for child3 in child2:
                                 if child3.tag == 'li':
                                     content += '      - %s\n' % child3.text.replace('\'', '`')
+                                elif child3.tag == 'ul':
+                                    for child4 in child3:
+                                        if child4.tag == 'li':
+                                            content += '        - %s\n' % child4.text.replace('\'', '`')
+                                        else:
+                                            sys.exit('failure 6 ' + child3.tag)
                                 else:
                                     sys.exit('failure 3 ' + child3.tag)
                 else:
-                    sys.exit('failure 4 ' + child1.tag)
+                    sys.exit('failure 4 ' + child1.tag + ' ' + child1.text)
         else:
-            sys.exit('failure 5 ' + child1.tag)
+            sys.exit('failure 5 ' + child.tag + ' ' + child.text)
     print(content)
