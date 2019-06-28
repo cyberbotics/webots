@@ -2,6 +2,7 @@
 
 
 ## [Webots R2018b](../blog/Webots-2018-b-release.md)
+Released on July 5th, 2018.
 
   - New Features
     - WREN: New Rendering System
@@ -102,6 +103,7 @@
     - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to the
 
 ## Webots R2018a Revision 2
+Released on April 18th, 2018.
 
   - Enhancements
     - Added warning if a Solid or Joint node defined in a PROTO field is used multiple times inside the PROTO definition.
@@ -123,6 +125,7 @@
     - Enabled pasting nodes just after the Viewpoint node.
 
 ## Webots R2018a Revision 1
+Released on March 22nd, 2018.
 
   - New Features
     - Transformed several robots into PROTO nodes: BIOLOID Dog, Parallax's BoeBot, EPFL BioRob's Salamander, Yamor and GhostDog, K-Team's Hemisson, Khepera I and II and Koala, KONDO's KHR-3HV, micromagic's Mantis, Mindstorms Rover, Adept's Pioneer 2, Unimation's PUMA 560, Sony's QRIO, Bluebotics' Shrimp, NASA's Sojourner and Surveyor SRV-1.
@@ -188,6 +191,7 @@
     - Windows: upgraded to Qt 5.10.1.
 
 ## [Webots R2018a](../blog/Webots-2018-a-release.md)
+Released on December 20th, 2017.
 
   - New Features
     - Replaced legacy generic Qt robot windows with an HTML5-based system.**The legacy generic Qt robot window is deprecated.**

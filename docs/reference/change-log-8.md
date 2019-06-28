@@ -2,6 +2,7 @@
 
 
 ## Webots 8.6.2
+Released on October 4th, 2017.
 
   - Enhancements
     - Made re-compiling Python libraries for different Python versions easier.
@@ -19,6 +20,7 @@
     - Fixed shaky robots in HTML5 animations and web streaming.
 
 ## Webots 8.6.1
+Released on September 12th, 2017.
 
   - Enhancements
     - Double-clicking or pressing the `Enter` key on a NULL SFNode or empty MF field in the Scene Tree now directly opens the `Add a Node` dialog.
@@ -55,6 +57,7 @@
     - Fixed `wb_supervisor_field_get_sf_node` function returning the root node when called with an empty SFNode field argument.
 
 ## [Webots 8.6.0](../blog/Webots-8-6-0-release.md)
+Released on July 24th, 2017.
 
   - New Features
     - Added Microsoft SAPI 5 as an optional text-to-speech engine on Windows.
@@ -188,6 +191,7 @@
       - Fixed double-clicking overlay close buttons causing pop-out behavior instead of hiding the overlay.
 
 ## Webots 8.5.4
+Released on March 10th, 2017.
 
   - Enhancements
     - Optimized the `wb_supervisor_field_set_*()` functions so that they run significantly faster than before (thanks to Kevin).
@@ -223,6 +227,7 @@
     - Fixed issues with relative speed computation in Radar devices.
 
 ## Webots 8.5.3
+Released on December 21st, 2016.
 
   - Enhancements
     - Mac: linked the Python controller library with the system Python.
@@ -248,6 +253,7 @@
     - Fixed crash with HingeJoint and Hinge2Joint nodes whose `endPoint` is a SolidReference node referencing the static environment.
 
 ## Webots 8.5.2
+Released on November 22nd, 2016.
 
   - Enhancements
     - Set a useful anisotropic filtering level as a compromise between image quality and performance to render distant textures without aliasing and minimal blur.
@@ -260,6 +266,7 @@
     - Fixed ROBOTIS OP2 remote-compilation and remote-control path configuration.
 
 ## Webots 8.5.1
+Released on November 14th, 2016.
 
   - Enhancements
     - Improved the Webots guided tour by allowing the user to quickly navigate across the featured simulations.
@@ -288,6 +295,7 @@
     - Report PROTO with a forbidden name: names from base nodes (e.g. Cone, Box, etc.) cannot be used.
 
 ## Webots 8.5.0
+Released on October 12th, 2016.
 
   - New Features
     - Added support (remote compilation and remote control) for ROBOTIS OP2:
@@ -428,6 +436,7 @@
     - Added a glossary in the reference manual.
 
 ## Webots 8.4.0
+Released on March 9th, 2016.
 
   - New Features
     - Added supervisor functions to get and set the simulation mode (play, pause, etc.): `wb_supervisor_simulation_get_mode()` and `wb_supervisor_simulation_set_mode()`
@@ -488,6 +497,7 @@
     - Fixed documentation of the Node class.
 
 ## Webots 8.3.2
+Released on December 16th, 2015.
 
   - Enhancements
     - Improved proposed file name for HTML5 Model and Animation export to match the world name.
@@ -496,6 +506,7 @@
     - Added highlighting of missing Webots nodes names in text editor.
 
 ## Webots 8.3.1
+Released on December 4th, 2015.
 
   - Enhancements
     - Changed Robot's menu items from `Show All Camera Overlays` and `Show All Display Overlays` to `Hide All Camera Overlays` and `Hide All Display Overlays`.
@@ -523,6 +534,7 @@
       - Restored and improved the `streaming_viewer/index.html` page to display the streaming server output into a web browser.
 
 ## Webots 8.3.0
+Released on October 7th, 2015.
 
   - New Features
     - Support for Windows 64-bit: Webots now runs natively on Windows 64-bit operating systems.
@@ -597,11 +609,13 @@
     - Fixed problem of texture not found in some PROTO models.
 
 ## Webots 8.2.1
+Released on June 29th, 2015.
 
   - Bug fix
     - Fixed error using a USE TrackWheel node in PROTO files (thanks to Kevin).
 
 ## Webots 8.2.0
+Released on June 25th, 2015.
 
   - New Features
     - Implemented the VRML97 Background's url fields in order to create sky boxes.
@@ -644,6 +658,7 @@
     - Fixed the loading world window displayed even when Webots is started in minimized mode.
 
 ## Webots 8.1.0
+Released on May 12th, 2015.
 
   - New Features
     - Added new Track node to model tank robots and conveyor belts.
@@ -699,6 +714,7 @@
     - Documented the algorithm used to search the texture paths in the ImageTexture node.
 
 ## Webots 8.0.5
+Released on February 2nd, 2015.
 
   - New Features
     - Supported textures which do not have a valid OpenGL dimension (e.g. 512x1024) by upscaling them automatically.
@@ -709,6 +725,7 @@
     - Supported textures paths containing UTF-8.
 
 ## Webots 8.0.4
+Released on January 22th, 2015.
 
   - New Features
     - Added a new tab in the node editor which shows the absolute/relative position and orientation of the node.
@@ -739,12 +756,14 @@
     - Fixed problem of the wheels of DifferentialWheels drifting when moving it with a Supervisor.
 
 ## Webots 8.0.3
+Released on December 5th, 2014.
 
   - Bug fix
     - Fixed `Connection refused` error occuring while downloading module updates in some network configurations (thanks to Jessica).
     - Mac OS X and Windows: Fixed computation of uuid to avoid problem with downloaded licenses used in a different network configuration (thanks to Norhidayah).
 
 ## Webots 8.0.2
+Released on December 3rd, 2014.
 
   - Upgrade
     - Upgraded to Ogre 1.9.0.
@@ -768,6 +787,7 @@
     - Windows: Fixed missing cat.exe and sed.exe msys commands causing several Makefiles to fail.
 
 ## Webots 8.0.1
+Released on November 18th, 2014.
 
   - New Features
     - Inform the user when a new version of Webots is released.
@@ -794,6 +814,7 @@
     - Updated the tutorial.
 
 ## Webots 8.0.0
+Released on October 30th, 2014.
 
   - New Features
     - **Added new modular licensing system that replace the licensing system used in Webots 7.**

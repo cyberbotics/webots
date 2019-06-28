@@ -2,6 +2,7 @@
 
 
 ## Webots 5.10.0
+Released on August 5th, 2008 (revision 1680).
 
   - Several improvements in BotStudio:
     - Added arrows indicating the direction of transitions
@@ -24,6 +25,7 @@
   - Added oriented-object C++ API for Webots controllers
 
 ## Webots 5.9.2
+Released on June 19th, 2008 (revision 1532).
 
   - Store open text editor files in the world file and close them when closing the world
   - Fixed crash when starting the Nao Robocup contest from the startup window
@@ -38,6 +40,7 @@
     - Changed menu item `Follow Robot` to `Follow Object`: now the view point can also follow passive objects like the ball
 
 ## Webots 5.9.1
+Released on May 27th, 2008 (revision 1458).
 
   - Fixed bug with robot_get_time() and asynchronous controllers
   - Merged `nao*_urbi.wbt` with nao*.wbt, also `robotstadium_urbi.wbt` with robotstadium.wbt
@@ -61,6 +64,7 @@
   - Fixed crash when trying to open an unreadable world file
 
 ## Webots 5.9.0
+Released on April 23rd, 2008 (revision 1360).
 
   - Fixed minor glitches in video recording caused by mouse-manipulations before the recording is started by pressing the `Run` button
   - Fixed: Webots freezes if a controller has returned from the main() function and then the user hits `Revert` or `Quit` (Windows only)
@@ -79,6 +83,7 @@
   - Fixed systematic crash when a geometrical node (Box, Cylinder, Sphere, etc) is added to a Group boundingObject and then mouse-clicked
 
 ## Webots 5.8.0
+Released on March 7th, 2008 (revision 1231).
 
   - Fixed bug with libController.dll and libjpeg (Windows)
   - Updated to URBI 1.5.4
@@ -104,6 +109,7 @@
   - Improved error reporting and general stability of VRML97 parser
 
 ## Webots 5.7.3
+Released on January 29th, 2008 (revision 1038).
 
   - Fixed automatic CLASSPATH generation for Java controllers
   - Added initial dialog box to choose between guided tour and contest worlds
@@ -111,6 +117,7 @@
   - Fixed Makefile.include causing a syntax error under some Windows configurations
 
 ## Webots 5.7.2
+Released on January 23rd, 2008 (revision 1011).
 
   - Added accelerometer in Rat's Life
   - Added linear camera device in Botstudio for e-puck
@@ -127,6 +134,7 @@
   - Fixed Shrimp example
 
 ## Webots 5.7.1
+Released on January 17th, 2008 (revision 972).
 
   - Fixed occasional crash when deleting a PointLight using the Scene Tree (Windows)
   - Fixed wrong signs and invalid coordinate system reference in values returned by Accelerometer nodes
@@ -138,6 +146,7 @@
   - Added possibility of viewing contact points (collision detection)
 
 ## Webots 5.7.0
+Released on December 21th, 2007 (revision 893).
 
   - Added Aldebaran Robotics' Nao humanoid robot model with RoboCup field
   - Fixed batch mode crash because of the display of a license warning
@@ -171,6 +180,7 @@
   - Fixed MPEG movie creation for Mac OS X 10.5 (Leopard)
 
 ## Webots 5.6.0
+Released on November 12th, 2007 (revision 718).
 
   - Added an Accelerometer node
   - Added MPEG-4 movie encoding for Linux (requires mencoder)
@@ -188,11 +198,13 @@
   - Fixed bug with BotStudio firmware upgrade under Windows
 
 ## Webots 5.5.3
+Released on October 11th, 2007 (revision 583).
 
   - Compiled with wxWidgets-2.8.6
   - Added Rat's Life contest files and allowed compilation for these instead of roboka
 
 ## Webots 5.5.2
+Released on September 27th, 2007 (revision 557).
 
   - Updated the version of the URBI package to 1.04 and added Aibo ball tracking demo
   - Mac OS X version doesn't crash any more after license warnings
@@ -205,12 +217,14 @@
   - Fixed poor OpenGL rendering performance of the selected object
 
 ## Webots 5.5.1
+Released on September 20th, 2007 (revision 530).
 
   - Fixed slow controller compilation in Webots built-in editor (Windows)
   - Fixed distance sensor names in e-puck.wbt
   - Removed obsolete Joint nodes from urbi sample worlds
 
 ## Webots 5.5.0
+Released on September 14th, 2007 (revision 518).
 
   - **Warning about the Joint node and the `joint` field.** In this version, the Joint node and the `joint` fields were completely removed in order to simplify the design of new robot models. The usage of the Joint node was found to be confusing, because it was often unclear if a Joint node was required or not. This version of Webots makes the appropriate decision automatically. In addition, all the instances of Joint nodes were removed from all the .wtb example in Webots distribution. When this version of Webots loads a .wbt file that contain Joint nodes it issues a error message similar to this:
   - **Change in the Shrimp model.** The `shrimp.wbt` model was slightly modified as a consequence of the removal of the Joint node. In the previous `shrimp.wbt` model, an empty `joint` field in a Solid node used to indicate that this joint was going to be created in the physics plugin. Now the same thing is indicated by a Servo node which `type` field constains the string `none`.
@@ -241,6 +255,7 @@
   - Fixed crash under Windows when deleting the items of a list field in the scene tree window (thanks to Tony)
 
 ## Webots 5.4.0
+Released on July 18th, 2007 (revision 369).
 
   - **Warning about WorldInfo.basicTimeStep.** In this version, Webots checks that the controller step (the value passed to `robot_step()` or returned by the controller's run() function) is a multiple of the basicTimeStep. Simulations that do not meet this requirement will issue warning messages.
   - **Warning about `servo_set_force()` function.** In this version, the existing `servo_set_force()` function was renamed `servo_set_motor_force()`. There is now a new `servo_set_force()` function with a different purpose, please refer to the Reference Manual for more info. We recommend to replace any previous call to `servo_set_force()` by a call to `servo_set_motor_force()` in your controller code.
@@ -262,12 +277,14 @@
   - Added e-puck program uploader in the Tools menu
 
 ## Webots 5.3.1
+Released on June 22nd, 2007 for Mac OS X only (revision 283).
 
   - Fixed hang of demo version on Mac OS X
   - Fixed bug in e-puck firmware and released version 1.1.7
   - Added msgfmt under Windows and Mac for locale translation compilation
 
 ## Webots 5.3.0
+Released on June 21st, 2007 (revision 268).
 
   - Display a star (`*`) in the title bar of the main window when the world was modified
   - Fixed bug preventing the display of the Khepera window and displaying UTF-8 warning messages in the console
@@ -279,6 +296,7 @@
   - Added support for real Aibo camera (thanks to Mjof)
 
 ## Webots 5.2.0
+Released on June 6th, 2007 (revision 170).
 
   - Added support for locales (see resources/locale/readme.txt to add your own locale)
   - Added French locale
@@ -291,6 +309,7 @@
   - Fixed problem with labels displayed by `soccer_supervisor` under Linux
 
 ## Webots 5.1.14
+Released on May 21st, 2007 (revision 99).
 
   - **Warning about LightSensors** The lookupTable of LightSensor sometimes returned incorrect values in previous versions of Webots. This problem was fixed with this new release. As a consequence the `light_sensor_get_value()` function might in some situation return values different than before, therefore simulations tuned for specific return values will need to be slightly adapted to work with this version.
   - Fixed problem for loading physics plugins on Mac OS X
@@ -298,6 +317,7 @@
 
 
 ## Webots 5.1.13
+Released on May 9th, 2007 (revision 69).
 
   - **Warning about TouchSensors** If TouchSensors were used, existing robot models developed for previous releases of Webots may have to be slightly modified in order to work with this new version of Webots. The new `force` TouchSensors are unidirectional while the old ones were omnidirectional. The new `force` sensors measure the force along their z-axis, while the other axes are ignored. The modification is very simple: the TouchSensors must be reoriented such that their positive z-axes point from the body outwards, in the direction where the force need to be measured (where the collision is expected to take place). Please also note that the values returned by `bumper` sensors may also differ from those of previous Webots version because the new version returns fixed 0 or 1 while the previous version used to return the min or max values of the lookup table.
   - Added Camera.windowPosition and Camera.pixelSize fields for camera rendering in the main Webots window
@@ -316,6 +336,7 @@
   - Fixed instability of `supervisor_robot_set_controller()` function
 
 ## Webots 5.1.12
+Released on February 8th, 2007 (revision 1502).
 
   - Added cross-compiler for the e-puck robot
   - Fixed crash on File/Open or File/Revert after changing a robot controller
@@ -339,6 +360,7 @@
   - Fixed crash when `supervisor_field_set()` is applied to a not found node
 
 ## Webots 5.1.11
+Released on December 22st, 2006 (revision 1429).
 
   - Made EDU and STD licenses platform independent
   - Added BotStudio graphical programming for the e-puck robot with remote control capability
@@ -354,6 +376,7 @@
   - System.out and System.err in Java controllers are now redirected to the Webots log window to facilitate debug
 
 ## Webots 5.1.10
+Released on November 1st, 2006 (revision 1297).
 
   - Added `target_coordinate` supervisor for the IPR robot to display the coordinates of a target point (red ball in `ipr_cube.wbt`)
   - Fixed non-working jump-to-error functionality in compilation console (Mac OS X)
@@ -370,6 +393,7 @@
   - Fixed simulation hang occurring on Linux under special circumstances
 
 ## Webots 5.1.9
+Released on September 14th, 2006 (revision 1187).
 
   - Fixed inconsistency in the GUI when using the --mode command line option
   - Changes of controller in the scene tree window take effect immediately
@@ -416,6 +440,7 @@
   - Nodes are now sorted alphabetically in the scene tree dialog for creating new nodes
 
 ## Webots 5.1.8
+Released on July, 19, 2006 (revision 691).
 
   - Added new Connector nodes for modular robotics (thanks to Yvan)
   - Added a custom Java command in the preferences, allowing to pass extra Java options to the JVM or to choose to use java.exe instead of javaw.exe
@@ -439,6 +464,7 @@
   - Added `camera_get_near()` and `camera_get_far()` to the Java API (thanks to Richard)
 
 ## Webots 5.1.7
+Released on May, 24th, 2006 (revision 506).
 
   - Add a startup option to choose the startup mode (stop, run or fast)
   - Fixed bug with keyboard reading and modifier keys
@@ -458,6 +484,7 @@
   - Fixed bug with physics shared library under Windows
 
 ## Webots 5.1.6
+Released on May, 10th, 2006 (revision 405).
 
   - Fixed Mac OS X problem with physics shared libraries (thanks to Antoine)
   - Fixed bug with Extrusion and creaseAngle affecting koala.wbt
@@ -466,6 +493,7 @@
   - Fixed rare memory leak with IndexedLineSet
 
 ## Webots 5.1.5
+Released on May, 9th, 2006 (revision 388).
 
   - Fixed initialisation of random seed, so that Webots simulations are now deterministic (thanks to Yvan)
   - Fixed koala.wbt which doesn't use any more non-convex Extrusion causing problems in some cases (thanks to Ankanadh)
@@ -491,6 +519,7 @@
   - Fixed bug with chargers and robots/supervisor without battery (thanks to Danny)
 
 ## Webots 5.1.4
+Released on March, 28th, 2006 (revision 248).
 
   - **Warning:** This release is not fully upward compatible with Webots 5.1.2. The change is very minor though: if your world files have Servo nodes with an acceleration field different from -1, you should multiply it by 10^6 or set it to -1 (for infinity).
   - Built with wxWidgets 2.6.3
@@ -506,6 +535,7 @@
   - Replaced references to cyberboticspc1.epfl.ch by references to www.cyberbotics.com
 
 ## Webots 5.1.3
+Released on March 21st, 2006 (revision 205).
 
   - Added controllerArgs field to robot nodes to pass arguments to a controller program
   - Fixed bug with `supervisor_field_set()` for a rotation angle in fast2D mode (thanks to Patrícia)
@@ -520,6 +550,7 @@
   - New `gps_euler()` function contributed by Hannes Winlekmann
 
 ## Webots 5.1.2
+Released on March 7th, 2006 (revision 138).
 
   - Fixed collision detection bug with cylinder object in `khepera_gripper.wbt` (thanks to Ricardo)
   - Added `SUPERVISOR_FIELD_` constants in the Java API (thanks to Harm)
@@ -527,6 +558,7 @@
   - Fixed Memory leak causing physics simulation to behave strangely
 
 ## Webots 5.1.1
+Released on March 2nd, 2006 (revision 117).
 
   - Attempted to improve the highest quality of MPEG movies generated under Linux and Mac OS X
   - Fixed LED update in robot camera views
@@ -547,6 +579,7 @@
   - Fixed plugins/physics/physics.c so that it works with C++ as well (thanks to Antoine)
 
 ## Webots 5.1.0
+Released on December 23th, 2005.
 
   - **Warning:** This release is not fully upward compatible with Webots 5.0.10. The change is very minor though: if your world files have Servo nodes with a rotation angle different from 0, you should set it to 0 and add a Servo.position field which contains the value of this angle. Also, the physics and fast2d directories moved into a plugins directory.
   - Moved physics and fast2d directories into a plugins directory
@@ -566,6 +599,7 @@
   - Fixed DirectionalLight rendering in libController (thanks to Yvan and Paolo)
 
 ## Webots 5.0.10
+Released on November 18th, 2005.
 
   - Fixed Help/Register menu not working under Mac OS X (thanks to Valérie)
   - Fixed bug with distance sensors in fast2d mode (thanks to Yvan)
@@ -581,6 +615,7 @@
   - Added fast2d.h include file (thanks to Simon)
 
 ## Webots 5.0.9
+Released on November 8th, 2005.
 
   - Fixed `camera_save_image()` with JPEG format under Windows (thanks to Edgar)
   - Fixed hang under Windows after loading or reverting
@@ -592,6 +627,7 @@
   - Display a warning when a Solid or a device node is found as a children of a Group or Transform node
 
 ## Webots 5.0.8
+Released on October, 27th, 2005.
 
   - Created a multiplatform binary server for Aibos ERS7/ERS210 (thanks to Ricardo)
   - Aibo ERS7 can now play MTN file with cross-compilation (thanks to Ricardo)
@@ -622,6 +658,7 @@
   - Made `botsutdio_*.wbt` world files run real time (thanks to Samir)
 
 ## Webots 5.0.7
+Released on 30-September-05.
 
   - Fixed flickering in Khepera window under Windows
   - Added support for URBI script language (thanks to Anthony and Jean-Christophe)
@@ -656,6 +693,7 @@
   - Fixed wrong display of month in the about box (thanks to Anthony)
 
 ## Webots 5.0.6
+Released on 14-July-05.
 
   - Fixed display of distance sensor rays (thanks to Yvan)
   - Fixed wrong text control behavior in the scene tree window (thanks to Yvan)
@@ -664,6 +702,7 @@
   - Fixed force sensor lookupTable in `hoap2_sumo.wbt` example world
 
 ## Webots 5.0.5
+Released on 13-July-05.
 
   - Fixed bug with `robot_console_printf` (thanks to Hugo)
   - Fixed opening of text editor window under Windows
@@ -696,6 +735,7 @@
   - Fixed automatic dependencies build for physics shared libraries
 
 ## Webots 5.0.4
+Released on 16-June-05.
 
   - Added an introduction in the API chapter of the reference manual about Java programming and other issues (thanks to José and Paul)
   - Batch mode without display working under Linux (thanks to Jim)
@@ -724,12 +764,14 @@
   - Added the 2D simulation mode as an external plugin (thanks to Yvan)
 
 ## Webots 5.0.3
+Released on 15-April-05.
 
   - Added preliminary force sensors in `hoap2_sumo.wbt` (Thanks to Rawichote)
   - Fixed controller crash at exit with disabled camera (thanks to Annelyse)
   - New images in the control window of the Aibo ERS-7 (thanks to Ricardo)
 
 ## Webots 5.0.2
+Released on 3-April-05.
 
   - Fixed the compilation from the built-in IDE (thanks to Yvan)
   - Added `khepera_line` world and controller (thanks to Jean-Christophe)
@@ -749,6 +791,7 @@
   - Fixed horizontal field of view in Camera and Viewpoint (thanks to Stefan)
 
 ## Version 5.0.1
+Released on 15-March-05.
 
   - Fixed saved windows sizes under Linux
   - Fixed DirectionalLight orientation in sample worlds
@@ -767,6 +810,7 @@
   - Fixed evaluation message in about box (add www/registration/webots/trial)
 
 ## Version 5.0.0
+Released on 31-Jan-05.
 
   - Added Camera.near and Camera.far fields (thanks to Yizhen)
   - Fast mode now overrides real time preference (thanks to Jonas)
