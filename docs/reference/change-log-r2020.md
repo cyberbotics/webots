@@ -1,6 +1,5 @@
 # Webots R2020 Change Log
 
-
 ## [Webots R2020a](../blog/Webots-2020-a-release.md)
 Released on June 25th, 2019.
 
