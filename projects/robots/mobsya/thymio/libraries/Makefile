@@ -27,10 +27,10 @@ endif
 
 release debug profile:
 ifneq (, $(shell which cmake 2> /dev/null))
-	mkdir -p dashel/dashel
-	cmake -Bdashel -Hdashel-src $(CMAKE_FLAGS)
-	cp dashel-src/dashel/dashel.h dashel/dashel/
-	+make -C dashel
+	@mkdir -p dashel/dashel
+	@cmake -Bdashel -Hdashel-src $(CMAKE_FLAGS) > /dev/null
+	@cp dashel-src/dashel/dashel.h dashel/dashel/
+	@+make -C dashel > /dev/null
 else
 	@echo -e "# \033[0;33mcmake not installed, skipping dashel library\033[0m"
 endif
