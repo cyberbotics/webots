@@ -614,7 +614,7 @@ StraightStairs {
   stepSize 0.25 0.19 1.27
   stepRise 0.18
   nSteps 12
-  stepAppearance CarpetFibers {
+  stepAppearance CarpetFabric {
   }
   stringerAppearance Roughcast {
     textureTransform TextureTransform {
