@@ -36,10 +36,10 @@ jobs:
         - python -m unittest discover -s docs/tests
         - |
           # in case of manually triggered test, planned test or tag test, run complete test
-          if [[ "$TRAVIS_COMMIT_MESSAGE" != travis_* ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
+          if [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
           then
-            echo "$TRAVIS_COMMIT_MESSAGE"
-            echo "$TRAVIS_BUILD_ID"
+            echo $TRAVIS_COMMIT_MESSAGE
+            echo $TRAVIS_EVENT_TYPE
             echo $TRAVIS_BUILD_ID
             #tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG
           fi
