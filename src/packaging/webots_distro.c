@@ -447,7 +447,6 @@ static void create_file(const char *name, int m) {
               distribution_path);
       fprintf(fd, "rm -rf \"%s/%s/Contents\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/webots\"\n", distribution_path, bundle_name);
-      fprintf(fd, "rm -rf \"%s/%s/change_logs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/docs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin/qt\"\n", distribution_path, bundle_name);
