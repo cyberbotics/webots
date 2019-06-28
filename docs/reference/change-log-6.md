@@ -2,6 +2,7 @@
 
 
 ## Webots 6.4.4
+Released on April 4th, 2012 (revision 8839).
 
   - Added new Nao protos: `Nao_H21_V40`, `Nao_H25_V40`, `Nao_H21_V33` and `Nao_H25_V33`, matching the most recent documentation of Aldebaran
   - Added new `naoqisim` controller to interface between NaoQi (e.g. Choregraphe) and Webots
@@ -22,6 +23,7 @@
   - Added missing file: `Webots/resources/ogre/textures/wrong_texture_size.png` which was causing crash when attempting to use a texture with a wrong resolution (thanks to Mattej)
 
 ## Webots 6.4.3
+Released on January 10th, 2012 (revision 8315).
 
   - Fixed crash when IndexedFaceSet having wrong coordIndex was defined as boundingObject (thanks to Hunter)
   - Adjusted the horizontal field of view of the camera of the e-puck robot to 48 degrees (thanks to Nikola)
@@ -31,6 +33,7 @@
   - Linux: fixed missing main menu bar of Webots with recent window managers (thanks to Jean-Marc)
 
 ## Webots 6.4.2
+Released on December 9th, 2011 (revision 8033).
 
   - Fixed: when using force control (i.e. `wb_servo_set_force()`), the `maxForce` (as specified either in the world or using `wb_servo_set_motor_force()`) was only respected for positive forces/torques (thanks to Jesse)
   - Display a warning when a texture doesn't have a correct size: width and height should be a power of two (Thanks to Cristiano)
@@ -53,6 +56,7 @@
   - Fixed the Java functions allowing to get the grey channel of the cameras (thanks to Jorge)
 
 ## Webots 6.4.1
+Released on September 1st, 2011 (revision 7471).
 
   - Added DARwIn-OP, youBot, Nao and Pioneer 3AT simulations to guided tour
   - Added models of Pioneer 3DX and Pioneer 3AT (running with SICK lidar and Microsoft Kinect)
@@ -77,6 +81,7 @@
     - Added a prototype of the tower of hanoi contest
 
 ## Webots 6.4.0
+Released on May 31th, 2011 (revision 7009).
 
   - Linux: removed dependency on libcurl
   - Windows: upgraded built-in gcc to version 4.5.2
@@ -100,6 +105,7 @@
   - Fixed: rotations entered in the Scene Tree were not automatically normalized (thanks to Aaron)
 
 ## Webots 6.3.4
+Released on February 25th, 2011 (revision 6445).
 
   - Reduced the load time for world files containing large IndexedFaceSet nodes
   - Fixed problems with relative paths for text editor files
@@ -111,6 +117,7 @@
   - Global license server setup available in the preferences (beta)
 
 ## Webots 6.3.3
+Released on January 17th, 2011 (revision 6135).
 
   - Linux: fixed dependency on libcurl-gnutls (replaced with libcurl.so.4)
   - Fixed inappropriate warning occuring when reverting a new world (new.wbt)
@@ -126,6 +133,7 @@
   - Fixed bug with some non-English locales under Linux (and possibly other systems)
 
 ## Webots 6.3.2
+Released on December 9th, 2010 (revision 5890).
 
   - Restored HTML built-in documentation
   - Fixed: in specifying contact properties, the Physics.bounce field was wrongly used instead of the Physics.bounceVelocity field (which was ignored)
@@ -145,6 +153,7 @@
   - Fixed: changes made to the translation/rotation fields of objects using in the Scene Tree were ignored unless the .wbt was saved and then reverted (but this worked fine when the objects were moved using the mouse)
 
 ## Webots 6.3.1
+Released on October 20th, 2010 (revision 5670).
 
   - Upgraded URBI for Webots to version 2.3
   - Fixed: 30 day trial version was disabled if license warning were disabled
@@ -159,6 +168,7 @@
   - Improved the behavior of the text field in the scene tree: the text is actually changed only after the user presses enter or leaves (i.e., unselects) the text field
 
 ## Webots 6.3.0
+Released on September 14th, 2010 (revision 5549).
 
   - Deprecated the useless `wb_camera_move_window()` function
   - Fixed: red and blue components were inverted in the `color` argument of the `wb_pen_set_ink_color()` function
@@ -168,6 +178,7 @@
   - Ratslife: added a new supervisor generating random mazes
 
 ## Webots 6.3.beta1
+Released on September 3rd, 2010 (revision 5507).
 
   - Fixed Matlab version of `wb_touch_sensor_get_values()` function (thanks to Sylvain)
   - Improved the Display device
@@ -198,6 +209,7 @@
   - Removed `ppc` architecture from libController.dylib and Webots executable (Mac). **Warning: support for PowerPC Macs was definitively dropped with this release! Do not install this version on a PowerPC Mac!**
 
 ## Webots 6.2.4
+Released on June 17th, 2010 (revision 4967).
 
   - Fixed: Connector axes (green, blue and black lines) were drawn inconsistently (thanks to Mehdi)
   - Launch correct version of webots-bin (wrt glibc) on ubuntu 10.4
@@ -215,6 +227,7 @@
 
 
 ## Webots 6.2.3
+Released on May 18th, 2010 (revision 4819).
 
   - Added three simple examples of four-wheeled vehicles: Ackerman steering, omni-wheels robot, etc.
   - Changed the default value of the `resolution` field of GPS nodes: it is now 0 instead of 0.001. This may remove a source of noise from some simulations
@@ -230,6 +243,7 @@
   - In .protos files: the url field of ImageTexture nodes is now specified with respect to the .proto file's location instead of the .wbt file's location as it was before: **warning: this requires to move the textures files referenced in .proto files from the `worlds` to the `protos` directory.**
 
 ## Webots 6.2.2
+Released on March 18th, 2010 (revision 4691).
 
   - Limited the number of lines in the console window on Mac OS X to avoid performances issues
   - URBI 1.5 for Webots was removed from this version
@@ -248,6 +262,7 @@
   - Fixed problem with Linux Fedora 12 (and probably other recent Linux distributions) and controllers binary signature
 
 ## Webots 6.2.1
+Released on January 21th, 2010 (revision 4551).
 
   - Fixed: crash on Windows when a texture doesn't exist (warnings improved)
   - Fixed various causes of crash when resizing the main window or subwindows to a very small size
@@ -268,12 +283,14 @@
   - Fixed: problem that prevented to drag `enki` simulated objects with the mouse (thanks to Chrisantha)
 
 ## Webots 6.2.0
+Released on December 22th, 2009 (revision 4468).
 
   - Fixed crash occurring when deleting a TextureCoordinate point from the scene tree
   - Fixed rare dependency problem with glibc-2.9 version on Linux 64
   - Fixed crash occurring while contact points are displayed during a physics simulation explosion
 
 ## Webots 6.2.beta3
+Release on December 17th, 2009 (revision 4453).
 
   - Fixed MPEG-4 movie creation on Mac OS X 10.6
   - Fixed crash caused by physics simulation explosion
@@ -287,6 +304,7 @@
   - Upgraded gcc compiler to version 4.4.0 under Windows
 
 ## Webots 6.2.beta2
+Released on November 30th, 2009 (revision 4341).
 
   - Compiled with gcc-4.2 on Mac OS X
   - Added the dot (.) as scoping operator to dWebotsGetBodyFromDEF() and dWebotsGetGeomFromDEF() functions
@@ -297,6 +315,7 @@
 
 
 ## Webots 6.2.beta1
+Released on November 19th, 2009 (revision 4280).
 
   - Added compatibility with Windows 7: fixed printf() redirection in Webots console and freeze when using Build/Compile/Clean buttons
   - Removed unused API functions: `wb_supervisor_field_get_mf_rotation(),` `wb_supervisor_field_set_mf_rotation()`, `wb_supervisor_field_get_mf_bool()` and `wb_supervisor_field_set_mf_bool()`
@@ -342,6 +361,7 @@
   - Made the `position` field of Servo nodes editable: this allows to specify initial positions/posture that differs from the zero positions/posture
 
 ## Webots 6.1.5
+Released on June 17th, 2009 (revision 3425).
 
   - Fixed problems with Python 2.6 on Windows, Linux and Mac OS X
   - Restored Mac OS X 10.4 compatibility which was broken in previous version
@@ -349,6 +369,7 @@
   - Fixed ray-cylinder collision detection bug affecting distance sensors and cylinders (thanks to Yang)
 
 ## Webots 6.1.4
+Released on June 5th, 2009 (revision 3388).
 
   - Fixed cross-compilation problem with the e-puck robot
   - Fixed crash on Mac OS X when both a robot window and a dialog box are open at the same time (thanks to Alina)
@@ -362,6 +383,7 @@
   - Robotstadium: removed 5 minutes time limit for URBI controllers use in Robotstadium
 
 ## Webots 6.1.3
+Released on May 25th, 2009 (revision 3352).
 
   - Improved the way to include multiple jar files; the CLASSPATH variable of the Makefiles supports now a list of files
   - Fixed: `wb_servo_set_force(0.0)` (or `Servo.setForce(0.0)`) mistakenly reenables the Servo P-controller (thanks to Shanaz)
@@ -375,6 +397,7 @@
   - Robotstadium: fixed error in `nao_soccer_supervisor.c` routine that identifies which robot touched the ball last (thanks to apryce)
 
 ## Webots 6.1.2
+Released on April 16th, 2009 (revision 3202).
 
   - Added automatic dependencies management for physics and fast2d plug-ins
   - Fixed the standard output and error redirection for Matlab and Microsoft Visual Studio
@@ -398,6 +421,7 @@
   - Added support for HTTP proxy in the Webots preferences (used for the 30 day trial license and dongle synchronization)
 
 ## Webots 6.1.1
+Released on March 13th, 2009 (revision 2983).
 
   - Fixed: Webots freezes if a controller returns from main() and then the user hits `Revert` or `Quit` (all platforms)
   - Skip binary architecture test for scripts (for backwards compatibility with webotsnao-1.2.0-Linux package)
@@ -406,6 +430,7 @@
   - Warning concerning the C API:
 
 ## Webots 6.1.0
+Released on February 28th, 2009 (revision 2904).
 
   - Added simulations used by the Cyberbotics's Robot Curriculum in the projects/samples/curriculum folder
   - Added a new Display device to simulate a screen on which the robot controller can draw any text or graphics
@@ -421,6 +446,7 @@
   - Improved Robotstadium supervisor controller
 
 ## Webots 6.0.1
+Released on January 14th, 2009 (revision 2722).
 
   - Fixed abnormal quit at startup on Mac OS X when using a license server
   - Fixed bug with the security which was too restrictive for the DEMO and EDU Webots version
@@ -438,6 +464,7 @@
   - Improved the error messages when Java or Python are not installed
 
 ## Webots 6.0.0
+Released on December 15th, 2008 (revision 2632).
 
   - **Warning: URBI is disabled in this release, because of some compatibility issues.** It will shortly be available again. If you need URBI please continue using Webots 5.10.0.
   - Save windows layout when closing world file
@@ -451,6 +478,7 @@
   - Added `New Physics Plugin` wizard for creating physics plugin more easily
 
 ## Webots 6.0.beta2
+Released on November 21th, 2008 (revision 2421).
 
   - Fixed bug with new supervisor functions disabling `wb_robot_keyboard_get_key()` function
   - Fixed path separators used in .wbt file for specifying text files
@@ -466,6 +494,7 @@
   - Fixed: Guided Tour sometimes gets hidden by main window and it freezes when another dialog opens (Mac)
 
 ## Webots 6.0.beta1
+Released on November 14th, 2008 (revision 2318).
 
   - Important modifications C API:
     - The `wb_` prefix was added to every function names, e.g. `robot_get_device()` becomes `wb_robot_get_device()`, etc.

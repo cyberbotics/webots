@@ -2,6 +2,7 @@
 
 
 ## Webots 7.4.3
+Released on May 6th, 2014.
 
   - Upgrade
     - **Official support for Ubuntu 13.10 and 14.04 LTS, the support of the other Ubuntu versions is dropped (but may still work).**
@@ -38,6 +39,7 @@
     - Documented the dGeomSetDynamicFlag() function.
 
 ## Webots 7.4.2
+Released on April 14th, 2014.
 
   - Enhancements
     - Improved the controllers starting time: they are starting now just before the first physics step, rather than at the end of the world load.
@@ -62,6 +64,7 @@
     - Fixed the maximum torques of Nao to respect the documentation
 
 ## Webots 7.4.1
+Released on March 14th, 2014.
 
   - Enhancements
     - Improved error messages about out-of-bounds fields
@@ -103,6 +106,7 @@
     - Updated the tutorial chapter of the user guide
 
 ## Webots 7.4.0
+Released on February 21th, 2014.
 
   - New Features
     - Default to High Quality rendering
@@ -192,6 +196,7 @@
     - Added a second example about the influence of the `lookupTable` field on DistanceSensor measured values
 
 ## Webots 7.3.0
+Released on October 31th, 2013 (revision 17424).
 
   - Added a Propeller node to simulate propulsion of aircraft and ocean vehicles
   - Added hidden linearVelocity and angularVelocity fields to Solid nodes so as to retrieve initial velocities from the world file
@@ -270,6 +275,7 @@
   - Upgraded Java controllers API to Java 1.7
 
 ## Webots 7.2.4
+Released on August 29th, 2013 (revision 16354).
 
   - Extended Charger node: add Charger node to robots
   - **Changed yaw value returned by `wb_inertial_unit_get_roll_pitch_yaw()` into its opposite to conform to standards**
@@ -295,10 +301,12 @@
   - Fixed Supervisor label deletion
 
 ## Webots 7.2.3
+Released on August 23th, 2013 (revision 16232).
 
   - Fixed crash occuring while using a Cone node in a PROTO
 
 ## Webots 7.2.2
+Released on August 22th, 2013 (revision 16225).
 
   - **ContactProperties fields softCfm and softErp were renamed softCFM and softERP**
   - Fixed GL rendering on Retina display (thanks to Andrew)
@@ -352,6 +360,7 @@
   - Mac OS X: Restored the Menu items (Preferences / About / Quit) at the regular place
 
 ## Webots 7.2.1
+Released on July 4th, 2013 (revision 15528).
 
   - Dropped support for Ubuntu 10.04, currently only Ubuntu 12.04 LTS is supported
   - Temporary reverted to ODE single threaded to work around some crashes
@@ -382,6 +391,7 @@
   - Matlab: support the Inertial Unit API
 
 ## Webots 7.2.0
+Released on June 7th, 2013 (revision 15130).
 
   - Linux: the launcher script now cleans up shared memory segments after Webots crash
   - Windows: added a webots.bat batch file to ease the startup of Webots from a DOS console
@@ -447,6 +457,7 @@
   - Added a model of the Elisa-3 robot from GCTronic (thanks to Stefano)
 
 ## Webots 7.1.2
+Released on March 11th, 2013 (revision 13812).
 
   - DARwIn-OP (thanks to David)
     - Added the possibility to use MotionManager step-by-step
@@ -464,6 +475,7 @@
   - Added missing symbolic links to libode.so and libzzip.so on Linux causing errors when linking physics plugins (thanks to Jesse)
 
 ## Webots 7.1.1
+Released on March 7th, 2013 (revision 13751).
 
   - Added Pioneer3AT proto
   - DARwIn-OP (thanks to David)
@@ -508,6 +520,7 @@
   - Improved the main Makefile.include in order to move all the building files into a `build` folder
 
 ## Webots 7.1.0
+Released on January 18th, 2013 (revision 13099).
 
   - Changed the texture of can object from a beer can to a soda can
   - Fixed bug with missing physics plugins in the selection window of the scene tree
@@ -562,6 +575,7 @@
   - Upgraded mingw gcc to version 4.7.2 on Windows
 
 ## Webots 7.0.3
+Released on December 6th, 2012 (revision 12573).
 
   - Added maximize/minimize buttons to dock widgets in Webots main window
   - Improved the Servo friction model by adding a static friction field
@@ -603,6 +617,7 @@
   - Upgraded to Qt 4.8.4 on all platforms
 
 ## Webots 7.0.2
+Released on November 16th, 2012 (revision 12294).
 
   - Fixed playback of movies created on Mac OS X
   - Added `.wbt` suffix to file name if it is missing when `Saving As` a world file
@@ -653,6 +668,7 @@
       - Added the possibility to set height and with of the camera in the `config.ini` file
 
 ## Webots 7.0.1
+Released on October 26th, 2012 (revision 11978).
 
   - Changed the default value for aperture in DistanceSensor (90 degrees instead of 0)
   - Improved the computation of reflection for sonars (DistanceSensor)
@@ -683,6 +699,7 @@
       - Changed the reading of the sensors value, everything is read in one packet (by using ReadTable function of the CM730) in the robot::step, gain of time.
 
 ## Webots 7.0.0
+Released on October 19th, 2012 (revision 11888).
 
   - Changed algorithm of the `sonar` DistanceSensor: now the closest ray collision distance is returned, the average is no longer computed
   - Fixed: Wrong text colors displayed in the Webots console
@@ -701,6 +718,7 @@
   - Dropped the motion editor window
 
 ## Webots 7.0.beta4
+Released on September 27h, 2012 (revision 11557).
 
   - Modified the camera buffer format from RGB or RGBA to BGRA
   - Improved the GUI: use Qt instead of wxWigets

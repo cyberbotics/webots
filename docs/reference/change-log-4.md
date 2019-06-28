@@ -2,6 +2,7 @@
 
 
 ## Version 4.0.26
+Released on 16-Nov-04.
 
   - Display rotation axis for Joint nodes (thanks to Auke)
   - Added Physics.orientation field (thanks to Pascal)
@@ -33,6 +34,7 @@
   - Uses jar files if any in the controllers' directory (thanks to José)
 
 ## Version 4.0.25
+Released on 3-Sept-04.
 
   - Fixed `missing ode.dll` bug with Windows (thanks to Robert)
   - Fixed `could not unregister class` bug with Windows (thanks to Robert)
@@ -50,6 +52,7 @@
   - The speedometer now display 3 digits (could show x800!)
 
 ## Version 4.0.24
+Released on 2-July-04.
 
   - Added a simple text editor for controllers
   - Upgraded Webots GUI to GTK+2 (Linux)
@@ -60,6 +63,7 @@
   - Fixed creation of shapes in 2D modes (thanks to Yizhen)
 
 ## Version 4.0.23
+Released on 14-June-04.
 
   - Added support for cylinders in 2D mode (thanks to Yizhen)
   - Added a translation field to the Joint node (thanks to Yvan)
@@ -75,6 +79,7 @@
   - Fixed the expiration date of the demo version (thanks to Bothari)
 
 ## Version 4.0.22
+Released on 13-May-04.
 
   - Fixed judo.wbt world (robot hand and head bounding boxes)
   - Added trimesh-based rough terrain example: `aibo_ers210_rough.wbt`
@@ -90,6 +95,7 @@
   - The camera window is not any more a topmost window under Windows
 
 ## Version 4.0.21
+Released on 20-April-04.
 
   - Added `robot_keyboard_` functions to read the keyboard from a controller (see controllers/koala/koala.c)
   - Introduced servo acceleration for the position controller (thanks to Lukas)
@@ -120,6 +126,7 @@
   - Fixed angle problem in `judo_reset_supervisor` for `JUDOKA_1` (thanks to Mike)
 
 ## Version 4.0.20
+Released on 5-March-04.
 
   - Fixed crash caused by the transformation of a device node to a Group node in the scene tree window
   - Added the `gps_euler` function in the C and Java API, this is useful to simulate a compass and two inclinometers (thanks to Mike Jost)
@@ -144,6 +151,7 @@
   - Fixed bug with dWebotsGetGeomFromDEF() and nested structures with servos (thanks to Jérôme)
 
 ## Version 4.0.19
+Released on 23-January-04.
 
   - Changed judo.wbt world to have a more realistic mass, set joint limits and added a tilt servo in the neck
   - Added the capability to add custom physics with a shared library using ODE (Windows and Linux only)
@@ -160,6 +168,7 @@
   - Fixed left and right Hemisson sensors in `botstudio_line.wbt` and `botstudio_maze.wbt` (thanks to Neil)
 
 ## Version 4.0.18
+Released on 16-December-03.
 
   - Fixed bug in toolbar causing random crashes at startup
   - Creates higher quality MPEG-1 movies (thanks to Auke)
@@ -174,6 +183,7 @@
   - Reinforced socket error checking to avoid Judo contest server crashes
 
 ## Version 4.0.17
+Released on 28-November-03.
 
   - Added the capability to plug a distance sensor on a finger of a gripper, see `khepera_gripper.wbt` (thanks to Ming)
   - Added a section in the controllers chapter of the user guide on setting up a development environment
@@ -195,6 +205,7 @@
   - Fixed selection bug when the XYZ axes are displayed (thanks to Frans)
 
 ## Version 4.0.16
+Released on 14-November-03.
 
   - Fixed wrong VRML97 compliance with texture mapping on IndexedFaceSet
   - Added supervisor functions to the Java API (thanks to José)
@@ -211,9 +222,9 @@
   - Fixed collision detection bug with CustomRobot without physics (thanks to José)
 
 ## Version 4.0.15
+Released on 07-November-03.
 
   - Fixed speedUnit and axleLength for the Hemisson robot (thanks to Jean-Philippe)
-
   - Installer sets up AUTOEXEC.BAT appropriately under Windows 98 and 95
   - Fixed buffer overflow bug in `emitter_send()` with a large buffer (thanks to Stéphane)
   - Added X-red Y-green and Z-blue axis system displaying the orientation of the world
@@ -223,6 +234,7 @@
   - Added documentation in the user guide for the edit menu
 
 ## Version 4.0.14
+Released on 21-October-03.
 
   - Restored the stay on top behavior for camera windows (thanks to Antoine)
   - Fixed main display hang (thanks to Jérôme)
@@ -234,6 +246,7 @@
   - Fixed `robot_get_device` for devices that are children of Solid nodes (thanks to Ming)
 
 ## Version 4.0.13
+Released on 17-October-03.
 
   - Added `servo_get_feedback` function (thanks to Jérôme)
   - Added set score reading in Judoka0.java (thanks to Frans)
@@ -245,6 +258,7 @@
   - Fixed the display of the license message under Windows 98/ME (thanks to Frans)
 
 ## Version 4.0.12
+Released on 7-October-03.
 
   - Fixed touch sensors in judo.wbt (thanks to Naveed)
   - Fixed the floor in judo.wbt so that it is not slippery like ice any more
@@ -267,6 +281,7 @@
   - More robust when launching worlds files not in the default world directory (thanks to Rémi)
 
 ## Version 4.0.11
+Released on 6-October-03.
 
   - Improved AVI movie export under Windows (thanks to Frans)
   - Fixed crash when a DifferentialWheels robot misses a wheel name like `left wheel` or `right wheel` (Thanks to Andrew)
@@ -291,6 +306,7 @@
   - Added `supervisor_robot_set_controller(NodeRef robot, const char *controller)`
 
 ## Version 4.0.10
+Released on 22-August-03.
 
   - Stripped down webots and controllers binaries to get smaller executables (thanks to Alessandro)
   - Added touch sensors in the feet of the robots in judo.wbt
@@ -308,6 +324,7 @@
   - Fixed timer sensor condition display in BotStudio (thanks to Neil)
 
 ## Version 4.0.9
+Released on 30-July-03.
 
   - Added a camera and a distance sensor to each Judo robot in judo.wbt
   - Added `hemisson_botstudio`.wbt as the default world for the Hemisson distribution
@@ -323,6 +340,7 @@
   - Added `servo_get_position` and `servo_motor_off` to the Java API (thanks to Philippe)
 
 ## Version 4.0.8
+Released on 25-July-03.
 
   - Added judo.wbt world and Judoka controllers for the contest
   - Added hemisson_maze.wbt world with BotStudio programming
@@ -330,6 +348,7 @@
   - Fixed `custom_robot_set_abs_force_and_torque`
 
 ## Version 4.0.7
+Released on 23-July-03.
 
   - Added inertiaMatrix field to the Physics node (thanks to Jean-Christophe)
   - Fixed bug in scene tree window for inserting Extrusion / IndexedFaceSet nodes in a boundingObject or as a normal shape (thanks to Fabien)
@@ -337,6 +356,7 @@
   - Fixed a reference to an inexisting world file in the reference manual (thanks to Tiphaine)
 
 ## Version 4.0.6
+Released on 08-July-03.
 
   - Fixed bug with IR distance sensors and complex objects made up of several Transform nodes (thanks to Nikolaus)
   - Fixed socket cleanup on Windows in the tcpip controller example (Thanks to Jean-Christophe)
@@ -345,12 +365,14 @@
   - Fixed the editing of the rotation angle value in the scene tree window (thanks to Nikolaus)
 
 ## Version 4.0.5
+Released on 03-July-03.
 
   - Changed the splash screen to the about box showing up only on the first run
   - Extended the deadline of the default evaluation license file
   - Added documentation on the LED node in the reference manual
 
 ## Version 4.0.4
+Released on 30-June-03.
 
   - Added a section in the user guide explaining how to cite Webots in a publication
   - Added the client.c file in the tcpip controller example as well as Microsoft Visual C++ project files for Windows
@@ -364,6 +386,7 @@
   - Added range finder support in Camera node, see `range_finder.wbt` example (thanks to Alcherio)
 
 ## Version 4.0.3
+Released on 20-June-03.
 
   - Added documentation in the user guide on the `Make Movie` and `Screenshot` menu items (thanks to Mathieu)
   - Added `custom_robot_set_abs_force_and_torque` (thanks to Stéphane)
@@ -373,10 +396,12 @@
   - Fixed return values of the light sensors for the simulated Khepera robots (thanks to Jean-Christophe)
 
 ## Version 4.0.2
+Released on 12-June-03.
 
   - Fixed bug with `custom_robot_set_relative_force_and_torque` (thanks to Alexis)
 
 ## Version 4.0.1
+Released on 10-June-03.
 
   - Fixed rotation angle overflow showing up in very long simulation runs (thanks to Makoto Sato)
   - Added humanoid robot example
@@ -395,6 +420,7 @@
   - Improved and updated the documentation, especially for the Physics node (thanks to Alexis)
 
 ## Version 4.0.0
+Released on 22-May-03.
 
   - Fixed jump around 2*pi while rotating a solid in a physics simulation
   - Fixed `servo_enable_position()` causing Webots to crash
@@ -404,6 +430,7 @@
   - Fixed alife*.wbt worlds to work in evaluation mode
 
 ## Version 4.0.beta5
+Released on 16-May-03.
 
   - Added a robot window for controlling Servo nodes (double-click on a robot to get it pop up)
   - Added many examples from Webots 3
@@ -414,6 +441,7 @@
   - Fixed presence and resistivity computation with simulated Gripper
 
 ## Version 4.0.beta4
+Released on 08-May-03.
 
   - Added support for remote control of a real Khepera Gripper
   - Added controlP field in Servo node to control proportional PID parameter
@@ -429,6 +457,7 @@
   - Improved user guide
 
 ## Version 4.0.beta3
+Released on 15-April-03.
 
   - Fixed controller cameras on Mac OS X
   - Added `khepera_k213.wbt` example
@@ -467,6 +496,7 @@
   - Windows controllers compilation allows to specify a `DOS_CONSOLE` variable in the Makefile to display a DOS console with when running the controller (useful if you use printf), see Makefile.included for instructions
 
 ## Version 4.0.beta2
+Released on 15-March-03.
 
   - Fixed the Solid lock field to avoid moving locked Solid nodes
   - Locked the soccer field in soccer.wbt
@@ -476,6 +506,7 @@
   - Improved multi-threaded controller polling
 
 ## Version 4.0.beta1
+Released on 17-February-03.
 
   - Added a soccer example: soccer.wbt
   - Added the ODE physics engine

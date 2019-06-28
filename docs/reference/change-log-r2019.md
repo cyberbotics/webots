@@ -7,6 +7,7 @@ Released on XXX YYth, 2019.
     - Fixed ros controller not publishing the `/connector/presence` topic.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
+Released on June 25th, 2019.
 
   - New Robots
     - Added an ABB IRB 4600/40 arm model.
@@ -83,6 +84,7 @@ Released on XXX YYth, 2019.
     - Removed broken `colorPerVertex` and `color` fields of the ElevationGrid node.
 
 ## Webots R2019a Revision 1
+Released on February 14th, 2019.
 
   - Dependency Updates
     - Windows: upgraded to Qt 5.12.1.
@@ -106,6 +108,7 @@ Released on XXX YYth, 2019.
     - Fixed e-puck light sensors calibration in worlds using PBR.
 
 ## [Webots R2019a](../blog/Webots-2019-a-release.md)
+Released on December 17th, 2018.
 
   - New Features
     - Graphics Improvements
