@@ -1,6 +1,6 @@
 # Webots R2019b Change Log
 
-## [Webots R2019b](../blog/Webots-2018-b-release.md)
+## [Webots R2019b](../blog/Webots-2019-b-release.md)
 
   - New Robots
     - Added an ABB IRB 4600/40 arm model.
