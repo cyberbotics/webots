@@ -13,7 +13,7 @@ notifications:
     on_success: change
     on_failure: always
 after_success: >
-  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"This is a test.\" }" $DISCORD_WEBHOOK; fi
+  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"This is a test.\" }" $DISCORD_WEBHOOK; sleep 30; fi
 after_failure:
   - "if [ \"$TRAVIS_EVENT_TYPE\" = \"cron\" ]; then curl -H \"Content-Type: application/json\" -X POST -d \"{\\\"content\\\": \\\"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage: $(echo $TRAVIS_BUILD_WEB_URL)\\\" }\" $DISCORD_WEBHOOK; fi\n"
   - echo "Failure notification sent to Discord."
