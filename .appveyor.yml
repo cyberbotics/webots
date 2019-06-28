@@ -38,9 +38,9 @@ install:
 #  - ps: Start-Sleep -s 3600
 
 build_script:
-  - ps: if ($env:APPVERYOR_TAG -ne "true") { bash --login -c "cd %WEBOTS_HOME_PROTECTED%/src/packaging; python src/packaging/set_commit_and_date_in_version.py %APPVEYOR_REPO_COMMIT%" }
+  - ps: if ($env:APPVERYOR_TAG -ne "true") { python $env:WEBOTS_HOME_PROTECTED\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%/src/packaging; python publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch==%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%"
+  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%/src/packaging; python publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%"
 
 #test_script:
 #  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests" }
