@@ -77,7 +77,7 @@ void WbWebotsUpdateDialog::updateLabel() {
                        "<a href=\"https://cyberbotics.com/download\">https://cyberbotics.com/download</a><br/>"
                        "Check the change log: "
                        "<a "
-                       "href=\"https://www.cyberbotics.com/doc/reference/change-log\">https://www.cyberbotics.com/doc/"
+                       "href=\"https://cyberbotics.com/doc/reference/change-log\">https://cyberbotics.com/doc/"
                        "reference/change-log</a>")
                       .arg(targetVersion.toString())
                       .arg(currentVersion.toString()));
