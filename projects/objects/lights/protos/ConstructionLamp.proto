@@ -5,7 +5,7 @@
 # A construction lamp.
 
 PROTO ConstructionLamp [
-  field SFVec3f    translation               0 1.0 0
+  field SFVec3f    translation               0 0.07 0
   field SFRotation rotation                  0 1 0 0
   field SFString   name                      "construction lamp"
   field SFNode     supportAppearance         MetalPipePaint { }  # Defines the appearance of the light support.
