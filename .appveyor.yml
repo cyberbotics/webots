@@ -44,13 +44,13 @@ test_script:
 
 deploy:
   - provider: GitHub
-    release: Webots-nightly-build-develop
-    description: 'Webots nightly build on the develop branch'
+    release: Webots-nightly-develop
+    description: Webots nightly build on the develop branch
+    auth_token:
+      secure: rO+J9EwHzFMJgg3yi4sF/u6dFKHbxQsltq66xqsQP9A3Yb70+6qxg3bGjzlBkQG1
     artifact: C:\projects\webots\distribution\webots-R*_setup.exe
     draft: true
     prerelease: true
-    auth_token: GITHUB_API_KEY
-      secure: rO+J9EwHzFMJgg3yi4sF/u6dFKHbxQsltq66xqsQP9A3Yb70+6qxg3bGjzlBkQG1
     on:
       branch: develop
       # APPVEYOR_SCHEDULED_BUILD: True
