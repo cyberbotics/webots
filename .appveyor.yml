@@ -33,7 +33,7 @@ install:
   - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
   - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/tests/sources/requirements.txt"
   - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/docs/tests/requirements.txt"
-  - bash --login -c "pip install github"
+  - bash --login -c "pip install PyGithub"
 #  - ps: Start-Sleep -s 3600
 
 build_script:
