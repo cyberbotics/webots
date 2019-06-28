@@ -1,0 +1,42 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A marble tiles material.
+
+PROTO MarbleTiles [
+  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/marble_tiles/marble_tiles_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/marble_tiles/marble_tiles_roughness.jpg"
+      ]
+    }
+    metalnessMap ImageTexture {
+      url [
+        "textures/marble_tiles/marble_tiles_metalness.jpg"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/marble_tiles/marble_tiles_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/marble_tiles/marble_tiles_occlusion.jpg"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}
