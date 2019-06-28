@@ -212,16 +212,8 @@
 
 ## Webots 5.5.0
 
-  - **Warning about the Joint node and the `joint` field.**
-In this version, the Joint node and the `joint` fields were completely removed in order to simplify the design of new robot models.
-The usage of the Joint node was found to be confusing, because it was often unclear if a Joint node was required or not.
-This version of Webots makes the appropriate decision automatically.
-In addition, all the instances of Joint nodes were removed from all the .wtb example in Webots distribution.
-When this version of Webots loads a .wbt file that contain Joint nodes it issues a error message similar to this:
-  - **Change in the Shrimp model.**
-The `shrimp.wbt` model was slightly modified as a consequence of the removal of the Joint node.
-In the previous `shrimp.wbt` model, an empty `joint` field in a Solid node used to indicate that this joint was going to be created in the physics plugin.
-Now the same thing is indicated by a Servo node which `type` field constains the string `none`.
+  - **Warning about the Joint node and the `joint` field.** In this version, the Joint node and the `joint` fields were completely removed in order to simplify the design of new robot models. The usage of the Joint node was found to be confusing, because it was often unclear if a Joint node was required or not. This version of Webots makes the appropriate decision automatically. In addition, all the instances of Joint nodes were removed from all the .wtb example in Webots distribution. When this version of Webots loads a .wbt file that contain Joint nodes it issues a error message similar to this:
+  - **Change in the Shrimp model.** The `shrimp.wbt` model was slightly modified as a consequence of the removal of the Joint node. In the previous `shrimp.wbt` model, an empty `joint` field in a Solid node used to indicate that this joint was going to be created in the physics plugin. Now the same thing is indicated by a Servo node which `type` field constains the string `none`.
   - Fixed sometimes not working `jump-to-error` behavior of compilation console (Mac OS X)
   - Fixed wrong collision detection when boundingObject had a `Group->Shape` structure and Physics.centerOfMass/rotation had non-default values
   - Fixed sometimes incomplete list of gcc error messages displayed in text editor (Windows)
@@ -250,12 +242,8 @@ Now the same thing is indicated by a Servo node which `type` field constains the
 
 ## Webots 5.4.0
 
-  - **Warning about WorldInfo.basicTimeStep.**
-In this version, Webots checks that the controller step (the value passed to `robot_step()` or returned by the controller's run() function) is a multiple of the basicTimeStep. Simulations that do not meet this requirement will issue warning messages.
-  - **Warning about `servo_set_force()` function.**
-In this version, the existing `servo_set_force()` function was renamed `servo_set_motor_force()`.
-There is now a new `servo_set_force()` function with a different purpose, please refer to the Reference Manual for more info.
-We recommend to replace any previous call to `servo_set_force()` by a call to `servo_set_motor_force()` in your controller code.
+  - **Warning about WorldInfo.basicTimeStep.** In this version, Webots checks that the controller step (the value passed to `robot_step()` or returned by the controller's run() function) is a multiple of the basicTimeStep. Simulations that do not meet this requirement will issue warning messages.
+  - **Warning about `servo_set_force()` function.** In this version, the existing `servo_set_force()` function was renamed `servo_set_motor_force()`. There is now a new `servo_set_force()` function with a different purpose, please refer to the Reference Manual for more info. We recommend to replace any previous call to `servo_set_force()` by a call to `servo_set_motor_force()` in your controller code.
   - Webots can now run on the same machine as the lserv3
   - Added Robot.selfCollision field to enable intra-robot collision detection
   - Fixed behavior of `supervisor_set_label()` which was taking into account only the first call for the same id, now takes into account only the last call (thanks to Benoît)
@@ -304,23 +292,14 @@ We recommend to replace any previous call to `servo_set_force()` by a call to `s
 
 ## Webots 5.1.14
 
-  - **Warning about LightSensors**
-The lookupTable of LightSensor sometimes returned incorrect values in previous versions of Webots. This problem was fixed with this new release.
-As a consequence the `light_sensor_get_value()` function might in some situation return values different than before, therefore simulations tuned for specific return values will need to be slightly adapted to work with this version.
-
+  - **Warning about LightSensors** The lookupTable of LightSensor sometimes returned incorrect values in previous versions of Webots. This problem was fixed with this new release. As a consequence the `light_sensor_get_value()` function might in some situation return values different than before, therefore simulations tuned for specific return values will need to be slightly adapted to work with this version.
   - Fixed problem for loading physics plugins on Mac OS X
   - Reworked LightSensor model (see Reference Manual for more info):
 
 
 ## Webots 5.1.13
 
-  - **Warning about TouchSensors**
-If TouchSensors were used, existing robot models developed for previous releases of Webots may have
-to be slightly modified in order to work with this new version of Webots.
-The new `force` TouchSensors are unidirectional while the old ones were omnidirectional.
-The new `force` sensors measure the force along their z-axis, while the other axes are ignored.
-The modification is very simple: the TouchSensors must be reoriented such that their positive z-axes point from the body outwards, in the direction where the force need to be measured (where the collision is expected to take place).
-Please also note that the values returned by `bumper` sensors may also differ from those of previous Webots version because the new version returns fixed 0 or 1 while the previous version used to return the min or max values of the lookup table.
+  - **Warning about TouchSensors** If TouchSensors were used, existing robot models developed for previous releases of Webots may have to be slightly modified in order to work with this new version of Webots. The new `force` TouchSensors are unidirectional while the old ones were omnidirectional. The new `force` sensors measure the force along their z-axis, while the other axes are ignored. The modification is very simple: the TouchSensors must be reoriented such that their positive z-axes point from the body outwards, in the direction where the force need to be measured (where the collision is expected to take place). Please also note that the values returned by `bumper` sensors may also differ from those of previous Webots version because the new version returns fixed 0 or 1 while the previous version used to return the min or max values of the lookup table.
   - Added Camera.windowPosition and Camera.pixelSize fields for camera rendering in the main Webots window
   - Fixed controller compilation under Windows Vista
   - Fixed Webots document icon under Windows
@@ -513,11 +492,7 @@ Please also note that the values returned by `bumper` sensors may also differ fr
 
 ## Webots 5.1.4
 
-  - **Warning:**
-This release is not fully upward compatible with Webots 5.1.2.
-The change is very minor though: if your world files have Servo nodes with an
-acceleration field different from -1, you should multiply it by 10^6 or
-set it to -1 (for infinity).
+  - **Warning:** This release is not fully upward compatible with Webots 5.1.2. The change is very minor though: if your world files have Servo nodes with an acceleration field different from -1, you should multiply it by 10^6 or set it to -1 (for infinity).
   - Built with wxWidgets 2.6.3
   - Display white wireframe only for bounding objects of Solid nodes
   - Fixed all Visual Studio project files (tested with Visual C++ 6.0)
@@ -634,21 +609,15 @@ set it to -1 (for infinity).
   - Removed accented chars from botstudio graphs
   - Fixed sensor name in rover.wbt
   - Fixed the two following problems in the scene tree window (thanks to Yvan):
-  - Display a warning on the console when a device name is not found (probably
-misspelled) by a controller program (thanks to Jonas)
+  - Display a warning on the console when a device name is not found (probably misspelled) by a controller program (thanks to Jonas)
   - Added installation instructions for URBI in the user guide
-  - Fixed compilation issues from the built-in editor in Windows (thanks to
-Stephen)
-  - Added fast2d/enki shared libs in the Linux and Windows versions (thanks to
-Jim)
-  - Distributing URBI for Webots as an optional Linux tarball (thanks to
-Matthieu)
+  - Fixed compilation issues from the built-in editor in Windows (thanks to Stephen)
+  - Added fast2d/enki shared libs in the Linux and Windows versions (thanks to Jim)
+  - Distributing URBI for Webots as an optional Linux tarball (thanks to Matthieu)
   - Fixed rare Windows crash due to multi-threading sync (thanks to Sven)
   - Fixed `robot_keyboard` support from the Java API (thanks to Matei)
-  - Fixed reference to `botstudio_pen.wbt` in the reference manual (thanks to
-Simon)
-  - Fixed bug with different time steps in controllers and world (thanks to
-Simon)
+  - Fixed reference to `botstudio_pen.wbt` in the reference manual (thanks to Simon)
+  - Fixed bug with different time steps in controllers and world (thanks to Simon)
   - Fixed a few glitches for the make output in the text editor console
   - Made `botsutdio_*.wbt` world files run real time (thanks to Samir)
 

@@ -195,8 +195,7 @@
   - Added new `Plane` node, that can be used as graphical or collision detection primitive, e.g. for the floor, a slope, infinite walls
   - Fixed bug preventing botstudio controllers to work and causing Webots to quit after complaining that the void controller is missing
   - Added `x86_64` architecture in libController.dylib: this allows to compile controllers in 64-bit and to inter-operate with 64-bit versions of Matlab, Java and Python (Mac)
-  - Removed `ppc` architecture from libController.dylib and Webots executable (Mac)
-**Warning: support for PowerPC Macs was definitively dropped with this release! Do not install this version on a PowerPC Mac!**
+  - Removed `ppc` architecture from libController.dylib and Webots executable (Mac). **Warning: support for PowerPC Macs was definitively dropped with this release! Do not install this version on a PowerPC Mac!**
 
 ## Webots 6.2.4
 
@@ -212,9 +211,7 @@
   - Added Urbi 2.0 engine and examples
   - Webots does no longer allow to modify any file located in its installation directory, instead it offers to automatically copy the project to a safe location
   - Renamed directory projects/packages to projects/languages
-  - Moved directory projects/default/* into resources/*
-**Warning: this version requires to change one line in all your controller and plugin Makefiles:**
-You will need to locate this line in your project Makefiles:
+  - Moved directory `projects/default/*` into `resources/*`. **Warning: this version requires to change one line in all your controller and plugin Makefiles:**.
 
 
 ## Webots 6.2.3
@@ -230,8 +227,7 @@ You will need to locate this line in your project Makefiles:
   - Wrong value returned by `wb_supervisor_node_get_type()` and `wb_supervisor_node_get_name()` for some nodes (thanks to Thierry)
   - Fixed: `wb_servo_get_motor_force_feedback()` that was wrongly returning motor torque computed at body's CoM instead of joint axis
   - Added source code of `naoqi_for_webots` (formerly called `nao_in_webots`) controller used for connecting NaoQi clients to simulated Nao robot in Webots
-  - In .protos files: the url field of ImageTexture nodes is now specified with respect to the .proto file's location instead of the .wbt file's location as it was before:
-**warning: this requires to move the textures files referenced in .proto files from the `worlds` to the `protos` directory.**
+  - In .protos files: the url field of ImageTexture nodes is now specified with respect to the .proto file's location instead of the .wbt file's location as it was before: **warning: this requires to move the textures files referenced in .proto files from the `worlds` to the `protos` directory.**
 
 ## Webots 6.2.2
 
@@ -443,8 +439,7 @@ You will need to locate this line in your project Makefiles:
 
 ## Webots 6.0.0
 
-  - **Warning: URBI is disabled in this release, because of some compatibility issues.**
-It will shortly be available again. If you need URBI please continue using Webots 5.10.0.
+  - **Warning: URBI is disabled in this release, because of some compatibility issues.** It will shortly be available again. If you need URBI please continue using Webots 5.10.0.
   - Save windows layout when closing world file
   - Added a menu for registering a laptop computer (floating licenses only)
   - Fixed bug with loosing the camera-followed object after a revert
@@ -495,8 +490,7 @@ It will shortly be available again. If you need URBI please continue using Webot
   - Fixed: bounding objects rendered at wrong location (but computed at correct location) when Physics.centerOfMass is non-null
   - Renamed the `CustomRobot` node into `Robot`: existing .wbt files will be automatically and silently updated when they are opened
   - Changes two rules for all `lookupTables` fields:
-    - The second column of all `lookupTable` fields are now interpreted as double (instead of unsigned short int) values.
-Therefore all sensors using `lookupTable` fields (DistanceSensor, LightSensor, TouchSensor, etc.) do now also return doubles in the corresponding `...\_get_value()` functions
+    - The second column of all `lookupTable` fields are now interpreted as double (instead of unsigned short int) values. Therefore all sensors using `lookupTable` fields (DistanceSensor, LightSensor, TouchSensor, etc.) do now also return doubles in the corresponding `...\_get_value()` functions
     - In addition, an emtpy lookupTable ([ ]), now returns non-interpolated sensor values
   - Rearranged the Webots windows into a single big window (using the wxWidgets AUI system)
   - Upgraded to wxWidgets 2.8.9

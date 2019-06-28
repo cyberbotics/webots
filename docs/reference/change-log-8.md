@@ -192,8 +192,7 @@
   - Enhancements
     - Optimized the `wb_supervisor_field_set_*()` functions so that they run significantly faster than before (thanks to Kevin).
     - Added e-puck's ground sensors representation in the `e-puck` robot window.
-    - Disabled modified world warning dialog on world close for modifications applied from the Supervisor
-    controller if the preferences option `Display save warning only for scene tree edit` is checked.
+    - Disabled modified world warning dialog on world close for modifications applied from the Supervisor controller if the preferences option `Display save warning only for scene tree edit` is checked.
     - The computer UUID is now displayed in the about box.
     - The local license duration (if any) is now displayed in the splash screen and about box.
     - Improved behavior on Background node delete: use the next defined Background node if it exists.
@@ -306,10 +305,8 @@
   - Enhancements
     - Improved the support of Visual Studio and Webots libraries.
     - **Renamed node fields: Robot.robotWindow → Robot.window and Robot.showRobotWindow → Robot.showWindow.**
-    - **Improved sensors behavior: the first measurement is no longer available during the step
-    immediately after the enabling but only after the first sampling period elapsed.**
-    - Improved step by step behavior: when clicking the first time on the step button, not only the initialization but also the first
-  step is now executed.**
+    - **Improved sensors behavior: the first measurement is no longer available during the step immediately after the enabling but only after the first sampling period elapsed.**
+    - Improved step by step behavior: when clicking the first time on the step button, not only the initialization but also the first step is now executed.
     - Added representation of `minRange` when the Lidar Rays Paths optional rendering is enabled.
     - Added warning if an object is controlled in kinematics mode but some Solid descendant nodes have physics.
     - Added a preferences option to display the save warning dialog only if the world was modified from the scene tree.
@@ -378,8 +375,7 @@
     - Fixed wrong error message printed in some special cases when pasting a valid boundingObject value.
     - Windows: Fix display bug of some stderr or stdout messages in the Webots console.
     - **Fixed regularity of sensors measurement period in case the controller step corresponds to multiple world basic time steps.**
-    - **Fixed sensors measurements of DistanceSensor, LightSensor, and Receiver:
-  previously the measured value was partially based on one step old scene status.**
+    - **Fixed sensors measurements of DistanceSensor, LightSensor, and Receiver: previously the measured value was partially based on one step old scene status.**
     - Fixed e-puck ground sensors names in cross-compilation mode.
     - Fixed the `wb_supervisor_field_get_count()` function after the deletion of a node.
     - Fixed encoder value returned by ROS DifferentialWheels
@@ -407,16 +403,8 @@
     - Fixed text editor selection after unindenting.
     - Fixed measured value of scaled DistanceSensor nodes.
     - Fixed crash when changing the field of view of Camera or RangeFinder node before simulation starts if frustum is visible.
-    - Fixed the Java and Python `getPointCloud` and `getLayerPointCloud` and
-    the Matlab `wb_lidar_get_layer_point_cloud`, `wb_lidar_get_layer_range_image`,
-    `wb_lidar_get_point_cloud`, and `wb_lidar_get_range_image` functions from the Lidar APIs.
-    - Added the following missing functions to the Matlab API: `wb_accelerometer_get_sampling_period`,
-    `wb_camera_get_sampling_period`, `wb_compass_get_sampling_period`, `wb_differential_wheels_get_encoders_sampling_period`,
-    `wb_distance_sensor_get_sampling_period`, `wb_gps_get_sampling_period`, `wb_gyro_get_sampling_period`,
-    `wb_inertial_unit_get_sampling_period`, `wb_light_sensor_get_sampling_period`, `wb_motor_get_force_feedback_sampling_period`,
-    `wb_motor_get_torque_feedback_sampling_period`, `wb_position_sensor_get_sampling_period`, `wb_range_finder_get_range_image`,
-    `wb_range_finder_get_range_image`, `wb_receiver_get_sampling_period`, `wb_robot_battery_sensor_get_sampling_period`,
-    `wb_supervisor_field_get_mf_rotation`, `wb_supervisor_field_set_mf_rotation`, and `wb_touch_sensor_get_sampling_period`.
+    - Fixed the Java and Python `getPointCloud` and `getLayerPointCloud` and the Matlab `wb_lidar_get_layer_point_cloud`, `wb_lidar_get_layer_range_image`, `wb_lidar_get_point_cloud`, and `wb_lidar_get_range_image` functions from the Lidar APIs.
+    - Added the following missing functions to the Matlab API: `wb_accelerometer_get_sampling_period`, `wb_camera_get_sampling_period`, `wb_compass_get_sampling_period`, `wb_differential_wheels_get_encoders_sampling_period`, `wb_distance_sensor_get_sampling_period`, `wb_gps_get_sampling_period`, `wb_gyro_get_sampling_period`, `wb_inertial_unit_get_sampling_period`, `wb_light_sensor_get_sampling_period`, `wb_motor_get_force_feedback_sampling_period`, `wb_motor_get_torque_feedback_sampling_period`, `wb_position_sensor_get_sampling_period`, `wb_range_finder_get_range_image`, `wb_range_finder_get_range_image`, `wb_receiver_get_sampling_period`, `wb_robot_battery_sensor_get_sampling_period`, `wb_supervisor_field_get_mf_rotation`, `wb_supervisor_field_set_mf_rotation`, and `wb_touch_sensor_get_sampling_period`.
     - Fixed wrong image returned by Camera, Lidar and RangeFinder nodes with a large width/height ratio.
     - Fixed cross-compilation of controllers using the DARwInOPMotionManager of the DaRwIn-OP robot.
     - Fixed artifacts in the Rangefinder and Lidar image due to transparent objects.
@@ -426,8 +414,7 @@
     - Fixed crash when changing the position of a DifferentialWheels robot with physics if a wheel has no Physics node.
     - Fixed update of bounding object color after a solid collided or was idle.
     - Windows: Fixed cross-compilation for the DARwIn-OP robot (thanks to Daniel).
-    - Fixed values returned by the GPS if the WorldInfo.gpsCoordinateSystem field is equal to `WGS84` and the
-    WorldInfo.northDirection field has been changed (non default value)
+    - Fixed values returned by the GPS if the WorldInfo.gpsCoordinateSystem field is equal to `WGS84` and the WorldInfo.northDirection field has been changed (non default value)
     - Fixed crash when using the `wb_supervisor_field_remove_mf_node` function with a `position` argument equal to -1.
     - Fixed wrong speed returned by the `wb_gps_get_speed` function.
     - Fixed wrong WbNodeRef returned by the `wb_supervisor_node_get_from_def` function when the node is in a PROTO extension slot.
@@ -454,8 +441,7 @@
     - Added a new Connector function called `wb_connector_get_presence_sampling_period`.
   - Enhancements
     - Improved follow solid behavior when moving artificially the Solid node from the scene tree or the 3D window.
-    - **Deprecate `wb_supervisor_movie_get_status`.**
-    It is now replaced by the new functions `wb_supervisor_movie_is_ready` and `wb_supervisor_movie_failed`.
+    - **Deprecate `wb_supervisor_movie_get_status`.** It is now replaced by the new functions `wb_supervisor_movie_is_ready` and `wb_supervisor_movie_failed`.
     - Enabled the insertion of Solid nodes in Group or Transform without any Solid ancestor.
     - Improved the proposed directories when creating new Webots files.
     - Replaced the `$(HOME)/webotsOgre.log` file by an option of the Webots executable (`--ogre-log`).
@@ -465,8 +451,7 @@
     - Renamed the `CameraFocus` node into `Focus`.
     - Renamed the `CameraLensDistortion` node into `Lens`.
     - Renamed the `CameraZoom` node into `Zoom`.
-    - Removed the `type` field of the Camera node (Camera node is exclusively used for color camera from now,
-    for range-finder camera use the RangeFinder node instead).
+    - Removed the `type` field of the Camera node (Camera node is exclusively used for color camera from now, for range-finder camera use the RangeFinder node instead).
     - Invalidated the use of Joint without a Solid ancestor.
     - Added node hierarchy validation when inserting nodes using the add node dialog.
     - Improved motion load and execution in motion editor.
@@ -547,11 +532,9 @@
     - Added new functionality for showing the Camera or Display overlay in an external window.
     - Streaming server player: displayed the collision outline when an object is selected.
     - Added new field called `motionBlur` to the Camera node.
-    - Added a new node called `CameraFocus` which can be added in the `focus` field
-  of the Camera device in order to simulate a focusing mechanism.
+    - Added a new node called `CameraFocus` which can be added in the `focus` field of the Camera device in order to simulate a focusing mechanism.
     - Added new field called `compositor` to the Camera node, which can be used to add a compositor to the camera image.
-    - Added a new node called `CameraLensDistortion` which can be added in the `lensDistortion`
-  field of the Camera device in order to simulate camera image distortion.
+    - Added a new node called `CameraLensDistortion` which can be added in the `lensDistortion` field of the Camera device in order to simulate camera image distortion.
     - Added new Motor functions to retrieve field values and values set from the controller:
     `wb_motor_get_velocity`, `wb_motor_get_max_velocity`, `wb_motor_get_acceleration`, `wb_motor_get_available_force`, `wb_motor_get_max_force`, `wb_motor_get_available_torque`, and `wb_motor_get_max_torque`.
     - Added a new field called `noiseCorrelation` to the GPS node which set the noise to follow a gaussian correlated ditribution.
@@ -559,11 +542,7 @@
     - Supervisor API improvements
       - Added a new Supervisor function to save the current simulation: `wb_supervisor_save_world`
       - Created Supervisor API to create animations.
-      - Renamed Supervisor API to create movies:
-  `wb_supervisor_start_movie` to `wb_supervisor_movie_start_recording`
-  `wb_supervisor_stop_movie` to `wb_supervisor_movie_stop_recording`
-  `wb_supervisor_get_movie_status` to `wb_supervisor_movie_get_status`.
-  The old functions are deprecated.
+      - Renamed Supervisor API to create movies: `wb_supervisor_start_movie` to `wb_supervisor_movie_start_recording` `wb_supervisor_stop_movie` to `wb_supervisor_movie_stop_recording` `wb_supervisor_get_movie_status` to `wb_supervisor_movie_get_status`. The old functions are deprecated.
       - Added a new Supervisor function to retrieve a node reference from a given id: `wb_supervisor_node_get_from_id`.
       - Added a new Supervisor function to retrieve the unique id from a node reference: `wb_supervisor_node_get_id`.
       - Added a new Supervisor function to retrieve the parent of a given node: `wb_supervisor_node_get_parent_node`.
@@ -582,8 +561,7 @@
     - Improved the streaming server to support adding/removing nodes.
     - Improved the streaming server and the animation recorder to support Transform modifications (rather than only Solids with Physics).
     - Improved camera computation, all the computations (depth computation, spherical correction, noise, etc.) are now performed on the GPU.
-    - Added resize and close button to Camera and Device overlay in order to set the position and the size of the overlay directly from the 3D view:
-    **`pixelSize` and `windowPosition` fields are deprecated.**
+    - Added resize and close button to Camera and Device overlay in order to set the position and the size of the overlay directly from the 3D view: **`pixelSize` and `windowPosition` fields are deprecated.**
     - Added a mechanism to copy the camera image into the shared memory only when required (i.e. after a call to `wb_camera_get_image` or `wb_camera_get_range_image`).
     - Renamed and moved `Show Camera Overlays` and `Show Display Overlays` items in Robot menu.
     - Added `Camera Devices` and `Display Devices` submenus in Robot menu to allow the user to show or hide single overlays.

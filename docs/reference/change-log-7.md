@@ -118,8 +118,7 @@
     - Added `Details` button in field editor when PROTO nodes are selected that automatically opens the definition file
     - Added `Cancel` button in Wizards
     - Supported infra-red measurements on Display device's textures
-    - Added a new field named `resolution` for the following nodes: Accelerometer, Compass, DistanceSensor, GPS (previous `resolution` field has been renamed into `accuracy`), Gyro, InertialUnit, LightSensor, PositionSensor (and therefore also
-LinearMotor and RotationalMotor) and TouchSensor
+    - Added a new field named `resolution` for the following nodes: Accelerometer, Compass, DistanceSensor, GPS (previous `resolution` field has been renamed into `accuracy`), Gyro, InertialUnit, LightSensor, PositionSensor (and therefore also LinearMotor and RotationalMotor) and TouchSensor
     - Added a new field named `rangeResolution` to the Camera node
   - Upgrade
     - Upgraded to Qt 5.2.1
@@ -197,10 +196,8 @@ LinearMotor and RotationalMotor) and TouchSensor
   - Added a Propeller node to simulate propulsion of aircraft and ocean vehicles
   - Added hidden linearVelocity and angularVelocity fields to Solid nodes so as to retrieve initial velocities from the world file
   - Added hidden position field to allow Joint nodes without JointParameters to retrieve initial positions
-  - Added hidden prototype fields: translation, rotation and position. This allows you to save and restore a simulation
-where prototypes have moved from their initial positions and orientations without creating new fields
-  - Added a warning issued when a Solid node has no Physics node but has a non-empty boundingObject and an upper Solid node containing a Physics node:
-collisions are ignored in this case
+  - Added hidden prototype fields: translation, rotation and position. This allows you to save and restore a simulation where prototypes have moved from their initial positions and orientations without creating new fields
+  - Added a warning issued when a Solid node has no Physics node but has a non-empty boundingObject and an upper Solid node containing a Physics node: collisions are ignored in this case
   - Matlab
     - Removed the `minimize` argument given to the launcher on other platforms than Windows (thanks to Erik)
   - Mavericks

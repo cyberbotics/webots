@@ -72,8 +72,7 @@
     - UnevenTerrain: fix Perlin noise.
     - Windows: fixed crash of the `ros` controller (thanks to Gama).
     - Fixed crash when loading a world containing invalid USE nodes (thanks to Gabriel).
-    - Fixed skipped execution of `wb_robot_step` function if called after the simulation was paused from a Supervisor controller.
-  **Now, when the controller calls the `wb_robot_step` function with a non-zero step argument after pausing the simulation it will wait that the simulation is resumed.**
+    - Fixed skipped execution of `wb_robot_step` function if called after the simulation was paused from a Supervisor controller. **Now, when the controller calls the `wb_robot_step` function with a non-zero step argument after pausing the simulation it will wait that the simulation is resumed.**
     - **Renamed the `startRoadsWith` and `roadsWith` fields in the Roundabout and RoadIntersection PROTO files with `startRoadsWidth` and `roadsWidth`, respectively.**
     - **Fixed typo in the `WBU_CAR_COMBUSTION_ENGINE` value of the `wbu_car_engine_type` enum of the car library.**
     - **Renamed the `wbu_driver_get_wipers_mode` and `wbu_driver_set_wipers_mode` functions into `wbu_driver_get_wiper_mode` and `wbu_driver_set_wiper_mode`.**
@@ -95,15 +94,14 @@
     - Changed BioloidDog from Supervisor to Robot for consistency with the other PROTO nodes.
     - Dropped RoundTree PROTO (it can be replaced for example by SimpleTree).
     - Dropped bunch of deprecated PROTO nodes: KinectWithoutFoot, Sick\_LMS291, GenericBuilding, EPuck, DARwInOP.
-    - **Changed the default value of the `name` field of the following PROTO nodes:**
-  DelphiESR, HokuyoUrg04lxug01, HokuyoUtm30lx, IbeoLux, Kinect, MultiSenseS21, SickLdMrs, SickLms291, SmsUmrr-0a29, SmsUmrr-0a30, SmsUmrr-0a31, VelodyneHDL-32E, VelodyneHDL-64E and VelodyneVLP-16.
+    - **Changed the default value of the `name` field of the following PROTO nodes:** DelphiESR, HokuyoUrg04lxug01, HokuyoUtm30lx, IbeoLux, Kinect, MultiSenseS21, SickLdMrs, SickLms291, SmsUmrr-0a29, SmsUmrr-0a30, SmsUmrr-0a31, VelodyneHDL-32E, VelodyneHDL-64E and VelodyneVLP-16.
     - **Removed the `fastModel` field of the Velodyne PROTO nodes.**
     - BioRob salamander: Dropped useless motorized segments, renamed motors and improved immersion properties.
     - Aibo: Dropped non-functional LEDs from the AiboErs7 PROTO.
     - Atlas: Dropped obsolete URDF importer tool.
     - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to the
 
-## Webots R2018a revision 2
+## Webots R2018a Revision 2
 
   - Enhancements
     - Added warning if a Solid or Joint node defined in a PROTO field is used multiple times inside the PROTO definition.
@@ -124,7 +122,7 @@
     - Fixed keyboard navigation issues for the `Add Node` and `Open Sample World` dialogs.
     - Enabled pasting nodes just after the Viewpoint node.
 
-## Webots R2018a revision 1
+## Webots R2018a Revision 1
 
   - New Features
     - Transformed several robots into PROTO nodes: BIOLOID Dog, Parallax's BoeBot, EPFL BioRob's Salamander, Yamor and GhostDog, K-Team's Hemisson, Khepera I and II and Koala, KONDO's KHR-3HV, micromagic's Mantis, Mindstorms Rover, Adept's Pioneer 2, Unimation's PUMA 560, Sony's QRIO, Bluebotics' Shrimp, NASA's Sojourner and Surveyor SRV-1.
@@ -144,9 +142,7 @@
     - Improved materials and lighting in `inverted_pendulum.wbt` in the `samples/howto` directory.
     - Improved robot icons.
     - Removed redundant `khepera3_custom.wbt` sample.
-    - **Renamed several robot `name` fields: `atlas` into `Atlas`, `elisa3` into `Elisa-3`, `ers7` into`ERS-7`, `hoap2` into `HOAP-2`,
-  `IPR1` into `IPR`, `iRobot Wall` into `iRobot wall`, `khepera3` into `Khepera III`, `khepera4` into `Khepera IV`, `khr2-hv` into `KHR-2HV`,
-  `pioneer3at` into `Pioneer 3-AT`, `pioneer 3dx` into `Pioneer 3-DX`, `pr2` into `PR2` and `youbot` into `youBot`.**
+    - **Renamed several robot `name` fields: `atlas` into `Atlas`, `elisa3` into `Elisa-3`, `ers7` into`ERS-7`, `hoap2` into `HOAP-2`, `IPR1` into `IPR`, `iRobot Wall` into `iRobot wall`, `khepera3` into `Khepera III`, `khepera4` into `Khepera IV`, `khr2-hv` into `KHR-2HV`, `pioneer3at` into `Pioneer 3-AT`, `pioneer 3dx` into `Pioneer 3-DX`, `pr2` into `PR2` and `youbot` into `youBot`.**
     - e-puck: Added a progress bar in the HTML window to monitor the firmware upload.
     - Added a search box in the Add Node dialog.
   - Bug fix

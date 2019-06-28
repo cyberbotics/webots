@@ -365,16 +365,12 @@
 
 ## Version 4.0.3
 
-  - Added documentation in the user guide on the `Make Movie` and `Screenshot`
-    menu items (thanks to Mathieu)
+  - Added documentation in the user guide on the `Make Movie` and `Screenshot` menu items (thanks to Mathieu)
   - Added `custom_robot_set_abs_force_and_torque` (thanks to Stéphane)
-  - Changed field names in the Physics node (staticFriction became
-    coulombFriction and kineticFriction was changed to forceDependentSlip) to
-    match ODE definitions (thanks to Alexis)
+  - Changed field names in the Physics node (staticFriction became coulombFriction and kineticFriction was changed to forceDependentSlip) to match ODE definitions (thanks to Alexis)
   - Fixed the position of X Y Z alpha in the scene tree window on Windows
   - Fixed the display of MF fields in the scene tree window
-  - Fixed return values of the light sensors for the simulated Khepera robots
-    (thanks to Jean-Christophe)
+  - Fixed return values of the light sensors for the simulated Khepera robots (thanks to Jean-Christophe)
 
 ## Version 4.0.2
 
@@ -382,32 +378,21 @@
 
 ## Version 4.0.1
 
-  - Fixed rotation angle overflow showing up in very long simulation runs
-    (thanks to Makoto Sato)
+  - Fixed rotation angle overflow showing up in very long simulation runs (thanks to Makoto Sato)
   - Added humanoid robot example
-  - Inverted the mouse wheel rotation to match 3D navigation standards (thanks
-    to Julien)
-  - Display coordinates names and units in the scene tree window (thanks to
-    Julien)
+  - Inverted the mouse wheel rotation to match 3D navigation standards (thanks to Julien)
+  - Display coordinates names and units in the scene tree window (thanks to Julien)
   - Added spin buttons to change numerical values in the scene tree window
-  - Changed `custom_robot_add_rel_force_and_torque()` function to
-    `custom_robot_set_rel_force_and_torque()` to fix an important issue regarding
-    basic simulation time step (thanks to Alexis)
-  - The scene tree editor prevents to insert a non legal geometry primitive in
-    a boundingObject (thanks to Jean-Christophe)
-  - In worlds with Physics nodes, added density -1 where mass was specified to
-    avoid confusion (thanks to Tiphaine)
-  - Fixed the generation of USE list when creating a new node in the scene tree
-    window (thanks to Stéphane)
+  - Changed `custom_robot_add_rel_force_and_torque()` function to `custom_robot_set_rel_force_and_torque()` to fix an important issue regarding basic simulation time step (thanks to Alexis)
+  - The scene tree editor prevents to insert a non legal geometry primitive in a boundingObject (thanks to Jean-Christophe)
+  - In worlds with Physics nodes, added density -1 where mass was specified to avoid confusion (thanks to Tiphaine)
+  - Fixed the generation of USE list when creating a new node in the scene tree window (thanks to Stéphane)
   - Fixed `flying_robot` example so that the robot actually flies
   - Fixed bug with MFNode display in the scene tree window
-  - Added a help button in the scene tree window to display node documentation
-   (thanks to Jean-Christophe)
-  - Added the `servo_motor_off` function to switch off the motor of a servo
-    (thanks to Eric)
+  - Added a help button in the scene tree window to display node documentation (thanks to Jean-Christophe)
+  - Added the `servo_motor_off` function to switch off the motor of a servo (thanks to Eric)
   - Fixed possible random position bugs with CustomRobot node
-  - Improved and updated the documentation, especially for the Physics node
-    (thanks to Alexis)
+  - Improved and updated the documentation, especially for the Physics node (thanks to Alexis)
 
 ## Version 4.0.0
 

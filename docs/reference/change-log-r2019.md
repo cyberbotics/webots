@@ -76,7 +76,7 @@
     - Removed the `environmentMap` field of the PBRAppearance node.
     - Removed broken `colorPerVertex` and `color` fields of the ElevationGrid node.
 
-## Webots R2019a revision 1
+## Webots R2019a Revision 1
 
   - Dependency Updates
     - Windows: upgraded to Qt 5.12.1.
@@ -162,8 +162,7 @@
     - **Deprecated the Supervisor node.**
     - **Removed deprecated ROS DifferentialWheels API.**
     - **Roads**
-      - Refactored and improved various road PROTO nodes in order to improve graphical fidelity
-  and increase modularity without requiring the creation of a specific texture (especially for road lines).
+      - Refactored and improved various road PROTO nodes in order to improve graphical fidelity and increase modularity without requiring the creation of a specific texture (especially for road lines).
       - The `texture` and `textureScale` fields have been replaced by the `appearance` field.
       - The `pavementTexture` field has been replaced by the `pavementAppearance` field.
       - The `dashedLine` field has been replaced by the `lines` field.
