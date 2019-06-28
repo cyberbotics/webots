@@ -1,6 +1,7 @@
 #VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# tags: static
 # A ceiling spot light.
 
 PROTO CeilingSpotLight [
@@ -15,71 +16,71 @@ PROTO CeilingSpotLight [
   field SFBool     spotLightCastShadows      FALSE              # Defines whether the spot light should cast shadows.
 ]
 {
-Solid {
-  translation IS translation
-  rotation IS rotation
-  children [
-    SpotLight {
-      attenuation IS spotLightAttenuation
-      beamWidth 0.3
-      cutOffAngle 0.48
-      direction 0 -1 0
-      intensity 5
-      location 0 -0.038 0
-      radius 40
-      color IS spotLightColor
-      intensity IS spotLightIntensity
-      radius IS spotLightRadius
-      castShadows IS spotLightCastShadows
-    }
-    SolidPipe {
-      height 0.08
-      radius 0.05
-      thickness 0.01
-      appearance IS supportAppearance
-    }
-    Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/led_strip_base_color.jpg"
-          ]
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      SpotLight {
+        attenuation IS spotLightAttenuation
+        beamWidth 0.3
+        cutOffAngle 0.48
+        direction 0 -1 0
+        intensity 5
+        location 0 -0.038 0
+        radius 40
+        color IS spotLightColor
+        intensity IS spotLightIntensity
+        radius IS spotLightRadius
+        castShadows IS spotLightCastShadows
+      }
+      SolidPipe {
+        height 0.08
+        radius 0.05
+        thickness 0.01
+        appearance IS supportAppearance
+      }
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url [
+              "textures/led_strip_base_color.jpg"
+            ]
+          }
+          roughnessMap ImageTexture {
+            url [
+              "textures/led_strip_roughness.jpg"
+            ]
+          }
+          metalnessMap ImageTexture {
+            url [
+              "textures/led_strip_metalness.jpg"
+            ]
+          }
+          normalMap ImageTexture {
+            url [
+              "textures/led_strip_normal.jpg"
+            ]
+          }
+          emissiveColorMap ImageTexture {
+            url [
+              "textures/led_strip_emissive_color.jpg"
+            ]
+          }
+          emissiveIntensity %{= 20 * fields.spotLightIntensity.value }%
+          textureTransform TextureTransform {
+            scale 1.2 8
+            translation -0.06 0
+          }
         }
-        roughnessMap ImageTexture {
-          url [
-            "textures/led_strip_roughness.jpg"
-          ]
-        }
-        metalnessMap ImageTexture {
-          url [
-            "textures/led_strip_metalness.jpg"
-          ]
-        }
-        normalMap ImageTexture {
-          url [
-            "textures/led_strip_normal.jpg"
-          ]
-        }
-        emissiveColorMap ImageTexture {
-          url [
-            "textures/led_strip_emissive_color.jpg"
-          ]
-        }
-        emissiveIntensity %{= 20 * fields.spotLightIntensity.value }%
-        textureTransform TextureTransform {
-          scale 1.2 8
-          translation -0.06 0
+        geometry Cylinder {
+          height 0.05
+          radius 0.041
+          side FALSE
+          top FALSE
         }
       }
-      geometry Cylinder {
-        height 0.05
-        radius 0.041
-        side FALSE
-        top FALSE
-      }
-    }
-  ]
-  name IS name
-  model "ceiling light"
-}
+    ]
+    name IS name
+    model "ceiling light"
+  }
 }
