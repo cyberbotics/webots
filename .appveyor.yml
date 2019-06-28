@@ -35,7 +35,7 @@ install:
 #  - ps: Start-Sleep -s 3600
 
 build_script
-  - cmd: bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
+  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
 test_script:
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests" }
