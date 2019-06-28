@@ -40,32 +40,7 @@ PROTO CeilingSpotLight [
         appearance IS supportAppearance
       }
       Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/led_strip_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/led_strip_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "textures/led_strip_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/led_strip_normal.jpg"
-            ]
-          }
-          emissiveColorMap ImageTexture {
-            url [
-              "textures/led_strip_emissive_color.jpg"
-            ]
-          }
+        appearance LedStrip {
           emissiveIntensity %{= 20 * fields.spotLightIntensity.value }%
           textureTransform TextureTransform {
             scale 1.2 8

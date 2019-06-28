@@ -32,17 +32,12 @@ PROTO LedStrip [
         "textures/led_strip/led_strip_normal.jpg"
       ]
     }
-    occlusionMap ImageTexture {
-      url [
-        "textures/led_strip/led_strip_occlusion.jpg"
-      ]
-    }
     emissiveColorMap ImageTexture {
       url [
         "textures/led_strip/led_strip_emissive_color.jpg"
       ]
     }
-    emissiveIntensity 1
+    emissiveIntensity IS emissiveIntensity
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }

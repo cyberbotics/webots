@@ -89,28 +89,7 @@ DEF FLOOR Solid {
       translation 1.87 0 6.29
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/slate_pavement_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/slate_pavement_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/slate_pavement_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/slate_pavement_occlusion.jpg"
-              ]
-            }
+          appearance SlatePavement {
             textureTransform TextureTransform {
               scale 9.8 2.6
             }
@@ -125,28 +104,7 @@ DEF FLOOR Solid {
       translation -3.2 0 -2.89
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_occlusion.jpg"
-              ]
-            }
+          appearance PorcelainChevronTiles {
             textureTransform TextureTransform {
               rotation 1.5708
               scale 3.94 6.3
@@ -162,28 +120,7 @@ DEF FLOOR Solid {
       translation 0.875 0 -1.62
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/cement_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/cement_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/cement_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/cement_tiles_occlusion.jpg"
-              ]
-            }
+          appearance CementTiles {
             textureTransform TextureTransform {
               scale 1.85 6.95
             }
@@ -199,28 +136,7 @@ DEF FLOOR Solid {
       rotation 0 1 0 -1.5707963071795863
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/cement_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/cement_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/cement_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/cement_tiles_occlusion.jpg"
-              ]
-            }
+          appearance CementTiles {
             textureTransform TextureTransform {
               scale 2 4.91
             }
@@ -235,28 +151,7 @@ DEF FLOOR Solid {
       translation 0.875 0 3.41
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/cement_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/cement_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/cement_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/cement_tiles_occlusion.jpg"
-              ]
-            }
+          appearance CementTiles {
             textureTransform TextureTransform {
               scale 1.85 3.11
             }
@@ -313,28 +208,7 @@ DEF KITCHEN_BLOCK Transform {
       rotation 0.577349935856137 -0.577349935856137 -0.5773509358560259 2.094395
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_occlusion.jpg"
-              ]
-            }
+          appearance PorcelainChevronTiles {
             textureTransform TextureTransform {
               rotation 1.5708
               scale 2.6 1.8
@@ -351,28 +225,7 @@ DEF KITCHEN_BLOCK Transform {
       rotation 0 0 1 -1.5707963071795863
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_base_color.jpg"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_roughness.jpg"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_normal.jpg"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/porcelain_chevron_tiles_occlusion.jpg"
-              ]
-            }
+          appearance PorcelainChevronTiles {
             textureTransform TextureTransform {
               rotation 1.5708
               scale 2.5 1.8
@@ -761,28 +614,7 @@ StraightStairs {
   stepSize 0.25 0.19 1.27
   stepRise 0.18
   nSteps 12
-  stepAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/carpet_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "textures/carpet_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/carpet_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/carpet_occlusion.jpg"
-      ]
-    }
+  stepAppearance CarpetFibers {
   }
   stringerAppearance Roughcast {
     textureTransform TextureTransform {

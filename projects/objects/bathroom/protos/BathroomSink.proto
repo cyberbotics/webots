@@ -5,11 +5,11 @@
 # A small sink for bathrooms.
 
 PROTO BathroomSink [
-  field SFVec3f    translation      0 0 0
-  field SFRotation rotation         0 0.7 0.7 3.141593
-  field SFString   name             "sink"
-  field SFNode     upperAppearance  VarnishedPine { }  # Defines the appearance of the upper plate.
-  field SFNode     bottomAppearance  VarnishedPine { }  # Defines the appearance of the upper plate.
+  field SFVec3f    translation       0 0 0
+  field SFRotation rotation          0 0.7 0.7 3.141593
+  field SFString   name              "sink"
+  field SFNode     upperAppearance   VarnishedPine { }  # Defines the appearance of the upper plate.
+  field SFNode     bottomAppearance  MarbleTiles { }  # Defines the appearance of the upper plate.
 ]
 {
   Solid {
@@ -63,34 +63,7 @@ PROTO BathroomSink [
         }
       }
       Shape {
-        # TODO: bottomAppearance
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "textures/marble_tiles_base_color.jpg"
-            ]
-          }
-          roughnessMap ImageTexture {
-            url [
-              "textures/marble_tiles_roughness.jpg"
-            ]
-          }
-          metalnessMap ImageTexture {
-            url [
-              "textures/marble_tiles_metalness.jpg"
-            ]
-          }
-          normalMap ImageTexture {
-            url [
-              "textures/marble_tiles_normal.jpg"
-            ]
-          }
-          occlusionMap ImageTexture {
-            url [
-              "textures/marble_tiles_occlusion.jpg"
-            ]
-          }
-        }
+        appearance IS bottomAppearance
         geometry IndexedFaceSet {
           coord DEF COORDS_ME_UNTITLED_002 Coordinate {
             point [
