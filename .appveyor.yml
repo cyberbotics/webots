@@ -34,7 +34,7 @@ install:
   - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
 #  - ps: Start-Sleep -s 3600
 
-build_script
+build_script:
   - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
 test_script:
