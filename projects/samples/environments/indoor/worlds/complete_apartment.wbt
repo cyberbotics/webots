@@ -730,6 +730,21 @@ Cabinet {
 Bed {
   translation 11.861072 0 1.657084
   name "bed(1)"
+  mattressAppearance PBRAppearance {
+    baseColor 0.533333 0.541176 0.521569
+    roughness 1
+    metalness 0
+  }
+  pillowAppearance PBRAppearance {
+    baseColor 0.569696 0.598779 0.73666
+    roughness 1
+    metalness 0
+  }
+  blanketAppearance BlanketFabric {
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
 }
 Cabinet {
   translation 9.996606 0 5.445295
