@@ -122,4 +122,6 @@
     - [DEF and USE](def-and-use.md)
 - [Other APIs](other-apis.md)
     - [ROS API](ros-api.md)
+- [ChangeLog](change-log.md)
+    - [ROS API](change-log-r2019.md)
 - [Glossary](glossary.md)

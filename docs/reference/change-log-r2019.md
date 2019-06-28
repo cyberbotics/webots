@@ -1,5 +1,4 @@
-# Webots change log
-
+# Webots R2019b Change Log
 
 ## [Webots R2019b](https://cyberbotics.com/doc/blog/Webots-2018-b-release)
 
@@ -177,20 +176,3 @@
       - Door
       - Ceiling
       - Cabinet
-
-## [Webots R2018 change log](ChangeLogR2018.html)
-
-
-## [Webots 8 change log](ChangeLog8.html)
-
-
-## [Webots 7 change log](ChangeLog7.html)
-
-
-## [Webots 6 change log](ChangeLog6.html)
-
-
-## [Webots 5 change log](ChangeLog5.html)
-
-
-## [Webots 4 change log](ChangeLog4.html)

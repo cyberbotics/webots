@@ -7,7 +7,6 @@ The master branch of this repository is in production on the Cyberbotics website
 - https://www.cyberbotics.com/doc/guide/index
 - https://www.cyberbotics.com/doc/reference/index
 - https://www.cyberbotics.com/doc/blog/index
-- https://www.cyberbotics.com/doc/change_logs/index
 - https://www.cyberbotics.com/doc/automobile/index
 
 You are very welcome to contribute to make this documentation better!
@@ -63,7 +62,6 @@ In a browser, open:
 - [http://localhost:8000/?url=&book=guide](http://localhost:8000/?url=&book=guide)
 - [http://localhost:8000/?url=&book=reference](http://localhost:8000/?url=&book=reference)
 - [http://localhost:8000/?url=&book=blog](http://localhost:8000/?url=&book=blog)
-- [http://localhost:8000/?url=&book=change_logs](http://localhost:8000/?url=&book=change_logs)
 - [http://localhost:8000/?url=&book=automobile](http://localhost:8000/?url=&book=automobile)
 
 
