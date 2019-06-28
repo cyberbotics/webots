@@ -38,10 +38,7 @@ jobs:
           # in case of manually triggered test, planned test or tag test, run complete test
           if [[ "$TRAVIS_EVENT_TYPE" != "api" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]] && [[ -z "${TRAVIS_TAG}" ]]
           then
-            echo $TRAVIS_COMMIT_MESSAGE
-            echo $TRAVIS_EVENT_TYPE
-            echo $TRAVIS_BUILD_ID
-            #tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG
+            tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
