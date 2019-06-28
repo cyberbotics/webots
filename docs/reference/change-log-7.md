@@ -7,18 +7,18 @@
     - **Official support for Ubuntu 13.10 and 14.04 LTS, the support of the other Ubuntu versions is dropped (but may still work).**
   - Enhancements
     - Physics plugin
-      - Deprecated the arguments of the webots_physics_init() function. From now it's unsafe to use them.
+      - Deprecated the arguments of the `webots_physics_init()` function. From now it's unsafe to use them.
       - Added a dWebotsGetContactJointGroup() function able to retrieve the contact joint group where to create custom contact joints.
-      - Fixed physics plugin examples accordingly, including the custom contact point demo (contact_points.wbt) which was broken.
+      - Fixed physics plugin examples accordingly, including the custom contact point demo (`contact_points.wbt`) which was broken.
     - Improved significantly the simulation loading time in case of an intensive use of prototypes.
     - Updated all the robotstadium worlds according to RoboCup SPL Rule Book 2014, which changes the dimensions of the field.
     - Added a new possible path to load plugins (e.g. physics plugins): plugins can be defined relatively to the PROTO files contained in the simulation.
   - YouBot
     - Prototized the YouBot model. It can be now more easily integrated in new simulations.
-    - Merged and renamed the fast_wheels plugin to youbot_swedish_wheels.
-    - Merged the high level youbot control files into a youbot_control shared library.
+    - Merged and renamed the `fast_wheels` plugin to `youbot_swedish_wheels`.
+    - Merged the high level youbot control files into a `youbot_control` shared library.
     - Updated the samples containing the youBot according to these modifications.
-    - Supported multiple youBots in the youbot_swedish_wheels physics plugin.
+    - Supported multiple youBots in the `youbot_swedish_wheels` physics plugin.
   - Objects library
     - Added a Bed procedural prototype
     - Added a SolidTorus procedural prototype
@@ -53,7 +53,7 @@
     - Improved zoom using the mouse wheel
     - Fixed crash calling copy, paste, etc. just after reverting the world if the Scene Tree was previously selected
     - Removed misleading warning about inertia issued after copy-paste
-    - Fixed autonomous_vehicle demo in order that sick laser-scanner detects the ground
+    - Fixed `autonomous_vehicle` demo in order that sick laser-scanner detects the ground
     - Added missing DifferentialWheels encoders publisher in the generic ros controller
     - Fixed warning issued when changing a DEF name in use
   - Nao
@@ -67,13 +67,13 @@
     - Improved error messages about out-of-bounds fields
     - Improved warning message about mass and inertia computation failure for boundingObjects containing an IndexedFaceSet
     - Update the list of C API functions and constants highlighted in the text editor
-    - Renamed the "Details" button of the node editor to "Source" (used to open a PROTO file in the text editor)
-    - Added a "Result" button in the node editor to open the temporary file used by Webots when instanciating a procedural prototype
+    - Renamed the `Details` button of the node editor to `Source` (used to open a PROTO file in the text editor)
+    - Added a `Result` button in the node editor to open the temporary file used by Webots when instanciating a procedural prototype
     - Optimized the procedural prototypes to regenerate their root node only when modifying fields used by Lua statements (Fixed some crashes in the simulations containing a Nao)
   - Objects library
     - Added SolidBox model
     - Improved RectangleArena: the top of walls is now rendered correctly, added a subdivision field
-    - Added a simulation named extended_solids showing the library of solid prototypes
+    - Added a simulation named `extended_solids` showing the library of solid prototypes
   - Bug fixes
     - e-puck
       - Removed a systematic warning occurring at each remote-control session startup
@@ -86,11 +86,11 @@
     - Fixed uncorrect warning issued when custom mass settings are in use
     - Linux: removed dependency on libboost-thread library and included libraw5 in the Webots package
     - Fixed translation issue with the Plane geometry when using multiple threads
-    - Fixed definitions of the wb_motor_get_type() return values
-    - Fixed documentation of the wb_motor_get_type() function
+    - Fixed definitions of the `wb_motor_get_type()` return values
+    - Fixed documentation of the `wb_motor_get_type()` function
     - Fixed velocity control activation in distributed controllers (e.g, shrimp.c)
     - Fixed motor limits activation in velocity control mode (thanks to Aravind)
-    - Fixed crash caused by calling wb_motor_set_torque() for the motor of an Hinge2Joint node (thanks to David)
+    - Fixed crash caused by calling `wb_motor_set_torque()` for the motor of an Hinge2Joint node (thanks to David)
     - Fixed crash caused by inserting an endPoint into a Hinge2Joint node
     - Fixed behaviour when pressing consecutive times the CTRL+S keyboard shortcut in the text editor
     - Improved text editor's find dialog box. The text line is selected when entering in the dialog box (thanks to Damien)
@@ -114,7 +114,7 @@
     - Added procedural prototypes support (embedded the lua language in prototypes to create simply and cleanly complex nodes)
     - Added a default manipulator for translating and rotating objects that appears when selecting a top solid
     - Changed font used in 3D View labels that now includes greek letters
-    - Mac: Added a retro-compatibility toggle to link easily with the libc++ (default) or the libstdc++ (USE_STD_CXX=true) controller libraries (thanks to Simon)
+    - Mac: Added a retro-compatibility toggle to link easily with the libc++ (default) or the libstdc++ (`USE_STD_CXX=true`) controller libraries (thanks to Simon)
     - Added `Details` button in field editor when PROTO nodes are selected that automatically opens the definition file
     - Added `Cancel` button in Wizards
     - Supported infra-red measurements on Display device's textures
@@ -133,12 +133,12 @@ LinearMotor and RotationalMotor) and TouchSensor
       - Fixed the global ambient light which was wrongly divided by the number of lights
       - Clamped the Light.ambientIntensity and Light.intensity fields to the [0, 1] range
     - DARwIn-OP (thanks to Chase)
-      - Fixed the behavior of the "Make default controller" check box
+      - Fixed the behavior of the `Make default controller` check box
       - Fixed link to X11 library of DARwIn-OP with Ubuntu 12.04
       - Added missing Motion.hpp include file
     - Nao
-      - Merged the 4 Nao prototypes (Nao_H21_V33, Nao_H21_V40, Nao_H25_V33, Nao_H25_V40) to a single procedural prototype (Nao)
-        - Added the Nao.version field to choose between the "4.0" and the "3.3" versions
+      - Merged the 4 Nao prototypes (`Nao_H21_V33`, `Nao_H21_V40`, `Nao_H25_V33` and `Nao_H25_V40`) to a single procedural prototype (Nao)
+        - Added the Nao.version field to choose between the `4.0` and the `3.3` versions
         - Added the Nao.degreeOfFreedom field to choose between the 25 (arms with articulated fingers) and 21 (arms without articulated fingers)
         - Removed the Nao.cameraFieldOfView from the open fields
         - Set the default value of the Nao.color to the Nao v4.0 orange (the default color of the v3.3 is lost)
@@ -168,7 +168,7 @@ LinearMotor and RotationalMotor) and TouchSensor
     - Fixed updates of nested USE nodes (thanks to Jessica)
     - Fixed crash caused by device-less Propeller nodes (thanks to David)
     - Fixed spring and damping effects when using small spring and damping constants (thanks to Francesco)
-    - Fixed crash caused by wb_motor_enable_torque_feedback() (thanks to Brian)
+    - Fixed crash caused by `wb_motor_enable_torque_feedback()` (thanks to Brian)
     - Fixed the computation of motor torque feedback
     - Text editor: Fixed detection of files which are modified by an external application (thanks to Conrad)
     - Show text editor even if hidden before popping up the modified text file message
@@ -177,7 +177,7 @@ LinearMotor and RotationalMotor) and TouchSensor
     - Awake Solids when global ODE parameters change (thanks to Thierry)
     - Fixed contact points rendering synchronization
     - Fixed use of system CLASSPATH when compiling Java controllers from Webots Text Editor
-    - Enable "Save" button after inertiaMatrix insertion, 3D scene zoom, objects' lifting with mouse wheel, and when changing followed solid from View menu
+    - Enable `Save` button after inertiaMatrix insertion, 3D scene zoom, objects' lifting with mouse wheel, and when changing followed solid from View menu
     - Mac OS X: the ODE physics engine now uses OpenMP, similarly to Windows and Linux.
     - Fixed distance computation for distance sensors of type `infra-red` when range is greater than 1 and no obstacle are detected
     - Fixed mouse cursor icon on Mac OS X when leaving the 3D View
@@ -202,7 +202,7 @@ where prototypes have moved from their initial positions and orientations withou
   - Added a warning issued when a Solid node has no Physics node but has a non-empty boundingObject and an upper Solid node containing a Physics node:
 collisions are ignored in this case
   - Matlab
-    - Removed the "minimize" argument given to the launcher on other platforms than Windows (thanks to Erik)
+    - Removed the `minimize` argument given to the launcher on other platforms than Windows (thanks to Erik)
   - Mavericks
     - Added support for Mavericks (Mac OS X 10.9)
     - Compiled controllers, libraries and plugins using clang 5.0 and libc++ (rather than libstdc++)
@@ -232,15 +232,15 @@ collisions are ignored in this case
     - Updated Nao challenge to v1.8
   - Fixed device identification for Devices placed below a BallJoint (thanks to David)
   - Redirected ODE messages to Webots console
-  - Refactored the physics plugin' webots_physics_draw() function in order to be able to draw on the 3D view and/or on the robot cameras (thanks to Kevin)
-    - **Removed the webots_physics_pre_draw function: the same feature is accessible from the arguments of the webots_physics_draw() function (see Reference Manual)**
-    - **Modified the webots_physics_draw() function: added 2 arguments (see Reference Manual)**
+  - Refactored the physics plugin' `webots_physics_draw()` function in order to be able to draw on the 3D view and/or on the robot cameras (thanks to Kevin)
+    - **Removed the `webots_physics_pre_draw` function: the same feature is accessible from the arguments of the `webots_physics_draw()` function (see Reference Manual)**
+    - **Modified the `webots_physics_draw()` function: added 2 arguments (see Reference Manual)**
   - Fixed collision detection of user defined dGeoms in physics plugins
   - Enabled the multithread version of ODE on Mac OS X (thanks to Mustafa)
   - Removed duplicate contact points of IndexedFaceSets (thanks to Jesse)
   - A time step less than 1ms is rounded up to 1ms in the void controller to keep the application responsive
   - Upgraded to Qt 5.1.1
-  - Fixed motion editor's "fixed step"
+  - Fixed motion editor's `fixed step`
   - Fixed Toggle Line Comment function in Text Editor when the last line of the document is selected (thanks to Andrew)
   - Prohibited insertion from dialog box of a Geometry node in a boundingObject if one dimension is non-positive
   - DARwIn-OP
@@ -262,8 +262,8 @@ collisions are ignored in this case
   - Fixed viewpoint restoration in orthographic mode (thanks to Andrej)
   - Removed the useless dependency on swig when recompliling languages controllers (thanks to Erik)
   - Fixed robot window dialogs z-order on Windows and Linux (thanks to Chase)
-  - Fixed wb_supervisor_field_import_node so that it takes into consideration the insertion position
-  - **Changed the returned value of wb_supervisor_get_contact_point() and wb_supervisor_get_number_of_contact_points() (see Reference Manual)**
+  - Fixed `wb_supervisor_field_import_node` so that it takes into consideration the insertion position
+  - **Changed the returned value of `wb_supervisor_get_contact_point()` and `wb_supervisor_get_number_of_contact_points()` (see Reference Manual)**
   - Fixed crash caused by missing mandatory functions when loading a plugin
   - Fixed crash caused by transformations Robot->Supervisor from the GUI
   - Fixed compilation issues with swinglet's controller and plugin
@@ -275,7 +275,7 @@ collisions are ignored in this case
 ## Webots 7.2.4
 
   - Extended Charger node: add Charger node to robots
-  - **Changed yaw value returned by wb_inertial_unit_get_roll_pitch_yaw() into its opposite to conform to standards**
+  - **Changed yaw value returned by `wb_inertial_unit_get_roll_pitch_yaw()` into its opposite to conform to standards**
   - Nao
     - Prototized the NAO hands. This is the first step to a modular NAO architecture
     - Upgraded neck and shoulders to Hinge2Joint. This removes 3 ODE constraints to solve (performance bottleneck)
@@ -315,10 +315,10 @@ collisions are ignored in this case
     - Use H.264/MPEG-4/AVC encoder and MP4 container on all platforms
     - Automatically set frame rate to match real-time
     - Add possibility to create an accelerated movie and to show the current acceleration value on the movie
-    - **Add `acceleration` and `caption` parameter in wb_supervisor_start_movie function**
-    - Rename `type` parameter to `codec` in wb_supervisor_start_movie function
+    - **Add `acceleration` and `caption` parameter in `wb_supervisor_start_movie` function**
+    - Rename `type` parameter to `codec` in `wb_supervisor_start_movie` function
   - Add basic undo/redo functionality for field editing, objects dragging, rotation and resizing
-  - Moved the language source code (C++, Python, Java) from the "projects" to "resources" directories
+  - Moved the language source code (C++, Python, Java) from the `projects` to `resources` directories
   - Text editor: detect external file modification
   - Display device: Fixed alpha image pasting
   - Nao
@@ -331,12 +331,12 @@ collisions are ignored in this case
   - Added the capability to export a simulation model to HTML/X3D for web publishing
   - Added two new fields to the Receiver node: signalStrengthNoise and directionNoise. These fields allow to add noise on the signal strength and emitter direction.
   - Fixes Java and Python supervisor accessors to contact points
-  - Changed supervisor API functions wb_supervisor_node_get_contact_points()
+  - Changed supervisor API functions `wb_supervisor_node_get_contact_points()`
   - Fixed annoying z-order overlap of some dialog box
   - Improved Webots file parser's robustness
   - Increased the distance sensors performance
   - Replaced advantageously WorldInfo::displayRefresh by WorldInfo::FPS. In most cases, this increase the performance of the run mode
-  - Added examples in projects/samples/howto that illustrate the use of wb_supervisor_node_get_contact_points() and wb_supervisor_node_get_center_of_mass()
+  - Added examples in projects/samples/howto that illustrate the use of `wb_supervisor_node_get_contact_points()` and `wb_supervisor_node_get_center_of_mass()`
   - Fixed graphical update of the center of mass
   - Fixed crash related to Geometry insertion in bounding objects (thanks to Guillaume)
   - Allowed static environment to be used as a joint endpoint (thanks to Jesse)
@@ -365,7 +365,7 @@ collisions are ignored in this case
   - DARwIn-OP: improved code robustness (cross-compilation, and remote-control)
   - Added the contact points, center of mass and static balance test API in the C++ / python / matlab / java API
   - Upgraded to Qt 5.0.2 (and Qt 5.1.0.rc2 on Mac OS X)
-    - Makefile: Replaced "USE_QT = true" by "QT = core widgets" in order to link only with the desired Qt frameworks
+    - Makefile: Replaced `USE_QT = true` by `QT = core widgets` in order to link only with the desired Qt frameworks
     - Mac OS X: Improved the Webots integration into the Moutain Lion spaces (added the maximize button, improved the fullscreen feature)
     - Mac OS X: Fixed bug with the Viewpoint modification after inserting new nodes (thanks to Julien)
   - Simplified the Solid selection from the 3D view
@@ -443,7 +443,7 @@ collisions are ignored in this case
       - Fixed cross-compilation errors on Windows if Webots installation path contains white space
     - Model
       - Updated EPuck.proto model: added two MFNode fields to equip the robot with additional devices
-      - WARNING: removed floor sensors from the standard EPuck.proto file and modeled in the separate EPuck_GroundSensorsModule.proto file
+      - WARNING: removed floor sensors from the standard `EPuck.proto` file and modeled in the separate `EPuck_GroundSensorsModule.proto` file
       - WARNING: name of ground sensor devices of e-puck robot is changed from `fs0`, `fs1`, `fs2` to `gs0`, `gs1`, `gs2`.
       - Substituted local ratslife EPuck proto with global Webots EPuck proto
   - Added Pioneer3DX PROTO model
@@ -460,7 +460,7 @@ collisions are ignored in this case
       - Fixed problem of crash of the robot window when aborting start of remote-control
       - Fixed problem of led switching off when stopping the controller
   - Fixed execution of signed world files with naoqisim controller in Webots FREE (thanks to Christophe)
-  - Fixed warning and ticking associated to the "Show Support Polygon" action (thanks to Jesse) and allowed display of the center of mass of any solid
+  - Fixed warning and ticking associated to the `Show Support Polygon` action (thanks to Jesse) and allowed display of the center of mass of any solid
   - Fixed mass settings for Solids without boundingObject (thanks to Jesse)
   - Fixed crashes related to the Solid node and the DEF-USE mechanism
   - Fixed huge oval drawing of the Display device on Windows (thanks to Angelos)
@@ -474,7 +474,7 @@ collisions are ignored in this case
     - Simulation
       - Corrected wrong link between the LEDS: BackLedRed, BackLedGreen and BackLedBlue
       - Set default basicTimeStep to 16ms for each example
-      - Increase camera refresh time to 32ms in example "Soccer" and "Visual_tracking"
+      - Increase camera refresh time to 32ms in example `Soccer` and `Visual_tracking`
       - Manager static library split into two dynamics libraries, now located in /libraries/darwin and /libraries/managers instead of /lib
     - Cross-Compilation
       - Added text-to-speech functions in Speaker module
@@ -483,7 +483,7 @@ collisions are ignored in this case
   - Fixed behavior of `Add Node` button: new objects are automatically selected and expanded
   - Added default extension in save screenshot dialog
   - Adjusted default position of Webots PROTO objects so that they don't half sink in the floor
-  - Added new sample simulation in projects/samples/howto/worlds/sick_terrain_scanning.wbt (thanks to Angelos)
+  - Added new sample simulation in `projects/samples/howto/worlds/sick_terrain_scanning.wbt` (thanks to Angelos)
   - Revision of Find and Replace dialog of the text editor
     - Fixed problems when searching words with different cases
     - Fixed problems when both Find dialog and Replace dialog are visibile
@@ -502,10 +502,10 @@ collisions are ignored in this case
     - WARNING: Simulations containing infra-red distance sensors may now behave differently. Please contact Cyberbotics support team if you cannot restore them.
     - Changed the orientation of infra-red distance sensors in e-puck proto
   - Improved the custom libraries search algorithm (recursive search into the webots/resources directory) (thanks to David)
-  - Refactored the main Makefile.include: CPP_SOURCES and CC_SOURCES have been deprecated. Please use CXX_SOURCES instead
+  - Refactored the main Makefile.include: `CPP_SOURCES` and `CC_SOURCES` have been deprecated. Please use `CXX_SOURCES` instead
   - Improved the supervisor API to set fields in order to be applied immediatly rather than on the next physics step
   - Added an OpenGL tab in the Preferences dialog box (auto setup on the first Webots launch) allowing to reduce some rendering features
-  - Improved the search algorithm of the Robot::robotWindow and Robot::remoteControl fields
+  - Improved the search algorithm of the `Robot::robotWindow` and `Robot::remoteControl` fields
   - Added the support of the servos and of the keyboard into the remote-control API (thanks to David)
   - Improved the main Makefile.include in order to compile standard targets (release, debug, profile, clean)
   - Improved the main Makefile.include in order to move all the building files into a `build` folder
@@ -542,23 +542,23 @@ collisions are ignored in this case
       - Added keyboard functions (a small window appears now on the real robot to catch keyboard inputs when enabling it)
   - Added `maxDistance` field to Pen node
   - Fixed Pen device: the painted point is displayed only on the intersected face of the primitive
-  - Added the wb_robot_get_controller_name() function allowing to get the Robot::controller field content
-  - Added the wb_robot_get_controller_arguments() function allowing to get the Robot::controllerArgs field content
+  - Added the `wb_robot_get_controller_name()` function allowing to get the Robot::controller field content
+  - Added the `wb_robot_get_controller_arguments()` function allowing to get the Robot::controllerArgs field content
   - Improved shared libraries management
     - Removed the arguments of the wbw_init() function (main entry function of the robot window dynamic library)
-    - Added the project/libraries/* directories in the [[DY]LD_LIBRARY_]PATH environment variable to facilitate the use of shared libraries
+    - Added the project/libraries/* directories in the `[[DY]LD_LIBRARY_]PATH` environment variable to facilitate the use of shared libraries
     - Build the shared libraries thanks to the controller Makefile (resources/Makefile.include)
-    - Moved the robot window shared libraries into project/plugins/robot_windows
-    - Moved the remote control shared libraries into project/plugins/remote_controls
-  - Updated the e-puck cross-compiler for Mac OS X (now compiled for x86_64 instead of ppc)
+    - Moved the robot window shared libraries into `project/plugins/robot_windows`
+    - Moved the remote control shared libraries into `project/plugins/remote_controls`
+  - Updated the e-puck cross-compiler for Mac OS X (now compiled for x86\_64 instead of ppc)
   - Fixed infra-red distance sensor behaviour discarding the color painted on a Shape
-  - Fixed textures not displayed in blimp_lis.wbt and darwin-op.wbt simulation
+  - Fixed textures not displayed in `blimp_lis.wbt` and darwin-op.wbt simulation
   - Improved compatibility with IndexedFaceSet node syntax of VRML97
     - Added default texture mapping
     - Used `coordIndex` as texture coordinate indexes if `texCoord` is specified but `texCoordIndex` field is empty
   - Automatically link the dynamic libraries in project `lib` folder at run-time
   - Fixed problem taking screenshots when the simulation is running
-  - Fixed: crash when wb_servo_enable_motor_force_feedback() is invoked on objects (Solid) without Physics node (Thanks to Tim)
+  - Fixed: crash when `wb_servo_enable_motor_force_feedback()` is invoked on objects (Solid) without Physics node (Thanks to Tim)
   - Improved the robustness and error messages of the Internet floating license server
   - Fixed crashed while linking DEF and USE nodes inside nested protos (Thanks to Nico)
   - Fixed distance sensor issue with the detection of cylinder's caps (Thanks to Krzysztof)
@@ -592,47 +592,47 @@ collisions are ignored in this case
     - Improved differential wheels view in order to plot the encoder values
   - Fixed the initial ambient light which was indeterminate whether the world has no light
   - API modifications
-    - Added wb_led_get() allowing to get the led state
-    - Added wb_robot_get_type() allowing to get the robot type (WB_NODE_SUPERVISOR, etc.)
-    - Added wb_robot_get_number_of_devices() allowing to get the number of devices
-    - Added wb_robot_get_device_by_index() allowing to get the device by introspection
-    - Added wb_servo_get_target_position() allowing to get the target position
-    - Added wb_servo_get_type() allowing to get the type field (linear, rotational)
-    - Added wb_servo_get_[min|max]\_position() allowing to get the [min|max]Position fields
-    - Added wb_touch_sensor_get_type() allowing to get the type field (bumper, force or force3d)
+    - Added `wb_led_get()` allowing to get the led state
+    - Added `wb_robot_get_type()` allowing to get the robot type (`WB_NODE_SUPERVISOR`, etc.)
+    - Added `wb_robot_get_number_of_devices()` allowing to get the number of devices
+    - Added `wb_robot_get_device_by_index()` allowing to get the device by introspection
+    - Added `wb_servo_get_target_position()` allowing to get the target position
+    - Added `wb_servo_get_type()` allowing to get the type field (linear, rotational)
+    - Added `wb_servo_get_[min|max]\_position()` allowing to get the [min|max]Position fields
+    - Added `wb_touch_sensor_get_type()` allowing to get the type field (bumper, force or force3d)
   - Fixed the rendering of the centers of masses (bug introduced in v7.0.2)
-  - Fixed the behaviour of the "Ctrl+Y" redo shortcut on Linux and replaced it with the platform-specific shortcut "Shift+Ctrl+Z"
+  - Fixed the behaviour of the `Ctrl+Y` redo shortcut on Linux and replaced it with the platform-specific shortcut `Shift+Ctrl+Z`
   - Updated the documentation about the installation of gcc and makefile for Mac OS X
   - Upgraded to Qt 4.8.4 on all platforms
 
 ## Webots 7.0.2
 
   - Fixed playback of movies created on Mac OS X
-  - Added ".wbt" suffix to file name if it is missing when "Saving As" a world file
+  - Added `.wbt` suffix to file name if it is missing when `Saving As` a world file
   - Added correct info for Mac OS X commands in Video Recorder dialog when making a movie in full screen mode
   - Fixed: VRML97 export failed for Plane nodes placed in .proto files
   - Fixed: Matlab stout/stderr redirection to Webots console did not work on Windows
   - API modifications
-    - Added wb_robot_set_mode() allowing to switch some controllers from simulation to remote-control
-    - Added wb_robot_get_model() allowing to retrieve the model field from the API
-    - Added wb_device_get_name() and wb_device_get_type() allowing to convert a WbDeviceTag to resp. the device name and the device type
-    - Added wb_sensor_get_sampling_period() allowing to retrieve the period given as argument of wb_sensor_enable()
+    - Added `wb_robot_set_mode()` allowing to switch some controllers from simulation to remote-control
+    - Added `wb_robot_get_model()` allowing to retrieve the model field from the API
+    - Added `wb_device_get_name()` and `wb_device_get_type()` allowing to convert a WbDeviceTag to resp. the device name and the device type
+    - Added `wb_sensor_get_sampling_period()` allowing to retrieve the period given as argument of `wb_sensor_enable()`
   - Fixed Qt library conflict problems under Linux with KDE 4 (thanks to Armin)
   - Removed resources/java.policy file from distribution: the behavior of Java controller is no longer restricted by default
   - Added a button to enable all the sensors in the e-puck robot window (thanks to Bradford)
-  - Added Cyber Savannah contest project in: projects/contests/cyber_savannah
+  - Added Cyber Savannah contest project in: `projects/contests/cyber_savannah`
   - Fixed URL for license activation and trial license
   - Fixed start-up bug displaying missing e-mail message
   - Fixed the e-puck remote-control in BotStudio (thanks to Bradford)
   - Fixed BotStudio file opening on Windows
   - Improved support of UTF8 in file paths
   - Added new InertialUnit node that offers the capability to compute roll, pitch and yaw angles
-  - Added InertialUnit nodes to Nao protos and adapted "naoqisim" and Robotstadium controllers to use it
+  - Added InertialUnit nodes to Nao protos and adapted `naoqisim` and Robotstadium controllers to use it
   - Slightly moved and resized Nao foot bumpers to avoid floor contact while walking
   - Fixed: associating (with the IS keyword) a field to a proto field of the wrong type (in a PROTO) crashed Webots
   - Fixed using the `coord` field of an IndexedFaceSet as a PROTO field
   - Fixed Webots Text Editor indent and unindent functions in case of backwards (bottom up) multi-line selection
-  - Fixed wb_supervisor_field_import_mf_node function: if a robot object is imported, its controller is started immediately without needing to save and revert
+  - Fixed `wb_supervisor_field_import_mf_node` function: if a robot object is imported, its controller is started immediately without needing to save and revert
   - Changed behaviour of `Import node` button in the Scene Tree: now only valid top nodes can be imported and, in case of robot objects, their controller is started immediately without needing to save and revert
   - DARwIn-OP (thanks to David)
     - Simulation
@@ -687,7 +687,7 @@ collisions are ignored in this case
 
 ## Webots 7.0.0
 
-  - Changed algorithm of the "sonar" DistanceSensor: now the closest ray collision distance is returned, the average is no longer computed
+  - Changed algorithm of the `sonar` DistanceSensor: now the closest ray collision distance is returned, the average is no longer computed
   - Fixed: Wrong text colors displayed in the Webots console
   - Fixed: Range-finder camera image is scrambled in robot window
   - Completed the implementation of the texture finder for proto fields
@@ -727,8 +727,8 @@ collisions are ignored in this case
   - Added Fullscreen mode for simulation and video recording
   - Improved Pen device: paint on any geometry and in any direction
   - Fixed compilation issue on the C++ wrapper (thanks to Tim)
-  - Removed obsolete wb_supervisor_start_animation() and wb_supervisor_stop_animation() functions
-  - Changed all API functions to return NaN (instead of -1.0 or 0.0) for any unitialized double value, e.g. before having called to `wb_*_enable()` and `wb_robot_step()`. **In the controller main loop, it is now recommended to call wb_robot_step()**
+  - Removed obsolete `wb_supervisor_start_animation()` and `wb_supervisor_stop_animation()` functions
+  - Changed all API functions to return NaN (instead of -1.0 or 0.0) for any unitialized double value, e.g. before having called to `wb_*_enable()` and `wb_robot_step()`. **In the controller main loop, it is now recommended to call `wb_robot_step()`**
   - Fixed the Makefile for the swis2d sound plugin so that it now compiles under Windows from the Webots IDE
   - Removed deprecated fields in Physics node: bounce, bounceVelocity, coulombFriction and forceDependentSlip
   - Fixed bug with the DARwIn-OP controller causing a random freeze of the walking motion (thanks to Chase)

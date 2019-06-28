@@ -94,7 +94,7 @@
     - e-puck: Dropped the legacy Qt robot window (it can be replaced by the e-puck HTML window).
     - Changed BioloidDog from Supervisor to Robot for consistency with the other PROTO nodes.
     - Dropped RoundTree PROTO (it can be replaced for example by SimpleTree).
-    - Dropped bunch of deprecated PROTO nodes: KinectWithoutFoot, Sick_LMS291, GenericBuilding, EPuck, DARwInOP.
+    - Dropped bunch of deprecated PROTO nodes: KinectWithoutFoot, Sick\_LMS291, GenericBuilding, EPuck, DARwInOP.
     - **Changed the default value of the `name` field of the following PROTO nodes:**
   DelphiESR, HokuyoUrg04lxug01, HokuyoUtm30lx, IbeoLux, Kinect, MultiSenseS21, SickLdMrs, SickLms291, SmsUmrr-0a29, SmsUmrr-0a30, SmsUmrr-0a31, VelodyneHDL-32E, VelodyneHDL-64E and VelodyneVLP-16.
     - **Removed the `fastModel` field of the Velodyne PROTO nodes.**
@@ -121,7 +121,7 @@
     - Fixed issue while starting Matlab controllers introduced in R2018 revision 1.
     - Fixed crash when drawing with alpha on a Display device on which a jpg image was previously pasted.
     - Fixed various procedural PROTO nodes supposedly random that were generating the exact same node.
-    - Fixed keyboard navigation issues for the "Add Node" and "Open Sample World" dialogs.
+    - Fixed keyboard navigation issues for the `Add Node` and `Open Sample World` dialogs.
     - Enabled pasting nodes just after the Viewpoint node.
 
 ## Webots R2018a revision 1
@@ -135,15 +135,15 @@
   - Enhancements
     - **Viewpoint animation keyboard shortcuts now require the ALT modifier to free up the numpad for controlling robots using the numpad.**
     - Users without numpads on their machines can use the regular number keys (along with the ALT modifier) to move the viewpoint.
-    - Moved BioRob GhostDog, Salamander, Yamor, LIS Blimp, NASA Sojourner and Sony QRIO from the "samples/demos" to the "robots" directory.
-    - Moved "spinning_top.wbt" to the "samples/howto" directory.
+    - Moved BioRob GhostDog, Salamander, Yamor, LIS Blimp, NASA Sojourner and Sony QRIO from the `samples/demos` to the `robots` directory.
+    - Moved `spinning_top.wbt` to the `samples/howto` directory.
     - Added a keyboard shortcut for taking simulation screenshots in full-screen mode.
-    - Merged base graphical geometries examples into "geometric_primitives.wbt" and "polygons.wbt" in the "samples/geometries" directory.
-    - Added an example of a Supervisor that draws a 3D green tail behind an e-puck robot (cf. "supervisor_draw_trail.wbt" in the "samples/howto" directory).
-    - Added an example custom HTML robot window (cf. "custom_html_robot_window.wbt" in the "samples/howto" directory).
-    - Improved materials and lighting in "inverted_pendulum.wbt" in the "samples/howto" directory.
+    - Merged base graphical geometries examples into `geometric_primitives.wbt` and `polygons.wbt` in the `samples/geometries` directory.
+    - Added an example of a Supervisor that draws a 3D green tail behind an e-puck robot (cf. `supervisor_draw_trail.wbt` in the `samples/howto` directory).
+    - Added an example custom HTML robot window (cf. `custom_html_robot_window.wbt` in the `samples/howto` directory).
+    - Improved materials and lighting in `inverted_pendulum.wbt` in the `samples/howto` directory.
     - Improved robot icons.
-    - Removed redundant "khepera3_custom.wbt" sample.
+    - Removed redundant `khepera3_custom.wbt` sample.
     - **Renamed several robot `name` fields: `atlas` into `Atlas`, `elisa3` into `Elisa-3`, `ers7` into`ERS-7`, `hoap2` into `HOAP-2`,
   `IPR1` into `IPR`, `iRobot Wall` into `iRobot wall`, `khepera3` into `Khepera III`, `khepera4` into `Khepera IV`, `khr2-hv` into `KHR-2HV`,
   `pioneer3at` into `Pioneer 3-AT`, `pioneer 3dx` into `Pioneer 3-DX`, `pr2` into `PR2` and `youbot` into `youBot`.**
@@ -158,7 +158,7 @@
     - Fixed crash when removing the selected node with the `wb_supervisor_node_remove` function.
     - Fixed non-deterministic order in which controller printouts were displayed in the Webots console.
     - Windows: Fixed printing of UTF-8 strings on stdout/stderr for Python controllers.
-    - Fixed memory initialization for rendering devices (Camera, Lidar and RangeFinder). **wb_camera_get_image() returns NULL when called between wb_device_enable() and wb_robot_step().**
+    - Fixed memory initialization for rendering devices (Camera, Lidar and RangeFinder). **`wb_camera_get_image()` returns NULL when called between `wb_device_enable()` and `wb_robot_step()`.**
     - Fixed memory re-initialization for rendering devices (Camera, Lidar and RangeFinder) after restarting or changing the controller.
     - Fixed HTML robot window re-initialization after restarting or changing the controller.
     - Fixed Roundabout and Cabinet PROTO models defining the same field multiple times.
@@ -166,7 +166,7 @@
     - Fixed font family and font size of the console to match the one used in the text editor, possibly modified from the Webots preferences.
     - Fixed color of stderr printouts to red in the Webots console (thanks to Matt).
     - Fixed controller crash when deleting and inserting devices at time step 0.
-    - Fixed the customization of syntax highlighting colors for the text editor from the WEBOTS_HOME/resources/stylesheet.qss file (thanks to Xiang).
+    - Fixed the customization of syntax highlighting colors for the text editor from the `WEBOTS_HOME/resources/stylesheet.qss` file (thanks to Xiang).
     - Fixed getting Lidar, Radar, and RangeFinder devices using the Robot.getDeviceByIndex in Java and Python APIs.
     - Fixed wrong behavior when a Supervisor field setter function is called twice with the same field in the same step (thanks to Chansol and Matt).
     - Fixed wrong initial force applied to joystick force feedback when a resistance gain is set using `wb_joystick_set_resistance_gain`.
@@ -208,14 +208,14 @@
     - Added the PlatformCart PROTO model.
     - Added a fully controllable Truck PROTO with two different trailers.
     - Added a TruckSimple PROTO with the corresponding trailers (fully supported in SUMO).
-    - Added a Bench, a PublicBin, a TrashBin and an EmergencyPhone PROTO in the "street furniture" folder.
+    - Added a Bench, a PublicBin, a TrashBin and an EmergencyPhone PROTO in the `street furniture` folder.
     - Added a CrashBarrier PROTO.
     - Added a DivergentIndicator PROTO.
     - Added a new automobile world called `highway_overtake` which represents an overtaking scenario on a highway.
     - Added customizable ScooterSimple and MotorbikeSimple PROTO along with their drivers (supported in SUMO).
     - Added a `wb_joystick_get_model` function to the Joystick API to retrieve the model of the joystick connected to the controller.
   - Enhancements
-    - **Moved the controller jar and jni libraries into the WEBOTS_HOME/lib/java folder.**
+    - **Moved the controller jar and jni libraries into the `WEBOTS_HOME/lib/java folder`.**
     - Solid.name
       - **The Solid.name value has now to be unique between the sibling Solid nodes.**
       - **The Solid.name value can now contain the `:` character but cannot be empty.**
@@ -223,15 +223,15 @@
     - **Improved Viewpoint.follow expected value: a unique name including parent Solid.name values is used.**
     - **USE nodes can no longer be used for Material or PointLight nodes descending from the first child of a LED or Charger node.**
     - **Updated `webots_version` dictionary of procedural PROTO nodes: it now contains only `major` and `revision`. `minor` and `maintenance` values have been removed.**
-    - **Replace wb_distance_sensor_get_[min|max]_range() functions (metrics units) by wb_distance_sensor_get_[min|max]_value() functions (lookupTable response values).**
+    - **Replace `wb_distance_sensor_get_[min|max]_range()` functions (metrics units) by `wb_distance_sensor_get_[min|max]_value()` functions (lookupTable response values).**
     - **Track texture animation: TextureTransform has now to be explicitly defined.**
     - **Reorganized the `projects` directory for a clearer file hierarchy. The path to some libraries may have changed and need to be updated in your Makefile.**
     - Improved management of floating-point number precision: for legibility, GUI values are displayed with a reduced precision. Values saved in .wbt files now have an absolute precision.
     - Set descriptive Solid.name value for PROTO models in the Webots library.
     - Robot.data
       - Renamed Robot.data to Robot.customData to emphasize the custom nature of the field.
-      - Added new API functions wb_robot_get_custom_data and wb_robot_set_custom_data.
-      - Robot.data, wb_robot_get_data and wb_robot_set_data are now deprecated.
+      - Added new API functions `wb_robot_get_custom_data` and `wb_robot_set_custom_data`.
+      - Robot.data, `wb_robot_get_data` and `wb_robot_set_data` are now deprecated.
     - **Increased default value for Cylinder.subdivision field from 12 to 36.**
     - Added support of the `Follow Object` in HTML5 animations.
     - Added the field type `unconnectedField` in order to declare a PROTO field without needing an `IS` binding.
@@ -245,8 +245,8 @@
     - Improved OpenStreetMap buildings importation and added color field in building PROTO.
     - Added three new fields to the SumoInterface PROTO called `maximumLateralSpeed`, `maximumAngularSpeed` and `laneChangeDelay`.
     - **Renamed the `enableWheelsRoattion` and `maxVehicules` fields of the SumoInterface PROTO into `enableWheelsRotation` and `maxVehicles`.**
-    - Removed duplicated soccer_demo simulation from the distributed "samples/howto" directory. The other simulation ("samples/demos/worlds/soccer.wbt") remains.
-    - Added "Restore Viewpoint" and "Move Viewpoint to Object" features to simulation toolbar, and added/improved keyboard shortcuts.
+    - Removed duplicated `soccer_demo` simulation from the distributed `samples/howto` directory. The other simulation (`samples/demos/worlds/soccer.wbt`) remains.
+    - Added `Restore Viewpoint` and `Move Viewpoint to Object` features to simulation toolbar, and added/improved keyboard shortcuts.
     - Improved apply force and torque from the 3D scene functionalities so that they can be modified/removed when simulation is paused.
     - Improved web animation and streaming to use the WorldInfo.FPS field to compute the scene refresh rate.
     - Optimized save of large MF fields in world files.
@@ -283,7 +283,7 @@
     - Fixed HingeJoint and Hinge2Joint physical stops not matching `minStop` and `maxStop` values after moving the robot (thanks to Matt).
     - Fixed Supervisor set/get MF field methods if called multiple times for the same field but with different indices during one controller step (thanks to Matt).
     - Fixed geometries resize handles (checkbox `show resize handles` was not showed in geometry nodes).
-    - Fixed UTF-8 characters in the wb_display_draw_text() function.
+    - Fixed UTF-8 characters in the `wb_display_draw_text()` function.
     - Improved search rule for texture path: Webots PROTO path has now lower priority than project world path.
     - Improved the reproducibility of simulation results after revert or load by resetting the random number generators.
     - Fixed custom DEF name for default PROTO fields not saved in world files.
@@ -292,8 +292,8 @@
     - Fixed crash and wrong behavior when changing the `fieldOfView`, `verticalFieldOfView`, `numberOfLayers` or `horizontalResolution` fields of the Lidar device after the simulation started.
     - Fixed changes to the `minRange` field of the Lidar and RangeFinder devices not applied after the simulation started.
     - Linux: fix application name shown in the system toolbar that could be wrong after multiple Webots installations.
-    - Fixed wb_supervisor_node_set_visibility not working with lights (Thanks to Chansol).
-    - Fixed IndexedFaseSet duplicated vertices error in "soccer.wbt" and "soccer_demo.wbt" in the "samples/demos" directory.
+    - Fixed `wb_supervisor_node_set_visibility` not working with lights (Thanks to Chansol).
+    - Fixed IndexedFaseSet duplicated vertices error in `soccer.wbt` and `soccer_demo.wbt` in the `samples/demos` directory.
     - Fixed login dialog preventing users of a local license to login if not connected to the Internet.
     - Fixed incorrect overlay resize behavior when moving horizontally.
     - Fixed shift-scrollwheel vertical translation events not being applied the first time the mouse wheel is rotated.

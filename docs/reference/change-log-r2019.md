@@ -50,7 +50,7 @@
     - Fixed mirrored texture in Floor PROTO.
     - Fixed animation player not working correctly when loading previous poses.
     - Fixed VRML import and export of Webots Sphere geometries (icospheres).
-    - Fixed invalid webots_ros::RecognitionObject::colors value published by the Camera `recognition_objects` ROS topic.
+    - Fixed invalid `webots_ros::RecognitionObject::colors` value published by the Camera `recognition_objects` ROS topic.
     - Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.
     - Fixed PNG images with a useless alpha layer that were falsly considered as transparent by Webots causing alpha sorting problems.
     - Fixed controller builds using a custom Java Makefile.
