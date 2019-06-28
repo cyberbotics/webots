@@ -1,7 +1,7 @@
 # Webots R2019b Change Log
 
 ## Webots R2019b Revision 1
-Released on XXX YYth, 2019
+Released on XXX YYth, 2019.
 
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
