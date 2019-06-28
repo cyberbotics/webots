@@ -30,7 +30,7 @@ conjunctions = [
 
 
 def title_level(title):
-    """Returns the number of '#' to determine the title level."""
+    """Return the number of '#' to determine the title level."""
     count = 0
     while (title[count] == '#'):
         count += 1
@@ -80,7 +80,7 @@ class TestTitles(unittest.TestCase):
         lowercasePattern = re.compile(r'^[a-z][^A-Z]*$')
         numberPattern = re.compile(r'^\d')
         for t in self.titles:
-            title = re.sub(r'^#+\s*', '', t['title'])  # Remove the '#'+ suffix.
+            title = re.sub(r'^#+\s*\[?', '', t['title'])  # Remove the '#'+ suffix (+ '[').
             title = re.sub(r'".+?(?=")"', '', title)  # Remove double-quoted statements.
             title = re.sub(r'`.+?(?=`)`', '', title)  # Remove code-quoted statements.
             title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.
