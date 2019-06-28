@@ -11,7 +11,7 @@ environment:
       MSYSTEM: MINGW64
 
 image: Visual Studio 2019
-clone_depth: 3
+clone_depth: 1
 
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -34,8 +34,8 @@ install:
   - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
 #  - ps: Start-Sleep -s 3600
 
-build:
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
+build_script
+  - cmd: bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
 test_script:
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests" }
