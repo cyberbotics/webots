@@ -18,7 +18,7 @@
   - Fixed: TouchSensor returned wrong values if anything was changed in the Scene Tree and the world was not reloaded
   - Improved the physics auto-disable feature by coloring the boundingObject of the disabled solids in blue
   - DARwIn-OP: calibrated the servo on the real robot (thanks to Vitor)
-  - Don`t display trial version dialog box if the license warnings are disabled in the preferences (thanks to Lucian)
+  - Don't display trial version dialog box if the license warnings are disabled in the preferences (thanks to Lucian)
   - Added missing file: Webots/resources/ogre/textures/wrong_texture_size.png which was causing crash when attempting to use a texture with a wrong resolution (thanks to Mattej)
 
 ## Webots 6.4.3
@@ -33,7 +33,7 @@
 ## Webots 6.4.2
 
   - Fixed: when using force control (i.e. wb_servo_set_force()), the `maxForce` (as specified either in the world or using wb_servo_set_motor_force()) was only respected for positive forces/torques (thanks to Jesse)
-  - Display a warning when a texture doesn`t have a correct size: width and height should be a power of two (Thanks to Cristiano)
+  - Display a warning when a texture doesn't have a correct size: width and height should be a power of two (Thanks to Cristiano)
   - Added the visual notification of collisions by a change in the color of the bounding objects
   - Added the possibility to interactively apply a torque to a solid node by holding the both the Ctrl and Alt keys, left-clicking and dragging the mouse
   - Fixed: some edges of bounding meshes were not visible (Thanks to Taylor Murphy and Alex Morison)
@@ -141,7 +141,7 @@
   - Merged "Insert after" and "New node" buttons into new "Add New" button
   - Fixed: when a DEF node was reset (reset to default) in the Scene Tree the first corresponding USE occurence did not reflect the change
   - Fixed startup crash on some Mac OS X 10.5 locale configurations (thanks to François)
-  - Fixed (shared memory) stability issue that appears while repeatedly changing the Robot`s controller (using wb_supervisor_field_set_sf_string()) while a Camera is in use (Windows only)
+  - Fixed (shared memory) stability issue that appears while repeatedly changing the Robot's controller (using wb_supervisor_field_set_sf_string()) while a Camera is in use (Windows only)
   - Fixed: changes made to the translation/rotation fields of objects using in the Scene Tree were ignored unless the .wbt was saved and then reverted (but this worked fine when the objects were moved using the mouse)
 
 ## Webots 6.3.1
@@ -206,7 +206,7 @@
   - Fixed: wb_supervisor_node_get_from_def() fails for nodes that have previously been returned by wb_supervisor_field_get_sf_node() or wb_supervisor_field_get_mf_node() (thanks to Thierry)
   - Improved Viewpoint rotation: the rotation center is now the 3D coordinate of the mouse click rather than the center of the selected object
   - Upgraded to Ogre 1.7.1 rendering system
-  - Fixed: webots was sometimes unable to start a controller due to a combination of spaces and conflicting files in the path of the controller`s executable: CreateProcess() failed with error code 193, (Windows)
+  - Fixed: webots was sometimes unable to start a controller due to a combination of spaces and conflicting files in the path of the controller's executable: CreateProcess() failed with error code 193, (Windows)
   - Added an example of robot with three omni-wheels: projects/samples/howto/worlds/omni_wheels.wbt (thanks to Mehdi)
   - Upgraded to wxWidgets 2.8.11
   - Added Urbi 2.0 engine and examples
@@ -228,16 +228,16 @@ You will need to locate this line in your project Makefiles:
   - Fixed important memory leak when using wb_supervisor_simulation_revert() in Fast mode (thanks to Joel)
   - Fixed Webots crashes when using wb_supervisor_field_get_sf_node() on a field that contains a NULL node (thanks to Thierry)
   - Wrong value returned by wb_supervisor_node_get_type() and wb_supervisor_node_get_name() for some nodes (thanks to Thierry)
-  - Fixed: wb_servo_get_motor_force_feedback() that was wrongly returning motor torque computed at body`s CoM instead of joint axis
+  - Fixed: wb_servo_get_motor_force_feedback() that was wrongly returning motor torque computed at body's CoM instead of joint axis
   - Added source code of naoqi_for_webots (formerly called nao_in_webots) controller used for connecting NaoQi clients to simulated Nao robot in Webots
-  - In .protos files: the url field of ImageTexture nodes is now specified with respect to the .proto file`s location instead of the .wbt file`s location as it was before:
+  - In .protos files: the url field of ImageTexture nodes is now specified with respect to the .proto file's location instead of the .wbt file's location as it was before:
 **warning: this requires to move the textures files referenced in .proto files from the "worlds" to the "protos" directory.**
 
 ## Webots 6.2.2
 
   - Limited the number of lines in the console window on Mac OS X to avoid performances issues
   - URBI 1.5 for Webots was removed from this version
-  - Fixed: problem for starting Matlab controllers on Mac OS X systems that defaults to a 64-bit architecture (added "-maci" option to matlab`s command line)
+  - Fixed: problem for starting Matlab controllers on Mac OS X systems that defaults to a 64-bit architecture (added "-maci" option to matlab's command line)
   - Fixed: menu Wizard -> New Project Directory that failed because of missing Makefile
   - Extended from 255 to 65535 the maximal number of devices per robot (the definition of WbDeviceTag has changed)
   - Fixed the Lidar device, bound the resulted values if they are bigger than the max range (thanks to Nikolaus)
@@ -253,17 +253,17 @@ You will need to locate this line in your project Makefiles:
 
 ## Webots 6.2.1
 
-  - Fixed: crash on Windows when a texture doesn`t exist (warnings improved)
+  - Fixed: crash on Windows when a texture doesn't exist (warnings improved)
   - Fixed various causes of crash when resizing the main window or subwindows to a very small size
   - Added "Restore Layout" menu
   - Fixed: bumper touch sensors were fired by distance sensor rays
   - Upgraded to Ogre 1.6.5
   - Added autonomous vehicle example
   - Added the SpotLight node
-  - Fixed the Display device which wasn`t displaying well on some hardware
+  - Fixed the Display device which wasn't displaying well on some hardware
   - Increased the limit on the polygones number of the IndexedFaceSet primitive to cast shadows
   - Fixed the Lidar device which returned wrong values arround the corners of the sub-cameras
-  - Added a genetic algorithm example in the Advanced Programming Exercises of Cyberbotics` Robot Curriculum
+  - Added a genetic algorithm example in the Advanced Programming Exercises of Cyberbotics' Robot Curriculum
   - Fixed: prototyped Servo nodes have .proto instead of .wbt translation/rotation values (thanks to Thierry)
   - Improved the conditions to display the center and the mass center of Solid nodes
   - Fixed the Pen device has been broken in Webots 6.2.beta3
@@ -411,7 +411,7 @@ You will need to locate this line in your project Makefiles:
 
 ## Webots 6.1.0
 
-  - Added simulations used by the Cyberbotics`s Robot Curriculum in the projects/samples/curriculum folder
+  - Added simulations used by the Cyberbotics's Robot Curriculum in the projects/samples/curriculum folder
   - Added a new Display device to simulate a screen on which the robot controller can draw any text or graphics
   - Fixed error messages sent to /var/log/messages under Linux with a USB dongle
   - Fixed resizing problem in 3D window when making a video with format "current resolution" (thanks to Jimmy)
@@ -445,11 +445,10 @@ You will need to locate this line in your project Makefiles:
 
   - **Warning: URBI is disabled in this release, because of some compatibility issues.**
 It will shortly be available again. If you need URBI please continue using Webots 5.10.0.
-
   - Save windows layout when closing world file
   - Added a menu for registering a laptop computer (floating licenses only)
   - Fixed bug with loosing the camera-followed object after a revert
-  - Removed URBI from the guided tour and Nao Robocup (as URBI doesn`t work yet with Webots 6)
+  - Removed URBI from the guided tour and Nao Robocup (as URBI doesn't work yet with Webots 6)
   - Changed behavior of "Save" (worlds) menu: saving after the simulation has run is now blocked
   - Fixed several glitches in Motion Editor
   - Synchronized Servo selection between 3D view and Motion Editor
@@ -463,7 +462,7 @@ It will shortly be available again. If you need URBI please continue using Webot
   - Save backups of world files using numbered tilda-based suffixes
   - Prevent the opening of the same text file in two different tabs
   - Added the wb_supervisor_field_import_mf_node function which allows to import a node into an MF_NODE field from a supervisor
-  - Fixed crash when the ComputerID doesn`t match the ones in the license file
+  - Fixed crash when the ComputerID doesn't match the ones in the license file
   - Fixed arrow key pressing not forwarded to controller program under Windows
   - Improved the "Welcome to Webots" window
   - Disable useless text editor buttons and menus when no text buffer is open
@@ -497,7 +496,7 @@ It will shortly be available again. If you need URBI please continue using Webot
   - Renamed the "CustomRobot" node into "Robot": existing .wbt files will be automatically and silently updated when they are opened
   - Changes two rules for all "lookupTables" fields:
     - The second column of all "lookupTable" fields are now interpreted as double (instead of unsigned short int) values.
-Therefore all sensors using "lookupTable" fields (DistanceSensor, LightSensor, TouchSensor, etc.) do now also return doubles in the corresponding ..._get_value() functions
+Therefore all sensors using "lookupTable" fields (DistanceSensor, LightSensor, TouchSensor, etc.) do now also return doubles in the corresponding ...\_get_value() functions
     - In addition, an emtpy lookupTable ([ ]), now returns non-interpolated sensor values
   - Rearranged the Webots windows into a single big window (using the wxWidgets AUI system)
   - Upgraded to wxWidgets 2.8.9
@@ -512,7 +511,7 @@ Therefore all sensors using "lookupTable" fields (DistanceSensor, LightSensor, T
     - Added a new and more didactic C controller example (nao_soccer_player_red.c)
     - Adapted Java player example (Cracoucass) to Webots6 new object-oriented Java API
     - Adapted nao_soccer_supervisor.c to Webots6 API
-    - Added 2-axis Gyro to Nao.proto and reoriented Accelerometer`s axes
+    - Added 2-axis Gyro to Nao.proto and reoriented Accelerometer's axes
   - e-puck:
     - Updated the e-puck firmware (improved the communication protocol)
     - Fixed the floor sensors (notably, in BotStudio)
@@ -524,8 +523,3 @@ Therefore all sensors using "lookupTable" fields (DistanceSensor, LightSensor, T
   - Fixed bug that prevented the transmission of Emitter/Receiver packets with small Emitter.baudRate values
   - The Camera node now defaults to Webots rendering (small magenta framed window inside the main 3D view)
   - The wb_supervisor_import_node() function now uses a path relative to the supervisor controller
-
-## [Webots 5 change log](ChangeLog5.html)
-
-
-## [Webots 4 change log](ChangeLog4.html)

@@ -5,10 +5,10 @@
 
   - Several improvements in BotStudio:
     - Added arrows indicating the direction of transitions
-    - Improved the "COM port" listbox by adding a "Refresh COM port..." item (same improvement for the e-puck`s robot window)
+    - Improved the "COM port" listbox by adding a "Refresh COM port..." item (same improvement for the e-puck's robot window)
     - Fixed crahs with a transition with no condition
     - Improved the stop condition
-    - Fixed a bug which occurred when a motor speed wasn`t set
+    - Fixed a bug which occurred when a motor speed wasn't set
   - Added sound plugin source code to Webots distribution, and changed base sample type from `signed char` to `short`
   - For Robotstadium contest:
     - Robotstadium now has 3 robots per team instead of 4 (due to an official RoboCup rule change)
@@ -16,10 +16,10 @@
     - Added an automatic penalty kick shoot-out for tied games (change in nao_soccer_supervisor.c)
     - Fixed problem in all Robotstadium .wbt files that caused blue Nao robots not to receive RoboCupGameControlData
   - Improved the protocol between Webots and the license server: non-blocking in case of small network failures
-  - Added the compatibility with the three e-puck`s camera models
+  - Added the compatibility with the three e-puck's camera models
   - Open a dialog box offering a retry when the connection to the license server failed instead of quitting
   - Fixed bug with spaces in the path of the urbi.key file
-  - Improved the text editor: Python`s syntax highlighting, auto-completion is different according to the language
+  - Improved the text editor: Python's syntax highlighting, auto-completion is different according to the language
   - Added Python language support for Webots controllers
   - Added oriented-object C++ API for Webots controllers
 
@@ -33,23 +33,23 @@
   - Added differential_wheels_set_encoders() function for the e-puck in the remote-control mode (firmware updated)
   - For Robotstadium contest:
     - Added "kick-off shot cannot score a goal" rule enforced by simulation Supervisor
-    - Added automatic "throw-in" by Supervisor when the ball leaves the field`s limits (white lines)
+    - Added automatic "throw-in" by Supervisor when the ball leaves the field's limits (white lines)
     - Moved physical field limits (boundingObjects) 1 meter back
     - Changed menu item "Follow Robot" to "Follow Object": now the view point can also follow passive objects like the ball
 
 ## Webots 5.9.1
 
   - Fixed bug with robot_get_time() and asynchronous controllers
-  - Merged nao*_urbi.wbt with nao*.wbt, also robotstadium_urbi.wbt with robotstadium.wbt
+  - Merged nao*\_urbi.wbt with nao*.wbt, also robotstadium_urbi.wbt with robotstadium.wbt
   - Upgraded to URBI for Webots version 1.5.4 rev. 2e80a3e
-  - Fixed problem with missing "-*-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*" font under Linux
+  - Fixed problem with missing `-*-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*` font under Linux
   - Fixed crash when adding CoordIndex values in a new IndexedFaceSet from the scene tree window
   - Fixed the cross-compilation of the e-puck controllers under Windows
   - Slightly changed the compilation system and menus of the text editor:
     - Added new "Compile" menu item to compile a single source file (instead of whole project)
     - Added "Compile", "Clean", "Cross-compile clean" and "Replace..." buttons in the tool bar of the text editor
     - Improved handling of projects with directories containing both C/C++ and Java source files
-    - Improved: it`s no longer needed to maintain a list of Java source files in the Makefile
+    - Improved: it's no longer needed to maintain a list of Java source files in the Makefile
     - Fixed: Webots does no longer build .d files (dependencies) for Java projects
     - Added new "Make JAR file" menu to create JAR files for submission to online contests
     - Fixed: missing .class files (for internal classes) in generated JAR files
@@ -65,7 +65,7 @@
   - Fixed minor glitches in video recording caused by mouse-manipulations before the recording is started by pressing the "Run" button
   - Fixed: Webots freezes if a controller has returned from the main() function and then the user hits "Revert" or "Quit" (Windows only)
   - Added multi-threaded simulation engine for all "nao" and "robotstadium" worlds (important speedup on multi-core CPUs)
-  - Added hard-coded drag force that slows down the ball`s rolling motion in "nao" and "robotstadium" worlds
+  - Added hard-coded drag force that slows down the ball's rolling motion in "nao" and "robotstadium" worlds
   - Fixed wrong hip structure, mass distribution, foot shape and eye LEDs of Nao to reflect the new model (Robocup edition)
   - Fixed bug with remote control of the motor wheels of the Khepera III
   - Fixed bug that sometimes caused Webots to delete dJointFeedback structures registered by the user in the physics plugin
@@ -74,7 +74,7 @@
   - Fixed problem that made the Guided Tour crash when quickly pushing the [Next] or [Previous] button
   - Added Java interface (in Controller.java) for 15 functions that were previously only accessible from C/C++
   - Fixed display of the BotStudio, e-puck and Khepera windows under Mac OS X
-  - Fixed Rat`s life moving camera
+  - Fixed Rat's life moving camera
   - Fixed the bug causing that nodes could only be added at the top of a Group or Transform boundingObject
   - Fixed systematic crash when a geometrical node (Box, Cylinder, Sphere, etc) is added to a Group boundingObject and then mouse-clicked
 
@@ -112,7 +112,7 @@
 
 ## Webots 5.7.2
 
-  - Added accelerometer in Rat`s Life
+  - Added accelerometer in Rat's Life
   - Added linear camera device in Botstudio for e-puck
   - Added support for e-puck accelerometer
   - Added e-puck cross-compilation capability
@@ -139,7 +139,7 @@
 
 ## Webots 5.7.0
 
-  - Added Aldebaran Robotics` Nao humanoid robot model with RoboCup field
+  - Added Aldebaran Robotics' Nao humanoid robot model with RoboCup field
   - Fixed batch mode crash because of the display of a license warning
   - Added a provision on the first law of Asimov in the license agreement
   - Added a model of the iCub robot (RobotCub Consortium)
@@ -190,12 +190,12 @@
 ## Webots 5.5.3
 
   - Compiled with wxWidgets-2.8.6
-  - Added Rat`s Life contest files and allowed compilation for these instead of roboka
+  - Added Rat's Life contest files and allowed compilation for these instead of roboka
 
 ## Webots 5.5.2
 
   - Updated the version of the URBI package to 1.04 and added Aibo ball tracking demo
-  - Mac OS X version doesn`t crash any more after license warnings
+  - Mac OS X version doesn't crash any more after license warnings
   - Updated the version of the URBI package to 1.04
   - Fixed bug with built-in camera rendering and loading a new world
   - Added a Simplified Chinese translation of Webots
@@ -218,12 +218,10 @@ The usage of the Joint node was found to be confusing, because it was often uncl
 This version of Webots makes the appropriate decision automatically.
 In addition, all the instances of Joint nodes were removed from all the .wtb example in Webots distribution.
 When this version of Webots loads a .wbt file that contain Joint nodes it issues a error message similar to this:
-
   - **Change in the Shrimp model.**
 The "shrimp.wbt" model was slightly modified as a consequence of the removal of the Joint node.
 In the previous "shrimp.wbt" model, an empty "joint" field in a Solid node used to indicate that this joint was going to be created in the physics plugin.
 Now the same thing is indicated by a Servo node which "type" field constains the string "none".
-
   - Fixed sometimes not working "jump-to-error" behavior of compilation console (Mac OS X)
   - Fixed wrong collision detection when boundingObject had a "Group->Shape" structure and Physics.centerOfMass/rotation had non-default values
   - Fixed sometimes incomplete list of gcc error messages displayed in text editor (Windows)
@@ -253,7 +251,7 @@ Now the same thing is indicated by a Servo node which "type" field constains the
 ## Webots 5.4.0
 
   - **Warning about WorldInfo.basicTimeStep.**
-In this version, Webots checks that the controller step (the value passed to robot_step() or returned by the controller`s run() function) is a multiple of the basicTimeStep. Simulations that do not meet this requirement will issue warning messages.
+In this version, Webots checks that the controller step (the value passed to robot_step() or returned by the controller's run() function) is a multiple of the basicTimeStep. Simulations that do not meet this requirement will issue warning messages.
 
   - **Warning about servo_set_force() function.**
 In this version, the existing servo_set_force() function was renamed servo_set_motor_force().
@@ -264,7 +262,7 @@ We recommend to replace any previous call to servo_set_force() by a call to serv
   - Added Robot.selfCollision field to enable intra-robot collision detection
   - Fixed behavior of supervisor_set_label() which was taking into account only the first call for the same id, now takes into account only the last call (thanks to Benoît)
   - Fixed defective use of the "controller" field as PROTO field
-  - Propose to adapt translation and rotation when pasting a node at the parent`s level in the scene tree window to preserve abolute position and orientation
+  - Propose to adapt translation and rotation when pasting a node at the parent's level in the scene tree window to preserve absolute position and orientation
   - Fixed crash when a non-existing world file name is specified on the command line (--batch mode only)
   - Fixed problem with EPFL license server setting
   - Added new functions for motor torque/force feedback: servo_enable_motor_force_feedback() and servo_get_motor_force_feedback()
@@ -285,7 +283,7 @@ We recommend to replace any previous call to servo_set_force() by a call to serv
 
 ## Webots 5.3.0
 
-  - Display a star (*) in the title bar of the main window when the world was modified
+  - Display a star (`*`) in the title bar of the main window when the world was modified
   - Fixed bug preventing the display of the Khepera window and displaying UTF-8 warning messages in the console
   - Fixed crash when "controllerArgs" exceeds 5 arguments (Java)
   - Fixed crash on exit on Mac OS X
@@ -302,7 +300,7 @@ We recommend to replace any previous call to servo_set_force() by a call to serv
   - Enabled supervisor_field_set() to change the position and orientation of the Viewpoint node
   - Fixed camera flipped image when using Camera.windowPosition field
   - Fixed selection unstability while the simulation is running
-  - Fixed incorrect DEF name when PROTO nodes are DEF`d
+  - Fixed incorrect DEF name when PROTO nodes are DEF'd
   - Fixed possible crash when LightSensors are copy/pasted or used inside PROTO nodes
   - Fixed problem with labels displayed by soccer_supervisor under Linux
 
@@ -325,7 +323,6 @@ The new "force" TouchSensors are unidirectional while the old ones were omnidire
 The new "force" sensors measure the force along their z-axis, while the other axes are ignored.
 The modification is very simple: the TouchSensors must be reoriented such that their positive z-axes point from the body outwards, in the direction where the force need to be measured (where the collision is expected to take place).
 Please also note that the values returned by "bumper" sensors may also differ from those of previous Webots version because the new version returns fixed 0 or 1 while the previous version used to return the min or max values of the lookup table.
-
   - Added Camera.windowPosition and Camera.pixelSize fields for camera rendering in the main Webots window
   - Fixed controller compilation under Windows Vista
   - Fixed Webots document icon under Windows
@@ -371,7 +368,7 @@ Please also note that the values returned by "bumper" sensors may also differ fr
   - Fixed crash after compilation from the IDE on Mac OS X
   - Upgraded to wxWidgets 2.8.0
   - Fixed floating rounding problem causing erratic physics simulation when the time step was smaller than 1 (thanks to Lorenzo)
-  - Fixed performance problem when moving editor`s slider on Mac OS X
+  - Fixed performance problem when moving editor's slider on Mac OS X
   - Fixed crash with illegal instruction on Athlon processors under Linux
   - Fixed very slow camera windows rendering on Mac OS X
   - Added Surveyor SVR-1 robot model and programming interface
@@ -407,8 +404,8 @@ Please also note that the values returned by "bumper" sensors may also differ fr
   - Many improvements and bug fixes in the provided examples
   - Fixed crash with supervisor_simulation_physics_reset()
   - Fixed bug with Physics.centerOfMass and boundingObject
-  - Fixed reset of robots` position and orientation in soccer.wbt demo
-  - Don`t save a crashing world file as the default file in the preferences (Windows)
+  - Fixed reset of robots' position and orientation in soccer.wbt demo
+  - Don't save a crashing world file as the default file in the preferences (Windows)
   - Fixed crash when clicking in the main window during the AVI dialog (Windows only)
   - Fixed e-puck window behavior when e-puck robot has no camera
   - Fixed search path for textures in libController
@@ -424,7 +421,7 @@ Please also note that the values returned by "bumper" sensors may also differ fr
   - Set default values for Emitter.baudrate, Receiver.baudRate and Emitter.range to -1
   - robot_console_printf() can now clear the console with the `\f` character
   - Added confirmation dialog before saving a world
-  - Remove *.exe_webots, *.dll_webots, *.o, *.d and webots.log after uninstallation on Windows
+  - Remove `*.exe_webots`, `*.dll_webots`, `*.o`, `*.d` and `webots.log` after uninstallation on Windows
   - Added display of light sensor range
   - Fixed and improved robot_keyboard_get_key(), now takes into account shift, control and alt modifiers
   - Added auto-completion feature in the text editor
@@ -469,8 +466,8 @@ Please also note that the values returned by "bumper" sensors may also differ fr
   - Add a startup option to choose the startup mode (stop, run or fast)
   - Fixed bug with keyboard reading and modifier keys
   - Added new roboka worlds and a supervisor allowing to set initial position
-  - Moving objects while physics simulation is running doesn`t break joints any more (thanks to Yvan)
-  - Don`t save position of iconified windows in world files
+  - Moving objects while physics simulation is running doesn't break joints any more (thanks to Yvan)
+  - Don't save position of iconified windows in world files
   - Uninstall removes the Webots registry entry under Windows
   - Fixed possible hang when displaying Servo warning messages (thanks to Simon)
   - Fixed cross-compilation problem with khepera_gripper.c (thanks to Sylvain)
@@ -494,7 +491,7 @@ Please also note that the values returned by "bumper" sensors may also differ fr
 ## Webots 5.1.5
 
   - Fixed initialisation of random seed, so that Webots simulations are now deterministic (thanks to Yvan)
-  - Fixed koala.wbt which doesn`t use any more non-convex Extrusion causing problems in some cases (thanks to Ankanadh)
+  - Fixed koala.wbt which doesn't use any more non-convex Extrusion causing problems in some cases (thanks to Ankanadh)
   - Attempted to fix a bug with the gripper device (thanks to Fernando and Ricardo)
   - Fixed roboka.wbt allowing recompilation of Java controllers (thanks to Dominic)
   - Added dWebotsConsolePrintf() in the physics library API (thanks to Harun)
@@ -523,7 +520,6 @@ This release is not fully upward compatible with Webots 5.1.2.
 The change is very minor though: if your world files have Servo nodes with an
 acceleration field different from -1, you should multiply it by 10^6 or
 set it to -1 (for infinity).
-
   - Built with wxWidgets 2.6.3
   - Display white wireframe only for bounding objects of Solid nodes
   - Fixed all Visual Studio project files (tested with Visual C++ 6.0)
@@ -640,7 +636,6 @@ set it to -1 (for infinity).
   - Removed accented chars from botstudio graphs
   - Fixed sensor name in rover.wbt
   - Fixed the two following problems in the scene tree window (thanks to Yvan):
-
   - Display a warning on the console when a device name is not found (probably
 misspelled) by a controller program (thanks to Jonas)
   - Added installation instructions for URBI in the user guide
@@ -676,7 +671,7 @@ Simon)
   - Added inverted double pendulum example: pendulum.wbt
   - Added DV (PAL/NTSC) resolutions for movie creation
   - Fixed robot_console_print in Java API under Windows (thanks to Jose)
-  - Don`t open a DOS console any more for Java controllers
+  - Don't open a DOS console any more for Java controllers
   - Fixed bug with camera update and creation of new objects
   - Fixed warning in libController for WorldInfo fields
   - Fixed collision bug with Supervisor or CustomRobot without physics
@@ -796,7 +791,7 @@ Simon)
   - Fixed EPFL license check under Windows
   - Fixed Computer ID check under Windows
   - Opens the first controller of the scene tree when popping up the editor window
-  - Added a star (*) to mark a modified file in the title bar of the editor window
+  - Added a star (`*`) to mark a modified file in the title bar of the editor window
   - Fixed text editor opening from the window menu
   - Fixed windows titles
   - Changed the window layout of the default.wbt world
@@ -830,5 +825,3 @@ Simon)
   - Fixed light sensors seeing lights switched off (thanks to Nikolaus)
   - Fixed user guide references to the Preferences menu (thanks to Ricardo)
   - Fixed the distance sensor response when moving the robot with the mouse (thanks to Murray)
-
-## [Webots 4 change log](ChangeLog4.html)

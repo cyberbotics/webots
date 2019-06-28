@@ -1,7 +1,7 @@
 # Webots R2018b Change Log
 
 
-## [Webots R2018b](https://cyberbotics.com/doc/blog/Webots-2018-b-release)
+## [Webots R2018b](../blog/Webots-2018-b-release.md)
 
   - New Features
     - WREN: New Rendering System
@@ -18,7 +18,7 @@
       - **Removed the ComposedCubeMapTexture, ComposedShader, MultiTexture, ShaderPart and Uniform nodes, to implement a better system in the future.**
       - **Removed custom compositors for the Camera node.**
       - **Removed the ability to use draw objects using OpenGL in Webots physics plugins.**
-    - Re-designed Webots` GUI for a more modern look and feel.
+    - Re-designed Webots' GUI for a more modern look and feel.
     - Re-designed main simulation toolbar to remove redundant icons.
     - Added a new context menu to the scene tree and 3D view to streamline operations on nodes.
     - Added two new functions called `wb_joystick_get_number_of_povs` and `wb_joystick_get_pov_value` to the Joystick API to retrieve the state and number of point of views (POV) of the joystick.
@@ -101,7 +101,7 @@
     - BioRob salamander: Dropped useless motorized segments, renamed motors and improved immersion properties.
     - Aibo: Dropped non-functional LEDs from the AiboErs7 PROTO.
     - Atlas: Dropped obsolete URDF importer tool.
-    - Moved naoqisim controller and dependencies (including Aldebaran`s simulator SDK) to the
+    - Moved naoqisim controller and dependencies (including Aldebaran's simulator SDK) to the
 
 ## Webots R2018a revision 2
 
@@ -127,11 +127,11 @@
 ## Webots R2018a revision 1
 
   - New Features
-    - Transformed several robots into PROTO nodes: BIOLOID Dog, Parallax`s BoeBot, EPFL BioRob`s Salamander, Yamor and GhostDog, K-Team`s Hemisson, Khepera I and II and Koala, KONDO`s KHR-3HV, micromagic`s Mantis, Mindstorms` Rover, Adept`s Pioneer 2, Unimation`s PUMA 560, Sony`s QRIO, Bluebotics` Shrimp, NASA`s Sojourner and Surveyor SRV-1.
+    - Transformed several robots into PROTO nodes: BIOLOID Dog, Parallax's BoeBot, EPFL BioRob's Salamander, Yamor and GhostDog, K-Team's Hemisson, Khepera I and II and Koala, KONDO's KHR-3HV, micromagic's Mantis, Mindstorms Rover, Adept's Pioneer 2, Unimation's PUMA 560, Sony's QRIO, Bluebotics' Shrimp, NASA's Sojourner and Surveyor SRV-1.
     - Added an e-puck2 model (enabled with the E-puck.version field) and support for remote-control via Bluetooth.
     - Added a model of the MultiSense S21 range sensor based on a stereoscopic camera.
     - Added a model of the Sick LD-MRS lidar.
-    - Added a simple controller for micromagic`s Mantis robot.
+    - Added a simple controller for micromagic's Mantis robot.
   - Enhancements
     - **Viewpoint animation keyboard shortcuts now require the ALT modifier to free up the numpad for controlling robots using the numpad.**
     - Users without numpads on their machines can use the regular number keys (along with the ALT modifier) to move the viewpoint.
@@ -191,7 +191,7 @@
   - Upgrade
     - Windows: upgraded to Qt 5.10.1.
 
-## [Webots R2018a](https://cyberbotics.com/doc/blog/Webots-2018-a-release)
+## [Webots R2018a](../blog/Webots-2018-a-release.md)
 
   - New Features
     - Replaced legacy generic Qt robot windows with an HTML5-based system.**The legacy generic Qt robot window is deprecated.**
@@ -274,13 +274,13 @@
     - Fixed check of invalid USE nodes whose definition contains a Slot node with a Solid descendant node.
     - Fixed errors with the Extrusion PROTO when the spine is along the Z axis.
     - Fixed crash when calling the `wb_speaker_play_sound` function with a sound file whose format is not supported.
-    - Linux: fixed display of device name`s underscores in the Robot menu.
+    - Linux: fixed display of device name's underscores in the Robot menu.
     - Fixed `Follow Object` not working correctly when used on a non top Solid.
     - Fixed reproducibility issue in simulations running several supervisor processes with concurrent field get and field set operations.
     - Fixed AckermanVehicle.trackFront field.
     - macOS: fixed hidden close button of the text editor tabs.
     - macOS: Fixed font issues in the offline documentation.
-    - Fixed HingeJoint and Hinge2Joint physical stops not matching `minStop` and maxStop` values after moving the robot (thanks to Matt).
+    - Fixed HingeJoint and Hinge2Joint physical stops not matching `minStop` and `maxStop` values after moving the robot (thanks to Matt).
     - Fixed Supervisor set/get MF field methods if called multiple times for the same field but with different indices during one controller step (thanks to Matt).
     - Fixed geometries resize handles (checkbox `show resize handles` was not showed in geometry nodes).
     - Fixed UTF-8 characters in the wb_display_draw_text() function.
@@ -317,17 +317,3 @@
     - **Deprecated the DifferentialWheels node.** Please use the Robot node instead with two HingeJoint, RotationalMotor and PositionSensor nodes.
       - All the PROTO files previously using a DifferentialWheels node (including the E-puck, Create, Khepera3 and Khepera4) have been updated to use a Robot node instead.
       - Robot windows of previously DifferentialWheels have been update to use standard units (radians/second for wheel velocities and radians for wheel positions).
-
-## [Webots 8 change log](ChangeLog8.html)
-
-
-## [Webots 7 change log](ChangeLog7.html)
-
-
-## [Webots 6 change log](ChangeLog6.html)
-
-
-## [Webots 5 change log](ChangeLog5.html)
-
-
-## [Webots 4 change log](ChangeLog4.html)

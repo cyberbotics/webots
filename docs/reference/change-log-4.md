@@ -30,7 +30,7 @@
   - Fixed MTN playback with variable number of interpolation frames (thanks to Sergei)
   - Better error messages while parsing world files (thanks to Sergei)
   - Fixed servo limits handling (thanks to Sergei)
-  - Uses jar files if any in the controllers` directory (thanks to José)
+  - Uses jar files if any in the controllers' directory (thanks to José)
 
 ## Version 4.0.25
 
@@ -40,7 +40,7 @@
   - Fixed occasional revert freeze under Linux
   - Fixed bug with real Khepera and Emitter device (thanks to Nitin)
   - Fixed bug with dWebotsGetGeomFromDEF and empty children list (thanks to Alessandro)
-  - Don`t display empty robot windows
+  - Don't display empty robot windows
   - Reviewed the Webots User Guide (thanks to Sergei)
   - Added standard video sizes for movie creation
   - Fixed text fields not always updating the scene tree and scene
@@ -102,7 +102,7 @@
   - Fixed cross-compilation problem with the khepera controller (thanks to Basel)
   - Disabled the insertion of a Solid, Device or Robot node at a wrong position in the scene tree window
   - Fixed mouse wheel zoom under Windows
-  - BotStudio doesn`t hang any more when the Hemisson robot is unplugged
+  - BotStudio doesn't hang any more when the Hemisson robot is unplugged
   - Fixed default world to botstudio_line.wbt for Hemisson licenses
   - Improved Aibo ERS-210 model, remote control of real robot (thanks to Lukas)
   - Fixed bug with endless popup message window (thanks to Pascal)
@@ -110,7 +110,6 @@
   - Added webots_physics_draw() function for custom 3D drawing from the physics library (thank to Jonas)
   - Create better quality MPEG-2 movies under Linux and MacOS X by using mjpegtools (thanks to Auke and Alcherio)
   - Added the SERVO_INFINITY position value to make a servo turn endless (thanks to Lucien)
-
   - Fixed bugs with servo limits and position sign (thanks to Lukas)
   - Fixed complex boundingObject construction from the scene tree window (thanks to Lucien)
   - Allow the user to insert IndexedFaceSet nodes as boundingObject in the scene tree window, should be limited to rectangles though (thanks to Lucien)
@@ -140,8 +139,6 @@
   - Fixed the choice of geometry primitives in the scene tree window (thanks to Sébastien)
   - Disabled OpenGL vertical sync on Windows for a much faster 3D rendering: I get a 4x performance increase on my laptop (thanks to Jean-Christophe)
   - Fixed crash due to ODE stack overflow when handling complex models with physics
-  -
-
   - Fixed issue in physics shared library with dGeomGetBody on a non-placeable geom (thanks to Jérôme)
   - BotStudio 2.0.7: fixed quit without saving french message and sensors measurement display
   - Fixed bug with dWebotsGetGeomFromDEF() and nested structures with servos (thanks to Jérôme)
@@ -275,7 +272,7 @@
   - Fixed crash when a DifferentialWheels robot misses a wheel name like "left wheel" or "right wheel" (Thanks to Andrew)
   - Fixed some typo in the documentation (thanks to Frans)
   - Added blimp_asl2 flying robot example (thanks to Jean-Christope)
-  - Fixed flipped texture images in controller`s camera (thanks to Jean-Christophe)
+  - Fixed flipped texture images in controller's camera (thanks to Jean-Christophe)
   - Added LED support in the Java API (thanks to Frans)
   - Save the position and size of the BotStudio window (Windows only)
   - Added an icon to the BotStudio window
@@ -291,7 +288,7 @@
   - Fixed distance sensor measurement error occurring after supervisor_field_set (thanks to Mathieu)
   - Added supervisor_simulation_revert(void)
   - Fixed a crash occurring when changing the controller of a robot while the simulation is running
-  - Added supervisor_robot_set_controller(NodeRef robot,const char *controller)
+  - Added `supervisor_robot_set_controller(NodeRef robot, const char *controller)`
 
 ## Version 4.0.10
 
@@ -453,7 +450,7 @@
   - Added servo_enable_position, servo_get_position and servo_disable_position
   - Added custom_robot_add_rel_force_and_torque function
   - Added Aibo ERS-210 model in aibo_ers210.wbt
-  - Click on an already selected object doesn`t reselect it
+  - Click on an already selected object doesn't reselect it
   - Display recursively the boundingObject of all children of a Solid
   - Added biped.wbt example
   - Implemented proportional control for servos

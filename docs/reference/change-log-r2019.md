@@ -1,6 +1,6 @@
 # Webots R2019b Change Log
 
-## [Webots R2019b](https://cyberbotics.com/doc/blog/Webots-2018-b-release)
+## [Webots R2019b](../blog/Webots-2018-b-release.md)
 
   - New Robots
     - Added an ABB IRB 4600/40 arm model.
@@ -99,7 +99,7 @@
     - Fixed MATLAB controllers causing MATLAB crashes at startup on Windows.
     - Fixed e-puck light sensors calibration in worlds using PBR.
 
-## [Webots R2019a](https://cyberbotics.com/doc/blog/Webots-2019-a-release)
+## [Webots R2019a](../blog/Webots-2019-a-release.md)
 
   - New Features
     - Graphics Improvements

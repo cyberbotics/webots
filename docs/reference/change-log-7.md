@@ -7,7 +7,7 @@
     - **Official support for Ubuntu 13.10 and 14.04 LTS, the support of the other Ubuntu versions is dropped (but may still work).**
   - Enhancements
     - Physics plugin
-      - Deprecated the arguments of the webots_physics_init() function. From now it`s unsafe to use them.
+      - Deprecated the arguments of the webots_physics_init() function. From now it's unsafe to use them.
       - Added a dWebotsGetContactJointGroup() function able to retrieve the contact joint group where to create custom contact joints.
       - Fixed physics plugin examples accordingly, including the custom contact point demo (contact_points.wbt) which was broken.
     - Improved significantly the simulation loading time in case of an intensive use of prototypes.
@@ -26,12 +26,12 @@
   - Bug fixes
     - Fixed the printers devices initialization which can imply a long network initialization loading time (thanks to Alessandro).
     - Fixed a bug occuring when adding a procedural prototype as an end solid of a joint.
-    - Fixed rendering of translate and rotate handles` label when using Mesa drivers.
+    - Fixed rendering of translate and rotate handles' label when using Mesa drivers.
     - Show revert world message dialog also when compiling shared libraries if located in the current project folder.
     - Fixed crash occuring when recompiling a physics plugin while it is executing on Linux.
     - Fixed a random bug occuring in the multithreaded version of ODE implying rarely a Webots crash.
     - Fixed crash occuring when there were multiple IndexedFaceSet boundingObjects and when multithread was enabled.
-    - Fixed crash when loading Webots world files containing PROTO hidden fields that doesn`t match the current PROTO node structure.
+    - Fixed crash when loading Webots world files containing PROTO hidden fields that doesn't match the current PROTO node structure.
     - Fixed initialization of joints defined in nested PROTO.
   - Documentation
     - Updated installation instruction for Windows 8.
@@ -93,7 +93,7 @@
     - Fixed crash caused by calling wb_motor_set_torque() for the motor of an Hinge2Joint node (thanks to David)
     - Fixed crash caused by inserting an endPoint into a Hinge2Joint node
     - Fixed behaviour when pressing consecutive times the CTRL+S keyboard shortcut in the text editor
-    - Improved text editor`s find dialog box. The text line is selected when entering in the dialog box (thanks to Damien)
+    - Improved text editor's find dialog box. The text line is selected when entering in the dialog box (thanks to Damien)
     - Fixed e-puck line demo. The robot behavior was sometimes tricked by a too thick floor line (introduced in Webots 7.4.0)
     - Fixed a freeze on the Webots startup when the multithreaded mode was enabled. This issue was mainly visible on Linux.
     - Fixed problem of overriding PROTO nodes when two or more models have the same name by enabling only the first occurrence
@@ -110,14 +110,14 @@
     - Merged misc floor prototypes (CheckeredFloor.proto, DecimetricFloor.proto and MetricFloor.proto) into one (Floor.proto). The old ones are deprecated
     - Refactored arena prototypes (added RectangleArena.proto and CircleArena.proto, deprecated SquareArena.proto)
     - Added the new generic ros controller in the default controllers
-    - Added support for environment variable definitions and languages settings in a runtime.ini file in controller directory, and used this system for the Nao`s naoqisim controller
+    - Added support for environment variable definitions and languages settings in a runtime.ini file in controller directory, and used this system for the Nao's naoqisim controller
     - Added procedural prototypes support (embedded the lua language in prototypes to create simply and cleanly complex nodes)
     - Added a default manipulator for translating and rotating objects that appears when selecting a top solid
     - Changed font used in 3D View labels that now includes greek letters
     - Mac: Added a retro-compatibility toggle to link easily with the libc++ (default) or the libstdc++ (USE_STD_CXX=true) controller libraries (thanks to Simon)
     - Added `Details` button in field editor when PROTO nodes are selected that automatically opens the definition file
     - Added `Cancel` button in Wizards
-    - Supported infra-red measurements on Display device`s textures
+    - Supported infra-red measurements on Display device's textures
     - Added a new field named `resolution` for the following nodes: Accelerometer, Compass, DistanceSensor, GPS (previous `resolution` field has been renamed into `accuracy`), Gyro, InertialUnit, LightSensor, PositionSensor (and therefore also
 LinearMotor and RotationalMotor) and TouchSensor
     - Added a new field named `rangeResolution` to the Camera node
@@ -151,7 +151,7 @@ LinearMotor and RotationalMotor) and TouchSensor
     - Default min max position values for linear motors displayed in the robot window are now -1 and 1 (were previously like rotational motors, e.g., -pi and pi)
     - Fixed hidden fields management of the Hinge2Joint node
     - Fixed restart of controller when resetting the `controller` field to the same string from a supervisor (thanks to Adil)
-    - Added automatic validity checks for ContactProperties node`s fields
+    - Added automatic validity checks for ContactProperties node's fields
     - Disabled Add Node dialog box when attempting to insert a device into a `device` field which is not part of Robot (an info message is now displayed)
     - Fixed crash at load time caused by an invalid IndexedFaceSet placed into a boundingObject
     - Resolved Qt warnings for signals WbNode::massPropertiesChanged() and WbNode::positionChangedArtificially() when deleting nodes
@@ -177,7 +177,7 @@ LinearMotor and RotationalMotor) and TouchSensor
     - Awake Solids when global ODE parameters change (thanks to Thierry)
     - Fixed contact points rendering synchronization
     - Fixed use of system CLASSPATH when compiling Java controllers from Webots Text Editor
-    - Enable "Save" button after inertiaMatrix insertion, 3D scene zoom, objects` lifting with mouse wheel, and when changing followed solid from View menu
+    - Enable "Save" button after inertiaMatrix insertion, 3D scene zoom, objects' lifting with mouse wheel, and when changing followed solid from View menu
     - Mac OS X: the ODE physics engine now uses OpenMP, similarly to Windows and Linux.
     - Fixed distance computation for distance sensors of type `infra-red` when range is greater than 1 and no obstacle are detected
     - Fixed mouse cursor icon on Mac OS X when leaving the 3D View
@@ -232,7 +232,7 @@ collisions are ignored in this case
     - Updated Nao challenge to v1.8
   - Fixed device identification for Devices placed below a BallJoint (thanks to David)
   - Redirected ODE messages to Webots console
-  - Refactored the physics plugin` webots_physics_draw() function in order to be able to draw on the 3D view and/or on the robot cameras (thanks to Kevin)
+  - Refactored the physics plugin' webots_physics_draw() function in order to be able to draw on the 3D view and/or on the robot cameras (thanks to Kevin)
     - **Removed the webots_physics_pre_draw function: the same feature is accessible from the arguments of the webots_physics_draw() function (see Reference Manual)**
     - **Modified the webots_physics_draw() function: added 2 arguments (see Reference Manual)**
   - Fixed collision detection of user defined dGeoms in physics plugins
@@ -240,7 +240,7 @@ collisions are ignored in this case
   - Removed duplicate contact points of IndexedFaceSets (thanks to Jesse)
   - A time step less than 1ms is rounded up to 1ms in the void controller to keep the application responsive
   - Upgraded to Qt 5.1.1
-  - Fixed motion editor`s "fixed step"
+  - Fixed motion editor's "fixed step"
   - Fixed Toggle Line Comment function in Text Editor when the last line of the document is selected (thanks to Andrew)
   - Prohibited insertion from dialog box of a Geometry node in a boundingObject if one dimension is non-positive
   - DARwIn-OP
@@ -255,7 +255,7 @@ collisions are ignored in this case
   - Improved `Add Node` and `Transform` dialogs: allow to select a node model by double-clicking on it
   - Improved the support for ANSI Escape Sequences and CR character in messages printed on the Webots console
   - Improved error messages concerning PROTO nodes so that they match the Scene Tree structure
-  - Fixed file`s title in text editor when deleted externally
+  - Fixed file's title in text editor when deleted externally
   - Improved the X3D lights export
   - Stored the Webots version in the header of the Webots model files (.wbt, .proto, .wbo and .wbproj) in order to facilitate automatic upgrade
   - Removed the dependency of Java programs on make when compiling using the Webots text editor
@@ -266,10 +266,10 @@ collisions are ignored in this case
   - **Changed the returned value of wb_supervisor_get_contact_point() and wb_supervisor_get_number_of_contact_points() (see Reference Manual)**
   - Fixed crash caused by missing mandatory functions when loading a plugin
   - Fixed crash caused by transformations Robot->Supervisor from the GUI
-  - Fixed compilation issues with swinglet`s controller and plugin
+  - Fixed compilation issues with swinglet's controller and plugin
   - Added warnings when Solid mass settings are invalid or insufficient to define inertia (thanks to David)
   - Implemented integral and derivative gains, in addition to proportional gain, for PID control of motor position
-  - Added example of Ziegler-Nichols` PID tuning method
+  - Added example of Ziegler-Nichols' PID tuning method
   - Upgraded Java controllers API to Java 1.7
 
 ## Webots 7.2.4
@@ -291,8 +291,8 @@ collisions are ignored in this case
   - Fixed text editor title updates
   - Fixed text editor shortcuts when auto-completer pop-up window is visible
   - Fixed text editor empty tabs when files have been moved or deleted
-  - Added Khepera III`s gripper
-  - Added Pioneer 3`s gripper
+  - Added Khepera III's gripper
+  - Added Pioneer 3's gripper
   - Fixed bug related to nesting Transforms and Joints (thanks to David)
   - Added support for graphical collision notification when using a physics plugin
   - Fixed Supervisor label deletion
@@ -333,7 +333,7 @@ collisions are ignored in this case
   - Fixes Java and Python supervisor accessors to contact points
   - Changed supervisor API functions wb_supervisor_node_get_contact_points()
   - Fixed annoying z-order overlap of some dialog box
-  - Improved Webots file parser`s robustness
+  - Improved Webots file parser's robustness
   - Increased the distance sensors performance
   - Replaced advantageously WorldInfo::displayRefresh by WorldInfo::FPS. In most cases, this increase the performance of the run mode
   - Added examples in projects/samples/howto that illustrate the use of wb_supervisor_node_get_contact_points() and wb_supervisor_node_get_center_of_mass()
@@ -350,8 +350,8 @@ collisions are ignored in this case
   - Fixed syntax highlighing and auto-completion for C API data types in C programs
   - Added Capsule geometry sample world
   - Windows: robot windows are raised on top when opening them
-  - Windows: fixed robot window. Minimized them don`t decrease the global performance anymore.
-  - Windows: Fixed rights to invoke Qt`s lupdate (added a manifest file)
+  - Windows: fixed robot window. Minimized them don't decrease the global performance anymore.
+  - Windows: Fixed rights to invoke Qt's lupdate (added a manifest file)
   - Mac OS X: Restored the Menu items (Preferences / About / Quit) at the regular place
 
 ## Webots 7.2.1
@@ -417,11 +417,11 @@ collisions are ignored in this case
     - Reduced the camera refresh rate to increase the simulation speed
     - Fixed foot contact loss in some motions (thanks to Ethem)
     - Added a warning if the simulation is not running in real-time
-    - Improved the behavior of the Choregraph`s moveTo box
+    - Improved the behavior of the Choregraph's moveTo box
     - Fixed hip and ankle roll maximal torques of the Nao V40
     - Naoqi: Added low-pass filters (InertialUnit and FSR) to smooth stimulis
     - Reduced the WorldInfo::basicTimeStep to 20 of each simulation using the Nao in order to improve the physics quality
-    - Updated Aldebaran`s Naoqi runtime and simulator SDK libraries to 1.14.3.4 (thanks to Julien)
+    - Updated Aldebaran's Naoqi runtime and simulator SDK libraries to 1.14.3.4 (thanks to Julien)
   - Improved field edition: values are no longer automatically updated by Webots while the user is editing
   - Use the ODE shared library (rather than static) on Mac OS X
   - Added 240p, 360p and 480p 16:9 youtube friendly resolutions for making movies
@@ -456,7 +456,7 @@ collisions are ignored in this case
     - Cross-Compilation
       - Minors debug when cross-compiling from the robot window on Windows (checkbox `make default controller` now toogle correctly, message windows are not hidden behind the robot window anymore)
     - Remote-control
-      - Fixed problem of crash of the remote-server when sending command to servos who doesn`t exist
+      - Fixed problem of crash of the remote-server when sending command to servos who doesn't exist
       - Fixed problem of crash of the robot window when aborting start of remote-control
       - Fixed problem of led switching off when stopping the controller
   - Fixed execution of signed world files with naoqisim controller in Webots FREE (thanks to Christophe)
@@ -482,12 +482,12 @@ collisions are ignored in this case
   - Improved the rotation field edition (the vector normalization is no more visible during the edition)
   - Fixed behavior of `Add Node` button: new objects are automatically selected and expanded
   - Added default extension in save screenshot dialog
-  - Adjusted default position of Webots PROTO objects so that they don`t half sink in the floor
+  - Adjusted default position of Webots PROTO objects so that they don't half sink in the floor
   - Added new sample simulation in projects/samples/howto/worlds/sick_terrain_scanning.wbt (thanks to Angelos)
   - Revision of Find and Replace dialog of the text editor
     - Fixed problems when searching words with different cases
     - Fixed problems when both Find dialog and Replace dialog are visibile
-    - Fixed replacing of selected text that doesn`t match the searched string
+    - Fixed replacing of selected text that doesn't match the searched string
     - Changed default button activated when pressing the ENTER key on Linux: `Next` button in Find dialog and `Replace` button in Replace dialog
     - Changed `Replace` button behavior to automatically select the next occurrence of the searched string
     - Improved availability of old strings used in Find and Replace dialogs
@@ -518,7 +518,7 @@ collisions are ignored in this case
   - Allow users to recompile robot controllers from the Webots IDE for any robot programming contest (thanks to Krzysztof)
   - Revision of the Physics node setup
     - The `centerOfMass` field is now of type MFVec3f (but the GUI allows you to edit at most one row)
-    - If `inertiaMatrix` is NULL, the inertia matrix of the Solid is the inertia matrix of the bounding object computed around its natural center of mass with respect to the Solid`s frame axes
+    - If `inertiaMatrix` is NULL, the inertia matrix of the Solid is the inertia matrix of the bounding object computed around its natural center of mass with respect to the Solid's frame axes
     - A dialog box allows you to set the `inertiaMatrix`, `centerOfMass` and the `mass` as the corresponding values obtained from bounding object based computations.
     - WARNING: Simulations may now behave differently. Please contact Cyberbotics support team if you need to restore inertial properties of your models.
   - Fixed the movie creation on Mac OS X when the Webots installation path contains white spaces (e.g. Webots for NAO) (thanks to Chrisantha)
@@ -561,7 +561,7 @@ collisions are ignored in this case
   - Fixed: crash when wb_servo_enable_motor_force_feedback() is invoked on objects (Solid) without Physics node (Thanks to Tim)
   - Improved the robustness and error messages of the Internet floating license server
   - Fixed crashed while linking DEF and USE nodes inside nested protos (Thanks to Nico)
-  - Fixed distance sensor issue with the detection of cylinder`s caps (Thanks to Krzysztof)
+  - Fixed distance sensor issue with the detection of cylinder's caps (Thanks to Krzysztof)
   - Upgraded mingw gcc to version 4.7.2 on Windows
 
 ## Webots 7.0.3
@@ -598,7 +598,7 @@ collisions are ignored in this case
     - Added wb_robot_get_device_by_index() allowing to get the device by introspection
     - Added wb_servo_get_target_position() allowing to get the target position
     - Added wb_servo_get_type() allowing to get the type field (linear, rotational)
-    - Added wb_servo_get_[min|max]_position() allowing to get the [min|max]Position fields
+    - Added wb_servo_get_[min|max]\_position() allowing to get the [min|max]Position fields
     - Added wb_touch_sensor_get_type() allowing to get the type field (bumper, force or force3d)
   - Fixed the rendering of the centers of masses (bug introduced in v7.0.2)
   - Fixed the behaviour of the "Ctrl+Y" redo shortcut on Linux and replaced it with the platform-specific shortcut "Shift+Ctrl+Z"
@@ -728,8 +728,7 @@ collisions are ignored in this case
   - Improved Pen device: paint on any geometry and in any direction
   - Fixed compilation issue on the C++ wrapper (thanks to Tim)
   - Removed obsolete wb_supervisor_start_animation() and wb_supervisor_stop_animation() functions
-  - Changed all API functions to return NaN (instead of -1.0 or 0.0) for any unitialized double value, e.g. before having called to wb_*_enable() and wb_robot_step().
-**In the controller main loop, it is now recommended to call wb_robot_step()
+  - Changed all API functions to return NaN (instead of -1.0 or 0.0) for any unitialized double value, e.g. before having called to `wb_*_enable()` and `wb_robot_step()`. **In the controller main loop, it is now recommended to call wb_robot_step()**
   - Fixed the Makefile for the swis2d sound plugin so that it now compiles under Windows from the Webots IDE
   - Removed deprecated fields in Physics node: bounce, bounceVelocity, coulombFriction and forceDependentSlip
   - Fixed bug with the DARwIn-OP controller causing a random freeze of the walking motion (thanks to Chase)
@@ -737,11 +736,3 @@ collisions are ignored in this case
   - Added a small translation offset when copying/pasting a robot or inserting a new robot
   - Added a mass or physics field for a number of PROTO objects
   - Changed behaviour of physics plugin function dWebotsSend(): it is no longer possible to send data to a disabled Receiver node
-
-## [Webots 6 change log](ChangeLog6.html)
-
-
-## [Webots 5 change log](ChangeLog5.html)
-
-
-## [Webots 4 change log](ChangeLog4.html)
