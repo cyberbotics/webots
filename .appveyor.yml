@@ -10,6 +10,8 @@ environment:
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
 
+image: Visual Studio 2017
+
 clone_depth: 1
 
 init:
