@@ -10,6 +10,9 @@ environment:
       MSYS2_DIR: msys64
       MSYSTEM: MINGW64
 
+image: Visual Studio 2019
+clone_depth: 3
+
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
@@ -29,12 +32,25 @@ install:
   - bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ \(x86\)/Inno\ Setup\ 6\\\" >> ~/.bash_profile"
   - bash --login -c "echo export PATH=\\\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PROTECTED/msys64/mingw64/bin:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS\\\" >> ~/.bash_profile"
   - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
-  - ps: Start-Sleep -s 3600
+#  - ps: Start-Sleep -s 3600
+
+build:
   - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
 
-build: off
-
 test_script:
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests"
-  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { C:\\Python37-x64\\python.exe $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
-  - C:\\msys64\\usr\\bin\\bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests" }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
+
+deploy:
+  - provider: GitHub
+    release: Webots-nightly-build-develop
+    description: 'Webots nightly build on the develop branch'
+    artifact: C:\projects\webots\distribution\webots-R*_setup.exe
+    draft: true
+    prerelease: true
+    auth_token: GITHUB_API_KEY
+      secure: rO+J9EwHzFMJgg3yi4sF/u6dFKHbxQsltq66xqsQP9A3Yb70+6qxg3bGjzlBkQG1
+    on:
+      branch: develop
+      # APPVEYOR_SCHEDULED_BUILD: True
