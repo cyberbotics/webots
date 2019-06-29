@@ -31,6 +31,12 @@ optParser.add_option("--branch", dest="branch", default="", help="specifies the 
 optParser.add_option("--commit", dest="commit", default="", help="specifies the commit from which is uploaded the release.")
 options, args = optParser.parse_args()
 
+print('key = ' + options.key)
+print('repo = ' + options.repo)
+print('tag = ' + options.tag)
+print('branch = ' + options.branch)
+print('commit = ' + options.commit)
+
 g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
