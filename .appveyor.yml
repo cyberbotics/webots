@@ -15,7 +15,8 @@ environment:
 clone_depth: 1
 
 init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  # The following line will display the login information for a remote desktop connection (useful to debug)
+  # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
 
 install:
@@ -34,16 +35,15 @@ install:
   - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/tests/sources/requirements.txt"
   - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/docs/tests/requirements.txt"
   - bash --login -c "pip install PyGithub"
-#  - ps: Start-Sleep -s 3600
+  # The following line make the session on the virtual machine last some time to allow remote desktop session debugging 
+  # - ps: Start-Sleep -s 3600
 
 build_script:
-  - ps: if ($env:APPVERYOR_TAG -ne "true") { python $env:WEBOTS_HOME\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; cp LICENSE distribution/webots-test_setup.exe"
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%/src/packaging; python publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%"
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; make distrib -j4"
-  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%/src/packaging; python publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%"
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True" -and $env:APPVERYOR_TAG -ne "true") { python $env:WEBOTS_HOME\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { bash --login -c "cd $env:WEBOTS_HOME_PROTECTED; make distrib -j4" }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { python $env:WEBOTS_HOME\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME }
 
-#test_script:
-#  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/docs/tests" }
-#  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
-#  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { bash --login -c "python -m unittest discover -s %WEBOTS_HOME_PROTECTED%/tests/sources"
+test_script:
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { python -m unittest discover -s $env:WEBOTS_HOME\\docs\\tests }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { python -m unittest discover -s $env:WEBOTS_HOME\\tests\\sources }
