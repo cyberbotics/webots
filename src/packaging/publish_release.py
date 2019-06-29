@@ -32,6 +32,8 @@ optParser.add_option("--commit", dest="commit", default="", help="specifies the 
 options, args = optParser.parse_args()
 
 print('key = ' + options.key)
+if not key:
+    print('empty key')
 print('repo = ' + options.repo)
 print('tag = ' + options.tag)
 print('branch = ' + options.branch)
