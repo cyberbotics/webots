@@ -2,8 +2,8 @@ environment:
   global:
     WEBOTS_HOME_PROTECTED: "/C/projects/webots"
     WEBOTS_HOME: "C:\\projects\\webots"
-    GITHUB_API_KEY:
-      secure: rO+J9EwHzFMJgg3yi4sF/u6dFKHbxQsltq66xqsQP9A3Yb70+6qxg3bGjzlBkQG1
+    GITHUB_API_KEY: 123456
+#      secure: rO+J9EwHzFMJgg3yi4sF/u6dFKHbxQsltq66xqsQP9A3Yb70+6qxg3bGjzlBkQG1
 
   matrix:
     - compiler: msys2
