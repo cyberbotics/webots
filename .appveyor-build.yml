@@ -30,8 +30,8 @@ install:
   - bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ \(x86\)/Inno\ Setup\ 6\\\" >> ~/.bash_profile"
   - bash --login -c "echo export PATH=\\\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PROTECTED/msys64/mingw64/bin:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS\\\" >> ~/.bash_profile"
   - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
-  - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/tests/sources/requirements.txt"
-  - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/docs/tests/requirements.txt"
+  # - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/tests/sources/requirements.txt"
+  # - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/docs/tests/requirements.txt"
   - bash --login -c "pip install PyGithub"
   # The following line make the session on the virtual machine last some time to allow remote desktop session debugging 
   # - ps: Start-Sleep -s 3600
