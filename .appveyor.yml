@@ -26,7 +26,7 @@ install:
   # The following line make the session on the virtual machine last some time to allow remote desktop session debugging 
   # - ps: Start-Sleep -s 3600
 
-build: no
+build: off
 
 test_script:
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { python -m unittest discover -s $env:WEBOTS_HOME\\docs\\tests }
