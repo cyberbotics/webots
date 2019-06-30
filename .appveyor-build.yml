@@ -1,1 +1,47 @@
-build
+environment:
+  global:
+    WEBOTS_HOME_PROTECTED: "/C/projects/webots"
+    WEBOTS_HOME: "C:\\projects\\webots"
+
+  matrix:
+    - compiler: msys2
+      ARCH: x64
+      MSYS2_ARCH: x86_64
+      MSYS2_DIR: msys64
+      MSYSTEM: MINGW64
+
+clone_depth: 1
+
+init:
+  # The following line will display the login information for a remote desktop connection (useful to debug)
+  # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+
+install:
+  - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+  - pacman --noconfirm -Syuu
+  - bash --login -c "cd %WEBOTS_HOME_PROTECTED%; git submodule init; git submodule update"
+  - bash --login -c "%WEBOTS_HOME_PROTECTED%/src/install_scripts/msys64_installer.sh --all"
+  - bash --login -c "%WEBOTS_HOME_PROTECTED%/src/install_scripts/inno_setup_installer.sh"
+  - bash --login -c "echo export JAVA_HOME=\\\"/C/Program\ Files/Java/jdk1.8.0\\\" >> ~/.bash_profile"
+  - bash --login -c "echo export PYTHON27_HOME=/C/Python27-x64 >> ~/.bash_profile"
+  - bash --login -c "echo export PYTHON37_HOME=/C/Python37-x64 >> ~/.bash_profile"
+  - bash --login -c "echo export VISUAL_STUDIO_PATH=\\\"/C/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 10.0\\\" >> ~/.bash_profile"
+  - bash --login -c "echo export INNO_SETUP_HOME=\\\"/C/Program\ Files\ \(x86\)/Inno\ Setup\ 6\\\" >> ~/.bash_profile"
+  - bash --login -c "echo export PATH=\\\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PROTECTED/msys64/mingw64/bin:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS\\\" >> ~/.bash_profile"
+  - bash --login -c "echo export WEBOTS_HOME=\\\"C:\\\\projects\\\\webots\\\" >> ~/.bash_profile"
+  - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/tests/sources/requirements.txt"
+  - bash --login -c "pip install -r %WEBOTS_HOME_PROTECTED%/docs/tests/requirements.txt"
+  - bash --login -c "pip install PyGithub"
+  # The following line make the session on the virtual machine last some time to allow remote desktop session debugging 
+  # - ps: Start-Sleep -s 3600
+
+build_script:
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True" -and $env:APPVERYOR_TAG -ne "true") { python $env:WEBOTS_HOME\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { bash --login -c "cd $env:WEBOTS_HOME_PROTECTED; make distrib -j4" }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { python $env:WEBOTS_HOME\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME }
+
+test_script:
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { python -m unittest discover -s $env:WEBOTS_HOME\\docs\\tests }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:WEBOTS_HOME\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") { python -m unittest discover -s $env:WEBOTS_HOME\\tests\\sources }
