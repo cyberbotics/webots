@@ -28,10 +28,6 @@ install:
 
 build_script:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
-  - cmd: >-
-    if "%APPVERYOR_TAG%"=="true" (
-      cd %APPVEYOR_BUILD_FOLDER%\src\packaging
-      python set_commit_and_date_in_version.py %APPVEYOR_REPO_COMMIT%
-    )
+  - if "%APPVERYOR_TAG%"=="true" (bash --login -c "cd $WEBOTS_HOME_PATH; python src/packaging/set_commit_and_date_in_version.py %APPVEYOR_REPO_COMMIT%")
   - bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
   - python %APPVEYOR_BUILD_FOLDER%\src\packaging\publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%
