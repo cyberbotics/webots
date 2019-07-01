@@ -9,7 +9,7 @@ environment:
 clone_depth: 1
 
 init:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
   - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
 
 install:
