@@ -97,7 +97,7 @@ for release in repo.get_releases():
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)
-                    if releaseExists and not options.tag and not releaseCommentModified:
+                    if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
                         print('Updating release description')
                         releaseCommentModified = True
                         message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % options.branch)
