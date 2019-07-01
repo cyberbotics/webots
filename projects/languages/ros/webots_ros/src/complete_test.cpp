@@ -2166,7 +2166,7 @@ int main(int argc, char **argv) {
   set_radar_client = n.serviceClient<webots_ros::set_int>(model_name + "/radar/enable");
   radar_srv.request.value = TIME_STEP;
   if (set_radar_client.call(radar_srv) && radar_srv.response.success) {
-    ROS_INFO("Radar enabled.");
+    ROS_ERROR("Radar enabled.");
     sub_radar_target = n.subscribe(model_name + "/radar/targets", 1, radarTargetsCallback);
     sub_radar_target_number = n.subscribe(model_name + "/radar/number_of_targets", 1, radarTargetsNumberCallback);
     ROS_INFO("Topics for radar initialized.");
