@@ -35,6 +35,10 @@ g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
+if now.weekday() >= 5:
+    print('Skipping nightly build for Saturday and Sunday.')
+    exit(0)
+
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the latest official release: ' \
                  'https://github.com/omichel/webots/releases/latest'
 if options.tag:
@@ -56,7 +60,10 @@ for release in repo.get_releases():
         break
     elif match:
         date = now - datetime.datetime(year=int(match.group(3)), month=int(match.group(2)), day=int(match.group(1)))
-        if date > datetime.timedelta(days=2, hours=12):  # keep only 3 nightly releases in total
+        maxDay = 3
+        if now.weekday() <= 1:  # Monday or tuesday
+            maxDay += 2  # weekend day doesn't count
+        if date > datetime.timedelta(days=maxDay, hours=12):  # keep only 3 nightly releases in total
             tagName = release.tag_name
             print('Deleting release "%s"' % release.title)
             release.delete_release()
@@ -90,7 +97,7 @@ for release in repo.get_releases():
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)
-                    if releaseExists and not options.tag and not releaseCommentModified:
+                    if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
                         print('Updating release description')
                         releaseCommentModified = True
                         message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % options.branch)

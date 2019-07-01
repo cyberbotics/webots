@@ -42,10 +42,10 @@ jobs:
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR tag IS present
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       python: '2.7'
     - <<: *source_tests_staging
-      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR tag IS present
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
@@ -57,7 +57,7 @@ jobs:
             - python
     - &unit_tests_staging
       stage: Unit Tests
-      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR tag IS present
+      if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       git: &compilation_git
         depth: 3
         submodules: true
@@ -121,7 +121,7 @@ jobs:
         - ./tests/ros.sh
     - &distribution_staging
       stage: Distribution
-      if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR tag IS present
+      if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
       git: *compilation_git
       os: linux
       dist: xenial
