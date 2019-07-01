@@ -93,7 +93,7 @@ def checkFlakes(codeString, filename, reporter):
 def checkFlakesPath(filename, reporter):
     """Check the given path, printing out any warnings detected."""
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf-8') as f:
             codestr = f.read() + '\n'
     except UnicodeError:
         reporter.unexpectedError(filename, 'problem decoding source')
