@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/e-puck_line.wbt"/>
+  </include>
+
+  <node name="robot_information_parser" pkg="webots_ros" type="robot_information_parser" output="screen"/>
+</launch>

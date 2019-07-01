@@ -67,11 +67,6 @@ int main(int argc, char **argv) {
   float i, step;
   bool birdCatched = false;
 
-  if (argc != 1) {
-    ROS_INFO("Usage: $ example_catch_bird.");
-    return 1;
-  }
-
   // create a node named 'catch_the_bird' on ROS network
   ros::init(argc, argv, "catch_the_bird", ros::init_options::AnonymousName);
   ros::NodeHandle n;

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/panoramic_view_recorder.wbt"/>
+  </include>
+
+  <node name="panoramic_view_recorder" pkg="webots_ros" type="panoramic_view_recorder" output="screen"/>
+</launch>

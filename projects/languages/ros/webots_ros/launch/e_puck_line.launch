@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/e-puck_line.wbt"/>
+  </include>
+
+  <arg name="duration" default="20" doc="Duration in seconds"/>
+  <node name="epuck_line" pkg="webots_ros" type="e_puck_line" args="$(arg duration)" output="screen"/>
+</launch>

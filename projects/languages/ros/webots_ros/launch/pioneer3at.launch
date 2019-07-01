@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/pioneer3at.wbt"/>
+  </include>
+
+  <node name="pioneer3at" pkg="webots_ros" type="pioneer3at" output="screen"/>
+</launch>

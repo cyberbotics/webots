@@ -169,12 +169,6 @@ void quit(int sig) {
 
 int main(int argc, char **argv) {
   std::string controllerName;
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ pioneer3at.");
-    return 1;
-  }
-
   // create a node named 'pioneer3at' on ROS network
   ros::init(argc, argv, "pioneer3at", ros::init_options::AnonymousName);
   n = new ros::NodeHandle;
