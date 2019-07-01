@@ -1,7 +1,4 @@
 environment:
-  global:
-    WEBOTS_HOME: APPVEYOR_BUILD_FOLDER
-
   matrix:
     - compiler: msys2
       ARCH: x64
@@ -13,6 +10,7 @@ clone_depth: 1
 
 init:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
 
 install:
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
