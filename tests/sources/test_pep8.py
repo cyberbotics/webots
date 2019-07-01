@@ -22,6 +22,7 @@ import fnmatch
 import pep8
 import os
 import sys
+from io import open  # needed for compatibility with Python 2.7 for open(file, encoding='utf-8')
 
 from pyflakes import checker
 from pyflakes.reporter import Reporter
