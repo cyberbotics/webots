@@ -18,6 +18,7 @@ install:
   - pacman --noconfirm -S git mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
+  - pip install flake8
 
 build: off
 
