@@ -37,6 +37,6 @@ install:
   # - ps: Start-Sleep -s 3600
 
 build_script:
-  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True" -and $env:APPVERYOR_TAG -ne "true") { python $env:WEBOTS_HOME\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True" -and $env:APPVERYOR_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\\src\\packaging\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT }
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { bash --login -c "cd $env:WEBOTS_HOME_PROTECTED; make distrib -j4" }
-  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { python $env:WEBOTS_HOME\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME }
+  - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -eq "True") { python $env:APPVEYOR_BUILD_FOLDER\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME }
