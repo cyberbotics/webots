@@ -22,6 +22,7 @@ install:
 build: off
 
 test_script:
-  - ps: python -m unittest discover -s $env:APPVEYOR_BUILD_FOLDER\\docs\\tests
+  - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\docs\\tests
+  # - ps: python -m unittest discover -s $env:APPVEYOR_BUILD_FOLDER\\docs\\tests
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
   - ps: python -m unittest discover -s $env:APPVEYOR_BUILD_FOLDER\\tests\\sources
