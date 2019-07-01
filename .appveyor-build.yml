@@ -10,7 +10,7 @@ clone_depth: 1
 
 init:
   # The following line will display the login information for a remote desktop connection (useful to debug)
-  # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
 
 install:
@@ -24,6 +24,7 @@ install:
   - bash --login -c "echo export PATH=\\\"$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PROTECTED/msys64/mingw64/bin:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS\\\" >> ~/.bash_profile"
   - bash --login -c "echo export WEBOTS_HOME=\\\"%APPVEYOR_BUILD_FOLDER%\\\" >> ~/.bash_profile"
   - bash --login -c "echo export WEBOTS_HOME_PATH=`echo \"$WEBOTS_HOME\" | sed 's/\\\\/\\//g' | sed 's/://'`" >> ~/.bash_profile
+  - ps: Start-Sleep -s 3600
   - bash --login -c "cd $WEBOTS_HOME_PATH; git submodule init; git submodule update"
   - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/msys64_installer.sh --all"
   - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/inno_setup_installer.sh"
