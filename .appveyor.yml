@@ -19,7 +19,6 @@ install:
   - python -m pip install --upgrade pip
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
-  - pip install flake8
 
 build: off
 
