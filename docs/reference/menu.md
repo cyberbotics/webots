@@ -122,7 +122,7 @@
     - [DEF and USE](def-and-use.md)
 - [Other APIs](other-apis.md)
     - [ROS API](ros-api.md)
-- [Change Log](change-log.md)
+- [Changelog](change-log.md)
     - [Webots R2019](change-log-r2019.md)
     - [Webots R2018](change-log-r2018.md)
     - [Webots 8](change-log-8.md)
