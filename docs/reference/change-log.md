@@ -1,4 +1,4 @@
-# ChangeLogs
+# Change Log
 
 ## Versions
 
