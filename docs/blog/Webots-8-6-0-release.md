@@ -6,7 +6,7 @@
 
 Today we're happy to announce the release of Webots 8.6.0.
 This new release brings a ton of new features and improvements, coupled with the same dedicated patches addressing bugs and regressions.
-Listed below are some of the key features of this release (for a full list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html)).
+Listed below are some of the key features of this release (for a full list of changes please refer to the ChangeLog, found [here](../reference/changelog-8.md)).
 
 ## New Nodes
 
