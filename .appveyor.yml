@@ -1,5 +1,7 @@
 environment:
-  WEBOTS_HOME = APPVEYOR_BUILD_FOLDER
+  global:
+    WEBOTS_HOME: APPVEYOR_BUILD_FOLDER
+
   matrix:
     - compiler: msys2
       ARCH: x64
@@ -14,7 +16,7 @@ init:
 
 install:
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-  - pacman --noconfirm -Syuu
+  # - pacman --noconfirm -Syuu
   - pacman --noconfirm -S git mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
