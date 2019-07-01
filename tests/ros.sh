@@ -24,7 +24,7 @@ export ROSCONSOLE_FORMAT='${severity}: ${message}   Line: ${line}'
 export ROSCONSOLE_CONFIG_FILE=$WEBOTS_HOME/tests/rosconsole.config
 cd $WEBOTS_HOME/tests
 echo @@@ Run ros complete test
-python ros_test_suite.py 2>&1 | tee ros_node.log
+roslaunch webots_ros complete_test.launch auto-close:=true 2>&1 | tee ros_node.log
 if grep -q 'ERROR' ros_node.log; then
   echo @@@ Error: some tests of the ros complete test have failed
   echo Node log:

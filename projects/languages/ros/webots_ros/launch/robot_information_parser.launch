@@ -6,5 +6,6 @@
     <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/e-puck_line.wbt"/>
   </include>
 
-  <node name="robot_information_parser" pkg="webots_ros" type="robot_information_parser" output="screen"/>
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <node name="robot_information_parser" pkg="webots_ros" type="robot_information_parser" output="screen" required="$(arg auto-close)"/>
 </launch>

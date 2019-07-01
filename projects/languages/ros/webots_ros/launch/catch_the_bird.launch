@@ -6,5 +6,6 @@
     <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/catch_the_bird.wbt"/>
   </include>
 
-  <node name="catch_the_bird" pkg="webots_ros" type="catch_the_bird" output="screen"/>
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <node name="catch_the_bird" pkg="webots_ros" type="catch_the_bird" output="screen" required="$(arg auto-close)"/>
 </launch>

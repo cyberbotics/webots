@@ -6,5 +6,6 @@
     <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/complete_test.wbt"/>
   </include>
 
-  <node name="complete_test" pkg="webots_ros" type="complete_test" output="screen"/>
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <node name="complete_test" pkg="webots_ros" type="complete_test" output="screen" required="$(arg auto-close)"/>
 </launch>
