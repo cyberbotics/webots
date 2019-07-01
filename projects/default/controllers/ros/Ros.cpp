@@ -300,7 +300,8 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
       case Node::CONNECTOR:
-        mDeviceList.push_back(static_cast<RosDevice *>(new RosConnector(dynamic_cast<Connector *>(tempDevice), this)));
+        mSensorList.push_back(static_cast<RosSensor *>(new RosConnector(dynamic_cast<Connector *>(tempDevice), this)));
+        mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
       case Node::DISPLAY:
         mDeviceList.push_back(static_cast<RosDevice *>(new RosDisplay(dynamic_cast<Display *>(tempDevice), this)));
