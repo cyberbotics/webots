@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
       return 1;
     }
   }
-  ROS_INFO("Using controller: '%s'", controllerName);
+  ROS_INFO("Using controller: '%s'", controllerName.c_str());
   // leave topic once it is not necessary anymore
   nameSub.shutdown();
 
