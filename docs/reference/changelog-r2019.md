@@ -1,4 +1,4 @@
-# Webots R2019b Change Log
+# Webots R2019b Changelog
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.

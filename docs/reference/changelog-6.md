@@ -1,4 +1,4 @@
-# Webots 6 Change Log
+# Webots 6 Changelog
 
 
 ## Webots 6.4.4
