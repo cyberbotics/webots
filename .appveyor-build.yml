@@ -14,19 +14,19 @@ init:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
 
 install:
-  - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-  - pacman --noconfirm -Syuu
+  # - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+  # - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
   - type %APPVEYOR_BUILD_FOLDER%\src\install_scripts\bash_profile.appveyor >> C:\msys64\home\appveyor\.bash_profile
-  - bash --login -c "cd $WEBOTS_HOME_PATH; git submodule init; git submodule update"
-  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/msys64_installer.sh --all"
-  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/inno_setup_installer.sh"
+  # - bash --login -c "cd $WEBOTS_HOME_PATH; git submodule init; git submodule update"
+  # - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/msys64_installer.sh --all"
+  # - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/inno_setup_installer.sh"
   - python -m pip install --upgrade pip
   - pip install PyGithub
   # The following line make the session on the virtual machine last some time to allow remote desktop session debugging
   # - ps: Start-Sleep -s 3600
 
 build_script:
-  - ps: if ($env:APPVERYOR_TAG -ne "true") { bash --login -c "cd $WEBOTS_HOME_PATH/src/packaging; python set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT" }
+  - ps: if ($env:APPVERYOR_TAG -ne "true") { bash --login -c "cd $WEBOTS_HOME_PATH; python src/packaging/set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT" }
   - ps: bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
   - ps: python $env:APPVEYOR_BUILD_FOLDER\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME
