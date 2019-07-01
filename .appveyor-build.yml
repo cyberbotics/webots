@@ -11,9 +11,9 @@ clone_depth: 1
 init:
   # The following line will display the login information for a remote desktop connection (useful to debug)
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
 
 install:
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
   - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
   - pacman --noconfirm -Syuu
   - echo export WEBOTS_HOME="%APPVEYOR_BUILD_FOLDER%" >> C:\msys64\home\appveyor\.bash_profile
@@ -27,10 +27,9 @@ install:
   # - ps: Start-Sleep -s 3600
 
 build_script:
-  - ps: |-
-      if ($env:APPVERYOR_TAG -ne "true") {
-        cd $env:APPVEYOR_BUILD_FOLDER\src\packaging
-        python set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT
-      }
-  - ps: C:\msys64\usr\bin\bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
-  - ps: python $env:APPVEYOR_BUILD_FOLDER\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
+  - cd %APPVEYOR_BUILD_FOLDER%\src\packaging
+  - if "%APPVERYOR_TAG%"=="true" (python set_commit_and_date_in_version.py %APPVEYOR_REPO_COMMIT%)
+  - ps: Start-Sleep -s 3600
+  - C:\msys64\usr\bin\bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
+  - python %APPVEYOR_BUILD_FOLDER%\src\packaging\publish_release.py --key=%GITHUB_API_KEY% --repo=%APPVEYOR_REPO_NAME% --branch=%APPVEYOR_REPO_BRANCH% --commit=%APPVEYOR_REPO_COMMIT% --tag=%APPVEYOR_REPO_TAG_NAME%
