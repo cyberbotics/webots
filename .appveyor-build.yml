@@ -28,9 +28,9 @@ install:
 
 build_script:
   - ps: |-
-    if ($env:APPVERYOR_TAG -ne "true") {
-      cd $env:APPVEYOR_BUILD_FOLDER
-      python src\\packaging\\publish_release.py\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT
-    }
+      if ($env:APPVERYOR_TAG -ne "true") {
+        cd $env:APPVEYOR_BUILD_FOLDER
+        python src\\packaging\\publish_release.py\\set_commit_and_date_in_version.py $env:APPVEYOR_REPO_COMMIT
+      }
   - ps: bash --login -c "cd $WEBOTS_HOME_PATH; make distrib -j4"
   - ps: python $env:APPVEYOR_BUILD_FOLDER\\src\\packaging\\publish_release.py --key=$env:GITHUB_API_KEY --repo=$env:APPVEYOR_REPO_NAME --branch=$env:APPVEYOR_REPO_BRANCH --commit=$env:APPVEYOR_REPO_COMMIT --tag=$env:APPVEYOR_REPO_TAG_NAME
