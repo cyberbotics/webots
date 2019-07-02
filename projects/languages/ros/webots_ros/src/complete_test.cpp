@@ -440,7 +440,7 @@ int main(int argc, char **argv) {
 
   if (get_project_path_client.call(get_project_path_srv)) {
     path = get_project_path_srv.response.value;
-    ROS_ERROR("World path of %s is %s.", model_name.c_str(), path.c_str());
+    ROS_INFO("World path of %s is %s.", model_name.c_str(), path.c_str());
   } else
     ROS_ERROR("Failed to call service get_project_path.");
 
