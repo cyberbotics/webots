@@ -1,5 +1,5 @@
 skip_commits:
-  - message: /^Merge pull request /
+  - message: /Merge pull request/
 
 clone_depth: 1
 
