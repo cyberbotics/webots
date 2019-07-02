@@ -1,18 +1,7 @@
-environment:
-  matrix:
-    - compiler: msys2
-      ARCH: x64
-      MSYS2_ARCH: x86_64
-      MSYS2_DIR: msys64
-      MSYSTEM: MINGW64
-
 clone_depth: 1
 
-init:
-  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
-  - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
-
 install:
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
@@ -20,6 +9,7 @@ install:
 build: off
 
 test_script:
+  - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
   - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\docs\\tests
   - ps: if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True" -and $env:APPVEYOR_REPO_TAG -ne "true") { python $env:APPVEYOR_BUILD_FOLDER\\tests\\sources\\generate_diff.py $env:APPVEYOR_REPO_COMMIT $env:APPVEYOR_REPO_NAME }
   - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\tests\\sources
