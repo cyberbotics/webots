@@ -1,10 +1,16 @@
 #version 330
 
+// GTAO shader #3
+
 // This shader does the inter-frame filtering for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaotemporaldenoise.frag
 
 // these textures represent: accumulated ao, current frame ao, previous depth buffer and current depth buffer
 uniform sampler2D inputTextures[4];
+// inputTextures[0]: gtao_spatial_denoise.frag output
+// inputTextures[1]: gtao.frag output
+// inputTextures[2]: depth (previous frame)
+// inputTextures[3]: depth
 
 in vec2 texUv;
 out vec4 fragColor;

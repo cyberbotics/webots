@@ -1,5 +1,7 @@
 #version 330
 
+// GTAO shader #1
+
 // This shader does the heavy lifting for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtao.frag
 
@@ -7,6 +9,9 @@
 #define PI_HALF 1.5707963267948966
 
 uniform sampler2D inputTextures[3];
+// inputTextures[0]: depth
+// inputTextures[1]: normals
+// inputTextures[2]: noises (4x4)
 
 uniform float radius;
 uniform float flipNormalY;
