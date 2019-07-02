@@ -132,6 +132,7 @@ jobs:
         - source $WEBOTS_HOME/webots_catkin_ws/devel/setup.bash
         - cd $WEBOTS_HOME/tests
         - echo @@@ Run ros complete test
+        - roslaunch webots_ros complete_test.launch
         - roslaunch webots_ros complete_test.launch auto-close:=true
         - roslaunch webots_ros complete_test.launch auto-close:=true 2>&1 | tee ros_node.log
         - ./tests/ros.sh
