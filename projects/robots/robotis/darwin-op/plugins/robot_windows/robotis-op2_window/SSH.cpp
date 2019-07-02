@@ -92,13 +92,13 @@ int SSH::openSSHSession(const QString &IPAddress, const QString &username, const
 int SSH::verifyKnownHost() {
   int state;
 
-  state = ssh_is_server_known(mSSHSession);
+  state = ssh_session_is_known_server(mSSHSession);
 
   switch (state) {
-    case SSH_SERVER_KNOWN_OK:
+    case SSH_KNOWN_HOSTS_OK:
       break;  // ok
-    case SSH_SERVER_FOUND_OTHER:
-    case SSH_SERVER_KNOWN_CHANGED:
+    case SSH_KNOWN_HOSTS_OTHER:
+    case SSH_KNOWN_HOSTS_CHANGED:
       cerr << "SSH-RSA key has changed." << endl;
       cerr << "For security reasons, the connection will be stopped" << endl;
       cerr << "Please remove the old SSH-RSA key from the known_hosts file ("
@@ -112,14 +112,14 @@ int SSH::verifyKnownHost() {
               ")."
            << endl;
       return -1;
-    case SSH_SERVER_FILE_NOT_FOUND:  // fallback to SSH_SERVER_NOT_KNOWN
-    case SSH_SERVER_NOT_KNOWN:
-      if (ssh_write_knownhost(mSSHSession) < 0) {
+    case SSH_KNOWN_HOSTS_NOT_FOUND:
+    case SSH_KNOWN_HOSTS_UNKNOWN:
+      if (ssh_session_update_known_hosts(mSSHSession) != SSH_OK) {
         mError = strerror(errno);
         return -1;
       }
       break;
-    case SSH_SERVER_ERROR:
+    case SSH_KNOWN_HOSTS_ERROR:
       mError = ssh_get_error(mSSHSession);
       return -1;
   }
