@@ -27,8 +27,7 @@ echo @@@ Run ros complete test
 roslaunch webots_ros complete_test.launch auto-close:=true no-gui:=true 2> stderr.log
 if grep -q 'ERROR' stderr.log; then
   echo @@@ Error: some tests of the ros complete test have failed
-  echo Node log:
-  cat ros_node.log
+  cat stderr.log
   exit -1
 fi
 
