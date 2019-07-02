@@ -28,4 +28,4 @@ options, args = optParser.parse_args()
 
 if 'WEBOTS_HOME' not in os.environ:
     sys.exit('WEBOTS_HOME environmental variable not defined.')
-subprocess.call([os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world])
+subprocess.call([os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world, '--stdout', '--stderr', '--batch', '--no-sandbox'])
