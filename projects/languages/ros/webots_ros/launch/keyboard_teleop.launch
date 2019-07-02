@@ -9,5 +9,5 @@
   </include>
 
   <arg name="auto-close" default="false" doc="Startup mode"/>
-  <node name="keyboard_teleop" pkg="webots_ros" type="keyboard_teleop" output="screen" required="$(arg auto-close)"/>
+  <node name="keyboard_teleop" pkg="webots_ros" type="keyboard_teleop" required="$(arg auto-close)"/>
 </launch>
