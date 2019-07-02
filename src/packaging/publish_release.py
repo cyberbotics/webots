@@ -74,13 +74,14 @@ for release in repo.get_releases():
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
+    draft = True if tag else False
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
                                     release_message=message,
                                     object=options.commit,
                                     type='commit',
-                                    draft=False,
+                                    draft=draft,
                                     prerelease=True)
 
 for release in repo.get_releases():
