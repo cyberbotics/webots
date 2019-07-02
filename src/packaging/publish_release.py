@@ -73,7 +73,7 @@ if not releaseExists:
                                     release_message=message,
                                     object=options.commit,
                                     type='commit',
-                                    draft=False,
+                                    draft=True,
                                     prerelease=True)
 
 for release in repo.get_releases():
