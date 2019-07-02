@@ -29,12 +29,6 @@ if grep -q 'ERROR' ros_node.log; then
   echo @@@ Error: some tests of the ros complete test have failed
   echo Node log:
   cat ros_node.log
-  echo ROS log files:
-  ls ~/.ros/log/latest/*.log
-  echo ROS log files content:
-  cat `ls ~/.ros/log/latest/*.log`
-  echo Webots output:
-  cat webots_ros.log
   exit -1
 fi
 
