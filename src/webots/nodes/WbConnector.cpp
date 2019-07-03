@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbConnector.hpp"
+
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
 #include "WbOdeContext.hpp"

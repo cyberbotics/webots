@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbMicrophone.hpp"
+
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 

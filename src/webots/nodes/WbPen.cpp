@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbPen.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPaintTexture.hpp"
-#include "WbPen.hpp"
 #include "WbRay.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"

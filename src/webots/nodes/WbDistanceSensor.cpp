@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbDistanceSensor.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbGeometry.hpp"
 #include "WbLookupTable.hpp"

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbTouchSensor.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -20,7 +22,6 @@
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 #include "WbSolidMerger.hpp"
-#include "WbTouchSensor.hpp"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>

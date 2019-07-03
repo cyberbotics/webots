@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbRadio.hpp"
+
 #include "WbRadioPlugin.hpp"
 #include "WbSFInt.hpp"
 #include "WbSensor.hpp"

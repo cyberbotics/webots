@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSFString.hpp"
+
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 

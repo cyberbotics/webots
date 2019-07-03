@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbDifferentialWheels.hpp"
+
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLog.hpp"
 #include "WbMFDouble.hpp"

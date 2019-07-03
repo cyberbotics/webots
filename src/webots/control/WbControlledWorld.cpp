@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbControlledWorld.hpp"
+
 #include "WbController.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"

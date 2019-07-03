@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbLed.hpp"
+
 #include "WbAppearance.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
-#include "WbLed.hpp"
 #include "WbLight.hpp"
 #include "WbMFNode.hpp"
 #include "WbMaterial.hpp"

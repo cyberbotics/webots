@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbFieldChecker.hpp"
 #include "WbInertialUnit.hpp"
+
+#include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbAccelerometer.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"

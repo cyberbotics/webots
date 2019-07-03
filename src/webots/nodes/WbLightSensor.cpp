@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "WbLightSensor.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbLight.hpp"
-#include "WbLightSensor.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
