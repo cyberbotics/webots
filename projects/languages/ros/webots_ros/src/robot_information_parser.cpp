@@ -49,12 +49,6 @@ void quit(int sig) {
 int main(int argc, char **argv) {
   std::string controllerName;
   std::vector<std::string> deviceList;
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ robot_information_parser.");
-    return 1;
-  }
-
   // create a node named 'robot_information_parser' on ROS network
   ros::init(argc, argv, "robot_information_parser", ros::init_options::AnonymousName);
   ros::NodeHandle n;

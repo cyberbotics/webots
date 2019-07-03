@@ -298,11 +298,6 @@ void quit(int sig) {
 int main(int argc, char **argv) {
   string model_name = "my_robot";
 
-  if (argc != 1) {
-    ROS_INFO("Usage: $ complete_test.");
-    return 1;
-  }
-
   ros::init(argc, argv, "complete_test", ros::init_options::AnonymousName);
   ros::NodeHandle n;
 

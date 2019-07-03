@@ -24,17 +24,10 @@ export ROSCONSOLE_FORMAT='${severity}: ${message}   Line: ${line}'
 export ROSCONSOLE_CONFIG_FILE=$WEBOTS_HOME/tests/rosconsole.config
 cd $WEBOTS_HOME/tests
 echo @@@ Run ros complete test
-python ros_test_suite.py 2>&1 | tee ros_node.log
-if grep -q 'ERROR' ros_node.log; then
+roslaunch webots_ros complete_test.launch auto-close:=true no-gui:=true 2> stderr.log
+if grep 'ERROR' stderr.log | grep -q -v 'ERROR: Cannot initialize the sound engine'; then
   echo @@@ Error: some tests of the ros complete test have failed
-  echo Node log:
-  cat ros_node.log
-  echo ROS log files:
-  ls ~/.ros/log/latest/*.log
-  echo ROS log files content:
-  cat `ls ~/.ros/log/latest/*.log`
-  echo Webots output:
-  cat webots_ros.log
+  cat stderr.log
   exit -1
 fi
 

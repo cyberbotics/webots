@@ -426,7 +426,7 @@ int main(int argc, char **argv) {
   int nStep = 0;
 
   // look if a limit time was given
-  if (argc != 2) {
+  if (argc < 2) {
     ROS_INFO("Usage: $ e_puck_line [duration(seconds)].");
     return 1;
   }
