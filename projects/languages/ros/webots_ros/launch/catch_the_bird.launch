@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <arg name="no-gui" default="false," doc="Start Webots with minimal GUI"/>
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="no-gui" value="$(arg no-gui)"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/catch_the_bird.wbt"/>
+  </include>
+
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <node name="catch_the_bird" pkg="webots_ros" type="catch_the_bird" required="$(arg auto-close)"/>
+</launch>

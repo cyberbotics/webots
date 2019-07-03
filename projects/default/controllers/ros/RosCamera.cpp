@@ -179,7 +179,7 @@ bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, web
     mRecognitionObjectsPublisher =
       RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/recognition_objects", type);
   } else {
-    ROS_ERROR("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
+    ROS_WARN("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
     res.success = false;
   }
   return true;
