@@ -22,6 +22,7 @@ import fnmatch
 import pep8
 import os
 import sys
+from io import open  # needed for compatibility with Python 2.7 for open(file, encoding='utf-8')
 
 from pyflakes import checker
 from pyflakes.reporter import Reporter
@@ -93,7 +94,7 @@ def checkFlakes(codeString, filename, reporter):
 def checkFlakesPath(filename, reporter):
     """Check the given path, printing out any warnings detected."""
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf-8') as f:
             codestr = f.read() + '\n'
     except UnicodeError:
         reporter.unexpectedError(filename, 'problem decoding source')
