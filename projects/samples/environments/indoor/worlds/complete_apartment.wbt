@@ -57,16 +57,16 @@ DEF FLOOR Solid {
   rotation 0 1 0 -3.0717958665604783e-07
   children [
     DEF LIVING_ROOM_1 Transform {
-      translation -3.2 0 2.06
+      translation -3.2 0 1.91
       children [
         Shape {
           appearance Parquetry {
             textureTransform TextureTransform {
-              scale 6.3 5.96
+              scale 6.3 6.26
             }
           }
           geometry Plane {
-            size 6.3 5.96
+            size 6.3 6.26
           }
         }
       ]
@@ -102,93 +102,78 @@ DEF FLOOR Solid {
       ]
     }
     DEF KITCHEN Transform {
-      translation -3.2 0 -2.89
+      translation -3.2 0 -3.02
       children [
         Shape {
           appearance PorcelainChevronTiles {
             textureTransform TextureTransform {
               rotation 1.5708
-              scale 3.94 6.3
+              scale 3.6 6.3
             }
           }
           geometry Plane {
-            size 6.3 3.94
+            size 6.3 3.6
           }
         }
       ]
     }
     DEF CORRIDOR Transform {
-      translation 0.875 0 -1.62
+      translation 1.014 0 -0.15
       children [
         Shape {
           appearance CementTiles {
             textureTransform TextureTransform {
-              scale 1.85 6.95
+              scale 2.135 9.933
             }
           }
           geometry Plane {
-            size 1.85 6.95
+            size 2.135 9.933
           }
         }
       ]
     }
     DEF BATHROOM_1 Transform {
-      translation 4.255 0 -0.48
+      translation 4.391 0 -0.48
       rotation 0 1 0 -1.5707963071795863
       children [
         Shape {
           appearance CementTiles {
             textureTransform TextureTransform {
-              scale 2 4.91
+              scale 2 4.6185
             }
           }
           geometry Plane {
-            size 2 4.91
-          }
-        }
-      ]
-    }
-    DEF BATHROOM_2 Transform {
-      translation 0.875 0 3.41
-      children [
-        Shape {
-          appearance CementTiles {
-            textureTransform TextureTransform {
-              scale 1.85 3.11
-            }
-          }
-          geometry Plane {
-            size 1.85 3.11
+            size 2 4.6185
           }
         }
       ]
     }
     DEF ROOM_1 Transform {
-      translation 4.25 0 2.74
+      translation 4.391 0 2.74
       children [
         Shape {
           appearance Parquetry {
             textureTransform TextureTransform {
-              scale 6.3 6.9
+              scale 4.6185 4.3
             }
           }
           geometry Plane {
-            size 4.9 4.3
+            size 4.6185 4.3
           }
         }
       ]
     }
     DEF ROOM_2 Transform {
-      translation 4.25 0 -3.3
+      translation 4.391 0 -3.3
       children [
         Shape {
           appearance Parquetry {
             textureTransform TextureTransform {
-              scale 4.9 3.6
+              scale 4.6185 3.6
             }
           }
           geometry Plane {
-            size 4.9 3.6
+            size 4.6185 3.6
           }
         }
       ]
@@ -634,9 +619,26 @@ StraightStairs {
   rightRail []
 }
 Cabinet {
-  translation 12.925763 0 3.9783709999999997
-  rotation 0 -1 0 1.5707959999999999
+  translation 9.4958 0 3.52837
+  rotation 0 1 0 -5.307179586466759e-06
   name "cabinet 4(3)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.81
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+  ]
+}
+Cabinet {
+  translation 10.4358 0 3.52837
+  rotation 0 1 0 -5.307179586466759e-06
+  name "cabinet 4(6)"
   depth 0.4
   outerThickness 0.02
   rowsHeights [
@@ -877,11 +879,15 @@ Window {
   }
 }
 Radiator {
-  translation 10.58667 0.36 0.28465799999999997
-  rotation 0 1 0 -1.5707963071795863
+  translation 8.71399 0.36 4.24028
 }
 Radiator {
-  translation 6.881386999999999 0.36 1.627587
+  translation 10.58667 0.36 0.28465799999999997
+  rotation 0 1 0 -1.5707963071795863
+  name "radiator(5)"
+}
+Radiator {
+  translation 6.88139 0.36 3.23759
   name "radiator(4)"
   numberOfFins 20
 }
@@ -1013,9 +1019,10 @@ Wall {
 }
 Door {
   translation 8.43 0 6.24
-  rotation 0 -1 0 1.5707959999999999
+  rotation 0 1 0 1.5708
   size 1 2.4 0.3
   jointAtLeft FALSE
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
   }
   doorHandle DoorLever {
@@ -1024,28 +1031,37 @@ Door {
 }
 Door {
   translation 3.95 0 3.89
+  rotation 0 1 0 3.14159
   name "door(6)"
   size 1 2.4 0.3
-  jointAtLeft FALSE
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
-  }
-  doorHandle DoorLever {
-    jointAtLeft FALSE
   }
 }
 Door {
   translation 8.43 0 4.94
-  rotation 0 -1 0 1.5707959999999999
+  rotation 0 1 0 1.5708
   name "door(5)"
   size 1 2.4 0.3
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
   }
 }
 Door {
   translation 7.24 0 6.97
-  rotation 0 1 0 -3.1415923071795864
+  rotation 0 1 0 3.37175e-07
   name "door(3)"
   size 1 2.4 0.3
+  frameSize 0.05 0.05 0.001
+  frameAppearance BrushedAluminium {
+  }
+}
+Door {
+  translation 6.6 0 0.91
+  rotation 0 1 0 -1.5707953071795862
+  name "door(4)"
+  size 1 2.4 0.3
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
   }
 }
@@ -1054,22 +1070,30 @@ Door {
   rotation 0 1 0 -3.1415923071795864
   name "door(1)"
   size 1 2.4 0.3
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
   }
 }
 Door {
   translation 8.43 0 2.14977
-  rotation 0 -1 0 1.5707959999999999
+  rotation 0 1 0 1.5708
   name "door(2)"
   size 1 2.4 0.3
+  frameSize 0.05 0.05 0.001
   frameAppearance BrushedAluminium {
   }
 }
 Wall {
-  translation 6.6 0 2.16
+  translation 6.6 0 2.93
   rotation 0 1 0 1.5708
   name "wall 7(1)"
-  size 4.6 2.4 0.3
+  size 3.045 2.4 0.3
+}
+Wall {
+  translation 6.6 0 0.29
+  rotation 0 1 0 1.5708
+  name "wall 7(14)"
+  size 0.3 2.4 0.3
 }
 Wall {
   translation 5.02 0 1.94
@@ -1168,6 +1192,8 @@ FloorLight {
   name "floor light(1)"
   pointLightRadius 2
 }
+Transform {
+}
 FloorLight {
   translation 12.259350999999999 0 8.943755
   name "floor light(2)"
@@ -1195,6 +1221,15 @@ Table {
   translation 11.89036 0 9.560361
   rotation 0 -1 0 -4.307179586326981e-06
   name "table(3)"
+  size 0.3 0.4 0.3
+  feetSize 0.04 0.05
+  legAppearance BrushedAluminium {
+  }
+}
+Table {
+  translation 12.7454 9.23706e-14 2.74109
+  rotation 0 -1 0 -4.307179586326981e-06
+  name "table(4)"
   size 0.3 0.4 0.3
   feetSize 0.04 0.05
   legAppearance BrushedAluminium {
@@ -1377,8 +1412,8 @@ OfficeTelephone {
   enablePhysics FALSE
 }
 WashingMachine {
-  translation 12.540878999999999 0.51 5.00863
-  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 -2.094395307179586
+  translation 5.63126 0.51 2.00701
+  rotation -1.695249475405131e-09 0.707107781185531 0.70710578118615 -3.1415853071795863
 }
 BathroomSink {
   translation 9.989588999999999 1.07 5.443874
@@ -1386,15 +1421,21 @@ BathroomSink {
   name "sink(2)"
 }
 Bathtube {
-  translation 10.745356 0 3.990008
-  rotation 1 0 0 -1.5707963071795863
+  translation 11.9954 -2.3395e-06 4.96001
+  rotation -3.390498950813652e-09 0.7071067811865476 0.7071067811865476 3.14159
 }
 Toilet {
   translation 7.456646999999999 0 9.266226999999999
   rotation 0 1 0 -3.1415923071795864
 }
+Toilet {
+  translation 12.5259 0 3.97349
+  rotation 0 -1 0 1.5708
+  name "toilet(1)"
+  lidColor 1 0.721569 0.721569
+}
 BathroomSink {
-  translation 6.75 1.07 8.15
+  translation 6.75 1.07 8.35
   rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -2.094395307179586
 }
 CeilingSpotLight {
