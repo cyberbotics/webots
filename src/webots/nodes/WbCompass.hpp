@@ -25,8 +25,8 @@ class WbCompass : public WbSolidDevice {
 
 public:
   // constructors and destructor
-  WbCompass(WbTokenizer *tokenizer = NULL);
-  WbCompass(const WbCompass &other);
+  explicit WbCompass(WbTokenizer *tokenizer = NULL);
+  explicit WbCompass(const WbCompass &other);
   explicit WbCompass(const WbNode &other);
   virtual ~WbCompass();
 
