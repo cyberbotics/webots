@@ -28,7 +28,7 @@ optParser.add_option("--no-gui", dest="noGui", default="false", help="Start Webo
 options, args = optParser.parse_args()
 
 if 'WEBOTS_HOME' not in os.environ:
-    sys.exit('WEBOTS_HOME environmental variable not defined.')
+    sys.exit('WEBOTS_HOME environment variable not defined.')
 command = [os.path.join(os.environ['WEBOTS_HOME'], 'webots'), '--mode=' + options.mode, options.world]
 if options.noGui == 'true':
     command.append('--stdout')
