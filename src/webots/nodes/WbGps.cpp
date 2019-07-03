@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbFieldChecker.hpp"
 #include "WbGps.hpp"
+
+#include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
 #include "WbSFDouble.hpp"
