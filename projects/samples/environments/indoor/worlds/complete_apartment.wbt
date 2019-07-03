@@ -54,7 +54,7 @@ DEF ROOF Group {
 }
 DEF FLOOR Solid {
   translation 6.5 0 4.96
-  rotation 0 1 0 -3.0717958665604783e-07
+  rotation 0 -1 0 3.068336886461678e-07
   children [
     DEF LIVING_ROOM_1 Transform {
       translation -3.2 0 1.91
@@ -286,7 +286,7 @@ DEF KITCHEN_BLOCK Transform {
         colorOverride 0.2 0.2 0.2
       }
       secondaryAppearance PaintedWood {
-        colorOverride 0.2 0.2 0.2
+        colorOverride 0.827451 0.843137 0.811765
       }
     }
     Cabinet {
@@ -318,7 +318,7 @@ DEF KITCHEN_BLOCK Transform {
         colorOverride 0.2 0.2 0.2
       }
       secondaryAppearance PaintedWood {
-        colorOverride 0.2 0.2 0.2
+        colorOverride 0.827451 0.843137 0.811765
       }
     }
     Cabinet {
@@ -347,7 +347,36 @@ DEF KITCHEN_BLOCK Transform {
         colorOverride 0.2 0.2 0.2
       }
       secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    Cabinet {
+      translation -1.647 1.4 0.59
+      rotation 0 1 0 1.5708
+      name "cabinet(1)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2 ,1 , 0)"
+        "Shelf (1, 3 ,1 , 0)"
+      ]
+      handle CabinetHandle {
+        translation -0.2 0 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
         colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
       }
     }
     Cabinet {
@@ -418,7 +447,7 @@ DEF KITCHEN_BLOCK Transform {
         colorOverride 0.2 0.2 0.2
       }
       secondaryAppearance PaintedWood {
-        colorOverride 0.2 0.2 0.2
+        colorOverride 0.827451 0.843137 0.811765
       }
     }
     SolidBox {
@@ -559,6 +588,18 @@ DEF KITCHEN_BLOCK Transform {
       translation -1.24 0.51 0.11
       name "oven(1)"
     }
+    Transform {
+      translation 0.62 0.82 -1.62
+      rotation 0 1 0 -1.5707953071795862
+      scale 0.5 0.4 1.2
+      children [
+        Oven {
+          translation -0.38 0.51 0.11
+          name "oven(2)"
+          mainColor 0.643137 0 0
+        }
+      ]
+    }
     HotPlate {
       translation -1.14971 0.86 -1.62912
       rotation 0 -1 0 5.49779
@@ -618,6 +659,103 @@ StraightStairs {
   ]
   rightRail []
 }
+PaperBoat {
+  translation 5.41504 0 8.74428
+  rotation 0.8814122440432525 0.40906511326094164 -0.23617406539129385 1.1598
+}
+BiscuitBox {
+  translation 1.06782 0.91 3.6496
+  rotation 0 1 0 2.87979
+}
+BiscuitBox {
+  translation 2.46595 0.55 6.12057
+  rotation 0 1 0 2.87979
+  name "biscuit box(1)"
+}
+CerealBox {
+  translation 3.1174 0.91 1.31224
+  rotation 0 1 0 0.785398
+}
+CerealBox {
+  translation 0.283733 0.89 2.16698
+  rotation 0 1 0 1.5708
+  name "cereal box(1)"
+}
+CerealBox {
+  translation 0.288104 0.89 2.26473
+  rotation 0 1 0 -1.5707953071795862
+  name "cereal box(2)"
+}
+CerealBox {
+  translation 0.270551 0.89 2.39953
+  rotation 0 -1 0 -1.0472053071795866
+  name "cereal box(3)"
+}
+HoneyJar {
+  translation 3.51496 0.76 2.10201
+}
+JamJar {
+  translation 2.98499 0.76 1.64286
+  rotation 0 1 0 2.0944
+}
+WallPlug {
+  translation 0.15 0.13 9.98
+  rotation 0 1 0 3.14159
+}
+WallPlug {
+  translation 0.15 0.13 7.73
+  rotation 0 1 0 3.14159
+  name "wall plug(1)"
+}
+WallPlug {
+  translation 8.01 0.13 6.82
+  rotation 0 1 0 -1.5707953071795862
+  name "wall plug(2)"
+}
+WallPlug {
+  translation 3.21929 0.13 3.73915
+  rotation 0 1 0 -1.5707953071795862
+  name "wall plug(3)"
+}
+WallPlug {
+  translation 6.88575 0.13 0.149129
+  rotation 0 1 0 1.5708
+  name "wall plug(4)"
+}
+Laptop {
+  translation 3.00998 0.55 6.04682
+  rotation 0 1 0 -1.8325953071795862
+  controller ""
+}
+CardboardBox {
+  translation 5.50157 0.3 0.52547
+}
+SquareManhole {
+  translation 5.85302 0 0.959202
+}
+PipeSection {
+  translation 12.8957 1.2 3.58714
+  rotation -2.653589999981315e-06 0.9999999999929585 2.653589999981315e-06 1.5708
+  height 2.4
+  radius 0.04
+  appearance Roughcast {
+  }
+}
+CardboardBox {
+  translation 5.50157 0.77 0.52547
+  rotation 0 1 0 -1.047195307179586
+  name "cardboard box(1)"
+  size 0.4 0.3 0.5
+}
+Barbecue {
+  translation 5.08633 7.10543e-15 11.7017
+  rotation 0 1 0 3.14159
+}
+WallPlug {
+  translation 4.80291 0.13 4.03587
+  rotation 0 1 0 1.5708
+  name "wall plug(5)"
+}
 Cabinet {
   translation 9.4958 0 3.52837
   rotation 0 1 0 -5.307179586466759e-06
@@ -652,6 +790,15 @@ Cabinet {
     "Shelf  (1, 3, 1, 0)"
   ]
 }
+RubberDuck {
+  translation 11.0827 0.51 5.38744
+  rotation 0 1 0 -2.3561953071795863
+}
+RubberDuck {
+  translation 10.7519 0.86 3.84199
+  rotation 0 1 0 -0.785395307179586
+  name "rubber duck(1)"
+}
 Cabinet {
   translation 6.39914 0 7.2623999999999995
   rotation 0 -1 0 1.5707959999999999
@@ -676,9 +823,34 @@ Cabinet {
   }
 }
 Cabinet {
+  translation 4.63275 0 0.180166
+  rotation 0 1 0 3.20981e-07
+  name "cabinet 4(2)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.4, 0.4, 0.4, 0.4, 0.4
+  ]
+  columnsWidths [
+    0.4
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+    "Shelf  (1, 4, 1, 0)"
+    "Shelf  (1, 5, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.827451 0.843137 0.811765
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.827451 0.843137 0.811765
+  }
+}
+Cabinet {
   translation 6.39914 0 8.2024
   rotation 0 -1 0 1.5707959999999999
-  name "cabinet 4(2)"
+  name "cabinet 4(5)"
   depth 0.4
   outerThickness 0.02
   rowsHeights [
@@ -699,6 +871,26 @@ Cabinet {
   secondaryAppearance PaintedWood {
     colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
   }
+}
+Book {
+  translation 6.12584 0.0599989 8.23284
+  rotation 0.9351130202419243 0.25056300542381216 0.25056300542381216 -1.6378353071795866
+  name "book(2)"
+}
+Book {
+  translation 2.49435 0.569999 5.8222
+  rotation -0.9351132545462786 0.25056306820553154 0.25056206820525934 1.63783
+  name "book(3)"
+}
+Book {
+  translation 6.15887 0.0599989 7.38095
+  rotation -0.9351132545462786 0.25056306820553154 0.25056206820525934 1.63783
+  name "book(5)"
+}
+Book {
+  translation 6.23148 0.129999 9.6466
+  rotation 6.889229999822829e-06 0.999999999974283 -1.993109999948743e-06 0.523597
+  name "book(4)"
 }
 Cabinet {
   translation 6.39914 0 9.22241
@@ -763,13 +955,19 @@ Cabinet {
   ]
 }
 Cabinet {
-  translation 10.426355 0 5.776412
+  translation 10.1734 -1.95399e-13 5.80579
+  rotation 0 -1 0 -5.307179586466759e-06
   name "cabinet(8)"
+}
+WoodenChair {
+  translation 2.90904 0 3.40405
+  rotation 0 1 0 3.1415919999999997
+  name "wooden chair(4)"
 }
 WoodenChair {
   translation 3.611985 0 2.355698
   rotation 0 1 0 3.1415919999999997
-  name "wooden chair(4)"
+  name "wooden chair(6)"
 }
 WoodenChair {
   translation 3.611985 0 0.595698
@@ -789,13 +987,28 @@ WoodenChair {
 RoundTable {
   translation 3.615372 0 1.430469
 }
+Cookware {
+  translation 0.458528 1.16 1.57116
+  rotation 0 1 0 2.0944
+}
+Cookware {
+  translation 0.58945 0.89 3.20078
+  rotation 0 1 0 -1.5707953071795862
+  name "cookware(1)"
+}
+Lid {
+  translation 0.58945 0.89 2.80078
+}
+WoodenSpoon {
+  translation 0.78945 0.89 2.97078
+}
 WoodenChair {
   translation 12.059999999999999 0 6.88
   rotation 0 1 0 1.5707959999999999
   name "wooden chair(2)"
 }
 Bed {
-  translation 10.802655 0 8.674471
+  translation 10.2627 0 8.67447
   rotation 0 1 0 -1.5707963071795863
 }
 Desk {
@@ -1192,15 +1405,50 @@ FloorLight {
   name "floor light(1)"
   pointLightRadius 2
 }
-Transform {
+Book {
+  translation 11.8186 0.41 9.49841
+  rotation 0.9351130202419243 0.25056300542381216 0.25056300542381216 -1.6378353071795866
+  name "book(1)"
 }
-FloorLight {
-  translation 12.259350999999999 0 8.943755
-  name "floor light(2)"
-  bulbColor 0.937255 0.16078399999999998 0.16078399999999998
-  pointLightColor 1 0.5799949999999999 0.5799949999999999
-  pointLightIntensity 2
-  pointLightRadius 3
+Transform {
+  translation 11.8794 0.4 9.51375
+  scale 0.4 0.4 0.4
+  children [
+    FloorLight {
+      translation -1.45231 0 0.214575
+      name "floor light(2)"
+      bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      pointLightColor 1 0.5799949999999999 0.5799949999999999
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
+}
+Transform {
+  translation 12.6994 0.4 2.73375
+  scale 0.4 0.4 0.4
+  children [
+    FloorLight {
+      translation 0.2 0 0
+      name "floor light(4)"
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
+}
+Transform {
+  translation 9.6494 0.4 9.51375
+  scale 0.4 0.4 0.4
+  children [
+    FloorLight {
+      translation -1.31 0 0
+      name "floor light(3)"
+      bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      pointLightColor 1 0.5799949999999999 0.5799949999999999
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
 }
 Table {
   translation 1.632191 0 10.415072
@@ -1208,8 +1456,115 @@ Table {
   name "table(1)"
   size 2.5 0.74 1
 }
+Carafe {
+  translation 1.59413 0.74 11.1383
+  rotation 0 1 0 -1.8325953071795862
+}
+Plate {
+  translation 1.63786 0.74 11.5061
+}
+Plate {
+  translation 3.63168 0.77 2.28227
+  name "plate(9)"
+}
+Plate {
+  translation 2.75324 0.77 1.44694
+  name "plate(10)"
+}
+Knife {
+  translation 3.75127 0.77 2.28688
+  rotation 0 1 0 1.5708
+}
+Glass {
+  translation 2.90459 0.77 1.51333
+}
+WaterBottle {
+  translation 3.2776 0.77 1.70218
+}
+Glass {
+  translation 3.69948 0.77 2.13663
+  name "glass(8)"
+}
+Knife {
+  translation 2.76727 0.77 1.57524
+  rotation 0 1 0 7.33682e-06
+  name "knife(1)"
+}
+Fork {
+  translation 3.51102 0.77 2.26104
+  rotation 0 1 0 -3.1415853071795863
+}
+Fork {
+  translation 2.76785 0.77 1.32326
+  rotation 0 1 0 1.5708
+  name "fork(1)"
+}
+Plate {
+  translation 1.63786 0.74 9.3661
+  name "plate(8)"
+}
+Plate {
+  translation 1.29784 0.74 11.1892
+  name "plate(2)"
+}
+Plate {
+  translation 1.92784 0.74 11.1892
+  name "plate(3)"
+}
+Plate {
+  translation 1.92784 0.74 10.4792
+  name "plate(4)"
+}
+Plate {
+  translation 1.30784 0.74 10.4792
+  name "plate(5)"
+}
+Plate {
+  translation 1.30784 0.74 9.7692
+  name "plate(6)"
+}
+Plate {
+  translation 1.94784 0.74 9.7692
+  name "plate(7)"
+}
+Wineglass {
+  translation 1.81967 0.74 9.6817
+}
+Wineglass {
+  translation 1.55048 0.74 9.49352
+  name "wine glass(7)"
+}
+Wineglass {
+  translation 1.81967 0.74 10.3817
+  name "wine glass(1)"
+}
+Wineglass {
+  translation 1.81967 0.74 11.0617
+  name "wine glass(2)"
+}
+Wineglass {
+  translation 1.75571 0.74 11.405
+  name "wine glass(3)"
+}
+Wineglass {
+  translation 1.41967 0.74 11.3017
+  name "wine glass(6)"
+}
+Wineglass {
+  translation 1.41967 0.74 10.6317
+  name "wine glass(4)"
+}
+Wineglass {
+  translation 1.41967 0.74 9.8817
+  name "wine glass(5)"
+}
+Carafe {
+  translation 1.64154 0.74 9.78071
+  rotation 0 1 0 0.785398
+  name "carafe(1)"
+}
 Table {
-  translation 9.652237 0 9.556092999999999
+  translation 9.09224 0 9.55609
   rotation 0 -1 0 -4.307179586326981e-06
   name "table(2)"
   size 0.3 0.4 0.3
@@ -1218,7 +1573,7 @@ Table {
   }
 }
 Table {
-  translation 11.89036 0 9.560361
+  translation 11.3804 0 9.56036
   rotation 0 -1 0 -4.307179586326981e-06
   name "table(3)"
   size 0.3 0.4 0.3
@@ -1234,6 +1589,10 @@ Table {
   feetSize 0.04 0.05
   legAppearance BrushedAluminium {
   }
+}
+Book {
+  translation 12.6394 0.44 2.73375
+  rotation 1 0 0 -1.5707953071795862
 }
 Chair {
   translation 1.636645 -0.002245 11.745298
@@ -1324,19 +1683,88 @@ Chair {
   }
 }
 FruitBowl {
+  translation 1.64062 0.779784 10.1277
+  rotation 0 -1 0 0.944615
+  color 0.541176 0.886275 0.203922
+}
+Apple {
+  translation 1.61731 0.829784 10.1924
+}
+Orange {
+  translation 3.5095 0.829784 1.45315
+}
+Orange {
+  translation 3.62245 0.829784 1.48074
+  name "orange(2)"
+}
+Orange {
+  translation 3.58551 0.829784 1.38529
+  name "orange(3)"
+}
+Orange {
+  translation 1.61731 0.829784 10.0824
+  name "orange(1)"
+}
+FruitBowl {
   translation 3.5758989999999997 0.7797839999999999 1.4573889999999998
   rotation 0 -1 0 0.944615
+  name "fruit bowl(1)"
   color 0.6666666666666666 0 0
 }
 Table {
-  translation 2.658387 0.02 6.014093
+  translation 6.84245 0.02 11.0871
+  rotation 0 1 0 -1.5707953071795862
   size 1.2 0.53 0.8
+  trayAppearance BrushedAluminium {
+  }
+  legAppearance BrushedAluminium {
+  }
+}
+Table {
+  translation 2.658387 0.02 6.014093
+  name "table(5)"
+  size 1.2 0.53 0.8
+}
+BeerBottle {
+  translation 2.27668 0.55 6.25675
+  rotation 0 1 0 -1.5707953071795862
+}
+Can {
+  translation 2.55469 0.61 6.28676
+}
+BeerBottle {
+  translation 2.19725 0.55 5.83642
+  rotation 0 1 0 0.523599
+  name "beer bottle(1)"
+}
+BeerBottle {
+  translation 2.88787 0.55 6.31964
+  rotation 0 1 0 -2.8797953071795863
+  name "beer bottle(2)"
+}
+Armchair {
+  translation 9.80788 0 2.57082
+  rotation 0 -1 0 -1.3592853071795865
+  name "armchair(1)"
+  color 0.827451 0.843137 0.811765
+}
+Armchair {
+  translation 4.354153999999999 0 6.495947
+  rotation 0 0.9999999999999999 0 2.930078
+  name "armchair(4)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
 }
 Armchair {
   translation 4.354153999999999 0 6.495947
   rotation 0 1 0 2.930078
-  name "armchair(1)"
+  name "armchair(2)"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+}
+Armchair {
+  translation 12.1858 1.59872e-14 9.0281
+  rotation 0 1 0 2.14468
+  name "armchair(3)"
+  color 0.827451 0.843137 0.811765
 }
 Sofa {
   translation 0.6887059999999999 0 5.9207339999999995
@@ -1347,6 +1775,12 @@ Sofa {
   rotation 0 1 0 1.5708
   name "sofa 2"
   color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+}
+Sofa {
+  translation 8.1052 1.95399e-13 11.1117
+  rotation 0 1 0 -3.1415853071795863
+  name "sofa 2(1)"
+  color 0.827451 0.843137 0.811765
 }
 Carpet {
   translation 2.55795 -0.015 5.803488
@@ -1390,9 +1824,19 @@ PortraitPainting {
   translation 1.7999999999999998 1.5999999999999999 12.209999999999999
   rotation 0 1 0 3.14159
 }
+PortraitPainting {
+  translation 6.76837 1.6 3.28921
+  rotation 0 -1 0 -1.5707953071795862
+  name "portrait painting(1)"
+}
+LandscapePainting {
+  translation 0.178447 1.62868 10.3223
+  rotation 0 1 0 1.5708
+}
 LandscapePainting {
   translation 4.8501449999999995 1.62868 2.295442
   rotation 0 1 0 -1.5707963071795863
+  name "landscape painting(1)"
 }
 Television {
   translation 2.45471 1.5595999999999999 4.04287
