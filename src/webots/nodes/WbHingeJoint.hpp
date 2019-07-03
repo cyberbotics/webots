@@ -26,7 +26,7 @@ class WbHingeJoint : public WbJoint {
   Q_OBJECT
 
 public:
-  WbHingeJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbHingeJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbHingeJoint(WbTokenizer *tokenizer = NULL);
   WbHingeJoint(const WbHingeJoint &other);
   explicit WbHingeJoint(const WbNode &other);

@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbReceiver.hpp"
 #include "WbDataPacket.hpp"
 #include "WbEmitter.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeGeomData.hpp"
 #include "WbRandom.hpp"
+#include "WbReceiver.hpp"
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
@@ -213,18 +213,18 @@ void WbReceiver::writeAnswer(QDataStream &stream) {
 
 void WbReceiver::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mSensor->setRefreshRate(rate);
       return;
     }
     case C_RECEIVER_SET_CHANNEL: {
       int channel;
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
       return;
     }

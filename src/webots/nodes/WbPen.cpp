@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbPen.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPaintTexture.hpp"
+#include "WbPen.hpp"
 #include "WbRay.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
@@ -84,7 +84,7 @@ void WbPen::preFinalize() {
 
 void WbPen::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_PEN_WRITE:
@@ -94,8 +94,8 @@ void WbPen::handleMessage(QDataStream &stream) {
       mWrite->setValue(false);
       return;
     case C_PEN_SET_INK_COLOR: {
-      unsigned char r = 0, g = 0, b = 0;
-      stream >> (unsigned char &)r >> (unsigned char &)g >> (unsigned char &)b;
+      unsigned char r, g, b;
+      stream >> r >> g >> b;
       mInkColor->setValue(r / 255.0f, g / 255.0f, b / 255.0f);
 
       unsigned char density = 0;

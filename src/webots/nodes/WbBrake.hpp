@@ -24,7 +24,7 @@ class WbBrake : public WbJointDevice {
 
 public:
   virtual ~WbBrake() {}
-  WbBrake(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbBrake(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbBrake(WbTokenizer *tokenizer = NULL);
   WbBrake(const WbBrake &other);
   explicit WbBrake(const WbNode &other);

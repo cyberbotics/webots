@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    AccelerometerWidget(Device *device, QWidget *parent = NULL);
+    explicit AccelerometerWidget(Device *device, QWidget *parent = NULL);
     virtual ~AccelerometerWidget() {}
 
   protected slots:

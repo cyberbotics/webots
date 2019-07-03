@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbEmitter.hpp"
 #include "WbDataPacket.hpp"
+#include "WbEmitter.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbReceiver.hpp"
 
@@ -150,14 +150,14 @@ void WbEmitter::handleMessage(QDataStream &stream) {
   double range;
   char *data;
 
-  stream >> (unsigned char &)command;
+  stream >> command;
   switch (command) {
     case C_EMITTER_SEND:
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
-      stream >> (double &)range;
+      stream >> range;
       mRange->setValue(range);
-      stream >> (int &)size;
+      stream >> size;
       data = new char[size];
       stream.readRawData(data, size);
       mQueue.enqueue(new WbDataPacket(this, mChannel->value(), data, size));
@@ -165,12 +165,12 @@ void WbEmitter::handleMessage(QDataStream &stream) {
       return;
 
     case C_EMITTER_SET_CHANNEL:
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
       return;
 
     case C_EMITTER_SET_RANGE:
-      stream >> (double &)range;
+      stream >> range;
       mRange->setValue(range);
       return;
 

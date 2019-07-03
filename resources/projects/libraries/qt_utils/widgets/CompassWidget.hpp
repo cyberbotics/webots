@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    CompassWidget(Device *device, QWidget *parent = NULL);
+    explicit CompassWidget(Device *device, QWidget *parent = NULL);
     virtual ~CompassWidget() {}
 
   protected slots:

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbLightSensor.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLight.hpp"
+#include "WbLightSensor.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
@@ -169,11 +169,11 @@ void WbLightSensor::postFinalize() {
 void WbLightSensor::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       break;
     default:

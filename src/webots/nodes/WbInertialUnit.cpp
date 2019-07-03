@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbInertialUnit.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbInertialUnit.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
@@ -87,11 +87,11 @@ void WbInertialUnit::updateResolution() {
 void WbInertialUnit::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
     default:

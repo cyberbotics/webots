@@ -15,7 +15,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    RangeFinderWidget(Device *device, QWidget *parent = NULL);
+    explicit RangeFinderWidget(Device *device, QWidget *parent = NULL);
     virtual ~RangeFinderWidget() {}
 
     void readSensors() override;

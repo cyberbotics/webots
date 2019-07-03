@@ -28,7 +28,7 @@ public:
   int deviceNodeType() const override { return nodeType(); }
 
 protected:
-  WbLogicalDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbLogicalDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbLogicalDevice(const WbLogicalDevice &other);
   explicit WbLogicalDevice(const WbNode &other);
 

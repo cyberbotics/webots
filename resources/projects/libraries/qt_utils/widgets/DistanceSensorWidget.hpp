@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    DistanceSensorWidget(Device *device, QWidget *parent = NULL);
+    explicit DistanceSensorWidget(Device *device, QWidget *parent = NULL);
     virtual ~DistanceSensorWidget() {}
 
   protected slots:

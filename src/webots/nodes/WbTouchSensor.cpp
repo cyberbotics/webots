@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbTouchSensor.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -21,6 +20,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 #include "WbSolidMerger.hpp"
+#include "WbTouchSensor.hpp"
 
 #include <ode/ode.h>
 #include <QtCore/QDataStream>
@@ -112,11 +112,11 @@ void WbTouchSensor::updateResolution() {
 void WbTouchSensor::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
     default:

@@ -22,12 +22,12 @@ class WbGeometry;
 class WbOdeGeomData {
 public:
   // constructors and destructor
-  WbOdeGeomData(WbSolid *solid, WbGeometry *geometry = NULL) :
+  explicit WbOdeGeomData(WbSolid *solid, WbGeometry *geometry = NULL) :
     mFluid(NULL),
     mSolid(solid),
     mGeometry(geometry),
     mMagicNumber(0x7765626F7473LL) {}
-  WbOdeGeomData(WbFluid *fluid, WbGeometry *geometry = NULL) :
+  explicit WbOdeGeomData(WbFluid *fluid, WbGeometry *geometry = NULL) :
     mFluid(fluid),
     mSolid(NULL),
     mGeometry(geometry),

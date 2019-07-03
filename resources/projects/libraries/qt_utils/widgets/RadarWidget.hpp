@@ -17,7 +17,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    RadarWidget(Device *device, QWidget *parent = NULL);
+    explicit RadarWidget(Device *device, QWidget *parent = NULL);
     virtual ~RadarWidget() {}
 
     void readSensors() override;

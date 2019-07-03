@@ -22,10 +22,10 @@ class WbHingeJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
-  WbHingeJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbHingeJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbHingeJointParameters(WbTokenizer *tokenizer = NULL, bool fromDeprecatedHinge2JointParameters = false);
   WbHingeJointParameters(const WbHingeJointParameters &other);
-  WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
+  explicit WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
   virtual ~WbHingeJointParameters();
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT_PARAMETERS; }

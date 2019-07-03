@@ -90,12 +90,12 @@ void WbMicrophone::writeAnswer(QDataStream &stream) {
 
 void WbMicrophone::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mSensor->setRefreshRate(rate);
       return;
     }
