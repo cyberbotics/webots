@@ -104,7 +104,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   // newsletter
   QGroupBox *newsletterBox = new QGroupBox(tr("Webots newsletter:"));
   QVBoxLayout *newsletterLayout = new QVBoxLayout();
-  label = new QLabel(tr("Keep informed about the latest enhancements of Webots by subscribing to <a style='color: #5DADE2;' "
+  label = new QLabel(tr("Stay informed about the latest developments of Webots by subscribing to the <a style='color: #5DADE2;' "
                         "href='https://cyberbotics.com/news/subscribe.php'>Webots newsletter</a>."));
   label->setOpenExternalLinks(true);
   newsletterLayout->addWidget(label);
