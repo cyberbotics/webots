@@ -17,7 +17,9 @@ JS_SOURCES = \
   shaders/bright_pass.js \
   shaders/blend_bloom.js \
   shaders/gaussian_blur_13_tap.js \
+  shaders/gtao.js \
   passes/bloom.js \
+  passes/gtao.js \
   equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
@@ -62,12 +64,10 @@ THREEJS_EXAMPLE_SOURCES = \
   shaders/CopyShader.js \
   shaders/FXAAShader.js \
   shaders/DepthLimitedBlurShader.js \
-  shaders/SAOShader.js \
   shaders/UnpackDepthRGBAShader.js \
   postprocessing/EffectComposer.js \
   postprocessing/RenderPass.js \
-  postprocessing/ShaderPass.js \
-  postprocessing/SAOPass.js
+  postprocessing/ShaderPass.js
 LOCAL_THREEJS_EXAMPLE_SOURCES = $(addprefix $(DEPENDENCIES_PATH)/,$(THREEJS_EXAMPLE_SOURCES))
 
 # Token file used to determine when the last successful installation occurred.

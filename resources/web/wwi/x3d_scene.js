@@ -23,6 +23,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.gammaInput = false;
     this.renderer.gammaOutput = false;
     this.renderer.physicallyCorrectLights = true;
+    this.renderer.debug.checkShaderErrors = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
