@@ -1,4 +1,4 @@
-# This file is used by the "webots-tag" appveyor project, it is identical to the .appveyor-build file,
+# This file is used by the "webots-tag" appveyor project, it is identical to the .appveyor-build.yml file,
 # except for the first instruction: skip_non_tags: true
 
 skip_non_tags: true
