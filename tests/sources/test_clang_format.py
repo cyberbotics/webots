@@ -107,7 +107,6 @@ class TestClangFormat(unittest.TestCase):
                             break
                     if found:
                         continue
-                    found = False
                     for directory in skippedDirectories:
                         currentDirectories = line.split(os.sep)
                         if directory in currentDirectories:
