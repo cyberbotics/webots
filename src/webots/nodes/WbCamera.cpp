@@ -570,7 +570,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
       break;
     }
     case C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD: {
-      stream mRecognitionRefreshRate;
+      stream >> mRecognitionRefreshRate;
       mRecognitionSensor->setRefreshRate(mRecognitionRefreshRate);
       break;
     }
