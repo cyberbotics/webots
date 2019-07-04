@@ -275,7 +275,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
     case C_DISPLAY_DRAW_RECTANGLE:
     case C_DISPLAY_DRAW_OVAL:
     case C_DISPLAY_DRAW_POLYGON:
-      stream >> (unsigned short &)size;
+      stream >> size;
       px = new int[size];
       py = new int[size];
       stream.readRawData((char *)px, size * sizeof(int));

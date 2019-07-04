@@ -731,9 +731,9 @@ void WbRobot::writeConfigure(QDataStream &stream) {
 void WbRobot::dispatchMessage(QDataStream &stream) {
   while (!stream.atEnd()) {
     WbDeviceTag tag;
-    stream >> (short unsigned int &)tag;
+    stream >> tag;
     int size;
-    stream >> (int &)size;
+    stream >> size;
 
     if (tag == 0) {
       const int end = stream.device()->pos() + size;
@@ -767,7 +767,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       return;
     case C_SET_SAMPLING_PERIOD:  // for the scene tracker
       /*
-      stream >> (short &)mRefreshRate;
+      stream >> mRefreshRate;
       if (needSceneTracker==false) {
         A_SceneTracker::addNeed();
         needSceneTracker = true;
