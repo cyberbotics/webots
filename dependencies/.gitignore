@@ -5,7 +5,9 @@
 /libpng*
 /libtiff*
 /lua*
+/ois
 /openal
 /opencv*
 /openssl*
 /openvr-*
+/pico
