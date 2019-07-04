@@ -1,3 +1,6 @@
+# This file is used by the "webots-tag" appveyor project, it is identical to the .appveyor-build-tag.yml file,
+# except for the first instruction: skip_non_tags: true which is missing here.
+
 branches:
   # this rule applies both to branch and tag names
   except:
