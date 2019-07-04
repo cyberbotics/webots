@@ -93,6 +93,27 @@ class TestClangFormat(unittest.TestCase):
                     extension = os.path.splitext(line)[1][1:].lower()
                     if extension not in extensions:
                         continue
+                    found = False
+                    for directory in directories:
+                        if line.startswith(directory):
+                            found = True
+                            break
+                    if not found:
+                        continue
+                    found = False
+                    for directory in skippedPaths:
+                        if line.startswith(directory):
+                            found = True
+                            break
+                    if found:
+                        continue
+                    found = False
+                    for directory in skippedDirectories:
+                        currentDirectories = line.split(os.sep)
+                        if directory in currentDirectories:
+                            found = True
+                    if found:
+                        continue
                     sources.append(line.replace('/', os.sep))
         else:
             for directory in directories:
