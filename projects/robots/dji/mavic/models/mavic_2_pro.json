@@ -1,0 +1,13 @@
+{
+  "BASE": {
+    "target node": "Robot",
+    "physics": {
+      "mass": 5
+    },
+    "boundingObject": {
+    }
+  },
+  "GREY_PLASTIC": {
+    "target node": "BrushedAluminium"
+  }
+}
