@@ -290,7 +290,7 @@ QString WbSupervisorUtilities::readString(QDataStream &stream) {
   QByteArray txt;
   unsigned char uc;
   do {
-    stream >> (unsigned char &)uc;
+    stream >> uc;
     txt.append(uc);
   } while (uc != 0 && !stream.atEnd());
   return QString(txt.constData());
