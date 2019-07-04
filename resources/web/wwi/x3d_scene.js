@@ -53,12 +53,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.addPass(renderPass);
     this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
     this.composer.addPass(this.bloomPass);
-    this.saoPass = new THREE.SAOPass(this.scene, this.viewpoint.camera, true, true);
-    this.saoPass.params.saoIntensity = 0.03;
-    this.saoPass.params.saoScale = 40;
-    this.saoPass.params.saoKernelRadius = 30;
-    // this.saoPass.params.output = THREE.SAOPass.OUTPUT.SAO;
-    this.composer.addPass(this.saoPass);
+    this.gtaoPass = new THREE.GTAOPass(this.scene, this.viewpoint.camera, true, true);
+    this.gtaoPass.params.gtaoIntensity = 0.03;
+    this.gtaoPass.params.gtaoScale = 40;
+    this.gtaoPass.params.gtaoKernelRadius = 30;
+    // this.gtaoPass.params.output = THREE.GTAOPass.OUTPUT.GTAO;
+    this.composer.addPass(this.gtaoPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);

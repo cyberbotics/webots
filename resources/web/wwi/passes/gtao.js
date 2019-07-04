@@ -1,6 +1,6 @@
 /* global THREE */
 
-THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
+THREE.GTAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   THREE.Pass.call(this);
 
   this.scene = scene;
@@ -18,26 +18,26 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
 
   this.params = {
     output: 0,
-    saoBias: 0.5,
-    saoIntensity: 0.18,
-    saoScale: 1,
-    saoKernelRadius: 100,
-    saoMinResolution: 0,
-    saoBlur: true,
-    saoBlurRadius: 8,
-    saoBlurStdDev: 4,
-    saoBlurDepthCutoff: 0.01
+    gtaoBias: 0.5,
+    gtaoIntensity: 0.18,
+    gtaoScale: 1,
+    gtaoKernelRadius: 100,
+    gtaoMinResolution: 0,
+    gtaoBlur: true,
+    gtaoBlurRadius: 8,
+    gtaoBlurStdDev: 4,
+    gtaoBlurDepthCutoff: 0.01
   };
 
   this.resolution = (resolution !== undefined) ? new THREE.Vector2(resolution.x, resolution.y) : new THREE.Vector2(256, 256);
 
-  this.saoRenderTarget = new THREE.WebGLRenderTarget(this.resolution.x, this.resolution.y, {
+  this.gtaoRenderTarget = new THREE.WebGLRenderTarget(this.resolution.x, this.resolution.y, {
     minFilter: THREE.LinearFilter,
     magFilter: THREE.LinearFilter,
     format: THREE.RGBAFormat
   });
-  this.blurIntermediateRenderTarget = this.saoRenderTarget.clone();
-  this.beautyRenderTarget = this.saoRenderTarget.clone();
+  this.blurIntermediateRenderTarget = this.gtaoRenderTarget.clone();
+  this.beautyRenderTarget = this.gtaoRenderTarget.clone();
 
   this.normalRenderTarget = new THREE.WebGLRenderTarget(this.resolution.x, this.resolution.y, {
     minFilter: THREE.NearestFilter,
@@ -63,28 +63,28 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   this.normalMaterial = new THREE.MeshNormalMaterial();
   this.normalMaterial.blending = THREE.NoBlending;
 
-  if (THREE.SAOShader === undefined)
-    console.error('THREE.SAOPass relies on THREE.SAOShader');
+  if (THREE.GTAOShader === undefined)
+    console.error('THREE.GTAOPass relies on THREE.GTAOShader');
 
-  this.saoMaterial = new THREE.ShaderMaterial({
-    defines: Object.assign({}, THREE.SAOShader.defines),
-    fragmentShader: THREE.SAOShader.fragmentShader,
-    vertexShader: THREE.SAOShader.vertexShader,
-    uniforms: THREE.UniformsUtils.clone(THREE.SAOShader.uniforms)
+  this.gtaoMaterial = new THREE.ShaderMaterial({
+    defines: Object.assign({}, THREE.GTAOShader.defines),
+    fragmentShader: THREE.GTAOShader.fragmentShader,
+    vertexShader: THREE.GTAOShader.vertexShader,
+    uniforms: THREE.UniformsUtils.clone(THREE.GTAOShader.uniforms)
   });
-  this.saoMaterial.extensions.derivatives = true;
-  this.saoMaterial.defines[ 'DEPTH_PACKING' ] = this.supportsDepthTextureExtension ? 0 : 1;
-  this.saoMaterial.defines[ 'NORMAL_TEXTURE' ] = this.supportsNormalTexture ? 1 : 0;
-  this.saoMaterial.defines[ 'PERSPECTIVE_CAMERA' ] = this.camera.isPerspectiveCamera ? 1 : 0;
-  this.saoMaterial.uniforms[ 'tDepth' ].value = (this.supportsDepthTextureExtension) ? depthTexture : this.depthRenderTarget.texture;
-  this.saoMaterial.uniforms[ 'tNormal' ].value = this.normalRenderTarget.texture;
-  this.saoMaterial.uniforms[ 'size' ].value.set(this.resolution.x, this.resolution.y);
-  this.saoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
-  this.saoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
-  this.saoMaterial.blending = THREE.NoBlending;
+  this.gtaoMaterial.extensions.derivatives = true;
+  this.gtaoMaterial.defines[ 'DEPTH_PACKING' ] = this.supportsDepthTextureExtension ? 0 : 1;
+  this.gtaoMaterial.defines[ 'NORMAL_TEXTURE' ] = this.supportsNormalTexture ? 1 : 0;
+  this.gtaoMaterial.defines[ 'PERSPECTIVE_CAMERA' ] = this.camera.isPerspectiveCamera ? 1 : 0;
+  this.gtaoMaterial.uniforms[ 'tDepth' ].value = (this.supportsDepthTextureExtension) ? depthTexture : this.depthRenderTarget.texture;
+  this.gtaoMaterial.uniforms[ 'tNormal' ].value = this.normalRenderTarget.texture;
+  this.gtaoMaterial.uniforms[ 'size' ].value.set(this.resolution.x, this.resolution.y);
+  this.gtaoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
+  this.gtaoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
+  this.gtaoMaterial.blending = THREE.NoBlending;
 
   if (THREE.DepthLimitedBlurShader === undefined)
-    console.error('THREE.SAOPass relies on THREE.DepthLimitedBlurShader');
+    console.error('THREE.GTAOPass relies on THREE.DepthLimitedBlurShader');
 
   this.vBlurMaterial = new THREE.ShaderMaterial({
     uniforms: THREE.UniformsUtils.clone(THREE.DepthLimitedBlurShader.uniforms),
@@ -94,7 +94,7 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   });
   this.vBlurMaterial.defines[ 'DEPTH_PACKING' ] = this.supportsDepthTextureExtension ? 0 : 1;
   this.vBlurMaterial.defines[ 'PERSPECTIVE_CAMERA' ] = this.camera.isPerspectiveCamera ? 1 : 0;
-  this.vBlurMaterial.uniforms[ 'tDiffuse' ].value = this.saoRenderTarget.texture;
+  this.vBlurMaterial.uniforms[ 'tDiffuse' ].value = this.gtaoRenderTarget.texture;
   this.vBlurMaterial.uniforms[ 'tDepth' ].value = (this.supportsDepthTextureExtension) ? depthTexture : this.depthRenderTarget.texture;
   this.vBlurMaterial.uniforms[ 'size' ].value.set(this.resolution.x, this.resolution.y);
   this.vBlurMaterial.blending = THREE.NoBlending;
@@ -113,7 +113,7 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   this.hBlurMaterial.blending = THREE.NoBlending;
 
   if (THREE.CopyShader === undefined)
-    console.error('THREE.SAOPass relies on THREE.CopyShader');
+    console.error('THREE.GTAOPass relies on THREE.CopyShader');
 
   this.materialCopy = new THREE.ShaderMaterial({
     uniforms: THREE.UniformsUtils.clone(THREE.CopyShader.uniforms),
@@ -133,7 +133,7 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   this.materialCopy.blendEquationAlpha = THREE.AddEquation;
 
   if (THREE.CopyShader === undefined)
-    console.error('THREE.SAOPass relies on THREE.UnpackDepthRGBAShader');
+    console.error('THREE.GTAOPass relies on THREE.UnpackDepthRGBAShader');
 
   this.depthCopy = new THREE.ShaderMaterial({
     uniforms: THREE.UniformsUtils.clone(THREE.UnpackDepthRGBAShader.uniforms),
@@ -145,16 +145,16 @@ THREE.SAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   this.fsQuad = new THREE.Pass.FullScreenQuad(null);
 };
 
-THREE.SAOPass.OUTPUT = {
+THREE.GTAOPass.OUTPUT = {
   'Beauty': 1,
   'Default': 0,
-  'SAO': 2,
+  'GTAO': 2,
   'Depth': 3,
   'Normal': 4
 };
 
-THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
-  constructor: THREE.SAOPass,
+THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
+  constructor: THREE.GTAOPass,
 
   render: function(renderer, writeBuffer, readBuffer, deltaTime, maskActive) {
     // Rendering readBuffer first when rendering to screen
@@ -176,16 +176,16 @@ THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     renderer.setRenderTarget(this.depthRenderTarget);
     renderer.clear();
 
-    this.saoMaterial.uniforms[ 'bias' ].value = this.params.saoBias;
-    this.saoMaterial.uniforms[ 'intensity' ].value = this.params.saoIntensity;
-    this.saoMaterial.uniforms[ 'scale' ].value = this.params.saoScale;
-    this.saoMaterial.uniforms[ 'kernelRadius' ].value = this.params.saoKernelRadius;
-    this.saoMaterial.uniforms[ 'minResolution' ].value = this.params.saoMinResolution;
-    this.saoMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    this.saoMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
-    // this.saoMaterial.uniforms['randomSeed'].value = Math.random();
+    this.gtaoMaterial.uniforms[ 'bias' ].value = this.params.gtaoBias;
+    this.gtaoMaterial.uniforms[ 'intensity' ].value = this.params.gtaoIntensity;
+    this.gtaoMaterial.uniforms[ 'scale' ].value = this.params.gtaoScale;
+    this.gtaoMaterial.uniforms[ 'kernelRadius' ].value = this.params.gtaoKernelRadius;
+    this.gtaoMaterial.uniforms[ 'minResolution' ].value = this.params.gtaoMinResolution;
+    this.gtaoMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    this.gtaoMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    // this.gtaoMaterial.uniforms['randomSeed'].value = Math.random();
 
-    var depthCutoff = this.params.saoBlurDepthCutoff * (this.camera.far - this.camera.near);
+    var depthCutoff = this.params.gtaoBlurDepthCutoff * (this.camera.far - this.camera.near);
     this.vBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
     this.hBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
 
@@ -194,12 +194,12 @@ THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     this.hBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
     this.hBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
 
-    this.params.saoBlurRadius = Math.floor(this.params.saoBlurRadius);
-    if ((this.prevStdDev !== this.params.saoBlurStdDev) || (this.prevNumSamples !== this.params.saoBlurRadius)) {
-      THREE.BlurShaderUtils.configure(this.vBlurMaterial, this.params.saoBlurRadius, this.params.saoBlurStdDev, new THREE.Vector2(0, 1));
-      THREE.BlurShaderUtils.configure(this.hBlurMaterial, this.params.saoBlurRadius, this.params.saoBlurStdDev, new THREE.Vector2(1, 0));
-      this.prevStdDev = this.params.saoBlurStdDev;
-      this.prevNumSamples = this.params.saoBlurRadius;
+    this.params.gtaoBlurRadius = Math.floor(this.params.gtaoBlurRadius);
+    if ((this.prevStdDev !== this.params.gtaoBlurStdDev) || (this.prevNumSamples !== this.params.gtaoBlurRadius)) {
+      THREE.BlurShaderUtils.configure(this.vBlurMaterial, this.params.gtaoBlurRadius, this.params.gtaoBlurStdDev, new THREE.Vector2(0, 1));
+      THREE.BlurShaderUtils.configure(this.hBlurMaterial, this.params.gtaoBlurRadius, this.params.gtaoBlurStdDev, new THREE.Vector2(1, 0));
+      this.prevStdDev = this.params.gtaoBlurStdDev;
+      this.prevNumSamples = this.params.gtaoBlurRadius;
     }
 
     // Rendering scene to depth texture
@@ -219,17 +219,17 @@ THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
       this.renderOverride(renderer, this.normalMaterial, this.normalRenderTarget, 0x7777ff, 1.0);
     }
 
-    // Rendering SAO texture
-    this.renderPass(renderer, this.saoMaterial, this.saoRenderTarget, 0xffffff, 1.0);
+    // Rendering GTAO texture
+    this.renderPass(renderer, this.gtaoMaterial, this.gtaoRenderTarget, 0xffffff, 1.0);
 
-    // Blurring SAO texture
-    if (this.params.saoBlur) {
+    // Blurring GTAO texture
+    if (this.params.gtaoBlur) {
       this.renderPass(renderer, this.vBlurMaterial, this.blurIntermediateRenderTarget, 0xffffff, 1.0);
-      this.renderPass(renderer, this.hBlurMaterial, this.saoRenderTarget, 0xffffff, 1.0);
+      this.renderPass(renderer, this.hBlurMaterial, this.gtaoRenderTarget, 0xffffff, 1.0);
     }
 
     var outputMaterial = this.materialCopy;
-    // Setting up SAO rendering
+    // Setting up GTAO rendering
     if (this.params.output === 3) {
       if (this.supportsDepthTextureExtension) {
         this.materialCopy.uniforms[ 'tDiffuse' ].value = this.beautyRenderTarget.depthTexture;
@@ -243,17 +243,17 @@ THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
       this.materialCopy.uniforms[ 'tDiffuse' ].value = this.normalRenderTarget.texture;
       this.materialCopy.needsUpdate = true;
     } else {
-      this.materialCopy.uniforms[ 'tDiffuse' ].value = this.saoRenderTarget.texture;
+      this.materialCopy.uniforms[ 'tDiffuse' ].value = this.gtaoRenderTarget.texture;
       this.materialCopy.needsUpdate = true;
     }
 
-    // Blending depends on output, only want a CustomBlending when showing SAO
+    // Blending depends on output, only want a CustomBlending when showing GTAO
     if (this.params.output === 0)
       outputMaterial.blending = THREE.CustomBlending;
     else
       outputMaterial.blending = THREE.NoBlending;
 
-    // Rendering SAOPass result on top of previous pass
+    // Rendering GTAOPass result on top of previous pass
     this.renderPass(renderer, outputMaterial, this.renderToScreen ? null : readBuffer);
 
     renderer.setClearColor(this.oldClearColor, this.oldClearAlpha);
@@ -313,15 +313,15 @@ THREE.SAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
 
   setSize: function(width, height) {
     this.beautyRenderTarget.setSize(width, height);
-    this.saoRenderTarget.setSize(width, height);
+    this.gtaoRenderTarget.setSize(width, height);
     this.blurIntermediateRenderTarget.setSize(width, height);
     this.normalRenderTarget.setSize(width, height);
     this.depthRenderTarget.setSize(width, height);
 
-    this.saoMaterial.uniforms[ 'size' ].value.set(width, height);
-    this.saoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
-    this.saoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
-    this.saoMaterial.needsUpdate = true;
+    this.gtaoMaterial.uniforms[ 'size' ].value.set(width, height);
+    this.gtaoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
+    this.gtaoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
+    this.gtaoMaterial.needsUpdate = true;
 
     this.vBlurMaterial.uniforms[ 'size' ].value.set(width, height);
     this.vBlurMaterial.needsUpdate = true;

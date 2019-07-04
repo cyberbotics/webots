@@ -1,6 +1,6 @@
 /* global THREE */
 
-THREE.SAOShader = {
+THREE.GTAOShader = {
   defines: {
     'NUM_SAMPLES': 7,
     'NUM_RINGS': 4,
