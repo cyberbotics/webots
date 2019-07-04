@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test that the source code is compliant with ClangFormat."""
+"""Test that the C, C++ and shader source code is compliant with ClangFormat."""
 import unittest
 
 import difflib
