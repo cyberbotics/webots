@@ -40,18 +40,12 @@ public:
 
   // inherited from WbDevice
   void writeConfigure(QDataStream &stream) override;
-  void handleMessage(QDataStream &stream) override {
-    short command;
-    handleMessage(stream, command);
-  }
+  void handleMessage(QDataStream &stream) override;
   void writeAnswer(QDataStream &stream) override;
   bool refreshSensorIfNeeded() override;
 
   // inherited from WbJointDevice
   double position() const;
-
-protected:
-  void handleMessage(QDataStream &stream, short int &command);
 
 private:
   // user accessible field

@@ -56,7 +56,8 @@ void WbBrake::writeConfigure(QDataStream &stream) {
   stream << (int)type();
 }
 
-void WbBrake::handleMessage(QDataStream &stream, short int &command) {
+void WbBrake::handleMessage(QDataStream &stream) {
+  unsigned char command;
   stream >> command;
   if (command & C_BRAKE_SET_DAMPING_CONSTANT) {
     double dampingConstant;

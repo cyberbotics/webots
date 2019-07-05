@@ -78,7 +78,8 @@ void WbPositionSensor::writeConfigure(QDataStream &stream) {
   stream << (int)type();
 }
 
-void WbPositionSensor::handleMessage(QDataStream &stream, short int &command) {
+void WbPositionSensor::handleMessage(QDataStream &stream) {
+  unsigned char command;
   stream >> command;
   if (command & C_SET_SAMPLING_PERIOD) {
     short rate;
