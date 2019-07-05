@@ -21,20 +21,20 @@ It is even possible to read the standard input stream (`stdin`) like with any st
 In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
 Please refer to the documentation of your operating system to set environment variables.
 
-| Operating System | Controller Language  | Environment Variable   | Typical Value                                    |
-|------------------|----------------------|------------------------|--------------------------------------------------|
-| Windows          | all                  | WEBOTS_HOME            | `C:\Program Files\Webots`                        |
-| Linux            | all                  | WEBOTS_HOME            | `/usr/local/webots`                              |
-| macOS            | all                  | WEBOTS_HOME            | `/Applications/Webots`                           |
-| Windows          | all                  | PATH                   | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
-| Linux            | all                  | LD_LIBRAY_PATH         | add `${WEBOTS_HOME}/lib`                         |
-| macOS            | all                  | DYLD_LIBRARY_PATH      | add `${WEBOTS_HOME}/lib`                         |
-| all              | Python 2.7           | PYTHONPATH             | add `${WEBOTS_HOME}/lib/python27`                |
-| all              | Python 3.7           | PYTHONPATH             | add `${WEBOTS_HOME}/lib/python37`                |
-| all              | Python               | PYTHONIOENCODING       | `UTF-8`                                          |
-| all              | MATLAB               | WEBOTS_PROJECT         | `/my_folder/my_webots_project`                   |
-| all              | MATLAB               | WEBOTS_CONTROLLER_NAME | `my_robot_controller.m`                          |
-| all              | MATLAB               | WEBOTS_VERSION         | `R2019a-rev1`                                    |
+| Operating System | Controller Language  | Environment Variable     | Typical Value                                    |
+|------------------|----------------------|--------------------------|--------------------------------------------------|
+| Windows          | all                  | WEBOTS\_HOME             | `C:\Program Files\Webots`                        |
+| Linux            | all                  | WEBOTS\_HOME             | `/usr/local/webots`                              |
+| macOS            | all                  | WEBOTS\_HOME             | `/Applications/Webots`                           |
+| Windows          | all                  | PATH                     | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
+| Linux            | all                  | LD\_LIBRAY\_PATH         | add `${WEBOTS_HOME}/lib`                         |
+| macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
+| all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
+| all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python37`                |
+| all              | Python               | PYTHONIOENCODING         | `UTF-8`                                          |
+| all              | MATLAB               | WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
+| all              | MATLAB               | WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
+| all              | MATLAB               | WEBOTS\_VERSION          | `R2019a-rev1`                                    |
 
 If a C/C++ controller is launched from a Terminal running the bash shell, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
 - On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
