@@ -1,3 +1,9 @@
+branches:
+  except:
+    - develop
+    - revision
+    - master
+
 skip_commits:
   - message: /Merge pull request/
 
