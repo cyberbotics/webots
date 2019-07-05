@@ -298,7 +298,7 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   const WbVector3 absoluteScale = mInitialMatrix.scale();
   mInitialMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
 
-  WbVector4 scaledPos = mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling;
+  WbVector4 scaledPos = WbVector4(mManipulator->relativeHandlePosition(mHandleNumber)) * mViewDistanceUnscaling;
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
 

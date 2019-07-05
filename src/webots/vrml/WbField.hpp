@@ -38,10 +38,10 @@ class WbField : public QObject {
 
 public:
   // create from a field model
-  WbField(const WbFieldModel *model, WbNode *parentNode = NULL);
+  explicit WbField(const WbFieldModel *model, WbNode *parentNode = NULL);
 
   // create by copying another field
-  WbField(const WbField &other, WbNode *parentNode = NULL);
+  explicit WbField(const WbField &other, WbNode *parentNode = NULL);
   virtual ~WbField();
 
   // the field's model

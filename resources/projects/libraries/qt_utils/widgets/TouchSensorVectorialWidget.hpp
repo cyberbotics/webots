@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    TouchSensorVectorialWidget(Device *device, QWidget *parent = NULL);
+    explicit TouchSensorVectorialWidget(Device *device, QWidget *parent = NULL);
     virtual ~TouchSensorVectorialWidget() {}
 
   protected slots:

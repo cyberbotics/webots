@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbLed.hpp"
+
 #include "WbAppearance.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
@@ -148,11 +149,11 @@ bool WbLed::isAnyMaterialOrLightFound() {
 void WbLed::handleMessage(QDataStream &stream) {
   unsigned char byte;
   int v;
-  stream >> (unsigned char &)byte;
+  stream >> byte;
 
   switch (byte) {
     case C_LED_SET:
-      stream >> (int &)v;
+      stream >> v;
       if (isAnyMaterialOrLightFound())
         setValue(v);
       break;

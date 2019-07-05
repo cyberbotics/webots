@@ -14,7 +14,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    SensorWidget(Device *device, QWidget *parent = NULL);
+    explicit SensorWidget(Device *device, QWidget *parent = NULL);
     virtual ~SensorWidget() {}
 
     void readSensors() override;

@@ -23,7 +23,8 @@ class WbRegularResizeManipulator : public WbWrenAbstractResizeManipulator {
   Q_OBJECT
 
 public:
-  WbRegularResizeManipulator(int uniqueId, ResizeConstraint constraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT);
+  explicit WbRegularResizeManipulator(int uniqueId,
+                                      ResizeConstraint constraint = WbWrenAbstractResizeManipulator::NO_CONSTRAINT);
 };
 
 class WbPlaneResizeManipulator : public WbWrenAbstractResizeManipulator {
