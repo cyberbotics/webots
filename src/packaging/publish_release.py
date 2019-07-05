@@ -51,7 +51,7 @@ if options.tag:
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md) %s' \
+    branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
              % (options.branch, options.repo, options.commit, now.year)
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
 
