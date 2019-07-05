@@ -4,9 +4,6 @@ branches:
     - revision
     - master
 
-skip_commits:
-  - message: /Merge pull request/
-
 clone_depth: 1
 
 install:
