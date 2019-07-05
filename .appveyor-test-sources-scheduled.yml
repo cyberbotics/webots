@@ -1,11 +1,5 @@
 # This file is used by the "webots-test-sources-revision" and "webots-test-sources-develop" appveyor projects.
 
-branches:
-  only:
-    - develop
-    - revision
-    - master
-
 clone_depth: 1
 
 install:
