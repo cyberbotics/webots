@@ -8,17 +8,18 @@
 # The 'accuracy' field defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
 
 PROTO SolidPipe [
-  field SFVec3f    translation     0 0 0
-  field SFRotation rotation        0 1 0 0
-  field SFString   name            "pipe"
-  field SFFloat    height          2                                                                                                             # Defines the height of the pipe.
-  field SFFloat    radius          1                                                                                                             # Defines the radius of the pipe.
-  field SFFloat    thickness       0.1                                                                                                           # Defines the thickness of the pipe.
-  field SFInt32    subdivision     24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
-  field SFFloat    accuracy        0.0001                                                                                                        # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
-  field SFString   contactMaterial "default"                                                                                                     # Is `Solid.contactMaterial`.
-  field SFNode     appearance      PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
-  field SFNode     physics         NULL                                                                                                          # Is `Solid.physics`.
+  field SFVec3f    translation           0 0 0
+  field SFRotation rotation              0 1 0 0
+  field SFString   name                  "pipe"
+  field SFFloat    height                2                                                                                                             # Defines the height of the pipe.
+  field SFFloat    radius                1                                                                                                             # Defines the radius of the pipe.
+  field SFFloat    thickness             0.1                                                                                                           # Defines the thickness of the pipe.
+  field SFInt32    subdivision           24                                                                                                            # Defines the number of polygons used to represent the pipe and so its resolution.
+  field SFFloat    accuracy              0.0001                                                                                                        # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+  field SFString   contactMaterial       "default"                                                                                                     # Is `Solid.contactMaterial`.
+  field SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }  # Defines the appearance of the pipe.
+  field SFNode     physics               NULL
+  field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.                                                                                                   # Is `Solid.physics`.
 ]
 {
   %{
@@ -188,6 +189,7 @@ PROTO SolidPipe [
     name IS name
     model "pipe"
     contactMaterial IS contactMaterial
+    %{ if fields.enableBoundingObject.value then }%
     boundingObject PipeBoundingObject {
       height %{= height }%
       radius %{= radius }%
@@ -195,6 +197,7 @@ PROTO SolidPipe [
       subdivision %{= subdivision }%
       accuracy IS accuracy
     }
+    %{ end }%
     physics IS physics
   }
 }
