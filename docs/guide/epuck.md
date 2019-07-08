@@ -391,7 +391,7 @@ This is done using the distance sensors of the e-puck.
 
 ![e-puck2.wbt.png](images/robots/epuck/e-puck2.wbt.thumbnail.jpg) This is the same simulation as the above one, except that it uses an "e-puck2" model.
 
-#### e-puck2\_pi-puck
+#### e-puck2\_pi-puck.wbt
 
 ![e-puck2_pi-puck.wbt.png](images/robots/epuck/e-puck2_pi-puck.wbt.thumbnail.jpg) This is again the same simulation with the "e-puck2" model, but the robot is equipped with the `Pi-Puck` extension which gives it more sensors, [LEDs](../reference/led.md) and computation power.
 
