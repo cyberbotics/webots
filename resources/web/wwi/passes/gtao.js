@@ -78,9 +78,9 @@ THREE.GTAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
   this.gtaoMaterial.defines[ 'PERSPECTIVE_CAMERA' ] = this.camera.isPerspectiveCamera ? 1 : 0;
   this.gtaoMaterial.uniforms[ 'tDepth' ].value = (this.supportsDepthTextureExtension) ? depthTexture : this.depthRenderTarget.texture;
   this.gtaoMaterial.uniforms[ 'tNormal' ].value = this.normalRenderTarget.texture;
-  this.gtaoMaterial.uniforms[ 'size' ].value.set(this.resolution.x, this.resolution.y);
-  this.gtaoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
-  this.gtaoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
+  this.gtaoMaterial.uniforms[ 'viewportSize' ].value.set(this.resolution.x, this.resolution.y);
+  this.gtaoMaterial.uniforms[ 'cameraInverseProjection' ].value.getInverse(this.camera.projectionMatrix);
+  this.gtaoMaterial.uniforms[ 'cameraProjection' ].value = this.camera.projectionMatrix;
   this.gtaoMaterial.blending = THREE.NoBlending;
 
   if (THREE.DepthLimitedBlurShader === undefined)
@@ -176,23 +176,23 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     renderer.setRenderTarget(this.depthRenderTarget);
     renderer.clear();
 
-    this.gtaoMaterial.uniforms[ 'bias' ].value = this.params.gtaoBias;
-    this.gtaoMaterial.uniforms[ 'intensity' ].value = this.params.gtaoIntensity;
-    this.gtaoMaterial.uniforms[ 'scale' ].value = this.params.gtaoScale;
-    this.gtaoMaterial.uniforms[ 'kernelRadius' ].value = this.params.gtaoKernelRadius;
-    this.gtaoMaterial.uniforms[ 'minResolution' ].value = this.params.gtaoMinResolution;
-    this.gtaoMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    this.gtaoMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    // this.gtaoMaterial.uniforms[ 'bias' ].value = this.params.gtaoBias;
+    // this.gtaoMaterial.uniforms[ 'intensity' ].value = this.params.gtaoIntensity;
+    // this.gtaoMaterial.uniforms[ 'scale' ].value = this.params.gtaoScale;
+    // this.gtaoMaterial.uniforms[ 'kernelRadius' ].value = this.params.gtaoKernelRadius;
+    // this.gtaoMaterial.uniforms[ 'minResolution' ].value = this.params.gtaoMinResolution;
+    // this.gtaoMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    // this.gtaoMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
     // this.gtaoMaterial.uniforms['randomSeed'].value = Math.random();
 
     var depthCutoff = this.params.gtaoBlurDepthCutoff * (this.camera.far - this.camera.near);
-    this.vBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
-    this.hBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
+    // this.vBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
+    // this.hBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
 
-    this.vBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    this.vBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
-    this.hBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    this.hBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    // this.vBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    // this.vBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    // this.hBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    // this.hBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
 
     this.params.gtaoBlurRadius = Math.floor(this.params.gtaoBlurRadius);
     if ((this.prevStdDev !== this.params.gtaoBlurStdDev) || (this.prevNumSamples !== this.params.gtaoBlurRadius)) {
@@ -318,9 +318,9 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     this.normalRenderTarget.setSize(width, height);
     this.depthRenderTarget.setSize(width, height);
 
-    this.gtaoMaterial.uniforms[ 'size' ].value.set(width, height);
-    this.gtaoMaterial.uniforms[ 'cameraInverseProjectionMatrix' ].value.getInverse(this.camera.projectionMatrix);
-    this.gtaoMaterial.uniforms[ 'cameraProjectionMatrix' ].value = this.camera.projectionMatrix;
+    this.gtaoMaterial.uniforms[ 'viewportSize' ].value.set(width, height);
+    this.gtaoMaterial.uniforms[ 'cameraInverseProjection' ].value.getInverse(this.camera.projectionMatrix);
+    this.gtaoMaterial.uniforms[ 'cameraProjection' ].value = this.camera.projectionMatrix;
     this.gtaoMaterial.needsUpdate = true;
 
     this.vBlurMaterial.uniforms[ 'size' ].value.set(width, height);
