@@ -1007,6 +1007,7 @@ Robot {
       height 0.007
       radius 0.0356
       thickness 0.004
+      subdivision 64
       appearance PBRAppearance {
         baseColor 0.8 0.8 0.8
         transparency 0.05
