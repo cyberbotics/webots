@@ -75,11 +75,21 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/pi-puck_top.jpg"
+                  "textures/pi-puck_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/pi-puck_top_normal.jpg"
+                ]
+              }
+              occlusionMap ImageTexture {
+                url [
+                  "textures/pi-puck_top_occlusion.jpg"
+                ]
+              }
               textureTransform TextureTransform {
                 rotation -1.5708
               }
@@ -136,11 +146,21 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "textures/raspberry_pi_top.jpg"
+                  "textures/raspberry_pi_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/raspberry_pi_top_normal.jpg"
+                ]
+              }
+              occlusionMap ImageTexture {
+                url [
+                  "textures/raspberry_pi_top_occlusion.jpg"
+                ]
+              }
               textureTransform TextureTransform {
                 rotation 1.5708
                 scale 2.12 1
