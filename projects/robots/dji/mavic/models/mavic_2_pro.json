@@ -12,11 +12,12 @@
   "FRONT_LEFT_HP_HELIX": {
     "target node": "Propeller",
     "motor": {
-      "name": "front left propeller"
+      "name": "front left propeller",
+      "maxVelocity": 100
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "0.015 0",
+      "thrustConstants": "0.0015 0",
       "torqueConstants": "0.001 0"
     },
     "physics": {
@@ -29,11 +30,12 @@
   "REAR_RIGHT_HP_HELIX": {
     "target node": "Propeller",
     "motor": {
-      "name": "rear right propeller"
+      "name": "rear right propeller",
+      "maxVelocity": 100
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "0.015 0",
+      "thrustConstants": "0.0015 0",
       "torqueConstants": "0.001 0"
     },
     "physics": {
@@ -46,11 +48,12 @@
   "FRONT_RIGHT_HP_HELIX": {
     "target node": "Propeller",
     "motor": {
-      "name": "front right propeller"
+      "name": "front right propeller",
+      "maxVelocity": 100
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "-0.015 0",
+      "thrustConstants": "-0.0015 0",
       "torqueConstants": "0.001 0"
     },
     "physics": {
@@ -63,11 +66,12 @@
   "REAR_LEFT_HP_HELIX": {
     "target node": "Propeller",
     "motor": {
-      "name": "rear left propeller"
+      "name": "rear left propeller",
+      "maxVelocity": 100
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "-0.015 0",
+      "thrustConstants": "-0.0015 0",
       "torqueConstants": "0.001 0"
     },
     "physics": {
