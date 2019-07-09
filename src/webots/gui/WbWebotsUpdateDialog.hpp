@@ -27,7 +27,7 @@ class WbWebotsUpdateDialog : public QDialog {
   Q_OBJECT
 
 public:
-  WbWebotsUpdateDialog(bool displayCheckBox, QWidget *parent = NULL);
+  explicit WbWebotsUpdateDialog(bool displayCheckBox, QWidget *parent = NULL);
   virtual ~WbWebotsUpdateDialog();
 
 private slots:

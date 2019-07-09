@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbPen.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
@@ -84,7 +85,7 @@ void WbPen::preFinalize() {
 
 void WbPen::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_PEN_WRITE:
@@ -94,12 +95,12 @@ void WbPen::handleMessage(QDataStream &stream) {
       mWrite->setValue(false);
       return;
     case C_PEN_SET_INK_COLOR: {
-      unsigned char r = 0, g = 0, b = 0;
-      stream >> (unsigned char &)r >> (unsigned char &)g >> (unsigned char &)b;
+      unsigned char r, g, b;
+      stream >> r >> g >> b;
       mInkColor->setValue(r / 255.0f, g / 255.0f, b / 255.0f);
 
       unsigned char density = 0;
-      stream >> (unsigned char &)density;
+      stream >> density;
       mInkDensity->setValue((double)density / 255.0);
       WbFieldChecker::clampDoubleToRangeWithIncludedBounds(this, mInkDensity, 0.0, 1.0);
       return;

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbDifferentialWheels.hpp"
+
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLog.hpp"
 #include "WbMFDouble.hpp"
@@ -111,12 +112,12 @@ void WbDifferentialWheels::handleMessage(QDataStream &stream) {
     return;
 
   unsigned char byte;
-  stream >> (unsigned char &)byte;
+  stream >> byte;
 
   switch (byte) {
     case C_DIFFERENTIAL_WHEELS_SET_SPEED: {
-      double left = 0.0, right = 0.0;
-      stream >> (double &)left >> (double &)right;
+      double left, right;
+      stream >> left >> right;
       mTargetSpeed[0] = left * mSpeedUnit->value();
       mTargetSpeed[1] = right * mSpeedUnit->value();
       qBound(-mMaxSpeed->value(), mTargetSpeed[0], mMaxSpeed->value());
@@ -126,12 +127,12 @@ void WbDifferentialWheels::handleMessage(QDataStream &stream) {
     }
     case C_DIFFERENTIAL_WHEELS_ENCODERS_SET_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mEncoderSensor->setRefreshRate(rate);
       return;
     }
     case C_DIFFERENTIAL_WHEELS_ENCODERS_SET_VALUE:
-      stream >> (double &)mPosition[0] >> (double &)mPosition[1];
+      stream >> mPosition[0] >> mPosition[1];
       return;
     default:
       assert(0);

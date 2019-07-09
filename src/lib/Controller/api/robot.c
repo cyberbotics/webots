@@ -635,6 +635,7 @@ WbMutexRef wb_robot_mutex_new() {
   pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
   pthread_mutex_init(m, NULL);
 #endif
+  // cppcheck-suppress resourceLeak
   return (WbMutexRef)m;
 }
 

@@ -19,7 +19,7 @@ namespace webotsQtUtils {
   public:
     static Motion *instance();
 
-    Motion(const MotionPlayer *player, const QString &filepath = "");
+    explicit Motion(const MotionPlayer *player, const QString &filepath = "");
     virtual ~Motion();
 
     const QList<Pose *> &poses() const { return mPoses; }

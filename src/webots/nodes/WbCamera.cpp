@@ -531,7 +531,7 @@ void WbCamera::writeAnswer(QDataStream &stream) {
 
 void WbCamera::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   if (WbAbstractCamera::handleCommand(stream, command))
     return;
@@ -570,7 +570,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
       break;
     }
     case C_CAMERA_SET_RECOGNITION_SAMPLING_PERIOD: {
-      stream >> (short &)mRecognitionRefreshRate;
+      stream >> mRecognitionRefreshRate;
       mRecognitionSensor->setRefreshRate(mRecognitionRefreshRate);
       break;
     }

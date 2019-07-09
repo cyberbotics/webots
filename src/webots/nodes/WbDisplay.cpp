@@ -235,10 +235,10 @@ void WbDisplay::handleMessage(QDataStream &stream) {
   unsigned short int cameraTag;
 
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
   switch (command) {
     case C_DISPLAY_ATTACH_CAMERA:
-      stream >> (unsigned short int &)cameraTag;
+      stream >> cameraTag;
       setTransparentTextureIfNeeded();
       attachCamera(cameraTag);
       break;
@@ -247,23 +247,23 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       mUpdateRequired = true;
       break;
     case C_DISPLAY_SET_COLOR:
-      stream >> (int &)mColor;
+      stream >> mColor;
       break;
     case C_DISPLAY_SET_ALPHA:
-      stream >> (unsigned char &)mAlpha;
+      stream >> mAlpha;
       break;
     case C_DISPLAY_SET_OPACITY:
-      stream >> (unsigned char &)mOpacity;
+      stream >> mOpacity;
       break;
     case C_DISPLAY_SET_FONT: {
       unsigned int fontSize;
       // cppcheck-suppress unassignedVariable
       bool antiAliasing;
-      stream >> (unsigned int &)fontSize;
-      stream >> (unsigned char &)antiAliasing;
+      stream >> fontSize;
+      stream >> antiAliasing;
       // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
-      stream >> (unsigned short &)size;
+      stream >> size;
       char font[size];
       stream.readRawData(font, size);
       setFont(font, fontSize);
@@ -275,7 +275,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
     case C_DISPLAY_DRAW_RECTANGLE:
     case C_DISPLAY_DRAW_OVAL:
     case C_DISPLAY_DRAW_POLYGON:
-      stream >> (unsigned short &)size;
+      stream >> size;
       px = new int[size];
       py = new int[size];
       stream.readRawData((char *)px, size * sizeof(int));
@@ -290,22 +290,22 @@ void WbDisplay::handleMessage(QDataStream &stream) {
         case C_DISPLAY_DRAW_TEXT: {
           QByteArray txt;
           do {
-            stream >> (unsigned char &)uc;
+            stream >> uc;
             txt.append(uc);
           } while (uc != 0);
           drawText(txt.constData(), px[0], py[0]);
           break;
         }
         case C_DISPLAY_DRAW_RECTANGLE:
-          stream >> (unsigned char &)uc;
+          stream >> uc;
           drawRectangle(px[0], py[0], px[1], py[1], static_cast<bool>(uc));
           break;
         case C_DISPLAY_DRAW_OVAL:
-          stream >> (unsigned char &)uc;
+          stream >> uc;
           drawOval(px[0], py[0], px[1], py[1], static_cast<bool>(uc));
           break;
         case C_DISPLAY_DRAW_POLYGON:
-          stream >> (unsigned char &)uc;
+          stream >> uc;
           drawPolygon(px, py, size, static_cast<bool>(uc));
           break;
         default:
@@ -317,11 +317,11 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       mUpdateRequired = true;
       break;
     case C_DISPLAY_IMAGE_COPY: {
-      stream >> (int &)id;
-      stream >> (short &)x;
-      stream >> (short &)y;
-      stream >> (short &)w;
-      stream >> (short &)h;
+      stream >> id;
+      stream >> x;
+      stream >> y;
+      stream >> w;
+      stream >> h;
       // get copied data and clipped width and height
       unsigned int *data = imageCopy(x, y, w, h);
       if (data != NULL)
@@ -329,18 +329,18 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       break;
     }
     case C_DISPLAY_IMAGE_PASTE:
-      stream >> (int &)id;
-      stream >> (short &)x;
-      stream >> (short &)y;
-      stream >> (unsigned char &)blend;
+      stream >> id;
+      stream >> x;
+      stream >> y;
+      stream >> blend;
       imagePaste(id, x, y, blend == 1);
       mUpdateRequired = true;
       break;
     case C_DISPLAY_IMAGE_LOAD:
-      stream >> (int &)id;
-      stream >> (short &)w;
-      stream >> (short &)h;
-      stream >> (unsigned char &)format;
+      stream >> id;
+      stream >> w;
+      stream >> h;
+      stream >> format;
       channel = channelNumberFromPixelFormat((ImageFormat)format);
       img = new char[channel * w * h];
       stream.readRawData(img, channel * w * h);
@@ -348,7 +348,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       delete[] img;
       break;
     case C_DISPLAY_IMAGE_SAVE: {
-      stream >> (int &)id;
+      stream >> id;
       if (id == 0) {
         // save current display image
         w = width();
@@ -364,7 +364,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       break;
     }
     case C_DISPLAY_IMAGE_DELETE:
-      stream >> (int &)id;
+      stream >> id;
       imageDelete(id);
       break;
     case C_DISPLAY_IMAGE_GET_ALL:

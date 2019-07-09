@@ -15,7 +15,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    MotorWidget(Device *device, QWidget *parent = NULL);
+    explicit MotorWidget(Device *device, QWidget *parent = NULL);
     virtual ~MotorWidget() {}
 
     void setupBounds();
