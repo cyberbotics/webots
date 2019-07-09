@@ -13,12 +13,12 @@
     "target node": "Propeller",
     "motor": {
       "name": "front left propeller",
-      "maxVelocity": 100
+      "maxVelocity": 576
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "0.0015 0",
-      "torqueConstants": "0.001 0"
+      "thrustConstants": "0.0000026 0",
+      "torqueConstants": "0.00003 0"
     },
     "physics": {
       "mass": 0.1
@@ -31,12 +31,12 @@
     "target node": "Propeller",
     "motor": {
       "name": "rear right propeller",
-      "maxVelocity": 100
+      "maxVelocity": 576
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "0.0015 0",
-      "torqueConstants": "0.001 0"
+      "thrustConstants": "0.0000026 0",
+      "torqueConstants": "0.00003 0"
     },
     "physics": {
       "mass": 0.1
@@ -49,12 +49,12 @@
     "target node": "Propeller",
     "motor": {
       "name": "front right propeller",
-      "maxVelocity": 100
+      "maxVelocity": 576
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "-0.0015 0",
-      "torqueConstants": "0.001 0"
+      "thrustConstants": "-0.0000026 0",
+      "torqueConstants": "0.00003 0"
     },
     "physics": {
       "mass": 0.1
@@ -67,12 +67,12 @@
     "target node": "Propeller",
     "motor": {
       "name": "rear left propeller",
-      "maxVelocity": 100
+      "maxVelocity": 576
     },
     "propellerFields": {
       "shaftAxis": "0 0 1",
-      "thrustConstants": "-0.0015 0",
-      "torqueConstants": "0.001 0"
+      "thrustConstants": "-0.0000026 0",
+      "torqueConstants": "0.00003 0"
     },
     "physics": {
       "mass": 0.1
