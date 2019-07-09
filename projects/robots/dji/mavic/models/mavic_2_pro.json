@@ -1,13 +1,92 @@
 {
-  "BASE": {
+  "BODY": {
     "target node": "Robot",
     "physics": {
-      "mass": 5
+      "mass": 0.4
+    },
+    "boundingObject": {
+    }
+  },
+  "CAMERA_YAW": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera yaw"
+    },
+    "positionSensor": {
+      "name": "camera yaw sensor"
+    },
+    "jointParameters": {
+      "axis": "0 0 1"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "CAMERA_PITCH": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera pitch"
+    },
+    "positionSensor": {
+      "name": "camera pitch sensor"
+    },
+    "jointParameters": {
+      "axis": "0 1 0"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "CAMERA_ROLL": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera roll"
+    },
+    "jointParameters": {
+      "axis": "1 0 0"
+    },
+    "positionSensor": {
+      "name": "camera roll sensor"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "LED_LEFT": {
+    "target node": "LED",
+    "physics": {
+      "mass": 0.0035
+    },
+    "boundingObject": {
+    }
+  },
+  "LED_RIGHT": {
+    "target node": "LED",
+    "physics": {
+      "mass": 0.0035
     },
     "boundingObject": {
     }
   },
   "GREY_PLASTIC": {
+    "target node": "MattePaint",
+    "fields": {
+      "baseColor": "0.3 0.3 0.3"
+    }
+  },
+  "DARK_PLASTIC": {
+    "target node": "GlossyPaint",
+    "fields": {
+      "baseColor": "0.1 0.1 0.1"
+    }
+  },
+  "ALU": {
     "target node": "BrushedAluminium"
   }
 }
