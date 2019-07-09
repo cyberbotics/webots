@@ -154,6 +154,18 @@
     "boundingObject": {
     }
   },
+  "INERTIAL_UNIT": {
+    "target node": "InertialUnit"
+  },
+  "GPS": {
+    "target node": "GPS"
+  },
+  "COMPASS": {
+    "target node": "Compass"
+  },
+  "CAMERA": {
+    "target node": "Camera"
+  },
   "GREY_PLASTIC": {
     "target node": "MattePaint",
     "fields": {
