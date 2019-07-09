@@ -61,6 +61,9 @@
   },
   "LED_LEFT": {
     "target node": "LED",
+    "fields": {
+      "name": "front left led"
+    },
     "physics": {
       "mass": 0.0035
     },
@@ -69,6 +72,9 @@
   },
   "LED_RIGHT": {
     "target node": "LED",
+    "fields": {
+      "name": "front right led"
+    },
     "physics": {
       "mass": 0.0035
     },
