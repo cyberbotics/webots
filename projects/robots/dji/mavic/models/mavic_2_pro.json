@@ -5,6 +5,7 @@
       "mass": 0.4
     },
     "boundingObject": {
+      "custom": "Group { children [ Transform { translation -0.03 0 0.002 children [ Box { size 0.21 0.085 0.027 } ] } Transform { translation -0.06 0 -0.03 children [ Box { size 0.15 0.06 0.053 } ] } Transform { translation 0.03 0.09 -0.001 rotation 0 0 1 -0.3926996938995747 children [ Box { size 0.01 0.15 0.025 } ] } Transform { translation 0.03 -0.09 -0.001 rotation 0 0 1 0.3927 children [ Box { size 0.01 0.15 0.025 } ] } Transform { translation -0.138 0.08 -0.032 rotation 0 0 1 0.68 children [ Box { size 0.01 0.12 0.018 } ] } Transform { translation -0.138 -0.08 -0.032 rotation 0 0 1 -0.68 children [ Box { size 0.01 0.12 0.018 } ] } Transform { translation 0.06 0.15 -0.039 rotation 1 0 0 -0.29 children [ Box { size 0.01 0.014 0.06 } ] } Transform { translation 0.06 -0.15 -0.039 rotation 1 0 0 0.29 children [ Box { size 0.01 0.014 0.06 } ] } ] }"
     }
   },
   "CAMERA_YAW": {
