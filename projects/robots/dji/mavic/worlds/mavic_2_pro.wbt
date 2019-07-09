@@ -1,0 +1,18 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.24177655370013332 -0.953986113297315 -0.17735442965082435 1.3066899394625817
+  position -2.0099301378498193 0.8914124274452431 0.6721083913608347
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+}
+Mavic2Pro {
+  translation 1.31346e-07 0.07 1.23234e-13
+  rotation 0 0.7071067811865476 0.7071067811865476 3.14159
+}
