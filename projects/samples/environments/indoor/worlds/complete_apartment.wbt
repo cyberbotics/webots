@@ -3,11 +3,12 @@ WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
   ]
+  title "This simulation was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU"
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.9872076818240828 0.15163781535365617 -0.04926424567869571 5.178406292148765
-  position 3.485486482848729 25.30898000473142 19.305501253760706
+  orientation -0.9847115472156204 -0.16635780571773232 0.05165509904162403 1.1006772528532867
+  position 2.8904762666771235 16.61665941935339 14.679900398250036
   exposure 0.5
   ambientOcclusionRadius 1
 }
@@ -635,6 +636,41 @@ DEF KITCHEN_BLOCK Transform {
     }
   ]
 }
+DEF NAO Nao {
+  translation 1.6088 0.334024 4.70639
+  controller "nao_appartement_demo"
+  cameraAmbientOcclusionRadius 1
+  cameraBloomThreshold 21
+}
+DEF NAO_KINECT Nao {
+  translation 0.96442 0.334024 8.35152
+  name "NAO(1)"
+  controller "nao_appartement_kinect_demo"
+  cameraAmbientOcclusionRadius 1
+  cameraBloomThreshold 21
+  headSlot [
+    Kinect {
+      translation -4.86907e-08 -7.25529e-08 0.07
+      rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
+      foot FALSE
+    }
+  ]
+}
+DEF NAO_HOKUYO Nao {
+  translation 7.89512 0.334024 5.3637
+  rotation -3.3905113482557537e-09 0.707108281185553 0.70710528118436 3.14159
+  name "NAO(2)"
+  controller "nao_appartement_laser_demo"
+  cameraAmbientOcclusionRadius 1
+  cameraBloomThreshold 21
+  headSlot [
+    HokuyoUrg04lx {
+      translation 0 8.08104e-07 0.08
+      rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+      noise 0.1
+    }
+  ]
+}
 StraightStairs {
   translation 5.824913 0 4.32594
   rotation 0 1 0 1.5707959999999999
@@ -673,7 +709,7 @@ BiscuitBox {
   name "biscuit box(1)"
 }
 CerealBox {
-  translation 3.1174 0.91 1.31224
+  translation 3.1174 0.77 1.31224
   rotation 0 1 0 0.785398
 }
 CerealBox {
@@ -1464,11 +1500,11 @@ Plate {
   translation 1.63786 0.74 11.5061
 }
 Plate {
-  translation 3.63168 0.77 2.28227
+  translation 3.63168 0.761 2.28227
   name "plate(9)"
 }
 Plate {
-  translation 2.75324 0.77 1.44694
+  translation 2.75324 0.762 1.44694
   name "plate(10)"
 }
 Knife {
@@ -1476,10 +1512,10 @@ Knife {
   rotation 0 1 0 1.5708
 }
 Glass {
-  translation 2.90459 0.77 1.51333
+  translation 2.90459 0.76 1.51333
 }
 WaterBottle {
-  translation 3.2776 0.77 1.70218
+  translation 3.2776 0.76 1.70218
 }
 Glass {
   translation 3.69948 0.77 2.13663
@@ -1706,7 +1742,7 @@ Orange {
   name "orange(1)"
 }
 FruitBowl {
-  translation 3.5758989999999997 0.7797839999999999 1.4573889999999998
+  translation 3.5759 0.769784 1.45739
   rotation 0 -1 0 0.944615
   name "fruit bowl(1)"
   color 0.6666666666666666 0 0
