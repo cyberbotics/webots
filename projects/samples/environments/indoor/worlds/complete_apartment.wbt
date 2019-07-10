@@ -7,8 +7,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation -0.9847115472156204 -0.16635780571773232 0.05165509904162403 1.1006772528532867
-  position 2.8904762666771235 16.61665941935339 14.679900398250036
+  orientation -0.9965728994032695 -0.06651712419216528 0.049172435003410335 1.1711954352917302
+  position 4.237455089052124 19.823581786046113 13.971178928483473
   exposure 0.5
   ambientOcclusionRadius 1
 }
@@ -667,7 +667,57 @@ DEF NAO_HOKUYO Nao {
     HokuyoUrg04lx {
       translation 0 8.08104e-07 0.08
       rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+      name "laser"
       noise 0.1
+    }
+  ]
+}
+DEF NAO_3D_LASER Nao {
+  translation 11.4671 0.334024 6.08426
+  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
+  name "NAO(3)"
+  controller "nao_appartement_laser_demo"
+  cameraAmbientOcclusionRadius 1
+  cameraBloomThreshold 21
+  headSlot [
+    Lidar {
+      translation 0 8.08104e-07 0.08
+      rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+      children [
+        Transform {
+          translation 0 -0.0175 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.8 0.8 0.8
+                roughness 0.5
+                metalness 0
+              }
+              geometry Box {
+                size 0.05 0.07 0.05
+              }
+            }
+          ]
+        }
+      ]
+      name "laser"
+      boundingObject Transform {
+        translation 0 -0.0175 0
+        children [
+          Box {
+            size 0.05 0.07 0.05
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.16
+      }
+      horizontalResolution 64
+      verticalFieldOfView 1.57
+      numberOfLayers 64
+      maxRange 5
+      noise 0.01
     }
   ]
 }

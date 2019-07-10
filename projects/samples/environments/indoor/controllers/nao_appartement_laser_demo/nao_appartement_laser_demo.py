@@ -24,7 +24,7 @@ class Sprinter(Robot):
         self.LSonar.enable(16)
         
         # Get a pointer to the laser and enable it
-        self.laser = self.getLidar('Hokuyo URG-04LX')
+        self.laser = self.getLidar('laser')
         self.laser.enable(32)
         self.laser.enablePointCloud()
 
