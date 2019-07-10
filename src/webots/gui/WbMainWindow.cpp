@@ -548,8 +548,11 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT));
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE));
+  subMenu = menu->addMenu(tr("&Follow Object"));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_NONE));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_TRACKING));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_MOUNTED));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT));
   menu->addAction(actionManager->action(WbActionManager::RESTORE_VIEWPOINT));
   menu->addAction(actionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT));
 

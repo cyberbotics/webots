@@ -107,7 +107,8 @@ void WbViewpoint::init() {
   mFar = findSFDouble("far");
   mExposure = findSFDouble("exposure");
   mFollow = findSFString("follow");
-  mFollowOrientation = findSFBool("followOrientation");
+  mFollowType = findSFString("followType");
+  mFollowOrientation = findSFBool("followOrientation");  // TODO: backward compatibilty
   mFollowSmoothness = findSFDouble("followSmoothness");
   mLensFlare = findSFNode("lensFlare");
   mAmbientOcclusionRadius = findSFDouble("ambientOcclusionRadius");
@@ -181,8 +182,8 @@ void WbViewpoint::postFinalize() {
   connect(mFar, &WbSFDouble::changed, this, &WbViewpoint::updateFar);
   connect(mExposure, &WbSFDouble::changed, this, &WbViewpoint::updateExposure);
   connect(mFollow, &WbSFString::changed, this, &WbViewpoint::updateFollow);
-  connect(mFollowOrientation, &WbSFBool::changed, this, &WbViewpoint::updateFollowSolidState);
-  connect(mFollowOrientation, &WbSFBool::changed, this, &WbViewpoint::updateFollowOrientation);
+  connect(mFollowType, &WbSFString::changed, this, &WbViewpoint::updateFollowSolidState);
+  connect(mFollowType, &WbSFString::changed, this, &WbViewpoint::updateFollowType);
   connect(mLensFlare, &WbSFNode::changed, this, &WbViewpoint::updateLensFlare);
   connect(mAmbientOcclusionRadius, &WbSFDouble::changed, this, &WbViewpoint::updateAmbientOcclusionRadius);
   connect(mBloomThreshold, &WbSFDouble::changed, this, &WbViewpoint::updateBloomThreshold);
@@ -237,7 +238,6 @@ void WbViewpoint::reset() {
 void WbViewpoint::terminateFollowUp() {
   mFollowedSolid = NULL;
   mFollowEmptiedByUncheck = true;  // do nothing in mViewpoint when emitting the changed() signal of mFollow
-  mFollow->setValue(QString());
   mFollowEmptiedByUncheck = false;
 }
 
@@ -336,8 +336,8 @@ void WbViewpoint::updateFollowSolidState() {
   }
 }
 
-void WbViewpoint::updateFollowOrientation() {
-  emit followOrientationChanged(mFollowOrientation->value());
+void WbViewpoint::updateFollowType() {
+  emit followTypeChanged(followStringToType(mFollowType->value()));
 }
 
 void WbViewpoint::updateLensFlare() {
@@ -369,10 +369,10 @@ void WbViewpoint::startFollowUpFromField() {
     startFollowUp(followedSolid, false);
 }
 
-void WbViewpoint::setFollowOrientation(bool follow) {
-  disconnect(mFollowOrientation, &WbSFBool::changed, this, &WbViewpoint::updateFollowOrientation);
-  mFollowOrientation->setValue(follow);
-  connect(mFollowOrientation, &WbSFBool::changed, this, &WbViewpoint::updateFollowOrientation);
+void WbViewpoint::setFollowType(int followType) {
+  disconnect(mFollowType, &WbSFBool::changed, this, &WbViewpoint::updateFollowType);
+  mFollowType->setValue(followTypeToString(followType));
+  connect(mFollowType, &WbSFBool::changed, this, &WbViewpoint::updateFollowType);
 }
 
 void WbViewpoint::recomputeFollowField() {
@@ -658,6 +658,26 @@ void WbViewpoint::updateOrthographicViewHeight() {
   emit cameraParametersChanged();
 }
 
+QString WbViewpoint::followTypeToString(int type) {
+  if (type == FOLLOW_MOUNTED)
+    return "Mounted Shot";
+  else if (type == FOLLOW_PAN_AND_TILT)
+    return "Pan and Tilt Shot";
+  else if (type == FOLLOW_TRACKING)
+    return "Tracking Shot";
+  return "None";
+}
+
+int WbViewpoint::followStringToType(const QString &type) {
+  if (type == "Tracking Shot")
+    return FOLLOW_TRACKING;
+  else if (type == "Mounted Shot")
+    return FOLLOW_MOUNTED;
+  else if (type == "Pan and Tilt Shot")
+    return FOLLOW_PAN_AND_TILT;
+  return FOLLOW_NONE;
+}
+
 void WbViewpoint::updateFieldOfViewY() {
   mTanHalfFieldOfViewY = tan(0.5 * mFieldOfView->value());  // stored for reuse in viewpointRay()
 
@@ -710,9 +730,11 @@ void WbViewpoint::updateFollowUp() {
   const WbVector3 delta(followedSolidCurrentPosition - mFollowedSolidPreviousPosition);
   mFollowedSolidPreviousPosition = followedSolidCurrentPosition;
 
-  WbMatrix3 followedObjectDeltaOrientation;
   if (!mIsLocked) {
-    if (mFollowOrientation->value()) {
+    int type = followStringToType(mFollowType->value());
+    if (type == FOLLOW_PAN_AND_TILT)
+      lookAt(mFollowedSolid->position(), WbVector3(0.0, 1.0, 0.0));  // TODO replace (0.0, 1.0, 0.0) by gravity.
+    else if (type == FOLLOW_MOUNTED) {
       // Update Orientation
       WbMatrix3 solidRotation = mFollowedSolid->rotationMatrix() * mFollowedSolidReferenceRotation.transposed();
       WbRotation newOrientation = WbRotation(solidRotation * mViewPointReferenceRotation.toMatrix3());
@@ -720,7 +742,7 @@ void WbViewpoint::updateFollowUp() {
       mOrientation->setValue(newOrientation);
       // Update Position (position is computed relatively to the solid)
       mPosition->setValue(mFollowedSolid->position() + solidRotation * mReferenceOffset);
-    } else {
+    } else if (type == FOLLOW_TRACKING) {
       mEquilibriumVector += delta;
 
       const double mass =

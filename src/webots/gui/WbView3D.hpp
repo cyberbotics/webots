@@ -196,13 +196,14 @@ private slots:
   void abortResizeDrag();
   void abortScaleDrag();
   void abortOverlayDrag();
-  void followSolid(bool checked);
-  void followSolidAndRotate(bool checked);
+  void followNone(bool checked);
+  void followTracking(bool checked);
+  void followMounted(bool checked);
+  void followPanAndTilt(bool checked);
   void showCenterOfMass(bool checked);
   void showCenterOfBuoyancy(bool checked);
   void showSupportPolygon(bool checked);
-  void notifyFollowObjectAction(bool validField);
-  void notifyFollowObjectAndRotationAction(bool rotate);
+  void notifyFollowObjectAction(int type);
   void restoreViewpoint();
   void setPerspectiveProjection();
   void setOrthographicProjection();

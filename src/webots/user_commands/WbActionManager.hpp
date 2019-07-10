@@ -102,8 +102,10 @@ public:
     // console actions
     CLEAR_CONSOLE,
     // viewpoint actions
-    FOLLOW_OBJECT,
-    FOLLOW_OBJECT_AND_ROTATE,
+    FOLLOW_NONE,
+    FOLLOW_TRACKING,
+    FOLLOW_MOUNTED,
+    FOLLOW_PAN_AND_TILT,
     MOVE_VIEWPOINT_TO_OBJECT,
     RESTORE_VIEWPOINT,
     VIEW_MENU,

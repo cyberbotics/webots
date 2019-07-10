@@ -682,20 +682,40 @@ void WbActionManager::populateActions() {
   /* VIEWPOINT ACTIONS */
 
   action = new QAction(this);
-  action->setText(tr("&Follow Object"));
-  action->setStatusTip(tr("Set the viewpoint to follow this object (translation only)."));
+  action->setText(tr("&None"));
+  action->setStatusTip(tr("Do not follow the object."));
+  action->setToolTip(action->statusTip());
+  action->setCheckable(true);
+  mActions[FOLLOW_NONE] = action;
+
+  action = new QAction(this);
+  action->setText(tr("&Tracking Shot"));
+  action->setStatusTip(tr("Translate the camera to follow the object."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::Key_F5);
   action->setCheckable(true);
-  mActions[FOLLOW_OBJECT] = action;
+  mActions[FOLLOW_TRACKING] = action;
 
   action = new QAction(this);
-  action->setText(tr("&Follow Object and Rotate"));
-  action->setStatusTip(tr("Set the viewpoint to follow this object (translation and rotation)."));
+  action->setText(tr("&Mounted Shot"));
+  action->setStatusTip(tr("Translate and rotate the camera to follow the object."));
   action->setToolTip(action->statusTip());
   action->setShortcut(Qt::SHIFT + Qt::Key_F5);
   action->setCheckable(true);
-  mActions[FOLLOW_OBJECT_AND_ROTATE] = action;
+  mActions[FOLLOW_MOUNTED] = action;
+
+  action = new QAction(this);
+  action->setText(tr("&Pan and Tilt Shot"));
+  action->setStatusTip(tr("Rotate the camera to always look at the object center."));
+  action->setToolTip(action->statusTip());
+  action->setShortcut(Qt::SHIFT + Qt::Key_F7);
+  action->setCheckable(true);
+  mActions[FOLLOW_PAN_AND_TILT] = action;
+
+  actionGroup->addAction(mActions[FOLLOW_NONE]);
+  actionGroup->addAction(mActions[FOLLOW_TRACKING]);
+  actionGroup->addAction(mActions[FOLLOW_MOUNTED]);
+  actionGroup->addAction(mActions[FOLLOW_PAN_AND_TILT]);
 
   icon = QIcon();
   icon.addFile("enabledIcons:move_viewpoint_to_object_button.png", QSize(), QIcon::Normal);
