@@ -7,7 +7,7 @@ WorldInfo {
   }
 }
 Viewpoint {
-  orientation 0.07050671200855818 -0.9955409305216789 -0.0626662526226992 4.813484852578004
+  orientation 0.07050665473376751 -0.9955409361549733 -0.06266622757062013 4.81348648259329
   position 3.097238269380304 0.6132726075362769 0.5611797778962901
   near 0.2
   follow "Mavic 2 PRO"
@@ -62,6 +62,7 @@ SmallManor {
   rotation 0 1 0 4.319689693899575
 }
 SquareManhole {
+  translation 0 -0.03 0
 }
 CardboardBox {
   translation -0.730157 0.3 1.22891
@@ -126,7 +127,7 @@ Forest {
   minRadius 3
 }
 Mavic2Pro {
-  translation 2.4393e-07 0.13 2.28844e-13
+  translation 1.87638e-07 0.1 1.76041e-13
   rotation 0 -0.7071067811865475 -0.7071067811865475 -3.14159
   cameraSlot [
     Camera {

@@ -52,7 +52,7 @@ while robot.step(timestep) != -1:
 
 k = 28.7
 kv = 2.5
-kv2 = 0.0005
+kv2 = 0.0002
 kr = 5.0
 kp = 5.0
 ky = 0.2
