@@ -5,6 +5,9 @@ robot = Robot()
 
 timestep = int(robot.getBasicTimeStep())
 
+camera = robot.getCamera('camera')
+camera.enable(timestep)
+
 flLed = robot.getLED('front left led')
 frLed = robot.getLED('front right led')
 
@@ -39,22 +42,24 @@ def smoothstep(x, edge0=0.0, edge1=1.0):
     return x * x * (3 - 2 * x)
 
 
+def sign(x):
+    return math.copysign(1, x)
+
+
 while robot.step(timestep) != -1:
     if robot.getTime() > 1:
         break
 
 k = 28.7
-kv = 2.4
-kv2 = 0.001
+kv = 2.5
+kv2 = 0.0005
 kr = 5.0
 kp = 5.0
 ky = 0.2
 
-tA = 1.0
+tA = 10.0
 
 sum = 0.0
-
-sign = lambda x: math.copysign(1, x)
 
 while robot.step(timestep) != -1:
     ledState = int(robot.getTime()) % 2
