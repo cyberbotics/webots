@@ -55,7 +55,7 @@ kr = 5.0
 kp = 5.0
 ky = 0.2
 
-tA = 10.0
+tA = 1.0
 
 sum = 0.0
 
@@ -85,11 +85,12 @@ while robot.step(timestep) != -1:
         elif key == Keyboard.SHIFT + Keyboard.LEFT:
             c = 0.3
         elif key == Keyboard.SHIFT + Keyboard.UP:
-            tA += 0.1
+            tA += 0.05
         elif key == Keyboard.SHIFT + Keyboard.DOWN:
-            tA = -0.1
-            tA = 0.0 if tA < 0.0 else tA
+            tA -= 0.05
         key = keyboard.getKey()
+    tA = clamp(tA, 0.0, tA)
+    print(tA)
 
     dA = tA - y
     if sign(dA) != sign(sum):
