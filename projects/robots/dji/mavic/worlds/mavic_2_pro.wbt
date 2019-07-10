@@ -3,7 +3,7 @@ WorldInfo {
   basicTimeStep 8
   defaultDamping Damping {
     linear 0.5
-    angular 0.3
+    angular 0.5
   }
 }
 Viewpoint {

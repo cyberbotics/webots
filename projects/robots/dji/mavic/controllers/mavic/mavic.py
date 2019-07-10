@@ -1,4 +1,4 @@
-from controller import Robot
+from controller import Robot, Keyboard
 import math
 
 robot = Robot()
@@ -37,14 +37,12 @@ def clamp(x, lowerlimit, upperlimit):
     return max(lowerlimit, min(upperlimit, x))
 
 
-def smoothstep(x, edge0=0.0, edge1=1.0):
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0)
-    return x * x * (3 - 2 * x)
-
-
 def sign(x):
     return math.copysign(1, x)
 
+
+keyboard = robot.getKeyboard()
+keyboard.enable(timestep)
 
 while robot.step(timestep) != -1:
     if robot.getTime() > 1:
@@ -69,15 +67,40 @@ while robot.step(timestep) != -1:
     [roll, pitch, yaw] = imu.getRollPitchYaw()
     [x, y, z] = gps.getValues()
 
+    key = keyboard.getKey()
+    a = 0.0
+    b = 0.0
+    c = 0.0
+    while key > 0:
+        if key == Keyboard.UP:
+            a = 0.3
+        elif key == Keyboard.DOWN:
+            a = -0.3
+        elif key == Keyboard.RIGHT:
+            b = 0.5
+        elif key == Keyboard.LEFT:
+            b = -0.5
+        elif key == Keyboard.SHIFT + Keyboard.RIGHT:
+            c = -0.3
+        elif key == Keyboard.SHIFT + Keyboard.LEFT:
+            c = 0.3
+        elif key == Keyboard.SHIFT + Keyboard.UP:
+            tA += 0.1
+        elif key == Keyboard.SHIFT + Keyboard.DOWN:
+            tA = -0.1
+            tA = 0.0 if tA < 0.0 else tA
+        key = keyboard.getKey()
+
     dA = tA - y
     if sign(dA) != sign(sum):
         sum = 0.0
     sum += dA
 
     roll += 1.5708
-    r = kr * clamp(roll, -0.5, 0.5)
-    p = kp * clamp(pitch, -0.5, 0.5)
-    yF = ky * clamp(-yaw, -0.5, 0.5)
+    r = kr * clamp(roll, -0.5, 0.5) + c
+    p = kp * clamp(pitch, -0.5, 0.5) + a
+    # yF = ky * clamp(-yaw, -0.5, 0.5) + b
+    yF = b
 
     v = k + kv * clamp(dA, -0.05, 0.05) + kv2 * sum
 
