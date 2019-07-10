@@ -1,4 +1,5 @@
 from controller import Robot
+import math
 
 robot = Robot()
 
@@ -42,13 +43,18 @@ while robot.step(timestep) != -1:
     if robot.getTime() > 1:
         break
 
-k = 28.0
-kv = 3.0
+k = 28.7
+kv = 2.4
+kv2 = 0.001
 kr = 5.0
 kp = 5.0
-ky = 0.1
+ky = 0.2
 
-tA = 0.5
+tA = 1.0
+
+sum = 0.0
+
+sign = lambda x: math.copysign(1, x)
 
 while robot.step(timestep) != -1:
     ledState = int(robot.getTime()) % 2
@@ -58,14 +64,19 @@ while robot.step(timestep) != -1:
     [roll, pitch, yaw] = imu.getRollPitchYaw()
     [x, y, z] = gps.getValues()
 
+    dA = tA - y
+    if sign(dA) != sign(sum):
+        sum = 0.0
+    sum += dA
+
     roll += 1.5708
     r = kr * clamp(roll, -0.5, 0.5)
     p = kp * clamp(pitch, -0.5, 0.5)
-    y = ky * clamp(-yaw, -0.5, 0.5)
+    yF = ky * clamp(-yaw, -0.5, 0.5)
 
-    v = k + kv * clamp(tA - y, -0.3, 0.3)
+    v = k + kv * clamp(dA, -0.05, 0.05) + kv2 * sum
 
-    flp.setVelocity(v - r - p + y)
-    frp.setVelocity(-(v + r - p - y))
-    rlp.setVelocity(-(v - r + p - y))
-    rrp.setVelocity(v + r + p + y)
+    flp.setVelocity(v - r - p + yF)
+    frp.setVelocity(-(v + r - p - yF))
+    rlp.setVelocity(-(v - r + p - yF))
+    rrp.setVelocity(v + r + p + yF)

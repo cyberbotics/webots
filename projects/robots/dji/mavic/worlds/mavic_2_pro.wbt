@@ -1,10 +1,14 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   basicTimeStep 8
+  defaultDamping Damping {
+    linear 0.5
+    angular 0.3
+  }
 }
 Viewpoint {
-  orientation -0.18580596312987882 -0.9724455869185816 -0.1408038513250023 1.318501588276763
-  position -2.104157464383619 0.7586164392034094 0.6485431522939518
+  orientation -0.3069848809059046 -0.9474579746581125 -0.08990922729027803 0.5909854106851559
+  position -1.1898270021340358 0.5366890177902792 1.9414040878990462
   follow "Mavic 2 PRO"
 }
 TexturedBackground {
@@ -12,7 +16,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 CircleArena {
-  radius 5
+  radius 10
   wallThickness 0.05
   wallHeight 0.7
 }
