@@ -1,7 +1,7 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
+    "This demonstration shows a DJI Mavic 2 PRO flying over a rural area."
     "After the drone has taken, you can take control of the drone with the keyboard of your computer."
   ]
   title "DJI Mavic 2 PRO demo"
