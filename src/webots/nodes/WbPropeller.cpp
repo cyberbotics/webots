@@ -356,7 +356,7 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
       gp->addChild(new WbSolid(*fastHelix));
     if (slowHelix)
       gp->addChild(new WbSolid(*slowHelix));
-
+    gp->finalize(); // at least to instanciate correctly the mesh caches required for a correct export.
     gp->write(writer);
     delete gp;
   }
