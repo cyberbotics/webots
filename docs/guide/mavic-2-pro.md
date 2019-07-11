@@ -1,6 +1,6 @@
 ## DJI' Mavic 2 PRO
 
-%robot moose images/robots/mavic-2-pro/model.thumbnail.png
+%robot mavic-2-pro images/robots/mavic-2-pro/model.thumbnail.png
 
 The [Mavic 2 PRO](https://www.dji.com/ch/mavic-2) from [DJI](https://www.dji.com) is quadcopter drone mounted with a motorized camera.
 
