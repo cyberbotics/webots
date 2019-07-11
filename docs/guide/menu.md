@@ -95,6 +95,7 @@
     - [Khepera IV](khepera4.md)
     - [Koala](koala.md)
     - [Mantis](mantis.md)
+    - [Mavic 2 PRO](mavic-2-pro.md)
     - [Microbot](microbot.md)
     - [Mindstorms](mindstorms.md)
     - [Moose](moose.md)
