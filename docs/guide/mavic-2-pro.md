@@ -1,6 +1,6 @@
 ## DJI' Mavic 2 PRO
 
-%robot moose images/robots/mavic_2_pro/model.thumbnail.png
+%robot moose images/robots/mavic-2-pro/model.thumbnail.png
 
 The [Mavic 2 PRO](https://www.dji.com/ch/mavic-2) from [DJI](https://www.dji.com) is quadcopter drone mounted with a motorized camera.
 
@@ -36,5 +36,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### mavic\_2\_pro.wbt
 
-![mavic_2_pro.wbt.png](images/robots/mavic_2_pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
+![mavic_2_pro.wbt.png](images/robots/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
 After the drone has taken, you can take control of the drone with the keyboard of your computer.
