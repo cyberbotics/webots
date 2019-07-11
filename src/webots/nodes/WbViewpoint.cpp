@@ -77,7 +77,6 @@ void WbViewpoint::init() {
   mFollowChangedBySelection = false;
   mFollowEmptiedByDestroyedSolid = false;
   mFollowChangedBySolidName = false;
-  mFollowEmptiedByUncheck = false;
   mNeedToUpdateFollowSolidState = false;
   mCoordinateSystem = NULL;
   mVirtualRealityHeadset = NULL;
@@ -246,8 +245,6 @@ void WbViewpoint::reset() {
 
 void WbViewpoint::terminateFollowUp() {
   mFollowedSolid = NULL;
-  mFollowEmptiedByUncheck = true;  // do nothing in mViewpoint when emitting the changed() signal of mFollow
-  mFollowEmptiedByUncheck = false;
 }
 
 void WbViewpoint::emptyFollow() {
@@ -706,7 +703,7 @@ void WbViewpoint::updateOptionalRendering(int optionalRendering) {
 }
 
 void WbViewpoint::updateFollow() {
-  if (mFollowChangedBySelection || mFollowChangedBySolidName || mFollowEmptiedByDestroyedSolid || mFollowEmptiedByUncheck)
+  if (mFollowChangedBySelection || mFollowChangedBySolidName || mFollowEmptiedByDestroyedSolid)
     return;
 
   if (!mFollow->value().isEmpty()) {

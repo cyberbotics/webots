@@ -211,7 +211,6 @@ private:
   bool mFollowChangedBySelection;
   bool mFollowChangedBySolidName;
   bool mFollowEmptiedByDestroyedSolid;
-  bool mFollowEmptiedByUncheck;
 
   // viewpoint translation animation
   WbVector3 mMoveToDirection;
