@@ -29,7 +29,7 @@ Floor {
 }
 Road {
   translation -43.8 0.01 -9.2
-  rotation 0 1 0 1.1780996938995747
+  rotation 0 1 0 1.1781
   width 3
   numberOfLanes 1
   rightBorder FALSE
@@ -45,26 +45,26 @@ Road {
 }
 Windmill {
   translation -43.8656 0 19.8433
-  rotation 0 1 0 -1.047195307179586
+  rotation 0 1 0 -1.0472
 }
 Windmill {
   translation -44.258 0 27.3356
-  rotation 0 1 0 -1.047195307179586
+  rotation 0 1 0 -1.0472
   name "windmill(1)"
 }
 Windmill {
   translation -46.2448 0 -30.573
-  rotation 0 1 0 -1.047195307179586
+  rotation 0 1 0 -1.0472
   name "windmill(2)"
 }
 Windmill {
-  translation -38.7512 1.06581e-14 -23.4036
-  rotation 0 1 0 -1.5707953071795862
+  translation -38.75 0 -23.4
+  rotation 0 1 0 -1.5708
   name "windmill(3)"
 }
 SmallManor {
-  translation -50.3571 -1.03739e-12 -11.253
-  rotation 0 1 0 4.319689693899575
+  translation -50.35 0 -11.25
+  rotation 0 1 0 4.32
 }
 SquareManhole {
   translation 0 -0.03 0
@@ -75,14 +75,14 @@ CardboardBox {
 }
 TeslaModel3Simple {
   translation -41.5139 0.4 -4.34169
-  rotation 0 -1 0 -1.3089953071795861
+  rotation 0 -1 0 -1.309
 }
 Pine {
-  translation -14.0083 -1.06581e-14 14.4828
+  translation -14.0083 0 14.4828
   rotation 0 1 0 3.14159
 }
 Pine {
-  translation -19.6195 3.55271e-15 24.3783
+  translation -19.6195 0 24.3783
   rotation 0 1 0 2.87979
   name "pine tree(1)"
 }
@@ -91,20 +91,20 @@ Pine {
   name "pine tree(3)"
 }
 Pine {
-  translation -10.6926 -1.42109e-14 25.1339
+  translation -10.6926 0 25.1339
   name "pine tree(4)"
 }
 Pine {
-  translation -14.3441 -2.13163e-14 -14.5621
+  translation -14.3441 0 -14.5621
   name "pine tree(5)"
 }
 Pine {
-  translation -26.6328 -2.13163e-14 7.1707
+  translation -26.6328 0 7.1707
   name "pine tree(6)"
 }
 Pine {
   translation -9.37029 0 -14.0209
-  rotation 0 1 0 -2.6179953071795863
+  rotation 0 1 0 -2.618
   name "pine tree(2)"
 }
 Forest {
@@ -132,7 +132,7 @@ Forest {
   minRadius 3
 }
 Mavic2Pro {
-  translation 1.87638e-07 0.1 1.76041e-13
+  translation 0 0.1 0
   rotation 0 -0.7071067811865475 -0.7071067811865475 -3.14159
   cameraSlot [
     Camera {
