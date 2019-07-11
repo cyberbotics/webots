@@ -37,4 +37,4 @@ You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots
 #### mavic\_2\_pro.wbt
 
 ![mavic_2_pro.wbt.png](images/robots/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
-After the drone has taken, you can control it with the keyboard of your computer.
+After the drone has taken off, you can control it with the keyboard of your computer.
