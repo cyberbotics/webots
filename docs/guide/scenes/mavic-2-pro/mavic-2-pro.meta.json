@@ -6,30 +6,30 @@
       "transformID": "n196", 
       "initialPosition": 0, 
       "name": "camera pitch", 
-      "maxPosition": 0, 
+      "maxPosition": 1.7, 
       "position": 0, 
       "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "minPosition": -0.5, 
       "axis": "0 1 0"
     }, 
     {
       "transformID": "n212", 
       "initialPosition": 0, 
       "name": "camera roll", 
-      "maxPosition": 0, 
+      "maxPosition": 0.5, 
       "position": 0, 
       "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "minPosition": -0.5, 
       "axis": "1 0 0"
     }, 
     {
       "transformID": "n180", 
       "initialPosition": 0, 
       "name": "camera yaw", 
-      "maxPosition": 0, 
+      "maxPosition": 1.7, 
       "position": 0, 
       "type": "RotationalMotor", 
-      "minPosition": 0, 
+      "minPosition": -1.7, 
       "axis": "0 0 1"
     }, 
     {
