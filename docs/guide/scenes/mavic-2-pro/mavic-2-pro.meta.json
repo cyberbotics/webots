@@ -1,0 +1,120 @@
+{
+  "robotID": "n12", 
+  "name": "mavic-2-pro", 
+  "devices": [
+    {
+      "transformID": "n196", 
+      "initialPosition": 0, 
+      "name": "camera pitch", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n212", 
+      "initialPosition": 0, 
+      "name": "camera roll", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n180", 
+      "initialPosition": 0, 
+      "name": "camera yaw", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n249", 
+      "type": "RotationalMotor", 
+      "name": "front left propeller"
+    }, 
+    {
+      "transformID": "n126", 
+      "type": "RotationalMotor", 
+      "name": "front right propeller"
+    }, 
+    {
+      "transformID": "n44", 
+      "type": "RotationalMotor", 
+      "name": "rear left propeller"
+    }, 
+    {
+      "transformID": "n85", 
+      "type": "RotationalMotor", 
+      "name": "rear right propeller"
+    }, 
+    {
+      "transformID": "n240", 
+      "name": "front left led", 
+      "ledPBRAppearanceIDs": [
+        "n242"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n167", 
+      "name": "front right led", 
+      "ledPBRAppearanceIDs": [
+        "n169"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n229", 
+      "type": "Camera", 
+      "name": "camera"
+    }, 
+    {
+      "transformID": "n196", 
+      "type": "PositionSensor", 
+      "name": "camera pitch sensor"
+    }, 
+    {
+      "transformID": "n212", 
+      "type": "PositionSensor", 
+      "name": "camera roll sensor"
+    }, 
+    {
+      "transformID": "n180", 
+      "type": "PositionSensor", 
+      "name": "camera yaw sensor"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "Compass", 
+      "name": "compass"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "GPS", 
+      "name": "gps"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "Gyro", 
+      "name": "gyro"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "InertialUnit", 
+      "name": "inertial unit"
+    }
+  ]
+}
