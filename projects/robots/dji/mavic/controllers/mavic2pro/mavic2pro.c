@@ -151,12 +151,10 @@ int main(int argc, char **argv) {
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_UP):
           target_altitude += 0.01;
-          target_altitude = CLAMP(target_altitude, 0.0, target_altitude);
           printf("target altitude: %f [m]\n", target_altitude);
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_DOWN):
           target_altitude -= 0.01;
-          target_altitude = CLAMP(target_altitude, 0.0, target_altitude);
           printf("target altitude: %f [m]\n", target_altitude);
           break;
       }
