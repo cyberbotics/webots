@@ -10,9 +10,12 @@ Viewpoint {
   field     SFFloat                                                                 exposure               1.0       # (J/m^2) photometric exposure of scene
   field     SFString                                                                follow                 ""        # name of an object to follow
   field     SFString{"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}  followType  "Tracking Shot"
-  field     SFBool                                                                  followOrientation      FALSE
   field     SFFloat                                                                 followSmoothness       0.5       # smoothness of the camera when following an object
   field     SFNode                                                                  lensFlare              NULL
   field     SFFloat                                                                 ambientOcclusionRadius 2         # radius of ambient occlusion in 3D View
   field     SFFloat                                                                 bloomThreshold         21        # threshold of bloom in the 3D View
+
+  # Deprecated since R2020a
+  deprecatedField  SFBool                                                           followOrientation      FALSE
+
 }

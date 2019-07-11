@@ -108,7 +108,6 @@ void WbViewpoint::init() {
   mExposure = findSFDouble("exposure");
   mFollow = findSFString("follow");
   mFollowType = findSFString("followType");
-  mFollowOrientation = findSFBool("followOrientation");  // TODO: backward compatibilty
   mFollowSmoothness = findSFDouble("followSmoothness");
   mLensFlare = findSFNode("lensFlare");
   mAmbientOcclusionRadius = findSFDouble("ambientOcclusionRadius");
@@ -124,6 +123,16 @@ void WbViewpoint::init() {
   mInverseViewMatrix = NULL;
 
   mNodeVisibilityEnabled = false;
+
+  // backward compatibility
+  WbSFBool *followOrientation = findSFBool("followOrientation");
+  if (followOrientation->value()) {
+    warn("Deprecated 'followOrientation' field, please use the 'followType' field instead.");
+    if (mFollowType->value() == "Tracking Shot") {
+      mFollowType->setValue("Mounted Shot");
+      followOrientation->setValue(false);
+    }
+  }
 
 #ifdef _WIN32
   if (WbPreferences::instance()->value("VirtualRealityHeadset/enable").toBool()) {

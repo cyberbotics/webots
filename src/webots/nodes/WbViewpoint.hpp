@@ -157,7 +157,6 @@ private:
   WbSFDouble *mExposure;
   WbSFString *mFollow;
   WbSFString *mFollowType;
-  WbSFBool *mFollowOrientation;
   WbSFDouble *mFollowSmoothness;
   WbSFNode *mLensFlare;
   WbSFDouble *mAmbientOcclusionRadius;
