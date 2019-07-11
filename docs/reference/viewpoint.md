@@ -74,11 +74,6 @@ If the value is `Tracking Shot`, the viewpoint will follow the object in transla
 If the value is `Mounted Shot`, the viewpoint will follow the object both in translation and rotation, this is particularly useful to see from within an object (e.g. from inside a vehicle).
 Finally, if the value is `Pan and Tilt Shot`, the viewpoint will always look at the object center.
 
-
-The `followOrientation` field can be used to make the viewpoint follow also the orientation of an object (in addition to its position).
-If `followOrientation` is true, the viewpoint is rigidly attached to the followed object, like an embedded camera onboard a robot.
-The `follow` field should be set with a valid object name otherwise the `followOrientation` field has no effect.
-
 The `followSmoothness` field defines how smooth the camera is when following an object.
 With a value of 0 the camera follows the movement of the object instantly, and increasing the value increases the inertia of the camera thus making the movement more fluid.
 Higher values can sometimes make the camera lag behind in the case of fast moving objects that change direction often.
