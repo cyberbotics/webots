@@ -74,7 +74,7 @@ CardboardBox {
   rotation 0 1 0 -0.261795307179586
 }
 TeslaModel3Simple {
-  translation -41.5139 0.4 -4.34169
+  translation -41.5139 0.31 -4.34169
   rotation 0 -1 0 -1.309
 }
 Pine {
