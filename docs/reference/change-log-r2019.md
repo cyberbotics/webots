@@ -5,6 +5,7 @@ Released on XXX YYth, 2019.
 
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
+    - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) dist pointing to a texture without repetition.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.
