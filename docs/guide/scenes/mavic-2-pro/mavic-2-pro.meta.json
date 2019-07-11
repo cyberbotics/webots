@@ -33,24 +33,44 @@
       "axis": "0 0 1"
     }, 
     {
-      "transformID": "n249", 
+      "transformID": "n251", 
+      "initialPosition": 0, 
+      "name": "front left propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
       "type": "RotationalMotor", 
-      "name": "front left propeller"
+      "minPosition": 0, 
+      "axis": "0 0 1"
     }, 
     {
-      "transformID": "n126", 
+      "transformID": "n128", 
+      "initialPosition": 0, 
+      "name": "front right propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
       "type": "RotationalMotor", 
-      "name": "front right propeller"
+      "minPosition": 0, 
+      "axis": "0 0 1"
     }, 
     {
-      "transformID": "n44", 
+      "transformID": "n46", 
+      "initialPosition": 0, 
+      "name": "rear left propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
       "type": "RotationalMotor", 
-      "name": "rear left propeller"
+      "minPosition": 0, 
+      "axis": "0 0 1"
     }, 
     {
-      "transformID": "n85", 
+      "transformID": "n87", 
+      "initialPosition": 0, 
+      "name": "rear right propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
       "type": "RotationalMotor", 
-      "name": "rear right propeller"
+      "minPosition": 0, 
+      "axis": "0 0 1"
     }, 
     {
       "transformID": "n240", 
