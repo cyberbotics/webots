@@ -4,7 +4,7 @@
 Released on XXX YYth, 2019.
 
   - New Robots
-    - Added a DJI [Mavic 2 PRO](../guide/mavic-2-pro.md) model.
+    - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
 
