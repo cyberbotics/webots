@@ -77,7 +77,7 @@ Finally, if the value is `Pan and Tilt Shot`, the viewpoint will always look at 
 The `followSmoothness` field defines how smooth the camera is when following an object.
 With a value of 0 the camera follows the movement of the object instantly, and increasing the value increases the inertia of the camera thus making the movement more fluid.
 Higher values can sometimes make the camera lag behind in the case of fast moving objects that change direction often.
-This parameter is ignored if the `followOrientation` field is set to `TRUE`.
+This parameter is used only if the `followType` field is set to `Tracking Shot`.
 
 The `lensFlare` field may contain a [LensFlare](lensflare.md) node to add a lens flare effect to the view (if any light casts flares).
 
