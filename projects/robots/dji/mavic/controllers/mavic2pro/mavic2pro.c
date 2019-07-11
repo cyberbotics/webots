@@ -132,29 +132,31 @@ int main(int argc, char **argv) {
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          pitch_disturbance = 0.3;
+          pitch_disturbance = 0.6;
           break;
         case WB_KEYBOARD_DOWN:
-          pitch_disturbance = -0.3;
+          pitch_disturbance = -0.6;
           break;
         case WB_KEYBOARD_RIGHT:
-          yaw_disturbance = 0.5;
+          yaw_disturbance = 0.8;
           break;
         case WB_KEYBOARD_LEFT:
-          yaw_disturbance = -0.5;
+          yaw_disturbance = -0.8;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_RIGHT):
-          roll_disturbance = -0.3;
+          roll_disturbance = -0.6;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_LEFT):
-          roll_disturbance = 0.3;
+          roll_disturbance = 0.6;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_UP):
           target_altitude += 0.01;
+          target_altitude = CLAMP(target_altitude, 0.0, target_altitude);
           printf("target altitude: %f [m]\n", target_altitude);
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_DOWN):
           target_altitude -= 0.01;
+          target_altitude = CLAMP(target_altitude, 0.0, target_altitude);
           printf("target altitude: %f [m]\n", target_altitude);
           break;
       }
@@ -168,8 +170,8 @@ int main(int argc, char **argv) {
     sum_altitude += difference_altitude;
 
     // Compute the roll, pitch, yaw and vertical inputs.
-    const double roll_input = k_roll_p * CLAMP(roll, -0.5, 0.5) + roll_disturbance;
-    const double pitch_input = k_pitch_p * CLAMP(pitch, -0.5, 0.5) + pitch_disturbance;
+    const double roll_input = k_roll_p * CLAMP(roll, -0.5, 0.5) + roll_acceleration + roll_disturbance;
+    const double pitch_input = k_pitch_p * CLAMP(pitch, -0.5, 0.5) - pitch_acceleration + pitch_disturbance;
     const double yaw_input = yaw_disturbance;
     const double vertical_input = k_vertical_p * CLAMP(difference_altitude, -0.05, 0.05) + k_vertical_i * sum_altitude;
 
