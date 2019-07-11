@@ -127,7 +127,7 @@ The **Edit** menu provides usual text edition functions to manipulate files open
 The **View** menu allows you to control the viewing in the simulation window.
 
 - The **Follow Object** submenu allows you to switch between a fixed (static) viewpoint and a viewpoint that follows a mobile object (usually a robot).
-If you want the viewpoint to follow an object, first you need to select the object with the mouse and then check one of the item of the submenu depending on the following behavior you want.
+If you want the viewpoint to follow an object, first you need to select the object with the mouse and then check one of the items of the submenu depending on the following behavior you want.
 Refer to the [Viewpoint](../reference/viewpoint.md) documentation for more information about the different following behaviors.
 
 - ![](images/restore_viewpoint.png =26x26) The **Restore [Viewpoint](../reference/viewpoint.md)** item restores the viewpoint's position and orientation to their initial settings when the file was loaded or reverted.
