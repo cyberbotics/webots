@@ -95,10 +95,10 @@ int main(int argc, char **argv) {
 
   // Constants, empirically found.
   const double k_vertical_thrust = 28.7;  // with this thrust, the drone lifts.
-  const double k_vertical_p = 2.5; // P constant of the vertical PID.
-  const double k_vertical_i = 0.0002; // I constant of the vertical PID.
-  const double k_roll_p = 5.0; // P constant of the roll PID.
-  const double k_pitch_p = 5.0; // P constant of the pitch PID.
+  const double k_vertical_p = 2.5;        // P constant of the vertical PID.
+  const double k_vertical_i = 0.0002;     // I constant of the vertical PID.
+  const double k_roll_p = 5.0;            // P constant of the roll PID.
+  const double k_pitch_p = 5.0;           // P constant of the pitch PID.
 
   // Variables.
   double target_altitude = 1.0;  // The target altitude. Can be changed by the user.
