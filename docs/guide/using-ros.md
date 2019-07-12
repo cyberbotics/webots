@@ -34,6 +34,7 @@ It should only be used for specific applications that cannot be done with the st
 
 This controller uses the "libCppController" library and proposes the available Webots functionalities on the ROS network according to the robot's configuration.
 Using the "roscpp" library, it provides these Webots functions mostly as ROS services and uses standard messages type to avoid dependencies on third-party packages.
+The list of services and messages can be found [here](http://docs.ros.org/melodic/api/webots_ros/html/index-msg.html).
 
 During simulation there can be multiple instances of robots or devices and other Webots applications connected to the ROS network.
 Therefore the controller uses a specific syntax to declare its services or topics on the network: `[robot_unique_name]/[device_name]/[service/topic_name]`.
