@@ -35,32 +35,13 @@ sudo apt-get install ros-melodic-webots-ros
 
 ### Running the Nodes
 
-Now that you have built the package, you can run the example you want.
-You will first have to launch the master node with the following commands from the catkin workspace:
+You can start any simulation using ROS with the wollowing commands (here the `e_puck_line` one for example):
 
 ```sh
-source devel/setup.bash
-roscore
+source /opt/ros/melodic/setup.bash
+roslaunch webots_ros catch_the_bird
 ```
-
-You can then start Webots and open the world of the example you want to run (the example worlds are located in "projects/languages/ros/worlds").
-When you start the simulation the controller should connect to the master and the simulation should start, waiting for instructions.
-
-If the controller can't connect to the master node, it probably means the master node doesn't use the standard `ROS_MASTER_URI`.
-You can check in the terminal in which the master node was started what `ROS_MASTER_URI` is used and you can then add the correct address in the controller arguments, in the environment variables or in a runtime.ini file in the controller directory.
-
-You can then start the ROS node corresponding to this example in a new terminal using the following commands from the catkin workspace:
-
-```sh
-source devel/setup.bash
-rosrun webots_ros [node_name]
-```
-
-For example, if you opened the world "projects/languages/ros/worlds/panoramic\_view\_recorder.wbt" you will have to start the `panoramic_view_recorder` node with the following command:
-
-```sh
-rosrun webots_ros panoramic_view_recorder
-```
+This launch file will launch Webots and start the corresponding node.
 
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.
@@ -76,6 +57,7 @@ The hostname and IP addresses of these computers should be listed in the known h
 ### Creating New Nodes
 
 These examples only show a few possibilities for interfacing ROS and Webots, but you can build your own nodes to connect with Webots.
+the source code of these nodes can be found on the repository of the [webots_ros package](https://github.com/omichel/webots_ros).
 
 The `robot_information_parser` node is the most basic one and is a good base to start building your own node.
 The `complete_test` node doesn't show any particular application but contains an almost exhaustive list of the Webots API functions.
