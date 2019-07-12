@@ -28,7 +28,7 @@ These tutorials will also help you set up your ROS environment and initialize yo
 
 ### "webots\_ros" Package Installation
 
-You can install the [webots_ros](http://wiki.ros.org/webots\_ros) package with the following command:
+You can install the [webots\_ros](http://wiki.ros.org/webots\_ros) package with the following command:
 ```sh
 sudo apt-get install ros-melodic-webots-ros
 ```
@@ -57,7 +57,7 @@ The hostname and IP addresses of these computers should be listed in the known h
 ### Creating New Nodes
 
 These examples only show a few possibilities for interfacing ROS and Webots, but you can build your own nodes to connect with Webots.
-the source code of these nodes can be found on the repository of the [webots_ros package](https://github.com/omichel/webots\_ros).
+the source code of these nodes can be found on the repository of the [webots\_ros package](https://github.com/omichel/webots\_ros).
 
 The `robot_information_parser` node is the most basic one and is a good base to start building your own node.
 The `complete_test` node doesn't show any particular application but contains an almost exhaustive list of the Webots API functions.
