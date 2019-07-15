@@ -5,7 +5,7 @@
 ---
 
 Today we're happy to announce the release of the all-new Webots 2018a, packed with some great new features.
-We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html).
+We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](../reference/changelog-r2018.md).
 
 This release brings a change to the way Webots is released.
 We have been looking for a means of improving our release schedule to provide reliability for our users, and a more strict release schedule that ensures updates are shipped predictably and reliably.
