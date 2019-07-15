@@ -43,7 +43,7 @@ If you're really confused, have a look at our samples for some guidance.
 With this release, we have (with lots of effort) completely overhauled all objects, worlds, robots and vehicles.
 Everything in Webots now uses the Physically-Based Rendering (PBR) system, leading to a universal visual upgrade and a greater degree of realism.
 As a result, some important PROTO files have had their fields adjusted to accomodate this new system.
-Please check the [ChangeLog](../reference/change-log-r2019.md) for a complete list of breaking changes.
+Please check the [ChangeLog](../reference/changelog-r2019.md) for a complete list of breaking changes.
 In addition to this, we have added a library of ready-made PBR materials (as `PBRAppearance`-based PROTO files) already used across Webots that will help you make your next simulation look awesome.
 These can be found in `$WEBOTS_HOME/projects/appearances`.
 

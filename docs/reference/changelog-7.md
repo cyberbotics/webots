@@ -1,4 +1,4 @@
-# Webots 7 Change Log
+# Webots 7 Changelog
 
 
 ## Webots 7.4.3

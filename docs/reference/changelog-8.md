@@ -1,4 +1,4 @@
-# Webots 8 Change Log
+# Webots 8 Changelog
 
 
 ## Webots 8.6.2
