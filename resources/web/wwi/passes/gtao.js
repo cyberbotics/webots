@@ -29,6 +29,8 @@ THREE.GTAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
     gtaoBlurDepthCutoff: 0.01
   };
 
+  this.qualityLevel = 4.0;
+
   this.frameCounter = 0;
   this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
   this.offsets = [0.0, 0.5, 0.25, 0.75];
@@ -197,7 +199,7 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
 
     this.gtaoMaterial.uniforms['params'].value.x = this.rotations[this.frameCounter % 6] / 360;
     this.gtaoMaterial.uniforms['params'].value.y = this.offsets[Math.floor(this.frameCounter / 6) % 4];
-    this.gtaoMaterial.uniforms['params'].value.z = 4.0;
+    this.gtaoMaterial.uniforms['params'].value.z = 2 << (this.qualityLevel - 1);
 
     this.gtaoMaterial.uniforms[ 'cameraInverseProjection' ].value.getInverse(this.camera.projectionMatrix);
     this.gtaoMaterial.uniforms[ 'cameraProjection' ].value = this.camera.projectionMatrix;
