@@ -1,4 +1,4 @@
-# Webots R2018b Change Log
+# Webots R2018b Changelog
 
 
 ## [Webots R2018b](../blog/Webots-2018-b-release.md)

@@ -1,4 +1,4 @@
-# Webots 5 Change Log
+# Webots 5 Changelog
 
 
 ## Webots 5.10.0

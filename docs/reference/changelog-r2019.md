@@ -1,4 +1,4 @@
-# Webots R2019b Change Log
+# Webots R2019b Changelog
 
 ## Webots R2019b Revision 1
 Released on XXX YYth, 2019.

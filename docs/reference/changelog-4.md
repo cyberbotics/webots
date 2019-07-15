@@ -1,4 +1,4 @@
-# Webots 4 Change Log
+# Webots 4 Changelog
 
 
 ## Version 4.0.26
