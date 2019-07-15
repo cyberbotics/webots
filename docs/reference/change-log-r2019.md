@@ -3,8 +3,11 @@
 ## Webots R2019b Revision 1
 Released on XXX YYth, 2019.
 
+  - New Robots
+    - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
+    - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.
