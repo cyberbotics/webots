@@ -38,7 +38,7 @@ You can start any simulation using ROS with the following commands (here the `e_
 
 ```sh
 source /opt/ros/melodic/setup.bash
-roslaunch webots_ros e_puck_line
+roslaunch webots_ros e_puck_line.launch
 ```
 This launch file will launch Webots and start the corresponding node.
 
