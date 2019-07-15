@@ -137,7 +137,7 @@ THREE.GTAOShader = {
     '}',
 
     'void main() {',
-    '  vec3 viewSpaceNormal = texture2D(tNormal, texUv).rgb;', // 244
+    '  vec3 viewSpaceNormal = texture2D(tNormal, texUv).rgb;',
 
     '  // first, retrieve view-space position and normals',
     '  vec4 viewSpacePosition = getViewSpacePosition(texUv, cameraInverseProjection);',
