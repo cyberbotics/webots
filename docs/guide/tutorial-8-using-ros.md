@@ -35,7 +35,7 @@ sudo apt-get install ros-melodic-webots-ros
 
 ### Running the Nodes
 
-You can start any simulation using ROS with the wollowing commands (here the `e_puck_line` one for example):
+You can start any simulation using ROS with the following commands (here the `e_puck_line` one for example):
 
 ```sh
 source /opt/ros/melodic/setup.bash
