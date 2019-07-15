@@ -169,7 +169,7 @@ THREE.GTAOShader = {
     '  vec2 horizons = vec2(-1.0, -1.0);',
 
     '  vec2 offset;',
-    '  for (int j = 0; j < 3; ++j) {', // TODO: 3 => params.z
+    '  for (int j = 0; j < 16; ++j) {', // TODO: This should be params.z :-(
     '    offset = floor(searchDirection.xy * currentStep + 0.5);',
     '    currentStep += stepsize;',
 
