@@ -27,6 +27,8 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     this.camera.position.copy(this.initialViewpointPosition);
     this.camera.quaternion.copy(this.initialViewpointOrientation);
     this.updateViewpointPosition(true, time);
+    if (typeof this.onCameraParametersChanged === 'function')
+      this.onCameraParametersChanged();
   }
 
   isFollowedObject(object) {
