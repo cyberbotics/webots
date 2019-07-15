@@ -349,16 +349,14 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    WbGroup *const gp = new WbGroup();
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
+    writer << "<Group>";
     if (fastHelix)
-      gp->addChild(new WbSolid(*fastHelix));
+      fastHelix->write(writer);
     if (slowHelix)
-      gp->addChild(new WbSolid(*slowHelix));
-
-    gp->write(writer);
-    delete gp;
+      slowHelix->write(writer);
+    writer << "</Group>";
   }
 }
 

@@ -94,7 +94,7 @@ void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) 
 
 void WbRangeFinder::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   if (WbAbstractCamera::handleCommand(stream, command))
     return;

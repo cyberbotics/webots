@@ -1,0 +1,187 @@
+{
+  "BODY": {
+    "target node": "Robot",
+    "physics": {
+      "mass": 0.4,
+      "centerOfMass": "-0.088 0 -0.04"
+    },
+    "boundingObject": {
+      "custom": "Group { children [ Transform { translation -0.03 0 0.002 children [ Box { size 0.21 0.085 0.027 } ] } Transform { translation -0.06 0 -0.03 children [ Box { size 0.15 0.06 0.053 } ] } Transform { translation 0.03 0.09 -0.001 rotation 0 0 1 -0.3926996938995747 children [ Box { size 0.01 0.15 0.025 } ] } Transform { translation 0.03 -0.09 -0.001 rotation 0 0 1 0.3927 children [ Box { size 0.01 0.15 0.025 } ] } Transform { translation -0.138 0.08 -0.032 rotation 0 0 1 0.68 children [ Box { size 0.01 0.12 0.018 } ] } Transform { translation -0.138 -0.08 -0.032 rotation 0 0 1 -0.68 children [ Box { size 0.01 0.12 0.018 } ] } Transform { translation 0.06 0.15 -0.039 rotation 1 0 0 -0.29 children [ Box { size 0.01 0.014 0.06 } ] } Transform { translation 0.06 -0.15 -0.039 rotation 1 0 0 0.29 children [ Box { size 0.01 0.014 0.06 } ] } ] }"
+    }
+  },
+  "FRONT_LEFT_HP_HELIX": {
+    "target node": "Propeller",
+    "motor": {
+      "name": "front left propeller",
+      "maxVelocity": 576
+    },
+    "propellerFields": {
+      "shaftAxis": "0 0 1",
+      "thrustConstants": "0.0000026 0",
+      "torqueConstants": "0.00003 0"
+    },
+    "physics": {
+      "mass": 0.1
+    },
+    "boundingObject": {
+      "custom": "Group { children [ Transform { translation 0 0 0.015 rotation 1 0 0 1.57 children [ Cylinder { height 0.025 radius 0.013 } ] } Transform { translation 0 0 0.023 rotation 0 0 1 -0.7854 children [ Box { size 0.23 0.018 0.005 } ] } ] }"
+    }
+  },
+  "REAR_RIGHT_HP_HELIX": {
+    "target node": "Propeller",
+    "motor": {
+      "name": "rear right propeller",
+      "maxVelocity": 576
+    },
+    "propellerFields": {
+      "shaftAxis": "0 0 1",
+      "thrustConstants": "0.0000026 0",
+      "torqueConstants": "0.00003 0"
+    },
+    "physics": {
+      "mass": 0.1
+    },
+    "boundingObject": {
+      "custom": "Group { children [ Transform { translation 0 0 0.015 rotation 1 0 0 1.57 children [ Cylinder { height 0.025 radius 0.013 } ] } Transform { translation 0 0 0.023 rotation 0 0 1 -0.7854 children [ Box { size 0.23 0.018 0.005 } ] } ] }"
+    }
+  },
+  "FRONT_RIGHT_HP_HELIX": {
+    "target node": "Propeller",
+    "motor": {
+      "name": "front right propeller",
+      "maxVelocity": 576
+    },
+    "propellerFields": {
+      "shaftAxis": "0 0 1",
+      "thrustConstants": "-0.0000026 0",
+      "torqueConstants": "0.00003 0"
+    },
+    "physics": {
+      "mass": 0.1
+    },
+    "boundingObject": {
+      "custom": "Group { children [ Transform { translation 0 0 0.015 rotation 1 0 0 1.57 children [ Cylinder { height 0.025 radius 0.013 } ] } Transform { translation 0 0 0.023 rotation 0 0 1 0.7854 children [ Box { size 0.23 0.018 0.005 } ] } ] }"
+    }
+  },
+  "REAR_LEFT_HP_HELIX": {
+    "target node": "Propeller",
+    "motor": {
+      "name": "rear left propeller",
+      "maxVelocity": 576
+    },
+    "propellerFields": {
+      "shaftAxis": "0 0 1",
+      "thrustConstants": "-0.0000026 0",
+      "torqueConstants": "0.00003 0"
+    },
+    "physics": {
+      "mass": 0.1
+    },
+    "boundingObject": {
+      "custom": "Group { children [ Transform { translation 0 0 0.015 rotation 1 0 0 1.57 children [ Cylinder { height 0.025 radius 0.013 } ] } Transform { translation 0 0 0.023 rotation 0 0 1 0.7854 children [ Box { size 0.23 0.018 0.005 } ] } ] }"
+    }
+  },
+  "CAMERA_YAW": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera yaw"
+    },
+    "positionSensor": {
+      "name": "camera yaw sensor"
+    },
+    "jointParameters": {
+      "axis": "0 0 1"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "CAMERA_PITCH": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera pitch"
+    },
+    "positionSensor": {
+      "name": "camera pitch sensor"
+    },
+    "jointParameters": {
+      "axis": "0 1 0"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "CAMERA_ROLL": {
+    "target node": "HingeJoint",
+    "motor": {
+      "name": "camera roll"
+    },
+    "jointParameters": {
+      "axis": "1 0 0"
+    },
+    "positionSensor": {
+      "name": "camera roll sensor"
+    },
+    "physics": {
+      "mass": 0.0333
+    },
+    "boundingObject": {
+    }
+  },
+  "LED_LEFT": {
+    "target node": "LED",
+    "fields": {
+      "name": "front left led"
+    },
+    "physics": {
+      "mass": 0.0035
+    },
+    "boundingObject": {
+    }
+  },
+  "LED_RIGHT": {
+    "target node": "LED",
+    "fields": {
+      "name": "front right led"
+    },
+    "physics": {
+      "mass": 0.0035
+    },
+    "boundingObject": {
+    }
+  },
+  "INERTIAL_UNIT": {
+    "target node": "InertialUnit"
+  },
+  "GPS": {
+    "target node": "GPS"
+  },
+  "COMPASS": {
+    "target node": "Compass"
+  },
+  "CAMERA": {
+    "target node": "Camera"
+  },
+  "GREY_PLASTIC": {
+    "target node": "MattePaint",
+    "fields": {
+      "baseColor": "0.3 0.3 0.3"
+    }
+  },
+  "DARK_PLASTIC": {
+    "target node": "GlossyPaint",
+    "fields": {
+      "baseColor": "0.1 0.1 0.1"
+    }
+  },
+  "ALU": {
+    "target node": "BrushedAluminium",
+    "fields": {
+      "textureTransform": "TextureTransform { scale 100 100 }"
+    }
+  }
+}

@@ -359,7 +359,7 @@ void WbImageTexture::pickColor(WbRgb &pickedColor, const WbVector2 &uv) const {
   } else
     v = qBound(0.0, v, 1.0);
 
-  int index = 4 * ((int)(v * h) * w + (int)(u * w));
+  const int index = 4 * (w * qMin((int)(v * h), h - 1) + qMin((int)(u * w), w - 1));
   pickedColor.setByteValue((int)data[index + 2], (int)data[index + 1], (int)data[index]);
 
   // debug

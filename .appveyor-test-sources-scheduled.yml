@@ -1,0 +1,16 @@
+# This file is used by the "webots-test-sources-revision" and "webots-test-sources-develop" appveyor projects.
+
+clone_depth: 1
+
+install:
+  - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
+  - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
+  - pip install -r %APPVEYOR_BUILD_FOLDER%\\docs\\tests\\requirements.txt
+
+build: off
+
+test_script:
+  - set WEBOTS_HOME=%APPVEYOR_BUILD_FOLDER%
+  - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\docs\\tests
+  - python -m unittest discover -s %APPVEYOR_BUILD_FOLDER%\\tests\\sources

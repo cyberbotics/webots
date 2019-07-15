@@ -28,7 +28,7 @@ class WbLineEdit : public QLineEdit {
 
 public:
   explicit WbLineEdit(QWidget *parent = 0);
-  WbLineEdit(const QString &contents, QWidget *parent = 0);
+  explicit WbLineEdit(const QString &contents, QWidget *parent = 0);
   virtual ~WbLineEdit();
 
 protected:
