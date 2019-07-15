@@ -29,6 +29,10 @@ THREE.GTAOPass = function(scene, camera, depthTexture, useNormals, resolution) {
     gtaoBlurDepthCutoff: 0.01
   };
 
+  this.frameCounter = 0;
+  this.rotations = [60.0, 300.0, 180.0, 240.0, 120.0, 0.0];
+  this.offsets = [0.0, 0.5, 0.25, 0.75];
+
   this.resolution = (resolution !== undefined) ? new THREE.Vector2(resolution.x, resolution.y) : new THREE.Vector2(256, 256);
 
   this.gtaoRenderTarget = new THREE.WebGLRenderTarget(this.resolution.x, this.resolution.y, {
@@ -168,6 +172,8 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     if (this.params.output === 1)
       return;
 
+    this.frameCounter++;
+
     this.oldClearColor.copy(renderer.getClearColor());
     this.oldClearAlpha = renderer.getClearAlpha();
     var oldAutoClear = renderer.autoClear;
@@ -176,23 +182,34 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     renderer.setRenderTarget(this.depthRenderTarget);
     renderer.clear();
 
-    // this.gtaoMaterial.uniforms[ 'bias' ].value = this.params.gtaoBias;
-    // this.gtaoMaterial.uniforms[ 'intensity' ].value = this.params.gtaoIntensity;
-    // this.gtaoMaterial.uniforms[ 'scale' ].value = this.params.gtaoScale;
-    // this.gtaoMaterial.uniforms[ 'kernelRadius' ].value = this.params.gtaoKernelRadius;
-    // this.gtaoMaterial.uniforms[ 'minResolution' ].value = this.params.gtaoMinResolution;
-    // this.gtaoMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    // this.gtaoMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    // this.gtaoMaterial.uniforms['bias'].value = this.params.gtaoBias;
+    // this.gtaoMaterial.uniforms['intensity'].value = this.params.gtaoIntensity;
+    // this.gtaoMaterial.uniforms['scale'].value = this.params.gtaoScale;
+    // this.gtaoMaterial.uniforms['kernelRadius'].value = this.params.gtaoKernelRadius;
+    // this.gtaoMaterial.uniforms['minResolution'].value = this.params.gtaoMinResolution;
+    // this.gtaoMaterial.uniforms['cameraNear'].value = this.camera.near;
+    // this.gtaoMaterial.uniforms['cameraFar'].value = this.camera.far;
     // this.gtaoMaterial.uniforms['randomSeed'].value = Math.random();
 
-    var depthCutoff = this.params.gtaoBlurDepthCutoff * (this.camera.far - this.camera.near);
-    // this.vBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
-    // this.hBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
+    this.gtaoMaterial.uniforms['clipInfo'].value.x = this.camera.near;
+    this.gtaoMaterial.uniforms['clipInfo'].value.y = this.camera.far ? this.camera.far : 1000000.0;
+    this.gtaoMaterial.uniforms['clipInfo'].value.z = 0.5 * (this.resolution.y / (2.0 * Math.tan(this.camera.fovX * 0.5)));
 
-    // this.vBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    // this.vBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
-    // this.hBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
-    // this.hBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    this.gtaoMaterial.uniforms['params'].value.x = this.rotations[this.frameCounter % 6] / 360;
+    this.gtaoMaterial.uniforms['params'].value.y = this.offsets[Math.floor(this.frameCounter / 6) % 4];
+    this.gtaoMaterial.uniforms['params'].value.z = 4.0;
+
+    this.gtaoMaterial.uniforms[ 'cameraInverseProjection' ].value.getInverse(this.camera.projectionMatrix);
+    this.gtaoMaterial.uniforms[ 'cameraProjection' ].value = this.camera.projectionMatrix;
+
+    var depthCutoff = this.params.gtaoBlurDepthCutoff * (this.camera.far - this.camera.near);
+    this.vBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
+    this.hBlurMaterial.uniforms[ 'depthCutoff' ].value = depthCutoff;
+
+    this.vBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    this.vBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
+    this.hBlurMaterial.uniforms[ 'cameraNear' ].value = this.camera.near;
+    this.hBlurMaterial.uniforms[ 'cameraFar' ].value = this.camera.far;
 
     this.params.gtaoBlurRadius = Math.floor(this.params.gtaoBlurRadius);
     if ((this.prevStdDev !== this.params.gtaoBlurStdDev) || (this.prevNumSamples !== this.params.gtaoBlurRadius)) {

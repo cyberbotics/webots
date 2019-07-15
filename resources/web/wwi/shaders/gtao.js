@@ -8,7 +8,7 @@ THREE.GTAOShader = {
 
     'radius': { value: 2.0 },
     'flipNormalY': { value: 0.0 },
-    'clipInfo': { value: new THREE.Vector4(0.0, 1000000.0, 0.0, 0.0) },
+    'clipInfo': { value: new THREE.Vector4(0.0, 0.0, 0.0, 0.0) },
     'params': { value: new THREE.Vector4(0.0, 0.0, 0.0, 0.0) },
 
     'cameraProjection': { value: new THREE.Matrix4() },
