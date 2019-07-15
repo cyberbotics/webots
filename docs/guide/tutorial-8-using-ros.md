@@ -39,7 +39,7 @@ You can start any simulation using ROS with the wollowing commands (here the `e_
 
 ```sh
 source /opt/ros/melodic/setup.bash
-roslaunch webots_ros catch_the_bird
+roslaunch webots_ros e_puck_line
 ```
 This launch file will launch Webots and start the corresponding node.
 
