@@ -122,6 +122,7 @@
     - [DEF and USE](def-and-use.md)
 - [Other APIs](other-apis.md)
     - [ROS API](ros-api.md)
+<<<<<<< HEAD
 - [ChangeLog](change-log.md)
     - [Webots R2020](change-log-r2020.md)
     - [Webots R2019](change-log-r2019.md)
@@ -131,4 +132,14 @@
     - [Webots 6](change-log-6.md)
     - [Webots 5](change-log-5.md)
     - [Webots 4](change-log-4.md)
+=======
+- [Changelog](changelog.md)
+    - [Webots R2019](changelog-r2019.md)
+    - [Webots R2018](changelog-r2018.md)
+    - [Webots 8](changelog-8.md)
+    - [Webots 7](changelog-7.md)
+    - [Webots 6](changelog-6.md)
+    - [Webots 5](changelog-5.md)
+    - [Webots 4](changelog-4.md)
+>>>>>>> origin/revision
 - [Glossary](glossary.md)
