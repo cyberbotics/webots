@@ -1,0 +1,77 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  info [
+    "In this example, the robot turns around itself on a slope."
+    "Its accelerometer is used to switch the most bottom LED."
+  ]
+  title "Camera"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation 0.19642857510755035 -0.9742860606005513 -0.11037430407787878 5.721806739833134
+  position 1.0869868667758156 0.8620936205637132 2.224798123854413
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Road {
+  translation 0 0 -20
+  wayPoints [
+    0 0 0
+    0 0 40
+  ]
+}
+Robot {
+  translation 0 0.6 0
+  rotation 0 1 0 3.141592653589793
+  children [
+    Transform {
+      translation 0.5 0 0
+      children [
+        Shape {
+          appearance BrushedSteel {
+          }
+          geometry Box {
+            size 0.5 1.2 0.5
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+      }
+      device [
+        Brake {
+        }
+        RotationalMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        rotation 0 0 1 1.5707996938995745
+        children [
+          Shape {
+            appearance BrushedAluminium {
+            }
+            geometry Cylinder {
+              height 0.5
+              radius 0.05
+            }
+          }
+          Slot {
+            endPoint VehicleWheel {
+              curvatureFactor 0.5
+              edgeSubdivision 4
+              centralInnerRadius 0.1
+              centralOuterRadius 0.22
+              rimAppearance BrushedAluminium {
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+  controller "brake"
+}
