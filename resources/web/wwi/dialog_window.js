@@ -104,13 +104,13 @@ webots.alert = (title, message, callback) => {
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
-      Ok: () => { $(this).dialog('close'); }
+      Ok: () => { $('#webotsAlert').dialog('close'); }
     },
     close: () => {
       if (typeof callback === 'function')
         callback();
       webots.currentView.ondialogwindow(false);
-      $(this).remove();
+      $('#webotsAlert').remove();
     }
   });
 };
@@ -133,8 +133,8 @@ webots.confirm = (title, message, callback) => {
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
-      Ok: () => { $(this).dialog('close'); callback(); },
-      Cancel: () => { $(this).dialog('close'); }
+      Ok: () => { $('#webotsConfirm').dialog('close'); callback(); },
+      Cancel: () => { $('#webotsConfirm').dialog('close'); }
     },
-    close: () => { $(this).dialog('destroy').remove(); webots.currentView.ondialogwindow(false); }});
+    close: () => { $('#webotsConfirm').dialog('destroy').remove(); webots.currentView.ondialogwindow(false); }});
 };
