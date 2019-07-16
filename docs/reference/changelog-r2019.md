@@ -5,6 +5,9 @@ Released on XXX YYth, 2019.
 
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
+  - New Features
+    - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CarpetFabric`, `CementTiles`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface` and `SlatePavement`.
+    - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
     - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
