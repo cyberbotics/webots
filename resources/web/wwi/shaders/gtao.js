@@ -139,6 +139,9 @@ THREE.GTAOShader = {
     'void main() {',
     '  vec3 viewSpaceNormal = texture2D(tNormal, texUv).rgb;',
 
+    // Rough correction to match at best the Webots normal map => to do better, a pass computing the normals as in Webots could be implemented.
+    '  viewSpaceNormal = viewSpaceNormal * viewSpaceNormal * viewSpaceNormal;',
+
     '  // first, retrieve view-space position and normals',
     '  vec4 viewSpacePosition = getViewSpacePosition(texUv, cameraInverseProjection);',
     '  if (viewSpaceNormal == vec3(0.0) || viewSpacePosition.z > 200.0) {',
