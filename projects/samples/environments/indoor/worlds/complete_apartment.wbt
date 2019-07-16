@@ -1438,8 +1438,7 @@ CeilingLight {
   translation 2.47061 2.4 1.3341
   name "ceiling light 1"
   pointLightColor 0.913725 0.72549 0.431373
-  pointLightAttenuation 0 0 3
-  pointLightIntensity 5
+  pointLightIntensity 3
   pointLightRadius 3.9
 }
 CeilingLight {
