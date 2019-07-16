@@ -8,7 +8,7 @@ PROTO TemplateViewpoint [
   field     SFFloat    near               0.05
   field     SFFloat    far                0.0
   field     SFString   follow             ""
-  field     SFBool     followType         "Tracking Shot"
+  field     SFString   followType         "Tracking Shot"
   field     SFFloat    followSmoothness   0.5
 ]
 {
