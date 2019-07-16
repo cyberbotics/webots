@@ -62,7 +62,7 @@ Robot {
           appearance PBRAppearance {
             baseColor 0 0 0
             metalness 0
-            emissiveIntensity 5
+            emissiveIntensity 20
           }
           geometry Capsule {
             bottom FALSE
@@ -88,7 +88,7 @@ Robot {
           appearance PBRAppearance {
             baseColor 0 0 0
             metalness 0
-            emissiveIntensity 5
+            emissiveIntensity 20
           }
           geometry Capsule {
             bottom FALSE
@@ -114,7 +114,7 @@ Robot {
           appearance PBRAppearance {
             baseColor 0 0 0
             metalness 0
-            emissiveIntensity 5
+            emissiveIntensity 20
           }
           geometry Capsule {
             bottom FALSE
@@ -140,7 +140,7 @@ Robot {
           appearance PBRAppearance {
             baseColor 0 0 0
             metalness 0
-            emissiveIntensity 5
+            emissiveIntensity 20
           }
           geometry Capsule {
             bottom FALSE
