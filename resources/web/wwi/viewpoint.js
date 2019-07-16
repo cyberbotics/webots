@@ -27,8 +27,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     this.camera.position.copy(this.initialViewpointPosition);
     this.camera.quaternion.copy(this.initialViewpointOrientation);
     this.updateViewpointPosition(true, time);
-    if (typeof this.onCameraParametersChanged === 'function')
-      this.onCameraParametersChanged();
+    this.notifyCameraParametersChanged();
   }
 
   isFollowedObject(object) {
@@ -75,7 +74,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
 
   updateViewpointPosition(forcePosition, time) {
     if (this.followedObjectId == null || this.followedObjectId === 'none' || typeof time === 'undefined')
-      return;
+      return false;
     if (typeof this.viewpointLastUpdate === 'undefined')
       this.viewpointLastUpdate = time;
 
@@ -120,10 +119,10 @@ class Viewpoint { // eslint-disable-line no-unused-vars
       this.viewpointForce.sub(viewpointDeltaPosition);
       this.camera.position.add(viewpointDeltaPosition);
       this.followedObjectDeltaPosition = null;
-
-      if (typeof this.onCameraParametersChanged === 'function')
-        this.onCameraParametersChanged();
+      return true;
     }
+
+    return false;
   }
 
   rotate(params) {
@@ -146,8 +145,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
       this.camera.position.sub(params.pickPosition).applyQuaternion(deltaRotation).add(params.pickPosition);
     this.camera.quaternion.premultiply(deltaRotation);
 
-    if (typeof this.onCameraParametersChanged === 'function')
-      this.onCameraParametersChanged();
+    this.notifyCameraParametersChanged();
   }
 
   translate(params) {
@@ -159,8 +157,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     var targetUp = params.scaleFactor * params.dy;
     this.camera.position.addVectors(params.initialCameraPosition, pitch.multiplyScalar(targetRight).add(yaw.multiplyScalar(targetUp)));
 
-    if (typeof this.onCameraParametersChanged === 'function')
-      this.onCameraParametersChanged();
+    this.notifyCameraParametersChanged();
   }
 
   zoomAndTilt(params) {
@@ -174,8 +171,7 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     zRotation.setFromAxisAngle(roll, params.tiltAngle);
     this.camera.quaternion.premultiply(zRotation);
 
-    if (typeof this.onCameraParametersChanged === 'function')
-      this.onCameraParametersChanged();
+    this.notifyCameraParametersChanged();
   }
 
   zoom(distance, deltaY) {
@@ -185,8 +181,11 @@ class Viewpoint { // eslint-disable-line no-unused-vars
     voMatrix.makeRotationFromQuaternion(this.camera.quaternion).extractBasis(new THREE.Vector3(), new THREE.Vector3(), roll);
 
     this.camera.position.add(roll.multiplyScalar(scaleFactor));
+    this.notifyCameraParametersChanged();
+  }
 
+  notifyCameraParametersChanged(updateScene = true) {
     if (typeof this.onCameraParametersChanged === 'function')
-      this.onCameraParametersChanged();
+      this.onCameraParametersChanged(updateScene);
   }
 }
