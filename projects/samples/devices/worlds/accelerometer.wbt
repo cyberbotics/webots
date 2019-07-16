@@ -38,7 +38,7 @@ DEF SLOPE Solid {
     Shape {
       appearance OsbWood {
         textureTransform TextureTransform {
-          scale 0.25 1
+          scale 0.5 2
         }
       }
       geometry DEF BOX0 Box {
