@@ -5,8 +5,6 @@ WorldInfo {
     "Its accelerometer is used to switch the most bottom LED."
   ]
   title "Camera"
-  CFM 1e-06
-  ERP 0.8
   basicTimeStep 8
 }
 Viewpoint {
@@ -171,7 +169,7 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis -1 0 0
-        anchor 0 0.026 0
+        anchor 0 0.025 0
       }
       device [
         RotationalMotor {
@@ -183,7 +181,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.045 0.026 0
+        translation -0.045 0.025 0
         rotation -1 0 0 0
         children [
           DEF WHEEL Transform {
@@ -214,7 +212,7 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis -1 0 0
-        anchor 0 0.026 0
+        anchor 0 0.025 0
       }
       device [
         RotationalMotor {
@@ -226,8 +224,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.045 0.026 0
-        rotation 1 0 0 4.58735
+        translation 0.045 0.025 0
+        rotation -1 0 0 0
         children [
           USE WHEEL
         ]
