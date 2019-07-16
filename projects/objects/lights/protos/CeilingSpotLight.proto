@@ -10,7 +10,6 @@ PROTO CeilingSpotLight [
   field SFString   name                      "ceiling light"
   field SFNode     supportAppearance         DamascusSteel { }  # Defines the appearance of the light support.
   field SFColor    spotLightColor            1 1 1              # Defines the color of the spot light.
-  field SFVec3f    spotLightAttenuation      0 0 1              # Defines the attenuation of the spot light.
   field SFFloat    spotLightIntensity        1                  # Defines the intensity of the spot light.
   field SFFloat    spotLightRadius           100                # Defines the radius of the spot light.
   field SFBool     spotLightCastShadows      FALSE              # Defines whether the spot light should cast shadows.
@@ -21,7 +20,7 @@ PROTO CeilingSpotLight [
     rotation IS rotation
     children [
       SpotLight {
-        attenuation IS spotLightAttenuation
+        attenuation 0 0 1
         beamWidth 0.3
         cutOffAngle 0.48
         direction 0 -1 0
