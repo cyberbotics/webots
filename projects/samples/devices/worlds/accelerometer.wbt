@@ -6,6 +6,15 @@ WorldInfo {
   ]
   title "Camera"
   basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      material2 "body"
+      coulombFriction [
+        0
+      ]
+      softCFM 0.1
+    }
+  ]
 }
 Viewpoint {
   orientation 0.09295320811646733 0.9862410582503208 0.13670506984799033 4.1204095233902684
