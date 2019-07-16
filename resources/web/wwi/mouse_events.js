@@ -323,7 +323,6 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
     if (this.state.moved === false) {
       this.previousSelection = this.selection;
-      this.scene.selector.clearSelection();
     } else
       this.previousSelection = null;
     this.state.previousMouseDown = this.state.mouseDown;
@@ -336,9 +335,12 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _selectAndHandleClick() {
     if (this.state.moved === false && (!this.state.longClick || this.mobileDevice)) {
-      var object = this.intersection.object;
-      if (object)
-        object = this.scene.getTopX3dNode(object);
+      var object;
+      if (this.intersection) {
+        object = this.intersection.object;
+        if (object)
+          object = this.scene.getTopX3dNode(object);
+      }
       this.scene.selector.select(object);
 
       if (((this.mobileDevice && this.state.longClick) || (!this.mobileDevice && this.state.previousMouseDown === 2)) &&
