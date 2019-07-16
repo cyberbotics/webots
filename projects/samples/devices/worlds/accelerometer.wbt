@@ -238,7 +238,6 @@ Robot {
         children [
           USE WHEEL
         ]
-        name "right wheel"
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
       }
@@ -308,6 +307,7 @@ Robot {
     }
   ]
   name "MyBot"
+  contactMaterial "body"
   boundingObject Transform {
     translation 0 0.0415 0
     children [
