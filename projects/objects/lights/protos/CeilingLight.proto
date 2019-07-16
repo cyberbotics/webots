@@ -12,7 +12,9 @@ PROTO CeilingLight [
   field SFColor    supportColor               1 1 1                                    # Defines the color of the light support.
   field MFString   supportTextureUrl          "textures/light_support_base_color.jpg"  # Defines the texture used for the light support.
   field SFColor    pointLightColor            1 1 1                                    # Defines the color of the point light.
+  field SFVec3f    pointLightAttenuation      0 0 1                                    # Defines the attenuation of the point light.
   field SFFloat    pointLightIntensity        1                                        # Defines the intensity of the point light.
+  field SFFloat    pointLightRadius           100                                      # Defines the radius of the point light.
   field SFBool     pointLightCastShadows      FALSE                                    # Defines whether the point light should cast shadows.
   field SFBool     castShadows                TRUE                                     # Defines whether this object should cast shadows.
 ]
@@ -23,9 +25,10 @@ Solid {
   children [
     PointLight {
       location 0 -0.6 0
-      attenuation 0 0 1
+      attenuation IS pointLightAttenuation
       color IS pointLightColor
       intensity IS pointLightIntensity
+      radius IS pointLightRadius
       castShadows IS pointLightCastShadows
     }
     Shape {
