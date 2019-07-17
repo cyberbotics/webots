@@ -15,7 +15,7 @@
  */
 
 /*
- * Description: TODO
+ * Description: Wait 4 seconds before to slow down the motor linked with the wheel using the Brake node.
  */
 
 #include <webots/brake.h>
@@ -26,31 +26,36 @@
 
 int main(int argc, char **argv) {
   wb_robot_init();
-
   int time_step = (int)wb_robot_get_basic_time_step();
 
+  // Get the motor linked with the wheel and apply a torque.
   WbDeviceTag motor = wb_robot_get_device("motor");
-  wb_motor_set_position(motor, INFINITY);
   wb_motor_set_torque(motor, 1.0);
 
+  // Get the linear motors linked with the red blocks.
+  // They are present only for the purpose of improving the understanding of the scene.
   WbDeviceTag linear_motor_a = wb_robot_get_device("linear motor a");
   WbDeviceTag linear_motor_b = wb_robot_get_device("linear motor b");
 
+  // Get the brake system.
   WbDeviceTag brake = wb_robot_get_device("brake");
 
   while (wb_robot_step(time_step) != -1) {
     if (wb_robot_get_time() == 4.0) {
+      // At four seconds, the movement of the linear motors is started.
       printf("BRAKE!\n");
       wb_motor_set_position(linear_motor_a, wb_motor_get_max_position(linear_motor_a));
       wb_motor_set_position(linear_motor_b, wb_motor_get_max_position(linear_motor_b));
     }
     if (wb_robot_get_time() > 4.13) {
+      // When the red blocks touch the wheel, the braking of the main engine is performed.
       wb_brake_set_damping_constant(brake, 10.0);
       wb_motor_set_torque(motor, 0.0);
       break;
     }
   };
 
+  // Wait until the simulation is done.
   while (wb_robot_step(time_step) != -1) {
   }
 
