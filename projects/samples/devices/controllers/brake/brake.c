@@ -39,11 +39,13 @@ int main(int argc, char **argv) {
   WbDeviceTag brake = wb_robot_get_device("brake");
 
   while (wb_robot_step(time_step) != -1) {
-    if (wb_robot_get_time() > 4.0) {
+    if (wb_robot_get_time() == 4.0) {
       printf("BRAKE!\n");
       wb_motor_set_position(linear_motor_a, wb_motor_get_max_position(linear_motor_a));
       wb_motor_set_position(linear_motor_b, wb_motor_get_max_position(linear_motor_b));
-      wb_brake_set_damping_constant(brake, 100000.0);
+    }
+    if (wb_robot_get_time() > 4.13) {
+      wb_brake_set_damping_constant(brake, 10.0);
       wb_motor_set_torque(motor, 0.0);
       break;
     }
