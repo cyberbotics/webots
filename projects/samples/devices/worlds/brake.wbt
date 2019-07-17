@@ -128,6 +128,10 @@ Robot {
           height 0.03
           radius 0.23
         }
+        physics Physics {
+          density -1
+          mass 2
+        }
       }
     }
     SliderJoint {
