@@ -8,8 +8,8 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.0016684573425850297 -0.969777733927105 -0.24398434996799512 3.2490157728673865
-  position 0.08670766204042404 0.8691787624654571 -0.8348471010007568
+  orientation 0.050818747505163665 -0.966521277769107 -0.2515036272533242 3.645814842829025
+  position 0.44518032326611046 0.9165996549388715 -0.7710131415252689
 }
 TexturedBackground {
   texture "factory"
@@ -30,25 +30,53 @@ Robot {
   rotation 0 1 0 3.141592653589793
   children [
     Transform {
-      translation 0.2 -0.1 0
+      translation 0.2 -0.125 0
       children [
         Shape {
           appearance BrushedSteel {
           }
           geometry Box {
-            size 0.2 0.6 0.2
+            size 0.2 0.55 0.2
           }
         }
       ]
     }
     Transform {
-      translation -0.2 -0.1 0
+      translation -0.2 -0.125 0
       children [
         Shape {
           appearance BrushedSteel {
           }
           geometry Box {
-            size 0.2 0.6 0.2
+            size 0.2 0.55 0.2
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.23 0.2 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance MetalPipePaint {
+          }
+          geometry Cylinder {
+            height 0.14
+            radius 0.05
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.23 0.2 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance MetalPipePaint {
+          }
+          geometry Cylinder {
+            height 0.14
+            radius 0.05
           }
         }
       ]
@@ -146,13 +174,15 @@ Robot {
       ]
       endPoint Solid {
         translation -0.15 0.2 0
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance GlossyPaint {
               baseColor 1 0 0
             }
-            geometry Box {
-              size 0.2 0.02 0.02
+            geometry Cylinder {
+              height 0.2
+              radius 0.01
             }
           }
         ]
@@ -171,13 +201,15 @@ Robot {
       ]
       endPoint Solid {
         translation 0.15 0.2 0
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance GlossyPaint {
               baseColor 1 0 0
             }
-            geometry Box {
-              size 0.2 0.02 0.02
+            geometry Cylinder {
+              height 0.2
+              radius 0.01
             }
           }
         ]
