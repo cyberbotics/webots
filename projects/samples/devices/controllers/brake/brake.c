@@ -40,10 +40,13 @@ int main(int argc, char **argv) {
   // Get the brake system.
   WbDeviceTag brake = wb_robot_get_device("brake");
 
+  // Display the welcome message.
+  printf("Start the wheel motor...\n");
+
   while (wb_robot_step(time_step) != -1) {
     if (wb_robot_get_time() == 4.0) {
       // At four seconds, the movement of the linear motors is started.
-      printf("BRAKE!\n");
+      printf("Brake activated!\n");
       wb_motor_set_position(linear_motor_a, wb_motor_get_max_position(linear_motor_a));
       wb_motor_set_position(linear_motor_b, wb_motor_get_max_position(linear_motor_b));
     }
