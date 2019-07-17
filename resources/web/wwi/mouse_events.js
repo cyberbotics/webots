@@ -321,9 +321,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
   _clearMouseMove() {
     const timeDelay = this.mobileDevice ? 100 : 1000;
     this.state.longClick = Date.now() - this.state.initialTimeStamp >= timeDelay;
-    if (this.state.moved === false) {
+    if (this.state.moved === false)
       this.previousSelection = this.selection;
-    } else
+    else
       this.previousSelection = null;
     this.state.previousMouseDown = this.state.mouseDown;
     this.state.mouseDown = 0;
