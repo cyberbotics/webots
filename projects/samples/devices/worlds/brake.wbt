@@ -1,7 +1,7 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "In this example, a bike wheel turns on itself until it is slowed down by a braking system."
+    "In this example, a bike wheel turns until it is slowed down by a braking system."
     "The red blocks graphically represent the braking system, but the wheel is effectively braked using the Brake node."
   ]
   title "Camera"

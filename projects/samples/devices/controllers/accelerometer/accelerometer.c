@@ -16,8 +16,8 @@
 
 /*
  * Description:
- *   Turn the robot around itself.
- *   Switch on the most bottom LED using the gravity force given by the accelerometer feedback.
+ *   Turn the robot using its motors.
+ *   Switch on the most bottom LED using the gravity force given by the Accelerometer feedback.
  */
 
 #include <webots/accelerometer.h>
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   WbDeviceTag left_led = wb_robot_get_device("left led");
   WbDeviceTag right_led = wb_robot_get_device("right led");
 
-  // Get the motors, and actuate them in velocity mode to make the robot turn around itself.
+  // Get the motors, and actuate them in velocity mode to make the robot turn.
   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
   WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
   wb_motor_set_position(left_motor, INFINITY);

@@ -1,8 +1,8 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
   info [
-    "In this example, the robot turns around itself on a slope."
-    "Its accelerometer is used to switch the most bottom LED."
+    "In this example, the robot turns on a slope."
+    "Its accelerometer sensor is used to switch on the most bottom LED."
   ]
   title "Camera"
   basicTimeStep 8

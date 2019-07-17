@@ -20,8 +20,8 @@ The studied devices are attached on this robot.
 
 **Keywords**: [Robot](../reference/robot.md), [Accelerometer](../reference/accelerometer.md)
 
-![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns around itself on a slope.
-Its accelerometer is used to switch the most bottom LED.
+![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
+Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the most bottom LED.
 
 ### [battery.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/battery.wbt)
 
@@ -39,8 +39,8 @@ The color of a charger changes with its energy level: it is red when completely 
 
 **Keywords**: [Robot](../reference/robot.md), [Brake](../reference/brake.md)
 
-![brake.png](images/samples/brake.thumbnail.jpg) In this example, a bike wheel turns on itself until it is slowed down by a braking system.
-The red blocks graphically represent the braking system, but the wheel is effectively braked using the Brake node.
+![brake.png](images/samples/brake.thumbnail.jpg) In this example, a bike wheel turns until it is slowed down by a braking system.
+The red blocks graphically represent the braking system, but the wheel is effectively braked using the [Brake](../reference/brake.md) device.
 
 ### [bumper.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/bumper.wbt)
 
