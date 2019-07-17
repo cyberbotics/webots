@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
- /*
-  * Description: TODO
-  */
+/*
+ * Description: TODO
+ */
 
 #include <webots/brake.h>
 #include <webots/motor.h>
