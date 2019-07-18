@@ -92,9 +92,7 @@ ois-clean:
 
 ois: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	mkdir -p $(TARGET_PATH)
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$(TARGET_PATH)/"
-	mv "$(WEBOTS_HOME_PATH)/XInput9_1_0.dll" "$(TARGET_PATH)/"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(TARGET_PATH)"
 	touch "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
@@ -107,8 +105,7 @@ pico-clean:
 
 pico: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	mkdir -p $(TARGET_PATH)
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$(TARGET_PATH)/"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(TARGET_PATH)"
 	touch "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
@@ -121,7 +118,7 @@ lua-gd-clean:
 
 lua-gd: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 	mkdir -p $(TARGET_PATH)
-	unzip "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
 	touch "$(TARGET_PATH)/gd.dll"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
