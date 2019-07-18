@@ -37,6 +37,7 @@ void WbPropeller::init() {
   mCenterOfThrust = findSFVector3("centerOfThrust");
   mThrustConstants = findSFVector2("thrustConstants");
   mTorqueConstants = findSFVector2("torqueConstants");
+  mFastHelixThreshold = findSFDouble("fastHelixThreshold");
   mDevice = findSFNode("device");
   mFastHelix = findSFNode("fastHelix");
   mSlowHelix = findSFNode("slowHelix");
@@ -137,8 +138,7 @@ WbLogicalDevice *WbPropeller::device() const {
 
 // Update methods: they check validity and correct if necessary
 void WbPropeller::updateHelix(double angularSpeed, bool ode) {
-  const double ANGULAR_SPEED_THRESHOLD = 24.0 * M_PI;
-  const bool fast = fabs(angularSpeed) > ANGULAR_SPEED_THRESHOLD;
+  const bool fast = fabs(angularSpeed) > mFastHelixThreshold->value();
   mHelixType = fast ? FAST_HELIX : SLOW_HELIX;
   WbSolid *const fastHelix = helix(FAST_HELIX);
   WbSolid *const slowHelix = helix(SLOW_HELIX);

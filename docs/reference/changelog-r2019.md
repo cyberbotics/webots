@@ -6,8 +6,11 @@ Released on XXX YYth, 2019.
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
   - New Features
+    - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CarpetFabric`, `CementTiles`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface` and `SlatePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+  - New Samples
+    - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
   - Bug fixes
     - Fixed ros controller not publishing the `/connector/presence` topic.
     - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
