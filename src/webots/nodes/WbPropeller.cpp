@@ -138,8 +138,7 @@ WbLogicalDevice *WbPropeller::device() const {
 
 // Update methods: they check validity and correct if necessary
 void WbPropeller::updateHelix(double angularSpeed, bool ode) {
-  double angularSpeedThreshold = mFastHelixThreshold->value();
-  const bool fast = fabs(angularSpeed) > angularSpeedThreshold;
+  const bool fast = fabs(angularSpeed) > mFastHelixThreshold->value();
   mHelixType = fast ? FAST_HELIX : SLOW_HELIX;
   WbSolid *const fastHelix = helix(FAST_HELIX);
   WbSolid *const slowHelix = helix(SLOW_HELIX);
