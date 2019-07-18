@@ -2,7 +2,7 @@
 WorldInfo {
   info [
     "In this example, the robot turns on a slope."
-    "Its accelerometer sensor is used to switch on the most bottom LED."
+    "Its accelerometer sensor is used to switch on the bottommost LED."
   ]
   title "Camera"
   basicTimeStep 8

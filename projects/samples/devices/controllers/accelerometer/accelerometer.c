@@ -17,7 +17,7 @@
 /*
  * Description:
  *   Turn the robot using its motors.
- *   Switch on the most bottom LED using the gravity force given by the Accelerometer feedback.
+ *   Switch on the bottommost LED using the gravity force given by the Accelerometer feedback.
  */
 
 #include <webots/accelerometer.h>

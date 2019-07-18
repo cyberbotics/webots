@@ -21,7 +21,7 @@ The studied devices are attached on this robot.
 **Keywords**: [Robot](../reference/robot.md), [Accelerometer](../reference/accelerometer.md)
 
 ![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
-Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the most bottom LED.
+Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
 
 ### [battery.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/battery.wbt)
 
