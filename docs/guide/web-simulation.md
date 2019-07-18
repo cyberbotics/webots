@@ -151,7 +151,7 @@ This is the API of the `webots.View` class:
 * `webots.View.open(url)`: load the given simulation. Three different `url` formats are supported:
   * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
   * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
-  * URL to a X3D file (i.e. "file.x3d"): this formart is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md)).
+  * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md)).
 * `webots.View.setTimeout(timeout)`: utility function to specify how long the simulation can run without user interaction. Setting a timeout value is useful to save resources on the server side and avoid having very long simulation running continuously on the machines and saturating the machines. The `timeout` value is expressed in seconds.
 * `webots.View.setWebotsDocUrl(url)`: utility function to specify the URL of the Webots documentation shown in the Help window.
 
