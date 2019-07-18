@@ -64,8 +64,8 @@ These are the configuration parameters for the session server:
 - `mailServer`: mail server host from which the notifications are sent.
 - `mailSender`: email address used to send the notifications.
 - `simulationServers`: lists all the available simulation servers.
-- `sslCertificate`: certificate for a SSL enabled server.
-- `sslKey`: private key for a SSL enabled server.
+- `sslCertificate`: path to the certificate file for a SSL enabled server.
+- `sslKey`: path to the private key file for a SSL enabled server.
 - `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
 
 Sending a AJAX request to the session server URL will query the availability of the simulation servers and return 1 if some are available or 0 if no simulation server are available.
@@ -80,8 +80,8 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 - `port`: local port on which the server is listening (launching Webots instances).
-- `sslKey`: private key for a SSL enabled server.
-- `sslCertificate`: certificate for a SSL enabled server.
+- `sslKey`: path to the private key file for a SSL enabled server.
+- `sslCertificate`: path to the certificate file for a SSL enabled server.
 - `projectsDir`: directory in which Webots projects are located.
 - `keyDir`: directory where the website host keys needed for validation are stored. This folder should include a file named as the host (for example "robotbenchmark.net") containing a key identifying it.
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
@@ -97,6 +97,12 @@ The `/load` request returns the current load of the machine computed as the maxi
 
 Please note that in order to be visible from the outside network, all the port used by the `session_server.py` and `simulation_server.py` scripts should be open (e.g. on simple networks, this can be done by modifying the NAT settings of the router).
 The firewall of the local computer may complain about this operation, in this case, please modify its settings.
+
+#### SSL Encryption
+
+The simulation server works with SSL encryption.
+The application requires the `fullchain.pem` and `privkey.pem` files and their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
+Note that Webots will look for the file "WEBOTS\_HOME/resources/web/server/ssl/cert.pem", so you may have to rename `fullchain.pem` and copy it in the `ssl` folder or create a soft link.
 
 #### Startup Procedure
 
