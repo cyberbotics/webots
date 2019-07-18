@@ -63,6 +63,8 @@ PROTO E-puckDistanceSensor [
           0.07 67.19 0.04897
         ]
         type "infra-red"
+        numberOfRays 3
+        aperture 0.1
       }
     ]
     name IS name

@@ -75,10 +75,10 @@ Robot {
             children [
               Shape {
                 appearance DEF EPUCK_TRANSPARENT_APPEARANCE PBRAppearance {
-                  metalness 0.5
-                  baseColor 0.8 0.8 0.8
-                  transparency 0.3
-                  roughness 0.2
+                  baseColor 0.5 0.5 0.5
+                  transparency 0.4
+                  roughness 0.5
+                  metalness 0
                 }
                 geometry Cylinder {
                   height 0.003
@@ -966,9 +966,9 @@ Robot {
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            transparency 0.3
-            roughness 0.2
+            baseColor 0.5 0.5 0.5
+            transparency 0.4
+            roughness 0.5
             metalness 0
             emissiveIntensity 0.2
           }
@@ -1055,12 +1055,7 @@ Robot {
       radius 0.0356
       thickness 0.004
       subdivision 64
-      appearance PBRAppearance {
-        baseColor 0.8 0.8 0.8
-        transparency 0.05
-        roughness 0.2
-        metalness 0
-      }
+      appearance USE EPUCK_TRANSPARENT_APPEARANCE
       enableBoundingObject FALSE
     }
     DEF EPUCK_RECEIVER Receiver {
