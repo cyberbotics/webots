@@ -52,7 +52,7 @@ If Webots quits, the simulation server will notify the web client and close the 
 The session server regularly queries the simulation servers to monitor their load.
 If a simulation server becomes overloaded, then, the session server will consider it is not available any more and will not offer it to web clients.
 
-#### Session server
+#### Session Server
 
 The session server is the entry point for creating a Webots instance and starting the simulation.
 It manages the load of the simulation server machines and sends the URL of the available simulation server to the client.
@@ -74,7 +74,7 @@ The `/session` request checks for available simulation servers and returns the U
 
 The `/monitor` request opens a page showing an overview of the available simulation servers and their load.
 
-#### Simulation server
+#### Simulation Server
 
 The simulation server creates and starts a Webots instance with the desired simulation for each client request and sends the WebSocket URL of Webots to the client so that it can communicate directly.
 
@@ -98,7 +98,7 @@ The `/load` request returns the current load of the machine computed as the maxi
 Please note that in order to be visible from the outside network, all the port used by the `session_server.py` and `simulation_server.py` scripts should be open (e.g. on simple networks, this can be done by modifying the NAT settings of the router).
 The firewall of the local computer may complain about this operation, in this case, please modify its settings.
 
-#### Startup procedure
+#### Startup Procedure
 
 The startup procedure is the following:
 
@@ -113,7 +113,7 @@ Please make sure that the `WEBOTS_HOME` variable is set before running the simul
 
 ### Website Host
 
-#### Simulation data management
+#### Simulation Data Management
 
 The host where the client website is running should have a `ajax` named folder at the root level containing these scripts:
 * `download-project.php`: a script that returns a zipped archive containing the Webots simulation files to be run. It receives these parameters as POST data:
@@ -151,7 +151,7 @@ This is the API of the `webots.View` class:
 * `webots.View.open(url)`: load the given simulation. Three different `url` formats are supported:
   * URL to a WBT file (i.e. "ws://localhost:80/simple/worlds/simple.wbt"): this is the format required to start a web simulation. The `url` value specifies both the session server host and the desired simulation name.
   * WebSocket URL (i.e. "ws://localhost:80"): this format is used for web broadcast streaming.
-  * URL to a X3D file (i.e. "file.x3d"): this formart is used for showing a [web scene](web-scene.md) or a [web animation]((web-animation.md)).
+  * URL to a X3D file (i.e. "file.x3d"): this formart is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md)).
 * `webots.View.setTimeout(timeout)`: utility function to specify how long the simulation can run without user interaction. Setting a timeout value is useful to save resources on the server side and avoid having very long simulation running continuously on the machines and saturating the machines. The `timeout` value is expressed in seconds.
 * `webots.View.setWebotsDocUrl(url)`: utility function to specify the URL of the Webots documentation shown in the Help window.
 
