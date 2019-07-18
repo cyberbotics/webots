@@ -2,13 +2,14 @@
 
 ```
 Propeller {
-  SFVec3f shaftAxis       1 0 0   # unit axis
-  SFVec3f centerOfThrust  0 0 0   # any vector
-  SFVec2f thrustConstants 1 0     # any vector
-  SFVec2f torqueConstants 1 0     # any vector
-  SFNode device           NULL    # {RotationalMotor, PROTO}
-  SFNode fastHelix        NULL    # {Solid (or derived), PROTO}
-  SFNode slowHelix        NULL    # {Solid (or derived), PROTO}
+  SFVec3f shaftAxis          1 0 0  # unit axis
+  SFVec3f centerOfThrust     0 0 0  # any vector
+  SFVec2f thrustConstants    1 0    # any vector
+  SFVec2f torqueConstants    1 0    # any vector
+  SFFloat fastHelixThreshold 75.4   # [0, inf)
+  SFNode  device             NULL   # {RotationalMotor, PROTO}
+  SFNode  fastHelix          NULL   # {Solid (or derived), PROTO}
+  SFNode  slowHelix          NULL   # {Solid (or derived), PROTO}
 }
 ```
 
@@ -52,7 +53,10 @@ The example "propeller.wbt" located in the "projects/samples/devices/worlds" dir
 
 - `thrustConstants` and `torqueConstants`: coefficients used to define the resultant thrust and torque as functions of the motor angular velocity and the linear speed of adavance, see above formulae.
 
+- `fastHelixThreshold`: threshold in [rad/s] from which the helix representation is switched from `slowHelix` to` fastHelix`.
+The default value equals to `24 &pi; [rad/s]`.
+
 - `device`: this field has to be set with a [RotationalMotor](rotationalmotor.md) in order to control the propeller.
 
 - `fastHelix` and `slowHelix`: if not NULL, these fields must be set with [Solid](solid.md) nodes.
-The corresponding [Solid](solid.md) nodes define the graphical representation of the propeller according to its motor's angular velocity omega: if |omega| > 24 &pi; rad /s, only the [Solid](solid.md) defined in `fastHelix` is visible, otherwise only the [Solid](solid.md) defined in `slowHelix` is visible.
+The corresponding [Solid](solid.md) nodes define the graphical representation of the propeller according to its motor's angular velocity omega: if |omega| > `fastHelixThreshold`, only the [Solid](solid.md) defined in `fastHelix` is visible, otherwise only the [Solid](solid.md) defined in `slowHelix` is visible.
