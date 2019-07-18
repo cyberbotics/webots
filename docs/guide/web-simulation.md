@@ -24,7 +24,7 @@ The prerequisites for the server machine(s) are the following:
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 
-Note that the machines have to met [Webots system requirements](system-requirements.md).
+Note that the machines have to met the [Webots system requirements](system-requirements.md).
 
 #### Overview
 
@@ -44,8 +44,8 @@ Note that the session server will never send twice the same value, it sends only
 When a web client wants to start a simulation, it will send an AJAX request to the session server.
 The session server will then send the WebSocket URL of an available simulation server or an error if none are available. The web client will then contact directly the simulation server to startup the simulation.
 The simulation server will start Webots with the simulation requested by the client.
-The projects files requested by the client should be stored on the session server machine and requested by the simulation server through an AJAX request at `<host>/ajax/download_project.php`.
-Then, it will send the WebSocket URL of Webots, so that the client can communicate directly with Webots.
+The projects files requested by the client should be stored on the website host and requested by the simulation server through an AJAX request at `<host>/ajax/download_project.php`.
+Then, the simulation server will send the WebSocket URL of Webots, so that the client can communicate directly with Webots.
 If the WebSocket connection to the simulation server is closed or broken, the simulation server will close Webots.
 If Webots quits, the simulation server will notify the web client and close the connection with it.
 
@@ -68,7 +68,11 @@ These are the configuration parameters for the session server:
 - `sslKey`: private key for a SSL enabled server.
 - `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
 
-The page `<session_server_host>:<session_server_port>/monitor` shows an overview of the available simulation servers and their load.
+Sending a AJAX request to the session server URL will query the availability of the simulation servers and return 1 if some are available or 0 if no simulation server are available.
+
+The `/session` request checks for available simulation servers and returns the URL of the minimally loaded server.
+
+The `/monitor` request opens a page showing an overview of the available simulation servers and their load.
 
 #### Simulation server
 
@@ -83,7 +87,11 @@ These are the configuration parameters for the simulation server:
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
 - `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
 
-The page `<simulation_server_host>:<simulation_server_port>/monitor` shows some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
+The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value with the format `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
+
+The `/monitor` request opens a page showing some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
+
+The `/load` request returns the current load of the machine computed as the maximum value between all the monitored data (main CPU and GPU load and memory usage, and network usage).
 
 #### Network Settings
 
