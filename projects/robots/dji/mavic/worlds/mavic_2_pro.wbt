@@ -16,6 +16,7 @@ Viewpoint {
   position 3.097238269380304 0.6132726075362769 0.5611797778962901
   near 0.2
   follow "Mavic 2 PRO"
+  followSmoothness 0.2
 }
 TexturedBackground {
 }
