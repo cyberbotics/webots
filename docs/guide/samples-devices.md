@@ -40,7 +40,7 @@ The color of a charger changes with its energy level: it is red when completely 
 **Keywords**: [Robot](../reference/robot.md), [Brake](../reference/brake.md)
 
 ![brake.png](images/samples/brake.thumbnail.jpg) In this example, a bike wheel turns until it is slowed down by a braking system.
-The red blocks graphically represent the braking system, but the wheel is effectively braked using the [Brake](../reference/brake.md) device.
+The red blocks graphically represent the braking system, but the wheel is actually braked using the [Brake](../reference/brake.md) device.
 
 ### [bumper.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/bumper.wbt)
 
