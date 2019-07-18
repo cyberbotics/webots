@@ -49,6 +49,18 @@
   },
   "projects/objects/balls/protos/SoccerBall": {
   },
+  "projects/objects/bathroom/protos/BathroomSink.png": {
+    "fields": "translation 0 0.05 0 rotation 0.3779 -0.6546 -0.6546 -2.4188"
+  },
+  "projects/objects/bathroom/protos/Bathtube.png": {
+    "fields": "rotation 0.8628 -0.3574 -0.3574 -1.71777"
+  },
+  "projects/objects/bathroom/protos/Toilet.png": {
+    "fields": "rotation 0 1 0 2.356194"
+  },
+  "projects/objects/bathroom/protos/WashingMachine.png": {
+    "fields": "translation 0 0.51 0 rotation -0.3779 0.6546 0.6546 2.4188"
+  },
   "projects/objects/bedroom/protos/Bed": {
     "fields": "rotation 0 1 0 2"
   },
@@ -415,6 +427,12 @@
   "projects/objects/lights/protos/CeilingLight": {
     "background": [1.0, 0.0, 0.0],
     "nodeString": "CeilingLight { translation 0 0.7 0 rotation 0 1 0 0.3 pointLightIntensity 0 }"
+  },
+  "projects/objects/lights/protos/CeilingSpotLight.png": {
+    "fields": "translation 0 0.04 0 rotation 1 0 0 -3.14159"
+  },
+  "projects/objects/lights/protos/ConstructionLamp.png": {
+    "fields": "rotation 0 1 0 1.6 spotLightIntensity 0"
   },
   "projects/objects/lights/protos/DoubleFluorescentLamp": {
     "nodeString": "DoubleFluorescentLamp { rotation 0 1 0 1.3 }"
