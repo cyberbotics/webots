@@ -7,7 +7,7 @@ This functionality requires a streaming server application running on one or mor
 
 The simulation server is still a work in progress and the provided system could change in the next releases.
 
-### Streaming server
+### Streaming Server
 
 #### Prerequisites
 
