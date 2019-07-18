@@ -6,7 +6,6 @@ In order to run Webots in the cloud, you need to run at least one session server
 The simulation servers should run on different machines while the session server may run on a machine where a simulation server
 is running. Both servers are Python scripts: `simulation_server.py` and `session_server.py` located in this folder.
 
-
 ## Protocol
 
 When a web client needs to know whether it may start a simulation, it will open a WebSocket connection to the session server to
@@ -27,7 +26,7 @@ then, the session server will consider it is not available any more and will not
 ## Prerequisites
 
 - Ubuntu last LTS or Windows (Mac OS X also supported, but less tested)
-- Python 2.7 or Python 3
+- Python 3
 - Dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
   - tornado (http://www.tornadoweb.org/en/stable/, `pip install tornado`)
   - websocket-client (https://pypi.python.org/pypi/websocket-client/, `pip install websocket-client`)
@@ -63,6 +62,8 @@ The startup procedure is the following:
 2. Start the session server (`session_server.py`).
 
 This procedure should be automated in a startup script, so that the servers are restarted after a reboot of the machine.
+
+This folder also contains a `server.sh` utility script to automatically start and stop `session_server.py` and `simulation_server.py` with a given configuration file.
 
 ## Ports
 
