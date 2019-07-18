@@ -103,7 +103,7 @@ def checkFlakesPath(filename, reporter):
         msg = sys.exc_info()[1]
         reporter.unexpectedError(filename, msg.args[1])
         return
-    checkFlakes(codestr, filename, reporter)
+    checkFlakes(codestr.encode('utf-8'), filename, reporter)
 
 
 class CustomReport(pep8.StandardReport):
@@ -149,7 +149,7 @@ class TestCodeFormat(unittest.TestCase):
             for fileName in fnmatch.filter(fileNames, '*.py'):
                 shouldContinue = False
                 for directory in skippedDirectories:
-                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '')
+                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
                     if directory in currentDirectories:
                         shouldContinue = True
                         break

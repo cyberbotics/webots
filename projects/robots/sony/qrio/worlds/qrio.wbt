@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Humanoid robot freely inspired from the Sony QRIO. This robot has 21 motors and was used for a robot wrestling competition called Roboka."

@@ -44,7 +44,7 @@ public:
   WbLogicalDevice *getSiblingDeviceByType(int nodeType) const;
 
 protected:
-  WbJointDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbJointDevice(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbJointDevice(WbTokenizer *tokenizer = NULL);
   WbJointDevice(const WbJointDevice &other);
   explicit WbJointDevice(const WbNode &other);

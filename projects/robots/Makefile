@@ -27,6 +27,7 @@ CONTROLLERS=\
   boston_dynamics/atlas/controllers.Makefile \
   clearpath/moose/controllers.Makefile \
   clearpath/pr2/controllers.Makefile \
+  dji/mavic/controllers.Makefile \
   epfl/biorob/controllers.Makefile \
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \

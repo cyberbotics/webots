@@ -5,7 +5,7 @@
 ---
 
 Today we're happy to announce the release of the all-new Webots R2019b, packed with some great new features.
-We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html).
+We're going to talk about some of them here, but for a comprehensive list of changes please refer to the changelog, found [here](https://cyberbotics.com/doc/reference/changelog-r2019).
 
 In this release, other than improving the rendering quality and extending our robot and assets library, we focused on simplifying the installation and development workflow to encourage and further support user contributions.
 

@@ -261,3 +261,6 @@ install(TARGETS panoramic_view_recorder
 
 install(TARGETS pioneer3at
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -10,7 +10,6 @@ PROTO ConstructionLamp [
   field SFString   name                      "construction lamp"
   field SFNode     supportAppearance         MetalPipePaint { }  # Defines the appearance of the light support.
   field SFColor    spotLightColor            1 1 1               # Defines the color of the spot light.
-  field SFVec3f    spotLightAttenuation      0 0 1               # Defines the attenuation of the spot light.
   field SFFloat    spotLightIntensity        2                   # Defines the intensity of the spot light.
   field SFFloat    spotLightRadius           100                 # Defines the radius of the spot light.
   field SFBool     spotLightCastShadows      FALSE               # Defines whether the spot light should cast shadows.
@@ -84,8 +83,8 @@ PROTO ConstructionLamp [
         }
       }
       SpotLight {
-        attenuation IS spotLightAttenuation
-        color IS spotLightAttenuation
+        attenuation 0 0 1
+        color IS spotLightColor
         beamWidth 0.2
         cutOffAngle 1
         direction 0 0 1

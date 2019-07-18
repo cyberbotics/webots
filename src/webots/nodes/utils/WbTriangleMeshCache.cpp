@@ -34,29 +34,6 @@ namespace WbTriangleMeshCache {
   };
 
   uint64_t sipHash13c(const char *bytes, const int size) { return highwayhash::SipHash13(SIPHASH_KEY, bytes, size); }
-
-  size_t compressHash(uint64_t hash) {
-    constexpr int uint64bytes = sizeof(uint64_t);
-    constexpr int sizetbytes = sizeof(size_t);
-
-    size_t result = 0;
-    const char *startHash = reinterpret_cast<char *>(hash);
-    char *startResult = reinterpret_cast<char *>(result);
-    memcpy(reinterpret_cast<void *>(startResult), reinterpret_cast<const void *>(startHash), sizetbytes);
-
-    int offsetHash = sizetbytes;
-    int offsetResult = 0;
-    while (offsetHash < uint64bytes) {
-      // cppcheck-suppress nullPointerArithmetic
-      *(startResult + offsetResult) ^= *(startHash + offsetHash);
-      ++offsetHash;
-      if (++offsetResult >= sizetbytes)
-        offsetResult = 0;
-    }
-
-    return result;
-  }
-
   TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
   TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
 
@@ -113,11 +90,8 @@ namespace WbTriangleMeshCache {
   bool IndexedFaceSetKey::operator==(const IndexedFaceSetKey &rhs) const { return mHash == rhs.mHash; }
 
   std::size_t IndexedFaceSetKeyHasher::operator()(const IndexedFaceSetKey &k) const {
-    // special handling in case sizeof(size_t) < 8
-    if (sizeof(size_t) != sizeof(uint64_t))
-      return compressHash(k.mHash);
-    else
-      return static_cast<size_t>(k.mHash);
+    assert(sizeof(size_t) == sizeof(uint64_t));
+    return static_cast<size_t>(k.mHash);
   }
 
   void useTriangleMesh(WbIndexedFaceSet *user) {

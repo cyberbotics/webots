@@ -233,9 +233,9 @@ void WbLidar::addConfigureToStream(QDataStream &stream, bool reconfigure) {
 
 void WbLidar::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
   if (command == C_SET_SAMPLING_PERIOD) {
-    stream >> (short &)mRefreshRate;
+    stream >> mRefreshRate;
     if (isRotating())
       mRefreshRate = WbWorld::instance()->basicTimeStep();
 

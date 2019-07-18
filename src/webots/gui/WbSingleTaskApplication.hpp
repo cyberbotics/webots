@@ -28,7 +28,7 @@ class WbSingleTaskApplication : public QObject {
   Q_OBJECT
 
 public:
-  WbSingleTaskApplication(WbGuiApplication::Task task, const QString &taskArgument = QString(), QObject *parent = 0) :
+  explicit WbSingleTaskApplication(WbGuiApplication::Task task, const QString &taskArgument = QString(), QObject *parent = 0) :
     QObject(parent),
     mTask(task),
     mTaskArgument(taskArgument) {}

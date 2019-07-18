@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test that the source code is compliant with ClangFormat."""
+"""Test that the C, C++ and shader source code is compliant with ClangFormat."""
 import unittest
 
 import difflib
@@ -92,6 +92,26 @@ class TestClangFormat(unittest.TestCase):
                     line = line.strip()
                     extension = os.path.splitext(line)[1][1:].lower()
                     if extension not in extensions:
+                        continue
+                    found = False
+                    for directory in directories:
+                        if line.startswith(directory):
+                            found = True
+                            break
+                    if not found:
+                        continue
+                    found = False
+                    for directory in skippedPaths:
+                        if line.startswith(directory):
+                            found = True
+                            break
+                    if found:
+                        continue
+                    for directory in skippedDirectories:
+                        currentDirectories = line.split(os.sep)
+                        if directory in currentDirectories:
+                            found = True
+                    if found:
                         continue
                     sources.append(line.replace('/', os.sep))
         else:

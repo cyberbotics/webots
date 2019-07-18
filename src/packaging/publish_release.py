@@ -39,8 +39,8 @@ if now.weekday() >= 5:
     print('Skipping nightly build for Saturday and Sunday.')
     exit(0)
 
-warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the latest official release: ' \
-                 'https://github.com/omichel/webots/releases/latest'
+warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
+                 '(https://github.com/omichel/webots/releases/latest).'
 if options.tag:
     tag = options.tag
     title = options.tag
@@ -51,7 +51,9 @@ if options.tag:
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (options.branch, warningMessage)
+    branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+             % (options.branch, options.repo, options.commit, now.year)
+    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
@@ -74,7 +76,7 @@ for release in repo.get_releases():
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
-    draft = True if tag else False
+    draft = True if options.tag else False
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
@@ -101,7 +103,9 @@ for release in repo.get_releases():
                     if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
                         print('Updating release description')
                         releaseCommentModified = True
-                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % options.branch)
+                        branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+                                 % (options.branch, options.repo, options.commit, now.year)
+                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branch)
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break

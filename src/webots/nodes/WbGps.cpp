@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbGps.hpp"
+
 #include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
@@ -339,11 +340,11 @@ void WbGps::reset() {
 void WbGps::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       break;
     default:

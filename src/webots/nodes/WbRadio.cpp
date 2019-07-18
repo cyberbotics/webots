@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbRadio.hpp"
+
 #include "WbRadioPlugin.hpp"
 #include "WbSFInt.hpp"
 #include "WbSensor.hpp"
@@ -124,12 +125,12 @@ void WbRadio::updateSetup() {
 void WbRadio::handleMessage(QDataStream &stream) {
   WbRadioPlugin *plugin = WbRadioPlugin::instance();
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
       short refreshRate;
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
 
@@ -146,7 +147,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
 
     case C_RADIO_SET_FREQUENCY:
       double frequency;
-      stream >> (double &)frequency;
+      stream >> frequency;
       mFrequency->setValue(frequency);
       if (plugin)
         plugin->setFrequency(mID, frequency);
@@ -154,7 +155,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
 
     case C_RADIO_SET_CHANNEL:
       int channel;
-      stream >> (int &)channel;
+      stream >> channel;
       mChannel->setValue(channel);
       if (plugin)
         plugin->setChannel(mID, channel);
@@ -162,7 +163,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
 
     case C_RADIO_SET_BITRATE:
       int bitrate;
-      stream >> (int &)bitrate;
+      stream >> bitrate;
       mBitrate->setValue(bitrate);
       if (plugin)
         plugin->setBitrate(mID, bitrate);
@@ -170,7 +171,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
 
     case C_RADIO_SET_RX_SENSITIVITY:
       double rxSensitivity;
-      stream >> (double &)rxSensitivity;
+      stream >> rxSensitivity;
       mRxSensitivity->setValue(rxSensitivity);
       if (plugin)
         plugin->setRxSensitivity(mID, rxSensitivity);
@@ -178,7 +179,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
 
     case C_RADIO_SET_TX_POWER:
       double txPower;
-      stream >> (double &)txPower;
+      stream >> txPower;
       mTxPower->setValue(txPower);
       if (plugin)
         plugin->setTxPower(mID, txPower);
@@ -190,11 +191,11 @@ void WbRadio::handleMessage(QDataStream &stream) {
       char dest[destSize];
       stream.readRawData(dest, destSize);
       int dataSize = 0;
-      stream >> (int &)dataSize;
+      stream >> dataSize;
       char data[dataSize];  // 'void *' previously
       stream.readRawData(data, dataSize);
       double delay;
-      stream >> (double &)delay;
+      stream >> delay;
       if (plugin)
         plugin->send(mID, dest, data, dataSize, delay);
       return;
