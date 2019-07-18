@@ -4,7 +4,7 @@ WorldInfo {
     "In this example, the robot turns on a slope."
     "Its accelerometer sensor is used to switch on the bottommost LED."
   ]
-  title "Camera"
+  title "Accelerometer"
   basicTimeStep 8
   contactProperties [
     ContactProperties {
