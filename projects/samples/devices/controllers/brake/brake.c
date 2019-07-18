@@ -49,14 +49,13 @@ int main(int argc, char **argv) {
       printf("Brake activated!\n");
       wb_motor_set_position(linear_motor_a, wb_motor_get_max_position(linear_motor_a));
       wb_motor_set_position(linear_motor_b, wb_motor_get_max_position(linear_motor_b));
-    }
-    if (wb_robot_get_time() > 4.13) {
+    } else if (wb_robot_get_time() > 4.13) {
       // When the red blocks touch the wheel, the braking of the main engine is performed.
       wb_brake_set_damping_constant(brake, 10.0);
       wb_motor_set_torque(motor, 0.0);
       break;
     }
-  };
+  }
 
   // Wait until the simulation is done.
   while (wb_robot_step(time_step) != -1) {
