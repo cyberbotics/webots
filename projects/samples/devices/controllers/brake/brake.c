@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
       wb_motor_set_position(linear_motor_b, wb_motor_get_max_position(linear_motor_b));
     } else if (wb_robot_get_time() > 4.13) {
       // When the red blocks touch the wheel, the braking of the main engine is performed.
-      wb_brake_set_damping_constant(brake, 10.0);
+      wb_brake_set_damping_constant(brake, 1.0);
       wb_motor_set_torque(motor, 0.0);
       break;
     }
