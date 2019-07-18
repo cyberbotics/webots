@@ -4,7 +4,7 @@ WorldInfo {
     "In this example, a bike wheel turns until it is slowed down by a braking system."
     "The red blocks graphically represent the braking system, but the wheel is actually braked using the Brake node."
   ]
-  title "Camera"
+  title "Brake"
   basicTimeStep 8
 }
 Viewpoint {
