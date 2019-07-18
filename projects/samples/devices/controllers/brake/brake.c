@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
 
   // Get the motor linked with the wheel and apply a torque.
   WbDeviceTag motor = wb_robot_get_device("motor");
-  wb_motor_set_torque(motor, 1.0);
+  wb_motor_set_torque(motor, 0.1);
 
   // Get the linear motors linked with the red blocks.
   // They are present only for the purpose of improving the understanding of the scene.
