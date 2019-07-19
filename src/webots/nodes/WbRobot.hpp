@@ -136,13 +136,13 @@ signals:
   void immediateMessageAdded();
   void controllerChanged();
   void controllerRestarted();
+  void controllerExited();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
   void appendMessageToConsole(const QString &message, bool useStdout);
   void userInputEventNeedUpdate();
   void keyboardChanged();
   void windowReady();
-  void controllerExited();
 
 protected:
   WbRobot(const QString &modelName, WbTokenizer *tokenizer);
