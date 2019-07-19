@@ -112,6 +112,7 @@ WbController::WbController(WbRobot *robot) :
 
   mProcess = new QProcess();
 
+  connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
   connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
@@ -846,6 +847,13 @@ const QString &WbController::name() const {
 
 const QString &WbController::args() const {
   return mRobot->controllerArgs();
+}
+
+void WbController::handleControllerExit() {
+  if (mRobot->controllerName() == "<extern>") {
+    processFinished(0, QProcess::NormalExit);
+    mRobot->setControllerStarted(false);
+  }
 }
 
 void WbController::writeUserInputEventAnswer() {
