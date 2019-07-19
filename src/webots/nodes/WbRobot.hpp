@@ -142,6 +142,7 @@ signals:
   void userInputEventNeedUpdate();
   void keyboardChanged();
   void windowReady();
+  void controllerExited();
 
 protected:
   WbRobot(const QString &modelName, WbTokenizer *tokenizer);
