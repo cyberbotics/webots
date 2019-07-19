@@ -51,7 +51,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   description = new QLabel();
   description->setOpenExternalLinks(true);
   description->setWordWrap(true);
-  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/change_log'>Changelog</a>");
+  description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/reference/changelog'>Changelog</a>");
   layout->addWidget(description, 1, 1, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
 
   setLayout(layout);

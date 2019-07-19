@@ -75,8 +75,10 @@ void WbWebotsUpdateDialog::updateLabel() {
                        "Webots %1 is available for download (you are currently using Webots %2).<br/>"
                        "Download the new version: "
                        "<a href=\"https://cyberbotics.com/download\">https://cyberbotics.com/download</a><br/>"
-                       "Check the change log: "
-                       "<a href=\"https://cyberbotics.com/change_log\">https://cyberbotics.com/change_log</a>")
+                       "Check the changelog: "
+                       "<a "
+                       "href=\"https://cyberbotics.com/doc/reference/changelog\">https://cyberbotics.com/doc/"
+                       "reference/changelog</a>")
                       .arg(targetVersion.toString())
                       .arg(currentVersion.toString()));
   } else

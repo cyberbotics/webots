@@ -3,5 +3,6 @@
 /node_modules
 /package-lock.json
 /webots.min.js
+/webots.debug.js
 /adapter.js
 janus.nojquery.js

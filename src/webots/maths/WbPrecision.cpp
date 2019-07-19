@@ -53,23 +53,6 @@ QString WbPrecision::doubleToString(double value, Level level) {
   }
 }
 
-const double WbPrecision::epsilon(Level level) {
-  switch (level) {
-    case DOUBLE_MAX:
-      return std::numeric_limits<double>::epsilon();
-    case FLOAT_MAX:
-      return std::numeric_limits<float>::epsilon();
-    case GUI_MEDIUM:
-      return 1e-6;
-    case GUI_LOW:
-      return 1e-3;
-    default:
-      assert(false);
-      return 0;
-  }
-}
-
 double WbPrecision::roundValue(double value, Level level) {
-  const double epsilon = WbPrecision::epsilon(level);
-  return round(value / epsilon) * epsilon;
+  return doubleToString(value, level).toDouble();
 }

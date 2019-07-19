@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # tags: static
 # documentation url: https://www.cyberbotics.com/doc/guide/nao
 # Generic model of Nao robot
@@ -20,6 +20,10 @@ PROTO Nao [
   field SFFloat                      gpsAccuracy           0.0                   # Is `GPS.accuracy`.
   field SFInt32                      cameraWidth           160                   # Is `Camera.width`.
   field SFInt32                      cameraHeight          120                   # Is `Camera.height`.
+  field SFBool                       cameraAntiAliasing    FALSE                 # Is `Camera.antiAliasing`.
+  field SFFloat                      cameraAmbientOcclusionRadius 0              # Is `Camera.ambientOcclusionRadius`.
+  field SFFloat                      cameraBloomThreshold  -1                    # Is `Camera.bloomThreshold`.
+  field SFNode                       cameraFocus           NULL                  # Is `Camera.focus`.
   field SFNode                       jersey                NULL                  # Extends the robot with a jersey: typically NaoJersey.proto.
   field SFInt32                      channel               0                     # Defines the channel for the `Emitter` and `Receiver` devices.
   field SFString                     contactMaterial       "NAO material"        # Defines the `Solid.contactMaterial` for all the robot parts, except the feet and the fingers.
@@ -806,6 +810,10 @@ PROTO Nao [
               %{ end }%
               width IS cameraWidth
               height IS cameraHeight
+              antiAliasing IS cameraAntiAliasing
+              ambientOcclusionRadius IS cameraAmbientOcclusionRadius
+              bloomThreshold IS cameraBloomThreshold
+              focus IS cameraFocus
               near 0.002
             }
             Camera {

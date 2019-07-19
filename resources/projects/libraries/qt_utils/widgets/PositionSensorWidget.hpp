@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    PositionSensorWidget(Device *device, QWidget *parent = NULL);
+    explicit PositionSensorWidget(Device *device, QWidget *parent = NULL);
     virtual ~PositionSensorWidget() {}
 
   protected slots:

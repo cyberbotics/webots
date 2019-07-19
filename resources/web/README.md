@@ -8,7 +8,7 @@ This folder contains the server, templates and javascript libraries used to prov
 - Python 2.7
 - tornado (http://www.tornadoweb.org/en/stable/, `pip install tornado`)
 - websocket-client (https://pypi.python.org/pypi/websocket-client/, `pip install websocket-client`)
-- Webots R2019b is installed (one PRO license per instance or one downloaded PRO license)
+- Webots R2020a is installed (one PRO license per instance or one downloaded PRO license)
 
 
 ## How to run

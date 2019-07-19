@@ -355,7 +355,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
   bool commandHandled = true;
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)mRefreshRate;
+      stream >> mRefreshRate;
       mSensor->setRefreshRate(mRefreshRate);
 
       // update motion blur factor

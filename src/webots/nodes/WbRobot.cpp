@@ -731,9 +731,9 @@ void WbRobot::writeConfigure(QDataStream &stream) {
 void WbRobot::dispatchMessage(QDataStream &stream) {
   while (!stream.atEnd()) {
     WbDeviceTag tag;
-    stream >> (short unsigned int &)tag;
+    stream >> tag;
     int size;
-    stream >> (int &)size;
+    stream >> size;
 
     if (tag == 0) {
       const int end = stream.device()->pos() + size;
@@ -767,7 +767,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       return;
     case C_SET_SAMPLING_PERIOD:  // for the scene tracker
       /*
-      stream >> (short &)mRefreshRate;
+      stream >> mRefreshRate;
       if (needSceneTracker==false) {
         A_SceneTracker::addNeed();
         needSceneTracker = true;
@@ -776,13 +776,13 @@ void WbRobot::handleMessage(QDataStream &stream) {
       return;
     case C_ROBOT_SET_BATTERY_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mBatterySensor->setRefreshRate(rate);
       return;
     }
     case C_ROBOT_SET_DATA: {
       short size;
-      stream >> (short &)size;
+      stream >> size;
       char data[size];
       stream.readRawData(data, size);
       mCustomData->setValue(data);
@@ -790,13 +790,13 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_SET_KEYBOARD_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mKeyboardSensor->setRefreshRate(rate);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       mJoystickSensor->setRefreshRate(rate);
       if (rate > 0) {
         if (!mJoystickInterface) {
@@ -827,7 +827,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_SET_MOUSE_SAMPLING_PERIOD: {
       short rate;
-      stream >> (short &)rate;
+      stream >> rate;
       if (rate <= 0 && mMouse != NULL) {
         WbMouse::destroy(mMouse);
         mMouse = NULL;
@@ -840,42 +840,42 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_MOUSE_ENABLE_3D_POSITION: {
       unsigned char enable;
-      stream >> (unsigned char &)enable;
+      stream >> enable;
       if (mMouse)
         mMouse->set3dPositionEnabled(enable);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_FORCE_FEEDBACK: {
       short level;
-      stream >> (short &)level;
+      stream >> level;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->addForce(level);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_FORCE_FEEDBACK_DURATION: {
       double duration;
-      stream >> (double &)duration;
+      stream >> duration;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->setConstantForceDuration(duration);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_AUTO_CENTERING_GAIN: {
       double gain;
-      stream >> (double &)gain;
+      stream >> gain;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->setAutoCenteringGain(gain);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_RESISTANCE_GAIN: {
       double gain;
-      stream >> (double &)gain;
+      stream >> gain;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->setResistanceGain(gain);
       return;
     }
     case C_ROBOT_SET_JOYSTICK_FORCE_AXIS: {
       int axis;
-      stream >> (int &)axis;
+      stream >> axis;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->setForceAxis(axis);
     }
@@ -893,14 +893,14 @@ void WbRobot::handleMessage(QDataStream &stream) {
       emit toggleRemoteMode(false);
       return;
     case C_ROBOT_PIN:
-      stream >> (unsigned char &)pin;
+      stream >> pin;
       pinToStaticEnvironment((bool)pin);
       return;
     case C_CONSOLE_MESSAGE: {
       unsigned char streamChannel = 0;
-      stream >> (unsigned char &)streamChannel;
+      stream >> streamChannel;
       unsigned int size;
-      stream >> (unsigned int &)size;
+      stream >> size;
       char nativeMessage[size];
       stream.readRawData(nativeMessage, size);
       QString message(nativeMessage);
@@ -921,8 +921,8 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_WAIT_FOR_USER_INPUT_EVENT: {
       int timeout;
-      stream >> (int &)mMonitoredUserInputEventTypes;
-      stream >> (int &)timeout;
+      stream >> mMonitoredUserInputEventTypes;
+      stream >> timeout;
       mNeedToWriteUserInputEventAnswer = false;
       if (mMonitoredUserInputEventTypes >= 0) {
         if (!mUserInputEventTimer) {

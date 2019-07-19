@@ -8,7 +8,7 @@ It provides a complete development environment to model, program and simulate ro
 
 ### Download
 
-You can download pre-compiled binaries for Windows, macOS and Linux from the [releases page](https://github.com/omichel/webots/releases).
+You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/omichel/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/omichel/webots/releases).
 
 ### Building from Source
 

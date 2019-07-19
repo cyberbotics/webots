@@ -5,9 +5,6 @@ bin/qt/lupdate [mac,linux,exe]
 # bin/qt/lupdate.exe.manifest [windows]
 bin/qt/moc [mac,linux,exe]
 
-change_logs/
-change_logs/*.html
-
 include/
 include/ode/
 include/ode/ode/

@@ -6,7 +6,7 @@
 
 It's that time of year again!
 Today marks the release of the all-new Webots R2018b, packed with some game-changing features.
-As always, for a comprehensive list of changes please refer to the ChangeLog, found [here](https://cyberbotics.com/change_log).
+As always, for a comprehensive list of changes please refer to the ChangeLog, found [here](../reference/changelog-r2018.md).
 
 ## WREN: Webots Renderer
 

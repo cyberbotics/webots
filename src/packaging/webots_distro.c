@@ -224,6 +224,9 @@ static void copy_file(const char *file) {
       fprintf(fd, "Source: \"%s\"; DestDir: \"{app}\\%s\"", file2, dest2);
       if (file2[i + 1] == '.')
         fprintf(fd, "; Attribs: hidden");
+      if ((file2[l - 4] == '.' && file2[l - 3] == 'j' && file2[l - 2] == 'p' && file2[l - 1] == 'g') ||
+          (file2[l - 4] == '.' && file2[l - 3] == 'p' && file2[l - 2] == 'n' && file2[l - 1] == 'g'))
+        fprintf(fd, "; Flags: nocompression");
       fprintf(fd, "\n");
       break;
 #ifndef _WIN32
@@ -447,7 +450,6 @@ static void create_file(const char *name, int m) {
               distribution_path);
       fprintf(fd, "rm -rf \"%s/%s/Contents\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/webots\"\n", distribution_path, bundle_name);
-      fprintf(fd, "rm -rf \"%s/%s/change_logs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/docs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin/qt\"\n", distribution_path, bundle_name);
@@ -472,6 +474,7 @@ static void create_file(const char *name, int m) {
               "AppPublisher=Cyberbotics, Ltd.\n"
               "AppPublisherURL=https://www.cyberbotics.com\n"
               "ChangesEnvironment=yes\n"  // tells Windows Explorer to reload environment variables (e.g., WEBOTS_HOME)
+              "Compression=lzma2/fast\n"
               "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
               "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots.exe\n"

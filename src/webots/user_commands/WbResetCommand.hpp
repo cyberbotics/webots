@@ -29,7 +29,7 @@ class WbField;
 
 class WbResetCommand : public QUndoCommand {
 public:
-  WbResetCommand(WbField *field, QUndoCommand *parent = 0);
+  explicit WbResetCommand(WbField *field, QUndoCommand *parent = 0);
   ~WbResetCommand();
 
   void undo() override;

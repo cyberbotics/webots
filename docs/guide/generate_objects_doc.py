@@ -111,7 +111,7 @@ for proto in prioritaryProtoList + fileList:
                     skipProto = True
                     break
             else:
-                newLine = line.replace('#', '').replace('_', '\_').strip()
+                newLine = line.replace('#', '').replace('_', '\\_').strip()
                 urls = re.findall(WEB_URL_REGEX, newLine)
                 for url in urls:
                     newLine = newLine.replace(url, '[%s](%s)' % (url, url))

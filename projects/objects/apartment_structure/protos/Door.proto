@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -10,6 +10,7 @@ PROTO Door [
   field SFString   name                   "door"
   field SFVec3f    size                   1 2.4 0.2                 # Defines the width, height and thickness of the door wall frame.
   field SFBool     canBeOpen              TRUE                      # Defines whether the door is connected to the frame throught a hinge-joint.
+  field SFFloat    position               0                         # Defines the position (aperture) of the door.
   field SFBool     jointAtLeft            TRUE                      # Defines on which side the door is connected to the frame.
   field SFBool     selfClosing            FALSE                     # Defines whether the door as a spring effect that makes it closing on itself.
   field SFFloat    doorThickness          0.05                      # Defines the thickness of the door.
@@ -118,6 +119,7 @@ PROTO Door [
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
+                position IS position
                 anchor %{= mirrorFactor * (0.5 * size.x - 0.5 * frameSize.x) }% 0 %{= 0.5 * size.z + frameSize.z }%
                 axis 0 1 0
                 %{ if mirrorFactor > 0 then }%

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbConnector.hpp"
+
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
 #include "WbOdeContext.hpp"
@@ -675,11 +676,11 @@ bool WbConnector::isReadyToAttachTo(const WbConnector *other) const {
 void WbConnector::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_CONNECTOR_GET_PRESENCE:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
     case C_CONNECTOR_LOCK:

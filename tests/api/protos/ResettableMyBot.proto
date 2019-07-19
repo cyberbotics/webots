@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 PROTO ResettableMyBot [
   field SFString controller "my_bot_straight_controller"
   field SFVec3f  translation 0 0 0

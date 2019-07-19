@@ -15,7 +15,7 @@ namespace webotsQtUtils {
 
   class CategoryWidget : public QScrollArea {
   public:
-    CategoryWidget(const QString &name, QWidget *parent = NULL);
+    explicit CategoryWidget(const QString &name, QWidget *parent = NULL);
     virtual ~CategoryWidget();
 
     const QString &name() const { return mName; }
