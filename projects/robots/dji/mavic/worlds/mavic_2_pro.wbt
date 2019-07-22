@@ -24,6 +24,7 @@ TexturedBackground {
 DirectionalLight {
   ambientIntensity 1
   direction -0.6 -1 0.55
+  intensity 1.2
   castShadows TRUE
 }
 Floor {
