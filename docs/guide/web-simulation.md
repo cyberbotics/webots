@@ -34,6 +34,13 @@ Both servers are Python scripts: `simulation_server.py` and `session_server.py` 
 
 Note that Webots have to be installed on all the machines where the simulation server is running.
 
+
+%figure "Web simulation server network infrastructure"
+
+![context_menu.png](images/web_simulation_network_infrastructure.png)
+
+%end
+
 #### Protocol
 
 When a web client needs to know whether it may start a simulation, it will open a WebSocket connection to the session server to monitor the availability of simulation servers.
@@ -51,6 +58,79 @@ If Webots quits, the simulation server will notify the web client and close the 
 
 The session server regularly queries the simulation servers to monitor their load.
 If a simulation server becomes overloaded, then, the session server will consider it is not available any more and will not offer it to web clients.
+
+%figure "Web simulation protocol sequence diagram"
+%chart
+sequenceDiagram
+  participant U as User
+  participant C as Web Client
+  participant W as Web Server
+  participant SE as Session Server
+  participant SS1 as Simulation Server 1
+  participant SW1 as Webots
+  participant SS2 as Simulation Server 2
+
+  SE->>SS1: Check server availability
+  activate SS1
+    SS1-->>SE:
+  deactivate SS1
+  SE->>SS2: Check server availability
+  activate SS2
+    SS2-->>SE:
+  deactivate SS2
+  C->>W: Load web page
+  activate C
+    activate W
+      W->>SE: Check server availability
+      activate SE
+        SE-->>W:
+      deactivate SE
+      W-->>C:
+    deactivate W
+    U->>C: Start simulation
+    Note left of C: webots.min.js
+    C->>SE: Open simulation session
+    activate SE
+      SE-->>C: Return simulation server web socket URL
+    deactivate SE
+    C->>SS1: Start simulation
+    activate SS1
+      SS1->>W: Download simulation project
+      activate W
+        Note right of W: download_project.php
+        W-->>SS1:
+      deactivate W
+      SS1->>SW1: Start Webots
+      activate SW1
+        SS1-->>C: Return Webots web socket URL
+      deactivate SS1
+      C->>SW1: Register client
+      SW1->>C: Send simulation worlds status
+      U->>C: Run simulation
+      C->>SW1: Change simulation running mode
+      loop Each simulation step
+        SW1->>C: Send simulation world status
+      end
+      U->>C: Edit and save controller
+      C->>W: Send new file
+      activate W
+        Note right of W: upload_file.php
+        W-->>C:
+      deactivate W
+      C->>SW1: Send new file
+      U->>C: Reset simulation
+      C->>SW1: Reset simulation
+      loop Each simulation step
+        SW1->>C: Send simulation worlds status
+      end
+      C-->>SS1: {Client disconnected}
+    deactivate C
+    activate SS1
+      SS1->>SW1: Kill Webots
+    deactivate SW1
+  deactivate SS1
+%end
+%end
 
 #### Session Server
 
