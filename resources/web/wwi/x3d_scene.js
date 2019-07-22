@@ -28,10 +28,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.scene = new THREE.Scene();
 
     this.viewpoint = new Viewpoint();
-    this.viewpoint.onCameraParametersChanged = () => {
+    this.viewpoint.onCameraParametersChanged = (updateScene) => {
       if (this.gpuPicker)
         this.gpuPicker.needUpdate = true;
-      this.render();
+      if (updateScene)
+        this.render();
     };
 
     this.selector = new Selector();
