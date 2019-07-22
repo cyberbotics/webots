@@ -79,8 +79,8 @@ sequenceDiagram
     SS2-->>SE: Return machine load
   deactivate SS2
 
-  C->>W: Load web page
   activate C
+    C->>W: Load web page
     activate W
       W->>SE: Check server availability
       activate SE
