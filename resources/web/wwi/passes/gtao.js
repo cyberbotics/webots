@@ -242,10 +242,10 @@ THREE.GTAOPass.prototype = Object.assign(Object.create(THREE.Pass.prototype), {
     this.renderPass(renderer, this.gtaoMaterial, this.gtaoRenderTarget, 0xffffff, 1.0);
 
     // Blurring GTAO texture
-    if (this.params.gtaoBlur) {
-      this.renderPass(renderer, this.vBlurMaterial, this.blurIntermediateRenderTarget, 0xffffff, 1.0);
-      this.renderPass(renderer, this.hBlurMaterial, this.gtaoRenderTarget, 0xffffff, 1.0);
-    }
+    // if (this.params.gtaoBlur) {
+    //   this.renderPass(renderer, this.vBlurMaterial, this.blurIntermediateRenderTarget, 0xffffff, 1.0);
+    //   this.renderPass(renderer, this.hBlurMaterial, this.gtaoRenderTarget, 0xffffff, 1.0);
+    // }
 
     var outputMaterial = this.materialCopy;
     // Setting up GTAO rendering
