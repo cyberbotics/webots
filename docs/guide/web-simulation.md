@@ -81,6 +81,7 @@ sequenceDiagram
 
   C->>W: Load web page
   activate C
+    Note left of C: webots.min.js
     activate W
       W->>SE: Check server availability
       activate SE
@@ -89,7 +90,6 @@ sequenceDiagram
       W-->>C: Return web page content
     deactivate W
     U->>C: Start simulation
-    Note left of C: webots.min.js
     C->>SE: Open simulation session
     activate SE
       SE-->>C: Return simulation server web socket URL
