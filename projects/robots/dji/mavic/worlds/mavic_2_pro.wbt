@@ -15,20 +15,16 @@ Viewpoint {
   orientation -0.07050658159370127 0.995540939105142 0.06266626299391849 1.4696995470893992
   position 3.0972382693803047 0.6132726075362769 0.5611797778962904
   near 0.2
+  exposure 4
   follow "Mavic 2 PRO"
   followSmoothness 0.2
 }
 TexturedBackground {
 }
-TexturedBackgroundLight {
-}
 DirectionalLight {
-  direction -0.3 1 -0.3
-  intensity 0.6
-}
-DirectionalLight {
-  direction 0.3 1 0.3
-  intensity 0.6
+  ambientIntensity 1
+  direction -0.6 -1 0.55
+  castShadows TRUE
 }
 Floor {
   size 400 400
@@ -148,6 +144,7 @@ Mavic2Pro {
       width 400
       height 240
       near 0.2
+      exposure 4
     }
   ]
 }
