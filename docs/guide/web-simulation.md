@@ -72,20 +72,21 @@ sequenceDiagram
 
   SE->>SS1: Check server availability
   activate SS1
-    SS1-->>SE:
+    SS1-->>SE: Return machine load
   deactivate SS1
   SE->>SS2: Check server availability
   activate SS2
-    SS2-->>SE:
+    SS2-->>SE: Return machine load
   deactivate SS2
+
   C->>W: Load web page
   activate C
     activate W
       W->>SE: Check server availability
       activate SE
-        SE-->>W:
+        SE-->>W: 0 or 1
       deactivate SE
-      W-->>C:
+      W-->>C: Return web page content
     deactivate W
     U->>C: Start simulation
     Note left of C: webots.min.js
@@ -98,7 +99,7 @@ sequenceDiagram
       SS1->>W: Download simulation project
       activate W
         Note right of W: download_project.php
-        W-->>SS1:
+        W-->>SS1: Return simulation project archive
       deactivate W
       SS1->>SW1: Start Webots
       activate SW1
@@ -115,7 +116,7 @@ sequenceDiagram
       C->>W: Send new file
       activate W
         Note right of W: upload_file.php
-        W-->>C:
+        W-->>C: Return OK
       deactivate W
       C->>SW1: Send new file
       U->>C: Reset simulation
