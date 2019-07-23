@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
     const double pitch_input = k_pitch_p * CLAMP(pitch, -1.0, 1.0) - pitch_acceleration + pitch_disturbance;
     const double yaw_input = yaw_disturbance;
     const double clamped_difference_altitude = CLAMP(target_altitude - altitude + k_vertical_offset, -1.0, 1.0);
-    const double vertical_input =
+    const double vertical_input = k_vertical_p * pow(clamped_difference_altitude, 3.0);
       k_vertical_p * pow(clamped_difference_altitude, 3.0);
 
     // Actuate the motors taking into consideration all the computed inputs.
