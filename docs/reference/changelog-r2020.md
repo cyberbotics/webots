@@ -4,7 +4,7 @@
 Released on XXX YYth, 2019.
 
   - New Features
-    - Added the `Background.luminosity` field which spefifies the light contribution of the [Background](background.md) node.
+    - Added the `Background.luminosity` field which specifies the light contribution of the [Background](background.md) node.
     - Improved the Webots online 3D viewer: `webots.min.js`
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.
       - Added support for the `ImageTexture.filtering` field.
