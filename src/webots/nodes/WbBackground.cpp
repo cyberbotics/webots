@@ -335,6 +335,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   }
 
   findField("skyColor", true)->write(writer);
+  findField("luminosity", true)->write(writer);
 
   if (!cubemap() || !cubemap()->isValid())
     return;

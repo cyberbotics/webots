@@ -468,8 +468,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
-        if (isHDR)
+        if (isHDR) {
           material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
+          if (typeof this.scene.userData.luminosity !== 'undefined')
+            material.envMapIntensity *= this.scene.userData.luminosity;
+        }
         material.needsUpdate = true;
       }
     });
