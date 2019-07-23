@@ -12,6 +12,13 @@ class Selector { // eslint-disable-line no-unused-vars
       return;
 
     this.clearSelection();
+
+    if (!object) {
+      if (typeof this.onSelectionChange === 'function')
+        this.onSelectionChange();
+      return;
+    }
+
     var children = [object];
     while (children.length > 0) {
       var child = children.pop();

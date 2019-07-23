@@ -186,10 +186,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
           open: DialogWindow.openDialog,
           buttons: {
             'Cancel': () => {
-              $(this).dialog('close');
+              $(quitDialog).dialog('close');
             },
             'Quit': () => {
-              $(this).dialog('close');
+              $(quitDialog).dialog('close');
               this.view.quitSimulation();
             }
           }

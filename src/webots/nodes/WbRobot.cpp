@@ -880,11 +880,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
         mJoystickInterface->setForceAxis(axis);
     }
     case C_ROBOT_CLIENT_EXIT_NOTIFY:
-      /*
-      C_Controller::displayControllerProcesses();
-      A_Application::addRobotConsolePrint(name->getValue(), _("controller has terminated.\n"), 1);
-      A_Application::setControllerRequest(this, NULL);
-      */
+      emit controllerExited();
       return;
     case C_ROBOT_REMOTE_ON:
       emit toggleRemoteMode(true);
