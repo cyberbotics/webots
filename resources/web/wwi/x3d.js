@@ -973,6 +973,8 @@ THREE.X3DLoader = class X3DLoader {
       this.scene.scene.add(ambientLight);
     }
 
+    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
+
     return undefined;
   }
 
