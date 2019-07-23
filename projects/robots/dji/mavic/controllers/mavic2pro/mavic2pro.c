@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
   // Constants, empirically found.
   const double k_vertical_thrust = 68.5;  // with this thrust, the drone lifts.
-  const double k_vertical_offset = 0.6;   // Vertical offset where the robot stabilize actually.
+  const double k_vertical_offset = 0.6;   // Vertical offset where the robot actually targets to stabilize itself.
   const double k_vertical_p = 3.0;        // P constant of the vertical PID.
   const double k_roll_p = 50.0;           // P constant of the roll PID.
   const double k_pitch_p = 30.0;          // P constant of the pitch PID.
