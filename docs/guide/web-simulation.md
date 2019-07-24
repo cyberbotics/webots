@@ -5,7 +5,7 @@
 This section describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
 This functionality requires a streaming server application running on one or more server machines that receives the client requests, executes Webots in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/) and instantiates a new Webots instance for each connected client.
 
-The simulation server is still a work in progress and the provided system could change in the next releases.
+The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
 ### Streaming Server
 
