@@ -34,7 +34,7 @@ then, the session server will consider it is not available any more and will not
   - psutil (https://pypi.python.org/pypi/psutil/, `pip install psutil`)
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
-- Webots R2019b is installed
+- Webots R2019b
 
 ## Setup
 
