@@ -157,7 +157,7 @@ The `/monitor` request opens a page showing an overview of the available simulat
 
 #### Simulation Server
 
-The simulation server creates and starts a Webots instance with the desired simulation for each client request and sends the WebSocket URL of Webots to the client so that it can communicate directly.
+The simulation server creates and starts a Webots instance with the desired simulation for each client request and sends the WebSocket URL of Webots to the client so that it can communicate directly with Webots.
 
 These are the configuration parameters for the simulation server:
 - `port`: local port on which the server is listening (launching Webots instances).
