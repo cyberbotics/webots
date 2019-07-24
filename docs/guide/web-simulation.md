@@ -3,7 +3,9 @@
 ### Description
 
 This section describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
-Such a system may be distributed on several machines. One machine runs a session server that communicates with several simulation servers. Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client. Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
+Such a system may be distributed on several machines.
+One machine runs a session server that communicates with several simulation servers.
+Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client. Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
 
 The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
@@ -24,7 +26,9 @@ The prerequisites for the server machine(s) are the following:
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 
-Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md). They may however be virtual machine, such as AWS instances. GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, etc.).
+Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md).
+They may however be virtual machine, such as AWS instances.
+GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, etc.).
 
 #### Overview
 
@@ -181,7 +185,8 @@ The firewall of the local computer may complain about this operation, in this ca
 
 #### SSL Encryption
 
-The simulation server works with or without SSL encryption. SSL encryption is however strongly recommended.
+The simulation server works with or without SSL encryption.
+SSL encryption is however strongly recommended.
 The application requires the `fullchain.pem` and `privkey.pem` files and their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
 Note that Webots will look for the file "WEBOTS\_HOME/resources/web/server/ssl/cert.pem", so you may have to rename `fullchain.pem` and copy it in the `ssl` folder or create a soft link.
 
