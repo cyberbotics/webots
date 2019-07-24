@@ -25,7 +25,7 @@ then, the session server will consider it is not available any more and will not
 
 ## Prerequisites
 
-- Ubuntu last LTS or Windows (Mac OS X also supported, but less tested)
+- Ubuntu last LTS or Windows (macOS is also supported, but less tested)
 - Python 3
 - Dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
   - tornado (http://www.tornadoweb.org/en/stable/, `pip install tornado`)
