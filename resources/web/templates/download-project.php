@@ -41,7 +41,7 @@ else
 
 # Set a unique key to identify the host and prevent brute force attacks.
 # The host key should match the one passed to the 'session_server.py' and located in the path specified in the "keyDir" config parameter.
-$host_key = ''; # TODO 
+$host_key = ''; # Replace this empty string with the actual host key value
 if ($key != $host_key) {
   sleep(1); # to prevent brute force attacks
   die("Error: Wrong key." );
