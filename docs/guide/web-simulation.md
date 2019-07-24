@@ -24,7 +24,7 @@ The prerequisites for the server machine(s) are the following:
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 
-Note that the machines have to met the [Webots system requirements](system-requirements.md).
+Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md). They may however be virtual machine, such as AWS instances. GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, etc.).
 
 #### Overview
 
