@@ -243,7 +243,7 @@ def main():
     # the following config variables read from the config.json file
     # are described here:
     #
-    # port:              local port on which the server is listening (launching webots instances).
+    # port:              local port on which the server is listening.
     # server:            host where this session script is running.
     # sslKey:            private key for a SSL enabled server.
     # sslCertificate:    certificate for a SSL enabled server.

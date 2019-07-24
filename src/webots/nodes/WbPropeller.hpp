@@ -71,6 +71,7 @@ private:
   WbSFVector3 *mCenterOfThrust;
   WbSFVector2 *mThrustConstants;
   WbSFVector2 *mTorqueConstants;
+  WbSFDouble *mFastHelixThreshold;
   WbSFNode *mDevice;
   WbSFNode *mFastHelix;
   WbSFNode *mSlowHelix;

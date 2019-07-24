@@ -172,7 +172,7 @@ class Animation { // eslint-disable-line no-unused-vars
     this.previousStep = this.step;
     this.view.time = this.data.frames[this.step].time;
     x3dScene.viewpoint.updateViewpointPosition(!automaticMove | this.step === 0, this.view.time);
-    x3dScene.render();
+    x3dScene.viewpoint.notifyCameraParametersChanged();
   }
 
   _updateAnimation() {

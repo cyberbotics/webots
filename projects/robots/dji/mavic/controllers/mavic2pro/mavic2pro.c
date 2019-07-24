@@ -17,11 +17,13 @@
 /*
  * Description:  Simplistic drone control:
  * - Stabilize the robot using the embedded sensors.
- * - Use PID technique to stabilize the vertical input (the altitude differences are integrated.)
+ * - Use PID technique to stabilize the drone roll/pitch/yaw.
+ * - Use a cubic function applied on the vertical difference to stabilize the robot vertically.
  * - Stabilize the camera.
  * - Control the robot using the computer keyboard.
  */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -94,15 +96,14 @@ int main(int argc, char **argv) {
   printf("- 'shift + left': strafe left.\n");
 
   // Constants, empirically found.
-  const double k_vertical_thrust = 28.7;  // with this thrust, the drone lifts.
-  const double k_vertical_p = 2.5;        // P constant of the vertical PID.
-  const double k_vertical_i = 0.0002;     // I constant of the vertical PID.
-  const double k_roll_p = 5.0;            // P constant of the roll PID.
-  const double k_pitch_p = 5.0;           // P constant of the pitch PID.
+  const double k_vertical_thrust = 68.5;  // with this thrust, the drone lifts.
+  const double k_vertical_offset = 0.6;   // Vertical offset where the robot actually targets to stabilize itself.
+  const double k_vertical_p = 3.0;        // P constant of the vertical PID.
+  const double k_roll_p = 50.0;           // P constant of the roll PID.
+  const double k_pitch_p = 30.0;          // P constant of the pitch PID.
 
   // Variables.
   double target_altitude = 1.0;  // The target altitude. Can be changed by the user.
-  double sum_altitude = 0.0;     // Store the altitude difference sum.
 
   // Main loop
   while (wb_robot_step(timestep) != -1) {
@@ -132,46 +133,41 @@ int main(int argc, char **argv) {
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          pitch_disturbance = 0.6;
+          pitch_disturbance = 2.0;
           break;
         case WB_KEYBOARD_DOWN:
-          pitch_disturbance = -0.6;
+          pitch_disturbance = -2.0;
           break;
         case WB_KEYBOARD_RIGHT:
-          yaw_disturbance = 0.8;
+          yaw_disturbance = 1.3;
           break;
         case WB_KEYBOARD_LEFT:
-          yaw_disturbance = -0.8;
+          yaw_disturbance = -1.3;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_RIGHT):
-          roll_disturbance = -0.6;
+          roll_disturbance = -1.0;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_LEFT):
-          roll_disturbance = 0.6;
+          roll_disturbance = 1.0;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_UP):
-          target_altitude += 0.01;
+          target_altitude += 0.05;
           printf("target altitude: %f [m]\n", target_altitude);
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_DOWN):
-          target_altitude -= 0.01;
+          target_altitude -= 0.05;
           printf("target altitude: %f [m]\n", target_altitude);
           break;
       }
       key = wb_keyboard_get_key();
     }
 
-    // Update `sum_altitude`.
-    const double difference_altitude = target_altitude - altitude;
-    if (SIGN(difference_altitude) != SIGN(sum_altitude))
-      sum_altitude = 0.0;  // Reset windup.
-    sum_altitude += difference_altitude;
-
     // Compute the roll, pitch, yaw and vertical inputs.
-    const double roll_input = k_roll_p * CLAMP(roll, -0.5, 0.5) + roll_acceleration + roll_disturbance;
-    const double pitch_input = k_pitch_p * CLAMP(pitch, -0.5, 0.5) - pitch_acceleration + pitch_disturbance;
+    const double roll_input = k_roll_p * CLAMP(roll, -1.0, 1.0) + roll_acceleration + roll_disturbance;
+    const double pitch_input = k_pitch_p * CLAMP(pitch, -1.0, 1.0) - pitch_acceleration + pitch_disturbance;
     const double yaw_input = yaw_disturbance;
-    const double vertical_input = k_vertical_p * CLAMP(difference_altitude, -0.05, 0.05) + k_vertical_i * sum_altitude;
+    const double clamped_difference_altitude = CLAMP(target_altitude - altitude + k_vertical_offset, -1.0, 1.0);
+    const double vertical_input = k_vertical_p * pow(clamped_difference_altitude, 3.0);
 
     // Actuate the motors taking into consideration all the computed inputs.
     const double front_left_motor_input = k_vertical_thrust + vertical_input - roll_input - pitch_input + yaw_input;
