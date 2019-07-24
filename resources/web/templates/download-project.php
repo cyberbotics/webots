@@ -39,7 +39,7 @@ if (isset($_POST['project']))
 else
   die("Error: Missing project.");
 
-# Set a unique key to identify the host and prevent brute force attacks.
+# Set a unique key to identify the host and authenticate the request.
 # The host key should match the one passed to the 'session_server.py' and located in the path specified in the "keyDir" config parameter.
 $host_key = ''; # Replace this empty string with the actual host key value
 if ($key != $host_key) {

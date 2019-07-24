@@ -205,8 +205,8 @@ Please make sure that the `WEBOTS_HOME` variable is set before running the simul
 The host where the client website is running should have a `ajax` named folder at the root level containing these scripts:
 * `download-project.php`: a script that returns a zipped archive containing the Webots simulation files to be run. It receives these parameters as POST data:
   * `user1Id`: id identifying the owner of the project, if an accounted application is used.
-  * `user1Authentication`: user password for the authentication.
-  * `key`: key identifying the sender to prevent brute force attacks.
+  * `user1Authentication`: password hash or authentication data for the user.
+  * `key`: key identifying the sender to authenticate the server.
   * `project`: name of the Webots project to be downloaded.
 * `upload-file.php`: a script that uploads the new controller version when the user modifies and saves it from the editor in the web interface. The POST parameters are:
   * `dirname`: name of the directory where the file has to be uploaded, mainly consisting on the project name.
@@ -227,7 +227,7 @@ But some other parameters could be used:
 If the application requires individual access and authentication, then these additional parameters are available:
 * `webots.User1Id`: id of the main user (integer value > 0). If 0 or unset, the user is not logged in.
 * `webots.User1Name`: user name of the main user.
-* `webots.User1Authentication`: password or authentication for the main user. Empty or unset if user not authenticated.
+* `webots.User1Authentication`: password hash or authentication data for the main user. Empty or unset if user not authenticated.
 * `webots.User2Id`: id of the secondary user, used for example in case of a soccer match between two different users. 0 or unset if not used.
 * `webots.User2Name`: user name of the secondary user.
 
