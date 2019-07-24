@@ -13,7 +13,7 @@ The Web Simulation system is still work in progress and could change in the next
 
 The prerequisites for the server machine(s) are the following:
 
-- Ubuntu last LTS or Windows (Mac OS X also supported, but less tested)
+- Ubuntu last LTS or Windows (macOS X is also supported, but less tested)
 - Webots
 - Python 3
 - Web service dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
