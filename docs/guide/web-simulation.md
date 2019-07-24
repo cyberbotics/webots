@@ -3,7 +3,7 @@
 ### Description
 
 This section describes how to setup a simulation web service similar to [robotbenchmark.net](https://robotbenchmark.net) to run Webots in the cloud.
-This functionality requires a streaming server application running on one or more server machines that receives the client requests, executes Webots in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/) and instantiates a new Webots instance for each connected client.
+Such a system may be distributed on several machines. One machine runs a session server that communicates with several simulation servers. Each machine runs one instance of simulation server that receives requests from the session server and instantiates for each connected client a new Webots instance that communicates directly with the client. Webots instances are executed in a secure environment using [Firejail Security Sandbox](https://firejail.wordpress.com/).
 
 The Web Simulation system is still work in progress and could change in the next releases of Webots.
 
@@ -13,7 +13,7 @@ The Web Simulation system is still work in progress and could change in the next
 
 The prerequisites for the server machine(s) are the following:
 
-- Ubuntu last LTS or Windows (Mac OS X also supported, but less tested)
+- Ubuntu last LTS or Windows (macOS X is also supported, but less tested)
 - Webots
 - Python 3
 - Web service dependencies ([Windows instructions](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies#webots-web-service), [Linux instructions](https://github.com/omichel/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
@@ -24,7 +24,7 @@ The prerequisites for the server machine(s) are the following:
   - requests (https://pypi.python.org/pypi/requests/, `pip install requests`)
   - optional: firejail (https://firejail.wordpress.com/, `apt install firejail`)
 
-Note that the machines have to met the [Webots system requirements](system-requirements.md).
+Note that the simulation server machines have to met the [Webots system requirements](system-requirements.md). They may however be virtual machine, such as AWS instances. GPU instances are strongly recommended for performance reasons, especially if the simulation involves sensors relying on OpenGL rendering (cameras, lidars, etc.).
 
 #### Overview
 
@@ -135,7 +135,7 @@ sequenceDiagram
 
 #### Session Server
 
-The session server is the entry point for creating a Webots instance and starting the simulation.
+The session server is the entry point for requesting the start of a new simulation.
 It manages the load of the simulation server machines and sends the URL of the available simulation server to the client.
 
 These are the configuration parameters for the session server:
