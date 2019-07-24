@@ -181,7 +181,7 @@ The firewall of the local computer may complain about this operation, in this ca
 
 #### SSL Encryption
 
-The simulation server works with SSL encryption.
+The simulation server works with or without SSL encryption. SSL encryption is however strongly recommended.
 The application requires the `fullchain.pem` and `privkey.pem` files and their path have to be specified in the `sslKey` and `sslCertificate` values of session and simulation configuration file.
 Note that Webots will look for the file "WEBOTS\_HOME/resources/web/server/ssl/cert.pem", so you may have to rename `fullchain.pem` and copy it in the `ssl` folder or create a soft link.
 
