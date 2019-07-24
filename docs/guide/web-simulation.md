@@ -211,7 +211,7 @@ The host where the client website is running should have a `ajax` named folder a
 * `download-project.php`: a script that returns a zipped archive containing the Webots simulation files to be run. It receives these parameters as POST data:
   * `user1Id`: id identifying the owner of the project, if an accounted application is used.
   * `user1Authentication`: password hash or authentication data for the user.
-  * `key`: key identifying the sender to authenticate the server.
+  * `key`: key identifying the host to authenticate the sender.
   * `project`: name of the Webots project to be downloaded.
 * `upload-file.php`: a script that uploads the new controller version when the user modifies and saves it from the editor in the web interface. The POST parameters are:
   * `dirname`: name of the directory where the file has to be uploaded, mainly consisting on the project name.
