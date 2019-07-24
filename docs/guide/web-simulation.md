@@ -135,7 +135,7 @@ sequenceDiagram
 
 #### Session Server
 
-The session server is the entry point for creating a Webots instance and starting the simulation.
+The session server is the entry point for requesting the start of a new simulation.
 It manages the load of the simulation server machines and sends the URL of the available simulation server to the client.
 
 These are the configuration parameters for the session server:
