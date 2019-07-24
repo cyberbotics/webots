@@ -153,11 +153,13 @@ These are the configuration parameters for the session server:
 - `sslKey`: path to the private key file for a SSL enabled server.
 - `logDir`: directory where the log file is written. Default value is "WEBOTS\_HOME/resources/web/server/log/session".
 
-Sending a AJAX request to the session server URL will query the availability of the simulation servers and return 1 if some are available or 0 if no simulation server are available.
+HTTP request handlers:
+* The `/` request queries the availability of the simulation servers and returns 1 if some are available or 0 if no simulation server is available.
 
-The `/session` request checks for available simulation servers and returns the URL of the minimally loaded server.
+* The `/monitor` request opens a page showing an overview of the available simulation servers and their load.
 
-The `/monitor` request opens a page showing an overview of the available simulation servers and their load.
+WebSocket request handler:
+* The `/session` request checks for available simulation servers and returns the URL of the minimally loaded server.
 
 #### Simulation Server
 
@@ -172,11 +174,15 @@ These are the configuration parameters for the simulation server:
 - `logDir`: directory where the log files are written. Default value is "WEBOTS\_HOME/resources/web/server/log/simulation".
 - `monitorLogEnabled`: specify if the monitor data have to be stored in a file.
 
-The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value with the format `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
 
-The `/monitor` request opens a page showing some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
+HTTP request handlers:
+* The `/load` request returns the current load of the machine computed as the maximum value between all the monitored data (main CPU and GPU load and memory usage, and network usage).
 
-The `/load` request returns the current load of the machine computed as the maximum value between all the monitored data (main CPU and GPU load and memory usage, and network usage).
+* The `/monitor` request opens a page showing some information about the current status of the simulation server machines, i.e the number of Webots instances running, the load of the CPU and GPU, the network usage.
+
+
+WebSocket request handlers:
+* The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL. The payload have to contain a `init` value with the format `[host, projectPart, worldFilename, user1Id, user1Name, user1Authentication, user2Id, user2Name, customData]`. This data is then used to retrieve the simulation data and setup the Webots project.
 
 #### Network Settings
 
