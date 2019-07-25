@@ -3843,15 +3843,7 @@ DEF RIVER Transform {
     Shape {
       appearance PBRAppearance {
         baseColor 0.17 0.45 0.7
-        baseColorMap ImageTexture {
-          url [
-            "textures/water.jpg"
-          ]
-        }
         metalness 0
-        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
-          scale 500 500
-        }
       }
       geometry Extrusion {
         crossSection [
@@ -3887,15 +3879,7 @@ DEF SMALL_LAKE Transform {
     DEF water Shape {
       appearance PBRAppearance {
         baseColor 0.17 0.45 0.7
-        baseColorMap ImageTexture {
-          url [
-            "textures/water.jpg"
-          ]
-        }
         metalness 0
-        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
-          scale 500 500
-        }
       }
       geometry IndexedFaceSet {
         coord Coordinate {
@@ -4073,15 +4057,7 @@ DEF BIG_LAKE Transform {
     DEF water Shape {
       appearance PBRAppearance {
         baseColor 0.17 0.45 0.7
-        baseColorMap ImageTexture {
-          url [
-            "textures/water.jpg"
-          ]
-        }
         metalness 0
-        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
-          scale 500 500
-        }
       }
       geometry IndexedFaceSet {
         coord Coordinate {
