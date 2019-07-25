@@ -1,5 +1,5 @@
 /* global THREE */
-/* exported TextureLoader */
+/* exported TextureLoader, TextureData */
 'use strict';
 
 var TextureLoader = {
@@ -45,11 +45,16 @@ var TextureLoader = {
     return loader.load([src, src, src, src, src, src]);
   },
 
-  loadOrRetrieve: function(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
-    console.assert(typeof name === 'string', 'TextureLoader.loadOrRetrieve: name is not a string.');
-    if (typeof name === 'undefined' || name === '')
+  createOrRetrieveTexture: function(filename, textureData) {
+    console.assert(typeof filename === 'string', 'TextureLoader.createOrRetrieveTexture: name is not a string.');
+    return this._getInstance().createOrRetrieveTexture(filename, textureData);
+  },
+
+  loadOrRetrieveImage: function(filename, texture, cubeTextureIndex = undefined, onLoad = undefined) {
+    console.assert(typeof filename === 'string', 'TextureLoader.loadOrRetrieveImage: name is not a string.');
+    if (typeof filename === 'undefined' || filename === '')
       return undefined;
-    return this._getInstance().loadOrRetrieve(name, texture, cubeTextureIndex, onLoad);
+    return this._getInstance().loadOrRetrieveImage(filename, texture, cubeTextureIndex, onLoad);
   },
 
   setOnTextureLoad: function(onLoad) {
@@ -67,22 +72,91 @@ var TextureLoader = {
   }
 };
 
+class TextureData {
+  constructor(transparent, wrap, transform) {
+    this.transparent = transparent;
+    this.wrap = wrap;
+    this.transform = transform;
+  }
+
+  equals(other) {
+    return this.transparent === other.transparent &&
+           JSON.stringify(this.wrap) === JSON.stringify(other.wrap) &&
+           JSON.stringify(this.transform) === JSON.stringify(other.transform);
+  }
+};
+
 class _TextureLoaderObject {
   constructor() {
-    this.textures = [];
-    this.loadingTextures = [];
-    this.loadingCubeTextureObjects = [];
+    this.images = []; // list of image names
+    this.textures = {}; // dictionary <texture file name, array <[texture data, texture object]>
+    this.loadingTextures = {}; // dictionary <texture file name, dictionary <'objects': [texture objects], 'onLoad': [callback functions] > > 
+    this.loadingCubeTextureObjects = {}; // dictionary <cube texture object, dictionary < image name: [cube image index] > >
     this.onTextureLoad = undefined;
     this.texturePathPrefix = '';
   }
 
-  loadOrRetrieve(name, texture, cubeTextureIndex, onLoad) {
+  createOrRetrieveTexture(filename, textureData) {
+    let textures = this.textures[filename];
+    if (textures) {
+      for (let i in textures) {
+        if (textures[i][0].equals(textureData))
+          return textures[i][1];
+      }
+    } else
+      this.textures[filename] = [];
+
+    // Create THREE.Texture or THREE.DataTexture based on image extension.
+    let newTexture = TextureLoader.createEmptyTexture(filename);
+    this.textures[filename].push([textureData, newTexture]);
+
+    // Look for already loaded texture or load the texture in an asynchronous way.
+    var image = this.loadOrRetrieveImage(filename, newTexture);
+    if (typeof image !== 'undefined') { // else it could be updated later
+      newTexture.image = image;
+      newTexture.needsUpdate = true;
+    }
+
+    newTexture.userData = {
+      'isTransparent': textureData.transparent,
+      'url': filename
+    };
+    newTexture.wrapS = textureData.wrap.s === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+    newTexture.wrapT = textureData.wrap.t === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+
+    if (typeof textureData.transform !== 'undefined') {
+      newTexture.matrixAutoUpdate = false;
+      newTexture.onUpdate = () => {
+        // X3D UV transform matrix differs from THREE.js default one
+        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
+        var c = Math.cos(-textureData.transform.rotation);
+        var s = Math.sin(-textureData.transform.rotation);
+        var sx = textureData.transform.scale.x;
+        var sy = textureData.transform.scale.y;
+        var cx = textureData.transform.center.x;
+        var cy = textureData.transform.center.y;
+        var tx = textureData.transform.translation.x;
+        var ty = textureData.transform.translation.y;
+        newTexture.matrix.set(
+          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
+          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
+          0, 0, 1
+        );
+      };
+      newTexture.needsUpdate = true;
+    }
+    // This is the encoding used in Webots.
+    newTexture.encoding = THREE.sRGBEncoding;
+    return newTexture;
+  }
+
+  loadOrRetrieveImage(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     if (this.texturePathPrefix)
       name = this.texturePathPrefix + name;
-    if (this.textures[name]) {
+    if (this.images[name]) {
       if (typeof onLoad !== 'undefined')
-        onLoad(this.textures[name]);
-      return this.textures[name];
+        onLoad(this.images[name]);
+      return this.images[name];
     }
 
     if (texture instanceof THREE.CubeTexture) {
@@ -147,7 +221,7 @@ class _TextureLoaderObject {
       return;
 
     var image = this.loadingTextures[name].data;
-    this.textures[name] = image;
+    this.images[name] = image;
     var textureObjects = this.loadingTextures[name].objects;
     // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
     var isJPEG = hasJPEGExtension(name);
