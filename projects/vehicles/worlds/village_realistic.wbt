@@ -2424,6 +2424,7 @@ BungalowStyleHouse {
   rotation 0 1 0 2.8798
   name "bungalow style house(1)"
   appearance PBRAppearance {
+    baseColor 0.726238 0.497505 0.773327
     roughness 1
     metalness 0
   }
@@ -2433,6 +2434,7 @@ BungalowStyleHouse {
   rotation 0 1 0 6.02139
   name "bungalow style house(2)"
   appearance PBRAppearance {
+    baseColor 0.726238 0.497505 0.773327
     roughness 1
     metalness 0
   }
@@ -2449,6 +2451,7 @@ BungalowStyleHouse {
   fence FALSE
   floor FALSE
   appearance PBRAppearance {
+    baseColor 0.664195 0.815122 0.820005
     roughness 1
     metalness 0
   }
@@ -3533,6 +3536,7 @@ BungalowStyleHouse {
   floor FALSE
   chimney FALSE
   appearance PBRAppearance {
+    baseColor 0.669993 0.212161 0.212161
     roughness 1
     metalness 0
   }
@@ -3558,6 +3562,7 @@ ModernHouse {
   translation 688.344 0.005 -205.429
   rotation 0 1 0 3.40339
   appearance PBRAppearance {
+    baseColor 0.796674 0.545708 0.419577
     roughness 1
     metalness 0
   }
@@ -3743,6 +3748,7 @@ ModernHouse {
   rotation 0 -1 0 4.45059
   name "modern house(1)"
   appearance PBRAppearance {
+    baseColor 0.45098 0.619608 0.811765
     roughness 1
     metalness 0
   }
@@ -3756,6 +3762,7 @@ ModernHouse {
   rotation 0 1 0 5.75959
   name "modern house(3)"
   appearance PBRAppearance {
+    baseColor 0.820005 0.579461 0.579461
     roughness 1
     metalness 0
   }
@@ -3765,6 +3772,7 @@ ModernHouse {
   rotation 0 1 0 6.28319
   name "modern house(4)"
   appearance PBRAppearance {
+    baseColor 0.747494 0.85333 0.685512
     roughness 1
     metalness 0
   }
@@ -3773,6 +3781,7 @@ SimpleTwoFloorsHouse {
   translation 490.775 0.005 -150.418
   rotation 0 1 0 1.8326
   appearance PBRAppearance {
+    baseColor 0.726238 0.497505 0.773327
     roughness 1
     metalness 0
   }
@@ -3782,6 +3791,7 @@ SimpleTwoFloorsHouse {
   rotation 0 1 0 6.02139
   name "simple two floors house(1)"
   appearance PBRAppearance {
+    baseColor 0.796674 0.545708 0.419577
     roughness 1
     metalness 0
   }
