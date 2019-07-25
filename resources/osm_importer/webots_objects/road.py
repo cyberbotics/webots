@@ -115,24 +115,30 @@ class Road(WebotsObject):
 
         try:
             if 'lanes:forward' in self.tags:
-                self.forwardLanes = int(self.tags['lanes:forward'])
+                forwardLanes = int(self.tags['lanes:forward'])
+                assert forwardLanes > 0
+                assert self.lanes - forwardLanes >= 0
+                self.forwardLanes = forwardLanes
                 self.backwardLanes = self.lanes - self.forwardLanes
-                assert self.forwardLanes > 0
-                assert self.lanes - self.forwardLanes >= 0
-        except ValueError:
+        except (ValueError, AssertionError):
             pass
 
         try:
             if 'lanes:backward' in self.tags:
-                self.backwardLanes = int(self.tags['lanes:backward'])
+                backwardLanes = int(self.tags['lanes:backward'])
+                lanes = self.lanes
+                forwardLanes = self.forwardLanes
                 # note: "lanes" is overriden if "lanes:backward" and "lanes:forward" are both defined.
                 if ('lanes:forward' in self.tags):
-                    self.lanes = self.forwardLanes + self.backwardLanes
+                    lanes = forwardLanes + backwardLanes
                 else:
-                    self.forwardLanes = self.lanes - self.backwardLanes
-                assert self.backwardLanes > 0
-                assert self.lanes - self.backwardLanes >= 0
-        except ValueError:
+                    forwardLanes = lanes - backwardLanes
+                assert backwardLanes > 0
+                assert lanes - backwardLanes >= 0
+                self.backwardLanes = backwardLanes
+                self.forwardLanes = forwardLanes
+                self.lanes = lanes
+        except (ValueError, AssertionError):
             pass
 
         # Note: "turn:lanes" seems to have no influence on the lanes in JOSM.
