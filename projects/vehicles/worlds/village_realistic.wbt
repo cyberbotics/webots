@@ -2161,10 +2161,6 @@ SimpleTree {
 BusStop {
   translation 418.69 0 -232.169
   rotation 0 -1 0 3.10841
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 419.954 0.005 -235.522
@@ -2177,6 +2173,8 @@ Transform {
             "textures/bus_lines.png"
           ]
         }
+        roughness 1
+        metalness 0
       }
       geometry Plane {
         size 3.5 18
@@ -2188,10 +2186,6 @@ BusStop {
   translation 380.456 0 -331.021
   rotation 0 1 0 2.77419
   name "bus stop(1)"
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 BusSimple {
   translation 379.65333 0.55 -335.31941
@@ -2203,18 +2197,7 @@ Transform {
   translation 382.273 0.005 -334.983
   rotation 0 -1 0 5.07979
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
@@ -2222,27 +2205,12 @@ BusStop {
   rotation 0 -1 0 2.2
   name "bus stop(2)"
   bench FALSE
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 537.645 0.005 -339.349
   rotation 0 1 0 2.45
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
@@ -2250,10 +2218,6 @@ BusStop {
   rotation 0 -1 0 1.81121
   name "bus stop(3)"
   bench FALSE
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 BusSimple {
   translation 650.062 0.55 -279.158
@@ -2265,126 +2229,55 @@ Transform {
   translation 650.534 0.005 -281.79
   rotation 0 1 0 2.92
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
   translation 603.325 0 -105.434
   rotation 0 -1 0 2.85841
   name "bus stop(4)"
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 602.452 0.005 -108.757
   rotation 0 1 0 1.83159
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
   translation 530.632 0 -186.21
   rotation 0 -1 0 5.82478
   name "bus stop(5)"
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 532.623 0.005 -183.693
   rotation 0 -1 0 1.13
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
   translation 568.159 0 -107.901
   rotation 7.13274e-08 -1 -2.86931e-08 6.02478
   name "bus stop(6)"
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 570.124 0.005 -104.304
   rotation 0 -1 0 1.35
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 BusStop {
   translation 521.358 0 -170.793
   rotation 0 -1 0 2.73319
   name "bus stop(7)"
-  appearance PBRAppearance {
-    roughness 1
-    metalness 0
-  }
 }
 Transform {
   translation 521.419 0.005 -174.589
   rotation 0 1 0 1.9792
   children [
-    DEF BUS_SIGNS Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/bus_lines.png"
-          ]
-        }
-      }
-      geometry Plane {
-        size 3.5 18
-      }
-    }
+    USE BUS_SIGNS
   ]
 }
 SimpleBuilding {
@@ -3539,10 +3432,8 @@ SimpleTree {
   radius 1
   subdivision 3
 }
-Fountain {
-  translation 555.921 0.005 -181.427
-  height 4
-  radius 3
+StoneFountain {
+  translation 557.248 0.005 -183.416
 }
 BungalowStyleHouse {
   translation 544.569 0.005 -170.582
