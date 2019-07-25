@@ -1402,15 +1402,15 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
         result = 1 + (static_cast<WbNode *>(joint->brake2()) == childNode);
     }
   } else if (fieldName == "device3") {
-      const WbBallJoint *joint = dynamic_cast<const WbBallJoint *>(node);
-      if (joint) {
-          if (childModelName == "RotationalMotor")
-              result = 1 + (static_cast<WbNode *>(joint->motor3()) == childNode);
-          else if (childModelName == "PositionSensor")
-              result = 1 + (static_cast<WbNode *>(joint->positionSensor3()) == childNode);
-          else if (childModelName == "Brake")
-              result = 1 + (static_cast<WbNode *>(joint->brake3()) == childNode);
-      }
+    const WbBallJoint *joint = dynamic_cast<const WbBallJoint *>(node);
+    if (joint) {
+      if (childModelName == "RotationalMotor")
+        result = 1 + (static_cast<WbNode *>(joint->motor3()) == childNode);
+      else if (childModelName == "PositionSensor")
+        result = 1 + (static_cast<WbNode *>(joint->positionSensor3()) == childNode);
+      else if (childModelName == "Brake")
+        result = 1 + (static_cast<WbNode *>(joint->brake3()) == childNode);
+    }
   }
   if (result == ROBOT_ANCESTOR)  // valid if node has a robot ancestor
     return WbNodeUtilities::hasARobotAncestor(node);
