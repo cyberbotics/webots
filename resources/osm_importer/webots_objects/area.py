@@ -238,19 +238,22 @@ class Area(WebotsObject):
         numberOfTree = int(round((xMax - xMin) * (zMax - zMin)) * self.density)
         if not os.path.exists(folder + '/forest'):
             os.makedirs(folder + '/forest')
-        file = open(folder + '/forest/' + str(self.OSMID) + '.forest', 'w')
-        for index in range(0, numberOfTree):
-            x = random.uniform(xMin, xMax)
-            z = random.uniform(zMin, zMax)
-            y = 0
-            if WebotsObject.elevation is not None:
-                y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
-            if Area.is_point_in_polygon(x, z, polygon) is True:
-                treeNumber = treeNumber + 1
-                file.write("%.2f,%.2f,%.2f\n" % (x, y, z))
-        file.close()
+        forestRelativePath = 'forest/' + str(self.OSMID) + '.forest'
+        forestPath = folder + '/' + forestRelativePath
+        with open(forestPath, 'w') as file:
+            for index in range(0, numberOfTree):
+                x = random.uniform(xMin, xMax)
+                z = random.uniform(zMin, zMax)
+                y = 0
+                if WebotsObject.elevation is not None:
+                    y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
+                if Area.is_point_in_polygon(x, z, polygon) is True:
+                    treeNumber = treeNumber + 1
+                    file.write("%.2f,%.2f,%.2f\n" % (x, y, z))
+
         if treeNumber > 0:
-            return 'forest/' + str(self.OSMID) + '.forest'
+            return forestRelativePath
         else:
-            os.remove('forest/' + str(self.OSMID) + '.forest')
+            if os.path.isfile(forestPath):
+                os.remove(forestPath)
             return None
