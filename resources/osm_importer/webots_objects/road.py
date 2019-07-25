@@ -121,7 +121,7 @@ class Road(WebotsObject):
                 self.forwardLanes = forwardLanes
                 self.backwardLanes = self.lanes - self.forwardLanes
         except (ValueError, AssertionError):
-            pass
+            print('Invalid "lanes:forward" tag for "%s"' % self.name)
 
         try:
             if 'lanes:backward' in self.tags:
@@ -139,7 +139,7 @@ class Road(WebotsObject):
                 self.forwardLanes = forwardLanes
                 self.lanes = lanes
         except (ValueError, AssertionError):
-            pass
+            print('Invalid "lanes:backward" tag for "%s"' % self.name)
 
         # Note: "turn:lanes" seems to have no influence on the lanes in JOSM.
 
