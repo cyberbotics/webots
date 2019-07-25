@@ -3842,7 +3842,7 @@ DEF RIVER Transform {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.17 0.45 0.7
+        baseColor 0.2 0.3 0.45
         metalness 0
       }
       geometry Extrusion {
@@ -3878,7 +3878,7 @@ DEF SMALL_LAKE Transform {
   children [
     DEF water Shape {
       appearance PBRAppearance {
-        baseColor 0.17 0.45 0.7
+        baseColor 0.2 0.3 0.45
         metalness 0
       }
       geometry IndexedFaceSet {
@@ -4056,7 +4056,7 @@ DEF BIG_LAKE Transform {
   children [
     DEF water Shape {
       appearance PBRAppearance {
-        baseColor 0.17 0.45 0.7
+        baseColor 0.2 0.3 0.45
         metalness 0
       }
       geometry IndexedFaceSet {
