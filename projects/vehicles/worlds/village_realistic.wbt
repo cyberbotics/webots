@@ -106,6 +106,8 @@ DEF GRASS Transform {
             "textures/grass.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 40 40
         }
@@ -139,12 +141,7 @@ Fence {
   height 0.4
   poleGap 0.35
   poleRadius 0.2
-  poleAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wood.jpg"
-      ]
-    }
+  poleAppearance PaintedWood {
   }
   path [
     4.4 0 0.7
@@ -169,12 +166,7 @@ DEF FLOWERS Solid {
       height 0.2
       poleGap 0.09
       poleRadius 0.05
-      poleAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/wood.jpg"
-          ]
-        }
+      poleAppearance PaintedWood {
       }
       path [
         0 0 0
@@ -192,6 +184,8 @@ DEF FLOWERS Solid {
             "textures/flowers_purple.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 10 5
         }
@@ -220,12 +214,7 @@ DEF FLOWERS Solid {
       height 0.2
       poleGap 0.09
       poleRadius 0.05
-      poleAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/wood.jpg"
-          ]
-        }
+      poleAppearance PaintedWood {
       }
       path [
         0 0 0
@@ -243,6 +232,8 @@ DEF FLOWERS Solid {
             "textures/flowers_purple.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 10 5
         }
@@ -754,12 +745,7 @@ DEF FLOWERS Solid {
       height 0.2
       poleGap 0.09
       poleRadius 0.05
-      poleAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/wood.jpg"
-          ]
-        }
+      poleAppearance PaintedWood {
       }
       path [
         0 0 0
@@ -777,6 +763,8 @@ DEF FLOWERS Solid {
             "textures/flowers_purple.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 10 5
         }
@@ -806,12 +794,7 @@ DEF FLOWERS Solid {
       height 0.2
       poleGap 0.09
       poleRadius 0.05
-      poleAppearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/wood.jpg"
-          ]
-        }
+      poleAppearance PaintedWood {
       }
       path [
         0 0 0
@@ -829,6 +812,8 @@ DEF FLOWERS Solid {
             "textures/flowers_yellow.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 10 5
         }
@@ -861,12 +846,7 @@ Fence {
   height 0.4
   poleGap 0.35
   poleRadius 0.2
-  poleAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wood.jpg"
-      ]
-    }
+  poleAppearance PaintedWood {
   }
   path [
     0 0 0
@@ -887,6 +867,8 @@ DEF GRASS2 Transform {
             "textures/grass.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 40 40
         }
@@ -933,6 +915,8 @@ DEF GRASS3 Transform {
             "textures/grass.jpg"
           ]
         }
+        roughness 1
+        metalness 0
         textureTransform TextureTransform {
           scale 40 40
         }
@@ -967,12 +951,7 @@ Fence {
   height 0.3
   poleGap 0.35
   poleRadius 0.2
-  poleAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wood.jpg"
-      ]
-    }
+  poleAppearance PaintedWood {
   }
   path [
     0 0 0
@@ -2183,6 +2162,8 @@ BusStop {
   translation 418.69 0 -232.169
   rotation 0 -1 0 3.10841
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2208,6 +2189,8 @@ BusStop {
   rotation 0 1 0 2.77419
   name "bus stop(1)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 BusSimple {
@@ -2240,6 +2223,8 @@ BusStop {
   name "bus stop(2)"
   bench FALSE
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2266,6 +2251,8 @@ BusStop {
   name "bus stop(3)"
   bench FALSE
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 BusSimple {
@@ -2297,6 +2284,8 @@ BusStop {
   rotation 0 -1 0 2.85841
   name "bus stop(4)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2322,6 +2311,8 @@ BusStop {
   rotation 0 -1 0 5.82478
   name "bus stop(5)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2347,6 +2338,8 @@ BusStop {
   rotation 7.13274e-08 -1 -2.86931e-08 6.02478
   name "bus stop(6)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2372,6 +2365,8 @@ BusStop {
   rotation 0 -1 0 2.73319
   name "bus stop(7)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Transform {
@@ -2445,6 +2440,8 @@ BungalowStyleHouse {
   rotation 0 1 0 2.8798
   name "bungalow style house(1)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 BungalowStyleHouse {
@@ -2452,6 +2449,8 @@ BungalowStyleHouse {
   rotation 0 1 0 6.02139
   name "bungalow style house(2)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 BungalowStyleHouse {
@@ -2466,6 +2465,8 @@ BungalowStyleHouse {
   fence FALSE
   floor FALSE
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 BungalowStyleHouse {
@@ -2474,6 +2475,8 @@ BungalowStyleHouse {
   name "bungalow style house(5)"
   floor FALSE
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Fence {
@@ -3548,6 +3551,8 @@ BungalowStyleHouse {
   floor FALSE
   chimney FALSE
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 Auditorium {
@@ -3571,6 +3576,8 @@ ModernHouse {
   translation 688.344 0.005 -205.429
   rotation 0 1 0 3.40339
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 FastFoodRestaurant {
@@ -3624,6 +3631,8 @@ Fence {
   name "fence(6)"
   height 2
   poleAppearance DEF APPEARANCE PBRAppearance {
+    roughness 1
+    metalness 0
   }
   path [
     0 0 0
@@ -3659,6 +3668,8 @@ Fence {
   name "fence(7)"
   height 2
   poleAppearance DEF APPEARANCE PBRAppearance {
+    roughness 1
+    metalness 0
   }
   path [
     0 0 0
@@ -3680,6 +3691,8 @@ Fence {
   name "fence(8)"
   height 2
   poleAppearance DEF APPEARANCE PBRAppearance {
+    roughness 1
+    metalness 0
   }
   path [
     0 0 0
@@ -3702,6 +3715,8 @@ Fence {
   name "fence(9)"
   height 2
   poleAppearance DEF APPEARANCE PBRAppearance {
+    roughness 1
+    metalness 0
   }
   path [
     0 0 0
@@ -3724,6 +3739,8 @@ Fence {
   name "fence(10)"
   height 2
   poleAppearance DEF APPEARANCE PBRAppearance {
+    roughness 1
+    metalness 0
   }
   path [
     0 0 0
@@ -3744,6 +3761,8 @@ ModernHouse {
   rotation 0 -1 0 4.45059
   name "modern house(1)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 ModernHouse {
@@ -3755,6 +3774,8 @@ ModernHouse {
   rotation 0 1 0 5.75959
   name "modern house(3)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 ModernHouse {
@@ -3762,12 +3783,16 @@ ModernHouse {
   rotation 0 1 0 6.28319
   name "modern house(4)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 SimpleTwoFloorsHouse {
   translation 490.775 0.005 -150.418
   rotation 0 1 0 1.8326
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 SimpleTwoFloorsHouse {
@@ -3775,6 +3800,8 @@ SimpleTwoFloorsHouse {
   rotation 0 1 0 6.02139
   name "simple two floors house(1)"
   appearance PBRAppearance {
+    roughness 1
+    metalness 0
   }
 }
 SimpleTwoFloorsHouse {
@@ -3815,6 +3842,16 @@ DEF RIVER Transform {
   children [
     Shape {
       appearance PBRAppearance {
+        baseColor 0.17 0.45 0.7
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+        metalness 0
+        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
+          scale 500 500
+        }
       }
       geometry Extrusion {
         crossSection [
@@ -3849,6 +3886,16 @@ DEF SMALL_LAKE Transform {
   children [
     DEF water Shape {
       appearance PBRAppearance {
+        baseColor 0.17 0.45 0.7
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+        metalness 0
+        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
+          scale 500 500
+        }
       }
       geometry IndexedFaceSet {
         coord Coordinate {
@@ -4025,6 +4072,16 @@ DEF BIG_LAKE Transform {
   children [
     DEF water Shape {
       appearance PBRAppearance {
+        baseColor 0.17 0.45 0.7
+        baseColorMap ImageTexture {
+          url [
+            "textures/water.jpg"
+          ]
+        }
+        metalness 0
+        textureTransform DEF SEA_TEXTURE_TRANSFORM TextureTransform {
+          scale 500 500
+        }
       }
       geometry IndexedFaceSet {
         coord Coordinate {
