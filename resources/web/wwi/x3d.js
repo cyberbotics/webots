@@ -39,7 +39,7 @@ THREE.X3DLoader = class X3DLoader {
     // Parse scene.
     var scene = xml.getElementsByTagName('Scene')[0];
     if (typeof scene !== 'undefined') {
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -52,7 +52,7 @@ THREE.X3DLoader = class X3DLoader {
     xml.childNodes.forEach((n) => { rootObjects.push(n); });
     while (rootObjects.length > 0) {
       var node = rootObjects.pop();
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
     }
@@ -82,11 +82,11 @@ THREE.X3DLoader = class X3DLoader {
     else if (node.tagName === 'SpotLight')
       object = this.parseSpotLight(node, helperNodes);
     else if (node.tagName === 'Group') {
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       object.userData.x3dType = 'Group';
       hasChildren = true;
     } else if (node.tagName === 'Switch') {
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
       hasChildren = true;
