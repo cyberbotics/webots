@@ -101,7 +101,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = undefined;
+    this.scene.background = new THREE.Color(0, 0, 0);
     this.onSceneUpdate();
     this.render();
   }
