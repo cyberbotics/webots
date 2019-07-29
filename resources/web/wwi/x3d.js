@@ -656,6 +656,8 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
+    geometry.computeVertexNormals();
+
     return geometry;
   }
 
