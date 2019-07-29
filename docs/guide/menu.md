@@ -58,6 +58,7 @@
     - [X3D and Web Scene](web-scene.md)
     - [Web Animation](web-animation.md)
     - [Web Streaming](web-streaming.md)
+    - [Web Simulation](web-simulation.md)
 - [Tutorials](tutorials.md)
     - [Tutorial 1: Your First Simulation in Webots (20 Minutes)](tutorial-1-your-first-simulation-in-webots-20-minutes.md)
     - [Tutorial 2: Modification of the Environment (20 Minutes)](tutorial-2-modification-of-the-environment-20-minutes.md)
