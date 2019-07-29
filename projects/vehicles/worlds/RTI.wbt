@@ -209,28 +209,8 @@ Solid {
   rotation 0 1 0 2.8797932569999998
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/ground_1_base_color.png"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/ground_1_roughness.png"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/ground_1_normal.png"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/ground_1_occlusion.png"
-          ]
-        }
+      appearance Soil {
+        soilColor "grey"
         textureTransform TextureTransform {
           scale 15 12
         }
@@ -259,28 +239,8 @@ Solid {
   rotation 0 -1 0 5.497787165359172
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/ground_1_base_color.png"
-          ]
-        }
-        roughnessMap ImageTexture {
-          url [
-            "textures/ground_1_roughness.png"
-          ]
-        }
-        metalness 0
-        normalMap ImageTexture {
-          url [
-            "textures/ground_1_normal.png"
-          ]
-        }
-        occlusionMap ImageTexture {
-          url [
-            "textures/ground_1_occlusion.png"
-          ]
-        }
+      appearance Soil {
+        soilColor "grey"
         textureTransform TextureTransform {
           scale 15 16
         }
@@ -454,28 +414,7 @@ DEF FLOOR_SEGMENTS Group {
       translation -44.051607 0 2.113228
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/ground_2_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/ground_2_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/ground_2_normal.png"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/ground_2_occlusion.png"
-              ]
-            }
+          appearance OldStonePavement {
             textureTransform TextureTransform {
               scale 300 300
             }
@@ -512,28 +451,8 @@ DEF FLOOR_SEGMENTS Group {
       translation -147.427064 0 33.404572
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/ground_1_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/ground_1_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/ground_1_normal.png"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/ground_1_occlusion.png"
-              ]
-            }
+          appearance Soil {
+            soilColor "grey"
             textureTransform TextureTransform {
               scale 100 100
             }
@@ -569,28 +488,8 @@ DEF FLOOR_SEGMENTS Group {
       translation -431.430211 0 268.294945
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/ground_1_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/ground_1_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/ground_1_normal.png"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/ground_1_occlusion.png"
-              ]
-            }
+          appearance Soil {
+            soilColor "grey"
             textureTransform TextureTransform {
               scale 100 100
             }
@@ -635,28 +534,7 @@ DEF FLOOR_SEGMENTS Group {
       translation -0.328764 0 -379.039915
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/ground_3_base_color.png"
-              ]
-            }
-            roughnessMap ImageTexture {
-              url [
-                "textures/ground_3_roughness.png"
-              ]
-            }
-            metalness 0
-            normalMap ImageTexture {
-              url [
-                "textures/ground_3_normal.png"
-              ]
-            }
-            occlusionMap ImageTexture {
-              url [
-                "textures/ground_3_occlusion.png"
-              ]
-            }
+          appearance Soil {
             textureTransform TextureTransform {
               scale 100 100
             }
@@ -1171,7 +1049,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/end_limit_50.png"
+        "textures/signs/eu/end_limit_50.png"
       ]
     }
   ]
@@ -3738,14 +3616,7 @@ DEF PLAY_AREA Solid {
       translation 0 0.05 5.220000000000001
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/artificial_sand.jpg"
-              ]
-            }
-            roughness 0.9
-            metalness 0
+          appearance ArtificialGrass {
             textureTransform TextureTransform {
               scale 30 17
             }
@@ -3797,14 +3668,7 @@ DEF PLAY_AREA Solid {
       translation 0 0.1 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/sand.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance Sand {
             textureTransform TextureTransform {
               scale 7 3
             }
@@ -3940,14 +3804,7 @@ DEF PLAY_AREA Solid {
       translation 0 0.05 5.220000000000001
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/artificial_sand.jpg"
-              ]
-            }
-            roughness 0.9
-            metalness 0
+          appearance ArtificialGrass {
             textureTransform TextureTransform {
               scale 30 17
             }
@@ -3999,14 +3856,7 @@ DEF PLAY_AREA Solid {
       translation 0 0.1 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/sand.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance Sand {
             textureTransform TextureTransform {
               scale 7 3
             }
