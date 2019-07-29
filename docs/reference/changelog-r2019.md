@@ -13,7 +13,7 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
-      - Fixed ElevationGrid normals
+      - Fixed [ElevationGrid](elevationgrid.md) normals.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
