@@ -1,5 +1,6 @@
 #VRML_SIM R2019b utf8
 WorldInfo {
+  title "Village Center"
   ERP 0.6
   basicTimeStep 10
   FPS 40
@@ -71,7 +72,7 @@ DEF VIEWPOINT Viewpoint {
   fieldOfView 1
   orientation -0.024488909854159923 -0.9850929736703341 -0.17027074475520798 2.691569790639924
   position -153.37410590342432 31.10687778845827 -104.88212194957107
-  near 0.1
+  near 4
 }
 TexturedBackground {
 }
