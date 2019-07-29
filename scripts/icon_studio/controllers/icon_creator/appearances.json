@@ -1,4 +1,7 @@
 {
+  "ArtificialGrass": {
+    "fields": "textureTransform TextureTransform { scale 3 2 }"
+  },
   "Asphalt": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
@@ -65,6 +68,9 @@
   "OldSteel": {
     "fields": "textureTransform TextureTransform { scale 2 2 }"
   },
+  "OldStonePavement": {
+    "fields": "textureTransform TextureTransform { scale 3 2 }"
+  },
   "OsbWood": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
@@ -101,6 +107,9 @@
   "RustyMetal": {
     "fields": "rustLevel 2 textureTransform TextureTransform { scale 2 2 }"
   },
+  "Sand": {
+    "fields": "textureTransform TextureTransform { scale 4 2 }"
+  },
   "ScrewThread": {
     "fields": "textureTransform TextureTransform { rotation 1.5708 scale 4 2 }"
   },
@@ -109,6 +118,9 @@
   },
   "SlatePavement": {
     "fields": "textureTransform TextureTransform { scale 4 2 }"
+  },
+  "Soil": {
+    "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
   "SquarePavement": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
