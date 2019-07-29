@@ -26,7 +26,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.scene.background = null;
 
     this.viewpoint = new Viewpoint();
     this.viewpoint.onCameraParametersChanged = (updateScene) => {
@@ -102,7 +101,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = null;
+    this.scene.background = new THREE.Color(0, 0, 0);
     this.onSceneUpdate();
     this.render();
   }
@@ -438,7 +437,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   _setupEnvironmentMap() {
     var isHDR = false;
     var backgroundMap;
-    if (this.scene.background != null) {
+    if (this.scene.background) {
       if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
         isHDR = true;
         backgroundMap = this.scene.background.userData.texture;
