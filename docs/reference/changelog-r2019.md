@@ -14,6 +14,7 @@ Released on XXX YYth, 2019.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [ElevationGrid](elevationgrid.md) normals.
+      - Fixed [Background](background.md) default color.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
