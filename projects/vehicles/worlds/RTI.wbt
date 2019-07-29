@@ -1171,7 +1171,7 @@ OrderSign {
     OrderPanel {
       translation 0 -0.175 -0.026
       signImage [
-        "textures/fin_50.png"
+        "textures/end_limit_50.png"
       ]
     }
   ]
