@@ -2304,14 +2304,7 @@ DEF TREE Transform {
     Sassafras {
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2346,14 +2339,7 @@ DEF TREE Transform {
       name "sassafras tree(1)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2388,14 +2374,7 @@ DEF TREE Transform {
       name "sassafras tree(2)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2430,14 +2409,7 @@ DEF TREE Transform {
       name "sassafras tree(3)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2472,14 +2444,7 @@ DEF TREE Transform {
       name "sassafras tree(4)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2514,14 +2479,7 @@ DEF TREE Transform {
       name "sassafras tree(5)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
@@ -2556,14 +2514,7 @@ DEF TREE Transform {
       name "sassafras tree(6)"
     }
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/soil.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance Soil {
       }
       geometry Cylinder {
         height 0.1
