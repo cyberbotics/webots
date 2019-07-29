@@ -13,6 +13,7 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
+      - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
     - Fixed `realistic_village.wbt` materials.
