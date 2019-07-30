@@ -16,6 +16,7 @@
 # limitations under the License.
 
 import os
+import sys
 
 from PIL import Image
 
@@ -29,11 +30,12 @@ def search_and_replace(filename, fromString, toString):
         file.write(data)
 
 
+fileDirectory = os.path.dirname(os.path.abspath(__file__))
 paths = [
-    os.path.join('automobile', 'images'),
-    os.path.join('blog', 'images'),
-    os.path.join('guide', 'images'),
-    os.path.join('reference', 'images')
+    os.path.join(fileDirectory, 'automobile', 'images'),
+    os.path.join(fileDirectory, 'blog', 'images'),
+    os.path.join(fileDirectory, 'guide', 'images'),
+    os.path.join(fileDirectory, 'reference', 'images')
 ]
 
 # Get all the images and remove the thumbnails.
@@ -50,14 +52,15 @@ for path in paths:
 
 # Get all the MD files
 mdFiles = []
-for root, dirnames, filenames in os.walk('.'):
+for root, dirnames, filenames in os.walk(fileDirectory):
     for filename in filenames:
         if filename.endswith(('.md')):
             mdFiles.append(os.path.join(root, filename))
 
 # Revert all the thumbnail in the MD files.
 for mdFile in mdFiles:
-    print('Revert thumbnails in "%s"', mdFile)
+    if '--silent' not in sys.argv:
+        print('Revert thumbnails in "%s"', mdFile)
     search_and_replace(mdFile, '.thumbnail.png', '.png')
     search_and_replace(mdFile, '.thumbnail.jpg', '.png')
 
@@ -65,7 +68,8 @@ for mdFile in mdFiles:
 for image in images:
     im = Image.open(image)
     width, height = im.size
-    print('Check image "%s" (%dx%d)' % (image, width, height))
+    if '--silent' not in sys.argv:
+        print('Check image "%s" (%dx%d)' % (image, width, height))
 
     # Compute the expected maximum size depending on the path.
     expectedSize = 400
@@ -101,15 +105,19 @@ for image in images:
 
         # Save the result.
         im.save(thumbnail, targetFormat)
-        print('=> Thumbnail "%s" created (%dx%d)' % (thumbnail, im.size[0], im.size[1]))
+        if '--silent' not in sys.argv:
+            print('=> Thumbnail "%s" created (%dx%d)' % (thumbnail, im.size[0], im.size[1]))
 
         # Compute paths by removing books.
+        image = image.replace(fileDirectory + os.sep, '')
         book = image[:image.find('/')]
         imagePath = image[(image.find('/') + 1):]
+        thumbnail = thumbnail.replace(fileDirectory + os.sep, '')
         thumbnailPath = thumbnail[(thumbnail.find('/') + 1):]
 
         # Modify the MD files accordingly.
         for mdFile in mdFiles:
-            if mdFile.startswith('./' + book):
-                search_and_replace(mdFile, '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
-                search_and_replace(mdFile, ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
+            mdFile = mdFile.replace(fileDirectory + os.sep, '')
+            if mdFile.startswith(book):
+                search_and_replace(os.path.join(fileDirectory, mdFile), '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
+                search_and_replace(os.path.join(fileDirectory, mdFile), ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
