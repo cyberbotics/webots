@@ -119,5 +119,7 @@ for image in images:
         for mdFile in mdFiles:
             mdFile = mdFile.replace(fileDirectory + os.sep, '')
             if mdFile.startswith(book):
-                search_and_replace(os.path.join(fileDirectory, mdFile), '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
-                search_and_replace(os.path.join(fileDirectory, mdFile), ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
+                search_and_replace(os.path.join(fileDirectory, mdFile),
+                                   '(%s)' % imagePath, '(%s)' % thumbnailPath)  # Usual image references.
+                search_and_replace(os.path.join(fileDirectory, mdFile),
+                                   ' %s' % imagePath, ' %s' % thumbnailPath)  # Web component fallbacks.
