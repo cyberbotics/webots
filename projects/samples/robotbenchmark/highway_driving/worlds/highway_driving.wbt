@@ -264,6 +264,12 @@ DEF WEBOTS_VEHICLE0 LincolnMKZ {
     }
   ]
   sensorsSlotCenter [
+    SpotLight {
+      beamWidth 0.7
+      direction 0.3 -1 0
+      location -20 40 0
+      castShadows TRUE
+    }
     DEF SENSOR_VISUALIZATION Robot {
       children [
         DEF RIGHT_VISUALIZATION DistanceSensorVisualization {
