@@ -22,14 +22,14 @@ PROTO Grass [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_base_color.png\"" }%
+        %{= "\"textures/grass/grass_" .. typeID .. "_base_color.jpg\"" }%
       ]
     }
     roughness 1
     %{ if typeID == 2 then }%
       roughnessMap ImageTexture {
         url [
-          %{= "\"textures/grass/grass_" .. typeID .. "_roughness.png\"" }%
+          %{= "\"textures/grass/grass_" .. typeID .. "_roughness.jpg\"" }%
         ]
       }
     %{ end }%
@@ -37,12 +37,12 @@ PROTO Grass [
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_normal.png\"" }%
+        %{= "\"textures/grass/grass_" .. typeID .. "_normal.jpg\"" }%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_occlusion.png\"" }%
+        %{= "\"textures/grass/grass_" .. typeID .. "_occlusion.jpg\"" }%
       ]
     }
     textureTransform IS textureTransform
