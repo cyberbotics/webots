@@ -10,6 +10,15 @@ Viewpoint {
   follow "ROBOTIS OP2"
 }
 TexturedBackgroundLight {
+  luminosity 0.8
+  castShadows FALSE
+}
+SpotLight {
+  beamWidth 0.7
+  direction 0 -1 0
+  intensity 2
+  location 7 17 -4
+  castShadows TRUE
 }
 TexturedBackground {
 }
@@ -30,16 +39,9 @@ Fog {
 DEF GROUND Solid {
   children [
     Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/ground.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance DryMud {
         textureTransform TextureTransform {
-          scale 500 500
+          scale 2000 2000
         }
       }
       geometry DEF GROUND_PLANE Plane {
@@ -256,21 +258,11 @@ DEF ENVIRONMENT Solid {
     }
     FireHydrant {
       translation 23.107 0 3.59
-      appearance PBRAppearance {
-        baseColor 0.643137 0 0
-        roughness 1
-        metalness 0
-      }
     }
     FireHydrant {
       translation -5.04 0 -7
       rotation 0 -1 0 1.5707963
       name "fire hydrant(1)"
-      appearance PBRAppearance {
-        baseColor 0.643137 0 0
-        roughness 1
-        metalness 0
-      }
     }
     BusStop {
       translation 1.618 0 -8.171
