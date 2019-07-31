@@ -85,6 +85,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
   texture "noon_cloudy_village"
+  castShadows FALSE
 }
 Fog {
   color 0.606928 0.65417 0.716991
