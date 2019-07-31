@@ -65,6 +65,14 @@ var TextureLoader = {
     this._getInstance().texturePathPrefix = texturePathPrefix;
   },
 
+  hasPendingData: function() {
+    let textures = this._getInstance().loadingTextures;
+    let count = 0;
+    for (let key in textures) // eslint-disable-line no-unused-vars
+      count++;
+    return count;
+  },
+
   _getInstance: function() {
     if (typeof this.instance === 'undefined')
       this.instance = new _TextureLoaderObject();
@@ -90,7 +98,7 @@ class _TextureLoaderObject {
   constructor() {
     this.images = []; // list of image names
     this.textures = {}; // dictionary <texture file name, array <[texture data, texture object]>
-    this.loadingTextures = {}; // dictionary <texture file name, dictionary <'objects': [texture objects], 'onLoad': [callback functions] > > 
+    this.loadingTextures = {}; // dictionary <texture file name, dictionary <'objects': [texture objects], 'onLoad': [callback functions] > >
     this.loadingCubeTextureObjects = {}; // dictionary <cube texture object, dictionary < image name: [cube image index] > >
     this.onTextureLoad = undefined;
     this.texturePathPrefix = '';
