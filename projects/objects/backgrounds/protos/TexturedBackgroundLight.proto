@@ -23,6 +23,7 @@
 PROTO TexturedBackgroundLight [
   field  SFString{"dawn_cloudy_empty", "empty_office", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
                   texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
+  field  SFFloat  luminosity  1               # Multiplies the `Light.intensity` field.
   field  SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
 ]
 {
@@ -31,6 +32,7 @@ PROTO TexturedBackgroundLight [
     local color = {1.0, 1.0, 1.0}
     local intensity = 1.0
     local on = true
+    local luminosity = fields.luminosity.value > 0.0 and fields.luminosity.value or 0.0
     if fields.texture.value == "empty_office" then
       direction = {-0.2, -0.5, -0.9}
       intensity = 0.05
@@ -79,7 +81,7 @@ PROTO TexturedBackgroundLight [
     ambientIntensity 1
     direction %{=direction[1]}% %{=direction[2]}% %{=direction[3]}%
     color %{=color[1]}% %{=color[2]}% %{=color[3]}%
-    intensity %{=intensity}%
+    intensity %{=luminosity * intensity}%
     %{ if on then }%
       on TRUE
     %{ else }%
