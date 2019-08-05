@@ -338,8 +338,8 @@ Reload the world.
 > ```
 After initialization of the devices, initialize the motors:
 > ```cpp
-> Motor leftMotor = wb_robot_get_device("left wheel motor");
-> Motor rightMotor = wb_robot_get_device("right wheel motor");
+> Motor *leftMotor = robot->getMotor("left wheel motor");
+> Motor *rightMotor = robot->getMotor("right wheel motor");
 > leftMotor->setPosition(INFINITY);
 > rightMotor->setPosition(INFINITY);
 > leftMotor->setVelocity(0.0);
