@@ -283,6 +283,9 @@ class _TextureLoaderObject {
         message += key + '\n';
       console.error(message);
       this.hasPendingData = false;
+
+      if (typeof this.onTextureLoad === 'function')
+        this.onTextureLoad();
     }, 10000); // wait 10 seconds
   }
 
