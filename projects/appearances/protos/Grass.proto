@@ -18,7 +18,7 @@ PROTO Grass [
       ]
     }
     roughness 1
-    %{ if typeID == "prickly" then }%
+    %{ if fields.type.value == "prickly" then }%
       roughnessMap ImageTexture {
         url [
           %{= "\"textures/grass/grass_" .. fields.type.value .. "_roughness.jpg\"" }%
