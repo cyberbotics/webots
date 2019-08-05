@@ -53,7 +53,14 @@ DirectionalLight {
 }
 Floor {
   size 40 5
-  appearance Parquetry {
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/interlaced_parquetry.jpg"
+      ]
+    }
+    roughness 1
+    metalness 0
   }
 }
 Wall {
