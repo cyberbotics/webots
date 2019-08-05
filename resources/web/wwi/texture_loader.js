@@ -66,11 +66,7 @@ var TextureLoader = {
   },
 
   hasPendingData: function() {
-    let textures = this._getInstance().loadingTextures;
-    let count = 0;
-    for (let key in textures) // eslint-disable-line no-unused-vars
-      count++;
-    return count;
+    return this._getInstance.hasPendingData;
   },
 
   _getInstance: function() {
@@ -102,6 +98,7 @@ class _TextureLoaderObject {
     this.loadingCubeTextureObjects = {}; // dictionary <cube texture object, dictionary < image name: [cube image index] > >
     this.onTextureLoad = undefined;
     this.texturePathPrefix = '';
+    this.hasPendingData = false;
   }
 
   createOrRetrieveTexture(filename, textureData) {
@@ -195,6 +192,8 @@ class _TextureLoaderObject {
       this.loadingTextures[name].objects.push(texture);
     if (typeof onLoad !== 'undefined')
       this.loadingTextures[name].onLoad.push(onLoad);
+    this.hasPendingData = true;
+    this._setTimeout();
 
     // Load from url.
     var loader;
@@ -266,6 +265,40 @@ class _TextureLoaderObject {
 
     if (typeof this.onTextureLoad === 'function')
       this.onTextureLoad();
+
+    this._evaluatePendingData();
+  }
+
+  _setTimeout() {
+    // Set texture loading timeout.
+    // If after some time no new textures are loaded, the hasPendingData variable is automatically
+    // reset to false in order to handle not found textures.
+    // The `this.loadingTextures` dictionary is not reset so that it is still possible to recore late textures.
+    if (this.timeoutHandle)
+      window.clearTimeout(this.timeoutHandle);
+
+    this.timeoutHandle = window.setTimeout(() => {
+      var message = 'ERROR: Texture loader timeout elapsed. The following textures could not be loaded: \n';
+      for (let key in this.loadingTextures)
+        message += key + '\n';
+      console.error(message);
+      this.hasPendingData = false;
+    }, 10000); // wait 10 seconds
+  }
+
+  _evaluatePendingData() {
+    this.hasPendingData = false;
+    for (let key in this.loadingTextures) {
+      if (this.loadingTextures.hasOwnProperty(key)) {
+        this.hasPendingData = true;
+        break;
+      }
+    }
+
+    if (this.hasPendingData)
+      this._setTimeout();
+    else if (this.timeoutHandle)
+      window.clearTimeout(this.timeoutHandle);
   }
 };
 
