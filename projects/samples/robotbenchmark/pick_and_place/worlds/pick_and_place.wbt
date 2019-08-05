@@ -41,6 +41,7 @@ WorldInfo {
 Viewpoint {
   orientation 0.07398746518993696 0.9910244125441088 0.11133943028582508 4.3838106
   position -6.8845226 1.8985127 -1.6465338
+  exposure 1.5
 }
 TexturedBackground {
   texture "factory"
@@ -50,11 +51,10 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 SpotLight {
-  attenuation 0 0 1
   beamWidth 0.7
   direction 0 -1 0
-  intensity 10
-  location 0 4.8 0
+  intensity 2.5
+  location 0 4 0
   castShadows TRUE
 }
 Floor {
@@ -75,16 +75,9 @@ DEF WALL Solid {
   rotation 1 0 0 1.5707997
   children [
     DEF WALL_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColorMap ImageTexture {
-          url [
-            "textures/metal_stripes.jpg"
-          ]
-        }
-        roughness 1
-        metalness 0
+      appearance CorrugatedMetal {
         textureTransform TextureTransform {
-          scale 17 1
+          scale 2 2
         }
       }
       geometry Plane {
@@ -287,14 +280,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 1 0 0 1.5707997
       children [
         DEF CYL Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.5
@@ -335,14 +321,7 @@ DEF CONVEYOR_BELT Robot {
       translation 0.31 0.01 0.26
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 3.1 0.1 0.02
@@ -354,14 +333,7 @@ DEF CONVEYOR_BELT Robot {
       translation 0.31 0.01 -0.26
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 3.1 0.1 0.02
@@ -374,14 +346,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 0.54 0.1 0.02
@@ -394,14 +359,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 0.54 0.01 0.34
@@ -414,14 +372,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.12
@@ -435,14 +386,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.12
@@ -456,14 +400,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.12
@@ -477,14 +414,7 @@ DEF CONVEYOR_BELT Robot {
       rotation 0 1 0 1.5707997
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.12
@@ -521,14 +451,7 @@ DEF MACHINERY Solid {
     DEF BOTTOM Transform {
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 1.5 0.1 1.5
@@ -540,14 +463,7 @@ DEF MACHINERY Solid {
       translation -0.65 0.685 5.2041704e-18
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 0.2 1.27 1.5
@@ -560,14 +476,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707963
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 0.7 1.27 1.3
@@ -579,14 +488,29 @@ DEF MACHINERY Solid {
       translation 0.10000001 0.685 -0.61599991
       rotation 0 1 0 1.5707963
       children [
-        TexturedBoxShape {
-          size 0.268 1.27 1.3
-          textureUrl [
-            "textures/factory_logo.jpg"
-          ]
-          textureMapping "metric"
-          faceColor 0.333333 0.341176 0.32549
-          leftFace FALSE
+        Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.268 1.27 1.3
+          }
+        }
+      ]
+    }
+    DEF LOGO Transform {
+      translation -0.21 0.79 -0.76
+      rotation 0 -0.7071 0.7071 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "textures/factory_logo.png"
+              ]
+            }
+          }
+          geometry Plane {
+          }
         }
       ]
     }
@@ -595,14 +519,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707963
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Box {
             size 1.5 0.02 1.5
@@ -631,14 +548,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.06
@@ -652,14 +562,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.06
@@ -673,14 +576,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.06
@@ -694,14 +590,7 @@ DEF MACHINERY Solid {
       rotation 0 1 0 1.5707997
       children [
         DEF BLACK_BOX_FOOT_SHAPE Shape {
-          appearance PBRAppearance {
-            baseColorMap ImageTexture {
-              url [
-                "textures/metal.jpg"
-              ]
-            }
-            roughness 1
-            metalness 0
+          appearance BrushedAluminium {
           }
           geometry Cylinder {
             height 0.06
