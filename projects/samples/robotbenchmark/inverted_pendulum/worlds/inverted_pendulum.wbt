@@ -59,6 +59,11 @@ Floor {
 Wall {
   translation 0 0 2.52
   size 40 2.4 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 20 1.2
+    }
+  }
 }
 E-puck {
   translation 0 0 -0.98
