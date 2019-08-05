@@ -1,4 +1,4 @@
-/* global DefaultUrl */
+/* global DefaultUrl, TextureLoader */
 'use strict';
 
 class Animation { // eslint-disable-line no-unused-vars
@@ -37,6 +37,10 @@ class Animation { // eslint-disable-line no-unused-vars
     // extract animated node ids: remove empty items and convert to integer
     this.allIds = this.data.ids.split(';').filter(Boolean).map(s => parseInt(s));
 
+    // Automatically start the simulation only when all the textures are loaded.
+    if (this.gui === 'real_time' && TextureLoader.hasPendingData())
+      this.gui = 'play_on_load'; // wait for textures loading
+
     // Create play bar.
     var div = document.createElement('div');
     div.id = 'playBar';
@@ -73,7 +77,7 @@ class Animation { // eslint-disable-line no-unused-vars
   }
 
   _triggerPlayPauseButton() {
-    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this.gui + '.png)';
+    this.button.style.backgroundImage = 'url(' + DefaultUrl.wwiImagesUrl() + this._getIconBaseName(this.gui) + '.png)';
     if (this.gui === 'real_time') {
       this.gui = 'pause';
       if (this.step < 0 || this.step >= this.data.frames.length) {
@@ -179,6 +183,14 @@ class Animation { // eslint-disable-line no-unused-vars
     if (this.gui === 'real_time' && !this.sliding) {
       this._updateAnimationState();
       window.requestAnimationFrame(() => { this._updateAnimation(); });
+    } else if (this.gui === 'play_on_load') {
+      if (!TextureLoader.hasPendingData())
+        this._triggerPlayPauseButton();
+      window.requestAnimationFrame(() => { this._updateAnimation(); });
     }
+  }
+
+  _getIconBaseName() {
+    return this.gui === 'real_time' ? 'real_time' : 'pause';
   }
 }

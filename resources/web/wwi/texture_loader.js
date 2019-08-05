@@ -66,7 +66,7 @@ var TextureLoader = {
   },
 
   hasPendingData: function() {
-    return this._getInstance.hasPendingData;
+    return this._getInstance().hasPendingData;
   },
 
   _getInstance: function() {
