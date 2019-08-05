@@ -1,7 +1,7 @@
 #VRML_SIM R2020a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# A grass material useful with the `Floor` PROTO.
+# A grass material containing several grass types.
 
 PROTO Grass [
   field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
