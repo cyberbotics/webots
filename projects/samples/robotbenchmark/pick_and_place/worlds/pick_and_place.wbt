@@ -43,8 +43,19 @@ Viewpoint {
   position -6.8845226 1.8985127 -1.6465338
 }
 TexturedBackground {
+  texture "factory"
 }
 TexturedBackgroundLight {
+  texture "factory"
+  castShadows FALSE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  direction 0 -1 0
+  intensity 10
+  location 0 4.8 0
+  castShadows TRUE
 }
 Floor {
   size 12 12
