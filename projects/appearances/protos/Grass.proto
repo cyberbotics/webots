@@ -10,26 +10,18 @@ PROTO Grass [
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
 {
-  %{
-    local typeID = 1
-    if fields.type.value == "prickly" then
-      typeID = 2
-    elseif fields.type.value == "mossy" then
-      typeID = 3
-    end
-  }%
   PBRAppearance {
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_base_color.jpg\"" }%
+        %{= "\"textures/grass/grass_" .. fields.type.value .. "_base_color.jpg\"" }%
       ]
     }
     roughness 1
-    %{ if typeID == 2 then }%
+    %{ if typeID == "prickly" then }%
       roughnessMap ImageTexture {
         url [
-          %{= "\"textures/grass/grass_" .. typeID .. "_roughness.jpg\"" }%
+          %{= "\"textures/grass/grass_" .. fields.type.value .. "_roughness.jpg\"" }%
         ]
       }
     %{ end }%
@@ -37,12 +29,12 @@ PROTO Grass [
     IBLStrength IS IBLStrength
     normalMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_normal.jpg\"" }%
+        %{= "\"textures/grass/grass_" .. fields.type.value .. "_normal.jpg\"" }%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/grass/grass_" .. typeID .. "_occlusion.jpg\"" }%
+        %{= "\"textures/grass/grass_" .. fields.type.value .. "_occlusion.jpg\"" }%
       ]
     }
     textureTransform IS textureTransform
