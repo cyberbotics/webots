@@ -44,6 +44,9 @@
   "GlossyPaint": {
     "fields": "baseColor 0.8 0 0 textureTransform TextureTransform { scale 0.5 0.5 }"
   },
+  "Grass": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
   "HammeredCopper": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
