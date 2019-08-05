@@ -18,19 +18,42 @@ Viewpoint {
   follow "e-puck"
 }
 TexturedBackground {
+  texture "empty_office"
 }
-TexturedBackgroundLight {
+SpotLight {
+  beamWidth 0.33
+  cutOffAngle 0.56
+  direction 0 -1 0
+  intensity 2
+  location 0 6.5 0.3
+  radius 8
+  castShadows TRUE
+}
+SpotLight {
+  beamWidth 0.58
+  cutOffAngle 0.757
+  direction 0 -1 0
+  intensity 2
+  location 11 8 0.3
+  radius 20
+  castShadows TRUE
+}
+SpotLight {
+  beamWidth 0.5
+  cutOffAngle 0.72
+  direction 0 -1 0
+  intensity 2
+  location -8 6 0.3
+  radius 8
+  castShadows TRUE
+}
+DirectionalLight {
+  direction 0 -1 1
+  intensity 2
 }
 Floor {
   size 40 5
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/interlaced_parquetry.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
+  appearance Parquetry {
   }
 }
 Wall {
