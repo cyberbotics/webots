@@ -45,13 +45,6 @@ RectangleArena {
     metalness 0
   }
   wallHeight 0.5
-  wallAppearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "textures/wall.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
+  wallAppearance BrushedAluminium {
   }
 }
