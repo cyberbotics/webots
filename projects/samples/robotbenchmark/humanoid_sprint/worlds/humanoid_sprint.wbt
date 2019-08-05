@@ -43,8 +43,9 @@ SpotLight {
   castShadows TRUE
 }
 DEF TRACK Floor {
-  size 11.78 3
-  tileSize 11.78 3
+  translation 0 0 0.39
+  size 11 3
+  tileSize 11 3
   appearance PBRAppearance {
     baseColorMap ImageTexture {
       url [
@@ -52,7 +53,17 @@ DEF TRACK Floor {
       ]
     }
     roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "textures/nao_10m_track_roughness.jpg"
+      ]
+    }
     metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/nao_10m_track_normal.jpg"
+      ]
+    }
   }
 }
 DEF GRASS Solid {
@@ -75,9 +86,6 @@ DEF GRASS Solid {
   ]
   name "grass"
   model "floor"
-  boundingObject Plane {
-    size 20 20
-  }
   locked TRUE
 }
 DEF NAO Nao {
