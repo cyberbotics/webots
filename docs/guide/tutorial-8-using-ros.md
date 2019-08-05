@@ -40,7 +40,7 @@ You can start any simulation using ROS with the following commands (here the `e_
 source /opt/ros/melodic/setup.bash
 roslaunch webots_ros e_puck_line.launch
 ```
-This launch file will launch Webots and start the corresponding node.
+This launch file will launch Webots (the `WEBOTS_HOME` environmental variable should be set) and start the corresponding node.
 
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.
