@@ -81,10 +81,10 @@ DEF VIEWPOINT Viewpoint {
   ambientOcclusionRadius 7
 }
 TexturedBackground {
-  texture "noon_cloudy_village"
+  texture "noon_cloudy_countryside"
 }
 TexturedBackgroundLight {
-  texture "noon_cloudy_village"
+  texture "noon_cloudy_countryside"
   castShadows FALSE
 }
 Fog {
