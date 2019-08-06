@@ -49,7 +49,7 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 ### ROS
 
 To use ROS with the simulated UR3e/UR5e/UR10e robot in Webots, the `universal_robots_ros` controller should be assigned to the robot.
-Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal\_robots/ressources/ros\_package/ur\_e\_webots](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ressources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
+Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal\_robots/resources/ros\_package/ur\_e\_webots](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/resources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
 
 Once `roscore` is started the `ur5e` (replace `5` by `3` or `10` for the UR3e or UR10e) node of the `ur_e_webots` package can be launched:
 ```
