@@ -13,23 +13,23 @@ PROTO Soil [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.soilColor.value .. "_soil_base_color.jpg\"" }%
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_base_color.jpg\"" }%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.soilColor.value .. "_soil_roughness.jpg\"" }%
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_roughness.jpg\"" }%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.soilColor.value .. "_soil_normal.jpg\"" }%
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_normal.jpg\"" }%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %{= "\"textures/soil/" .. fields.soilColor.value .. "_soil_occlusion.jpg\"" }%
+        %{= "\"textures/soil/" .. fields.type.value .. "_soil_occlusion.jpg\"" }%
       ]
     }
     IBLStrength IS IBLStrength
