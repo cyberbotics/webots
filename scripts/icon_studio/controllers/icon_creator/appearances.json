@@ -11,9 +11,6 @@
   "BrushedSteel": {
     "fields": "textureTransform TextureTransform { scale 3 2 }"
   },
-  "CarpetFabric": {
-    "fields": "textureTransform TextureTransform { scale 3 2 }"
-  },
   "CarpetFibers": {
     "fields": "colorOverride 0.33 0.34 0.33 textureTransform TextureTransform { scale 1 0.5 }"
   },
@@ -46,6 +43,9 @@
   },
   "GlossyPaint": {
     "fields": "baseColor 0.8 0 0 textureTransform TextureTransform { scale 0.5 0.5 }"
+  },
+  "Grass": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
   "HammeredCopper": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"

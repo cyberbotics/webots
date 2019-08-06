@@ -101,7 +101,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = undefined;
+    this.scene.background = new THREE.Color(0, 0, 0);
     this.onSceneUpdate();
     this.render();
   }
@@ -437,7 +437,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   _setupEnvironmentMap() {
     var isHDR = false;
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined') {
+    if (this.scene.background) {
       if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
         isHDR = true;
         backgroundMap = this.scene.background.userData.texture;

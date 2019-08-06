@@ -7,12 +7,16 @@ Released on XXX YYth, 2019.
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
-    - Added several appearances: `ArtificialGrass` `BlanketFabric`, `BrushedSteel`, `CarpetFabric`, `CementTiles`, `LedStrip`, `MarbleTiles`, `OldStonePavement`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+    - Added a new HDR background: `noon_cloudy_countryside`
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Bug fixes
+    - Webots online 3D viewer (`webots.min.js`)
+      - Fixed [Fog](fog.md) type.
+      - Fixed [ElevationGrid](elevationgrid.md) normals.
+      - Fixed [Background](background.md) default color.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
