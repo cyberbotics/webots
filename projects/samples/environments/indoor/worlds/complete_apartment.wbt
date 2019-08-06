@@ -636,98 +636,14 @@ DEF KITCHEN_BLOCK Transform {
     }
   ]
 }
-DEF NAO Nao {
-  translation 1.6088 0.334024 4.70639
-  controller "nao_appartement_demo"
-  cameraAmbientOcclusionRadius 1
-  cameraBloomThreshold 21
-}
-DEF NAO_KINECT Nao {
-  translation 0.96442 0.334024 8.35152
-  name "NAO(1)"
-  controller "nao_appartement_kinect_demo"
-  cameraAmbientOcclusionRadius 1
-  cameraBloomThreshold 21
-  headSlot [
-    Kinect {
-      translation -4.86907e-08 -7.25529e-08 0.07
-      rotation -0.5773509358560258 0.577349935856137 0.577349935856137 -2.094395307179586
-      foot FALSE
-    }
-  ]
-}
-DEF NAO_HOKUYO Nao {
-  translation 7.89512 0.334024 5.3637
-  rotation -3.3905113482557537e-09 0.707108281185553 0.70710528118436 3.14159
-  name "NAO(2)"
-  controller "nao_appartement_laser_demo"
-  cameraAmbientOcclusionRadius 1
-  cameraBloomThreshold 21
-  headSlot [
-    HokuyoUrg04lx {
-      translation 0 8.08104e-07 0.08
-      rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
-      name "laser"
-      noise 0.1
-    }
-  ]
-}
-DEF NAO_3D_LASER Nao {
-  translation 11.4671 0.334024 6.08426
-  rotation 0.5773509358554485 0.5773509358554485 0.5773489358556708 -2.094395307179586
-  name "NAO(3)"
-  controller "nao_appartement_laser_demo"
-  cameraAmbientOcclusionRadius 1
-  cameraBloomThreshold 21
-  headSlot [
-    Lidar {
-      translation 0 8.08104e-07 0.08
-      rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
-      children [
-        Transform {
-          translation 0 -0.0175 0
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0.8 0.8 0.8
-                roughness 0.5
-                metalness 0
-              }
-              geometry Box {
-                size 0.05 0.07 0.05
-              }
-            }
-          ]
-        }
-      ]
-      name "laser"
-      boundingObject Transform {
-        translation 0 -0.0175 0
-        children [
-          Box {
-            size 0.05 0.07 0.05
-          }
-        ]
-      }
-      physics Physics {
-        density -1
-        mass 0.16
-      }
-      horizontalResolution 64
-      verticalFieldOfView 1.57
-      numberOfLayers 64
-      maxRange 5
-      noise 0.01
-    }
-  ]
-}
 StraightStairs {
   translation 5.824913 0 4.32594
   rotation 0 1 0 1.5707959999999999
   stepSize 0.25 0.19 1.27
   stepRise 0.18
   nSteps 12
-  stepAppearance CarpetFabric {
+  stepAppearance CarpetFibers {
+    type "synthetic"
   }
   stringerAppearance Roughcast {
     textureTransform TextureTransform {
