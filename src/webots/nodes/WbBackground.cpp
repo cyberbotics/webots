@@ -48,6 +48,7 @@ static QString gUrlNames[6] = {"rightUrl", "leftUrl", "topUrl", "bottomUrl", "fr
 void WbBackground::init() {
   mSkyColor = findMFColor("skyColor");
   mCubemap = findSFNode("cubemap");
+  mLuminosity = findSFDouble("luminosity");
 
   if (!mCubemap->value()) {
     // backward compatibility before R2018b and import from VRML97
@@ -197,6 +198,7 @@ void WbBackground::activate() {
   if (cubemap())
     cubemap()->postFinalize();
 
+  connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
   connect(mCubemap, &WbSFNode::changed, this, &WbBackground::updateCubemap);
 
@@ -274,6 +276,13 @@ void WbBackground::updateCubemap() {
     applySkyBoxToWren();
 }
 
+void WbBackground::updateLuminosity() {
+  if (WbFieldChecker::resetDoubleIfNegative(this, mLuminosity, 1.0))
+    return;
+
+  emit luminosityChanged();
+}
+
 void WbBackground::applyColourToWren(const WbRgb &color) {
   const float value[] = {static_cast<float>(color.red()), static_cast<float>(color.green()), static_cast<float>(color.blue())};
   wr_viewport_set_clear_color_rgb(wr_scene_get_viewport(wr_scene_get_instance()), value);
@@ -326,6 +335,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   }
 
   findField("skyColor", true)->write(writer);
+  findField("luminosity", true)->write(writer);
 
   if (!cubemap() || !cubemap()->isValid())
     return;

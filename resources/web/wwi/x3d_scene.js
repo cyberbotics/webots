@@ -28,10 +28,11 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.scene = new THREE.Scene();
 
     this.viewpoint = new Viewpoint();
-    this.viewpoint.onCameraParametersChanged = () => {
+    this.viewpoint.onCameraParametersChanged = (updateScene) => {
       if (this.gpuPicker)
         this.gpuPicker.needUpdate = true;
-      this.render();
+      if (updateScene)
+        this.render();
     };
 
     this.selector = new Selector();
@@ -105,7 +106,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = undefined;
+    this.scene.background = new THREE.Color(0, 0, 0);
 
     /*
     // Code to debug bloom passes.
@@ -451,7 +452,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   _setupEnvironmentMap() {
     var isHDR = false;
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined') {
+    if (this.scene.background) {
       if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
         isHDR = true;
         backgroundMap = this.scene.background.userData.texture;
@@ -468,8 +469,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
-        if (isHDR)
-          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
+        material.envMapIntensity = isHDR ? 0.2 : 1.0; // Factor empirically found to match the Webots rendering.
+        if (typeof this.scene.userData.luminosity !== 'undefined')
+          material.envMapIntensity *= this.scene.userData.luminosity;
         material.needsUpdate = true;
       }
     });

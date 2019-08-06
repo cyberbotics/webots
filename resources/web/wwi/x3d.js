@@ -663,6 +663,8 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
+    geometry.computeVertexNormals();
+
     return geometry;
   }
 
@@ -973,6 +975,8 @@ THREE.X3DLoader = class X3DLoader {
       this.scene.scene.add(ambientLight);
     }
 
+    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
+
     return undefined;
   }
 
@@ -1022,7 +1026,7 @@ THREE.X3DLoader = class X3DLoader {
     var visibilityRange = parseFloat(getNodeAttribute(fog, 'visibilityRange', '0'));
 
     var fogObject = null;
-    var fogType = getNodeAttribute(fog, 'forType', 'LINEAR');
+    var fogType = getNodeAttribute(fog, 'fogType', 'LINEAR');
     if (fogType === 'LINEAR')
       fogObject = new THREE.Fog(colorInt, 0.001, visibilityRange);
     else

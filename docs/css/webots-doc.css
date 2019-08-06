@@ -377,6 +377,7 @@ body {
   display: block;
   cursor: pointer;
   transition: 0.05s;
+  background-color: white;
 }
 .webots-doc .modal-window-close-button {
   position: absolute;

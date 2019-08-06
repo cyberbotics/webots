@@ -1,8 +1,9 @@
 # The Background node defines the background used for rendering the 3D world.
 
 Background {
-  vrmlField MFColor  skyColor  [ 0 0 0 ]
-  field     SFNode   cubemap   NULL
+  vrmlField MFColor  skyColor    [ 0 0 0 ]
+  field     SFNode   cubemap     NULL
+  field     SFFloat  luminosity  1
   deprecatedField MFString backUrl   []
   deprecatedField MFString bottomUrl []
   deprecatedField MFString frontUrl  []

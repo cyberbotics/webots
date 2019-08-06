@@ -4,6 +4,10 @@
 
 The [Mavic 2 PRO](https://www.dji.com/ch/mavic-2) from [DJI](https://www.dji.com) is quadcopter drone mounted with a motorized camera.
 
+### Movie Presentation
+
+![youtube video](https://www.youtube.com/watch?v=-hJssj_Vcw8)
+
 ### Mavic2Pro PROTO
 
 Derived from [Robot](../reference/robot.md).

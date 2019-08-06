@@ -29,7 +29,7 @@
 
 webots.User1Id             // ID of the main user (integer value > 0). If 0 or unset, the user is not logged in.
 webots.User1Name           // user name of the main user.
-webots.User1Authentication // password or authentication for the main user (empty or unset if user not authenticated).
+webots.User1Authentication // password hash or authentication for the main user (empty or unset if user not authenticated).
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
