@@ -9,18 +9,38 @@ Viewpoint {
   position 2.8815727 1.2408186 1.1426191
   follow "ROBOTIS OP2"
 }
+TexturedBackground {
+}
 TexturedBackgroundLight {
   luminosity 0.8
   castShadows FALSE
 }
 SpotLight {
-  beamWidth 0.7
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
   direction 0 -1 0
-  intensity 2
-  location 7 17 -4
+  intensity 12
+  location 2 4 -0.8
   castShadows TRUE
 }
-TexturedBackground {
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
+  direction 0 -1 0
+  intensity 12
+  location 8 4 -0.8
+  castShadows TRUE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.2
+  cutOffAngle 0.7
+  direction 0 -1 0
+  intensity 12
+  location 13 4 -0.8
+  castShadows TRUE
 }
 DEF BATTERYOP2 RobotisOp2 {
   translation -0.09 0.265 -0.59

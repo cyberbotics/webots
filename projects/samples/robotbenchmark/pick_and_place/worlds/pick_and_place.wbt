@@ -51,9 +51,10 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 SpotLight {
+  attenuation 0 0 1
   beamWidth 0.7
   direction 0 -1 0
-  intensity 2.5
+  intensity 10
   location 0 4 0
   castShadows TRUE
 }

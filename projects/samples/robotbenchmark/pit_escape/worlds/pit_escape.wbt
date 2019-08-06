@@ -19,10 +19,11 @@ Fog {
   visibilityRange 250
 }
 SpotLight {
+  attenuation 0 0 1
   beamWidth 0.7
-  color 0.989548 0.439216 0.032105
+  color 0.984985 0.268986 0.0295109
   direction 4 -2 -4
-  intensity 2
+  intensity 40
   location -10 5 10
   radius 50
   castShadows TRUE
