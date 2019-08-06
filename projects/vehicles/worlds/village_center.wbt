@@ -3568,7 +3568,8 @@ DEF PLAY_AREA Solid {
       translation 0 0.05 5.220000000000001
       children [
         Shape {
-          appearance ArtificialGrass {
+          appearance Grass {
+            type "artificial"
             textureTransform TextureTransform {
               scale 30 17
             }
@@ -3756,7 +3757,8 @@ DEF PLAY_AREA Solid {
       translation 0 0.05 5.220000000000001
       children [
         Shape {
-          appearance ArtificialGrass {
+          appearance Grass {
+            type "artificial"
             textureTransform TextureTransform {
               scale 30 17
             }

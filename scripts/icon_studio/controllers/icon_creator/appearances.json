@@ -1,7 +1,4 @@
 {
-  "ArtificialGrass": {
-    "fields": "textureTransform TextureTransform { scale 3 2 }"
-  },
   "Asphalt": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
