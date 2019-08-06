@@ -15,7 +15,6 @@ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt-get update
 sudo apt-get install ros-melodic-desktop-full
-sudo apt-get install ros-melodic-sensor-msgs
 sudo rosdep init
 rosdep update
 ```
@@ -28,62 +27,20 @@ These tutorials will also help you set up your ROS environment and initialize yo
 
 ### "webots\_ros" Package Installation
 
-If you haven't created any catkin workspace yet, you can create one with the following commands:
-
+You can install the [webots\_ros](http://wiki.ros.org/webots\_ros) package with the following command:
 ```sh
-source /opt/ros/<distro>/setup.bash
-mkdir -p catkin_ws/src
-cd catkin_ws/src
-catkin_init_workspace
-```
-
-Once your workspace is set, you have to copy the `webots_ros` folder located in "projects/languages/ros" in the `src` folder of your catkin workspace.
-You will also need to copy the list of services and messages definitions of the `webots_ros` package.
-Simply copy the `srv` and `msg` folders located in "projects/default/controllers/ros/include" into the `src/webots_ros` folder of your catkin workspace.
-To copy the Webots folders in `catkin_ws/src` you can use the following instructions:
-
-```sh
-cp -r $WEBOTS_HOME/projects/languages/ros/webots_ros .
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/srv webots_ros/
-cp -r $WEBOTS_HOME/projects/default/controllers/ros/include/msg webots_ros/
-```
-
-The `webots_ros` package already contains a "CMakeLists.txt" with build instructions for the package.
-All you have to do, in order to build the package, is to run:
-
-```sh
-cd ..
-catkin_make
+sudo apt-get install ros-melodic-webots-ros
 ```
 
 ### Running the Nodes
 
-Now that you have built the package, you can run the example you want.
-You will first have to launch the master node with the following commands from the catkin workspace:
+You can start any simulation using ROS with the following commands (here the `e_puck_line` one for example):
 
 ```sh
-source devel/setup.bash
-roscore
+source /opt/ros/melodic/setup.bash
+roslaunch webots_ros e_puck_line.launch
 ```
-
-You can then start Webots and open the world of the example you want to run (the example worlds are located in "projects/languages/ros/worlds").
-When you start the simulation the controller should connect to the master and the simulation should start, waiting for instructions.
-
-If the controller can't connect to the master node, it probably means the master node doesn't use the standard `ROS_MASTER_URI`.
-You can check in the terminal in which the master node was started what `ROS_MASTER_URI` is used and you can then add the correct address in the controller arguments, in the environment variables or in a runtime.ini file in the controller directory.
-
-You can then start the ROS node corresponding to this example in a new terminal using the following commands from the catkin workspace:
-
-```sh
-source devel/setup.bash
-rosrun webots_ros [node_name]
-```
-
-For example, if you opened the world "projects/languages/ros/worlds/panoramic\_view\_recorder.wbt" you will have to start the `panoramic_view_recorder` node with the following command:
-
-```sh
-rosrun webots_ros panoramic_view_recorder
-```
+This launch file will launch Webots (the `WEBOTS_HOME` environment variable should be set) and start the corresponding node.
 
 The seed of Webots' random number generator is initialized at the beginning of the simulation and not when the ROS nodes connect.
 Webots has to be running for the ROS nodes to connect.
@@ -99,6 +56,7 @@ The hostname and IP addresses of these computers should be listed in the known h
 ### Creating New Nodes
 
 These examples only show a few possibilities for interfacing ROS and Webots, but you can build your own nodes to connect with Webots.
+The source code of these nodes can be found on the repository of the [webots\_ros](https://github.com/omichel/webots\_ros) package.
 
 The `robot_information_parser` node is the most basic one and is a good base to start building your own node.
 The `complete_test` node doesn't show any particular application but contains an almost exhaustive list of the Webots API functions.
