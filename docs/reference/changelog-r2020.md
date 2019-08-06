@@ -9,3 +9,5 @@ Released on XXX YYth, 2019.
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.
       - Added support for the `ImageTexture.filtering` field.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
+  - New Samples
+    - Added a `complete_apartment` world.
