@@ -7,6 +7,8 @@ Released on XXX YYth, 2019.
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
+    - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface` and `SlatePavement`.
+    - Added new appearance types for: `CarpetFibers`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
     - Added a new HDR background: `noon_cloudy_countryside`
   - New Samples
