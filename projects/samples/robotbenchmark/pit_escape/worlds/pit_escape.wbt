@@ -13,7 +13,14 @@ Viewpoint {
 TexturedBackground {
   texture "twilight_cloudy_empty"
 }
-TexturedBackgroundLight {
+SpotLight {
+  beamWidth 0.7
+  color 0.989548 0.439216 0.032105
+  direction 4 -2 -4
+  intensity 2
+  location -10 5 10
+  radius 50
+  castShadows TRUE
 }
 DEF GROUND Solid {
   children [
@@ -21,17 +28,9 @@ DEF GROUND Solid {
       translation -0.3 0 115
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 500 210
             }
           }
           geometry Plane {
@@ -45,17 +44,9 @@ DEF GROUND Solid {
       translation -0.3 0 -115
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 500 210
             }
           }
           geometry Plane {
@@ -69,17 +60,9 @@ DEF GROUND Solid {
       translation 130 0 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 240 20
             }
           }
           geometry Plane {
@@ -93,17 +76,9 @@ DEF GROUND Solid {
       translation -130 0 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 240 20
             }
           }
           geometry Plane {
@@ -117,10 +92,11 @@ DEF GROUND Solid {
 }
 DEF PIT Pit {
   size 20 4 20
-  texture [
-    "textures/fine_grained_sand.jpg"
-  ]
-  textureScale 5 5
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 30 30
+    }
+  }
   pitRadius 2.7
 }
 DEF ROBOT_BB-8 BB-8 {
