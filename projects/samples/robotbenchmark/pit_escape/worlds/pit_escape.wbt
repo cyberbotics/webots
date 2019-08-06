@@ -13,6 +13,11 @@ Viewpoint {
 TexturedBackground {
   texture "twilight_cloudy_empty"
 }
+Fog {
+  color 0.846693 0.425879 0.0257725
+  fogType "EXPONENTIAL2"
+  visibilityRange 250
+}
 SpotLight {
   beamWidth 0.7
   color 0.989548 0.439216 0.032105
