@@ -211,7 +211,7 @@ Solid {
   children [
     Shape {
       appearance Soil {
-        soilColor "grey"
+        type "grey"
         textureTransform TextureTransform {
           scale 15 12
         }
@@ -241,7 +241,7 @@ Solid {
   children [
     Shape {
       appearance Soil {
-        soilColor "grey"
+        type "grey"
         textureTransform TextureTransform {
           scale 15 16
         }
@@ -453,7 +453,7 @@ DEF FLOOR_SEGMENTS Group {
       children [
         Shape {
           appearance Soil {
-            soilColor "grey"
+            type "grey"
             textureTransform TextureTransform {
               scale 100 100
             }
@@ -490,7 +490,7 @@ DEF FLOOR_SEGMENTS Group {
       children [
         Shape {
           appearance Soil {
-            soilColor "grey"
+            type "grey"
             textureTransform TextureTransform {
               scale 100 100
             }
