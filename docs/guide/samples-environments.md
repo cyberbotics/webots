@@ -28,6 +28,21 @@ This means that a robot could open a drawer, leave an object inside it, and clos
 Light objects such as the books on the shelf or the fruits in the basket can be grabbed by a robot.
 An e-puck robot patrols on the table and an iRobot Create robot cleans the ground.
 
+### [complete_apartment.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
+
+**Keywords**: Apartment, domestic environment, furniture
+
+%figure "Screenshots of the complete apartment environment."
+
+|     |     |
+|:---:|:---:|
+| ![complete_apartment_a.png](images/samples/complete_apartment_a.thumbnail.jpg) | ![complete_apartment_b.png](images/samples/complete_apartment_b.thumbnail.jpg) |
+| ![complete_apartment_c.png](images/samples/complete_apartment_c.thumbnail.jpg) | ![complete_apartment_d.png](images/samples/complete_apartment_d.thumbnail.jpg) |
+
+%end
+
+This example is similar to the previous one but the apartement is more complete, it also contains two bedrooms, one bathroom, one restroom, stairs and a balcony.
+
 ### [factory.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/factory/worlds/factory.wbt)
 
 **Keywords**: Factory, workbench, tools, industrial pipes, industrial stairs
