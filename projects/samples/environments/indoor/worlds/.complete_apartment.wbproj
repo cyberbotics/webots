@@ -7,17 +7,3 @@ centralWidgetVisible: 1
 selectionDisabled: 0
 viewpointLocked: 0
 orthographicViewHeight: 1
-textFiles: 1 "controllers/nao_appartement_demo/nao_appartement_demo.py" "controllers/nao_appartement_laser_demo/nao_appartement_laser_demo.py" "controllers/nao_appartement_kinect_demo/nao_appartement_kinect_demo.py"
-globalOptionalRendering: LidarPointClouds::DistanceSensorRays::CameraFrustums
-renderingDevicePerspectives: NAO:CameraTop;1;1;0;0
-renderingDevicePerspectives: NAO(1):CameraTop;1;1;0.841021;0
-renderingDevicePerspectives: NAO(3):CameraBottom;1;1;0;0.608959
-renderingDevicePerspectives: NAO(1):kinect color;1;1;0.684004;0.767554
-renderingDevicePerspectives: NAO(3):CameraTop;1;1;0;0.449152
-renderingDevicePerspectives: laptop:display;0;0.829032;0;0
-renderingDevicePerspectives: NAO(2):CameraBottom;1;1;0.841021;0.538742
-renderingDevicePerspectives: television:display;0;1;0;0
-renderingDevicePerspectives: NAO(1):kinect range;1;1;0;0.767554
-renderingDevicePerspectives: NAO:CameraBottom;1;1;0.841021;0.179177
-renderingDevicePerspectives: NAO(1):CameraBottom;1;1;0;0.153753
-renderingDevicePerspectives: NAO(2):CameraTop;1;1;0.841021;0.381355
