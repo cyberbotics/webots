@@ -14,6 +14,7 @@ Viewpoint {
   position -2.6337698 3.736315 -1.7895911
 }
 TexturedBackgroundLight {
+  luminosity 0.7
 }
 TexturedBackground {
 }
@@ -45,6 +46,4 @@ RectangleArena {
     metalness 0
   }
   wallHeight 0.5
-  wallAppearance BrushedAluminium {
-  }
 }

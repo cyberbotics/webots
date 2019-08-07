@@ -19,13 +19,14 @@ Viewpoint {
 }
 TexturedBackground {
   texture "entrance_hall"
+  luminosity 0.6
 }
 SpotLight {
   attenuation 0 0 1
   beamWidth 0.33
   cutOffAngle 0.56
   direction 0 -1 0
-  intensity 20
+  intensity 16
   location 0 6.5 0.3
   radius 8
   castShadows TRUE
@@ -35,7 +36,7 @@ SpotLight {
   beamWidth 0.58
   cutOffAngle 0.757
   direction 0 -1 0
-  intensity 20
+  intensity 16
   location 11 8 0.3
   radius 20
   castShadows TRUE
@@ -45,7 +46,7 @@ SpotLight {
   beamWidth 0.5
   cutOffAngle 0.72
   direction 0 -1 0
-  intensity 20
+  intensity 16
   location -8 6 0.3
   radius 8
   castShadows TRUE
