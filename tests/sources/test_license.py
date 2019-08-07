@@ -151,7 +151,7 @@ class TestLicense(unittest.TestCase):
         """Test that sources have the license."""
         for source in self.sources:
             with open(source, 'r', encoding='utf-8') as content_file:
-                content = content_file.read().decode("utf-8")
+                content = content_file.read()
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(
                         content.startswith(APACHE2_LICENSE_C),
