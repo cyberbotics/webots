@@ -31,7 +31,7 @@ class Driver (Supervisor):
         self.emitter = self.getEmitter('emitter')
         robot = self.getFromDef('ROBOT1')
         self.translationField = robot.getField('translation')
-        self.keyboard.enable(self.timeStep)
+        self.keyboard.enable(Driver.timeStep)
         self.keyboard = self.getKeyboard()
 
     def run(self):

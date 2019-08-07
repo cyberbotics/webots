@@ -77,7 +77,7 @@ class Crossroad(object):
         node.attrib['id'] = self.id
         node.attrib['x'] = str(- self.translation[0])
         node.attrib['y'] = str(self.translation[2])
-        if len(self.shape) > 0:
+        if self.shape:
             shape = ""
             for wayPoint in self.shape:
                 shape += "%f,%f " % (- wayPoint[0] - self.translation[0], wayPoint[2] + self.translation[2])

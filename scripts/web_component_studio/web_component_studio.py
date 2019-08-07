@@ -43,20 +43,21 @@ def run_webots():
 
 
 # Script logics.
-for component in json.load(open(ROBOTS))['components']:
-    print('Export ' + component['name'] + ' web component...')
+with open(ROBOTS) as f:
+    for component in json.load(f)['components']:
+        print('Export ' + component['name'] + ' web component...')
 
-    copyfile(TEMPLATE, WORLD)
+        copyfile(TEMPLATE, WORLD)
 
-    search_and_replace(WORLD, '%ROBOT_HEADER%',
-                       'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
-    search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
-    search_and_replace(WORLD, '%ROBOT%', component['proto'])
-    search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
-    search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
-    search_and_replace(WORLD, '%ROBOT_NAME%', component['name'])
-    search_and_replace(WORLD, '%ROBOT_FIELDS%', component['fields'] if 'fields' in component else '')
-    search_and_replace(WORLD, '%VIEWPOINT_POSITION%', component['viewpoint']['position'])
-    search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
+        search_and_replace(WORLD, '%ROBOT_HEADER%',
+                           'Robot { name "%s" children [' % (component['name']) if 'insideRobot' in component else '')
+        search_and_replace(WORLD, '%ROBOT_FOOTER%', ']}' if 'insideRobot' in component else '')
+        search_and_replace(WORLD, '%ROBOT%', component['proto'])
+        search_and_replace(WORLD, '%ROBOT_TRANSLATION%', component['translation'])
+        search_and_replace(WORLD, '%ROBOT_ROTATION%', component['rotation'])
+        search_and_replace(WORLD, '%ROBOT_NAME%', component['name'])
+        search_and_replace(WORLD, '%ROBOT_FIELDS%', component['fields'] if 'fields' in component else '')
+        search_and_replace(WORLD, '%VIEWPOINT_POSITION%', component['viewpoint']['position'])
+        search_and_replace(WORLD, '%VIEWPOINT_ORIENTATION%', component['viewpoint']['orientation'])
 
-    run_webots()
+        run_webots()

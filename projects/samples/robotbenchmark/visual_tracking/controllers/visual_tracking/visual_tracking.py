@@ -137,7 +137,7 @@ while robot.step(timestep) != -1:
     contours = cv2.findContours(maskRGB.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     # Only proceed if at least one blob is found.
-    if len(contours) == 0:
+    if not contours:
         continue
 
     # Choose the largest blob.
