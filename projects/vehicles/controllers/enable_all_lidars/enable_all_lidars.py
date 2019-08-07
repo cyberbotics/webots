@@ -23,12 +23,12 @@ lidars = []
 
 for i in range(robot.getNumberOfDevices()):
     device = robot.getDeviceByIndex(i)
-    if (device.getNodeType() == Node.LIDAR):
+    if device.getNodeType() == Node.LIDAR:
         lidars.append(device)
         device.enable(timestep)
         device.enablePointCloud()
 
-if len(lidars) == 0:
+if not lidars:
     sys.exit("This vehicle has no 'Lidar' node.")
 
 while robot.step(timestep) != -1:

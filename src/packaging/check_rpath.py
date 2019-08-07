@@ -79,7 +79,7 @@ for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinary
 # check that the binaries have an RPATH
 for f in (controllerFiles + binaryFiles + qtBinaryFiles):
     rpath = command('otool -l ' + f + ' | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d\' \' -f1')
-    if rpath is None or len(rpath) <= 0:
+    if rpath is None or not rpath:
         success = False
         sys.stderr.write('RPATH not defined in:\n')
         sys.stderr.write('- File: ' + f + '\n')

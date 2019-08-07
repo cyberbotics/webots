@@ -131,7 +131,7 @@ class Elevation(object):
         else:
             result = Elevation.get_elevation_from_geonames(locations, "cyberbotics")
 
-        if len(result) == 0:
+        if not result:
             sys.stderr.write("Warning: the acquisition of the elevation data failed.\n")
             return
 
