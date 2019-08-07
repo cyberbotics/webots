@@ -21,7 +21,7 @@ SpotLight {
   cutOffAngle 0.7
   direction 0 -1 0
   intensity 12
-  location 2 4 -0.8
+  location 1.5 4 -0.8
   castShadows TRUE
 }
 SpotLight {

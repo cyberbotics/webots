@@ -31,7 +31,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
   texture "noon_cloudy_countryside"
-  luminosity 0.6
+  luminosity 0.4
   castShadows FALSE
 }
 SpotLight {
@@ -40,7 +40,7 @@ SpotLight {
   cutOffAngle 0.7
   direction 0 -1 0
   intensity 10
-  location -5 4 0
+  location -5 4 0.5
   castShadows TRUE
 }
 SpotLight {
@@ -49,7 +49,7 @@ SpotLight {
   cutOffAngle 0.7
   direction 0 -1 0
   intensity 10
-  location 0 4 0
+  location 0 4 0.5
   castShadows TRUE
 }
 SpotLight {
@@ -58,7 +58,7 @@ SpotLight {
   cutOffAngle 0.7
   direction 0 -1 0
   intensity 10
-  location 5 4 0
+  location 5 4 0.5
   castShadows TRUE
 }
 DEF TRACK Floor {

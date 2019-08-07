@@ -50,10 +50,6 @@ SpotLight {
   radius 8
   castShadows TRUE
 }
-DirectionalLight {
-  direction 0 -1 1
-  intensity 1.3
-}
 Floor {
   size 40 5
   appearance PBRAppearance {
