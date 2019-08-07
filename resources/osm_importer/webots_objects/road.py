@@ -129,7 +129,7 @@ class Road(WebotsObject):
                 lanes = self.lanes
                 forwardLanes = self.forwardLanes
                 # note: "lanes" is overriden if "lanes:backward" and "lanes:forward" are both defined.
-                if ('lanes:forward' in self.tags):
+                if 'lanes:forward' in self.tags:
                     lanes = forwardLanes + backwardLanes
                 else:
                     forwardLanes = lanes - backwardLanes
