@@ -53,7 +53,7 @@ class Elevation(object):
             elvtn_args = {
                 'locations': locationString
             }
-            if not key == "":
+            if key:
                 elvtn_args['key'] = key
 
             url = GOOGLE_ELEVATION_BASE_URL + '?' + urllib.urlencode(elvtn_args)

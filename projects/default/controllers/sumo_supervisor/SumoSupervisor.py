@@ -238,10 +238,10 @@ class SumoSupervisor (Supervisor):
                         vehicle.pitch = pitch
                         vehicle.roll = roll
                         # ajust height according to the pitch
-                        if not pitch == 0:
+                        if pitch != 0:
                             height += (roadPos - 0.5 * vehicleLength) * math.sin(pitch)
                         # ajust height according to the roll and lateral position of the vehicle
-                        if not roll == 0.0:
+                        if roll != 0.0:
                             laneIndex = subscriptionResult[id][self.traci.constants.VAR_LANE_INDEX]
                             laneID = subscriptionResult[id][self.traci.constants.VAR_LANE_ID]
                             laneWidth = self.traci.lane.getWidth(laneID)
