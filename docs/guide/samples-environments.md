@@ -30,7 +30,7 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 ### [complete\_apartment.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/indoor/worlds/complete_apartment.wbt)
 
-**Keywords**: Apartment, domestic environment, furniture
+**Keywords**: Apartment, household environment, furniture
 
 %figure "Screenshots of the complete apartment environment."
 
