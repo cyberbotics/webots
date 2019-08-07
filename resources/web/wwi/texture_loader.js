@@ -273,7 +273,7 @@ class _TextureLoaderObject {
     // Set texture loading timeout.
     // If after some time no new textures are loaded, the hasPendingData variable is automatically
     // reset to false in order to handle not found textures.
-    // The `this.loadingTextures` dictionary is not reset so that it is still possible to recore late textures.
+    // The `this.loadingTextures` dictionary is not reset so that it is still possible to load late textures.
     if (this.timeoutHandle)
       window.clearTimeout(this.timeoutHandle);
 
