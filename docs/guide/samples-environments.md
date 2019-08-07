@@ -43,7 +43,7 @@ An e-puck robot patrols on the table and an iRobot Create robot cleans the groun
 
 This example is similar to the previous one but the apartement is more complete, it also contains two bedrooms, one bathroom, one restroom, stairs and a balcony.
 
-> **Note**: This simulation was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU
+> **Note**: This model was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU
 
 ### [factory.wbt](https://github.com/omichel/webots/tree/master/projects/samples/environments/factory/worlds/factory.wbt)
 
