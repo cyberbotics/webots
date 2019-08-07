@@ -810,7 +810,7 @@ THREE.X3DLoader = class X3DLoader {
 
     var color = convertStringToColor(getNodeAttribute(light, 'color', '1 1 1'), false);
     var direction = convertStringToVec3(getNodeAttribute(light, 'direction', '0 0 -1'));
-    var intensity = 2.0 * parseFloat(getNodeAttribute(light, 'intensity', '1'));
+    var intensity = parseFloat(getNodeAttribute(light, 'intensity', '1'));
     var castShadows = getNodeAttribute(light, 'castShadows', 'false').toLowerCase() === 'true';
 
     var lightObject = new THREE.DirectionalLight(color.getHex(), intensity);
