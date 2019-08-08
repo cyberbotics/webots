@@ -469,7 +469,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
-        material.envMapIntensity = isHDR ? 0.2 : 1.0; // Factor empirically found to match the Webots rendering.
+        material.envMapIntensity = isHDR ? 0.6 : 1.0; // Factor empirically found to match the Webots rendering.
         if (typeof this.scene.userData.luminosity !== 'undefined')
           material.envMapIntensity *= this.scene.userData.luminosity;
         material.needsUpdate = true;

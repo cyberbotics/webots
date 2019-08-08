@@ -29,6 +29,9 @@
   "DamascusSteel": {
     "fields": "textureTransform TextureTransform { scale 2 1 }"
   },
+  "DryMud": {
+    "fields": "textureTransform TextureTransform { scale 2 1 }"
+  },
   "ElectricConduit": {
     "fields": "textureTransform TextureTransform { scale 1 0.5 }"
   },

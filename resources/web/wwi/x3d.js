@@ -849,7 +849,8 @@ THREE.X3DLoader = class X3DLoader {
     // Tradeoff to let cohabit VRML light attenuation and the three.js light "physically correct mode".
     // - The intensity is attenuated by the total amount of the VRML attenuation.
     // - The biggest attenuation component defines the `decay` "exponent".
-    lightObject.intensity = intensity / attenuation.manhattanLength();
+    var k = attenuation.x > attenuation.z ? 2.0 : 7.0;
+    lightObject.intensity = k * intensity / attenuation.manhattanLength();
     if (attenuation.x > 0)
       lightObject.decay = 0;
     if (attenuation.y > 0)
@@ -890,7 +891,8 @@ THREE.X3DLoader = class X3DLoader {
 
     var lightObject = new THREE.SpotLight(color.getHex());
 
-    lightObject.intensity = intensity / attenuation.manhattanLength();
+    var k = attenuation.x > attenuation.z ? 2.0 : 7.0;
+    lightObject.intensity = k * intensity / attenuation.manhattanLength();
     if (attenuation.x > 0)
       lightObject.decay = 0;
     if (attenuation.y > 0)
