@@ -144,7 +144,11 @@ const char *wbu_system_webots_tmp_path() {
       closedir(dir);
     }
   }
-  snprintf(path_buffer, path_buffer_size, "%s/webots-%d", tmp, webots_pid);
+  if (webots_pid == 0) {
+    free(path_buffer);
+    path_buffer = NULL;
+  } else
+    snprintf(path_buffer, path_buffer_size, "%s/webots-%d", tmp, webots_pid);
   WEBOTS_TMP_PATH = path_buffer;
   return WEBOTS_TMP_PATH;
 }
