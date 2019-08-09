@@ -34,14 +34,23 @@ The package names could slightly change on different releases and distributions.
 
 #### Using Advanced Packaging Tool (APT)
 
-The advantage of this solution is that Webots will be updated with the system updates.
-This installation requires the `root` privileges.
-
-First of all, you may want to configure your APT package manager by adding the Cyberbotics repository.
-Simply execute the following lines:
+The advantage of this solution is that Webots will be updated automatically with system updates.
+This installation requires the `root` privileges which you can acquire from this command:
 
 ```sh
 sudo su -
+```
+
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
+
+```sh
+apt-key add /path/to/Cyberbotics.asc
+```
+
+Then, you can configure your APT package manager by adding the Cyberbotics repository.
+Simply execute the following lines:
+
+```sh
 apt-add-repository 'deb https://www.cyberbotics.com/debian/ binary-amd64/'
 apt-get update
 ```
@@ -58,12 +67,6 @@ Otherwise you can manually execute the following command:
 
 ```sh
 apt-get update
-```
-
-Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
-
-```sh
-apt-key add /path/to/Cyberbotics.asc
 ```
 
 Then proceed to the installation of Webots using:
