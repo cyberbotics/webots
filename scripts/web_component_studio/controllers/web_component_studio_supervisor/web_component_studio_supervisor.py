@@ -73,32 +73,33 @@ for fl in glob.glob(os.path.join(scenePath, 'textures', 'cubic', 'noon_cloudy_mo
 # - keep only the interested robot.
 assert os.path.exists(targetMetaFile), 'The meta file does not exists. ' \
     'Please run Webots with the "--enable-x3d-meta-file-export" argument.'
-robotsMetaData = json.load(open(targetMetaFile))
-robotData = None
-for _robotData in robotsMetaData:
-    if _robotData['name'] == robotName:
-        robotData = _robotData
-        break
-assert robotData, 'Failed to simplified the JSON supervisor.'
-# - sort the device list per interesting category type.
-robotData['devices'] = sorted(robotData['devices'], cmp=_compareDevice)
-# - rewrite the json file.
-with open(targetMetaFile, 'w') as f:
-    json.dump(robotData, f, indent=2)
-    f.write('\n')
+with open(targetMetaFile) as f:
+    robotsMetaData = json.load(f)
+    robotData = None
+    for _robotData in robotsMetaData:
+        if _robotData['name'] == robotName:
+            robotData = _robotData
+            break
+    assert robotData, 'Failed to simplified the JSON supervisor.'
+    # - sort the device list per interesting category type.
+    robotData['devices'] = sorted(robotData['devices'], cmp=_compareDevice)
+    # - rewrite the json file.
+    with open(targetMetaFile, 'w') as f:
+        json.dump(robotData, f, indent=2)
+        f.write('\n')
 
-# Corrections on the XML file.
-tree = etree.parse(targetX3DFile)
-# Global texture paths.
-background = tree.xpath('//Background')
-background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
-background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
-background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
-background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
-background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
-background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
-tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
+    # Corrections on the XML file.
+    tree = etree.parse(targetX3DFile)
+    # Global texture paths.
+    background = tree.xpath('//Background')
+    background[0].attrib['rightUrl'] = background[0].attrib['rightUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['leftUrl'] = background[0].attrib['leftUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['topUrl'] = background[0].attrib['topUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['bottomUrl'] = background[0].attrib['bottomUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['frontUrl'] = background[0].attrib['frontUrl'].replace('textures/cubic/', '../background/')
+    background[0].attrib['backUrl'] = background[0].attrib['backUrl'].replace('textures/cubic/', '../background/')
+    tree.write(targetX3DFile, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
-supervisor.step(timeStep)
+    supervisor.step(timeStep)
 
-supervisor.simulationQuit(0)
+    supervisor.simulationQuit(0)

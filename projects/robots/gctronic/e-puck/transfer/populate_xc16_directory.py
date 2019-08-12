@@ -93,7 +93,7 @@ for f in files:
     mkdir_p(dstdirpath)
 
     absolutepaths = glob.glob(srcdir + f)
-    if len(absolutepaths) == 0:
+    if not absolutepaths:
         raise RuntimeError('Could not find ' + srcdir + f)
     for path in absolutepaths:
         basename = os.path.basename(path)

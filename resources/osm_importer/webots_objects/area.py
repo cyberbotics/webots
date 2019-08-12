@@ -112,7 +112,7 @@ class Area(WebotsObject):
         """Draw an area."""
         if len(refs) < 3:
             return
-        if not defName == "":
+        if defName:
             file.write("DEF " + defName + " " + "Transform {\n")
         else:
             file.write("Transform {\n")
@@ -124,7 +124,7 @@ class Area(WebotsObject):
             file.write("        transparency " + str(transparency) + "\n")
         file.write("        roughness 1\n")
         file.write("        metalness 0\n")
-        if not texture == "":
+        if texture:
             file.write("        baseColorMap ImageTexture {\n")
             file.write("          url [\n")
             file.write("            \"" + texture + "\"\n")

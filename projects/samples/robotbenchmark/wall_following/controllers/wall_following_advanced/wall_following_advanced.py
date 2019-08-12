@@ -77,8 +77,8 @@ def updateDistances():
     """
     # We don't iterate over all the sensors because some are never used.
     # If you need to use those sensors you will have to add them here.
-    for i in range(0, 7):
-        distance[i] = getDistance(sonarSensor[i])
+    for j in range(0, 7):
+        distance[j] = getDistance(sonarSensor[j])
     distance[15] = getDistance(sonarSensor[15])
 
 

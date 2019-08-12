@@ -1,4 +1,4 @@
-/* global THREE, ActiveXObject, TextureLoader */
+/* global THREE, ActiveXObject, TextureLoader, TextureData */
 'use strict';
 
 // Inspiration: https://github.com/lkolbly/threejs-x3dloader/blob/master/X3DLoader.js
@@ -39,7 +39,7 @@ THREE.X3DLoader = class X3DLoader {
     // Parse scene.
     var scene = xml.getElementsByTagName('Scene')[0];
     if (typeof scene !== 'undefined') {
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       object.userData.x3dType = 'Group';
       object.name = 'n0';
       this.parsedObjects.push(object); // push before parsing to let _getDefNode work correctly
@@ -52,7 +52,7 @@ THREE.X3DLoader = class X3DLoader {
     xml.childNodes.forEach((n) => { rootObjects.push(n); });
     while (rootObjects.length > 0) {
       var node = rootObjects.pop();
-      object = new THREE.Object3D();
+      object = new THREE.Group();
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
     }
@@ -369,72 +369,37 @@ THREE.X3DLoader = class X3DLoader {
     if (filename[0] == null)
       return undefined;
 
-    // create THREE.Texture or THREE.DataTexture based on image extension.
-    texture = TextureLoader.createEmptyTexture(filename[0]);
-
-    // Look for already loaded texture or load the texture in an asynchronous way.
-    var image = TextureLoader.loadOrRetrieve(filename[0], texture);
-    if (typeof image !== 'undefined') { // else it could be updated later
-      texture.image = image;
-      texture.needsUpdate = true;
-    }
-    texture.userData = {
-      'isTransparent': getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
-      'url': filename[0]
-    };
-
-    // Map ImageTexture.repeat[ST] to THREE.Texture.wrap[ST].
-    var wrapS = getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase();
-    var wrapT = getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase();
-    texture.wrapS = wrapS === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
-    texture.wrapT = wrapT === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
-
-    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
-    texture.anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
-    var textureProperties = imageTexture.getElementsByTagName('TextureProperties');
-    if (textureProperties.length > 0)
-      texture.anisotropy = parseFloat(getNodeAttribute(textureProperties[0], 'anisotropicDegree', '8'));
-
-    // This is the encoding used in Webots.
-    texture.encoding = THREE.sRGBEncoding;
-
+    let transformData;
     if (textureTransform && textureTransform[0]) {
       var defTexture = this._getDefNode(textureTransform[0]);
       if (typeof defTexture !== 'undefined')
-        texture.userData.transform = defTexture.userData.transform;
+        transformData = defTexture.userData.transform;
       else {
-        texture.userData.transform = {
+        transformData = {
           'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
           'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
           'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
           'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
         };
       }
-
-      texture.matrixAutoUpdate = false;
-      texture.onUpdate = () => {
-        // X3D UV transform matrix differs from THREE.js default one
-        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
-        var transform = texture.userData.transform;
-        var c = Math.cos(-transform.rotation);
-        var s = Math.sin(-transform.rotation);
-        var sx = transform.scale.x;
-        var sy = transform.scale.y;
-        var cx = transform.center.x;
-        var cy = transform.center.y;
-        var tx = transform.translation.x;
-        var ty = transform.translation.y;
-        texture.matrix.set(
-          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
-          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
-          0, 0, 1
-        );
-      };
-      texture.needsUpdate = true;
-
-      this._setCustomId(textureTransform[0], texture);
     }
 
+    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
+    let anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
+    let textureProperties = imageTexture.getElementsByTagName('TextureProperties');
+    if (textureProperties.length > 0)
+      anisotropy = parseFloat(getNodeAttribute(textureProperties[0], 'anisotropicDegree', '8'));
+
+    texture = TextureLoader.createOrRetrieveTexture(filename[0], new TextureData(
+      getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
+      { 's': getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase(),
+        't': getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase() },
+      anisotropy,
+      transformData
+    ));
+
+    if (textureTransform && textureTransform[0])
+      this._setCustomId(textureTransform[0], texture);
     this._setCustomId(imageTexture, texture);
     return texture;
   }
@@ -849,8 +814,7 @@ THREE.X3DLoader = class X3DLoader {
     // Tradeoff to let cohabit VRML light attenuation and the three.js light "physically correct mode".
     // - The intensity is attenuated by the total amount of the VRML attenuation.
     // - The biggest attenuation component defines the `decay` "exponent".
-    var k = attenuation.x > attenuation.z ? 2.0 : 7.0;
-    lightObject.intensity = k * intensity / attenuation.manhattanLength();
+    lightObject.intensity = intensity / attenuation.manhattanLength();
     if (attenuation.x > 0)
       lightObject.decay = 0;
     if (attenuation.y > 0)
@@ -891,8 +855,7 @@ THREE.X3DLoader = class X3DLoader {
 
     var lightObject = new THREE.SpotLight(color.getHex());
 
-    var k = attenuation.x > attenuation.z ? 2.0 : 7.0;
-    lightObject.intensity = k * intensity / attenuation.manhattanLength();
+    lightObject.intensity = intensity / attenuation.manhattanLength();
     if (attenuation.x > 0)
       lightObject.decay = 0;
     if (attenuation.y > 0)
@@ -935,7 +898,7 @@ THREE.X3DLoader = class X3DLoader {
     var isHDR = typeof hdrCubeMapUrl !== 'undefined';
     if (isHDR) {
       // Load HDR equirectangular map
-      TextureLoader.loadOrRetrieve(hdrCubeMapUrl, undefined, undefined, (texture) => {
+      TextureLoader.loadOrRetrieveImage(hdrCubeMapUrl, undefined, undefined, (texture) => {
         this.scene.applyEquirectangularBackground(texture);
       });
       cubeTextureEnabled = true;
@@ -959,7 +922,7 @@ THREE.X3DLoader = class X3DLoader {
             continue;
           // Look for already loaded texture or load the texture in an asynchronous way.
           missing++;
-          let image = TextureLoader.loadOrRetrieve(urls[i], cubeTexture, i);
+          let image = TextureLoader.loadOrRetrieveImage(urls[i], cubeTexture, i);
           if (typeof image !== 'undefined') {
             cubeTexture.images[i] = image;
             missing--;
@@ -1014,7 +977,6 @@ THREE.X3DLoader = class X3DLoader {
     this.scene.viewpoint.camera.userData.followedId = getNodeAttribute(viewpoint, 'followedId', null);
     this.scene.viewpoint.camera.userData.followSmoothness = getNodeAttribute(viewpoint, 'followSmoothness', null);
     this.scene.viewpoint.camera.userData.exposure = parseFloat(getNodeAttribute(viewpoint, 'exposure', '1.0'));
-    this.scene.viewpoint.camera.userData.bloomThreshold = parseFloat(getNodeAttribute(viewpoint, 'bloomThreshold', '21.0'));
     return undefined;
   }
 
@@ -1139,3 +1101,5 @@ function horizontalToVerticalFieldOfView(hFov, aspectRatio) {
 
   return 2.0 * Math.atan(Math.tan(0.5 * hFov) / aspectRatio);
 }
+
+THREE.X3DLoader.textures = {};
