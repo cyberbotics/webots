@@ -226,9 +226,9 @@ webots.View = class View {
         }
         if (windowName === infoWindowName) {
           var user;
-          if (webots.User1Id !== '') {
+          if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
-            if (webots.User2Id !== '')
+            if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
               user += '/' + webots.User2Name;
             user += ']';
           } else
