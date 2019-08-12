@@ -56,26 +56,26 @@ class HeadersGenerator:
 
     def ros_md5sum(self, srv):
         m = hashlib.md5()
-        f = open(srv, 'r')
-        text = f.read()
-        text_in = StringIO()
-        text_out = StringIO()
-        accum = text_in
-        for l in text.split('\n'):
-            l = l.split('#')[0].strip()  # strip comments
-            if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l:
-                # replace message by its corresponding md5
-                message = l.split(' ')[0]
-                # the fact that it is an array is not releavant for the computation of the MD5
-                message = message.replace("[]", "")
-                if message in self.predifinedMD5:
-                    l = l.replace(message, self.predifinedMD5[message])
+        with open(srv, 'r') as f:
+            text = f.read()
+            text_in = StringIO()
+            text_out = StringIO()
+            accum = text_in
+            for l in text.split('\n'):
+                l = l.split('#')[0].strip()  # strip comments
+                if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l:
+                    # replace message by its corresponding md5
+                    message = l.split(' ')[0]
+                    # the fact that it is an array is not releavant for the computation of the MD5
+                    message = message.replace("[]", "")
+                    if message in self.predifinedMD5:
+                        l = l.replace(message, self.predifinedMD5[message])
+                    else:
+                        print('Error: undefined MD5 for: ' + message)
+                if l.startswith('---'):  # lenient, by request
+                    accum = text_out
                 else:
-                    print('Error: undefined MD5 for: ' + message)
-            if l.startswith('---'):  # lenient, by request
-                accum = text_out
-            else:
-                accum.write(l + '\n')
+                    accum.write(l + '\n')
         m.update(text_in.getvalue().encode('utf-8').strip())
         m.update(text_out.getvalue().encode('utf-8').strip())
         return m.hexdigest()

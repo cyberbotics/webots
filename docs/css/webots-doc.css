@@ -374,6 +374,8 @@ body {
 }
 .webots-doc .modal-window-image-content {
   margin: auto;
+  max-height: 80%;
+  max-width: 90%;
   display: block;
   cursor: pointer;
   transition: 0.05s;
