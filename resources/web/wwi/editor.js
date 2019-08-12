@@ -122,7 +122,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     if ($('#filename-' + i).html().endsWith('*')) { // file was modified
       $('#filename-' + i).html(this.filenames[i]);
       this.needToUploadFiles[i] = true;
-      if (webots.User1Id !== '' && webots.User1Authentication !== '') // user logged in
+      if ((typeof webots.User1Id !== 'undefined' || webots.User1Id !== '') && webots.User1Authentication) // user logged in
         this._storeUserFile(i);
       else
         this.unloggedFileModified = true;
@@ -149,7 +149,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       this.sessions[index].setValue(content);
       if ($('#filename-' + index).html().endsWith('*'))
         $('#filename-' + index).html(filename);
-      if (webots.User1Authentication !== '' && webots.User1Id !== '')
+      if (webots.User1Authentication && (typeof webots.User1Id !== 'undefined' || webots.User1Id !== ''))
         this.storeUserFile(index);
       return;
     }

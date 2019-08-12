@@ -168,7 +168,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   requestQuit() {
     if (this.view.editor.hasUnsavedChanges()) {
       var text;
-      if (this.view.editor.unloggedFileModified || webots.User1Id === '')
+      if (this.view.editor.unloggedFileModified || typeof webots.User1Id === 'undefined' || webots.User1Id === '')
         text = 'Your changes to the robot controller will be lost because you are not logged in.';
       else
         text = 'Your unsaved changes to the robot controller will be lost.';
