@@ -485,6 +485,33 @@ void WbController::setProcessEnvironment() {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
         mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+    // read the python shebang (first line starting with #!) to possibly override the python command
+    QString expectedVersion;
+    QFile pythonSourceFile(mControllerPath + name() + ".py");
+    if (pythonSourceFile.open(QIODevice::ReadOnly)) {
+      QTextStream in(&pythonSourceFile);
+      QString line = in.readLine();
+      if (line.startsWith("#!")) {
+#ifndef _WIN32
+        if (line.startsWith("#!/usr/bin/env "))
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+        else
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+#else // Windows: check that the version specified in the shebang corresponds to the version of Python installed
+        expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
+        bool mismatch = false;
+        int l = expectedVersion.length();
+        if (l == 1 && expectedVersion[0] != mPythonShortVersion[0])
+          mismatch = true;
+        if (l >= 3 &&
+            (expectedVersion[0] != mPythonShortVersion[0] || expectedVersion[2] != mPythonShortVersion[1]))
+          mismatch = true;
+        if (mismatch)
+          warn(tr("Python shebang requests python%1, but current path points to Python%2").arg(expectedVersion, mPythonShortVersion));
+#endif
+      }
+      pythonSourceFile.close();
+    }
     addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::webotsLibPath() + "python" + mPythonShortVersion, false,
                                true);
     addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
