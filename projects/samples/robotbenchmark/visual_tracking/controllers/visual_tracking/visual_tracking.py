@@ -45,8 +45,8 @@ def sendDeviceImage(robot, device):
         return
     with open(deviceImagePath + '/' + fileName, 'rb') as f:
         fileString = f.read()
-        fileString64 = base64.b64encode(fileString)
-        robot.wwiSendText("image[" + deviceName + "]:data:image/jpeg;base64," + str(fileString64))
+        fileString64 = base64.b64encode(fileString).decode()
+        robot.wwiSendText("image[" + deviceName + "]:data:image/jpeg;base64," + fileString64)
         f.close()
 
 
