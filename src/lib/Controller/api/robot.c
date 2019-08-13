@@ -967,7 +967,7 @@ int wb_robot_init() {  // API initialization
       const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
       if (!WEBOTS_TMP_PATH) {
         if (trial <= 10)
-          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %d seconds)\n", trial);
+          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %ud seconds)\n", trial);
         sleep(trial);
       } else {
         char buffer[1024];
@@ -984,7 +984,7 @@ int wb_robot_init() {  // API initialization
           fclose(fd);
         } else {
           if (trial <= 10)
-            fprintf(stderr, "Cannot open file: %s (retrying in %d seconds)\n", buffer, trial);
+            fprintf(stderr, "Cannot open file: %s (retrying in %ud seconds)\n", buffer, trial);
           pipe = NULL;
         }
         if (trial > 10)
