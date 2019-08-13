@@ -19,7 +19,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               roughness 0.2
               metalness 0.5
-              emissiveIntensity 50
+              emissiveIntensity 500
             }
             geometry Box {
               size 0.001 0.001 0.001
@@ -38,7 +38,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               roughness 0.2
               metalness 0.5
-              emissiveIntensity 50
+              emissiveIntensity 500
             }
             geometry Box {
               size 0.001 0.001 0.001
@@ -57,7 +57,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               roughness 0.2
               metalness 0.5
-              emissiveIntensity 50
+              emissiveIntensity 500
             }
             geometry Box {
               size 0.001 0.001 0.001
