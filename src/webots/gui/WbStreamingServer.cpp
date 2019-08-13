@@ -567,6 +567,10 @@ void WbStreamingServer::startX3dStreaming(QWebSocket *client) {
     if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
       generateX3dWorld();
     sendWorldToClient(client);
+    // send the current simulation state to the newly connected client
+    const QString &stateMessage = simulationStateString();
+    if (!stateMessage.isEmpty())
+      client->sendTextMessage(stateMessage);
     WbLog::info(tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mClients.size()));
   } catch (const QString &e) {
     WbLog::error(tr("Streaming server: Cannot send world date to client [%1] because: %2.").arg(clientToId(client)).arg(e));
@@ -774,30 +778,30 @@ void WbStreamingServer::propagateNodeDeletion(WbNode *node) {
     client->sendTextMessage(QString("delete:%1").arg(node->uniqueId()));
 }
 
+QString WbStreamingServer::simulationStateString() {
+  switch (WbSimulationState::instance()->mode()) {
+    case WbSimulationState::PAUSE:
+      return "pause";
+    case WbSimulationState::STEP:
+      return "step";
+    case WbSimulationState::REALTIME:
+      return "real-time";
+    case WbSimulationState::RUN:
+      return "run";
+    case WbSimulationState::FAST:
+      return "fast";
+    default:
+      return QString();
+  }
+}
+
 void WbStreamingServer::propagateSimulationStateChange() {
   if (mWebSocketServer == NULL || WbWorld::instance() == NULL || mClients.isEmpty())
     return;
 
-  QString message;
-  switch (WbSimulationState::instance()->mode()) {
-    case WbSimulationState::PAUSE:
-      message = "pause";
-      break;
-    case WbSimulationState::STEP:
-      message = "step";
-      break;
-    case WbSimulationState::REALTIME:
-      message = "real-time";
-      break;
-    case WbSimulationState::RUN:
-      message = "run";
-      break;
-    case WbSimulationState::FAST:
-      message = "fast";
-      break;
-    default:
-      return;
-  }
+  const QString &message = simulationStateString();
+  if (message.isEmpty())
+    return;
   foreach (QWebSocket *client, mClients)
     client->sendTextMessage(message);
 }

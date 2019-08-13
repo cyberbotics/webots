@@ -299,12 +299,22 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   setMode(mode) {
-    if (mode === 'pause')
+    var fastEnabled = typeof this.fastButton !== 'undefined';
+    if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
-    else
-      this.pauseButton.style.display = 'inline';
-    this.real_timeButton.style.display = 'inline';
-    if (typeof this.fastButton !== 'undefined')
+      this.real_timeButton.style.display = 'inline';
+      if (fastEnabled)
+        this.fastButton.style.display = 'inline';
+      return;
+    }
+
+    this.pauseButton.style.display = 'inline';
+    if (fastEnabled && mode === 'fast') {
+      this.fastButton.style.display = 'none';
+      this.real_timeButton.style.display = 'inline';
+    } else {
       this.fastButton.style.display = 'inline';
+      this.real_timeButton.style.display = 'none';
+    }
   }
 }
