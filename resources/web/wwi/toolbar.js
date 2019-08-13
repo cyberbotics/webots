@@ -38,8 +38,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
-    this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
-    this.fastButton.onclick = () => { this.fast(); };
+    if (webots.showFast) { // disabled by default
+      this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
+      this.fastButton.onclick = () => { this.fast(); };
+    }
 
     var div = document.createElement('div');
     div.className = 'webotsTime';
@@ -299,12 +301,22 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   setMode(mode) {
-    if (mode === 'pause')
+    var fastEnabled = typeof this.fastButton !== 'undefined';
+    if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
-    else
-      this.pauseButton.style.display = 'inline';
-    this.real_timeButton.style.display = 'inline';
-    if (typeof this.fastButton !== 'undefined')
+      this.real_timeButton.style.display = 'inline';
+      if (fastEnabled)
+        this.fastButton.style.display = 'inline';
+      return;
+    }
+
+    this.pauseButton.style.display = 'inline';
+    if (fastEnabled && mode === 'fast') {
+      this.fastButton.style.display = 'none';
+      this.real_timeButton.style.display = 'inline';
+    } else {
       this.fastButton.style.display = 'inline';
+      this.real_timeButton.style.display = 'none';
+    }
   }
 }
