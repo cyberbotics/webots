@@ -35,7 +35,7 @@ webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
-
+webots.showFast            // defines whether the fast button should be displayed
 */
 
 webots.View = class View {

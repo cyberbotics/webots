@@ -38,8 +38,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
-    this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
-    this.fastButton.onclick = () => { this.fast(); };
+    if (webots.showFast) { // disabled by default
+      this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
+      this.fastButton.onclick = () => { this.fast(); };
+    }
 
     var div = document.createElement('div');
     div.className = 'webotsTime';
