@@ -490,7 +490,7 @@ void WbController::setProcessEnvironment() {
     QFile pythonSourceFile(mControllerPath + name() + ".py");
     if (pythonSourceFile.open(QIODevice::ReadOnly)) {
       QTextStream in(&pythonSourceFile);
-      QString line = in.readLine();
+      const QString &line = in.readLine();
       if (line.startsWith("#!")) {
 #ifndef _WIN32
         if (line.startsWith("#!/usr/bin/env "))
