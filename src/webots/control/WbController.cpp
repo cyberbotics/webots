@@ -497,7 +497,7 @@ void WbController::setProcessEnvironment() {
         else
           mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
 #else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
-        const QString expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
+        const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
         bool mismatch = false;
         int l = expectedVersion.length();
         if (l == 1 && expectedVersion[0] != mPythonShortVersion[0])
