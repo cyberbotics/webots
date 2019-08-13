@@ -332,7 +332,10 @@ webots.View = class View {
     }
 
     if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      this.contextMenu = new ContextMenu((typeof webots.User1Id !== 'undefined' || webots.User1Id !== '') && webots.User1Authentication, this.view3D);
+      let authenticatedUser = !this.broadcast;
+      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
+        authenticatedUser = Boolean(webots.User1Authentication);
+      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
       this.contextMenu.onEditController = (controller) => { this.editController(controller); };
       this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
       this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };
