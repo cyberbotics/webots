@@ -6,7 +6,7 @@
 It provides code analysis, a graphical debugger, an integrated unit tester and integration with version control systems (VCSes).
 
 [PyCharm](https://www.jetbrains.com/pycharm) is a possible alternative to using Webots built-in editor for Python.
-This chapter will explain step by step how to configure [PyCharm](https://www.jetbrains.com/pycharm) to edit a Python controller and then run it.
+This chapter explains step-by-step how to configure [PyCharm](https://www.jetbrains.com/pycharm) to edit a Python controller and run it.
 Although this chapter focuses on [PyCharm](https://www.jetbrains.com/pycharm), similar procedure should be valid for other Python IDE.
 
 ### Creation of the PyCharm Project
