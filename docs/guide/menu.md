@@ -43,6 +43,7 @@
     - [Using Webots Makefiles](using-webots-makefiles.md)
     - [Debugging C/C++ Controllers](debugging-c-cpp-controllers.md)
     - [Using Visual Studio with Webots](using-visual-studio-with-webots.md)
+    - [Using PyCharm with Webots](using-pycharm-with-webots.md)
     - [Starting Webots Remotely (ssh)](starting-webots-remotely-ssh.md)
     - [Running Extern Robot Controllers](running-extern-robot-controllers.md)
     - [Transfer to Your Own Robot](transfer-to-your-own-robot.md)
