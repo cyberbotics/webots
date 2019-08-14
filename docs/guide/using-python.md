@@ -11,6 +11,8 @@ A complete description of these functions can be found in the reference guide wh
 The Python API of Webots supports both Python 3.7 and Python 2.7.
 On Ubuntu 18.04, it also supports Python 3.6 and on Ubuntu 16.04, it also supports Python 3.5.
 
+Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can also be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-pycharm-with-webots.md) chapter for a step-by-step procedure.
+
 ### Installation
 
 Webots starts Python using the standard `python` command line.
