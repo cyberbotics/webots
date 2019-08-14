@@ -11,7 +11,7 @@ Although this chapter focuses on [PyCharm](https://www.jetbrains.com/pycharm), y
 
 ### Creation of the PyCharm Project
 
-Once PyCharm start, select `Open` and then select the directory of the controller that you want to modify.
+Once PyCharm is started, click on `Open` and then select the directory of the Webots robot controller that you want to modify.
 As an example, the `driver` sample controller is used here.
 
 %figure "Open controller in PyCharm"
