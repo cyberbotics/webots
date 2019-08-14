@@ -40,7 +40,7 @@ In the `Run Configurations` windows, press the `+` button and then select `Pytho
 
 %end
 
-### Creation of the PyCharm Project
+### Run the Controller
 
 Once the [PyCharm](https://www.jetbrains.com/pycharm) project configured you can start Webots and open the desired world.
 To allow [PyCharm](https://www.jetbrains.com/pycharm) to start the controller instead of Webots, set the controller of the robot to `<extern>` (see the [Running Extern Robot Controllers](https://www.cyberbotics.com/doc/guide/running-extern-robot-controllers) chapter for more information about external controller).
