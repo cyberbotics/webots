@@ -27,7 +27,8 @@ class Driver (Supervisor):
     z = 0.3
     translation = [x, 0.0, z]
 
-    def initialization(self):
+    def __init__(self):
+        super(Driver, self).__init__()
         self.emitter = self.getEmitter('emitter')
         robot = self.getFromDef('ROBOT1')
         self.translationField = robot.getField('translation')
@@ -85,5 +86,4 @@ class Driver (Supervisor):
 
 
 controller = Driver()
-controller.initialization()
 controller.run()
