@@ -11,6 +11,10 @@ Released on XXX YYth, 2019.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
     - Added a new HDR background: `noon_cloudy_countryside`
+    - E-puck2
+      - Added the pi-puck extension.
+      - Fixed [DistanceSensor](distancesensor.md) noise calibration.
+      - Improved the meshes and appearances.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
