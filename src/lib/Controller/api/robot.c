@@ -27,6 +27,8 @@
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
+#include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
@@ -55,7 +57,6 @@
 #include <windows.h>  // GetCommandLine
 #else
 #include <pthread.h>
-#include <unistd.h>  // pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 #endif
 
 #define WEBOTS_EXIT_FALSE 0
