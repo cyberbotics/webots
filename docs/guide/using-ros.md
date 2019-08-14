@@ -52,7 +52,7 @@ For services, it is also the name of the corresponding srv file.
 The controller, named `ros`, is pre-compiled and you shouldn't edit it.
 All you have to do is to load it in the `controller` field of your robot; you will find it in the default list of controller.
 In order to use it, you will have to build a ROS node that will communicate with the robot using the different services available.
-Good examples of such ROS node can be found inside Webots at "[WEBOTS\_HOME/projects/languages/ros/webots\_ros](https://github.com/omichel/webots/tree/master/projects/languages/ros/webots_ros)", they are documented in the package [webots\_ros package tutorial](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations).
+Good examples of such ROS node can be found inside Webots at "[WEBOTS\_HOME/projects/languages/ros/webots\_ros](https://github.com/omichel/webots/tree/master/projects/languages/ros/webots_ros)", they are documented in the [webots\_ros package tutorial](http://wiki.ros.org/webots_ros/Tutorials/Sample%20Simulations).
 
 In the [Tutorial 8](tutorial-8-using-ros.md) chapter, you will find the instructions to run a sample simulation using ROS.
 
