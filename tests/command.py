@@ -89,7 +89,7 @@ class Command(object):
                 with self.mainProcessMutex:
                     if self.mainProcess:
                         line = self.mainProcess.stdout.readline()  # blocking
-                if len(line) > 0:
+                if line:
                     self.output += line
                     if not self.silent:
                         if self.ansiEscape:

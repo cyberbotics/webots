@@ -64,7 +64,7 @@ class TestLists(unittest.TestCase):
                     continue
                 line = re.sub(TestLists.hyperlinkRE, '', line)  # Remove hyperlinks.
                 line = line.strip()
-                if len(line) == 0:  # If it remains something, then test it.
+                if not line:  # If it remains something, then test it.
                     continue
                 self.assertTrue(
                     line.endswith('.') or line.endswith(':') or line.endswith('!'),

@@ -71,8 +71,7 @@ class MovingTarget():
                 if line.startswith('#') or line.isspace():
                     # Ignore comments.
                     continue
-                if len(splitTrajectories) == 0 or \
-                   pointIndex > MovingTarget.TRAJECTORIES_POINTS:
+                if not splitTrajectories or pointIndex > MovingTarget.TRAJECTORIES_POINTS:
                     # Begin a new trajectory.
                     splitTrajectories.append([])
                     pointIndex = 0

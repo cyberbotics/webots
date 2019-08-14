@@ -18,6 +18,8 @@
 #include "WbBaseNode.hpp"
 #include "WbVector2.hpp"
 
+#include <QtCore/QSet>
+
 class WbRgb;
 
 class QImage;
@@ -100,6 +102,8 @@ private:
   void updateWrenTexture();
   void applyTextureParams();
   void destroyWrenTexture();
+
+  static QSet<QString> cQualityChangedTexturesList;
 
 private slots:
   void updateUrl();

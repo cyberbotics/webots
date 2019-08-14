@@ -32,7 +32,7 @@ conjunctions = [
 def title_level(title):
     """Return the number of '#' to determine the title level."""
     count = 0
-    while (title[count] == '#'):
+    while title[count] == '#':
         count += 1
     return count
 

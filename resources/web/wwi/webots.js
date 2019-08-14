@@ -35,7 +35,7 @@ webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
-
+webots.showFast            // defines whether the fast button should be displayed
 */
 
 webots.View = class View {
@@ -226,9 +226,9 @@ webots.View = class View {
         }
         if (windowName === infoWindowName) {
           var user;
-          if (webots.User1Id !== '') {
+          if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
-            if (webots.User2Id !== '')
+            if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
               user += '/' + webots.User2Name;
             user += ']';
           } else
@@ -332,7 +332,10 @@ webots.View = class View {
     }
 
     if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      this.contextMenu = new ContextMenu(webots.User1Id !== '' && webots.User1Authentication !== '', this.view3D);
+      let authenticatedUser = !this.broadcast;
+      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
+        authenticatedUser = Boolean(webots.User1Authentication);
+      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
       this.contextMenu.onEditController = (controller) => { this.editController(controller); };
       this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
       this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };

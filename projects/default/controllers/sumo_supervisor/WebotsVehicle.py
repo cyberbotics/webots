@@ -68,7 +68,7 @@ class WebotsVehicle:
                 edges.pop([i])
 
         # find the closest edge
-        if len(edges) > 0:
+        if edges:
             # correct distance using the third dimension
             for i in range(0, len(edges)):
                 edge = (edges[i][0]).getID()

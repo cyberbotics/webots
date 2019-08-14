@@ -14,5 +14,6 @@ All of these worlds use the previously presented objects and tools.
 - [Highway overtake](highway-overtake.md)
 - [SUMO interface example](sumo-interface-example.md)
 - [Village](village.md)
+- [Village center](village-center.md)
 - [Village winter](village-winter.md)
 - [Realistic Village](realistic-village.md)

@@ -109,6 +109,7 @@ def add_sumo(supervisor):
 
         # check if this port is already used
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(3.0)
         try:
             s.connect(('localhost', port))
         except socket.error:

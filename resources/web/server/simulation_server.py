@@ -231,7 +231,7 @@ class Client:
 
     def on_exit(self):
         """Callback issued when Webots quits."""
-        if (self.webots_process):
+        if self.webots_process:
             logging.warning('[%d] Webots [%d] exited' % (id(self), self.webots_process.pid))
             self.webots_process.wait()
             self.webots_process = None

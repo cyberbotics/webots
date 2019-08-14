@@ -27,6 +27,7 @@
     - [Highway Overtake](highway-overtake.md)
     - [SUMO Interface Example](sumo-interface-example.md)
     - [Village](village.md)
+    - [Village Center](village-center.md)
     - [Village Winter](village-winter.md)
     - [Realistic Village](realistic-village.md)
 - [Appendix](appendix.md)
