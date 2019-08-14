@@ -1112,8 +1112,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.3 usr/local/webots/lib\n");
 #elif defined(WEBOTS_UBUNTU_18_04)
-      fprintf(fd, "cp $WEBOTS_HOME/dependencies/openssl/libssl.so.1.0.0 usr/local/webots/lib\n");
-      fprintf(fd, "cp $WEBOTS_HOME/dependencies/openssl/libcrypto.so.1.0.0 usr/local/webots/lib\n");
+      fprintf(fd, "cp $WEBOTS_HOME/lib/libbssl.so.1.0.0 usr/local/webots/lib\n");
+      fprintf(fd, "cp $WEBOTS_HOME/lib/libcrypto.so.1.0.0 usr/local/webots/lib\n");
 #endif
 
       fprintf(fd, "mkdir DEBIAN\n");
