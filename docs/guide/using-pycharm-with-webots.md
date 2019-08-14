@@ -16,7 +16,7 @@ As an example the `driver` sample controller is used here.
 
 %figure "Open controller in PyCharm"
 
-![PyCharm Open File](images/pycharm_open.png)
+![PyCharm Open File](images/pycharm_open.thumbnail.jpg)
 
 %end
 
@@ -26,7 +26,7 @@ In the `Settings` window, select the `Project` / `Project Structure` tab, then, 
 
 %figure "Addition of the Webots controller library"
 
-![PyCharm Add Library](images/pycharm_add_lib.png)
+![PyCharm Add Library](images/pycharm_add_lib.thumbnail.jpg)
 
 %end
 
@@ -36,7 +36,7 @@ In the `Run Configurations` windows, press the `+` button and then select `Pytho
 
 %figure "Addition of the Webots libraries to the path"
 
-![PyCharm Add Path](images/pycharm_path.png)
+![PyCharm Add Path](images/pycharm_path.thumbnail.jpg)
 
 %end
 
@@ -47,7 +47,7 @@ To allow [PyCharm](https://www.jetbrains.com/pycharm) to start the controller in
 
 %figure "Robot controller to external"
 
-![PyCharm Webots](images/pycharm_webots.png)
+![PyCharm Webots](images/pycharm_webots.thumbnail.jpg)
 
 %end
 
@@ -55,6 +55,6 @@ The controller can now be started from [PyCharm](https://www.jetbrains.com/pycha
 
 %figure "Run controller from PyCharm"
 
-![PyCharm Run](images/pycharm_run.png)
+![PyCharm Run](images/pycharm_run.thumbnail.jpg)
 
 %end
