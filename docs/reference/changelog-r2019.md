@@ -26,6 +26,7 @@ Released on XXX YYth, 2019.
     - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
+    - Linux: Fixed missing Python3.7 controller API. 
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.
