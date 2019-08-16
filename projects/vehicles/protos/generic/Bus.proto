@@ -75,6 +75,7 @@ Car {
               appearance PBRAppearance {
                 metalness 0
                 roughness 0.3
+                emissiveIntensity 80
               }
               geometry Cylinder {
                 height 0.056

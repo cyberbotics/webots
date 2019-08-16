@@ -15,6 +15,7 @@ PROTO BmwX5RearLight [
           baseColor 0.72549 0.129412 0.129412
           metalness 0
           roughness 0.3
+          emissiveIntensity 20
         }
         geometry IndexedFaceSet {
           coord Coordinate {
