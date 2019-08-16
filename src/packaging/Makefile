@@ -90,6 +90,9 @@ iscc_formatter.exe: iscc_formatter.c
 	+@ echo "# compiling iscc_formatter.c"
 	+@$(CC) -Wall -o $@ iscc_formatter.c
 
+install: all
+	./webots.snap
+
 clean:
 	+@rm -rf $(WEBOTS_DISTRO_EXE) webots*.deb webots.iss msys64_f*s.iss webots-for-*.iss webots*.mac files.txt iscc_formatter.exe
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f

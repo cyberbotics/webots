@@ -147,6 +147,10 @@ clean-docs:
 	@+echo "#"; echo "# * documentation *";
 	@rm -fr docs/index.html docs/dependencies
 
+install:
+	@+echo "#"; echo "# * installing (snap) *";
+
+
 help:
 	@+echo
 	@+echo -e "\033[32;1mWebots Makefile targets:\033[0m"
