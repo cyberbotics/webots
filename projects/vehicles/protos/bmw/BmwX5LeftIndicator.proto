@@ -13,6 +13,7 @@ PROTO BmwX5LeftIndicator [
           baseColor 1 0.69 0.078
           roughness 0.2
           metalness 0
+          emissiveIntensity 30
         }
         geometry IndexedFaceSet {
           coord Coordinate {
