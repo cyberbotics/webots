@@ -27,6 +27,8 @@
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
+#include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
@@ -55,7 +57,6 @@
 #include <windows.h>  // GetCommandLine
 #else
 #include <pthread.h>
-#include <unistd.h>  // pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 #endif
 
 #define WEBOTS_EXIT_FALSE 0
@@ -961,20 +962,37 @@ int wb_robot_init() {  // API initialization
   if (WEBOTS_SERVER && WEBOTS_SERVER[0])
     pipe = strdup(WEBOTS_SERVER);
   else {
-    const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
-    char buffer[1024];
-    snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
-    FILE *fd = fopen(buffer, "r");
-    if (fd) {
-      if (!fscanf(fd, "%1023s", buffer)) {
-        fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
-        pipe = NULL;
-      } else
-        pipe = strdup(buffer);
-      fclose(fd);
-    } else {
-      fprintf(stderr, "Cannot open file: %s\n", buffer);
-      pipe = NULL;
+    unsigned int trial = 0;
+    while (trial < 10) {
+      trial++;
+      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
+      if (!WEBOTS_TMP_PATH) {
+        if (trial <= 10)
+          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %u second%s)\n", trial, trial > 1 ? "s" : "");
+        sleep(trial);
+      } else {
+        char buffer[1024];
+        snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
+        FILE *fd = fopen(buffer, "r");
+        if (fd) {
+          if (!fscanf(fd, "%1023s", buffer)) {
+            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
+            pipe = NULL;
+          } else {
+            pipe = strdup(buffer);
+            break;
+          }
+          fclose(fd);
+        } else {
+          if (trial <= 10)
+            fprintf(stderr, "Cannot open file: %s (retrying in %u second%s)\n", buffer, trial, trial > 1 ? "s" : "");
+          pipe = NULL;
+        }
+        if (trial > 10)
+          fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
+        else
+          sleep(trial);
+      }
     }
   }
   if (!pipe || !scheduler_init(pipe)) {

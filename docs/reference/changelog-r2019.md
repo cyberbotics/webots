@@ -18,6 +18,8 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
+  - Enhancements
+    - Improved the intensity and color of the bus, truck and car vehicle lights.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.
@@ -29,6 +31,8 @@ Released on XXX YYth, 2019.
     - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
     - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
+    - External controllers now wait if started before Webots.
+    - Linux: Fixed missing Python3.7 controller API.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.

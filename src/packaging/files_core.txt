@@ -193,10 +193,10 @@ lib/python36/ [linux]
 lib/python36/*.py [linux]
 lib/python36/_*.so [linux]
 
-lib/python37/ [windows,mac]
-lib/python37/*.py [windows,mac]
+lib/python37/
+lib/python37/*.py
+lib/python37/_*.so [linux,mac]
 lib/python37/_*.pyd [windows]
-lib/python37/_*.so [mac]
 
 lib/matlab/
 lib/matlab/allincludes.h
