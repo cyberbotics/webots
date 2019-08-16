@@ -1,0 +1,86 @@
+name: webots
+title: Webots
+base: core18
+version: 'R2019b-rev1'
+summary: Webots is a free and open-source 3D robot simulator
+description: |
+  Webots is a free and open-source 3D robot simulator.
+  It allows you to create 3D simulation models of robots interacting with their
+  environment through sensors and actuators. Libraries of robots, sensors,
+  actuators and objects are provided, but you can create your own. Collision
+  detections, rigid body dynamics and fluid dynamics rely on a modified version
+  of the ODE physics engine. The robot controller programs can be written
+  outside of Webots in C, C++, Python, ROS, Java or MATLAB using a simple API.
+  Webots features a 3D web interface allowing you to publish simulations online.
+icon: resources/icons/core/webots.png
+license: Apache-2.0
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+architectures:
+  - build-on: amd64
+    run-on: amd64
+
+parts:
+  webots:
+    build-packages:
+      - git
+      - g++
+      - cmake
+      - libusb-dev
+      - swig
+      - python2.7-dev
+      - libglu1-mesa-dev
+      - libglib2.0-dev
+      - libfreeimage-dev
+      - libfreetype6-dev
+      - libxml2-dev
+      - libzzip-0-13
+      - libssl-dev
+      - libboost-dev
+      - libjpeg8-dev
+      - libavcodec-extra
+      - libpci-dev
+      - libgd-dev
+      - libtiff5-dev
+      - libssh-dev
+      - libzip-dev
+      - python-pip
+      - libreadline-dev
+      - libassimp-dev
+      - pbzip2
+      - libpng-dev
+      - ffmpeg
+      - python3.6-dev
+      - python3.7-dev
+      - openjdk-8-jdk
+      - curl
+    # See 'snapcraft plugins'
+    plugin: make
+    source-type: git
+    source: https://github.com/omichel/webots
+    source-branch: revision
+    source-depth: 1
+    stage-packages:
+      - make
+      - g++
+      - libatk1.0-0
+      - ffmpeg
+      - libdbus-1-3
+      - libfreeimage3
+      - libglib2.0-0
+      - libglu1-mesa
+      - libgtk-3-0
+      - libjpeg8-dev
+      - libnss3
+      - libpci3
+      - libstdc++6
+      - libxaw7
+      - libxrandr2
+      - libxrender1
+      - libzzip-0-13
+      - libssh-dev
+      - libzip-dev
+      - xserver-xorg-core
+      - libxslt1.1
+      - libgd3
+      - libfreetype6
