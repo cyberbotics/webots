@@ -90,6 +90,7 @@ endif
 	@+echo "# done";
 
 webots_target: webots_dependencies
+	echo $(WEBOTS_HOME)
 	@+echo "#"; echo "# * ode *"; echo "#"
 	@+make --silent -C src/ode $(TARGET)
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins

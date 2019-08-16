@@ -1,3 +1,4 @@
+# snapcraft --debug --destructive-mode
 name: webots
 title: Webots
 base: core18
@@ -60,7 +61,7 @@ parts:
       - WEBOTS_HOME: "$SNAPCRAFT_PART_BUILD"
     source-type: git
     source: https://github.com/omichel/webots
-    source-branch: revision
+    source-branch: feature-snapcraft-build
     source-depth: 1
     stage-packages:
       - make
