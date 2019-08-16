@@ -14,6 +14,8 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
+  - Enhancements
+    - Improved the intensity and color of the bus, truck and car vehicle lights.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.

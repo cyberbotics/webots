@@ -146,6 +146,7 @@ PROTO LincolnMKZ [
                     appearance PBRAppearance {
                       roughness 0.1
                       metalness 0
+                      emissiveIntensity 25
                     }
                     geometry LincolnMKZFrontLightsMesh {
                     }
@@ -161,7 +162,7 @@ PROTO LincolnMKZ [
             rotation 0 1 0 3.14159
             children [
               DEF INDICATOR_RIGHT Shape {
-                appearance DEF DETAILS_APP PBRAppearance {
+                appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
                       "textures/lincoln_mkz_details_base_color.jpeg"
@@ -182,6 +183,7 @@ PROTO LincolnMKZ [
                       "textures/lincoln_mkz_details_normal.jpg"
                     ]
                   }
+                  emissiveIntensity 30
                 }
                 geometry LincolnMKZRightTurnSignalMesh {
                 }
@@ -195,7 +197,29 @@ PROTO LincolnMKZ [
             rotation 0 1 0 3.14159
             children [
               DEF INDICATOR_LEFT Shape {
-                appearance USE DETAILS_APP
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_base_color.jpeg"
+                    ]
+                  }
+                  roughnessMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_roughness.jpg"
+                    ]
+                  }
+                  metalnessMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_metalness.jpg"
+                    ]
+                  }
+                  normalMap ImageTexture {
+                    url [
+                      "textures/lincoln_mkz_details_normal.jpg"
+                    ]
+                  }
+                  emissiveIntensity 30
+                }
                 geometry LincolnMKZLeftTurnSignalMesh {
                 }
               }
@@ -211,6 +235,7 @@ PROTO LincolnMKZ [
                 appearance DEF BREAKING_LIGHT_APP PBRAppearance {
                   baseColor 0.560784 0.113725 0.113725
                   metalness 0
+                  emissiveIntensity 10
                 }
                 geometry LincolnMKZBackLightsMesh {
                 }

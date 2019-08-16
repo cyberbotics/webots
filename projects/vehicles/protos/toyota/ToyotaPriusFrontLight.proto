@@ -11,6 +11,7 @@ PROTO ToyotaPriusFrontLight [
       baseColor 0.8 0.8 0.8
       metalness 0
       roughness 0.3
+      emissiveIntensity 25
     }
     geometry IndexedFaceSet {
       coord Coordinate {
