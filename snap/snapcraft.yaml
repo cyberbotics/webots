@@ -56,6 +56,8 @@ parts:
       - curl
     # See 'snapcraft plugins'
     plugin: make
+    build-environment: &buildenv
+      - WEBOTS_HOME: "$SNAPCRAFT_PART_BUILD"
     source-type: git
     source: https://github.com/omichel/webots
     source-branch: revision
