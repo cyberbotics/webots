@@ -197,7 +197,7 @@ PROTO LincolnMKZ [
             rotation 0 1 0 3.14159
             children [
               DEF INDICATOR_LEFT Shape {
-                appearance DEF DETAILS_APP PBRAppearance {
+                appearance PBRAppearance {
                   baseColorMap ImageTexture {
                     url [
                       "textures/lincoln_mkz_details_base_color.jpeg"
