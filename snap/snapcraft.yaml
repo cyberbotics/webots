@@ -1,4 +1,4 @@
-# snapcraft --debug --destructive-mode
+# unset WEBOTS_HOME; snapcraft --debug --destructive-mode
 name: webots
 title: Webots
 base: core18
