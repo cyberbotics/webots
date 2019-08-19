@@ -149,7 +149,7 @@ clean-docs:
 
 install:
 	@+echo "#"; echo "# * installing (snap) *";
-
+	@+make --silent -C src/packaging -f Makefile install
 
 help:
 	@+echo

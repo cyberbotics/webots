@@ -239,7 +239,7 @@ static void copy_file(const char *file) {
               application_name_lowercase_and_dashes, dest2);
       break;
     case SNAP:
-      fprintf(fd, "cp $WEBOTS_HOME/%s $(DESTDIR)/usr/share/%s/%s\n", protected_filename2,
+      fprintf(fd, "cp $WEBOTS_HOME/%s $DESTDIR/usr/share/%s/%s\n", protected_filename2,
               application_name_lowercase_and_dashes, dest2);
       break;
 #endif
@@ -301,7 +301,7 @@ static void make_dir(const char *directory) {
       fprintf(fd, "mkdir %s/debian/usr/local/%s/%s\n", distribution_path, application_name_lowercase_and_dashes, directory);
       break;
     case SNAP:
-      fprintf(fd, "mkdir $(DESTDIR)/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
     default:
       break;
   }
@@ -515,15 +515,17 @@ static void create_file(const char *name, int m) {
       break;
     case SNAP:
       fprintf(fd, "#!/bin/bash\n");
-      fprintf(fd, "# run this auto-generated script to install the %s snap in \"$(DESTDIR)\"\n\n",
+      fprintf(fd, "# run this auto-generated script to install the %s snap in \"$DESTDIR\"\n\n",
               application_name_lowercase_and_dashes);
-      fprintf(fd, "mkdir $(DESTDIR)/lib\n");
-      fprintf(fd, "mkdir $(DESTDIR)/lib/x86_64-linux-gnu\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/share\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/bin\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/lib\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir -p $DESTDIR\n");
+      fprintf(fd, "mkdir $DESTDIR/lib\n");
+      fprintf(fd, "mkdir $DESTDIR/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir $DESTDIR/usr\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "mkdir $DESTDIR/usr/bin\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/lib\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/lib/x86_64-linux-gnu\n");
     default:
       break;
   }
@@ -1232,13 +1234,13 @@ static void create_file(const char *name, int m) {
         "libjbig.so.0", "libtiff.so.5", "libjpeg.so.8", "libgomp.so.1", "liblcms2.so.2", "libXi.so.6", "libXrender.so.1",
         "libfontconfig.so.1", "libxslt.so.1", "libgd.so.3", "libssh.so.4", "libfreetype.so.6" };
       for(int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
-        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $(DESTDIR)/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 $(DESTDIR)/lib/x86_64-linux-gnu/\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/share/webots/include/libssh\n");
-      fprintf(fd, "cp -r /usr/include/libssh $(DESTDIR)/usr/share/webots/include/libssh/\n");
-      fprintf(fd, "mkdir $(DESTDIR)/usr/share/webots/include/libzip\n");
-      fprintf(fd, "cp -r /usr/include/zip.h $(DESTDIR)/usr/share/webots/include/libzip/\n");
-      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $(DESTDIR)/usr/share/webots/include/libzip/\n");
+        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
+      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 $DESTDIR/lib/x86_64-linux-gnu/\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
+      fprintf(fd, "cp -r /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
+      fprintf(fd, "cp -r /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
 
       break;
     }
@@ -1251,6 +1253,9 @@ static void create_file(const char *name, int m) {
     system(buffer);
   } else if (mode == DEB) {
     snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.deb", application_name_lowercase_and_dashes);
+    system(buffer);
+  } else if (mode == SNAP) {
+    snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.snap", application_name_lowercase_and_dashes);
     system(buffer);
   }
   printf(": done\n");
@@ -1376,7 +1381,7 @@ int main(int argc, char *argv[]) {
   create_distributions(MAC);
 #endif
 #ifdef __linux__
-  //create_distributions(DEB);
+  create_distributions(DEB);
   create_distributions(SNAP);
 #endif
   return 0;
