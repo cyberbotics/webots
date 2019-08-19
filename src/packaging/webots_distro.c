@@ -1231,9 +1231,8 @@ static void create_file(const char *name, int m) {
         "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4", "libzzip-0.so.13",
         "libjbig.so.0", "libtiff.so.5", "libjpeg.so.8", "libgomp.so.1", "liblcms2.so.2", "libXi.so.6", "libXrender.so.1",
         "libfontconfig.so.1", "libxslt.so.1", "libgd.so.3", "libssh.so.4", "libfreetype.so.6" };
-      }
-      for(int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu); i++)
-        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $(DESTDIR)/usr/lib/x86_64-linux-gnu/\n");
+      for(int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
+        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $(DESTDIR)/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 $(DESTDIR)/lib/x86_64-linux-gnu/\n");
       fprintf(fd, "mkdir $(DESTDIR)/usr/share/webots/include/libssh\n");
       fprintf(fd, "cp -r /usr/include/libssh $(DESTDIR)/usr/share/webots/include/libssh/\n");
@@ -1377,7 +1376,8 @@ int main(int argc, char *argv[]) {
   create_distributions(MAC);
 #endif
 #ifdef __linux__
-  create_distributions(DEB);
+  //create_distributions(DEB);
+  create_distributions(SNAP);
 #endif
   return 0;
 }
