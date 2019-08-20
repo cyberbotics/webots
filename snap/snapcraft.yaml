@@ -57,7 +57,7 @@ parts:
       - curl
     # See 'snapcraft plugins'
     plugin: make
-    build-environment: &buildenv
+    build-environment:
       - WEBOTS_HOME: "$SNAPCRAFT_PART_BUILD"
     source-type: git
     source: https://github.com/omichel/webots
@@ -66,8 +66,8 @@ parts:
     stage-packages:
       - make
       - g++
-      - libatk1.0-0
       - ffmpeg
+      - libatk1.0-0
       - libdbus-1-3
       - libfreeimage3
       - libglib2.0-0
@@ -87,3 +87,29 @@ parts:
       - libxslt1.1
       - libgd3
       - libfreetype6
+      - libasn1-8-heimdal
+      - libcurl3-gnutls
+      - libgeos-3.6.2
+      - libgfortran4
+      - libgssapi3-heimdal
+      - libhcrypto4-heimdal
+      - libheimbase1-heimdal
+      - libheimntlm0-heimdal
+      - libhx509-5-heimdal
+      - libkrb5-26-heimdal
+      - libldap-2.4-2
+      - libltdl7
+      - libminizip1
+      - libnghttp2-14
+      - libopencore-amrnb0
+      - libopencore-amrwb0
+      - libproj12
+      - libpsl5
+      - libroken18-heimdal
+      - librtmp1
+      - libsasl2-2
+      - libslang2
+      - libvo-amrwbenc0
+      - libwind0-heimdal
+      - libxft2
+      - libxtst6
