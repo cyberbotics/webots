@@ -15,6 +15,19 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     this.params.title = 'Console';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
+
+    var buttonDiv = document.createElement('div');
+    this.logDiv = document.createElement('div');
+    var clearButton = document.createElement('button');
+    var clearButtonText = document.createTextNode('Clear');
+    clearButton.appendChild(clearButtonText);
+    // clearButton.className = 'innerButton';
+    clearButton.addEventListener('click', () => {
+      this.clear();
+    });
+    buttonDiv.appendChild(clearButton);
+    this.panel.appendChild(this.logDiv);
+    this.panel.appendChild(buttonDiv);
   }
 
   scrollDown() {
@@ -23,9 +36,9 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   clear() {
-    if (this.panel) {
-      while (this.panel.firstChild)
-        this.panel.removeChild(this.panel.firstChild);
+    if (this.logDiv) {
+      while (this.logDiv.firstChild)
+        this.logDiv.removeChild(this.logDiv.firstChild);
     } else
       console.clear();
   }
@@ -69,12 +82,12 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
         title = 'error';
         break;
     }
-    if (this.panel) {
+    if (this.logDiv) {
       para.style.cssText = style;
       para.title = title + ' (' + this._hourString() + ')';
       var t = document.createTextNode(message);
       para.appendChild(t);
-      this.panel.appendChild(para);
+      this.logDiv.appendChild(para);
       this.scrollDown();
     } else
       console.log('%c' + message, style);
