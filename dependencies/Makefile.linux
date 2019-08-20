@@ -45,9 +45,9 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 open-al-clean:
 	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)* $(WEBOTS_HOME)/lib/libopenal*
 
-open-al: $(WEBOTS_HOME)/lib/libopenal.so.1
+open-al: $(WEBOTS_HOME)/lib/libopenal.so
 
-$(WEBOTS_HOME)/lib/libopenal.so.1.16.0: $(WEBOTS_DEPENDENCY_PATH)/openal
+$(WEBOTS_HOME)/lib/libopenal.so: $(WEBOTS_DEPENDENCY_PATH)/openal
 	mv $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME)/lib/
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
