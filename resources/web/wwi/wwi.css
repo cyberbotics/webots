@@ -145,6 +145,11 @@ button::-moz-focus-inner {
   padding-top: 10px;
 }
 
+.webotsConsoleButtonIcon {
+  height: 0.8em;
+  padding-right: 5px;
+}
+
 .webotsTime {
   padding-top: 8px;
   color: #ccc;

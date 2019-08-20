@@ -20,8 +20,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     buttons.className = 'webotsConsoleButtons';
     this.logs = document.createElement('div');
     var clearButton = document.createElement('button');
-    var clearButtonText = document.createTextNode('Clear');
-    clearButton.appendChild(clearButtonText);
+    clearButton.innerHTML = '<img class="webotsConsoleButtonIcon" src="' + DefaultUrl.wwiImagesUrl() + 'trash.png"></img>Clear';
     clearButton.addEventListener('click', () => {
       this.clear();
     });
