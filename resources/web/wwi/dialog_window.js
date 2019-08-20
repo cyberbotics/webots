@@ -56,7 +56,7 @@ class DialogWindow { // eslint-disable-line no-unused-vars
       $(dialog).dialog('option', 'height', clampedSize.height);
   }
 
-  static mobileCreateDialog() {
+  static createMobileDialog() {
     // mobile only setup
     var closeButton = $('button:contains("WbClose")');
     closeButton.html('');
@@ -68,7 +68,7 @@ class DialogWindow { // eslint-disable-line no-unused-vars
 
   static addMobileDialogAttributes(params, panel) {
     params.dialogClass = 'mobile-no-default-buttons';
-    params.create = () => { DialogWindow.mobileCreateDialog(); };
+    params.create = DialogWindow.createMobileDialog;
     params.buttons = { 'WbClose': () => { $(panel).dialog('close'); } };
   }
 
