@@ -1,4 +1,4 @@
-/* global webots, THREE */
+/* global webots, THREE, SystemInfo */
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
@@ -81,6 +81,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         default: this.state.pressedButton = 0; break;
       }
     }
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+      // On macOS, "Ctrl + click" should be managed as a right click.
+      this.state.mouseDown = 2;
+
     if (this.state.mouseDown === 0)
       return;
 
