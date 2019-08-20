@@ -26,7 +26,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     this.clearButton = document.createElement('button');
     this.clearButton.className = 'webotsConsoleButton';
     this.clearButton.disabled = true;
-    this.clearButton.title = 'Clear the console';
+    this.clearButton.title = 'Clear the console';
     this.clearButton.appendChild(clearButtonIcon);
     this.clearButton.addEventListener('click', () => {
       this.clear();
