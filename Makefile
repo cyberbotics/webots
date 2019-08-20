@@ -18,11 +18,7 @@ ifeq ($(WEBOTS_HOME),)
 ifneq ($(findstring MINGW,$(shell uname)),) # under MINGW, we need to set WEBOTS_HOME using the native Windows format
 WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
 else
-ifneq ($(SNAPCRAFT_PART_BUILD),)
-WEBOTS_HOME=$(HOME)/webots
-else
-WEBOTS_HOME=$(SNAPCRAFT_PART_BUILD)
-endif
+WEBOTS_HOME=`pwd`
 endif
 endif
 
