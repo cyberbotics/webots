@@ -1,8 +1,7 @@
-/* global DialogWindow */
+/* global DialogWindow, DefaultUrl */
 'use strict';
 
 class Console extends DialogWindow { // eslint-disable-line no-unused-vars
-
   constructor(parent, mobile) {
     super(parent, mobile);
 
@@ -17,11 +16,11 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
-    var buttons = document.createElement('div');
-    buttons.className = 'webotsConsoleButtons';
-    this.logs = document.createElement('div');
-    var clearButtonIcon = document.createElement('img');
-    clearButtonIcon.className = 'webotsConsoleButtonIcon';
+    var buttons = document.createElement('div');
+    buttons.className = 'webotsConsoleButtons';
+    this.logs = document.createElement('div');
+    var clearButtonIcon = document.createElement('img');
+    clearButtonIcon.className = 'webotsConsoleButtonIcon';
     clearButtonIcon.setAttribute('src', DefaultUrl.wwiImagesUrl() + 'trash.png');
     this.clearButton = document.createElement('button');
     this.clearButton.disabled = true;
@@ -52,7 +51,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
 
   // Remove the oldest logs.
   purge() {
-    const historySize = 100; // defines the maximum size of the log.
+    const historySize = 100; // defines the maximum size of the log.
     if (this.logs) {
       while (this.logs.firstChild && this.logs.childElementCount > historySize)
         this.logs.removeChild(this.logs.firstChild);
