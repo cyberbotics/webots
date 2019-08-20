@@ -16,9 +16,9 @@ START := $(shell date +%s)
 
 ifeq ($(WEBOTS_HOME),)
 ifneq ($(findstring MINGW,$(shell uname)),) # under MINGW, we need to set WEBOTS_HOME using the native Windows format
-WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
+export WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
 else
-WEBOTS_HOME:=`pwd`
+export WEBOTS_HOME = $(PWD)
 endif
 endif
 
@@ -90,7 +90,6 @@ endif
 	@+echo "# done";
 
 webots_target: webots_dependencies
-	echo $(WEBOTS_HOME)
 	@+echo "#"; echo "# * ode *"; echo "#"
 	@+make --silent -C src/ode $(TARGET)
 ifeq ($(TARGET),profile)  # a shared version of the library is required for physics-plugins
