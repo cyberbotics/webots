@@ -21,6 +21,7 @@ Released on XXX YYth, 2019.
       - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
+      - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.

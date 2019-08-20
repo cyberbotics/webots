@@ -185,7 +185,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
           modal: true,
           resizable: false,
           appendTo: this.view.view3D,
-          open: DialogWindow.openDialog,
+          open: () => { DialogWindow.openDialog(quitDialog); },
           buttons: {
             'Cancel': () => {
               $(quitDialog).dialog('close');
@@ -315,7 +315,8 @@ class Toolbar { // eslint-disable-line no-unused-vars
       this.fastButton.style.display = 'none';
       this.real_timeButton.style.display = 'inline';
     } else {
-      this.fastButton.style.display = 'inline';
+      if (fastEnabled)
+        this.fastButton.style.display = 'inline';
       this.real_timeButton.style.display = 'none';
     }
   }
