@@ -156,12 +156,15 @@ button::-moz-focus-inner {
 .webotsConsoleButton {
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  padding: 3px;
-  margin: 3px;
+  padding: 6px;
+}
+
+.webotsConsoleButton:disabled {
+  opacity: 0.3;
 }
 
 .webotsConsoleButtonIcon {
-  height: 14px;
+  height: 15px;
 }
 
 .webotsTime {
