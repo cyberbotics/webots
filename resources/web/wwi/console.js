@@ -2,6 +2,7 @@
 'use strict';
 
 class Console extends DialogWindow { // eslint-disable-line no-unused-vars
+
   constructor(parent, mobile) {
     super(parent, mobile);
 
@@ -39,6 +40,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
       this.panel.scrollTop = this.panel.scrollHeight;
   }
 
+  // Remove all the logs.
   clear() {
     if (this.logs) {
       while (this.logs.firstChild)
@@ -48,6 +50,16 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     this.clearButton.disabled = true;
   }
 
+  // Remove the oldest logs.
+  purge() {
+    const historySize = 100; // defines the maximum size of the log.
+    if (this.logs) {
+      console.log(this.logs.childElementCount);
+      while (this.logs.firstChild && this.logs.childElementCount > historySize)
+        this.logs.removeChild(this.logs.firstChild);
+    }
+  }
+ 
   stdout(message) {
     this._log(message, 0);
   }
@@ -93,6 +105,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
       var t = document.createTextNode(message);
       para.appendChild(t);
       this.logs.appendChild(para);
+      this.purge();
       this.scrollDown();
       this.clearButton.disabled = false;
     } else
