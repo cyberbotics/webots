@@ -19,16 +19,17 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     var buttons = document.createElement('div');
     buttons.className = 'webotsConsoleButtons';
     this.logs = document.createElement('div');
-    var clearButton = document.createElement('button');
     var clearButtonIcon = document.createElement('img');
     clearButtonIcon.className = 'webotsConsoleButtonIcon';
     clearButtonIcon.setAttribute('src', DefaultUrl.wwiImagesUrl() + 'trash.png');
-    clearButton.appendChild(clearButtonIcon);
-    clearButton.appendChild(document.createTextNode('Clear'));
-    clearButton.addEventListener('click', () => {
+    this.clearButton = document.createElement('button');
+    this.clearButton.disabled = true;
+    this.clearButton.appendChild(clearButtonIcon);
+    this.clearButton.appendChild(document.createTextNode('Clear'));
+    this.clearButton.addEventListener('click', () => {
       this.clear();
     });
-    buttons.appendChild(clearButton);
+    buttons.appendChild(this.clearButton);
     this.panel.appendChild(this.logs);
     this.panel.appendChild(buttons);
   }
@@ -44,6 +45,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
         this.logs.removeChild(this.logs.firstChild);
     } else
       console.clear();
+    this.clearButton.disabled = true;
   }
 
   stdout(message) {
@@ -92,6 +94,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
       para.appendChild(t);
       this.logs.appendChild(para);
       this.scrollDown();
+      this.clearButton.disabled = false;
     } else
       console.log('%c' + message, style);
   }
