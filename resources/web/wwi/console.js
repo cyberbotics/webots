@@ -19,19 +19,20 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     var buttons = document.createElement('div');
     buttons.className = 'webotsConsoleButtons';
     this.logs = document.createElement('div');
+    this.logs.className = 'webotsConsoleLogs';
     var clearButtonIcon = document.createElement('img');
     clearButtonIcon.className = 'webotsConsoleButtonIcon';
     clearButtonIcon.setAttribute('src', DefaultUrl.wwiImagesUrl() + 'trash.png');
     this.clearButton = document.createElement('button');
+    this.clearButton.className = 'webotsConsoleButton';
     this.clearButton.disabled = true;
     this.clearButton.appendChild(clearButtonIcon);
-    this.clearButton.appendChild(document.createTextNode('Clear'));
     this.clearButton.addEventListener('click', () => {
       this.clear();
     });
     buttons.appendChild(this.clearButton);
-    this.panel.appendChild(this.logs);
     this.panel.appendChild(buttons);
+    this.panel.appendChild(this.logs);
   }
 
   scrollDown() {
