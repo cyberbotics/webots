@@ -11,6 +11,7 @@ PROTO TruckFrontLight [
       baseColor 0.772549 0.776471 0.580392
       metalness 0
       roughness 0.3
+      emissiveIntensity 80
     }
     geometry IndexedFaceSet {
       coord Coordinate {

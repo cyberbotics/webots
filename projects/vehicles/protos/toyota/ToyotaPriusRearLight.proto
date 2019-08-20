@@ -11,6 +11,7 @@ PROTO ToyotaPriusRearLight [
       baseColor 0.560784 0.113725 0.113725
       metalness 0
       roughness 0.3
+      emissiveIntensity 10
     }
     geometry IndexedFaceSet {
       coord Coordinate {

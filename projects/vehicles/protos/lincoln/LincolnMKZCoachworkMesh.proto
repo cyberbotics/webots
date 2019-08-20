@@ -9676,6 +9676,6 @@ PROTO LincolnMKZCoachworkMesh [
       5891, -1, 5213, 5895, 5894, -1, 5210, 5894, 5893, -1
       5893, 5892, 5208, -1
     ]
-    creaseAngle 0.22
+    creaseAngle 0.4
   }
 }

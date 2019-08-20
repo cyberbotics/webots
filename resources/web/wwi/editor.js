@@ -50,12 +50,12 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
                           '</div>';
     this.panel.appendChild(this.menu);
 
-    var clampedSize = super.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
+    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
     this.params.resize = () => { this._resize(); };
-    this.params.open = () => { this.resizeDialogOnOpen(this.panel); };
+    this.params.open = () => { DialogWindow.resizeDialogOnOpen(this.panel); };
     this.params.title = 'Editor';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
@@ -217,15 +217,15 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       autoOpen: true,
       resizable: false,
       dialogClass: 'alert',
-      open: () => { this.openDialog(this); },
+      open: () => { DialogWindow.openDialog(confirmDialog); },
       appendTo: this.parent,
       buttons: {
         'Cancel': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
         },
         'Reset': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
           if (this.resetAllFiles) {
             this.filenames.forEach((filename) => {

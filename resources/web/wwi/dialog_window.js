@@ -10,18 +10,18 @@ class DialogWindow { // eslint-disable-line no-unused-vars
 
     this.params = {
       appendTo: parent,
-      open: () => { this.openDialog(this.panel); },
+      open: () => { DialogWindow.openDialog(this.panel); },
       autoOpen: false,
-      resizeStart: this.disablePointerEvents,
-      resizeStop: this.enablePointerEvents,
-      dragStart: this.disablePointerEvents,
-      dragStop: this.enablePointerEvents
+      resizeStart: DialogWindow.disablePointerEvents,
+      resizeStop: DialogWindow.enablePointerEvents,
+      dragStart: DialogWindow.disablePointerEvents,
+      dragStop: DialogWindow.enablePointerEvents
     };
     if (this.mobile)
-      this.addMobileDialogAttributes(this.params, this.panel);
+      DialogWindow.addMobileDialogAttributes(this.params, this.panel);
   }
 
-  clampDialogSize(preferredGeometry) {
+  static clampDialogSize(preferredGeometry) {
     if (typeof $('#playerDiv').height === 'undefined' || typeof $('#playerDiv').width === 'undefined')
       return preferredGeometry;
 
@@ -36,8 +36,8 @@ class DialogWindow { // eslint-disable-line no-unused-vars
     return {width: width, height: height};
   }
 
-  openDialog(dialog) {
-    this.resizeDialogOnOpen(dialog);
+  static openDialog(dialog) {
+    DialogWindow.resizeDialogOnOpen(dialog);
     $(dialog).parent().css('opacity', 0.9);
     $(dialog).parent().hover(() => {
       $(dialog).css('opacity', 0.99);
@@ -46,17 +46,17 @@ class DialogWindow { // eslint-disable-line no-unused-vars
     });
   }
 
-  resizeDialogOnOpen(dialog) {
+  static resizeDialogOnOpen(dialog) {
     var w = $(dialog).parent().width();
     var h = $(dialog).parent().height();
-    var clampedSize = this.clampDialogSize({left: 0, top: 0, width: w, height: h});
+    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: w, height: h});
     if (clampedSize.width < w)
       $(dialog).dialog('option', 'width', clampedSize.width);
     if (clampedSize.height < h)
       $(dialog).dialog('option', 'height', clampedSize.height);
   }
 
-  mobileCreateDialog() {
+  static createMobileDialog() {
     // mobile only setup
     var closeButton = $('button:contains("WbClose")');
     closeButton.html('');
@@ -66,19 +66,19 @@ class DialogWindow { // eslint-disable-line no-unused-vars
     closeButton.prepend('<span class="ui-icon ui-icon-closethick"></span>');
   }
 
-  addMobileDialogAttributes(params, panel) {
+  static addMobileDialogAttributes(params, panel) {
     params.dialogClass = 'mobile-no-default-buttons';
-    params.create = () => { this.mobileCreateDialog(); };
+    params.create = DialogWindow.createMobileDialog;
     params.buttons = { 'WbClose': () => { $(panel).dialog('close'); } };
   }
 
   // The following two functions are used to make the resize and drag of the dialog
   // steady (i.e., not loose the grab while resizing/dragging the dialog quickly).
-  disablePointerEvents() {
+  static disablePointerEvents() {
     document.body.style['pointer-events'] = 'none';
   }
 
-  enablePointerEvents() {
+  static enablePointerEvents() {
     document.body.style['pointer-events'] = 'auto';
   }
 }
@@ -95,12 +95,12 @@ webots.alert = (title, message, callback) => {
   panel.innerHTML = message;
   $('#webotsAlert').dialog({
     title: title,
-    resizeStart: this.disablePointerEvents,
-    resizeStop: this.enablePointerEvents,
-    dragStart: this.disablePointerEvents,
-    dragStop: this.enablePointerEvents,
+    resizeStart: DialogWindow.disablePointerEvents,
+    resizeStop: DialogWindow.enablePointerEvents,
+    dragStart: DialogWindow.disablePointerEvents,
+    dragStop: DialogWindow.enablePointerEvents,
     appendTo: parent,
-    open: this.openDialog,
+    open: () => { DialogWindow.openDialog(panel); },
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
@@ -124,12 +124,12 @@ webots.confirm = (title, message, callback) => {
   parent.appendChild(panel);
   $('#webotsConfirm').dialog({
     title: title,
-    resizeStart: this.disablePointerEvents,
-    resizeStop: this.enablePointerEvents,
-    dragStart: this.disablePointerEvents,
-    dragStop: this.enablePointerEvents,
+    resizeStart: DialogWindow.disablePointerEvents,
+    resizeStop: DialogWindow.enablePointerEvents,
+    dragStart: DialogWindow.disablePointerEvents,
+    dragStop: DialogWindow.enablePointerEvents,
     appendTo: parent,
-    open: this.openDialog,
+    open: () => { DialogWindow.openDialog(panel); },
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {

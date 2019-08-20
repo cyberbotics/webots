@@ -14,6 +14,7 @@ PROTO CitroenCZeroRightIndicator [
           "textures/indicator.jpg"
         ]
       }
+      emissiveIntensity 30
     }
     geometry IndexedFaceSet {
       coord Coordinate {

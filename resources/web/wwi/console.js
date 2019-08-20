@@ -8,7 +8,7 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
     this.panel.id = 'webotsConsole';
     this.panel.className = 'webotsConsole';
 
-    var clampedSize = super.clampDialogSize({left: 0, top: 0, width: 600, height: 400});
+    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 600, height: 400});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = () => { $('#consoleButton').removeClass('toolBarButtonActive'); };

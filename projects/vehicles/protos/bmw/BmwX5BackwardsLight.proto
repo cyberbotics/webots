@@ -15,6 +15,7 @@ PROTO BmwX5BackwardsLight [
           metalness 0
           baseColor 0.807843 0.807843 0.807843
           roughness 0.4
+          emissiveIntensity 10
         }
         geometry IndexedFaceSet {
           coord Coordinate {

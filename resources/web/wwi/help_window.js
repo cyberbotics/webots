@@ -26,7 +26,7 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
       $('#webotsHelpTabs').tabs();
     }
 
-    var clampedSize = super.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
+    var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = () => { $('#helpButton').removeClass('toolBarButtonActive'); };
