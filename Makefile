@@ -18,7 +18,7 @@ ifeq ($(WEBOTS_HOME),)
 ifneq ($(findstring MINGW,$(shell uname)),) # under MINGW, we need to set WEBOTS_HOME using the native Windows format
 WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
 else
-WEBOTS_HOME=`pwd`
+WEBOTS_HOME:=`pwd`
 endif
 endif
 
