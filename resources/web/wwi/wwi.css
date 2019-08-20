@@ -140,6 +140,11 @@ button::-moz-focus-inner {
   font-family: monospace;
 }
 
+.webotsConsoleButtons {
+  text-align: right;
+  padding-top: 10px;
+}
+
 .webotsTime {
   padding-top: 8px;
   color: #ccc;

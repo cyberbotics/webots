@@ -16,18 +16,18 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
 
-    var buttonDiv = document.createElement('div');
-    this.logDiv = document.createElement('div');
+    var buttons = document.createElement('div');
+    buttons.className = 'webotsConsoleButtons';
+    this.logs = document.createElement('div');
     var clearButton = document.createElement('button');
     var clearButtonText = document.createTextNode('Clear');
     clearButton.appendChild(clearButtonText);
-    // clearButton.className = 'innerButton';
     clearButton.addEventListener('click', () => {
       this.clear();
     });
-    buttonDiv.appendChild(clearButton);
-    this.panel.appendChild(this.logDiv);
-    this.panel.appendChild(buttonDiv);
+    buttons.appendChild(clearButton);
+    this.panel.appendChild(this.logs);
+    this.panel.appendChild(buttons);
   }
 
   scrollDown() {
@@ -36,9 +36,9 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
   }
 
   clear() {
-    if (this.logDiv) {
-      while (this.logDiv.firstChild)
-        this.logDiv.removeChild(this.logDiv.firstChild);
+    if (this.logs) {
+      while (this.logs.firstChild)
+        this.logs.removeChild(this.logs.firstChild);
     } else
       console.clear();
   }
@@ -82,12 +82,12 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
         title = 'error';
         break;
     }
-    if (this.logDiv) {
+    if (this.logs) {
       para.style.cssText = style;
       para.title = title + ' (' + this._hourString() + ')';
       var t = document.createTextNode(message);
       para.appendChild(t);
-      this.logDiv.appendChild(para);
+      this.logs.appendChild(para);
       this.scrollDown();
     } else
       console.log('%c' + message, style);
