@@ -54,12 +54,11 @@ class Console extends DialogWindow { // eslint-disable-line no-unused-vars
   purge() {
     const historySize = 100; // defines the maximum size of the log.
     if (this.logs) {
-      console.log(this.logs.childElementCount);
       while (this.logs.firstChild && this.logs.childElementCount > historySize)
         this.logs.removeChild(this.logs.firstChild);
     }
   }
- 
+
   stdout(message) {
     this._log(message, 0);
   }
