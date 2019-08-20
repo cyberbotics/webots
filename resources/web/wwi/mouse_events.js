@@ -47,7 +47,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         break;
     }
     if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
-      // On macOS, "Ctrl + click" should be dealt as a right click.
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
       this.state.mouseDown = 2;
 
     if (this.state.mouseDown !== 0) {
@@ -85,7 +85,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       }
     }
     if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
-      // On macOS, "Ctrl + click" should be dealt as a right click.
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
       this.state.mouseDown = 2;
 
     if (this.state.mouseDown === 0)
