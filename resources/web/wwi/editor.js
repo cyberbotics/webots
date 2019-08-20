@@ -221,11 +221,11 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       appendTo: this.parent,
       buttons: {
         'Cancel': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
         },
         'Reset': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
           if (this.resetAllFiles) {
             this.filenames.forEach((filename) => {
