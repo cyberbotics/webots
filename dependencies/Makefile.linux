@@ -47,9 +47,8 @@ open-al-clean:
 
 open-al: $(WEBOTS_HOME)/lib/libopenal.so.1
 
-$(WEBOTS_HOME)/lib/libopenal.so.1: $(WEBOTS_DEPENDENCY_PATH)/openal
-	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so.1.16.0 $(WEBOTS_HOME)/lib/libopenal.so
-	ln -s $(WEBOTS_HOME)/lib/libopenal.so $(WEBOTS_HOME)/lib/libopenal.so.1
+$(WEBOTS_HOME)/lib/libopenal.so.1.16.0: $(WEBOTS_DEPENDENCY_PATH)/openal
+	mv $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME)/lib/
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
@@ -66,12 +65,12 @@ open-cv: $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3
 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
 	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
 	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
-	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4
-	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2
-	ln -s $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so
-	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4
-	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2
-	ln -s $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so
+	ln -s libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4
+	ln -s libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2
+	ln -s libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so
+	ln -s libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4
+	ln -s libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2
+	ln -s libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so
 
 $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
@@ -136,13 +135,12 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a:
 
 
 open-ssl-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME)/lib/libcrypto.so $(WEBOTS_HOME)/lib/libssl.so
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME)/lib/libcrypto.so* $(WEBOTS_HOME)/lib/libssl.so*
 
 open-ssl: $(WEBOTS_HOME)/lib/libcrypto.so
 
 $(WEBOTS_HOME)/lib/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl
-	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libcrypto.so $(WEBOTS_HOME)/lib
-	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libssl.so $(WEBOTS_HOME)/lib
+	mv $(WEBOTS_DEPENDENCY_PATH)/openssl/lib*.so* $(WEBOTS_HOME)/lib
 
 $(WEBOTS_DEPENDENCY_PATH)/openssl:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
