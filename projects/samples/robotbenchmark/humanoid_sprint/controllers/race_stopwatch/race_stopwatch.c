@@ -85,13 +85,13 @@ int main(int argc, char *argv[]) {
   int run = 1;
   double record = 0;
   double penalty = 0;
-  bool has_penality = false;
+  bool has_penalty = false;
   do {
     const double *v = wb_supervisor_field_get_sf_vec3f(translation);
-    if (!has_penality && v[1] < 0.2) {  // the robot has fallen down
+    if (!has_penalty && v[1] < 0.2) {  // the robot has fallen down
       printf("The robot is down, a penalty of 30 seconds is added.\n");
       penalty += 30;
-      has_penality = true;
+      has_penalty = true;
     }
     double t = wb_robot_get_time() + penalty;
     if (run) {
