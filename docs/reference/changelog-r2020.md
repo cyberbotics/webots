@@ -11,7 +11,9 @@ Released on XXX YYth, 2019.
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.
       - Added support for the `ImageTexture.filtering` field.
       - Improved the console log history. Added a button to clear the console.
-    - Improved graphics quality of the [robotbenchmark](https://robotbenchmark.net) worlds.
+    - Improved [robotbenchmark](https://robotbenchmark.net) worlds.
+      - Improved overall graphics quality (using the PBR materials and the HDR backgrounds).
+      - Improved `humanoid_sprint` benchmark metrics.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
   - New Samples
     - Added a `complete_apartment` world.
