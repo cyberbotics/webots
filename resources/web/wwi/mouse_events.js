@@ -1,4 +1,4 @@
-/* global webots, THREE */
+/* global webots, THREE, SystemInfo */
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
@@ -29,6 +29,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
     domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+
+    // Prevent '#playerDiv' to raise the context menu of the browser.
+    // This bug has been seen on Windows 10 / Firefox only.
+    domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
   _onMouseDown(event) {
@@ -46,6 +50,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         this.state.mouseDown |= 2;
         break;
     }
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
+      this.state.mouseDown = 2;
 
     if (this.state.mouseDown !== 0) {
       this._setupMoveParameters(event, true);
@@ -81,6 +88,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         default: this.state.pressedButton = 0; break;
       }
     }
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
+      this.state.mouseDown = 2;
+
     if (this.state.mouseDown === 0)
       return;
 
