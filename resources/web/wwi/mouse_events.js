@@ -29,6 +29,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
     domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+
+    // Prevent '#playerDiv' to raise the context menu of the browser.
+    // This bug has been seen on Windows 10 / Firefox only.
+    domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
   _onMouseDown(event) {
