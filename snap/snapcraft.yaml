@@ -24,37 +24,38 @@ architectures:
 parts:
   webots:
     build-packages:
-      - git
-      - g++
       - cmake
-      - libusb-dev
-      - swig
-      - python2.7-dev
-      - libglu1-mesa-dev
-      - libglib2.0-dev
+      - curl
+      - ffmpeg
+      - g++
+      - git
+      - libassimp-dev
+      - libavcodec-extra
+      - libboost-dev
       - libfreeimage-dev
       - libfreetype6-dev
-      - libxml2-dev
-      - libzzip-0-13
-      - libssl-dev
-      - libboost-dev
-      - libjpeg8-dev
-      - libavcodec-extra
-      - libpci-dev
       - libgd-dev
-      - libtiff5-dev
-      - libssh-dev
-      - libzip-dev
-      - python-pip
-      - libreadline-dev
-      - libassimp-dev
-      - pbzip2
+      - libglib2.0-dev
+      - libglu1-mesa-dev
+      - libjpeg8-dev
+      - libpci-dev
       - libpng-dev
-      - ffmpeg
+      - libreadline-dev
+      - libssh-dev
+      - libssl-dev
+      - libtiff5-dev
+      - libusb-dev
+      - libxml2-dev
+      - libzip-dev
+      - libzzip-0-13
+      - openjdk-8-jdk
+      - pbzip2
+      - python-pip
+      - python2.7-dev
       - python3.6-dev
       - python3.7-dev
-      - openjdk-8-jdk
-      - curl
+      - swig
+      - unzip
     # See 'snapcraft plugins'
     plugin: make
     build-environment:
@@ -64,52 +65,52 @@ parts:
     source-branch: feature-snapcraft-build
     source-depth: 1
     stage-packages:
-      - make
       - g++
       - ffmpeg
+      - libasn1-8-heimdal
       - libatk1.0-0
+      - libcurl3-gnutls
       - libdbus-1-3
       - libfreeimage3
-      - libglib2.0-0
-      - libglu1-mesa
-      - libgtk-3-0
-      - libjpeg8-dev
-      - libnss3
-      - libpci3
-      - libstdc++6
-      - libxaw7
-      - libxrandr2
-      - libxrender1
-      - libzzip-0-13
-      - libssh-dev
-      - libzip-dev
-      - xserver-xorg-core
-      - libxslt1.1
-      - libgd3
       - libfreetype6
-      - libasn1-8-heimdal
-      - libcurl3-gnutls
+      - libgd3
       - libgeos-3.6.2
       - libgfortran4
+      - libglib2.0-0
+      - libglu1-mesa
       - libgssapi3-heimdal
+      - libgtk-3-0
       - libhcrypto4-heimdal
       - libheimbase1-heimdal
       - libheimntlm0-heimdal
       - libhx509-5-heimdal
+      - libjpeg8-dev
       - libkrb5-26-heimdal
       - libldap-2.4-2
       - libltdl7
       - libminizip1
       - libnghttp2-14
+      - libnss3
       - libopencore-amrnb0
       - libopencore-amrwb0
+      - libpci3
       - libproj12
       - libpsl5
       - libroken18-heimdal
       - librtmp1
       - libsasl2-2
       - libslang2
+      - libssh-dev
+      - libstdc++6
       - libvo-amrwbenc0
       - libwind0-heimdal
+      - libxaw7
       - libxft2
+      - libxrandr2
+      - libxrender1
+      - libxslt1.1
       - libxtst6
+      - libzip-dev
+      - libzzip-0-13
+      - make
+      - xserver-xorg-core

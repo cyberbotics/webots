@@ -22,6 +22,15 @@ export WEBOTS_HOME = $(PWD)
 endif
 endif
 
+include resources/Makefile.os.include
+
+ifeq ($(JAVA_HOME)$(OSTYPE),linux)
+JAVAC:=`which javac`
+ifneq ($(JAVAC),)
+export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
+endif
+endif
+
 WEBOTS_DISTRIBUTION_PATH ?= $(WEBOTS_HOME)/distribution
 
 ifeq ($(MAKECMDGOALS),)
