@@ -23,8 +23,8 @@ architectures:
 
 apps:
   webots:
-    desktop: /usr/share/webots/resources/webots.desktop
-    command: desktop-launch /usr/share/webots/webots "$@"
+    desktop: usr/share/webots/resources/webots.desktop
+    command: usr/share/webots/webots "$@"
     plugs: [home, x11]
 
 parts:
