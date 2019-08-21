@@ -1,4 +1,4 @@
-/* global ace, webots, DialogWindow, DefaultUrl */
+/* global ace, webots, DialogWindow, DefaultUrl, SystemInfo */
 'use strict';
 
 class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
@@ -37,10 +37,10 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.menu = document.createElement('div');
     this.menu.id = 'webotsEditorMenu';
     var saveShortcut;
-    if (navigator.appVersion.indexOf('Mac') === -1)
-      saveShortcut = 'Ctrl-S';
-    else // macOS
+    if (SystemInfo.isMacOS())
       saveShortcut = 'Cmd-S';
+    else
+      saveShortcut = 'Ctrl-S';
     this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.wwiImagesUrl() + 'menu.png">' +
                           '<div id="webotsEditorMenuContent">' +
                           '<div id="webotsEditorSaveAction" class="webotsEditorMenuContentItem" title="Save current file">Save<span style="float:right"><i><small>' + saveShortcut + '</small></i></span></div>' +
