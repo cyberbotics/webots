@@ -21,6 +21,14 @@ architectures:
   - build-on: amd64
     run-on: amd64
 
+apps:
+  webots:
+    desktop: /usr/share/webots/resources/webots.desktop
+    command: desktop-launch /usr/share/webots/webots "$@"
+    environment:
+      - WEBOTS_HOME: $SNAP/usr/share/webots
+    plugs: [home, x11]
+
 parts:
   webots:
     build-packages:

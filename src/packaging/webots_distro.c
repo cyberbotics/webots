@@ -1241,6 +1241,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -ar /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
       copy_file("lib/libssl.so*");
       copy_file("lib/libcrypto.so*");
       break;
