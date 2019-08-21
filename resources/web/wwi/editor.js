@@ -39,7 +39,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     var saveShortcut;
     if (SystemInfo.isMacOS())
       saveShortcut = 'Cmd-S';
-    else // macOS
+    else
       saveShortcut = 'Ctrl-S';
     this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.wwiImagesUrl() + 'menu.png">' +
                           '<div id="webotsEditorMenuContent">' +
