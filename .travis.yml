@@ -83,20 +83,21 @@ jobs:
             - libfreetype6-dev
             - libxml2-dev
             - libzzip-0-13
-            - libssl-dev
+            - libssl1.0-dev
             - libboost-dev
             - libjpeg8-dev
             - libavcodec-extra
             - libpci-dev
             - libgd-dev
             - libtiff5-dev
-            - libssh-dev
+            - libssh-gcrypt-dev
             - libzip-dev
             - python-pip
             - libreadline-dev
             - libassimp-dev
             - libpng12-dev
             - libav-tools
+            - npm
             - python3.5-dev
             - openjdk-8-jdk
             - curl
@@ -136,8 +137,6 @@ jobs:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
         - sudo apt install python3.6-dev python3.7-dev
-        - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-        - sudo apt install nodejs
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
