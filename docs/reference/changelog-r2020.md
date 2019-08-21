@@ -10,6 +10,7 @@ Released on XXX YYth, 2019.
     - Improved the Webots online 3D viewer: `webots.min.js`
       - Improved support of the Webots rendering pipeline: supported the Bloom post-processing effect.
       - Added support for the `ImageTexture.filtering` field.
+      - Improved the console log history. Added a button to clear the console.
     - Improved graphics quality of the [robotbenchmark](https://robotbenchmark.net) worlds.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
   - New Samples
