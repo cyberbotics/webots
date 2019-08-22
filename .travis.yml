@@ -83,7 +83,7 @@ jobs:
             - libfreetype6-dev
             - libxml2-dev
             - libzzip-0-13
-            - libssl1.0-dev
+            - libssl-dev
             - libboost-dev
             - libjpeg8-dev
             - libavcodec-extra
