@@ -399,26 +399,28 @@ bool WbImageTexture::exportNodeHeader(WbVrmlWriter &writer) const {
 void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
-  for (int i = 0; i < mUrl->size(); ++i) {
+  WbMFString *urlFieldCopyValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
+  for (int i = 0, j = 0; i < mUrl->size(); ++i, ++j) {
     QString texturePath(WbUrl::computePath(this, "url", mUrl, i));
+    bool qualityChanged = cQualityChangedTexturesList.contains(texturePath);
 
-    // TODO: better integration in this mechanism.
-    if (texturePath.startsWith(WbStandardPaths::webotsHomePath())) {
-      texturePath.replace(WbStandardPaths::webotsHomePath(), "");
-      texturePath = QString("https://cdn.jsdelivr.net/gh/omichel/webots@R2019b/%1")
-                      .arg(texturePath);  // TODO: replace "R2019a" by WbApplicationInfo::version().toString(false)
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, texturePath);
-      continue;
+    if (!qualityChanged && texturePath.startsWith(WbStandardPaths::webotsHomePath())) {
+      QString jsDelivr(texturePath);
+      jsDelivr.replace(WbStandardPaths::webotsHomePath(), "");
+      jsDelivr = QString("https://cdn.jsdelivr.net/gh/omichel/webots@R2019b/%1")
+                      .arg(jsDelivr);  // TODO: replace "R2019a" by WbApplicationInfo::version().toString(false)
+      urlFieldCopyValue->insertItem(j, jsDelivr);
+      j += 1;
     }
 
     if (writer.isWritingToFile()) {
-      QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
+      QString newUrl = WbUrl::exportTexture(this, mUrl, j, writer);
+      urlFieldCopyValue->setItem(j, newUrl);
     } else if (writer.isProto())
-      dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, texturePath);
+      urlFieldCopyValue->setItem(j, texturePath);
 
     const QString &url(mUrl->item(i));
-    if (cQualityChangedTexturesList.contains(texturePath))
+    if (qualityChanged)
       texturePath = WbStandardPaths::webotsTmpPath() + QFileInfo(url).fileName();
     writer.addTextureToList(url, texturePath);
   }
