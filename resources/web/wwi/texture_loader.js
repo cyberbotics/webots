@@ -159,7 +159,7 @@ class _TextureLoaderObject {
   }
 
   loadOrRetrieveImage(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
-    if (this.texturePathPrefix)
+    if (this.texturePathPrefix && !name.startsWith('http'))
       name = this.texturePathPrefix + name;
     if (this.images[name]) {
       if (typeof onLoad !== 'undefined')
