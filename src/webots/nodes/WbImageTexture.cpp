@@ -14,8 +14,8 @@
 
 #include "WbImageTexture.hpp"
 
-#include "WbApplicationInfo.hpp"
 #include "WbAppearance.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbImage.hpp"
@@ -405,11 +405,12 @@ void WbImageTexture::exportNodeFields(WbVrmlWriter &writer) const {
     // TODO: better integration in this mechanism.
     if (texturePath.startsWith(WbStandardPaths::webotsHomePath())) {
       texturePath.replace(WbStandardPaths::webotsHomePath(), "");
-        texturePath = QString("https://cdn.jsdelivr.net/gh/omichel/webots@R2019b/%1").arg(texturePath); // TODO: replace "R2019a" by WbApplicationInfo::version().toString(false)
+      texturePath = QString("https://cdn.jsdelivr.net/gh/omichel/webots@R2019b/%1")
+                      .arg(texturePath);  // TODO: replace "R2019a" by WbApplicationInfo::version().toString(false)
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, texturePath);
       continue;
     }
- 
+
     if (writer.isWritingToFile()) {
       QString newUrl = WbUrl::exportTexture(this, mUrl, i, writer);
       dynamic_cast<WbMFString *>(urlFieldCopy.value())->setItem(i, newUrl);
