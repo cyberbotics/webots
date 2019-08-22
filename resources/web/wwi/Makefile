@@ -17,7 +17,9 @@ JS_SOURCES = \
   shaders/bright_pass.js \
   shaders/blend_bloom.js \
   shaders/gaussian_blur_13_tap.js \
+  shaders/gtao.js \
   passes/bloom.js \
+  passes/gtao.js \
   equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
@@ -62,6 +64,8 @@ THREEJS_EXAMPLE_SOURCES = \
   pmrem/PMREMGenerator.js \
   shaders/CopyShader.js \
   shaders/FXAAShader.js \
+  shaders/DepthLimitedBlurShader.js \
+  shaders/UnpackDepthRGBAShader.js \
   postprocessing/EffectComposer.js \
   postprocessing/RenderPass.js \
   postprocessing/ShaderPass.js

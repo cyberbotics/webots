@@ -1,17 +1,32 @@
 #version 330
 
+// GTAO shader #1
+
 // This shader does the heavy lifting for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtao.frag
 
 #define PI 3.1415926535897932
 #define PI_HALF 1.5707963267948966
 
+// 'inputTextures' details:
+// - [0]: depth
+// - [1]: normals
+// - [2]: noises (4x4)
 uniform sampler2D inputTextures[3];
-
 uniform float radius;
 uniform float flipNormalY;
+// 'clipInfo' details:
+// - [0] = mNear;
+// - [1] = mFar ? mFar : 1000000.0f;
+// - [2] = 0.5f * (wr_viewport_get_height(mWrenViewport) / (2.0f * tanf(mFov * 0.5f)));
+// - [3]: not used
 uniform vec4 clipInfo;
 uniform vec2 viewportSize;
+// 'params' details:
+// - [0]: mRotations[mFrameCounter % 6] / 360.0f;
+// - [1]: mOffsets[(mFrameCounter / 6) % 4];
+// - [2]: 2 << (qualityLevel - 1)
+// - [3]: not used
 uniform vec4 params;
 
 out float fragColor;

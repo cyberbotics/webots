@@ -1,9 +1,14 @@
 #version 330
 
+// GTAO shader #4
+
 // This shader does the final blend for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaocombine.frag
 
 uniform sampler2D inputTextures[3];
+// inputTextures[0]: input framebuffer
+// inputTextures[1]: gtao_temporal_denoise.frag output
+// inputTextures[2]: depth
 
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 fragAo;

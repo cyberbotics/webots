@@ -23,6 +23,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.renderer.gammaInput = false;
     this.renderer.gammaOutput = false;
     this.renderer.physicallyCorrectLights = true;
+    this.renderer.debug.checkShaderErrors = true;
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
@@ -54,6 +55,12 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer.addPass(renderPass);
     this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
     this.composer.addPass(this.bloomPass);
+    this.gtaoPass = new THREE.GTAOPass(this.scene, this.viewpoint.camera, true, true);
+    this.gtaoPass.params.gtaoIntensity = 0.03;
+    this.gtaoPass.params.gtaoScale = 40;
+    this.gtaoPass.params.gtaoKernelRadius = 30;
+    // this.gtaoPass.params.output = THREE.GTAOPass.OUTPUT.GTAO;
+    this.composer.addPass(this.gtaoPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);

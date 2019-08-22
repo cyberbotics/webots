@@ -2,6 +2,7 @@
 /dependencies
 /node_modules
 /package-lock.json
+/webots.debug.js
 /webots.min.js
 /webots.debug.js
 /adapter.js

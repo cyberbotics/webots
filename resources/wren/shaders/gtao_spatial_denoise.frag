@@ -1,9 +1,13 @@
 #version 330
 
+// GTAO shader #2
+
 // This shader does the spatial filtering for GTAO based on
 // https://github.com/asylum2010/Asylum_Tutorials/blob/master/ShaderTutors/media/shadersGL/gtaospatialdenoise.frag
 
 uniform sampler2D inputTextures[2];
+// inputTextures[0]: gtao.frag output
+// inputTextures[1]: depth
 
 in vec2 texUv;
 out vec2 fragColor;
