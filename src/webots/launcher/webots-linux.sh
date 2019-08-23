@@ -20,6 +20,9 @@ if [ ! -e /usr/share/applications/webots.desktop ] && [ ! -e ~/.local/share/appl
   echo "Type=Application" >> $FILE
 fi
 
+# we need this to start webots from snap
+mkdir -p "$XDG_RUNTIME_DIR"
+
 # create temporary lib directory
 TMP_LIB_DIR="/tmp/webots-$$/lib"
 if [ ! -d $TMP_LIB_DIR ]; then
