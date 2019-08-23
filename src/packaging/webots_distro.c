@@ -301,7 +301,7 @@ static void make_dir(const char *directory) {
       fprintf(fd, "mkdir %s/debian/usr/local/%s/%s\n", distribution_path, application_name_lowercase_and_dashes, directory);
       break;
     case SNAP:
-      fprintf(fd, "mkdir $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
+      fprintf(fd, "mkdir -p $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
     default:
       break;
   }
