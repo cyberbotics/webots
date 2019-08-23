@@ -29,7 +29,7 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 
 qt-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/$(QT_PACKAGE)* $(WEBOTS_HOME)/lib/libQt* $(WEBOTS_HOME)/lib/libicu* $(WEBOTS_HOME)/lib/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/lib/libQt* $(WEBOTS_HOME)/lib/libicu* $(WEBOTS_HOME)/lib/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
 
 qt: $(WEBOTS_HOME)/lib/libQt5Core.so.5.11.2
 
