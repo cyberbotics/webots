@@ -35,11 +35,6 @@ PROTO E-puck [
 %{
   local v1 = fields.version.value:find("^1") ~= nil
   local v2 = fields.version.value:find("^2") ~= nil
-  if v1 == false and v2 == false then
-    io.stderr:write("Invalid E-puck.version reset to \"1\". Valid values: \"1\" or \"2\".\n")
-    v1 = true
-  end
-
   local kinematic = fields.kinematic.value
 }%
 Robot {
