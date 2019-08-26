@@ -48,7 +48,7 @@ open-al-clean:
 open-al: $(WEBOTS_HOME)/lib/libopenal.so
 
 $(WEBOTS_HOME)/lib/libopenal.so: $(WEBOTS_DEPENDENCY_PATH)/openal
-	mv $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME)/lib/
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME)/lib/
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
@@ -140,7 +140,7 @@ open-ssl-clean:
 open-ssl: $(WEBOTS_HOME)/lib/libcrypto.so
 
 $(WEBOTS_HOME)/lib/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl
-	mv $(WEBOTS_DEPENDENCY_PATH)/openssl/lib*.so* $(WEBOTS_HOME)/lib
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/openssl/lib*.so* $(WEBOTS_HOME)/lib
 
 $(WEBOTS_DEPENDENCY_PATH)/openssl:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
