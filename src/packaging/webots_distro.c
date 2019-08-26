@@ -301,7 +301,7 @@ static void make_dir(const char *directory) {
       fprintf(fd, "mkdir %s/debian/usr/local/%s/%s\n", distribution_path, application_name_lowercase_and_dashes, directory);
       break;
     case SNAP:
-      fprintf(fd, "mkdir -p $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
     default:
       break;
   }
@@ -518,14 +518,14 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "# run this auto-generated script to install the %s snap in \"$DESTDIR\"\n\n",
               application_name_lowercase_and_dashes);
       fprintf(fd, "mkdir -p $DESTDIR\n");
-      fprintf(fd, "mkdir $DESTDIR/lib\n");
-      fprintf(fd, "mkdir $DESTDIR/lib/x86_64-linux-gnu\n");
-      fprintf(fd, "mkdir $DESTDIR/usr\n");
-      fprintf(fd, "mkdir $DESTDIR/usr/share\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/share\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/bin\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib/x86_64-linux-gnu\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/%s\n", application_name_lowercase_and_dashes);
-      fprintf(fd, "mkdir $DESTDIR/usr/bin\n");
-      fprintf(fd, "mkdir $DESTDIR/usr/lib\n");
-      fprintf(fd, "mkdir $DESTDIR/usr/lib/x86_64-linux-gnu\n");
     default:
       break;
   }
