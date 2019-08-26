@@ -25,6 +25,9 @@ Released on XXX YYth, 2019.
       - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
+      - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Windows 10 / Firefox: Fixed context menu.
+      - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
@@ -33,6 +36,7 @@ Released on XXX YYth, 2019.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
     - Linux: Fixed missing Python3.7 controller API.
+    - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.

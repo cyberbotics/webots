@@ -8,7 +8,7 @@ class RobotWindow extends DialogWindow { // eslint-disable-line no-unused-vars
     this.panel.id = name;
     this.panel.className = 'webotsTabContainer';
 
-    var clampedSize = super.clampDialogSize({left: 5, top: 5, width: 400, height: 400});
+    var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 400, height: 400});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
