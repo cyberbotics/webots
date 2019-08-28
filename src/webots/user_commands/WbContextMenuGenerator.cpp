@@ -22,7 +22,7 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenu> 
 
 namespace WbContextMenuGenerator {
   static bool gAreNodeActionsEnabled = false;
