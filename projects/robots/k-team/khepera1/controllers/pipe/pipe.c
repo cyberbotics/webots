@@ -144,7 +144,7 @@ int main() {
             i++;
             n = read(sim_serial_in, &q[i], 1);
             if (n < 0)
-              fprintf(stderr, "Warning: an error occured when reading the pipe");
+              fprintf(stderr, "Warning: an error occured when reading the pipe");
           } while (q[i] != '\n');
           sscanf(q, "D,%d,%d", &left_speed, &right_speed);
           wb_motor_set_velocity(left_motor, left_speed);
@@ -174,7 +174,7 @@ int main() {
     if (a[0] != '\0') {
       n = write(sim_serial_out, a, strlen(a));
       if (n < 0)
-        fprintf(stderr, "Warning: an error occured when reading the pipe");
+        fprintf(stderr, "Warning: an error occured when reading the pipe");
     }
   }
 

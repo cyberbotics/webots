@@ -32,36 +32,40 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 
 qt-clean:
-	rm -rf $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME)/lib/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME)/lib/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
 
 qt: $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
 
-$(WEBOTS_HOME)/resources/web/local/qwebchannel.js:
+$(WEBOTS_HOME)/resources/web/local/qwebchannel.js: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+	tar xvjfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(QT_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
 assimp-clean:
 	rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME)/lib/libassimp.dylib
 
-assimp: $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib
+assimp: $(WEBOTS_HOME)/lib/libassimp.dylib
 
-$(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib:
+$(WEBOTS_HOME)/lib/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
+	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME)/lib
+
+$(WEBOTS_DEPENDENCY_PATH)/assimp:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
-	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME)/lib
 
 
 freetype-clean:
 	rm -rf $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9
 
-freetype: $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.6.dylib
+freetype: $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a
 
-$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.6.dylib:
+$(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	tar jxf $(FREETYPE_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
@@ -69,15 +73,17 @@ $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.6.dylib:
 
 
 ffmpeg-clean:
-	rm -rf $(WEBOTS_HOME)/util/ffmpeg
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util/ffmpeg
 
 ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
 
-$(WEBOTS_HOME)/util/ffmpeg:
+$(WEBOTS_HOME)/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+	tar xvjfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 
 
 jpeg-clean:
@@ -85,14 +91,16 @@ jpeg-clean:
 
 jpeg: $(WEBOTS_HOME)/include/libjpeg/jconfig.h
 
-$(WEBOTS_HOME)/include/libjpeg/jconfig.h:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(JPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxf $(JPEG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
+$(WEBOTS_HOME)/include/libjpeg/jconfig.h: $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b
 	mkdir -p $(WEBOTS_HOME)/include/libjpeg
 	cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/*.h $(WEBOTS_HOME)/include/libjpeg/
 	cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/build-x86_64/jconfig.h $(WEBOTS_HOME)/include/libjpeg/
+
+$(WEBOTS_DEPENDENCY_PATH)/jpeg-9b:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(JPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar jxfm $(JPEG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
 
 
 lua-clean:
@@ -100,25 +108,29 @@ lua-clean:
 
 lua: $(WEBOTS_HOME)/lib/liblua.dylib
 
-$(WEBOTS_HOME)/lib/liblua.dylib:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxf $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+$(WEBOTS_HOME)/lib/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
 	cp $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.dylib $(WEBOTS_HOME)/lib/liblua.dylib
 	install_name_tool -id @rpath/lib/liblua.dylib $(WEBOTS_HOME)/lib/liblua.dylib
 
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar jxfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+
 
 lua-gd-clean:
-	rm -rf $(WEBOTS_HOME)/lib/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME)/lib/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
 lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
-$(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib:
+$(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	tar xvjfm $(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
 miniglu-clean:
@@ -134,15 +146,17 @@ $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
 
 
 ois-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
 
 ois: $(WEBOTS_HOME)/lib/libOIS.dylib
 
-$(WEBOTS_HOME)/lib/libOIS.dylib:
+$(WEBOTS_HOME)/lib/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	tar xvjfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(OIS_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 
 openal-clean:
@@ -150,39 +164,38 @@ openal-clean:
 
 openal: $(WEBOTS_HOME)/lib/libopenal.dylib
 
-$(WEBOTS_HOME)/lib/libopenal.dylib:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+$(WEBOTS_HOME)/lib/libopenal.dylib: $(WEBOTS_DEPENDENCY_PATH)/openal
 	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.1.16.0.dylib $(WEBOTS_HOME)/lib
 	mv $(WEBOTS_HOME)/lib/libopenal.1.16.0.dylib $(WEBOTS_HOME)/lib/libopenal.dylib
 	install_name_tool -id @rpath/lib/libopenal.dylib $(WEBOTS_HOME)/lib/libopenal.dylib
 
+$(WEBOTS_DEPENDENCY_PATH)/openal:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+
 
 opencv-clean:
-	rm -rf $(WEBOTS_HOME)/lib/libopencv_* $(WEBOTS_HOME)/include/opencv2
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) $(WEBOTS_HOME)/lib/libopencv_* $(WEBOTS_HOME)/include/opencv2
 
 opencv: $(WEBOTS_HOME)/lib/libopencv_core.2.4.3.dylib
 
-$(WEBOTS_HOME)/lib/libopencv_core.2.4.3.dylib:
+$(WEBOTS_HOME)/lib/libopencv_core.2.4.3.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
 openssl-clean:
-	rm -rf $(WEBOTS_HOME)/lib/libcrypto* $(WEBOTS_HOME)/lib/libssl*
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2 $(WEBOTS_HOME)/lib/libcrypto* $(WEBOTS_HOME)/lib/libssl*
 
 openssl: $(WEBOTS_HOME)/lib/libssl.1.0.0.dylib
 
-$(WEBOTS_HOME)/lib/libssl.1.0.0.dylib:
-	cd $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxf $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+$(WEBOTS_HOME)/lib/libssl.1.0.0.dylib: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2
 	cp $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2/lib*dylib $(WEBOTS_HOME)/lib
 	install_name_tool -id @rpath/lib/libcrypto.dylib $(WEBOTS_HOME)/lib/libcrypto.dylib
 	install_name_tool -id @rpath/lib/libcrypto.1.0.0.dylib $(WEBOTS_HOME)/lib/libcrypto.1.0.0.dylib
@@ -191,64 +204,81 @@ $(WEBOTS_HOME)/lib/libssl.1.0.0.dylib:
 	install_name_tool -id @rpath/lib/libssl.dylib $(WEBOTS_HOME)/lib/libssl.1.0.0.dylib
 	install_name_tool -change /usr/local/ssl/lib/libcrypto.1.0.0.dylib @rpath/lib/libcrypto.1.0.0.dylib $(WEBOTS_HOME)/lib/libssl.1.0.0.dylib
 
+$(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
+	cd $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar jxfm $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+
 
 pico-clean:
-	rm -rf $(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME)/lib/libpico.dylib $(WEBOTS_HOME)/resources/pico
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) $(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME)/lib/libpico.dylib $(WEBOTS_HOME)/resources/pico
 
 pico: $(WEBOTS_HOME)/lib/libpico.dylib
 
-$(WEBOTS_HOME)/lib/libpico.dylib:
+$(WEBOTS_HOME)/lib/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	tar xvjfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(PICO_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 
 png-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12
 
 png: $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
 
-$(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a:
+$(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a: $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
+	tar jxfm $(PNG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(PNG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxf $(PNG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 
 
 ssh-clean:
-	rm -rf $(WEBOTS_HOME)/lib/libssh* $(WEBOTS_HOME)/libssh/include/libssh
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE) $(WEBOTS_HOME)/lib/libssh* $(WEBOTS_HOME)/libssh/include/libssh
 
 ssh: $(WEBOTS_HOME)/lib/libssh.4.dylib
 
-$(WEBOTS_HOME)/lib/libssh.4.dylib:
+$(WEBOTS_HOME)/lib/libssh.4.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
+	tar xvjfm $(SSH_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(SSH_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(SSH_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 
 
 tiff-clean:
-	rm -rf $(WEBOTS_HOME)/include/libtiff
+	rm -rf $(WEBOTS_HOME)/include/libtiff $(WEBOTS_DEPENDENCY_PATH)/libtiff
 
 tiff: $(WEBOTS_HOME)/include/libtiff/tiff.h
 
-$(WEBOTS_HOME)/include/libtiff/tiff.h:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
+$(WEBOTS_HOME)/include/libtiff/tiff.h: $(WEBOTS_DEPENDENCY_PATH)/libtiff
 	mkdir -p $(WEBOTS_HOME)/include/libtiff
 	cp $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff/*.h $(WEBOTS_HOME)/include/libtiff
 
+$(WEBOTS_DEPENDENCY_PATH)/libtiff:
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
+	wget $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	tar xvjfm $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
+
 
 zip-clean:
-	rm -rf $(WEBOTS_HOME)/lib/libzip* $(WEBOTS_HOME)/libzip/include/libzip
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE) $(WEBOTS_HOME)/lib/libzip* $(WEBOTS_HOME)/libzip/include/libzip
 
 zip: $(WEBOTS_HOME)/lib/libnihzip.dylib
 
-$(WEBOTS_HOME)/lib/libnihzip.dylib:
+$(WEBOTS_HOME)/lib/libnihzip.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
+	tar xvjfm $(ZIP_PACKAGE) -C $(WEBOTS_HOME)
+
+$(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(ZIP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjf $(ZIP_PACKAGE) -C $(WEBOTS_HOME)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
+	touch $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)

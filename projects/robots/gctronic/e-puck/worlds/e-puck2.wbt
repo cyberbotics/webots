@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "The model of the e-puck 2 robot"
@@ -48,9 +48,9 @@ WoodenBox {
 }
 E-puck {
   rotation 0 1 0 1.57
+  name "e-puck2"
   controller "e-puck"
   version "2"
-  name "e-puck2"
   camera_width 160
   camera_height 120
 }

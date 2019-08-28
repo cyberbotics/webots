@@ -31,7 +31,7 @@ def get_world_size(minlat, minlon, maxlat, maxlon):
 def print_header(file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2019a utf8\n")
+    file.write("#VRML_SIM R2019b utf8\n")
     file.write("WorldInfo {\n")
     file.write("  info [\n")
     file.write("    \"World generated using the Open Street Map to Webots importer\"\n")
@@ -150,7 +150,7 @@ def extract_float_from_string(str):
         (?: [Ee] [+-]? \d+ ) ?
     """, re.VERBOSE)
     floats = rx.findall(str)
-    if len(floats) == 0:
+    if not floats:
         return 0.0
     return float(floats[0])
 
@@ -158,6 +158,6 @@ def extract_float_from_string(str):
 def protect_def_name(defName):
     """Convert a DEF name to be supported in Webots."""
     protectedDefName = clean_string(defName)
-    if len(protectedDefName) > 0 and protectedDefName[0].isdigit():
+    if protectedDefName and protectedDefName[0].isdigit():
         protectedDefName = "_" + protectedDefName
     return protectedDefName

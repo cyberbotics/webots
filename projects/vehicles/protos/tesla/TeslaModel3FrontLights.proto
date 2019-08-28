@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # tags: hidden
@@ -11,7 +11,7 @@ PROTO TeslaModel3FrontLights [
       baseColor 0 0 0
       metalness 0
       transparency 0.5
-      emissiveIntensity 10
+      emissiveIntensity 90
       normalMap ImageTexture {
         url [
           "textures/tesla_model3_glass_normal.jpg"

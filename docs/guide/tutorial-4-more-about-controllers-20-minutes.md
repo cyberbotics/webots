@@ -36,7 +36,7 @@ The documentation on the API functions can be found in [Reference Manual](../ref
 
 %figure "Top view of the e-puck model. The green arrow indicates the front of the robot. The red lines represent the directions of the infrared distance sensors. The string labels corresponds to the distance sensor names."
 
-![tutorial_e-puck_top_view.png](images/tutorial_e-puck_top_view.png)
+![tutorial_e-puck_top_view.png](images/tutorial_e-puck_top_view.thumbnail.jpg)
 
 %end
 
@@ -137,7 +137,7 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > **Hands on #2**: At the beginning of the controller file, define a variable that defines the duration of each physics step.
 This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```matlab
+> ```MATLAB
 > TIME_STEP = 64;
 > ```
 %tab-end
@@ -227,7 +227,7 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 
 %tab "MATLAB"
 > **Hands on #3**: In Matlab there is no main function, the program starts it's execution from the start of the file:
->```matlab
+>```MATLAB
 > % initialize devices
 > % feedback loop: step simulation until receiving an exit event
 > while wb_robot_step(TIME_STEP) ~= -1
@@ -338,8 +338,8 @@ Reload the world.
 > ```
 After initialization of the devices, initialize the motors:
 > ```cpp
-> Motor leftMotor = wb_robot_get_device("left wheel motor");
-> Motor rightMotor = wb_robot_get_device("right wheel motor");
+> Motor *leftMotor = robot->getMotor("left wheel motor");
+> Motor *rightMotor = robot->getMotor("right wheel motor");
 > leftMotor->setPosition(INFINITY);
 > rightMotor->setPosition(INFINITY);
 > leftMotor->setVelocity(0.0);
@@ -525,7 +525,7 @@ Reload the world.
 
 %tab "MATLAB"
 > **Hands on #4**: Just after the comment `% initialize devices`, get and enable the distance sensors as follows:
-> ```matlab
+> ```MATLAB
 > % initialize devices
 > ps = [];
 > ps_names = [
@@ -539,7 +539,7 @@ Reload the world.
 > end
 > ```
 After initialization of the devices, initialize the motors:
-> ```matlab
+> ```MATLAB
 > left_motor = wb_robot_get_device("left wheel motor");
 > right_motor = wb_robot_get_device("right wheel motor");
 > wb_motor_set_position(left_motor, inf);
@@ -548,7 +548,7 @@ After initialization of the devices, initialize the motors:
 > wb_motor_set_velocity(right_motor, 0.0);
 > ```
 In the main loop, just after the comment `% read sensors outputs`, read the distance sensor values as follows:
-> ```matlab
+> ```MATLAB
 > % read sensors outputs
 > ps_values = [];
 > for i = 1:8
@@ -556,7 +556,7 @@ In the main loop, just after the comment `% read sensors outputs`, read the dist
 > end
 > ```
 In the main loop, just after the comment `% process behavior`, detect if a collision occurs (i.e., the value returned by a distance sensor is bigger than a threshold) as follows:
-> ```matlab
+> ```MATLAB
 > % detect obstacles
 > right_obstacle =
 >   ps_values[0] > 70.0 |
@@ -568,23 +568,22 @@ In the main loop, just after the comment `% process behavior`, detect if a colli
 >   ps_values[7] > 70.0;
 > ```
 Finally, use the information about the obstacle to actuate the wheels as follows:
-> ```matlab
+> ```MATLAB
 > #define MAX_SPEED 6.28
 > ...
 > % initialize motor speeds at 50% of MAX_SPEED.
 > left_speed  = 0.5 * MAX_SPEED;
 > right_speed = 0.5 * MAX_SPEED;
 > % modify speeds according to obstacles
-> if (left_obstacle) {
+> if left_obstacle
 >   % turn right
 >   left_speed  += 0.5 * MAX_SPEED;
 >   right_speed -= 0.5 * MAX_SPEED;
-> }
-> else if (right_obstacle) {
+> elseif right_obstacle
 >   % turn left
 >   left_speed  -= 0.5 * MAX_SPEED;
 >   right_speed += 0.5 * MAX_SPEED;
-> }
+> end
 > % write actuators inputs
 > wb_motor_set_velocity(left_motor, left_speed);
 > wb_motor_set_velocity(right_motor, right_speed);
@@ -899,7 +898,7 @@ public class EPuckAvoidCollision {
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 // time in [ms] of a simulation step
 TIME_STEP = 64;
 
@@ -946,16 +945,15 @@ while wb_robot_step(TIME_STEP) ~= -1
   left_speed  = 0.5 * MAX_SPEED;
   right_speed = 0.5 * MAX_SPEED;
   % modify speeds according to obstacles
-  if (left_obstacle) {
+  if left_obstacle
     % turn right
     left_speed  += 0.5 * MAX_SPEED;
     right_speed -= 0.5 * MAX_SPEED;
-  }
-  else if (right_obstacle) {
+  elseif right_obstacle
     % turn left
     left_speed  -= 0.5 * MAX_SPEED;
     right_speed += 0.5 * MAX_SPEED;
-  }
+  end
   % write actuators inputs
   wb_motor_set_velocity(left_motor, left_speed);
   wb_motor_set_velocity(right_motor, right_speed);

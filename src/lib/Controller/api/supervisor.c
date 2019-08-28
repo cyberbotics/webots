@@ -775,9 +775,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       // Remove the deleted node from the internal reference list
       remove_node_from_list(request_read_uint32(r));
       const int parent_node_unique_id = request_read_int32(r);
-      const char *requested_field_name = request_read_string(r);
+      const char *field_name = request_read_string(r);
       const int parent_field_count = request_read_int32(r);
-      WbFieldStruct *parent_field = find_field(requested_field_name, parent_node_unique_id);
+      WbFieldStruct *parent_field = find_field(field_name, parent_node_unique_id);
       if (parent_field)
         parent_field->count = parent_field_count;
       break;

@@ -34,7 +34,7 @@ public:
   typedef WbMFIterator<WbMFColor, WbRgb> Iterator;
 
   WbMFColor(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
-  WbMFColor(const WbMFColor &other) { mVector = other.mVector; }
+  WbMFColor(const WbMFColor &other) : mVector(other.mVector) {}
   virtual ~WbMFColor() {}
   WbValue *clone() const override { return new WbMFColor(*this); }
   bool equals(const WbValue *other) const override;

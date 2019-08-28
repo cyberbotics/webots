@@ -661,7 +661,7 @@ using namespace std;
     int height = $self->getHeight();
     PyObject *ret = Py_None;
     if (im) {
-      PyObject *ret = PyList_New(width);
+      ret = PyList_New(width);
       for (int x = 0; x < width; ++x) {
         PyObject *dim2 = PyList_New(height);
         PyList_SetItem(ret, x, dim2);
@@ -783,6 +783,9 @@ using namespace std;
     joystick = Joystick()
     keyboard = Keyboard()
     mouse = Mouse()
+    import sys
+    if sys.version_info[0] < 3:
+      sys.stderr.write("DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of Webots will drop support for Python 2.7.\n")
     def createAccelerometer(self, name):
       return Accelerometer(name)
     def getAccelerometer(self, name):

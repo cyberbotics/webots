@@ -30,9 +30,9 @@ conjunctions = [
 
 
 def title_level(title):
-    """Returns the number of '#' to determine the title level."""
+    """Return the number of '#' to determine the title level."""
     count = 0
-    while (title[count] == '#'):
+    while title[count] == '#':
         count += 1
     return count
 
@@ -76,11 +76,11 @@ class TestTitles(unittest.TestCase):
         """Test that title words are capitalized."""
         # English rules reference: http://grammar.yourdictionary.com/capitalization/rules-for-capitalization-in-titles.html
         # Chosen style: "Chicago Manual of Style"
-        uppercasePattern = re.compile('^[A-Z]')
-        lowercasePattern = re.compile('^[a-z][^A-Z]*$')
-        numberPattern = re.compile('^\d')
+        uppercasePattern = re.compile(r'^[A-Z]')
+        lowercasePattern = re.compile(r'^[a-z][^A-Z]*$')
+        numberPattern = re.compile(r'^\d')
         for t in self.titles:
-            title = re.sub(r'^#+\s*', '', t['title'])  # Remove the '#'+ suffix.
+            title = re.sub(r'^#+\s*\[?', '', t['title'])  # Remove the '#'+ suffix (+ '[').
             title = re.sub(r'".+?(?=")"', '', title)  # Remove double-quoted statements.
             title = re.sub(r'`.+?(?=`)`', '', title)  # Remove code-quoted statements.
             title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.

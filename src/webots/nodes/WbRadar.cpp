@@ -170,17 +170,13 @@ void WbRadar::updateMinRange() {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-      mMaxRange->blockSignals(true);
-      mMaxRange->setValue(newMaxRange);
-      mMaxRange->blockSignals(false);
+      mMaxRange->setValueNoSignal(newMaxRange);
     } else {
       double newMinRange = mMaxRange->value() - 1.0;
       if (newMinRange < 0.0)
         newMinRange = 0.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
-      mMinRange->blockSignals(true);
-      mMinRange->setValue(newMinRange);
-      mMinRange->blockSignals(false);
+      mMinRange->setValueNoSignal(newMinRange);
     }
     return;
   }
@@ -194,9 +190,7 @@ void WbRadar::updateMaxRange() {
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
     warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-    mMaxRange->blockSignals(true);
-    mMaxRange->setValue(newMaxRange);
-    mMaxRange->blockSignals(false);
+    mMaxRange->setValueNoSignal(newMaxRange);
     return;
   }
   if (areWrenObjectsInitialized())
@@ -228,9 +222,7 @@ void WbRadar::updateMinAndMaxRadialSpeed() {
     double newMaxRadialSpeed = mMinRadialSpeed->value() + 1.0;
     warn(
       tr("'maxRadialSpeed' is less than or equal to 'minRadialSpeed'. Setting 'maxRadialSpeed' to %1.").arg(newMaxRadialSpeed));
-    mMaxRadialSpeed->blockSignals(true);
-    mMaxRadialSpeed->setValue(newMaxRadialSpeed);
-    mMaxRadialSpeed->blockSignals(false);
+    mMaxRadialSpeed->setValueNoSignal(newMaxRadialSpeed);
     return;
   }
 }
@@ -371,11 +363,11 @@ void WbRadar::createWrenObjects() {
 void WbRadar::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)refreshRate;
+      stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
     default:

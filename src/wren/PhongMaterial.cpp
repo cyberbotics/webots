@@ -141,14 +141,6 @@ namespace wren {
     updateMaterial(material);
   }
 
-  void PhongMaterial::linearDiffuse(float *returnColor) const {
-    GlslLayout::PhongMaterial material(mCacheData->mMaterial);
-
-    for (int i = 0; i < 4; ++i) {
-      returnColor[i] = material.mDiffuse[i];
-    }
-  }
-
   void PhongMaterial::bind(bool bindProgram) const {
     if (bindProgram)
       Material::useProgram();
@@ -251,11 +243,6 @@ void wr_phong_material_set_color(WrMaterial *material, const float *color) {
 void wr_phong_material_set_ambient(WrMaterial *material, const float *ambient) {
   assert(material && material->type == WR_MATERIAL_PHONG);
   reinterpret_cast<wren::PhongMaterial *>(material->data)->setAmbient(glm::make_vec3(ambient), false);
-}
-
-void wr_phong_material_get_linear_diffuse(WrMaterial *material, float *diffuse) {
-  assert(material && material->type == WR_MATERIAL_PHONG);
-  reinterpret_cast<wren::PhongMaterial *>(material->data)->linearDiffuse(diffuse);
 }
 
 void wr_phong_material_set_diffuse(WrMaterial *material, const float *diffuse) {

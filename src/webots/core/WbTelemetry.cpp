@@ -51,7 +51,7 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append("&file=");
   data.append(QUrl::toPercentEncoding(mFile));
   data.append("&version=");
-  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString()));
+  data.append(QUrl::toPercentEncoding(WbApplicationInfo::version().toString(true, false, true)));
   data.append("&os=");
   data.append(QUrl::toPercentEncoding(WbSysInfo::sysInfo()));
   data.append("&glVendor=");
@@ -62,14 +62,12 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append(QUrl::toPercentEncoding(WbSysInfo::openGLVersion()));
   data.append("&textureQuality=");
   data.append(WbPreferences::instance()->value("OpenGL/textureQuality", 0).toString());
-  data.append("&disableCameraAntiAliasing=");
-  data.append(WbPreferences::instance()->value("OpenGL/disableCameraAntiAliasing", 0).toString());
+  data.append("&disableAntiAliasing=");
+  data.append(WbPreferences::instance()->value("OpenGL/disableAntiAliasing", 0).toString());
   data.append("&disableShadows=");
   data.append(WbPreferences::instance()->value("OpenGL/disableShadows", 0).toString());
   data.append("&GTAO=");
   data.append(WbPreferences::instance()->value("OpenGL/GTAO", 0).toString());
-  data.append("&SMAA=");
-  data.append(WbPreferences::instance()->value("OpenGL/SMAA", 0).toString());
   data.append("&build=");
   data.append(QString::number(UNIX_TIMESTAMP));
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");

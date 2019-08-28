@@ -3,13 +3,14 @@
 /* global setup */
 /* global showdown */
 /* global hljs */
+/* global THREE */
 /* global webots */
 /* exported resetRobotComponent */
 /* exported toggleDeviceComponent */
 /* exported highlightX3DElement */
 /* exported openTabFromEvent */
 
-"use strict";
+'use strict';
 
 var handle;
 
@@ -31,7 +32,6 @@ function isInternetExplorer() {
 };
 
 var localSetup = (typeof setup === 'undefined') ? {} : setup;
-
 var isCyberboticsUrl = location.href.indexOf('cyberbotics.com/doc') !== -1;
 
 function setupCyberboticsUrl(url) {
@@ -183,10 +183,10 @@ function forgeUrl(book, page, tab, anchor) {
       url += '?version=' + localSetup.repository + ':' + localSetup.branch;
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
-    if (localSetup.tab != '' && localSetup.branch == '')
+    if (localSetup.tab !== '' && localSetup.branch === '')
       url += '?tab=' + localSetup.tab;
-    else if (localSetup.tab != '')
-       url += '&tab=' + localSetup.tab;
+    else if (localSetup.tab !== '')
+      url += '&tab=' + localSetup.tab;
     url += anchorString;
   } else {
     var isFirstArgument;
@@ -212,7 +212,7 @@ function forgeUrl(book, page, tab, anchor) {
       url = url.replace(/tab=([^&]+)(#[\w-]+)?/, 'tab=' + tab + anchorString);
     else {
       isFirstArgument = (url.indexOf('?') < 0);
-      url = url + (tab != '' ? (isFirstArgument ? '?' : '&') + 'tab=' + tab : '') + anchorString;
+      url = url + (tab !== '' ? (isFirstArgument ? '?' : '&') + 'tab=' + tab : '') + anchorString;
     }
   }
   return url;
@@ -270,14 +270,109 @@ function redirectImages(node) {
   }
 }
 
-function redirectTextures(node, robotName) {
-  // redirect ImageTexture's url
-  var textures = node.querySelectorAll('ImageTexture');
-  var targetPath = computeTargetPath();
-  for (var i = 0; i < textures.length; i++) {
-    var texture = textures[i];
-    var url = texture.getAttribute('url').slice(1, -1);
-    texture.setAttribute('url', targetPath + 'scenes/' + robotName + '/' + url);
+function setupModalWindow() {
+  var doc = document.querySelector('#webots-doc');
+
+  // Create the following HTML tags:
+  // <div id="modal-window" class="modal-window">
+  //   <span class="modal-window-close-button">&times;</span>
+  //   <img class="modal-window-image-content" />
+  //   <div class="modal-window-caption"></div>
+  // </div>
+
+  var close = document.createElement('span');
+  close.classList.add('modal-window-close-button');
+  close.innerHTML = '&times;';
+  close.onclick = function() {
+    modal.style.display = 'none';
+  };
+
+  var loadImage = document.createElement('img');
+  loadImage.classList.add('modal-window-load-image');
+  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load_animation.gif');
+
+  var image = document.createElement('img');
+  image.classList.add('modal-window-image-content');
+
+  var caption = document.createElement('div');
+  caption.classList.add('modal-window-caption');
+
+  var modal = document.createElement('div');
+  modal.setAttribute('id', 'modal-window');
+  modal.classList.add('modal-window');
+
+  modal.appendChild(close);
+  modal.appendChild(loadImage);
+  modal.appendChild(image);
+  modal.appendChild(caption);
+  doc.appendChild(modal);
+
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
+    }
+  };
+}
+
+function updateModalEvents(view) {
+  var modal = document.querySelector('#modal-window');
+  var image = modal.querySelector('.modal-window-image-content');
+  var loadImage = modal.querySelector('.modal-window-load-image');
+  var caption = modal.querySelector('.modal-window-caption');
+
+  // Add the modal events on each image.
+  var imgs = view.querySelectorAll('img');
+  for (var i = 0; i < imgs.length; i++) {
+    imgs[i].onclick = function(event) {
+      var img = event.target;
+      // The modal window is only enabled on big enough images and on thumbnail.
+      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
+        return;
+
+      // Show the modal window and the caption.
+      modal.style.display = 'block';
+      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
+
+      if (img.src.indexOf('.thumbnail.') === -1) {
+        // this is not a thumbnail => show the image directly.
+        image.src = img.src;
+        loadImage.style.display = 'none';
+        image.style.display = 'block';
+      } else {
+        // this is a thumbnail => load the actual image.
+        var url = img.src.replace('.thumbnail.', '.');
+        if (image.src === url) {
+          // The image has already been loaded.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
+          return;
+        } else {
+          // The image has to be loaded: show the loading image.
+          loadImage.style.display = 'block';
+          image.style.display = 'none';
+        }
+        // In case of thumbnail, search for the original png or jpg
+        image.onload = function() {
+          // The original image has been loaded successfully => show it.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
+        };
+        image.onerror = function() {
+          // The original image has not been loaded successfully => try to change the extension and reload it.
+          image.onerror = function() {
+            // The original image has not been loaded successfully => abort.
+            modal.style.display = 'none';
+            loadImage.style.display = 'block';
+            image.style.display = 'none';
+          };
+          url = img.src.replace('.thumbnail.jpg', '.png');
+          image.src = url;
+        };
+        image.src = url;
+      }
+    };
   }
 }
 
@@ -343,101 +438,61 @@ function updateContributionBannerUrl() {
 }
 
 function addNavigationToBlogIfNeeded() {
-  if (!document.querySelector("#next-previous-section") && localSetup.book === "blog") {
-    let menu = document.querySelector("#menu");
-    let lis = menu.querySelectorAll("li");
-    let currentPageIndex = -1
-    for (i = 0; i < lis.length; ++i) {
-      if (lis[i].className === "selected") {
+  if (!document.querySelector('#next-previous-section') && localSetup.book === 'blog') {
+    let menu = document.querySelector('#menu');
+    let lis = menu.querySelectorAll('li');
+    let currentPageIndex = -1;
+    for (let i = 0; i < lis.length; ++i) {
+      if (lis[i].className === 'selected') {
         currentPageIndex = i;
         break;
       }
     }
 
-    if (currentPageIndex == -1)
+    if (currentPageIndex === -1)
       return;
 
     // console.log(currentPageIndex, lis.length);
     // console.log(lis);
-    let div = document.createElement("div");
-    div.setAttribute("id", "next-previous-section");
+    let div = document.createElement('div');
+    div.setAttribute('id', 'next-previous-section');
     // previous post
     if (currentPageIndex > 0) {
-      let previous = lis[currentPageIndex - 1]
+      let previous = lis[currentPageIndex - 1];
       let a = previous.firstChild.cloneNode();
-      a.innerHTML += "<< Previous Post: " + previous.textContent;
-      a.setAttribute("class", "post-selector left");
+      a.innerHTML += '<< Previous Post: ' + previous.textContent;
+      a.setAttribute('class', 'post-selector left');
       div.appendChild(a);
     }
 
     if (currentPageIndex < lis.length - 1) {
       let next = lis[currentPageIndex + 1];
       let a = next.firstChild.cloneNode();
-      a.innerHTML += "Next Post: " + next.textContent + " >>";
-      a.setAttribute("class", "post-selector right");
+      a.innerHTML += 'Next Post: ' + next.textContent + ' >>';
+      a.setAttribute('class', 'post-selector right');
       div.appendChild(a);
     }
 
-    document.querySelector("#publish-data").parentNode.insertBefore(div, document.querySelector("#publish-data").nextSibling);
+    document.querySelector('#publish-data').parentNode.insertBefore(div, document.querySelector('#publish-data').nextSibling);
   }
 }
 
 function setupBlogFunctionalitiesIfNeeded() {
   if (localSetup.book === 'blog') {
     // hide index, this doesn't make sense for a blog post
-    let index = document.querySelector("#index");
-    let indexTitle = document.querySelector("#indexTitle");
+    let index = document.querySelector('#index');
+    let indexTitle = document.querySelector('#indexTitle');
 
     if (index !== null)
-      index.style.display = "none";
+      index.style.display = 'none';
 
     if (indexTitle !== null)
-      indexTitle.style.display = "none";
+      indexTitle.style.display = 'none';
 
     // hide the release tag, this is also nonsensical here
-    document.querySelector(".release-tag").style.display = "none";
+    document.querySelector('.release-tag').style.display = 'none';
 
-    document.title = document.title.replace("documentation", "Blog");
-
-    var figures = document.querySelectorAll('figure');
-    if (figures.length > 0) {
-      var modal = document.createElement('div');
-      var caption = document.createElement('div');
-      var close = document.createElement('span');
-      var modalContent = document.createElement('img');
-
-      modal.setAttribute('class', 'modal');
-      modalContent.setAttribute('class', 'modal-content');
-      caption.setAttribute('id', 'caption');
-
-      close.setAttribute('class', 'close');
-      close.innerHTML = '&times;';
-      close.onclick = function() {
-        modal.style.display = 'none';
-      };
-
-      modal.appendChild(close);
-      modal.appendChild(modalContent);
-      modal.appendChild(caption);
-
-      figures[0].parentNode.appendChild(modal);
-
-      window.onclick = function(event) {
-        if (event.target === modal)
-          modal.style.display = 'none';
-      };
-
-      var images = [];
-      for (var i = figures.length - 1; i >= 0; i--) {
-        figures[i].onclick = null;
-        images[i] = figures[i].firstChild;
-        images[i].onclick = function() {
-          modal.style.display = 'block';
-          modalContent.src = this.src;
-          caption.innerHTML = this.parentNode.childNodes[1].innerHTML;
-        };
-      }
-    }
+    document.title = document.title.replace('documentation', 'Blog');
   }
 }
 
@@ -457,7 +512,7 @@ function createIndex(view) {
   // Create an empty index, and insert it before the second heading.
   var indexTitle = document.createElement('h' + level);
   indexTitle.textContent = 'Index';
-  indexTitle.setAttribute("id", "indexTitle");
+  indexTitle.setAttribute('id', 'indexTitle');
   headings[0].parentNode.insertBefore(indexTitle, headings[1]);
   var ul = document.createElement('ul');
   ul.setAttribute('id', 'index');
@@ -542,6 +597,7 @@ function populateViewDiv(mdContent) {
   createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
+  updateModalEvents(view);
   redirectUrls(view);
   collapseMovies(view);
 
@@ -600,183 +656,251 @@ function highlightCode(view) {
 
 function resetRobotComponent(robot) {
   unhighlightX3DElement(robot);
-  // Reset the Viewpoint and the motor sliders.
-  var robotComponent = document.querySelector('#' + robot + '-robot-component');
-  var viewpoint = robotComponent.querySelector('Viewpoint');
-  viewpoint.setAttribute('orientation', viewpoint.getAttribute('initialOrientation'));
-  viewpoint.setAttribute('position', viewpoint.getAttribute('initialPosition'));
+  var robotComponent = getRobotComponentByRobotName(robot);
+  // Reset the Viewpoint
+  var camera = robotComponent.webotsView.x3dScene.getCamera();
+  camera.position.copy(camera.userData.initialPosition);
+  camera.quaternion.copy(camera.userData.initialQuaternion);
+  // Reset the motor sliders.
   var sliders = robotComponent.querySelectorAll('.motor-slider');
   for (var s = 0; s < sliders.length; s++) {
     var slider = sliders[s];
     slider.value = slider.getAttribute('webots-position');
-    sliderMotorCallback(robot, slider);
+    var id = slider.getAttribute('webots-transform-id');
+    sliderMotorCallback(robotComponent.webotsView.x3dScene.getObjectById(id, true), slider);
   }
+  robotComponent.webotsView.x3dScene.render();
 }
 
-function toggleDeviceComponent(robot) {
-  var deviceMenu = document.querySelector('#' + robot + '-device-component');
-  var robotView = document.querySelector('.robot-view');
-  if (deviceMenu.style.display === 'none') {
+function updateRobotComponentDimension(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var deviceMenu = robotComponent.querySelector('.device-component');
+  var robotView = robotComponent.querySelector('.robot-view');
+
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  if (robotComponent.showDeviceComponent === true) {
     deviceMenu.style.display = '';
     robotView.style.width = '70%';
   } else {
     deviceMenu.style.display = 'none';
     robotView.style.width = '100%';
   }
+
+  robotComponent.webotsView.x3dScene.resize();
 }
 
-function sliderMotorCallback(robot, slider) {
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var transform = view3d.querySelector('[id=' + slider.getAttribute('webots-transform-id') + ']');
-  if (!transform)
-    return; // This may occur when the x3d is loading.
-  var axis = slider.getAttribute('webots-axis');
+function toggleDeviceComponent(robot) {
+  var robotComponent = getRobotComponentByRobotName(robot);
+  if (typeof robotComponent.showDeviceComponent === 'undefined')
+    robotComponent.showDeviceComponent = true;
+  robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
+  updateRobotComponentDimension(robot);
+}
+
+function toogleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-vars
+  // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
+  var element = getRobotComponentByRobotName(robot);
+  if (
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.mozFullScreenElement ||
+    document.msFullscreenElement
+  ) {
+    if (document.exitFullscreen)
+      document.exitFullscreen();
+    else if (document.mozCancelFullScreen)
+      document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen)
+      document.webkitExitFullscreen();
+    else if (document.msExitFullscreen)
+      document.msExitFullscreen();
+  } else {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+      document.addEventListener('fullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+      document.addEventListener('mozfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      document.addEventListener('webkitfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+      document.addEventListener('msfullscreenchange', function() {
+        updateRobotComponentDimension(robot);
+      });
+    }
+  }
+}
+
+function sliderMotorCallback(transform, slider) {
+  if (typeof transform === 'undefined')
+    return;
+
+  var axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
+  axis = new THREE.Vector3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
+
+  var value = parseFloat(slider.value);
   var position = parseFloat(slider.getAttribute('webots-position'));
+  var initialPosition = parseFloat(slider.getAttribute('webots-initial-position'));
 
   if (slider.getAttribute('webots-type') === 'LinearMotor') {
-    var translation = null;
-    if (transform.hasAttribute('initalTranslation')) // Get initial translation.
-      translation = transform.getAttribute('initalTranslation');
-    else if (transform.hasAttribute('translation')) { // Store initial translation.
-      translation = transform.getAttribute('translation');
-      transform.setAttribute('initalTranslation', translation);
+    // Compute translation
+    var translation = new THREE.Vector3();
+    if ('initialTranslation' in transform.userData)
+      translation = transform.userData.initialTranslation.clone();
+    else {
+      translation = transform.position;
+      transform.userData.initialTranslation = translation.clone();
     }
-    translation = translation.split(/[\s,]+/);
-    axis = axis.split(/[\s,]+/);
-    for (var a = 0; a < axis.length; a++)
-      translation[a] = parseFloat(translation[a]) + parseFloat(axis[a]) * slider.value;
-
-    transform.setAttribute('translation', translation.join(','));
+    translation = translation.add(axis.multiplyScalar(value - position));
+    // Apply the new position.
+    transform.position.copy(translation);
+    transform.updateMatrix();
   } else {
-    var angle = 0.0;
-    if (transform.hasAttribute('initialAngle')) // Get initial angle.
-      angle = parseFloat(transform.getAttribute('initialAngle'));
-    else if (transform.hasAttribute('rotation')) { // Store initial angle.
-      angle = parseFloat(transform.getAttribute('rotation').split(/[\s,]+/)[3]);
-      transform.setAttribute('initialAngle', angle);
-    }
-    angle += parseFloat(slider.value); // Add the slider value.
-    angle -= position;
-
+    // Compute angle.
+    var angle = initialPosition;
+    angle += value - position;
     // Apply the new axis-angle.
-    axis = axis.split(' ').join(',');
-    transform.setAttribute('rotation', axis + ',' + angle);
+    var q = new THREE.Quaternion();
+    q.setFromAxisAngle(
+      axis,
+      angle
+    );
+    transform.quaternion.copy(q);
+    transform.updateMatrix();
   }
 }
 
 function unhighlightX3DElement(robot) {
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
-  var billboards = view3d.querySelectorAll('Transform[highlighted]');
-  for (var b = 0; b < billboards.length; b++) {
-    var billboard = billboards[b];
-    billboard.parentNode.removeChild(billboard);
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = robotComponent.webotsView.x3dScene;
+
+  if (robotComponent.billboardOrigin) {
+    robotComponent.billboardOrigin.parent.remove(robotComponent.billboardOrigin);
+    robotComponent.billboardOrigin = undefined;
   }
 
-  var materials = view3d.querySelectorAll('Material[highlighted]');
-  for (var m = 0; m < materials.length; m++) {
-    var material = materials[m];
-    material.removeAttribute('highlighted');
-    material.setAttribute('emissiveColor', material.getAttribute('emissiveColorBack'));
+  for (var h = 0; h < robotComponent.highlightedAppearances.length; h++) {
+    var appearance = robotComponent.highlightedAppearances[h];
+    appearance.emissive.set(appearance.userData.initialEmissive);
   }
+  robotComponent.highlightedAppearances = [];
+  scene.render();
 }
 
 function highlightX3DElement(robot, deviceElement) {
   unhighlightX3DElement(robot);
 
-  var view3d = document.querySelector('#' + robot + '-robot-webots-view');
+  var robotComponent = getRobotComponentByRobotName(robot);
+  var scene = robotComponent.webotsView.x3dScene;
   var id = deviceElement.getAttribute('webots-transform-id');
-  var transform = view3d.querySelector('[id=' + id + ']');
-  if (transform) {
-    if (deviceElement.getAttribute('webots-type') === 'LED') {
-      var materialsIDs = deviceElement.getAttribute('ledMaterialsIDs').split(' ');
-      for (var m = 0; m < materialsIDs.length; m++) {
-        var materialID = materialsIDs[m];
-        if (materialID) {
-          var material = view3d.querySelector('[id=' + materialID + ']');
-          if (material) {
-            material.setAttribute('highlighted', 'true');
-            material.setAttribute('emissiveColorBack', material.getAttribute('emissiveColor'));
-            material.setAttribute('emissiveColor', deviceElement.getAttribute('targetColor'));
-          }
+  var type = deviceElement.getAttribute('webots-type');
+  var object = scene.getObjectById(id, true);
+
+  if (object) {
+    // Show billboard origin.
+    var originBillboard = robotComponent.billboardOriginMesh.clone();
+    object.add(originBillboard);
+    robotComponent.billboardOrigin = originBillboard;
+
+    if (type === 'LED') {
+      var pbrIDs = deviceElement.getAttribute('ledPBRAppearanceIDs').split(' ');
+      for (var p = 0; p < pbrIDs.length; p++) {
+        var pbrID = pbrIDs[p];
+        if (pbrID) {
+          var ledColor = deviceElement.getAttribute('targetColor').split(' ');
+          ledColor = new THREE.Color(ledColor[0], ledColor[1], ledColor[2]);
+          object.traverse(function(child) {
+            if (child.material && child.material.name === pbrID) {
+              if (!child.material.userData.initialEmissive)
+                child.material.userData.initialEmissive = child.material.emissive.clone();
+              child.material.emissive.set(ledColor);
+              robotComponent.highlightedAppearances.push(child.material);
+            }
+          });
         }
       }
     }
 
-    var scale = parseFloat(view3d.querySelector('Viewpoint').getAttribute('robotScale')) / 50.0;
-    var billboard = document.createElement('Transform');
-    billboard.setAttribute('highlighted', 'true');
-    if (deviceElement.hasAttribute('webots-transform-offset'))
-      billboard.setAttribute('translation', deviceElement.getAttribute('webots-transform-offset'));
-
-    billboard.innerHTML =
-      '<Billboard axisOfRotation="0 0 0">\n' +
-      '  <Shape>\n' +
-      '    <Appearance sortType="transparent" sortKey="10000">\n' +
-      '      <Material transparency="0.7"></Material>\n' +
-      '      <DepthMode depthfunc="always"></DepthMode>\n' +
-      '      <ImageTexture url="' + computeTargetPath() + '../css/images/center.png"></ImageTexture>\n' +
-      '    </Appearance>\n' +
-      '    <Plane size="' + scale + ' ' + scale + '"></Plane>\n' +
-      '  </Shape>\n' +
-      '</Billboard>\n';
-    transform.appendChild(billboard);
+    scene.render();
   }
 }
 
-function estimateRobotScale(robot) {
-  // Estimate roughly the robot scale based on the number of transform and their scaled translation.
+function setBillboardSize(robotComponent, scene) {
+  // Estimate roughly the robot scale based on the AABB.
+  var robotID = robotComponent.getAttribute('robot-node-id');
+  if (typeof robotID === 'undefined')
+    return;
+  var robot;
+  scene.traverse(function(object) {
+    if (object.isObject3D && object.name === robotID)
+      robot = object;
+  });
+  if (typeof robot === 'undefined')
+    return;
+  var aabb = new THREE.Box3().setFromObject(robot);
+  var max = Math.max(aabb.max.x - aabb.min.x, Math.max(aabb.max.y - aabb.min.y, aabb.max.z - aabb.min.z));
+  var size = Math.max(0.01, max) / 30.0;
+  robotComponent.billboardOriginMesh.geometry = new THREE.PlaneGeometry(size, size);
+}
 
-  function x3domAttributeToFloatArray(el, name) {
-    // Convert x3dom string attribute to an array of floats.
-    if (!el.hasAttribute(name))
-      return [];
-    var arr = el.getAttribute(name).split(/[\s,]+/);
-    for (var a = 0; a < arr.length; a++)
-      arr[a] = parseFloat(arr[a]);
-    return arr;
-  }
-  function estimateRobotScaleRec(el, s) {
-    if (!el.tagName)
-      return 0.0;
-    // Get the max scale component.
-    var scale = x3domAttributeToFloatArray(el, 'scale');
-    if (scale.length > 0)
-      s *= Math.max.apply(null, scale);
-    // Get the max translation component.
-    var max = 0.0;
-    var translation = x3domAttributeToFloatArray(el, 'translation');
-    if (translation.length > 0)
-      max = s * Math.max.apply(null, translation);
-    // Recursion
-    for (var c = 0; c < el.childNodes.length; c++)
-      max = Math.max(max, estimateRobotScaleRec(el.childNodes[c], s));
-    return max;
-  }
-
-  var nTransforms = robot.querySelectorAll('transform').length + 1;
-  return Math.log2(nTransforms) * estimateRobotScaleRec(robot, 1.0);
+function getRobotComponentByRobotName(robotName) {
+  return document.querySelector('#' + robotName + '-robot-component');
 }
 
 function createRobotComponent(view) {
-  var webotsViewElements = document.querySelectorAll('.robot-webots-view');
-  for (var e = 0; e < webotsViewElements.length; e++) { // foreach robot components of this page.
-    var webotsViewElement = webotsViewElements[e];
+  var robotComponents = document.querySelectorAll('.robot-component');
+  for (var c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
+    var robotComponent = robotComponents[c];
+    var webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
     var robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
     var webotsView = new webots.View(webotsViewElement);
+    robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
     webotsView.onready = function() { // When Webots View has been successfully loaded.
-      // correct the URL textures.
-      redirectTextures(webotsViewElement, robotName);
+      var camera = webotsView.x3dScene.getCamera();
+
+      // Make sure the billboard remains well oriented.
+      webotsView.x3dScene.preRender = function() {
+        if (robotComponent.billboardOrigin)
+          robotComponent.billboardOrigin.lookAt(camera.position);
+      };
+      robotComponent.highlightedAppearances = [];
+
       // Store viewpoint.
-      var viewpoint = webotsViewElement.querySelector('Viewpoint');
-      viewpoint.setAttribute('initialOrientation', viewpoint.getAttribute('orientation'));
-      viewpoint.setAttribute('initialPosition', viewpoint.getAttribute('position'));
-      // Rough estimation of the robot scale.
-      var robotScale = Math.max(0.05, estimateRobotScale(webotsViewElement));
-      viewpoint.setAttribute('robotScale', robotScale);
+      camera.userData.initialQuaternion = camera.quaternion.clone();
+      camera.userData.initialPosition = camera.position.clone();
+
+      // Create the origin billboard mesh.
+      var loader = new THREE.TextureLoader();
+      var planeGeometry = new THREE.PlaneGeometry(0.05, 0.05);
+      var planeMaterial = new THREE.MeshBasicMaterial({
+        depthTest: false,
+        transparent: true,
+        opacity: 0.5,
+        map: loader.load(
+          computeTargetPath() + '../css/images/center.png'
+        )
+      });
+      robotComponent.billboardOriginMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+      robotComponent.billboardOriginMesh.renderOrder = 1;
+
+      setBillboardSize(robotComponent, webotsView.x3dScene.scene);
     };
 
     // Load the robot X3D file.
-    webotsView.open(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
+    webotsView.open(
+      computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d',
+      undefined,
+      computeTargetPath() + 'scenes/' + robotName + '/'
+    );
 
     // Load the robot meta JSON file.
     $.ajax({
@@ -788,6 +912,8 @@ function createRobotComponent(view) {
         var deviceComponent = view.querySelector('#' + robotName + '-device-component');
         var data = JSON.parse(content);
         var categories = {};
+        robotComponent.setAttribute('robot-node-id', data['robotID']);
+        setBillboardSize(robotComponent, webotsView.x3dScene.scene);
         if (data['devices'].length === 0)
           toggleDeviceComponent(robotName);
         for (var d = 0; d < data['devices'].length; d++) {
@@ -841,15 +967,15 @@ function createRobotComponent(view) {
             }
             slider.setAttribute('value', device['position']);
             slider.setAttribute('webots-position', device['position']);
+            slider.setAttribute('webots-initial-position', device['initialPosition']);
             slider.setAttribute('webots-transform-id', device['transformID']);
             slider.setAttribute('webots-axis', device['axis']);
             slider.setAttribute('webots-type', deviceType);
-            if (isInternetExplorer()) {
-              slider.addEventListener('change', function(e) {
-                sliderMotorCallback(robotName, e.target);
-              });
-            } else
-              slider.setAttribute('oninput', 'sliderMotorCallback("' + robotName + '", this)');
+            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', function(e) {
+              var id = e.target.getAttribute('webots-transform-id');
+              sliderMotorCallback(webotsView.x3dScene.getObjectById(id, true), e.target);
+              webotsView.x3dScene.render();
+            });
 
             var motorDiv = document.createElement('div');
             motorDiv.classList.add('motor-component');
@@ -860,11 +986,11 @@ function createRobotComponent(view) {
           }
 
           // LED case: set the target color.
-          if (deviceType === 'LED' && 'ledColors' in device && 'ledMaterialsIDs' in device) {
+          if (deviceType === 'LED' && 'ledColors' in device && 'ledPBRAppearanceIDs' in device) {
             // For now, simply take the first color. More complex mechanism could be implemented if required.
             var targetColor = (device['ledColors'].length > 0) ? device['ledColors'][0] : '0 0 1';
             deviceDiv.setAttribute('targetColor', targetColor);
-            deviceDiv.setAttribute('ledMaterialsIDs', device['ledMaterialsIDs'].join(' '));
+            deviceDiv.setAttribute('ledPBRAppearanceIDs', device['ledPBRAppearanceIDs'].join(' '));
           }
 
           category.appendChild(deviceDiv);
@@ -913,7 +1039,7 @@ function openTab(tabcomponent, name) {
   for (var j = 0; j < tablinks.length; j++)
     tablinks[j].classList.remove('active');
 
-  var tabcontent = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"][name="' + name + '"]')[0];
+  tabcontent = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"][name="' + name + '"]')[0];
   tabcontent.style.display = 'block';
 
   var tablink = tabcomponent.querySelectorAll('.tab-links[name="' + name + '"]')[0];
@@ -923,7 +1049,7 @@ function openTab(tabcomponent, name) {
 function applyTabs() {
   var tabComponents = document.querySelectorAll('.tab-component');
   for (var k = 0; k < tabComponents.length; k++)
-    openTab(tabComponents[k], localSetup.tab)
+    openTab(tabComponents[k], localSetup.tab);
 }
 
 function renderGraphs() {
@@ -1321,13 +1447,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // prevent FOUC for blog
-  if (localSetup.book == "blog") {
+  if (localSetup.book === 'blog') {
     var center = document.querySelector('#center');
     center.setAttribute('class', 'blog');
     setHandleWidth(0);
   }
 
   addContributionBanner();
+  setupModalWindow();
   applyToTitleDiv();
   getMDFile();
   getMenuFile();

@@ -63,7 +63,8 @@ void WbJointParameters::postFinalize() {
   connect(mSpringConstant, &WbSFDouble::changed, this, &WbJointParameters::updateSpringConstant);
   connect(mDampingConstant, &WbSFDouble::changed, this, &WbJointParameters::updateDampingConstant);
   connect(mStaticFriction, &WbSFDouble::changed, this, &WbJointParameters::updateStaticFriction);
-  connect(mAxis, &WbSFDouble::changed, this, &WbJointParameters::updateAxis);
+  if (mAxis)
+    connect(mAxis, &WbSFDouble::changed, this, &WbJointParameters::updateAxis);
   disconnectFieldNotification(mPosition);
 }
 
@@ -118,6 +119,8 @@ void WbJointParameters::updateMinAndMaxStop() {
 }
 
 void WbJointParameters::updateAxis() {
+  if (!mAxis)
+    return;
   const WbVector3 &a = mAxis->value();
   if (a.isNull()) {
     warn(tr("'axis' must be non zero."));

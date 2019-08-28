@@ -6,7 +6,7 @@ A computer mouse.
 
 %figure
 
-![ComputerMouse](images/objects/computers/ComputerMouse/model.png)
+![ComputerMouse](images/objects/computers/ComputerMouse/model.thumbnail.png)
 
 %end
 
@@ -34,7 +34,7 @@ ComputerMouse {
 
 - `bottomColor`: Defines the color of the bottom part of the mouse.
 
-- `mass`: Defines the mass of the mouse in kg.
+- `mass`: Defines the mass of the mouse in kg. A value smaller or equal to 0 removes the physics of the mouse.
 
 ## DesktopComputer
 
@@ -42,7 +42,7 @@ A computer tower.
 
 %figure
 
-![DesktopComputer](images/objects/computers/DesktopComputer/model.png)
+![DesktopComputer](images/objects/computers/DesktopComputer/model.thumbnail.png)
 
 %end
 
@@ -67,7 +67,7 @@ DesktopComputer {
 
 - `powerbuttonColor`: Defines the color of the computer power button.
 
-- `mass`: Defines the mass of the computer in kg. A value smaller or equal to 0 remove the physics of the computer.
+- `mass`: Defines the mass of the computer in kg. A value smaller or equal to 0 removes the physics of the computer.
 
 ## Keyboard
 
@@ -75,7 +75,7 @@ A computer keyboard.
 
 %figure
 
-![Keyboard](images/objects/computers/Keyboard/model.png)
+![Keyboard](images/objects/computers/Keyboard/model.thumbnail.png)
 
 %end
 
@@ -100,7 +100,7 @@ Keyboard {
 
 - `color`: Defines the color of the keyboard.
 
-- `mass`: Defines the mass of the keyboard in kg. A value smaller or equal to 0 remove the physics of the keyboard.
+- `mass`: Defines the mass of the keyboard in kg. A value smaller or equal to 0 removes the physics of the keyboard.
 
 ## Laptop
 
@@ -108,7 +108,7 @@ A simple laptop.
 
 %figure
 
-![Laptop](images/objects/computers/Laptop/model.png)
+![Laptop](images/objects/computers/Laptop/model.thumbnail.png)
 
 %end
 
@@ -139,7 +139,7 @@ A computer monitor.
 
 %figure
 
-![Monitor](images/objects/computers/Monitor/model.png)
+![Monitor](images/objects/computers/Monitor/model.thumbnail.png)
 
 %end
 
@@ -164,5 +164,5 @@ Monitor {
 
 - `color`: Defines the color of the monitor.
 
-- `mass`: Defines the mass of the monitor in kg. A value smaller or equal to 0 remove the physics of the monitor.
+- `mass`: Defines the mass of the monitor in kg. A value smaller or equal to 0 removes the physics of the monitor.
 

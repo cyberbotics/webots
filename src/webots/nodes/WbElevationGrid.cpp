@@ -16,14 +16,13 @@
 
 #include "WbAffinePlane.hpp"
 #include "WbBoundingSphere.hpp"
-#include "WbColor.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLog.hpp"
-#include "WbMFColor.hpp"
 #include "WbMFDouble.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbRgb.hpp"
@@ -48,9 +47,7 @@ void WbElevationGrid::init() {
   mMinHeight = 0;
   mMaxHeight = 0;
 
-  mColor = findSFNode("color");
   mHeight = findMFDouble("height");
-  mColorPerVertex = findSFBool("colorPerVertex");
   mXDimension = findSFInt("xDimension");
   mXSpacing = findSFDouble("xSpacing");
   mZDimension = findSFInt("zDimension");
@@ -81,8 +78,6 @@ WbElevationGrid::~WbElevationGrid() {
 
 void WbElevationGrid::preFinalize() {
   WbGeometry::preFinalize();
-  if (color())
-    color()->preFinalize();
 
   sanitizeFields();
 
@@ -97,27 +92,16 @@ void WbElevationGrid::preFinalize() {
 
 void WbElevationGrid::postFinalize() {
   WbGeometry::postFinalize();
-  if (color())
-    color()->postFinalize();
-
   connect(mHeight, &WbMFDouble::changed, this, &WbElevationGrid::updateHeight);
   connect(mXDimension, &WbSFInt::changed, this, &WbElevationGrid::updateXDimension);
   connect(mXSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateXSpacing);
   connect(mZDimension, &WbSFInt::changed, this, &WbElevationGrid::updateZDimension);
   connect(mZSpacing, &WbSFDouble::changed, this, &WbElevationGrid::updateZSpacing);
   connect(mThickness, &WbSFDouble::changed, this, &WbElevationGrid::updateThickness);
-  connect(mColor, &WbSFNode::changed, this, &WbElevationGrid::updateColor);
-  connect(mColorPerVertex, &WbSFBool::changed, this, &WbElevationGrid::updateColorPerVertex);
-
-  if (!areWrenObjectsInitialized())
-    // connect to color node changes
-    updateColor();
 }
 
 void WbElevationGrid::createWrenObjects() {
   WbGeometry::createWrenObjects();
-  updateColor();
-
   buildWrenMesh();
 
   if (isInBoundingObject())
@@ -239,19 +223,6 @@ void WbElevationGrid::checkHeight() {
     if (mMaxHeight < 0.0)
       mMaxHeight = 0.0;
   }
-}
-
-void WbElevationGrid::updateColor() {
-  if (color())
-    connect(color(), &WbColor::changed, this, &WbElevationGrid::updateColor, Qt::UniqueConnection);
-
-  emit vertexColorChanged();
-  emit changed();
-}
-
-void WbElevationGrid::updateColorPerVertex() {
-  emit vertexColorChanged();
-  emit changed();
 }
 
 void WbElevationGrid::updateHeight() {
@@ -409,18 +380,6 @@ bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(xSpacing) && !WbNodeUtilities::isTemplateRegeneratorField(zSpacing);
 }
 
-void WbElevationGrid::reset() {
-  WbGeometry::reset();
-
-  WbNode *const c = mColor->value();
-  if (c)
-    c->reset();
-}
-
-bool WbElevationGrid::hasDefaultMaterial() {
-  return !isInBoundingObject() && colorSize() > 0;
-}
-
 /////////////////
 // ODE objects //
 /////////////////
@@ -471,6 +430,9 @@ void WbElevationGrid::applyToOdeData(bool correctSolidMass) {
   assert(dGeomGetClass(mOdeGeom) == dHeightfieldClass);
 
   dGeomHeightfieldSetHeightfieldData(mOdeGeom, mHeightfieldData);
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
   mLocalOdeGeomOffsetPosition = WbVector3(scaledWidth() / 2.0, 0.0, scaledDepth() / 2.0);
 }
 
@@ -658,7 +620,6 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
     return;
   }
 
-  findField("colorPerVertex", true)->write(writer);
   findField("xDimension", true)->write(writer);
   findField("zDimension", true)->write(writer);
   findField("xSpacing", true)->write(writer);
@@ -682,59 +643,6 @@ void WbElevationGrid::exportNodeFields(WbVrmlWriter &writer) const {
       writer << "\'";
     else
       writer << " ]\n";
-  }
-}
-
-void WbElevationGrid::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  if (writer.isWebots()) {
-    WbGeometry::exportNodeSubNodes(writer);
-    return;
-  }
-
-  WbColor *c = color();
-  if (c == NULL)
-    return;
-  WbMFColor mfc = c->color();
-  int nc = mfc.size();
-  if (nc == 0)
-    return;
-
-  if (writer.isX3d())
-    writer << "<Color color=\'";
-  else {
-    writer.indent();
-    writer << "color Color {\n";
-    writer.increaseIndent();
-    writer.indent();
-    writer << "color [ ";
-  }
-
-  int co = 0;
-  int xd = mXDimension->value() - 1;
-  int zd = mZDimension->value() - 1;
-  for (int x = 0; x < xd; x++) {
-    for (int z = 0; z < zd; z++) {
-      WbRgb rgb;
-      if (nc == 2 && x % 2 == 0)
-        rgb = mfc.item((z + 1) % 2);
-      else
-        rgb = mfc.item(co);
-      co++;
-      if (co == nc)
-        co = 0;
-      if (x != 0 || z != 0)
-        writer << ", ";
-      writer << rgb.toString(WbPrecision::DOUBLE_MAX);
-    }
-  }
-
-  if (writer.isX3d())
-    writer << "\'></Color>";
-  else {
-    writer << " ]\n";
-    writer.decreaseIndent();
-    writer.indent();
-    writer << "}\n";
   }
 }
 

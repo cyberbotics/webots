@@ -66,7 +66,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 motion = wbu_motion_new('filename')
 wbu_motion_delete(motion)
 ```
@@ -174,7 +174,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wbu_motion_play(motion)
 wbu_motion_stop(motion)
 wbu_motion_set_loop(motion, loop)
@@ -297,7 +297,7 @@ public class Motion {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 over = wbu_motion_is_over(motion)
 duration = wbu_motion_get_duration(motion)
 time = wbu_motion_get_time(motion)

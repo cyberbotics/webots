@@ -6,7 +6,7 @@ A ceiling light (0.19 x 0.8 x 0.19 m).
 
 %figure
 
-![CeilingLight](images/objects/lights/CeilingLight/model.png)
+![CeilingLight](images/objects/lights/CeilingLight/model.thumbnail.png)
 
 %end
 
@@ -26,6 +26,7 @@ CeilingLight {
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFBool     pointLightCastShadows      FALSE
+  SFBool     castShadows                TRUE
 }
 ```
 
@@ -54,13 +55,46 @@ CeilingLight {
 
 - `pointLightCastShadows`: Defines whether the point light should cast shadows.
 
+- `castShadows`: Defines whether this object should cast shadows.
+
+## DoubleFluorescentLamp
+
+A double fluorescent lamp.
+It does not contain any actual Light node, it only uses emissive color.
+
+%figure
+
+![DoubleFluorescentLamp](images/objects/lights/DoubleFluorescentLamp/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+DoubleFluorescentLamp {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 1 0 0
+  SFString   name            "double fuorescent lamp"
+  SFFloat    intensity       10
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/omichel/webots/tree/master/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### DoubleFluorescentLamp Field Summary
+
+- `intensity`: Defines the intensity of the emissive color.
+
 ## FloorLight
 
 A floor light (0.19 x 1.6 x 0.19 m).
 
 %figure
 
-![FloorLight](images/objects/lights/FloorLight/model.png)
+![FloorLight](images/objects/lights/FloorLight/model.thumbnail.png)
 
 %end
 

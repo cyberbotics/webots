@@ -86,7 +86,7 @@ bool RosReceiver::getDataSizeCallback(webots_ros::get_int::Request &req, webots_
   if (mReceiver->getQueueLength() > 0)
     res.value = mReceiver->getDataSize();
   else {
-    ROS_ERROR("Illegal call to Receiver::getDataSize().");
+    ROS_WARN("Illegal call to Receiver::getDataSize().");
     res.value = -1;
   }
   return true;
@@ -97,7 +97,7 @@ bool RosReceiver::getSignalStrengthCallback(webots_ros::get_float::Request &req,
   if (mReceiver->getQueueLength() > 0)
     res.value = mReceiver->getSignalStrength();
   else {
-    ROS_ERROR("Illegal call to Receiver::getSignalStrength().");
+    ROS_WARN("Illegal call to Receiver::getSignalStrength().");
     res.value = -1;
   }
   return true;
@@ -113,7 +113,7 @@ bool RosReceiver::getEmitterDirectionCallback(webots_ros::receiver_get_emitter_d
     res.direction.push_back(direction[1]);
     res.direction.push_back(direction[2]);
   } else {
-    ROS_ERROR("Illegal call to Receiver::getEmitterDirection().");
+    ROS_WARN("Illegal call to Receiver::getEmitterDirection().");
     res.direction.push_back(0.0);
     res.direction.push_back(0.0);
     res.direction.push_back(0.0);
@@ -126,7 +126,7 @@ bool RosReceiver::nextPacketCallback(webots_ros::get_bool::Request &req, webots_
     mReceiver->nextPacket();
     res.value = true;
   } else {
-    ROS_ERROR("Illegal call to Receiver::nextPacket().");
+    ROS_WARN("Illegal call to Receiver::nextPacket().");
     res.value = false;
   }
   return true;

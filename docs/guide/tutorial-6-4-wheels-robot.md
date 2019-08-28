@@ -7,13 +7,13 @@ The [next figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-
 
 %figure "3D view of the 4 wheels robot. Note that the coordinate system representations of the robot body and of its wheels are oriented the same way. Their +x-vector (in red) defines the left of the robot, their +y-vector (in green) defines the top of the robot, and their +z-vector (in blue) defines the front of the robot. The distance sensors are oriented in a different way, their +x-vector indicates the direction of the sensor."
 
-![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.png)
+![tutorial_4_wheels_robot.png](images/tutorial_4_wheels_robot.thumbnail.jpg)
 
 %end
 
 %figure "Top view of the 4 wheels robot. The grid behind the robot has a dimension of 0.2 x 0.3 meters. The text labels correspond to the name of the devices."
 
-![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.png)
+![tutorial_4_wheels_top_schema.png](images/tutorial_4_wheels_top_schema.thumbnail.jpg)
 
 %end
 
@@ -30,7 +30,7 @@ Some definitions are required before giving rules to create a robot model.
 The set containing the [Solid](../reference/solid.md) node and all its derived nodes is called the *solid nodes*.
 A similar definition is applied for the [Device](../reference/device.md), [Robot](../reference/robot.md), [Joint](../reference/joint.md) and [Motor](../reference/motor.md) nodes.
 You can get more information about the node hierarchy in the [nodes chart diagram](../reference/node-chart.md).
-Note that most of the sensors and actuators are [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
+Most sensors and actuators are both [Solid](../reference/solid.md) and [Device](../reference/device.md) nodes at the same time.
 
 The main structure of a [Robot](../reference/robot.md) model is a tree of [Solid](../reference/solid.md) nodes linked together.
 The root node of this tree should be a [Robot](../reference/robot.md) node.
@@ -219,7 +219,7 @@ for (int i = 0; i < 4 ; i++)
 %tab "Python"
 ```python
 # initialize motors
-Motor wheels = []
+wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for name in wheelsNames:
     wheels.append(robot.getMotor(name))
@@ -237,7 +237,7 @@ for (int i = 0; i < wheelsNames.length; i++)
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 % initialize motors
 wheels_names = ["wheel1", "wheel2", "wheel3", "wheel4"];
 wheels = [];
@@ -286,7 +286,7 @@ wheels[0].setVelocity(speed);
 %tab-end
 
 %tab "MATLAB"
-```matlab
+```MATLAB
 speed = -1.5; % [rad/s]
 wb_motor_set_position(wheels[0], inf);
 wb_motor_set_velocity(wheels[0], speed);
@@ -301,6 +301,235 @@ Note that the `lookupTable` field of the [DistanceSensor](../reference/distances
 Don't forget to set the `controller` field of the [Robot](../reference/robot.md) node to indicate your new controller.
 
 As usual a possible solution of this exercise is located in the tutorials directory.
+
+### The Controller Code
+
+Here is the complete code of the controller developed in the previous subsection.
+
+%tab-component
+%tab "C"
+```c
+#include <webots/distance_sensor.h>
+#include <webots/motor.h>
+#include <webots/robot.h>
+
+#define TIME_STEP 64
+
+int main(int argc, char **argv) {
+  wb_robot_init();
+  int i;
+  bool avoid_obstacle_counter = 0;
+  WbDeviceTag ds[2];
+  char ds_names[2][10] = {"ds_left", "ds_right"};
+  for (i = 0; i < 2; i++) {
+    ds[i] = wb_robot_get_device(ds_names[i]);
+    wb_distance_sensor_enable(ds[i], TIME_STEP);
+  }
+  WbDeviceTag wheels[4];
+  char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
+  for (i = 0; i < 4; i++) {
+    wheels[i] = wb_robot_get_device(wheels_names[i]);
+    wb_motor_set_position(wheels[i], INFINITY);
+  }
+  while (wb_robot_step(TIME_STEP) != -1) {
+    double left_speed = 1.0;
+    double right_speed = 1.0;
+    if (avoid_obstacle_counter > 0) {
+      avoid_obstacle_counter--;
+      left_speed = 1.0;
+      right_speed = -1.0;
+    } else { // read sensors
+      double ds_values[2];
+      for (i = 0; i < 2; i++)
+        ds_values[i] = wb_distance_sensor_get_value(ds[i]);
+      if (ds_values[0] < 950.0 || ds_values[1] < 950.0)
+        avoid_obstacle_counter = 100;
+    }
+    wb_motor_set_velocity(wheels[0], left_speed);
+    wb_motor_set_velocity(wheels[1], right_speed);
+    wb_motor_set_velocity(wheels[2], left_speed);
+    wb_motor_set_velocity(wheels[3], right_speed);
+  }
+  wb_robot_cleanup();
+  return 0;  // EXIT_SUCCESS
+}
+```
+%tab-end
+
+%tab "C++"
+```cpp
+#include <webots/DistanceSensor.hpp>
+#include <webots/Motor.hpp>
+#include <webots/Robot.hpp>
+
+#define TIME_STEP 64
+using namespace webots;
+
+int main(int argc, char **argv) {
+  Robot *robot = new Robot();
+  DistanceSensor *ds[2];
+  char dsNames[2][10] = {"ds_right", "ds_left"};
+  for (int i = 0; i < 2; i++) {
+    ds[i] = robot->getDistanceSensor(dsNames[i]);
+    ds[i]->enable(TIME_STEP);
+  }
+  Motor *wheels[4];
+  char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
+  for (int i = 0; i < 4; i++) {
+    wheels[i] = robot->getMotor(wheels_names[i]);
+    wheels[i]->setPosition(INFINITY);
+    wheels[i]->setVelocity(0.0);
+  }
+  int avoidObstacleCounter = 0;
+  while (robot->step(TIME_STEP) != -1) {
+    double leftSpeed = 1.0;
+    double rightSpeed = 1.0;
+    if (avoidObstacleCounter > 0) {
+      avoidObstacleCounter--;
+      leftSpeed = 1.0;
+      rightSpeed = -1.0;
+    } else { // read sensors
+      for (int i = 0; i < 2; i++) {
+        if (ds[i]->getValue() < 950.0)
+          avoidObstacleCounter = 100;
+      }
+    }
+    wheels[0]->setVelocity(leftSpeed);
+    wheels[1]->setVelocity(rightSpeed);
+    wheels[2]->setVelocity(leftSpeed);
+    wheels[3]->setVelocity(rightSpeed);
+  }
+  delete robot;
+  return 0;  // EXIT_SUCCESS
+}
+```
+%tab-end
+
+%tab "Python"
+```python
+from controller import Robot
+
+TIME_STEP = 64
+robot = Robot()
+ds = []
+dsNames = ['ds_right', 'ds_left']
+for i in range(2):
+    ds.append(robot.getDistanceSensor(dsNames[i]))
+    ds[i].enable(TIME_STEP)
+wheels = []
+wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
+for i in range(4):
+    wheels.append(robot.getMotor(wheelsNames[i]))
+    wheels[i].setPosition(float('inf'))
+    wheels[i].setVelocity(0.0)
+avoidObstacleCounter = 0
+while robot.step(TIME_STEP) != -1:
+    leftSpeed = 1.0
+    rightSpeed = 1.0
+    if avoidObstacleCounter > 0:
+        avoidObstacleCounter -= 1
+        leftSpeed = 1.0
+        rightSpeed = -1.0
+    else:  # read sensors
+        for i in range(2):
+            if ds[i].getValue() < 950.0:
+                avoidObstacleCounter = 100
+    wheels[0].setVelocity(leftSpeed)
+    wheels[1].setVelocity(rightSpeed)
+    wheels[2].setVelocity(leftSpeed)
+    wheels[3].setVelocity(rightSpeed)
+```
+%tab-end
+
+%tab "Java"
+```
+import com.cyberbotics.webots.controller.Robot;
+import com.cyberbotics.webots.controller.DistanceSensor;
+import com.cyberbotics.webots.controller.Motor;
+
+public class FourWheelsCollisionAvoidance {
+  public static void main(String[] args) {
+    int TIME_STEP = 64;
+    Robot robot = new Robot();
+    DistanceSensor[] ds = new DistanceSensor[2];
+    String[] dsNames = {"ds_right", "ds_left"};
+    for (int i = 0; i < 2; i++) {
+      ds[i] = robot.getDistanceSensor(dsNames[i]);
+      ds[i].enable(TIME_STEP);
+    }
+    Motor[] wheels = new Motor[4];
+    String[] wheelsNames = {"wheel1", "wheel2", "wheel3", "wheel4"};
+    for (int i = 0; i < 4; i++) {
+      wheels[i] = robot.getMotor(wheelsNames[i]);
+      wheels[i].setPosition(Double.POSITIVE_INFINITY);
+      wheels[i].setVelocity(0.0);
+    }
+    int avoidObstacleCounter = 0;
+    while (robot.step(TIME_STEP) != -1) {
+      double leftSpeed = 1.0;
+      double rightSpeed = 1.0;
+      if (avoidObstacleCounter > 0) {
+        avoidObstacleCounter--;
+        leftSpeed = 1.0;
+        rightSpeed = -1.0;
+      } else { // read sensors
+        for (int i = 0; i < 2; i++) {
+          if (ds[i].getValue() < 950.0)
+            avoidObstacleCounter = 100;
+        }
+      }
+      wheels[0].setVelocity(leftSpeed);
+      wheels[1].setVelocity(rightSpeed);
+      wheels[2].setVelocity(leftSpeed);
+      wheels[3].setVelocity(rightSpeed);
+    }
+  }
+}
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+TIME_STEP = 64;
+ds = [];
+ds_names = [ "ds_right", "ds_left" ];
+for i = 1:2
+  ds[i] = wb_robot_get_device(ds_names[i]);
+  wb_distance_sensor_enable(ds[i], TIME_STEP);
+end
+wheels = [];
+wheels_names = [ "wheel1", "wheel2", "wheel3", "wheel4" ];
+for i = 1:4
+  wheels[i] = wb_robot_get_device(wheels_names[i]);
+  wb_motor_set_position(wheels[i], inf);
+  wb_motor_set_velocity(wheels[i], 0.0);
+end
+avoid_obstacle_counter = 0;
+while wb_robot_step(TIME_STEP) ~= -1
+  left_speed = 1.0;
+  right_speed = 1.0;
+  if avoid_obstacle_counter > 0
+    avoid_obstacle_counter--;
+    left_speed = 1.0;
+    right_speed = -1.0;
+  else // read sensors
+    for i = 0:2
+      if wb_distance_sensor_get_value(ds[i]) < 950.0
+        avoid_obstacle_counter = 100;
+      end
+    end
+  end
+  wb_motor_set_velocity(wheels[0], left_speed);
+  wb_motor_set_velocity(wheels[1], right_speed);
+  wb_motor_set_velocity(wheels[2], left_speed);
+  wb_motor_set_velocity(wheels[3], right_speed);
+  % if your code plots some graphics, it needs to flushed like this:
+  drawnow;
+end
+```
+%tab-end
+
+%end
 
 ### Conclusion
 

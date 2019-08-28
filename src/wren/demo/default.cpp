@@ -83,7 +83,7 @@ static void create_wren_scene() {
     printf("Compilation failed: %s\n", wr_shader_program_get_compilation_log(sphereProgram));
 
   WrRenderable *sphereRenderable = wr_renderable_new();
-  WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2);
+  WrStaticMesh *sphereMesh = wr_static_mesh_unit_sphere_new(2, true, false);
   WrMaterial *sphereMaterial = wr_phong_material_new();
   wr_material_set_default_program(sphereMaterial, sphereProgram);
   wr_material_set_texture(sphereMaterial, WR_TEXTURE(texture), 0);

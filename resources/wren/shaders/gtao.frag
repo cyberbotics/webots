@@ -9,6 +9,7 @@
 uniform sampler2D inputTextures[3];
 
 uniform float radius;
+uniform float flipNormalY;
 uniform vec4 clipInfo;
 uniform vec2 viewportSize;
 uniform vec4 params;
@@ -114,6 +115,9 @@ void main() {
   viewSpaceNormal -= 0.5;
   viewSpaceNormal *= 2.0;
   viewSpaceNormal = normalize(vec3(viewSpaceNormal.xy, -viewSpaceNormal.z));
+
+  if (flipNormalY > 0.0)
+    viewSpaceNormal.y *= -1.0;
 
   // calculate screen-space radius
   float projectedRadius = (radius * clipInfo.z) / viewSpacePosition.z;

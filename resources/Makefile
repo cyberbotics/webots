@@ -12,11 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+distrib: release
+
 release debug profile:
 	@+make -s -C translations $@
 	@+make -s -C languages $@
 	@+make -s -C projects $@
 	@+make -s -C osm_importer $@
+	@+make -s -C web/wwi $@
 
 cleanse: clean
 
@@ -26,3 +29,4 @@ clean:
 	@+make -s -C projects $@
 	@+make -s -C osm_importer $@
 	@-rm -rf sumo_exporter/*.pyc
+	@+make -s -C web/wwi $(MAKECMDGOALS)

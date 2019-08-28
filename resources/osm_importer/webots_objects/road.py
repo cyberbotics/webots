@@ -113,21 +113,33 @@ class Road(WebotsObject):
         if 'layer' in self.tags:
             self.layer = float(self.tags['layer'])
 
-        if 'lanes:forward' in self.tags:
-            self.forwardLanes = int(self.tags['lanes:forward'])
-            self.backwardLanes = self.lanes - self.forwardLanes
-            assert self.forwardLanes > 0
-            assert self.lanes - self.forwardLanes >= 0
+        try:
+            if 'lanes:forward' in self.tags:
+                forwardLanes = int(self.tags['lanes:forward'])
+                assert forwardLanes > 0
+                assert self.lanes - forwardLanes >= 0
+                self.forwardLanes = forwardLanes
+                self.backwardLanes = self.lanes - self.forwardLanes
+        except (ValueError, AssertionError):
+            print('Invalid "lanes:forward" tag for "%s"' % self.name)
 
-        if 'lanes:backward' in self.tags:
-            self.backwardLanes = int(self.tags['lanes:backward'])
-            # note: "lanes" is overriden if "lanes:backward" and "lanes:forward" are both defined.
-            if ('lanes:forward' in self.tags):
-                self.lanes = self.forwardLanes + self.backwardLanes
-            else:
-                self.forwardLanes = self.lanes - self.backwardLanes
-            assert self.backwardLanes > 0
-            assert self.lanes - self.backwardLanes >= 0
+        try:
+            if 'lanes:backward' in self.tags:
+                backwardLanes = int(self.tags['lanes:backward'])
+                lanes = self.lanes
+                forwardLanes = self.forwardLanes
+                # note: "lanes" is overriden if "lanes:backward" and "lanes:forward" are both defined.
+                if 'lanes:forward' in self.tags:
+                    lanes = forwardLanes + backwardLanes
+                else:
+                    forwardLanes = lanes - backwardLanes
+                assert backwardLanes > 0
+                assert lanes - backwardLanes >= 0
+                self.backwardLanes = backwardLanes
+                self.forwardLanes = forwardLanes
+                self.lanes = lanes
+        except (ValueError, AssertionError):
+            print('Invalid "lanes:backward" tag for "%s"' % self.name)
 
         # Note: "turn:lanes" seems to have no influence on the lanes in JOSM.
 
@@ -144,13 +156,13 @@ class Road(WebotsObject):
         if 'turn:lanes:forward' in self.tags:
             self.turnLanesForward = self.tags['turn:lanes:forward']
             if len(self.turnLanesForward.split('|')) != self.forwardLanes:
-                print ('Invalid "turn:lanes:forward" tag for "%s"' % self.name)
+                print('Invalid "turn:lanes:forward" tag for "%s"' % self.name)
                 self.turnLanesForward = None
 
         if 'turn:lanes:backward' in self.tags:
             self.turnLanesBackward = self.tags['turn:lanes:backward']
             if len(self.turnLanesBackward.split('|')) != self.backwardLanes:
-                print ('Invalid "turn:lanes:backward" tag for "%s"' % self.name)
+                print('Invalid "turn:lanes:backward" tag for "%s"' % self.name)
                 self.turnLanesBackward = None
 
         self.width = None
@@ -181,7 +193,7 @@ class Road(WebotsObject):
                     self.width = None
             if self.width is None:
                 # Failed to extract width.
-                print ('Warning: Invalid "width" tag for "%s" OSMID.: "%s"' % (self.osmid, self.tags['width']))
+                print('Warning: Invalid "width" tag for "%s" OSMID.: "%s"' % (self.osmid, self.tags['width']))
 
         if self.width is None:
             laneWidth = 3.5

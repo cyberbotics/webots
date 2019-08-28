@@ -20,7 +20,7 @@ We are excited for this next chapter of Webots' life and we hope you will join u
 ## Next-Gen Graphics
 
 %figure "Left: Before Graphics Update, Right: After Graphics Update"
-![new graphics](images/graphics_before_after.png)
+![new graphics](images/graphics_before_after.thumbnail.jpg)
 %end
 
 You may remember from the release of Webots R2018b that we implemented our own bespoke rendering engine, WREN (Webots Renderer).
@@ -43,7 +43,7 @@ If you're really confused, have a look at our samples for some guidance.
 With this release, we have (with lots of effort) completely overhauled all objects, worlds, robots and vehicles.
 Everything in Webots now uses the Physically-Based Rendering (PBR) system, leading to a universal visual upgrade and a greater degree of realism.
 As a result, some important PROTO files have had their fields adjusted to accomodate this new system.
-Please check the [ChangeLog](https://cyberbotics.com/change_log) for a complete list of breaking changes.
+Please check the [ChangeLog](../reference/changelog-r2019.md) for a complete list of breaking changes.
 In addition to this, we have added a library of ready-made PBR materials (as `PBRAppearance`-based PROTO files) already used across Webots that will help you make your next simulation look awesome.
 These can be found in `$WEBOTS_HOME/projects/appearances`.
 

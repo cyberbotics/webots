@@ -39,32 +39,8 @@ void WbVisualBoundingSphere::enable(bool enabled, const WbBaseNode *node) {
 
 void WbVisualBoundingSphere::createSphere(
   /* const Ogre::String &meshName, const float r, const int nRings, const int nSegments */) {
-  // TODO_WREN
-  // Ogre::SceneManager *const sceneManager = WbWrenRenderingContext::instance()->sceneManager();
-
-  // const int subdivision = 2;
-  // const int indexSize = 60 * (4 << (2 * (subdivision - 1))); // from WbSphere::computeIndexSize()
-  // Ogre::ManualObject *o = sceneManager->createManualObject(meshName);
-  // o->setDynamic(true); // this is needed to avoid a bug for large vertex buffer on some intel graphics cards
-  // o->estimateVertexCount(indexSize);
-  // o->estimateIndexCount(indexSize);
-  // o->begin(WbWrenMaterialManager::name(WbWrenMaterialManager::MAT_ACTIVE_HANDLE_Y), Ogre::RenderOperation::OT_LINE_LIST);
-  // int index = 0;
-  // for (int i = 0; i < 20; i++)
-  //   WbSphere::subdivideToOgreManualObject(
-  //     o,
-  //     r,
-  //     WbSphere::defaultVertex(i, 0),
-  //     WbSphere::defaultVertex(i, 1),
-  //     WbSphere::defaultVertex(i, 2),
-  //     subdivision,
-  //     index
-  //   );
-  // o->end();
-  // Ogre::MeshPtr mesh = o->convertToMesh(meshName);
-  // sceneManager->destroyManualObject(o);
-  // mesh->_setBounds( Ogre::AxisAlignedBox( Ogre::Vector3(-r, -r, -r), Ogre::Vector3(r, r, r) ), false );
-  // mesh->_setBoundingSphereRadius(r);
+  // TODO_WREN: port the functionality to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
 }
 
 WbVisualBoundingSphere::WbVisualBoundingSphere() : QObject() {
@@ -77,7 +53,9 @@ WbVisualBoundingSphere::~WbVisualBoundingSphere() {
 }
 
 void WbVisualBoundingSphere::show(const WbBaseNode *node) {
-  // TODO_WREN
+  // TODO_WREN: port the functionality from Ogre to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
+
   // WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
   // if (!boundingSphere || !gEnabled) {
   //   if (mSceneNode)
@@ -114,7 +92,9 @@ void WbVisualBoundingSphere::show(const WbBaseNode *node) {
 }
 
 void WbVisualBoundingSphere::clear() {
-  // TODO_WREN
+  // TODO_WREN: port the functionality from Ogre to WREN.
+  // The visual bounding sphere can be enabled from the optional rendering if WEBOTS_DEBUG is set.
+
   // if (!mSceneNode)
   //   return;
 

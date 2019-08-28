@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "iRobot Create simulation"
@@ -17,19 +17,16 @@ TexturedBackground {
 }
 CeilingLight {
   translation 1.29685 2.4 -1.82639
-  pointLightAttenuation 0 1 0.4
   pointLightColor 1 1 0.9372549019607843
   pointLightIntensity 7
 }
 CeilingLight {
   translation -1.9443400000000004 2.4 3.25511
   name "ceiling light(2)"
-  pointLightAttenuation 0 1 0.30000000000000004
   pointLightIntensity 6
 }
 FloorLight {
   translation 4.2693419342918375 0 4.528276895458201
-  pointLightAttenuation 0 0 1
   pointLightIntensity 2
 }
 Wall {

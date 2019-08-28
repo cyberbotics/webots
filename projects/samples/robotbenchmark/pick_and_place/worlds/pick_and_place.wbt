@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -79,6 +79,7 @@ DEF WALL Solid {
       geometry Plane {
         size 12 5
       }
+      castShadows FALSE
     }
   ]
   boundingObject USE WALL_SHAPE
@@ -113,6 +114,7 @@ DEF WALL Solid {
 Ceiling {
   translation 0 5 0
   size 12 12
+  castShadows FALSE
 }
 Door {
   translation -2.44 0 -5.99
@@ -122,7 +124,9 @@ Door {
     translation 0 0.045 0
     mass 0
     hasStaticParent TRUE
+    castShadows FALSE
   }
+  castShadows FALSE
 }
 DEF PIPES Group {
   children [

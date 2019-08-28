@@ -242,7 +242,7 @@ public class DifferentialWheels extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 public void setSpeed(double left, double right);
 public double getLeftSpeed();
 public double getRightSpeed();
@@ -334,7 +334,7 @@ public class DifferentialWheels extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_differential_wheels_enable_encoders(sampling_period)
 wb_differential_wheels_disable_encoders()
 period = wb_differential_wheels_get_encoders_sampling_period()
@@ -429,7 +429,7 @@ public class DifferentialWheels extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 left = wb_differential_wheels_get_left_encoder()
 right = wb_differential_wheels_get_right_encoder()
 wb_differential_wheels_set_encoders(left, right)
@@ -506,7 +506,7 @@ public class DifferentialWheels extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 max = wb_differential_wheels_get_max_speed()
 ```
 
@@ -578,7 +578,7 @@ public class DifferentialWheels extends Robot {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 unit = wb_differential_wheels_get_speed_unit()
 ```
 

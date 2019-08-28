@@ -92,7 +92,7 @@ public class MouseState {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 structs.WbMouseState.members = struct(
   'left', 'int8',
   'middle', 'int8',
@@ -198,7 +198,7 @@ public class Mouse {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_mouse_enable(sampling_period)
 wb_mouse_disable()
 period = wb_mouse_get_sampling_period()
@@ -297,7 +297,7 @@ public class Mouse {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_mouse_enable_3d_position()
 wb_mouse_disable_3d_position()
 enabled = wb_mouse_is_3d_position_enabled()

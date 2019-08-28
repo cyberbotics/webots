@@ -10,7 +10,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Road](images/objects/road/Road/model.png)
+![Road](images/objects/road/Road/model.thumbnail.png)
 
 %end
 
@@ -145,7 +145,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.png)
+![AddLaneRoadSegment](images/objects/road/AddLaneRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -256,7 +256,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.png)
+![AddLanesRoadSegment](images/objects/road/AddLanesRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -368,7 +368,7 @@ A customizable crash barrier.
 
 %figure
 
-![CrashBarrier](images/objects/road/CrashBarrier/model.png)
+![CrashBarrier](images/objects/road/CrashBarrier/model.thumbnail.png)
 
 %end
 
@@ -413,7 +413,7 @@ A customizable crossroad which can contain optionally references to its connecte
 
 %figure
 
-![Crossroad](images/objects/road/Crossroad/model.png)
+![Crossroad](images/objects/road/Crossroad/model.thumbnail.png)
 
 %end
 
@@ -469,7 +469,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.png)
+![CurvedRoadSegment](images/objects/road/CurvedRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -591,7 +591,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.png)
+![HelicoidalRoadSegment](images/objects/road/HelicoidalRoadSegment/model.thumbnail.png)
 
 %end
 
@@ -702,7 +702,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![LaneSeparation](images/objects/road/LaneSeparation/model.png)
+![LaneSeparation](images/objects/road/LaneSeparation/model.thumbnail.png)
 
 %end
 
@@ -820,7 +820,7 @@ A simple and customizable roads intersection, all the road are crossing at the s
 
 %figure
 
-![RoadIntersection](images/objects/road/RoadIntersection/model.png)
+![RoadIntersection](images/objects/road/RoadIntersection/model.thumbnail.png)
 
 %end
 
@@ -910,7 +910,7 @@ This node should be used in the `lines` field of a road node.
 
 %figure
 
-![RoadLine](images/objects/road/RoadLine/model.png)
+![RoadLine](images/objects/road/RoadLine/model.thumbnail.png)
 
 %end
 
@@ -945,7 +945,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![RoadPillars](images/objects/road/RoadPillars/model.png)
+![RoadPillars](images/objects/road/RoadPillars/model.thumbnail.png)
 
 %end
 
@@ -999,7 +999,7 @@ A simple and customizable roundabout, all the roads are equally separated in ori
 
 %figure
 
-![Roundabout](images/objects/road/Roundabout/model.png)
+![Roundabout](images/objects/road/Roundabout/model.thumbnail.png)
 
 %end
 
@@ -1106,7 +1106,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.png)
+![StraightRoadSegment](images/objects/road/StraightRoadSegment/model.thumbnail.png)
 
 %end
 

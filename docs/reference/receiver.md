@@ -129,7 +129,7 @@ public class Receiver extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_receiver_enable(tag, sampling_period)
 wb_receiver_disable(tag)
 period = wb_receiver_get_sampling_period(tag)
@@ -227,7 +227,7 @@ public class Receiver extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 length = wb_receiver_get_queue_length(tag)
 wb_receiver_next_packet(tag)
 ```
@@ -277,7 +277,7 @@ Any user chosen format is suitable, as long as emitters and receivers agree.
 
 %figure "Receiver's packet queue"
 
-![receiver_queue.png](images/receiver_queue.png)
+![receiver_queue.png](images/receiver_queue.thumbnail.png)
 
 %end
 
@@ -356,7 +356,7 @@ public class Receiver extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 size = wb_receiver_get_data_size(tag)
 data = wb_receiver_get_data(tag, type)
 ```
@@ -405,7 +405,7 @@ Here is an example for getting the data:
 The receiving code is responsible for extracting the data from the *libpointer* using MATLAB's `setdatatype` and `get` functions.
 Here is an example on how to send and receive a 2x3 MATLAB matrix.
 
-> ```matlab
+> ```MATLAB
 > % sending robot
 > emitter = wb_robot_get_device('emitter');
 >
@@ -428,7 +428,7 @@ Here is an example on how to send and receive a 2x3 MATLAB matrix.
 In this case the function does not return a *libpointer* but an object of the specified type, and it is not necessary to call `setdatatype` and `get` functions.
 For example the `wb_receiver_get_data` function can be used like this:
 
-> ```matlab
+> ```MATLAB
 > % receiving robot
 > receiver = wb_robot_get_device('receiver');
 > wb_receiver_enable(receiver, TIME_STEP);
@@ -505,7 +505,7 @@ public class Receiver extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 strength = wb_receiver_get_signal_strength(tag)
 [x y z] = wb_receiver_get_emitter_direction(tag)
 ```
@@ -616,7 +616,7 @@ public class Receiver extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_CHANNEL_BROADCAST
 
 wb_receiver_set_channel(tag, channel)

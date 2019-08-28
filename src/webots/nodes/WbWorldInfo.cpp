@@ -348,9 +348,6 @@ void WbWorldInfo::exportNodeFields(WbVrmlWriter &writer) const {
       writer << "'";
     }
 
-    if (!findField("lineScale")->isDefault())
-      writer << " lineScale='" << mLineScale->value() << "'";
-
     if (!findField("window")->isDefault())
       writer << " window='" << mWindow->value() << "'";
   } else

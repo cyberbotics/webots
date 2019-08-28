@@ -107,7 +107,7 @@ public class Compass extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_compass_enable(tag, sampling_period)
 wb_compass_disable(tag)
 period = wb_compass_get_sampling_period(tag)

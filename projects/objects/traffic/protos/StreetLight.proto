@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 # license url: https://creativecommons.org/licenses/by/3.0/legalcode
 # tags: static
@@ -9,13 +9,13 @@ PROTO StreetLight [
   field SFVec3f    translation   0 0 0
   field SFRotation rotation      0 1 0 0
   field SFString   name          "street light"
-  field SFVec3f    attenuation   0 1 0
   field SFFloat    beamWidth     1.1             # Defines the beam width of the spot light.
   field SFColor    color         1 1 1           # Defines the color of the spot light.
   field SFFloat    cutOffAngle   1.4             # Defines the cut-off angle of the spot light.
   field SFVec3f    direction     0 -1 -0.1       # Defines the direction of the spot light.
   field SFBool     on            TRUE            # Defines whether the spot light is on or off.
   field SFFloat    radius        1000            # Defines the radius of the spot light.
+  field SFFloat    intensity     30              # Defines the radius of the spot light.
   field SFBool     castShadows   FALSE           # Defines whether the spot light casts shadows.
 ]
 {
@@ -30,7 +30,7 @@ Solid {
       scale 0.125 0.125 0.125
       children [
         DEF POLE Shape {
-          appearance MatteCarPaint {
+          appearance MattePaint {
             baseColor 0.0157 0.051 0.008
             textureTransform TextureTransform {
               scale 8 8
@@ -111,7 +111,7 @@ Solid {
       ]
     }
     SpotLight {
-      attenuation IS attenuation
+      attenuation 0 0 1
       beamWidth IS beamWidth
       color IS color
       cutOffAngle IS cutOffAngle
@@ -120,7 +120,7 @@ Solid {
       on IS on
       radius IS radius
       castShadows IS castShadows
-      intensity 4
+      intensity IS intensity
     }
   ]
   name IS name

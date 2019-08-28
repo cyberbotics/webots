@@ -6,7 +6,7 @@ A big sassafras tree with optional boundingObject.
 
 %figure
 
-![BigSassafras](images/objects/trees/BigSassafras/model.png)
+![BigSassafras](images/objects/trees/BigSassafras/model.thumbnail.png)
 
 %end
 
@@ -36,7 +36,7 @@ A cypress tree with optional boundingObject.
 
 %figure
 
-![Cypress](images/objects/trees/Cypress/model.png)
+![Cypress](images/objects/trees/Cypress/model.thumbnail.png)
 
 %end
 
@@ -81,7 +81,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Forest](images/objects/trees/Forest/model.png)
+![Forest](images/objects/trees/Forest/model.thumbnail.png)
 
 %end
 
@@ -140,7 +140,7 @@ A oak tree with optional boundingObject.
 
 %figure
 
-![Oak](images/objects/trees/Oak/model.png)
+![Oak](images/objects/trees/Oak/model.thumbnail.png)
 
 %end
 
@@ -170,7 +170,7 @@ A palm tree with optional boundingObject.
 
 %figure
 
-![PalmTree](images/objects/trees/PalmTree/model.png)
+![PalmTree](images/objects/trees/PalmTree/model.thumbnail.png)
 
 %end
 
@@ -200,7 +200,7 @@ A pine tree with optional boundingObject.
 
 %figure
 
-![Pine](images/objects/trees/Pine/model.png)
+![Pine](images/objects/trees/Pine/model.thumbnail.png)
 
 %end
 
@@ -230,7 +230,7 @@ A sassafras tree with optional boundingObject.
 
 %figure
 
-![Sassafras](images/objects/trees/Sassafras/model.png)
+![Sassafras](images/objects/trees/Sassafras/model.thumbnail.png)
 
 %end
 
@@ -272,7 +272,7 @@ The 'random' type choose randomly a tree type each time the node is regenerated.
 
 %figure
 
-![SimpleTree](images/objects/trees/SimpleTree/model.png)
+![SimpleTree](images/objects/trees/SimpleTree/model.thumbnail.png)
 
 %end
 

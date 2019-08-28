@@ -1,0 +1,54 @@
+#VRML_SIM R2019b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: static
+# This bounding object with a torus shape is formed by a group of spheres.
+
+PROTO TorusBoundingObject [
+  field SFFloat    majorRadius     2   # Defines the major radius of the torus.
+  field SFFloat    minorRadius     1   # Defines the minor radius of the torus.
+  field SFInt32    subdivision     24  # Defines the number of polygons used to represent the torus and so its resolution.
+]
+{
+  %{
+    local wbgeometry = require('wbgeometry')
+
+    -- parameter checking
+    local subdivision = fields.subdivision.value
+    if subdivision > 200 then
+      print "High value for 'subdivision'. This can slow down the simulation"
+    elseif subdivision < 8 then
+      io.stderr:write("'subdivision' must be greater or equal to 8\n")
+      subdivision = 8
+    end
+
+    local majorRadius = fields.majorRadius.value
+    if majorRadius <= 0 then
+      io.stderr:write("'majorRadius' must be strictly positive\n")
+      majorRadius = fields.majorRadius.defaultValue
+    end
+
+    local minorRadius = fields.minorRadius.value
+    if minorRadius <= 0 then
+      io.stderr:write("'minorRadius' must be strictly positive\n")
+      minorRadius = fields.minorRadius.defaultValue
+    end
+
+    local referenceCircle = wbgeometry.circle(1, subdivision, 0, 0, 0)
+  }%
+  Group { # set of spheres
+    children [
+      %{ for i, el in ipairs(referenceCircle) do }%
+        Transform {
+          translation %{= majorRadius * el.x }% 0 %{= majorRadius * el.y }%
+          children [
+            Sphere {
+              radius %{= minorRadius }%
+              subdivision 2
+            }
+          ]
+        }
+      %{ end }%
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 JointParameters {
   field SFFloat    position        0             # current position (m or rad)
-  field SFVec3f    axis           0 0 1          # axis along which the displacement is possible (m)
+  field SFVec3f    axis            0 0 1         # axis along which the displacement is possible (m)
   field SFFloat    minStop         0             # low stop position (m or rad)
   field SFFloat    maxStop         0             # high stop position (m or rad)
   field SFFloat    springConstant  0             # spring constant (N/m or Nm)

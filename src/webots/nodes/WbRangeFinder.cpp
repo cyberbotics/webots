@@ -94,7 +94,7 @@ void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) 
 
 void WbRangeFinder::handleMessage(QDataStream &stream) {
   unsigned char command;
-  stream >> (unsigned char &)command;
+  stream >> command;
 
   if (WbAbstractCamera::handleCommand(stream, command))
     return;
@@ -122,9 +122,7 @@ void WbRangeFinder::updateNear() {
 
   if (mNear->value() > mMinRange->value()) {
     warn(tr("'near' is greater than to 'minRange'. Setting 'near' to %1.").arg(mMinRange->value()));
-    mNear->blockSignals(true);
-    mNear->setValue(mMinRange->value());
-    mNear->blockSignals(false);
+    mNear->setValueNoSignal(mMinRange->value());
     return;
   }
 
@@ -138,25 +136,19 @@ void WbRangeFinder::updateMinRange() {
 
   if (mMinRange->value() < mNear->value()) {
     warn(tr("'minRange' is less than 'near'. Setting 'minRange' to %1.").arg(mNear->value()));
-    mMinRange->blockSignals(true);
-    mMinRange->setValue(mNear->value());
-    mMinRange->blockSignals(false);
+    mMinRange->setValueNoSignal(mNear->value());
   }
   if (mMaxRange->value() <= mMinRange->value()) {
     if (mMaxRange->value() == 0.0) {
       double newMaxRange = mMinRange->value() + 1.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-      mMaxRange->blockSignals(true);
-      mMaxRange->setValue(newMaxRange);
-      mMaxRange->blockSignals(false);
+      mMaxRange->setValueNoSignal(newMaxRange);
     } else {
       double newMinRange = mMaxRange->value() - 1.0;
       if (newMinRange < 0.0)
         newMinRange = 0.0;
       warn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'minRange' to %1.").arg(newMinRange));
-      mMinRange->blockSignals(true);
-      mMinRange->setValue(newMinRange);
-      mMinRange->blockSignals(false);
+      mMinRange->setValueNoSignal(newMinRange);
     }
   }
 
@@ -176,9 +168,7 @@ void WbRangeFinder::updateMaxRange() {
   if (mMaxRange->value() <= mMinRange->value()) {
     double newMaxRange = mMinRange->value() + 1.0;
     warn(tr("'maxRange' is less or equal to 'minRange'. Setting 'maxRange' to %1.").arg(newMaxRange));
-    mMaxRange->blockSignals(true);
-    mMaxRange->setValue(newMaxRange);
-    mMaxRange->blockSignals(false);
+    mMaxRange->setValueNoSignal(newMaxRange);
   }
 
   mNeedToConfigure = true;

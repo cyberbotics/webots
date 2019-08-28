@@ -53,7 +53,11 @@ void WbJointDevice::postFinalize() {
   // Cache position index
   const WbField *const f = parentField(true);
   assert(f);
-  mPositionIndex = f->name().endsWith("2") ? 2 : 1;
+  mPositionIndex = 1;
+  if (f->name().endsWith("2"))
+    mPositionIndex = 2;
+  else if (f->name().endsWith("3"))
+    mPositionIndex = 3;
 }
 
 WbJoint *WbJointDevice::joint() const {

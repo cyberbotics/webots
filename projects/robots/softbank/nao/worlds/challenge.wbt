@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "NAO Challenge"
@@ -34,8 +34,7 @@ Background {
 }
 CeilingLight {
   translation 0.2 2 1.25
-  pointLightAttenuation 0 0 7
-  pointLightIntensity 6
+  pointLightIntensity 2
 }
 NaoRoom {
 }

@@ -99,9 +99,9 @@ void process_image(const unsigned char *image, int length) {
       }
     }
 
-    for (int i = 0; i < NB_FILTERS; ++i) {
-      if (filters[i]) {
-        inRange(hsv, lMargin[i], uMargin[i], temp_filtered);
+    for (int f = 0; f < NB_FILTERS; ++f) {
+      if (filters[f]) {
+        inRange(hsv, lMargin[f], uMargin[f], temp_filtered);
         /* Copy the value from the original image to the output if it's accepted by a filter */
         for (int i = 0; i < height; ++i) {
           for (int j = 0; j < width; ++j) {

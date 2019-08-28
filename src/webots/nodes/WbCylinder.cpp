@@ -20,6 +20,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -334,6 +335,10 @@ void WbCylinder::applyToOdeData(bool correctSolidMass) {
   assert(dGeomGetClass(mOdeGeom) == dCylinderClass);
   dGeomCylinderSetParams(mOdeGeom, scaledRadius(), scaledHeight());
 
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
+
   if (correctSolidMass)
     applyToOdeMass();
 }
@@ -519,8 +524,7 @@ void WbCylinder::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
 }
 
-// if a cylinder has nothing to draw, then it shouldn't be exported to X3D at it will make X3DOM 1.4 display some errors in the
-// console
+// if a cylinder has nothing to draw, then it shouldn't be exported to X3D
 bool WbCylinder::shallExport() const {
   return mBottom->value() || mTop->value() || mSide->value();
 }

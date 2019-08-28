@@ -30,11 +30,15 @@ class WbAnimationCommand : public QObject {
   Q_OBJECT
 
 public:
-  WbAnimationCommand(WbNode *n, QStringList fields);
+  WbAnimationCommand(const WbNode *n, const QStringList &fields, bool saveInitialValue);
 
-  WbNode *node() const { return mNode; }
+  const WbNode *node() const { return mNode; }
   QList<QString> fields() const { return mChangedValues.keys(); }
   QString fieldValue(const QString &field) const { return mChangedValues[field]; }
+
+  // Keep track of initial state that will be written to the animation file if the command changes during the animation
+  const QString &initialState() const { return mInitialState; }
+  bool isChangedFromStart() const { return mChangedFromStart; }
 
   // the addArtificialFieldChange method should be used to add a X3D field change that has no matching WBT field,
   // e.g., for example the "render" field.
@@ -46,13 +50,15 @@ signals:
   void changed(WbAnimationCommand *command);
 
 private:
-  void updateFieldValue(WbField *field);
+  void updateFieldValue(const WbField *field);
 
-  WbNode *mNode;
+  const WbNode *mNode;
   QList<WbField *> mFields;
   QHash<QString, QString> mChangedValues;
   WbVector3 mLastTranslation;
   WbRotation mLastRotation;
+  QString mInitialState;
+  bool mChangedFromStart;
 
 private slots:
   void updateValue();

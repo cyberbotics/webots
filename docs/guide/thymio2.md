@@ -1,6 +1,6 @@
 ## Mosyba's Thymio II
 
-%robot thymio2 images/robots/thymio2/model.png
+%robot thymio2 images/robots/thymio2/model.thumbnail.png
 
 Thymio II is an affordable educational robot.
 It provides three main features: a large number of sensors and actuators, an educative interactivity based on light and touch, a programming environment featuring graphical and text programming.
@@ -133,16 +133,16 @@ The various accessible worlds are described below.
 
 #### thymio2.wbt
 
-![thymio2.wbt.png](images/robots/thymio2/thymio2.wbt.png) An example of the possible behaviors of the Thymio II.
+![thymio2.wbt.png](images/robots/thymio2/thymio2.wbt.thumbnail.jpg) An example of the possible behaviors of the Thymio II.
 
 #### thymio2\_pen.wbt
 
-![thymio2_pen.wbt.png](images/robots/thymio2/thymio2_pen.wbt.png) You can easily add a pen in the simulated model by adding a `Thymio2Pen` node to the `Thymio2::bodySlot` field.
+![thymio2_pen.wbt.png](images/robots/thymio2/thymio2_pen.wbt.thumbnail.jpg) You can easily add a pen in the simulated model by adding a `Thymio2Pen` node to the `Thymio2::bodySlot` field.
 This pen can draw on every 3D object.
 This is particularly useful to perform [these exercises](https://aseba.wikidot.com/en:thymiodrawing).
 
 
 #### thymio2\_ball.wbt
 
-![thymio2_ball.wbt.png](images/robots/thymio2/thymio2_ball.wbt.png) [These exercises](https://aseba.wikidot.com/en:thymioballeinverse) can be reproduced by adding a `Thymio2Ball` node in your world.
+![thymio2_ball.wbt.png](images/robots/thymio2/thymio2_ball.wbt.thumbnail.jpg) [These exercises](https://aseba.wikidot.com/en:thymioballeinverse) can be reproduced by adding a `Thymio2Ball` node in your world.
 The ball can be slightly moved by applying a force on it (`ALT + mouse left click`).

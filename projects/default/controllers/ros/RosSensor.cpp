@@ -57,11 +57,10 @@ bool RosSensor::sensorEnableCallback(webots_ros::set_int::Request &req, webots_r
       mPublishList.back().mPublisher = createPublisher();
       if (minPeriod == req.value)
         rosEnable(req.value);
-      res.success = true;
     }
     res.success = true;
   } else {
-    ROS_ERROR("Wrong sampling period: %d for device: %s.", req.value, deviceName().c_str());
+    ROS_WARN("Wrong sampling period: %d for device: %s.", req.value, deviceName().c_str());
     res.success = false;
   }
   return true;

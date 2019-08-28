@@ -75,15 +75,15 @@ endif
 # set the Java compiler options
 ifneq ($(strip $(CLASSPATH)),)
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;$(CLASSPATH);."
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;$(CLASSPATH);." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar:$(CLASSPATH):."
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
   endif
  else
   ifeq ($(OSTYPE),windows)
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;."
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar;." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar":.
+   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_HOME)/lib/java/Controller.jar":. -target 1.8 -source 1.8
   endif
 endif
 

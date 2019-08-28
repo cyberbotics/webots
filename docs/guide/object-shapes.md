@@ -16,7 +16,7 @@ A demo of these mappings is available in projects/samples/geometries/worlds/text
 
 %figure
 
-![TexturedBoxShape](images/objects/shapes/TexturedBoxShape/model.png)
+![TexturedBoxShape](images/objects/shapes/TexturedBoxShape/model.thumbnail.png)
 
 %end
 

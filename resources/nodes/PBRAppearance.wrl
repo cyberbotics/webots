@@ -10,7 +10,6 @@ PBRAppearance {
   field     SFNode   roughnessMap         NULL
   field     SFFloat  metalness            1
   field     SFNode   metalnessMap         NULL
-  field     SFNode   environmentMap       NULL
   field     SFFloat  IBLStrength          1
   field     SFNode   normalMap            NULL
   field     SFFloat  normalMapFactor      1

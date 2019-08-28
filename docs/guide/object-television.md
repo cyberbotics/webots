@@ -6,7 +6,7 @@ A television (1 x 0.6 x 0.1 m).
 
 %figure
 
-![Television](images/objects/television/Television/model.png)
+![Television](images/objects/television/Television/model.thumbnail.png)
 
 %end
 

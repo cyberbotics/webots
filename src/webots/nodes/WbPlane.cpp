@@ -99,9 +99,11 @@ void WbPlane::write(WbVrmlWriter &writer) const {
 void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
   if (writer.isWebots())
     WbGeometry::exportNodeFields(writer);
-  else if (writer.isX3d())
-    writer << " coordIndex=\'0 1 2 3 -1\' texCoordIndex=\'0 1 2 3 -1\'";
-  else {  // VRML
+  else if (writer.isX3d()) {
+    writer << " size=\'";
+    mSize->write(writer);
+    writer << "\'";
+  } else {  // VRML export as IndexedFaceSet
     writer.indent();
     writer << "coordIndex [ 0 1 2 3 -1 ]\n";
     writer.indent();
@@ -112,16 +114,9 @@ void WbPlane::exportNodeFields(WbVrmlWriter &writer) const {
 void WbPlane::exportNodeSubNodes(WbVrmlWriter &writer) const {
   double sx = mSize->value().x() / 2.0;
   double sz = mSize->value().y() / 2.0;
-  if (writer.isWebots())
+  if (!writer.isVrml())
     WbGeometry::exportNodeSubNodes(writer);
-  else if (writer.isX3d()) {
-    writer << "<Coordinate point=\'";
-    writer << -sx << " 0 " << -sz << ", ";
-    writer << -sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << sz << ", ";
-    writer << sx << " 0 " << -sz << "\'></Coordinate>";
-    writer << "<TextureCoordinate point=\'0 1, 0 0, 1 0, 1 1\'></TextureCoordinate>";
-  } else {  // VRML
+  else {  // VRML export as IndexedFaceSet
     writer.indent();
     writer << "coord Coordinate {\n";
     writer.increaseIndent();

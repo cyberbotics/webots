@@ -19,6 +19,7 @@
 #include "WbFieldChecker.hpp"
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbOdeGeomData.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -320,6 +321,10 @@ void WbCapsule::applyToOdeData(bool correctSolidMass) {
 
   assert(dGeomGetClass(mOdeGeom) == dCapsuleClass);
   dGeomCapsuleSetParams(mOdeGeom, scaledRadius(), scaledHeight());
+
+  WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mOdeGeom));
+  assert(odeGeomData);
+  odeGeomData->setLastChangeTime(WbSimulationState::instance()->time());
 
   if (correctSolidMass)
     applyToOdeMass();

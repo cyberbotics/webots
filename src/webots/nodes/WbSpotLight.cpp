@@ -48,10 +48,11 @@ void WbSpotLight::init() {
 
 WbSpotLight::WbSpotLight(WbTokenizer *tokenizer) : WbLight("SpotLight", tokenizer) {
   init();
-  if (tokenizer == NULL)
+  if (tokenizer == NULL) {
     mDirection->setValueNoSignal(0, 1, -1);
-  if (tokenizer == NULL)
     mAttenuation->setValueNoSignal(0.0, 0.0, 1.0);
+    mBeamWidth->setValueNoSignal(0.7);
+  }
 }
 
 WbSpotLight::WbSpotLight(const WbSpotLight &other) : WbLight(other) {
@@ -127,6 +128,10 @@ void WbSpotLight::updateAttenuation() {
   if (WbFieldChecker::resetVector3IfNegative(this, mAttenuation, WbVector3()))
     return;
 
+  if (mAttenuation->value().x() > 0.0 || mAttenuation->value().y() > 0.0)
+    warn(tr("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. "
+            "Only the third component of the 'attenuation' field should be greater than 0."));
+
   checkAmbientAndAttenuationExclusivity();
 
   if (areWrenObjectsInitialized())
@@ -176,11 +181,8 @@ void WbSpotLight::updateCutOffAngle() {
   if (WbFieldChecker::resetDoubleIfNotInRangeWithIncludedBounds(this, mCutOffAngle, 0.0, M_PI_2, M_PI_2))
     return;
 
-  if (mCutOffAngle->value() < mBeamWidth->value()) {
-    mBeamWidth->blockSignals(true);
-    mBeamWidth->setValue(mCutOffAngle->value());
-    mBeamWidth->blockSignals(false);
-  }
+  if (mCutOffAngle->value() < mBeamWidth->value())
+    mBeamWidth->setValueNoSignal(mCutOffAngle->value());
 
   if (areWrenObjectsInitialized())
     applyLightBeamWidthAndCutOffAngleToWren();

@@ -1700,7 +1700,7 @@ void WbMainWindow::openSupport(const QString &type) {
   url.append(" - ");
   url.append((const char *)gl.glGetString(GL_VERSION));
   url.append("&version=");
-  url.append(WbApplicationInfo::version().toString());
+  url.append(WbApplicationInfo::version().toString(true, false, true));
   url.append("&type=");
   url.append(type);
   showDocument(url);
@@ -1779,7 +1779,7 @@ void WbMainWindow::openWebotsUpdateDialogFromMenu() {
 }
 
 void WbMainWindow::updateWindowTitle() {
-  QString webotsNameAndVersion("Webots " + WbApplicationInfo::version().toString());
+  QString webotsNameAndVersion("Webots " + WbApplicationInfo::version().toString(true, false, true));
   QString title;
 
   if (WbWorld::instance()) {

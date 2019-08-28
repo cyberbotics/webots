@@ -148,7 +148,7 @@ if not options.noNetconvert:
         else:
             shutil.copy2(s, d)
     directory = tmpDirectory
-    print ("Temporary network files generated in " + tmpDirectory + "\n")
+    print("Temporary network files generated in " + tmpDirectory + "\n")
     # check if default configuration file exist
     netConfigurationFile = (directory + "/sumo.netccfg").replace('/', os.sep)
     if not os.path.isfile(netConfigurationFile):
@@ -160,13 +160,13 @@ if not options.noNetconvert:
                     netConfigurationFile = (directory + "/" + file).replace('/', os.sep)
                     fileFound = file
                 else:
-                    print ("More than one NETCONVERT configuration file found, using: " + fileFound + "\n")
+                    print("More than one NETCONVERT configuration file found, using: " + fileFound + "\n")
                     break
     if not os.path.isfile(netConfigurationFile) and tmpDirectory is not None:
         shutil.rmtree(tmpDirectory)
         sys.exit("Could not find any NETCONVERT configuration file (*.netccfg).")
-    if not subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
-                           stdout=sys.stdout, stderr=sys.stderr) == 0:
+    if subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
+                       stdout=sys.stdout, stderr=sys.stderr) != 0:
         sys.exit("NETCONVERT failed to generate the network file.")
 
 # this is the normal way of using traci. sumo is started as a
@@ -183,7 +183,7 @@ if not os.path.isfile(configurationFile):
                 configurationFile = (directory + "/" + file).replace('/', os.sep)
                 fileFound = file
             else:
-                print ("More than one SUMO configuration file found, using: " + fileFound + "\n")
+                print("More than one SUMO configuration file found, using: " + fileFound + "\n")
                 break
 if not os.path.isfile(configurationFile) and tmpDirectory is not None:
     shutil.rmtree(tmpDirectory)
@@ -217,5 +217,5 @@ sumoProcess.terminate()
 
 # remove temporary folder
 if tmpDirectory is not None:
-    print ("Removing temporary network files in " + tmpDirectory + "\n")
+    print("Removing temporary network files in " + tmpDirectory + "\n")
     shutil.rmtree(tmpDirectory)

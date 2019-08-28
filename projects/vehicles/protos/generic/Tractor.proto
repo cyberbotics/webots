@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -214,7 +214,7 @@ Car {
           }
         }
         DEF MUDGUARD Shape {
-          appearance DEF BLUE_MATERIAL MatteCarPaint {
+          appearance DEF BLUE_MATERIAL MattePaint {
             baseColor IS color
           }
           geometry IndexedFaceSet {

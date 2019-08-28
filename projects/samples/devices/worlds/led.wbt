@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Example use of a LED device."
@@ -278,7 +278,9 @@ Robot {
               }
             }
             PointLight {
+              attenuation 0 0 1
               color 0 0 0
+              intensity 0.5
               location 0 0.03 0
               on FALSE
               castShadows TRUE
@@ -313,7 +315,9 @@ Robot {
               geometry USE LED_SHAPE
             }
             PointLight {
+              attenuation 0 0 1
               color 0 0 0
+              intensity 0.5
               location 0 0.03 0
               on FALSE
               castShadows TRUE
@@ -338,7 +342,9 @@ Robot {
               geometry USE LED_SHAPE
             }
             PointLight {
+              attenuation 0 0 1
               color 0 0 0
+              intensity 0.5
               location 0 0.03 0
               on FALSE
               castShadows TRUE

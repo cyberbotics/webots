@@ -1,6 +1,6 @@
 ## Sphero's BB-8
 
-%robot bb8 images/robots/bb8/model.png
+%robot bb8 images/robots/bb8/model.thumbnail.png
 
 The [Sphero's BB-8](https://www.sphero.com/starwars/bb8) is an articulated robot composed of a spherical body and an hemispherical head.
 A wheeled robot is embedded inside the spherical body.
@@ -39,7 +39,7 @@ BB-8 {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/sphero/protos/BB-8.proto"
+> **File location**: "WEBOTS\_HOME/projects/robots/sphero/bb8/protos/BB-8.proto"
 
 #### BB-8 Field Summary
 
@@ -65,10 +65,10 @@ BB-8 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sphero/worlds".
+You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sphero/bb8/worlds".
 
 #### bb-8.wbt
 
-![bb-8.wbt.png](images/robots/bb8/bb-8.wbt.png) This simulation shows the BB-8 moving on a sandy uneven terrain.
+![bb-8.wbt.png](images/robots/bb8/bb-8.wbt.thumbnail.jpg) This simulation shows the BB-8 moving on a sandy uneven terrain.
 When starting up, the robot moves randomly.
 You can disable the auto-pilot mode and control the robot (please refer to the corresponding instructions in the Webots console).

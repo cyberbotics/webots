@@ -25,7 +25,7 @@ def list_dependencies(package):
 
 d = list_dependencies('make')
 d += list_dependencies('coreutils')
-d += list_dependencies('gcc')
+d += list_dependencies('mingw-w64-x86_64-gcc')
 d += list_dependencies('mingw-w64-i686-gcc')
 
 # remove duplicate packages
@@ -83,6 +83,12 @@ with open('files_msys64.txt', 'r') as f:
                 print('# \033[1;31m' + l + ' is already included\033[0m')
             else:
                 files.append(l)
+print("# processing ffmpeg dependencies (DLLs)")
+sys.stdout.flush()
+script = os.path.join(os.environ['WEBOTS_HOME'], 'src', 'packaging', 'ffmpeg_dependencies.sh')
+ffmpeg_dlls = subprocess.check_output(['bash', script]).decode('utf-8').split()
+for ffmpeg_dll in ffmpeg_dlls:
+    files.append('/mingw64/bin/' + ffmpeg_dll)
 f = open('msys64_files.iss', 'w')
 for i in files:
     w = i.replace('/', '\\')

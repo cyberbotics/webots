@@ -15,9 +15,7 @@
 #ifndef WB_ELEVATION_GRID_HPP
 #define WB_ELEVATION_GRID_HPP
 
-#include "WbColor.hpp"
 #include "WbGeometry.hpp"
-#include "WbMFColor.hpp"
 #include "WbMFDouble.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
@@ -39,13 +37,6 @@ public:
 
   // field accessors
   // getters
-  WbColor *color() const { return static_cast<WbColor *>(mColor->value()); }
-  int colorSize() const {
-    if (color())
-      return color()->color().size();
-    return 0;
-  }
-
   double xSpacing() const { return mXSpacing->value(); }
   double zSpacing() const { return mZSpacing->value(); }
   int xDimension() const { return mXDimension->value(); }
@@ -64,13 +55,9 @@ public:
   dGeomID createOdeGeom(dSpaceID space) override;
   void createWrenObjects() override;
   void createResizeManipulator() override;
-  bool hasDefaultMaterial() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void rescale(const WbVector3 &scale) override;
-  void reset() override;
-
-  int colorBufferSize() const;
 
   // ray tracing
   void recomputeBoundingSphere() const override;
@@ -85,13 +72,10 @@ public:
 
 signals:
   void validElevationGridInserted();
-  void vertexColorChanged();
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-
   void exportNodeFields(WbVrmlWriter &writer) const override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
 
 private:
   WbElevationGrid &operator=(const WbElevationGrid &);  // non copyable
@@ -99,9 +83,7 @@ private:
   void init();
 
   // user accessible fields
-  WbSFNode *mColor;
   WbMFDouble *mHeight;
-  WbSFBool *mColorPerVertex;
   WbSFInt *mXDimension;
   WbSFDouble *mXSpacing;
   WbSFInt *mZDimension;
@@ -136,8 +118,6 @@ private:
   void computeMinMax(const WbVector3 &point, WbVector3 &min, WbVector3 &max) const;
 
 private slots:
-  void updateColor();
-  void updateColorPerVertex();
   void updateHeight();
   void updateXDimension();
   void updateXSpacing();

@@ -355,7 +355,7 @@ bool WbAbstractCamera::handleCommand(QDataStream &stream, unsigned char command)
   bool commandHandled = true;
   switch (command) {
     case C_SET_SAMPLING_PERIOD:
-      stream >> (short &)mRefreshRate;
+      stream >> mRefreshRate;
       mSensor->setRefreshRate(mRefreshRate);
 
       // update motion blur factor
@@ -461,8 +461,9 @@ void WbAbstractCamera::createWrenCamera() {
           &WbAbstractCamera::updatePostProcessingEffect, Qt::UniqueConnection);
 
   // create the camera
+  bool enableAntiAliasing = antiAliasing() && !WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool();
   mWrenCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(), mCharType,
-                                 antiAliasing(), mSpherical->value());
+                                 enableAntiAliasing, mSpherical->value());
   updateBackground();
 
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::applyCameraSettingsToWren);
@@ -815,8 +816,8 @@ void WbAbstractCamera::applyFrustumToWren() {
       const float y = f * sinf(angleY[k]);
       const float z = -f * helper * cosf(angleX[k]);
       addVertex(vertices, colors, zero, frustumColor);
-      const float vertex[3] = {x, y, z};
-      addVertex(vertices, colors, vertex, frustumColor);
+      const float outlineVertex[3] = {x, y, z};
+      addVertex(vertices, colors, outlineVertex, frustumColor);
     }
   } else {
     const float frustumOutline[8][3] = {{dw1, dh1, n1},  {dw2, dh2, n2},  {-dw1, dh1, n1},  {-dw2, dh2, n2},

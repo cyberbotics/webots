@@ -5,7 +5,7 @@ The expected result is depicted in [this figure](#expected-result-at-the-end-of-
 
 %figure "Expected result at the end of the tutorial about compound solids."
 
-![tutorial_dumbbell.png](images/tutorial_dumbbell.png)
+![tutorial_dumbbell.png](images/tutorial_dumbbell.thumbnail.jpg)
 
 %end
 

@@ -133,7 +133,7 @@ class Vehicle:
         elif self.type in MOTORCYCLE_MODEL:
             self.vehicleClass = 'motorcycle'
         else:
-            print ("Vehicle type not supported: " + self.type)
+            print("Vehicle type not supported: " + self.type)
         self.wheelsAngularVelocity = []
         if self.type in MOTORCYCLE_MODEL:
             self.wheelsAngularVelocity.append(self.node.getField("frontWheelAngularVelocity"))

@@ -107,11 +107,11 @@ void RosCamera::publishValue(ros::Publisher publisher) {
       object.size_on_image.y = objects[i].size_on_image[1];
       object.number_of_colors = objects[i].number_of_colors;
       object.model = std::string(objects[i].model);
-      for (int i = 0; i < mCamera->getRecognitionNumberOfObjects(); i++) {
+      for (int j = 0; j < object.number_of_colors; j++) {
         geometry_msgs::Vector3 color;
-        color.x = objects[i].colors[3 * i];
-        color.y = objects[i].colors[3 * i + 1];
-        color.z = objects[i].colors[3 * i + 2];
+        color.x = objects[i].colors[3 * j];
+        color.y = objects[i].colors[3 * j + 1];
+        color.z = objects[i].colors[3 * j + 2];
         object.colors.push_back(color);
       }
       mRecognitionObjectsPublisher.publish(object);
@@ -179,7 +179,7 @@ bool RosCamera::recognitionEnableCallback(webots_ros::set_int::Request &req, web
     mRecognitionObjectsPublisher =
       RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/recognition_objects", type);
   } else {
-    ROS_ERROR("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
+    ROS_WARN("Wrong sampling period: %d for device: %s.", req.value, RosDevice::fixedDeviceName().c_str());
     res.success = false;
   }
   return true;

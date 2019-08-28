@@ -34,10 +34,10 @@ with open("version.txt", "r") as file:
 zip_file = 'rockin_v' + version + '.zip'
 
 # create the archive
-print ('creating archive ' + zip_file)
+print('creating archive ' + zip_file)
 with zipfile.ZipFile(zip_file, 'w') as zip_file:
     for file in files_to_zip:
         print('adding ' + file)
         zip_file.write(file)
-print ('closing')
+print('closing')
 zip_file.close()

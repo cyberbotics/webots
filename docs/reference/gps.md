@@ -122,7 +122,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_gps_enable(tag, sampling_period)
 wb_gps_disable(tag)
 period = wb_gps_get_sampling_period(tag)
@@ -242,7 +242,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 WB_GPS_LOCAL_COORDINATE, WB_GPS_WGS84_COORDINATE
 
 coordinate_system = wb_gps_get_coordinate_system(tag)
@@ -326,7 +326,7 @@ public class GPS extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 coordinate = wb_gps_convert_to_degrees_minutes_seconds(decimal_degrees)
 ```
 

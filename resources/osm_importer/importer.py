@@ -15,7 +15,6 @@
 """Importer for writing a Webots worlds from an Open Street Map file."""
 
 import codecs
-import math
 import optparse
 import os
 import re
@@ -87,18 +86,28 @@ if not os.path.isfile(options.inFile):
 random.seed(0)
 
 # check for the bounds of the world
-minlat = float('nan')
-minlon = float('nan')
-maxlat = float('nan')
-maxlon = float('nan')
-lines = open(options.inFile).read().splitlines()
-for line in lines:
-    if 'bounds' in line:
-        minlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
-        minlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
-        maxlat = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
-        maxlon = float(re.findall('[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
-if math.isnan(minlat) or math.isnan(minlon) or math.isnan(maxlat) or math.isnan(maxlon):
+minlat = None
+minlon = None
+maxlat = None
+maxlon = None
+with codecs.open(options.inFile, 'r', 'utf-8') as f:
+    lines = f.read().splitlines()
+    for line in lines:
+        if 'bounds' in line:
+            temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlat'):])[0])
+            if minlat is None or minlat > temp:
+                minlat = temp
+            temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('minlon'):])[0])
+            if minlon is None or minlon > temp:
+                minlon = temp
+            temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlat'):])[0])
+            if maxlat is None or maxlat < temp:
+                maxlat = temp
+            temp = float(re.findall(r'[-+]?\d*\.\d+|\d+', line[line.find('maxlon'):])[0])
+            if maxlon is None or maxlon < temp:
+                maxlon = temp
+
+if minlat is None or minlon is None or maxlat is None or maxlon is None:
     sys.stderr.write('Warning: impossible to get the map bounds from the OSM file,'
                      ' make sure the file contains the "bounds" tag.\n')
     sys.exit(0)
@@ -110,7 +119,7 @@ Projection.initProjection(long0, lat0, options.projection)
 
 # Deal with the `extract-projection` argument
 if options.extractProjection:
-    print (Projection.getProjectionString())
+    print(Projection.getProjectionString())
     sys.exit()
 
 # apply options to Webots objects
@@ -130,61 +139,61 @@ Settings.init(configFile)
 if os.path.exists(options.outFile):
     sys.exit("Warning: file '" + options.outFile +
              "' already exists, remove it or change the destination using the '--output' option.\n")
-outputFile = codecs.open(options.outFile, 'w', 'utf-8')
 
-# print headers and elevationGrid
-elevation = None
-if options.enable3D:
-    elevation = Elevation(Projection.getProjection(), minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon,
-                          googleAPIKey=options.googleAPIKey)
-    print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
-    print(" * Elevation data acquired")
-else:
-    print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-WebotsObject.elevation = elevation
+with codecs.open(options.outFile, 'w', 'utf-8') as outputFile:
+    # print headers and elevationGrid
+    elevation = None
+    if options.enable3D:
+        elevation = Elevation(Projection.getProjection(), minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon,
+                              googleAPIKey=options.googleAPIKey)
+        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
+        print(" * Elevation data acquired")
+    else:
+        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
+    WebotsObject.elevation = elevation
 
-# parse OSM file
-parser = Parser()
-parser.parse_file(options.inFile, options.disableMultipolygonBuildings)
-Road.initialize_speed_limit(parser.country)
+    # parse OSM file
+    parser = Parser()
+    parser.parse_file(options.inFile, options.disableMultipolygonBuildings)
+    Road.initialize_speed_limit(parser.country)
 
-print(" * OSM filed parsed")
+    print(" * OSM filed parsed")
 
-if options.enable3D and elevation is not None:
-    add_height_to_coordinates(elevation)  # important to do it before 'center_coordinates'
-xOffset, zOffset = OSMCoord.center_coordinates(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-WebotsObject.xOffset = xOffset
-WebotsObject.zOffset = zOffset
+    if options.enable3D and elevation is not None:
+        add_height_to_coordinates(elevation)  # important to do it before 'center_coordinates'
+    xOffset, zOffset = OSMCoord.center_coordinates(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
+    WebotsObject.xOffset = xOffset
+    WebotsObject.zOffset = zOffset
 
-# From now we are in local coordinates system and not earth coordinates system anymore
+    # From now we are in local coordinates system and not earth coordinates system anymore
 
-# print all the Webots objects
-if not options.noRoads:
-    Road.process()
-    Road.export(outputFile)
-    print(" * " + str(len(Road.roads)) + " roads generated")
-    print(" * " + str(len(Road.crossroads)) + " crossroads generated")
-if not options.noBuildings:
-    Building.export(outputFile)
-    print(" * " + str(len(Building.list)) + " buildings generated")
-if not options.noTrees:
-    Tree.export(outputFile)
-    print(" * " + str(len(Tree.list)) + " trees generated")
-if not options.noBarriers:
-    Barrier.export(outputFile)
-    print(" * " + str(len(Barrier.list)) + " barriers generated")
-if not options.noRivers:
-    River.export(outputFile)
-    print(" * " + str(len(River.list)) + " rivers generated")
-if not options.noAreas:
-    Area.export(outputFile, options.noParkings)
-    print(" * " + str(len(Area.list)) + " areas (forest, water, farmland, etc.) generated")
-if not options.noParkings:
-    ParkingLines.export(outputFile)
-    print(" * " + str(len(ParkingLines.list)) + " parking lines generated")
+    # print all the Webots objects
+    if not options.noRoads:
+        Road.process()
+        Road.export(outputFile)
+        print(" * " + str(len(Road.roads)) + " roads generated")
+        print(" * " + str(len(Road.crossroads)) + " crossroads generated")
+    if not options.noBuildings:
+        Building.export(outputFile)
+        print(" * " + str(len(Building.list)) + " buildings generated")
+    if not options.noTrees:
+        Tree.export(outputFile)
+        print(" * " + str(len(Tree.list)) + " trees generated")
+    if not options.noBarriers:
+        Barrier.export(outputFile)
+        print(" * " + str(len(Barrier.list)) + " barriers generated")
+    if not options.noRivers:
+        River.export(outputFile)
+        print(" * " + str(len(River.list)) + " rivers generated")
+    if not options.noAreas:
+        Area.export(outputFile, options.noParkings)
+        print(" * " + str(len(Area.list)) + " areas (forest, water, farmland, etc.) generated")
+    if not options.noParkings:
+        ParkingLines.export(outputFile)
+        print(" * " + str(len(ParkingLines.list)) + " parking lines generated")
 
-print(" * map centered with this offset: " + str(xOffset) + "," + str(zOffset) + ").")
-print(" * reference coordinates: " + str(lat0) + "," + str(long0) + ".")
-print(" * projection used: '" + Projection.getProjectionString() + "'.")
-outputFile.close()
-print("Done.")
+    print(" * map centered with this offset: " + str(xOffset) + "," + str(zOffset) + ").")
+    print(" * reference coordinates: " + str(lat0) + "," + str(long0) + ".")
+    print(" * projection used: '" + Projection.getProjectionString() + "'.")
+    outputFile.close()
+    print("Done.")

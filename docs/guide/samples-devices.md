@@ -12,15 +12,22 @@ The studied devices are attached on this robot.
 
 %figure "MyBot in a squared arena."
 
-![mybot.png](images/samples/mybot.png)
+![mybot.png](images/samples/mybot.thumbnail.png)
 
 %end
+
+### [accelerometer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/accelerometer.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Accelerometer](../reference/accelerometer.md)
+
+![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
+Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
 
 ### [battery.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/battery.wbt)
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
 
-![battery.png](images/samples/battery.png) In this example, `MyBot` moves in a closed arena filled with obstacles.
+![battery.png](images/samples/battery.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 The energy consumed by the wheel motors slowly discharges the robot's battery.
 When the battery level reaches zero, the robot is powered off and stops moving.
 In order to remain powered, the robot must recharge its battery at energy chargers.
@@ -28,11 +35,18 @@ In order to remain powered, the robot must recharge its battery at energy charge
 Only a full charger can recharge the robot's battery.
 The color of a charger changes with its energy level: it is red when completely empty and green when completely full.
 
+### [brake.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/brake.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Brake](../reference/brake.md)
+
+![brake.png](images/samples/brake.thumbnail.jpg) In this example, a bike wheel turns until it is slowed down by a braking system.
+The red blocks graphically represent the braking system, but the wheel is actually braked using the [Brake](../reference/brake.md) device.
+
 ### [bumper.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/bumper.wbt)
 
 **Keywords**: [TouchSensor](../reference/touchsensor.md), bumper
 
-![bumper.png](images/samples/bumper.png) In this example, `MyBot` moves in a closed arena filled with obstacles.
+![bumper.png](images/samples/bumper.thumbnail.jpg) In this example, `MyBot` moves in a closed arena filled with obstacles.
 Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black box) detects collisions.
 `MyBot` moves back and turns a little each time a collision is detected.
 
@@ -40,7 +54,7 @@ Its "bumper" [TouchSensor](../reference/touchsensor.md) (represented by a black 
 
 **Keywords**: [Camera](../reference/camera.md), image processing, RGB pixel, Camera noise, PNG, ANSI
 
-![camera.png](images/samples/camera.png) In this example, `MyBot` uses a camera to detect colored objects.
+![camera.png](images/samples/camera.thumbnail.jpg) In this example, `MyBot` uses a camera to detect colored objects.
 The robot analyzes the RGB color level of each pixel of the camera images.
 When it has detected something, it turns, stops for a few seconds and saves the image in a PNG file to the user directory.
 It also prints a colored message (using ANSI codes) in the `Console` explaining the type of object it has detected.
@@ -50,7 +64,7 @@ White noise is applied on the [Camera](../reference/camera.md).
 
 **Keywords**: [Camera](../reference/camera.md), autofocus, depth-of-field
 
-![camera_auto_focus.png](images/samples/camera_auto_focus.png) In this example, `MyBot` demonstrates a [Camera](../reference/camera.md) with autofocus.
+![camera_auto_focus.png](images/samples/camera_auto_focus.thumbnail.jpg) In this example, `MyBot` demonstrates a [Camera](../reference/camera.md) with autofocus.
 The robot uses a [DistanceSensor](../reference/distancesensor.md) to get the distance to the front object and adjusts the [Camera](../reference/camera.md) focal length accordingly.
 The objects displayed before or after this distance are blurred.
 
@@ -58,21 +72,21 @@ The objects displayed before or after this distance are blurred.
 
 **Keywords**: [Camera](../reference/camera.md), motion blur
 
-![camera_compositor.png](images/samples/camera_motion_blur.png) In this example, `MyBot` demonstrates the camera motion blur effect.
+![camera_compositor.png](images/samples/camera_motion_blur.thumbnail.jpg) In this example, `MyBot` demonstrates the camera motion blur effect.
 The motion blur response time is given by the `Camera.motionBlur` field.
 
 ### [camera\_noise\_mask.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/camera_noise_mask.wbt)
 
 **Keywords**: [Camera](../reference/camera.md), noise mask
 
-![camera_noise_mask.png](images/samples/camera_noise_mask.png) In this example, `MyBot` demonstrates noise effect based on noise mask.
+![camera_noise_mask.png](images/samples/camera_noise_mask.thumbnail.jpg) In this example, `MyBot` demonstrates noise effect based on noise mask.
 The noise mask is determined by the `Camera.noiseMaskUrl` field.
 
 ### [camera\_recognition.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/camera_recognition.wbt)
 
 **Keywords**: [Camera](../reference/camera.md), pattern recognition, smart camera
 
-![camera_recognition.png](images/samples/camera_recognition.png) In this example, `MyBot` demonstrates object recognition capabilities.
+![camera_recognition.png](images/samples/camera_recognition.thumbnail.jpg) In this example, `MyBot` demonstrates object recognition capabilities.
 The robot camera displays yellow rectangles around the recognized objects.
 Information about the objects currently recognized are displayed in the `Console`.
 The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionColors` field is not empty.
@@ -81,7 +95,7 @@ The camera recognizes [Solid](../reference/solid.md) nodes whose `recognitionCol
 
 **Keywords**: [Connector](../reference/connector.md), [RotationalMotor](../reference/rotationalmotor.md), [IndexedLineSet](../reference/indexedlineset.md)
 
-![connector.png](images/samples/connector.png) In this example, a light `MyBot` (light blue) is lifted over two heavier `MyBot`s (dark blue).
+![connector.png](images/samples/connector.thumbnail.jpg) In this example, a light `MyBot` (light blue) is lifted over two heavier `MyBot`s (dark blue).
 All three robots are equipped with a [Connector](../reference/connector.md) placed at the tip of a moveable handle ([HingeJoint](../reference/hingejoint.md)).
 An [IndexedLineSet](../reference/indexedlineset.md) is added to every [Connector](../reference/connector.md) in order to show the axes.
 When the simulation starts, the light robot approaches the first heavy robot and their connectors dock to one another.
@@ -93,7 +107,7 @@ All the robots in this simulation use the same controller; the different behavio
 
 **Keywords**: [Display](../reference/display.md), write in textures, overlay
 
-![display.png](images/samples/display.png) This example demonstrates several use of the [Display](../reference/display.md) device.
+![display.png](images/samples/display.thumbnail.jpg) This example demonstrates several uses of the [Display](../reference/display.md) device.
 
 - The `MyBot` [Display](../reference/display.md) called "emoticon_display" is displayed as a 2D overlay on top of the 3D window, and is displayed as a texture on the screen mounted on the `MyBot`.
 It loads the [emoticons.png](https://github.com/omichel/webots/tree/master/projects/samples/devices/controllers/display/emoticons.png) image which contains a grid of emoticons (as a sprite sheet), and randomly selects an emoticon from this image every 30 steps.
@@ -106,14 +120,14 @@ The [Supervisor](../reference/supervisor.md) controller get the position of `MyB
 
 **Keywords**: [DistanceSensor](../reference/distancesensor.md), Braitenberg
 
-![distance_sensor.png](images/samples/distance_sensor.png) In this example, eight [DistanceSensors](../reference/distancesensor.md) are mounted at regular intervals around the `MyBot` body.
+![distance_sensor.png](images/samples/distance_sensor.thumbnail.jpg) In this example, eight [DistanceSensors](../reference/distancesensor.md) are mounted at regular intervals around the `MyBot` body.
 The robot avoids obstacles using a technique based on Braitenberg vehicles.
 
 ### [emitter\_receiver.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/emitter_receiver.wbt)
 
 **Keywords**: [Emitter](../reference/emitter.md), [Receiver](../reference/receiver.md), infra-red transmission
 
-![emitter_receiver.png](images/samples/emitter_receiver.png) In this example, there are two robots: one is equipped with an [Emitter](../reference/emitter.md) and the other one with a [Receiver](../reference/receiver.md).
+![emitter_receiver.png](images/samples/emitter_receiver.thumbnail.jpg) In this example, there are two robots: one is equipped with an [Emitter](../reference/emitter.md) and the other one with a [Receiver](../reference/receiver.md).
 Both robots move among the obstacles while the *emitter* robot sends messages to the *receiver* robot.
 The range of the [Emitter](../reference/emitter.md) device is indicated by the radius of the transparent gray sphere around the emitter robot.
 The state of the communication between the two robots is displayed in the Console.
@@ -124,7 +138,7 @@ Note that the communication between "infra-red" [Emitters](../reference/emitter.
 
 **Keywords**: [PositionSensor](../reference/positionsensor.md), encoders
 
-![encoders.png](images/samples/encoders.png) This example demonstrates the usage of the wheel encoders of two-wheeled robots.
+![encoders.png](images/samples/encoders.thumbnail.jpg) This example demonstrates the usage of the wheel encoders of two-wheeled robots.
 The controller randomly chooses target encoder positions, then it rotates its wheels until the encoder values reach the chosen target position.
 Then the encoders are reset and the controller chooses new random values.
 [PositionSensor](../reference/positionsensor.md) nodes applied on [HingeJoint](../reference/hingejoint.md) nodes model the encoders.
@@ -134,15 +148,15 @@ The robot does not pay any attention to obstacles.
 
 **Keywords**: [TouchSensor](../reference/touchsensor.md), force sensor
 
-![force_sensor.png](images/samples/force_sensor.png) This example is nearly the same as [bumper.wbt](#bumper-wbt).
+![force_sensor.png](images/samples/force_sensor.thumbnail.jpg) This example is nearly the same as [bumper.wbt](#bumper-wbt).
 The only difference is that this robot uses a "force" [TouchSensor](../reference/touchsensor.md) instead of a "bumper".
 So this robot can measure the force of each collision, which is printed in the `Console`.
 
-### [force3d\_sensor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/force3d_sensor.md)
+### [force3d\_sensor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/force3d_sensor.wbt)
 
 **Keywords**: [TouchSensor](../reference/touchsensor.md), 3D force sensor
 
-![force3d_sensor.png](images/samples/force3d_sensor.png) This example demonstrates how to use a 3D force sensor.
+![force3d_sensor.png](images/samples/force3d_sensor.thumbnail.jpg) This example demonstrates how to use a 3D force sensor.
 The opaque box in the center of the transparent one is a [Robot](../reference/robot.md) node.
 The [TouchSensor](../reference/touchsensor.md) is the child of the [Robot](../reference/robot.md) node.
 This setup allow to measure the force on the six sides of the [TouchSensor](../reference/touchsensor.md).
@@ -153,7 +167,7 @@ Moving and rotating the box will change the displayed force.
 
 **Keywords**: [GPS](../reference/gps.md), keyboard, get robot position
 
-![gps.png](images/samples/gps.png) This example shows two different techniques to find the current position of `MyBot`.
+![gps.png](images/samples/gps.thumbnail.jpg) This example shows two different techniques to find the current position of `MyBot`.
 The first technique consists in using an on-board [GPS](../reference/gps.md) device.
 The second method uses a [Supervisor](../reference/supervisor.md) controller that reads and transmits the position info to the robot.
 Note that a [Supervisor](../reference/supervisor.md) controller can read (or change) the position of any object in the simulation at any time.
@@ -165,7 +179,7 @@ The `S` key prints the position read by the [Supervisor](../reference/supervisor
 
 **Keywords**: [GPS](../reference/gps.md), WGS84, Latitude-Longitude
 
-![gps.png](images/samples/gps.png) This example shows how to set a `WGS84` reference, and how to retrieve the robot's `WGS84` latitude and longitude in this reference.
+![gps.png](images/samples/gps.thumbnail.jpg) This example shows how to set a `WGS84` reference, and how to retrieve the robot's `WGS84` latitude and longitude in this reference.
 The reference is set in the `WorldInfo.gpsCoordinateSytem` and `WorldInfo.gpsReference`.
 The resulting position is displayed in the `Console` at each step.
 
@@ -173,7 +187,7 @@ The resulting position is displayed in the `Console` at each step.
 
 **Keywords**: [Gyro](../reference/gyro.md), angular velocity
 
-![gyro.png](images/samples/gyro.png) This example shows how to measure angular velocity.
+![gyro.png](images/samples/gyro.thumbnail.jpg) This example shows how to measure angular velocity.
 A [Gyro](../reference/gyro.md) is mounted on three rotational motors (each motor corresponds to one axis).
 The motors a running consecutively for a while.
 The resulting angular velocity measured by the gyro is displayed in the `Console`.
@@ -182,23 +196,23 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 
 **Keywords**: Hokuyo, [Lidar](../reference/lidar.md), [Display](../reference/display.md) plot
 
-![hokuyo.png](images/samples/hokuyo.png) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
+![hokuyo.png](images/samples/hokuyo.thumbnail.jpg) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
 
-### [inertial\_unit.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/inertial_unit.md)
+### [inertial\_unit.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/inertial_unit.wbt)
 
 **Keywords**: [InertialUnit](../reference/inertialunit.md), roll/pitch/yaw angles
 
-![inertial_unit.png](images/samples/inertial_unit.png) This example demonstrates the use of an [InertialUnit](../reference/inertialunit.md) device.
+![inertial_unit.png](images/samples/inertial_unit.thumbnail.jpg) This example demonstrates the use of an [InertialUnit](../reference/inertialunit.md) device.
 An [InertialUnit](../reference/inertialunit.md) is mounted on a 3 DOF (Degrees Of Freedom) arm which moves from one random target to another.
 Each time a target is reached, the absolute roll, pitch and yaw angles of the [InertialUnit](../reference/inertialunit.md) are displayed in the `Console`.
 
-### [laser\_pointer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/laser_pointer.md)
+### [laser\_pointer.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/laser_pointer.wbt)
 
 **Keywords**: [DistanceSensor](../reference/distancesensor.md), laser
 
-![laser_pointer.png](images/samples/laser_pointer.png) This example demonstrates the use of [DistanceSensor](../reference/distancesensor.md) devices in laser mode.
+![laser_pointer.png](images/samples/laser_pointer.thumbnail.jpg) This example demonstrates the use of [DistanceSensor](../reference/distancesensor.md) devices in laser mode.
 `MyBot` turns round with two laser pointers enabled.
 Red dots are displayed where the laser beam hits obstacles.
 
@@ -206,7 +220,7 @@ Red dots are displayed where the laser beam hits obstacles.
 
 **Keywords**: [LED](../reference/led.md)
 
-![led.png](images/samples/led.png) In this example, `MyBot` moves while randomly changing the color of three [LEDs](../reference/led.md) on the top of its body.
+![led.png](images/samples/led.thumbnail.jpg) In this example, `MyBot` moves while randomly changing the color of three [LEDs](../reference/led.md) on the top of its body.
 Each [LED](../reference/led.md)'s material emissive color and embedded [PointLight](../reference/pointlight.md) are modified accordingly.
 The color choice is printed in the `Console`.
 
@@ -214,7 +228,7 @@ The color choice is printed in the `Console`.
 
 **Keywords**: [Lidar](../reference/lidar.md)
 
-![lidar.png](images/samples/lidar.png) In this example, `MyBot` demonstrates the use of a [Lidar](../reference/lidar.md) device.
+![lidar.png](images/samples/lidar.thumbnail.jpg) In this example, `MyBot` demonstrates the use of a [Lidar](../reference/lidar.md) device.
 The [Lidar](../reference/lidar.md) mounted on the `MyBot` scans the environment.
 The [Lidar](../reference/lidar.md) point cloud can be shown by enabling the `View / Optional Rendering / Show Lidar Point Cloud`.
 
@@ -222,14 +236,14 @@ The [Lidar](../reference/lidar.md) point cloud can be shown by enabling the `Vie
 
 **Keywords**: [LightSensor](../reference/lightsensor.md)
 
-![light_sensor.png](images/samples/light_sensor.png) In this example, `MyBot` uses two [LightSensors](../reference/lightsensor.md) to follow a light source.
+![light_sensor.png](images/samples/light_sensor.thumbnail.jpg) In this example, `MyBot` uses two [LightSensors](../reference/lightsensor.md) to follow a light source.
 The light source can be moved with the mouse; the robot will follow it.
 
 ### [linear\_motor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/linear_motor.wbt)
 
 **Keywords**: [LinearMotor](../reference/linearmotor.md), set motor position
 
-![linear_motor.png](images/samples/linear_motor.png) In this example, a linear motor from position `0` and then progresses by steps of `2 [cm]` until it reaches `20 [cm]`.
+![linear_motor.png](images/samples/linear_motor.thumbnail.jpg) In this example, a linear motor from position `0` and then progresses by steps of `2 [cm]` until it reaches `20 [cm]`.
 Once done, it comes back to position `0` and restarts.
 A ruler indicates the linear motor progression.
 
@@ -237,14 +251,26 @@ A ruler indicates the linear motor progression.
 
 **Keywords**: [RotationalMotor](../reference/rotationalmotor.md), force control, energy consumption
 
-![motor.png](images/samples/motor.png) In this example, a rotational motor is controlled in force mode to push a cardboard.
+![motor.png](images/samples/motor.thumbnail.jpg) In this example, a rotational motor is controlled in force mode to push a cardboard.
 The force feedback applied on the motor and the energy consumed by the robot are displayed in the `Console`.
+
+### [motor2.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/motor2.wbt)
+
+**Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [Hinge2Joint](../reference/hinge2joint.md)
+
+![motor2.png](images/samples/motor2.thumbnail.jpg) In this example, two rotational motors are controlling a [Hinge2Joint](../reference/hinge2joint.md) in position.
+
+### [motor3.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/motor3.wbt)
+
+**Keywords**: [RotationalMotor](../reference/rotationalmotor.md), [BallJoint](../reference/balljoint.md)
+
+![motor3.png](images/samples/motor3.thumbnail.jpg) In this example, three rotational motors are controlling a [BallJoint](../reference/balljoint.md) in position.
 
 ### [pen.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/pen.wbt)
 
 **Keywords**: [Pen](../reference/pen.md), keyboard
 
-![pen.png](images/samples/pen.png) In this example, `MyBot` uses a [Pen](../reference/pen.md) device to draw on the floor.
+![pen.png](images/samples/pen.thumbnail.jpg) In this example, `MyBot` uses a [Pen](../reference/pen.md) device to draw on the floor.
 The controller randomly chooses the ink color.
 The ink on the floor fades slowly.
 Use the `Y` and `X` keys to switch the [Pen](../reference/pen.md) on and off.
@@ -253,13 +279,13 @@ Use the `Y` and `X` keys to switch the [Pen](../reference/pen.md) on and off.
 
 **Keywords**: [PositionSensor](../reference/positionsensor.md), force control
 
-![position_sensor.png](images/samples/position_sensor.png) In this example, `MyBot` uses a [PositionSensor](../reference/positionsensor.md) to maintain a red log in balance.
+![position_sensor.png](images/samples/position_sensor.thumbnail.jpg) In this example, `MyBot` uses a [PositionSensor](../reference/positionsensor.md) to maintain a red log in balance.
 
 ### [propeller.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/propeller.wbt)
 
 **Keywords**: [Propeller](../reference/propeller.md), rotors, fan
 
-![propeller.png](images/samples/propeller.png) In this example, 3 helicopters with different designs demonstrate the use of the `Propeller` node.
+![propeller.png](images/samples/propeller.thumbnail.jpg) In this example, 3 helicopters with different designs demonstrate the use of the `Propeller` node.
 
 - *Red helicopter*: It is composed of axial and tail rotors.
 - *Green helicopter*: It is composed of 2 coaxial rotors.
@@ -269,28 +295,28 @@ Use the `Y` and `X` keys to switch the [Pen](../reference/pen.md) on and off.
 
 **Keywords**: [Radar](../reference/radar.md)
 
-![radar.png](images/samples/radar.png) In this example, the `MyBot` with the black box detects the `MyBot`s with red boxes.
+![radar.png](images/samples/radar.thumbnail.jpg) In this example, the `MyBot` with the black box detects the `MyBot`s with red boxes.
 The black box is a [Radar](../reference/radar.md) device, while the red boxes are [Solids](../reference/solid.md) with a positive `radarCrossSection` (this is required to be detected by the [Radar](../reference/radar.md)).
 
 ### [range\_finder.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/range_finder.wbt)
 
 **Keywords**: [RangeFinder](../reference/rangefinder.md)
 
-![range_finder.png](images/samples/range_finder.png) In this example, `MyBot` uses a [RangeFinder](../reference/rangefinder.md) to avoid obstacles.
+![range_finder.png](images/samples/range_finder.thumbnail.jpg) In this example, `MyBot` uses a [RangeFinder](../reference/rangefinder.md) to avoid obstacles.
 The [RangeFinder](../reference/rangefinder.md) measures the distance to objects, so the robot knows if there is enough room to move forward or not.
 
 ### [receiver\_noise.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/receiver_noise.wbt)
 
 **Keywords**: [Receiver](../reference/receiver.md), signal strength, direction noise
 
-![receiver_noise.png](images/samples/receiver_noise.png) In this example, the `MyBot` at the center uses its [Receiver](../reference/receiver.md) device to get the [Emitter](../reference/emitter.md) device position of the other `MyBot`.
+![receiver_noise.png](images/samples/receiver_noise.thumbnail.jpg) In this example, the `MyBot` at the center uses its [Receiver](../reference/receiver.md) device to get the [Emitter](../reference/emitter.md) device position of the other `MyBot`.
 This noisy position is compared to the actual [Emitter](../reference/emitter.md) position measured with a noise-free [GPS](../reference/gps.md).
 
 ### [sick.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/sick.wbt)
 
 **Keywords**: Sick LMS 291, [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
 
-![sick.png](images/samples/sick.png) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
+![sick.png](images/samples/sick.thumbnail.jpg) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
 The robot use the lidar depth output to avoid collisions.
 The lidar depth output is also plot into a [Display](../reference/display.md) device.
 
@@ -298,7 +324,7 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 
 **Keywords**: [Speaker](../reference/speaker.md), WAV
 
-![speaker.png](images/samples/speaker.png) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
+![speaker.png](images/samples/speaker.thumbnail.jpg) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
 A WAV file is played on this speaker, while the `MyBot` is moving over the camera.
 The intensity of the left and right audio channels differs depending on the robot position.
 The Webots sound should be enabled to hear the result on the computer loudspeakers.
@@ -307,7 +333,7 @@ The Webots sound should be enabled to hear the result on the computer loudspeake
 
 **Keywords**: [Speaker](../reference/speaker.md), text-to-speech, TTS
 
-![speaker_text_to_speech.png](images/samples/speaker_text_to_speech.png) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
+![speaker_text_to_speech.png](images/samples/speaker_text_to_speech.thumbnail.jpg) In this example, a [Speaker](../reference/speaker.md) device is mounted on the `MyBot`.
 A text formated in XML is played in this speaker.
 This text is containing voice modulations including pitch, rate and volume modifications.
 The Webots sound should be enabled to hear the result on the computer loudspeakers.
@@ -316,14 +342,14 @@ The Webots sound should be enabled to hear the result on the computer loudspeake
 
 **Keywords**: [Camera](../reference/camera.md), spherical projection
 
-![spherical_camera.png](images/samples/spherical_camera.png) In this example, a spherical [Camera](../reference/camera.md) device is mounted on the `MyBot`.
+![spherical_camera.png](images/samples/spherical_camera.thumbnail.jpg) In this example, a spherical [Camera](../reference/camera.md) device is mounted on the `MyBot`.
 The resulting projection is shown in a 2D camera overlay.
 
 ### [supervisor.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/supervisor.wbt)
 
 **Keywords**: [Supervisor](../reference/supervisor.md), queries on scene tree
 
-![supervisor.png](images/samples/supervisor.png) This example shows basic operations of a [Supervisor](../reference/supervisor.md) controller.
+![supervisor.png](images/samples/supervisor.thumbnail.jpg) This example shows basic operations of a [Supervisor](../reference/supervisor.md) controller.
 The [Supervisor](../reference/supervisor.md) controller starts with displaying the names of the scene tree root nodes.
 Then it displays the content of the `WorldInfo.gravity` field.
 Finally, after eight seconds, it moves the [PointLight](../reference/pointlight.md).
@@ -332,5 +358,5 @@ Finally, after eight seconds, it moves the [PointLight](../reference/pointlight.
 
 **Keywords**: [Track](../reference/track.md), caterpillar track, conveyor belt
 
-![track.png](images/samples/track.png) This example shows two use cases of the [Track](../reference/track.md) node.
+![track.png](images/samples/track.thumbnail.jpg) This example shows two use cases of the [Track](../reference/track.md) node.
 The [Track](../reference/track.md) node is used to model two caterpillar tracks, and a conveyor belt.

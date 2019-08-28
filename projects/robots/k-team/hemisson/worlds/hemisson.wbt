@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "The model of the Hemisson robot which controller can be cross-compiled for the real robot"
@@ -25,7 +25,6 @@ RectangleArena {
     roughness 1
     metalness 0
   }
-  wallColor 1 0 0
   wallTextureUrl []
 }
 DEF RED_BRICK Solid {

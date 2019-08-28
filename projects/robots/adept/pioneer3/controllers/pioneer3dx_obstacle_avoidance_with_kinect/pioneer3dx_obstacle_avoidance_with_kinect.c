@@ -66,11 +66,9 @@ int main() {
 
   // init dynamic variables
   double left_obstacle = 0.0, right_obstacle = 0.0;
-  double delta_obstacle = 0.0;
-  double left_speed = CRUISING_SPEED, right_speed = CRUISING_SPEED;
-  double speed_factor = 1.0;
-  float value = 0.0;
-  int i = 0;
+  double left_speed, right_speed;
+  float value;
+  int i;
 
   // control loop
   while (wb_robot_step(time_step) != -1) {
@@ -94,8 +92,8 @@ int main() {
     // possible left and right obstacles
     if (obstacle > 0.0) {
       obstacle = 1.0 - obstacle * inv_max_range_times_width;  // compute the relevant overall quantity of obstacle
-      speed_factor = (obstacle > OBSTACLE_THRESHOLD) ? 0.0 : SLOWDOWN_FACTOR;
-      delta_obstacle = -(left_obstacle - right_obstacle) * inv_max_range_times_width;
+      const double speed_factor = (obstacle > OBSTACLE_THRESHOLD) ? 0.0 : SLOWDOWN_FACTOR;
+      const double delta_obstacle = -(left_obstacle - right_obstacle) * inv_max_range_times_width;
       if (delta_obstacle > TOLERANCE) {
         left_speed = CRUISING_SPEED;
         right_speed = speed_factor * CRUISING_SPEED;

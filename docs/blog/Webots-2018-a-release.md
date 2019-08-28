@@ -5,7 +5,7 @@
 ---
 
 Today we're happy to announce the release of the all-new Webots 2018a, packed with some great new features.
-We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](https://www.cyberbotics.com/dvd/common/doc/webots/ChangeLog.html).
+We're going to talk about some of them here, but for a comprehensive list of changes please refer to the ChangeLog, found [here](../reference/changelog-r2018.md).
 
 This release brings a change to the way Webots is released.
 We have been looking for a means of improving our release schedule to provide reliability for our users, and a more strict release schedule that ensures updates are shipped predictably and reliably.
@@ -20,7 +20,7 @@ Maintenance revisions will still be shipped to fix critical bugs between these r
 Take better screenshots and record better videos of your robot by aligning the viewpoint on one of the six world axes, using the new Change View tool:
 
 %figure "New Change View Menu"
-![viewpoint menu](images/viewpoint_menu.png)
+![viewpoint menu](images/viewpoint_menu.thumbnail.jpg)
 %end
 
 ### Smooth
@@ -38,7 +38,7 @@ Now, all automated Viewpoint movement is animated, when resetting the viewpoint,
 ## HTML5 Robot Windows
 
 %figure "HTML5 Robot Windows In Webots"
-![html5 windows](images/html_robot_window.png)
+![html5 windows](images/html_robot_window.thumbnail.png)
 %end
 
 Over the last couple of years we have been slowly phasing out our native Qt-based robot window system, in order to use Web technologies for more powerful layout & design tools.
@@ -58,7 +58,7 @@ We will continue to port features in from the legacy windows (such as the Motion
 ## Python 3
 
 %figure "Python 3 Support For Webots"
-![python 3](images/python.png)
+![python 3](images/python.thumbnail.png)
 %end
 
 One of our most requested features in recent months has been to support Python 3.
@@ -73,13 +73,13 @@ With a divided community and people migrating their codebases from 2.7 to 3.4 an
 In addition to the `Bus` PROTO two new models of trucks have been added:
 
 %figure "Models of large vehicles"
-![large vehicles](images/large_vehicles.png)
+![large vehicles](images/large_vehicles.thumbnail.png)
 %end
 
 Furthermore, a model of a motorbike and a model of a scooter have been added:
 
 %figure "Models of two wheels vehicles"
-![two wheels](images/two_wheels.png)
+![two wheels](images/two_wheels.thumbnail.png)
 %end
 
 All these new models are now used in the SUMO interface.

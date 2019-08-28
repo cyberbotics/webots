@@ -28,7 +28,6 @@
 #include <glad/glad.h>
 
 #include <algorithm>
-#include <vector>
 
 namespace wren {
 

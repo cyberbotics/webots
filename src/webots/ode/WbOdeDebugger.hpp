@@ -24,8 +24,10 @@ public:
 
   static WbOdeDebugger *instance() { return cOdeDebugger; }
 
+  // cppcheck-suppress functionStatic
   void toggleDebugging(bool);
 
+  // cppcheck-suppress functionStatic
   void step();
 
 private:

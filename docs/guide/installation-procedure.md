@@ -34,14 +34,24 @@ The package names could slightly change on different releases and distributions.
 
 #### Using Advanced Packaging Tool (APT)
 
-The advantage of this solution is that Webots will be updated with the system updates.
-This installation requires the `root` privileges.
+The advantage of this solution is that Webots will be updated automatically with system updates.
+This installation requires the `root` privileges which you can acquire from this command:
 
-First of all, you may want to configure your APT package manager by adding the Cyberbotics repository.
+```sh
+sudo su -
+```
+
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
+
+```sh
+apt-key add /path/to/Cyberbotics.asc
+```
+
+Then, you can configure your APT package manager by adding the Cyberbotics repository.
 Simply execute the following lines:
 
 ```sh
-apt-add-repository 'deb http://www.cyberbotics.com/debian/ binary-amd64/'
+apt-add-repository 'deb https://www.cyberbotics.com/debian/ binary-amd64/'
 apt-get update
 ```
 
@@ -49,20 +59,14 @@ As an alternative, you can easily add the Cyberbotics repository from the `Softw
 In the `Other Software` tab, click on the `Add...` button and copy the following line:
 
 ```text
-deb http://www.cyberbotics.com/debian/ binary-amd64/
+deb https://www.cyberbotics.com/debian/ binary-amd64/
 ```
 
-When you will close the window, the APT packages list should be automatically updated.
+When you close the window, the APT packages list should be automatically updated.
 Otherwise you can manually execute the following command:
 
 ```sh
 apt-get update
-```
-
-Optionally, Webots can be authentified thanks to the `Cyberbotics.asc` signature file which can be downloaded [here](http://www.cyberbotics.com/linux), using this command:
-
-```sh
-apt-key add /path/to/Cyberbotics.asc
 ```
 
 Then proceed to the installation of Webots using:
@@ -71,8 +75,7 @@ Then proceed to the installation of Webots using:
 apt-get install webots
 ```
 
-> **Note**: This procedure can also be done using any APT front-end tools such as the Synaptic Package Manager.
-But only a command line procedure is documented here.
+> **Note**: Although only the command line procedure is documented here, it is also possible to use any APT front-end tool, such as the Synaptic Package Manager, to proceed with the APT installation of Webots.
 
 #### From the "tarball" Package
 
@@ -156,7 +159,7 @@ Once installed, if you observe 3D rendering anomalies or if Webots crashes, it i
 It may be possible that Windows Defender SmartScreen will display a warning when starting the Webots installer:
 
 %figure "Windows SmartScreen warning"
-![windows_smartscreen_1.png](images/windows_smartscreen_1.png)
+![windows_smartscreen_1.png](images/windows_smartscreen_1.thumbnail.jpg)
 %end
 
 This is likely caused by the fact that the release of Webots is recent and was not yet approved by Microsoft.
@@ -164,7 +167,7 @@ If the Webots installer was downloaded from the [official Cyberbotics web site](
 You can pass this warning and install Webots by clicking on the "More info" link and the "Run anyway" button depicted below:
 
 %figure "Windows SmartScreen pass"
-![windows_smartscreen_2.png](images/windows_smartscreen_2.png)
+![windows_smartscreen_2.png](images/windows_smartscreen_2.thumbnail.jpg)
 %end
 
 ### Installation on macOS
@@ -206,7 +209,7 @@ In this case, `Ctrl + click` (or right-click) on the Webots icon, and select the
 
 %figure "Open Webots anyway"
 
-![mac-open-anyway.png](images/mac-open-anyway.png)
+![mac-open-anyway.png](images/mac-open-anyway.thumbnail.jpg)
 
 %end
 

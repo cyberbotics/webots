@@ -169,13 +169,6 @@ void quit(int sig) {
 
 int main(int argc, char **argv) {
   std::string controllerName;
-  std::vector<std::string> deviceList;
-
-  if (argc != 1) {
-    ROS_INFO("Usage: $ pioneer3at.");
-    return 1;
-  }
-
   // create a node named 'pioneer3at' on ROS network
   ros::init(argc, argv, "pioneer3at", ros::init_options::AnonymousName);
   n = new ros::NodeHandle;
@@ -208,6 +201,7 @@ int main(int argc, char **argv) {
       return 1;
     }
   }
+  ROS_INFO("Using controller: '%s'", controllerName.c_str());
   // leave topic once it is not necessary anymore
   nameSub.shutdown();
 

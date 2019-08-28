@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -11,6 +11,7 @@ PROTO ToyotaPriusRearLight [
       baseColor 0.560784 0.113725 0.113725
       metalness 0
       roughness 0.3
+      emissiveIntensity 10
     }
     geometry IndexedFaceSet {
       coord Coordinate {

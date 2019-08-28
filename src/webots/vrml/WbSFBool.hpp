@@ -41,6 +41,7 @@ public:
   bool isTrue() const { return mValue; }
   bool isFalse() const { return !mValue; }
   void setValue(bool b);
+  void setValueNoSignal(bool b) { mValue = b; }
   void setTrue() { setValue(true); }
   void setFalse() { setValue(false); }
   WbSFBool &operator=(const WbSFBool &other);

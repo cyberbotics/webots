@@ -20,14 +20,11 @@
 /mingw64/bin/libicuin64.dll
 /mingw64/bin/libicudt64.dll
 /mingw64/bin/libminizip-1.dll
-/mingw64/bin/libstdc++-6.dll
-/mingw64/bin/libgcc_s_seh-1.dll
 /mingw64/bin/libbz2-1.dll
-/mingw64/bin/libwinpthread-1.dll
-/mingw64/bin/libiconv-2.dll
 /mingw64/bin/libsqlite3-0.dll
 /mingw64/bin/libxslt-1.dll
 /mingw64/bin/libcrypto-1_1-x64.dll
+/mingw64/bin/libdouble-conversion.dll
 /mingw64/bin/libjpeg-8.dll
 /mingw64/bin/libpng16-16.dll
 /mingw64/bin/libfreetype-6.dll
@@ -38,82 +35,31 @@
 /mingw64/bin/libjasper-4.dll
 /mingw64/bin/liblcms2-2.dll
 /mingw64/bin/liblzma-5.dll
-/mingw64/bin/libopenjp2-7.dll
 /mingw64/bin/libpcre-1.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libtiff-5.dll
 /mingw64/bin/libwebp-7.dll
 /mingw64/bin/libwebpdecoder-3.dll
-/mingw64/bin/libwebpmux-3.dll
+/mingw64/bin/libxml2-2.dll
 /mingw64/bin/libzzip-0-13.dll
 /mingw64/bin/libopenal-1.dll
 /mingw64/bin/libassimp.dll
+/mingw64/bin/libssl-1_1-x64.dll
+/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/share/qt5/plugins/imageformats/qjpeg.dll
 /mingw64/share/qt5/plugins/platforms/qwindows.dll
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
 /mingw64/share/qt5/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt5/translations/*.qm
 
-# needed by webots.exe to check for updates
-/mingw64/bin/libssl-1_1-x64.dll
-
-# needed by ffmpeg.exe
+# needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
 /mingw64/bin/ffmpeg.exe
-/mingw64/bin/swscale-5.dll
-/mingw64/bin/swresample-3.dll
-/mingw64/bin/postproc-55.dll
-/mingw64/bin/avutil-56.dll
-/mingw64/bin/avformat-58.dll
-/mingw64/bin/avfilter-7.dll
-/mingw64/bin/avdevice-58.dll
-/mingw64/bin/avcodec-58.dll
-/mingw64/bin/libcelt0-2.dll
-/mingw64/bin/libgmp-10.dll
-/mingw64/bin/libgsm.dll
-/mingw64/bin/libmp3lame-0.dll
-/mingw64/bin/libopencore-amrnb-0.dll
-/mingw64/bin/libopencore-amrwb-0.dll
-/mingw64/bin/libopus-0.dll
-/mingw64/bin/libspeex-1.dll
-/mingw64/bin/libtheoradec-1.dll
-/mingw64/bin/libtheoraenc-1.dll
-/mingw64/bin/libogg-0.dll
-/mingw64/bin/libunistring-2.dll
-/mingw64/bin/libvorbis-0.dll
-/mingw64/bin/libvorbisenc-2.dll
-/mingw64/bin/libvpx-1.dll
-/mingw64/bin/libwavpack-1.dll
-/mingw64/bin/libx265.dll
-/mingw64/bin/libx264-157.dll
-/mingw64/bin/libcaca-0.dll
-/mingw64/bin/SDL2.dll
-/mingw64/bin/libass-9.dll
-/mingw64/bin/libfontconfig-1.dll
-/mingw64/bin/libfribidi-0.dll
-/mingw64/bin/libbluray-2.dll
-/mingw64/bin/libxml2-2.dll
-/mingw64/bin/libgnutls-30.dll
-/mingw64/bin/libhogweed-4.dll
-/mingw64/bin/libnettle-6.dll
-/mingw64/bin/libidn2-0.dll
-/mingw64/bin/libp11-kit-0.dll
-/mingw64/bin/libffi-6.dll
-/mingw64/bin/libtasn1-6.dll
-/mingw64/bin/libmfx-1.dll
-/mingw64/bin/libmodplug-1.dll
-/mingw64/bin/librtmp-1.dll
-/mingw64/bin/libsrt.dll
-/mingw64/bin/xvidcore.dll
-
-# needed to execute the ros.exe controller
-/mingw64/bin/libexpat-1.dll
 
 # needed to execute binaries having a dependency on OpenCV
 /mingw64/bin/libgfortran-5.dll
 /mingw64/bin/libopenblas.dll
 /mingw64/bin/libopencv_core*.dll
 /mingw64/bin/libopencv_imgproc*.dll
-/mingw64/bin/libquadmath-0.dll
 /mingw64/bin/tbb.dll
 
 # needed to compile binaries having a dependency on OpenCV

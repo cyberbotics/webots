@@ -50,7 +50,7 @@ endif
 ifeq ($(OSTYPE),windows)
 LIBRARIES = -L$(WEBOTS_HOME_PATH)/lib -L/mingw64/bin -lcrypto
 WEBOTS_DISTRO_EXE = webots_distro.exe
-INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 5
+INNO_SETUP_HOME ?= /C/Program Files (x86)/Inno Setup 6
 WEBOTS = webots
 ISCC_FORMATTER = iscc_formatter.exe
 endif

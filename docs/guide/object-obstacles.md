@@ -6,7 +6,7 @@ Resizable oil barrel.
 
 %figure
 
-![OilBarrel](images/objects/obstacles/OilBarrel/model.png)
+![OilBarrel](images/objects/obstacles/OilBarrel/model.thumbnail.png)
 
 %end
 
@@ -42,7 +42,7 @@ The ramp is a static object (not physics-enabled) so it will not move when hit.
 
 %figure
 
-![Ramp30deg](images/objects/obstacles/Ramp30deg/model.png)
+![Ramp30deg](images/objects/obstacles/Ramp30deg/model.thumbnail.png)
 
 %end
 
@@ -73,7 +73,7 @@ This is not a physics-enabled object so it will not move when hit.
 
 %figure
 
-![ThreeSteps](images/objects/obstacles/ThreeSteps/model.png)
+![ThreeSteps](images/objects/obstacles/ThreeSteps/model.thumbnail.png)
 
 %end
 

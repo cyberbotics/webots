@@ -110,7 +110,7 @@ void wbu_car_init() {
     return;
 
   wb_robot_init();
-  int i = 0, j = 0;
+  int i;
   instance = (car *)malloc(sizeof(car));
   for (i = 0; i < 4; i++) {
     instance->wheels[i] = 0;
@@ -207,6 +207,7 @@ void wbu_car_init() {
   for (i = 0; i < n_devices; i++) {
     WbDeviceTag tag = wb_robot_get_device_by_index(i);
     const char *name = wb_device_get_name(tag);
+    int j;
     // Check for motors without warning
     for (j = 0; j < 4; j++) {
       if (strcmp(name, motorNames[j + 2]) == 0)

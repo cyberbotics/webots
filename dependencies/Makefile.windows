@@ -5,7 +5,7 @@ WEBOTS_HOME_PATH=$(strip $(subst \,/,$(WEBOTS_HOME)))
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME_PATH)/dependencies
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/windows/release
 
-OPEN_VR_PACKAGE = v1.0.7.zip
+OPEN_VR_PACKAGE = openvr-1.0.7.zip
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
 PICO_PACKAGE = libpico.zip
@@ -56,69 +56,81 @@ $(TARGET_PATH):
 open-vr-clean:
 	rm -rf "$(WEBOTS_HOME_PATH)/include/openvr" $(TARGET_PATH)/openvr_api.dll "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
-open-vr: $(TARGET_PATH)/openvr_api.dll
+open-vr: $(TARGET_PATH)/openvr_api.dll $(WEBOTS_HOME_PATH)/include/openvr
 
-$(TARGET_PATH)/openvr_api.dll:
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
-	wget "https://github.com/ValveSoftware/openvr/archive/$(OPEN_VR_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
+$(WEBOTS_HOME_PATH)/include/openvr: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
 	mkdir "$(WEBOTS_HOME_PATH)/include/openvr"
-	cp -rf "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/*.h "$(WEBOTS_HOME_PATH)/include/openvr"
+	cp -f "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/* "$(WEBOTS_HOME_PATH)/include/openvr"
+
+$(TARGET_PATH)/openvr_api.dll: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
 	mkdir -p $(TARGET_PATH)
 	cp "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7/bin/win64/openvr_api.dll" "$@"
+
+$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
+	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
+	wget "$(DEPENDENCIES_URL)/$(OPEN_VR_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
+	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
+	touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
 lua-clean:
 	rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
 
-lua: $(TARGET_PATH)/lua52.dll
+lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	mkdir -p $(TARGET_PATH)
+	cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
 
-$(TARGET_PATH)/lua52.dll:
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 	wget "http://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	cd "$(WEBOTS_DEPENDENCY_PATH)"; tar zxf $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
+	cd "$(WEBOTS_DEPENDENCY_PATH)"; tar zxfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
 	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 	make -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw test
-	mkdir -p $(TARGET_PATH)
-	cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$@"
 
 ois-clean:
-	rm -rf $(TARGET_PATH)/OIS.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
+	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
 
 ois: $(TARGET_PATH)/OIS.dll
 
-$(TARGET_PATH)/OIS.dll:
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(OIS_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
+$(TARGET_PATH)/OIS.dll: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	mkdir -p $(TARGET_PATH)
-	mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$@"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$(TARGET_PATH)/"
+	mv "$(WEBOTS_HOME_PATH)/XInput9_1_0.dll" "$(TARGET_PATH)/"
 	touch "$@"
 
+$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
+	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
+	wget "$(DEPENDENCIES_URL)/$(OIS_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	touch "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
+
 pico-clean:
-	rm -rf "$(WEBOTS_HOME_PATH)/include/libpico" $(TARGET_PATH)/libpico.dll "$(WEBOTS_HOME_PATH)/resources/pico"
+	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" "$(WEBOTS_HOME_PATH)/include/libpico" $(TARGET_PATH)/libpico.dll "$(WEBOTS_HOME_PATH)/resources/pico"
 
 pico: $(TARGET_PATH)/libpico.dll
 
-$(TARGET_PATH)/libpico.dll:
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
+$(TARGET_PATH)/libpico.dll: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	mkdir -p $(TARGET_PATH)
-	mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$@"
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$(TARGET_PATH)/"
 	touch "$@"
 
+$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
+	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
+	wget "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
+
 lua-gd-clean:
-	rm -rf $(TARGET_PATH)/gd.dll
+	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" $(TARGET_PATH)/gd.dll
 
 lua-gd: $(TARGET_PATH)/gd.dll
 
-$(TARGET_PATH)/gd.dll:
+$(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	mkdir -p $(TARGET_PATH)
+	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
+	touch "$(TARGET_PATH)/gd.dll"
+
+$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
 	wget "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	mkdir -p $(TARGET_PATH)
-	unzip "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
-	touch "$@"
+	touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"

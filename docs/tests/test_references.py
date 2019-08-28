@@ -10,7 +10,7 @@ import re
 def slugify(txt):
     """Slugify function."""
     output = txt.lower()
-    output = re.sub('\([^)]*\)', '', output)  # remove the content of parenthesis
+    output = re.sub(r'\([^)]*\)', '', output)  # remove the content of parenthesis
     output = re.sub(r'<[^>]+>', '', output)
     output = output.replace('+', 'p')
     output = re.sub(r"[\(\):`']", '', output)

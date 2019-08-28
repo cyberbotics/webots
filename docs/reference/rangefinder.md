@@ -158,7 +158,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_range_finder_enable(tag, sampling_period)
 wb_range_finder_disable(tag)
 period = wb_range_finder_get_sampling_period(tag)
@@ -247,7 +247,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 fov = wb_range_finder_get_fov(tag)
 ```
 
@@ -332,7 +332,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 width = wb_range_finder_get_width(tag)
 height = wb_range_finder_get_height(tag)
 ```
@@ -418,7 +418,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 min_range = wb_range_finder_get_min_range(tag)
 max_range = wb_range_finder_get_max_range(tag)
 ```
@@ -506,7 +506,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 image = wb_range_finder_get_range_image(tag)
 depth = wb_range_finder_image_get_depth(image, width, x, y)
 ```
@@ -609,7 +609,7 @@ public class RangeFinder extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 success = wb_range_finder_save_image(tag, 'filename', quality)
 ```
 

@@ -21,6 +21,7 @@ import datetime
 import os
 import fnmatch
 
+from io import open
 
 APACHE2_LICENSE_C = """/*
  * Copyright 1996-20XX Cyberbotics Ltd.
@@ -83,7 +84,8 @@ class TestLicense(unittest.TestCase):
             'projects',
             'include/controller',
             'include/plugins',
-            'resources/languages/cpp'
+            'resources/languages/cpp',
+            'scripts'
         ]
 
         skippedDirectoryPaths = [
@@ -93,6 +95,8 @@ class TestLicense(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
+            'projects/languages/ros/controllers/ros_python/kinetic',
+            'projects/languages/ros/controllers/ros_python/python',
             'projects/robots/epfl/lis/controllers/blimp',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics',
             'projects/robots/gctronic/e-puck/transfer/library',
@@ -139,7 +143,7 @@ class TestLicense(unittest.TestCase):
                     continue
                 for extension in extensions:
                     for fileName in fnmatch.filter(fileNames, extension):
-                        if os.path.join(relativeRootPath, fileName) in skippedFilePaths:
+                        if os.path.join(relativeRootPath, fileName).replace(os.sep, '/') in skippedFilePaths:
                             continue
                         file = os.path.join(rootPath, fileName)
                         self.sources.append(file)
@@ -147,7 +151,7 @@ class TestLicense(unittest.TestCase):
     def test_sources_have_license(self):
         """Test that sources have the license."""
         for source in self.sources:
-            with open(source, 'r') as content_file:
+            with open(source, 'r', encoding='utf-8') as content_file:
                 content = content_file.read()
                 if source.endswith('.c') or source.endswith('.h'):
                     self.assertTrue(

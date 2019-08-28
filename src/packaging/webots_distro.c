@@ -29,6 +29,12 @@
 #define MD5_Final(a, b) CC_MD5_Final(a, b)
 #endif
 
+#ifdef _WIN32
+#define DIR_SEP '\\'
+#else
+#define DIR_SEP '/'
+#endif
+
 #define SetForegroundColorToRed() printf("\033[22;31;1m")
 #define SetForegroundColorToDefault() printf("\033[22;30;0m")
 
@@ -218,6 +224,9 @@ static void copy_file(const char *file) {
       fprintf(fd, "Source: \"%s\"; DestDir: \"{app}\\%s\"", file2, dest2);
       if (file2[i + 1] == '.')
         fprintf(fd, "; Attribs: hidden");
+      if ((file2[l - 4] == '.' && file2[l - 3] == 'j' && file2[l - 2] == 'p' && file2[l - 1] == 'g') ||
+          (file2[l - 4] == '.' && file2[l - 3] == 'p' && file2[l - 2] == 'n' && file2[l - 1] == 'g'))
+        fprintf(fd, "; Flags: nocompression");
       fprintf(fd, "\n");
       break;
 #ifndef _WIN32
@@ -441,7 +450,6 @@ static void create_file(const char *name, int m) {
               distribution_path);
       fprintf(fd, "rm -rf \"%s/%s/Contents\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/webots\"\n", distribution_path, bundle_name);
-      fprintf(fd, "rm -rf \"%s/%s/change_logs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/docs\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin\"\n", distribution_path, bundle_name);
       fprintf(fd, "rm -rf \"%s/%s/bin/qt\"\n", distribution_path, bundle_name);
@@ -464,12 +472,15 @@ static void create_file(const char *name, int m) {
               "AppVerName=%s %s\n"
               "AppCopyright=Copyright (c) %d Cyberbotics, Ltd.\n"
               "AppPublisher=Cyberbotics, Ltd.\n"
-              "AppPublisherURL=http://www.cyberbotics.com/\n"
+              "AppPublisherURL=https://www.cyberbotics.com\n"
               "ChangesEnvironment=yes\n"  // tells Windows Explorer to reload environment variables (e.g., WEBOTS_HOME)
-              "DefaultDirName={pf}\\%s\n"
+              "Compression=lzma2/fast\n"
+              "DefaultDirName={autopf}\\%s\n"
               "DefaultGroupName=Cyberbotics\n"
               "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots.exe\n"
-              "PrivilegesRequired=admin\n",
+              "PrivilegesRequired=lowest\n"
+              "UsePreviousPrivileges=no\n"
+              "PrivilegesRequiredOverridesAllowed=dialog\n",
               application_name, version, application_name, version, year, application_name);
       fprintf(fd, "OutputBaseFileName=%s-%s_setup\n", application_name_lowercase_and_dashes, package_version);
       fprintf(fd,
@@ -628,17 +639,22 @@ static void create_file(const char *name, int m) {
         type |= (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS);
       if (type & TYPE_DLL && (mode == MAC || mode == DEB)) {  // prefix "lib" to the basename
         j = i - 1;
-        while (buffer[j] != '/' && j >= 0) {
-          buffer[j + 3] = buffer[j];
+        while (buffer[j] != '/' && j >= 0)
           j--;
+        if (buffer[j + 1] != '_') {
+          if (j >= 0) {
+            j = i - 1;
+            while (buffer[j] != '/' && j >= 0) {
+              buffer[j + 3] = buffer[j];
+              j--;
+            }
+            buffer[++j] = 'l';
+            buffer[++j] = 'i';
+            buffer[++j] = 'b';
+            i += 3;
+          } else
+            fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
         }
-        if (j >= 0) {
-          buffer[++j] = 'l';
-          buffer[++j] = 'i';
-          buffer[++j] = 'b';
-          i += 3;
-        } else
-          fprintf(stderr, "DLL parsing: Reached the beggining of the string without finding a '/' character.");
       }
       if (mode == ISS) {
         if (type & TYPE_EXE) {
@@ -801,7 +817,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s libopencv_core.2.4.3.dylib libopencv_core.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.2.4.dylib\n");
       fprintf(fd, "ln -s libopencv_imgproc.2.4.3.dylib libopencv_imgproc.dylib\n");
-      fprintf(fd, "ln -s libode.3.dylib libode.dylib\n");
       fprintf(fd, "ln -s libssh.4.dylib libssh.dylib\n");
       fprintf(fd, "ln -s libzip.2.dylib libzip.dylib\n");
       fprintf(fd, "cd \"%s/%s/Contents/Frameworks\"\n", distribution_path, bundle_name);
@@ -894,47 +909,29 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cd QtXml.framework\n");
       fprintf(fd, "ln -fs Versions/5/QtXml QtXml\n");
       fprintf(fd, "ln -Fs Versions/5/Headers Headers\n");
-
       fprintf(fd, "cd %s/\n", distribution_path);
-      fprintf(fd, "mkdir -p /tmp/empty\n");
-      fprintf(fd, "hdiutil create -attach -fs HFS+ -srcfolder /tmp/empty -format UDRW -volname \"%s\" -size 3000m %s.dmg\n",
-              application_name, application_name_lowercase_and_dashes);
-      fprintf(fd, "rmdir /tmp/empty\n");
-      fprintf(fd, "ditto -rsrcFork \"%s\" \"/Volumes/%s/%s\"\n", bundle_name, application_name, bundle_name);
-      fprintf(fd, "mkdir \"/Volumes/%s/.background\"\n", application_name);
-      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/MacOSXBackground.png \"/Volumes/%s/.background/\"\n", application_name);
-      fprintf(fd, "ln -s /Applications \"/Volumes/%s/Applications\"\n", application_name);
-      fprintf(fd, "echo '\n");
-      fprintf(fd, "   tell application \"Finder\"\n");
-      fprintf(fd, "     tell disk \"%s\"\n", application_name);
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           set current view of container window to icon view\n");
-      fprintf(fd, "           set toolbar visible of container window to false\n");
-      fprintf(fd, "           set statusbar visible of container window to false\n");
-      fprintf(fd, "           set the bounds of container window to {400, 100, 880, 680}\n");
-      fprintf(fd, "           set theViewOptions to the icon view options of container window\n");
-      fprintf(fd, "           set arrangement of theViewOptions to not arranged\n");
-      fprintf(fd, "           set icon size of theViewOptions to 72\n");
-      fprintf(fd, "           set background picture of theViewOptions to file \".background:MacOSXBackground.png\"\n");
-      fprintf(fd, "           set position of item \"%s\" of container window to {100, 100}\n", application_name);
-      fprintf(fd, "           set position of item \"Applications\" of container window to {375, 100}\n");
-      fprintf(fd, "           close\n");
-      fprintf(fd, "           open\n");
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           update without registering applications\n");
-      fprintf(fd, "           delay 1\n");  // give time to the window to be displayed correctly
-      fprintf(fd, "           eject\n");
-      fprintf(fd, "     end tell\n");
-      fprintf(fd, "   end tell\n");
-      fprintf(fd, "' | osascript\n");
-      fprintf(fd, "chmod -Rf go-w \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "sync\n");
-      fprintf(fd, "sync\n");
-      fprintf(fd, "hdiutil detach \"/Volumes/%s\"\n", application_name);
-      fprintf(fd, "hdiutil convert -format UDBZ %s.dmg -o %s-%s.dmg\n", application_name_lowercase_and_dashes,
-              application_name_lowercase_and_dashes, package_version);  // BZIP2 compression
-      fprintf(fd, "rm %s.dmg\n", application_name_lowercase_and_dashes);
+      fprintf(fd, "echo \"{\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"title\\\": \\\"Webots\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"icon\\\": \\\"%s/Contents/Resources/webots_icon.icns\\\",\" >> appdmg.json\n", webots_home);
+      fprintf(fd, "echo \"  \\\"icon-size\\\": 72,\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"background\\\": \\\"%s/src/packaging/MacOSXBackground.png\\\",\" >> appdmg.json\n",
+              webots_home);
+      fprintf(fd, "echo \"  \\\"format\\\": \\\"UDBZ\\\",\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"window\\\": {\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"position\\\": { \\\"x\\\": 400, \\\"y\\\": 100 },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    \\\"size\\\": { \\\"width\\\": 480, \\\"height\\\": 580 }\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  },\" >> appdmg.json\n");
+      fprintf(fd, "echo \"  \\\"contents\\\": [\" >> appdmg.json\n");
+      fprintf(fd, "echo \"    { \\\"x\\\": 375, \\\"y\\\": 100, \\\"type\\\": \\\"link\\\", \\\"path\\\": "
+                  "\\\"/Applications\\\" },\" >> appdmg.json\n");
+      fprintf(fd,
+              "echo \"    { \\\"x\\\": 100, \\\"y\\\": 100, \\\"type\\\": \\\"file\\\", \\\"path\\\": \\\"%s\\\" }\" >> "
+              "appdmg.json\n",
+              bundle_name);
+      fprintf(fd, "echo \"  ]\" >> appdmg.json\n");
+      fprintf(fd, "echo \"}\" >> appdmg.json\n");
+      fprintf(fd, "appdmg appdmg.json %s-%s.dmg\n", application_name_lowercase_and_dashes, package_version);
+      fprintf(fd, "rm -rf appdmg.json\n");
       break;
     case ISS:
       fprintf(fd, "\n[Icons]\n");
@@ -951,47 +948,68 @@ static void create_file(const char *name, int m) {
         application_name, application_name);
       fprintf(fd,
               "\n[Registry]\n"
-              "Root: HKCR; SubKey: \".wbt\"; ValueType: string; ValueData: \"webotsfile\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \".wbt\"; ValueType: string; ValueName: \"Content Type\"; ValueData: "
-              "\"application/webotsfile\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\DefaultIcon\"; ValueType: string; ValueData: "
-              "\"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\shell\\open\"; ValueType: string; ValueName: \"FriendlyAppName\"; ValueData: "
-              "\"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueData: \"webotsfile\"; "
+              "Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\.wbt\"; ValueType: string; ValueName: \"Content Type\"; "
+              "ValueData: \"application/webotsfile\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\DefaultIcon\"; ValueType: string; "
+              "ValueData: \"{app}\\resources\\icons\\core\\webots_doc.ico\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
               "\"\"\"{app}\\msys64\\mingw64\\bin\\webots.exe\"\" \"\"%%1\"\"\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"Applications\\webots.exe\"; ValueType: string; ValueName: \"SupportedTypes\"; ValueData: "
-              "\".wbt\"; Flags: uninsdeletekey\n"
-              "Root: HKCR; SubKey: \"Applications\\webots.exe\"; ValueType: string; ValueName: \"FriendlyAppName\"; ValueData: "
-              "\"Webots\"; Flags: uninsdeletekey\n"
-              "Root: HKLM; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webots.exe\"; ValueType: string; "
+              "ValueName: \"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
               "ValueData: \"{app}\\msys64\\mingw64\\bin\\webots.exe\"; Flags: uninsdeletekey\n"
-              "Root: HKLM; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\webots.exe\"; ValueType: string; "
               "ValueName: \"Path\"; ValueData: \"{app}\\msys64\\mingw64\\bin;{app}\\msys64\\usr\\bin\"; Flags: uninsdeletekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\"; Flags: uninsdeletekeyifempty dontcreatekey\n"
               "Root: HKCU; SubKey: \"Software\\Cyberbotics\\%s %s\"; Flags: uninsdeletekey dontcreatekey\n"
-              "Root: HKLM; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
+              "Root: HKA; SubKey: \"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\"; ValueType: string; "
               "ValueName: \"WEBOTS_HOME\"; ValueData: \"{app}\"; Flags: preservestringtype\n",
               application_name, version);
-      fprintf(fd, "Root: HKCR; SubKey: \"webotsfile\"; "
+      fprintf(fd, "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\"; "
                   "Flags: uninsdeletekey dontcreatekey\n");
       // On some systems (as already reported by two Chinese users), some unknown third party software badly installs a
-      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder. This is a very bad practise. Such DLLs conflicts
-      // with the same DLLs provided in the msys64 folder of Webots. So, we will delete any of these libraries from the
-      // C:\Windows\System32 folder before installing Webots.
+      // zlib1.dll and libeay32.dll in the C:\Windows\System32 folder.
+      // A similar problem occurs with the OpenSSL library needed to build ROS2 on Windows:
+      // https://index.ros.org/doc/ros2/Installation/Dashing/Windows-Install-Binary/#install-openssl
+      // recommends to install OpenSSL from https://slproweb.com/products/Win32OpenSSL.html
+      // By default, this installer copies libcrypto-1_1-x64.dll and libssl-1_1-x64.dll in C:\Windows\System32.
+      // This is a very bad practise as such DLLs conflicts with the same DLLs provided in the msys64 folder of Webots.
+      // So, we will delete any of these libraries from the C:\Windows\System32 folder before installing Webots.
       fprintf(fd, "\n[InstallDelete]\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\zlib1.dll\"\n");
       fprintf(fd, "Type: files; Name: \"{sys}\\libeay32.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libcrypto-1_1-x64.dll\"\n");
+      fprintf(fd, "Type: files; Name: \"{sys}\\libssl-1_1-x64.dll\"\n");
       fprintf(fd, "\n[Code]\n");
       fprintf(fd, "function InitializeSetup(): Boolean;\n");
       fprintf(fd, "var\n");
       fprintf(fd, "  ResultCode: Integer;\n");
       fprintf(fd, "  Uninstall: String;\n");
       fprintf(fd, "begin\n");
-      fprintf(fd, "  if RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Webots_is1', "
-                  "'UninstallString', Uninstall) then begin\n");
-      fprintf(fd, "    if MsgBox('A version of Webots is already installed on this computer.' #13 'It will be removed and "
-                  "replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK then begin\n");
+      fprintf(fd, "  if isAdmin and RegQueryStringValue(HKLM, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                  "Webots_is1', 'UninstallString', Uninstall) then begin\n");
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for all users on this computer.' #13 "
+                  "'It will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+                  "then begin\n");
+      fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
+      fprintf(fd, "      Result := TRUE;\n");
+      fprintf(fd, "    end else begin\n");
+      fprintf(fd, "      Result := FALSE;\n");
+      fprintf(fd, "    end;\n");
+      fprintf(fd, "  end else begin\n");
+      fprintf(fd, "    Result := TRUE;\n");
+      fprintf(fd, "  end;\n");
+      fprintf(fd, "  if RegQueryStringValue(HKCU, 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"
+                  "Webots_is1', 'UninstallString', Uninstall) then begin\n");
+      fprintf(fd, "    if MsgBox('A version of Webots is already installed for the current user on this computer.' #13 'It "
+                  "will be removed and replaced by the version you are installing.', mbInformation, MB_OKCANCEL) = IDOK "
+                  "then begin\n");
       fprintf(fd, "      Exec(RemoveQuotes(Uninstall), ' /SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);\n");
       fprintf(fd, "      Result := TRUE;\n");
       fprintf(fd, "    end else begin\n");
@@ -1126,7 +1144,7 @@ static void create_file(const char *name, int m) {
       }
 
 #ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "fakeroot dpkg-deb --build debian %s\n", distribution_path);
+      fprintf(fd, "fakeroot dpkg-deb -Zgzip --build debian %s\n", distribution_path);
 #endif
 
       fprintf(fd, "echo creating the %s/%s-%s-%s.tar.bz2 tarball\n", distribution_path, application_name_lowercase_and_dashes,
@@ -1182,8 +1200,8 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cd debian/usr/local\n");
-      fprintf(fd, "tar cjf ../../../%s-%s-%s.tar.bz2 %s\n", application_name_lowercase_and_dashes, package_version, arch2,
-              application_name_lowercase_and_dashes);
+      fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
+              package_version, arch2, application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf debian\n");
       break;
     default:
@@ -1307,7 +1325,7 @@ int main(int argc, char *argv[]) {
   if (custom_distribution_path)
     strcpy(distribution_path, custom_distribution_path);
   else
-    snprintf(distribution_path, 256, "%s/distribution", webots_home);
+    snprintf(distribution_path, 256, "%s%cdistribution", webots_home, DIR_SEP);
   if (!dir_exists(distribution_path)) {
     fprintf(stderr, "distribution path (%s) doesn't exists\n", distribution_path);
     exit(-1);

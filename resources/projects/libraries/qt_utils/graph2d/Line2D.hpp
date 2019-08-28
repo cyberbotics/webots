@@ -23,6 +23,7 @@ namespace webotsQtUtils {
     const QColor &color() const { return mColor; }
 
   private:
+    Line2D &operator=(const Line2D &);  // non copyable
     double mX1;
     double mY1;
     double mX2;

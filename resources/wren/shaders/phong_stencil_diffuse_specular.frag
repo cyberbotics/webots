@@ -189,7 +189,7 @@ void main() {
     // Apply main texture
     if (material.textureFlags.x > 0.0) {
       vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
-      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), texColor.w + mainColor.w);
+      texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0, 1));
     }
 
     // Mix with pen texture

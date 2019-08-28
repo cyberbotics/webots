@@ -382,7 +382,7 @@ void WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
   WbNode::setDictionaryUpdateFlag(true);
   WbDictionary *dictionary = WbDictionary::instance();
   dictionary->update(load);  // update all DEF-USE dependencies
-  if (protoRoot)
+  if (protoRoot && !protoRoot->isUseNode())
     dictionary->updateProtosPrivateDef(protoRoot);
   WbNode::setDictionaryUpdateFlag(false);
   mSkipUpdates = false;

@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -7,9 +7,11 @@
 # Supported values for the `texture` field:
 #
 # - dawn_cloudy_empty
-# - empty_office
+# - empty_office (HDR)
+# - factory (HDR)
 # - morning_cloudy_empty
 # - noon_building_overcast (HDR)
+# - noon_cloudy_countryside (HDR)
 # - noon_cloudy_empty
 # - noon_cloudy_mountains
 # - noon_park_empty (HDR)
@@ -20,7 +22,8 @@
 # - mountains (HDR)
 
 PROTO TexturedBackground [
-  field  SFString{"dawn_cloudy_empty", "empty_office", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"} texture "mountains"  # Defines the texture of the background.
+  field  SFString{"dawn_cloudy_empty", "empty_office", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+                  texture "mountains"  # Defines the texture of the background.
 ]
 {
   Background {

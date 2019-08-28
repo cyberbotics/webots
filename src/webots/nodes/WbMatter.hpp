@@ -93,6 +93,11 @@ protected:
   WbMatter(const WbNode &other);
   WbMatter(const QString &modelName, WbTokenizer *tokenizer);
 
+  const QString &vrmlName() const override {
+    static const QString returnedName("Transform");
+    return returnedName;
+  }
+
   // Renders the frame axes and the center of mass
   virtual void applyVisibilityFlagsToWren(bool selected);
   virtual void applyChangesToWren();

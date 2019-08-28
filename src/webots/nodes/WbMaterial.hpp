@@ -51,9 +51,6 @@ public:
 signals:
   void changed();
 
-protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
-
 private:
   // user accessible fields
   WbSFDouble *mAmbientIntensity;

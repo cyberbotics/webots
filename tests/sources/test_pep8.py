@@ -22,11 +22,13 @@ import fnmatch
 import pep8
 import os
 import sys
+from io import open  # needed for compatibility with Python 2.7 for open(file, encoding='utf-8')
 
 from pyflakes import checker
 from pyflakes.reporter import Reporter
 
 skippedDirectories = [
+    'dependencies',
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
@@ -92,7 +94,7 @@ def checkFlakes(codeString, filename, reporter):
 def checkFlakesPath(filename, reporter):
     """Check the given path, printing out any warnings detected."""
     try:
-        with open(filename, 'U') as f:
+        with open(filename, encoding='utf-8') as f:
             codestr = f.read() + '\n'
     except UnicodeError:
         reporter.unexpectedError(filename, 'problem decoding source')
@@ -101,7 +103,7 @@ def checkFlakesPath(filename, reporter):
         msg = sys.exc_info()[1]
         reporter.unexpectedError(filename, msg.args[1])
         return
-    checkFlakes(codestr, filename, reporter)
+    checkFlakes(codestr.encode('utf-8'), filename, reporter)
 
 
 class CustomReport(pep8.StandardReport):
@@ -147,7 +149,7 @@ class TestCodeFormat(unittest.TestCase):
             for fileName in fnmatch.filter(fileNames, '*.py'):
                 shouldContinue = False
                 for directory in skippedDirectories:
-                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '')
+                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
                     if directory in currentDirectories:
                         shouldContinue = True
                         break

@@ -6,7 +6,7 @@ A beer bottle.
 
 %figure
 
-![BeerBottle](images/objects/drinks/BeerBottle/model.png)
+![BeerBottle](images/objects/drinks/BeerBottle/model.thumbnail.png)
 
 %end
 
@@ -32,7 +32,7 @@ A can (0.03175 x 0.1222 x 0.03175 m).
 
 %figure
 
-![Can](images/objects/drinks/Can/model.png)
+![Can](images/objects/drinks/Can/model.thumbnail.png)
 
 %end
 
@@ -60,7 +60,7 @@ A water bottle.
 
 %figure
 
-![WaterBottle](images/objects/drinks/WaterBottle/model.png)
+![WaterBottle](images/objects/drinks/WaterBottle/model.thumbnail.png)
 
 %end
 

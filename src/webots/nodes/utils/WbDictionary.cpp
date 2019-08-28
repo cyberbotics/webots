@@ -570,13 +570,13 @@ void WbDictionary::updateForInsertion(const WbNode *const node, bool suitableOnl
       const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(fields[i]->value());
       if (mfnode) {
         const int size = mfnode->size();
-        for (int i = 0; !mStopUpdate && i < size; ++i) {
-          if (isInsertionField && i >= mTargetIndex) {
+        for (int j = 0; !mStopUpdate && j < size; ++j) {
+          if (isInsertionField && j >= mTargetIndex) {
             mStopUpdate = true;
             return;
           }
 
-          const WbNode *const n = mfnode->item(i);
+          const WbNode *const n = mfnode->item(j);
           if (n && !n->isUseNode())
             updateForInsertion(n, suitableOnly, defNodes);
         }

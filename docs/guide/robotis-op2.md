@@ -1,6 +1,6 @@
 ## ROBOTIS' Robotis OP2
 
-%robot robotis-op2 images/robots/robotis-op2/model.png
+%robot robotis-op2 images/robots/robotis-op2/model.thumbnail.png
 
 The ROBOTIS OP2 is an open source miniature humanoid robot platform with advanced computational power.
 It is developed and manufactured by ROBOTIS (a Korean robot manufacturer) in collaboration with the University of Pennsylvania.
@@ -486,7 +486,7 @@ Here again four different types of graph can be plotted.
 
 %figure "Gyro tab of the robot window"
 
-![window_gyro.png](images/robots/robotis-op2/window_gyro.png)
+![window_gyro.png](images/robots/robotis-op2/window_gyro.thumbnail.png)
 
 %end
 
@@ -500,7 +500,7 @@ It is also possible to manually change the value of the motor by using the slide
 
 %figure "Motor tab of the robot window"
 
-![window_servos.png](images/robots/robotis-op2/window_motors.png)
+![window_servos.png](images/robots/robotis-op2/window_motors.thumbnail.png)
 
 %end
 
@@ -512,7 +512,7 @@ If the checkbox is checked, the value of the sensor is shown and plotted in func
 
 %figure "Position sensor tab of the robot window"
 
-![window_position_sensors.png](images/robots/robotis-op2/window_position_sensors.png)
+![window_position_sensors.png](images/robots/robotis-op2/window_position_sensors.thumbnail.png)
 
 %end
 
@@ -522,7 +522,7 @@ This tab is very simple, if the checkbox is checked, the picture of the camera i
 
 %figure "Camera tab of the robot window"
 
-![window_camera.png](images/robots/robotis-op2/window_camera.png)
+![window_camera.png](images/robots/robotis-op2/window_camera.thumbnail.png)
 
 %end
 
@@ -532,7 +532,7 @@ This tab allows you to create, edit or play a motion file.
 It contains an animation which can be executed by the robot at any time.
 
 %figure "Motion editor tab of the robot window"
-![Motion Editor view](images/robots/robotis-op2/window_motion_editor.png)
+![Motion Editor view](images/robots/robotis-op2/window_motion_editor.thumbnail.png)
 %end
 
 The motion is composed of multiple poses (left pane).
@@ -554,7 +554,7 @@ To send your controller to the real robot and make it run on it, go to the `Tran
 
 %figure "Transfer tab of the robot window"
 
-![Transfer tab image](images/robots/robotis-op2/window_remote.png)
+![Transfer tab image](images/robots/robotis-op2/window_remote.thumbnail.png)
 
 %end
 
@@ -779,7 +779,7 @@ sudo apt-get purge bluez-alsa
 
 #### soccer.wbt
 
-![soccer.wbt.png](images/robots/robotis-op2/soccer.wbt.png) This is a very complete example which used the three managers and almost all of the sensors.
+![soccer.wbt.png](images/robots/robotis-op2/soccer.wbt.thumbnail.jpg) This is a very complete example which used the three managers and almost all of the sensors.
 The controller is a very simple soccer player.
 It relies on most of the tools used in previous examples.
 We recommend you to study it by yourself and of course to improve it.
@@ -792,7 +792,7 @@ But we recommend you to test it on a soft ground and away from any source of dan
 
 #### symmetry.wbt
 
-![symmetry.wbt.png](images/robots/robotis-op2/symmetry.wbt.png) This example is very basic and explains the use of the motors.
+![symmetry.wbt.png](images/robots/robotis-op2/symmetry.wbt.thumbnail.jpg) This example is very basic and explains the use of the motors.
 It starts by setting the motor force of the three motors of the right arm to zero in order to completely release this arm.
 Then, in an infinite loop, the position of the previous three motors is read and displayed.
 Finally, still in the loop, the opposite position of each motor of the right arm is applied to the corresponding motor of the left arm in order to mimic the motion of the right arm.
@@ -817,7 +817,7 @@ A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSI
 
 #### visual\_tracking.wbt
 
-![visual_tracking.wbt.png](images/robots/robotis-op2/visual_tracking.wbt.png) This example illustrates the use of the camera (including the [Vision Manager](#vision-manager)) and the use of the RGB [LEDs](../reference/led.md).
+![visual_tracking.wbt.png](images/robots/robotis-op2/visual_tracking.wbt.thumbnail.jpg) This example illustrates the use of the camera (including the [Vision Manager](#vision-manager)) and the use of the RGB [LEDs](../reference/led.md).
 
 In the infinite loop the [Vision Manager](#vision-manager) is used to find the red ball.
 Then, if the ball has been found the head led is set to green and otherwise to red.
@@ -844,7 +844,7 @@ This example can also be used as a tool to tune the parameters of the [Vision Ma
 
 #### walk.wbt
 
-![walk.wbt.png](images/robots/robotis-op2/walk.wbt.png) This example illustrates the use of the [Gait Manager](#gait-manager) and [Motion manager](#motion-manager), the use of the keyboard, and also the use of the accelerometer.
+![walk.wbt.png](images/robots/robotis-op2/walk.wbt.thumbnail.jpg) This example illustrates the use of the [Gait Manager](#gait-manager) and [Motion manager](#motion-manager), the use of the keyboard, and also the use of the accelerometer.
 
 At the beginning of the controller, the [Motion manager](#motion-manager) is used to make the robot stand up, then the controller enters an infinite loop:
 - The first thing done in the loop is to check if the robot has not fallen down, this is achieved by using the accelerometer.
@@ -914,7 +914,7 @@ This appendix explains all the parameters that can be set in the configuration f
 | `Pitch offset`             | Angle offset at the feet along Y axis in degree.                                                                                                               | ![pitch_offset.png](images/robots/robotis-op2/pitch_offset.png)                       |
 | `Yaw offset`               | Angle offset of the leg along Z axis in degree.                                                                                                                | ![yaw_offset.png](images/robots/robotis-op2/yaw_offset.png)                           |
 | `Hip pitch offset`         | Tilt of the robot's body. It uses a special unit of the motor corresponding to 2.85 degree.                                                                    | ![hip_pitch_offset.png](images/robots/robotis-op2/hip_pitch_offset.png)               |
-| `Period time`              | Time required for the robot to complete two full steps (left and right foot) in millisecond.                                                                   | ![period_time.png](images/robots/robotis-op2/period_time.png)                         |
+| `Period time`              | Time required for the robot to complete two full steps (left and right foot) in millisecond.                                                                   | ![period_time.png](images/robots/robotis-op2/period_time.thumbnail.jpg)                         |
 | `DSP ratio`                | Ratio between the time when both feet are on the ground to only one foot (either left or right) is on the ground.                                              | ![dsp_ratio.png](images/robots/robotis-op2/dsp_ratio.png)                             |
 | `Step forward back ratio`  | Differential distance according to X direction, between the left and right foot during walk in millimeter.                                                     | ![step_forward_back_ratio.png](images/robots/robotis-op2/step_forward_back_ratio.png) |
 | `Foot height`              | Maximum height of the foot during the step in millimeter.                                                                                                      | ![foot_height.png](images/robots/robotis-op2/foot_height.png)                         |

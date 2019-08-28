@@ -18,7 +18,7 @@ pilFound = True
 
 try:
     from PIL import Image
-except ImportError as e:
+except ImportError:
     import sys
     pilFound = False
     if sys.platform == 'linux2':

@@ -5,39 +5,38 @@
 
 [Webots Guided Tour]
 
-projects/robots/k-team/khepera3/worlds/khepera3_gripper.wbt 20
-projects/robots/kuka/youbot/worlds/youbot.wbt 40
-projects/robots/robotis/darwin-op/worlds/robotis_op3_motion_player.wbt 20
+projects/robots/telerob/telemax_pro/worlds/telemax.wbt 30
+projects/robots/robotis/darwin-op/worlds/robotis_op3.wbt 22
+projects/robots/universal_robots/worlds/ure.wbt 20
+projects/vehicles/worlds/city.wbt 30
 projects/samples/rendering/worlds/animated_skin.wbt 30
-projects/robots/tinkerbots/worlds/tinkerbots_demo.wbt 20
-projects/robots/irobot/create/worlds/create.wbt 60
-projects/samples/demos/worlds/stewart_platform.wbt 26
-projects/vehicles/worlds/city.wbt 60
+projects/robots/kinematics/tinkerbots/worlds/tinkerbots_demo.wbt 20
+projects/robots/dji/mavic/worlds/mavic_2_pro.wbt 20
+projects/robots/clearpath/moose/worlds/moose_demo.wbt 20
+projects/robots/k-team/khepera3/worlds/khepera3_gripper.wbt 20
+projects/robots/kuka/youbot/worlds/youbot.wbt 30
+projects/robots/nasa/worlds/sojourner.wbt 45
 projects/robots/clearpath/pr2/worlds/pr2.wbt 38
+projects/robots/irobot/create/worlds/create.wbt 30
 projects/robots/robotis/bioloid/worlds/bioloid_dog.wbt 12
 projects/robots/adept/pioneer3/worlds/pioneer3at.wbt 14
 projects/robots/robotis/darwin-op/worlds/soccer.wbt 12
 projects/robots/softbank/nao/worlds/nao_demo.wbt 20
-projects/robots/bluebotics/shrimp/worlds/shrimp.wbt 25
-projects/robots/epfl/biorob/worlds/ghostdog.wbt 20
-projects/robots/surveyor/worlds/srv-1.wbt 20
-projects/robots/neuronics/ipr/worlds/ipr_factory.wbt 40
-projects/samples/demos/worlds/uneven_terrain.wbt 60
 projects/robots/fujitsu/hoap2/worlds/hoap2_walk.wbt 30
 projects/robots/micromagic/mantis/worlds/mantis.wbt 30
-projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 60
-projects/robots/nasa/worlds/sojourner.wbt 45
-projects/robots/fujitsu/hoap2/worlds/hoap2_sumo.wbt 65
-projects/robots/epfl/lis/worlds/blimp.wbt 20
+projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 30
 
 [Devices Tour]
 
+projects/samples/devices/worlds/accelerometer.wbt 20
 projects/samples/devices/worlds/battery.wbt 20
+projects/samples/devices/worlds/brake.wbt 20
 projects/samples/devices/worlds/bumper.wbt 20
 projects/samples/devices/worlds/camera.wbt 20
 projects/samples/devices/worlds/camera_auto_focus.wbt 20
 projects/samples/devices/worlds/camera_motion_blur.wbt 20
 projects/samples/devices/worlds/camera_noise_mask.wbt 20
+projects/samples/devices/worlds/camera_recognition.wbt 20
 projects/samples/devices/worlds/compass.wbt 20
 projects/samples/devices/worlds/connector.wbt 20
 projects/samples/devices/worlds/display.wbt 20
@@ -57,6 +56,8 @@ projects/samples/devices/worlds/lidar.wbt 20
 projects/samples/devices/worlds/light_sensor.wbt 20
 projects/samples/devices/worlds/linear_motor.wbt 20
 projects/samples/devices/worlds/motor.wbt 20
+projects/samples/devices/worlds/motor2.wbt 20
+projects/samples/devices/worlds/motor3.wbt 20
 projects/samples/devices/worlds/pen.wbt 20
 projects/samples/devices/worlds/position_sensor.wbt 20
 projects/samples/devices/worlds/propeller.wbt 20

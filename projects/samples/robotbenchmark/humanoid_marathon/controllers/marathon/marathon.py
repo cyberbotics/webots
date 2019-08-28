@@ -6,13 +6,10 @@ import os
 import sys
 from controller import Robot
 
-# Path operations to correctly locate the managers.
-if sys.version_info.major > 2:
-    sys.exit("RobotisOpManager library is available only for Python 2.7")
-
 try:
+    pythonVersion = 'python%d%d' % (sys.version_info[0], sys.version_info[1])
     libraryPath = os.path.join(os.environ.get("WEBOTS_HOME"), 'projects', 'robots', 'robotis', 'darwin-op', 'libraries',
-                               'python')
+                               pythonVersion)
     libraryPath = libraryPath.replace('/', os.sep)
     sys.path.append(libraryPath)
     from managers import RobotisOp2GaitManager, RobotisOp2MotionManager

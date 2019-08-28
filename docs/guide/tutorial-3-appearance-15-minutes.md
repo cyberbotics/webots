@@ -8,7 +8,7 @@ The result at the end of this tutorial is shown in [this figure](#simulation-aft
 
 ### New Simulation
 
-> **Hands on #1**: From the results of the previous tutorial, create a new simulation called "appearance.wbt" by using the `File / Save World As...` menu.
+> **Hands-on #1**: From the results of the previous tutorial, create a new simulation called "appearance.wbt" by using the `File / Save World As...` menu.
 
 ### Lights
 
@@ -18,10 +18,12 @@ A [DirectionalLight](../reference/directionallight.md) simulates a light which i
 Each type of light node can cast shadows.
 You can find their complete documentation in the [Reference Manual](../reference/nodes-and-api-functions.md).
 
-Lights are costly in term of performance.
+Lights are costly in term of performance and reduce the simulation speed (especially when they cast shadows).
 Minimizing the number of lights increases the rendering speed.
 A [PointLight](../reference/pointlight.md) is more efficient than a [SpotLight](../reference/spotlight.md), but less than a [DirectionalLight](../reference/directionallight.md).
-Note finally that casting shadows can reduce the simulation speed drastically.
+
+In this simulation, the [Light](../reference/light.md) node is not visible in the scene tree because it is contained in the [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight) PROTO node.
+It consists of a [DirectionalLight](../reference/directionallight.md) whose intensity and direction is computed automatically according to the background of the scene.
 
 ### Modify the Appearance of the Walls
 
@@ -30,7 +32,7 @@ The aim of this subsection is to color the walls in blue.
 The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pbrappearance.md) nodes of the [Shape](../reference/shape.md) node determine the graphical appearance of the object.
 Among other things, these nodes are responsible for the color and texture of objects.
 
-> **Hands on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
+> **Hands-on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
 Set its `baseColor` field to blue using the color selector.
 Set its `metalness` field to 0 using the field editor.
 Finally, set its `roughness` field to 0.5 using the field editor.
@@ -41,7 +43,7 @@ If the DEF-USE mechanism of the previous tutorial has been correctly implemented
 The aim of this subsection is to apply a texture on the ball.
 A texture on a rolling object can help to appreciate its movement.
 
-> **Hands on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
+> **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
 Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/omichel/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
 
@@ -55,7 +57,7 @@ A UV mapping function maps a 2D image representation to a 3D model.
 
 %figure "Simulation after having setup the Light and the `PBRAppearance` nodes."
 
-![tutorial_appearance.png](images/tutorial_appearance.png)
+![tutorial_appearance.png](images/tutorial_appearance.thumbnail.jpg)
 
 %end
 
@@ -63,7 +65,7 @@ A UV mapping function maps a 2D image representation to a 3D model.
 
 Webots offers several rendering modes available in the `View` menu.
 
-> **Hands on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
+> **Hands-on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
 Then restore the plain rendering mode: `View / Plain Rendering`.
 
 ### Conclusion

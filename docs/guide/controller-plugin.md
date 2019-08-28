@@ -198,7 +198,7 @@ In the motion editor different fonts and colors are used to identify the status 
 
 %figure "Motion editor view"
 
-![motion_editor.png](images/motion_editor.png)
+![motion_editor.png](images/motion_editor.thumbnail.jpg)
 
 %end
 
@@ -229,7 +229,7 @@ Here they are:
 
 - `bool wbr_start(void *arg)`
 
-    This function is called when the connection with the real robot should start.
+    This function is called when the connection with the real robot should start (i.e. when [`wb_robot_set_mode(WB_MODE_REMOTE_CONTROL, ...)`](../reference/robot.md#wb_robot_set_mode) is called from the controller).
     The return value of this function should inform if the connection has been a
     success or not. The argument matches with the argument given to
     the `wb_robot_set_mode` function when initializing the remote-control. As the robot window

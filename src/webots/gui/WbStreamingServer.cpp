@@ -17,6 +17,7 @@
 #include "WbAnimationRecorder.hpp"
 #include "WbApplication.hpp"
 #include "WbField.hpp"
+#include "WbHttpReply.hpp"
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbMultimediaStreamer.hpp"
@@ -28,6 +29,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbStreamingTcpServer.hpp"
 #include "WbSupervisorUtilities.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbView3D.hpp"
@@ -43,7 +45,6 @@
 #include <QtNetwork/QSslCertificate>
 #include <QtNetwork/QSslConfiguration>
 #include <QtNetwork/QSslKey>
-#include <QtNetwork/QTcpServer>
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
@@ -75,7 +76,7 @@ void WbStreamingServer::cleanup() {
 WbStreamingServer::WbStreamingServer() :
   QObject(),
   mX3dWorldGenerationTime(-1.0),
-  mServer(NULL),
+  mWebSocketServer(NULL),
   mMonitorActivity(false),
   mDisableTextStreams(false),
   mSsl(false),
@@ -83,6 +84,10 @@ WbStreamingServer::WbStreamingServer() :
   mPauseTimeout(-1) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbStreamingServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbStreamingServer::deleteWorld);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this,
+          &WbStreamingServer::setWorldLoadingProgress);
+  connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this,
+          &WbStreamingServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbStreamingServer::propagateNodeAddition);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbStreamingServer::propagateNodeDeletion);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
@@ -94,7 +99,7 @@ WbStreamingServer::WbStreamingServer() :
 }
 
 WbStreamingServer::~WbStreamingServer() {
-  if (mServer)
+  if (mWebSocketServer)
     stop();
 }
 
@@ -188,9 +193,17 @@ void WbStreamingServer::stop() {
 }
 
 void WbStreamingServer::create(int port) {
+  // Create a simple HTTP server, serving:
+  // - a websocket on "/"
+  // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
+
+  // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
+  // - https://bugreports.qt.io/browse/QTBUG-54276
+
   generateX3dWorld();
   QWebSocketServer::SslMode sslMode = mSsl ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
-  mServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
+  mWebSocketServer = new QWebSocketServer("Webots Streaming Server", sslMode, this);
+  mTcpServer = new WbStreamingTcpServer();
   if (mSsl) {
     QSslConfiguration sslConfiguration;
     QFile privateKeyFile(WbStandardPaths::resourcesWebPath() + "server/ssl/privkey.pem");
@@ -202,11 +215,13 @@ void WbStreamingServer::create(int port) {
       QSslCertificate::fromPath(WbStandardPaths::resourcesWebPath() + "server/ssl/cert.pem");
     sslConfiguration.setLocalCertificateChain(localCertificateChain);
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    mServer->setSslConfiguration(sslConfiguration);
+    mWebSocketServer->setSslConfiguration(sslConfiguration);
+    mTcpServer->setSslConfiguration(sslConfiguration);
   }
-  if (!mServer->listen(QHostAddress::Any, port))
-    throw tr("Cannot set the server in listen mode: %1").arg(mServer->errorString());
-  connect(mServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewConnection);
+  if (!mTcpServer->listen(QHostAddress::Any, port))
+    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
+  connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbStreamingServer::onNewWebSocketConnection);
+  connect(mTcpServer, &WbStreamingTcpServer::newConnection, this, &WbStreamingServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
           &WbStreamingServer::sendUpdatePackageToClients, Qt::UniqueConnection);
   if (!mDisableTextStreams) {
@@ -226,8 +241,8 @@ void WbStreamingServer::destroy() {
     disconnect(WbLog::instance(), &WbLog::logEmitted, this, &WbStreamingServer::propagateWebotsLogToClients);
   }
 
-  if (mServer)
-    mServer->close();
+  if (mWebSocketServer)
+    mWebSocketServer->close();
 
   foreach (QWebSocket *client, mClients) {
     disconnect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
@@ -236,16 +251,44 @@ void WbStreamingServer::destroy() {
   qDeleteAll(mClients);
   mClients.clear();
 
-  delete mServer;
-  mServer = NULL;
+  delete mWebSocketServer;
+  mWebSocketServer = NULL;
+
+  delete mTcpServer;
+  mTcpServer = NULL;
 
   if (gCleanedFromPostRoutine == false)
     // calling WbLog from the post routine can crash Webots if WbLog is deleted before
     WbLog::info(tr("Streaming server closed"));
 }
 
-void WbStreamingServer::onNewConnection() {
-  QWebSocket *client = mServer->nextPendingConnection();
+void WbStreamingServer::onNewTcpConnection() {
+  QTcpSocket *socket = mTcpServer->nextPendingConnection();
+  mWebSocketServer->handleConnection(socket);
+  connect(socket, &QTcpSocket::readyRead, this, &WbStreamingServer::onNewTcpData);
+}
+
+void WbStreamingServer::onNewTcpData() {
+  QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+
+  QString line(socket->peek(1024));  // Peek the request header to determine the requested url.
+  QStringList tokens = QString(line).split(QRegExp("[ \r\n][ \r\n]*"));
+  if (tokens[0] == "GET") {
+    QString requestedUrl(tokens[1].replace(QRegExp("^/"), ""));
+    if (!requestedUrl.isEmpty()) {  // "/" is reserved for the websocket.
+      QByteArray reply;
+      if (mX3dWorldTextures.contains(requestedUrl))
+        reply = WbHttpReply::forgeImageReply(mX3dWorldTextures[requestedUrl]);
+      else
+        reply = WbHttpReply::forge404Reply();
+      socket->write(reply);
+      socket->disconnectFromHost();
+    }
+  }
+}
+
+void WbStreamingServer::onNewWebSocketConnection() {
+  QWebSocket *client = mWebSocketServer->nextPendingConnection();
   if (client) {
     connect(client, &QWebSocket::textMessageReceived, this, &WbStreamingServer::processTextMessage);
     connect(client, &QWebSocket::disconnected, this, &WbStreamingServer::socketDisconnected);
@@ -352,18 +395,24 @@ void WbStreamingServer::processTextMessage(QString message) {
     printf("pause\n");
     fflush(stdout);
     client->sendTextMessage("pause");
-  } else if (message.startsWith("real-time:")) {
-    const double timeout = message.mid(10).toDouble();
+  } else if (message.startsWith("real-time:") or message.startsWith("fast:")) {
+    const bool realTime = message.startsWith("real-time:");
+    const double timeout = realTime ? message.mid(10).toDouble() : message.mid(5).toDouble();
     if (timeout >= 0)
       mPauseTimeout = WbSimulationState::instance()->time() + timeout;
     else
       mPauseTimeout = -1.0;
     disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
                &WbStreamingServer::propagateSimulationStateChange);
-    WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+    if (realTime) {
+      printf("real-time\n");
+      WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);
+    } else {
+      printf("fast\n");
+      WbSimulationState::instance()->setMode(WbSimulationState::FAST);
+    }
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
             &WbStreamingServer::propagateSimulationStateChange);
-    printf("real-time\n");
     fflush(stdout);
   } else if (message == "step") {
     disconnect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this,
@@ -401,6 +450,17 @@ void WbStreamingServer::processTextMessage(QString message) {
         sendWorldStateToClient(client, state);
     }
     sendToClients("reset finished");
+  } else if (message == "revert")
+    WbApplication::instance()->worldReload();
+  else if (message.startsWith("load:")) {
+    const QString worldsPath = WbProject::current()->worldsPath();
+    const QString fullPath = worldsPath + '/' + message.mid(5);
+    if (!QFile::exists(fullPath))
+      WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
+    else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
+      WbLog::error(tr("Streaming server: you are not allowed to open a world in another project directory."));
+    else if (gMainWindow)
+      gMainWindow->loadDifferentWorld(fullPath);
   } else if (message.startsWith("get controller:")) {
     const QString controller = message.mid(15);
     if (!isControllerEditAllowed(controller))
@@ -472,12 +532,12 @@ void WbStreamingServer::processTextMessage(QString message) {
     const QStringRef content = message.midRef(message.indexOf('\n') + 1);
     file.write(content.toUtf8());
     file.close();
-  } else if (message.startsWith("x3dom")) {
-    WbLog::info(tr("Streaming server: Client set mode to: X3DOM."));
+  } else if (message.startsWith("x3d")) {
+    WbLog::info(tr("Streaming server: Client set mode to: X3D."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
 
     if (!WbWorld::instance()->isLoading())
-      startX3domStreaming(client);
+      startX3dStreaming(client);
     // else streaming is started once the world loading is completed
   } else if (message.startsWith("video: ")) {
     QStringList resolution = message.mid(7).split("x");
@@ -502,11 +562,15 @@ void WbStreamingServer::processTextMessage(QString message) {
     WbLog::error(tr("Streaming server: Unsupported message: %1.").arg(message));
 }
 
-void WbStreamingServer::startX3domStreaming(QWebSocket *client) {
+void WbStreamingServer::startX3dStreaming(QWebSocket *client) {
   try {
     if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
       generateX3dWorld();
     sendWorldToClient(client);
+    // send the current simulation state to the newly connected client
+    const QString &stateMessage = simulationStateString();
+    if (!stateMessage.isEmpty())
+      client->sendTextMessage(stateMessage);
     WbLog::info(tr("Streaming server: New client [%1] (%2 connected client(s)).").arg(clientToId(client)).arg(mClients.size()));
   } catch (const QString &e) {
     WbLog::error(tr("Streaming server: Cannot send world date to client [%1] because: %2.").arg(clientToId(client)).arg(e));
@@ -612,7 +676,7 @@ void WbStreamingServer::sendToClients(const QString &message) {
 }
 
 void WbStreamingServer::newWorld() {
-  if (mServer == NULL)
+  if (mWebSocketServer == NULL)
     return;
 
   if (mMonitorActivity) {
@@ -660,7 +724,7 @@ void WbStreamingServer::newWorld() {
 }
 
 void WbStreamingServer::deleteWorld() {
-  if (mServer == NULL)
+  if (mWebSocketServer == NULL)
     return;
   WbAnimationRecorder::instance()->cleanupFromStreamingServer();
   foreach (QWebSocket *client, mClients)
@@ -668,8 +732,15 @@ void WbStreamingServer::deleteWorld() {
   mEditableControllers.clear();
 }
 
+void WbStreamingServer::setWorldLoadingProgress(const int progress) {
+  foreach (QWebSocket *client, mClients) {
+    client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
+    client->flush();
+  }
+}
+
 void WbStreamingServer::propagateNodeAddition(WbNode *node) {
-  if (mServer == NULL || WbWorld::instance() == NULL)
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
   WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
@@ -694,45 +765,43 @@ void WbStreamingServer::propagateNodeAddition(WbNode *node) {
     QString nodeString;
     WbVrmlWriter writer(&nodeString, node->modelName() + ".x3d");
     node->write(writer);
-    foreach (QWebSocket *client, mClients) {
+    foreach (QWebSocket *client, mClients)
       client->sendTextMessage(QString("node:%1:%2").arg(node->parent()->uniqueId()).arg(nodeString));
-      sendTexturesToClient(client, writer.texturesList());
-    }
   }
 }
 
 void WbStreamingServer::propagateNodeDeletion(WbNode *node) {
-  if (mServer == NULL || WbWorld::instance() == NULL)
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL)
     return;
 
   foreach (QWebSocket *client, mClients)
     client->sendTextMessage(QString("delete:%1").arg(node->uniqueId()));
 }
 
-void WbStreamingServer::propagateSimulationStateChange() {
-  if (mServer == NULL || WbWorld::instance() == NULL || mClients.isEmpty())
-    return;
-
-  QString message;
+QString WbStreamingServer::simulationStateString() {
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::PAUSE:
-      message = "pause";
-      break;
+      return "pause";
     case WbSimulationState::STEP:
-      message = "step";
-      break;
+      return "step";
     case WbSimulationState::REALTIME:
-      message = "real-time";
-      break;
+      return "real-time";
     case WbSimulationState::RUN:
-      message = "run";
-      break;
+      return "run";
     case WbSimulationState::FAST:
-      message = "fast";
-      break;
+      return "fast";
     default:
-      return;
+      return QString();
   }
+}
+
+void WbStreamingServer::propagateSimulationStateChange() {
+  if (mWebSocketServer == NULL || WbWorld::instance() == NULL || mClients.isEmpty())
+    return;
+
+  const QString &message = simulationStateString();
+  if (message.isEmpty())
+    return;
   foreach (QWebSocket *client, mClients)
     client->sendTextMessage(message);
 }
@@ -753,11 +822,17 @@ void WbStreamingServer::generateX3dWorld() {
 }
 
 void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
+  WbWorld *world = WbWorld::instance();
+  const QDir dir = QFileInfo(world->fileName()).dir();
+  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  QString worlds;
+  for (int i = 0; i < worldList.size(); ++i)
+    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
+  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+
   qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
   if (ret < mX3dWorld.size())
     throw tr("Cannot sent the entire world");
-
-  sendTexturesToClient(client, mX3dWorldTextures);
 
   QString state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
@@ -772,31 +847,6 @@ void WbStreamingServer::sendWorldToClient(QWebSocket *client) {
   }
 
   client->sendTextMessage("scene load completed");
-}
-
-void WbStreamingServer::sendTexturesToClient(QWebSocket *client, const QHash<QString, QString> &textures) {
-  QHashIterator<QString, QString> it(textures);
-  while (it.hasNext()) {
-    it.next();
-    QString url = it.key();
-    assert(!url.isEmpty());
-    const QString &escapedUrl = url.replace("]", "\\]");  // escape ']'
-
-    const QFileInfo &textureFileInfo(it.value());
-    QFile imageFile(textureFileInfo.absoluteFilePath());
-    if (!imageFile.open(QIODevice::ReadOnly))
-      throw tr("Cannot open the texture file '%1'.").arg(textureFileInfo.absoluteFilePath());
-
-    const QByteArray &image = imageFile.readAll();
-    const QString &encoded = QString(image.toBase64());
-
-    const qint64 ret = client->sendTextMessage(
-      QString("image[%1]:data:image/%2;base64,").arg(escapedUrl).arg(textureFileInfo.suffix() == "png" ? "png" : "jpeg") +
-      encoded);
-
-    if (ret < image.size())
-      throw tr("Cannot sent the entire texture '%1'.").arg(textureFileInfo.absoluteFilePath());
-  }
 }
 
 void WbStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) {

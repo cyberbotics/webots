@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start Webots -->
+  <arg name="no-gui" default="false," doc="Start Webots with minimal GUI"/>
+  <include file="$(find webots_ros)/launch/webots.launch">
+    <arg name="mode" value="realtime"/>
+    <arg name="no-gui" value="$(arg no-gui)"/>
+    <arg name="world" value="$(env WEBOTS_HOME)/projects/languages/ros/worlds/e-puck_line.wbt"/>
+  </include>
+
+  <arg name="duration" default="20" doc="Duration in seconds"/>
+  <arg name="auto-close" default="false" doc="Startup mode"/>
+  <node name="epuck_line" pkg="webots_ros" type="e_puck_line" args="$(arg duration)" required="$(arg auto-close)"/>
+</launch>

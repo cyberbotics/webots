@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -10,6 +10,7 @@ PROTO CitroenCZeroHeadLight [
     appearance PBRAppearance {
       metalness 0
       roughness 0.2
+      emissiveIntensity 30
     }
     geometry IndexedFaceSet {
       coord Coordinate {

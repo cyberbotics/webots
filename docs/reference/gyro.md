@@ -105,7 +105,7 @@ public class Gyro extends Device {
 
 %tab "MATLAB"
 
-```matlab
+```MATLAB
 wb_gyro_enable(tag, sampling_period)
 wb_gyro_disable(tag)
 period = wb_gyro_get_sampling_period(tag)

@@ -22,16 +22,20 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <locale.h>  // LC_NUMERIC
 #include <stdarg.h>
 #include <stdio.h>   // snprintf
 #include <stdlib.h>  // exit
 #include <string.h>  // strlen
+#include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 #include <webots/types.h>
+#include <webots/utils/system.h>
 #include "device_private.h"
 #include "differential_wheels_private.h"
 #include "joystick_private.h"
@@ -53,7 +57,6 @@
 #include <windows.h>  // GetCommandLine
 #else
 #include <pthread.h>
-#include <unistd.h>  // pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 #endif
 
 #define WEBOTS_EXIT_FALSE 0
@@ -633,6 +636,7 @@ WbMutexRef wb_robot_mutex_new() {
   pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
   pthread_mutex_init(m, NULL);
 #endif
+  // cppcheck-suppress resourceLeak
   return (WbMutexRef)m;
 }
 
@@ -930,6 +934,7 @@ int wb_robot_init() {  // API initialization
   static bool already_done = false;
   if (already_done)
     return true;
+  setlocale(LC_NUMERIC, "C");
   // the robot.configuration points to a data structure is made up of the following:
   // one uint8 saying if the robot is synchronized (1) or not (0)
   // one uint8 giving the number of devices n
@@ -952,8 +957,51 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  if (!scheduler_init())
-    exit(EXIT_FAILURE);  // failed to initialize
+  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
+  char *pipe;
+  if (WEBOTS_SERVER && WEBOTS_SERVER[0])
+    pipe = strdup(WEBOTS_SERVER);
+  else {
+    unsigned int trial = 0;
+    while (trial < 10) {
+      trial++;
+      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path();
+      if (!WEBOTS_TMP_PATH) {
+        if (trial <= 10)
+          fprintf(stderr, "Webots doesn't seems to be ready yet: (retrying in %u second%s)\n", trial, trial > 1 ? "s" : "");
+        sleep(trial);
+      } else {
+        char buffer[1024];
+        snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
+        FILE *fd = fopen(buffer, "r");
+        if (fd) {
+          if (!fscanf(fd, "%1023s", buffer)) {
+            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content\n", WEBOTS_TMP_PATH);
+            pipe = NULL;
+          } else {
+            pipe = strdup(buffer);
+            break;
+          }
+          fclose(fd);
+        } else {
+          if (trial <= 10)
+            fprintf(stderr, "Cannot open file: %s (retrying in %u second%s)\n", buffer, trial, trial > 1 ? "s" : "");
+          pipe = NULL;
+        }
+        if (trial > 10)
+          fprintf(stderr, "Impossible to communicate with Webots: aborting\n");
+        else
+          sleep(trial);
+      }
+    }
+  }
+  if (!pipe || !scheduler_init(pipe)) {
+    if (!pipe)
+      fprintf(stderr, "Cannot connect to Webots: no pipe defined\n");
+    free(pipe);
+    exit(EXIT_FAILURE);
+  }
+  free(pipe);
 
   // robot device
   robot.n_device = 1;

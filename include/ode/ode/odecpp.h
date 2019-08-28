@@ -188,9 +188,9 @@ protected:
 public:
   dBodyTemplate()
     { }
-  dBodyTemplate (dWorldID world)
+  explicit dBodyTemplate (dWorldID world)
     { set_id(dBodyCreate(world)); }
-  dBodyTemplate (dWorldTemplate<dWorldTemplateBase>& world)
+  explicit dBodyTemplate (dWorldTemplate<dWorldTemplateBase>& world)
     { set_id(dBodyCreate(world.id())); }
 
   void create (dWorldID world) {
@@ -574,9 +574,9 @@ protected:
 
 public:
   dBallJointTemplate() { }
-  dBallJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dBallJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateBall(world, group)); }
-  dBallJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dBallJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateBall(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -594,9 +594,9 @@ public:
     { dJointGetBallAnchor (get_id(), result); }
   void getAnchor2 (dVector3 result) const
     { dJointGetBallAnchor2 (get_id(), result); }
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetBallParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetBallParam (get_id(), parameter); }
   // TODO: expose params through methods
 } ;
@@ -618,9 +618,9 @@ protected:
 
 public:
   dHingeJointTemplate() { }
-  dHingeJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dHingeJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateHinge(world, group)); }
-  dHingeJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dHingeJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateHinge(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -651,9 +651,9 @@ public:
   dReal getAngleRate() const
     { return dJointGetHingeAngleRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetHingeParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetHingeParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -678,9 +678,9 @@ protected:
 
 public:
   dSliderJointTemplate() { }
-  dSliderJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dSliderJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateSlider(world, group)); }
-  dSliderJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dSliderJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateSlider(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -702,9 +702,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetSliderPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetSliderParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetSliderParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -729,9 +729,9 @@ protected:
 
 public:
   dUniversalJointTemplate() { }
-  dUniversalJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dUniversalJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateUniversal(world, group)); }
-  dUniversalJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dUniversalJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateUniversal(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -763,9 +763,9 @@ public:
   void getAxis2 (dVector3 result) const
     { dJointGetUniversalAxis2 (get_id(), result); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetUniversalParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetUniversalParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -802,9 +802,9 @@ protected:
 
 public:
   dHinge2JointTemplate() { }
-  dHinge2JointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dHinge2JointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateHinge2(world, group)); }
-  dHinge2JointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dHinge2JointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateHinge2(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -843,9 +843,9 @@ public:
   dReal getAngle2Rate() const
     { return dJointGetHinge2Angle2Rate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetHinge2Param (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetHinge2Param (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -870,9 +870,9 @@ protected:
 
 public:
   dPRJointTemplate() { }
-  dPRJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dPRJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreatePR(world, group)); }
-  dPRJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dPRJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreatePR(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -912,9 +912,9 @@ public:
   dReal getAngleRate() const
     { return dJointGetPRAngleRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetPRParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPRParam (get_id(), parameter); }
 };
 
@@ -936,9 +936,9 @@ protected:
 
 public:
   dPUJointTemplate() { }
-  dPUJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dPUJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreatePU(world, group)); }
-  dPUJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dPUJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreatePU(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0)
@@ -993,9 +993,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetPUPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
   { dJointSetPUParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPUParam (get_id(), parameter); }
   // TODO: expose params through methods
 };
@@ -1018,9 +1018,9 @@ protected:
 
 public:
   dPistonJointTemplate() { }
-  dPistonJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dPistonJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreatePiston(world, group)); }
-  dPistonJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dPistonJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreatePiston(world, group)); }
 
   void create (dWorldID world, dJointGroupID group=0)
@@ -1052,9 +1052,9 @@ public:
   dReal getPositionRate() const
     { return dJointGetPistonPositionRate (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
   { dJointSetPistonParam (get_id(), parameter, value); }
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetPistonParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -1080,9 +1080,9 @@ protected:
 
 public:
   dFixedJointTemplate() { }
-  dFixedJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dFixedJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateFixed(world, group)); }
-  dFixedJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dFixedJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateFixed(world, group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -1095,10 +1095,10 @@ public:
   void set()
     { dJointSetFixed (get_id()); }
 
-  virtual void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetFixedParam (get_id(), parameter, value); }
 
-  virtual dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetFixedParam (get_id(), parameter); }
   // TODO: expose params through methods
 };
@@ -1151,9 +1151,9 @@ protected:
 
 public:
   dNullJointTemplate() { }
-  dNullJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dNullJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateNull(world, group)); }
-  dNullJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dNullJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateNull (world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -1181,9 +1181,9 @@ protected:
 
 public:
   dAMotorJointTemplate() { }
-  dAMotorJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dAMotorJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateAMotor(world, group)); }
-  dAMotorJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dAMotorJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateAMotor(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -1219,9 +1219,9 @@ public:
   dReal getAngleRate (int anum)
     { return dJointGetAMotorAngleRate (get_id(), anum); }
 
-  void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetAMotorParam (get_id(), parameter, value); }
-  dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetAMotorParam (get_id(), parameter); }
   // TODO: expose params through methods
 
@@ -1246,9 +1246,9 @@ protected:
 
 public:
   dLMotorJointTemplate() { }
-  dLMotorJointTemplate (dWorldID world, dJointGroupID group=0)
+  explicit dLMotorJointTemplate (dWorldID world, dJointGroupID group=0)
     { set_id(dJointCreateLMotor(world, group)); }
-  dLMotorJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
+  explicit dLMotorJointTemplate (dWorldTemplate<dWorldTemplateBase>& world, dJointGroupID group=0)
     { set_id(dJointCreateLMotor(world.id(), group)); }
 
   void create (dWorldID world, dJointGroupID group=0) {
@@ -1270,9 +1270,9 @@ public:
   void getAxis (int anum, dVector3 result) const
     { dJointGetLMotorAxis (get_id(), anum, result); }
 
-  void setParam (int parameter, dReal value)
+  void setParam (int parameter, dReal value) override
     { dJointSetLMotorParam (get_id(), parameter, value); }
-  dReal getParam (int parameter) const
+  dReal getParam (int parameter) const override
     { return dJointGetLMotorParam (get_id(), parameter); }
   // TODO: expose params through methods
 };

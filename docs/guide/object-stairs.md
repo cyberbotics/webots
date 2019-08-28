@@ -6,7 +6,7 @@ Generic and customizable stairs model.
 
 %figure
 
-![StraightStairs](images/objects/stairs/StraightStairs/model.png)
+![StraightStairs](images/objects/stairs/StraightStairs/model.thumbnail.png)
 
 %end
 
@@ -20,6 +20,7 @@ StraightStairs {
   SFVec3f    stepSize           0.4 0.03 1.27
   SFFloat    stepRise           0.15
   SFInt32    nSteps             5
+  SFFloat    stringerWidth      0.02
   SFNode     stepAppearance     VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   SFNode     stringerAppearance VarnishedPine { textureTransform TextureTransform { scale 4 4 } }
   MFNode     leftRail           StraightStairsRail {}
@@ -42,6 +43,8 @@ StraightStairs {
 
 - `nSteps`: Defines the number of steps.
 
+- `stringerWidth`: Defines the width of the stringers.
+
 - `stepAppearance`: Defines the appearance of the steps.
 
 - `stringerAppearance`: Defines the appearance of the stringers.
@@ -58,7 +61,7 @@ Generic and customizable landing model for straight stairs.
 
 %figure
 
-![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.png)
+![StraightStairsLanding](images/objects/stairs/StraightStairsLanding/model.thumbnail.png)
 
 %end
 
@@ -116,7 +119,7 @@ Default stairs handrail.
 
 %figure
 
-![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.png)
+![StraightStairsRail](images/objects/stairs/StraightStairsRail/model.thumbnail.png)
 
 %end
 

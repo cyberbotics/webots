@@ -35,7 +35,6 @@ public:
   const QString slotType(WbNode *node) override;
   bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node, bool isInBoundingObject,
                                  QString &errorMessage) const override;
-  const QString &modelToVrmlName(const QString &modelName) override;
   void exportAsVrml(const WbNode *node, WbVrmlWriter &writer) override;
 
 private:

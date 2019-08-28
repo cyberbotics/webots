@@ -73,7 +73,6 @@ static int g_image_png_load(const char *filename, GImage *image) {
       png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
       fclose(f);
       free(row_pointers);
-      free(image->data);
       g_image_make_chess_board(image);
       return false;
     }

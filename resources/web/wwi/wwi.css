@@ -132,6 +132,7 @@ button::-moz-focus-inner {
   border: none;
   width: 100%;
   height: calc(100% - 48px);
+  position: relative;
 }
 
 #webotsConsole {

@@ -51,8 +51,6 @@ namespace wren {
 
     void setColorPerVertex(bool enabled) override { mColorPerVertex = enabled; }
 
-    void linearDiffuse(float *returnColor) const;
-
     PhongMaterial();
     ~PhongMaterial() { releaseMaterial(); }
     void bind(bool bindProgram = true) const override;

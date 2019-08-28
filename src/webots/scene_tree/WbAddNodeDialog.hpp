@@ -81,7 +81,9 @@ private:
   bool mIsFolderItemSelected;
 
   QStringList mUniqueLocalProtoNames;
+  QStringList mUniqueExtraProtoNames;
   bool mIsAddingLocalProtos;
+  bool mIsAddingExtraProtos;
 
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
                              const QDir &rootDirectory, bool recurse = true, bool inProtos = false);

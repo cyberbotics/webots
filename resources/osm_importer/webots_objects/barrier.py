@@ -76,7 +76,7 @@ class Barrier(WebotsObject):
     def export(cls, file):
         """Export all the barriers from the barriers list."""
         for barrier in Barrier.list[:]:
-            if len(barrier.ref) < 1:
+            if not barrier.ref:
                 Barrier.list.remove(barrier)
                 continue
 

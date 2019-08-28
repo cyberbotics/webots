@@ -2,7 +2,7 @@
 
 %figure "The Highway world"
 
-![highway.png](images/highway.png)
+![highway.png](images/highway.thumbnail.jpg)
 
 %end
 

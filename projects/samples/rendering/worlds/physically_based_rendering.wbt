@@ -1,4 +1,4 @@
-#VRML_SIM R2019a utf8
+#VRML_SIM R2019b utf8
 WorldInfo {
   info [
     "Demo of a simulation world with objects rendered with a Physically Based Rendering (PBR) appearance."
@@ -25,7 +25,6 @@ DEF GOLD SphereGrid {
   normalMap NULL
   baseColorMap NULL
   roughnessMap NULL
-  cubeMap NULL
   transparency 0
   widthAndHeight 5
 }
@@ -36,7 +35,6 @@ DEF SILVER SphereGrid {
   normalMap NULL
   baseColorMap NULL
   roughnessMap NULL
-  cubeMap NULL
   transparency 0
   widthAndHeight 5
 }
@@ -47,7 +45,6 @@ DEF BLACK SphereGrid {
   normalMap NULL
   baseColorMap NULL
   roughnessMap NULL
-  cubeMap NULL
   transparency 0
   widthAndHeight 5
 }
@@ -58,7 +55,6 @@ DEF COPPER SphereGrid {
   normalMap NULL
   baseColorMap NULL
   roughnessMap NULL
-  cubeMap NULL
   transparency 0
   widthAndHeight 5
 }

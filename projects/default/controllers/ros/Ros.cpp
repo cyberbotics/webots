@@ -300,7 +300,8 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
       case Node::CONNECTOR:
-        mDeviceList.push_back(static_cast<RosDevice *>(new RosConnector(dynamic_cast<Connector *>(tempDevice), this)));
+        mSensorList.push_back(static_cast<RosSensor *>(new RosConnector(dynamic_cast<Connector *>(tempDevice), this)));
+        mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
       case Node::DISPLAY:
         mDeviceList.push_back(static_cast<RosDevice *>(new RosDisplay(dynamic_cast<Display *>(tempDevice), this)));
@@ -439,7 +440,8 @@ void Ros::run(int argc, char **argv) {
       rosgraph_msgs::Clock simulationClock;
       double time = mRobot->getTime();
       simulationClock.clock.sec = (int)time;
-      simulationClock.clock.nsec = (time - simulationClock.clock.sec) * 1.0e+9;
+      // round prevents precision issues that can cause problems with ROS timers
+      simulationClock.clock.nsec = round(1000 * (time - simulationClock.clock.sec)) * 1.0e+6;
       mClockPublisher.publish(simulationClock);
     }
     for (unsigned int i = 0; i < mSensorList.size(); i++)

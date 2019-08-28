@@ -16,7 +16,7 @@ namespace webotsQtUtils {
 
   class DeviceWidget : public QWidget {
   public:
-    DeviceWidget(Device *device, QWidget *parent = NULL);
+    explicit DeviceWidget(Device *device, QWidget *parent = NULL);
     virtual ~DeviceWidget() {}
 
     virtual void readSensors() {}

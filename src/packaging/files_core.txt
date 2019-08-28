@@ -5,9 +5,6 @@ bin/qt/lupdate [mac,linux,exe]
 # bin/qt/lupdate.exe.manifest [windows]
 bin/qt/moc [mac,linux,exe]
 
-change_logs/
-change_logs/*.html
-
 include/
 include/ode/
 include/ode/ode/
@@ -114,7 +111,7 @@ lib/libnihzip.dylib [mac]
 lib/libOIS-1.4.0.so [linux]
 lib/libOIS.dylib [mac]
 lib/libode.so [linux]
-lib/libode.3.dylib [mac]
+lib/libode.dylib [mac]
 lib/libpico.so [linux]
 lib/libpico.dylib [mac]
 lib/libssh.4.dylib [mac]
@@ -196,10 +193,10 @@ lib/python36/ [linux]
 lib/python36/*.py [linux]
 lib/python36/_*.so [linux]
 
-lib/python37/ [windows,mac]
-lib/python37/*.py [windows,mac]
+lib/python37/
+lib/python37/*.py
+lib/python37/_*.so [linux,mac]
 lib/python37/_*.pyd [windows]
-lib/python37/_*.so [mac]
 
 lib/matlab/
 lib/matlab/allincludes.h
@@ -357,10 +354,8 @@ resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/web/wwi/
-resources/web/wwi/pause.png
-resources/web/wwi/play.png
 resources/web/wwi/request_methods.js
-resources/web/wwi/webots.js
+resources/web/wwi/webots.min.js
 resources/web/wwi/wwi.css
 resources/wren/
 resources/wren/meshes/

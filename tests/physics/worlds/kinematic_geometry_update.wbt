@@ -1,0 +1,94 @@
+#VRML_SIM R2019b utf8
+WorldInfo {
+  gravity 0 0 0
+  physicsDisableTime 0.1
+}
+Viewpoint {
+  orientation -0.2762399788601741 0.9481703159641097 0.15704943808830057 1.0466087028797633
+  position 1.230725525034871 0.9466307803850924 0.896049052862259
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+DEF SOLID Solid {
+  translation 0 0.5 0
+  children [
+    DEF BO Shape {
+      appearance DEF APP Appearance {
+        material Material {
+          ambientIntensity 0
+          specularColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+    HingeJoint {
+      endPoint Solid {
+        translation -0.25 0.04 0
+        children [
+          USE BO
+        ]
+        boundingObject USE BO
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE BO
+  physics Physics {
+  }
+}
+DEF FLOOR Solid {
+  translation 0 0.25 0
+  children [
+    DEF BO Shape {
+      appearance DEF APP Appearance {
+        material Material {
+          ambientIntensity 0
+          specularColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/tagged_wall.jpg"
+          ]
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry DEF BOX_GEOMETRY Box {
+        size 0.9 0.2 0.9
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject USE BO
+}
+Robot {
+  children [
+    Receiver {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "kinematic_geometry_update"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

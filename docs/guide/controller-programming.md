@@ -226,7 +226,7 @@ The following [figure](#synchronization-of-simulation-and-controller-steps) depi
 
 %figure "Synchronization of simulation and controller steps"
 
-![controller_synchronization.png](images/controller_synchronization.png)
+![controller_synchronization.png](images/controller_synchronization.thumbnail.png)
 
 %end
 
@@ -316,8 +316,8 @@ int main() {
   wb_distance_sensor_enable(left_sensor, TIME_STEP);
   wb_distance_sensor_enable(right_sensor, TIME_STEP);
 
-  left_motor = wb_robot_get_device("left wheel motor");
-  right_motor = wb_robot_get_device("right wheel motor");
+  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+  WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
   wb_motor_set_position(left_motor, INFINITY);
   wb_motor_set_position(right_motor, INFINITY);
   wb_motor_set_velocity(left_motor, 0.0);
