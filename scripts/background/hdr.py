@@ -80,15 +80,16 @@ class HDR:
             return
         im = Image.new('RGB', (self.width, self.height))
         pixels = im.load()
+        one_over_gamma = 1.0 / 2.0
         for y in range(self.height):
             for x in range(self.width):
                 index = 4 * (y * self.width + x)
                 r = float(ord(self.data[index]))
                 g = float(ord(self.data[index + 1]))
                 b = float(ord(self.data[index + 2]))
-                e = float(ord(self.data[index + 3])) - 128.0
-                r = min(255, int(r * pow(2.0, e)))
-                g = min(255, int(g * pow(2.0, e)))
-                b = min(255, int(b * pow(2.0, e)))
+                e = pow(2.0, float(ord(self.data[index + 3])) - 128.0 + 8.0)
+                r = min(255, int(pow(r * e, one_over_gamma)))
+                g = min(255, int(pow(g * e, one_over_gamma)))
+                b = min(255, int(pow(b * e, one_over_gamma)))
                 pixels[x, y] = (r, g, b)
         return im
