@@ -155,7 +155,7 @@ void WbCubemap::loadWrenTexture() {
     for (int i = 0; i < 6; ++i) {
       mTextureUrls[i] = WbUrl::computePath(
         this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + gTextureSuffixes[i] + ".jpg", false);
-      if (mTextureUrls[i].isEmpty() && mSuffix.isEmpty()) {
+      if (mTextureUrls[i].isEmpty()) {
         mTextureUrls[i] = WbUrl::computePath(
           this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + gTextureSuffixes[i] + ".png", false);
         mSuffix = ".png";
