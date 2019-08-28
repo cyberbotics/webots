@@ -10,7 +10,6 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  name "rectangle arena(1)"
   floorSize 10 2
   wallHeight 0.001
 }
