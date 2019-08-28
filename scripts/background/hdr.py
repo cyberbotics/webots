@@ -1,3 +1,8 @@
+# References:
+# - http://paulbourke.net/dataformats/pic/
+# - https://github.com/plepers/hdr2png/blob/master/hdrloader.cpp
+# - https://github.com/enkimute/hdrpng.js/blob/master/hdrpng.js
+
 import re
 from PIL import Image
 
