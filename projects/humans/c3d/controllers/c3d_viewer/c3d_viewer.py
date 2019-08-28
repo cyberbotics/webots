@@ -354,7 +354,8 @@ while supervisor.step(timestep) != -1:
                     bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
                     # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
                 else:
-                    sys.stderr.write('Warning: "transforms3d" not installed, install it to update body representation: "pip install transforms3d"\n')
+                    sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
+                    sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
             if labels[j] in bodyTranslations:
                 y = points[j][2] * scale
                 if inverseY:
