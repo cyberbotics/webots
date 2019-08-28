@@ -23,61 +23,66 @@ optParser.add_option(
 )
 options, args = optParser.parse_args()
 
-cubemap_names = {
-    'right',  # +x
-    'left',  # -x
-    'top',  # +y
-    'bottom',  # -y
-    'front',  # +z
-    'back'  # -z
-}
+cubemap_names = [
+    'back',
+    'left',
+    'front',
+    'right',
+    'top',
+    'bottom'
+    # 'right',  # +x
+    # 'left',  # -x
+    # 'top',  # +y
+    # 'bottom',  # -y
+    # 'front',  # +z
+    # 'back'  # -z
+]
+
+
+def outImgToXYZ(i, j, faceIdx, faceSize):
+    a = 2.0 * float(i) / faceSize
+    b = 2.0 * float(j) / faceSize
+
+    if faceIdx == 0:  # back
+        return (-1.0, 1.0 - a, 1.0 - b)
+    elif faceIdx == 1:  # left
+        return (a - 1.0, -1.0, 1.0 - b)
+    elif faceIdx == 2:  # front
+        return (1.0, a - 1.0, 1.0 - b)
+    elif faceIdx == 3:  # right
+        return (1.0 - a, 1.0, 1.0 - b)
+    elif faceIdx == 4:  # top
+        return (b - 1.0, a - 1.0, 1.0)
+    else:  # faceIdx == 5:  # bottom
+        return (1.0 - b, a - 1.0, -1.0)
+
 
 print('Load equirectanglar image...')
 equi = HDR.load_from_file(options.input)
 
-for cm_name in cubemap_names:
+for c in range(len(cubemap_names)):
+    cm_name = cubemap_names[c]
     print('Generate %s cubemap image...' % cm_name)
     cm_filename = options.input.replace('.hdr', '_' + cm_name + '.hdr')
     cubemap = HDR.create_black_image(options.width, options.height)
     for i in range(options.height):
         for j in range(options.width):
-            a = float(i) / options.width
-            b = float(j) / options.height
-            x = 0.0
-            y = 0.0
-            z = 0.0
-            if cm_name == 'right':
-                x = 1.0 - a
-                y = 1.0
-                z = 1.0 - b
-            elif cm_name == 'left':
-                x = a - 1.0
-                y = -1.0
-                z = 1.0 - b
-            elif cm_name == 'top':
-                x = b - 1.0
-                y = a - 1.0
-                z = 1.0
-            elif cm_name == 'bottom':
-                x = 1.0 - b
-                y = a - 1.0
-                z = -1.0
-            elif cm_name == 'front':
-                x = 1.0
-                y = a - 1.0
-                z = 1.0 - b
-            elif cm_name == 'back':
-                x = -1.0
-                y = 1.0 - a
-                z = 1.0 - b
-            theta = math.atan2(y, x)
-            rad = math.sqrt(x * x + y * y)
-            phi = math.atan2(z, rad)
+            (x, y, z) = outImgToXYZ(i, j, c, options.width)
+            theta = math.atan2(y, x)  # range -pi to pi
+            r = math.hypot(x, y)
+            phi = math.atan2(z, r)  # range -pi/2 to pi/2
 
-            uf = equi.width * (theta + math.pi) / math.pi
+            uf = 0.5 * equi.width * (theta + math.pi) / math.pi
             vf = equi.height * (math.pi / 2 - phi) / math.pi
-            ui = clamp_int(math.floor(uf), 0, equi.width - 1)
-            vi = clamp_int(math.floor(vf), 0, equi.height - 1)
 
-            cubemap.set_pixel(i, j, equi.get_pixel(ui, vi))
+            u1 = int(math.floor(uf))  # coord of pixel to bottom left
+            v1 = int(math.floor(vf))
+            u2 = u1 + 1  # coords of pixel to top right
+            v2 = v1 + 1
+            mu = uf - u1  # fraction of way across pixel
+            nu = vf - v1
+
+            A = equi.get_pixel(u1 % equi.width, clamp_int(v1, 0, equi.height - 1))
+
+            cubemap.set_pixel(i, j, A)
     cubemap.save(cm_filename)
