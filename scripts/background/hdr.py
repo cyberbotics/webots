@@ -38,23 +38,38 @@ class HDR:
                 line = f.readline()
 
                 # Case: Empty lines
-                if line == '':
+                if line == '' or (len(line) == 1 and ord(line[0]) == 10):
                     continue
                 # Case: header
-                m = re.match(r'^#\?RADIANCE$', line, re.IGNORECASE)
+                m = re.match(r'^#\?RADIANCE$', line)
                 if m:
                     self.header = True
                     continue
                 # Case: Size
-                m = re.match(r'^(.)(.)\s(\d+)\s(.)(.)\s(\d+)$', line, re.IGNORECASE)
+                m = re.match(r'^(.)(.)\s(\d+)\s(.)(.)\s(\d+)$', line)
                 if m:
                     self.rotated = m.group(2) == 'X'
                     self.xFlipped = m.group(1 if self.rotated else 4) == '-'
                     self.yFlipped = m.group(4 if self.rotated else 1) == '+'
                     self.width = int(m.group(6))
                     self.height = int(m.group(3))
-                # Case: Data
-                self.data = line
+                    continue
+                # Case: ignored header entries
+                if line.startswith('FORMAT=') or \
+                        line.startswith('EXPOSURE=') or \
+                        line.startswith('COLORCORR=') or \
+                        line.startswith('SOFTWARE=') or \
+                        line.startswith('PIXASPECT=') or \
+                        line.startswith('VIEW=') or \
+                        line.startswith('PRIMARIES=') or \
+                        line.startswith('GAMMA=') or \
+                        line.startswith('# '):
+                    continue
+                break
+            # Case: Data
+            self.data = line + f.read()
+        if self.rotated or self.xFlipped or self.yFlipped:
+            raise RuntimeError('Unsupported flip or rotation flags.')
         return self.is_valid()
 
     def is_valid(self):
