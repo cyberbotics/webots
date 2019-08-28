@@ -3,8 +3,11 @@
 # - https://github.com/plepers/hdr2png/blob/master/hdrloader.cpp
 # - https://github.com/enkimute/hdrpng.js/blob/master/hdrpng.js
 
+import math
 import re
-from PIL import Image
+import struct
+
+GAMMA = 2.0
 
 
 class HDR:
@@ -72,28 +75,54 @@ class HDR:
                 break
             # Case: Data
             data = line + f.read()
-        assert header, 'Invalid header'
-        assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, 'Invalid dimensions'
-        assert not (hdr.rotated or hdr.xFlipped or hdr.yFlipped), 'flip or rotation flags are not supported yet'
+        assert header, 'Invalid header.'
+        assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, 'Invalid dimensions.'
+        assert not (hdr.rotated or hdr.xFlipped or hdr.yFlipped), 'Flip or rotation flags are not supported.'
 
         # Convert data to floats
         hdr.data = [0.0] * (3 * hdr.width * hdr.height)
-        one_over_gamma = 1.0 / 2.0
         for i in range(hdr.width * hdr.height):
             r = float(ord(data[4 * i]))
             g = float(ord(data[4 * i + 1]))
             b = float(ord(data[4 * i + 2]))
             e = pow(2.0, float(ord(data[4 * i + 3])) - 128.0 + 8.0)
-            hdr.data[3 * i] = pow(r * e, one_over_gamma)
-            hdr.data[3 * i + 1] = pow(g * e, one_over_gamma)
-            hdr.data[3 * i + 2] = pow(b * e, one_over_gamma)
+            hdr.data[3 * i] = pow(r * e, 1.0 / GAMMA)
+            hdr.data[3 * i + 1] = pow(g * e, 1.0 / GAMMA)
+            hdr.data[3 * i + 2] = pow(b * e, 1.0 / GAMMA)
 
         return hdr
 
+    def save(self, filename):
+        """Save the image to a file."""
+        assert self.is_valid()
+        assert filename.endswith('.hdr')
+        assert not (self.rotated or self.xFlipped or self.yFlipped), 'Flip or rotation flags are not supported.'
+
+        with open(filename, "w") as f:
+            f.write('#?RADIANCE\n')
+            f.write('FORMAT=32-bit_rle_rgbe\n')
+            f.write('\n')
+            f.write('-Y %d +X %d\n' % (self.height, self.width))
+            for i in range(self.width * self.height):
+                r = pow(self.data[3 * i], GAMMA)
+                g = pow(self.data[3 * i + 1], GAMMA)
+                b = pow(self.data[3 * i + 2], GAMMA)
+                v = max(r, g, b)
+                e = math.ceil(math.log(v, 2))
+                s = pow(2, e - 8)
+                bytes = [
+                    clamp_int(r / s, 0, 255),
+                    clamp_int(g / s, 0, 255),
+                    clamp_int(b / s, 0, 255),
+                    clamp_int(e + 128, 0, 255)
+                ]
+                f.write(struct.pack("BBBB", *bytearray(bytes)))
+            f.write('\n')
+
     def to_pil(self):
         """Create a PIL image to test the script."""
-        if not self.is_valid():
-            return
+        assert self.is_valid()
+        from PIL import Image
         im = Image.new('RGB', (self.width, self.height))
         pixels = im.load()
         for y in range(self.height):
@@ -104,3 +133,7 @@ class HDR:
                 b = max(0, min(255, int(self.data[index + 2])))
                 pixels[x, y] = (r, g, b)
         return im
+
+
+def clamp_int(v, a, b):
+    return max(a, min(b, int(v)))
