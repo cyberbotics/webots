@@ -20,7 +20,7 @@ import c3d
 import math
 import os.path
 import sys
-import transforms3d
+import transforms3d  # TODO: check import
 
 angleSignAndOrder = {
     'RShoulderAngles': ((-1, -1, 1), 'rxzy'),
