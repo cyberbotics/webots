@@ -20,7 +20,12 @@ import c3d
 import math
 import os.path
 import sys
-import transforms3d  # TODO: check import
+transforms3dVailable = True
+try:
+    import transforms3d
+except ImportError:
+    transforms3dVailable = False
+
 
 angleSignAndOrder = {
     'RShoulderAngles': ((-1, -1, 1), 'rxzy'),
@@ -341,12 +346,15 @@ while supervisor.step(timestep) != -1:
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
             # updatte body representation (if any)
             if labels[j] in bodyRotations:
-                rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
-                                                       angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,
-                                                       angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
-                                                       axes=angleSignAndOrder[labels[j]][1])
-                bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
-                # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
+                if transforms3dVailable:
+                    rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
+                                                           angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,
+                                                           angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
+                                                           axes=angleSignAndOrder[labels[j]][1])
+                    bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
+                    # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
+                else:
+                    sys.stderr.write('Warning: "transforms3d" not installed, install it to update body representation: "pip install transforms3d"\n')
             if labels[j] in bodyTranslations:
                 y = points[j][2] * scale
                 if inverseY:
