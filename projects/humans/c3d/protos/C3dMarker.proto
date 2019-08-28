@@ -5,7 +5,7 @@ PROTO C3dMarker [
   field SFVec3f      translation              0 0 0
   field SFColor      color                    0 1 0
   field SFFloat      transparency             0
-  field SFFloat      radius                   0.005
+  field SFFloat      radius                   0.01
   field SFString     name                     "marker"
 ]
 {

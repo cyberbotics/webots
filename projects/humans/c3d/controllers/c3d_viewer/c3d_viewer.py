@@ -131,7 +131,7 @@ reader = c3d.Reader(open(sys.argv[1], 'rb'))
 # get C3D files settings
 numberOfpoints = reader.header.point_count
 frameStep = 1.0 / reader.header.frame_rate
-scale = reader.header.scale_factor
+scale = -1.0 if reader.header.scale_factor < 0 else 1.0
 if reader.groups['POINT'].get('UNITS').string_value.strip() == 'mm':
     scale *= 0.001
 elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
@@ -318,11 +318,14 @@ while supervisor.step(timestep) != -1:
         # update the marker visualization
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
-                x = points[j][0] * scale
                 y = points[j][2] * scale
                 if inverseY:
                     y = -y
-                z = -points[j][1] * scale
+                    x = points[j][0] * scale
+                    z = -points[j][1] * scale
+                else:
+                    x = points[j][1] * scale
+                    z = -points[j][0] * scale
                 if pointRepresentations[labels[j]]['visible']:
                     pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
                     if enableMarkerGraph:
@@ -344,11 +347,14 @@ while supervisor.step(timestep) != -1:
                 bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
                 # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
             if labels[j] in bodyTranslations:
-                x = points[j][0] * scale
                 y = points[j][2] * scale
                 if inverseY:
                     y = -y
-                z = -points[j][1] * scale
+                    x = points[j][0] * scale
+                    z = -points[j][1] * scale
+                else:
+                    x = points[j][1] * scale
+                    z = -points[j][0] * scale
                 bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
         if toSend:

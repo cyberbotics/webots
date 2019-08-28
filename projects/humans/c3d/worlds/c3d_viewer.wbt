@@ -2,17 +2,16 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.3786489038174234 0.8320295826227821 0.40540323294026975 1.6650769843945135
-  position 2.8993359234806446 3.2990398809872263 -0.848742768207964
+  orientation -0.7095662703664664 0.642643640090935 0.2890066777929114 0.7904657261701156
+  position 3.271213250962302 4.245847478516282 5.147248384110216
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  translation 0 0 -2
   name "rectangle arena(1)"
-  floorSize 2 5
+  floorSize 10 2
   wallHeight 0.001
 }
 C3dViewer {
