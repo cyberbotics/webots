@@ -30,7 +30,7 @@ UR5e/UR5e/UR10e {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR3e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR3e.proto)", "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR5e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR5e.proto)" and "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR10e.proto](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/protos/UR10e.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR3e.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/protos/UR3e.proto)", "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR5e.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/protos/UR5e.proto)" and "[WEBOTS\_HOME/projects/robots/universal\_robots/protos/UR10e.proto](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/protos/UR10e.proto)"
 
 #### Field Summary
 
@@ -40,16 +40,16 @@ UR5e/UR5e/UR10e {
 
 ### Samples
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/universal\_robots/worlds](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/universal\_robots/worlds](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/worlds)".
 
-#### [ure.wbt](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/worlds/ure.wbt)
+#### [ure.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/worlds/ure.wbt)
 
 ![ure.wbt.png](images/robots/ure/ure.wbt.thumbnail.jpg) This simulation shows an UR3e, an UR5e and an UR10e robot, equipped with a [ROBOTIQ 3F Gripper](gripper-actuators.md#robotiq-3f-gripper), grabbing cans on conveyor belts and putting them in crates.
 
 ### ROS
 
 To use ROS with the simulated UR3e/UR5e/UR10e robot in Webots, the `universal_robots_ros` controller should be assigned to the robot.
-Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal\_robots/ressources/ros\_package/ur\_e\_webots](https://github.com/omichel/webots/tree/master/projects/robots/universal_robots/ressources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
+Then the `ur_e_webots` ROS package located in "[WEBOTS\_HOME/projects/robots/universal\_robots/ressources/ros\_package/ur\_e\_webots](https://github.com/cyberbotics/webots/tree/master/projects/robots/universal_robots/ressources/ros_package/ur_e_webots)" should be copied into your catkin workspace.
 
 Once `roscore` is started the `ur5e` (replace `5` by `3` or `10` for the UR3e or UR10e) node of the `ur_e_webots` package can be launched:
 ```

@@ -34,7 +34,7 @@ The following example assumes that there is a problem with the "soccer\_supervis
 
 ### Using the GNU Debugger with a Controller
 
-On Windows GDB can be installed for example from the MSYS2 environment with the `mingw-w64-x86_64-gdb` package as indicated in the [optional dependencies](https://github.com/omichel/webots/wiki/Windows-Optional-Dependencies) of the [Windows installation instructions](https://github.com/omichel/webots/wiki/Windows-installation).
+On Windows GDB can be installed for example from the MSYS2 environment with the `mingw-w64-x86_64-gdb` package as indicated in the [optional dependencies](https://github.com/cyberbotics/webots/wiki/Windows-Optional-Dependencies) of the [Windows installation instructions](https://github.com/cyberbotics/webots/wiki/Windows-installation).
 
 The first step is to recompile the controller code with the *-g* flag, in order to add debugging information to the executable file.
 This can be achieved by adding this line to the controller's Makefile:

@@ -19,7 +19,7 @@ Telephone {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/Telephone.proto](https://github.com/omichel/webots/tree/master/projects/objects/telephone/protos/Telephone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/Telephone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/telephone/protos/Telephone.proto)"
 
 > **License**: MIT
 [More information.](https://opensource.org/licenses/MIT)
@@ -45,7 +45,7 @@ OfficeTelephone {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/OfficeTelephone.proto](https://github.com/omichel/webots/tree/master/projects/objects/telephone/protos/OfficeTelephone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/telephone/protos/OfficeTelephone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/telephone/protos/OfficeTelephone.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

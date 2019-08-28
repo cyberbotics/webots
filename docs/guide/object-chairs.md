@@ -22,7 +22,7 @@ Chair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto](https://github.com/omichel/webots/tree/master/projects/objects/chairs/protos/Chair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/Chair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/Chair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -57,7 +57,7 @@ SimpleChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto](https://github.com/omichel/webots/tree/master/projects/objects/chairs/protos/SimpleChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/SimpleChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/SimpleChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -92,7 +92,7 @@ WoodenChair {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto](https://github.com/omichel/webots/tree/master/projects/objects/chairs/protos/WoodenChair.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/chairs/protos/WoodenChair.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/chairs/protos/WoodenChair.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
