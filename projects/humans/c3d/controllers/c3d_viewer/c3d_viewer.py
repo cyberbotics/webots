@@ -73,49 +73,6 @@ def getPointsList(reader, name):
     return newlist
 
 
-# def rotationFromQuaternion(q):
-#     """Convert quaternion to euler-axes-angle (vrml)."""
-#     v = [0.0, 0.0, 0.0, 0.0]
-#     v[3] = 2.0 * math.acos(q[0])
-#     if (v[3] < 0.0001):
-#         # if v[3] close to zero then direction of axis not important
-#         v[0] = 0.0
-#         v[1] = 1.0
-#         v[2] = 0.0
-#     else:
-#         # normalise axes
-#         n = math.sqrt(q[1] * q[1] + q[2] * q[2] + q[3] * q[3])
-#         v[0] = q[1] / n
-#         v[1] = q[2] / n
-#         v[2] = q[3] / n
-#     return v
-#
-
-# def convertRPYtoQuaternions(rpy):
-#     """Convert RPY to quaternions."""
-#     cy = math.cos(rpy[2] * 0.5)
-#     sy = math.sin(rpy[2] * 0.5)
-#     cp = math.cos(rpy[1] * 0.5)
-#     sp = math.sin(rpy[1] * 0.5)
-#     cr = math.cos(rpy[0] * 0.5)
-#     sr = math.sin(rpy[0] * 0.5)
-#
-#     q = [0, 0, 0, 0]
-#     q[0] = cy * cp * cr + sy * sp * sr
-#     q[1] = cy * cp * sr - sy * sp * cr
-#     q[2] = sy * cp * sr + cy * sp * cr
-#     q[3] = sy * cp * cr - cy * sp * sr
-#     return q
-#
-#
-# def convertRPYtoEulerAxis(rpy):
-#     """Convert RPY angles to Euler angles."""
-#     roll = - math.pi * rpy[0] / 180.0 if not rpy[0] == -1.0 else 0.0
-#     pitch = math.pi * rpy[2] / 180.0 if not rpy[2] == -1.0 else 0.0
-#     yaw = math.pi * rpy[1] / 180.0 if not rpy[1] == -1.0 else 0.0
-#     return rotationFromQuaternion(convertRPYtoQuaternions([roll, pitch, yaw]))
-
-
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
 enableMarkerGraph = False
@@ -261,7 +218,6 @@ frameAndPoints = []
 frameAndAnalog = []
 for i, points, analog in reader.read_frames():
     frameAndPoints.append((i, points))
-    # frameAndAnalog.append((i, analog))
 
 # main loop
 frameCoutner = 0
@@ -344,7 +300,7 @@ while supervisor.step(timestep) != -1:
                         y = points[j][2]
                         z = points[j][1]
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
-            # updatte body representation (if any)
+            # update body representation (if any)
             if labels[j] in bodyRotations:
                 if transforms3dVailable:
                     rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
@@ -352,7 +308,6 @@ while supervisor.step(timestep) != -1:
                                                            angleSignAndOrder[labels[j]][0][2] * points[j][2] * math.pi / 180.0,
                                                            axes=angleSignAndOrder[labels[j]][1])
                     bodyRotations[labels[j]].setSFRotation([rot[0][0], rot[0][1], rot[0][2], rot[1]])
-                    # bodyRotations[labels[j]].setSFRotation(convertRPYtoEulerAxis(points[j]))
                 else:
                     sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
                     sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
