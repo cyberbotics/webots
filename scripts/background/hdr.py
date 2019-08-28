@@ -104,9 +104,9 @@ class HDR:
             f.write('\n')
             f.write('-Y %d +X %d\n' % (self.height, self.width))
             for i in range(self.width * self.height):
-                r = pow(self.data[3 * i], GAMMA)
-                g = pow(self.data[3 * i + 1], GAMMA)
-                b = pow(self.data[3 * i + 2], GAMMA)
+                r = pow(self.data[3 * i] / 255.0, GAMMA)
+                g = pow(self.data[3 * i + 1] / 255.0, GAMMA)
+                b = pow(self.data[3 * i + 2] / 255.0, GAMMA)
                 v = max(r, g, b)
                 e = math.ceil(math.log(v, 2))
                 s = pow(2, e - 8)
