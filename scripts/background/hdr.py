@@ -3,23 +3,21 @@ from PIL import Image
 
 
 class HDR:
-    def __init__(self, filename):
-        """Constructor: simply set the filename."""
-        self.filename = filename
-        self.reset()
-
-    def reset(self):
-        """Reset internal values."""
+    def __init__(self):
+        """Constructor: simply reset the fields."""
         self.data = []
         self.width = -1
         self.height = -1
 
-        self.header = False
         self.xFlipped = False
         self.yFlipped = False
         self.rotated = False
 
-    def parse(self):
+    def is_valid(self):
+        return 3 * self.width * self.height == len(self.data)
+
+    @classmethod
+    def load_from_file(cls, filename):
         """Parse the HDR file."""
         # HDR Format Specifications: http://paulbourke.net/dataformats/pic/
         #
@@ -30,9 +28,10 @@ class HDR:
         #
         #     -Y 1024 +X 2048
         #     Data
-
-        self.reset()
-        with open(self.filename, "rb") as f:
+        hdr = HDR()
+        data = []
+        header = False
+        with open(filename, "rb") as f:
             line = True
             while line:
                 line = f.readline()
@@ -43,16 +42,16 @@ class HDR:
                 # Case: header
                 m = re.match(r'^#\?RADIANCE$', line)
                 if m:
-                    self.header = True
+                    header = True
                     continue
                 # Case: Size
                 m = re.match(r'^(.)(.)\s(\d+)\s(.)(.)\s(\d+)$', line)
                 if m:
-                    self.rotated = m.group(2) == 'X'
-                    self.xFlipped = m.group(1 if self.rotated else 4) == '-'
-                    self.yFlipped = m.group(4 if self.rotated else 1) == '+'
-                    self.width = int(m.group(6))
-                    self.height = int(m.group(3))
+                    hdr.rotated = m.group(2) == 'X'
+                    hdr.xFlipped = m.group(1 if hdr.rotated else 4) == '-'
+                    hdr.yFlipped = m.group(4 if hdr.rotated else 1) == '+'
+                    hdr.width = int(m.group(6))
+                    hdr.height = int(m.group(3))
                     continue
                 # Case: ignored header entries
                 if line.startswith('FORMAT=') or \
@@ -67,29 +66,35 @@ class HDR:
                     continue
                 break
             # Case: Data
-            self.data = line + f.read()
-        if self.rotated or self.xFlipped or self.yFlipped:
-            raise RuntimeError('Unsupported flip or rotation flags.')
-        return self.is_valid()
+            data = line + f.read()
+        assert header, 'Invalid header'
+        assert 4 * hdr.width * hdr.height == len(data) and len(data) > 0, 'Invalid dimensions'
+        assert not (hdr.rotated or hdr.xFlipped or hdr.yFlipped), 'flip or rotation flags are not supported yet'
 
-    def is_valid(self):
-        return self.header and 4 * self.width * self.height == len(self.data)
+        # Convert data to floats
+        hdr.data = [0.0] * (3 * hdr.width * hdr.height)
+        one_over_gamma = 1.0 / 2.0
+        for i in range(hdr.width * hdr.height):
+            r = float(ord(data[4 * i]))
+            g = float(ord(data[4 * i + 1]))
+            b = float(ord(data[4 * i + 2]))
+            e = pow(2.0, float(ord(data[4 * i + 3])) - 128.0 + 8.0)
+            hdr.data[3 * i] = pow(r * e, one_over_gamma)
+            hdr.data[3 * i + 1] = pow(g * e, one_over_gamma)
+            hdr.data[3 * i + 2] = pow(b * e, one_over_gamma)
+
+        return hdr
 
     def to_pil(self):
         if not self.is_valid():
             return
         im = Image.new('RGB', (self.width, self.height))
         pixels = im.load()
-        one_over_gamma = 1.0 / 2.0
         for y in range(self.height):
             for x in range(self.width):
-                index = 4 * (y * self.width + x)
-                r = float(ord(self.data[index]))
-                g = float(ord(self.data[index + 1]))
-                b = float(ord(self.data[index + 2]))
-                e = pow(2.0, float(ord(self.data[index + 3])) - 128.0 + 8.0)
-                r = min(255, int(pow(r * e, one_over_gamma)))
-                g = min(255, int(pow(g * e, one_over_gamma)))
-                b = min(255, int(pow(b * e, one_over_gamma)))
+                index = 3 * (y * self.width + x)
+                r = max(0, min(255, int(self.data[index])))
+                g = max(0, min(255, int(self.data[index + 1])))
+                b = max(0, min(255, int(self.data[index + 2])))
                 pixels[x, y] = (r, g, b)
         return im

@@ -12,7 +12,6 @@ optParser = optparse.OptionParser(usage="usage: %prog --input=image.hdr [options
 optParser.add_option("--input", dest="input", default="image.hdr", help="specifies the input equirectangle image path")
 options, args = optParser.parse_args()
 
-hdr = HDR(options.input)
-hdr.parse()
+hdr = HDR.load_from_file(options.input)
 im = hdr.to_pil()
 im.show()
