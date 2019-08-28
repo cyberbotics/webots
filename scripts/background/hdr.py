@@ -6,24 +6,12 @@
 import math
 import re
 import struct
+from clamp import clamp_int
 
 GAMMA = 2.0
 
 
 class HDR:
-    def __init__(self):
-        """Constructor: simply reset the fields."""
-        self.data = []  # Contains the 1D array of floats (size: 3*w*h, black: 0.0, white: 1.0, hdr: >1.0)
-        self.width = -1
-        self.height = -1
-
-        self.xFlipped = False
-        self.yFlipped = False
-        self.rotated = False
-
-    def is_valid(self):
-        return 3 * self.width * self.height == len(self.data)
-
     @classmethod
     def load_from_file(cls, filename):
         """Parse the HDR file."""
@@ -92,6 +80,46 @@ class HDR:
 
         return hdr
 
+    @classmethod
+    def create_black_image(cls, width, height):
+        """Create an HDR black image."""
+        hdr = HDR()
+        hdr.width = width
+        hdr.height = height
+        hdr.data = [0.0] * (3 * hdr.width * hdr.height)
+        return hdr
+
+    def __init__(self):
+        """Constructor: simply reset the fields."""
+        self.data = []  # Contains the 1D array of floats (size: 3*w*h, black: 0.0, white: 1.0, hdr: >1.0)
+        self.width = -1
+        self.height = -1
+
+        self.xFlipped = False
+        self.yFlipped = False
+        self.rotated = False
+
+    def is_valid(self):
+        return 3 * self.width * self.height == len(self.data)
+
+    def get_pixel(self, x, y):
+        assert x >= 0 and x < self.width
+        assert y >= 0 and y < self.height
+        i = 3 * (y * self.width + x)
+        return (
+            self.data[i],
+            self.data[i + 1],
+            self.data[i + 2]
+        )
+
+    def set_pixel(self, x, y, pixel):
+        assert x >= 0 and x < self.width
+        assert y >= 0 and y < self.height
+        i = 3 * (y * self.width + x)
+        self.data[i] = pixel[0]
+        self.data[i + 1] = pixel[1]
+        self.data[i + 2] = pixel[2]
+
     def save(self, filename):
         """Save the image to a file."""
         assert self.is_valid()
@@ -108,7 +136,7 @@ class HDR:
                 g = pow(self.data[3 * i + 1], GAMMA)
                 b = pow(self.data[3 * i + 2], GAMMA)
                 v = max(r, g, b)
-                e = math.ceil(math.log(v, 2))
+                e = math.ceil(math.log(v, 2)) if v != 0.0 else 0.0
                 s = pow(2, e - 8)
                 bytes = [
                     clamp_int(r / s, 0, 255),
@@ -127,13 +155,9 @@ class HDR:
         pixels = im.load()
         for y in range(self.height):
             for x in range(self.width):
-                index = 3 * (y * self.width + x)
-                r = clamp_int(255.0 * self.data[index], 0, 255)
-                g = clamp_int(255.0 * self.data[index + 1], 0, 255)
-                b = clamp_int(255.0 * self.data[index + 2], 0, 255)
+                i = 3 * (y * self.width + x)
+                r = clamp_int(255.0 * self.data[i], 0, 255)
+                g = clamp_int(255.0 * self.data[i + 1], 0, 255)
+                b = clamp_int(255.0 * self.data[i + 2], 0, 255)
                 pixels[x, y] = (r, g, b)
         return im
-
-
-def clamp_int(v, a, b):
-    return max(a, min(b, int(v)))
