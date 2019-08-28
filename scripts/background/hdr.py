@@ -86,6 +86,7 @@ class HDR:
         return hdr
 
     def to_pil(self):
+        """Create a PIL image to test the script."""
         if not self.is_valid():
             return
         im = Image.new('RGB', (self.width, self.height))
