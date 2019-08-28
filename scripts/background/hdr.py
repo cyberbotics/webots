@@ -13,7 +13,7 @@ GAMMA = 2.0
 class HDR:
     def __init__(self):
         """Constructor: simply reset the fields."""
-        self.data = []
+        self.data = []  # Contains the 1D array of floats (size: 3*w*h, black: 0.0, white: 1.0, hdr: >1.0)
         self.width = -1
         self.height = -1
 
@@ -86,9 +86,9 @@ class HDR:
             g = float(ord(data[4 * i + 1]))
             b = float(ord(data[4 * i + 2]))
             e = pow(2.0, float(ord(data[4 * i + 3])) - 128.0 + 8.0)
-            hdr.data[3 * i] = pow(r * e, 1.0 / GAMMA)
-            hdr.data[3 * i + 1] = pow(g * e, 1.0 / GAMMA)
-            hdr.data[3 * i + 2] = pow(b * e, 1.0 / GAMMA)
+            hdr.data[3 * i] = pow(r * e, 1.0 / GAMMA) / 255.0
+            hdr.data[3 * i + 1] = pow(g * e, 1.0 / GAMMA) / 255.0
+            hdr.data[3 * i + 2] = pow(b * e, 1.0 / GAMMA) / 255.0
 
         return hdr
 
@@ -104,9 +104,9 @@ class HDR:
             f.write('\n')
             f.write('-Y %d +X %d\n' % (self.height, self.width))
             for i in range(self.width * self.height):
-                r = pow(self.data[3 * i] / 255.0, GAMMA)
-                g = pow(self.data[3 * i + 1] / 255.0, GAMMA)
-                b = pow(self.data[3 * i + 2] / 255.0, GAMMA)
+                r = pow(self.data[3 * i], GAMMA)
+                g = pow(self.data[3 * i + 1], GAMMA)
+                b = pow(self.data[3 * i + 2], GAMMA)
                 v = max(r, g, b)
                 e = math.ceil(math.log(v, 2))
                 s = pow(2, e - 8)
@@ -128,9 +128,9 @@ class HDR:
         for y in range(self.height):
             for x in range(self.width):
                 index = 3 * (y * self.width + x)
-                r = max(0, min(255, int(self.data[index])))
-                g = max(0, min(255, int(self.data[index + 1])))
-                b = max(0, min(255, int(self.data[index + 2])))
+                r = clamp_int(255.0 * self.data[index], 0, 255)
+                g = clamp_int(255.0 * self.data[index + 1], 0, 255)
+                b = clamp_int(255.0 * self.data[index + 2], 0, 255)
                 pixels[x, y] = (r, g, b)
         return im
 
