@@ -3,8 +3,9 @@
 
 PROTO C3dGroundReactionForce [
   field SFVec3f     translation          0 0 0
+  field SFRotation  rotation             0 1 0 0
+  field SFVec3f     coneTranslation      0 0.1 0
   field SFVec3f     cylinderTranslation  0 0 0
-  field SFRotation  cylinderRotation     0 1 0 0
   field SFColor     color                1 1 0
   field SFFloat     height               0.2
 ]
@@ -15,10 +16,9 @@ PROTO C3dGroundReactionForce [
     children [
       Transform {
         translation IS cylinderTranslation
-        rotation IS cylinderRotation
         children [
           Shape {
-            appearance Appearance {
+            appearance DEF APPEARANCE Appearance {
               material Material {
                 emissiveColor IS color
               }
@@ -26,6 +26,18 @@ PROTO C3dGroundReactionForce [
             geometry Cylinder {
               radius 0.01
               height IS height
+            }
+          }
+        ]
+      }
+      Transform {
+        translation IS coneTranslation
+        children [
+          Shape {
+            appearance USE APPEARANCE
+            geometry Cone {
+              bottomRadius 0.03
+              height 0.05
             }
           }
         ]
