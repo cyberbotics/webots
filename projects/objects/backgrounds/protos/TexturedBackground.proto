@@ -9,10 +9,12 @@
 # - cinema_lobby (HDR)
 # - dawn_cloudy_empty
 # - empty_office (HDR)
+# - entrance_hall (HDR)
 # - factory (HDR)
 # - morning_cloudy_empty
 # - music hall (HDR)
 # - noon_building_overcast (HDR)
+# - noon_cloudy_countryside (HDR)
 # - noon_cloudy_empty
 # - noon_cloudy_mountains
 # - noon_park_empty (HDR)
@@ -23,7 +25,12 @@
 # - mountains (HDR)
 
 PROTO TexturedBackground [
-  field  SFString{"cinema_lobby", "dawn_cloudy_empty", "empty_office", "factory", "morning_cloudy_empty", "music_hall", "noon_building_overcast", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"} texture "mountains"  # Defines the texture of the background.
+  field  SFString{"cinema_lobby", "dawn_cloudy_empty", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty",
+                  "music_hall", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty",
+                  "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden",
+                  "twilight_cloudy_empty", "mountains"}
+                  texture "mountains"  # Defines the texture of the background.
+  field  SFFloat  luminosity  1        # Is `Background.luminosity`.
 ]
 {
   Background {
@@ -32,5 +39,6 @@ PROTO TexturedBackground [
       textureBaseName IS texture
       directory "textures/cubic"
     }
+    luminosity IS luminosity
   }
 }

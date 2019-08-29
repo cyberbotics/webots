@@ -19,6 +19,7 @@ Viewpoint {
   followSmoothness 0.2
 }
 TexturedBackground {
+  luminosity 3
 }
 TexturedBackgroundLight {
 }

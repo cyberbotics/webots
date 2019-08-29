@@ -172,6 +172,7 @@ void WbGuiApplication::parseArguments() {
           serverArgument = serverArgument.left(serverArgument.size() - 1);
       }
       WbStreamingServer::instance()->startFromCommandLine(serverArgument);
+      WbWorld::enableX3DStreaming();
     } else if (arg == "--stdout")
       WbConsole::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")

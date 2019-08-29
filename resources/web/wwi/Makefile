@@ -21,6 +21,7 @@ JS_SOURCES = \
   equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
+  system_info.js \
   dialog_window.js \
   console.js \
   help_window.js \

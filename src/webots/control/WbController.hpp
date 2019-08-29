@@ -69,6 +69,7 @@ public slots:
   void readRequest();
   void appendMessageToConsole(const QString &message, bool useStdout);
   void writeUserInputEventAnswer();
+  void handleControllerExit();
 
 private:
   WbRobot *mRobot;

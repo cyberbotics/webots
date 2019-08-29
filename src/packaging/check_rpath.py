@@ -59,7 +59,7 @@ success = True
 # Check dependencies are:
 # - absolute (system) and are not containing local (macports)
 # - relative to @rpath (= WEBOTS_HOME) and are existing
-for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles):
+for f in dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinaryFiles:
     dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | '
                            'sed -e "s:^[ \t]*::"').split('\n')
     for d in dependencies:
@@ -77,9 +77,9 @@ for f in (dylibFiles + frameworkFiles + controllerFiles + binaryFiles + qtBinary
                 sys.stderr.write('- Dependency: ' + d + '\n')
 
 # check that the binaries have an RPATH
-for f in (controllerFiles + binaryFiles + qtBinaryFiles):
+for f in controllerFiles + binaryFiles + qtBinaryFiles:
     rpath = command('otool -l ' + f + ' | grep LC_RPATH -A 3 | grep path | cut -c15- | cut -d\' \' -f1')
-    if rpath is None or len(rpath) <= 0:
+    if rpath is None or not rpath:
         success = False
         sys.stderr.write('RPATH not defined in:\n')
         sys.stderr.write('- File: ' + f + '\n')

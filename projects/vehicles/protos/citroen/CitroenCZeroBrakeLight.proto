@@ -11,6 +11,7 @@ PROTO CitroenCZeroBrakeLight [
       baseColor 0.560784 0.113725 0.113725
       roughness 0.3
       metalness 0
+      emissiveIntensity 10
     }
     geometry IndexedFaceSet {
       coord Coordinate {

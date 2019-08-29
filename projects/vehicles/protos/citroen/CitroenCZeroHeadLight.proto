@@ -10,6 +10,7 @@ PROTO CitroenCZeroHeadLight [
     appearance PBRAppearance {
       metalness 0
       roughness 0.2
+      emissiveIntensity 30
     }
     geometry IndexedFaceSet {
       coord Coordinate {

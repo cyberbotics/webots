@@ -165,8 +165,8 @@ if not options.noNetconvert:
     if not os.path.isfile(netConfigurationFile) and tmpDirectory is not None:
         shutil.rmtree(tmpDirectory)
         sys.exit("Could not find any NETCONVERT configuration file (*.netccfg).")
-    if not subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
-                           stdout=sys.stdout, stderr=sys.stderr) == 0:
+    if subprocess.call([sumoPath + "bin" + os.sep + "netconvert", "-c", netConfigurationFile, "--xml-validation", "never"],
+                       stdout=sys.stdout, stderr=sys.stderr) != 0:
         sys.exit("NETCONVERT failed to generate the network file.")
 
 # this is the normal way of using traci. sumo is started as a

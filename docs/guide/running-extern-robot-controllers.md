@@ -27,7 +27,7 @@ Please refer to the documentation of your operating system to set environment va
 | Linux            | all                  | WEBOTS\_HOME             | `/usr/local/webots`                              |
 | macOS            | all                  | WEBOTS\_HOME             | `/Applications/Webots`                           |
 | Windows          | all                  | PATH                     | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
-| Linux            | all                  | LD\_LIBRAY\_PATH         | add `${WEBOTS_HOME}/lib`                         |
+| Linux            | all                  | LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib`                         |
 | macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
 | all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
 | all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python37`                |

@@ -1,0 +1,36 @@
+#VRML_SIM R2020a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A sand material.
+
+PROTO Sand [
+  field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/sand/sand_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/sand/sand_roughness.jpg"
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/sand/sand_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/sand/sand_occlusion.jpg"
+      ]
+    }
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

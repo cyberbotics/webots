@@ -169,7 +169,7 @@ def generateWorldsList(groupName, worldsFilename):
     f = open(worldsFilename, 'w')
     worldsCount = 0
     # generate the list from the arguments
-    if len(filesArguments) > 0:
+    if filesArguments:
         for file in filesArguments:
             if file.startswith(groupName):
                 f.write(file + '\n')

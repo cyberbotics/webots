@@ -83,7 +83,8 @@ class Stream { // eslint-disable-line no-unused-vars
           for (i = 0; i < frame.poses.length; i++)
             this.view.x3dScene.applyPose(frame.poses[i]);
         }
-        this.view.x3dScene.viewpoint.updateViewpointPosition(null, this.view.time);
+        if (this.view.x3dScene.viewpoint.updateViewpointPosition(null, this.view.time))
+          this.view.x3dScene.viewpoint.notifyCameraParametersChanged(false);
         this.view.x3dScene.onSceneUpdate();
       }
     } else if (data.startsWith('node:')) {

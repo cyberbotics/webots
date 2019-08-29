@@ -53,7 +53,7 @@ class TestCppCheck(unittest.TestCase):
             with open(self.reportFilename, 'r') as reportFile:
                 reportText = reportFile.read()
             self.assertTrue(
-                len(reportText) == 0,
+                not reportText,
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
             )
             os.remove(self.reportFilename)

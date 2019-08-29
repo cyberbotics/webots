@@ -39,9 +39,8 @@ with open(sys.argv[1], "rb") as csvfile:
 
 metric = SquareMetric(False)
 
-if len(points) == 0:
+if not points:
     print("No points could be read from the input file. Aborting...")
-
 else:
     print("Successfully read %d points from input file! Computing performance..." % len(points))
 
