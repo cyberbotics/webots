@@ -185,7 +185,7 @@ if float(sys.argv[9]) < 1.0:  # body transparency is not 1
             height = reader.groups['SUBJECT'].get('HEIGHT').float_value
         else:
             height = 1.83
-    bodyScale = height / 1.83  # 1.83m: default size of th ehuman model
+    bodyScale = height / 1.83  # 1.83m: default size of the human model
     markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
                                        (sys.argv[9], bodyScale, bodyScale, bodyScale))
     bodyNode = markerField.getMFNode(-1)
