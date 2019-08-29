@@ -39,6 +39,16 @@ function sliderCallback(slider) {
   robotWindow.send('radius:' + slider.value + ':' + marker);
 }
 
+function updateTransparency(slider) {
+  document.getElementById('slider_value_transparency').innerHTML = slider.value;
+  robotWindow.send('body_transparency:' + slider.value);
+}
+
+function updateSpeed(slider) {
+  document.getElementById('slider_value_speed').innerHTML = slider.value;
+  robotWindow.send('speed:' + slider.value);
+}
+
 function colorCallback(color) {
   robotWindow.send('color:' + color.value + ':' + color.getAttribute('marker'));
 }

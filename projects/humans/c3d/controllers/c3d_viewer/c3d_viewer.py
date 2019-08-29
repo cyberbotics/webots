@@ -179,31 +179,32 @@ for i in range(len(names)):
 # get body visualization
 bodyRotations = {}
 bodyTranslations = {}
-if float(sys.argv[9]) < 1.0:  # body transparency is not 1
-    bodyNode = None
-    height = float(sys.argv[10])
-    if height < 0:
-        if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
-            height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
-        elif 'SUBJECT' in reader.groups and reader.groups['SUBJECT'].get('HEIGHT') is not None:
-            height = reader.groups['SUBJECT'].get('HEIGHT').float_value
-        else:
-            height = 1.83
-    bodyScale = height / 1.83  # 1.83m: default size of the human model
-    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
-                                       (sys.argv[9], bodyScale, bodyScale, bodyScale))
-    bodyNode = markerField.getMFNode(-1)
-    for label in labelsAndCategory['virtual_markers']:
-        node = supervisor.getFromDef(label + '_body')
-        if node:
-            field = node.getField('translation')
-            if field:
-                bodyTranslations[label] = field
-    if bodyNode and labelsAndCategory['angles'] is not None:
-        for label in labelsAndCategory['angles']:
-            field = bodyNode.getField(label.replace('Angles', 'Rotation'))
-            if field:
-                bodyRotations[label] = field
+bodyNode = None
+bodyTransparency = float(sys.argv[9])
+height = float(sys.argv[10])
+if height < 0:
+    if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
+        height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
+    elif 'SUBJECT' in reader.groups and reader.groups['SUBJECT'].get('HEIGHT') is not None:
+        height = reader.groups['SUBJECT'].get('HEIGHT').float_value
+    else:
+        height = 1.83
+bodyScale = height / 1.83  # 1.83m: default size of the human model
+markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
+                                   (bodyTransparency, bodyScale, bodyScale, bodyScale))
+bodyNode = markerField.getMFNode(-1)
+bodyTransparencyField = bodyNode.getField('transparency')
+for label in labelsAndCategory['virtual_markers']:
+    node = supervisor.getFromDef(label + '_body')
+    if node:
+        field = node.getField('translation')
+        if field:
+            bodyTranslations[label] = field
+if bodyNode and labelsAndCategory['angles'] is not None:
+    for label in labelsAndCategory['angles']:
+        field = bodyNode.getField(label.replace('Angles', 'Rotation'))
+        if field:
+            bodyRotations[label] = field
 
 # import the marker and initialize the list of points
 pointRepresentations = {}
@@ -235,6 +236,7 @@ for i, points, analog in reader.read_frames():
 # main loop
 frameCoutner = 0
 totalFrameCoutner = 0
+offsetTime = 0
 inverseY = reader.groups['POINT'].get('X_SCREEN').string_value.strip() == '+X'
 while supervisor.step(timestep) != -1:
     # check for messages from the robot-window
@@ -266,12 +268,19 @@ while supervisor.step(timestep) != -1:
                     enableValueGraphs.append(value[1])
                 else:
                     enableValueGraphs.remove(value[1])
+        elif action == 'body_transparency':
+            bodyTransparency = float(value[1])
+            bodyTransparencyField.setSFFloat(bodyTransparency)
+        elif action == 'speed':
+            playbackSpeed = float(value[1])
+            offsetTime = supervisor.getTime()
+            totalFrameCoutner = 0
         else:
             print(message)
         message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
-    step = int(playbackSpeed * supervisor.getTime() / frameStep - totalFrameCoutner)
+    step = int(playbackSpeed * (supervisor.getTime() - offsetTime) / frameStep - totalFrameCoutner)
     if step > 0:
         toSend = ''
         frame = frameAndPoints[frameCoutner][0]
@@ -327,7 +336,7 @@ while supervisor.step(timestep) != -1:
                         z = points[j][1]
                         toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
             # update body representation (if any)
-            if labels[j] in bodyRotations:
+            if labels[j] in bodyRotations and bodyTransparency < 1.0:
                 if transforms3dVailable:
                     rot = transforms3d.euler.euler2axangle(angleSignAndOrder[labels[j]][0][0] * points[j][0] * math.pi / 180.0,
                                                            angleSignAndOrder[labels[j]][0][1] * points[j][1] * math.pi / 180.0,

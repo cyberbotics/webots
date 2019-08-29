@@ -13,6 +13,19 @@
   <div id="content">
     <div id="config-tab" class="content">
       <h2>
+        Configuration
+      </h2>
+      <div>
+        Body Transparency
+        <input type="range" class="radiusSlider" min="0.0" max="1.0" step = "0.001" value="1.0" data-show-value="true" class="slider" title="Transparency of the body." onchange="updateTransparency(this)"/>
+        <span id="slider_value_transparency">1.0</span>
+      </div>
+      <div>
+        Speed
+        <input type="range" class="radiusSlider" min="0.1" max="10" step = "0.1" value="1.0" data-show-value="true" class="slider" title="Playback speed." onchange="updateSpeed(this)"/>
+        <span id="slider_value_speed">1.0</span>
+      </div>
+      <h2>
         Markers
         <button type="button" id="select_markers">Select All</button>
         <button type="button" id="unselect_markers">Unselect All</button>
