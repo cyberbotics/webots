@@ -27,9 +27,9 @@ PROTO C3dViewer [
                               fields.leftGroundReactionForceOffset.value.x .. ' ' ..
                               fields.leftGroundReactionForceOffset.value.y .. ' ' ..
                               fields.leftGroundReactionForceOffset.value.z .. ' ' ..
-                              fields.GroundReactionForceOffset.value.x .. ' ' ..
-                              fields.GroundReactionForceOffset.value.y .. ' ' ..
-                              fields.GroundReactionForceOffset.value.z .. ' ' ..
+                              fields.rightGroundReactionForceOffset.value.x .. ' ' ..
+                              fields.rightGroundReactionForceOffset.value.y .. ' ' ..
+                              fields.rightGroundReactionForceOffset.value.z .. ' ' ..
                               fields.bodyTransparency.value .. ' ' ..
                               fields.bodyHeight.value / fields.bodyHeight.defaultValue .. ' ' ..
                               fields.bodyOffset.value .. '"' }%
