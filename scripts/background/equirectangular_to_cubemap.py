@@ -69,8 +69,8 @@ for c in range(len(cubemap_names)):
             r = math.hypot(x, y)
             phi = math.atan2(z, r)  # range -pi/2 to pi/2
 
-            uf = 0.5 * equi.width * (theta + math.pi) / math.pi
-            vf = equi.height * (math.pi / 2 - phi) / math.pi
+            uf = -0.5 * equi.width * (math.pi / 2.0 + theta) / math.pi
+            vf = equi.height * (math.pi / 2.0 - phi) / math.pi
             u1 = int(math.floor(uf))  # coord of pixel to bottom left
             v1 = int(math.floor(vf))
             u2 = u1 + 1  # coords of pixel to top right
