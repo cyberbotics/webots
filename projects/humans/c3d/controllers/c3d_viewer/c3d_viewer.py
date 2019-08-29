@@ -169,8 +169,9 @@ for i in range(len(names)):
                                                                                                    sys.argv[4 + 3 * i],
                                                                                                    sys.argv[5 + 3 * i]))
         grfList[-1]['node'] = markerField.getMFNode(-1)
-        grfList[-1]['translation'] = grfList[-1]['node'].getField('translation')
-        grfList[-1]['point'] = grfList[-1]['node'].getField('point')
+        grfList[-1]['cylinderTranslation'] = grfList[-1]['node'].getField('cylinderTranslation')
+        grfList[-1]['cylinderRotation'] = grfList[-1]['node'].getField('cylinderRotation')
+        grfList[-1]['height'] = grfList[-1]['node'].getField('height')
 
 # get body visualization
 bodyRotations = {}
@@ -281,10 +282,21 @@ while supervisor.step(timestep) != -1:
             if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
                 COPX = 0.001 * points[index2][1] / points[index1][2]
                 COPY = 0.001 * points[index2][0] / points[index1][2]
-            grf['point'].setMFVec3f(0, [COPX, 0.0, COPY])
-            grf['point'].setMFVec3f(1, [COPX + 0.02 * points[index1][0],
-                                        0.02 * points[index1][2],
-                                        COPY + 0.02 * points[index1][1]])
+            vec1 = [0.0, 1, 0.0]
+            vec2 = [0.02 * points[index1][0], 0.02 * points[index1][2], 0.02 * points[index1][1]]
+            len1 = 1.0
+            len2 = math.sqrt(math.pow(vec2[0], 2) + math.pow(vec2[1], 2) + math.pow(vec2[2], 2))
+            vec3 = [0.0, 0.0, 0.0] if len2 == 0.0 else [vec2[0] / len2,  vec2[1] / len2, vec2[2] / len2]
+            angle = math.acos(vec1[0] * vec3[0] + vec1[1] * vec3[1] + vec1[2] * vec3[2])  # acos(dot-product(vec1, vec3))
+            axis = [vec1[1] * vec3[2] - vec1[2] * vec3[1],   # cross-product(vec1, vec3)
+                    vec1[2] * vec3[0] - vec1[0] * vec3[2],
+                    vec1[0] * vec3[1] - vec1[1] * vec3[0]]
+            grf['cylinderTranslation'].setSFVec3f([COPX + 0.5 * vec2[0],
+                                                   0.5 * vec2[1],
+                                                   COPY + 0.5 * vec2[2]])
+            if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
+                grf['cylinderRotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
+            grf['height'].setSFFloat(max(0.001, len2))
         # update the marker visualization
         for j in range(numberOfpoints):
             if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
