@@ -90,3 +90,4 @@ for c in range(len(cubemap_names)):
             )
             cubemap.set_pixel(i, j, P)
     cubemap.save(cm_filename)
+    # cubemap.to_pil().save(cm_filename.replace('.hdr', '.png').replace('entrance_hall', 'test'))
