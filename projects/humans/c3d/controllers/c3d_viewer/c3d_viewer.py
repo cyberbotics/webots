@@ -177,8 +177,17 @@ bodyRotations = {}
 bodyTranslations = {}
 if float(sys.argv[9]) < 1.0:  # body transparency is not 1
     bodyNode = None
-    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %s %s %s }' %
-                                       (sys.argv[9], sys.argv[10], sys.argv[10], sys.argv[10]))
+    height = float(sys.argv[10])
+    if height < 0:
+        if 'SUBJECTS' in reader.groups and reader.groups['SUBJECTS'].get('A_HEIGHT_MM') is not None:
+            height = 0.001 * float(reader.groups['SUBJECTS'].get('A_HEIGHT_MM').string_value)
+        elif 'SUBJECT' in reader.groups and reader.groups['SUBJECT'].get('HEIGHT') is not None:
+            height = reader.groups['SUBJECT'].get('HEIGHT').float_value
+        else:
+            height = 1.83
+    bodyScale = height / 1.83  # 1.83m: default size of th ehuman model
+    markerField.importMFNodeFromString(-1, 'DEF CentreOfMass_body C3dBodyRepresentation { transparency %s scale %lf %lf %lf }' %
+                                       (sys.argv[9], bodyScale, bodyScale, bodyScale))
     bodyNode = markerField.getMFNode(-1)
     for label in labelsAndCategory['virtual_markers']:
         node = supervisor.getFromDef(label + '_body')
