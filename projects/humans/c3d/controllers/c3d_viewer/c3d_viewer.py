@@ -303,8 +303,12 @@ while supervisor.step(timestep) != -1:
                 axis = [vec1[1] * vec3[2] - vec1[2] * vec3[1],   # cross-product(vec1, vec3)
                         vec1[2] * vec3[0] - vec1[0] * vec3[2],
                         vec1[0] * vec3[1] - vec1[1] * vec3[0]]
-                grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0], 0.5 * vec2[1], CenterOfPressureY + 0.5 * vec2[2]])
-                grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0], 0.5 * (vec2[1] + len2), CenterOfPressureY + 0.5 * vec2[2]])
+                grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
+                                                       0.5 * vec2[1],
+                                                       CenterOfPressureY + 0.5 * vec2[2]])
+                grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
+                                                   0.5 * (vec2[1] + len2),
+                                                   CenterOfPressureY + 0.5 * vec2[2]])
                 if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
                     grf['rotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
                 grf['height'].setSFFloat(max(0.001, len2))
