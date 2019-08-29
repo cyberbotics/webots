@@ -138,6 +138,33 @@ button::-moz-focus-inner {
 #webotsConsole {
   overflow-y: scroll;
   font-family: monospace;
+  padding: 0px;
+}
+
+.webotsConsoleLogs {
+  padding: 10px;
+}
+
+.webotsConsoleButtons {
+  text-align: right;
+  top: 0;
+  position: sticky;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
+
+.webotsConsoleButton {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 6px;
+}
+
+.webotsConsoleButton:disabled {
+  opacity: 0.3;
+}
+
+.webotsConsoleButtonIcon {
+  height: 15px;
 }
 
 .webotsTime {

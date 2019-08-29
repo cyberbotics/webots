@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 
 PROTO TemplateSolidCylinder [
   field SFFloat height 0.4

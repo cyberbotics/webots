@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Benchmark objective:"
@@ -18,8 +18,38 @@ Viewpoint {
   follow "e-puck"
 }
 TexturedBackground {
+  texture "entrance_hall"
+  luminosity 0.6
 }
-TexturedBackgroundLight {
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.33
+  cutOffAngle 0.56
+  direction 0 -1 0
+  intensity 16
+  location 0 6.5 0.3
+  radius 8
+  castShadows TRUE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.58
+  cutOffAngle 0.757
+  direction 0 -1 0
+  intensity 16
+  location 11 8 0.3
+  radius 20
+  castShadows TRUE
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.5
+  cutOffAngle 0.72
+  direction 0 -1 0
+  intensity 16
+  location -8 6 0.3
+  radius 8
+  castShadows TRUE
 }
 Floor {
   size 40 5
@@ -36,6 +66,11 @@ Floor {
 Wall {
   translation 0 0 2.52
   size 40 2.4 0.2
+  appearance Roughcast {
+    textureTransform TextureTransform {
+      scale 20 1.2
+    }
+  }
 }
 E-puck {
   translation 0 0 -0.98

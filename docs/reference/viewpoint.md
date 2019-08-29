@@ -2,18 +2,18 @@
 
 ```
 Viewpoint {
-  SFFloat    fieldOfView             0.785398  # [0, pi]
-  SFRotation orientation             0 0 1 0   # unit axis, (-inf, inf) angle
-  SFVec3f    position                0 0 0     # any vector
-  SFString   description             ""        # any string
-  SFFloat    near                    0.05      # [0, far]
-  SFFloat    far                     0.0       # [near, inf)
-  SFString   follow                  ""        # any string
-  SFBool     followOrientation       FALSE     # {TRUE, FALSE}
-  SFFloat    followSmoothness        0.5       # [0, 1]
-  SFNode     lensFlare               NULL      # {LensFlare, PROTO}
-  SFFloat    ambientOcclusionRadius  2         # [0, inf)
-  SFFloat    bloomThreshold          10        # [0, inf)
+  SFFloat    fieldOfView             0.785398         # [0, pi]
+  SFRotation orientation             0 0 1 0          # unit axis, (-inf, inf) angle
+  SFVec3f    position                0 0 0            # any vector
+  SFString   description             ""               # any string
+  SFFloat    near                    0.05             # [0, far]
+  SFFloat    far                     0.0              # [near, inf)
+  SFString   follow                  ""               # any string
+  SFBool     followType              "Tracking Shot"  # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
+  SFFloat    followSmoothness        0.5              # [0, 1]
+  SFNode     lensFlare               NULL             # {LensFlare, PROTO}
+  SFFloat    ambientOcclusionRadius  2                # [0, inf)
+  SFFloat    bloomThreshold          10               # [0, inf)
 }
 ```
 
@@ -39,9 +39,9 @@ The `near`, `far` and the `fieldOfView` fields define together the viewing frust
 Any 3D shape outside this frustum won't be rendered.
 Hence, shapes too close (standing between the camera and the near plane) won't appear.
 
-The `follow` field can be used to specify the name of a robot (or other solid object) that the viewpoint will follow in translation (traveling movement) during the simulation.
+The `follow` field can be used to specify the name of a robot (or other solid object) that the viewpoint will follow during the simulation.
 If the string is empty, or if it does not correspond to any solid object, then the viewpoint will remain fixed.
-The `follow` field is automatically updated when setting the solid to be followed from the `View / Follow Object` menu item.
+The `follow` field is automatically updated when setting the solid to be followed from the `View / Follow Object` menu.
 Given that the same [Solid](solid.md).name field value could be used by different [Solid](solid.md) nodes, the `follow` field value also contains the name of the ancestor [Solid](solid.md) nodes.
 The list of [Solid](solid.md) names is joined using the character ':' and the '\\' and ':' characters contained in a [Solid](solid.md) name is escaped by prepending '\\'.
 For example, please consider the following structure where the `TARGET` solid is followed:
@@ -68,14 +68,16 @@ Robot {
 ```
 Then, `follow` value will be "robot:second\:solid:target\\solid".
 
-The `followOrientation` field can be used to make the viewpoint follow also the orientation of an object (in addition to its position).
-If `followOrientation` is true, the viewpoint is rigidly attached to the followed object, like an embedded camera onboard a robot.
-The `follow` field should be set with a valid object name otherwise the `followOrientation` field has no effect.
+The `followType` field specifies how the viewpoint should follow the object defined in the `follow` field.
+If the value is `None`, the viewpoint will not change.
+If the value is `Tracking Shot`, the viewpoint will follow the object in translation (traveling movement).
+If the value is `Mounted Shot`, the viewpoint will follow the object both in translation and rotation, this is particularly useful to see from within an object (e.g. from inside a vehicle).
+Finally, if the value is `Pan and Tilt Shot`, the viewpoint will always look at the object center.
 
 The `followSmoothness` field defines how smooth the camera is when following an object.
 With a value of 0 the camera follows the movement of the object instantly, and increasing the value increases the inertia of the camera thus making the movement more fluid.
 Higher values can sometimes make the camera lag behind in the case of fast moving objects that change direction often.
-This parameter is ignored if the `followOrientation` field is set to `TRUE`.
+This parameter is used only if the `followType` field is set to `Tracking Shot`.
 
 The `lensFlare` field may contain a [LensFlare](lensflare.md) node to add a lens flare effect to the view (if any light casts flares).
 

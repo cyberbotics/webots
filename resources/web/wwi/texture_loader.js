@@ -77,14 +77,16 @@ var TextureLoader = {
 };
 
 class TextureData {
-  constructor(transparent, wrap, transform) {
+  constructor(transparent, wrap, anisotropy, transform) {
     this.transparent = transparent;
     this.wrap = wrap;
+    this.anisotropy = anisotropy;
     this.transform = transform;
   }
 
   equals(other) {
     return this.transparent === other.transparent &&
+           this.anisotropy === other.anisotropy &&
            JSON.stringify(this.wrap) === JSON.stringify(other.wrap) &&
            JSON.stringify(this.transform) === JSON.stringify(other.transform);
   }
@@ -128,6 +130,7 @@ class _TextureLoaderObject {
     };
     newTexture.wrapS = textureData.wrap.s === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     newTexture.wrapT = textureData.wrap.t === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+    newTexture.anisotropy = textureData.anisotropy;
 
     if (typeof textureData.transform !== 'undefined') {
       newTexture.matrixAutoUpdate = false;

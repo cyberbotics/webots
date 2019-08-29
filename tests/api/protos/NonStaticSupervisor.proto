@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # This PROTO generates a file called 'test.txt' in the temporary files.
 # The content of the file is the number of times the PROTO was regenerated.
 

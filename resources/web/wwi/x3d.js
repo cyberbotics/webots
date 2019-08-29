@@ -82,11 +82,11 @@ THREE.X3DLoader = class X3DLoader {
     else if (node.tagName === 'SpotLight')
       object = this.parseSpotLight(node, helperNodes);
     else if (node.tagName === 'Group') {
-      object = new THREE.Group();
+      object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       hasChildren = true;
     } else if (node.tagName === 'Switch') {
-      object = new THREE.Group();
+      object = new THREE.Object3D();
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
       hasChildren = true;
@@ -384,14 +384,21 @@ THREE.X3DLoader = class X3DLoader {
       }
     }
 
+    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
+    let anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
+    let textureProperties = imageTexture.getElementsByTagName('TextureProperties');
+    if (textureProperties.length > 0)
+      anisotropy = parseFloat(getNodeAttribute(textureProperties[0], 'anisotropicDegree', '8'));
+
     texture = TextureLoader.createOrRetrieveTexture(filename[0], new TextureData(
       getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
       { 's': getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase(),
         't': getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase() },
+      anisotropy,
       transformData
     ));
 
-    if (typeof textureTransform !== 'undefined')
+    if (textureTransform && textureTransform[0])
       this._setCustomId(textureTransform[0], texture);
     this._setCustomId(imageTexture, texture);
     return texture;
@@ -932,6 +939,8 @@ THREE.X3DLoader = class X3DLoader {
       var ambientLight = new THREE.AmbientLight(isHDR ? 0x333333 : 0xffffff);
       this.scene.scene.add(ambientLight);
     }
+
+    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
 
     return undefined;
   }

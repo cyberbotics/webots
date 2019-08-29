@@ -16,6 +16,7 @@
 #define WB_BACKGROUND_HPP
 
 #include "WbBaseNode.hpp"
+#include "WbSFDouble.hpp"
 
 class WbRgb;
 class WbCubemap;
@@ -47,9 +48,11 @@ public:
   // accessor
   WbRgb skyColor() const;
   WbCubemap *cubemap() const;
+  double luminosity() const { return mLuminosity->value(); }
 
 signals:
   void cubemapChanged();
+  void luminosityChanged();
 
 protected:
   void exportNodeFields(WbVrmlWriter &writer) const override;
@@ -74,6 +77,7 @@ private:
   // user accessible fields
   WbMFColor *mSkyColor;
   WbSFNode *mCubemap;
+  WbSFDouble *mLuminosity;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;
@@ -92,6 +96,7 @@ private:
 private slots:
   void updateColor();
   void updateCubemap();
+  void updateLuminosity();
 };
 
 #endif

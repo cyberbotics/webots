@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Uneven terrain demo using an ElevationGrid to model the terrain and a"

@@ -19,12 +19,19 @@ else
   new_version=$1
 fi
 
-for f in $(find ../../projects/ ../../tests/ -name "*.wbt" -o -name "*.proto")
+for f in $(find ../.. -name "*.wbt" -o -name "*.proto")
 do
   ./new_version_file.sh $old_sim_header "#VRML_SIM "$new_version $f
 done
 
-for f in $(find ../../projects/ ../../tests/ -name "*.wbo")
+for f in $(find ../.. -name "*.wbo")
 do
   ./new_version_file.sh $old_obj_header "#VRML_OBJ "$new_version $f
+done
+
+old_wbproj_header="Webots\\sProject\\sFile\\sversion\\s"$1
+new_version=$2
+for f in $(find ../.. -name "*.wbproj")
+do
+  ./new_version_file.sh $old_wbproj_header "Webots Project File version "$new_version $f
 done

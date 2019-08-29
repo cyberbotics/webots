@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "The BB-8 robot has to climb out of the pit."
@@ -7,13 +7,26 @@ WorldInfo {
   window "pit_escape"
 }
 Viewpoint {
-  orientation -0.16283208019443773 0.9717285111603408 0.17096612020415058 1.5403023
-  position 11.892294 4.7688289 1.0050492
+  orientation -0.033692242186570645 0.995861522966379 0.0844077004278979 2.1665993209762484
+  position 6.002781727260681 2.413334548520888 -4.013202495503281
 }
 TexturedBackground {
   texture "twilight_cloudy_empty"
 }
-TexturedBackgroundLight {
+Fog {
+  color 0.846693 0.425879 0.0257725
+  fogType "EXPONENTIAL2"
+  visibilityRange 250
+}
+SpotLight {
+  attenuation 0 0 1
+  beamWidth 0.7
+  color 0.984985 0.268986 0.0295109
+  direction 4 -2 -4
+  intensity 40
+  location -10 5 10
+  radius 50
+  castShadows TRUE
 }
 DEF GROUND Solid {
   children [
@@ -21,17 +34,9 @@ DEF GROUND Solid {
       translation -0.3 0 115
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 500 210
             }
           }
           geometry Plane {
@@ -45,17 +50,9 @@ DEF GROUND Solid {
       translation -0.3 0 -115
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 500 210
             }
           }
           geometry Plane {
@@ -69,17 +66,9 @@ DEF GROUND Solid {
       translation 130 0 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 240 20
             }
           }
           geometry Plane {
@@ -93,17 +82,9 @@ DEF GROUND Solid {
       translation -130 0 0
       children [
         Shape {
-          appearance PBRAppearance {
-            baseColor 0.8 0.8 0.8
-            baseColorMap ImageTexture {
-              url [
-                "textures/fine_grained_sand.jpg"
-              ]
-            }
-            roughness 0.5
-            metalness 0
+          appearance SandyGround {
             textureTransform TextureTransform {
-              scale 100 100
+              scale 240 20
             }
           }
           geometry Plane {
@@ -117,10 +98,11 @@ DEF GROUND Solid {
 }
 DEF PIT Pit {
   size 20 4 20
-  texture [
-    "textures/fine_grained_sand.jpg"
-  ]
-  textureScale 5 5
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 30 30
+    }
+  }
   pitRadius 2.7
 }
 DEF ROBOT_BB-8 BB-8 {

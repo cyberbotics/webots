@@ -52,6 +52,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    this.composer.addPass(this.bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
@@ -72,7 +74,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
+    this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
+    this.bloomPass.enabled = this.bloomPass.threshold >= 0;
 
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
@@ -109,6 +114,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.root = undefined;
     this.scene.background = new THREE.Color(0, 0, 0);
+
+    /*
+    // Code to debug bloom passes.
+    var geometry = new THREE.PlaneGeometry(5, 5);
+    var material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
+    this.bloomPass.debugMaterial = material;
+    var plane = new THREE.Mesh(geometry, material);
+    this.scene.add(plane);
+    */
+
     this.onSceneUpdate();
     this.render();
   }
@@ -477,8 +492,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
-        if (isHDR)
-          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
+        material.envMapIntensity = isHDR ? 0.6 : 1.0; // Factor empirically found to match the Webots rendering.
+        if (typeof this.scene.userData.luminosity !== 'undefined')
+          material.envMapIntensity *= this.scene.userData.luminosity;
         material.needsUpdate = true;
       }
     });
