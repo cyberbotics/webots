@@ -165,9 +165,9 @@ names = ['LGroundReaction', 'RGroundReaction']
 for i in range(len(names)):
     if names[i] + 'Force' in labels and names[i] + 'Moment' in labels:
         grfList.append({'name': names[i]})
-        markerField.importMFNodeFromString(-1, 'C3dGrf { translation %s %s %s}' % (sys.argv[3 + 3 * i],
-                                                                                   sys.argv[4 + 3 * i],
-                                                                                   sys.argv[5 + 3 * i]))
+        markerField.importMFNodeFromString(-1, 'C3dGroundReactionForce { translation %s %s %s}' % (sys.argv[3 + 3 * i],
+                                                                                                   sys.argv[4 + 3 * i],
+                                                                                                   sys.argv[5 + 3 * i]))
         grfList[-1]['node'] = markerField.getMFNode(-1)
         grfList[-1]['translation'] = grfList[-1]['node'].getField('translation')
         grfList[-1]['point'] = grfList[-1]['node'].getField('point')

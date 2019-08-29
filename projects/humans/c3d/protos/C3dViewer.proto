@@ -5,16 +5,16 @@
 # A viewer to visualize C3D (www.c3d.org) files.
 
 PROTO C3dViewer [
-  field  SFVec3f     translation         0 0 0
-  field  SFRotation  rotation            0 1 0 0
-  field  SFString    c3dFile             ""            # Defines which file should be displayed.
-  field  SFFloat     playbackSpeed       1.0           # Defines the speed at which should be played the C3D file.
-  field  MFNode      markers             []            # The markers will be automatically inserted in this field.
-  field  SFVec3f     leftGrfOffset       0.28 0 0.28   # Defines the offset of the left Ground Reaction Force position.
-  field  SFVec3f     rightGrfOffset      -0.21 0 0.22  # Defines the offset of the right Ground Reaction Force position.
-  field  SFFloat     bodyTransparency    1             # Defines the transparency of the body representation (transparency to 1 disable body representation).
-  field  SFFloat     bodyHeight          1.83          # Defines the height of the body representation.
-  field  SFFloat     bodyOffset          0.25          # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
+  field  SFVec3f     translation                      0 0 0
+  field  SFRotation  rotation                         0 1 0 0
+  field  SFString    c3dFile                          ""            # Defines which file should be displayed.
+  field  SFFloat     playbackSpeed                    1.0           # Defines the speed at which should be played the C3D file.
+  field  MFNode      markers                          []            # The markers will be automatically inserted in this field.
+  field  SFVec3f     leftGroundReactionForceOffset    0.28 0 0.28   # Defines the offset of the left Ground Reaction Force position.
+  field  SFVec3f     rightGroundReactionForceOffset   -0.21 0 0.22  # Defines the offset of the right Ground Reaction Force position.
+  field  SFFloat     bodyTransparency                 1             # Defines the transparency of the body representation (transparency to 1 disable body representation).
+  field  SFFloat     bodyHeight                       1.83          # Defines the height of the body representation.
+  field  SFFloat     bodyOffset                       0.25          # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 ]
 {
   Robot {
@@ -24,12 +24,12 @@ PROTO C3dViewer [
     controller "c3d_viewer"
     controllerArgs %{= '"' .. fields.c3dFile.value .. ' ' ..
                               fields.playbackSpeed.value .. ' ' ..
-                              fields.leftGrfOffset.value.x .. ' ' ..
-                              fields.leftGrfOffset.value.y .. ' ' ..
-                              fields.leftGrfOffset.value.z .. ' ' ..
-                              fields.rightGrfOffset.value.x .. ' ' ..
-                              fields.rightGrfOffset.value.y .. ' ' ..
-                              fields.rightGrfOffset.value.z .. ' ' ..
+                              fields.leftGroundReactionForceOffset.value.x .. ' ' ..
+                              fields.leftGroundReactionForceOffset.value.y .. ' ' ..
+                              fields.leftGroundReactionForceOffset.value.z .. ' ' ..
+                              fields.GroundReactionForceOffset.value.x .. ' ' ..
+                              fields.GroundReactionForceOffset.value.y .. ' ' ..
+                              fields.GroundReactionForceOffset.value.z .. ' ' ..
                               fields.bodyTransparency.value .. ' ' ..
                               fields.bodyHeight.value / fields.bodyHeight.defaultValue .. ' ' ..
                               fields.bodyOffset.value .. '"' }%

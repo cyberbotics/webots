@@ -1,7 +1,7 @@
 #VRML_SIM R2019b utf8
 # tags: static, hidden
 
-PROTO C3dGrf [
+PROTO C3dGroundReactionForce [
   field SFVec3f  translation  0 0 0
   field SFColor  color        1 1 0
   field MFVec3f  point        [0 0 0, 0 0 0]
