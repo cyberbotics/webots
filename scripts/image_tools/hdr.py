@@ -90,7 +90,7 @@ class HDR:
         return hdr
 
     def __init__(self):
-        """Constructor: simply reset the fields."""
+        """Constructor: simply reset the fields. Prefer the static methods."""
         self.data = []  # Contains the 1D array of floats (size: 3*w*h, black: 0.0, white: 1.0, hdr: >1.0)
         self.width = -1
         self.height = -1
@@ -100,9 +100,11 @@ class HDR:
         self.rotated = False
 
     def is_valid(self):
+        """Return True if the image has been loaded correctly."""
         return 3 * self.width * self.height == len(self.data)
 
     def get_pixel(self, x, y):
+        """Get pixel at the speficied position."""
         assert x >= 0 and x < self.width
         assert y >= 0 and y < self.height
         i = 3 * (y * self.width + x)
@@ -113,6 +115,7 @@ class HDR:
         )
 
     def set_pixel(self, x, y, pixel):
+        """Set pixel at the speficied position."""
         assert x >= 0 and x < self.width
         assert y >= 0 and y < self.height
         i = 3 * (y * self.width + x)

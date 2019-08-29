@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-"""Convert a equirectanglar HDR image to cubemap HDR images."""
+"""Convert an image having an equirectanglar projection to 6 cubemap images."""
+# Support HDR, PNG and JPG formats.
+
 # Reference about the projection:
 # - https://stackoverflow.com/a/36976448
 
@@ -27,17 +29,10 @@ optParser.add_option(
 )
 options, args = optParser.parse_args()
 
-cubemap_names = [
-    'back',
-    'left',
-    'front',
-    'right',
-    'top',
-    'bottom'
-]
+cubemap_names = ['back', 'left', 'front', 'right', 'top', 'bottom']
 
 
-def outImgToXYZ(i, j, faceID, faceWidth, faceHeight):
+def face_direction(i, j, faceID, faceWidth, faceHeight):
     a = 2.0 * float(i) / faceWidth
     b = 2.0 * float(j) / faceHeight
 
@@ -55,7 +50,7 @@ def outImgToXYZ(i, j, faceID, faceWidth, faceHeight):
         return (1.0 - b, a - 1.0, -1.0)
 
 
-print('Load equirectanglar image...')
+print('Load the equirectanglar image...')
 basename, extension = os.path.splitext(options.input)
 image_class = HDR if extension == '.hdr' else RegularImage
 equi = image_class.load_from_file(options.input)
@@ -67,7 +62,7 @@ for c in range(len(cubemap_names)):
     cubemap = image_class.create_black_image(options.width, options.height)
     for i in range(options.height):
         for j in range(options.width):
-            (x, y, z) = outImgToXYZ(i, j, c, options.width, options.height)
+            (x, y, z) = face_direction(i, j, c, options.width, options.height)
 
             theta = math.atan2(y, x)  # range -pi to pi
             r = math.hypot(x, y)

@@ -20,20 +20,23 @@ class RegularImage:
         return ri
 
     def __init__(self):
-        """Constructor: simply reset the fields."""
+        """Constructor: simply reset the fields. Prefer the static methods."""
         self.width = -1
         self.height = -1
         self.im = None
 
     def is_valid(self):
+        """Return True if the image has been loaded correctly."""
         return self.width * self.height > 0 and self.im is not None
 
     def get_pixel(self, x, y):
+        """Get pixel at the speficied position."""
         assert x >= 0 and x < self.width
         assert y >= 0 and y < self.height
         return self.im.getpixel((x, y))
 
     def set_pixel(self, x, y, pixel):
+        """Set pixel at the speficied position."""
         assert x >= 0 and x < self.width
         assert y >= 0 and y < self.height
         self.im.putpixel((x, y), (int(pixel[0]), int(pixel[1]), int(pixel[2])))
@@ -44,6 +47,6 @@ class RegularImage:
         self.im.save(filename)
 
     def to_pil(self):
-        """PIL image getter."""
+        """Get the PIL image."""
         assert self.is_valid()
         return self.im
