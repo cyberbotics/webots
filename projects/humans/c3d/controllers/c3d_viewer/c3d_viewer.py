@@ -289,11 +289,11 @@ while supervisor.step(timestep) != -1:
         for grf in grfList:
             index1 = labels.index(grf['name'] + 'Force')
             index2 = labels.index(grf['name'] + 'Moment')
-            COPX = 0
-            COPY = 0
+            CenterOfPressureX = 0
+            CenterOfPressureY = 0
             if points[index1][3] >= 0:  # if index 3 or 4 is smaller than 0, the data is not valid for this frame
-                COPX = 0.001 * points[index2][1] / points[index1][2]
-                COPY = 0.001 * points[index2][0] / points[index1][2]
+                CenterOfPressureX = 0.001 * points[index2][1] / points[index1][2]
+                CenterOfPressureY = 0.001 * points[index2][0] / points[index1][2]
                 vec1 = [0.0, 1, 0.0]
                 vec2 = [0.04 * points[index1][0], 0.04 * points[index1][2], 0.04 * points[index1][1]]
                 len1 = 1.0
@@ -303,8 +303,8 @@ while supervisor.step(timestep) != -1:
                 axis = [vec1[1] * vec3[2] - vec1[2] * vec3[1],   # cross-product(vec1, vec3)
                         vec1[2] * vec3[0] - vec1[0] * vec3[2],
                         vec1[0] * vec3[1] - vec1[1] * vec3[0]]
-                grf['cylinderTranslation'].setSFVec3f([COPX + 0.5 * vec2[0], 0.5 * vec2[1], COPY + 0.5 * vec2[2]])
-                grf['coneTranslation'].setSFVec3f([COPX + 0.5 * vec2[0], 0.5 * (vec2[1] + len2), COPY + 0.5 * vec2[2]])
+                grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0], 0.5 * vec2[1], CenterOfPressureY + 0.5 * vec2[2]])
+                grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0], 0.5 * (vec2[1] + len2), CenterOfPressureY + 0.5 * vec2[2]])
                 if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
                     grf['rotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
                 grf['height'].setSFFloat(max(0.001, len2))
