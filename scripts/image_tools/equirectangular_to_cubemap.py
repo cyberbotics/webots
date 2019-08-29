@@ -5,9 +5,11 @@
 # - https://stackoverflow.com/a/36976448
 
 import optparse
+import os
 import math
 
 from hdr import HDR
+from regular_image import RegularImage
 from clamp import clamp_int
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr [options]')
@@ -54,13 +56,15 @@ def outImgToXYZ(i, j, faceID, faceWidth, faceHeight):
 
 
 print('Load equirectanglar image...')
-equi = HDR.load_from_file(options.input)
+basename, extension = os.path.splitext(options.input)
+image_class = HDR if extension == '.hdr' else RegularImage
+equi = image_class.load_from_file(options.input)
 
 for c in range(len(cubemap_names)):
     cm_name = cubemap_names[c]
     print('Generate %s cubemap image...' % cm_name)
-    cm_filename = options.input.replace('.hdr', '_' + cm_name + '.hdr')
-    cubemap = HDR.create_black_image(options.width, options.height)
+    cm_filename = options.input.replace(extension, '_' + cm_name + extension)
+    cubemap = image_class.create_black_image(options.width, options.height)
     for i in range(options.height):
         for j in range(options.width):
             (x, y, z) = outImgToXYZ(i, j, c, options.width, options.height)
@@ -90,4 +94,3 @@ for c in range(len(cubemap_names)):
             )
             cubemap.set_pixel(i, j, P)
     cubemap.save(cm_filename)
-    # cubemap.to_pil().save(cm_filename.replace('.hdr', '.png').replace('entrance_hall', 'test'))
