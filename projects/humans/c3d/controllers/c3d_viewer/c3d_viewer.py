@@ -149,6 +149,8 @@ labelsAndCategory = {
 for key in labelsAndCategory:
     if labelsAndCategory[key]:
         supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + ' '.join(labelsAndCategory[key]).strip())
+    else:
+        supervisor.wwiSendText('labels:' + key + ':' + units[key] + ':' + 'None')
 supervisor.wwiSendText('configure:' + str(supervisor.getBasicTimeStep()))
 
 # make one step to be sure markers are not imported before pressing play

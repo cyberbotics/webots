@@ -99,50 +99,59 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
     if (type == 'virtual_markers' || type == 'markers') {
       var isVirtual = type == 'virtual_markers';
       var div = document.getElementById(type);
-      // options
       var content = '';
-      for (var i = 0; i < names.length; i++) {
-        var name = names[i];
-        content += '<div class="markerDiv">';
-        content += name;
-        content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
-        content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
-        content += '<span id="slider_value_' + name + '">0.001</span>';
-        content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
-        content += '</div>';
+      if (message[2] == 'None')
+        content = 'None';
+      else {
+        // options
+        for (var i = 0; i < names.length; i++) {
+          var name = names[i];
+          content += '<div class="markerDiv">';
+          content += name;
+          content += '<input type="checkbox" class="visibilityCheckbox" title="Show/hide this marker." marker="' + name + '" onclick="checkboxCallback(this)"' + (isVirtual ? '' : ' checked') + '/>';
+          content += '<input type="range" class="radiusSlider" min="0.001" max="0.1" step = "0.001" value="0.01" data-show-value="true" class="slider" title="Radius of the marker." marker="' + name + '" onchange="sliderCallback(this)"/>';
+          content += '<span id="slider_value_' + name + '">0.001</span>';
+          content += '<input type="color" class="colorSelector" marker="' + name + '" value="#00ff00" onchange="colorCallback(this)"/>';
+          content += '</div>';
+        }
       }
       div.innerHTML = content;
       type = 'markers';
     }
     // graph
-    for (var i = 0; i < names.length; i++) {
-      var name = names[i];
-      var tmp = document.createElement('tmp');
-      var div = '<div id="' + name + '-graph-container" class="marker-plot">';
-      div += '<h3>' + name;
-      div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
-             '  <option>Time</option>' +
-             '  <option>XY</option>' +
-             '  <option>YZ</option>' +
-             '  <option>XZ</option>' +
-             '</select>'
-      div += '</h3>';
-      div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
-      div += '</div>';
-      tmp.innerHTML = div;
-      document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
+    if (message[2] == 'None') {
+      if (type != 'markers')
+        document.getElementById('graphs-' + type).innerHTML = 'None';
+    } else {
+      for (var i = 0; i < names.length; i++) {
+        var name = names[i];
+        var tmp = document.createElement('tmp');
+        var div = '<div id="' + name + '-graph-container" class="marker-plot">';
+        div += '<h3>' + name;
+        div += '<select onChange="comboboxCallback(this)" class="view-selector" marker="' + name + '">' +
+               '  <option>Time</option>' +
+               '  <option>XY</option>' +
+               '  <option>YZ</option>' +
+               '  <option>XZ</option>' +
+               '</select>'
+        div += '</h3>';
+        div += '<div id="' + name + '-graph" class="marker-plot-content"/></div>';
+        div += '</div>';
+        tmp.innerHTML = div;
+        document.getElementById('graphs-' + type).appendChild(tmp.firstChild);
 
-      var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
-      var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
-      var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
-      var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+        var widgetTime = new TimeplotWidget(document.getElementById(name + '-graph'), basicTimeStep, TimeplotWidget.prototype.AutoRangeType.STRETCH, {'min': -1, 'max': 1}, {'x': 'Time [s]', 'y': '[' + unit + ']'}, null);
+        var widgetXY = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 1}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'y [' + unit + ']'}, null);
+        var widgetYZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 1, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'y [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
+        var widgetXZ = new PlotWidget(document.getElementById(name + '-graph'), TimeplotWidget.prototype.AutoRangeType.STRETCH, {'x': 0, 'y': 2}, {'min': -1, 'max': 1}, {'min': -1, 'max': 1}, {'x': 'x [' + unit + ']', 'y': 'z [' + unit + ']'}, null);
 
-      widgetXY.show(false);
-      widgetYZ.show(false);
-      widgetXZ.show(false);
+        widgetXY.show(false);
+        widgetYZ.show(false);
+        widgetXZ.show(false);
 
-      widgetTime.refresh();
-      graphs[name] = [widgetTime, widgetXY, widgetYZ, widgetXZ];
+        widgetTime.refresh();
+        graphs[name] = [widgetTime, widgetXY, widgetYZ, widgetXZ];
+      }
     }
   } else if (message.startsWith('positions:')) {
     var positions = message.split(':');
