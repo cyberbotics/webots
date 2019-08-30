@@ -964,6 +964,7 @@ class Robot:
     MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL
 
     def getMode(self):
+    def setMode(self, mode, arg);
     # ...
 ```
 
@@ -978,6 +979,7 @@ public class Robot {
   public final static int MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL;
 
   public int getMode();
+  public void setMode(int mode, SWIGTYPE_p_void arg);
   // ...
 }
 ```
@@ -990,6 +992,7 @@ public class Robot {
 WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL
 
 mode = wb_robot_get_mode()
+wb_robot_set_mode(mode, arg)
 ```
 
 %tab-end
