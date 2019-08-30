@@ -964,7 +964,7 @@ class Robot:
     MODE_SIMULATION, MODE_CROSS_COMPILATION, MODE_REMOTE_CONTROL
 
     def getMode(self):
-    def setMode(sefl, mode, arg);
+    def setMode(self, mode, arg);
     # ...
 ```
 
