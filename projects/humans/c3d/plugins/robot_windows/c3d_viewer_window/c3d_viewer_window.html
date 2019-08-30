@@ -5,6 +5,7 @@
   <div id="menu">
     <button id="config-menu-button" class="menu-button tablink" onclick="menuTabCallback('config')">Config</button>
     <button id="markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('markers')">Markers</button>
+    <button id="virtual_markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('virtual_markers')">Virtual Markers</button>
     <button id="angles-menu-button" class="menu-button tablink" onclick="menuTabCallback('angles')">Angles</button>
     <button id="forces-menu-button" class="menu-button tablink" onclick="menuTabCallback('forces')">Forces</button>
     <button id="moments-menu-button" class="menu-button tablink" onclick="menuTabCallback('moments')">Moments</button>
@@ -52,6 +53,14 @@
         <input type="checkbox" id="graph-checkbox" graphtype="markers" onclick="enableGraphs(this)"/>
       </h2>
       <div id="graphs-markers">
+      </div>
+    </div>
+    <div id="virtual_markers-tab" class="content">
+      <h2>
+        Virtual Marker Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="virtual_markers" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-virtual_markers">
       </div>
     </div>
     <div id="angles-tab" class="content">

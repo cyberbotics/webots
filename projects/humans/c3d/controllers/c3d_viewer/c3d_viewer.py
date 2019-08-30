@@ -263,11 +263,10 @@ while supervisor.step(timestep) != -1:
         elif action == 'graphs':
             if value[1] == 'markers':
                 enableMarkerGraph = value[2] == 'true'
+            if value[2] == 'true':
+                enableValueGraphs.append(value[1])
             else:
-                if value[2] == 'true':
-                    enableValueGraphs.append(value[1])
-                else:
-                    enableValueGraphs.remove(value[1])
+                enableValueGraphs.remove(value[1])
         elif action == 'body_transparency':
             bodyTransparency = float(value[1])
             bodyTransparencyField.setSFFloat(bodyTransparency)
@@ -315,30 +314,27 @@ while supervisor.step(timestep) != -1:
             else:
                 grf['cylinderTranslation'].setSFVec3f([0, -1000, 0])
                 grf['coneTranslation'].setSFVec3f([0, -1000, 0])
-        # update the marker visualization
+        # update the markers visualization and graph and body angles
         for j in range(numberOfpoints):
+            # get actual coordinates
+            y = points[j][2] * scale
+            if inverseY:
+                y = -y
+                x = points[j][0] * scale
+                z = -points[j][1] * scale
+            else:
+                x = points[j][1] * scale
+                z = -points[j][0] * scale
+            # update markers visualization
             if pointRepresentations[labels[j]]['visible'] or pointRepresentations[labels[j]]['solid']:
-                y = points[j][2] * scale
-                if inverseY:
-                    y = -y
-                    x = points[j][0] * scale
-                    z = -points[j][1] * scale
-                else:
-                    x = points[j][1] * scale
-                    z = -points[j][0] * scale
                 if pointRepresentations[labels[j]]['visible']:
                     pointRepresentations[labels[j]]['node'].getField('translation').setSFVec3f([x, y, z])
-                    if enableMarkerGraph:
-                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
                 if pointRepresentations[labels[j]]['solid']:
                     pointRepresentations[labels[j]]['solid'].getField('translation').setSFVec3f([x, y, z])
-            else:
-                for categoryName in labelsAndCategory:
-                    if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
-                        x = points[j][0]
-                        y = points[j][2]
-                        z = points[j][1]
-                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+            # update markers graph
+            for categoryName in labelsAndCategory:
+                if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
+                    toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
             # update body representation (if any)
             if labels[j] in bodyRotations and bodyTransparency < 1.0:
                 if transforms3dVailable:
@@ -351,14 +347,6 @@ while supervisor.step(timestep) != -1:
                     sys.stderr.write('Warning: "transforms3d" is required to update body representation.\n')
                     sys.stderr.write('Warning: You can install it with: "pip install transforms3d"\n')
             if labels[j] in bodyTranslations:
-                y = points[j][2] * scale
-                if inverseY:
-                    y = -y
-                    x = points[j][0] * scale
-                    z = -points[j][1] * scale
-                else:
-                    x = points[j][1] * scale
-                    z = -points[j][0] * scale
                 bodyTranslations[labels[j]].setSFVec3f([x, y + float(sys.argv[11]), z])
         # send marker position to the robot window
         if toSend:

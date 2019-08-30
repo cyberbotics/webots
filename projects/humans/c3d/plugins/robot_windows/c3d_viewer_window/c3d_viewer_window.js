@@ -126,7 +126,6 @@ webots.window('c3d_viewer_window').receive = function(message, robot) {
         }
       }
       div.innerHTML = content;
-      type = 'markers';
     }
     // graph
     if (message[2] == 'None') {
