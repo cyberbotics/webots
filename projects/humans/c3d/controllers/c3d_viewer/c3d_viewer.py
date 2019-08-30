@@ -331,7 +331,10 @@ while supervisor.step(timestep) != -1:
             # update markers graph
             for categoryName in labelsAndCategory:
                 if labels[j] in labelsAndCategory[categoryName] and categoryName in enableValueGraphs:
-                    toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                    if categoryName in ['markers', 'virtual_markes']:
+                        toSend += labels[j] + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
+                    else:
+                        toSend += labels[j] + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
             # update body representation (if any)
             if labels[j] in bodyRotations and bodyTransparency < 1.0:
                 if transforms3dVailable:
