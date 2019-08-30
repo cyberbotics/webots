@@ -75,7 +75,6 @@ def getPointsList(reader, name):
 
 supervisor = Supervisor()
 timestep = int(supervisor.getBasicTimeStep())
-enableMarkerGraph = False
 enableValueGraphs = []
 
 # parse arguments
@@ -261,8 +260,6 @@ while supervisor.step(timestep) != -1:
             for i in range(2, len(value)):
                 pointRepresentations[value[i]]['color'].setSFColor(color)
         elif action == 'graphs':
-            if value[1] == 'markers':
-                enableMarkerGraph = value[2] == 'true'
             if value[2] == 'true':
                 enableValueGraphs.append(value[1])
             else:
