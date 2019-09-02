@@ -129,7 +129,7 @@ WbBackground::~WbBackground() {
   const bool firstInstanceDeleted = isFirstInstance();
 
   cBackgroundList.removeAll(this);
-  destroyCubeMaps();
+
   destroySkyBox();
 
   if (firstInstanceDeleted) {
@@ -238,13 +238,12 @@ void WbBackground::createWrenObjects() {
 void WbBackground::destroySkyBox() {
   wr_scene_set_skybox(wr_scene_get_instance(), NULL);
 
-  if (mSkyboxMaterial) {
+  if (mSkyboxMaterial)
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
-    mSkyboxMaterial = NULL;
-  }
-}
 
-void WbBackground::destroyCubeMaps() {
+  wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
+  wr_scene_set_skybox(wr_scene_get_instance(), NULL);
+
   if (mCubeMapTexture) {
     wr_texture_delete(WR_TEXTURE(mCubeMapTexture));
     mCubeMapTexture = NULL;
@@ -259,6 +258,8 @@ void WbBackground::destroyCubeMaps() {
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
     mSpecularIrradianceCubeTexture = NULL;
   }
+
+  // applyColourToWren(skyColor());
 }
 
 void WbBackground::updateColor() {
@@ -272,11 +273,6 @@ void WbBackground::updateColor() {
 }
 
 void WbBackground::updateCubemap() {
-  // if (cubemap()) {
-  //   connect(cubemap(), &WbCubemap::changed, this, &WbBackground::updateCubemap, Qt::UniqueConnection);
-  //   emit cubemapChanged();
-  // }
-
   if (areWrenObjectsInitialized())
     applySkyBoxToWren();
 }
@@ -309,7 +305,7 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 }
 
 void WbBackground::applySkyBoxToWren() {
-  destroyCubeMaps();
+  destroySkyBox();
 
   mCubeMapTexture = wr_texture_cubemap_new();
 
@@ -370,13 +366,15 @@ void WbBackground::applySkyBoxToWren() {
 
       if (textureSize.width() != textureSize.height()) {
         warn(tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName()));
-        destroyCubeMaps();
+        destroySkyBox();
+        emit cubemapChanged();
         return;
       }
 
       if (i > 0 && textureSize.width() != edgeLength) {
         warn(tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName()));
-        destroyCubeMaps();
+        destroySkyBox();
+        emit cubemapChanged();
         return;
       }
 
@@ -388,7 +386,8 @@ void WbBackground::applySkyBoxToWren() {
       if (imageReader.read(image)) {
         if (i > 0 && (alpha != image->hasAlphaChannel())) {
           warn(tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile));
-          destroyCubeMaps();
+          destroySkyBox();
+          emit cubemapChanged();
           return;
         }
 
@@ -403,7 +402,8 @@ void WbBackground::applySkyBoxToWren() {
                                     static_cast<WrTextureOrientation>(i));
       } else {
         warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-        destroyCubeMaps();
+        destroySkyBox();
+        emit cubemapChanged();
         return;
       }
       lastFile = imageReader.fileName();
