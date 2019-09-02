@@ -258,8 +258,6 @@ void WbBackground::destroySkyBox() {
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
     mSpecularIrradianceCubeTexture = NULL;
   }
-
-  // applyColourToWren(skyColor());
 }
 
 void WbBackground::updateColor() {
