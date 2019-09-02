@@ -470,9 +470,3 @@ WrTextureRtt *wr_texture_cubemap_bake_brdf(WrShaderProgram *shader, unsigned int
   return reinterpret_cast<WrTextureRtt *>(
     wren::texturecubemapbaker::bakeBrdf(reinterpret_cast<wren::ShaderProgram *>(shader), size));
 }
-
-WrTextureCubeMap *wr_texture_cubemap_bake_equirectangular_to_cube(WrTexture2d *equirectangular_map, WrShaderProgram *shader,
-                                                                  unsigned int size) {
-  return reinterpret_cast<WrTextureCubeMap *>(wren::texturecubemapbaker::bakeEquirectangularToCube(
-    reinterpret_cast<wren::Texture2d *>(equirectangular_map), reinterpret_cast<wren::ShaderProgram *>(shader), size));
-}

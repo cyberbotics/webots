@@ -83,7 +83,6 @@ enum SHADER {
   SHADER_IBL_DIFFUSE_IRRADIANCE_BAKE,
   SHADER_IBL_SPECULAR_IRRADIANCE_BAKE,
   SHADER_IBL_BRDF_BAKE,
-  SHADER_IBL_EQUIRECTANGULAR_BAKE,
   SHADER_LENS_DISTORTION,
   SHADER_LENS_FLARE,
   SHADER_LENS_FLARE_BLEND,
@@ -640,30 +639,6 @@ WrShaderProgram *WbWrenShaders::iblBrdfBakingShader() {
   }
 
   return gShaders[SHADER_IBL_BRDF_BAKE];
-}
-
-WrShaderProgram *WbWrenShaders::iblEquirectangularShader() {
-  if (!gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE]) {
-    gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE] = wr_shader_program_new();
-
-    const float projectionAndViewDefaults[16] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                                                 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE], "projection",
-                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F,
-                                            reinterpret_cast<const char *>(&projectionAndViewDefaults));
-
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE], "view",
-                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_MAT4F,
-                                            reinterpret_cast<const char *>(&projectionAndViewDefaults));
-
-    wr_shader_program_use_uniform(gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
-
-    buildShader(gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE], QFileInfo("gl:shaders/bake_cubemap.vert"),
-                QFileInfo("gl:shaders/bake_equirectangular_to_cube.frag"));
-  }
-
-  return gShaders[SHADER_IBL_EQUIRECTANGULAR_BAKE];
 }
 
 WrShaderProgram *WbWrenShaders::lensDistortionShader() {
