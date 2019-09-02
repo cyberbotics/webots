@@ -314,101 +314,93 @@ void WbBackground::applySkyBoxToWren() {
   QString lastFile;
 
   QString textureUrls[6];
-
-  QString suffix = "";
-  for (int i = 0; i < 6; ++i) {
-    if (mUrlFields[i]->size() == 0) {
-      emit cubemapChanged();
-      return;
-    }
-
-    textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-
-    if (textureUrls[i].isEmpty()) {
-      emit cubemapChanged();
-      return;
-    }
-
-    QString newSuffix = QFileInfo(textureUrls[i]).suffix();
-    if (i > 0 && newSuffix != suffix) {
-      warn(tr("Inconsistent image format."));
-      emit cubemapChanged();
-      return;
-    }
-    suffix = newSuffix;
-  }
-
   QVector<float *> hdrImageData;
   QVector<QImage *> regularImageData;
 
-  if (suffix == "hdr") {
-    wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+  try {
+    QString suffix = "";
+    for (int i = 0; i < 6; ++i) {
+      if (mUrlFields[i]->size() == 0)
+        throw QString();
 
-    for (int i = 0; i < 6; i++) {
-      int width, height, nrComponents;
-      float *data = stbi_loadf(textureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
+      textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
 
-      // TODO: HDR backgrounds are clamped to 25.0 due to bake_equirectangular_to_cube.frag. This is bad.
-      for (int i = 0; i < width * height * 3; ++i)
-        data[i] = data[i] > 25.0 ? 25.0 : data[i];
+      if (textureUrls[i].isEmpty())
+        throw QString();
 
-      hdrImageData.append(data);
-      edgeLength = width;
+      QString newSuffix = QFileInfo(textureUrls[i]).suffix();
+      if (i > 0 && newSuffix != suffix)
+        throw tr("Inconsistent image format.");
 
-      wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
+      suffix = newSuffix;
     }
-  } else {
-    wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-    for (int i = 0; i < 6; i++) {
-      QImageReader imageReader(textureUrls[i]);
-      QSize textureSize = imageReader.size();
+    if (suffix == "hdr") {
+      wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
 
-      if (textureSize.width() != textureSize.height()) {
-        warn(tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName()));
-        destroySkyBox();
-        emit cubemapChanged();
-        return;
-      }
+      for (int i = 0; i < 6; i++) {
+        int width, height, nrComponents;
+        float *data = stbi_loadf(textureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
 
-      if (i > 0 && textureSize.width() != edgeLength) {
-        warn(tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName()));
-        destroySkyBox();
-        emit cubemapChanged();
-        return;
-      }
+        // TODO: HDR backgrounds are currently clamped to 25.0 due to bake_equirectangular_to_cube.frag. This is bad.
+        for (int i = 0; i < width * height * 3; ++i)
+          data[i] = data[i] > 25.0 ? 25.0 : data[i];
 
-      edgeLength = textureSize.width();
+        if (width != height)
+          throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(textureUrls[i]);
+        if (i > 0 && width != edgeLength)
+          throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(textureUrls[i]);
 
-      QImage *image = new QImage();
-      regularImageData.append(image);
+        hdrImageData.append(data);
+        edgeLength = width;
 
-      if (imageReader.read(image)) {
-        if (i > 0 && (alpha != image->hasAlphaChannel())) {
-          warn(tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile));
-          destroySkyBox();
-          emit cubemapChanged();
-          return;
-        }
-
-        alpha = image->hasAlphaChannel();
-
-        if (image->format() != QImage::Format_ARGB32) {
-          QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
-          image->swap(tmp);
-        }
-
-        wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(image->bits()),
+        wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(data),
                                     static_cast<WrTextureOrientation>(i));
-      } else {
-        warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-        destroySkyBox();
-        emit cubemapChanged();
-        return;
       }
-      lastFile = imageReader.fileName();
+    } else {
+      wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+
+      for (int i = 0; i < 6; i++) {
+        QImageReader imageReader(textureUrls[i]);
+        QSize textureSize = imageReader.size();
+
+        if (textureSize.width() != textureSize.height())
+          throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName());
+        if (i > 0 && textureSize.width() != edgeLength)
+          throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName());
+
+        edgeLength = textureSize.width();
+
+        QImage *image = new QImage();
+        regularImageData.append(image);
+
+        if (imageReader.read(image)) {
+          if (i > 0 && (alpha != image->hasAlphaChannel()))
+            throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
+
+          alpha = image->hasAlphaChannel();
+
+          if (image->format() != QImage::Format_ARGB32) {
+            QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
+            image->swap(tmp);
+          }
+
+          wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(image->bits()),
+                                      static_cast<WrTextureOrientation>(i));
+        } else
+          throw tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString());
+
+        lastFile = imageReader.fileName();
+      }
     }
+  } catch (QString &error) {
+    if (error.length() > 0)
+      warn(error);
+    destroySkyBox();
+    emit cubemapChanged();
+    return;
   }
+
   wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
 
   WbWrenOpenGlContext::makeWrenCurrent();
