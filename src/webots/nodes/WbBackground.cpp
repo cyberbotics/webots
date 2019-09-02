@@ -365,8 +365,7 @@ void WbBackground::applySkyBoxToWren() {
       hdrImageData.append(data);
       edgeLength = width;
 
-      wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(data),
-                                  static_cast<WrTextureOrientation>(i));
+      wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
     }
   } else {
     wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
