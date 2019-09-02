@@ -57,17 +57,14 @@ static QString gTextureSuffixes[6] = {"_right", "_left", "_top", "_bottom", "_fr
 void WbBackground::init() {
   mSkyColor = findMFColor("skyColor");
   mLuminosity = findSFDouble("luminosity");
-
   for (int i = 0; i < 6; ++i)
     mUrlFields[i] = findMFString(gUrlNames[i]);
 
-  bool isValid = true;
   QString directory;
   QString textureBaseName;
   for (int i = 0; i < 6; ++i) {
     if (!mUrlFields[i] || mUrlFields[i]->size() == 0) {
       // empty url
-      isValid = false;
       if (i != 0)
         warn(tr("Impossible to create the cubemap because not all the url fields are defined."));
       break;
@@ -79,7 +76,6 @@ void WbBackground::init() {
     int index = currentTextureBaseName.lastIndexOf(gTextureSuffixes[i]);
     if (index < 0) {
       // suffix not found
-      isValid = false;
       warn(tr("Impossible to create the cubemap because the texture file defined in the '%1' field doesn't end with the '%2' "
               "suffix.")
              .arg(gUrlNames[i])
@@ -94,20 +90,9 @@ void WbBackground::init() {
       // texture are not in the same directory or using the same base name
       warn(tr("Impossible to create the cubemap because the textures defined in the url fields are not in the same folder or "
               "they do not share the same base name."));
-      isValid = false;
       break;
     }
   }
-
-  /*
-  if (isValid) {
-    WbNode *previousParent = WbNode::globalParent();
-    WbNodeOperations::instance()->importNode(
-      this, findField("cubemap"), 0, "",
-      QString("Cubemap { textureBaseName \"" + textureBaseName + "\" directory \"" + directory + "\" }"));
-    WbNode::setGlobalParent(previousParent);
-  }
-  */
 
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
@@ -144,6 +129,7 @@ WbBackground::~WbBackground() {
   const bool firstInstanceDeleted = isFirstInstance();
 
   cBackgroundList.removeAll(this);
+  destroyCubeMaps();
   destroySkyBox();
 
   if (firstInstanceDeleted) {
@@ -203,7 +189,8 @@ void WbBackground::activate() {
 
   connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
-  // connect(mCubemap, &WbSFNode::changed, this, &WbBackground::updateCubemap);
+  for (int i = 0; i < 6; ++i)
+    connect(mUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
 
   updateColor();
 
@@ -212,9 +199,6 @@ void WbBackground::activate() {
 
 void WbBackground::createWrenObjects() {
   WbBaseNode::createWrenObjects();
-
-  // if (cubemap())
-  //   cubemap()->createWrenObjects();
 
   mSkyboxShaderProgram = WbWrenShaders::skyboxShader();
   mSkyboxMaterial = wr_phong_material_new();
@@ -258,7 +242,9 @@ void WbBackground::destroySkyBox() {
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
     mSkyboxMaterial = NULL;
   }
+}
 
+void WbBackground::destroyCubeMaps() {
   if (mCubeMapTexture) {
     wr_texture_delete(WR_TEXTURE(mCubeMapTexture));
     mCubeMapTexture = NULL;
@@ -323,7 +309,7 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 }
 
 void WbBackground::applySkyBoxToWren() {
-  // destroySkyBox();
+  destroyCubeMaps();
 
   mCubeMapTexture = wr_texture_cubemap_new();
 
@@ -331,24 +317,29 @@ void WbBackground::applySkyBoxToWren() {
   bool alpha = false;
   QString lastFile;
 
-  QString mTextureUrls[6];
+  QString textureUrls[6];
 
   QString suffix = "";
-  bool allTexturesAreDefined = true;
   for (int i = 0; i < 6; ++i) {
-    mTextureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-    suffix = QFileInfo(mTextureUrls[i]).suffix();
-    /*
-    if (mTextureUrls[i].isEmpty()) {
-      mTextureUrls[i] = WbUrl::computePath(
-        this, "textureBaseName", mDirectory->value() + "/" + mTextureBaseName->value() + gTextureSuffixes[i] + ".png", false);
-      mSuffix = ".png";
-    } else
-      mSuffix = ".jpg";
-    */
+    if (mUrlFields[i]->size() == 0) {
+      emit cubemapChanged();
+      return;
+    }
 
-    if (mTextureUrls[i].isEmpty())
-      allTexturesAreDefined = false;
+    textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+
+    if (textureUrls[i].isEmpty()) {
+      emit cubemapChanged();
+      return;
+    }
+
+    QString newSuffix = QFileInfo(textureUrls[i]).suffix();
+    if (i > 0 && newSuffix != suffix) {
+      warn(tr("Inconsistent image format."));
+      emit cubemapChanged();
+      return;
+    }
+    suffix = newSuffix;
   }
 
   QVector<float *> hdrImageData;
@@ -359,9 +350,12 @@ void WbBackground::applySkyBoxToWren() {
 
     for (int i = 0; i < 6; i++) {
       int width, height, nrComponents;
-      float *data = stbi_loadf(mTextureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
-      // for (int i = 0; i < width * height * 3; ++i)
-      //   data[i] = data[i] > 1.0 ? 1.0 : data[i];
+      float *data = stbi_loadf(textureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
+
+      // TODO: HDR backgrounds are clamped to 25.0 due to bake_equirectangular_to_cube.frag. This is bad.
+      for (int i = 0; i < width * height * 3; ++i)
+        data[i] = data[i] > 25.0 ? 25.0 : data[i];
+
       hdrImageData.append(data);
       edgeLength = width;
 
@@ -371,18 +365,18 @@ void WbBackground::applySkyBoxToWren() {
     wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
     for (int i = 0; i < 6; i++) {
-      QImageReader imageReader(mTextureUrls[i]);
+      QImageReader imageReader(textureUrls[i]);
       QSize textureSize = imageReader.size();
 
       if (textureSize.width() != textureSize.height()) {
         warn(tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName()));
-        // clearWrenTexture();
+        destroyCubeMaps();
         return;
       }
 
       if (i > 0 && textureSize.width() != edgeLength) {
         warn(tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName()));
-        // clearWrenTexture();
+        destroyCubeMaps();
         return;
       }
 
@@ -394,7 +388,7 @@ void WbBackground::applySkyBoxToWren() {
       if (imageReader.read(image)) {
         if (i > 0 && (alpha != image->hasAlphaChannel())) {
           warn(tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile));
-          // clearWrenTexture();
+          destroyCubeMaps();
           return;
         }
 
@@ -409,7 +403,7 @@ void WbBackground::applySkyBoxToWren() {
                                     static_cast<WrTextureOrientation>(i));
       } else {
         warn(tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString()));
-        // clearWrenTexture();
+        destroyCubeMaps();
         return;
       }
       lastFile = imageReader.fileName();

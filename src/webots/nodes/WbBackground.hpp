@@ -69,6 +69,7 @@ private:
   // misc functions
   WbBackground &operator=(const WbBackground &);  // non copyable
   void init();
+  void destroyCubeMaps();
   void destroySkyBox();
   void applyColourToWren(const WbRgb &color);
   void applySkyBoxToWren();
