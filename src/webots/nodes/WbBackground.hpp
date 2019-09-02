@@ -19,8 +19,8 @@
 #include "WbSFDouble.hpp"
 
 class WbRgb;
-class WbCubemap;
 
+struct WrTextureCubeMap;
 struct WrShaderProgram;
 struct WrRenderable;
 struct WrMaterial;
@@ -47,8 +47,11 @@ public:
 
   // accessor
   WbRgb skyColor() const;
-  WbCubemap *cubemap() const;
+  // WbCubemap *cubemap() const;
   double luminosity() const { return mLuminosity->value(); }
+
+  WrTextureCubeMap *diffuseIrradianceCubeTexture() { return mDiffuseIrradianceCubeTexture; };
+  WrTextureCubeMap *specularIrradianceCubeTexture() { return mSpecularIrradianceCubeTexture; };
 
 signals:
   void cubemapChanged();
@@ -76,7 +79,7 @@ private:
 
   // user accessible fields
   WbMFColor *mSkyColor;
-  WbSFNode *mCubemap;
+  WbMFString *mUrlFields[6];
   WbSFDouble *mLuminosity;
 
   // skybox related fields
@@ -92,6 +95,10 @@ private:
   WrMaterial *mHdrClearMaterial;
   WrTransform *mHdrClearTransform;
   WrStaticMesh *mHdrClearMesh;
+
+  WrTextureCubeMap *mCubeMapTexture;
+  WrTextureCubeMap *mDiffuseIrradianceCubeTexture;
+  WrTextureCubeMap *mSpecularIrradianceCubeTexture;
 
 private slots:
   void updateColor();
