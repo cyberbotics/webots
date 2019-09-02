@@ -118,7 +118,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   toggleHelp() {
     this.view.contextMenu.hide();
     if (!this.view.helpWindow) {
-      if (!webots.broadcast && webots.webotsDocUrl)
+      if (!this.view.broadcast && webots.webotsDocUrl)
         var webotsDocUrl = webots.webotsDocUrl;
       this.view.helpWindow = new HelpWindow(this.view.view3D, this.view.mobileDevice, webotsDocUrl);
       this.helpButton.classList.add('toolBarButtonActive');
@@ -204,7 +204,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   reset(revert = false) {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
     if (revert)
@@ -237,14 +237,14 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   pause() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('pause');
   }
 
   realTime() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('real-time:' + this.view.timeout);
@@ -255,7 +255,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   fast() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('fast:' + this.view.timeout);
@@ -265,7 +265,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   step() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.pauseButton.style.display = 'none';
@@ -279,7 +279,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
-        if ((!webots.broadcast || buttons[i] === this.consoleButton) && enabled) {
+        if (enabled && (!this.view.broadcast || buttons[i] === this.consoleButton)) {
           buttons[i].disabled = false;
           buttons[i].classList.remove('toolBarButtonDisabled');
         } else {
