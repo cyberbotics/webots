@@ -25,10 +25,10 @@
 #include <windows.h>
 #endif
 
-#ifdef _WIN32
-typedef char *shm_key_t;
-#else
+#ifdef __APPLE__
 typedef int shm_key_t;
+#else
+typedef char *shm_key_t;
 #endif
 
 typedef struct {
@@ -37,7 +37,7 @@ typedef struct {
   unsigned int unique_id;  // camera id
   int width;
   int height;
-  char *shm_native_key;
+  shm_key_t shm_key;
   int shmid;
   double camnear;
   bool spherical;

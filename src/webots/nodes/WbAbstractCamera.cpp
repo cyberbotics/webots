@@ -39,7 +39,13 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
+#ifdef __linux__
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+#else
 #include <QtCore/QSharedMemory>
+#endif
 #include <QtCore/QVector>
 
 #include <wren/config.h>
@@ -55,11 +61,62 @@
 #include <sys/types.h>
 #endif
 
+#ifdef __linux__
+// On Linux, we need to use POSIX shared memory segments (shm) and name them snap.webots.*
+// to be compliant with the strict confinement policy of snap applications.
+// However the Qt implementation of shared memory segment doesn't rely on POSIX shared memory.
+// Hence we have to revert to the native POSIX shared memory to be compatible with snap
+class WbPosixSharedMemory {
+public:
+  WbPosixSharedMemory(const QString name) {
+    // remove "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
+    mName = "snap.webots." + name.mid(7);
+    shm_unlink(mName.toUtf8());  // delete a possibly existing shared memory segment with the same name
+    mFd = shm_open(mName.toUtf8(), O_CREAT | O_RDWR, 0666); // returns -1 in case of failure
+    mSize = 0;
+    mData = NULL;
+  }
+  ~WbPosixSharedMemory() {
+    if (mFd < 0)
+      return;
+    if (mData)
+      munmap(mData, mSize);
+    shm_unlink(mName.toUtf8());
+  }
+  bool attach() {
+    return false;
+  }
+  bool detach() {
+    return false;
+  }
+  bool create(int size) {
+    if (mFd < 0)
+      return false;
+    if (ftruncate(mFd, size) == -1)
+      return false;
+    mData = mmap(0, size, PROT_WRITE | PROT_READ, MAP_SHARED, mFd, 0);
+    if (mData == MAP_FAILED)
+      return false;
+    mSize = size;
+    return true;
+  }
+  void *data() const { return mData; }
+  const QString nativeKey() const { return mName; }
+private:
+  int mFd;
+  QString mName;
+  int mSize;
+  void *mData;
+};
+
+#endif
+
 int WbAbstractCamera::cCameraNumber = 0;
 int WbAbstractCamera::cCameraCounter = 0;
 
 void WbAbstractCamera::init() {
   mImageShm = NULL;
+  mImageData = NULL;
   mWrenCamera = NULL;
   mSensor = NULL;
   mRefreshRate = 0;
@@ -186,16 +243,15 @@ void WbAbstractCamera::initializeSharedMemory() {
   delete mImageShm;
   QString sharedMemoryName =
     QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
+#ifdef __linux__
+  mImageShm = new WbPosixSharedMemory(sharedMemoryName);
+#else
   mImageShm = new QSharedMemory(sharedMemoryName);
-
-  // qDebug() << "key: " << mImageShm->key();
-  // qDebug() << "nativekey: " << mImageShm->nativeKey();
-
+#endif
   // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
   // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.
   if (mImageShm->attach())
     mImageShm->detach();
-
   if (!mImageShm->create(size())) {
     QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
                          "your OS is probably full. Please check your shared memory setup.");
@@ -203,11 +259,11 @@ void WbAbstractCamera::initializeSharedMemory() {
     message += QString(" ") + tr("The shared memory can be extended by modifying the '/etc/sysctl.conf' file and rebooting.");
 #endif
     warn(message);
-
     delete mImageShm;
     mImageShm = NULL;
     return;
   }
+  mImageData = (unsigned char *)mImageShm->data();
 }
 
 void WbAbstractCamera::setup() {
@@ -314,7 +370,7 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-#ifdef _WIN32
+#ifndef __APPLE__
     QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
     stream.writeRawData(n.constData(), n.size() + 1);
 #else
@@ -397,12 +453,6 @@ void WbAbstractCamera::setNodeVisibility(WbBaseNode *node, bool visible) {
 void WbAbstractCamera::removeInvisibleNodeFromList(QObject *node) {
   WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
   mInvisibleNodes.removeAll(baseNode);
-}
-
-unsigned char *WbAbstractCamera::image() const {
-  if (mImageShm == NULL)
-    return NULL;
-  return (unsigned char *)mImageShm->data();
 }
 
 void WbAbstractCamera::createWrenObjects() {

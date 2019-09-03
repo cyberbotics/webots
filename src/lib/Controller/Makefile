@@ -38,7 +38,7 @@ LIB_PNG      = png16
 else
 LIB_PNG      = png12
 endif
-SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma
+SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
 TARGET      = $(WEBOTS_PATH)/lib/libController.so
 endif
 
