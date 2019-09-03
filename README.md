@@ -9,7 +9,7 @@ It provides a complete development environment to model, program and simulate ro
 [![Webots Video](https://img.youtube.com/vi/O7U3sX_ubGc/0.jpg)](https://www.youtube.com/watch?v=O7U3sX_ubGc)
 
 ### Download
-
+ 
 You can download pre-compiled binaries for Windows, macOS and Linux of the [latest release](https://github.com/omichel/webots/releases/latest), as well as [older releases and nightly builds](https://github.com/omichel/webots/releases).
 
 ### Building from Source
