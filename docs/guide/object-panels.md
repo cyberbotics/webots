@@ -26,7 +26,7 @@ Panel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto](https://github.com/omichel/webots/tree/master/projects/objects/panels/protos/Panel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/Panel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/Panel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -66,7 +66,7 @@ PannelWithTubes {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto](https://github.com/omichel/webots/tree/master/projects/objects/panels/protos/PannelWithTubes.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/panels/protos/PannelWithTubes.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/panels/protos/PannelWithTubes.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

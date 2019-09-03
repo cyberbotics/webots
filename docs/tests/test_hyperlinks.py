@@ -68,8 +68,8 @@ class TestHyperlinks(unittest.TestCase):
     def test_github_file_exists(self):
         """Test that the github file pointed by the link exists."""
         for h in self.hyperlinks:
-            if h['url'].startswith('https://github.com/omichel/webots/tree/master'):
-                path = h['url'].replace('https://github.com/omichel/webots/tree/master', os.environ['WEBOTS_HOME'])
+            if h['url'].startswith('https://github.com/cyberbotics/webots/tree/master'):
+                path = h['url'].replace('https://github.com/cyberbotics/webots/tree/master', os.environ['WEBOTS_HOME'])
                 self.assertTrue(
                     os.path.isfile(path) or os.path.isdir(path),
                     msg='Hyperlink "%s" is pointing to a non-existing file or directory "%s" (in file "%s").' %

@@ -12,7 +12,7 @@ As a result, we will no longer be selling licenses, as anyone can install and us
 However, we will continue to support any users with active Premier service for the duration of said service.
 
 We will be shifting our efforts towards offering bespoke consulting, training and support services to Webots users, to use our expertise to develop and enhance user simulations.
-The source code for Webots is now publicly available on [GitHub](https://github.com/omichel/webots), and we will welcome any and all contributions from users.
+The source code for Webots is now publicly available on [GitHub](https://github.com/cyberbotics/webots), and we will welcome any and all contributions from users.
 We are excited for this next chapter of Webots' life and we hope you will join us in our continued goal to make cutting-edge robotics research as accessible and practical as possible.
 
 ---

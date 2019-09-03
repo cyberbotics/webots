@@ -23,7 +23,7 @@ Moreover we recommend you to ensure you understood all the concepts of a tutoria
 
 The last section will provide you with some hints to address problems that are not covered in this chapter.
 
-The solutions of the tutorials are located into the "[WEBOTS\_HOME/projects/samples/tutorials](https://github.com/omichel/webots/tree/master/projects/samples/tutorials)" subdirectory of the Webots installation directory.
+The solutions of the tutorials are located into the "[WEBOTS\_HOME/projects/samples/tutorials](https://github.com/cyberbotics/webots/tree/master/projects/samples/tutorials)" subdirectory of the Webots installation directory.
 
 We hope you will enjoy your first steps with Webots.
 Meanwhile, we would really appreciate to receive your feedback regarding this chapter.
