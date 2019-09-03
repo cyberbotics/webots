@@ -201,19 +201,27 @@ class _TextureLoaderObject {
     // Load from url.
     var loader;
     var isHDR = hasHDRExtension(name);
-    if (isHDR)
+    if (isHDR) {
       loader = new THREE.RGBELoader();
-    else
+      loader.type = THREE.FloatType;
+    } else
       loader = new THREE.ImageLoader();
     loader.load(
       name,
       (data) => {
         if (this.loadingTextures[name]) {
-          if (isHDR)
-            // HDR loader returns a THREE.DataTexture object
-            this.loadingTextures[name].data = data.image;
-          else // data has Image type
-            this.loadingTextures[name].data = data;
+          if (isHDR && (cubeTextureIndex === 2 || cubeTextureIndex === 3)) {
+            let size = data.image.width * data.image.height;
+            let d = new Float32Array(3 * size);
+            let max = 3 * (size - 1);
+            for (let i = 0; i < 3 * size; i += 3) {
+              for (let c = 0; c < 3; c++)
+                d[i + c] = data.image.data[max - i + c];
+            }
+            data.image.data = d;
+          }
+
+          this.loadingTextures[name].data = data;
           this._onImageLoaded(name);
         } // else image already loaded
       },
@@ -241,7 +249,7 @@ class _TextureLoaderObject {
         var missingImages = this.loadingCubeTextureObjects[textureObject];
         var indices = missingImages[name];
         indices.forEach((indice) => {
-          if (indice === 2 || indice === 3)
+          if (!isHDR && (indice === 2 || indice === 3))
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
             image.src = flipImage(image);
           textureObject.images[indice] = image;

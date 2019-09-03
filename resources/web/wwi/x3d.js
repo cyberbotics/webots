@@ -916,6 +916,11 @@ THREE.X3DLoader = class X3DLoader {
 
       if (cubeTextureEnabled) {
         let cubeTexture = new THREE.CubeTexture();
+        if (urls.length > 0 && urls[0].endsWith('.hdr')) {
+          cubeTexture.format = THREE.RGBFormat;
+          cubeTexture.type = THREE.FloatType;
+        }
+
         let missing = 0;
         for (let i = 0; i < 6; i++) {
           if (typeof urls[i] === 'undefined')
