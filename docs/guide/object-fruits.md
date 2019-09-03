@@ -22,7 +22,7 @@ Apple {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Apple.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/Apple.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Apple.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/Apple.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,7 +53,7 @@ FruitBowl {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/FruitBowl.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/FruitBowl.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/FruitBowl.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/FruitBowl.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -85,7 +85,7 @@ Orange {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Orange.proto](https://github.com/omichel/webots/tree/master/projects/objects/fruits/protos/Orange.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/fruits/protos/Orange.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/fruits/protos/Orange.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

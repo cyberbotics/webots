@@ -143,7 +143,7 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
-        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=cyberbotics/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
@@ -168,4 +168,4 @@ jobs:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
-        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=omichel/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
+        - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=cyberbotics/webots --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG

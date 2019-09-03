@@ -60,7 +60,7 @@ Road {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Road.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/Road.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Road.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Road.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -187,7 +187,7 @@ AddLaneRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/AddLaneRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLaneRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLaneRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -299,7 +299,7 @@ AddLanesRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/AddLanesRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/AddLanesRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/AddLanesRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -388,7 +388,7 @@ CrashBarrier {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/CrashBarrier.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CrashBarrier.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CrashBarrier.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -437,7 +437,7 @@ Crossroad {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/Crossroad.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Crossroad.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Crossroad.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -515,7 +515,7 @@ CurvedRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/CurvedRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/CurvedRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/CurvedRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -633,7 +633,7 @@ HelicoidalRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/HelicoidalRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/HelicoidalRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/HelicoidalRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -747,7 +747,7 @@ LaneSeparation {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/LaneSeparation.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/LaneSeparation.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/LaneSeparation.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -856,7 +856,7 @@ RoadIntersection {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/RoadIntersection.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadIntersection.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadIntersection.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -924,7 +924,7 @@ RoadLine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/RoadLine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadLine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadLine.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -968,7 +968,7 @@ RoadPillars {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/RoadPillars.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/RoadPillars.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/RoadPillars.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1041,7 +1041,7 @@ Roundabout {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/Roundabout.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/Roundabout.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/Roundabout.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1152,7 +1152,7 @@ StraightRoadSegment {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto](https://github.com/omichel/webots/tree/master/projects/objects/road/protos/StraightRoadSegment.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/road/protos/StraightRoadSegment.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/road/protos/StraightRoadSegment.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

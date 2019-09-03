@@ -20,7 +20,7 @@ Auditorium {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Auditorium.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Auditorium.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Auditorium.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Auditorium.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -45,7 +45,7 @@ BigGlassTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BigGlassTower.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/BigGlassTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BigGlassTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BigGlassTower.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -85,7 +85,7 @@ Building {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Building.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Building.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Building.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Building.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -140,7 +140,7 @@ BuildingUnderConstruction {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BuildingUnderConstruction.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/BuildingUnderConstruction.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BuildingUnderConstruction.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BuildingUnderConstruction.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -174,7 +174,7 @@ BungalowStyleHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BungalowStyleHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/BungalowStyleHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/BungalowStyleHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/BungalowStyleHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -216,7 +216,7 @@ Carwash {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Carwash.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Carwash.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Carwash.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Carwash.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -246,7 +246,7 @@ Church {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Church.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Church.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Church.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Church.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -275,7 +275,7 @@ CommercialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CommercialBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/CommercialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CommercialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/CommercialBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -301,7 +301,7 @@ ComposedHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ComposedHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ComposedHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ComposedHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ComposedHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -330,7 +330,7 @@ CyberboticsTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CyberboticsTower.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/CyberboticsTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/CyberboticsTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/CyberboticsTower.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -360,7 +360,7 @@ FastFoodRestaurant {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/FastFoodRestaurant.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/FastFoodRestaurant.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/FastFoodRestaurant.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/FastFoodRestaurant.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -398,7 +398,7 @@ GasStation {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/GasStation.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/GasStation.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/GasStation.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/GasStation.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -427,7 +427,7 @@ HollowBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HollowBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/HollowBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HollowBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/HollowBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -452,7 +452,7 @@ Hotel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Hotel.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Hotel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Hotel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Hotel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -478,7 +478,7 @@ HouseWithGarage {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HouseWithGarage.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/HouseWithGarage.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/HouseWithGarage.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/HouseWithGarage.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -510,7 +510,7 @@ LargeResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/LargeResidentialTower.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/LargeResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/LargeResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/LargeResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -548,7 +548,7 @@ ModernHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ModernHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ModernHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -582,7 +582,7 @@ ModernSuburbanHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernSuburbanHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ModernSuburbanHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ModernSuburbanHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ModernSuburbanHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -612,7 +612,7 @@ MotelReception {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/MotelReception.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/MotelReception.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/MotelReception.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/MotelReception.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -641,7 +641,7 @@ Museum {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Museum.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Museum.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Museum.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Museum.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -668,7 +668,7 @@ OldResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/OldResidentialBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/OldResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/OldResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/OldResidentialBuilding.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -715,7 +715,7 @@ RandomBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/RandomBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/RandomBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/RandomBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/RandomBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -770,7 +770,7 @@ ResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -797,7 +797,7 @@ ResidentialBuildingWithRoundFront {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -830,7 +830,7 @@ ResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialTower.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/ResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/ResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/ResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -916,7 +916,7 @@ SimpleBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SimpleBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SimpleBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -979,7 +979,7 @@ SimpleTwoFloorsHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SimpleTwoFloorsHouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1011,7 +1011,7 @@ SmallManor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallManor.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SmallManor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallManor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallManor.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1042,7 +1042,7 @@ SmallResidentialBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SmallResidentialBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallResidentialBuilding.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1075,7 +1075,7 @@ SmallResidentialTower {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialTower.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SmallResidentialTower.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SmallResidentialTower.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SmallResidentialTower.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1109,7 +1109,7 @@ StripBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/StripBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/StripBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/StripBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/StripBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1143,7 +1143,7 @@ SuburbanHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SuburbanHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/SuburbanHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/SuburbanHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/SuburbanHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1172,7 +1172,7 @@ TheThreeTowers {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/TheThreeTowers.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/TheThreeTowers.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/TheThreeTowers.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/TheThreeTowers.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1197,7 +1197,7 @@ UBuilding {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/UBuilding.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/UBuilding.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/UBuilding.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/UBuilding.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1223,7 +1223,7 @@ Warehouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Warehouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Warehouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Warehouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Warehouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1253,7 +1253,7 @@ Windmill {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Windmill.proto](https://github.com/omichel/webots/tree/master/projects/objects/buildings/protos/Windmill.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Windmill.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/buildings/protos/Windmill.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
