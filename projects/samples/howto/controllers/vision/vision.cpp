@@ -17,7 +17,7 @@
  *              In order to execute and recompile this example, opencv must be installed.
  *              To run this controller, it is recommended to install the Webots development
  *              environment as explained here:
- * https://github.com/omichel/webots/wiki#installation-of-the-webots-development-environment
+ * https://github.com/cyberbotics/webots/wiki#installation-of-the-webots-development-environment
  *
  */
 

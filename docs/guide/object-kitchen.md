@@ -25,7 +25,7 @@ BiscuitBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -61,7 +61,7 @@ CerealBox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/CerealBox.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/breakfast/protos/CerealBox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/CerealBox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/CerealBox.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -97,7 +97,7 @@ HoneyJar {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/HoneyJar.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/breakfast/protos/HoneyJar.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/HoneyJar.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/HoneyJar.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -132,7 +132,7 @@ JamJar {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/JamJar.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/breakfast/protos/JamJar.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/breakfast/protos/JamJar.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/breakfast/protos/JamJar.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -166,7 +166,7 @@ HotPlate {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/HotPlate.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/components/protos/HotPlate.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/HotPlate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/HotPlate.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -196,7 +196,7 @@ Sink {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Sink.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/components/protos/Sink.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Sink.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/Sink.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -228,7 +228,7 @@ Worktop {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Worktop.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/components/protos/Worktop.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/components/protos/Worktop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/components/protos/Worktop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -264,7 +264,7 @@ Fridge {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/fridge/protos/Fridge.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/fridge/protos/Fridge.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/fridge/protos/Fridge.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/fridge/protos/Fridge.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -296,7 +296,7 @@ Oven {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/oven/protos/Oven.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/oven/protos/Oven.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/oven/protos/Oven.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/oven/protos/Oven.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -328,7 +328,7 @@ Carafe {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Carafe.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Carafe.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Carafe.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Carafe.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -359,7 +359,7 @@ Cookware {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Cookware.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Cookware.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Cookware.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Cookware.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -391,7 +391,7 @@ Fork {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Fork.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Fork.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Fork.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Fork.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -421,7 +421,7 @@ Glass {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Glass.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Glass.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Glass.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Glass.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -451,7 +451,7 @@ Knife {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Knife.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Knife.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Knife.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Knife.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -482,7 +482,7 @@ Lid {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Lid.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Lid.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Lid.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Lid.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -517,7 +517,7 @@ Plate {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Plate.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Plate.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Plate.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Plate.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -554,7 +554,7 @@ Spoon {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Spoon.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Spoon.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Spoon.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Spoon.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -586,7 +586,7 @@ Wineglass {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Wineglass.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/Wineglass.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/Wineglass.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/Wineglass.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -616,7 +616,7 @@ WoodenSpoon {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto](https://github.com/omichel/webots/tree/master/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
