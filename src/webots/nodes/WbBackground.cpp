@@ -444,36 +444,16 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   findField("skyColor", true)->write(writer);
   findField("luminosity", true)->write(writer);
 
-  // if (!cubemap() || !cubemap()->isValid())
-  //   return;
-
-  /*
-  if (cubemap()->isEquirectangular()) {
-    // supported only for x3d export
-    if (!writer.isX3d())
-      return;
-    const QString &textureUrl(cubemap()->equirectangularTextureUrl());
-    const QFileInfo &cubeInfo(textureUrl);
-    QString outputFileName;
-    if (writer.isWritingToFile())
-      outputFileName = WbUrl::exportTexture(this, textureUrl, textureUrl,
-                                            writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
-    else
-      outputFileName = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(outputFileName, textureUrl);
-    writer << " hdrUrl='" << outputFileName << "' ";
-    return;
-  }
-
   QString outputFileNames[6];
   for (int i = 0; i < 6; ++i) {
-    const QFileInfo &cubeInfo(cubemap()->textureUrls(i));
+    QString url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+    const QFileInfo &cubeInfo(url);
     if (writer.isWritingToFile())
-      outputFileNames[i] = WbUrl::exportTexture(this, cubemap()->textureUrls(i), cubemap()->textureUrls(i),
-                                                writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+      outputFileNames[i] =
+        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
     else
       outputFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(outputFileNames[i], cubemap()->textureUrls(i));
+    writer.addTextureToList(outputFileNames[i], url);
   }
 
   if (writer.isX3d()) {
@@ -487,5 +467,4 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
     }
   } else
     WbNode::exportNodeFields(writer);
-  */
 }
