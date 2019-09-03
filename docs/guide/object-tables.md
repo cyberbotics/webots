@@ -22,7 +22,7 @@ Desk {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Desk.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/Desk.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Desk.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/Desk.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,7 +53,7 @@ RoundTable {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/RoundTable.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/RoundTable.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/RoundTable.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/RoundTable.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -90,7 +90,7 @@ Table {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Table.proto](https://github.com/omichel/webots/tree/master/projects/objects/tables/protos/Table.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/tables/protos/Table.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/tables/protos/Table.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
