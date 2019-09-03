@@ -21,7 +21,7 @@ Barbecue {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Barbecue.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Barbecue.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Barbecue.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -50,7 +50,7 @@ DogHouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/DogHouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/DogHouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/DogHouse.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -76,7 +76,7 @@ Gnome {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Gnome.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Gnome.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Gnome.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -105,7 +105,7 @@ Pergolas {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Pergolas.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Pergolas.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Pergolas.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -133,7 +133,7 @@ PicketFence {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/PicketFence.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFence.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -165,7 +165,7 @@ PicketFenceWithDoor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/PicketFenceWithDoor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/PicketFenceWithDoor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/PicketFenceWithDoor.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -194,7 +194,7 @@ Slide {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Slide.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Slide.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Slide.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -219,7 +219,7 @@ Swing {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Swing.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Swing.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Swing.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -244,7 +244,7 @@ SwingCouch {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/SwingCouch.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/SwingCouch.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/SwingCouch.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -270,7 +270,7 @@ TableWithUmbrella {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/TableWithUmbrella.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/TableWithUmbrella.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/TableWithUmbrella.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -300,7 +300,7 @@ WateringCan {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/WateringCan.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/WateringCan.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/WateringCan.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -330,7 +330,7 @@ Wheelbarrow {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto](https://github.com/omichel/webots/tree/master/projects/objects/garden/protos/Wheelbarrow.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/garden/protos/Wheelbarrow.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/garden/protos/Wheelbarrow.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)

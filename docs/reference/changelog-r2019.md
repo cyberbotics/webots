@@ -23,6 +23,7 @@ Released on XXX YYth, 2019.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
     - Fixed `realistic_village.wbt` materials.

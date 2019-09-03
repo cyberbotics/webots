@@ -58,12 +58,12 @@
     # anchor is not sent to the server, so it has to be computed by the javascript
   }
   if (!isset($repository))
-    $repository = 'omichel';
+    $repository = 'cyberbotics';
 
   if ($branch === '') {
     # get HEAD commit SHA, to ensure that when master is updated the latest version is cached by the CDN
-    ini_set('user_agent', 'omichel'); # every GitHub request needs a valid user agent header
-    $githubHead = file_get_contents("https://api.github.com/repos/omichel/webots/git/refs/heads/master");
+    ini_set('user_agent', $repository); # every GitHub request needs a valid user agent header
+    $githubHead = file_get_contents("https://api.github.com/repos/cyberbotics/webots/git/refs/heads/master");
     // failed request / github is down
     if ($githubHead === FALSE)
       $cacheUrl = "https://cdn.jsdelivr.net/gh/$repository/webots@master";  // fall back to dev URL at worst

@@ -95,8 +95,9 @@ namespace WbContextMenuGenerator {
       // actions for robots
       if (gAreRobotActionsEnabled) {
 #ifdef __linux__
-        // fix for https://github.com/omichel/webots/issues/7443, the context menu doesn't need the double underscore fix for
-        // menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu close
+        // fix for https://github.com/omichel/webots-dev/issues/7443, the context menu doesn't need the double underscore
+        // fix for menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu
+        // close
         if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
           renameRobotOverlayActions(gRobotCameraMenu, false);
           renameRobotOverlayActions(gRobotRangeFinderMenu, false);

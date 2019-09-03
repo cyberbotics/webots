@@ -44,7 +44,7 @@ $ sudo ln -s /Applications/MATLAB_R2018b.app/bin/matlab /usr/local/bin/matlab
 
 ### How to Run the Examples?
 
-To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "[WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt](https://github.com/omichel/webots/tree/master/projects/robots/softbank/nao/worlds/nao_matlab.wbt)" world file.
+To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/languages/matlab/worlds/e-puck\_matlab.wbt" or "[WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao\_matlab.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/softbank/nao/worlds/nao_matlab.wbt)" world file.
 Webots automatically starts MATLAB when it detects an m-file in a controller directory.
 Note that the m-file must be named after its directory in order to be identified as a controller file by Webots.
 So, for example, if the directory is named "my\_controller", then the controller m-file must be named "my\_controller/my\_controller.m".

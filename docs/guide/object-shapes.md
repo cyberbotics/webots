@@ -39,7 +39,7 @@ TexturedBoxShape {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto](https://github.com/omichel/webots/tree/master/projects/objects/shapes/protos/TexturedBoxShape.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/shapes/protos/TexturedBoxShape.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/shapes/protos/TexturedBoxShape.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

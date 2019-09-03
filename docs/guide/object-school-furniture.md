@@ -21,7 +21,7 @@ Blackboard {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto](https://github.com/omichel/webots/tree/master/projects/objects/school_furniture/protos/Blackboard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Blackboard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Blackboard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,7 +53,7 @@ Book {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto](https://github.com/omichel/webots/tree/master/projects/objects/school_furniture/protos/Book.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Book.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Book.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -86,7 +86,7 @@ Clock {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto](https://github.com/omichel/webots/tree/master/projects/objects/school_furniture/protos/Clock.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/school\_furniture/protos/Clock.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/school_furniture/protos/Clock.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
