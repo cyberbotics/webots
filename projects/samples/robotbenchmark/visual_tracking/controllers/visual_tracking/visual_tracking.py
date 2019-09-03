@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 """Sample Webots controller for the visual tracking benchmark."""
 
 from controller import Robot, Node
