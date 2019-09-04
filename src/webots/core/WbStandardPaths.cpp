@@ -205,25 +205,25 @@ const QString &WbStandardPaths::webotsTmpPath() {
     }
 #endif
 
-/* This causes problems with snap confinement and should be removed at least on Linux
+    /* This causes problems with snap confinement and should be removed at least on Linux
 
-    // remove the other Webots instances from the temp folder if needed
-    if (WbWebotsInstancesCounter::numberOfInstances() == 1) {
-      QDir tmpDir(webotsTmpPath);
-      tmpDir.cdUp();
+          // remove the other Webots instances from the temp folder if needed
+          if (WbWebotsInstancesCounter::numberOfInstances() == 1) {
+            QDir tmpDir(webotsTmpPath);
+            tmpDir.cdUp();
 
-      tmpDir.setFilter(QDir::Dirs);
-      QStringList filters;
-      filters << "webots-*";
-      tmpDir.setNameFilters(filters);
+            tmpDir.setFilter(QDir::Dirs);
+            QStringList filters;
+            filters << "webots-*";
+            tmpDir.setNameFilters(filters);
 
-      QFileInfoList list = tmpDir.entryInfoList();
-      for (int i = 0; i < list.size(); ++i) {
-        QDir dirToRemove(list.at(i).absoluteFilePath());
-        dirToRemove.removeRecursively();
-      }
-    }
-*/
+            QFileInfoList list = tmpDir.entryInfoList();
+            for (int i = 0; i < list.size(); ++i) {
+              QDir dirToRemove(list.at(i).absoluteFilePath());
+              dirToRemove.removeRecursively();
+            }
+          }
+      */
 
     // create the required tmp directories
     QDir dir(webotsTmpPath);
