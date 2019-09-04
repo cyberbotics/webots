@@ -39,7 +39,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
-#ifdef __linux__
+#ifndef _WIN32
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -56,16 +56,12 @@
 #include <wren/transform.h>
 
 #ifndef _WIN32
-// include ftok needed to get QSharedMemory unix name
-#include <sys/ipc.h>
-#include <sys/types.h>
-#endif
-
-#ifdef __linux__
 // On Linux, we need to use POSIX shared memory segments (shm) and name them snap.webots.*
 // to be compliant with the strict confinement policy of snap applications.
-// However the Qt implementation of shared memory segment doesn't rely on POSIX shared memory.
-// Hence we have to revert to the native POSIX shared memory to be compatible with snap
+// On macOS, POSIX shared memory segments don't have the low limits of the SYSV shared memory segments.
+// Unfortunately, the Qt implementation of shared memory segment relies only on SYSV shared memory segments.
+// Hence we have to revert to the native POSIX shared memory to be compatible with snap and work around
+// macOS limitation with SYSV shared memory.
 class WbPosixSharedMemory {
 public:
   explicit WbPosixSharedMemory(const QString &name) : mName("snap.webots." + name.mid(7)), mSize(0), mData(NULL) {
@@ -239,7 +235,7 @@ void WbAbstractCamera::initializeSharedMemory() {
   delete mImageShm;
   QString sharedMemoryName =
     QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
-#ifdef __linux__
+#ifndef _WIN32
   mImageShm = new WbPosixSharedMemory(sharedMemoryName);
 #else
   mImageShm = new QSharedMemory(sharedMemoryName);
@@ -251,9 +247,6 @@ void WbAbstractCamera::initializeSharedMemory() {
   if (!mImageShm->create(size())) {
     QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
                          "your OS is probably full. Please check your shared memory setup.");
-#ifdef __APPLE__
-    message += QString(" ") + tr("The shared memory can be extended by modifying the '/etc/sysctl.conf' file and rebooting.");
-#endif
     warn(message);
     delete mImageShm;
     mImageShm = NULL;
@@ -366,12 +359,8 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-#ifndef __APPLE__
     QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
     stream.writeRawData(n.constData(), n.size() + 1);
-#else
-    stream << (int)ftok(QFile::encodeName(mImageShm->nativeKey()), 'Q');
-#endif
     mHasSharedMemoryChanged = false;
   }
 

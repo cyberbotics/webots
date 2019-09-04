@@ -26,10 +26,10 @@ class WbLens;
 class WbWrenCamera;
 class WbSensor;
 
-#ifdef __linux__
-class WbPosixSharedMemory;
-#else
+#ifdef _WIN32
 class QSharedMemory;
+#else
+class WbPosixSharedMemory;
 #endif
 
 class QDataStream;
@@ -131,10 +131,10 @@ protected:
   // other stuff
   WbSensor *mSensor;
   short mRefreshRate;
-#ifdef __linux__
-  WbPosixSharedMemory *mImageShm;
-#else
+#ifdef _WIN32
   QSharedMemory *mImageShm;
+#else
+  WbPosixSharedMemory *mImageShm;
 #endif
   unsigned char *mImageData;
   char mCharType;
