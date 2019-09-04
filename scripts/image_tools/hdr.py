@@ -137,6 +137,13 @@ class HDR:
         self.data[i + 1] = pixel[1]
         self.data[i + 2] = pixel[2]
 
+    def clamp(self, threshold):
+        """Clamp all the floats to some value."""
+        assert self.is_valid()
+        t = pow(threshold, 1.0 / GAMMA)
+        for i in range(3 * self.width * self.height):
+            self.data[i] = t if self.data[i] > t else self.data[i]
+
     def save(self, filename):
         """Save the image to a file."""
         assert self.is_valid()
