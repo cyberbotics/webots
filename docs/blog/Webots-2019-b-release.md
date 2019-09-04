@@ -79,7 +79,7 @@ Most of these assets are used in our new [hall](https://www.cyberbotics.com/doc/
 ![Blender Add-On](images/blender-add-on.gif)
 %end
 
-We are glad to announce the release of [our new Blender tool](https://github.com/omichel/blender-webots-exporter) for importing your Blender creations to Webots.
+We are glad to announce the release of [our new Blender tool](https://github.com/cyberbotics/blender-webots-exporter) for importing your Blender creations to Webots.
 Thanks to this tool the model creation process is now simpler and smoother.
 
 Install it and start modeling your Webots objects and robots!
@@ -89,9 +89,9 @@ Install it and start modeling your Webots objects and robots!
 ## Quality Matters
 
 To improve even more the quality of the source code and therefore Webots itself, we have improved our testing procedures.
-Our workflow now uses [Travis](https://travis-ci.com/omichel/webots), [AppVeyor](https://ci.appveyor.com/project/omichel/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
+Our workflow now uses [Travis](https://travis-ci.com/cyberbotics/webots), [AppVeyor](https://ci.appveyor.com/project/cyberbotics/webots) and [GitGuardian](https://app.gitguardian.com) to make sure that every change to the source code is safe, clean and doesn't break anything.
 
-Moreover, nightly builds are now created and uploaded to the [Github repository](https://github.com/omichel/webots/releases).
+Moreover, nightly builds are now created and uploaded to the [Github repository](https://github.com/cyberbotics/webots/releases).
 
 ---
 

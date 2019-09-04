@@ -1,0 +1,32 @@
+#VRML_SIM R2020a utf8
+# tags: static, hidden
+
+PROTO C3dMarker [
+  field SFVec3f      translation              0 0 0
+  field SFColor      color                    0 1 0
+  field SFFloat      transparency             0
+  field SFFloat      radius                   0.01
+  field SFString     name                     "marker"
+]
+{
+  Solid {
+    translation IS translation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+          metalness 0
+          roughness 1
+          emissiveColor IS color
+          transparency IS transparency
+        }
+        geometry Sphere {
+          radius IS radius
+          subdivision 2
+        }
+        castShadows FALSE
+      }
+    ]
+    name IS name
+  }
+}

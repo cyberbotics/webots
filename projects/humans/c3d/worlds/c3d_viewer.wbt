@@ -1,0 +1,18 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.7095662703664664 0.642643640090935 0.2890066777929114 0.7904657261701156
+  position 3.271213250962302 4.245847478516282 5.147248384110216
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 2
+  wallHeight 0.001
+}
+C3dViewer {
+  c3dFile "EB015PI.c3d"
+}

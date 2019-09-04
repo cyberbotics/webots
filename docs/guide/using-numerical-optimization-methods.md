@@ -210,5 +210,5 @@ int main() {
 }
 ```
 
-You will find complete examples of simulations using optimization techniques in Webots distribution: look for the worlds called "advanced\_particle\_swarm\_optimization.wbt" and "advanced\_genetic\_algorithm.wbt" located in the "[WEBOTS\_HOME/projects/samples/curriculum/worlds](https://github.com/omichel/webots/tree/master/projects/samples/curriculum/worlds)" directory.
+You will find complete examples of simulations using optimization techniques in Webots distribution: look for the worlds called "advanced\_particle\_swarm\_optimization.wbt" and "advanced\_genetic\_algorithm.wbt" located in the "[WEBOTS\_HOME/projects/samples/curriculum/worlds](https://github.com/cyberbotics/webots/tree/master/projects/samples/curriculum/worlds)" directory.
 These examples are described in the *Advanced Programming Exercises* of [Cyberbotics' Robot Curriculum](http://en.wikibooks.org/wiki/Cyberbotics'_Robot_Curriculum).

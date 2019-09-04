@@ -21,7 +21,7 @@ BigSassafras {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/BigSassafras.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/BigSassafras.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/BigSassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -51,7 +51,7 @@ Cypress {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Cypress.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Cypress.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Cypress.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -105,7 +105,7 @@ Forest {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Forest.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Forest.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Forest.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -155,7 +155,7 @@ Oak {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Oak.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Oak.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Oak.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -185,7 +185,7 @@ PalmTree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/PalmTree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/PalmTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/PalmTree.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -215,7 +215,7 @@ Pine {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Pine.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Pine.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Pine.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -245,7 +245,7 @@ Sassafras {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Sassafras.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Sassafras.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Sassafras.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -294,7 +294,7 @@ SimpleTree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/SimpleTree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/SimpleTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/SimpleTree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -341,7 +341,7 @@ Tree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto](https://github.com/omichel/webots/tree/master/projects/objects/trees/protos/Tree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/trees/protos/Tree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/trees/protos/Tree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

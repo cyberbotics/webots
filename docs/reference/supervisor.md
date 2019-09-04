@@ -815,7 +815,7 @@ p' = R * p + T
 
 Where *p* is a point whose coordinates are given with respect to the local coordinate system of a node, *R* the rotation matrix returned by the `wb_supervisor_node_get_orientation` function, *T* is the position returned by the `wb_supervisor_node_get_position` function and *p'* represents the same point but this time with coordinates expressed in the global (world) coordinate system.
 
-The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://github.com/omichel/webots/tree/master/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
+The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://github.com/cyberbotics/webots/tree/master/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this.
 
 > **Note**: The returned pointers are valid during one time step only as memory will be deallocated at the next time step.
 
@@ -902,7 +902,7 @@ The `node` argument must be a [Solid](solid.md) node (or a derived node), otherw
 This function returns a vector containing exactly 3 values.
 If the `node` argument has a `NULL` `physics` node, the return value is always the zero vector.
 
-The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://github.com/omichel/webots/tree/master/projects/samples/howto/worlds/center_of_mass.wbt)" simulation shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/center_of_mass.wbt)" simulation shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 
@@ -1001,7 +1001,7 @@ The `node` argument must be a [Solid](solid.md) node (or a derived node), which 
 The `wb_supervisor_node_get_number_of_contact_points` function returns the number of contact points of the given `Solid`.
 The `node` argument must be a [Solid](solid.md) node (or a derived node), which moreover has no `Solid` parent, otherwise the function will print a warning message and return `-1`.
 
-The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/omichel/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
+The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/howto/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
 > **Note**: The returned pointer is valid during one time step only as memory will be deallocated at the next time step.
 

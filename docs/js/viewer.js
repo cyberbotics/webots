@@ -179,7 +179,7 @@ function forgeUrl(book, page, tab, anchor) {
   if (isCyberboticsUrl) {
     var i = location.href.indexOf('cyberbotics.com/doc');
     url = location.href.substr(0, i) + 'cyberbotics.com/doc/' + book + '/' + page;
-    if (localSetup.branch !== '' && localSetup.repository && localSetup.repository !== 'omichel')
+    if (localSetup.branch !== '' && localSetup.repository && localSetup.repository !== 'cyberbotics')
       url += '?version=' + localSetup.repository + ':' + localSetup.branch;
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
@@ -416,7 +416,7 @@ function addContributionBanner() {
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
                                                  'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/omichel/webots/tree/master/docs"> ' +
+                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/master/docs"> ' +
                                                  'Contribute on GitHub!' +
                                                  '<span class=github-logo />' +
                                                  '</a>' +
@@ -434,7 +434,7 @@ function addContributionBanner() {
 function updateContributionBannerUrl() {
   var contributionBanner = document.querySelector('.contribution-banner-url');
   if (contributionBanner)
-    contributionBanner.href = 'https://github.com/omichel/webots/edit/master/docs/' + localSetup.book + '/' + localSetup.page + '.md';
+    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/master/docs/' + localSetup.book + '/' + localSetup.page + '.md';
 }
 
 function addNavigationToBlogIfNeeded() {
@@ -1433,7 +1433,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (!isCyberboticsUrl) {
     if (!localSetup.url)
-      localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/omichel/webots/');
+      localSetup.url = getGETQueryValue('url', 'https://raw.githubusercontent.com/cyberbotics/webots/');
     if (!localSetup.book)
       localSetup.book = getGETQueryValue('book', 'guide');
     if (!localSetup.page)

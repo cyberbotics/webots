@@ -23,7 +23,7 @@ Rock10cm {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/rocks/protos/Rock10cm.proto](https://github.com/omichel/webots/tree/master/projects/objects/rocks/protos/Rock10cm.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/rocks/protos/Rock10cm.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/rocks/protos/Rock10cm.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -55,7 +55,7 @@ Rock17cm {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/rocks/protos/Rock17cm.proto](https://github.com/omichel/webots/tree/master/projects/objects/rocks/protos/Rock17cm.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/rocks/protos/Rock17cm.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/rocks/protos/Rock17cm.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

@@ -21,7 +21,7 @@ IntermodalContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/freight/protos/IntermodalContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/freight/protos/IntermodalContainer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -53,7 +53,7 @@ IntermodalOfficeContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalOfficeContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/freight/protos/IntermodalOfficeContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/freight/protos/IntermodalOfficeContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/freight/protos/IntermodalOfficeContainer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
