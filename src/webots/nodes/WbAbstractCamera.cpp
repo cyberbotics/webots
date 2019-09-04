@@ -40,8 +40,8 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 #ifdef __linux__
-#include <sys/mman.h>
 #include <fcntl.h>
+#include <sys/mman.h>
 #include <unistd.h>
 #else
 #include <QtCore/QSharedMemory>
@@ -68,11 +68,11 @@
 // Hence we have to revert to the native POSIX shared memory to be compatible with snap
 class WbPosixSharedMemory {
 public:
-  explicit WbPosixSharedMemory(const QString &name) : mName("snap.webots." + name.mid(7)), mSize(0), mData(NULL){
+  explicit WbPosixSharedMemory(const QString &name) : mName("snap.webots." + name.mid(7)), mSize(0), mData(NULL) {
     // remove "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
     mName = "snap.webots." + name.mid(7);
     shm_unlink(mName.toUtf8());  // delete a possibly existing shared memory segment with the same name
-    mFd = shm_open(mName.toUtf8(), O_CREAT | O_RDWR, 0666); // returns -1 in case of failure
+    mFd = shm_open(mName.toUtf8(), O_CREAT | O_RDWR, 0666);  // returns -1 in case of failure
     mSize = 0;
     mData = NULL;
   }
@@ -83,12 +83,8 @@ public:
       munmap(mData, mSize);
     shm_unlink(mName.toUtf8());
   }
-  static bool attach() {
-    return false;
-  }
-  static bool detach() {
-    return false;
-  }
+  static bool attach() { return false; }
+  static bool detach() { return false; }
   bool create(int size) {
     if (mFd < 0)
       return false;
@@ -102,6 +98,7 @@ public:
   }
   void *data() const { return mData; }
   const QString nativeKey() const { return mName; }
+
 private:
   int mFd;
   QString mName;
