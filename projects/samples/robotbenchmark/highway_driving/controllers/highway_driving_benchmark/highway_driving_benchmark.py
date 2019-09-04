@@ -214,7 +214,12 @@ distance = round(roadPath.project(Point((position[0], position[2]))) - initialDi
 while supervisor.step(timestep) != -1:
     # wait for record message
     message = supervisor.wwiReceiveText()
-    if message and message.startswith("record:"):
-        record = robotbenchmarkRecord(message, "highway_driving", distance)
-        supervisor.wwiSendText(record)
-        break
+    if message:
+        if message.startswith("record:"):
+            record = robotbenchmarkRecord(message, "highway_driving", distance)
+            supervisor.wwiSendText(record)
+            break
+        elif message == "exit":
+            break
+
+supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

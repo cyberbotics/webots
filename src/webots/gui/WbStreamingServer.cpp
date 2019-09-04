@@ -379,7 +379,7 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (message.startsWith("robot:")) {
     const QString name = message.mid(6, message.indexOf(":", 6) - 6);
     const QByteArray msg = message.mid(7 + name.size()).toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: %2.").arg(name).arg(message));
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(msg));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
@@ -394,7 +394,7 @@ void WbStreamingServer::processTextMessage(QString message) {
             &WbStreamingServer::propagateSimulationStateChange);
     printf("pause\n");
     fflush(stdout);
-    client->sendTextMessage("pause");
+    client->sendTextMessage("paused by client");
   } else if (message.startsWith("real-time:") or message.startsWith("fast:")) {
     const bool realTime = message.startsWith("real-time:");
     const double timeout = realTime ? message.mid(10).toDouble() : message.mid(5).toDouble();
@@ -426,7 +426,7 @@ void WbStreamingServer::processTextMessage(QString message) {
             &WbStreamingServer::propagateSimulationStateChange);
     printf("pause\n");
     fflush(stdout);
-    client->sendTextMessage("pause");
+    client->sendTextMessage("paused by client");
   } else if (message.startsWith("timeout:")) {
     const double timeout = message.mid(8).toDouble();
     if (timeout >= 0)
