@@ -47,13 +47,4 @@ trap 'kill $webots_pid &> /dev/null' EXIT
 wait $webots_pid
 webots_return_code=$?
 
-# cleanup every shared memory segment created by Webots (useful in case of crash of Webots)
-for i in `ipcs -mp | grep -w $webots_pid | awk '{print $1}'`
-do
-  if [ "$i" != "0" ]
-  then
-    ipcrm -m $i 2> /dev/null
-  fi
-done
-
 exit $webots_return_code
