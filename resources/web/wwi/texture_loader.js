@@ -210,17 +210,6 @@ class _TextureLoaderObject {
       name,
       (data) => {
         if (this.loadingTextures[name]) {
-          if (isHDR && (cubeTextureIndex === 2 || cubeTextureIndex === 3)) {
-            let size = data.image.width * data.image.height;
-            let d = new Float32Array(3 * size);
-            let max = 3 * (size - 1);
-            for (let i = 0; i < 3 * size; i += 3) {
-              for (let c = 0; c < 3; c++)
-                d[i + c] = data.image.data[max - i + c];
-            }
-            data.image.data = d;
-          }
-
           this.loadingTextures[name].data = data;
           this._onImageLoaded(name);
         } // else image already loaded
@@ -249,9 +238,13 @@ class _TextureLoaderObject {
         var missingImages = this.loadingCubeTextureObjects[textureObject];
         var indices = missingImages[name];
         indices.forEach((indice) => {
-          if (!isHDR && (indice === 2 || indice === 3))
+          if (indice === 2 || indice === 3) {
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
-            image.src = flipImage(image);
+            if (isHDR)
+              flipHDRImage(image.image);
+            else
+              flipRegularImage(image);
+          }
           textureObject.images[indice] = image;
         });
         delete missingImages[name];
@@ -318,7 +311,7 @@ class _TextureLoaderObject {
 
 // Inspired from: https://stackoverflow.com/questions/17040360/javascript-function-to-rotate-a-base-64-image-by-x-degrees-and-return-new-base64
 // Flip a base64 image by 180 degrees.
-function flipImage(base64Image) {
+function flipRegularImage(base64Image) {
   // Create an off-screen canvas.
   var offScreenCanvas = document.createElement('canvas');
   var context = offScreenCanvas.getContext('2d');
@@ -333,7 +326,21 @@ function flipImage(base64Image) {
   context.drawImage(base64Image, 0, 0);
 
   // Encode the image to data-uri with base64:
-  return offScreenCanvas.toDataURL('image/jpeg', 95);
+  base64Image.src = offScreenCanvas.toDataURL('image/jpeg', 95);
+}
+
+function flipHDRImage(image) {
+  let size = image.width * image.height;
+  let d = new Float32Array(3 * size);
+  let max = 3 * (size - 1);
+  let i = 0;
+  let c = 0;
+  for (i = 0; i < 3 * size; i += 3) {
+    let m = max - i;
+    for (c = 0; c < 3; c++)
+      d[i + c] = image.data[m + c];
+  }
+  image.data = d;
 }
 
 function hasJPEGExtension(name) {
