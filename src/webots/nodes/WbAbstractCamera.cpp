@@ -69,8 +69,7 @@
 class WbPosixSharedMemory {
 public:
   explicit WbPosixSharedMemory(const QString &name) : mName("snap.webots." + name.mid(7)), mSize(0), mData(NULL) {
-    // remove "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
-    mName = "snap.webots." + name.mid(7);
+    // we remove the "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
     shm_unlink(mName.toUtf8());  // delete a possibly existing shared memory segment with the same name
     mFd = shm_open(mName.toUtf8(), O_CREAT | O_RDWR, 0666);  // returns -1 in case of failure
     mSize = 0;
