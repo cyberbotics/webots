@@ -162,7 +162,6 @@ class HDR:
                     clamp_int(e + 128, 0, 255)
                 ]
                 f.write(struct.pack("BBBB", *bytearray(bytes)))
-            f.write('\n')
 
     def to_pil(self):
         """Create a PIL image to test the script."""
