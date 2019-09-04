@@ -1086,10 +1086,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so\n");
       fprintf(fd, "ln -s libQt5Concurrent.so.5 libQt5Concurrent.so\n");
       fprintf(fd, "ln -s libQt5Core.so.5 libQt5Core.so\n");
       fprintf(fd, "ln -s libQt5DBus.so.5 libQt5DBus.so\n");
