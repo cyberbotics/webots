@@ -341,8 +341,8 @@ void WbBackground::applySkyBoxToWren() {
         float *data = stbi_loadf(textureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
 
         // TODO: HDR backgrounds are currently clamped to 25.0 due to bake_equirectangular_to_cube.frag. This is bad.
-        for (int i = 0; i < width * height * 3; ++i)
-          data[i] = data[i] > 25.0 ? 25.0 : data[i];
+        for (int k = 0; k < width * height * k; ++k)
+          data[k] = data[k] > 25.0 ? 25.0 : data[k];
 
         if (width != height)
           throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(textureUrls[i]);
