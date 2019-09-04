@@ -353,6 +353,7 @@ void WbBackground::applySkyBoxToWren() {
     } else {
       wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
+      bool alpha = false;
       for (int i = 0; i < 6; i++) {
         QImageReader imageReader(textureUrls[i]);
         QSize textureSize = imageReader.size();
@@ -367,7 +368,6 @@ void WbBackground::applySkyBoxToWren() {
         QImage *image = new QImage();
         regularImageData.append(image);
 
-        bool alpha = false;
         if (imageReader.read(image)) {
           if (i > 0 && (alpha != image->hasAlphaChannel()))
             throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
