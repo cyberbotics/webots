@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
         break;
     }
   }
-  
+
   wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
 
   wb_robot_cleanup();
