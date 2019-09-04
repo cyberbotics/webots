@@ -308,7 +308,6 @@ void WbBackground::applySkyBoxToWren() {
   mCubeMapTexture = wr_texture_cubemap_new();
 
   int edgeLength = 0;
-  bool alpha = false;
   QString lastFile;
 
   QString textureUrls[6];
@@ -372,6 +371,7 @@ void WbBackground::applySkyBoxToWren() {
         QImage *image = new QImage();
         regularImageData.append(image);
 
+        bool alpha = false;
         if (imageReader.read(image)) {
           if (i > 0 && (alpha != image->hasAlphaChannel()))
             throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
