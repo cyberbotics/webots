@@ -18,7 +18,7 @@
 #include <windows.h>
 #elif defined(__APPLE__)
 #include <sys/shm.h>
-#else // __linux__
+#else  // __linux__
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -42,7 +42,7 @@ static void wb_abstract_camera_cleanup_shm(WbDevice *d) {
     shmctl(c->shmid, IPC_RMID, NULL);
     shmdt(c->image);
   }
-#else // __linux__
+#else  // __linux__
   if (c->shmid > 0) {
     munmap(c->image, 4 * c->height * c->width);
     shm_unlink(c->shm_key);
@@ -64,7 +64,7 @@ static void wb_abstract_camera_get_shm(WbDevice *d) {
   // grab the memory
   c->image = (unsigned char *)shmat(c->shmid, NULL, 0);  // not read only, because remote controller need to write
   ROBOT_ASSERT((void *)-1 != c->image);
-#else // __linux__
+#else  // __linux__
   c->shmid = shm_open(c->shm_key, O_RDWR, 0400);
   c->image = (unsigned char *)mmap(0, 4 * c->height * c->width, PROT_READ | PROT_WRITE, MAP_SHARED, c->shmid, 0);
 #endif

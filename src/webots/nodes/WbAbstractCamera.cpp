@@ -68,7 +68,7 @@
 // Hence we have to revert to the native POSIX shared memory to be compatible with snap
 class WbPosixSharedMemory {
 public:
-  WbPosixSharedMemory(const QString name) {
+  explicit WbPosixSharedMemory(const QString &name) : mName("snap.webots." + name.mid(7)), mSize(0), mData(NULL){
     // remove "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
     mName = "snap.webots." + name.mid(7);
     shm_unlink(mName.toUtf8());  // delete a possibly existing shared memory segment with the same name
@@ -83,10 +83,10 @@ public:
       munmap(mData, mSize);
     shm_unlink(mName.toUtf8());
   }
-  bool attach() {
+  static bool attach() {
     return false;
   }
-  bool detach() {
+  static bool detach() {
     return false;
   }
   bool create(int size) {
