@@ -379,7 +379,7 @@ void WbStreamingServer::processTextMessage(QString message) {
   } else if (message.startsWith("robot:")) {
     const QString name = message.mid(6, message.indexOf(":", 6) - 6);
     const QByteArray msg = message.mid(7 + name.size()).toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(msg));
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(QString(msg)));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
