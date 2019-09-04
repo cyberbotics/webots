@@ -63,14 +63,8 @@ open-cv-clean:
 open-cv: $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3
 
 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
-	ln -sf libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4
-	ln -sf libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so.2
-	ln -sf libopencv_core.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_core.so
-	ln -sf libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2.4
-	ln -sf libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so.2
-	ln -sf libopencv_imgproc.so.2.4.3 $(WEBOTS_HOME)/lib/libopencv_imgproc.so
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
 
 $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
