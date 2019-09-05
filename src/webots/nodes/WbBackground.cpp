@@ -442,7 +442,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   QString outputFileNames[6];
   for (int i = 0; i < 6; ++i) {
-    QString url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
+    const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
     const QFileInfo &cubeInfo(url);
     if (writer.isWritingToFile())
       outputFileNames[i] =
