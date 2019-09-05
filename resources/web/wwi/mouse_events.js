@@ -16,7 +16,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       'wheelTimeout': null,
       'hiddenContextMenu': false
     };
-    this.moveParams = null;
+    this.moveParams = {};
     this.enableNavigation = true;
 
     this.onmousemove = (event) => { this._onMouseMove(event); };
@@ -138,7 +138,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onMouseWheel(event) {
     event.preventDefault(); // do not scroll page
-    if (!this.moveParams)
+    if (!('initialCameraPosition' in this.moveParams))
       this._setupMoveParameters(event);
     // else another drag event is already active
 
@@ -340,7 +340,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.initialTimeStamp = null;
     this.state.initialX = null;
     this.state.initialY = null;
-    this.moveParams = null;
+    this.moveParams = {};
   }
 
   _selectAndHandleClick() {
