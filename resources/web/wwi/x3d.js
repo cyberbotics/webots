@@ -932,7 +932,7 @@ THREE.X3DLoader = class X3DLoader {
 
     if (cubeTextureEnabled) {
       // Light offset: empirically found to match the Webots rendering.
-      var ambientLight = new THREE.AmbientLight(0xffffff); // 0x333333
+      var ambientLight = new THREE.AmbientLight(0xffffff);
       this.scene.scene.add(ambientLight);
     }
 
