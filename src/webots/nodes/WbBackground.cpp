@@ -73,7 +73,7 @@ void WbBackground::init() {
     const QString currentDirectory = fileInfo.dir().path();
     QString currentTextureBaseName = fileInfo.baseName();
 
-    int index = currentTextureBaseName.lastIndexOf(gTextureSuffixes[i]);
+    const int index = currentTextureBaseName.lastIndexOf(gTextureSuffixes[i]);
     if (index < 0) {
       // suffix not found
       warn(tr("Impossible to create the cubemap because the texture file defined in the '%1' field doesn't end with the '%2' "
