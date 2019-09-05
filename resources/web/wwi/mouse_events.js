@@ -16,7 +16,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       'wheelTimeout': null,
       'hiddenContextMenu': false
     };
-    this.moveParams = {};
+    this.moveParams = null;
     this.enableNavigation = true;
 
     this.onmousemove = (event) => { this._onMouseMove(event); };
@@ -55,7 +55,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.state.mouseDown = 2;
 
     if (this.state.mouseDown !== 0) {
-      this._setupMoveParameters(event, true);
+      this._setupMoveParameters(event);
       this.state.initialX = event.clientX;
       this.state.initialY = event.clientY;
       document.addEventListener('mousemove', this.onmousemove, false);
@@ -138,8 +138,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onMouseWheel(event) {
     event.preventDefault(); // do not scroll page
-
-    this._setupMoveParameters(event, false);
+    if (!this.moveParams)
+      this._setupMoveParameters(event);
+    // else another drag event is already active
 
     if (!this.enableNavigation || this.state.wheelFocus === false) {
       var offset = event.deltaY;
@@ -267,7 +268,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     } else
       this.state.mouseDown = 2; // 1 finger: translation or single click
 
-    this._setupMoveParameters(event.targetTouches['0'], true);
+    this._setupMoveParameters(event.targetTouches['0']);
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
 
@@ -298,7 +299,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.hiddenContextMenu = this.contextMenu.toggle();
   }
 
-  _setupMoveParameters(event, computeScale) {
+  _setupMoveParameters(event) {
     this.moveParams = {};
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer.domElement, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.scene.renderer.domElement, event.clientX, event.clientY);
@@ -318,13 +319,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
       this.moveParams.distanceToPickPosition = 0.001;
 
-    if (computeScale) {
-      // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-      this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
-      var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-      var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
-      this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
-    }
+    // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
+    this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
+    var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+    var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
+    this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
 
     this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
   }
@@ -341,7 +340,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     this.state.initialTimeStamp = null;
     this.state.initialX = null;
     this.state.initialY = null;
-    this.moveParams = {};
+    this.moveParams = null;
   }
 
   _selectAndHandleClick() {
