@@ -47,7 +47,6 @@ public:
 
   // accessor
   WbRgb skyColor() const;
-  // WbCubemap *cubemap() const;
   double luminosity() const { return mLuminosity->value(); }
 
   WrTextureCubeMap *diffuseIrradianceCubeTexture() { return mDiffuseIrradianceCubeTexture; };
