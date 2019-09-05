@@ -2,7 +2,7 @@
 
 ## `equirectangular_to_cubemap`
 
-Convert an image having an equirectanglar projection to 6 cubemap images.
+Convert an image having an equirectangular projection to 6 cubemap images.
 
 Typical usage:
 
