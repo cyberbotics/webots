@@ -70,7 +70,7 @@ void WbBackground::init() {
       break;
     }
     const QFileInfo &fileInfo(mUrlFields[i]->item(0));
-    const QString currentDirectory = fileInfo.dir().path();
+    const QString &currentDirectory = fileInfo.dir().path();
     QString currentTextureBaseName = fileInfo.baseName();
 
     const int index = currentTextureBaseName.lastIndexOf(gTextureSuffixes[i]);
