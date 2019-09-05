@@ -69,7 +69,7 @@ void WbBackground::init() {
         warn(tr("Impossible to create the cubemap because not all the url fields are defined."));
       break;
     }
-    const QFileInfo fileInfo(mUrlFields[i]->item(0));
+    const QFileInfo &fileInfo(mUrlFields[i]->item(0));
     const QString currentDirectory = fileInfo.dir().path();
     QString currentTextureBaseName = fileInfo.baseName();
 
