@@ -66,15 +66,24 @@ function recordPerformance() {
                  "<p>You should log in at <a href='https://robotbenchmark.net'>robotbenchmark.net</a> to record your performance.</p>");
     return false;
   }
+  var record = performance / 100;
   email = decodeURIComponent(email);
   $.post('/record.php', {email: email,
                          password: password,
                          benchmark: 'viewpoint_control',
-                         record: performance / 100,
+                         record: record,
                          key: '1'}).done(function(data) {
-                           if (data.startsWith('OK:'))
-                             showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
-                           else
+                           if (data.startsWith('OK:')) {
+                             var result = showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
+                             if (!result['isNewRecord']) {
+                               // current record is worst than personal record
+                               text = "<p style='font-weight:bold'>You did not outperform your personal record.</p>" +
+                                      "<p>Your personal record is: " + metricToString(result['personalRecord']) + ".</p>" +
+                                      "<p>Your current performance is: " + metricToString(record) + ".</p>";
+                               webots.alert(benchmarkName + " result", text);
+                               return false;
+                             }
+                           } else
                              showBenchmarkError('record:' + data, benchmarkName);
                          });
   return true;

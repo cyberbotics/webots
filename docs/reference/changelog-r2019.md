@@ -10,6 +10,7 @@ Released on XXX YYth, 2019.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+    - Added a C3dViewer PROTO to visualize C3D files in Webots.
     - Added a new HDR background: `noon_cloudy_countryside`
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
@@ -22,6 +23,9 @@ Released on XXX YYth, 2019.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Enabled console button in broadcast streaming mode.
+      - Windows 10 / Firefox: Fixed context menu.
+      - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
     - Fixed `realistic_village.wbt` materials.
     - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
     - Fixed ros controller not publishing the `/connector/presence` topic.
