@@ -18,7 +18,6 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbRgb.hpp"
 
-class WbCubemap;
 class WbImageTexture;
 
 struct WrMaterial;
@@ -80,7 +79,6 @@ protected:
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
   WbNode *clone() const override { return new WbPbrAppearance(*this); }
-  void clearCubemap(WrMaterial *wrenMaterial);
   double getRedValueInTexture(const WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();

@@ -260,7 +260,6 @@ QT_SOURCES += \
   WbController.cpp \
   WbCoordinate.cpp \
   WbCoordinateSystem.cpp \
-  WbCubemap.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
   WbDifferentialWheels.cpp \

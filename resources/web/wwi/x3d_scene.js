@@ -412,42 +412,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
-  applyEquirectangularBackground(image) {
-    var texture;
-    if (image.data) {
-      texture = new THREE.DataTexture(image.data, image.width, image.height);
-      texture.encoding = THREE.RGBEEncoding;
-      texture.minFilter = THREE.NearestFilter;
-      texture.magFilter = THREE.NearestFilter;
-      texture.flipY = true;
-    } else {
-      texture = new THREE.Texture(image);
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-    }
-    texture.needsUpdate = true;
-
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
-    this.scene.background = cubemapGenerator.renderTarget;
-
-    var cubeMapTexture = cubemapGenerator.update(this.renderer);
-
-    var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
-    pmremGenerator.update(this.renderer);
-
-    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-    pmremCubeUVPacker.update(this.renderer);
-
-    this.scene.background.userData = {};
-    this.scene.background.userData.isHDR = true;
-    this.scene.background.userData.texture = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-    this._setupEnvironmentMap();
-
-    texture.dispose();
-    pmremGenerator.dispose();
-    pmremCubeUVPacker.dispose();
-  }
-
   // private functions
   _setupLights(directionalLights) {
     if (!this.root)

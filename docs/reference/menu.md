@@ -22,7 +22,6 @@
     - [Connector](connector.md)
     - [ContactProperties](contactproperties.md)
     - [Coordinate](coordinate.md)
-    - [Cubemap](cubemap.md)
     - [Cylinder](cylinder.md)
     - [Damping](damping.md)
     - [Device](device.md)
