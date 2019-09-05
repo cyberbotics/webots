@@ -85,16 +85,19 @@ int main(int argc, char *argv[]) {
   int run = 1;
   double record = 0;
   bool disqualified = false;
-  const double time_limit = 5999.99 - time_step / 1000.0;  // 99 min 59 s 99' - discrepancy time
+  const double time_limit = 5999.99;  // 99 min 59 s 99'
   do {
     double t = wb_robot_get_time();
     const double *v = wb_supervisor_field_get_sf_vec3f(translation);
     if (!disqualified && v[1] < 0.2) {  // the robot has fallen down
       printf("The robot is down, the robot is disqualified.\n");
       disqualified = true;
+      stopwatch_set_time(digit, time_limit);
+      wb_robot_wwi_send_text("stop");
+      run = 0;
     }
-    if (disqualified || t > time_limit)
-      t = time_limit;
+    if (disqualified || t > (time_limit - time_step / 1000.0))
+      t = time_limit - time_step / 1000.0;
     if (run) {
       stopwatch_set_time(digit, t + time_step / 1000);  // to avoid discrepancy with Webots time
       char buffer[32];
