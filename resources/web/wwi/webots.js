@@ -36,6 +36,7 @@ webots.CustomData          // application specific data to be passed to the simu
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
 webots.showFast            // defines whether the fast button should be displayed
+webots.objectDocUrls       // array of type {name: objectName, url: docUrl} specifying the documentation shown in the context menu for the object specified by name
 */
 
 webots.View = class View {
@@ -503,4 +504,18 @@ webots.window = (name) => {
   if (!win)
     console.log("Robot window '" + name + "' not found.");
   return win;
+};
+
+webots.getDocumentationUrl = (objectName) => {
+  if (!webots.objectDocUrls)
+    return null;
+
+  if (Array.isArray(webots.objectDocUrls)) {
+    for (let i in webots.objectDocUrls) {
+      if (webots.objectDocUrls[i].name && webots.objectDocUrls[i].name === objectName)
+        return webots.objectDocUrls[i].url;
+    }
+  } else if (webots.objectDocUrls.name && webots.objectDocUrls === objectName)
+    return webots.objectDocUrls.url;
+  return null;
 };

@@ -1,3 +1,5 @@
+/* global webots */
+
 'use strict';
 
 class ContextMenu { // eslint-disable-line no-unused-vars
@@ -12,6 +14,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.onOpenRobotWindow = null;
     this.isFollowedObject = null;
     this.isRobotWindowValid = null;
+    this.docUrl = null;
 
     // Create context menu.
     var domElement = document.createElement('ul');
@@ -20,10 +23,13 @@ class ContextMenu { // eslint-disable-line no-unused-vars
                            "<li id='contextMenuFollow'><div>Follow</div></li>" +
                            "<li id='contextMenuUnfollow'><div>Unfollow</div></li>" +
                            "<li><div class='ui-state-disabled'>Zoom</div></li>" +
+                           '<hr>' +
                            "<li id='contextMenuRobotWindow'><div id='contextMenuRobotWindowDiv'>Robot window</div></li>" +
                            "<li id='contextMenuEditController'><div id='contextMenuEditControllerDiv'>Edit controller</div></li>" +
                            "<li><div class='ui-state-disabled'>Delete</div></li>" +
-                           "<li><div class='ui-state-disabled'>Properties</div></li>";
+                           "<li><div class='ui-state-disabled'>Properties</div></li>" +
+                           '<hr>' +
+                           "<li id='contextMenuHelp'><div id='contextMenuHelpDiv' class='ui-state-disabled'>Help...</div></li>";
     $(parentObject).append(domElement);
     $('#contextMenu').menu({items: '> :not(.ui-widget-header)'});
     $('#contextMenu').css('position', 'absolute');
@@ -50,7 +56,9 @@ class ContextMenu { // eslint-disable-line no-unused-vars
         var robotName = this.object.userData.name;
         if (typeof this.onOpenRobotWindow === 'function')
           this.onOpenRobotWindow(robotName);
-      } else
+      } else if (id === 'contextMenuHelp')
+        window.open(this.docUrl, '_blank');
+      else
         console.log('Unknown menu item: ' + id);
       $('#contextMenu').css('display', 'none');
     });
@@ -76,11 +84,8 @@ class ContextMenu { // eslint-disable-line no-unused-vars
   show(object, position) {
     this.object = object;
     var title = object.userData.name;
-    if (title == null || title === '') {
-      title = object.userData.name.defName;
-      if (title == null || title === '')
-        title = 'Object';
-    }
+    if (title == null || title === '')
+      title = 'Object';
 
     $('#contextMenuTitle').html(title);
     var controller = object.userData.controller;
@@ -111,6 +116,12 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuFollow').css('display', 'inline');
       $('#contextMenuUnfollow').css('display', 'none');
     }
+
+    this.docUrl = webots.getDocumentationUrl(object.userData.name);
+    if (this.docUrl)
+      $('#contextMenuHelpDiv').removeClass('ui-state-disabled');
+    else
+      $('#contextMenuHelpDiv').addClass('ui-state-disabled');
 
     // Ensure that the context menu is completely visible.
     var w = $('#contextMenu').width();
