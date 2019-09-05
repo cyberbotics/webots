@@ -66,7 +66,7 @@ def face_direction(i, j, faceID, faceWidth, faceHeight):
         return (1.0 - b, a - 1.0, -1.0)
 
 
-print('Load the equirectanglar image...')
+print('Load the equirectangular image...')
 basename, extension = os.path.splitext(options.input)
 image_class = HDR if extension == '.hdr' else RegularImage
 equi = image_class.load_from_file(options.input)
