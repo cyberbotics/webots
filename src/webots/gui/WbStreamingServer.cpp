@@ -377,13 +377,14 @@ void WbStreamingServer::processTextMessage(QString message) {
         gView3D->remoteWheelEvent(&wheelEvent);
     }
   } else if (message.startsWith("robot:")) {
-    const QString name = message.mid(6, message.indexOf(":", 6) - 6);
-    const QByteArray msg = message.mid(7 + name.size()).toUtf8();
-    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(msg));
+    const QString &name = message.mid(6, message.indexOf(":", 6) - 6);
+    const QString &data = message.mid(7 + name.size());
+    const QByteArray &byteData = data.toUtf8();
+    WbLog::info(tr("Streaming server: received robot message for %1: \"%2\".").arg(name).arg(data));
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *const robot, robots)
       if (robot->name() == name) {
-        robot->receiveFromJavascript(msg);
+        robot->receiveFromJavascript(byteData);
         break;
       }
   } else if (message == "pause") {
