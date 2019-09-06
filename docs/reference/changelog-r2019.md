@@ -17,6 +17,7 @@ Released on XXX YYth, 2019.
     - Added a `village_center` world.
   - Enhancements
     - Improved the intensity and color of the bus, truck and car vehicle lights.
+    - Improved management of the life cycle of the Webots temporary folder.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.
