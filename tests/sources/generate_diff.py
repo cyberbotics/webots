@@ -72,4 +72,5 @@ else:
     with open(filename, 'w') as file:
         j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
         for f in j['files']:
-            file.write(f['filename'] + '\n')
+            if os.path.isfile(f['filename']):  # In case the file has been deleted.
+                file.write(f['filename'] + '\n')
