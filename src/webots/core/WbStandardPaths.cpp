@@ -217,11 +217,11 @@ const QString &WbStandardPaths::webotsTmpPath() {
 #endif
 
     // cleanup old and unused tmp directories
-    const QString &tmpRoot = webotsTmpPath.left(webotsTmpPath.chopped(1).lastIndexOf('/'));
-    const QDir directory(tmpRoot);
+    QDir directory(webotsTmpPath);
+    directory.cdUp();
     const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
     foreach (const QString &dirname, webotsTmp) {
-      const QString fullName(tmpRoot + "/" + dirname);
+      const QString fullName(directory.absolutePath() + "/" + dirname);
       const QFileInfo fileInfo(fullName + "/live.txt");
       const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
       const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
@@ -244,8 +244,9 @@ const QString &WbStandardPaths::webotsTmpPath() {
 
     // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
     static QTimer timer;
+    liveWebotsTmpPath();
     QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
-    timer.start(3600 * 1000);
+    timer.start(30 * 60 * 1000);  // call every 30 minutes
   }
   return webotsTmpPath;
 }
