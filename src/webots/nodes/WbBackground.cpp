@@ -241,9 +241,6 @@ void WbBackground::destroySkyBox() {
   if (mSkyboxMaterial)
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
 
-  wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
-  wr_scene_set_skybox(wr_scene_get_instance(), NULL);
-
   if (mCubeMapTexture) {
     wr_texture_delete(WR_TEXTURE(mCubeMapTexture));
     mCubeMapTexture = NULL;
