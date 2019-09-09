@@ -241,11 +241,9 @@ bool WbBaseNode::exportNodeHeader(WbVrmlWriter &writer) const {
   if (isInvisibleNode())
     writer << " render=\'false\'";
   QStringList bookAndPage = documentationBookAndPage(WbNodeUtilities::isRobotTypeName(nodeModelName()));
-  if (!bookAndPage.isEmpty()) {
-    QString url;
+  if (!bookAndPage.isEmpty())
     writer
       << QString(" docUrl=\'%1/doc/%2/%3\'").arg(WbStandardPaths::cyberboticsUrl()).arg(bookAndPage[0]).arg(bookAndPage[1]);
-  }
 
   if (isUseNode() && defNode()) {  // export referred DEF node id
     writer << " USE=\'n" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
