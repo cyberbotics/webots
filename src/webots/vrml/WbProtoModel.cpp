@@ -320,7 +320,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             mDocumentationUrl = "https://cyberbotics.com/doc/guide/object-" + name;
           break;
         }
-        name = dir.dirName();
+        name = dir.dirName().replace('_', '-');
         if (!dir.cdUp())
           break;
       }
