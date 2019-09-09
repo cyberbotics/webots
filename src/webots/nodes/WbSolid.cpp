@@ -514,7 +514,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
       parameterNode = parameterNode->protoParameterNode();
 
     bool found = false;
-    re.setPattern(QString("%1\\((\\d+)\\)").arg(nameWithoutIndex));
+    re.setPattern(QString("%1\\((\\d+)\\)").arg(QRegularExpression::escape(nameWithoutIndex)));
     foreach (WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
