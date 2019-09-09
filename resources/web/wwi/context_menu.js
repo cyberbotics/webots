@@ -1,5 +1,3 @@
-/* global webots */
-
 'use strict';
 
 class ContextMenu { // eslint-disable-line no-unused-vars
@@ -14,7 +12,6 @@ class ContextMenu { // eslint-disable-line no-unused-vars
     this.onOpenRobotWindow = null;
     this.isFollowedObject = null;
     this.isRobotWindowValid = null;
-    this.docUrl = null;
 
     // Create context menu.
     var domElement = document.createElement('ul');
@@ -57,7 +54,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
         if (typeof this.onOpenRobotWindow === 'function')
           this.onOpenRobotWindow(robotName);
       } else if (id === 'contextMenuHelp')
-        window.open(this.docUrl, '_blank');
+        window.open(this.object.userData.docUrl, '_blank');
       else
         console.log('Unknown menu item: ' + id);
       $('#contextMenu').css('display', 'none');
@@ -83,6 +80,9 @@ class ContextMenu { // eslint-disable-line no-unused-vars
 
   show(object, position) {
     this.object = object;
+    if (typeof object === 'undefined')
+      return;
+
     var title = object.userData.name;
     if (title == null || title === '')
       title = 'Object';
@@ -117,8 +117,7 @@ class ContextMenu { // eslint-disable-line no-unused-vars
       $('#contextMenuUnfollow').css('display', 'none');
     }
 
-    this.docUrl = webots.getDocumentationUrl(object.userData.name);
-    if (this.docUrl)
+    if (this.object.userData.docUrl)
       $('#contextMenuHelpDiv').removeClass('ui-state-disabled');
     else
       $('#contextMenuHelpDiv').addClass('ui-state-disabled');

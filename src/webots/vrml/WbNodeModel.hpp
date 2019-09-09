@@ -50,6 +50,8 @@ public:
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
 
+  QStringList documentationBookAndPage() const { return QStringList() << "reference" << mName.toLower(); }
+
 private:
   explicit WbNodeModel(WbTokenizer *tokenizer);
   ~WbNodeModel();
