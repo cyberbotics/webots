@@ -241,9 +241,6 @@ void WbBackground::destroySkyBox() {
   if (mSkyboxMaterial)
     wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
 
-  wr_material_set_texture_cubemap(mSkyboxMaterial, NULL, 0);
-  wr_scene_set_skybox(wr_scene_get_instance(), NULL);
-
   if (mCubeMapTexture) {
     wr_texture_delete(WR_TEXTURE(mCubeMapTexture));
     mCubeMapTexture = NULL;
@@ -442,6 +439,8 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   QString outputFileNames[6];
   for (int i = 0; i < 6; ++i) {
+    if (mUrlFields[i]->size() == 0)
+      continue;
     const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
     const QFileInfo &cubeInfo(url);
     if (writer.isWritingToFile())
@@ -454,12 +453,16 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   if (writer.isX3d()) {
     writer << " ";
-    for (int i = 0; i < 6; ++i)
-      writer << gUrlNames[i] << "='\"" << outputFileNames[i] << "\"' ";
+    for (int i = 0; i < 6; ++i) {
+      if (!outputFileNames[i].isEmpty())
+        writer << gUrlNames[i] << "='\"" << outputFileNames[i] << "\"' ";
+    }
   } else if (writer.isVrml()) {
     for (int i = 0; i < 6; ++i) {
-      writer.indent();
-      writer << gUrlNames[i] << " [ \"" << outputFileNames[i] << "\" ]\n";
+      if (!outputFileNames[i].isEmpty()) {
+        writer.indent();
+        writer << gUrlNames[i] << " [ \"" << outputFileNames[i] << "\" ]\n";
+      }
     }
   } else
     WbNode::exportNodeFields(writer);
