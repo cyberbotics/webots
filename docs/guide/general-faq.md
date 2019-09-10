@@ -46,4 +46,4 @@ Please make sure the issue comes really from Webots and give us simple and preci
 2. Update [your GPU drivers](verifying-your-graphics-driver-installation.md). *Webots uses intensively your GPU.*
 3. Update Webots. *Webots is regularly patched to support as much hardware as possible.*
 4. Try the [safe mode](starting-webots.md#safe-mode).
-5. Fill a [crash report](https://github.com/cyberbotics/webots/issues/new/choose).
+5. Fill in a [crash report](https://github.com/cyberbotics/webots/issues/new/choose).
