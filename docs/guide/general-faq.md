@@ -18,7 +18,7 @@ Please [contact us](mailto:info@cyberbotics.com) for more information about our 
 ### Where Can I Find Help?
 
 Join [our active community on Discord](https://discordapp.com/invite/nTWbN9m).
-The Cyberbotics team is available (at least) on european buisness hours.
+The Cyberbotics team is available (at least) during European business hours.
 
 ### Where Can I Ask a Question of General Interest?
 
