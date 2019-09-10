@@ -38,7 +38,7 @@ Follow us on:
 
 Report the bug on [GitHub issues of the Webots main repository](https://github.com/cyberbotics/webots/issues/new/choose).
 
-Please make sure the issue comes really from Webots and give us simple and precise instructions to reproduce the issue.
+Please make sure the issue comes really from Webots and give us simple and precise instructions to reproduce it.
 
 ### Webots Crashes at Startup, What Can I Do?
 
