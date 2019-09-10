@@ -954,7 +954,7 @@ QMenu *WbMainWindow::createHelpMenu() {
 
   action = new QAction(this);
   action->setText(tr("Subscribe to the Webots &YouTube chanel..."));
-  action->setStatusTip(tr("Take a look at the last Webots movies on YouTube."));
+  action->setStatusTip(tr("Watch the latest Webots movies on YouTube."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openYouTube);
   followUsMenu->addAction(action);
 
