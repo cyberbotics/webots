@@ -948,7 +948,7 @@ QMenu *WbMainWindow::createHelpMenu() {
 
   action = new QAction(this);
   action->setText(tr("Follow Webots on &Twitter..."));
-  action->setStatusTip(tr("Keep informed about the last news about Webots on Twitter."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news on Twitter."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openTwitter);
   followUsMenu->addAction(action);
 
