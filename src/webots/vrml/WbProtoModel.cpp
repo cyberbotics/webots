@@ -499,3 +499,50 @@ void WbProtoModel::verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const {
       tokenizer->reportError(tr("PROTO parameter '%1' has no matching IS field").arg(param->name()), param->nameToken());
   }
 }
+
+QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoTag) const {
+  QStringList bookAndPage;
+  if (isRobot) {
+    // check for robot doc
+    const QString &name = mName.toLower();
+    if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
+      bookAndPage << "guide" << name << "";
+      return bookAndPage;
+    }
+  } else {
+    // check for object doc
+    const QDir &objectsDir(WbStandardPaths::projectsPath() + "objects");
+    QDir dir(projectPath());
+    QString name = dir.dirName().replace('_', '-');
+    while (!dir.isRoot()) {
+      if (dir == objectsDir) {
+        if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md")) {
+          bookAndPage << "guide"
+                      << "object-" + name;
+          return bookAndPage;
+        }
+        break;
+      }
+      name = dir.dirName().replace('_', '-');
+      if (!dir.cdUp())
+        break;
+    }
+  }
+  if (!skipProtoTag) {
+    const QString &documentationUrl = mDocumentationUrl;
+    if (!documentationUrl.isEmpty()) {
+      const QStringList &splittedPath = documentationUrl.split("doc/");
+      if (splittedPath.size() == 2) {
+        const QString file(splittedPath[1].split('#')[0]);
+        if (QFile::exists(WbStandardPaths::localDocPath() + file + ".md")) {
+          bookAndPage = file.split('/');
+          if (splittedPath[1].contains('#'))
+            bookAndPage[1] += '#' + splittedPath[1].split('#')[1];
+          return bookAndPage;
+        }
+      }
+    }
+  }
+
+  return bookAndPage;  // return empty
+}
