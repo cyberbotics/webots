@@ -105,10 +105,13 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     if (typeof object !== 'undefined') {
-      var isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
+      let isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
       if (isInvisible && object.visible)
         object.visible = false;
       this._setCustomId(node, object);
+      let docUrl = getNodeAttribute(node, 'docUrl', '');
+      if (docUrl)
+        object.userData.docUrl = docUrl;
       parentObject.add(object);
     }
 
