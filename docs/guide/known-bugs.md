@@ -3,7 +3,7 @@
 This chapter lists known bugs that we will not fix in the short term.
 Most of them contain workarounds.
 
-For an exhaustive list of bugs, please refer to [this page](https://github.com/omichel/webots/issues).
+For an exhaustive list of bugs, please refer to [this page](https://github.com/cyberbotics/webots/issues).
 
 ## Sections
 

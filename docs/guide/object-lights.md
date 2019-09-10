@@ -30,7 +30,7 @@ CeilingLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/lights/protos/CeilingLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/CeilingLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/CeilingLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -79,7 +79,7 @@ DoubleFluorescentLamp {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/omichel/webots/tree/master/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/DoubleFluorescentLamp.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/DoubleFluorescentLamp.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -118,7 +118,7 @@ FloorLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/lights/protos/FloorLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/lights/protos/FloorLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/lights/protos/FloorLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

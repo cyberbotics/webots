@@ -23,9 +23,9 @@ import re
 from github import Github
 
 optParser = optparse.OptionParser(
-    usage="usage: %prog --key=... --repo=omichel/webots --branch=develop --commit=... [--tag=...]")
+    usage="usage: %prog --key=... --repo=cyberbotics/webots --branch=develop --commit=... [--tag=...]")
 optParser.add_option("--key", dest="key", default="", help="specifies the repo access key")
-optParser.add_option("--repo", dest="repo", default="omichel/webots", help="specifies the repo")
+optParser.add_option("--repo", dest="repo", default="cyberbotics/webots", help="specifies the repo")
 optParser.add_option("--tag", dest="tag", default="", help="optionnally specifies a tag")
 optParser.add_option("--branch", dest="branch", default="", help="specifies the branch from which is uploaded the release.")
 optParser.add_option("--commit", dest="commit", default="", help="specifies the commit from which is uploaded the release.")
@@ -40,7 +40,7 @@ if now.weekday() >= 5:
     exit(0)
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
-                 '(https://github.com/omichel/webots/releases/latest).'
+                 '(https://github.com/cyberbotics/webots/releases/latest).'
 if options.tag:
     tag = options.tag
     title = options.tag

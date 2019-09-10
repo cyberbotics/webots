@@ -25,7 +25,7 @@ namespace WbPrecision {
   // `R` programming language set this to k * epsilon, where k is an arbitrary constant set to 1000.
   // cf. https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
   // In Webots, it turns out we need to set this constant to 10000 to fix issue
-  // https://github.com/omichel/webots/issues/6519
+  // https://github.com/omichel/webots-dev/issues/6519
 
   const double DOUBLE_EQUALITY_TOLERANCE = 10000.0 * std::numeric_limits<double>::epsilon();
 

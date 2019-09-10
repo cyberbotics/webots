@@ -10,6 +10,7 @@ Released on XXX YYth, 2019.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+    - Added a C3dViewer PROTO to visualize C3D files in Webots.
     - Added a new HDR background: `noon_cloudy_countryside`
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
@@ -19,12 +20,14 @@ Released on XXX YYth, 2019.
   - Enhancements
     - Improved the intensity and color of the bus, truck and car vehicle lights.
     - macOS and Linux: Use POSIX shared memory segments to fix the limit problems on macOS and allow for snap packaging with strict confinement on Linux.
+    - Improved management of the life cycle of the Webots temporary folder.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
     - Fixed `realistic_village.wbt` materials.
@@ -34,6 +37,7 @@ Released on XXX YYth, 2019.
     - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
+    - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 

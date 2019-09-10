@@ -23,7 +23,7 @@ BunchOfSunFlowers {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/BunchOfSunFlowers.proto](https://github.com/omichel/webots/tree/master/projects/objects/plants/protos/BunchOfSunFlowers.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/BunchOfSunFlowers.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/plants/protos/BunchOfSunFlowers.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -59,7 +59,7 @@ PottedTree {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/PottedTree.proto](https://github.com/omichel/webots/tree/master/projects/objects/plants/protos/PottedTree.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/PottedTree.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/plants/protos/PottedTree.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

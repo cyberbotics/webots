@@ -457,9 +457,9 @@ Note that the exit status as well as the value returned by the `main` function a
 Creating shared libraries can be very useful to share code between controllers and/or plugins.
 There are several ways to do so, but we recommend to place them into a subdirectory of the `libraries` directory of your project.
 Indeed the environment variables of the controllers are modified to include these paths into your [[DY]LD\_LIBRARY\_]PATH environment variable (depending on the OS).
-Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include](https://github.com/omichel/webots/tree/master/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
+Moreover the main Makefile ("[WEBOTS\_HOME/resources/Makefile.include](https://github.com/cyberbotics/webots/tree/master/resources/Makefile.include)") used to compile Webots controllers is able to create shared libraries and to link easily with the Controller libraries, ODE or the Qt framework.
 
-A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils](https://github.com/omichel/webots/tree/master/resources/projects/libraries/qt_utils)".
+A good example of this is the Qt utility library located there: "[WEBOTS\_HOME/resources/projects/libraries/qt\_utils](https://github.com/cyberbotics/webots/tree/master/resources/projects/libraries/qt_utils)".
 
 If for some reason shared libraries cannot be in the `libraries` directory, the `WEBOTS_LIBRARY_PATH` environment variable will be very helpful.
 The paths it contains will be added at the beginning of the library search path([[DY]LD\_LIBRARY\_]PATH) when starting the controller.

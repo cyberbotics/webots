@@ -20,7 +20,7 @@ Atm {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Atm.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/Atm.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Atm.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Atm.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -48,7 +48,7 @@ Bench {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Bench.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/Bench.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Bench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Bench.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -86,7 +86,7 @@ BusStop {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/BusStop.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/BusStop.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/BusStop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/BusStop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -123,7 +123,7 @@ ClothRecyclingContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ClothRecyclingContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/ClothRecyclingContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ClothRecyclingContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/ClothRecyclingContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -148,7 +148,7 @@ DrinkingFountain {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/DrinkingFountain.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/DrinkingFountain.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/DrinkingFountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/DrinkingFountain.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -173,7 +173,7 @@ ElectricalCabinet {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ElectricalCabinet.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/ElectricalCabinet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/ElectricalCabinet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/ElectricalCabinet.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -200,7 +200,7 @@ EmergencyPhone {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/EmergencyPhone.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/EmergencyPhone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/EmergencyPhone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/EmergencyPhone.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -246,7 +246,7 @@ Fence {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fence.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/Fence.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Fence.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -296,7 +296,7 @@ FireHydrant {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/FireHydrant.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/FireHydrant.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/FireHydrant.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/FireHydrant.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -328,7 +328,7 @@ Fountain {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fountain.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/Fountain.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Fountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Fountain.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -361,7 +361,7 @@ GlassRecyclingContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GlassRecyclingContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/GlassRecyclingContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GlassRecyclingContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/GlassRecyclingContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -386,7 +386,7 @@ GuardShelter {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GuardShelter.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/GuardShelter.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/GuardShelter.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/GuardShelter.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -411,7 +411,7 @@ IceFreezerContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/IceFreezerContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/IceFreezerContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/IceFreezerContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/IceFreezerContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -436,7 +436,7 @@ Mailbox {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Mailbox.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/Mailbox.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/Mailbox.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/Mailbox.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -462,7 +462,7 @@ MetallicTrash {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/MetallicTrash.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/MetallicTrash.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/MetallicTrash.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/MetallicTrash.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -491,7 +491,7 @@ NewsStand {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/NewsStand.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/NewsStand.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/NewsStand.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/NewsStand.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -516,7 +516,7 @@ OldBench {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/OldBench.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/OldBench.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/OldBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/OldBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -541,7 +541,7 @@ PhoneBooth {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PhoneBooth.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/PhoneBooth.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PhoneBooth.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PhoneBooth.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -568,7 +568,7 @@ PublicBin {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicBin.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/PublicBin.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicBin.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PublicBin.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -620,7 +620,7 @@ PublicToilet {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicToilet.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/PublicToilet.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/PublicToilet.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/PublicToilet.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -673,7 +673,7 @@ SimpleBench {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SimpleBench.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/SimpleBench.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SimpleBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SimpleBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -698,7 +698,7 @@ SmallKiosk {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SmallKiosk.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/SmallKiosk.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SmallKiosk.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SmallKiosk.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -724,7 +724,7 @@ SnackStand {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SnackStand.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/SnackStand.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/SnackStand.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/SnackStand.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -753,7 +753,7 @@ StoneBench {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneBench.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/StoneBench.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneBench.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/StoneBench.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -778,7 +778,7 @@ StoneFountain {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneFountain.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/StoneFountain.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/StoneFountain.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/StoneFountain.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -806,7 +806,7 @@ TrashBin {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashBin.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/TrashBin.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashBin.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/TrashBin.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -838,7 +838,7 @@ TrashContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/TrashContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/TrashContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/TrashContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -867,7 +867,7 @@ UndergroundContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UndergroundContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/UndergroundContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UndergroundContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/UndergroundContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -893,7 +893,7 @@ UrbanFence {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UrbanFence.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/UrbanFence.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/UrbanFence.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/UrbanFence.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -922,7 +922,7 @@ WorkTrashContainer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/WorkTrashContainer.proto](https://github.com/omichel/webots/tree/master/projects/objects/street_furniture/protos/WorkTrashContainer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/street\_furniture/protos/WorkTrashContainer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/street_furniture/protos/WorkTrashContainer.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
