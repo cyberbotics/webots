@@ -2,7 +2,7 @@
 
 ### Is Webots Really Free and Open-Source?
 
-Yes! 
+Yes!
 
 Since the [R2019a version](../blog/Webots-2019-a-release.md), Webots is completely free and open-source.
 It remains under active development.
