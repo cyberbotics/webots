@@ -1,10 +1,10 @@
 ## General FAQ
 
-### Is Webots really Open-Source and Free?
+### Is Webots Really Free and Open-Source?
 
 Yes!
 
-Since its [R2019a version](../blog/Webots-2019-a-release.md) is completely free and open-source.
+Since the [R2019a version](../blog/Webots-2019-a-release.md), Webots is completely free and open-source.
 It remains in active development.
 Sources are available on [GitHub](https://github.com/cyberbotics/webots) under [the Apache 2 license](https://github.com/cyberbotics/webots/blob/master/LICENSE).
 
@@ -13,11 +13,11 @@ Please [contact us](mailto:info@cyberbotics.com) for more information about our 
 
 ### Where to Start?
 
-Simply [download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and perform [the official tutorial](tutorials.md).
+[Download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and perform [the official tutorial](tutorials.md).
 
 ### Where Can I Find Help?
 
-Join [our active live community on Discord](https://discordapp.com/invite/nTWbN9m).
+Join [our active community on Discord](https://discordapp.com/invite/nTWbN9m).
 The Cyberbotics team is available (at least) on european buisness hours.
 
 ### Where can I Ask a Question of General Interest?
@@ -25,7 +25,7 @@ The Cyberbotics team is available (at least) on european buisness hours.
 On [StackOverflow with the `webots` tag](https://stackoverflow.com/questions/tagged/webots).
 The Cyberbotics team monitor this tag.
 
-### How Can I Be Kept Informed?
+### How Can I Keep Informed?
 
 Follow us on:
 
