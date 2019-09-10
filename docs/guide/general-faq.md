@@ -13,7 +13,7 @@ Please [contact us](mailto:info@cyberbotics.com) for more information about our 
 
 ### Where to Start?
 
-[Download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and perform [the official tutorial](tutorials.md).
+[Download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and follow the [official tutorials](tutorials.md).
 
 ### Where Can I Find Help?
 
