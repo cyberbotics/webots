@@ -22,6 +22,8 @@
 #ifndef WB_POSIX_SHARED_MEMORY_HPP
 #define WB_POSIX_SHARED_MEMORY_HPP
 
+#include <QtCore/QString>
+
 class WbPosixSharedMemory {
 public:
   explicit WbPosixSharedMemory(const QString &name);

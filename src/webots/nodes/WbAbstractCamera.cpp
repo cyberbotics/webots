@@ -40,7 +40,7 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 #ifndef _WIN32
-#include "WbSharedMemory.hpp"
+#include "WbPosixSharedMemory.hpp"
 #else
 #include <QtCore/QSharedMemory>
 #endif
