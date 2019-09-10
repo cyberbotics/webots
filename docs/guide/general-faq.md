@@ -20,7 +20,7 @@ Please [contact us](mailto:info@cyberbotics.com) for more information about our 
 Join [our active community on Discord](https://discordapp.com/invite/nTWbN9m).
 The Cyberbotics team is available (at least) on european buisness hours.
 
-### Where can I Ask a Question of General Interest?
+### Where Can I Ask a Question of General Interest?
 
 On [StackOverflow with the `webots` tag](https://stackoverflow.com/questions/tagged/webots).
 The Cyberbotics team monitor this tag.
@@ -40,7 +40,7 @@ Report the bug on [GitHub issues of the Webots main repository](https://github.c
 
 Please make sure the issue comes really from Webots and give us simple and precise instructions to reproduce the issue.
 
-### Webots Crashes at Startup, what can I do?
+### Webots Crashes at Startup, What Can I Do?
 
 1. Verify that your system is above the [minimal requirements to run Webots](system-requirements.md).
 2. Update [your GPU drivers](verifying-your-graphics-driver-installation.md). *Webots uses intensively your GPU.*
