@@ -139,7 +139,7 @@ const QString &WbStandardPaths::cyberboticsUrl() {
 };
 
 const QString &WbStandardPaths::githubRepositoryUrl() {
-  static QString url("https://github.com/cyberbotics/webots");
+  static const QString url("https://github.com/cyberbotics/webots");
   return url;
 };
 
