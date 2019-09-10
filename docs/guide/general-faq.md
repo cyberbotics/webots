@@ -23,7 +23,7 @@ The Cyberbotics team is available (at least) during European business hours.
 ### Where Can I Ask a Question of General Interest?
 
 On [StackOverflow with the `webots` tag](https://stackoverflow.com/questions/tagged/webots).
-The Cyberbotics team monitor this tag.
+The Cyberbotics team monitors this tag.
 
 ### How Can I Keep Informed?
 
