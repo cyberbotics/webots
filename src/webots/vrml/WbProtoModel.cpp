@@ -506,7 +506,7 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
     // check for robot doc
     const QString &name = mName.toLower();
     if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
-      bookAndPage << "guide" << name << "";
+      bookAndPage << "guide" << name;
       return bookAndPage;
     }
   } else {
