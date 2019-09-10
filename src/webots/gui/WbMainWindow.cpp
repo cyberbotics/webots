@@ -928,7 +928,8 @@ QMenu *WbMainWindow::createHelpMenu() {
 
   action = new QAction(this);
   action->setText(tr("&Support Ticket (Premier Service)..."));
-  action->setStatusTip(tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
+  action->setStatusTip(
+    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
   menu->addAction(action);
 
