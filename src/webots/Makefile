@@ -572,6 +572,9 @@ ifeq ($(OSTYPE),windows)
 OTHER_SOURCES += \
   WbMicrosoftTextToSpeech.cpp \
   WbWindowsRegistry.cpp
+else
+OTHER_SOURCES += \
+  WbPosixSharedMemory.cpp
 endif
 
 MOC_FILES=$(addprefix $(OBJDIR)/,$(notdir $(QT_SOURCES:%.cpp=%.moc.cpp)))

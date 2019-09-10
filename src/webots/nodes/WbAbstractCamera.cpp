@@ -40,9 +40,7 @@
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 #ifndef _WIN32
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#include "WbSharedMemory.hpp"
 #else
 #include <QtCore/QSharedMemory>
 #endif
@@ -54,61 +52,6 @@
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
-
-#ifndef _WIN32
-// On Linux, we need to use POSIX shared memory segments (shm) and name them snap.webots.*
-// to be compliant with the strict confinement policy of snap applications.
-// On macOS, POSIX shared memory segments don't have the low limits of the SYSV shared memory segments.
-// Unfortunately, the Qt implementation of shared memory segment relies only on SYSV shared memory segments.
-// Hence we have to revert to the native POSIX shared memory to be compatible with snap and work around
-// macOS limitation with SYSV shared memory.
-class WbPosixSharedMemory {
-public:
-  explicit WbPosixSharedMemory(const QString &name) :
-#ifdef __APPLE__
-    mName(name),
-#else
-    mName("snap.webots." + name.mid(7)),
-#endif
-    mSize(0),
-    mData(NULL) {
-    // we remove the "Webots_" prefix from name and generate a snap compatible POSIX shared memory segment
-    shm_unlink(mName.toUtf8());  // delete a possibly existing shared memory segment with the same name
-    mFd = shm_open(mName.toUtf8(), O_CREAT | O_RDWR, 0666);  // returns -1 in case of failure
-    mSize = 0;
-    mData = NULL;
-  }
-  ~WbPosixSharedMemory() {
-    if (mFd < 0)
-      return;
-    if (mData)
-      munmap(mData, mSize);
-    shm_unlink(mName.toUtf8());
-  }
-  static bool attach() { return false; }
-  static bool detach() { return false; }
-  bool create(int size) {
-    if (mFd < 0)
-      return false;
-    if (ftruncate(mFd, size) == -1)
-      return false;
-    mData = mmap(0, size, PROT_WRITE | PROT_READ, MAP_SHARED, mFd, 0);
-    if (mData == MAP_FAILED)
-      return false;
-    mSize = size;
-    return true;
-  }
-  void *data() const { return mData; }
-  const QString nativeKey() const { return mName; }
-
-private:
-  int mFd;
-  QString mName;
-  int mSize;
-  void *mData;
-};
-
-#endif
 
 int WbAbstractCamera::cCameraNumber = 0;
 int WbAbstractCamera::cCameraCounter = 0;
