@@ -42,7 +42,8 @@ namespace WbStandardPaths {
   const QString &emptyProjectPath();  // equal to resourcesProjectsPath() if WEBOTS_EMPTY_PROJECT_PATH is not set
 
   // urls
-  const QString &cyberboticsUrl();  // e.g. http://www.cyberbotics.com/
+  const QString &cyberboticsUrl();  // e.g. http://www.cyberbotics.com
+  const QString &githubRepositoryUrl();  // e.g. https://github.com/cyberbotics/webots
 
   // utility function
   const QString &dynamicLibraryExtension();  // e.g. .so, .dll or .dylib

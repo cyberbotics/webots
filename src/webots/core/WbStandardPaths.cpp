@@ -138,6 +138,11 @@ const QString &WbStandardPaths::cyberboticsUrl() {
   return url;
 };
 
+const QString &WbStandardPaths::githubRepositoryUrl() {
+  static QString url("https://github.com/cyberbotics/webots");
+  return url;
+};
+
 const QString &WbStandardPaths::dynamicLibraryExtension() {
 #ifdef __APPLE__
   static QString extension(".dylib");
