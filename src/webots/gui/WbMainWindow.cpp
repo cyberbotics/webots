@@ -941,7 +941,7 @@ QMenu *WbMainWindow::createHelpMenu() {
   followUsMenu->addAction(action);
 
   action = new QAction(this);
-  action->setText(tr("Join the &Discord chanel..."));
+  action->setText(tr("Join the &Discord channel..."));
   action->setStatusTip(tr("Join our live community on Discord."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openDiscord);
   followUsMenu->addAction(action);
