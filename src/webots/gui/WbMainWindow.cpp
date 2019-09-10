@@ -936,7 +936,7 @@ QMenu *WbMainWindow::createHelpMenu() {
 
   action = new QAction(this);
   action->setText(tr("Subscribe to the &Newsletter..."));
-  action->setStatusTip(tr("Keep informed about the last news about Webots following the Webots newsletter."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news with the Webots newsletter."));
   connect(action, &QAction::triggered, this, &WbMainWindow::openNewsletterSubscription);
   followUsMenu->addAction(action);
 
