@@ -1440,7 +1440,7 @@ void WbSceneTree::help() {
             }
             break;
           }
-          name = dir.dirName();
+          name = dir.dirName().replace('_', '-');
           if (!dir.cdUp())
             break;
         }

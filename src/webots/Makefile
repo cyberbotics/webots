@@ -546,7 +546,6 @@ OTHER_SOURCES = \
   WbVersion.cpp \
   WbVrmlWriter.cpp \
   WbWaveFile.cpp \
-  WbWebotsInstancesCounter.cpp \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \
