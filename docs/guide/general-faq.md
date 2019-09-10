@@ -1,23 +1,49 @@
 ## General FAQ
 
+### Is Webots really Open-Source and Free?
+
+Yes!
+
+Since its [R2019a version](../blog/Webots-2019-a-release.md) is completely free and open-source.
+It remains in active development.
+Sources are available on [GitHub](https://github.com/cyberbotics/webots) under [the Apache 2 license](https://github.com/cyberbotics/webots/blob/master/LICENSE).
+
+Cyberbotics takes part to many academic and industrial projects, and provides a paid user support, training and consulting for users who need to quickly develop high-quality Webots simulations.
+Please [contact us](mailto:info@cyberbotics.com) for more information about our services.
+
+### Where to Start?
+
+Simply [download Webots](https://cyberbotics.com/download), [install it](installation-procedure.md) and perform [the official tutorial](tutorials.md).
+
+### Where Can I Find Help?
+
+Join [our active live community on Discord](https://discordapp.com/invite/nTWbN9m).
+The Cyberbotics team is available (at least) on european buisness hours.
+
+### Where can I Ask a Question of General Interest?
+
+On [StackOverflow with the `webots` tag](https://stackoverflow.com/questions/tagged/webots).
+The Cyberbotics team monitor this tag.
+
+### How Can I Be Kept Informed?
+
+Follow us on:
+
+- [our Newsletter](https://cyberbotics.com/news/subscribe.php)
+- [Twitter](https://twitter.com/webots)
+- [YouTube](http://www.youtube.com/user/cyberboticswebots)
+- [LinkedIn](https://www.linkedin.com/company/20132793)
+
 ### How Can I Report a Bug in Webots?
 
-If you can still start Webots, please report the bug by using Webots menu: `Help / Bug report...`.
+Report the bug on [GitHub issues of the Webots main repository](https://github.com/cyberbotics/webots/issues/new/choose).
 
-If Webots cannot start any more, please report the bug here: [http://www.cyberbotics.com/bug](http://www.cyberbotics.com/bug).
-Please include a precise description of the problem, the sequence of actions necessary to reproduce the problem.
-Do also attach the world file and the controller programs necessary to reproduce it.
+Please make sure the issue comes really from Webots and give us simple and precise instructions to reproduce the issue.
 
-Before reporting a bug, please make sure that the problem is actually caused by Webots and not by your controller program.
-For example, a crash of the controller process usually indicates a bug in the controller code, not in Webots.
-This situation can be identified by these couple of symptoms:
+### Webots Crashes at Startup, what can I do?
 
-1. Webots GUI is visible and responsive, but the simulation is blocked (simulation time stopped).
-2. The controller process has vanished from the *Task Manager* (Windows) or is shown as *&lt;defunct&gt;* when using `ps -e` (Linux/Mac).
-
-### Is It Possible to Use Microsoft Visual Studio to Compile My Controllers?
-
-Yes.
-However, you will need to create your own project with all the necessary options.
-You will find more detailed instructions on how to do that in [this section](using-visual-studio-with-webots.md).
-To create the import libraries (the "\*.lib" files in Visual Studio) from the "\*.dll" files of the lib directory of Webots, please follow the instructions provided with the documentation of your compiler.
+1. Verify that your system is above the [minimal requirements to run Webots](system-requirements.md).
+2. Update [your GPU drivers](verifying-your-graphics-driver-installation.md). *Webots uses intensively your GPU.*
+3. Update Webots. *Webots is regularly patched to support as much hardware as possible.*
+4. Try the [safe mode](starting-webots.md#safe-mode).
+5. Fill a [crash report](https://github.com/cyberbotics/webots/issues/new/choose).
