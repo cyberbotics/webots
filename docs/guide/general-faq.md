@@ -29,7 +29,7 @@ The Cyberbotics team monitors this tag.
 
 Follow us on:
 
-- [our Newsletter](https://cyberbotics.com/news/subscribe.php)
+- the [Webots Newsletter](https://cyberbotics.com/news/subscribe.php)
 - [Twitter](https://twitter.com/webots)
 - [YouTube](http://www.youtube.com/user/cyberboticswebots)
 - [LinkedIn](https://www.linkedin.com/company/20132793)
