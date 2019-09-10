@@ -260,7 +260,6 @@ QT_SOURCES += \
   WbController.cpp \
   WbCoordinate.cpp \
   WbCoordinateSystem.cpp \
-  WbCubemap.cpp \
   WbCylinder.cpp \
   WbDamping.cpp \
   WbDifferentialWheels.cpp \
@@ -547,7 +546,6 @@ OTHER_SOURCES = \
   WbVersion.cpp \
   WbVrmlWriter.cpp \
   WbWaveFile.cpp \
-  WbWebotsInstancesCounter.cpp \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \
   WbWrenBloom.cpp \

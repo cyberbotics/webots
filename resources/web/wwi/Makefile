@@ -18,7 +18,6 @@ JS_SOURCES = \
   shaders/blend_bloom.js \
   shaders/gaussian_blur_13_tap.js \
   passes/bloom.js \
-  equirectangular_to_cube_generator.js \
   gpu_picker.js \
   util.js \
   system_info.js \

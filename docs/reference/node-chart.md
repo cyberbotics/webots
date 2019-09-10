@@ -95,7 +95,6 @@ graph LR
     Color[[Color](color.md)]
     ContactProperties[[ContactProperties](contactproperties.md)]
     Coordinate[[Coordinate](coordinate.md)]
-    Cubemap[[Cubemap](cubemap.md)]
     Damping[[Damping](damping.md)]
     Focus[[Focus](focus.md)]
     Fog[[Fog](fog.md)]

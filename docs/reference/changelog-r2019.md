@@ -17,6 +17,7 @@ Released on XXX YYth, 2019.
     - Added a `village_center` world.
   - Enhancements
     - Improved the intensity and color of the bus, truck and car vehicle lights.
+    - Improved management of the life cycle of the Webots temporary folder.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.
@@ -33,6 +34,7 @@ Released on XXX YYth, 2019.
     - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
+    - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 
@@ -108,6 +110,7 @@ Released on June 25th, 2019.
     - Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.
     - Fixed insertion of USE PROTO node into a PROTO field from the Add Node dialog.
     - Fixed native robot windows and physics plugins recompilation on Windows by upgrading from gcc 7.4.0 to gcc 9.1.0.
+    - Fixed link to documentation page for PROTO nodes contained in a folder with underscore symbols in the name.
   - Cleanup
     - Deprecated the Python 2.7 API.
     - Removed the `environmentMap` field of the PBRAppearance node.

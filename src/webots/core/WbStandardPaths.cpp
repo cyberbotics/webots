@@ -17,12 +17,14 @@
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
 #include "WbSysInfo.hpp"
-#include "WbWebotsInstancesCounter.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
+#include <QtCore/QTextStream>
+#include <QtCore/QTimer>
 
 #ifdef _WIN32
 #include "../../../include/controller/c/webots/utils/system.h"
@@ -184,6 +186,15 @@ const QString &WbStandardPaths::unnamedTextFile() {
   return fileName;
 };
 
+static void liveWebotsTmpPath() {
+  QFile file(WbStandardPaths::webotsTmpPath() + "live.txt");
+  if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+    QTextStream out(&file);
+    out << QDateTime::currentSecsSinceEpoch();
+    file.close();
+  }
+}
+
 const QString &WbStandardPaths::webotsTmpPath() {
   static QString webotsTmpPath;
   if (webotsTmpPath.isEmpty()) {
@@ -205,20 +216,18 @@ const QString &WbStandardPaths::webotsTmpPath() {
     }
 #endif
 
-    // remove the other Webots instances from the temp folder if needed
-    if (WbWebotsInstancesCounter::numberOfInstances() == 1) {
-      QDir tmpDir(webotsTmpPath);
-      tmpDir.cdUp();
-
-      tmpDir.setFilter(QDir::Dirs);
-      QStringList filters;
-      filters << "webots-*";
-      tmpDir.setNameFilters(filters);
-
-      QFileInfoList list = tmpDir.entryInfoList();
-      for (int i = 0; i < list.size(); ++i) {
-        QDir dirToRemove(list.at(i).absoluteFilePath());
-        dirToRemove.removeRecursively();
+    // cleanup old and unused tmp directories
+    QDir directory(webotsTmpPath);
+    directory.cdUp();
+    const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
+    foreach (const QString &dirname, webotsTmp) {
+      const QString fullName(directory.absolutePath() + "/" + dirname);
+      const QFileInfo fileInfo(fullName + "/live.txt");
+      const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
+      const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
+      if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
+        QDir d(fullName);
+        d.removeRecursively();
       }
     }
 
@@ -232,6 +241,12 @@ const QString &WbStandardPaths::webotsTmpPath() {
         WbLog::fatal(QObject::tr("Cannot create a directory in the Webots temporary directory \"%1\"").arg(webotsTmpPath));
 #endif
     }
+
+    // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
+    static QTimer timer;
+    liveWebotsTmpPath();
+    QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
+    timer.start(30 * 60 * 1000);  // call every 30 minutes
   }
   return webotsTmpPath;
 }
