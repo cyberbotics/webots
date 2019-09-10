@@ -6,7 +6,7 @@ Yes!
 
 Since the [R2019a version](../blog/Webots-2019-a-release.md), Webots is completely free and open-source.
 It remains under active development.
-Sources are available on [GitHub](https://github.com/cyberbotics/webots) under [the Apache 2 license](https://github.com/cyberbotics/webots/blob/master/LICENSE).
+The source code is available from [GitHub](https://github.com/cyberbotics/webots) and released under the terms of the [Apache 2 license](https://github.com/cyberbotics/webots/blob/master/LICENSE).
 
 Cyberbotics takes part to many academic and industrial projects, and provides a paid user support, training and consulting for users who need to quickly develop high-quality Webots simulations.
 Please [contact us](mailto:info@cyberbotics.com) for more information about our services.
