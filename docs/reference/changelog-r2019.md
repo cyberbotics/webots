@@ -113,6 +113,7 @@ Released on June 25th, 2019.
     - Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.
     - Fixed insertion of USE PROTO node into a PROTO field from the Add Node dialog.
     - Fixed native robot windows and physics plugins recompilation on Windows by upgrading from gcc 7.4.0 to gcc 9.1.0.
+    - Fixed link to documentation page for PROTO nodes contained in a folder with underscore symbols in the name.
   - Cleanup
     - Deprecated the Python 2.7 API.
     - Removed the `environmentMap` field of the PBRAppearance node.
