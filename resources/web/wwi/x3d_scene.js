@@ -188,11 +188,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
-    var objects = loader.parse(x3dObject);
-    if (typeof parentObject !== 'undefined') {
-      objects.forEach((o) => { parentObject.add(o); });
+    var objects = loader.parse(x3dObject, parentObject);
+    if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
-    } else {
+    else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
       objects.forEach((o) => { this.scene.add(o); });
       this.root = objects[0];
