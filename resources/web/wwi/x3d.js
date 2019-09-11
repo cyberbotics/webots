@@ -418,7 +418,7 @@ THREE.X3DLoader = class X3DLoader {
       if (typeof defTexture !== 'undefined')
         transformData = defTexture.userData.transform;
       else
-        transformData = this.parseTextureTransform(textureTransform);
+        transformData = this.parseTextureTransform(textureTransform[0]);
     }
 
     // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
@@ -443,10 +443,10 @@ THREE.X3DLoader = class X3DLoader {
 
   parseTextureTransform(textureTransform, textureObject = undefined) {
     var transformData = {
-      'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
-      'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
-      'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
-      'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
+      'center': convertStringToVec2(getNodeAttribute(textureTransform, 'center', '0 0')),
+      'rotation': parseFloat(getNodeAttribute(textureTransform, 'rotation', '0')),
+      'scale': convertStringToVec2(getNodeAttribute(textureTransform, 'scale', '1 1')),
+      'translation': convertStringToVec2(getNodeAttribute(textureTransform, 'translation', '0 0'))
     };
     if (typeof textureObject !== 'undefined' && textureObject.isTexture)
       TextureLoader.applyTextureTransform(textureObject, transformData);

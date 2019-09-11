@@ -143,6 +143,33 @@ class _TextureLoaderObject {
     return newTexture;
   }
 
+  applyTextureTransform(texture, transformData) {
+    if (transformData !== 'undefined') {
+      texture.matrixAutoUpdate = false;
+      texture.onUpdate = () => {
+        // X3D UV transform matrix differs from THREE.js default one
+        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
+        var c = Math.cos(-transformData.rotation);
+        var s = Math.sin(-transformData.rotation);
+        var sx = transformData.scale.x;
+        var sy = transformData.scale.y;
+        var cx = transformData.center.x;
+        var cy = transformData.center.y;
+        var tx = transformData.translation.x;
+        var ty = transformData.translation.y;
+        texture.matrix.set(
+          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
+          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
+          0, 0, 1
+        );
+      };
+    } else {
+      texture.matrixAutoUpdate = true;
+      texture.onUpdate = null;
+    }
+    texture.needsUpdate = true;
+  }
+
   loadOrRetrieveImage(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
     if (this.texturePathPrefix)
       name = this.texturePathPrefix + name;
@@ -334,31 +361,4 @@ function hasJPEGExtension(name) {
 
 function hasHDRExtension(name) {
   return name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
-}
-
-function applyTextureTransform(texture, transformData) {
-  if (transformData !== 'undefined') {
-    texture.matrixAutoUpdate = false;
-    texture.onUpdate = () => {
-      // X3D UV transform matrix differs from THREE.js default one
-      // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
-      var c = Math.cos(-transformData.rotation);
-      var s = Math.sin(-transformData.rotation);
-      var sx = transformData.scale.x;
-      var sy = transformData.scale.y;
-      var cx = transformData.center.x;
-      var cy = transformData.center.y;
-      var tx = transformData.translation.x;
-      var ty = transformData.translation.y;
-      texture.matrix.set(
-        sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
-        -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
-        0, 0, 1
-      );
-    };
-  } else {
-    texture.matrixAutoUpdate = true;
-    texture.onUpdate = null;
-  }
-  texture.needsUpdate = true;
 }
