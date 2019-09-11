@@ -21,10 +21,10 @@ ifeq ($(OSTYPE),windows)
 TARGET_ODE_LIBRARY=../../msys64/mingw64/bin/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
-TARGET_ODE_LIBRARY=../../lib/libode.so
+TARGET_ODE_LIBRARY=../../lib/webots/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-TARGET_ODE_LIBRARY=../../lib/libode.dylib
+TARGET_ODE_LIBRARY=../../lib/webots/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)
@@ -41,7 +41,7 @@ $(TARGET_ODE_LIBRARY):
 	@echo "#" copying $(@F) to $@
 	@cp $(@F) $@
 ifeq ($(OSTYPE),darwin)
-	@install_name_tool -id @rpath/lib/libode.dylib $@
+	@install_name_tool -id @rpath/lib/webots/libode.dylib $@
 endif
 
 install: $(TARGET_ODE_LIBRARY)
