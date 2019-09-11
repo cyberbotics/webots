@@ -83,7 +83,7 @@ include/opencv2/imgproc/*.hpp [linux,mac]
 include/opencv2/imgproc/*.h [linux,mac]
 
 lib/
-lib/webots [linux,mac]
+lib/webots/ [linux,mac]
 lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libnihzip.dylib [mac]
