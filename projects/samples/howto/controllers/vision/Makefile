@@ -30,7 +30,7 @@ ifeq ($(OSTYPE),windows)
   LIBRARIES = -L/mingw64/bin -lopencv_core$(OPENCV_VERSION) -lopencv_imgproc$(OPENCV_VERSION)
 else
   INCLUDE = -I"$(WEBOTS_HOME)/include"
-  LIBRARIES = -L"$(WEBOTS_HOME)/lib" -lopencv_core -lopencv_imgproc
+  LIBRARIES = -L"$(WEBOTS_HOME)/lib/webots" -lopencv_core -lopencv_imgproc
 endif
 
 # Do not modify the following: this includes Webots global Makefile.include

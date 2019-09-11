@@ -305,7 +305,7 @@ ifdef USE_CXX
   LINKER = $(CXX)
  endif
  ifndef EXCLUDE_CONTROLLERS
-  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS__CONTROLLER_LIB_PATH)" -lController
   ifdef USE_C_API
    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
   else
@@ -328,7 +328,7 @@ else
  endif
  ifndef EXCLUDE_CONTROLLERS
   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
-  DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lController
+  DYNAMIC_LIBRARIES += -L"$(WEBOTS__CONTROLLER_LIB_PATH)" -lController
  endif
 endif
 
@@ -450,7 +450,7 @@ ifdef USE_QT
 
  ifeq ($(OSTYPE),linux)
   QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
-  QT_LIB_DIR = $(WEBOTS_HOME)/lib
+  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
   MOC = "$(WEBOTS_HOME)/bin/qt/moc"
   MOC_PLATFORM_FLAGS = -D__linux__
 
