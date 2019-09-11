@@ -102,5 +102,5 @@ $(WRAPPER_OBJECT): $(WRAPPER)
 endif
 
 clean:
-	@rm -fr com $(WEBOTS_CONTROLLER_LIB_PATH) $(JAR) $(WRAPPER) $(LIBRARY) $(WRAPPER_OBJECT)
+	@rm -fr com $(SWIG_OUTPUT) $(JAR) $(WRAPPER) $(LIBRARY) $(WRAPPER_OBJECT)
 	@rm -d $(WEBOTS_CONTROLLER_LIB_PATH)/java > /dev/null 2>&1 || :
