@@ -30,11 +30,6 @@
 #include "../../../include/controller/c/webots/utils/system.h"
 #endif
 
-const QString &WbStandardPaths::webotsDataPath() {
-  static const QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/";
-  return dataPath;
-}
-
 const QString &WbStandardPaths::webotsHomePath() {
   static QString path;
 #ifdef __linux__
@@ -57,7 +52,12 @@ const QString &WbStandardPaths::webotsHomePath() {
 };
 
 const QString &WbStandardPaths::webotsLibPath() {
-  static QString path = webotsHomePath() + "lib/";
+  static QString path = webotsHomePath() + "lib/webots";
+  return path;
+}
+
+const QString &WbStandardPaths::controllerLibPath() {
+  static QString path = webotsHomePath() + "lib/controller";
   return path;
 }
 
