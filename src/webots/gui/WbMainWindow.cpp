@@ -912,22 +912,63 @@ QMenu *WbMainWindow::createHelpMenu() {
   menu->addSeparator();
 
   action = new QAction(this);
-  action->setText(tr("&Bug Report..."));
-  action->setStatusTip(tr("Report a bug to Cyberbotics."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
-  menu->addAction(action);
-
-  action = new QAction(this);
-  action->setText(tr("&Support Ticket..."));
-  action->setStatusTip(tr("Open a Support Ticket with Cyberbotics."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
+  action->setText(tr("&GitHub repository..."));
+  action->setStatusTip(tr("Open the Webots git repository on GitHub."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openGithubRepository);
   menu->addAction(action);
 
   action = new QAction(this);
   action->setText(tr("Cyberbotics &Website..."));
   action->setStatusTip(tr("Open the Cyberbotics website."));
-  connect(action, &QAction::triggered, this, &WbMainWindow::showCyberboticsWebsite);
+  connect(action, &QAction::triggered, this, &WbMainWindow::openCyberboticsWebsite);
   menu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&Bug Report..."));
+  action->setStatusTip(tr("Report a bug to the GitHub repository."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openBugReport);
+  menu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("&Support Ticket (Premier Service)..."));
+  action->setStatusTip(
+    tr("Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openSupportTicket);
+  menu->addAction(action);
+
+  QMenu *followUsMenu = new QMenu(tr("&Keep informed"), this);
+
+  action = new QAction(this);
+  action->setText(tr("Subscribe to the &Newsletter..."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news with the Webots newsletter."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openNewsletterSubscription);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Join the &Discord channel..."));
+  action->setStatusTip(tr("Join our live community on Discord."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openDiscord);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Follow Webots on &Twitter..."));
+  action->setStatusTip(tr("Keep informed about the latest Webots news on Twitter."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openTwitter);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Subscribe to the Webots &YouTube chanel..."));
+  action->setStatusTip(tr("Watch the latest Webots movies on YouTube."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openYouTube);
+  followUsMenu->addAction(action);
+
+  action = new QAction(this);
+  action->setText(tr("Follow Cyberbotics on &LinkedIn..."));
+  action->setStatusTip(tr("Follow Cyberbotics on LinkedIn."));
+  connect(action, &QAction::triggered, this, &WbMainWindow::openLinkedIn);
+  followUsMenu->addAction(action);
+
+  menu->addMenu(followUsMenu);
 
   return menu;
 }
@@ -1678,39 +1719,51 @@ void WbMainWindow::showOfflineAutomobileDocumentation() {
   mDocumentation->open("automobile");
 }
 
+void WbMainWindow::openGithubRepository() {
+  showDocument(WbStandardPaths::githubRepositoryUrl());
+}
+
+void WbMainWindow::openCyberboticsWebsite() {
+  showDocument(WbStandardPaths::cyberboticsUrl());
+}
+
 void WbMainWindow::openBugReport() {
-  openSupport("bug");
+  showDocument(QString("%1/issues/new/choose").arg(WbStandardPaths::githubRepositoryUrl()));
 }
 
 void WbMainWindow::openSupportTicket() {
-  openSupport("ticket");
-}
-
-void WbMainWindow::openSupport(const QString &type) {
-  QString url = WbStandardPaths::cyberboticsUrl() + '/';
-  if (type == "bug")
-    url.append("bug_report.php?");
-  else
-    url.append("support_ticket.php?");
-  url.append("&os=");
-  url.append(WbSysInfo::sysInfo());
-  url.append("&graphics=");
   QOpenGLFunctions_3_3_Core gl;
   gl.initializeOpenGLFunctions();
-  url.append((const char *)gl.glGetString(GL_VENDOR));
-  url.append(" - ");
-  url.append((const char *)gl.glGetString(GL_RENDERER));
-  url.append(" - ");
-  url.append((const char *)gl.glGetString(GL_VERSION));
-  url.append("&version=");
-  url.append(WbApplicationInfo::version().toString(true, false, true));
-  url.append("&type=");
-  url.append(type);
+
+  QString url = QString("%1/support_ticket.php?&os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
+                  .arg(WbStandardPaths::cyberboticsUrl())
+                  .arg(WbSysInfo::sysInfo())
+                  .arg((const char *)gl.glGetString(GL_VENDOR))
+                  .arg((const char *)gl.glGetString(GL_RENDERER))
+                  .arg((const char *)gl.glGetString(GL_VERSION))
+                  .arg(WbApplicationInfo::version().toString(true, false, true));
+
   showDocument(url);
 }
 
-void WbMainWindow::showCyberboticsWebsite() {
-  showDocument(WbStandardPaths::cyberboticsUrl());
+void WbMainWindow::openNewsletterSubscription() {
+  showDocument("https://www.cyberbotics.com/news/subscribe.php");
+}
+
+void WbMainWindow::openDiscord() {
+  showDocument("https://discordapp.com/invite/nTWbN9m");
+}
+
+void WbMainWindow::openTwitter() {
+  showDocument("https://twitter.com/webots");
+}
+
+void WbMainWindow::openYouTube() {
+  showDocument("http://www.youtube.com/user/cyberboticswebots");
+}
+
+void WbMainWindow::openLinkedIn() {
+  showDocument("https://www.linkedin.com/company/20132793");
 }
 
 void WbMainWindow::newProjectDirectory() {

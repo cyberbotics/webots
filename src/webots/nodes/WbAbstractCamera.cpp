@@ -39,7 +39,11 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
+#ifndef _WIN32
+#include "WbPosixSharedMemory.hpp"
+#else
 #include <QtCore/QSharedMemory>
+#endif
 #include <QtCore/QVector>
 
 #include <wren/config.h>
@@ -49,17 +53,12 @@
 #include <wren/static_mesh.h>
 #include <wren/transform.h>
 
-#ifndef _WIN32
-// include ftok needed to get QSharedMemory unix name
-#include <sys/ipc.h>
-#include <sys/types.h>
-#endif
-
 int WbAbstractCamera::cCameraNumber = 0;
 int WbAbstractCamera::cCameraCounter = 0;
 
 void WbAbstractCamera::init() {
   mImageShm = NULL;
+  mImageData = NULL;
   mWrenCamera = NULL;
   mSensor = NULL;
   mRefreshRate = 0;
@@ -186,28 +185,24 @@ void WbAbstractCamera::initializeSharedMemory() {
   delete mImageShm;
   QString sharedMemoryName =
     QString("Webots_Camera_Image_%1_%2").arg((long)QCoreApplication::applicationPid()).arg(cCameraNumber);
+#ifndef _WIN32
+  mImageShm = new WbPosixSharedMemory(sharedMemoryName);
+#else
   mImageShm = new QSharedMemory(sharedMemoryName);
-
-  // qDebug() << "key: " << mImageShm->key();
-  // qDebug() << "nativekey: " << mImageShm->nativeKey();
-
+#endif
   // A controller of the previous simulation may have not released cleanly the shared memory (e.g. when the controller crashes).
   // This can be detected by trying to attach, and the shared memory may be cleaned by detaching.
   if (mImageShm->attach())
     mImageShm->detach();
-
   if (!mImageShm->create(size())) {
     QString message = tr("Cannot allocate shared memory. The shared memory is required for the cameras. The shared memory of "
                          "your OS is probably full. Please check your shared memory setup.");
-#ifdef __APPLE__
-    message += QString(" ") + tr("The shared memory can be extended by modifying the '/etc/sysctl.conf' file and rebooting.");
-#endif
     warn(message);
-
     delete mImageShm;
     mImageShm = NULL;
     return;
   }
+  mImageData = (unsigned char *)mImageShm->data();
 }
 
 void WbAbstractCamera::setup() {
@@ -314,12 +309,8 @@ void WbAbstractCamera::writeAnswer(QDataStream &stream) {
   if (mHasSharedMemoryChanged && mImageShm) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_CAMERA_SHARED_MEMORY;
-#ifdef _WIN32
     QByteArray n = QFile::encodeName(mImageShm ? mImageShm->nativeKey() : "");
     stream.writeRawData(n.constData(), n.size() + 1);
-#else
-    stream << (int)ftok(QFile::encodeName(mImageShm->nativeKey()), 'Q');
-#endif
     mHasSharedMemoryChanged = false;
   }
 
@@ -397,12 +388,6 @@ void WbAbstractCamera::setNodeVisibility(WbBaseNode *node, bool visible) {
 void WbAbstractCamera::removeInvisibleNodeFromList(QObject *node) {
   WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
   mInvisibleNodes.removeAll(baseNode);
-}
-
-unsigned char *WbAbstractCamera::image() const {
-  if (mImageShm == NULL)
-    return NULL;
-  return (unsigned char *)mImageShm->data();
 }
 
 void WbAbstractCamera::createWrenObjects() {

@@ -16,7 +16,9 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Enhancements
+    - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
+    - macOS and Linux: Use POSIX shared memory segments to fix the limit problems on macOS and allow for snap packaging with strict confinement on Linux.
     - Improved management of the life cycle of the Webots temporary folder.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
