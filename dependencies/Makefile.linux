@@ -51,7 +51,7 @@ open-al: $(WEBOTS_HOME_LIB)/libopenal.so.1
 
 $(WEBOTS_HOME_LIB)/libopenal.so.1: $(WEBOTS_DEPENDENCY_PATH)/openal
 	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so.1.16.0 $(WEBOTS_HOME_LIB)/libopenal.so
-	ln -s $(WEBOTS_HOME)/lib/libopenal.so $(WEBOTS_HOME_LIB)/libopenal.so.1
+	ln -s $(WEBOTS_HOME_LIB)/libopenal.so $(WEBOTS_HOME_LIB)/libopenal.so.1
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
