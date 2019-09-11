@@ -23,6 +23,6 @@ space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
-CLASSPATH = $(WEBOTS_HOME)/lib/java/vehicle.jar
+CLASSPATH = $(WEBOTS_HOME)/lib/controller/java/vehicle.jar
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.java.include

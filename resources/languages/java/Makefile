@@ -141,12 +141,12 @@ $(WRAPPER_OBJECT): $(WRAPPER)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
 
 $(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
 	$(CXX) -shared $^ -L$(WEBOTS_HOME_PATH)/lib/controller -lController -lCppController -o $@
 	@chmod a-x $@
 
 $(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/controller/java
 	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_HOME_PATH)/lib/controller -lController -lCppController $^ -o "$@"
 
 $(WEBOTS_HOME_PATH)/lib/controller/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)

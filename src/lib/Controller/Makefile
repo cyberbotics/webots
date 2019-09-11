@@ -24,7 +24,7 @@ INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I$
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
 STATIC_LIBS = $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/libjpeg.a $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff.a
 SHARED_LIBS = -lz
-TARGET      = $(WEBOTS_PATH)/lib/libController.dylib
+TARGET      = $(WEBOTS_PATH)/lib/controller/libController.dylib
 CC          = gcc
 endif
 
@@ -39,7 +39,7 @@ else
 LIB_PNG      = png12
 endif
 SHARED_LIBS = -ltiff -lm -ljpeg -lpthread -l$(LIB_PNG) -ldl -llzma -lrt
-TARGET      = $(WEBOTS_PATH)/lib/libController.so
+TARGET      = $(WEBOTS_PATH)/lib/controller/libController.so
 endif
 
 ifeq ($(OSTYPE),windows)

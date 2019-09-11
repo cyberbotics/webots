@@ -27,7 +27,7 @@ JAVA_FILES = Driver.java Car.java vehicle.java vehicleJNI.java
 
 WRAPPER = $(MODULE_NAME).cpp
 WRAPPER_OBJECT = $(WRAPPER:.cpp=.o)
-JAR = $(WEBOTS_HOME_PATH)/lib/java/$(MODULE_NAME).jar
+JAR = $(WEBOTS_HOME_PATH)/lib/controller/java/$(MODULE_NAME).jar
 INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/c/ -I$(WEBOTS_HOME_PATH)/include/controller/cpp/
 
 SWIG_OUTPUT  = output
@@ -39,14 +39,14 @@ SWIG_EXISTS = $(shell which swig 2> /dev/null)
 ifeq ($(OSTYPE),linux)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
 CFLAGS2       = -c -Wall -Wno-unused-function -fPIC
-LIBRARY       = $(WEBOTS_HOME_PATH)/lib/java/libvehicle.so
-LIB           = -L"$(WEBOTS_HOME)/lib"
+LIBRARY       = $(WEBOTS_HOME_PATH)/lib/controller/java/libvehicle.so
+LIB           = -L"$(WEBOTS_HOME)/lib/controller"
 endif
 
 ifeq ($(OSTYPE),windows)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 CFLAGS2       = -c -Wall -Wno-unused-function -O
-LIBRARY       = $(WEBOTS_HOME_PATH)/lib/java/vehicle.dll
+LIBRARY       = $(WEBOTS_HOME_PATH)/lib/controller/java/vehicle.dll
 LIB           = -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin
 endif
 
@@ -54,8 +54,8 @@ ifeq ($(OSTYPE),darwin)
 JAVA_INCLUDES = -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
 CFLAGS1 = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wl,-rpath,@loader_path/../..
 CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wno-unused-function
-LIBRARY = $(WEBOTS_HOME_PATH)/lib/java/libvehicle.jnilib
-LIB     = -L"$(WEBOTS_HOME)/lib"
+LIBRARY = $(WEBOTS_HOME_PATH)/lib/controller/java/libvehicle.jnilib
+LIB     = -L"$(WEBOTS_HOME)/lib/controller"
 endif
 
 LIB += -lController -lCppController -lCppCar -lCppDriver
@@ -73,11 +73,11 @@ else
 all release debug profile: $(JAR) $(LIBRARY)
 
 $(JAR): JAVA_CLASSES
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
 	@jar cfv "$@" $(MODULE_PATH)/*.class > /dev/null
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	@javac -target 1.8 -source 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/java/Controller.jar $(JAVA_SOURCES) -d .
+	@javac -target 1.8 -source 1.8 -classpath $(WEBOTS_HOME_PATH)/lib/controller/java/Controller.jar $(JAVA_SOURCES) -d .
 
 $(JAVA_SOURCES): $(WRAPPER)
 
@@ -89,18 +89,18 @@ $(WRAPPER_OBJECT): $(WRAPPER)
 	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
 %.so: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
 	@$(CXX) -shared $< $(LIB) -o "$@"
 
 %.dll: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
 	@$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O -lm $< $(LIB) -o "$@"
 
 %.jnilib: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/java
+	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
 	@$(CXX) $(CFLAGS1) -bundle $< $(LIB) -o "$@"
 endif
 
 clean:
 	@rm -fr com $(SWIG_OUTPUT) $(JAR) $(WRAPPER) $(LIBRARY) $(WRAPPER_OBJECT)
-	@rm -d $(WEBOTS_HOME_PATH)/lib/java > /dev/null 2>&1 || :
+	@rm -d $(WEBOTS_HOME_PATH)/lib/controller/java > /dev/null 2>&1 || :
