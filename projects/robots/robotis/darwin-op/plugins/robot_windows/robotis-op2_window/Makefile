@@ -30,7 +30,7 @@ QT = core gui widgets concurrent
 USE_C_API = true
 
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
-LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_HOME)/lib" -lssh
+LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_LIB_PATH)" -lssh
 INCLUDE = -I"$(QT_UTILS)"
 
 ifeq ($(OSTYPE),windows)

@@ -39,7 +39,7 @@ C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
 LD_FLAGS        = -shared
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
-LIB            += -L"$(WEBOTS_HOME)/lib/controller" -lController -lCppController
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController
 endif
 
 ifeq ($(OSTYPE),windows)
@@ -68,7 +68,7 @@ C_FLAGS         += -Wno-self-assign
 endif
 LD_FLAGS         = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.so) -Wl,-rpath,@loader_path/../../../../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++
 PYTHON_INCLUDES  = -I$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)
-LIB             += -L"$(WEBOTS_HOME)/lib/controller" -lController -lCppController -L"$(PYTHON_PATH)/lib/controller" -lpython$(PYTHON_VERSION)
+LIB             += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_PATH)/lib/controller" -lpython$(PYTHON_VERSION)
 LIBRARY          = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).so
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"

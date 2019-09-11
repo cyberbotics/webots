@@ -18,13 +18,13 @@ WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 ifeq ($(OSTYPE),windows)
-TARGET_ODE_LIBRARY=../../msys64/mingw64/bin/ode.dll
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/ode.dll
 endif
 ifeq ($(OSTYPE),linux)
-TARGET_ODE_LIBRARY=../../lib/webots/libode.so
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.so
 endif
 ifeq ($(OSTYPE),darwin)
-TARGET_ODE_LIBRARY=../../lib/webots/libode.dylib
+TARGET_ODE_LIBRARY=$(WEBOTS_LIB_PATH)/libode.dylib
 endif
 
 ifeq ($(MAKECMDGOALS),)

@@ -31,7 +31,7 @@ CONTROLLERPATH  = com/cyberbotics/webots/controller
 INTERFACE       = controller.i
 WRAPPER         = $(addprefix $(SWIG_OUTPUT_PATH)/,$(INTERFACE:.i=_wrap.cpp))
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
-JAR_FILE        = $(WEBOTS_HOME_PATH)/lib/controller/java/Controller.jar
+JAR_FILE        = $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar
 JAVA_FILES      = Accelerometer.java \
                   Brake.java \
                   Camera.java \
@@ -89,7 +89,7 @@ ifeq ($(OSTYPE),windows)
 CFLAGS1         = -I$(WEBOTS_HOME_PATH)/windows/include
 PLATFORM_INCLUDE= -I"$(JAVA_HOME)/include/win32"
 PLATFORM_LIBS   =
-TARGET          = $(WEBOTS_HOME_PATH)/lib/controller/java/$(LIBNAME).dll
+TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll
 CFLAGS2         = -c -Wall -Wno-unused-function -O
 JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
@@ -102,24 +102,24 @@ ifeq ($(OSTYPE),darwin)
 JAVA_HEADERS    = $(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers
 CFLAGS1         = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 PLATFORM_INCLUDE= -I"$(JAVA_HEADERS)"
-TARGET          = $(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).jnilib
+TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib
 CFLAGS2         = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-unused-function
 JNILIB_FLAGS    = -dynamiclib -install_name @rpath/lib/controller/java/libJavaController.jnilib -Wl,-rpath,@loader_path/../..
 JAVA_INCLUDES   = -I$(JAVA_HEADERS)
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/controller/libController.dylib
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/controller/libCppController.dylib
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ECHO_N          = '\c'ifdef USE_STD_CXX
 
 else #Linux
 CFLAGS1         = -fPIC
 PLATFORM_INCLUDE= -I"$(JAVA_HOME)/include/linux" -I"/usr/X11R6/include"
 PLATFORM_LIBS   =
-TARGET          = $(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).so
+TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so
 CFLAGS2         = -c -Wall -Wno-unused-function -fPIC
 JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/controller/libController.so
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/controller/libCppController.so
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
 ECHO_N          = -n
 endif
 endif
@@ -140,22 +140,22 @@ JAVA_CLASSES: $(JAVA_SOURCES)
 $(WRAPPER_OBJECT): $(WRAPPER)
 	$(CXX) $(CFLAGS2) $(WEBOTS_INCLUDES) $(JAVA_INCLUDES) $< -o $@
 
-$(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
-	$(CXX) -shared $^ -L$(WEBOTS_HOME_PATH)/lib/controller -lController -lCppController -o $@
+$(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
+	$(CXX) -shared $^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -o $@
 	@chmod a-x $@
 
-$(WEBOTS_HOME_PATH)/lib/controller/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/controller/java
-	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_HOME_PATH)/lib/controller -lController -lCppController $^ -o "$@"
+$(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/controller/java
+	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
 
-$(WEBOTS_HOME_PATH)/lib/controller/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
+$(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
 	$^ -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): JAVA_CLASSES
-	@mkdir -p $(WEBOTS_HOME_PATH)/lib/controller/java
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
 
 $(JAVA_SOURCES): $(WRAPPER)
@@ -176,4 +176,4 @@ ifneq ($(SWIG_EXISTS),) # otherwise a user may break the distribution
 FILES_TO_REMOVE = $(SWIG_OUTPUT_PATH)
 endif
 FILES_TO_REMOVE += $(TARGET) $(JAR_FILE) *.o com
-EMPTY_DIRECTORIES_TO_REMOVE = $(WEBOTS_HOME_PATH)/lib/controller/java
+EMPTY_DIRECTORIES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/java
