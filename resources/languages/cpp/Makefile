@@ -70,21 +70,21 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 LDFLAGS       = -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
+SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib/controller -lController
 CPPFLAGS      = -c -fPIC -Wall -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.dylib
-LDFLAGS      += -install_name @rpath/lib/libCppController.dylib
-TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/controller/libController.dylib
+LDFLAGS      += -install_name @rpath/lib/controller/libCppController.dylib
+TARGET        = $(WEBOTS_HOME_PATH)/lib/controller/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
 LDFLAGS       = -shared
-SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib -lController
+SHAREDLIBS    = -L$(WEBOTS_HOME_PATH)/lib/controller -lController
 CPPFLAGS      = -c -fpic -Wall
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/libController.so
-TARGET        = $(WEBOTS_HOME_PATH)/lib/libCppController.so
+LIBCONTROLLER = $(WEBOTS_HOME_PATH)/lib/controller/libController.so
+TARGET        = $(WEBOTS_HOME_PATH)/lib/controller/libCppController.so
 endif
 
 ifeq ($(TREAT_WARNINGS_AS_ERRORS),1)
@@ -112,6 +112,6 @@ $(LIBCONTROLLER):
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a *.def *.exp
 else
-FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/lib/*Cpp*
+FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/lib/controller/*Cpp*
 endif
 FILES_TO_REMOVE += $(CPPOBJS) $(DEPENDENCIES)

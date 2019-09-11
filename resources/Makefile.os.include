@@ -91,7 +91,7 @@ ifeq ($(OSTYPE),windows)
 else
  LIB_PREFIX = lib
  WEBOTS_LIB_PATH=$(WEBOTS_HOME)/lib/webots
- WEBOTS__CONTROLLER_LIB_PATH=$(WEBOTS_HOME)/lib
+ WEBOTS__CONTROLLER_LIB_PATH=$(WEBOTS_HOME)/lib/controller
  ifeq ($(OSTYPE),linux)
   SHARED_LIB_EXTENSION = .so
  else # macOS
