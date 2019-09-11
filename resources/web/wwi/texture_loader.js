@@ -15,6 +15,10 @@ var TextureLoader = {
     return new THREE.Texture();
   },
 
+  applyTextureTransform: function(texture, transformData) {
+    this._getInstance().applyTextureTransform(texture, transformData);
+  },
+
   createColoredCubeTexture: function(color, width = 1, height = 1) {
     // Create an off-screen canvas.
     var canvas = document.createElement('canvas');
@@ -132,27 +136,8 @@ class _TextureLoaderObject {
     newTexture.wrapT = textureData.wrap.t === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     newTexture.anisotropy = textureData.anisotropy;
 
-    if (typeof textureData.transform !== 'undefined') {
-      newTexture.matrixAutoUpdate = false;
-      newTexture.onUpdate = () => {
-        // X3D UV transform matrix differs from THREE.js default one
-        // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
-        var c = Math.cos(-textureData.transform.rotation);
-        var s = Math.sin(-textureData.transform.rotation);
-        var sx = textureData.transform.scale.x;
-        var sy = textureData.transform.scale.y;
-        var cx = textureData.transform.center.x;
-        var cy = textureData.transform.center.y;
-        var tx = textureData.transform.translation.x;
-        var ty = textureData.transform.translation.y;
-        newTexture.matrix.set(
-          sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
-          -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
-          0, 0, 1
-        );
-      };
-      newTexture.needsUpdate = true;
-    }
+    if (typeof textureData.transform !== 'undefined')
+      this.applyTextureTransform(newTexture, textureData.transform);
     // This is the encoding used in Webots.
     newTexture.encoding = THREE.sRGBEncoding;
     return newTexture;
@@ -349,4 +334,31 @@ function hasJPEGExtension(name) {
 
 function hasHDRExtension(name) {
   return name.search(/\.hdr($|\?)/i) > 0 || name.search(/^data:image\/hdr/) === 0;
+}
+
+function applyTextureTransform(texture, transformData) {
+  if (transformData !== 'undefined') {
+    texture.matrixAutoUpdate = false;
+    texture.onUpdate = () => {
+      // X3D UV transform matrix differs from THREE.js default one
+      // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
+      var c = Math.cos(-transformData.rotation);
+      var s = Math.sin(-transformData.rotation);
+      var sx = transformData.scale.x;
+      var sy = transformData.scale.y;
+      var cx = transformData.center.x;
+      var cy = transformData.center.y;
+      var tx = transformData.translation.x;
+      var ty = transformData.translation.y;
+      texture.matrix.set(
+        sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
+        -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
+        0, 0, 1
+      );
+    };
+  } else {
+    texture.matrixAutoUpdate = true;
+    texture.onUpdate = null;
+  }
+  texture.needsUpdate = true;
 }

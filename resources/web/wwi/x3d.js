@@ -123,7 +123,9 @@ THREE.X3DLoader = class X3DLoader {
       let material = this.parsePBRAppearance(node);
       if (typeof material !== 'undefined')
         parentObject.material = material;
-    } else {
+    } else if (node.tagName === 'TextureTransform')
+      X3DLoader.applyTextureTransformToMaterial(parentObject, this.parseTextureTransform(node));
+    else {
       let geometry = this.parseGeometry(node);
       if (typeof geometry !== 'undefined') {
         if (!parentObject.isMesh) {
@@ -415,14 +417,8 @@ THREE.X3DLoader = class X3DLoader {
       var defTexture = this._getDefNode(textureTransform[0]);
       if (typeof defTexture !== 'undefined')
         transformData = defTexture.userData.transform;
-      else {
-        transformData = {
-          'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
-          'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
-          'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
-          'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
-        };
-      }
+      else
+        transformData = this.parseTextureTransform(textureTransform);
     }
 
     // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
@@ -443,6 +439,18 @@ THREE.X3DLoader = class X3DLoader {
       this._setCustomId(textureTransform[0], texture);
     this._setCustomId(imageTexture, texture);
     return texture;
+  }
+
+  parseTextureTransform(textureTransform, textureObject = undefined) {
+    var transformData = {
+      'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
+      'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
+      'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
+      'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
+    };
+    if (typeof textureObject !== 'undefined' && textureObject.isTexture)
+      TextureLoader.applyTextureTransform(textureObject, transformData);
+    return transformData;
   }
 
   parseIndexedFaceSet(ifs) {
@@ -1071,6 +1079,18 @@ THREE.X3DLoader = class X3DLoader {
     if (typeof defNode === 'undefined')
       console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
     return defNode;
+  }
+
+  static applyTextureTransformToMaterial(material, textureTransform) {
+    if (typeof material === 'undefined' || !material.isMaterial) {
+      console.error('X3DLoader:parseTextureTransform: invalid parent object.');
+      return;
+    }
+    var maps = [material.map, material.roughnessMap, material.metalnessMap, material.normalMap, material.emissiveMap, material.aoMap];
+    maps.forEach((map) => {
+      if (map && map.isTexture)
+        TextureLoader.applyTextureTransform(map, textureTransform);
+    });
   }
 };
 
