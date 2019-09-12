@@ -55,7 +55,7 @@ class Vec3(object):
         if isinstance(other, Vec3):
             #  Dot product
             return self.x * other.x + self.y * other.y + self.z * other.z
-        elif isinstance(other, float):
+        elif isinstance(other, float) or isinstance(other, int):
             #  Scalar product
             return Vec3(self.x * other, self.y * other, self.z * other)
         else:
@@ -66,7 +66,7 @@ class Vec3(object):
         if isinstance(other, Vec3):
             #  Dot product
             return self.x / other.x + self.y / other.y + self.z / other.z
-        elif isinstance(other, float):
+        elif isinstance(other, float) or isinstance(other, int):
             #  Scalar product
             return Vec3(self.x / other, self.y / other, self.z / other)
         else:
@@ -87,6 +87,10 @@ class Vec3(object):
     def normalize(self):
         """Normalize the vector."""
         return self / self.norm()
+
+    def abs(self):
+        """returns a vector without signs."""
+        return Vec3(abs(self.x), abs(self.y), abs(self.z))
 
     def cross(self, other):
         """Cross product."""
