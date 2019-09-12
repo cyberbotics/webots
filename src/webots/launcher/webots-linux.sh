@@ -1,4 +1,20 @@
 #!/bin/bash
+
+# prepare for handling program termination
+kill_webots() {
+  kill -TERM "${webots_pid}" &> /dev/null
+}
+handle_termination() {
+  if [ "${webots_pid}" ]; then
+    kill_webots
+  else
+    term_kill_needed="yes"
+  fi
+}
+unset webots_pid
+unset term_kill_needed
+trap 'handle_termination' TERM INT
+
 # get the location of the Webots binary, even if defined into a relative symlinks
 webotsHome="$(dirname "$(readlink -f "$0")")"
 
@@ -37,11 +53,15 @@ else
   "$webotsHome/bin/webots-bin" "$@" &
 fi
 
+# wait for termination
 webots_pid=$!
+if [ "${term_kill_needed}" ]; then
+  kill_webots
+fi
+wait ${webots_pid}
+trap - TERM INT
+wait ${webots_pid}
 
-trap 'kill $webots_pid &> /dev/null' EXIT
-
-wait $webots_pid
 webots_return_code=$?
 
 # cleanup every shared memory segment created by Webots (useful in case of crash of Webots)
