@@ -3,8 +3,8 @@ WEBOTS_PATH=~/develop/webots
 
 # prepare Webots
 cd $WEBOTS_PATH
-rm -fr Contents/Frameworks/Qt* bin/qt/lupdate bin/qt/lrelease bin/qt/moc include/qt lib/qt
-mkdir lib/qt
+rm -fr Contents/Frameworks/Qt* bin/qt/lupdate bin/qt/lrelease bin/qt/moc include/qt lib/webots/qt
+mkdir lib/webots/qt
 mkdir include/qt
 
 # populate webots
@@ -44,18 +44,18 @@ do
   cp -R lib/$f.framework $WEBOTS_PATH/Contents/Frameworks
 done
 
-mkdir $WEBOTS_PATH/lib/qt/plugins
-mkdir $WEBOTS_PATH/lib/qt/plugins/imageformats
-mkdir $WEBOTS_PATH/lib/qt/plugins/platforms
-mkdir $WEBOTS_PATH/lib/qt/plugins/printsupport
-mkdir $WEBOTS_PATH/lib/qt/plugins/styles
-mkdir $WEBOTS_PATH/lib/qt/libexec
-cp plugins/imageformats/libqjpeg.dylib $WEBOTS_PATH/lib/qt/plugins/imageformats/
-cp plugins/platforms/libqcocoa.dylib $WEBOTS_PATH/lib/qt/plugins/platforms/
-cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_PATH/lib/qt/plugins/printsupport/
-cp plugins/styles/libqmacstyle.dylib $WEBOTS_PATH/lib/qt/plugins/styles/
+mkdir $WEBOTS_PATH/lib/webots/qt/plugins
+mkdir $WEBOTS_PATH/lib/webots/qt/plugins/imageformats
+mkdir $WEBOTS_PATH/lib/webots/qt/plugins/platforms
+mkdir $WEBOTS_PATH/lib/webots/qt/plugins/printsupport
+mkdir $WEBOTS_PATH/lib/webots/qt/plugins/styles
+mkdir $WEBOTS_PATH/lib/webots/qt/libexec
+cp plugins/imageformats/libqjpeg.dylib $WEBOTS_PATH/lib/webots/qt/plugins/imageformats/
+cp plugins/platforms/libqcocoa.dylib $WEBOTS_PATH/lib/webots/qt/plugins/platforms/
+cp plugins/printsupport/libcocoaprintersupport.dylib $WEBOTS_PATH/lib/webots/qt/plugins/printsupport/
+cp plugins/styles/libqmacstyle.dylib $WEBOTS_PATH/lib/webots/qt/plugins/styles/
 cp ../../Examples/Qt-$QT_VERSION/webchannel/shared/qwebchannel.js $WEBOTS_PATH/resources/web/local/qwebchannel.js
-echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_PATH/lib/qt/libexec/qt.conf
+echo $'[Paths]\nPrefix = ..\n' > $WEBOTS_PATH/lib/webots/qt/libexec/qt.conf
 
 # remove the debug frameworks
 cd  $WEBOTS_PATH/Contents/Frameworks/
@@ -77,15 +77,15 @@ do
 done
 
 # Render the plugins relative to the executable:
-cd $WEBOTS_PATH/lib/qt/plugins
+cd $WEBOTS_PATH/lib/webots/qt/plugins
 
 declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "printsupport/libcocoaprintersupport.dylib" "styles/libqmacstyle.dylib")
 
 for lib in "${libs[@]}"
 do
-  install_name_tool -id @rpath/lib/qt/plugins/$lib $lib
+  install_name_tool -id @rpath/lib/webots/qt/plugins/$lib $lib
   install_name_tool -delete_rpath @executable_path/Frameworks $lib
-  install_name_tool -delete_rpath @loader_path/../../lib $lib
+  install_name_tool -delete_rpath @loader_path/../../lib/webots $lib
   install_name_tool -add_rpath @loader_path/../../../.. $lib
   for f in "${qtFrameworks[@]}"
   do
@@ -95,10 +95,10 @@ done
 
 # Change the RPATH of the executables
 cd $WEBOTS_PATH/bin/qt
-install_name_tool -rpath @loader_path/../lib @loader_path/../.. lrelease
+install_name_tool -rpath @loader_path/../lib/webots @loader_path/../.. lrelease
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lrelease
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lrelease
-install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
+install_name_tool -rpath @loader_path/../lib/webots @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
@@ -117,6 +117,6 @@ cd $WEBOTS_PATH
 
 ARCHIVE=qt-$QT_VERSION-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
-tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
+tar cjf $ARCHIVE Contents/Frameworks/Qt* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
 
 echo Done.
