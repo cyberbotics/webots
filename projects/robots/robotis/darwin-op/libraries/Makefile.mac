@@ -1,6 +1,6 @@
 
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
-WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
+DARWIN_OP_LIB_PATH = $(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries
 
 DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/develop
 
@@ -17,12 +17,12 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 
 ssh-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE) $(WEBOTS_HOME_LIB)/libssh* $(WEBOTS_HOME_LIB)ssh/include/libssh
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE) $(DARWIN_OP_LIB_PATH)/libssh
 
-ssh: $(WEBOTS_HOME_LIB)/libssh.4.dylib
+ssh: $(DARWIN_OP_LIB_PATH)/libssh/libssh.4.dylib
 
-$(WEBOTS_HOME_LIB)/libssh.4.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
-	tar xvjfm $(SSH_PACKAGE) -C $(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries
+$(DARWIN_OP_LIB_PATH)/libssh/libssh.4.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
+	tar xvjfm $(SSH_PACKAGE) -C $(DARWIN_OP_LIB_PATH)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
@@ -31,12 +31,12 @@ $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
 
 
 zip-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE) $(WEBOTS_HOME_LIB)/libzip* $(WEBOTS_HOME_LIB)zip/include/libzip
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE) $(DARWIN_OP_LIB_PATH)/libzip
 
-zip: $(WEBOTS_HOME_LIB)/libnihzip.dylib
+zip: $(DARWIN_OP_LIB_PATH)/libzip/libnihzip.dylib
 
-$(WEBOTS_HOME_LIB)/libnihzip.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
-	tar xvjfm $(ZIP_PACKAGE) -C $(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries
+$(DARWIN_OP_LIB_PATH)/libzip/libnihzip.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
+	tar xvjfm $(ZIP_PACKAGE) -C $(DARWIN_OP_LIB_PATH)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
