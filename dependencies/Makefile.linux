@@ -8,14 +8,18 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/linux64/release/develop
 
+# Webots dependencies
 QT_PACKAGE = webots-qt-5.11.2-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
-OPENCV_PACKAGE = opencv-linux64.tar.gz
 OIS_PACKAGE = libOIS.1.4.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
 OPENSSL_PACKAGE = libssl_1.0.2.tar.bz2
+
+# samples dependencies
+OPENCV_PACKAGE = opencv-linux64.tar.gz
+
 
 PACKAGES = qt open-al open-cv ois pico lua-gd lua
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
@@ -61,12 +65,12 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 
 
 open-cv-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME_LIB)/libopencv_* $(WEBOTS_HOME)/include/opencv2
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
 
-open-cv: $(WEBOTS_HOME_LIB)/libopencv_core.so.2.4.3
+open-cv: $(WEBOTS_HOME)/lib/controller/libopencv_core.so.2.4.3
 
-$(WEBOTS_HOME_LIB)/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME_LIB)
+$(WEBOTS_HOME)/lib/controller/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
+	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib/controller
 	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
 
 $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
