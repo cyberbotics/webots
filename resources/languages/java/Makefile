@@ -146,7 +146,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).so: $(WRAPPER_OBJECT)
 	@chmod a-x $@
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
-	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/controller/java
+	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) $(CFLAGS1) $(JNILIB_FLAGS) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController $^ -o "$@"
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
