@@ -52,12 +52,12 @@ const QString &WbStandardPaths::webotsHomePath() {
 };
 
 const QString &WbStandardPaths::webotsLibPath() {
-  static QString path = webotsHomePath() + "lib/webots";
+  static QString path = webotsHomePath() + "lib/webots/";
   return path;
 }
 
 const QString &WbStandardPaths::controllerLibPath() {
-  static QString path = webotsHomePath() + "lib/controller";
+  static QString path = webotsHomePath() + "lib/controller/";
   return path;
 }
 
