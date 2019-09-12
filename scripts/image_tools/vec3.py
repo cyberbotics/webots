@@ -30,7 +30,7 @@ class Vec3(object):
 
     def __repr__(self):
         """To String conversion."""
-        return 'vec3({}, {})'.format(self.x, self.y, self.z)
+        return 'vec3({}, {}, {})'.format(self.x, self.y, self.z)
 
     def __eq__(self, other):
         """Equality operator."""
