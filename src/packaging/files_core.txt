@@ -28,11 +28,6 @@ include/plugins/
 include/plugins/*.h
 include/libjpeg/ [mac]
 include/libjpeg/*.h [mac]
-include/libssh/ [mac]
-include/libssh/libssh/ [mac]
-include/libssh/libssh/*.h [mac]
-include/libzip/ [mac]
-include/libzip/*.h [mac]
 include/qt/ [windows,linux]
 include/qt/QtConcurrent/ [windows,linux]
 include/qt/QtConcurrent/QtConcurrent/ [windows,linux]
@@ -86,18 +81,12 @@ lib/
 lib/webots/ [linux,mac]
 lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
-lib/webots/libnihzip.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]
 lib/webots/libode.so [linux]
 lib/webots/libode.dylib [mac]
 lib/webots/libpico.so [linux]
 lib/webots/libpico.dylib [mac]
-lib/webots/libssh.4.dylib [mac]
-lib/webots/libopencv_core.so.2.4.3 [linux]
-lib/webots/libopencv_imgproc.so.2.4.3 [linux]
-lib/webots/libopencv_core.2.4.3.dylib [mac]
-lib/webots/libopencv_imgproc.2.4.3.dylib [mac]
 lib/webots/libQt5Concurrent.so.5 [linux]
 lib/webots/libQt5Core.so.5 [linux]
 lib/webots/libQt5DBus.so.5 [linux]
@@ -203,6 +192,11 @@ lib/controller/python37/_*.pyd [windows]
 lib/controller/matlab/
 lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m
+
+lib/controller/libopencv_core.so.2.4.3 [linux]
+lib/controller/libopencv_imgproc.so.2.4.3 [linux]
+lib/controller/libopencv_core.2.4.3.dylib [mac]
+lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
 
 resources/
 resources/icons/
