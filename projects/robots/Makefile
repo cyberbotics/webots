@@ -77,7 +77,7 @@ release debug profile clean: $(TARGETS)
 
 # libraries dependencies
 
-robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefil: robotis/darwin-op/libraries.Makefile
+robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
 
