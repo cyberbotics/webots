@@ -96,3 +96,8 @@
 
 # needed to recompile the Qt-based robot windows (darwin-op or automobile)
 /mingw64/bin/moc.exe
+
+# needed to allow users to create translations in their own language
+/mingw64/bin/linguist.exe
+/mingw64/bin/lupdate.exe
+/mingw64/bin/lrelease.exe
