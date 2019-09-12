@@ -22,6 +22,8 @@ endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
+.DEFAULT_GOAL := release
+
 #directories
 SWIG            = swig
 SWIG_OUTPUT_PATH= SWIG_generated_files
