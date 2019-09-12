@@ -6,23 +6,31 @@ WEBOTS_HOME_LIB = $(WEBOTS_HOME)/lib/webots
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/develop
 
+# Webots dependencies
 QT_PACKAGE = qt-5.11.2-release.tar.bz2
 ASSIMP_PACKAGE = assimp.tar.bz2
 FREETYPE_PACKAGE = macos-precompiled-freetype-2.9.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
-JPEG_PACKAGE = jpeg-9b.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.bz2
 LUA_GD_PACKAGE = gd.tar.bz2
 MINIGLU_PACKAGE = libminiglu.tar.gz
 OIS_PACKAGE = libOIS.tar.bz2
 OPENAL_PACKAGE = openal-mac-1.16.0.tar.bz2
-OPENCV_PACKAGE = opencv-2.4.3.tar.bz2
 OPENSSL_PACKAGE = openssl-1.0.2-precompiled.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
+
+# samples dependencies
+OPENCV_PACKAGE = opencv-2.4.3.tar.bz2
+
+# libController dependencies (static)
 PNG_PACKAGE = libpng-1.0.12.tar.bz2
-SSH_PACKAGE = libssh.tar.bz2
 TIFF_PACKAGE = libtiff.tar.bz2
+JPEG_PACKAGE = jpeg-9b.tar.bz2
+
+# darwin-op dependencies (to move)
+SSH_PACKAGE = libssh.tar.bz2
 ZIP_PACKAGE = libzip.tar.bz2
+
 
 PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal opencv openssl pico png ssh tiff zip
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
