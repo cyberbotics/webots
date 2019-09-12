@@ -30,22 +30,21 @@ QT = core gui widgets concurrent
 USE_C_API = true
 
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
-LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -L"$(WEBOTS_LIB_PATH)" -lssh
+LIBRARIES = -L"$(QT_UTILS)" -lqt_utils
 INCLUDE = -I"$(QT_UTILS)"
 
 ifeq ($(OSTYPE),windows)
-LIBRARIES += -L/mingw64/bin -lpthread -lzip
+LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lssh -lpthread -lzip
 INCLUDE += -I/mingw64/include -I/mingw64/lib/libzip/include
-else
-INCLUDE += -I"$(WEBOTS_HOME)/include/libzip" -I"$(WEBOTS_HOME)/include/libssh"
 endif
 
 ifeq ($(OSTYPE),darwin)
-LIBRARIES += -lnihzip
+LIBRARIES += -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip" -lnihzip -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh" -lssh
+INCLUDE += -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip/include/libzip" -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh/include/libssh"
 endif
 
 ifeq ($(OSTYPE),linux)
-LIBRARIES += -lzip
+LIBRARIES += -lssh -lzip
 endif
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

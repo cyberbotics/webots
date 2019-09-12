@@ -27,12 +27,8 @@ PNG_PACKAGE = libpng-1.0.12.tar.bz2
 TIFF_PACKAGE = libtiff.tar.bz2
 JPEG_PACKAGE = jpeg-9b.tar.bz2
 
-# darwin-op dependencies (to move)
-SSH_PACKAGE = libssh.tar.bz2
-ZIP_PACKAGE = libzip.tar.bz2
 
-
-PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal opencv openssl pico png ssh tiff zip
+PACKAGES = qt assimp freetype ffmpeg jpeg lua lua-gd miniglu ois openal opencv openssl pico png tiff
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
@@ -250,20 +246,6 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE):
 	touch $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 
 
-ssh-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE) $(WEBOTS_HOME_LIB)/libssh* $(WEBOTS_HOME_LIB)ssh/include/libssh
-
-ssh: $(WEBOTS_HOME_LIB)/libssh.4.dylib
-
-$(WEBOTS_HOME_LIB)/libssh.4.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
-	tar xvjfm $(SSH_PACKAGE) -C $(WEBOTS_HOME)
-
-$(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(SSH_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
-
-
 tiff-clean:
 	rm -rf $(WEBOTS_HOME)/include/libtiff $(WEBOTS_DEPENDENCY_PATH)/libtiff
 
@@ -278,17 +260,3 @@ $(WEBOTS_DEPENDENCY_PATH)/libtiff:
 	wget $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	tar xvjfm $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
-
-
-zip-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE) $(WEBOTS_HOME_LIB)/libzip* $(WEBOTS_HOME_LIB)zip/include/libzip
-
-zip: $(WEBOTS_HOME_LIB)/libnihzip.dylib
-
-$(WEBOTS_HOME_LIB)/libnihzip.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
-	tar xvjfm $(ZIP_PACKAGE) -C $(WEBOTS_HOME)
-
-$(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(ZIP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
