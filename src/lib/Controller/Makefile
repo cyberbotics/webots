@@ -21,7 +21,7 @@ WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_PATH)/dependencies
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
 INCLUDE     = -I$(WEBOTS_PATH)/include/controller/c -I$(WEBOTS_PATH)/include -I$(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12 -I$(WEBOTS_PATH)/include/libjpeg -I$(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff
-LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
+LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
 STATIC_LIBS = $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/libjpeg.a $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff.a
 SHARED_LIBS = -lz
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
