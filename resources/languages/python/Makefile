@@ -40,7 +40,7 @@ SPACE          +=
 PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
-LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController
+LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
 DEF             = _controller3.def
@@ -48,8 +48,8 @@ else
 DEF             = _controller2.def
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)

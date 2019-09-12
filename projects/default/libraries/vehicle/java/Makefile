@@ -40,14 +40,12 @@ ifeq ($(OSTYPE),linux)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
 CFLAGS2       = -c -Wall -Wno-unused-function -fPIC
 LIBRARY       = $(WEBOTS_CONTROLLER_LIB_PATH)/java/libvehicle.so
-LIB           = -L"$(WEBOTS_CONTROLLER_LIB_PATH)"
 endif
 
 ifeq ($(OSTYPE),windows)
 JAVA_INCLUDES = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
 CFLAGS2       = -c -Wall -Wno-unused-function -O
 LIBRARY       = $(WEBOTS_CONTROLLER_LIB_PATH)/java/vehicle.dll
-LIB           = -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -55,10 +53,9 @@ JAVA_INCLUDES = -I"$(MACOSX_SDK_PATH)/System/Library/Frameworks/JavaVM.framework
 CFLAGS1 = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wl,-rpath,@loader_path/../..
 CFLAGS2 = -c -Wall -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -stdlib=libc++ -Wno-unused-function
 LIBRARY = $(WEBOTS_CONTROLLER_LIB_PATH)/java/libvehicle.jnilib
-LIB     = -L"$(WEBOTS_CONTROLLER_LIB_PATH)"
 endif
 
-LIB += -lController -lCppController -lCppCar -lCppDriver
+LIB += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -lCppCar -lCppDriver
 
 .PHONY: JAVA_CLASSES all
 

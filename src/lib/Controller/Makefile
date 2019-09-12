@@ -49,7 +49,7 @@ LD_FLAGS    = -shared -mwindows --def Controller.def
 STATIC_LIBS = -static -lpng -lz -ljpeg -ltiff -llzma -lzstd
 PLATFORM    = win32
 CC          = gcc
-TARGET      = $(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll $(WEBOTS_PATH)/msys64/mingw64/lib/Controller.lib
+TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
 ifeq (,$(wildcard /mingw32/bin/gcc))
 NO_GCC32=1
 endif
@@ -142,20 +142,20 @@ ifeq ($(OSTYPE),windows)
 MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
 MINGW32_OBJECTS = $(addprefix $(OBJDIR)/mingw32/, $(OBJECTS))
 
-$(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll: $(MINGW64_OBJECTS) Controller.def
+$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 	@echo "# linking Controller.dll and libController.a"
-	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_PATH)/msys64/mingw64/lib/libController.a -L/mingw64/lib $(STATIC_LIBS)
+	@$(CC) $(LD_FLAGS) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a -L/mingw64/lib $(STATIC_LIBS)
 ifeq ($(NO_GCC32),1)
 	@echo -e "# \033[0;33mmissing 32 bit gcc or dependencies, skipping 32 bit version of Controller.dll\033[0m"
 endif
 
-$(WEBOTS_PATH)/msys64/mingw64/lib/Controller.lib: $(WEBOTS_PATH)/msys64/mingw64/bin/Controller.dll Controller.def
+$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
 	@echo -e "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib\033[0m"
 else
 	@echo "# creating Controller.lib"
 	@PATH="$(VISUAL_STUDIO_PATH)/VC/bin":"$(VISUAL_STUDIO_PATH)/Common7/IDE":"$(PATH)" lib /machine:X64 /def:Controller.def /out:Controller.lib > /dev/null
-	@mv Controller.lib "$(WEBOTS_PATH)/msys64/mingw64/lib/"
+	@mv Controller.lib "$(WEBOTS_CONTROLLER_LIB_PATH)"
 	@rm Controller.exp
 endif
 
@@ -198,7 +198,7 @@ $(OBJDIR)/%.d:%.c
 clean:
 	@-rm -rf build
 	@-rm -fr $(TARGET)
-	@-rm -fr "$(WEBOTS_PATH)/msys64/mingw64/lib/libController.a"
+	@-rm -fr "$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a"
 	@-rm -fr "$(WEBOTS_PATH)/msys64/mingw32/lib/libController.a"
 
 count-lines:

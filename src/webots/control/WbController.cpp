@@ -347,10 +347,10 @@ void WbController::setProcessEnvironment() {
   // store a unique robot ID for the controller
   addPathEnvironmentVariable(env, "WEBOTS_ROBOT_ID", QString::number(mRobot->uniqueId()), true);
 
-#ifndef _WIN32
   // Add the Webots lib path to be able to load (at least) libController
   addPathEnvironmentVariable(env, ldEnvironmentVariable, WbStandardPaths::controllerLibPath(), false);
 
+#ifndef _WIN32
   // add the controller path in the PATH-like environment variable
   // in order to be able to add easily dynamic libraries there
   // Note: on windows, this is the default behavior

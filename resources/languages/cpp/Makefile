@@ -60,12 +60,12 @@ CPPOBJS        = $(CPPSRC:.cpp=.o)
 DEPENDENCIES   = $(CPPSRC:.cpp=.d)
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a
-LIBCONTROLLER = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
+LDFLAGS       = -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
+LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-TARGET        = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -110,7 +110,7 @@ $(LIBCONTROLLER):
 	$(CXX) $(CPPINCLUDES) -MM $< > $@
 
 ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll $(WEBOTS_HOME_PATH)/msys64/mingw64/lib/libCppController.a *.def *.exp
+FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a *.def *.exp
 else
 FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/*Cpp*
 endif

@@ -95,8 +95,8 @@ TARGET          = $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll
 CFLAGS2         = -c -Wall -Wno-unused-function -O
 JNILIB_FLAGS    = -bundle
 JAVA_INCLUDES   = -I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/win32"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 ECHO_N          = -n
 else
 
@@ -154,7 +154,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/lib$(LIBNAME).jnilib: $(WRAPPER_OBJECT)
 $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O \
-	$^ -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController -lm -o "$@"
+	$^ -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lm -o "$@"
 
 $(JAR_FILE): JAVA_CLASSES
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java

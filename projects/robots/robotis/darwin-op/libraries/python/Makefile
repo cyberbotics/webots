@@ -50,7 +50,7 @@ C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
 LIBRARY         = $(PYTHON_LIB_FOLDER)/_$(MODULE_NAME).pyd
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIB            += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
+LIB            += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController -lCppController -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION)
 endif
 
 ifeq ($(OSTYPE),darwin)
