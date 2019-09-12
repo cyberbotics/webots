@@ -58,6 +58,7 @@ assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
 	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME_LIB)
+	install_name_tool -id @rpath/lib/webots/libassimp.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
