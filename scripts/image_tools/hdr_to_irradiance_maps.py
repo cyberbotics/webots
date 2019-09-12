@@ -18,8 +18,9 @@
 import math
 import optparse
 import os
+import sys
 
-from clamp import clamp_int
+# from clamp import clamp_int
 from hdr import HDR
 from vec3 import Vec3
 
@@ -50,10 +51,15 @@ def drange(start, stop, step):
 
 
 print('Create the diffuse irradiance map...')
-irradiance_map = HDR.create_black_image(32, 32)
-for y in range(32):
-    for x in range(32):
-        N = Vec3(0.0, 0.0, 0.0)  # hu?
+size = 32
+irradiance_map = HDR.create_black_image(size, size)
+for y in range(size):
+    sys.stdout.write("\r %3.0f %%" % (100.0 * (1.0 + y) / size))
+    sys.stdout.flush()
+    y0 = float(y) / size - 0.5
+    for x in range(size):
+        x0 = float(x) / size - 0.5
+        N = Vec3(x0, y0, -1.0).normalize()
         irradiance = Vec3(0.0, 0.0, 0.0)
         up = Vec3(0.0, 1.0, 0.0)
         right = up.cross(N)
@@ -66,12 +72,12 @@ for y in range(32):
                 tangentSample = Vec3(math.sin(theta) * math.cos(phi), math.sin(theta) * math.sin(phi), math.cos(theta))
                 sampleVec = right * tangentSample.x + up * tangentSample.y + N * tangentSample.z
 
-                p1 = hdr.get_pixel(int(sampleVec.x), int(sampleVec.y))
+                p1 = hdr.get_pixel(int(hdr.width * (sampleVec.x / 2.0 + 0.5)), int(hdr.height * (sampleVec.y / 2.0 + 0.5)))  # A picking in the entire HDR cubemap is required.
                 p1 = Vec3(p1[0], p1[1], p1[2])
                 irradiance += p1 * math.cos(theta) * math.sin(theta)
                 nrSamples += 1.0
-        irradiance = irradiance * math.pi * (1.0 / float(nrSamples))
-
+        irradiance = irradiance * math.pi / nrSamples
         pixel = (irradiance.x, irradiance.y, irradiance.z)
         irradiance_map.set_pixel(x, y, pixel)
+sys.stdout.write("\n")
 irradiance_map.save(irradiance_map_path)
