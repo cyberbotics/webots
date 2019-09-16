@@ -28,10 +28,12 @@ import optparse
 import os
 import sys
 
+from geometry.vec2 import Vec2
 from geometry.vec3 import Vec3
 from geometry.cubemap import cubemap_lookup, face_normals
 from images.hdr import HDR
 from utils.range import clamp_int, drange
+from utils.specular import distributionGGX, hammersley, importanceSampleGGX
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
 optParser.add_option(
@@ -42,18 +44,31 @@ optParser.add_option(
     '--input-name', '-n', dest='name', default='cubemap', type='string',
     help='specifies the common name prefix of the HDR images'
 )
+optParser.add_option(
+    '--no-diffuse', dest='diffuse', default=True, action='store_false',
+    help='do not generate the diffuse irradiance maps.'
+)
+optParser.add_option(
+    '--no-specular', dest='specular', default=True, action='store_false',
+    help='do not generate the specular irradiance maps.'
+)
 options, args = optParser.parse_args()
 
 suffixes = ['right', 'left', 'top', 'bottom', 'front', 'back']
 
 hdr_paths = []
-diffuse_irradiance_map_paths = []
 for suffix in suffixes:
     hdr_paths.append(os.path.join(options.dir, options.name + '_' + suffix + '.hdr'))
+
+diffuse_irradiance_map_paths = []
+for suffix in suffixes:
     diffuse_irradiance_map_paths.append(os.path.join(options.dir, options.name + '_' + suffix + '.dm.hdr'))
 
+specular_irradiance_map_paths = []
+for suffix in suffixes:
+    specular_irradiance_map_paths.append(os.path.join(options.dir, options.name + '_' + suffix + '.sm.hdr'))
+
 for i in range(len(hdr_paths)):
-    assert hdr_paths[i] != diffuse_irradiance_map_paths[i], 'Identical input and output paths.'
     assert os.path.isfile(hdr_paths[i]), 'Input file doest not exits.'
 
 hdrs = []
@@ -63,8 +78,10 @@ for path in hdr_paths:
     assert hdr.is_valid(), 'Invalid input HDR file.'
     hdrs.append(hdr)
 
-
+# DIFFUSE IRRADIANCE MAPS
 for i in range(len(diffuse_irradiance_map_paths)):
+    if not options.diffuse:
+        continue
     print('Create the "%s" irradiance map...' % diffuse_irradiance_map_paths[i])
     size = 32
     irradiance_map = HDR.create_black_image(size, size)
@@ -87,7 +104,7 @@ for i in range(len(diffuse_irradiance_map_paths)):
                     tangentSample = Vec3(math.sin(theta) * math.cos(phi), math.sin(theta) * math.sin(phi), math.cos(theta))
                     sampleVec = right * tangentSample.x + up * tangentSample.y + N * tangentSample.z
                     (u, v, fi) = cubemap_lookup(sampleVec)
-                    p1 = hdrs[i].get_pixel(
+                    p1 = hdrs[fi].get_pixel(
                         clamp_int(hdrs[fi].width * u, 0, hdrs[fi].width - 1),
                         clamp_int(hdrs[fi].height * v, 0, hdrs[fi].height - 1)
                     )
@@ -100,3 +117,65 @@ for i in range(len(diffuse_irradiance_map_paths)):
             irradiance_map.set_pixel(x, y, pixel)
     sys.stdout.write('\n')
     irradiance_map.save(diffuse_irradiance_map_paths[i])
+
+# SPECULAR IRRADIANCE MAPS
+for i in range(len(specular_irradiance_map_paths)):
+    if not options.specular:
+        continue
+    print('Create the "%s" irradiance map...' % diffuse_irradiance_map_paths[i])
+    size = 8  # TODO: should be 256
+    irradiance_map = HDR.create_black_image(size, size)
+    for y in range(size):
+        sys.stdout.write('\r %3.0f %%' % (100.0 * (1.0 + y) / size))
+        sys.stdout.flush()
+        y0 = 2.0 * (float(y) / size) - 1.0
+        for x in range(size):
+            x0 = 2.0 * (float(x) / size) - 1.0
+            N = face_normals(i, x0, y0)
+            R = N
+            V = R
+            # p1 = hdrs[i].get_pixel()
+
+            # ------------
+
+            SAMPLE_COUNT = 2048
+            prefilteredColor = Vec3()
+            totalWeight = 0.0
+
+            roughness = 0.5  # TODO: this is an input
+
+            for s in range(SAMPLE_COUNT):
+                # generates a sample vector that's biased towards the preferred alignment direction (importance sampling).
+                Xi = hammersley(s, SAMPLE_COUNT)
+                H = importanceSampleGGX(Xi, N, roughness)
+                L = (H * (V * H * 2.0) - V).normalize()
+
+                NdotL = max(N * L, 0.0)
+                if NdotL > 0.0:
+                    # sample from the environment's mip level based on roughness/pdf
+                    D = distributionGGX(N, H, roughness)
+                    NdotH = max(N * H, 0.0)
+                    HdotV = max(H * V, 0.0)
+                    pdf = D * NdotH / (4.0 * HdotV) + 0.0001
+
+                    resolution = 1024.0  # resolution of source cubemap (per face)
+                    saTexel = 4.0 * math.pi / (6.0 * resolution * resolution)
+                    saSample = 1.0 / (float(SAMPLE_COUNT) * pdf + 0.0001)
+
+                    mipLevel = 0.0 if roughness == 0.0 else 0.5 * math.log(saSample / saTexel, 2)
+
+                    (u, v, fi) = cubemap_lookup(L)  # TODO: mipLevel not dealt here
+                    p1 = hdrs[fi].get_pixel(
+                        clamp_int(hdrs[fi].width * u, 0, hdrs[fi].width - 1),
+                        clamp_int(hdrs[fi].height * v, 0, hdrs[fi].height - 1)
+                    )
+                    p1 = Vec3(p1[0], p1[1], p1[2]) * NdotL
+
+                    prefilteredColor += p1
+                    totalWeight += NdotL
+
+            prefilteredColor = prefilteredColor / totalWeight
+            pixel = (prefilteredColor.x, prefilteredColor.y, prefilteredColor.z)
+            irradiance_map.set_pixel(x, y, pixel)
+    sys.stdout.write('\n')
+    irradiance_map.save(specular_irradiance_map_paths[i])
