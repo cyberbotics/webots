@@ -22,9 +22,9 @@ import optparse
 import os
 import math
 
-from hdr import HDR
-from regular_image import RegularImage
-from clamp import clamp_int
+from images.hdr import HDR
+from images.regular_image import RegularImage
+from utils.clamp import clamp_int
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr [options]')
 optParser.add_option(

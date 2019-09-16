@@ -28,9 +28,9 @@ import optparse
 import os
 import sys
 
-from clamp import clamp_int
-from hdr import HDR
-from vec3 import Vec3
+from utils.clamp import clamp_int
+from images.hdr import HDR
+from geometry.vec3 import Vec3
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
 optParser.add_option(
