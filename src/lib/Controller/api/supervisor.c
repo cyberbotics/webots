@@ -165,7 +165,7 @@ static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
     // look for the previous node in the list
-    if (node_list == node)  // the node was the first of the list
+    if (node_list == node)  // the node is the first of the list
       node_list = node->next;
     else {
       WbNodeRef previous_node_in_list = node_list;
