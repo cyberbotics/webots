@@ -80,6 +80,10 @@ class Vec3(object):
         """Divide the vector to another."""
         return self.__truediv__(other)
 
+    def pow(self, e):
+        """Return the vector at the power e."""
+        return Vec3(math.pow(self.x, e), math.pow(self.y, e), math.pow(self.z, e))
+
     def norm(self):
         """Compute the vector norm."""
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)

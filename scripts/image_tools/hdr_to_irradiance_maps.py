@@ -15,6 +15,14 @@
 """Convert an HDR image to HDR irradiance maps."""
 # The irradiance maps are generated in the same directory as the input HDR image.
 
+# FYI cubemap directions:
+# right = 1.0f, 0.0f, 0.0f
+# left = -1.0f, 0.0f, 0.0f
+# top = 0.0f, 1.0f, 0.0f
+# bottom = 0.0f, -1.0f, 0.0f
+# front = 0.0f, 0.0f, 1.0f
+# back = 0.0f, 0.0f, -1.0f
+
 import math
 import optparse
 import os
@@ -68,13 +76,6 @@ def cubemap_lookup(direction):
     u = 0.0
     v = 0.0
     fi = 0
-    # cubemap directions:
-    # right = 1.0f, 0.0f, 0.0f
-    # left = -1.0f, 0.0f, 0.0f
-    # top = 0.0f, 1.0f, 0.0f
-    # bottom = 0.0f, -1.0f, 0.0f
-    # front = 0.0f, 0.0f, 1.0f
-    # back = 0.0f, 0.0f, -1.0f
     if abs.z >= abs.x and abs.z >= abs.y:
         fi = 5 if direction.z < 0.0 else 4
         ma = 0.5 / abs.z
@@ -93,6 +94,21 @@ def cubemap_lookup(direction):
     return (u * ma + 0.5, v * ma + 0.5, fi)
 
 
+def face_normals(fi, x=0.0, y=0.0):
+    if i == 0:
+        return Vec3(-1.0, y, x).normalize()
+    elif i == 1:
+        return Vec3(1.0, y, x).normalize()
+    elif i == 2:
+        return Vec3(x, -1.0, y).normalize()
+    elif i == 3:
+        return Vec3(x, 1.0, y).normalize()
+    elif i == 4:
+        return Vec3(x, y, -1.0).normalize()
+    else:  # i == 5
+        return Vec3(x, y, 1.0).normalize()
+
+
 for i in range(len(diffuse_irradiance_map_paths)):
     print('Create the "%s" irradiance map...' % diffuse_irradiance_map_paths[i])
     size = 32
@@ -101,21 +117,9 @@ for i in range(len(diffuse_irradiance_map_paths)):
         sys.stdout.write('\r %3.0f %%' % (100.0 * (1.0 + y) / size))
         sys.stdout.flush()
         y0 = 2.0 * (float(y) / size) - 1.0
-        N = Vec3()
         for x in range(size):
             x0 = 2.0 * (float(x) / size) - 1.0
-            if i == 0:
-                N = Vec3(1.0, y0, -x0).normalize()
-            elif i == 1:
-                N = Vec3(-1.0, y0, -x0).normalize()
-            elif i == 2:
-                N = Vec3(x0, 1.0, y0).normalize()
-            elif i == 3:
-                N = Vec3(x0, -1.0, y0).normalize()
-            elif i == 4:
-                N = Vec3(x0, -y0, 1.0).normalize()
-            elif i == 5:
-                N = Vec3(x0, -y0, -1.0).normalize()
+            N = face_normals(i, x0, y0)
             irradiance = Vec3(0.0, 0.0, 0.0)
             up = Vec3(0.0, 1.0, 0.0)
             right = up.cross(N)
@@ -136,6 +140,7 @@ for i in range(len(diffuse_irradiance_map_paths)):
                     irradiance += p1 * math.cos(theta) * math.sin(theta)
                     nrSamples += 1
             irradiance = irradiance * math.pi / nrSamples
+            irradiance = irradiance.pow(2.0)
             pixel = (irradiance.x, irradiance.y, irradiance.z)
             irradiance_map.set_pixel(x, y, pixel)
     sys.stdout.write('\n')
