@@ -101,10 +101,21 @@ for i in range(len(diffuse_irradiance_map_paths)):
         sys.stdout.write('\r %3.0f %%' % (100.0 * (1.0 + y) / size))
         sys.stdout.flush()
         y0 = 2.0 * (float(y) / size) - 1.0
+        N = Vec3()
         for x in range(size):
             x0 = 2.0 * (float(x) / size) - 1.0
-            # N = Vec3(x0, y0, -1.0).normalize()
-            N = Vec3(x0, 1.0, y0).normalize()
+            if i == 0:
+                N = Vec3(1.0, y0, -x0).normalize()
+            elif i == 1:
+                N = Vec3(-1.0, y0, -x0).normalize()
+            elif i == 2:
+                N = Vec3(x0, 1.0, y0).normalize()
+            elif i == 3:
+                N = Vec3(x0, -1.0, y0).normalize()
+            elif i == 4:
+                N = Vec3(x0, -y0, 1.0).normalize()
+            elif i == 5:
+                N = Vec3(x0, -y0, -1.0).normalize()
             irradiance = Vec3(0.0, 0.0, 0.0)
             up = Vec3(0.0, 1.0, 0.0)
             right = up.cross(N)
