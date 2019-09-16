@@ -1614,7 +1614,7 @@ void wb_supervisor_node_remove(WbNodeRef node) {
   if (!robot_check_supervisor("wb_supervisor_node_remove"))
     return;
 
-  if (!is_node_ref_valid(node)) {
+  if (!is_node_ref_valid(node) || node->id == 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: wb_supervisor_node_remove() called with NULL or invalid 'node' argument.\n");
     return;
