@@ -28,11 +28,10 @@ import optparse
 import os
 import sys
 
-from geometry.vec2 import Vec2
 from geometry.vec3 import Vec3
 from geometry.cubemap import cubemap_lookup, face_normals
 from images.hdr import HDR
-from utils.range import clamp_int, drange
+from utils.range import drange
 from utils.specular import distributionGGX, hammersley, importanceSampleGGX
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
@@ -105,8 +104,8 @@ for i in range(len(diffuse_irradiance_map_paths)):
                     sampleVec = right * tangentSample.x + up * tangentSample.y + N * tangentSample.z
                     (u, v, fi) = cubemap_lookup(sampleVec)
                     p1 = hdrs[fi].get_pixel(
-                        clamp_int(hdrs[fi].width * u, 0, hdrs[fi].width - 1),
-                        clamp_int(hdrs[fi].height * v, 0, hdrs[fi].height - 1)
+                        int(u * (hdrs[fi].width - 1)),
+                        int(v * (hdrs[fi].height - 1))
                     )
                     p1 = Vec3(p1[0], p1[1], p1[2])
                     irradiance += p1 * math.cos(theta) * math.sin(theta)
@@ -166,8 +165,8 @@ for i in range(len(specular_irradiance_map_paths)):
 
                     (u, v, fi) = cubemap_lookup(L)  # TODO: mipLevel not dealt here
                     p1 = hdrs[fi].get_pixel(
-                        clamp_int(hdrs[fi].width * u, 0, hdrs[fi].width - 1),
-                        clamp_int(hdrs[fi].height * v, 0, hdrs[fi].height - 1)
+                        int(u * (hdrs[fi].width - 1)),
+                        int(v * (hdrs[fi].height - 1))
                     )
                     p1 = Vec3(p1[0], p1[1], p1[2]) * NdotL
 
