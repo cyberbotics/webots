@@ -85,7 +85,7 @@ for lib in "${libs[@]}"
 do
   install_name_tool -id @rpath/lib/webots/qt/plugins/$lib $lib
   install_name_tool -delete_rpath @executable_path/Frameworks $lib
-  install_name_tool -delete_rpath @loader_path/../../lib/webots $lib
+  install_name_tool -delete_rpath @loader_path/../../lib $lib
   install_name_tool -add_rpath @loader_path/../../../.. $lib
   for f in "${qtFrameworks[@]}"
   do
@@ -95,10 +95,10 @@ done
 
 # Change the RPATH of the executables
 cd $WEBOTS_PATH/bin/qt
-install_name_tool -rpath @loader_path/../lib/webots @loader_path/../.. lrelease
+install_name_tool -rpath @loader_path/../lib @loader_path/../.. lrelease
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lrelease
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lrelease
-install_name_tool -rpath @loader_path/../lib/webots @loader_path/../.. lupdate
+install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/5/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/5/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/5/QtXml lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
