@@ -452,8 +452,7 @@ THREE.X3DLoader = class X3DLoader {
       var isDefaultMapping = getNodeAttribute(ifs, 'defaultMapping', 'false').toLowerCase() === 'true';
       var texcoords = texcoordsStr.split(/\s/);
       var uvs = [];
-      let offset = 0;
-      for (let i = 0; i < texcoords.length; i += 2, offset += 1) {
+      for (let i = 0; i < texcoords.length; i += 2) {
         v = new THREE.Vector2();
         v.x = parseFloat(texcoords[i + 0]);
         v.y = parseFloat(texcoords[i + 1]);
@@ -461,10 +460,8 @@ THREE.X3DLoader = class X3DLoader {
           // add small offset to avoid using the exact same texture coordinates for a face
           // (i.e. mapping to a line or a point) that is causing an rendering issue
           // https://github.com/cyberbotics/webots/issues/752
-          if (offset === 3)
-            offset = 0;
-          v.x += 0.0001 * offset;
-          v.y += 0.0001 * offset;
+          v.x += 0.01 * Math.random();
+          v.y += 0.01 * Math.random();
         }
         uvs.push(v);
       }
