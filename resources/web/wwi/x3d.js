@@ -459,7 +459,7 @@ THREE.X3DLoader = class X3DLoader {
         v.y = parseFloat(texcoords[i + 1]);
         if (isDefaultMapping) {
           // add small offset to avoid using the exact same texture coordinates for a face
-          // (i.e. mapping to a line or a point) that is causing an rendering issue
+          // (i.e. mapping to a line or a point) that is causing a rendering issue
           // https://github.com/cyberbotics/webots/issues/752
           if (offset === 3)
             offset = 0;
