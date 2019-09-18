@@ -79,6 +79,8 @@ private:
   // user accessible fields
   WbMFColor *mSkyColor;
   WbMFString *mUrlFields[6];
+  WbMFString *mDiffuseIrradianceUrlFields[6];
+  WbMFString *mSpecularIrradianceUrlFields[6];
   WbSFDouble *mLuminosity;
 
   // skybox related fields
