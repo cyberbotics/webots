@@ -1,4 +1,4 @@
-## Tutorial 3: Appearance (15 Minutes)
+## Tutorial 3: Appearance (20 minutes)
 
 The aim of this tutorial is to familiarize yourself with some nodes related to the graphical rendering.
 Good looking simulations can be created very quickly when these nodes are used adequately.
@@ -33,19 +33,21 @@ The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pb
 Among other things, these nodes are responsible for the color and texture of objects.
 
 > **Hands-on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
-Set its `baseColor` field to blue using the color selector.
-Set its `metalness` field to 0 using the field editor.
-Finally, set its `roughness` field to 0.5 using the field editor.
-If the DEF-USE mechanism of the previous tutorial has been correctly implemented, all the walls should turn blue.
+1. Set its `baseColor` field to blue using the color selector.
+2. Set its `metalness` field to 0 using the field editor.
+3. Finally, set its `roughness` field to 0.5 using the field editor.
+4. If the DEF-USE mechanism of the previous tutorial has been correctly implemented, all the walls should turn blue.
 
 ### Add a Texture to the Ball
 
 The aim of this subsection is to apply a texture on the ball.
 A texture on a rolling object can help to appreciate its movement.
 
-> **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball. As before, set the `metalness` field to 0 and the `roughness` field to 1. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
-Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
+> **Hands-on #3**: Similarly add a [PBRAppearance](../reference/pbrappearance.md) node to the ball.
+1. As before, set the `metalness` field to 0 and the `roughness` field to 1.
+2. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
+1. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
+2. Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
 
 The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.
@@ -67,6 +69,9 @@ Webots offers several rendering modes available in the `View` menu.
 
 > **Hands-on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
 Then restore the plain rendering mode: `View / Plain Rendering`.
+Tips :
+* You can add the origin's axis : `View / Optional Rendering / Show Coordinate1 System (Ctrl + F1)`
+* You can see the distance sensor range : `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`
 
 ### Conclusion
 
