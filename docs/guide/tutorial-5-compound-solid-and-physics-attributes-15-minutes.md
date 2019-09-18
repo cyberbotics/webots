@@ -18,7 +18,7 @@ The expected result is depicted in [this figure](#expected-result-at-the-end-of-
 It is possible to build [Solid](../reference/solid.md) nodes more complex than what we have seen before by aggregating [Shape](../reference/shape.md) nodes.
 In fact, both the physical and the graphical properties of a [Solid](../reference/solid.md) can be made of several [Shape](../reference/shape.md) nodes.
 Moreover each [Shape](../reference/shape.md) node can be placed in a [Transform](../reference/transform.md) node in order to change its relative position and orientation.
-Group nodes can also be used to group several sub-nodes.
+[Group](../reference/group.md) nodes can also be used to group several sub-nodes.
 
 We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylinder.md)) and of two weights ([Sphere](../reference/sphere.md)) located at each end of the handle.
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.

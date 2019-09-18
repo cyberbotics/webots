@@ -1,4 +1,4 @@
-## Tutorial 6: 4-Wheels Robot
+## Tutorial 6: 4-Wheels Robot (60 minutes)
 
 The aim of this tutorial is to create your first robot from scratch.
 This robot will be made of a body, four wheels, and two distance sensors.
@@ -99,9 +99,8 @@ graph TD
     HingeJoint -->|endPoint| Solid[[DEF WHEEL1 Solid](../reference/solid.md)]
       Solid -->|physics| Physics2[[DEF WHEEL_PH Physics](../reference/physics.md)]
       Solid -->|boundingObject| USEWHEEL[USE WHEEL]
-      Solid -->|children| Transform[[DEF WHEEL Transform](../reference/transform.md)]
-        Transform -->|children| Shape2[[Shape](../reference/shape.md)]
-          Transform -.- USEWHEEL
+      Solid -->|children| Shape2[[DEF WHEEL Shape](../reference/shape.md)]
+          Shape2 -.- USEWHEEL
           Shape2 -->|geometry| Cylinder[[Cylinder](../reference/cylinder.md)]
   Robot -.->|children| OtherWheels["Other wheels (using WHEEL and WHEEL_PH)"]
 
@@ -131,28 +130,47 @@ In our case it's along the x-axis (so `(1, 0, 0)`).
 Some signs obviously have to be updated for other wheels.
 
 We want now to implement the cylinder shape of the wheels.
-As the [Cylinder](../reference/cylinder.md) node is defined along the *y*-axis, a [Transform](../reference/transform.md) node should encapsulate the [Shape](../reference/shape.md) to rotate the [Cylinder](../reference/cylinder.md) along the along the *x*-axis.
 
 > **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheels-robot).
 Don't forget the [Physics](../reference/physics.md) nodes.
-Rotate the [Transform](../reference/transform.md) node by an Euler axis and angle of `(0, 0, 1, 1.5708)` in order to inverse the *x*-axis and the *y*-axis.
-The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
+
+For each [HingeJoint](../reference/hingejoint.md), there is three nodes to set.
+* **jointParameters** : Select a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.06 0 -0.05) and axis fields (1 0 0). These values have to be modified according to the localisation of the wheel.
+* **device** : Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices). These labels will be used to reference the wheels from the controller.
+* **endPoint** : Add a [Solid](../reference/solid.md) node, then a Geometry to create a [Cylinder](../reference/cylinder.md). The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
 Set the color of the wheels to green.
-In order to be able to actuate the wheels, add a [RotationalMotor](../reference/rotationalmotor.md) to each [HingeJoint](../reference/hingejoint.md), and change their `name` fields from `wheel1` to `wheel4`.
-These labels will be used to reference the wheels from the controller.
+
 
 ### Sensors
+
+The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers-20-minutes.md) are not the same as those used in this section. Pay attention to their measuring interval which is between 0 and 1000. This can be check on the `lookupTable` node where the first parameter is **NEED TO COMPLETE** and the second one defines the distance for the 1000 value. By default, 1000 is equal to  10 cm and the intermediate points are linearly interpolated.
+
+
+
 
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
 Note that the distance sensor acquires its data along the +*x*-axis.
 So rotating the distance sensors in order to point their *x*-axis outside the robot is necessary (see the [figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices)).
 
+<details>
+  <summary>**Reminder** : How to know the orientation of the distance sensor ?</summary>
+
+As already says in [Tutorial 3](tutorial-3-appearance-15-minutes.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+
+</details>
+
 > **Hands on #5**: Add the two distance sensors as explained above.
 The distance sensors are at an angle to 0.3 [rad] with the robot front vector.
 Set their graphical and physical shape to a cube (not transformed) having a edge of `0.01` [m].
 Set their color to blue.
 Set their `name` field according to the labels of [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices).
+
+<details>
+  <summary>**Tips** : How to orient distance sensor quite precisely ?</summary>
+In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
+
+</details>
 
 ### Controller
 
@@ -297,10 +315,13 @@ wb_motor_set_velocity(wheels[0], speed);
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
 Note that the `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) nodes indicates which values are returned by the sensor.
+To help in the debugging with the sensors, it is possible to have a graphic evolution of the value. To do this, double-click on the robot body and it will bring up a menu on the left with the [DistanceSensor](../reference/distancesensor.md) and [RotationalMotor](../reference/rotationalmotor.md) graph. Run the simulation to see the evolution.
 
 Don't forget to set the `controller` field of the [Robot](../reference/robot.md) node to indicate your new controller.
 
 As usual a possible solution of this exercise is located in the tutorials directory.
+
+
 
 ### The Controller Code
 

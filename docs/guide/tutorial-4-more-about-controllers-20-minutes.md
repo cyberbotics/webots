@@ -1,4 +1,4 @@
-## Tutorial 4: More about Controllers (20 Minutes)
+## Tutorial 4: More about Controllers (30 inutes)
 
 Now we start to tackle the topics related to programming robot controllers.
 We will design a simple controller that avoids the obstacles created in the previous tutorials.
@@ -16,6 +16,10 @@ At the end of the chapter, links to further robotics algorithms are given.
 > **Hands on #1**: Save the previous world as `collision_avoidance.wbt`.
 Create a new C (or any other language) controller called `e-puck_avoid_collision` (for C++ and Java call it `EPuckAvoidCollision` instead) using the wizard.
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
+
+<details><summary>Reminder : How to create a controller ?</summary>
+  Select `New Robot Controller...` from the `Wizards` menu Then, choose your programming language and the file name.
+</details>
 
 ### Understand the e-puck Model
 

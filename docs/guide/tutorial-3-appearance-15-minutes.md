@@ -15,8 +15,15 @@ The result at the end of this tutorial is shown in [this figure](#simulation-aft
 The lighting of a world is determined by [Light](../reference/light.md) nodes and the [Background](../reference/background.md) .
 There are three types of light nodes: the [DirectionalLight](../reference/directionallight.md), the [PointLight](../reference/pointlight.md) and the [SpotLight](../reference/spotlight.md).
 A [DirectionalLight](../reference/directionallight.md) simulates a light which is infinitely far (ex: the sun), a [PointLight](../reference/pointlight.md) simulates light emitted from a single point (ex: a light bulb), and a [SpotLight](../reference/spotlight.md) simulates a conical light (ex: a flashlight).
+[This figure](#comparison-of-the-three-lighting-possible-in-webots) shows a comparison between them.
 Each type of light node can cast shadows.
 You can find their complete documentation in the [Reference Manual](../reference/nodes-and-api-functions.md).
+
+%figure "Comparison of the three lighting possible in Webots. Left [DirectionalLight](../reference/directionallight.md), middle [SpotLight](../reference/spotlight.md) and right [PointLight](../reference/pointlight.md)"
+
+![tutorial_light_comparison.png](images/tutorial_light_comparison.thumbnail.jpg)
+
+%end
 
 Lights are costly in term of performance and reduce the simulation speed (especially when they cast shadows).
 Minimizing the number of lights increases the rendering speed.
@@ -31,6 +38,15 @@ The aim of this subsection is to color the walls in blue.
 
 The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pbrappearance.md) nodes of the [Shape](../reference/shape.md) node determine the graphical appearance of the object.
 Among other things, these nodes are responsible for the color and texture of objects.
+
+Prefer PBRAppereances for a better texture rendering as shown in the following comparison.
+
+%figure "Comparison between `Appearance` nodes (left) and `PBRAppearance` nodes (right)."
+
+![tutorial_appearance.png](images/tutorial_appearance.thumbnail.jpg)
+
+%end
+
 
 > **Hands-on #2**: In the [Shape](../reference/shape.md) node representing graphically the first wall, add a [PBRAppearance](../reference/pbrappearance.md) node to the `appearance` field.
 1. Set its `baseColor` field to blue using the color selector.
@@ -47,7 +63,8 @@ A texture on a rolling object can help to appreciate its movement.
 1. As before, set the `metalness` field to 0 and the `roughness` field to 1.
 2. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 1. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
-2. Then set the value of the newly added `url` item to "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)" using the file selection dialog.
+2. Then set the value of the newly added `url` item using the "Select" button.
+3. Follow the path "[WEBOTS\_HOME/projects/default/worlds/textures/red\_brick\_wall.jpg](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds/textures/red_brick_wall.jpg)". Normally it should be "usr/local/webots/projects/default/worlds/textures/red\_brick\_wall.jpg".
 
 The texture URLs must be defined either relative to the `worlds` directory of your project directory or relative to the default project directory [`WEBOTS_HOME/projects/default/worlds`](https://github.com/cyberbotics/webots/tree/master/projects/default/worlds).
 In the default project directory you will find textures that are available for every world.
@@ -69,13 +86,14 @@ Webots offers several rendering modes available in the `View` menu.
 
 > **Hands-on #4**: View the simulation in wireframe mode by using the `View / Wireframe Rendering` menu item.
 Then restore the plain rendering mode: `View / Plain Rendering`.
-Tips :
-* You can add the origin's axis : `View / Optional Rendering / Show Coordinate1 System (Ctrl + F1)`
-* You can see the distance sensor range : `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`
+
+Others rendering features that can be helpful:
+* View Coordinates systems : `View / Optional Rendering / Show Coordinates System (Ctrl + F1)`
+* View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`
 
 ### Conclusion
 
-In this tutorial, you have learnt how to set up a good looking environment using the [PBRAppearance](../reference/pbrappearance.md) node and the light nodes.
+In this tutorial, you have learned how to set up a good looking environment using the [PBRAppearance](../reference/pbrappearance.md) node and the light nodes.
 
 You can go further on this topic by reading the detailed description of these nodes in the `Reference Manual`.
 This [section](modeling.md#how-to-get-a-realisitc-and-efficient-rendering) will give you a method to efficiently setup these nodes.
