@@ -28,7 +28,7 @@ fi
 export WEBOTS_TMP_PATH="/tmp/webots-$$/"
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
-export LD_LIBRARY_PATH="$webotsHome/lib/":$TMP_LIB_DIR:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="$webotsHome/lib/webots/":$TMP_LIB_DIR:$LD_LIBRARY_PATH
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then

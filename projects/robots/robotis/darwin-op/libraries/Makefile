@@ -64,4 +64,5 @@ ifeq ($(OSTYPE),darwin)
 	+make -s -C python $(MAKECMDGOALS)
 	@echo "# make" $@ python3.7;
 	+PYTHON_COMMAND=python3.7 make -s -C python $(MAKECMDGOALS)
+	+make -f Makefile.mac $(MAKECMDGOALS)
 endif

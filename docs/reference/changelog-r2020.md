@@ -17,5 +17,7 @@ Released on XXX YYth, 2019.
       - Improved the console log history. Added a button to clear the console.
     - Improved graphics quality of the [robotbenchmark](https://robotbenchmark.net) worlds.
     - Replaced the [Viewpoint](viewpoint.md) `followOrientation` field by a `followType` field for more flexibility.
+  - Enhancements
+    - Separate the Webots and controller libraries to avoid possible conflicts with external libraries.
   - New Samples
     - Added a `complete_apartment` world.
