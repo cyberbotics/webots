@@ -77,7 +77,7 @@ In the `Property Pages`, in the `Configuration Properties`, enter following conf
         Linker > Input > Additional Dependencies:
           Controller.lib
         Linker > General > Additional Library Directories:
-          C:\Program Files\Webots\msys64\mingw64\lib\
+          C:\Program Files\Webots\lib\controller\
 
     Note that with old versions of Visual Studio, the default target is a 32-bit binary.
     In case you are compiling the controller as a 32-bit binary, you will need to link it with the 32-bit version of the Controller library instead:

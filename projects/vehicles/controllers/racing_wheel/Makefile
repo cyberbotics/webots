@@ -27,7 +27,7 @@ LIBRARIES = -ldriver -lcar -lCppDriver
 
 ifeq ($(OSTYPE),linux)
 CFLAGS = -fPIC
-LIBRARIES += -Wl,-rpath,$(WEBOTS_HOME_PATH)/lib
+LIBRARIES += -Wl,-rpath,$(WEBOTS_LIB_PATH)
 endif
 
 QT = core

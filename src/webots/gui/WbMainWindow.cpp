@@ -1674,8 +1674,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QUrl u("file:///" + url);

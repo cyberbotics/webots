@@ -61,7 +61,7 @@ endif
 	@printf "# distribution compiled in %d:%02d:%02d\n" $$(($(DT) / 3600)) $$(($(DT) % 3600 / 60)) $$(($(DT) % 60))
 
 ifeq ($(OSTYPE),windows)
-CLEAN_IGNORE += -e lib/qt -e include/qt
+CLEAN_IGNORE += -e lib/webots/qt -e include/qt
 endif
 
 # we should make clean before building a release
