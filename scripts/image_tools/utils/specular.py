@@ -31,6 +31,8 @@ def distributionGGX(N, H, roughness):
     denom = (NdotH2 * (a2 - 1.0) + 1.0)
     denom = math.pi * denom * denom
 
+    if denom == 0.0:
+        return 0.0
     ret = nom / denom
     assert isinstance(ret, float)
     return ret
