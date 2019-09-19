@@ -25,10 +25,6 @@
 #include <math.h>
 #include <unistd.h>
 #include <QtCore/QFile>
-
-extern "C" {
-#include <pci/pci.h>
-}
 #endif
 
 #ifdef _WIN32
@@ -47,7 +43,7 @@ typedef void(WINAPI *PGNSI)(LPSYSTEM_INFO);
 #include <sys/sysctl.h>
 #endif
 
-#ifndef __APPLE__
+#ifdef __WIN32
 static quint32 gDeviceId = 0;
 static quint32 gVendorId = 0;
 
@@ -65,77 +61,6 @@ static void updateGpuIds(QOpenGLFunctions *gl) {
   gDeviceId = adapterinfo.DeviceId;
   gVendorId = adapterinfo.VendorId;
   d3d_Object->Release();
-
-#elif defined(__linux__)
-  // inspired from https://github.com/adobe/chromium/blob/master/content/gpu/gpu_info_collector_linux.cc
-  struct pci_access *pacc;
-  struct pci_dev *dev;
-
-  pacc = pci_alloc();
-  pci_init(pacc);
-  pci_scan_bus(pacc);
-
-  // find the DISPLAY VGA devices in the PCI list
-  QList<struct pci_dev *> gpuList;
-  for (dev = pacc->devices; dev; dev = dev->next) {
-    pci_fill_info(dev, PCI_FILL_IDENT | PCI_FILL_CLASS);
-    if (dev->device_class == 0x0300)  // DISPLAY_VGA
-      gpuList << dev;
-  }
-
-  // determine the active GPU
-  struct pci_dev *activeGPU = NULL;
-  if (gpuList.size() == 1)
-    activeGPU = gpuList[0];
-  else {
-    // If more than one graphics card are identified, find the one that matches
-    // GL_VENDOR and GL_RENDERER info.
-    QString glVendor((const char *)gl->glGetString(GL_VENDOR));
-    QString glRenderer((const char *)gl->glGetString(GL_RENDERER));
-    QList<struct pci_dev *> candidates;
-    const int buffer_size = 256;
-    char *buffer = new char[buffer_size];
-    foreach (struct pci_dev *dev, gpuList) {
-      if (pci_lookup_name(pacc, buffer, buffer_size, PCI_LOOKUP_VENDOR, dev->vendor_id) != buffer)
-        continue;
-      QString vendor(buffer);
-
-      if (!glVendor.startsWith(vendor, Qt::CaseInsensitive))
-        continue;
-
-      if (pci_lookup_name(pacc, buffer, buffer_size, PCI_LOOKUP_DEVICE, dev->vendor_id, dev->device_id) != buffer)
-        continue;
-      QString device(buffer);
-
-      int begin = device.indexOf('[');
-      int end = device.lastIndexOf(']');
-
-      if (begin != -1 && end != -1 && begin < end)
-        device = device.mid(begin + 1, end - begin - 1);
-
-      if (glRenderer.startsWith(device, Qt::CaseInsensitive)) {
-        activeGPU = dev;
-        break;
-      }
-
-      // Fallback case:
-      // If a device's vendor name matches GL_VENDOR string but the device's
-      // renderer name doesn't match GL_RENDERER, we want to consider the
-      // possibility that libpci may not return the exact same name as GL_RENDERER string.
-      candidates.append(dev);
-    }
-    delete[] buffer;
-    if (activeGPU == NULL && candidates.size() == 1)
-      activeGPU = candidates[0];
-  }
-
-  if (activeGPU) {
-    gDeviceId = activeGPU->device_id;
-    gVendorId = activeGPU->vendor_id;
-  }
-
-  pci_cleanup(pacc);
-
 #else
   assert(0);  // To be implemented
 #endif
@@ -481,7 +406,7 @@ bool WbSysInfo::isVirtualMachine() {
   return false;
 }
 
-#ifndef __APPLE__
+#ifdef _WIN32
 quint32 WbSysInfo::gpuDeviceId(QOpenGLFunctions *gl) {
   updateGpuIds(gl);
   return gDeviceId;
