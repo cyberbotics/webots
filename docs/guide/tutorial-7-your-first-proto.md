@@ -73,9 +73,8 @@ To link the fields you should use the IS keyword, simply replace the `translatio
   translation IS translation
   rotation IS rotation
 ```
-instead of
 
-And the `mass kg` field of the [Physics](../reference/physics.md) node of the [Robot](../reference/robot.md) node by:
+And the `mass` field of the [Physics](../reference/physics.md) node of the [Robot](../reference/robot.md) node by:
 ```
   mass IS bodyMass
 ```
