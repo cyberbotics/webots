@@ -10,6 +10,7 @@ Released on XXX YYth, 2019.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Copper`, `Grass`, `LedStrip`, `MarbleTiles`, `Pcb`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+    - Added a C3dViewer PROTO to visualize C3D files in Webots.
     - Added a new HDR background: `noon_cloudy_countryside`
     - E-puck2
       - Added the pi-puck extension.
@@ -19,13 +20,17 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Enhancements
+    - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
+    - macOS and Linux: Use POSIX shared memory segments to fix the limit problems on macOS and allow for snap packaging with strict confinement on Linux.
+    - Improved management of the life cycle of the Webots temporary folder.
   - Bug fixes
     - Webots online 3D viewer (`webots.min.js`)
       - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
     - Fixed `realistic_village.wbt` materials.
@@ -35,6 +40,8 @@ Released on XXX YYth, 2019.
     - Fixed external controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another external controller.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
+    - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
+    - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 
@@ -110,6 +117,7 @@ Released on June 25th, 2019.
     - Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.
     - Fixed insertion of USE PROTO node into a PROTO field from the Add Node dialog.
     - Fixed native robot windows and physics plugins recompilation on Windows by upgrading from gcc 7.4.0 to gcc 9.1.0.
+    - Fixed link to documentation page for PROTO nodes contained in a folder with underscore symbols in the name.
   - Cleanup
     - Deprecated the Python 2.7 API.
     - Removed the `environmentMap` field of the PBRAppearance node.

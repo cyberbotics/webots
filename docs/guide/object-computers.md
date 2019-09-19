@@ -23,7 +23,7 @@ ComputerMouse {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/ComputerMouse.proto](https://github.com/omichel/webots/tree/master/projects/objects/computers/protos/ComputerMouse.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/ComputerMouse.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/ComputerMouse.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -58,7 +58,7 @@ DesktopComputer {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/DesktopComputer.proto](https://github.com/omichel/webots/tree/master/projects/objects/computers/protos/DesktopComputer.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/DesktopComputer.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/DesktopComputer.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -91,7 +91,7 @@ Keyboard {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Keyboard.proto](https://github.com/omichel/webots/tree/master/projects/objects/computers/protos/Keyboard.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Keyboard.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Keyboard.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -124,7 +124,7 @@ Laptop {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Laptop.proto](https://github.com/omichel/webots/tree/master/projects/objects/computers/protos/Laptop.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Laptop.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Laptop.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -155,7 +155,7 @@ Monitor {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Monitor.proto](https://github.com/omichel/webots/tree/master/projects/objects/computers/protos/Monitor.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/computers/protos/Monitor.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/computers/protos/Monitor.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

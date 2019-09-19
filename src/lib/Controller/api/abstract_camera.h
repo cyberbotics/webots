@@ -25,19 +25,13 @@
 #include <windows.h>
 #endif
 
-#ifdef _WIN32
-typedef char *shm_key_t;
-#else
-typedef int shm_key_t;
-#endif
-
 typedef struct {
   bool enable;
   int sampling_period;
   unsigned int unique_id;  // camera id
   int width;
   int height;
-  char *shm_native_key;
+  char *shm_key;
   int shmid;
   double camnear;
   bool spherical;
@@ -48,7 +42,7 @@ typedef struct {
   double image_update_time;
   void *pdata;
 #ifdef _WIN32
-  HANDLE shmFile;
+  HANDLE shm_file;
 #endif
 } AbstractCamera;
 

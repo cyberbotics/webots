@@ -23,7 +23,7 @@ Please check this function's description in the [Reference Manual](../reference/
 2. To get the 3D position of any [Transform](../reference/transform.md) (or derived) node placed at the root of the Scene Tree (the nodes visible when the Scene Tree is completely collapsed), you can use the `wb_supervisor_field_get_sf_vec3f` function.
 Here is an [example](supervisor-programming.md#tracking-the-position-of-robots).
 
-A simulation example that shows both the [GPS](../reference/gps.md) and the [Supervisor](../reference/supervisor.md) APIs techniques is included in the Webots installation, you just need to open this world: "[WEBOTS\_HOME/projects/samples/devices/worlds/gps.wbt](https://github.com/omichel/webots/tree/master/projects/samples/devices/worlds/gps.wbt)".
+A simulation example that shows both the [GPS](../reference/gps.md) and the [Supervisor](../reference/supervisor.md) APIs techniques is included in the Webots installation, you just need to open this world: "[WEBOTS\_HOME/projects/samples/devices/worlds/gps.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/gps.wbt)".
 
 #### Get Position in Physics Plugin Code:
 

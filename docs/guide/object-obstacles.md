@@ -24,7 +24,7 @@ OilBarrel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/OilBarrel.proto](https://github.com/omichel/webots/tree/master/projects/objects/obstacles/protos/OilBarrel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/OilBarrel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/OilBarrel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -57,7 +57,7 @@ Ramp30deg {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/Ramp30deg.proto](https://github.com/omichel/webots/tree/master/projects/objects/obstacles/protos/Ramp30deg.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/Ramp30deg.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/Ramp30deg.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -89,7 +89,7 @@ ThreeSteps {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/ThreeSteps.proto](https://github.com/omichel/webots/tree/master/projects/objects/obstacles/protos/ThreeSteps.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/obstacles/protos/ThreeSteps.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/obstacles/protos/ThreeSteps.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

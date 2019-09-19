@@ -278,7 +278,7 @@ webots.View = class View {
 
     var loadFinalize = () => {
       $('#webotsProgress').hide();
-      if (this.toolBar && !this.broadcast)
+      if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
       if (typeof this.onready === 'function')

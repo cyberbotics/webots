@@ -23,7 +23,7 @@ CautionPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CautionPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/CautionPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CautionPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/CautionPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -58,7 +58,7 @@ CautionSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CautionSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/CautionSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CautionSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/CautionSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -101,7 +101,7 @@ ControlledStreetLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ControlledStreetLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/ControlledStreetLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ControlledStreetLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/ControlledStreetLight.proto)"
 
 > **License**: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 [More information.](https://creativecommons.org/licenses/by/3.0/legalcode)
@@ -145,7 +145,7 @@ CrossRoadsTrafficLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CrossRoadsTrafficLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/CrossRoadsTrafficLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/CrossRoadsTrafficLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/CrossRoadsTrafficLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -201,7 +201,7 @@ DirectionPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/DirectionPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/DirectionPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/DirectionPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/DirectionPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -254,7 +254,7 @@ DivergentIndicator {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/DivergentIndicator.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/DivergentIndicator.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/DivergentIndicator.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/DivergentIndicator.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -292,7 +292,7 @@ ExitPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ExitPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/ExitPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ExitPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/ExitPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -327,7 +327,7 @@ ExitSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ExitSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/ExitSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ExitSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/ExitSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -366,7 +366,7 @@ GenericTrafficLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/GenericTrafficLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/GenericTrafficLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/GenericTrafficLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/GenericTrafficLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -413,7 +413,7 @@ HighwayPole {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/HighwayPole.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/HighwayPole.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/HighwayPole.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/HighwayPole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -468,7 +468,7 @@ HighwaySign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/HighwaySign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/HighwaySign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/HighwaySign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/HighwaySign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -508,7 +508,7 @@ OrderPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/OrderPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/OrderPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/OrderPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/OrderPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -543,7 +543,7 @@ OrderSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/OrderSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/OrderSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/OrderSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/OrderSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -581,7 +581,7 @@ ParkingLines {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ParkingLines.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/ParkingLines.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ParkingLines.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/ParkingLines.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -616,7 +616,7 @@ ParkingMeter {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ParkingMeter.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/ParkingMeter.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/ParkingMeter.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/ParkingMeter.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -644,7 +644,7 @@ PedestrianCrossing {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/PedestrianCrossing.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/PedestrianCrossing.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/PedestrianCrossing.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/PedestrianCrossing.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -678,7 +678,7 @@ Pole {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/Pole.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/Pole.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/Pole.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/Pole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -711,7 +711,7 @@ RectangularPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/RectangularPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/RectangularPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/RectangularPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/RectangularPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -748,7 +748,7 @@ SignPole {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SignPole.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/SignPole.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SignPole.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/SignPole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -786,7 +786,7 @@ SpeedLimitPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SpeedLimitPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/SpeedLimitPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SpeedLimitPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/SpeedLimitPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -821,7 +821,7 @@ SpeedLimitSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SpeedLimitSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/SpeedLimitSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/SpeedLimitSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/SpeedLimitSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -859,7 +859,7 @@ StopPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StopPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/StopPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StopPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/StopPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -894,7 +894,7 @@ StopSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StopSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/StopSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StopSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/StopSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -938,7 +938,7 @@ StreetLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StreetLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/StreetLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/StreetLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/StreetLight.proto)"
 
 > **License**: Creative Commons Attribution 3.0 United States License (original model by Andrew Kator & Jennifer Legaz).
 [More information.](https://creativecommons.org/licenses/by/3.0/legalcode)
@@ -980,7 +980,7 @@ TrafficCone {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficCone.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficCone.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficCone.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficCone.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1011,7 +1011,7 @@ TrafficLight {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLight.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficLight.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLight.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficLight.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1045,7 +1045,7 @@ TrafficLightArrowLampGeometry {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficLightArrowLampGeometry.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1073,7 +1073,7 @@ TrafficLightBigPole {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightBigPole.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficLightBigPole.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightBigPole.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficLightBigPole.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1112,7 +1112,7 @@ TrafficLightHorizontal {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightHorizontal.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficLightHorizontal.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightHorizontal.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficLightHorizontal.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1146,7 +1146,7 @@ TrafficLightStandardLampGeometry {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1172,7 +1172,7 @@ WorkBarrier {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/WorkBarrier.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/WorkBarrier.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/WorkBarrier.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/WorkBarrier.proto)"
 
 > **License**: Creative Commons Attribution 4.0 International License.
 [More information.](https://creativecommons.org/licenses/by/4.0/legalcode)
@@ -1205,7 +1205,7 @@ YieldPanel {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/YieldPanel.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/YieldPanel.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/YieldPanel.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/YieldPanel.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -1242,7 +1242,7 @@ YieldSign {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/YieldSign.proto](https://github.com/omichel/webots/tree/master/projects/objects/traffic/protos/YieldSign.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/traffic/protos/YieldSign.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/traffic/protos/YieldSign.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
