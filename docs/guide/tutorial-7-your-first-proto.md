@@ -1,4 +1,4 @@
-## Tutorial 7: Your First PROTO
+## Tutorial 7: Your First PROTO (20 minutes)
 
 The aim of this tutorial is to create a PROTO file corresponding to the four wheels robot from the previous tutorial.
 
@@ -26,6 +26,20 @@ The `protoName` should be the name of the PROTO file (i.e. `FourWheelsRobot` in 
 From the `4_wheels_robot.wbt` world file copy the robot node (starting with `Robot {` and ending with the final `}`) and paste it in your PROTO file instead of the `protoBody`.
 Finally, save the PROTO file.
 
+
+  **Solution** : You should have something like this :
+
+```
+  PROTO FourWheelsRobot [
+
+  ]
+  {
+    Robot {
+      ...
+    }
+  }
+```
+
 ### Use the PROTO Node.
 
 This new PROTO node is now available for each world in your current project.
@@ -37,7 +51,7 @@ This new PROTO node is now available for each world in your current project.
 %end
 
 > **Hands-on #3**: Open the `4_wheels_robot.wbt` world in Webots and add the `FourWheelsRobot` node (that you just defined).
-The node is located in `PROTO nodes (Project) / FourWheelsRobot (Robot)`.
+The node is located in `PROTO nodes (Current Project) / FourWheelsRobot (Robot)`.
 
 A second 4 wheels robot should have been added at the exact same location as the already existing one.
 
@@ -54,12 +68,14 @@ This should be done in the PROTO interface part (part between the `[` and the `]
   field SFFloat    bodyMass     1
 ```
 Your PROTO node has now two open fields but they are not linked to any internal field.
-To link the fields you should use the IS keyword, simply replace the `translation` and `rotation` fields of the [Robot](../reference/robot.md) node by:
+To link the fields you should use the IS keyword, simply replace the `translation x y z` and `rotation x y z angle` fields of the [Robot](../reference/robot.md) node by:
 ```
   translation IS translation
   rotation IS rotation
 ```
-And the `mass` field of the [Physics](../reference/physics.md) node of the [Robot](../reference/robot.md) node by:
+instead of
+
+And the `mass kg` field of the [Physics](../reference/physics.md) node of the [Robot](../reference/robot.md) node by:
 ```
   mass IS bodyMass
 ```

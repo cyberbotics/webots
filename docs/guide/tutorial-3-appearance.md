@@ -21,7 +21,7 @@ You can find their complete documentation in the [Reference Manual](../reference
 
 %figure "Comparison of the three lighting possible in Webots. Left [DirectionalLight](../reference/directionallight.md), middle [SpotLight](../reference/spotlight.md) and right [PointLight](../reference/pointlight.md)"
 
-![tutorial_light_comparison.png](images/tutorial_light_comparison.thumbnail.jpg)
+![tutorial_light_comparison.png](images/tutorial_light_comparison.png)
 
 %end
 
@@ -43,7 +43,7 @@ Prefer PBRAppereances for a better texture rendering as shown in the following c
 
 %figure "Comparison between `Appearance` nodes (left) and `PBRAppearance` nodes (right)."
 
-![tutorial_appearance.png](images/tutorial_appearance.thumbnail.jpg)
+![tutorial_appearance_comparison.png](images/tutorial_appearance_comparison.png)
 
 %end
 

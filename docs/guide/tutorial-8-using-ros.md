@@ -1,11 +1,11 @@
-## Tutorial 8: Using ROS
+## Tutorial 8: Using ROS (60 minutes)
 
 This tutorial explains how to use the nodes from the `webots_ros` package provided with Webots.
 
 These examples were tested with ROS `melodic` and `kinetic` on Linux.
 There is no warranty they will work if you use a different platform or an ancient distribution of ROS.
 
-### Installing ROS
+### Installing ROS and "webots\_ros" Package Installation
 
 In order to use these nodes, you will first need to install the ROS framework.
 To install the latest version of ROS on Ubuntu use the following commands:
@@ -14,23 +14,34 @@ To install the latest version of ROS on Ubuntu use the following commands:
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt-get update
-sudo apt-get install ros-melodic-desktop-full
+sudo apt-get install ros-melodic-desktop-full # takes time, get a coffee :)
 sudo rosdep init
 rosdep update
+sudo apt-get install ros-melodic-webots-ros
 ```
 
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
 Unless you need older version for some other application, you should choose the latest distribution (Melodic Morenia or Kinetic Kame).
 
-If you never used the ROS framework before, it is strongly recommended to follow some tutorials from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
-These tutorials will also help you set up your ROS environment and initialize your catkin workspace.
+The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
-### "webots\_ros" Package Installation
+If you never used the ROS framework before, it is strongly recommended to follow some tutorials (_Beginner Level_) from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
+These tutorials will also help you set up your ROS environment and initialize your catkin workspace. The minimum requirement is to follow these instructions (taken from the [ROS tutorial 1.1.1](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)).
+1. Open a terminal
+1. Check if the environment is source : `printenv | grep ROS`
+1. If not, source it : `source opt/ros/melodic/setup.bash`. Check it again to be sure.
+1. Create a `catkin_ws` workspace for ROS :
+  1. Create some folders : `mkdir -p ~/catkin_ws/src`
+  1. Go back in the main folder : `cd ~/catkin_ws/`
+  1. Generate files by compilation : `catkin_make`
+  1. Source again the new files : `source devel/setup.bash`
+1. To make sure your workspace is properly overlayed by the setup script, make sure `ROS_PACKAGE_PATH` environment variable includes the directory you are in. The commande `echo $ROS_PACKAGE_PATH` should return `/home/youruser/catkin_ws/src:/opt/ros/melodic/share`.
+1. Last step is to set the [`WEBOTS_HOME`](https://cyberbotics.com/doc/guide/compiling-controllers-in-a-terminal) path : `export WEBOTS_HOME=/usr/local/webots`. If you installed Webots in a different place, adapt the path. This line can be add to your `.bashrc` file.
 
-You can install the [webots\_ros](http://wiki.ros.org/webots\_ros) package with the following command:
-```sh
-sudo apt-get install ros-melodic-webots-ros
-```
+** Remember** : Each time you open a terminal, you have to source the environment with this command : `source opt/ros/melodic/setup.bash` or you can add this line in your `.bashrc` file.
+
+
+
 
 ### Running the Nodes
 
@@ -47,7 +58,7 @@ Webots has to be running for the ROS nodes to connect.
 However, we cannot guarantee how long it will run before the ROS nodes connect.
 Therefore, the sensor measurements and motor commands will slightly differ from one run to another, due to the noise being slightly different at the time of the connection of the ROS nodes.
 This may have consequences on the behavior of the robots, thus making such simulations non fully reproducible.
-You can use the '--synchronize' argument in order to make sure that Webots will not run before the ROS node connects.
+You can use the `--synchronize` argument in order to make sure that Webots will not run before the ROS node connects.
 This is useful to make ROS-based simulation reproducible.
 
 If you want to use different computers for the ROS master, the Webots simulation and/or the nodes, you must be able to connect to each of them with SSH in both ways.

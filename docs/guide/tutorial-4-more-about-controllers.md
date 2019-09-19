@@ -17,7 +17,7 @@ At the end of the chapter, links to further robotics algorithms are given.
 Create a new C (or any other language) controller called `e-puck_avoid_collision` (for C++ and Java call it `EPuckAvoidCollision` instead) using the wizard.
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
 
-<details><summary>Reminder : How to create a controller ?</summary>
+<details><summary>**Reminder** : How to create a controller ?</summary>
   Select `New Robot Controller...` from the `Wizards` menu Then, choose your programming language and the file name.
 </details>
 

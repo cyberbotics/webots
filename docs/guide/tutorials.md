@@ -30,11 +30,11 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 
 ## Sections
 
-- [Tutorial 1: Your first Simulation in Webots (20 minutes)](tutorial-1-your-first-simulation-in-webots-20-minutes.md)
-- [Tutorial 2: Modification of the Environment (20 minutes)](tutorial-2-modification-of-the-environment-20-minutes.md)
-- [Tutorial 3: Appearance (15 minutes)](tutorial-3-appearance-15-minutes.md)
-- [Tutorial 4: More about Controllers (20 minutes)](tutorial-4-more-about-controllers-20-minutes.md)
-- [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes-15-minutes.md)
+- [Tutorial 1: Your first Simulation in Webots (20 minutes)](tutorial-1-your-first-simulation-in-webots.md)
+- [Tutorial 2: Modification of the Environment (20 minutes)](tutorial-2-modification-of-the-environment.md)
+- [Tutorial 3: Appearance (15 minutes)](tutorial-3-appearance.md)
+- [Tutorial 4: More about Controllers (20 minutes)](tutorial-4-more-about-controllers.md)
+- [Tutorial 5: Compound Solid and Physics Attributes (15 minutes)](tutorial-5-compound-solid-and-physics-attributes.md)
 - [Tutorial 6: 4-Wheels Robot](tutorial-6-4-wheels-robot.md)
 - [Tutorial 7: Your First PROTO](tutorial-7-your-first-proto.md)
 - [Tutorial 8: Using ROS](tutorial-8-using-ros.md)
