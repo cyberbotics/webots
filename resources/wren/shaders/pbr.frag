@@ -97,8 +97,8 @@ mat3 cotangentFrame(vec3 N, vec3 p, vec2 uv) {
   vec2 duv1 = dFdx(uv);
   vec2 duv2 = dFdy(uv);
 
-  if (duv1 == vec2(0.0, 0.0) && duv2 == vec2(0.0, 0.0))
-    return mat3(vec3(0.0), vec3(0.0, 0.0, 0.0), N);
+  if (duv1 == vec2(0.0) && duv2 == vec2(0.0))
+    return mat3(vec3(0.0), vec3(0.0), N);
 
   // solve the linear system
   vec3 dp2perp = cross(dp2, N);
