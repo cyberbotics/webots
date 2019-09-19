@@ -1,4 +1,4 @@
-## Tutorial 2: Modification of the Environment (30 minutes)
+## Tutorial 2: Modification of the Environment (30 Minutes)
 
 In this tutorial, we will teach you how to create simple objects in the environment.
 The first step will be to create a ball which will interact with the environment.

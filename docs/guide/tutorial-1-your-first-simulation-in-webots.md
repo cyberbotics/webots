@@ -1,4 +1,4 @@
-## Tutorial 1: Your First Simulation in Webots (30 minutes)
+## Tutorial 1: Your First Simulation in Webots (30 Minutes)
 
 The objective of this first tutorial is to familiarize yourself with the user interface and with the basic concepts of Webots.
 You will create your first simulation containing a simple environment: an arena with floor and walls, a few boxes, an e-puck robot and a controller program that will make the robot move.
