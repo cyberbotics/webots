@@ -143,7 +143,7 @@ Set the color of the wheels to green.
 
 ### Sensors
 
-The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between 0 and 1000. This can be check on the `lookupTable` node where the first parameter is **NEED TO COMPLETE** and the second one defines the distance for the 1000 value. By default, 1000 is equal to  10 cm and the intermediate points are linearly interpolated.
+The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`. More information in [`lookupTable`](https://cyberbotics.com/doc/reference/distancesensor#lookup-table) node.
 
 
 
@@ -156,7 +156,7 @@ So rotating the distance sensors in order to point their *x*-axis outside the ro
 <details>
   <summary>**Reminder** : How to know the orientation of the distance sensor ?</summary>
 
-As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+  As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
 
 </details>
 
@@ -168,7 +168,8 @@ Set their `name` field according to the labels of [this figure](#top-view-of-the
 
 <details>
   <summary>**Tips** : How to orient distance sensor quite precisely ?</summary>
-In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
+
+  In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
 
 </details>
 
