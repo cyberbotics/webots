@@ -973,6 +973,9 @@ end
 %tab-end
 %end
 
+### Solution : World File
+
+To compare your world with the solution, go to your files and find the folder named "my_first_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world. [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/collision_avoidance.wbt) as all others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

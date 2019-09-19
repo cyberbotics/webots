@@ -176,7 +176,9 @@ The expected result is shown in [this figure](#the-simulation-state-at-the-end-o
 
 > **Hands-on #8**: Add four walls without physics and using only one definition of the [Shape](../reference/shape.md) node.
 
-To compare your world with the solution, go to your files and find the folder named "my_first_simulation" created in tutorial 1, then go to the "worlds" folder and open with a text editor the right world. The solution is located in the solution directory in "[obstacles.wbt](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/obstacles.wbt)".
+### Solution : World File
+
+To compare your world with the solution, go to your files and find the folder named "my_first_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world. [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/obstacles.wbt) as all others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 %figure "The simulation state at the end of this second tutorial."
 

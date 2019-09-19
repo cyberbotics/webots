@@ -494,7 +494,7 @@ If there are any, fix them and retry to compile. Reload the world.
 
 We hope you enjoyed creating your first Webots simulation.
 You have been able to set up a world, add a robot and program it.
-The important thing is that you learn the fundamental concepts summarized below:
+The important thing is that you learned the fundamental concepts summarized below:
 
 - A world is made up of nodes organized in a tree structure.
 - A world is saved in a `.wbt` file stored in a Webots project.

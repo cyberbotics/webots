@@ -91,6 +91,10 @@ Others rendering features that can be helpful:
 * View Coordinates systems : `View / Optional Rendering / Show Coordinates System (Ctrl + F1)`.
 * View distance sensor rays: `View / Optional Rendering / Show DistanceSensor Rays (Ctrl + F10)`.
 
+### Solution : World File
+
+To compare your world with the solution, go to your files and find the folder named "my_first_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world. [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/appearance.wbt) as all others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+
 ### Conclusion
 
 In this tutorial, you have learned how to set up a good looking environment using the [PBRAppearance](../reference/pbrappearance.md) node and the light nodes.

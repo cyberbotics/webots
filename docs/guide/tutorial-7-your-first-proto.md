@@ -106,6 +106,10 @@ You can now save your simulation in Webots and revert it. The `translation`, `ro
 
 The same mechanism could also be used to expose the `controller` field of the [Robot](../reference/robot.md) node.
 
+### Solution : PROTO File
+
+To compare your PROTO file with [the solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/protos/FourWheelsRobot.proto), go to your files and find the folder named "my_first_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "protos" folder and open with a text editor the right PROTO.
+
 ### Conclusion
 
 You are now able to create PROTO nodes from any nodes you created in Webots.
