@@ -763,6 +763,16 @@ body {
   to { opacity: 1; }
 }
 
+.webots-doc details {
+  margin: 5px 20px;
+  background-color: rgb(255, 252, 204);
+  padding: 5px 10px;
+}
+
+.webots-doc summary {
+  display: revert;
+}
+
 /*---------------------*
  * Chart specific CSS
  *--------------------*/
