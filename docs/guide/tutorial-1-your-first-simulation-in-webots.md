@@ -32,9 +32,9 @@ The world files must be stored directly in a directory called `worlds`.
 > **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
 Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
-1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
-2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
-3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
+  1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
+  2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
+  3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 
 Webots displays a list of directories and files it just created.
 This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
