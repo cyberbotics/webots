@@ -1,4 +1,4 @@
-## Tutorial 4: More about Controllers (30 inutes)
+## Tutorial 4: More about Controllers (30 minutes)
 
 Now we start to tackle the topics related to programming robot controllers.
 We will design a simple controller that avoids the obstacles created in the previous tutorials.

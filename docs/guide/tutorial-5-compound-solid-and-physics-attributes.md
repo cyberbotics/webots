@@ -1,4 +1,4 @@
-## Tutorial 5: Compound Solid and Physics Attributes (15 Minutes)
+## Tutorial 5: Compound Solid and Physics Attributes (15 minutes)
 
 The aim of this tutorial is to explore in more detail the physics simulation by creating a solid with several bounding objects: a dumbbell made of two spheres and one cylinder.
 The expected result is depicted in [this figure](#expected-result-at-the-end-of-the-tutorial-about-compound-solids).
