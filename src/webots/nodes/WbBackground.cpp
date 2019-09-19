@@ -443,9 +443,10 @@ void WbBackground::applySkyBoxToWren() {
                                 static_cast<WrTextureOrientation>(i));
   }
   if (success) {
-    qDebug() << "Diffuse irradiance map loaded";
+    qDebug() << "Diffuse irradiance map loaded" << w << h;
     wr_texture_set_size(WR_TEXTURE(mDiffuseIrradianceCubeTexture), w, h);
     wr_texture_set_texture_unit(WR_TEXTURE(mDiffuseIrradianceCubeTexture), 13);
+    wr_texture_setup(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
   } else {
     qDebug() << "Issues with diffuse irradiance map!";
     wr_texture_delete(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
@@ -479,10 +480,11 @@ void WbBackground::applySkyBoxToWren() {
                                 static_cast<WrTextureOrientation>(i));
   }
   if (success) {
-    qDebug() << "Specular irradiance map loaded";
+    qDebug() << "Specular irradiance map loaded" << w << h;
     wr_texture_set_size(WR_TEXTURE(mSpecularIrradianceCubeTexture), w, h);
     // wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
     wr_texture_set_texture_unit(WR_TEXTURE(mSpecularIrradianceCubeTexture), 14);
+    wr_texture_setup(WR_TEXTURE(mSpecularIrradianceCubeTexture));
   } else {
     qDebug() << "Issues with Specular irradiance map!";
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
