@@ -108,7 +108,7 @@ The same mechanism could also be used to expose the `controller` field of the [R
 
 ### Solution : PROTO File
 
-To compare your PROTO file with [the solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/protos/FourWheelsRobot.proto), go to your files and find the folder named "my_first_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "protos" folder and open with a text editor the right PROTO.
+To compare your PROTO file with [the solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/protos/FourWheelsRobot.proto), go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "protos" folder and open with a text editor the right PROTO.
 
 ### Conclusion
 
