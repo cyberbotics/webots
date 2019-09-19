@@ -15,7 +15,7 @@ The result at the end of this tutorial is shown in [this figure](#simulation-aft
 The lighting of a world is determined by [Light](../reference/light.md) nodes and the [Background](../reference/background.md) .
 There are three types of light nodes: the [DirectionalLight](../reference/directionallight.md), the [PointLight](../reference/pointlight.md) and the [SpotLight](../reference/spotlight.md).
 A [DirectionalLight](../reference/directionallight.md) simulates a light which is infinitely far (ex: the sun), a [PointLight](../reference/pointlight.md) simulates light emitted from a single point (ex: a light bulb), and a [SpotLight](../reference/spotlight.md) simulates a conical light (ex: a flashlight).
-[This figure](#comparison-of-the-three-lighting-possible-in-webots-left-directionallight-middle-spotLight-and-right-pointlight) shows a comparison between them.
+[This figure](#comparison-of-the-three-lighting-possible-in-webots-left-directionallight-middle-spotlight-and-right-pointlight) shows a comparison between them.
 Each type of light node can cast shadows.
 You can find their complete documentation in the [Reference Manual](../reference/nodes-and-api-functions.md).
 
@@ -41,7 +41,7 @@ Among other things, these nodes are responsible for the color and texture of obj
 
 Prefer PBRAppereances for a better texture rendering as shown in the following comparison.
 
-%figure "Comparison between `Appearance` nodes (left) and `PBRAppearance` nodes (right)."
+%figure "Comparison between Appearance node (left) and PBRAppearance node (right)."
 
 ![tutorial_appearance_comparison.png](images/tutorial_appearance_comparison.png)
 

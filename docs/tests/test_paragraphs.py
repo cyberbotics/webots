@@ -74,7 +74,7 @@ class TestParagraphs(unittest.TestCase):
                 if len(line) == 0:
                     continue
                 self.assertTrue(
-                    line.endswith('.') or line.endswith(':') or line.endswith('!'),
+                    line.endswith('.') or line.endswith(':') or line.endswith('!') or line.endswith('?'),
                     msg='"%s": The following line does not end correctly: "%s"' % (p['md'], line)
                 )
                 self.assertFalse(
