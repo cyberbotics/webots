@@ -38,6 +38,7 @@ Released on XXX YYth, 2019.
     - External controllers now wait if started before Webots.
     - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
+    - Fixed rendering issues if multiple texture coordinates of a face are equal.
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 
