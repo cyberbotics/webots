@@ -108,7 +108,7 @@ mat3 cotangentFrame(vec3 N, vec3 p, vec2 uv) {
 
   // construct a scale-invariant frame
   float scale = max(dot(T, T), dot(B, B));
-  if (scale <= 0.0) // inversesqrt result is undefined for value <= 0
+  if (scale <= 0.0)  // inversesqrt result is undefined for value <= 0
     return mat3(T, B, N);
   float invmax = inversesqrt(scale);
   return mat3(T * invmax, B * invmax, N);
