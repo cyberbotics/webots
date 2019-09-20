@@ -265,7 +265,6 @@ WbDragRotateAroundWorldVerticalAxisEvent::~WbDragRotateAroundWorldVerticalAxisEv
 void WbDragRotateAroundWorldVerticalAxisEvent::apply(const QPoint &currentMousePosition) {
   // Horizontal movement rotates the object clockwise (and anti-clockwise)
   const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
-
   // 4*pi used here so that a centered object can be fully rotated
   // by dragging all the way to the left or right of the screen
   const double angle =
