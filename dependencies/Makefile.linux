@@ -14,12 +14,12 @@ OIS_PACKAGE = libOIS.1.4.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
 LUA_GD_PACKAGE = lua-gd-linux64.tar.bz2
 LUA_PACKAGE = lua-5.2.3.tar.gz
-OPENSSL_PACKAGE = libssl_1.0.2.tar.bz2
+OPENSSL_PACKAGE = libssl_1.1.tar.xz
 
 PACKAGES = qt open-al open-cv ois pico lua-gd lua
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
-ifeq ($(UBUNTU_VERSION), 18.04)
+ifeq ($(UBUNTU_VERSION), 16.04)
 	PACKAGES += open-ssl
 endif
 
@@ -131,17 +131,17 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a:
 
 
 open-ssl-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME)/lib/libcrypto.so $(WEBOTS_HOME)/lib/libssl.so
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME)/lib/libcrypto.so* $(WEBOTS_HOME)/lib/libssl.so*
 
 open-ssl: $(WEBOTS_HOME)/lib/libcrypto.so
 
 $(WEBOTS_HOME)/lib/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl
-	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libcrypto.so $(WEBOTS_HOME)/lib
-	cp $(WEBOTS_DEPENDENCY_PATH)/openssl/libssl.so $(WEBOTS_HOME)/lib
+	cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl/libcrypto.so* $(WEBOTS_HOME)/lib
+	cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl/libssl.so* $(WEBOTS_HOME)/lib
 
 $(WEBOTS_DEPENDENCY_PATH)/openssl:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 	wget $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 	touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
