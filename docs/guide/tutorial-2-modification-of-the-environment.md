@@ -165,7 +165,9 @@ graph TD
 ### Add Walls
 
 In order to verify your progression, implement by yourself four walls to surround the environment.
-The walls have to be defined statically to the environment. To understand the difference between static and dynamic, let's take a defined object (the ball) above the ground. If the [Physics](../reference/physics.md) node is NULL, it will remain frozen in the air during the simulation (static case).
+The walls have to be defined statically to the environment.
+To understand the difference between static and dynamic, let's take a defined object (the ball) above the ground.
+If the [Physics](../reference/physics.md) node is NULL, it will remain frozen in the air during the simulation (static case).
 If the [Physics](../reference/physics.md) node is equal to Physics, it will fall under the effect of gravity (dynamic case).
 
 Use as much as possible the DEF-USE mechanism at the [Shape](../reference/shape.md) level rather than at the Geometry level.
