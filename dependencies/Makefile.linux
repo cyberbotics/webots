@@ -5,7 +5,7 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 
-QT_PACKAGE = webots-qt-5.13.1-linux64-release.tar.bz2
+QT_PACKAGE = webots-qt-5.11.2-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OPENCV_PACKAGE = opencv-linux64.tar.gz
 OIS_PACKAGE = libOIS.1.4.tar.bz2
