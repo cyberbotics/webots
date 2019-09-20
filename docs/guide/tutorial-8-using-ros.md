@@ -26,7 +26,8 @@ Unless you need older version for some other application, you should choose the 
 The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
 
 If you never used the ROS framework before, it is strongly recommended to follow some tutorials (_Beginner Level_) from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
-These tutorials will also help you set up your ROS environment and initialize your catkin workspace. The minimum requirement is to follow these instructions (taken from the [ROS tutorial 1.1.1](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)).
+These tutorials will also help you set up your ROS environment and initialize your catkin workspace.
+The minimum requirement is to follow these instructions (taken from the [ROS tutorial 1.1.1](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)).
 1. Open a terminal
 1. Check if the environment is source : `printenv | grep ROS`
 1. If not, source it : `source opt/ros/melodic/setup.bash`. Check it again to be sure.
