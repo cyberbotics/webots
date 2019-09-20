@@ -27,7 +27,7 @@ From the `4_wheels_robot.wbt` world file copy the robot node (starting with `Rob
 Finally, save the PROTO file.
 
 
-  **Solution** : You should have something like this :
+  **Solution**: You should have something like this:
 
 ```
   PROTO FourWheelsRobot [
@@ -106,7 +106,7 @@ You can now save your simulation in Webots and revert it. The `translation`, `ro
 
 The same mechanism could also be used to expose the `controller` field of the [Robot](../reference/robot.md) node.
 
-### Solution : PROTO File
+### Solution: PROTO File
 
 To compare your PROTO file with [the solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/protos/FourWheelsRobot.proto), go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "protos" folder and open with a text editor the right PROTO.
 
