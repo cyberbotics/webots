@@ -85,7 +85,6 @@
 #include <QtGui/QWindow>
 
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
