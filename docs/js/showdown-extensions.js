@@ -206,7 +206,7 @@ showdown.extension('wbSpoiler', function() {
     {
       type: 'lang',
       filter: function(text, converter, options) {
-        text = text.replace(/%spoiler\s*"(.*)"\n*((.*\n)*)\n*%end/gim, function(match, title, content) {
+        text = text.replace(/%spoiler\s*"(.*)"\n*(^(?:(?!%end).)*\n)*\n%end/gim, function(match, title, content) {
           var replacement =
             '<details>\n' +
             '  <summary>' + title + '</summary>\n' +
