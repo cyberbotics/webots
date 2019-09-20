@@ -267,8 +267,7 @@ void WbDragRotateAroundWorldVerticalAxisEvent::apply(const QPoint &currentMouseP
   const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
   // 4*pi used here so that a centered object can be fully rotated
   // by dragging all the way to the left or right of the screen
-  const double angle =
-    4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / screen->geometry().width());
+  const double angle = 4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / screen->geometry().width());
   // add our new rotation
   const WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
   mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
