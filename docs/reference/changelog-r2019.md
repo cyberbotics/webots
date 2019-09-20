@@ -15,8 +15,6 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
-  - Dependency Updates
-    - Windows: upgraded to Qt 5.12.4.
   - Enhancements
     - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
