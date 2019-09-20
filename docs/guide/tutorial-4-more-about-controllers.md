@@ -18,7 +18,7 @@ Create a new C (or any other language) controller called `e-puck_avoid_collision
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
 
 %spoiler "**Reminder**: How to create a new controller?"
-  
+
 Select `New Robot Controller...` from the `Wizards` menu Then, choose your programming language and the file name.
 
 %end
@@ -971,7 +971,7 @@ end
 %tab-end
 %end
 
-### Solution : World File
+### Solution: World File
 
 To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
 [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/collision_avoidance.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
