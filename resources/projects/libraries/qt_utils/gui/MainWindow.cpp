@@ -5,7 +5,6 @@
 #include <QtGui/QScreen>
 
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QMessageBox>
 
 #ifdef _WIN32
