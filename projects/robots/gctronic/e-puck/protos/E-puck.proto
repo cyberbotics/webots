@@ -23,6 +23,7 @@ PROTO E-puck [
   field SFBool             camera_antiAliasing FALSE                    # Is `Camera.antiAliasing`.
   field SFRotation         camera_rotation     1 0 0 0                  # Is `Camera.rotation`. Interesting setup: set `1 0 0 -0.47` in order to simulate the linear camera mode.
   field SFFloat            camera_noise        0.0                      # Is `Camera.noise`.
+  field SFFloat            camera_motionBlur   0.0                      # Is `Camera.motionBlu`.
   field SFInt32            emitter_channel     1                        # Is `Emitter.channel`.
   field SFInt32            receiver_channel    1                        # Is `Receiver.channel`.
   field MFFloat            battery             []                       # Is `Robot.battery`.
@@ -793,6 +794,7 @@ Robot {
       height IS camera_height
       near 0.0055
       antiAliasing IS camera_antiAliasing
+      motionBlur IS camera_motionBlur
       noise IS camera_noise
       zoom Zoom {
       }
