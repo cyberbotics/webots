@@ -147,7 +147,6 @@ The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers
 Find more information about the `lookupTable` field [here](../reference/distancesensor#lookup-table).
 
 
-
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
 Note that the distance sensor acquires its data along the +*x*-axis.
