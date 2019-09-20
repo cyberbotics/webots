@@ -1017,7 +1017,7 @@ void WbMainWindow::restorePreferredGeometry(bool minimizedOnStart) {
     return;
   }
 
-  QRect desktopRect = QApplication::desktop()->availableGeometry();
+  const QRect &desktopRect = QGuiApplication::primaryScreen()->geometry();
   QRect preferedRect(prefs->value("MainWindow/position", QPoint(0, 0)).toPoint(),
                      prefs->value("MainWindow/size", QSize(0, 0)).toSize());
 

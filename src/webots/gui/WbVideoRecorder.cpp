@@ -42,7 +42,6 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 
 #ifndef _WIN32
@@ -228,9 +227,8 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   // remove old files
   removeOldTempFiles();
 
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
-  QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+  const QSize fullScreen(screen->geometry().width(), screen->geometry().height());
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {

@@ -2,6 +2,7 @@
 
 #include <QtCore/QTime>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QScreen>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDesktopWidget>
@@ -77,7 +78,7 @@ void MainWindow::showWindow() {
   // center the window
   if (firstShow) {
     const int MAX_OFFSET = 50;
-    const QRect &desktopRect = QApplication::desktop()->screenGeometry();
+    const QRect &desktopRect = QGuiApplication::primaryScreen()->geometry();
     const QSize &windowSize = size();
     qsrand(QTime::currentTime().msec());
     const QPoint offset((qrand() % MAX_OFFSET) - MAX_OFFSET / 2, (qrand() % MAX_OFFSET) - MAX_OFFSET / 2);
