@@ -321,7 +321,6 @@ Don't forget to set the `controller` field of the [Robot](../reference/robot.md)
 As usual a possible solution of this exercise is located in the tutorials directory.
 
 
-
 ### The Controller Code
 
 Here is the complete code of the controller developed in the previous subsection.
