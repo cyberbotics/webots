@@ -143,7 +143,8 @@ Set the color of the wheels to green.
 
 ### Sensors
 
-The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`. More information in [`lookupTable`](https://cyberbotics.com/doc/reference/distancesensor#lookup-table) node.
+The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`.
+Find more information about the `lookupTable` field [here](../reference/distancesensor#lookup-table).
 
 
 
