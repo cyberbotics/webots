@@ -168,7 +168,7 @@ In order to verify your progression, implement by yourself four walls to surroun
 The walls have to be defined statically to the environment.
 To understand the difference between static and dynamic, let's take a defined object (the ball) above the ground.
 If the [Physics](../reference/physics.md) node is NULL, it will remain frozen in the air during the simulation (static case).
-If the [Physics](../reference/physics.md) node is equal to Physics, it will fall under the effect of gravity (dynamic case).
+If the `physics` field contains a [Physics](../reference/physics.md) nodes, it will fall under the effect of gravity (dynamic case).
 
 Use as much as possible the DEF-USE mechanism at the [Shape](../reference/shape.md) level rather than at the Geometry level.
 Indeed it's more convenient to add an intermediate [Shape](../reference/shape.md) node in the `boundingObject` field of the [Solid](../reference/solid.md) node.
