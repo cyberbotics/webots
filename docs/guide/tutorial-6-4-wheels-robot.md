@@ -164,7 +164,7 @@ Set their graphical and physical shape to a cube (not transformed) having a edge
 Set their color to blue.
 Set their `name` field according to the labels of [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices).
 
-%spoiler "**Tips** : How to orient distance sensor quite precisely ?"
+%spoiler "**Tips**: How to precisely orient distance sensors?"
 
 In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
 
