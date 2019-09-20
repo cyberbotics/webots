@@ -39,7 +39,7 @@ The aim of this subsection is to color the walls in blue.
 The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pbrappearance.md) nodes of the [Shape](../reference/shape.md) node determine the graphical appearance of the object.
 Among other things, these nodes are responsible for the color and texture of objects.
 
-Prefer PBRAppereances for a better texture rendering as shown in the following comparison.
+Prefer [PBRAppearances](../reference/pbrappearance.md) for a better rendering as shown in the following comparison.
 
 %figure "Comparison between Appearance node (left) and PBRAppearance node (right)."
 
