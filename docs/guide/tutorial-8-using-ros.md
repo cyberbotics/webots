@@ -28,15 +28,15 @@ The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) p
 If you never used the ROS framework before, it is strongly recommended to follow some tutorials (_Beginner Level_) from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
 These tutorials will also help you set up your ROS environment and initialize your catkin workspace. The minimum requirement is to follow these instructions (taken from the [ROS tutorial 1.1.1](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)).
 1. Open a terminal
-1. Check if the environment is source : `printenv | grep ROS`
-1. If not, source it : `source opt/ros/melodic/setup.bash`. Check it again to be sure.
-1. Create a `catkin_ws` workspace for ROS :
+2. Check if the environment is source : `printenv | grep ROS`
+3. If not, source it : `source opt/ros/melodic/setup.bash`. Check it again to be sure.
+4. Create a `catkin_ws` workspace for ROS :
   1. Create some folders : `mkdir -p ~/catkin_ws/src`
-  1. Go back in the main folder : `cd ~/catkin_ws/`
-  1. Generate files by compilation : `catkin_make`
-  1. Source again the new files : `source devel/setup.bash`
-1. To make sure your workspace is properly overlayed by the setup script, make sure `ROS_PACKAGE_PATH` environment variable includes the directory you are in. The commande `echo $ROS_PACKAGE_PATH` should return `/home/youruser/catkin_ws/src:/opt/ros/melodic/share`.
-1. Last step is to set the [`WEBOTS_HOME`](https://cyberbotics.com/doc/guide/compiling-controllers-in-a-terminal) path : `export WEBOTS_HOME=/usr/local/webots`. If you installed Webots in a different place, adapt the path. This line can be add to your `.bashrc` file.
+  2. Go back in the main folder : `cd ~/catkin_ws/`
+  3. Generate files by compilation : `catkin_make`
+  4. Source again the new files : `source devel/setup.bash`
+5. To make sure your workspace is properly overlayed by the setup script, make sure `ROS_PACKAGE_PATH` environment variable includes the directory you are in. The commande `echo $ROS_PACKAGE_PATH` should return `/home/youruser/catkin_ws/src:/opt/ros/melodic/share`.
+6. Last step is to set the [`WEBOTS_HOME`](https://cyberbotics.com/doc/guide/compiling-controllers-in-a-terminal) path : `export WEBOTS_HOME=/usr/local/webots`. If you installed Webots in a different place, adapt the path. This line can be add to your `.bashrc` file.
 
 ** Remember** : Each time you open a terminal, you have to source the environment with this command : `source opt/ros/melodic/setup.bash` or you can add this line in your `.bashrc` file.
 
