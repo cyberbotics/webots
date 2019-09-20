@@ -30,6 +30,7 @@ class TestParagraphs(unittest.TestCase):
                 content = re.sub(r'%chart.+?(?=%end)%end', '\n', content, flags=re.S)
                 content = re.sub(r'%figure.+?(?=%end)%end', '\n', content, flags=re.S)
                 content = re.sub(r'%api.+?(?=%end)%end', '\n', content, flags=re.S)
+                content = re.sub(r'%spoiler.+?(?=%end)%end', '\n', content, flags=re.S)
                 content = re.sub(r'%tab-component.+?(?=%end)%end', '\n', content, flags=re.S)
                 content = re.sub(r'%robot.*\n', '\n', content, flags=re.S)
                 # - Headers.
