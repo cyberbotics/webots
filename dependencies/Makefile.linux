@@ -7,7 +7,7 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 
 QT_VERSION = 5.13.1
-QT_PACKAGE = webots-qt-$QT_VERSION-linux64-release.tar.bz2
+QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
 OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OPENCV_PACKAGE = opencv-linux64.tar.gz
 OIS_PACKAGE = libOIS.1.4.tar.bz2
@@ -122,12 +122,16 @@ lua-clean:
 
 lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a
 
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a:
+
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	wget http://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	tar zxfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	make -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux test
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	+make -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux
 
 
 open-ssl-clean:
