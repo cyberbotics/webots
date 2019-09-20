@@ -119,12 +119,14 @@ lua-clean:
 
 lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a
 
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a:
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	wget http://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
 	tar zxfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	make -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux test
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	+make -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux
 
 
 open-ssl-clean:
