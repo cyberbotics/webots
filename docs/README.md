@@ -54,7 +54,7 @@ python local_exporter.py
 Run a simple HTTP server:
 
 ```sh
-python -m SimpleHTTPServer
+python -m http.server 8000
 ```
 
 In a browser, open:
