@@ -771,6 +771,7 @@ body {
 
 .webots-doc summary {
   display: revert;
+  padding: inherit;
 }
 
 /*---------------------*
