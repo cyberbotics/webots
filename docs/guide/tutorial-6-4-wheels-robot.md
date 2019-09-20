@@ -134,18 +134,17 @@ We want now to implement the cylinder shape of the wheels.
 > **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheels-robot).
 Don't forget the [Physics](../reference/physics.md) nodes.
 
-For each [HingeJoint](../reference/hingejoint.md), there is three nodes to set.
-* **jointParameters** : Select a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.06 0 -0.05) and axis fields (1 0 0). These values have to be modified according to the localisation of the wheel.
+For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
+* **jointParameters** : Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.06 0 -0.05) and axis fields (1 0 0). These values have to be modified according to the location of the wheel.
 * **device** : Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices). These labels will be used to reference the wheels from the controller.
-* **endPoint** : Add a [Solid](../reference/solid.md) node, then a Geometry to create a [Cylinder](../reference/cylinder.md). The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
+* **endPoint** : Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node. The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
 Set the color of the wheels to green.
 
 
 ### Sensors
 
-The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`. More information in [`lookupTable`](https://cyberbotics.com/doc/reference/distancesensor#lookup-table) node.
-
-
+The sensors used on the e-puck of [Tutorial 4](tutorial-4-more-about-controllers.md) are not the same as those used in this section. Pay attention to their measuring interval which is between `0 cm = 0` and `10 cm = 1000`.
+Find more information about the `lookupTable` field [here](../reference/distancesensor#lookup-table).
 
 
 The last part of the robot modeling is to add the two distance sensors to the robot.
@@ -153,13 +152,11 @@ This can be done by adding two [DistanceSensor](../reference/distancesensor.md) 
 Note that the distance sensor acquires its data along the +*x*-axis.
 So rotating the distance sensors in order to point their *x*-axis outside the robot is necessary (see the [figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices)).
 
-<details><summary>
-    **Reminder** : How to know the orientation of the distance sensor ?
-</summary>
+%spoiler "**Reminder** : How to know the orientation of the distance sensor ?"
 
-  As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
+As already says in [Tutorial 3](tutorial-3-appearance.md), the distance sensor rays can be viewed using the shortcut `(Ctrl + F10)` or `View / Optional Rendering / Show DistanceSensor Rays`.
 
-</details>
+%end
 
 > **Hands on #5**: Add the two distance sensors as explained above.
 The distance sensors are at an angle to 0.3 [rad] with the robot front vector.
@@ -167,13 +164,11 @@ Set their graphical and physical shape to a cube (not transformed) having a edge
 Set their color to blue.
 Set their `name` field according to the labels of [this figure](#top-view-of-the-4-wheels-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-devices).
 
-<details><summary>
-    **Tips** : How to orient distance sensor quite precisely ?
-</summary>
+%spoiler "**Tips** : How to orient distance sensor quite precisely ?"
 
-  In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
+In the [DistanceSensor](../reference/distancesensor.md) node, the rotation field has 4 parameters. If you set the angle parameter at 0, then you can use the wheel's mouse to increment/decrement by step of 0.1309 rad (= 7.5 degree).
 
-</details>
+%end
 
 ### Controller
 
@@ -318,13 +313,13 @@ wb_motor_set_velocity(wheels[0], speed);
 > **Hands on #6**: Implement a controller called `4_wheels_collision_avoidance` moving the robot and avoiding obstacles by detecting them by the distance sensors.
 
 Note that the `lookupTable` field of the [DistanceSensor](../reference/distancesensor.md) nodes indicates which values are returned by the sensor.
-To help in the debugging with the sensors, it is possible to have a graphic evolution of the value. To do this, double-click on the robot body and it will bring up a menu on the left with the [DistanceSensor](../reference/distancesensor.md) and [RotationalMotor](../reference/rotationalmotor.md) graph. Run the simulation to see the evolution.
+To help in the debugging with the sensors, it is possible to see the value of the sensors in the real-time in the [robot-window](controller-plugin.md#robot-window).
+To open the [robot-window](controller-plugin.md#robot-window), double-click on the robot body and it will bring up a menu on the left with the [DistanceSensor](../reference/distancesensor.md) and [RotationalMotor](../reference/rotationalmotor.md) graph.
+Run the simulation to see the evolution.
 
 Don't forget to set the `controller` field of the [Robot](../reference/robot.md) node to indicate your new controller.
 
 As usual a possible solution of this exercise is located in the tutorials directory.
-
-
 
 ### The Controller Code
 
@@ -557,7 +552,8 @@ end
 
 ### Solution : World File
 
-To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world. [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as all others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/4_wheels_robot.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

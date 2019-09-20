@@ -39,7 +39,7 @@ The aim of this subsection is to color the walls in blue.
 The [Appearance](../reference/appearance.md) and [PBRAppearance](../reference/pbrappearance.md) nodes of the [Shape](../reference/shape.md) node determine the graphical appearance of the object.
 Among other things, these nodes are responsible for the color and texture of objects.
 
-Prefer PBRAppereances for a better texture rendering as shown in the following comparison.
+Prefer [PBRAppearances](../reference/pbrappearance.md) for a better rendering as shown in the following comparison.
 
 %figure "Comparison between Appearance node (left) and PBRAppearance node (right)."
 
@@ -93,7 +93,8 @@ Others rendering features that can be helpful:
 
 ### Solution : World File
 
-To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world. [This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/appearance.wbt) as all others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
+To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/appearance.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

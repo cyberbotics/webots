@@ -200,6 +200,26 @@ showdown.extension('wbChart', function() {
   ];
 });
 
+// This extension allows to define extensible part (hided by default)
+showdown.extension('wbSpoiler', function() {
+  return [
+    {
+      type: 'lang',
+      filter: function(text, converter, options) {
+        text = text.replace(/%spoiler\s*"(.*)"\n*((.*\n)*)\n*%end/gim, function(match, title, content) {
+          var replacement =
+            '<details>\n' +
+            '  <summary>' + title + '</summary>\n' +
+            '  ' + content + '\n' +
+            '</details>\n'
+          return replacement;
+        });
+        return text;
+      }
+    }
+  ];
+});
+
 // This extension allows to add robot component.
 // Example: "%robot nao"
 showdown.extension('wbRobotComponent', function() {

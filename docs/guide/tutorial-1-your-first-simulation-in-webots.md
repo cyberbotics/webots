@@ -488,7 +488,8 @@ In order to control the motors of the wheels in speed you need to set the target
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
 If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or click on the gear icon above the code area.
 Compilation errors are displayed in red in the console.
-If there are any, fix them and retry to compile. Reload the world.
+If there are any, fix them and retry to compile.
+Then, reload the world.
 
 ### Conclusion
 
