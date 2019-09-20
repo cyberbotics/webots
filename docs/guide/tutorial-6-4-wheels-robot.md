@@ -148,7 +148,6 @@ Find more information about the `lookupTable` field [here](../reference/distance
 
 
 
-
 The last part of the robot modeling is to add the two distance sensors to the robot.
 This can be done by adding two [DistanceSensor](../reference/distancesensor.md) nodes as direct children of the [Robot](../reference/robot.md) node.
 Note that the distance sensor acquires its data along the +*x*-axis.
