@@ -2,7 +2,7 @@
 
 # install the latest Qt from qt.org
 
-QT_VERSION=5.11.2
+QT_VERSION=5.13.1
 ICU_VERSION=56
 QT_INSTALLATION_PATH=~/Qt${QT_VERSION}/${QT_VERSION}/gcc_64
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"

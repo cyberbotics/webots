@@ -101,7 +101,7 @@ int WbTextBuffer::lineNumberAreaWidth() {
     ++digits;
   }
 
-  return 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+  return 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 }
 
 void WbTextBuffer::updateLineNumberAreaWidth(int) {

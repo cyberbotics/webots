@@ -358,7 +358,7 @@ int WbProjectRelocationDialog::copyProject() {
     QString protoLibrariesPath;
     QDir protoControllerDir;
     if (proto) {
-      protoControllerDir = QFileInfo(proto->fileName()).path();
+      protoControllerDir.setPath(QFileInfo(proto->fileName()).path());
       protoControllerDir.cdUp();
       const QString &protoControllerPath = protoControllerDir.path() + "/controllers/" + controllerName + "/";
       protoLibrariesPath = protoControllerDir.path() + "/libraries/";

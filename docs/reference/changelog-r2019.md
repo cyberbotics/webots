@@ -15,6 +15,9 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
+  - Dependency Updates
+    - Linux: upgraded to Qt 5.13.1
+    - Windows: upgraded to Qt 5.12.4
   - Enhancements
     - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
@@ -26,6 +29,7 @@ Released on XXX YYth, 2019.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Fixed rendering issues with [IndexedFaceSet](indexedfaceset.md) having default texture mapping.
       - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
