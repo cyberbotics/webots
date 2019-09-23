@@ -26,8 +26,8 @@
 #include "WbWrenLabelOverlay.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
 
 // WbDragTransformEvent constructor
 WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
@@ -264,14 +264,12 @@ WbDragRotateAroundWorldVerticalAxisEvent::~WbDragRotateAroundWorldVerticalAxisEv
 
 void WbDragRotateAroundWorldVerticalAxisEvent::apply(const QPoint &currentMousePosition) {
   // Horizontal movement rotates the object clockwise (and anti-clockwise)
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
   // 4*pi used here so that a centered object can be fully rotated
   // by dragging all the way to the left or right of the screen
-  double angle =
-    4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / qDesktop->screenGeometry(screenNumber).width());
+  const double angle = 4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / screen->geometry().width());
   // add our new rotation
-  WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
+  const WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
   mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 
