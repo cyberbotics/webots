@@ -13,13 +13,14 @@
 # limitations under the License.
 
 """Downscale an HDR image to a specified size."""
+# Look out: this scripts overrides the input image.
 
+import math
 import optparse
 import os
 
-from utils.clamp import clamp_int
 from images.hdr import HDR
-from images.regular_image import RegularImage
+from utils.clamp import clamp_int
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
 optParser.add_option(
@@ -37,10 +38,8 @@ optParser.add_option(
 options, args = optParser.parse_args()
 
 hdr_path = options.input
-result_path = hdr_path.replace('.hdr', '.' + options.format)
 
 assert hdr_path.endswith('.hdr'), 'Invalid input extension.'
-assert hdr_path != result_path, 'Identical input and output paths.'
 assert os.path.isfile(hdr_path), 'Input file doest not exits.'
 
 print('Load the HDR image...')
@@ -48,17 +47,28 @@ hdr = HDR.load_from_file(hdr_path)
 assert hdr.is_valid(), 'Invalid input HDR file.'
 
 print('Create the result image')
-result = RegularImage.create_black_image(hdr.width, hdr.height)
-for y in range(hdr.height):
-    for x in range(hdr.width):
-        pixel = hdr.get_pixel(x, y)
-        pixel = (
-            clamp_int(255.0 * pixel[0], 0, 255),
-            clamp_int(255.0 * pixel[1], 0, 255),
-            clamp_int(255.0 * pixel[2], 0, 255)
+result = HDR.create_black_image(options.width, options.height)
+for y in range(options.height):
+    for x in range(options.width):
+        # TODO: Bilinear interpolation here?
+        uf = int(float(x) * hdr.width / options.width)
+        vf = int(float(y) * hdr.height / options.height)
+        u1 = int(math.floor(uf))  # coord of pixel to bottom left
+        v1 = int(math.floor(vf))
+        u2 = u1 + 1  # coords of pixel to top right
+        v2 = v1 + 1
+        mu = uf - u1  # fraction of way across pixel
+        nu = vf - v1
+
+        # Bilinear interpolation
+        A = hdr.get_pixel(u1 % hdr.width, clamp_int(v1, 0, hdr.height - 1))
+        B = hdr.get_pixel(u2 % hdr.width, clamp_int(v1, 0, hdr.height - 1))
+        C = hdr.get_pixel(u1 % hdr.width, clamp_int(v2, 0, hdr.height - 1))
+        D = hdr.get_pixel(u2 % hdr.width, clamp_int(v2, 0, hdr.height - 1))
+        P = (
+            A[0] * (1 - mu) * (1 - nu) + B[0] * (mu) * (1 - nu) + C[0] * (1 - mu) * nu + D[0] * mu * nu,
+            A[1] * (1 - mu) * (1 - nu) + B[1] * (mu) * (1 - nu) + C[1] * (1 - mu) * nu + D[1] * mu * nu,
+            A[2] * (1 - mu) * (1 - nu) + B[2] * (mu) * (1 - nu) + C[2] * (1 - mu) * nu + D[2] * mu * nu
         )
-        result.set_pixel(x, y, pixel)
-if format == 'jpg':
-    result.save(result_path, quality=options.quality)
-else:
-    result.save(result_path)
+        result.set_pixel(x, y, P)
+    result.save(hdr_path)
