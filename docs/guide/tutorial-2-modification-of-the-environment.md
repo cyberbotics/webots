@@ -1,4 +1,4 @@
-## Tutorial 2: Modification of the Environment (20 Minutes)
+## Tutorial 2: Modification of the Environment (30 Minutes)
 
 In this tutorial, we will teach you how to create simple objects in the environment.
 The first step will be to create a ball which will interact with the environment.
@@ -25,7 +25,7 @@ We will now delete the `RectangleArena` node and add a simple floor that we will
 > **Hands-on #2**: To remove the `RectangleArena`, select it either in the 3D view or in the scene tree view with a left click and press the `Delete` key on your keyboard.
 Alternatively, you can right click on it in the 3D view and select `Delete` in the context menu (you can also use the context menu directly in the scene tree view).
 Select the `TexturedBackroundLight` node and click on the `Add` button.
-In the open dialog box, and choose `PROTO nodes (Webots) / objects / floors / Floor (Solid)`.
+In the open dialog box, and choose `PROTO nodes (Webots Projects) / objects / floors / Floor (Solid)`.
 
 The newly added `Floor` PROTO has a default size of 10mx10m, but it is possible to adjust its size, its position and texture by changing the corresponding fields.
 
@@ -81,13 +81,13 @@ In the dialog, open the `Bases nodes` section and select the [Solid](../referenc
 In the scene tree view, expand the [Solid](../reference/solid.md) node and select its `children` field.
 Add a [Shape](../reference/shape.md) node to it by using the `Add` button.
 Select the `appearance` field of the [Shape](../reference/shape.md) node and use the `Add` button to add a `PBRAppearance` node.
-Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly created [Shape](../reference/shape.md) node.
-Expand the `PBRAppearance` node and change its `metalness` field to 0 and its `roughness` field to 1.
-Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
-Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
-By modifying the `translation` field of the [Solid](../reference/solid.md) node, place the ball in front of the robot (at `{0, 0.2, -0.2}` for example).
-Save the simulation.
-The result is depicted in [this figure](#your-first-rigid-body-in-webots).
+1. Add a [Sphere](../reference/sphere.md) node as the `geometry` field of the newly created [Shape](../reference/shape.md) node.
+2. Expand the `PBRAppearance` node and change its `metalness` field to 0 and its `roughness` field to 1.
+3. Add another [Sphere](../reference/sphere.md) node to the `boundingObject` field of the [Solid](../reference/solid.md).
+4. Finally add a [Physics](../reference/physics.md) node to the `physics` field of the [Solid](../reference/solid.md).
+5. By modifying the `translation` field of the [Solid](../reference/solid.md) node, place the ball in front of the robot (at `{0, 0.2, -0.2}` for example).
+6. Save the simulation.
+7. The result is depicted in [this figure](#your-first-rigid-body-in-webots).
 
 %figure "Your first rigid body in Webots."
 
@@ -127,12 +127,17 @@ We will now merge these two [Spheres](../reference/sphere.md) into only once usi
 
 > **Hands-on #6**: Select the first [Sphere](../reference/sphere.md) node (the child of the [Shape](../reference/shape.md)) in the scene tree view.
 The [field editor](the-scene-tree.md#field-editor) of the scene tree view allows you to enter the DEF string.
-Enter `BALL_GEOMETRY`.
-Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Delete` entry in the context menu that pops up.
-Then, select the `boundingObject` field and click on the `Add` button, and select the `USE / BALL_GEOMETRY` in the dialog box.
-The result is shown in [this figure](#def-use-mechanism-on-the-sphere-node-called-ball_geometry).
+1. Enter `BALL_GEOMETRY` in this field.
+2. Select the `boundingObject` field (containing the second [Sphere](../reference/sphere.md) node), and empty it by right clicking the field in the scene tree and choosing the `Delete` entry in the context menu that pops up.
+3. Then, select the `boundingObject` field and click on the `Add` button, and select the `USE / BALL_GEOMETRY` in the dialog box.
+4. The result is shown in [this figure](#def-use-mechanism-on-the-sphere-node-called-ball_geometry).
 
 Now, changing the `radius` field of the first [Sphere](../reference/sphere.md) node also modifies its `boundingObject`.
+
+For convenience, the `boundingObject` field accepts also the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
+It would be also possible to use the same DEF-USE mechanism at the [Shape](../reference/shape.md) level as shown in [this figure](#def-use-mechanism-applied-on-the-shape-node-of-a-solid).
+For now the greatest benefit is being able to also use this [Shape](../reference/shape.md) directly for graphical purposes.
+Later this mechanism will turn out to be very useful for some sensors.
 
 %figure "DEF-USE mechanism on the Sphere node called BALL_GEOMETRY."
 
@@ -154,23 +159,29 @@ graph TD
 %end
 %end
 
+> **Hands-on #7**: Create a second ball with the same parameters but using the  [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly) for the DEF-USE mechanism.
+
+
 ### Add Walls
 
-For convenience, the `boundingObject` field accepts also the [Shape](../reference/shape.md) node (rather than the [Sphere](../reference/sphere.md) node directly).
-It would be also possible to use the same DEF-USE mechanism at the [Shape](../reference/shape.md) level as shown in [this figure](#def-use-mechanism-applied-on-the-shape-node-of-a-solid).
-For now the greatest benefit is being able to also use this [Shape](../reference/shape.md) directly for graphical purposes.
-Later this mechanism will turn out to be very useful for some sensors.
-
 In order to verify your progression, implement by yourself four walls to surround the environment.
-The walls have to be defined statically to the environment, and use as much as possible the DEF-USE mechanism at the [Shape](../reference/shape.md) level rather than at the Geometry level.
+The walls have to be defined statically to the environment.
+To understand the difference between static and dynamic, let's take a defined object (the ball) above the ground.
+If the [Physics](../reference/physics.md) node is NULL, it will remain frozen in the air during the simulation (static case).
+If the `physics` field contains a [Physics](../reference/physics.md) nodes, it will fall under the effect of gravity (dynamic case).
+
+Use as much as possible the DEF-USE mechanism at the [Shape](../reference/shape.md) level rather than at the Geometry level.
 Indeed it's more convenient to add an intermediate [Shape](../reference/shape.md) node in the `boundingObject` field of the [Solid](../reference/solid.md) node.
 The best Geometry primitive to implement the walls is the Box node.
 Only one [Shape](../reference/shape.md) has to be defined for all the walls.
 The expected result is shown in [this figure](#the-simulation-state-at-the-end-of-this-second-tutorial).
 
-> **Hands-on #7**: Add four walls without physics and using only one definition of the [Shape](../reference/shape.md) node.
+> **Hands-on #8**: Add four walls without physics and using only one definition of the [Shape](../reference/shape.md) node.
 
-The solution is located in the solution directory in "[obstacles.wbt](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/obstacles.wbt)".
+### Solution: World File
+
+To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/obstacles.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 %figure "The simulation state at the end of this second tutorial."
 
