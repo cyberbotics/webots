@@ -18,7 +18,7 @@ The expected result is depicted in [this figure](#expected-result-at-the-end-of-
 It is possible to build [Solid](../reference/solid.md) nodes more complex than what we have seen before by aggregating [Shape](../reference/shape.md) nodes.
 In fact, both the physical and the graphical properties of a [Solid](../reference/solid.md) can be made of several [Shape](../reference/shape.md) nodes.
 Moreover each [Shape](../reference/shape.md) node can be placed in a [Transform](../reference/transform.md) node in order to change its relative position and orientation.
-Group nodes can also be used to group several sub-nodes.
+[Group](../reference/group.md) nodes can also be used to group several sub-nodes.
 
 We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylinder.md)) and of two weights ([Sphere](../reference/sphere.md)) located at each end of the handle.
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.
@@ -135,6 +135,11 @@ We recommend to read the [Reference Manual](../reference/worldinfo.md) and the d
 There are also other physics parameters which are less useful in a regular use of Webots, for example some of the fields of the [Physics](../reference/physics.md), [WorldInfo](../reference/worldinfo.md) and [ContactProperties](../reference/contactproperties.md) nodes.
 
 > **Hands on #7**: Search how to add a linear damping on all the objects, how to use the inertia matrix and how to use the `physicsDisableTime` property.
+
+### Solution: World File
+
+To compare your world with the solution, go to your files and find the folder named "my\_first\_simulation" created in [Tutorial 1](tutorial-1-your-first-simulation-in-webots.md), then go to the "worlds" folder and open with a text editor the right world.
+[This solution](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/compound_solid.wbt) as the others is located in the [solution directory](https://github.com/cyberbotics/webots/blob/master/projects/samples/tutorials/worlds/).
 
 ### Conclusion
 

@@ -586,7 +586,7 @@ function populateViewDiv(mdContent) {
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
-  var converter = new showdown.Converter({tables: 'True', extensions: ['wbTabComponent', 'wbRobotComponent', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors', 'wbIllustratedSection', 'youtube']});
+  var converter = new showdown.Converter({tables: 'True', extensions: ['wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors', 'wbIllustratedSection', 'youtube']});
   var html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
