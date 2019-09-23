@@ -39,10 +39,6 @@ optParser.add_option(
     '--height', dest='height', default=1024, type='int',
     help='specifies the height of the target cubemap images'
 )
-optParser.add_option(
-    '--clamp', dest='clamp', default=float('inf'), type='float',
-    help='specifies the upper limit for the float data'
-)
 options, args = optParser.parse_args()
 
 cubemap_names = ['back', 'left', 'front', 'right', 'top', 'bottom']
@@ -104,6 +100,4 @@ for c in range(len(cubemap_names)):
                 A[2] * (1 - mu) * (1 - nu) + B[2] * (mu) * (1 - nu) + C[2] * (1 - mu) * nu + D[2] * mu * nu
             )
             cubemap.set_pixel(i, j, P)
-    if options.clamp != float('inf'):
-        cubemap.clamp(options.clamp)
     cubemap.save(cm_filename)
