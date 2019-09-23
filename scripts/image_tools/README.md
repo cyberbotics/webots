@@ -35,14 +35,14 @@ python scripts/image_tools/hdr_to_irradiance_maps.py --help
 python scripts/image_tools/hdr_to_irradiance_maps.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr
 ```
 
-## `hdr_to_png`
+## `convert_hdr_format`
 
 Convert an HDR image to a PNG image.
 
 ```
 cd $WEBOTS_HOME
 
-python scripts/image_tools/hdr_to_png.py --help
+python scripts/image_tools/convert_hdr_format.py --help
 
-python scripts/image_tools/hdr_to_png.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr
+python scripts/image_tools/convert_hdr_format.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr
 ```
