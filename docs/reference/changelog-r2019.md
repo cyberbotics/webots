@@ -30,6 +30,7 @@ Released on XXX YYth, 2019.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Fixed rendering issues with [IndexedFaceSet](indexedfaceset.md) having default texture mapping.
       - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
@@ -42,6 +43,7 @@ Released on XXX YYth, 2019.
     - External controllers now wait if started before Webots.
     - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
     - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
+    - Fixed rendering issues if multiple texture coordinates of a face are equal.
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 
