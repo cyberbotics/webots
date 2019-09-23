@@ -122,7 +122,7 @@ for i in range(len(specular_irradiance_map_paths)):
     if not options.specular:
         continue
     print('Create the "%s" irradiance map...' % diffuse_irradiance_map_paths[i])
-    size = 8  # TODO: should be 256
+    size = 32  # TODO: should be 256
     irradiance_map = HDR.create_black_image(size, size)
     for y in range(size):
         sys.stdout.write('\r %3.0f %%' % (100.0 * (1.0 + y) / size))
@@ -141,7 +141,7 @@ for i in range(len(specular_irradiance_map_paths)):
             prefilteredColor = Vec3()
             totalWeight = 0.0
 
-            roughness = 0.5  # TODO: this is an input
+            roughness = 0.2  # TODO: this is an input
 
             for s in range(SAMPLE_COUNT):
                 # generates a sample vector that's biased towards the preferred alignment direction (importance sampling).
