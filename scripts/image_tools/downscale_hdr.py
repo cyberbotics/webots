@@ -51,8 +51,8 @@ result = HDR.create_black_image(options.width, options.height)
 for y in range(options.height):
     for x in range(options.width):
         # TODO: Bilinear interpolation here?
-        uf = int(float(x) * hdr.width / options.width)
-        vf = int(float(y) * hdr.height / options.height)
+        uf = float(x) * hdr.width / options.width
+        vf = float(y) * hdr.height / options.height
         u1 = int(math.floor(uf))  # coord of pixel to bottom left
         v1 = int(math.floor(vf))
         u2 = u1 + 1  # coords of pixel to top right
