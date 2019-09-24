@@ -472,7 +472,7 @@ void WbBackground::applySkyBoxToWren() {
 
     mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
       cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
-    wr_texture_cubemap_disable_automatic_mip_map_generation(cm);
+    wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
   } else {
     qDebug() << "Issues with Specular irradiance map!";
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
