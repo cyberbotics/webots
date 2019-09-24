@@ -343,91 +343,72 @@ void WbBackground::applySkyBoxToWren() {
         throw QString();
 
       QString newSuffix = QFileInfo(textureUrls[i]).suffix();
+      if (newSuffix == ".hdr")
+        throw tr("Unsupported HDR format.");
       if (i > 0 && newSuffix != suffix)
         throw tr("Inconsistent image format.");
 
       suffix = newSuffix;
     }
 
-    if (suffix == "hdr") {
-      wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+    wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
-      for (int i = 0; i < 6; i++) {
-        int width, height, nrComponents;
-        float *data = stbi_loadf(textureUrls[i].toUtf8().constData(), &width, &height, &nrComponents, 0);
+    bool alpha = false;
+    for (int i = 0; i < 6; i++) {
+      QImageReader imageReader(textureUrls[i]);
+      QSize textureSize = imageReader.size();
 
-        if (width != height)
-          throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(textureUrls[i]);
-        if (i > 0 && width != edgeLength)
-          throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(textureUrls[i]);
+      if (textureSize.width() != textureSize.height())
+        throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName());
+      if (i > 0 && textureSize.width() != edgeLength)
+        throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName());
 
-        hdrImageData.append(data);
-        edgeLength = width;
+      edgeLength = textureSize.width();
 
-        wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(data),
+      QImage *image = new QImage();
+      regularImageData.append(image);
+
+      if (imageReader.read(image)) {
+        if (i > 0 && (alpha != image->hasAlphaChannel()))
+          throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
+
+        alpha = image->hasAlphaChannel();
+
+        if (image->format() != QImage::Format_ARGB32) {
+          QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
+          image->swap(tmp);
+        }
+
+        wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(image->bits()),
                                     static_cast<WrTextureOrientation>(i));
-      }
-    } else {
-      wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+      } else
+        throw tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString());
 
-      bool alpha = false;
-      for (int i = 0; i < 6; i++) {
-        QImageReader imageReader(textureUrls[i]);
-        QSize textureSize = imageReader.size();
-
-        if (textureSize.width() != textureSize.height())
-          throw tr("The texture '%1' is not a square image (its width doesn't equal its height).").arg(imageReader.fileName());
-        if (i > 0 && textureSize.width() != edgeLength)
-          throw tr("Texture dimension mismatch between '%1' and '%2'").arg(lastFile).arg(imageReader.fileName());
-
-        edgeLength = textureSize.width();
-
-        QImage *image = new QImage();
-        regularImageData.append(image);
-
-        if (imageReader.read(image)) {
-          if (i > 0 && (alpha != image->hasAlphaChannel()))
-            throw tr("Alpha channel mismatch between '%1' and '%2'").arg(imageReader.fileName()).arg(lastFile);
-
-          alpha = image->hasAlphaChannel();
-
-          if (image->format() != QImage::Format_ARGB32) {
-            QImage tmp = image->convertToFormat(QImage::Format_ARGB32);
-            image->swap(tmp);
-          }
-
-          wr_texture_cubemap_set_data(mCubeMapTexture, reinterpret_cast<const char *>(image->bits()),
-                                      static_cast<WrTextureOrientation>(i));
-        } else
-          throw tr("Cannot load texture '%1': %2.").arg(imageReader.fileName()).arg(imageReader.errorString());
-
-        lastFile = imageReader.fileName();
-      }
+      lastFile = imageReader.fileName();
     }
   } catch (QString &error) {
     if (error.length() > 0)
       warn(error);
     destroySkyBox();
-    emit cubemapChanged();
-    return;
   }
-
-  wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
+  if (mCubeMapTexture) {
+    wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
+    wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
 
-  while (hdrImageData.size() > 0)
-    stbi_image_free(hdrImageData.takeFirst());
-  while (regularImageData.size() > 0)
-    delete regularImageData.takeFirst();
+    while (hdrImageData.size() > 0)
+      stbi_image_free(hdrImageData.takeFirst());
+    while (regularImageData.size() > 0)
+      delete regularImageData.takeFirst();
 
-  wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
-  wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
-  wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+    wr_material_set_texture_cubemap(mSkyboxMaterial, mCubeMapTexture, 0);
+    wr_material_set_texture_cubemap_wrap_r(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_material_set_texture_cubemap_wrap_s(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_material_set_texture_cubemap_wrap_t(mSkyboxMaterial, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, 0);
+    wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
+  }
 
   // mDiffuseIrradianceCubeTexture =
   //   wr_texture_cubemap_bake_diffuse_irradiance(mCubeMapTexture, WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
@@ -463,16 +444,9 @@ void WbBackground::applySkyBoxToWren() {
     mDiffuseIrradianceCubeTexture = NULL;
   }
 
-  /*
-    const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 2).toInt();
-    // maps the quality eihter to '0: 64, 1: 128, 2: 256' or in case of HDR to '0: 32, 1: 64, 2: 256'
-    const int resolution = 1 << (6 + quality);
-    mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
-      mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), resolution);
-    wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
-  */
+  WrTextureCubeMap *cm = wr_texture_cubemap_new();
 
-  mSpecularIrradianceCubeTexture = wr_texture_cubemap_new();
+  cm = wr_texture_cubemap_new();
   success = true;
   for (int i = 0; i < 6; ++i) {
     if (mSpecularIrradianceUrlFields[i]->size() == 0) {
@@ -484,22 +458,28 @@ void WbBackground::applySkyBoxToWren() {
       success = false;
       break;
     }
-    wr_texture_set_internal_format(WR_TEXTURE(mSpecularIrradianceCubeTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+    wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
     float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &nrComponents, 0);
-    wr_texture_cubemap_set_data(mSpecularIrradianceCubeTexture, reinterpret_cast<const char *>(data),
+    wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data),
                                 static_cast<WrTextureOrientation>(i));
   }
   if (success) {
     qDebug() << "Specular irradiance map loaded" << w << h;
-    wr_texture_set_size(WR_TEXTURE(mSpecularIrradianceCubeTexture), w, h);
-    // wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
-    wr_texture_set_texture_unit(WR_TEXTURE(mSpecularIrradianceCubeTexture), 14);
-    wr_texture_setup(WR_TEXTURE(mSpecularIrradianceCubeTexture));
+
+    wr_texture_set_size(WR_TEXTURE(cm), w, h);
+    wr_texture_set_texture_unit(WR_TEXTURE(cm), 14);
+    wr_texture_setup(WR_TEXTURE(cm));
+
+    mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
+      cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
+    wr_texture_cubemap_disable_automatic_mip_map_generation(cm);
   } else {
     qDebug() << "Issues with Specular irradiance map!";
     wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
     mSpecularIrradianceCubeTexture = NULL;
   }
+
+  wr_texture_delete(WR_TEXTURE(cm));
 
   WbWrenOpenGlContext::doneWren();
 
