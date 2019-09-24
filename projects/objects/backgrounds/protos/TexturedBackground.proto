@@ -41,6 +41,70 @@ PROTO TexturedBackground [
     local extension = isHDR and "hdr" or "jpg"
     local path = "textures/cubic"
   }%
+
+  %{ if texture == "factory" then }% # TODO: remove this case.
+  Background {
+    skyColor 0.33 0.66 1
+    backUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_back.png\"" }%
+    ]
+    bottomUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_bottom.png\"" }%
+    ]
+    frontUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_front.png\"" }%
+    ]
+    leftUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_left.png\"" }%
+    ]
+    rightUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_right.png\"" }%
+    ]
+    topUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_top.png\"" }%
+    ]
+
+    backDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_back.dm.hdr\"" }%
+    ]
+    bottomDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_bottom.dm.hdr\"" }%
+    ]
+    frontDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_front.dm.hdr\"" }%
+    ]
+    leftDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_left.dm.hdr\"" }%
+    ]
+    rightDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_right.dm.hdr\"" }%
+    ]
+    topDiffuseIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_top.dm.hdr\"" }%
+    ]
+
+    backSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_back.sm.hdr\"" }%
+    ]
+    bottomSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_bottom.sm.hdr\"" }%
+    ]
+    frontSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_front.sm.hdr\"" }%
+    ]
+    leftSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_left.sm.hdr\"" }%
+    ]
+    rightSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_right.sm.hdr\"" }%
+    ]
+    topSpecularIrradianceUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_top.sm.hdr\"" }%
+    ]
+
+    luminosity IS luminosity
+  }
+  %{ else }%
   Background {
     skyColor 0.33 0.66 1
     backUrl [
@@ -102,4 +166,5 @@ PROTO TexturedBackground [
     %{ end }%
     luminosity IS luminosity
   }
+  %{ end }%
 }

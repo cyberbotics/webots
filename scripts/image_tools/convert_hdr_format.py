@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Export an HDR image to another image format (JPEG by default)."""
+"""Export an HDR image to another image format (PNG by default)."""
 # The result image is generated in the same directory as the input HDR image.
 
 import optparse
@@ -28,12 +28,12 @@ optParser.add_option(
     help='specifies the input HDR image path'
 )
 optParser.add_option(
-    '--output-format', '-f', dest='format', default='jpg', type='string',
+    '--output-format', '-f', dest='format', default='png', type='string',
     help='specifies the output format of the result image'
 )
 optParser.add_option(
-    '--output-quality', '-q', dest='quality', default=90, type='string',
-    help='specifies the output quality (this affects only the JPEG format)'
+    '--output-quality', '-q', dest='quality', default=98, type='string',
+    help='specifies the output quality (this affects only the JPG format)'
 )
 options, args = optParser.parse_args()
 
@@ -49,17 +49,18 @@ hdr = HDR.load_from_file(hdr_path)
 assert hdr.is_valid(), 'Invalid input HDR file.'
 
 print('Create the result image')
+GAMMA = 2.0
 result = RegularImage.create_black_image(hdr.width, hdr.height)
 for y in range(hdr.height):
     for x in range(hdr.width):
         pixel = hdr.get_pixel(x, y)
         pixel = (
-            clamp_int(255.0 * pixel[0], 0, 255),
-            clamp_int(255.0 * pixel[1], 0, 255),
-            clamp_int(255.0 * pixel[2], 0, 255)
+            clamp_int(255.0 * pow(pixel[0], GAMMA), 0, 255),
+            clamp_int(255.0 * pow(pixel[1], GAMMA), 0, 255),
+            clamp_int(255.0 * pow(pixel[2], GAMMA), 0, 255)
         )
         result.set_pixel(x, y, pixel)
-if format == 'jpg':
+if format == 'png':
     result.save(result_path, quality=options.quality)
 else:
     result.save(result_path)
