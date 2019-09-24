@@ -53,12 +53,22 @@
 
 QList<WbBackground *> WbBackground::cBackgroundList;
 static QString gUrlNames[6] = {"rightUrl", "leftUrl", "topUrl", "bottomUrl", "frontUrl", "backUrl"};
-static QString gDiffuseIrradianceUrlNames[6] = {"backDiffuseIrradianceUrl",  "bottomDiffuseIrradianceUrl",
-                                                "frontDiffuseIrradianceUrl", "leftDiffuseIrradianceUrl",
-                                                "rightDiffuseIrradianceUrl", "topDiffuseIrradianceUrl"};
-static QString gSpecularIrradianceUrlNames[6] = {"backSpecularIrradianceUrl",  "bottomSpecularIrradianceUrl",
-                                                 "frontSpecularIrradianceUrl", "leftSpecularIrradianceUrl",
-                                                 "rightSpecularIrradianceUrl", "topSpecularIrradianceUrl"};
+static QString gDiffuseIrradianceUrlNames[6] = {
+  "rightDiffuseIrradianceUrl",
+  "leftDiffuseIrradianceUrl",
+  "topDiffuseIrradianceUrl",
+  "bottomDiffuseIrradianceUrl",
+  "frontDiffuseIrradianceUrl",
+  "backDiffuseIrradianceUrl"
+};
+static QString gSpecularIrradianceUrlNames[6] = {
+  "rightSpecularIrradianceUrl",
+  "leftSpecularIrradianceUrl",
+  "topSpecularIrradianceUrl",
+  "bottomSpecularIrradianceUrl",
+  "frontSpecularIrradianceUrl",
+  "backSpecularIrradianceUrl"
+};
 static QString gTextureSuffixes[6] = {"_right", "_left", "_top", "_bottom", "_front", "_back"};
 
 void WbBackground::init() {
