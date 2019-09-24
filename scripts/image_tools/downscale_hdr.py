@@ -46,7 +46,7 @@ print('Load the HDR image...')
 hdr = HDR.load_from_file(hdr_path)
 assert hdr.is_valid(), 'Invalid input HDR file.'
 
-print('Create the result image')
+print('Create the result image...')
 result = HDR.create_black_image(options.width, options.height)
 for y in range(options.height):
     for x in range(options.width):
