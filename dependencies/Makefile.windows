@@ -76,7 +76,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
 lua-clean:
 	rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
 
-lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll
 	mkdir -p $(TARGET_PATH)
 	cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
 
@@ -85,7 +85,9 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	wget "http://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
 	cd "$(WEBOTS_DEPENDENCY_PATH)"; tar zxfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
 	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
-	make -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw test
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	+make -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
 
 ois-clean:
 	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"

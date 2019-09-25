@@ -15,6 +15,9 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
+  - Dependency Updates
+    - Linux: upgraded to Qt 5.13.1
+    - Windows: upgraded to Qt 5.12.4
   - Enhancements
     - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
@@ -26,6 +29,7 @@ Released on XXX YYth, 2019.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Fixed rendering issues with [IndexedFaceSet](indexedfaceset.md) having default texture mapping.
       - Enabled console button in broadcast streaming mode.
       - Windows 10 / Firefox: Fixed context menu.
       - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
@@ -37,6 +41,8 @@ Released on XXX YYth, 2019.
     - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
     - External controllers now wait if started before Webots.
     - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
+    - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
+    - Fixed rendering issues if multiple texture coordinates of a face are equal.
     - Linux: Fixed missing Python3.7 controller API.
     - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
 

@@ -1,4 +1,4 @@
-## Tutorial 1: Your First Simulation in Webots (20 Minutes)
+## Tutorial 1: Your First Simulation in Webots (30 Minutes)
 
 The objective of this first tutorial is to familiarize yourself with the user interface and with the basic concepts of Webots.
 You will create your first simulation containing a simple environment: an arena with floor and walls, a few boxes, an e-puck robot and a controller program that will make the robot move.
@@ -31,11 +31,10 @@ The world files must be stored directly in a directory called `worlds`.
 
 > **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
-Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item.
-Follow the instructions.
-Name the project directory `my_first_simulation` instead of the proposed `my_project`.
-Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
-Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
+Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
+2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
+3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 
 Webots displays a list of directories and files it just created.
 This corresponds to the [standard file hierarchy of a Webots project](the-standard-file-hierarchy-of-a-project.md).
@@ -61,9 +60,9 @@ Let's modify these fields to change the rectangle arena:
 
 > **Hands-on #3**: Double-click on the `RectangleArena` node in the scene tree.
 This should open the node and display its fields.
-Select the `floorTileSize` field and set its value to `0.25 0.25` instead of `0.5 0.5`.
+1. Select the `floorTileSize` field and set its value to `0.25 0.25` instead of `0.5 0.5`.
 You should see the effect immediately in the 3D view.
-Select the `wallHeight` field and change its value to `0.05` instead of `0.1`.
+2. Select the `wallHeight` field and change its value to `0.05` instead of `0.1`.
 The wall of the arena should now be lower.
 
 In the [scene tree view](the-scene-tree.md), the fields are displayed in a different color (depending on the theme) if they differ from their default values.
@@ -71,21 +70,21 @@ Now, we would like to add some objects:
 
 > **Hands-on #4**: Double-click on the `RectangleArena` in the scene tree to close it and select it.
 Click on the `Add` button (plus sign) at the top of the scene tree.
-In the open dialog box, choose `PROTO nodes (Webots) / objects / factory / containers / WoodenBox (Solid)`.
+In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factory / containers / WoodenBox (Solid)`.
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
-Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
-Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
+1. Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
+2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
 Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
-Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
-Select the box and press Ctrl-C, Ctrl-V (Windows, Linux) or Cmd-C, Cmd-V (macOS) to copy and paste it.
+3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
+4. Select the box and press Ctrl-C, Ctrl-V (Windows, Linux) or Cmd-C, Cmd-V (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
-Move the boxes, so that no box is at the center of the arena.
+5. Move the boxes, so that no box is at the center of the arena.
 You may also use the green rotation arrows to rotate the boxes along the vertical axis.
 This can be done also by shift-click and drag with the right mouse button.
 Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
-Once you are satisfied with the result, save the world using the save button.
+6. Once you are satisfied with the result, save the world using the save button.
 
 Using the translation and rotation handles to move objects is explained in [this section](the-3d-window.md#axis-aligned-handles).
 
@@ -108,7 +107,7 @@ This node is actually a [PROTO](../reference/proto.md) node, like the `Rectangle
 
 > **Hands-on #5**: Select the last node `WoodenBox` of the scene tree view.
 Click on the `Add` button (plus sign) at the top of the scene tree view.
-In the dialog box, choose `PROTO nodes (Webots) / robots / gctronic / e-puck / E-puck (Robot)`.
+In the dialog box, choose `PROTO nodes (Webots Projects) / robots / gctronic / e-puck / E-puck (Robot)`.
 An e-puck robot should appear in the middle of the arena.
 Move and rotate this robot, the same way you did it with the boxes.
 Save the simulation and press the `Run real-time` button (right arrow).
@@ -487,12 +486,16 @@ In order to control the motors of the wheels in speed you need to set the target
 %end
 
 The robot will now move (the wheels will rotate at a speed of 1 radian per second) and never stop.
+If nothing happens, don't forget to compile your code by selecting the `Build / Build` menu item or click on the gear icon above the code area.
+Compilation errors are displayed in red in the console.
+If there are any, fix them and retry to compile.
+Then, reload the world.
 
 ### Conclusion
 
 We hope you enjoyed creating your first Webots simulation.
 You have been able to set up a world, add a robot and program it.
-The important thing is that you learnt the fundamental concepts summarized below:
+The important thing is that you learned the fundamental concepts summarized below:
 
 - A world is made up of nodes organized in a tree structure.
 - A world is saved in a `.wbt` file stored in a Webots project.
