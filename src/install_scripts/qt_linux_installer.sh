@@ -18,9 +18,9 @@ rm -f bin/qt/lupdate
 rm -f bin/qt/lrelease
 rm -f bin/qt/moc
 rm -rf include/qt
-rm -rf lib/qt
-rm -rf lib/libQt5*
-rm -rf lib/libicu*
+rm -rf lib/webots/qt
+rm -rf lib/webots/libQt5*
+rm -rf lib/webots/libicu*
 rm -f resources/web/local/qwebchannel.js
 
 # install Qt in Webots
@@ -39,17 +39,17 @@ mkdir include/qt/QtWebEngineWidgets
 mkdir include/qt/QtWebSockets
 mkdir include/qt/QtWidgets
 mkdir include/qt/QtXml
-mkdir lib/qt
-mkdir lib/qt/libexec
-mkdir lib/qt/plugins
-mkdir lib/qt/plugins/imageformats
-mkdir lib/qt/plugins/platforms
-mkdir lib/qt/plugins/platformthemes
-mkdir lib/qt/plugins/platforminputcontexts
-mkdir lib/qt/plugins/printsupport
-mkdir lib/qt/plugins/xcbglintegrations
-mkdir lib/qt/resources
-mkdir lib/qt/translations
+mkdir lib/webots/qt
+mkdir lib/webots/qt/libexec
+mkdir lib/webots/qt/plugins
+mkdir lib/webots/qt/plugins/imageformats
+mkdir lib/webots/qt/plugins/platforms
+mkdir lib/webots/qt/plugins/platformthemes
+mkdir lib/webots/qt/plugins/platforminputcontexts
+mkdir lib/webots/qt/plugins/printsupport
+mkdir lib/webots/qt/plugins/xcbglintegrations
+mkdir lib/webots/qt/resources
+mkdir lib/webots/qt/translations
 
 cp $QT_INSTALLATION_PATH/bin/lrelease                              bin/qt/
 cp $QT_INSTALLATION_PATH/bin/lupdate                               bin/qt/
@@ -68,51 +68,51 @@ cp -r $QT_INSTALLATION_PATH/include/QtWebSockets                   include/qt/Qt
 cp -r $QT_INSTALLATION_PATH/include/QtWidgets                      include/qt/QtWidgets/
 cp -r $QT_INSTALLATION_PATH/include/QtXml                          include/qt/QtXml/
 rm -rf include/qt/Qt*/*/$QT_VERSION
-cp $QT_INSTALLATION_PATH/lib/libQt5Concurrent.so.$QT_VERSION        lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Core.so.$QT_VERSION              lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5DBus.so.$QT_VERSION              lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Gui.so.$QT_VERSION               lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Multimedia.so.$QT_VERSION        lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5MultimediaWidgets.so.$QT_VERSION lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Network.so.$QT_VERSION           lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5OpenGL.so.$QT_VERSION            lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Positioning.so.$QT_VERSION       lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5PrintSupport.so.$QT_VERSION      lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Qml.so.$QT_VERSION               lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Quick.so.$QT_VERSION             lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5QuickWidgets.so.$QT_VERSION      lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Sensors.so.$QT_VERSION           lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Sql.so.$QT_VERSION               lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebChannel.so.$QT_VERSION        lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebEngine.so.$QT_VERSION         lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebEngineCore.so.$QT_VERSION     lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebEngineWidgets.so.$QT_VERSION  lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5WebSockets.so.$QT_VERSION        lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Widgets.so.$QT_VERSION           lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5XcbQpa.so.$QT_VERSION            lib/
-cp $QT_INSTALLATION_PATH/lib/libQt5Xml.so.$QT_VERSION               lib/
-cp $QT_INSTALLATION_PATH/lib/libicudata.so.$ICU_VERSION.1           lib/
-cp $QT_INSTALLATION_PATH/lib/libicui18n.so.$ICU_VERSION.1           lib/
-cp $QT_INSTALLATION_PATH/lib/libicuuc.so.$ICU_VERSION.1             lib/
-echo $'[Paths]\nPrefix = ..\n' >                                    lib/qt/libexec/qt.conf
-cp $QT_INSTALLATION_PATH/libexec/QtWebEngineProcess                 lib/qt/libexec/
-cp $QT_INSTALLATION_PATH/plugins/platforms/libqxcb.so               lib/qt/plugins/platforms/
-cp $QT_INSTALLATION_PATH/plugins/platformthemes/libqgtk3.so         lib/qt/plugins/platformthemes/
-cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so lib/qt/plugins/platforminputcontexts/
-cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so    lib/qt/plugins/platforminputcontexts/
-cp $QT_INSTALLATION_PATH/plugins/printsupport/libcupsprintersupport.so                         lib/qt/plugins/printsupport/
-cp $QT_INSTALLATION_PATH/plugins/xcbglintegrations/libqxcb-glx-integration.so lib/qt/plugins/xcbglintegrations/
-cp $QT_INSTALLATION_PATH/plugins/imageformats/libqjpeg.so           lib/qt/plugins/imageformats/
-cp $QT_INSTALLATION_PATH/resources/icudtl.dat                       lib/qt/resources/
-cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources.pak        lib/qt/resources/
-cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources_100p.pak   lib/qt/resources/
-cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources_200p.pak   lib/qt/resources/
-cp -r $QT_INSTALLATION_PATH/translations/*                          lib/qt/translations/
+cp $QT_INSTALLATION_PATH/lib/libQt5Concurrent.so.$QT_VERSION        lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Core.so.$QT_VERSION              lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5DBus.so.$QT_VERSION              lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Gui.so.$QT_VERSION               lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Multimedia.so.$QT_VERSION        lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5MultimediaWidgets.so.$QT_VERSION lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Network.so.$QT_VERSION           lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5OpenGL.so.$QT_VERSION            lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Positioning.so.$QT_VERSION       lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5PrintSupport.so.$QT_VERSION      lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Qml.so.$QT_VERSION               lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Quick.so.$QT_VERSION             lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5QuickWidgets.so.$QT_VERSION      lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Sensors.so.$QT_VERSION           lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Sql.so.$QT_VERSION               lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5WebChannel.so.$QT_VERSION        lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5WebEngine.so.$QT_VERSION         lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5WebEngineCore.so.$QT_VERSION     lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5WebEngineWidgets.so.$QT_VERSION  lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5WebSockets.so.$QT_VERSION        lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Widgets.so.$QT_VERSION           lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5XcbQpa.so.$QT_VERSION            lib/webots
+cp $QT_INSTALLATION_PATH/lib/libQt5Xml.so.$QT_VERSION               lib/webots
+cp $QT_INSTALLATION_PATH/lib/libicudata.so.$ICU_VERSION.1           lib/webots
+cp $QT_INSTALLATION_PATH/lib/libicui18n.so.$ICU_VERSION.1           lib/webots
+cp $QT_INSTALLATION_PATH/lib/libicuuc.so.$ICU_VERSION.1             lib/webots
+echo $'[Paths]\nPrefix = ..\n' >                                    lib/webots/qt/libexec/qt.conf
+cp $QT_INSTALLATION_PATH/libexec/QtWebEngineProcess                 lib/webots/qt/libexec/
+cp $QT_INSTALLATION_PATH/plugins/platforms/libqxcb.so               lib/webots/qt/plugins/platforms/
+cp $QT_INSTALLATION_PATH/plugins/platformthemes/libqgtk3.so         lib/webots/qt/plugins/platformthemes/
+cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so lib/webots/qt/plugins/platforminputcontexts/
+cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so    lib/webots/qt/plugins/platforminputcontexts/
+cp $QT_INSTALLATION_PATH/plugins/printsupport/libcupsprintersupport.so                         lib/webots/qt/plugins/printsupport/
+cp $QT_INSTALLATION_PATH/plugins/xcbglintegrations/libqxcb-glx-integration.so lib/webots/qt/plugins/xcbglintegrations/
+cp $QT_INSTALLATION_PATH/plugins/imageformats/libqjpeg.so           lib/webots/qt/plugins/imageformats/
+cp $QT_INSTALLATION_PATH/resources/icudtl.dat                       lib/webots/qt/resources/
+cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources.pak        lib/webots/qt/resources/
+cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources_100p.pak   lib/webots/qt/resources/
+cp $QT_INSTALLATION_PATH/resources/qtwebengine_resources_200p.pak   lib/webots/qt/resources/
+cp -r $QT_INSTALLATION_PATH/translations/*                          lib/webots/qt/translations/
 
 # copy qwebchannel.js from the Examples
 cp ${QT_INSTALLATION_PATH}/../../Examples/Qt-${QT_VERSION}/webchannel/shared/qwebchannel.js resources/web/local/
 
-cd lib
+cd lib/webots
 ln -sf libQt5Concurrent.so.$QT_VERSION        libQt5Concurrent.so.5
 ln -sf libQt5Concurrent.so.$QT_VERSION        libQt5Concurrent.so
 ln -sf libQt5Core.so.$QT_VERSION              libQt5Core.so.5
@@ -167,6 +167,6 @@ cd ..
 
 ARCHIVE=webots-qt-$QT_VERSION-linux64-release.tar.bz2
 echo Compressing $ARCHIVE \(please wait\)
-tar cjf $ARCHIVE lib/libQt5* lib/libicu* lib/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
+tar cjf $ARCHIVE lib/webots/libQt5* lib/webots/libicu* lib/webots/qt include/qt bin/qt/lrelease bin/qt/lupdate bin/qt/moc resources/web/local/qwebchannel.js
 
 echo Done.
