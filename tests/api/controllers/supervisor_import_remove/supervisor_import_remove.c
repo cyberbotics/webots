@@ -71,6 +71,10 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
+  // Try to remove root
+  // this is an invalid action: nothing should be applied and Webots should not crash
+  wb_supervisor_node_remove(wb_supervisor_node_get_root());
+
   value0 = wb_distance_sensor_get_value(ds0);
   ts_assert_double_is_bigger(750, value0, "SPHERE2 is not detected");
 
@@ -78,6 +82,13 @@ int main(int argc, char **argv) {
   ts_assert_pointer_not_null(sphere2_node, "Invalid reference to node 'SPHERE2'");
   wb_supervisor_node_remove(sphere2_node);
 
+  ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), initial_root_children_count,
+                      "The number of children of the root node is not correct after the deletion of SPHERE2.");
+
+  wb_robot_step(TIME_STEP);
+
+  // Remove an already deleted node: invalid action
+  wb_supervisor_node_remove(sphere2_node);
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), initial_root_children_count,
                       "The number of children of the root node is not correct after the deletion of SPHERE2.");
 
@@ -134,6 +145,17 @@ int main(int argc, char **argv) {
 
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), root_children_count + 3,
                       "The number of children of the root node should increase by 1 when importing the *.wrl file.");
+
+  // test internal update of libController node_list on node delete
+  wb_supervisor_field_import_mf_node_from_string(root_children_field, -1, "DEF SPHERE4 Solid {}");
+  WbNodeRef sphere4 = wb_supervisor_field_get_mf_node(root_children_field, -1);
+  wb_supervisor_field_import_mf_node_from_string(root_children_field, -1, "DEF SPHERE5 Solid {}");
+  WbNodeRef sphere5 = wb_supervisor_field_get_mf_node(root_children_field, -1);
+  wb_robot_step(TIME_STEP);
+  wb_supervisor_node_remove(sphere4);
+  wb_robot_step(TIME_STEP);
+  ts_assert_boolean_equal(wb_supervisor_field_get_mf_node(root_children_field, -1) == sphere5,
+                          "WbNodeRef instance of SPHERE 5 should not change after deleting SPHERE 4.");
 
   ts_send_success();
   return EXIT_SUCCESS;
