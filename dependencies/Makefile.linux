@@ -66,12 +66,12 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 
 
 open-cv-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME)/lib/libopencv_* $(WEBOTS_HOME)/include/opencv2
+	rm -rf $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)* $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
 
-open-cv: $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3
+open-cv: $(WEBOTS_HOME)/lib/controller/libopencv_core.so.2.4.3
 
-$(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
+$(WEBOTS_HOME)/lib/controller/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
+	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib/controller
 	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
 
 $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
