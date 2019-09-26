@@ -4,69 +4,76 @@
 
 Install `Pillow` from pip, typically:
 
-```
-pip install Pillow
+```shell
+pip install --user --requirement requirements.txt
 ```
 
-## `clamp_hdr`
+## Scripts
+
+### `clamp_hdr`
 
 Clamp the HDR data to a specific threshold.
 
-```
+```shell
 cd $WEBOTS_HOME
 
-python scripts/image_tools/clamp_hdr.py --help
+python clamp_hdr.py --help
 
-python scripts/image_tools/clamp_hdr.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr --clamp 30
+python clamp_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --clamp 30
 ```
 
-## `convert_hdr_format`
+### `convert_hdr_format`
 
 Convert an HDR image to a PNG image.
 
-```
+```shell
 cd $WEBOTS_HOME
 
-python scripts/image_tools/convert_hdr_format.py --help
+python convert_hdr_format.py --help
 
-python scripts/image_tools/convert_hdr_format.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr
+python convert_hdr_format.py --input /Users/$USER/Desktop/entrance_hall.hdr
 ```
 
-## `downscale_hdr`
+### `downscale_hdr`
 
 Downscale an HDR image to a specified size.
 
-```
+```shell
 cd $WEBOTS_HOME
 
-python scripts/image_tools/downscale_hdr.py --help
+python downscale_hdr.py --help
 
-python scripts/image_tools/downscale_hdr.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr --clamp 30
+python downscale_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --clamp 30
 ```
 
-## `equirectangular_to_cubemap`
+### `equirectangular_to_cubemap`
 
 Convert an image having an equirectangular projection to 6 cubemap images.
 
 Typical usage:
 
-```
+```shell
 cd $WEBOTS_HOME
 
-python scripts/image_tools/equirectangular_to_cubemap.py --help
+python equirectangular_to_cubemap.py --help
 
-python scripts/image_tools/equirectangular_to_cubemap.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr --width 1042 --height 1042
-python scripts/image_tools/equirectangular_to_cubemap.py --input /home/user/Desktop/entrance_hall.png
+python equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.png
+python equirectangular_to_cubemap.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 1042 --height 1042
 ```
 
-## `hdr_to_irradiance_maps`
+## Typical Usage
 
-Convert an HDR image to irradiance maps.
+### Convert an HDR Equirectangular Map to a Webots-Compliant Background
 
-```
-cd $WEBOTS_HOME
+```shell
+name=background
+suffixes=( "back" "bottom" "front" "left" "right" "top" )
 
-python scripts/image_tools/hdr_to_irradiance_maps.py --help
-
-python scripts/image_tools/hdr_to_irradiance_maps.py --input projects/default/worlds/textures/cubic/entrance_hall.hdr
+python equirectangular_to_cubemap.py --input $name.hdr
+for suffix in "${suffixes[@]}"
+do
+  echo $name\_$suffix.hdr
+  python convert_hdr_format.py --input $name\_$suffix.hdr
+  python downscale_hdr.py --input $name\_$suffix.hdr
+done
 ```

@@ -15,10 +15,3 @@
 
 def clamp_int(v, a, b):
     return max(a, min(b, int(v)))
-
-
-def drange(start, stop, step):
-    r = start
-    while r < stop:
-        yield r
-        r += step
