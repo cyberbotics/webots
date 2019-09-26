@@ -94,7 +94,7 @@ def setupWebots():
     command.run()
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots version (the command "%s" exited with "%d" and output "%s")' %
-                           (webotsFullPath + ' --version', command.returncode, command.output)
+                           (webotsFullPath + ' --version', command.returncode, command.output))
     webotsVersion = command.output.replace('\n', ' ').split(' ')[2].split('.')
 
     command = Command(webotsFullPath + ' --sysinfo')
