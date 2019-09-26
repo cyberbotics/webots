@@ -30,7 +30,7 @@ These tutorials will also help you set up your ROS environment and initialize yo
 The minimum requirement is to follow these instructions (taken from the [ROS tutorial 1.1.1](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)).
 1. Open a terminal
 2. Check if the ROS environment is properly set-up: `printenv | grep ROS`
-3. If not, source the setup script: `source opt/ros/melodic/setup.bash`. Check it again to be sure.
+3. If not, source the setup script: `source /opt/ros/melodic/setup.bash`. Check it again to be sure.
 4. Create a `catkin_ws` workspace for ROS:
   1. Create some folders: `mkdir -p ~/catkin_ws/src`
   2. Go back in the main folder: `cd ~/catkin_ws/`
