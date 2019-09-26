@@ -447,31 +447,51 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
   findField("skyColor", true)->write(writer);
   findField("luminosity", true)->write(writer);
 
-  QString outputFileNames[6];
+  QString backgroundFileNames[6];
   for (int i = 0; i < 6; ++i) {
     if (mUrlFields[i]->size() == 0)
       continue;
     const QString &url = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
     const QFileInfo &cubeInfo(url);
     if (writer.isWritingToFile())
-      outputFileNames[i] =
+      backgroundFileNames[i] =
         WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
     else
-      outputFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
-    writer.addTextureToList(outputFileNames[i], url);
+      backgroundFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+    writer.addTextureToList(backgroundFileNames[i], url);
+  }
+
+  QString irradianceFileNames[6];
+  for (int i = 0; i < 6; ++i) {
+    if (mUrlFields[i]->size() == 0)
+      continue;
+    const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+    const QFileInfo &cubeInfo(url);
+    if (writer.isWritingToFile())
+      irradianceFileNames[i] =
+        WbUrl::exportTexture(this, url, url, writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/", writer);
+    else
+      irradianceFileNames[i] = writer.relativeTexturesPath() + cubeInfo.dir().dirName() + "/" + cubeInfo.fileName();
+    writer.addTextureToList(irradianceFileNames[i], url);
   }
 
   if (writer.isX3d()) {
     writer << " ";
     for (int i = 0; i < 6; ++i) {
-      if (!outputFileNames[i].isEmpty())
-        writer << gUrlNames[i] << "='\"" << outputFileNames[i] << "\"' ";
+      if (!backgroundFileNames[i].isEmpty())
+        writer << gUrlNames[i] << "='\"" << backgroundFileNames[i] << "\"' ";
+      if (!irradianceFileNames[i].isEmpty())
+        writer << gIrradianceUrlNames[i] << "='\"" << irradianceFileNames[i] << "\"' ";
     }
   } else if (writer.isVrml()) {
     for (int i = 0; i < 6; ++i) {
-      if (!outputFileNames[i].isEmpty()) {
+      if (!irradianceFileNames[i].isEmpty()) {
         writer.indent();
-        writer << gUrlNames[i] << " [ \"" << outputFileNames[i] << "\" ]\n";
+        writer << gUrlNames[i] << " [ \"" << irradianceFileNames[i] << "\" ]\n";
+      }
+      if (!irradianceFileNames[i].isEmpty()) {
+        writer.indent();
+        writer << gIrradianceUrlNames[i] << " [ \"" << irradianceFileNames[i] << "\" ]\n";
       }
     }
   } else
