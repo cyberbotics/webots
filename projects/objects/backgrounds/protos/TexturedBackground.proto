@@ -38,73 +38,9 @@ PROTO TexturedBackground [
       texture == "noon_cloudy_countryside" or
       texture == "noon_park_empty" or
       texture == "mountains"
-    local extension = isHDR and "hdr" or "jpg"
+    local extension = isHDR and "png" or "jpg"
     local path = "textures/cubic"
   }%
-
-  %{ if texture == "factory" then }% # TODO: remove this case.
-  Background {
-    skyColor 0.33 0.66 1
-    backUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_back.png\"" }%
-    ]
-    bottomUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_bottom.png\"" }%
-    ]
-    frontUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_front.png\"" }%
-    ]
-    leftUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_left.png\"" }%
-    ]
-    rightUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_right.png\"" }%
-    ]
-    topUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_top.png\"" }%
-    ]
-
-    backDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_back.dm.hdr\"" }%
-    ]
-    bottomDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_bottom.dm.hdr\"" }%
-    ]
-    frontDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_front.dm.hdr\"" }%
-    ]
-    leftDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_left.dm.hdr\"" }%
-    ]
-    rightDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_right.dm.hdr\"" }%
-    ]
-    topDiffuseIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_top.dm.hdr\"" }%
-    ]
-
-    backSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_back.sm.hdr\"" }%
-    ]
-    bottomSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_bottom.sm.hdr\"" }%
-    ]
-    frontSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_front.sm.hdr\"" }%
-    ]
-    leftSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_left.sm.hdr\"" }%
-    ]
-    rightSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_right.sm.hdr\"" }%
-    ]
-    topSpecularIrradianceUrl [
-      %{= "\"" .. path .. "/" .. texture .. "_top.sm.hdr\"" }%
-    ]
-
-    luminosity IS luminosity
-  }
-  %{ else }%
   Background {
     skyColor 0.33 0.66 1
     backUrl [
@@ -126,45 +62,25 @@ PROTO TexturedBackground [
       %{= "\"" .. path .. "/" .. texture .. "_top." .. extension .. "\"" }%
     ]
     %{ if isHDR then }%
-      backDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_back.dm." .. extension .. "\"" }%
+      backIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_back.hdr\"" }%
       ]
-      bottomDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_bottom.dm." .. extension .. "\"" }%
+      bottomIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_bottom.hdr\"" }%
       ]
-      frontDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_front.dm." .. extension .. "\"" }%
+      frontIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_front.hdr\"" }%
       ]
-      leftDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_left.dm." .. extension .. "\"" }%
+      leftIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_left.hdr\"" }%
       ]
-      rightDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_right.dm." .. extension .. "\"" }%
+      rightIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_right.hdr\"" }%
       ]
-      topDiffuseIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_top.dm." .. extension .. "\"" }%
-      ]
-
-      backSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_back.sm." .. extension .. "\"" }%
-      ]
-      bottomSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_bottom.sm." .. extension .. "\"" }%
-      ]
-      frontSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_front.sm." .. extension .. "\"" }%
-      ]
-      leftSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_left.sm." .. extension .. "\"" }%
-      ]
-      rightSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_right.sm." .. extension .. "\"" }%
-      ]
-      topSpecularIrradianceUrl [
-        %{= "\"" .. path .. "/" .. texture .. "_top.sm." .. extension .. "\"" }%
+      topIrradianceUrl [
+        %{= "\"" .. path .. "/" .. texture .. "_top.hdr\"" }%
       ]
     %{ end }%
     luminosity IS luminosity
   }
-  %{ end }%
 }

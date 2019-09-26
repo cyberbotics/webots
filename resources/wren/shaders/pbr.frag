@@ -15,7 +15,7 @@ layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
-uniform samplerCube cubeTextures[2];
+uniform samplerCube cubeTextures[1];
 
 struct PBRInfo {
   float NdotL;                // cos angle between normal and light direction
@@ -152,12 +152,13 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection) {
   vec3 diffuseLight = vec3(0.0);
   vec3 specularLight = vec3(0.0);
   vec2 brdf = texture(inputTextures[5], vec2(pbrInputs.NdotV, pbrInputs.perceptualRoughness)).xy;
-  if (material.cubeTextureFlags.x > 0.0 && material.cubeTextureFlags.y > 0.0) {
+  if (material.cubeTextureFlags.x > 0.0) {
     float mipCount = 7.0;
     float lod = (pbrInputs.perceptualRoughness * mipCount);
+    // A single irradiance map is used for the diffuse and specular reflections.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
-    diffuseLight = texture(cubeTextures[0], vec3(n.xy, -n.z)).rgb;
-    specularLight = textureLod(cubeTextures[1], vec3(reflection.xy, -reflection.z), lod).rgb;
+    diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 4).rgb;
+    specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
   } else {
     diffuseLight = material.backgroundColorAndIblStrength.rgb;
     specularLight = material.backgroundColorAndIblStrength.rgb;

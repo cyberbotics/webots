@@ -826,7 +826,6 @@ WrShaderProgram *WbWrenShaders::pbrShader() {
     wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE7);  // background texture (for displays)
     wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE8);  // pen texture
     wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);  // irradiance cubemap
-    wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE1);  // specular cubemap
     wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
     wr_shader_program_use_uniform(gShaders[SHADER_PBR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 
@@ -866,7 +865,6 @@ WrShaderProgram *WbWrenShaders::pbrStencilAmbientEmissiveShader() {
     // irradiance cubemap
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE0);
     // specular cubemap
-    wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_CUBE1);
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM);
     wr_shader_program_use_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], WR_GLSL_LAYOUT_UNIFORM_TEXTURE_TRANSFORM);
 

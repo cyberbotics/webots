@@ -10,19 +10,12 @@ Background {
   vrmlField MFString rightUrl  []
   vrmlField MFString topUrl    []
 
-  field MFString backDiffuseIrradianceUrl   []
-  field MFString bottomDiffuseIrradianceUrl []
-  field MFString frontDiffuseIrradianceUrl  []
-  field MFString leftDiffuseIrradianceUrl   []
-  field MFString rightDiffuseIrradianceUrl  []
-  field MFString topDiffuseIrradianceUrl    []
-
-  field MFString backSpecularIrradianceUrl   []
-  field MFString bottomSpecularIrradianceUrl []
-  field MFString frontSpecularIrradianceUrl  []
-  field MFString leftSpecularIrradianceUrl   []
-  field MFString rightSpecularIrradianceUrl  []
-  field MFString topSpecularIrradianceUrl    []
+  field MFString backIrradianceUrl   []
+  field MFString bottomIrradianceUrl []
+  field MFString frontIrradianceUrl  []
+  field MFString leftIrradianceUrl   []
+  field MFString rightIrradianceUrl  []
+  field MFString topIrradianceUrl    []
 
   field     SFFloat  luminosity  1
 }

@@ -42,7 +42,6 @@
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtGui/QImage>
@@ -53,22 +52,8 @@
 
 QList<WbBackground *> WbBackground::cBackgroundList;
 static QString gUrlNames[6] = {"rightUrl", "leftUrl", "topUrl", "bottomUrl", "frontUrl", "backUrl"};
-static QString gDiffuseIrradianceUrlNames[6] = {
-  "rightDiffuseIrradianceUrl",
-  "leftDiffuseIrradianceUrl",
-  "topDiffuseIrradianceUrl",
-  "bottomDiffuseIrradianceUrl",
-  "frontDiffuseIrradianceUrl",
-  "backDiffuseIrradianceUrl"
-};
-static QString gSpecularIrradianceUrlNames[6] = {
-  "rightSpecularIrradianceUrl",
-  "leftSpecularIrradianceUrl",
-  "topSpecularIrradianceUrl",
-  "bottomSpecularIrradianceUrl",
-  "frontSpecularIrradianceUrl",
-  "backSpecularIrradianceUrl"
-};
+static QString gIrradianceUrlNames[6] = {"rightIrradianceUrl",  "leftIrradianceUrl",  "topIrradianceUrl",
+                                         "bottomIrradianceUrl", "frontIrradianceUrl", "backIrradianceUrl"};
 static QString gTextureSuffixes[6] = {"_right", "_left", "_top", "_bottom", "_front", "_back"};
 
 void WbBackground::init() {
@@ -76,8 +61,7 @@ void WbBackground::init() {
   mLuminosity = findSFDouble("luminosity");
   for (int i = 0; i < 6; ++i) {
     mUrlFields[i] = findMFString(gUrlNames[i]);
-    mDiffuseIrradianceUrlFields[i] = findMFString(gDiffuseIrradianceUrlNames[i]);
-    mSpecularIrradianceUrlFields[i] = findMFString(gSpecularIrradianceUrlNames[i]);
+    mIrradianceUrlFields[i] = findMFString(gIrradianceUrlNames[i]);
   }
 
   QString directory;
@@ -127,8 +111,7 @@ void WbBackground::init() {
   mHdrClearMesh = NULL;
 
   mCubeMapTexture = NULL;
-  mDiffuseIrradianceCubeTexture = NULL;
-  mSpecularIrradianceCubeTexture = NULL;
+  mIrradianceCubeTexture = NULL;
 }
 
 WbBackground::WbBackground(WbTokenizer *tokenizer) : WbBaseNode("Background", tokenizer) {
@@ -266,14 +249,9 @@ void WbBackground::destroySkyBox() {
     mCubeMapTexture = NULL;
   }
 
-  if (mDiffuseIrradianceCubeTexture) {
-    wr_texture_delete(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
-    mDiffuseIrradianceCubeTexture = NULL;
-  }
-
-  if (mSpecularIrradianceCubeTexture) {
-    wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
-    mSpecularIrradianceCubeTexture = NULL;
+  if (mIrradianceCubeTexture) {
+    wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
+    mIrradianceCubeTexture = NULL;
   }
 }
 
@@ -410,73 +388,43 @@ void WbBackground::applySkyBoxToWren() {
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
 
-  // mDiffuseIrradianceCubeTexture =
-  //   wr_texture_cubemap_bake_diffuse_irradiance(mCubeMapTexture, WbWrenShaders::iblDiffuseIrradianceBakingShader(), 32);
-
-  int w, h, nrComponents;
-  bool success;
-
-  mDiffuseIrradianceCubeTexture = wr_texture_cubemap_new();
-  success = true;
-  for (int i = 0; i < 6; ++i) {
-    if (mDiffuseIrradianceUrlFields[i]->size() == 0) {
-      success = false;
-      break;
-    }
-    QString url = WbUrl::computePath(this, "textureBaseName", mDiffuseIrradianceUrlFields[i]->item(0), false);
-    if (url.isEmpty()) {
-      success = false;
-      break;
-    }
-    wr_texture_set_internal_format(WR_TEXTURE(mDiffuseIrradianceCubeTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-    float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &nrComponents, 0);
-    wr_texture_cubemap_set_data(mDiffuseIrradianceCubeTexture, reinterpret_cast<const char *>(data),
-                                static_cast<WrTextureOrientation>(i));
-  }
-  if (success) {
-    qDebug() << "Diffuse irradiance map loaded" << w << h;
-    wr_texture_set_size(WR_TEXTURE(mDiffuseIrradianceCubeTexture), w, h);
-    wr_texture_set_texture_unit(WR_TEXTURE(mDiffuseIrradianceCubeTexture), 13);
-    wr_texture_setup(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
-  } else {
-    qDebug() << "Issues with diffuse irradiance map!";
-    wr_texture_delete(WR_TEXTURE(mDiffuseIrradianceCubeTexture));
-    mDiffuseIrradianceCubeTexture = NULL;
-  }
-
   WrTextureCubeMap *cm = wr_texture_cubemap_new();
 
-  cm = wr_texture_cubemap_new();
-  success = true;
+  int w, h, nrComponents;
+  bool success = true;
   for (int i = 0; i < 6; ++i) {
-    if (mSpecularIrradianceUrlFields[i]->size() == 0) {
+    if (mIrradianceUrlFields[i]->size() == 0) {
       success = false;
       break;
     }
-    QString url = WbUrl::computePath(this, "textureBaseName", mSpecularIrradianceUrlFields[i]->item(0), false);
+    QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
     if (url.isEmpty()) {
       success = false;
       break;
     }
     wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
     float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &nrComponents, 0);
-    wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data),
-                                static_cast<WrTextureOrientation>(i));
+    wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
   }
   if (success) {
-    qDebug() << "Specular irradiance map loaded" << w << h;
-
     wr_texture_set_size(WR_TEXTURE(cm), w, h);
-    wr_texture_set_texture_unit(WR_TEXTURE(cm), 14);
+    wr_texture_set_texture_unit(WR_TEXTURE(cm), 13);
     wr_texture_setup(WR_TEXTURE(cm));
 
-    mSpecularIrradianceCubeTexture = wr_texture_cubemap_bake_specular_irradiance(
-      cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
-    wr_texture_cubemap_disable_automatic_mip_map_generation(mSpecularIrradianceCubeTexture);
+    mIrradianceCubeTexture =
+      wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
+    wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
   } else {
-    qDebug() << "Issues with Specular irradiance map!";
-    wr_texture_delete(WR_TEXTURE(mSpecularIrradianceCubeTexture));
-    mSpecularIrradianceCubeTexture = NULL;
+    wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
+    mIrradianceCubeTexture = NULL;
+
+    // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
+    // Reflections won't be good in such case.
+    if (mCubeMapTexture) {
+      mIrradianceCubeTexture =
+        wr_texture_cubemap_bake_specular_irradiance(mCubeMapTexture, WbWrenShaders::iblSpecularIrradianceBakingShader(), 64);
+      wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
+    }
   }
 
   wr_texture_delete(WR_TEXTURE(cm));
