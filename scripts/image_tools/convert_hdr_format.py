@@ -49,15 +49,14 @@ hdr = HDR.load_from_file(hdr_path)
 assert hdr.is_valid(), 'Invalid input HDR file.'
 
 print('Create the result image')
-GAMMA = 2.0
 result = RegularImage.create_black_image(hdr.width, hdr.height)
 for y in range(hdr.height):
     for x in range(hdr.width):
         pixel = hdr.get_pixel(x, y)
         pixel = (
-            clamp_int(255.0 * pow(pixel[0], GAMMA), 0, 255),
-            clamp_int(255.0 * pow(pixel[1], GAMMA), 0, 255),
-            clamp_int(255.0 * pow(pixel[2], GAMMA), 0, 255)
+            clamp_int(255.0 * pixel[0], 0, 255),
+            clamp_int(255.0 * pixel[1], 0, 255),
+            clamp_int(255.0 * pixel[2], 0, 255)
         )
         result.set_pixel(x, y, pixel)
 if format == 'png':

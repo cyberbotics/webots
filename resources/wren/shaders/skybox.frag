@@ -11,4 +11,5 @@ void main() {
   // invert z components of sample vector due to VRML default camera orientation looking towards -z
   fragNormal = vec3(0.0);
   fragColor = textureLod(cubeTextures[0], vec3(texUv.xy, -texUv.z), 0);
+  fragColor.rgb = pow(fragColor.rgb, vec3(2.0));
 }
