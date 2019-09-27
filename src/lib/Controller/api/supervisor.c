@@ -162,19 +162,22 @@ static bool is_node_ref_valid(WbNodeRef n) {
 }
 
 static void remove_node_from_list(int uid) {
-  WbNodeRef previous_node_in_list = node_list;
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
     // look for the previous node in the list
-    while (previous_node_in_list) {
-      previous_node_in_list = previous_node_in_list->next;
-      if (previous_node_in_list && previous_node_in_list->next && previous_node_in_list->next->id == uid)
-        break;
-    }
-    if (previous_node_in_list)  // connect previous and next node in the list
-      previous_node_in_list->next = node->next;
-    else  // the node was the first of the list
+    if (node_list == node)  // the node is the first of the list
       node_list = node->next;
+    else {
+      WbNodeRef previous_node_in_list = node_list;
+      while (previous_node_in_list) {
+        if (previous_node_in_list->next && previous_node_in_list->next->id == uid) {
+          // connect previous and next node in the list
+          previous_node_in_list->next = node->next;
+          break;
+        }
+        previous_node_in_list = previous_node_in_list->next;
+      }
+    }
     // clean the node
     free(node->model_name);
     node->model_name = NULL;
@@ -1611,7 +1614,7 @@ void wb_supervisor_node_remove(WbNodeRef node) {
   if (!robot_check_supervisor("wb_supervisor_node_remove"))
     return;
 
-  if (!is_node_ref_valid(node)) {
+  if (!is_node_ref_valid(node) || node->id == 0) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: wb_supervisor_node_remove() called with NULL or invalid 'node' argument.\n");
     return;
