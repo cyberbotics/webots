@@ -1063,9 +1063,9 @@ static void create_file(const char *name, int m) {
       // for webots.exe and hence webots cannot compile
       break;
     case DEB:
-#ifdef WEBOTS_UBUNTU_18_04
-      copy_file("lib/libssl.so.1.0.0");
-      copy_file("lib/libcrypto.so.1.0.0");
+#ifdef WEBOTS_UBUNTU_16_04
+      copy_file("lib/libssl.so.1.1");
+      copy_file("lib/libcrypto.so.1.1");
 #endif
       // copy libraries that depends on OS and cannot be included in files_*.txt
       fprintf(fd, "cd %s/debian\n", distribution_path);
@@ -1118,11 +1118,9 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/lib/python35/*.py usr/local/webots/lib/python35/\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/python35/_*.so usr/local/webots/lib/python35/\n");
       // include system libraries in package that are needed on Ubuntu 18.04
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libssl.so.1.0.0 usr/local/webots/lib\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 usr/local/webots/lib\n");
       fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libssl.so.1.0.0 libssl.so\n");
-      fprintf(fd, "ln -s libcrypto.so.1.0.0 libcrypto.so\n");
+      fprintf(fd, "ln -s libssl.so.1.1 libssl.so\n");
+      fprintf(fd, "ln -s libcrypto.so.1.1 libcrypto.so\n");
       fprintf(fd, "cd %s/debian\n", distribution_path);
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 usr/local/webots/lib\n");
@@ -1145,7 +1143,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "du -sx %s/debian | awk '{print $1}' >> DEBIAN/control\n", distribution_path);
       fprintf(fd, "echo \"Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), ");
       fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, libjpeg8-dev, ");
-      fprintf(fd, "libnss3, libpci3 (>= 3.2.0), libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
+      fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
       fprintf(fd, "libgd3, libfreetype6\" >> DEBIAN/control\n");
 
@@ -1216,7 +1214,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 debian/usr/local/webots/lib\n");
       fprintf(fd, "cd debian/usr/local\n");
       fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
               package_version, arch2, application_name_lowercase_and_dashes);
@@ -1231,15 +1228,12 @@ static void create_file(const char *name, int m) {
         "libfontconfig.so.1", "libxslt.so.1", "libgd.so.3", "libssh.so.4", "libfreetype.so.6" };
       for(int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 $DESTDIR/lib/x86_64-linux-gnu/\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
       fprintf(fd, "cp -ar /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
       fprintf(fd, "cp -ar /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
-      copy_file("lib/libssl.so*");
-      copy_file("lib/libcrypto.so*");
       break;
     }
     default:
