@@ -6,7 +6,6 @@
 PROTO WornBurlap [
   field SFColor colorOverride    1 1 1                           # Defines the burlap's color.
   field SFNode  textureTransform TextureTransform { scale 4 4 }  # Defines an optional 2d texture transform.
-  field SFNode  environmentMap   NULL                            # Defines a `Cubemap` node overriding the skybox for this object.
   field SFFloat IBLStrength      1                               # Defines the strength of ambient lighting from the Cubemap node.
 ]
 {
@@ -38,7 +37,6 @@ PROTO WornBurlap [
     }
     metalness 0
     normalMapFactor 1
-    environmentMap IS environmentMap
     IBLStrength IS IBLStrength
     textureTransform IS textureTransform
   }
