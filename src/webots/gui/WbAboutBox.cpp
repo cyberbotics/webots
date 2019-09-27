@@ -52,7 +52,7 @@ WbAboutBox::WbAboutBox(QWidget *parent) : QDialog(parent) {
   layout->addWidget(description, 1, 0, 1, 1, Qt::AlignBottom | Qt::AlignRight);
 
   description = new QLabel();
-  connect(description, &QLabel::linkActivated,  &WbDesktopServices::openUrl);
+  connect(description, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   description->setWordWrap(true);
   description->setText("<a style='color: #5DADE2;' href='https://cyberbotics.com/doc/reference/changelog'>Changelog</a>");
   layout->addWidget(description, 1, 1, 1, 1, Qt::AlignBottom | Qt::AlignCenter);
