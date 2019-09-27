@@ -40,7 +40,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
 

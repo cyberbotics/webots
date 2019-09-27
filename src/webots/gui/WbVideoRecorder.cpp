@@ -15,6 +15,7 @@
 #include "WbVideoRecorder.hpp"
 
 #include "WbApplication.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMainWindow.hpp"
@@ -36,7 +37,6 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QImage>
 #include <QtGui/QImageWriter>
 #include <QtGui/QScreen>
@@ -408,10 +408,10 @@ void WbVideoRecorder::terminateVideoCreation(int exitCode, QProcess::ExitStatus 
     box.setCheckBox(checkBox);
     if (box.exec() == QMessageBox::Yes) {
       if (checkBox->isChecked()) {
-        QDesktopServices::openUrl(QUrl("https://www.youtube.com/upload"));
+        WbDesktopServices::openUrl("https://www.youtube.com/upload");
         WbFileUtil::revealInFileManager(mVideoName);
       }
-      QDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName));
+      WbDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName).toString());
     }
   }
 }

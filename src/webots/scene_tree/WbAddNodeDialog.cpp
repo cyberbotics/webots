@@ -15,6 +15,7 @@
 #include "WbAddNodeDialog.hpp"
 
 #include "WbBaseNode.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
 #include "WbLog.hpp"
@@ -108,14 +109,14 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 
   mDocumentationLabel = new QLabel(this);
   mDocumentationLabel->setObjectName("documentationLabel");
-  mDocumentationLabel->setOpenExternalLinks(true);
+  connect(mDocumentationLabel, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   mDocumentationLabel->setWordWrap(true);
   font.setItalic(true);
   mDocumentationLabel->setFont(font);
 
   mLicenseLabel = new QLabel(this);
   mLicenseLabel->setObjectName("licenseLabel");
-  mLicenseLabel->setOpenExternalLinks(true);
+  connect(mLicenseLabel, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   mLicenseLabel->setWordWrap(true);
   font.setItalic(true);
   mLicenseLabel->setFont(font);

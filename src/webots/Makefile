@@ -482,6 +482,7 @@ OTHER_SOURCES = \
   WbControllerPlugin.cpp \
   WbDataPacket.cpp \
   WbDevice.cpp \
+	WbDesktopServices.cpp \
   WbDictionary.cpp \
   WbDisplayFont.cpp \
   WbDragOverlayEvent.cpp \
