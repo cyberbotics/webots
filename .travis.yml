@@ -118,6 +118,7 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
+        - make release -C dependencies -f Makefile.linux
         - ldd lib/qt/plugins/platforms/libqxcb.so
         - make release -j2
         - make release -j2 -C tests
