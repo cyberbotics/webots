@@ -26,6 +26,6 @@ bool WbDesktopServices::openUrl(const QString &url) {
   process.setArguments(QStringList() << url);
   return process.startDetached();
 #else
-  return QDesktopServices::openUrl(url);
+  return QDesktopServices::openUrl(QUrl(url));
 #endif
 }
