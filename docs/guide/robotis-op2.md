@@ -294,7 +294,7 @@ The main motions and their corresponding ids are listed in [appendix](#motions-f
 It is also possible to add custom motions to this file by using the `Action Editor` tool.
 
 > **Note**: The `Action Editor` tool is provided by ROBOTIS.
-More information about are available on the [website](http://support.robotis.com/en/product/darwin-op/development/tools/action_editor.htm).
+More information about are available on the [website](http://emanual.robotis.com/docs/en/platform/op/development/#action-editor).
 
 ##### `RobotisOp2MotionManager(webots::Robot *robot)`
 
@@ -660,7 +660,7 @@ If you install a new version of Webots on your computer the Webots files on the 
 
 The remote compilation has been optimized for the latest firmware versions of the motors.
 You need to have at least version 27 of the firmware installed on all the motors, if this is not the case (on old robot for example) you will be informed when you will try to send a controller to the real robot.
-In order to update the firmware version please use the [Firmware Installer](http://support.robotis.com/en/techsupport_eng.htm#product/robotis-op2.htm) from ROBOTIS.
+In order to update the firmware version please use the [Firmware Installer](http://emanual.robotis.com/docs/en/platform/op/development/#firmware-installer) from ROBOTIS.
 
 #### Using Keyboard
 
@@ -887,7 +887,7 @@ The file to delete is "/darwin/version.txt".
 #### The Servomotors Have some Bad Behavior (Unstablilities, Oscillations, etc.)
 
 This is due to wrong configuration of the servomotors (often due to one or several of the gains (P/I/D) wrong) or servomotors firmware not up to date.
-Using [Robotis tool](http://support.robotis.com/ko/product/darwin-op/development/tools/firmware_installer.htm) in order to update the servomotors firmware should resolve the problem in both cases.
+Using [Robotis tool](http://emanual.robotis.com/docs/en/platform/op/development/#firmware-installer) in order to update the servomotors firmware should resolve the problem in both cases.
 
 #### Keyboard Inputs Are Not Working in Remote Compilation and/or Result in a Segmentation Fault
 
