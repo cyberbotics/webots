@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #include "WbDesktopServices.hpp"
-#include <QtCore/QProcess>
 
-#ifndef __linux__
+#ifdef __linux__
+#include <QtCore/QProcess>
+#else
+#include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #endif
 
@@ -26,6 +28,6 @@ bool WbDesktopServices::openUrl(const QString &url) {
   process.setArguments(QStringList() << url);
   return process.startDetached();
 #else
-  return QDesktopServices::openUrl(QUrl(url));
+  return QDesktopServices::openUrl(QUrl(url, QUrl::StrictMode));
 #endif
 }
