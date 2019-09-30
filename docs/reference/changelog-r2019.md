@@ -16,6 +16,7 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Dependency Updates
+    - macOS: Support Catalina SDK
     - Linux: upgraded to Qt 5.13.1
     - Windows: upgraded to Qt 5.12.4
   - Enhancements
