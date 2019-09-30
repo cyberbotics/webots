@@ -218,11 +218,17 @@ function robotLayout(configure) {
     ipAddress.style.visibility = 'visible';
     var connect = document.getElementById('connect');
     connect.style.visibility = 'visible';
+
+    var image = document.getElementById('robot image');
+    image.src = 'images/e-puck2.png';
   } else { // first e-puck: use Bluetooth communication only
     var uploadButton = document.getElementById('upload hex');
     uploadButton.style.visibility = 'visible';
     var simulationButton = document.getElementById('simulation');
     simulationButton.style.visibility = 'visible';
+
+    var image = document.getElementById('robot image');
+    image.src = 'images/e-puck.png';
   }
 }
 
