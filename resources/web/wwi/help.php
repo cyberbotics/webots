@@ -2,9 +2,13 @@
 header("Access-Control-Allow-Origin: *");
 require 'useragent.php';
 $touchInterface = isMobileDevice();
+$showFast = isset($_GET["fast"]) && $_GET["fast"] == "true";
+$uiImageName = "help_web_interface.png";
+if ($showFast)
+  $uiImageName = "help_web_interface_with_fast.png"
 ?>
 <h2>Web Interface</h2>
- <img src="images/documentation/help_web_interface.png" width="500" alt="">
+ <img src="images/documentation/<?=$uiImageName?>" width="500" alt="">
  <h3>Toolbar</h3>
   <ul>
    <li><img src="images/quit.png" width="20" alt=""> <b>Quit</b>: quit the simulation and return to the upper page.</li>
@@ -12,6 +16,9 @@ $touchInterface = isMobileDevice();
    <li><img src="images/reset.png" width="20" alt=""> <b>Reset</b>: save the changes applied to the controller sources and reset the simulation.</li>
    <li><img src="images/step.png" width="20" alt=""> <b>Step</b>: execute one simulation step.</li>
    <li><img src="images/real_time.png" width="20" alt=""> <b>Play</b>: run the simulation in real time.</li>
+<?php if ($showFast) { ?>
+   <li><img src="images/fast.png" width="20" alt=""> <b>Fast</b> (optional): run the simulation as fast as possible.</li>
+<?php } ?>
    <li><img src="images/pause.png" width="20" alt=""> <b>Pause</b>: pause the simulation.</li>
    <li><img src="images/console.png" width="20" alt=""> <b>Console</b>: open the <a href="#help_console">console window</a> where the simulation messages are printed.</li>
    <li><img src="images/help.png" width="20" alt=""> <b>Help</b>: open this help window containing the web interface documentation and the Webots reference manual.</li>
@@ -36,6 +43,11 @@ $touchInterface = isMobileDevice();
      When the time-out period elapsed, the simulation will stop and the user has to restart it manually clicking on the <em>Play</em> button.
      The time at which the simulation will stop is indicated on the second line of the simulation time element.
      The next stop time is updated when clicking on the <em>Pause</em> or <em>Step</em> button.
+  </p>
+ <h3>World selection</h3>
+  <img src="images/documentation/help_world_selection.png" width="200" alt="">
+  <p>If the loaded project "worlds" directory contains more than one world file, a drop-down list is displayed containing all the world file names.
+     Changing the selected world name will load the corresponding world.
   </p>
  <h3 id="help_info_window">Info window</h3>
   <img src="images/documentation/help_info_window.png" width="500" alt="">
