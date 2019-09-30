@@ -157,7 +157,7 @@ lib/qt/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so [li
 lib/qt/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so [linux]
 lib/qt/plugins/platforms/ [linux,mac]
 lib/qt/plugins/platforms/libqcocoa.dylib [mac]
-lib/qt/plugins/platforms/libqxcb.so [linux]
+lib/qt/plugins/platforms/lib*.so [linux]
 lib/qt/plugins/platformthemes/ [linux]
 lib/qt/plugins/platformthemes/libqgtk3.so [linux]
 lib/qt/plugins/printsupport/ [linux,mac]
