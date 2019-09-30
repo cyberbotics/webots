@@ -41,7 +41,7 @@ jobs:
             python docs/generate_thumbnails.py --silent;
             tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
           fi
-        - travis_wait 30 python -m unittest discover -s tests/sources
+#        - travis_wait 30 python -m unittest discover -s tests/sources
         - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
@@ -118,6 +118,7 @@ jobs:
         - rosdep update
         - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
       script:
+        - ldd lib/qt/plugins/platforms/libqxcb.so
         - make release -j2
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
