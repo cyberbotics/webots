@@ -97,6 +97,7 @@ cp $QT_INSTALLATION_PATH/lib/libicuuc.so.$ICU_VERSION.1             lib/
 echo $'[Paths]\nPrefix = ..\n' >                                    lib/qt/libexec/qt.conf
 cp $QT_INSTALLATION_PATH/libexec/QtWebEngineProcess                 lib/qt/libexec/
 cp $QT_INSTALLATION_PATH/plugins/platforms/libqxcb.so               lib/qt/plugins/platforms/
+cp $QT_INSTALLATION_PATH/plugins/platforms/libqwayland-egl.so       lib/qt/plugins/platforms/
 cp $QT_INSTALLATION_PATH/plugins/platformthemes/libqgtk3.so         lib/qt/plugins/platformthemes/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so lib/qt/plugins/platforminputcontexts/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so    lib/qt/plugins/platforminputcontexts/
