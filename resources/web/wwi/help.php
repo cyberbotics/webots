@@ -45,7 +45,7 @@ if ($showFast)
      The next stop time is updated when clicking on the <em>Pause</em> or <em>Step</em> button.
   </p>
  <h3>World selection</h3>
-  <img src="images/documentation/help_world_selection.png" width="200" alt="">
+  <img src="images/documentation/help_world_selection.png" width="300" alt="">
   <p>If the loaded project "worlds" directory contains more than one world file, a drop-down list is displayed containing all the world file names.
      Changing the selected world name will load the corresponding world.
   </p>
