@@ -44,7 +44,7 @@ sudo su -
 First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
 
 ```sh
-curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | apt-key add -
+curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
