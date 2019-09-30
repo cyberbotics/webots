@@ -52,7 +52,6 @@ static void updateGpuIds(QOpenGLFunctions *gl) {
   if (!firstCall)
     return;
   firstCall = false;
-#ifdef _WIN32
   D3DADAPTER_IDENTIFIER9 adapterinfo;
   LPDIRECT3D9 d3d_Object;
 
@@ -61,11 +60,7 @@ static void updateGpuIds(QOpenGLFunctions *gl) {
   gDeviceId = adapterinfo.DeviceId;
   gVendorId = adapterinfo.VendorId;
   d3d_Object->Release();
-#else
-  assert(0);  // To be implemented
-#endif
 }
-
 #endif
 
 const void WbSysInfo::initializeOpenGlInfo() {
@@ -151,9 +146,7 @@ const QString &WbSysInfo::sysInfo() {
     sysInfo.append("Intel Itanium-based");
   else
     sysInfo.append("unknown architecture");
-#endif
-
-#ifndef _WIN32
+#else
   struct utsname buf;
   uname(&buf);
   sysInfo.append(buf.sysname);
