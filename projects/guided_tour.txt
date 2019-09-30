@@ -5,7 +5,6 @@
 
 [Webots Guided Tour]
 
-projects/robots/telerob/telemax_pro/worlds/telemax.wbt 30
 projects/robots/robotis/darwin-op/worlds/robotis_op3.wbt 22
 projects/robots/universal_robots/worlds/ure.wbt 20
 projects/vehicles/worlds/city.wbt 30

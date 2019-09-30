@@ -214,7 +214,7 @@ resources/icons/light/*.png
 resources/images/
 resources/images/*.png
 resources/images/splash_images/
-resources/images/splash_images/*.png
+resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
 resources/fonts/

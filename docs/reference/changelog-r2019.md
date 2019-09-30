@@ -5,6 +5,8 @@ Released on XXX YYth, 2019.
 
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
+  - Removed robots
+    - Removed the Telemax PRO robot model, following a request from Telerob.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Copper`, `Grass`, `LedStrip`, `MarbleTiles`, `Pcb`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
@@ -19,6 +21,9 @@ Released on XXX YYth, 2019.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
+  - Dependency Updates
+    - Linux: upgraded to Qt 5.13.1
+    - Windows: upgraded to Qt 5.12.4
   - Enhancements
     - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.

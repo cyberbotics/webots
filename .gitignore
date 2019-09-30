@@ -29,6 +29,7 @@ com
 *.jar
 *.rar
 *.tar
+*.xz
 *.zip
 
 # OS generated files
