@@ -5,6 +5,8 @@ Released on XXX YYth, 2019.
 
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
+  - Removed robots
+    - Removed the Telemax PRO robot model, following a request from Telerob.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
