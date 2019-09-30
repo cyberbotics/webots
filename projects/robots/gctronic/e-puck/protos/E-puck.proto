@@ -598,6 +598,14 @@ Robot {
         1 4095 0.01 2 0 0.01
       ]
     }
+    %{ if v2 then }%
+      DEF EPUCK_TOF DistanceSensor {
+        translation 0.00 0.033 -0.03
+        rotation 0 1 0 1.57
+        name "tof"
+        type "generic"
+      }
+    %{ end }%
     DEF EPUCK_CAMERA Camera {
       translation 0 0.028 -0.03
       rotation IS camera_rotation
