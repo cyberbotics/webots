@@ -102,7 +102,13 @@ void wb_robot_window_init() {
     snprintf(device, 32, "ls%d", i);
     ls[i] = wb_robot_get_device(device);
   }
-  tof = wb_robot_get_device("tof");
+
+  if (strcmp(wb_robot_get_model(), "GCtronic e-puck2") == 0) {
+    tof = wb_robot_get_device("tof");
+  } else {
+    tof = 0;
+  }
+
   accelerometer = wb_robot_get_device("accelerometer");
   camera = wb_robot_get_device("camera");
   motors[0] = wb_robot_get_device("left wheel motor");
@@ -253,11 +259,15 @@ void wb_robot_window_step(int time_step) {
       strcat(update_message, update);
   }
 
-  double tof_distance = wb_distance_sensor_get_value(tof);
-  if (isnan(tof_distance)) {
+  if (tof == 0) {
     snprintf(update, UPDATE_SIZE, "tof ");
-  } else
-    snprintf(update, UPDATE_SIZE, "%.0lf ", tof_distance);
+  } else {
+    double tof_distance = wb_distance_sensor_get_value(tof);
+    if (isnan(tof_distance)) {
+      snprintf(update, UPDATE_SIZE, "tof ");
+    } else
+      snprintf(update, UPDATE_SIZE, "%.0lf ", tof_distance);
+  }
   if (strlen(update) + strlen(update_message) < UPDATE_MESSAGE_SIZE)
     strcat(update_message, update);
 
