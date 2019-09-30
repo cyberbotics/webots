@@ -712,10 +712,6 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
         <translation type="unfinished">共有メモリの割り当てが不可能です。共有メモリはカメラに必要です。ご使用のOSの共有メモリは恐らくいっぱいです。共有メモリの設定を確認してください。</translation>
     </message>
     <message>
-        <source>The shared memory can be extended by modifying the &apos;/etc/sysctl.conf&apos; file and rebooting.</source>
-        <translation type="unfinished">&apos;/etc/sysctl.conf&apos; ファイルを変更して再起動することで共有メモリを拡張できます。</translation>
-    </message>
-    <message>
         <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2199,6 +2195,10 @@ Please close any running instances of the controller and reload the world.</sour
         <source>Starting controller: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Python shebang requests python%1, but current path points to Python%2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbCubemap</name>
@@ -2816,6 +2816,10 @@ Please close any running instances of the controller and reload the world.</sour
         <source>Texture image size of &apos;%1&apos; is not a power of two: rescaling it from %2x%3 to %4x%5.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbImmersionProperties</name>
@@ -3167,10 +3171,6 @@ Please close any running instances of the controller and reload the world.</sour
         <translation>&amp;バグレポート…</translation>
     </message>
     <message>
-        <source>&amp;Support Ticket...</source>
-        <translation>&amp;サポートチケット…</translation>
-    </message>
-    <message>
         <source>Cyberbotics &amp;Website...</source>
         <translation>Cyberboticsの&amp;ウェブサイト…</translation>
     </message>
@@ -3288,14 +3288,6 @@ Please close any running instances of the controller and reload the world.</sour
     </message>
     <message>
         <source>Show information about the current OpenGL hardware and driver.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Report a bug to Cyberbotics.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open a Support Ticket with Cyberbotics.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3606,6 +3598,70 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
     </message>
     <message>
         <source>N/A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;GitHub repository...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the Webots git repository on GitHub.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Report a bug to the GitHub repository.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Support Ticket (Premier Service)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open a Support Ticket with Cyberbotics. This requires a subscription to the Webots Premier Service.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Keep informed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe to the &amp;Newsletter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep informed about the latest Webots news with the Webots newsletter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join the &amp;Discord channel...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join our live community on Discord.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Webots on &amp;Twitter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep informed about the latest Webots news on Twitter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe to the Webots &amp;YouTube chanel...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watch the latest Webots movies on YouTube.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Cyberbotics on &amp;LinkedIn...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow Cyberbotics on LinkedIn.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3985,6 +4041,14 @@ Note: HTML5 models can not be viewed locally on Google Chrome.</source>
     </message>
     <message>
         <source>Allow to send lightweight anonymous technical data to Webots developers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Webots newsletter:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stay informed about the latest developments of Webots by subscribing to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/news/subscribe.php&apos;&gt;Webots newsletter&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5974,7 +6038,7 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the change log: &lt;a href=&quot;https://cyberbotics.com/change_log&quot;&gt;https://cyberbotics.com/change_log&lt;/a&gt;</source>
+        <source>&lt;b&gt;A new version of Webots is available.&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Webots %1 is available for download (you are currently using Webots %2).&lt;br/&gt;Download the new version: &lt;a href=&quot;https://cyberbotics.com/download&quot;&gt;https://cyberbotics.com/download&lt;/a&gt;&lt;br/&gt;Check the changelog: &lt;a href=&quot;https://cyberbotics.com/doc/reference/changelog&quot;&gt;https://cyberbotics.com/doc/reference/changelog&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
