@@ -104,6 +104,7 @@ jobs:
             - libwebpdemux1
             - fakeroot
             - pbzip2
+            - libxkbcommon-x11-dev
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
