@@ -72,10 +72,10 @@ static char bundle_name[32];
 static char application_name_lowercase_and_dashes[32];
 static char distribution_path[256];
 
-#define ISS 1  // Windows Inno Setup file format                           -> webots*.iss
-#define MAC 2  // macOS shell script to create dmg file                    -> webots*.mac
-#define DEB 3  // Linux shell script to create a deb and a tarball package -> webots.deb
-#define SNAP 4 // Linux shell script to create a snap package              -> webots.snap
+#define ISS 1   // Windows Inno Setup file format                           -> webots*.iss
+#define MAC 2   // macOS shell script to create dmg file                    -> webots*.mac
+#define DEB 3   // Linux shell script to create a deb and a tarball package -> webots.deb
+#define SNAP 4  // Linux shell script to create a snap package              -> webots.snap
 
 // ORable flags for file type defined in files.txt [linux,mac,windows,exe,dll,sig]
 #define TYPE_LINUX 1
@@ -593,8 +593,7 @@ static void create_file(const char *name, int m) {
     buffer[l--] = '\0';
     if (buffer[l] == '/') {
       buffer[l] = '\0';
-      if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) ||
-          ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+      if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
           ((type & TYPE_MAC) && (mode == MAC)))
         make_dir(buffer);
     }
@@ -716,8 +715,7 @@ static void create_file(const char *name, int m) {
     buffer[l] = '\0';
     if (buffer[l - 1] == '/')
       continue;
-    if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) ||
-        ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+    if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
         ((type & TYPE_MAC) && (mode == MAC))) {
       copy_file(buffer);
       // copy the .*.wbproj hidden files
@@ -1109,7 +1107,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "ln -s libQt5Widgets.so.5 libQt5Widgets.so\n");
       fprintf(fd, "ln -s libQt5XcbQpa.so.5 libQt5XcbQpa.so\n");
       fprintf(fd, "ln -s libQt5Xml.so.5 libQt5Xml.so\n");
-      fprintf(fd, "ln -s libopenal.so libopenal.so.1\n");
 
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
@@ -1220,13 +1217,15 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "rm -rf debian\n");
       break;
     case SNAP: {
-      const char *usr_lib_x68_64_linux_gnu[] = { "libraw.so.16", "libvpx.so.5", "libx264.so.152", "libavcodec.so.57",
-        "libwebp.so.6", "libwebpmux.so.3", "libpng16.so.16", "libassimp.so.4",
-        "libfreeimage.so.3", "libjxrglue.so.0", "libopenjp2.so.7", "libjpegxr.so.0", "libHalf.so.12", "libIex-2_2.so.12",
-        "libIexMath-2_2.so.12", "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4", "libzzip-0.so.13",
-        "libjbig.so.0", "libtiff.so.5", "libjpeg.so.8", "libgomp.so.1", "liblcms2.so.2", "libXi.so.6", "libXrender.so.1",
-        "libfontconfig.so.1", "libxslt.so.1", "libgd.so.3", "libssh.so.4", "libfreetype.so.6" };
-      for(int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
+      const char *usr_lib_x68_64_linux_gnu[] = {
+        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152", "libavcodec.so.57",  "libwebp.so.6",
+        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",
+        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12",
+        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",
+        "libtiff.so.5",           "libjpeg.so.8",        "libgomp.so.1",   "liblcms2.so.2",     "libXi.so.6",
+        "libXrender.so.1",        "libfontconfig.so.1",  "libxslt.so.1",   "libgd.so.3",        "libssh.so.4",
+        "libfreetype.so.6"};
+      for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
       fprintf(fd, "cp -ar /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
