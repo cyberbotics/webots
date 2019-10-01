@@ -1062,8 +1062,8 @@ static void create_file(const char *name, int m) {
       break;
     case DEB:
 #ifdef WEBOTS_UBUNTU_16_04
-      copy_file("lib/libssl.so.1.1");
-      copy_file("lib/libcrypto.so.1.1");
+      copy_file("lib/webots/libssl.so.1.1");
+      copy_file("lib/webots/libcrypto.so.1.1");
 #endif
       // copy libraries that depends on OS and cannot be included in files_*.txt
       fprintf(fd, "cd %s/debian\n", distribution_path);
