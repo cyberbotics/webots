@@ -122,7 +122,7 @@ lib/controller/libopencv_imgproc.so* [linux]
 lib/controller/libopencv_core.2.4.3.dylib [mac]
 lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
 
-lib/webots/
+lib/webots/ [linux,mac]
 lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
 lib/webots/libnihzip.dylib [mac]
