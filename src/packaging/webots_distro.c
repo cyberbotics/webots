@@ -1084,30 +1084,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libQt5Concurrent.so.5 libQt5Concurrent.so\n");
-      fprintf(fd, "ln -s libQt5Core.so.5 libQt5Core.so\n");
-      fprintf(fd, "ln -s libQt5DBus.so.5 libQt5DBus.so\n");
-      fprintf(fd, "ln -s libQt5Gui.so.5 libQt5Gui.so\n");
-      fprintf(fd, "ln -s libQt5Multimedia.so.5 libQt5Multimedia.so\n");
-      fprintf(fd, "ln -s libQt5MultimediaWidgets.so.5 libQt5MultimediaWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Network.so.5 libQt5Network.so\n");
-      fprintf(fd, "ln -s libQt5OpenGL.so.5 libQt5OpenGL.so\n");
-      fprintf(fd, "ln -s libQt5Positioning.so.5 libQt5Positioning.so\n");
-      fprintf(fd, "ln -s libQt5PrintSupport.so.5 libQt5PrintSupport.so\n");
-      fprintf(fd, "ln -s libQt5Qml.so.5 libQt5Qml.so\n");
-      fprintf(fd, "ln -s libQt5Quick.so.5 libQt5Quick.so\n");
-      fprintf(fd, "ln -s libQt5QuickWidgets.so.5 libQt5QuickWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Sensors.so.5 libQt5Sensors.so\n");
-      fprintf(fd, "ln -s libQt5Sql.so.5 libQt5Sql.so\n");
-      fprintf(fd, "ln -s libQt5WebChannel.so.5 libQt5WebChannel.so\n");
-      fprintf(fd, "ln -s libQt5WebEngine.so.5 libQt5WebEngine.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineCore.so.5 libQt5WebEngineCore.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineWidgets.so.5 libQt5WebEngineWidgets.so\n");
-      fprintf(fd, "ln -s libQt5WebSockets.so.5 libQt5WebSockets.so\n");
-      fprintf(fd, "ln -s libQt5Widgets.so.5 libQt5Widgets.so\n");
-      fprintf(fd, "ln -s libQt5XcbQpa.so.5 libQt5XcbQpa.so\n");
-      fprintf(fd, "ln -s libQt5Xml.so.5 libQt5Xml.so\n");
-
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
 #ifdef WEBOTS_UBUNTU_16_04
