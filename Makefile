@@ -16,9 +16,18 @@ START := $(shell date +%s)
 
 ifeq ($(WEBOTS_HOME),)
 ifneq ($(findstring MINGW,$(shell uname)),) # under MINGW, we need to set WEBOTS_HOME using the native Windows format
-WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
+export WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
 else
-WEBOTS_HOME=$(HOME)/webots
+export WEBOTS_HOME = $(PWD)
+endif
+endif
+
+include resources/Makefile.os.include
+
+ifeq ($(JAVA_HOME)$(OSTYPE),linux)
+JAVAC:=`which javac`
+ifneq ($(JAVAC),)
+export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif
 endif
 
@@ -141,6 +150,10 @@ endif
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
 	@rm -fr docs/index.html docs/dependencies
+
+install:
+	@+echo "#"; echo "# * installing (snap) *";
+	@+make --silent -C src/packaging -f Makefile install
 
 help:
 	@+echo
