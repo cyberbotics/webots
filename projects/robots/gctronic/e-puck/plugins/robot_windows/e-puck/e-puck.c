@@ -258,9 +258,9 @@ void wb_robot_window_step(int time_step) {
       strcat(update_message, update);
   }
 
-  if (tof == 0) {
+  if (tof == 0)
     snprintf(update, UPDATE_SIZE, "tof ");
-  } else {
+  else {
     double tof_distance = wb_distance_sensor_get_value(tof);
     if (isnan(tof_distance))
       snprintf(update, UPDATE_SIZE, "tof ");
