@@ -163,6 +163,9 @@ ln -sf libicudata.so.$ICU_VERSION.1           libicudata.so.$ICU_VERSION
 ln -sf libicui18n.so.$ICU_VERSION.1           libicui18n.so.$ICU_VERSION
 ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
 
+# we need to clear the execstack from this library to enable the creation of the snap package.
+execstack -c libQt5WebEngineCore.so.$QT_VERSION
+
 cd ..
 
 ARCHIVE=webots-qt-$QT_VERSION-linux64-release.tar.bz2

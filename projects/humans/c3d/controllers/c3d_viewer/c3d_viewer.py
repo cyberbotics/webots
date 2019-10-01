@@ -78,7 +78,7 @@ timestep = int(supervisor.getBasicTimeStep())
 enableValueGraphs = []
 
 # parse arguments
-if len(sys.argv) < 3:
+if len(sys.argv) < 3 or sys.argv[1] == 'None':
     sys.exit('C3D file not defined.')
 
 if not os.path.isfile(sys.argv[1]):

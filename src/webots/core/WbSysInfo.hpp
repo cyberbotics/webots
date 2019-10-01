@@ -41,7 +41,7 @@ namespace WbSysInfo {
 
   int coreCount();
 
-#ifndef __APPLE__
+#ifdef _WIN32
   quint32 gpuDeviceId(QOpenGLFunctions *gl);
   quint32 gpuVendorId(QOpenGLFunctions *gl);
   int intelGPUGeneration(QOpenGLFunctions *gl);

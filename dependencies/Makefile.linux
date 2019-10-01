@@ -1,4 +1,3 @@
-
 WEBOTS_HOME ?= ..
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 
@@ -46,11 +45,10 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 open-al-clean:
 	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)* $(WEBOTS_HOME)/lib/libopenal*
 
-open-al: $(WEBOTS_HOME)/lib/libopenal.so.1
+open-al: $(WEBOTS_HOME)/lib/libopenal.so
 
-$(WEBOTS_HOME)/lib/libopenal.so.1: $(WEBOTS_DEPENDENCY_PATH)/openal
-	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so.1.16.0 $(WEBOTS_HOME)/lib/libopenal.so
-	ln -s $(WEBOTS_HOME)/lib/libopenal.so $(WEBOTS_HOME)/lib/libopenal.so.1
+$(WEBOTS_HOME)/lib/libopenal.so: $(WEBOTS_DEPENDENCY_PATH)/openal
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME)/lib/
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
@@ -65,8 +63,8 @@ open-cv-clean:
 open-cv: $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3
 
 $(WEBOTS_HOME)/lib/libopencv_core.so.2.4.3: $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
-	cp $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/lib/* $(WEBOTS_HOME)/lib
+	cp -ar $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64/include/opencv2/ $(WEBOTS_HOME)/include/ -R
 
 $(WEBOTS_DEPENDENCY_PATH)/opencv-lin64:
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
