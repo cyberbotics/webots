@@ -80,7 +80,6 @@ lib/
 lib/controller/
 lib/controller/libController.so [linux]
 lib/controller/libController.dylib [mac]
-
 lib/controller/libCppController.so [linux]
 lib/controller/libCppController.dylib [mac]
 
@@ -118,6 +117,11 @@ lib/controller/matlab/
 lib/controller/matlab/allincludes.h
 lib/controller/matlab/*.m
 
+lib/controller/libopencv_core.so* [linux]
+lib/controller/libopencv_imgproc.so* [linux]
+lib/controller/libopencv_core.2.4.3.dylib [mac]
+lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
+
 lib/webots/
 lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
@@ -128,10 +132,6 @@ lib/webots/libode.so [linux]
 lib/webots/libode.dylib [mac]
 lib/webots/libpico.so [linux]
 lib/webots/libpico.dylib [mac]
-lib/webots/libopencv_core.so* [linux]
-lib/webots/libopencv_imgproc.so* [linux]
-lib/webots/libopencv_core.2.4.3.dylib [mac]
-lib/webots/libopencv_imgproc.2.4.3.dylib [mac]
 lib/webots/libQt5Concurrent.so.5* [linux]
 lib/webots/libQt5Core.so.5* [linux]
 lib/webots/libQt5DBus.so.5* [linux]
