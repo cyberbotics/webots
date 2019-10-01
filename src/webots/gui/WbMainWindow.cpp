@@ -1731,14 +1731,13 @@ void WbMainWindow::openSupportTicket() {
   QOpenGLFunctions_3_3_Core gl;
   gl.initializeOpenGLFunctions();
 
-  QString url = QString("%1/support_ticket.php?&os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
+  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
                   .arg(WbStandardPaths::cyberboticsUrl())
                   .arg(WbSysInfo::sysInfo())
                   .arg((const char *)gl.glGetString(GL_VENDOR))
                   .arg((const char *)gl.glGetString(GL_RENDERER))
                   .arg((const char *)gl.glGetString(GL_VERSION))
                   .arg(WbApplicationInfo::version().toString(true, false, true));
-
   showDocument(url);
 }
 
