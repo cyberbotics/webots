@@ -642,8 +642,8 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseCone(cone) {
-    var radius = getNodeAttribute(cone, 'bottomRadius', '0');
-    var height = getNodeAttribute(cone, 'height', '0');
+    var radius = getNodeAttribute(cone, 'bottomRadius', '1');
+    var height = getNodeAttribute(cone, 'height', '2');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
     var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
@@ -671,8 +671,8 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseCylinder(cylinder) {
-    var radius = getNodeAttribute(cylinder, 'radius', '0');
-    var height = getNodeAttribute(cylinder, 'height', '0');
+    var radius = getNodeAttribute(cylinder, 'radius', '1');
+    var height = getNodeAttribute(cylinder, 'height', '2');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
     var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
     var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';
