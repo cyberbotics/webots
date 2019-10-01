@@ -13,14 +13,14 @@ Released on October 1st, 2019.
     - Added new appearance types for: `CarpetFibers` and `StonePavement`.
     - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
     - Added a C3dViewer PROTO to visualize C3D files in Webots.
-    - Added a new HDR background: `noon_cloudy_countryside`
+    - Added a new HDR background: `noon_cloudy_countryside`.
   - New Samples
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Dependency Updates
-    - macOS: Support the Catalina SDK
-    - Linux: upgraded to Qt 5.13.1
-    - Windows: upgraded to Qt 5.12.4
+    - macOS: Support the Catalina SDK.
+    - Linux: Upgraded to Qt 5.13.1.
+    - Windows: Upgraded to Qt 5.12.4.
   - Enhancements
     - Improved hyperlinks of the Help menu.
     - Improved the intensity and color of the bus, truck and car vehicle lights.
@@ -47,7 +47,7 @@ Released on October 1st, 2019.
     - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
     - Fixed rendering issues if multiple texture coordinates of a face are equal.
     - Linux: Fixed missing Python3.7 controller API.
-    - Windows: Fixed possible DLL conflict with libssl-1_1-x64.dll and libcrypto-1_1-x64.dll.
+    - Windows: Fixed possible DLL conflict with libssl-1\_1-x64.dll and libcrypto-1\_1-x64.dll.
 
 ## [Webots R2019b](../blog/Webots-2019-b-release.md)
 Released on June 25th, 2019.
