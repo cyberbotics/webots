@@ -31,6 +31,7 @@ Released on October 1st, 2019.
       - Fixed [Fog](fog.md) type.
       - Fixed [ElevationGrid](elevationgrid.md) normals.
       - Fixed [Background](background.md) default color.
+      - Fixed [Cone](cone.md) and [Cylinder](cylinder.md) default radius and height.
       - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
       - Fixed rendering issues with [IndexedFaceSet](indexedfaceset.md) having default texture mapping.
       - Enabled console button in broadcast streaming mode.
