@@ -20,6 +20,13 @@ if [ ! -e /usr/share/applications/webots.desktop ] && [ ! -e ~/.local/share/appl
   echo "Type=Application" >> $FILE
 fi
 
+# we need this to start webots from snap
+if [[ ! -z "$SNAP" ]]
+then
+mkdir -p "$XDG_RUNTIME_DIR"
+export QTCOMPOSE=$SNAP/usr/share/X11/locale
+fi
+
 # create temporary lib directory
 TMP_LIB_DIR="/tmp/webots-$$/lib"
 if [ ! -d $TMP_LIB_DIR ]; then
@@ -43,14 +50,5 @@ trap 'kill $webots_pid &> /dev/null' EXIT
 
 wait $webots_pid
 webots_return_code=$?
-
-# cleanup every shared memory segment created by Webots (useful in case of crash of Webots)
-for i in `ipcs -mp | grep -w $webots_pid | awk '{print $1}'`
-do
-  if [ "$i" != "0" ]
-  then
-    ipcrm -m $i 2> /dev/null
-  fi
-done
 
 exit $webots_return_code

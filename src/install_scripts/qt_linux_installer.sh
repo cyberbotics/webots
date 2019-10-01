@@ -97,6 +97,7 @@ cp $QT_INSTALLATION_PATH/lib/libicuuc.so.$ICU_VERSION.1             lib/webots
 echo $'[Paths]\nPrefix = ..\n' >                                    lib/webots/qt/libexec/qt.conf
 cp $QT_INSTALLATION_PATH/libexec/QtWebEngineProcess                 lib/webots/qt/libexec/
 cp $QT_INSTALLATION_PATH/plugins/platforms/libqxcb.so               lib/webots/qt/plugins/platforms/
+cp $QT_INSTALLATION_PATH/plugins/platforms/libqwayland-egl.so       lib/webots/qt/plugins/platforms/
 cp $QT_INSTALLATION_PATH/plugins/platformthemes/libqgtk3.so         lib/webots/qt/plugins/platformthemes/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so lib/webots/qt/plugins/platforminputcontexts/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so    lib/webots/qt/plugins/platforminputcontexts/
@@ -162,6 +163,9 @@ ln -sf libQt5XcbQpa.so.$QT_VERSION            libQt5XcbQpa.so
 ln -sf libicudata.so.$ICU_VERSION.1           libicudata.so.$ICU_VERSION
 ln -sf libicui18n.so.$ICU_VERSION.1           libicui18n.so.$ICU_VERSION
 ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
+
+# we need to clear the execstack from this library to enable the creation of the snap package.
+execstack -c libQt5WebEngineCore.so.$QT_VERSION
 
 cd ..
 

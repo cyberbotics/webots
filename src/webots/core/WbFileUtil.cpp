@@ -14,6 +14,7 @@
 
 #include "WbFileUtil.hpp"
 
+#include "WbDesktopServices.hpp"
 #include "WbLog.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -24,8 +25,6 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
-
-#include <QtGui/QDesktopServices>
 
 #include <cassert>
 
@@ -271,6 +270,6 @@ void WbFileUtil::revealInFileManager(const QString &file) {
   else if (output == "kfmclient_dir.desktop")
     process.startDetached("konqueror", QStringList() << "--select" << file);
   else
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(file).path()));
+    WbDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(file).path()).toString());
 #endif
 }

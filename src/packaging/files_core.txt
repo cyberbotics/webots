@@ -77,42 +77,89 @@ include/opencv2/imgproc/*.hpp [linux,mac]
 include/opencv2/imgproc/*.h [linux,mac]
 
 lib/
-lib/webots/ [linux,mac]
+lib/controller/
+lib/controller/libController.so [linux]
+lib/controller/libController.dylib [mac]
+
+lib/controller/libCppController.so [linux]
+lib/controller/libCppController.dylib [mac]
+
+lib/controller/java/ [linux,mac]
+lib/controller/java/*.jar
+lib/controller/java/*.dll [windows]
+lib/controller/java/lib*.so [linux]
+lib/controller/java/lib*.jnilib [mac]
+
+lib/controller/libcar.so [linux]
+lib/controller/libCppCar.so [linux]
+lib/controller/libCppDriver.so [linux]
+lib/controller/libdriver.so [linux]
+
+lib/controller/libcar.dylib [mac]
+lib/controller/libCppCar.dylib [mac]
+lib/controller/libCppDriver.dylib [mac]
+lib/controller/libdriver.dylib [mac]
+
+lib/controller/python27/
+lib/controller/python27/*.py
+lib/controller/python27/_*.so [linux,mac]
+lib/controller/python27/_*.pyd [windows]
+
+lib/controller/python36/ [linux]
+lib/controller/python36/*.py [linux]
+lib/controller/python36/_*.so [linux]
+
+lib/controller/python37/
+lib/controller/python37/*.py
+lib/controller/python37/_*.so [linux,mac]
+lib/controller/python37/_*.pyd [windows]
+
+lib/controller/matlab/
+lib/controller/matlab/allincludes.h
+lib/controller/matlab/*.m
+
+lib/webots/
 lib/webots/libgd.3.dylib [mac]
 lib/webots/liblua.dylib [mac]
+lib/webots/libnihzip.dylib [mac]
 lib/webots/libOIS-1.4.0.so [linux]
 lib/webots/libOIS.dylib [mac]
 lib/webots/libode.so [linux]
 lib/webots/libode.dylib [mac]
 lib/webots/libpico.so [linux]
 lib/webots/libpico.dylib [mac]
-lib/webots/libQt5Concurrent.so.5 [linux]
-lib/webots/libQt5Core.so.5 [linux]
-lib/webots/libQt5DBus.so.5 [linux]
-lib/webots/libQt5Gui.so.5 [linux]
-lib/webots/libQt5Multimedia.so.5 [linux]
-lib/webots/libQt5MultimediaWidgets.so.5 [linux]
-lib/webots/libQt5Network.so.5 [linux]
-lib/webots/libQt5OpenGL.so.5 [linux]
-lib/webots/libQt5Positioning.so.5 [linux]
-lib/webots/libQt5PrintSupport.so.5 [linux]
-lib/webots/libQt5Qml.so.5 [linux]
-lib/webots/libQt5Quick.so.5 [linux]
-lib/webots/libQt5QuickWidgets.so.5 [linux]
-lib/webots/libQt5Sensors.so.5 [linux]
-lib/webots/libQt5Sql.so.5 [linux]
-lib/webots/libQt5WebChannel.so.5 [linux]
-lib/webots/libQt5WebEngine.so.5 [linux]
-lib/webots/libQt5WebEngineCore.so.5 [linux]
-lib/webots/libQt5WebEngineWidgets.so.5 [linux]
-lib/webots/libQt5WebSockets.so.5 [linux]
-lib/webots/libQt5Widgets.so.5 [linux]
-lib/webots/libQt5XcbQpa.so.5 [linux]
-lib/webots/libQt5Xml.so.5 [linux]
-lib/webots/libicudata.so.56 [linux]
-lib/webots/libicui18n.so.56 [linux]
-lib/webots/libicuuc.so.56 [linux]
-lib/webots/libopenal.so [linux]
+lib/webots/libssh.4.dylib [mac]
+lib/webots/libopencv_core.so* [linux]
+lib/webots/libopencv_imgproc.so* [linux]
+lib/webots/libopencv_core.2.4.3.dylib [mac]
+lib/webots/libopencv_imgproc.2.4.3.dylib [mac]
+lib/webots/libQt5Concurrent.so.5* [linux]
+lib/webots/libQt5Core.so.5* [linux]
+lib/webots/libQt5DBus.so.5* [linux]
+lib/webots/libQt5Gui.so.5* [linux]
+lib/webots/libQt5Multimedia.so.5* [linux]
+lib/webots/libQt5MultimediaWidgets.so.5* [linux]
+lib/webots/libQt5Network.so.5* [linux]
+lib/webots/libQt5OpenGL.so.5* [linux]
+lib/webots/libQt5Positioning.so.5* [linux]
+lib/webots/libQt5PrintSupport.so.5* [linux]
+lib/webots/libQt5Qml.so.5* [linux]
+lib/webots/libQt5Quick.so.5* [linux]
+lib/webots/libQt5QuickWidgets.so.5* [linux]
+lib/webots/libQt5Sensors.so.5* [linux]
+lib/webots/libQt5Sql.so.5* [linux]
+lib/webots/libQt5WebChannel.so.5* [linux]
+lib/webots/libQt5WebEngine.so.5* [linux]
+lib/webots/libQt5WebEngineCore.so.5* [linux]
+lib/webots/libQt5WebEngineWidgets.so.5* [linux]
+lib/webots/libQt5WebSockets.so.5* [linux]
+lib/webots/libQt5Widgets.so.5* [linux]
+lib/webots/libQt5XcbQpa.so.5* [linux]
+lib/webots/libQt5Xml.so.5* [linux]
+lib/webots/libicudata.so.56* [linux]
+lib/webots/libicui18n.so.56* [linux]
+lib/webots/libicuuc.so.56* [linux]
+lib/webots/libopenal.so* [linux]
 lib/webots/libopenal.dylib [mac]
 lib/webots/libssl.1.0.0.dylib [mac]
 lib/webots/libcrypto.1.0.0.dylib [mac]
@@ -125,7 +172,7 @@ lib/webots/qt/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin
 lib/webots/qt/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so [linux]
 lib/webots/qt/plugins/platforms/ [linux,mac]
 lib/webots/qt/plugins/platforms/libqcocoa.dylib [mac]
-lib/webots/qt/plugins/platforms/libqxcb.so [linux]
+lib/webots/qt/plugins/platforms/lib*.so [linux]
 lib/webots/qt/plugins/platformthemes/ [linux]
 lib/webots/qt/plugins/platformthemes/libqgtk3.so [linux]
 lib/webots/qt/plugins/printsupport/ [linux,mac]
@@ -151,64 +198,6 @@ lib/webots/qt/resources/qtwebengine_resources.pak [linux]
 lib/webots/qt/resources/qtwebengine_resources_100p.pak [linux]
 lib/webots/qt/resources/qtwebengine_resources_200p.pak [linux]
 
-lib/controller/
-lib/controller/libController.so [linux]
-lib/controller/libController.dylib [mac]
-lib/controller/Controller.dll [windows]
-lib/controller/Controller.lib [windows]
-lib/controller/libController.a [windows]
-
-lib/controller/libCppController.so [linux]
-lib/controller/libCppController.dylib [mac]
-lib/controller/CppController.dll [windows]
-lib/controller/libCppController.a [windows]
-
-lib/controller/java/
-lib/controller/java/*.jar
-lib/controller/java/*.dll [windows]
-lib/controller/java/lib*.so [linux]
-lib/controller/java/lib*.jnilib [mac]
-
-lib/controller/libcar.so [linux]
-lib/controller/libCppCar.so [linux]
-lib/controller/libCppDriver.so [linux]
-lib/controller/libdriver.so [linux]
-
-lib/controller/libcar.dylib [mac]
-lib/controller/libCppCar.dylib [mac]
-lib/controller/libCppDriver.dylib [mac]
-lib/controller/libdriver.dylib [mac]
-
-lib/controller/car.dll [windows]
-lib/controller/car.lib [windows]
-lib/controller/driver.dll [windows]
-lib/controller/driver.lib [windows]
-lib/controller/CppCar.dll [windows]
-lib/controller/CppDriver.dll [windows]
-
-lib/controller/python27/
-lib/controller/python27/*.py
-lib/controller/python27/_*.so [linux,mac]
-lib/controller/python27/_*.pyd [windows]
-
-lib/controller/python36/ [linux]
-lib/controller/python36/*.py [linux]
-lib/controller/python36/_*.so [linux]
-
-lib/controller/python37/
-lib/controller/python37/*.py
-lib/controller/python37/_*.so [linux,mac]
-lib/controller/python37/_*.pyd [windows]
-
-lib/controller/matlab/
-lib/controller/matlab/allincludes.h
-lib/controller/matlab/*.m
-
-lib/controller/libopencv_core.so.2.4.3 [linux]
-lib/controller/libopencv_imgproc.so.2.4.3 [linux]
-lib/controller/libopencv_core.2.4.3.dylib [mac]
-lib/controller/libopencv_imgproc.2.4.3.dylib [mac]
-
 resources/
 resources/icons/
 resources/icons/core/
@@ -222,7 +211,7 @@ resources/icons/light/*.png
 resources/images/
 resources/images/*.png
 resources/images/splash_images/
-resources/images/splash_images/*.png
+resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
 resources/fonts/

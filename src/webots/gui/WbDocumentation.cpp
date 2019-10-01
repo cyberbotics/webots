@@ -15,6 +15,7 @@
 #include "WbDocumentation.hpp"
 
 #include "WbClipboard.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QUrl>
@@ -22,7 +23,6 @@
 #include <cassert>
 
 #include <QtGui/QContextMenuEvent>
-#include <QtGui/QDesktopServices>
 #include <QtWidgets/QMenu>
 
 #ifdef _WIN32
@@ -204,5 +204,5 @@ void WbDocumentation::handleUserCommand(WbActionManager::WbActionKind actionKind
 }
 
 void WbDocumentation::openUrlInSystemBrowser(const QUrl &url) {
-  QDesktopServices::openUrl(url);
+  WbDesktopServices::openUrl(url.toString());
 }
