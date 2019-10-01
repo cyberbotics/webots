@@ -42,7 +42,7 @@
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFontDatabase>
-#include <QtWidgets/QDesktopWidget>
+#include <QtGui/QScreen>
 
 #ifdef __APPLE__
 #include <QtGui/QFileOpenEvent>
@@ -307,7 +307,7 @@ bool WbGuiApplication::setup() {
     // splash screen
     // Warning: using heap allocated splash screen and/or pixmap cause crash while
     // showing tooltips in the main window under Linux.
-    const QDir screenshotLocation = QDir("images:splash_images/", "*.png");
+    const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
     mSplash->setWindowFlags(Qt::SplashScreen);
@@ -318,10 +318,8 @@ bool WbGuiApplication::setup() {
     if (WbPreferences::instance()->value("MainWindow/maximized", false).toBool()) {
       // we need to center the splash screen on the same window as the mainWindow,
       // which is positioned wherever the mouse is on launch
-      QDesktopWidget *desktopWidget = desktop();
-      QPoint mousePosition = QCursor::pos();
-      int mainWindowScreenIndex = desktopWidget->screenNumber(mousePosition);
-      QRect mainWindowScreenRect = desktopWidget->screenGeometry(mainWindowScreenIndex);
+      const QScreen *mainWindowScreen = QGuiApplication::screenAt(QCursor::pos());
+      const QRect mainWindowScreenRect = mainWindowScreen->geometry();
       QPoint targetPosition = mainWindowScreenRect.center();
       targetPosition.setX(targetPosition.x() - mSplash->width() / 2);
       targetPosition.setY(targetPosition.y() - mSplash->height() / 2);

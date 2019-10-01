@@ -1,8 +1,7 @@
-bin/
-bin/qt/
+bin/ [mac,linux]
+bin/qt/ [mac,linux]
 bin/qt/lrelease [mac,linux,exe] # allow users to create translations in their own language
 bin/qt/lupdate [mac,linux,exe]
-# bin/qt/lupdate.exe.manifest [windows]
 bin/qt/moc [mac,linux,exe]
 
 include/
@@ -193,10 +192,10 @@ lib/python36/ [linux]
 lib/python36/*.py [linux]
 lib/python36/_*.so [linux]
 
-lib/python37/ [windows,mac]
-lib/python37/*.py [windows,mac]
+lib/python37/
+lib/python37/*.py
+lib/python37/_*.so [linux,mac]
 lib/python37/_*.pyd [windows]
-lib/python37/_*.so [mac]
 
 lib/matlab/
 lib/matlab/allincludes.h
@@ -215,7 +214,7 @@ resources/icons/light/*.png
 resources/images/
 resources/images/*.png
 resources/images/splash_images/
-resources/images/splash_images/*.png
+resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
 resources/fonts/

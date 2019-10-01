@@ -20,4 +20,4 @@ WorldInfo {
 ```
 
 This specifies that the plugin binary file is expected to be at the location "my\_project/plugins/physics/my\_physics/my\_physics[.dll|.dylib|.so]" (actual extension depending on the platform) and that the plugin source file should be located in "my\_project/plugins/physics/my\_physics/my\_physics[.c|.cpp]".
-If Webots does not find the file there, it will also look in the "[WEBOTS\_HOME/resources/projects/plugins/physics](https://github.com/omichel/webots/tree/master/resources/projects/plugins/physics)" directory.
+If Webots does not find the file there, it will also look in the "[WEBOTS\_HOME/resources/projects/plugins/physics](https://github.com/cyberbotics/webots/tree/master/resources/projects/plugins/physics)" directory.

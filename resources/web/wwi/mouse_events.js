@@ -1,4 +1,4 @@
-/* global webots, THREE */
+/* global webots, THREE, SystemInfo */
 'use strict';
 
 class MouseEvents { // eslint-disable-line no-unused-vars
@@ -29,6 +29,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     domElement.addEventListener('wheel', (event) => { this._onMouseWheel(event); }, false);
     domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
+
+    // Prevent '#playerDiv' to raise the context menu of the browser.
+    // This bug has been seen on Windows 10 / Firefox only.
+    domElement.parentNode.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
   }
 
   _onMouseDown(event) {
@@ -46,9 +50,12 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         this.state.mouseDown |= 2;
         break;
     }
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
+      this.state.mouseDown = 2;
 
     if (this.state.mouseDown !== 0) {
-      this._setupMoveParameters(event, true);
+      this._setupMoveParameters(event);
       this.state.initialX = event.clientX;
       this.state.initialY = event.clientY;
       document.addEventListener('mousemove', this.onmousemove, false);
@@ -81,6 +88,10 @@ class MouseEvents { // eslint-disable-line no-unused-vars
         default: this.state.pressedButton = 0; break;
       }
     }
+    if (SystemInfo.isMacOS() && 'ctrlKey' in event && event['ctrlKey'] && this.state.mouseDown === 1)
+      // On macOS, "Ctrl + left click" should be dealt as a right click.
+      this.state.mouseDown = 2;
+
     if (this.state.mouseDown === 0)
       return;
 
@@ -127,8 +138,9 @@ class MouseEvents { // eslint-disable-line no-unused-vars
 
   _onMouseWheel(event) {
     event.preventDefault(); // do not scroll page
-
-    this._setupMoveParameters(event, false);
+    if (!('initialCameraPosition' in this.moveParams))
+      this._setupMoveParameters(event);
+    // else another drag event is already active
 
     if (!this.enableNavigation || this.state.wheelFocus === false) {
       var offset = event.deltaY;
@@ -256,7 +268,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     } else
       this.state.mouseDown = 2; // 1 finger: translation or single click
 
-    this._setupMoveParameters(event.targetTouches['0'], true);
+    this._setupMoveParameters(event.targetTouches['0']);
     this.domElement.addEventListener('touchend', this.ontouchend, true);
     this.domElement.addEventListener('touchmove', this.ontouchmove, true);
 
@@ -287,7 +299,7 @@ class MouseEvents { // eslint-disable-line no-unused-vars
       this.hiddenContextMenu = this.contextMenu.toggle();
   }
 
-  _setupMoveParameters(event, computeScale) {
+  _setupMoveParameters(event) {
     this.moveParams = {};
     var relativePosition = MouseEvents.convertMouseEventPositionToRelativePosition(this.scene.renderer.domElement, event.clientX, event.clientY);
     var screenPosition = MouseEvents.convertMouseEventPositionToScreenPosition(this.scene.renderer.domElement, event.clientX, event.clientY);
@@ -307,13 +319,11 @@ class MouseEvents { // eslint-disable-line no-unused-vars
     if (this.moveParams.distanceToPickPosition < 0.001) // 1 mm
       this.moveParams.distanceToPickPosition = 0.001;
 
-    if (computeScale) {
-      // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
-      this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
-      var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
-      var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
-      this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
-    }
+    // Webots mFieldOfView corresponds to the horizontal FOV, i.e. viewpoint.fovX.
+    this.moveParams.scaleFactor = this.moveParams.distanceToPickPosition * 2 * Math.tan(0.5 * this.scene.viewpoint.camera.fovX);
+    var viewHeight = parseFloat($(this.scene.domElement).css('height').slice(0, -2));
+    var viewWidth = parseFloat($(this.scene.domElement).css('width').slice(0, -2));
+    this.moveParams.scaleFactor /= Math.max(viewHeight, viewWidth);
 
     this.moveParams.initialCameraPosition = this.scene.viewpoint.camera.position.clone();
   }

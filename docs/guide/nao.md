@@ -9,7 +9,7 @@ Currently, Webots supports the Nao v3.3, v4.0 and v5.0 versions, with and withou
 ### NAOqi and Choregraphe
 
 NAOqi and Choregraphe support is deprecated and not any more included in the standard Webots distribution.
-However, it is still available at the [naoqisim github repository](https://github.com/omichel/naoqisim) on a as-is basis.
+However, it is still available at the [naoqisim github repository](https://github.com/cyberbotics/naoqisim) on a as-is basis.
 It is not officially supported and is not maintained any more.
 This is due to some bugs in the simulator SDK that are not being fixed by SoftBank Robotics and cannot be fixed by Cyberbotics.
 

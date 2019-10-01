@@ -514,7 +514,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
       parameterNode = parameterNode->protoParameterNode();
 
     bool found = false;
-    re.setPattern(QString("%1\\((\\d+)\\)").arg(nameWithoutIndex));
+    re.setPattern(QString("%1\\((\\d+)\\)").arg(QRegularExpression::escape(nameWithoutIndex)));
     foreach (WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
@@ -2862,7 +2862,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
       // Note:
       //   This is an exception to the global double precision which is not sufficient here,
       //   because the accumulated error is big in computeEndPointSolidPositionFromParameters().
-      //   cf. https://github.com/omichel/webots/issues/6512
+      //   cf. https://github.com/omichel/webots-dev/issues/6512
       if (!translationToBeCopied.almostEquals(mTranslationLoadedFromFile, 100000.0 * std::numeric_limits<double>::epsilon()) &&
           !isTranslationFieldVisible())
         copyTranslation = true;

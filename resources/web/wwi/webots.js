@@ -21,7 +21,7 @@
 
 /* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
-/* global Server, Stream, Toolbar, Video, X3dScene */
+/* global Server, Stream, SystemInfo, Toolbar, Video, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -112,11 +112,11 @@ webots.View = class View {
     this.view3D.className = view3D.className + ' webotsView';
 
     if (typeof mobile === 'undefined')
-      this.mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      this.mobileDevice = SystemInfo.isMobileDevice();
     else
       this.mobileDevice = mobile;
 
-    this.fullscreenEnabled = !/iPhone|iPad|iPop/i.test(navigator.userAgent);
+    this.fullscreenEnabled = !SystemInfo.isIOS();
     if (!this.fullscreenEnabled)
       // Add tag needed to run standalone web page in fullscreen on iOS.
       $('head').append('<meta name="apple-mobile-web-app-capable" content="yes">');
@@ -278,7 +278,7 @@ webots.View = class View {
 
     var loadFinalize = () => {
       $('#webotsProgress').hide();
-      if (this.toolBar && !this.broadcast)
+      if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
       if (typeof this.onready === 'function')

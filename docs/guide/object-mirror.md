@@ -29,7 +29,7 @@ Mirror {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto](https://github.com/omichel/webots/tree/master/projects/objects/mirror/protos/Mirror.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/mirror/protos/Mirror.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/mirror/protos/Mirror.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

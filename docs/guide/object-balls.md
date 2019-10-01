@@ -28,7 +28,7 @@ Ball {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/Ball.proto](https://github.com/omichel/webots/tree/master/projects/objects/balls/protos/Ball.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/Ball.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/balls/protos/Ball.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -69,7 +69,7 @@ PingPongBall {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/PingPongBall.proto](https://github.com/omichel/webots/tree/master/projects/objects/balls/protos/PingPongBall.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/PingPongBall.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/balls/protos/PingPongBall.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -101,7 +101,7 @@ SoccerBall {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/SoccerBall.proto](https://github.com/omichel/webots/tree/master/projects/objects/balls/protos/SoccerBall.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/SoccerBall.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/balls/protos/SoccerBall.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)

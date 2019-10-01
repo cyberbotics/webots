@@ -1,0 +1,99 @@
+<script src="plot_widget.js"></script>
+<script src="timeplot_widget.js"></script>
+
+<div ondragstart="return false">
+  <div id="menu">
+    <button id="config-menu-button" class="menu-button tablink" onclick="menuTabCallback('config')">Config</button>
+    <button id="markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('markers')">Markers</button>
+    <button id="virtual_markers-menu-button" class="menu-button tablink" onclick="menuTabCallback('virtual_markers')">Virtual Markers</button>
+    <button id="angles-menu-button" class="menu-button tablink" onclick="menuTabCallback('angles')">Angles</button>
+    <button id="forces-menu-button" class="menu-button tablink" onclick="menuTabCallback('forces')">Forces</button>
+    <button id="moments-menu-button" class="menu-button tablink" onclick="menuTabCallback('moments')">Moments</button>
+    <button id="powers-menu-button" class="menu-button tablink" onclick="menuTabCallback('powers')">Powers</button>
+  </div>
+  <div id="content">
+    <div id="config-tab" class="content">
+      <h2>
+        Configuration
+      </h2>
+      <div>
+        Body Transparency
+        <input type="range" class="radiusSlider" min="0.0" max="1.0" step = "0.001" value="1.0" data-show-value="true" class="slider" title="Transparency of the body." onchange="updateTransparency(this)"/>
+        <span id="slider_value_transparency">1.0</span>
+      </div>
+      <div>
+        Playback Speed
+        <input type="range" class="radiusSlider" min="0.1" max="10" step = "0.1" value="1.0" data-show-value="true" class="slider" title="Playback speed." onchange="updateSpeed(this)"/>
+        <span id="slider_value_speed">1.0</span>
+      </div>
+      <h2>
+        Markers
+        <button type="button" id="select_markers">Select All</button>
+        <button type="button" id="unselect_markers">Unselect All</button>
+        <input type="range" id="radius_markers" min="0.001" max="0.1" step = "0.001" value="0.01" class="slider"/>
+        <input type="color" id="color_markers" value="#00ff00"/>
+      </h2>
+      <div id="markers" class="markerContainer">
+        Loading ...
+      </div>
+      <h2>
+        Virtual Markers
+        <button type="button" id="select_virtual_markers">Select All</button>
+        <button type="button" id="unselect_virtual_markers">Unselect All</button>
+        <input type="range" id="radius_virtual_markers" min="0.001" max="0.1" step = "0.001" value="0.01" class="slider"/>
+        <input type="color" id="color_virtual_markers" value="#00ff00"/>
+      </h2>
+      <div id="virtual_markers" class="markerContainer">
+        Loading ...
+      </div>
+    </div>
+    <div id="markers-tab" class="content">
+      <h2>
+        Marker Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="markers" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-markers">
+      </div>
+    </div>
+    <div id="virtual_markers-tab" class="content">
+      <h2>
+        Virtual Marker Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="virtual_markers" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-virtual_markers">
+      </div>
+    </div>
+    <div id="angles-tab" class="content">
+      <h2>
+        Angles Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="angles" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-angles">
+      </div>
+    </div>
+    <div id="forces-tab" class="content">
+      <h2>
+        Forces Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="forces" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-forces">
+      </div>
+    </div>
+    <div id="moments-tab" class="content">
+      <h2>
+        Moments Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="moments" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-moments">
+      </div>
+    </div>
+    <div id="powers-tab" class="content">
+      <h2>
+        Powers Graphs
+        <input type="checkbox" id="graph-checkbox" graphtype="powers" onclick="enableGraphs(this)"/>
+      </h2>
+      <div id="graphs-powers">
+      </div>
+    </div>
+  </div>
+</div>

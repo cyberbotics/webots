@@ -21,7 +21,7 @@ BeerBottle {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/BeerBottle.proto](https://github.com/omichel/webots/tree/master/projects/objects/drinks/protos/BeerBottle.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/BeerBottle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/drinks/protos/BeerBottle.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -49,7 +49,7 @@ Can {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/Can.proto](https://github.com/omichel/webots/tree/master/projects/objects/drinks/protos/Can.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/Can.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/drinks/protos/Can.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
@@ -76,7 +76,7 @@ WaterBottle {
 }
 ```
 
-> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/WaterBottle.proto](https://github.com/omichel/webots/tree/master/projects/objects/drinks/protos/WaterBottle.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/objects/drinks/protos/WaterBottle.proto](https://github.com/cyberbotics/webots/tree/master/projects/objects/drinks/protos/WaterBottle.proto)"
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
