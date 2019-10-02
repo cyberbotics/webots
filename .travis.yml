@@ -87,7 +87,6 @@ jobs:
             - libboost-dev
             - libjpeg8-dev
             - libavcodec-extra
-            - libpci-dev
             - libgd-dev
             - libtiff5-dev
             - libssh-gcrypt-dev

@@ -99,11 +99,11 @@ elif not reader.groups['POINT'].get('UNITS').string_value.strip() == 'm':
     print("Can't determine the size unit.")
 
 # extract point group labels
-labels = getPointsList(reader, 'LABELS')
-angleLabels = getPointsList(reader, 'ANGLES')
-forcesLabels = getPointsList(reader, 'FORCES')
-momentsLabels = getPointsList(reader, 'MOMENTS')
-powersLabels = getPointsList(reader, 'POWERS')
+labels = getPointsList(reader, 'LABELS') if getPointsList(reader, 'LABELS') is not None else []
+angleLabels = getPointsList(reader, 'ANGLES') if getPointsList(reader, 'ANGLES') is not None else []
+forcesLabels = getPointsList(reader, 'FORCES') if getPointsList(reader, 'FORCES') is not None else []
+momentsLabels = getPointsList(reader, 'MOMENTS') if getPointsList(reader, 'MOMENTS') is not None else []
+powersLabels = getPointsList(reader, 'POWERS') if getPointsList(reader, 'POWERS') is not None else []
 
 # get unit for each label group
 pointGroup = reader.groups['POINT']
