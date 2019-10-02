@@ -232,14 +232,14 @@ static void copy_file(const char *file) {
       break;
 #ifndef _WIN32
     case MAC:
-      fprintf(fd, "cp -ar $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
       break;
     case DEB:
-      fprintf(fd, "cp -ar $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
               application_name_lowercase_and_dashes, dest2);
       break;
     case SNAP:
-      fprintf(fd, "cp -ar $WEBOTS_HOME/%s $DESTDIR/usr/share/%s/%s\n", protected_filename2,
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s $DESTDIR/usr/share/%s/%s\n", protected_filename2,
               application_name_lowercase_and_dashes, dest2);
       break;
 #endif
@@ -1084,30 +1084,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian/usr/local/%s/lib/webots\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libQt5Concurrent.so.5 libQt5Concurrent.so\n");
-      fprintf(fd, "ln -s libQt5Core.so.5 libQt5Core.so\n");
-      fprintf(fd, "ln -s libQt5DBus.so.5 libQt5DBus.so\n");
-      fprintf(fd, "ln -s libQt5Gui.so.5 libQt5Gui.so\n");
-      fprintf(fd, "ln -s libQt5Multimedia.so.5 libQt5Multimedia.so\n");
-      fprintf(fd, "ln -s libQt5MultimediaWidgets.so.5 libQt5MultimediaWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Network.so.5 libQt5Network.so\n");
-      fprintf(fd, "ln -s libQt5OpenGL.so.5 libQt5OpenGL.so\n");
-      fprintf(fd, "ln -s libQt5Positioning.so.5 libQt5Positioning.so\n");
-      fprintf(fd, "ln -s libQt5PrintSupport.so.5 libQt5PrintSupport.so\n");
-      fprintf(fd, "ln -s libQt5Qml.so.5 libQt5Qml.so\n");
-      fprintf(fd, "ln -s libQt5Quick.so.5 libQt5Quick.so\n");
-      fprintf(fd, "ln -s libQt5QuickWidgets.so.5 libQt5QuickWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Sensors.so.5 libQt5Sensors.so\n");
-      fprintf(fd, "ln -s libQt5Sql.so.5 libQt5Sql.so\n");
-      fprintf(fd, "ln -s libQt5WebChannel.so.5 libQt5WebChannel.so\n");
-      fprintf(fd, "ln -s libQt5WebEngine.so.5 libQt5WebEngine.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineCore.so.5 libQt5WebEngineCore.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineWidgets.so.5 libQt5WebEngineWidgets.so\n");
-      fprintf(fd, "ln -s libQt5WebSockets.so.5 libQt5WebSockets.so\n");
-      fprintf(fd, "ln -s libQt5Widgets.so.5 libQt5Widgets.so\n");
-      fprintf(fd, "ln -s libQt5XcbQpa.so.5 libQt5XcbQpa.so\n");
-      fprintf(fd, "ln -s libQt5Xml.so.5 libQt5Xml.so\n");
-
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
 #ifdef WEBOTS_UBUNTU_16_04
@@ -1165,9 +1141,9 @@ static void create_file(const char *name, int m) {
 
       // copy include directories of libzip and libssh in tarball package
       fprintf(fd, "mkdir debian/usr/local/webots/include/libssh\n");
-      fprintf(fd, "cp -ar /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
+      fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
-      fprintf(fd, "cp -ar /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
@@ -1228,9 +1204,9 @@ static void create_file(const char *name, int m) {
       for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
         fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
-      fprintf(fd, "cp -ar /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
+      fprintf(fd, "cp -a /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
       fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
-      fprintf(fd, "cp -ar /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
       break;

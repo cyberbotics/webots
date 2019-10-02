@@ -128,7 +128,7 @@ We recommend values between *8* and *16* for regular use of Webots.
 It's more difficult to explain the behavior of the `ERP` and `CFM` fields.
 These values are directly used by the physics engine to determine how the constraints are solved.
 The default values are well defined for regular use of Webots.
-We recommend to read the [Reference Manual](../reference/worldinfo.md) and the documentation of [ODE](http://ode-wiki.org/wiki/index.php?title=Manual) (physics engine used in Webots) to understand completely their purpose.
+We recommend to read the [Reference Manual](../reference/worldinfo.md) and the documentation of [ODE](http://ode.org/wiki/index.php?title=Manual) (physics engine used in Webots) to understand completely their purpose.
 
 ### Minor Physics Parameters
 

@@ -17,12 +17,18 @@ PROTO C3dViewer [
   field  SFFloat     bodyOffset                       0.25          # Defines the vertical offset of the body representation compared to the 'CenterOfMass' marker.
 ]
 {
+  %{
+    local c3dFile = fields.c3dFile.value
+    if c3dFile == nil or c3dFile == '' then
+      c3dFile = "None"
+    end
+  }%
   Robot {
     translation IS translation
     rotation IS rotation
     children IS markers
     controller "c3d_viewer"
-    controllerArgs %{= '"' .. fields.c3dFile.value .. ' ' ..
+    controllerArgs %{= '"' .. c3dFile .. ' ' ..
                               fields.playbackSpeed.value .. ' ' ..
                               fields.leftGroundReactionForceOffset.value.x .. ' ' ..
                               fields.leftGroundReactionForceOffset.value.y .. ' ' ..
