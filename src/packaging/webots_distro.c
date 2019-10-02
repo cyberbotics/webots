@@ -1083,7 +1083,6 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
-      fprintf(fd, "cd %s/debian/usr/local/%s/lib\n", distribution_path, application_name_lowercase_and_dashes);
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
 #ifdef WEBOTS_UBUNTU_16_04
