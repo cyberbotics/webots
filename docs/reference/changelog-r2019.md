@@ -1,10 +1,12 @@
 # Webots R2019b Changelog
 
 ## Webots R2019b Revision 1
-Released on XXX YYth, 2019.
+Released on October 1st, 2019.
 
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
+  - Removed robots
+    - Removed the Telemax PRO robot model, following a request from Telerob.
   - New Features
     - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
     - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
@@ -16,6 +18,7 @@ Released on XXX YYth, 2019.
     - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
     - Added a `village_center` world.
   - Dependency Updates
+    - macOS: Support the Catalina SDK
     - Linux: upgraded to Qt 5.13.1
     - Windows: upgraded to Qt 5.12.4
   - Enhancements

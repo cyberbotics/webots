@@ -51,7 +51,6 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/shrimp/icon.png)      | [Shrimp](shrimp.md)            | BlueBotics           | *Six-wheeled robot*             |
 | ![icon.png](images/robots/sojourner/icon.png)   | [Sojourner](sojourner.md)      | Nasa                 | *Six-wheeled robot*             |
 | ![icon.png](images/robots/surveyor/icon.png)    | [Surveyor SRV-1](surveyor.md)  | Surveyor Corporation | *Robot with two tracks*         |
-| ![icon.png](images/robots/telemax-pro/icon.png) | [Telemax PRO](telemax-pro.md)  | Telerob              | *Robot with four tracks*        |
 | ![icon.png](images/robots/thymio2/icon.png)     | [Thymio II](thymio2.md)        | Mobsya               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/tinkerbots/icon.png)  | [Tinkerbots](tinkerbots.md)    | Kinematics GMBH      | *Robotics kit*                  |
 | ![icon.png](images/robots/ure/icon.png)         | [UR3e, UR5e and UR10e](ure.md) | Universal Robots     | *Robotics arm*                  |

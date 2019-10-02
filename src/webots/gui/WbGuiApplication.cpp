@@ -40,7 +40,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QFontDatabase>
 #include <QtGui/QScreen>
 
@@ -307,7 +306,7 @@ bool WbGuiApplication::setup() {
     // splash screen
     // Warning: using heap allocated splash screen and/or pixmap cause crash while
     // showing tooltips in the main window under Linux.
-    const QDir screenshotLocation = QDir("images:splash_images/", "*.png");
+    const QDir screenshotLocation = QDir("images:splash_images/", "*.jpg");
     const QString webotsLogoName("webots.png");
     mSplash = new WbSplashScreen(screenshotLocation.entryList(), webotsLogoName);
     mSplash->setWindowFlags(Qt::SplashScreen);

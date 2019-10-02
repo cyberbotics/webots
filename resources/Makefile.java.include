@@ -77,13 +77,13 @@ ifneq ($(strip $(CLASSPATH)),)
   ifeq ($(OSTYPE),windows)
    JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar;$(CLASSPATH);." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar:$(CLASSPATH):." -target 1.8 -source 1.8
   endif
  else
   ifeq ($(OSTYPE),windows)
    JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar;." -target 1.8 -source 1.8
   else
-   JAVAC_OPTS += -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar":. -target 1.8 -source 1.8
+   JAVAC_OPTS += -Xlint:-options -Xlint -classpath "$(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar":. -target 1.8 -source 1.8
   endif
 endif
 

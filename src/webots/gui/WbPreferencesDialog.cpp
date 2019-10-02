@@ -15,6 +15,7 @@
 #include "WbPreferencesDialog.hpp"
 
 #include "WbApplication.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbLineEdit.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
@@ -297,7 +298,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
                                     "https://www.cyberbotics.com/doc/guide/telemetry"));
   QLabel *label = new QLabel(
     tr("Telemetry (<a style='color: #5DADE2;' href='https://www.cyberbotics.com/doc/guide/telemetry'>info</a>):"), this);
-  label->setOpenExternalLinks(true);
+  connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
   layout->addWidget(label, 8, 0);
   layout->addWidget(mTelemetryCheckBox, 8, 1);
 
