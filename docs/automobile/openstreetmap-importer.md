@@ -18,7 +18,7 @@ Then install the Python `lxml`, `pyproj`, `shapely` and `webcolors` modules, as 
 
 ```sh
 sudo apt-get install python-pip
-sudo pip install lxml pyproj shapely webcolors configparser
+pip install lxml pyproj shapely webcolors configparser --user
 ```
 
 ### macOS
