@@ -351,12 +351,32 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   else {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
-    writer << "<Group>";
-    if (fastHelix)
+    if (writer.isX3d())
+      writer << "<Group>";
+    else {
+      writer << "Group {\n";
+      writer.increaseIndent();
+      writer.indent();
+      writer << "children ";
+    }
+    writer.writeMFStart();
+    if (fastHelix) {
+      writer.writeMFSeparator(true, false);
       fastHelix->write(writer);
-    if (slowHelix)
+    }
+    if (slowHelix) {
+      writer.writeMFSeparator(!fastHelix, false);
       slowHelix->write(writer);
-    writer << "</Group>";
+    }
+    writer.writeMFEnd(!fastHelix && !slowHelix);
+    if (writer.isX3d())
+      writer << "</Group>";
+    else {
+      writer << "\n";
+      writer.decreaseIndent();
+      writer.indent();
+      writer << "}";
+    }
   }
 }
 
