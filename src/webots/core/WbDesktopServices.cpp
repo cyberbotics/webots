@@ -26,6 +26,8 @@ bool WbDesktopServices::openUrl(const QString &url) {
   QProcess process;
   process.setProgram("xdg-open");  // we need to use xdg-open to be snap compliant
   process.setArguments(QStringList() << url);
+  process.setStandardErrorFile(QProcess::nullDevice());
+  process.setStandardOutputFile(QProcess::nullDevice());
   return process.startDetached();
 #else
   return QDesktopServices::openUrl(QUrl(url));
