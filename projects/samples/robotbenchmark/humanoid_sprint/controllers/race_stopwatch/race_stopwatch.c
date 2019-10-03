@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
   WbFieldRef translation = wb_supervisor_node_get_field(nao, "translation");
   int run = 1;
   double record = 0;
-  const double time_limit = 5999.99;  // 99 min 59 s 99'
+  const double time_limit = 5999.99;                                   // 99 min 59 s 99'
   const double previous_time_limit = time_limit - time_step / 1000.0;  // time limit minus one time step period, in seconds.
   do {
     double t = wb_robot_get_time();
