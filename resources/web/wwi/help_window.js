@@ -1,4 +1,4 @@
-/* global DialogWindow, DefaultUrl */
+/* global DialogWindow, DefaultUrl, webots */
 'use strict';
 
 class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
@@ -41,8 +41,11 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
       $(this.panel).dialog('open');
     };
     var currentUrl = DefaultUrl.currentScriptUrl();
+    var query = '';
+    if (webots.showFast)
+      query = '?fast=true';
     $.ajax({
-      url: currentUrl + 'help.php',
+      url: currentUrl + 'help.php' + query,
       success: (data) => {
         // Fix the img src relative URLs.
         var html = data.replace(/ src="images/g, ' src="' + currentUrl + '/images');

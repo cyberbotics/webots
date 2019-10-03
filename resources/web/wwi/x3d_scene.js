@@ -188,11 +188,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
-    var objects = loader.parse(x3dObject);
-    if (typeof parentObject !== 'undefined') {
-      objects.forEach((o) => { parentObject.add(o); });
+    var objects = loader.parse(x3dObject, parentObject);
+    if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
-    } else {
+    else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
       objects.forEach((o) => { this.scene.add(o); });
       this.root = objects[0];
@@ -410,42 +409,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
       // only fields set in x3d.js are checked
     }
     return undefined;
-  }
-
-  applyEquirectangularBackground(image) {
-    var texture;
-    if (image.data) {
-      texture = new THREE.DataTexture(image.data, image.width, image.height);
-      texture.encoding = THREE.RGBEEncoding;
-      texture.minFilter = THREE.NearestFilter;
-      texture.magFilter = THREE.NearestFilter;
-      texture.flipY = true;
-    } else {
-      texture = new THREE.Texture(image);
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-    }
-    texture.needsUpdate = true;
-
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
-    this.scene.background = cubemapGenerator.renderTarget;
-
-    var cubeMapTexture = cubemapGenerator.update(this.renderer);
-
-    var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
-    pmremGenerator.update(this.renderer);
-
-    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-    pmremCubeUVPacker.update(this.renderer);
-
-    this.scene.background.userData = {};
-    this.scene.background.userData.isHDR = true;
-    this.scene.background.userData.texture = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-    this._setupEnvironmentMap();
-
-    texture.dispose();
-    pmremGenerator.dispose();
-    pmremCubeUVPacker.dispose();
   }
 
   // private functions

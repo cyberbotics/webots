@@ -42,6 +42,11 @@ typedef struct WbFieldStructPrivate *WbFieldRef;
 // C++ code will use the standard definition of "bool"
 #ifndef __cplusplus
 
+#include <math.h>  // definition of INFINITY
+#ifndef INFINITY
+#define INFINITY (1.0 / 0.0)
+#endif
+
 #ifndef bool
 #define bool char
 #endif
@@ -56,10 +61,6 @@ typedef struct WbFieldStructPrivate *WbFieldRef;
 // clang-format off
 #define false ((bool)0)
 // clang-format on
-#endif
-
-#ifndef INFINITY
-#define INFINITY (1.0 / 0.0)
 #endif
 
 #endif

@@ -44,7 +44,7 @@ sudo su -
 First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
 
 ```sh
-apt-key add /path/to/Cyberbotics.asc
+curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
@@ -176,23 +176,6 @@ You can pass this warning and install Webots by clicking on the "More info" link
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
-4. It is recommended to increase the size of the system shared memory in order to run simulations with more than 8 camera or display devices (such as the PR2 robot).
-In order to proceed, edit the following file from the Terminal application as administrator: `sudo pico /etc/sysctl.conf`.
-It is likely this file doesn't exist on your system, in which case an empty file will be created.
-Edit this file so that it contains the lines:
-
-    ```
-kern.sysv.shmmax=16777216
-kern.sysv.shmmin=1
-kern.sysv.shmmni=128
-kern.sysv.shmseg=32
-kern.sysv.shmall=4096
-    ```
-
-    These settings increase the amount of shared memory to four times the usual default.
-The current values are provided by the following command line: `sysctl -A | grep sysv.shm`.
-Please refer to the macOS documentation to understand the exact meaning of each value.
-You will have to reboot your computer so that these changes are taken into account.
 
 ### macOS Security
 

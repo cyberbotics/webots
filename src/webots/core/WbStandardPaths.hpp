@@ -19,9 +19,9 @@ class QString;
 
 namespace WbStandardPaths {
   // directories, every path is terminated by a /
-  const QString &webotsDataPath();  // e.g. C:/Users/michel/AppData/Roaming/Cyberbotics/Webots/
-  const QString &webotsHomePath();  // e.g. /usr/local/webots/
-  const QString &webotsLibPath();   // e.g. /usr/local/webots/lib/
+  const QString &webotsHomePath();     // e.g. /usr/local/webots/
+  const QString &webotsLibPath();      // e.g. /usr/local/webots/lib/webots/
+  const QString &controllerLibPath();  // e.g. /usr/local/webots/lib/controller/
 #ifdef _WIN32
   const QString &webotsMsys64Path();  // e.g. C:/Program Files/Webots/msys64/
 #endif
@@ -42,7 +42,8 @@ namespace WbStandardPaths {
   const QString &emptyProjectPath();  // equal to resourcesProjectsPath() if WEBOTS_EMPTY_PROJECT_PATH is not set
 
   // urls
-  const QString &cyberboticsUrl();  // e.g. http://www.cyberbotics.com/
+  const QString &cyberboticsUrl();       // https://cyberbotics.com
+  const QString &githubRepositoryUrl();  // https://github.com/cyberbotics/webots
 
   // utility function
   const QString &dynamicLibraryExtension();  // e.g. .so, .dll or .dylib
