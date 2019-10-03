@@ -10,8 +10,8 @@ WorldInfo {
   lineScale 0.04
 }
 Viewpoint {
-  orientation 0.052625099076012226 -0.9416377888222324 -0.3324889074980044 4.886594332911164
-  position -0.21654768660679205 1.6677385432075627 0.8678992878448712
+  orientation 0.49742470670788735 -0.7762505841699614 -0.38730310059740786 5.125726022168232
+  position -0.08506671216165099 1.9258557155670069 1.0707981990643405
   near 0.0001
 }
 TexturedBackground {
@@ -1552,7 +1552,7 @@ Robot {
                                                                                                         children [
                                                                                                           DEF FINGER_TIP Shape {
                                                                                                             appearance PBRAppearance {
-                                                                                                              baseColor 0.913725 0.72549 0.431373
+                                                                                                              baseColor 0.333333 0 0
                                                                                                               roughness 1
                                                                                                               metalness 0
                                                                                                             }
@@ -1578,7 +1578,111 @@ Robot {
                                                                                                           }
                                                                                                         ]
                                                                                                         name "hand_thumb_flex_3"
-                                                                                                        boundingObject USE FINGER_TIP
+                                                                                                        boundingObject DEF THUMB_TIP_BO Group {
+                                                                                                          children [
+                                                                                                            Transform {
+                                                                                                              translation 0.0226421 -0.0027114 0
+                                                                                                              rotation 0 0 1 -0.6765553071795862
+                                                                                                              scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
+                                                                                                              children [
+                                                                                                                Box {
+                                                                                                                  size 0.01 0.01 0.01
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.024 -0.0001 0
+                                                                                                              scale 1.0199527051837716 0.6513317451940288 1
+                                                                                                              children [
+                                                                                                                Box {
+                                                                                                                  size 0.0017861 0.000566799 0.0139906
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.0139 0.0036 -2.86678e-06
+                                                                                                              rotation 1 0 0 1.57
+                                                                                                              children [
+                                                                                                                Cylinder {
+                                                                                                                  height 0.0142
+                                                                                                                  radius 0.0069
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation -0.000484472 0.00615072 -4.421e-05
+                                                                                                              rotation 0 0 -1 -0.6458153071795865
+                                                                                                              children [
+                                                                                                                Box {
+                                                                                                                  size 0.00865483 0.00264905 0.0142201
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.00945916 0.00894654 -1.41e-05
+                                                                                                              rotation 0 0 1 0.000815
+                                                                                                              children [
+                                                                                                                Box {
+                                                                                                                  size 0.00766065 0.00325 0.0140609
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.0073479 0.0004039 3.979e-05
+                                                                                                              children [
+                                                                                                                Box {
+                                                                                                                  size 0.0153 0.014 0.014
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.00462 0.00680154 -7.94601e-06
+                                                                                                              rotation -1 0 0 -1.5739153071795862
+                                                                                                              children [
+                                                                                                                Cylinder {
+                                                                                                                  height 0.0142
+                                                                                                                  radius 0.0038
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.0001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation 0.0159 0.00079729 -5.31303e-06
+                                                                                                              rotation 1 0 0 1.57
+                                                                                                              children [
+                                                                                                                Cylinder {
+                                                                                                                  height 0.0142
+                                                                                                                  radius 0.0074
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                            }
+                                                                                                            Transform {
+                                                                                                              translation -0.0002 -9.24681e-05 4.10434e-05
+                                                                                                              rotation 1 0 0 1.572
+                                                                                                              children [
+                                                                                                                Cylinder {
+                                                                                                                  height 0.0142
+                                                                                                                  radius 0.0064
+                                                                                                                }
+                                                                                                              ]
+                                                                                                              translationStep 0.0001
+                                                                                                              rotationStep 0.001
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        }
                                                                                                         physics DEF FINGER_TIP_PHYSIC Physics {
                                                                                                           density -1
                                                                                                           mass 0.015
@@ -1597,25 +1701,25 @@ Robot {
                                                                                               }
                                                                                             ]
                                                                                             name "hand_thumb_flex_1_link"
-                                                                                            boundingObject Group {
+                                                                                            boundingObject DEF FINGER_PHALANX_BO Group {
                                                                                               children [
                                                                                                 Transform {
-                                                                                                  translation 0.0133988 0.00571264 -0.00524421
+                                                                                                  translation -0.000484472 0.00615072 -4.421e-05
+                                                                                                  rotation 0 0 -1 -0.6458153071795865
                                                                                                   children [
                                                                                                     Box {
-                                                                                                      size 0.00983 0.0142985 0.00380194
+                                                                                                      size 0.00865483 0.00264905 0.0142201
                                                                                                     }
                                                                                                   ]
                                                                                                   translationStep 0.0001
                                                                                                   rotationStep 0.001
                                                                                                 }
                                                                                                 Transform {
-                                                                                                  translation 0.00822604 0.00444635 -1.41e-05
+                                                                                                  translation 0.00942551 0.00604674 -1.41e-05
                                                                                                   rotation 0 0 -1 0.643185
-                                                                                                  scale 0.7660649986433042 0.6939940651598598 1.40608692788505
                                                                                                   children [
                                                                                                     Box {
-                                                                                                      size 0.01 0.01 0.01
+                                                                                                      size 0.00766065 0.00288985 0.0140609
                                                                                                     }
                                                                                                   ]
                                                                                                   translationStep 0.0001
@@ -1632,34 +1736,35 @@ Robot {
                                                                                                   rotationStep 0.001
                                                                                                 }
                                                                                                 Transform {
-                                                                                                  translation 0.00462 0.00680185 -0.000107946
-                                                                                                  rotation 1 0 0 1.57
+                                                                                                  translation 0.00462 0.00680154 -7.94649e-06
+                                                                                                  rotation -1 0 0 -1.5739153071795862
                                                                                                   children [
                                                                                                     Cylinder {
-                                                                                                      height 0.0145
+                                                                                                      height 0.0142
                                                                                                       radius 0.0038
                                                                                                     }
                                                                                                   ]
                                                                                                   translationStep 0.0001
+                                                                                                  rotationStep 0.0001
                                                                                                 }
                                                                                                 Transform {
-                                                                                                  translation 0.0093 9.7131e-05 -0.000204758
+                                                                                                  translation 0.0093 9.72902e-05 -4.75803e-06
                                                                                                   rotation 1 0 0 1.57
                                                                                                   children [
                                                                                                     Cylinder {
-                                                                                                      height 0.0146
+                                                                                                      height 0.0142
                                                                                                       radius 0.0062
                                                                                                     }
                                                                                                   ]
                                                                                                   translationStep 0.0001
                                                                                                 }
                                                                                                 Transform {
-                                                                                                  translation -0.0006 -0.000492468 4.05618e-05
+                                                                                                  translation -0.0002 -9.24681e-05 4.10434e-05
                                                                                                   rotation 1 0 0 1.572
                                                                                                   children [
                                                                                                     Cylinder {
                                                                                                       height 0.0142
-                                                                                                      radius 0.0059
+                                                                                                      radius 0.0064
                                                                                                     }
                                                                                                   ]
                                                                                                   translationStep 0.0001
@@ -1708,18 +1813,18 @@ Robot {
                                                                                       rotationStep 0.001
                                                                                     }
                                                                                     Transform {
-                                                                                      translation 0.0133988 0.00571264 -0.00524421
+                                                                                      translation 0.0135584 0.00576252 -0.00535379
                                                                                       rotation -0.5375599743583899 -0.8243219606798434 -0.1775459915310564 -0.7718753071795863
                                                                                       children [
                                                                                         Box {
-                                                                                          size 0.00983 0.0142985 0.00380194
+                                                                                          size 0.00893 0.01422 0.00379
                                                                                         }
                                                                                       ]
                                                                                       translationStep 0.0001
                                                                                       rotationStep 0.001
                                                                                     }
                                                                                     Transform {
-                                                                                      translation 0.0206 0.00156491 0.0037859
+                                                                                      translation 0.0206 0.00160667 0.00369504
                                                                                       rotation -1 0 0 -0.4308153071795866
                                                                                       children [
                                                                                         Box {
@@ -1741,32 +1846,34 @@ Robot {
                                                                                       rotationStep 0.001
                                                                                     }
                                                                                     Transform {
-                                                                                      translation 0.01812 0.006 -0.0061
-                                                                                      rotation 1 0 0 0.427
-                                                                                      children [
-                                                                                        Cylinder {
-                                                                                          height 0.0145
-                                                                                          radius 0.0038
-                                                                                        }
-                                                                                      ]
-                                                                                    }
-                                                                                    Transform {
-                                                                                      translation 0.0236 0.0033 -0.0003
-                                                                                      rotation 1 0 0 0.427
-                                                                                      children [
-                                                                                        Cylinder {
-                                                                                          height 0.0146
-                                                                                          radius 0.0055
-                                                                                        }
-                                                                                      ]
-                                                                                    }
-                                                                                    Transform {
-                                                                                      translation 0.0129 0.00310705 0.000444895
+                                                                                      translation 0.01812 0.00613243 -0.00614961
                                                                                       rotation 1 0 0 0.427
                                                                                       children [
                                                                                         Cylinder {
                                                                                           height 0.0142
-                                                                                          radius 0.0059
+                                                                                          radius 0.0038
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.0236 0.00339102 -0.000258586
+                                                                                      rotation 1 0 0 0.427
+                                                                                      children [
+                                                                                        Cylinder {
+                                                                                          height 0.0142
+                                                                                          radius 0.0055
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.0133 0.00327269 8.08104e-05
+                                                                                      rotation 1 0 0 0.427
+                                                                                      children [
+                                                                                        Cylinder {
+                                                                                          height 0.0142
+                                                                                          radius 0.0064
                                                                                         }
                                                                                       ]
                                                                                       translationStep 0.0001
@@ -1801,7 +1908,7 @@ Robot {
                                                                                 }
                                                                               ]
                                                                               endPoint DEF INDEX_PHALANX_1 Solid {
-                                                                                translation 0.1265000000000096 0.0042000000000072535 0.026500000000167168
+                                                                                translation 0.1265 0.0042 0.0265
                                                                                 rotation -0.947422601952332 -0.1947949181593536 -0.2538608933435073 1.884379307179588
                                                                                 children [
                                                                                   DEF FIRST_PHALANX_SHAPE Shape {
@@ -1964,19 +2071,122 @@ Robot {
                                                                                                                       USE FINGER_TIP
                                                                                                                     ]
                                                                                                                     name "hand_index_flex_3_link"
-                                                                                                                    boundingObject USE FINGER_TIP
+                                                                                                                    boundingObject DEF FINGER_TIP_BO Group {
+                                                                                                                      children [
+                                                                                                                        Transform {
+                                                                                                                          translation 0.0226421 -0.0027114 0
+                                                                                                                          rotation 0 0 1 -0.6765553071795862
+                                                                                                                          scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
+                                                                                                                          children [
+                                                                                                                            Box {
+                                                                                                                              size 0.01 0.01 0.01
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.024 -0.0001 0
+                                                                                                                          scale 1.0199527051837716 0.6513317451940288 1
+                                                                                                                          children [
+                                                                                                                            Box {
+                                                                                                                              size 0.0017861 0.000566799 0.0139906
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.0139 0.0036 -2.86678e-06
+                                                                                                                          rotation 1 0 0 1.57
+                                                                                                                          children [
+                                                                                                                            Cylinder {
+                                                                                                                              height 0.0142
+                                                                                                                              radius 0.0069
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation -0.000484472 0.00615072 -4.421e-05
+                                                                                                                          rotation 0 0 -1 -0.6458153071795865
+                                                                                                                          children [
+                                                                                                                            Box {
+                                                                                                                              size 0.00865483 0.00264905 0.0142201
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.00945916 0.00894654 -1.41e-05
+                                                                                                                          rotation 0 0 1 0.000815
+                                                                                                                          children [
+                                                                                                                            Box {
+                                                                                                                              size 0.00766065 0.00325 0.0140609
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.0073479 0.0004039 3.979e-05
+                                                                                                                          children [
+                                                                                                                            Box {
+                                                                                                                              size 0.0153 0.014 0.014
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.00462 0.00680154 -7.94601e-06
+                                                                                                                          rotation -1 0 0 -1.5739153071795862
+                                                                                                                          children [
+                                                                                                                            Cylinder {
+                                                                                                                              height 0.0142
+                                                                                                                              radius 0.0038
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.0001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation 0.0159 0.00079729 -5.31303e-06
+                                                                                                                          rotation 1 0 0 1.57
+                                                                                                                          children [
+                                                                                                                            Cylinder {
+                                                                                                                              height 0.0142
+                                                                                                                              radius 0.0074
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                        }
+                                                                                                                        Transform {
+                                                                                                                          translation -0.0002 -9.24681e-05 4.10434e-05
+                                                                                                                          rotation 1 0 0 1.572
+                                                                                                                          children [
+                                                                                                                            Cylinder {
+                                                                                                                              height 0.0142
+                                                                                                                              radius 0.0064
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                          translationStep 0.0001
+                                                                                                                          rotationStep 0.001
+                                                                                                                        }
+                                                                                                                      ]
+                                                                                                                    }
                                                                                                                     physics USE FINGER_TIP_PHYSIC
                                                                                                                   }
                                                                                                                 }
                                                                                                               ]
                                                                                                               name "hand_index_virtual_3_link"
-                                                                                                              boundingObject USE FINGER_CONNECTOR_SHAPE
                                                                                                               physics USE FINGER_CONNECTOR_PHYSIC
                                                                                                             }
                                                                                                           }
                                                                                                         ]
                                                                                                         name "hand_index_flex_2_link"
-                                                                                                        boundingObject USE FINGER_PHALANX
+                                                                                                        boundingObject USE FINGER_PHALANX_BO
                                                                                                         physics USE FINGER_PHALANX_PHYSIC
                                                                                                       }
                                                                                                     }
@@ -1988,7 +2198,7 @@ Robot {
                                                                                               }
                                                                                             ]
                                                                                             name "hand_index_flex_1_link"
-                                                                                            boundingObject USE FINGER_PHALANX
+                                                                                            boundingObject USE FINGER_PHALANX_BO
                                                                                             physics USE FINGER_PHALANX_PHYSIC
                                                                                           }
                                                                                         }
@@ -2000,7 +2210,79 @@ Robot {
                                                                                   }
                                                                                 ]
                                                                                 name "hand_index_abd_link"
-                                                                                boundingObject USE FIRST_PHALANX_SHAPE
+                                                                                boundingObject DEF FINGER_FIRST_PHALANX_BO Group {
+                                                                                  children [
+                                                                                    Transform {
+                                                                                      translation -0.000134238 3.25429e-05 0.00647638
+                                                                                      rotation 0.9026669571373119 0.3039279855681319 0.30466398553318336 -1.6706153071795864
+                                                                                      children [
+                                                                                        Box {
+                                                                                          size 0.00865483 0.00264905 0.0142201
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.00912055 -8.20413e-07 0.00630561
+                                                                                      rotation 0.9064698587788056 -0.29655395379912175 -0.3006129531667602 -1.665115307179586
+                                                                                      children [
+                                                                                        Box {
+                                                                                          size 0.00766065 0.00288985 0.0140609
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.0074479 -0.00014182 -0.00448623
+                                                                                      rotation 1 0 0 -1.5699453071795864
+                                                                                      children [
+                                                                                        Box {
+                                                                                          size 0.0152 0.00411 0.014
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.00451184 1.54e-06 0.00679193
+                                                                                      rotation 0 1 0 -1.572
+                                                                                      children [
+                                                                                        Cylinder {
+                                                                                          height 0.0142
+                                                                                          radius 0.0038
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.0001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation 0.00930012 -2.7098e-06 9.52421e-05
+                                                                                      rotation 0.0015907607420420182 -0.9999974664687269 -0.0015926507429236466 -1.571995307179586
+                                                                                      children [
+                                                                                        Cylinder {
+                                                                                          height 0.0142
+                                                                                          radius 0.0062
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.001
+                                                                                    }
+                                                                                    Transform {
+                                                                                      translation -0.00020012 7.532e-06 -5.89565e-05
+                                                                                      rotation 0 1 0 1.572
+                                                                                      children [
+                                                                                        Cylinder {
+                                                                                          height 0.0142
+                                                                                          radius 0.0064
+                                                                                        }
+                                                                                      ]
+                                                                                      translationStep 0.0001
+                                                                                      rotationStep 0.001
+                                                                                    }
+                                                                                  ]
+                                                                                }
                                                                                 physics DEF FIRST_PHALANX_PHYSIC Physics {
                                                                                   density -1
                                                                                   mass 0.018
@@ -2167,19 +2449,18 @@ Robot {
                                                                                                                       USE FINGER_TIP
                                                                                                                     ]
                                                                                                                     name "hand_middle_flex_3_link"
-                                                                                                                    boundingObject USE FINGER_TIP
+                                                                                                                    boundingObject USE FINGER_TIP_BO
                                                                                                                     physics USE FINGER_TIP_PHYSIC
                                                                                                                   }
                                                                                                                 }
                                                                                                               ]
                                                                                                               name "hand_middle_virtual_3_link"
-                                                                                                              boundingObject USE FINGER_CONNECTOR_SHAPE
                                                                                                               physics USE FINGER_CONNECTOR_PHYSIC
                                                                                                             }
                                                                                                           }
                                                                                                         ]
                                                                                                         name "hand_middle_flex_2_link"
-                                                                                                        boundingObject USE FINGER_PHALANX
+                                                                                                        boundingObject USE FINGER_PHALANX_BO
                                                                                                         physics USE FINGER_PHALANX_PHYSIC
                                                                                                       }
                                                                                                     }
@@ -2191,7 +2472,7 @@ Robot {
                                                                                               }
                                                                                             ]
                                                                                             name "hand_middle_flex_1_link"
-                                                                                            boundingObject USE FINGER_PHALANX
+                                                                                            boundingObject USE FINGER_PHALANX_BO
                                                                                             physics USE FINGER_PHALANX_PHYSIC
                                                                                           }
                                                                                         }
@@ -2203,7 +2484,7 @@ Robot {
                                                                                   }
                                                                                 ]
                                                                                 name "hand_middle_abd_link"
-                                                                                boundingObject USE FIRST_PHALANX_SHAPE
+                                                                                boundingObject USE FINGER_FIRST_PHALANX_BO
                                                                                 physics USE FIRST_PHALANX_PHYSIC
                                                                               }
                                                                             }
@@ -2364,7 +2645,7 @@ Robot {
                                                                                                                       USE FINGER_TIP
                                                                                                                     ]
                                                                                                                     name "hand_ring_flex_3_link"
-                                                                                                                    boundingObject USE FINGER_TIP
+                                                                                                                    boundingObject USE FINGER_TIP_BO
                                                                                                                     physics USE FINGER_TIP_PHYSIC
                                                                                                                   }
                                                                                                                 }
@@ -2376,7 +2657,7 @@ Robot {
                                                                                                           }
                                                                                                         ]
                                                                                                         name "hand_ring_flex_2_link"
-                                                                                                        boundingObject USE FINGER_PHALANX
+                                                                                                        boundingObject USE FINGER_PHALANX_BO
                                                                                                         physics USE FINGER_PHALANX_PHYSIC
                                                                                                       }
                                                                                                     }
@@ -2388,7 +2669,7 @@ Robot {
                                                                                               }
                                                                                             ]
                                                                                             name "hand_ring_flex_1_link"
-                                                                                            boundingObject USE FINGER_CONNECTOR_SHAPE
+                                                                                            boundingObject USE FINGER_PHALANX_BO
                                                                                             physics USE FINGER_PHALANX_PHYSIC
                                                                                           }
                                                                                         }
@@ -2400,7 +2681,7 @@ Robot {
                                                                                   }
                                                                                 ]
                                                                                 name "hand_ring_abd_link"
-                                                                                boundingObject USE FIRST_PHALANX_SHAPE
+                                                                                boundingObject USE FINGER_FIRST_PHALANX_BO
                                                                                 physics USE FIRST_PHALANX_PHYSIC
                                                                               }
                                                                             }
@@ -2561,7 +2842,7 @@ Robot {
                                                                                                                       USE FINGER_TIP
                                                                                                                     ]
                                                                                                                     name "hand_little_flex_3_link"
-                                                                                                                    boundingObject USE FINGER_TIP
+                                                                                                                    boundingObject USE FINGER_TIP_BO
                                                                                                                     physics USE FINGER_TIP_PHYSIC
                                                                                                                   }
                                                                                                                 }
@@ -2573,7 +2854,7 @@ Robot {
                                                                                                           }
                                                                                                         ]
                                                                                                         name "hand_little_flex_2_link"
-                                                                                                        boundingObject USE FINGER_PHALANX
+                                                                                                        boundingObject USE FINGER_PHALANX_BO
                                                                                                         physics USE FINGER_PHALANX_PHYSIC
                                                                                                       }
                                                                                                     }
@@ -2585,7 +2866,7 @@ Robot {
                                                                                               }
                                                                                             ]
                                                                                             name "hand_little_flex_1_link"
-                                                                                            boundingObject USE FINGER_PHALANX
+                                                                                            boundingObject USE FINGER_PHALANX_BO
                                                                                             physics USE FINGER_PHALANX_PHYSIC
                                                                                           }
                                                                                         }
@@ -2597,7 +2878,7 @@ Robot {
                                                                                   }
                                                                                 ]
                                                                                 name "hand_little_abd_link"
-                                                                                boundingObject USE FIRST_PHALANX_SHAPE
+                                                                                boundingObject USE FINGER_FIRST_PHALANX_BO
                                                                                 physics USE FIRST_PHALANX_PHYSIC
                                                                               }
                                                                             }
