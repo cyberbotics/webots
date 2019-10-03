@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
   double record = 0;
   bool disqualified = false;
   const double time_limit = 5999.99;  // 99 min 59 s 99'
+  const double previous_time_limit = time_limit - time_step / 1000.0;  // time limit minus one time step period, in seconds.
   do {
     double t = wb_robot_get_time();
     const double *v = wb_supervisor_field_get_sf_vec3f(translation);
@@ -96,8 +97,8 @@ int main(int argc, char *argv[]) {
       wb_robot_wwi_send_text("stop");
       run = 0;
     }
-    if (disqualified || t > (time_limit - time_step / 1000.0))
-      t = time_limit - time_step / 1000.0;
+    if (disqualified || t > previous_time_limit)
+      t = previous_time_limit;
     if (run) {
       stopwatch_set_time(digit, t + time_step / 1000);  // to avoid discrepancy with Webots time
       char buffer[32];
