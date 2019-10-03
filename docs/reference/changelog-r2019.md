@@ -1,7 +1,7 @@
 # Webots R2019b Changelog
 
 ## Webots R2019b Revision 1
-Released on October 2nd, 2019.
+Released on October 3rd, 2019.
 
   - New Robots
     - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
