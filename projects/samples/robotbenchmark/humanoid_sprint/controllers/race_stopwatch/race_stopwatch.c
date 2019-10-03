@@ -84,20 +84,20 @@ int main(int argc, char *argv[]) {
   WbFieldRef translation = wb_supervisor_node_get_field(nao, "translation");
   int run = 1;
   double record = 0;
-  bool disqualified = false;
   const double time_limit = 5999.99;  // 99 min 59 s 99'
   const double previous_time_limit = time_limit - time_step / 1000.0;  // time limit minus one time step period, in seconds.
   do {
     double t = wb_robot_get_time();
     const double *v = wb_supervisor_field_get_sf_vec3f(translation);
-    if (!disqualified && v[1] < 0.2) {  // the robot has fallen down
+    if (v[1] < 0.2) {  // the robot has fallen down => disqualified.
       printf("The robot is down, the robot is disqualified.\n");
-      disqualified = true;
       stopwatch_set_time(digit, time_limit);
+      wb_robot_wwi_send_text("time:5999.99");  // 99 min 59 s 99'
       wb_robot_wwi_send_text("stop");
-      run = 0;
+      wb_robot_step(time_step);
+      break;
     }
-    if (disqualified || t > previous_time_limit)
+    if (t > previous_time_limit)
       t = previous_time_limit;
     if (run) {
       stopwatch_set_time(digit, t + time_step / 1000);  // to avoid discrepancy with Webots time
