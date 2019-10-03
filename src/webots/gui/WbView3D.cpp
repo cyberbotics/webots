@@ -1215,7 +1215,7 @@ void WbView3D::checkRendererCapabilities() {
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");
     message += '\n';
 
-#ifndef __APPLE__
+#ifdef _WIN32
     int gpuGeneration = WbSysInfo::intelGPUGeneration(WbWrenOpenGlContext::instance()->functions());
     if (gpuGeneration < 5) {
       disableShadows = true;
@@ -1223,7 +1223,7 @@ void WbView3D::checkRendererCapabilities() {
     }
 #endif
   }
-#ifndef __APPLE__
+#ifdef _WIN32
   else if (WbSysInfo::isAmdLowEndGpu(WbWrenOpenGlContext::instance()->functions())) {
     message += tr("Webots has detected that you are using an old AMD GPU. "
                   "A recent NVIDIA or AMD graphics adapter is highly recommended to run Webots smoothly. ");

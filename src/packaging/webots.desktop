@@ -2,7 +2,7 @@
 Name=Webots
 Comment=Webots mobile robot simulator
 Exec=webots
-Icon=webots.png
+Icon=usr/share/webots/resources/icons/core/webots.png
 Terminal=false
 Type=Application
 X-AppInstall-Package=webots
