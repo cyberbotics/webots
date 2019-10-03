@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbControlledWorld.hpp"
+
 #include "WbController.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
@@ -185,23 +186,21 @@ void WbControlledWorld::deleteController(WbController *controller) {
 void WbControlledWorld::addControllerConnection() {
   QLocalSocket *socket = mServer->nextPendingConnection();
   int robotId = 0;
-  char *buffer = (char *)&robotId;
   int n, i = 0;
-  while ((n = socket->read(&buffer[i], sizeof(robotId) - i)) != (int)sizeof(robotId) - i) {
+  while ((n = socket->read((char *)&robotId, sizeof(robotId) - i)) != (int)sizeof(robotId) - i) {
     i = n;
     socket->waitForReadyRead();
   }
   QString robotName;
   if (robotId == 0) {  // the Robot.name should be sent
     int size = 0;
-    buffer = (char *)&size;
     i = 0;
-    while ((n = socket->read(&buffer[i], sizeof(size) - i)) != (int)sizeof(size) - i) {
+    while ((n = socket->read((char *)&size, sizeof(size) - i)) != (int)sizeof(size) - i) {
       i = n;
       socket->waitForReadyRead();
     }
     if (size) {
-      buffer = new char[size + 1];
+      char *buffer = new char[size + 1];
       i = 0;
       while ((n = socket->read(&buffer[i], size - i)) != size - i) {
         i = n;

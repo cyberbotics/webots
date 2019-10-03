@@ -121,7 +121,7 @@ class SumoSupervisor (Supervisor):
             self.vehicles[self.vehicleNumber] = Vehicle(node)
             self.vehicles[self.vehicleNumber].currentID = id
             self.vehicleNumber += 1
-            return (self.vehicleNumber - 1)
+            return self.vehicleNumber - 1
         # check if a vehicle is available
         vehicleClass = self.get_vehicle_class(id)
         for i in range(0, self.vehicleNumber):
@@ -134,18 +134,16 @@ class SumoSupervisor (Supervisor):
         if self.vehicleNumber < self.vehiclesLimit:
             vehicleClass = self.get_vehicle_class(id)
             self.generate_new_vehicle(vehicleClass)
-            return (self.vehicleNumber - 1)
-        else:
-            return -1
+            return self.vehicleNumber - 1
+        return -1
 
     def get_vehicle_class(self, id):
         """Get the class of the vehicle associated to this id."""
         if id in self.vehiclesClass:
             return self.vehiclesClass[id]
-        else:
-            vehicleClass = Vehicle.get_corresponding_vehicle_class(self.traci.vehicle.getVehicleClass(id))
-            self.vehiclesClass[id] = vehicleClass
-            return vehicleClass
+        vehicleClass = Vehicle.get_corresponding_vehicle_class(self.traci.vehicle.getVehicleClass(id))
+        self.vehiclesClass[id] = vehicleClass
+        return vehicleClass
 
     def disable_unused_vehicles(self, subscriptionResult):
         """Check for all the vehicles currently used if they need to be disabled."""
@@ -240,10 +238,10 @@ class SumoSupervisor (Supervisor):
                         vehicle.pitch = pitch
                         vehicle.roll = roll
                         # ajust height according to the pitch
-                        if not pitch == 0:
+                        if pitch != 0:
                             height += (roadPos - 0.5 * vehicleLength) * math.sin(pitch)
                         # ajust height according to the roll and lateral position of the vehicle
-                        if not roll == 0.0:
+                        if roll != 0.0:
                             laneIndex = subscriptionResult[id][self.traci.constants.VAR_LANE_INDEX]
                             laneID = subscriptionResult[id][self.traci.constants.VAR_LANE_ID]
                             laneWidth = self.traci.lane.getWidth(laneID)

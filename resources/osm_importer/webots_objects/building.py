@@ -148,7 +148,7 @@ class Building(WebotsObject):
             if 'building:min_level' in tags:
                 building.minLevel = int(extract_float_from_string(tags['building:min_level']))
             building.ref = ref
-            if len(building.ref) > 0 and building.ref[0] == building.ref[-1]:
+            if building.ref and building.ref[0] == building.ref[-1]:
                 # often last and first reference are the same => this is useless for us
                 del building.ref[-1]
             Building.list.append(building)

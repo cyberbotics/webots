@@ -49,7 +49,7 @@ def github_api(request):
         print(e.info())
     content = response.read()
     github_api.last_time = time.time()
-    return json.loads(content)
+    return json.loads(content.decode())
 
 
 if len(sys.argv) == 3:
@@ -72,4 +72,5 @@ else:
     with open(filename, 'w') as file:
         j = github_api('repos/' + repo + '/compare/' + branch + '...' + commit)
         for f in j['files']:
-            file.write(f['filename'] + '\n')
+            if os.path.isfile(f['filename']):  # In case the file has been deleted.
+                file.write(f['filename'] + '\n')

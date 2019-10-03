@@ -97,7 +97,7 @@ export WEBOTS_HOME=/home/username/webots
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
 Some additional libraries are needed in order to properly run Webots.
-In particular *make*, *g++*, *libjpeg8-dev*, *ffmpeg*, and *libpci3* have to be installed on the system.
+In particular *make*, *g++*, *libjpeg8-dev* and *ffmpeg* have to be installed on the system.
 Other particular libraries could also be required to recompile some of the distributed binary files.
 In this case an error message will be printed in the Webots console mentioning the missing dependency.
 
@@ -176,23 +176,6 @@ You can pass this warning and install Webots by clicking on the "More info" link
 2. Double click on this file.
 This will mount on the desktop a volume named "Webots" containing the "Webots" folder.
 3. Move this folder to your "/Applications" folder or wherever you would like to install Webots.
-4. It is recommended to increase the size of the system shared memory in order to run simulations with more than 8 camera or display devices (such as the PR2 robot).
-In order to proceed, edit the following file from the Terminal application as administrator: `sudo pico /etc/sysctl.conf`.
-It is likely this file doesn't exist on your system, in which case an empty file will be created.
-Edit this file so that it contains the lines:
-
-    ```
-kern.sysv.shmmax=16777216
-kern.sysv.shmmin=1
-kern.sysv.shmmni=128
-kern.sysv.shmseg=32
-kern.sysv.shmall=4096
-    ```
-
-    These settings increase the amount of shared memory to four times the usual default.
-The current values are provided by the following command line: `sysctl -A | grep sysv.shm`.
-Please refer to the macOS documentation to understand the exact meaning of each value.
-You will have to reboot your computer so that these changes are taken into account.
 
 ### macOS Security
 

@@ -1,4 +1,4 @@
-/* global DialogWindow, DefaultUrl */
+/* global DialogWindow, DefaultUrl, webots */
 'use strict';
 
 class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
@@ -26,7 +26,7 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
       $('#webotsHelpTabs').tabs();
     }
 
-    var clampedSize = super.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
+    var clampedSize = DialogWindow.clampDialogSize({left: 5, top: 5, width: 600, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = () => { $('#helpButton').removeClass('toolBarButtonActive'); };
@@ -41,8 +41,11 @@ class HelpWindow extends DialogWindow { // eslint-disable-line no-unused-vars
       $(this.panel).dialog('open');
     };
     var currentUrl = DefaultUrl.currentScriptUrl();
+    var query = '';
+    if (webots.showFast)
+      query = '?fast=true';
     $.ajax({
-      url: currentUrl + 'help.php',
+      url: currentUrl + 'help.php' + query,
       success: (data) => {
         // Fix the img src relative URLs.
         var html = data.replace(/ src="images/g, ' src="' + currentUrl + '/images');

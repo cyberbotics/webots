@@ -5,13 +5,12 @@
 
 [Webots Guided Tour]
 
-projects/robots/telerob/telemax_pro/worlds/telemax.wbt 30
+projects/robots/dji/mavic/worlds/mavic_2_pro.wbt 20
 projects/robots/robotis/darwin-op/worlds/robotis_op3.wbt 22
 projects/robots/universal_robots/worlds/ure.wbt 20
 projects/vehicles/worlds/city.wbt 30
 projects/samples/rendering/worlds/animated_skin.wbt 30
 projects/robots/kinematics/tinkerbots/worlds/tinkerbots_demo.wbt 20
-projects/robots/epfl/lis/worlds/blimp.wbt 20
 projects/robots/clearpath/moose/worlds/moose_demo.wbt 20
 projects/robots/k-team/khepera3/worlds/khepera3_gripper.wbt 20
 projects/robots/kuka/youbot/worlds/youbot.wbt 30
@@ -28,7 +27,9 @@ projects/robots/gctronic/e-puck/worlds/e-puck_line_demo.wbt 30
 
 [Devices Tour]
 
+projects/samples/devices/worlds/accelerometer.wbt 20
 projects/samples/devices/worlds/battery.wbt 20
+projects/samples/devices/worlds/brake.wbt 20
 projects/samples/devices/worlds/bumper.wbt 20
 projects/samples/devices/worlds/camera.wbt 20
 projects/samples/devices/worlds/camera_auto_focus.wbt 20

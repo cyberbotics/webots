@@ -95,10 +95,10 @@ void WbVector3Editor::resetFocus() {
 }
 
 void WbVector3Editor::applyIfNeeded() {
-  if (field() && ((field()->hasRestrictedValues() && mVector3 != WbVector3(mComboBox->currentText())) ||
-                  (!field()->hasRestrictedValues() &&
-                   (mVector3.x() != mSpinBoxes[0]->text().toDouble() || mVector3.y() != mSpinBoxes[1]->text().toDouble() ||
-                    mVector3.z() != mSpinBoxes[2]->text().toDouble()))))
+  if (field() &&
+      ((field()->hasRestrictedValues() && mVector3 != WbVector3(mComboBox->currentText())) ||
+       (!field()->hasRestrictedValues() && (mVector3.x() != mSpinBoxes[0]->value() || mVector3.y() != mSpinBoxes[1]->value() ||
+                                            mVector3.z() != mSpinBoxes[2]->value()))))
     apply();
 }
 
@@ -106,7 +106,9 @@ void WbVector3Editor::apply() {
   if (field()->hasRestrictedValues())
     mVector3 = WbVector3(mComboBox->currentText());
   else
-    mVector3.setXyz(mSpinBoxes[0]->text().toDouble(), mSpinBoxes[1]->text().toDouble(), mSpinBoxes[2]->text().toDouble());
+    mVector3.setXyz(WbPrecision::roundValue(mSpinBoxes[0]->value(), WbPrecision::GUI_MEDIUM),
+                    WbPrecision::roundValue(mSpinBoxes[1]->value(), WbPrecision::GUI_MEDIUM),
+                    WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
 
   if (singleValue()) {
     WbSFVector3 *const sfVector3 = static_cast<WbSFVector3 *>(singleValue());

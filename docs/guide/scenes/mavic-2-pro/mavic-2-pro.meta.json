@@ -1,0 +1,140 @@
+{
+  "robotID": "n12", 
+  "name": "mavic-2-pro", 
+  "devices": [
+    {
+      "transformID": "n234", 
+      "initialPosition": 0, 
+      "name": "camera pitch", 
+      "maxPosition": 1.7, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.5, 
+      "axis": "0 1 0"
+    }, 
+    {
+      "transformID": "n244", 
+      "initialPosition": 0, 
+      "name": "camera roll", 
+      "maxPosition": 0.5, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -0.5, 
+      "axis": "1 0 0"
+    }, 
+    {
+      "transformID": "n224", 
+      "initialPosition": 0, 
+      "name": "camera yaw", 
+      "maxPosition": 1.7, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": -1.7, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n303", 
+      "initialPosition": 0, 
+      "name": "front left propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n178", 
+      "initialPosition": 0, 
+      "name": "front right propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n61", 
+      "initialPosition": 0, 
+      "name": "rear left propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n117", 
+      "initialPosition": 0, 
+      "name": "rear right propeller", 
+      "maxPosition": 0, 
+      "position": 0, 
+      "type": "RotationalMotor", 
+      "minPosition": 0, 
+      "axis": "0 0 1"
+    }, 
+    {
+      "transformID": "n266", 
+      "name": "front left led", 
+      "ledPBRAppearanceIDs": [
+        "n268"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n211", 
+      "name": "front right led", 
+      "ledPBRAppearanceIDs": [
+        "n213"
+      ], 
+      "ledColors": [
+        "1 0 0"
+      ], 
+      "ledGradual": false, 
+      "type": "LED"
+    }, 
+    {
+      "transformID": "n255", 
+      "type": "Camera", 
+      "name": "camera"
+    }, 
+    {
+      "transformID": "n234", 
+      "type": "PositionSensor", 
+      "name": "camera pitch sensor"
+    }, 
+    {
+      "transformID": "n244", 
+      "type": "PositionSensor", 
+      "name": "camera roll sensor"
+    }, 
+    {
+      "transformID": "n224", 
+      "type": "PositionSensor", 
+      "name": "camera yaw sensor"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "Compass", 
+      "name": "compass"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "GPS", 
+      "name": "gps"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "Gyro", 
+      "name": "gyro"
+    }, 
+    {
+      "transformID": "n12", 
+      "type": "InertialUnit", 
+      "name": "inertial unit"
+    }
+  ]
+}

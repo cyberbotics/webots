@@ -175,7 +175,7 @@ class TestSuite (Supervisor):
         found = False
         for line in content:
             line.strip()
-            if len(line) != 0:
+            if line:
                 [world, expected] = shlex.split(line)
                 if os.path.normpath(world) == self.currentSimulationFilename.replace(os.environ['WEBOTS_HOME'] +
                                                                                      os.sep + 'tests' + os.sep, ''):

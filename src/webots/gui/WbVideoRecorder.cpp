@@ -15,6 +15,7 @@
 #include "WbVideoRecorder.hpp"
 
 #include "WbApplication.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMainWindow.hpp"
@@ -36,13 +37,11 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QThread>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QImage>
 #include <QtGui/QImageWriter>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 
 #ifndef _WIN32
@@ -228,9 +227,8 @@ bool WbVideoRecorder::initRecording(WbSimulationView *view, double basicTimeStep
   // remove old files
   removeOldTempFiles();
 
-  const QDesktopWidget *qDesktop = QApplication::desktop();
-  const int screenNumber = qDesktop->screenNumber(QCursor::pos());
-  QSize fullScreen(qDesktop->screenGeometry(screenNumber).width(), qDesktop->screenGeometry(screenNumber).height());
+  const QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
+  const QSize fullScreen(screen->geometry().width(), screen->geometry().height());
 
   mIsFullScreen = (mVideoResolution == fullScreen);
   if (mIsFullScreen) {
@@ -410,10 +408,10 @@ void WbVideoRecorder::terminateVideoCreation(int exitCode, QProcess::ExitStatus 
     box.setCheckBox(checkBox);
     if (box.exec() == QMessageBox::Yes) {
       if (checkBox->isChecked()) {
-        QDesktopServices::openUrl(QUrl("https://www.youtube.com/upload"));
+        WbDesktopServices::openUrl("https://www.youtube.com/upload");
         WbFileUtil::revealInFileManager(mVideoName);
       }
-      QDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName));
+      WbDesktopServices::openUrl(QUrl::fromLocalFile(mVideoName).toString());
     }
   }
 }

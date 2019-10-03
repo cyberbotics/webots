@@ -16,9 +16,18 @@ START := $(shell date +%s)
 
 ifeq ($(WEBOTS_HOME),)
 ifneq ($(findstring MINGW,$(shell uname)),) # under MINGW, we need to set WEBOTS_HOME using the native Windows format
-WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
+export WEBOTS_HOME:=`pwd -W | tr -s / '\\'`
 else
-WEBOTS_HOME=$(HOME)/webots
+export WEBOTS_HOME = $(PWD)
+endif
+endif
+
+include resources/Makefile.os.include
+
+ifeq ($(JAVA_HOME)$(OSTYPE),linux)
+JAVAC:=`which javac`
+ifneq ($(JAVAC),)
+export JAVA_HOME:=$(shell dirname $(dir $(shell readlink -f $(JAVAC))))
 endif
 endif
 
@@ -43,12 +52,6 @@ space :=
 space +=
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
-
-ifeq ($(OS),Windows_NT)
-PYTHON_COMMAND ?= python3
-else
-PYTHON_COMMAND ?= python
-endif
 
 .PHONY: clean cleanse debug distrib release webots_dependencies webots_target clean-docs docs
 
@@ -137,9 +140,9 @@ endif
 THREADS = $$(($(NUMBER_OF_PROCESSORS) * 3 / 2))
 
 docs:
-ifneq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifneq (, $(shell which python 2> /dev/null))
 	@+echo "#"; echo "# * documentation *";
-	-@+$(PYTHON_COMMAND) docs/local_exporter.py --silent
+	-@+python docs/local_exporter.py --silent
 else
 	@+echo "#"; echo -e "# \033[0;33mPython not installed, skipping documentation\033[0m";
 endif
@@ -147,6 +150,10 @@ endif
 clean-docs:
 	@+echo "#"; echo "# * documentation *";
 	@rm -fr docs/index.html docs/dependencies
+
+install:
+	@+echo "#"; echo "# * installing (snap) *";
+	@+make --silent -C src/packaging -f Makefile install
 
 help:
 	@+echo

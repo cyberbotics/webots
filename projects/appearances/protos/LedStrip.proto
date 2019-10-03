@@ -1,0 +1,44 @@
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A led strip material.
+
+PROTO LedStrip [
+  field SFColor colorOverride     1 1 1  # Defines the default color multiplied with the texture color.
+  field SFNode  textureTransform  NULL   # Defines an optional 2d texture transform.
+  field SFFloat IBLStrength       1      # Defines the strength of ambient lighting from the Background node.
+  field SFFloat emissiveIntensity 1      # Defines the intensity of the leds.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        "textures/led_strip/led_strip_base_color.jpg"
+      ]
+    }
+    roughnessMap ImageTexture {
+      url [
+        "textures/led_strip/led_strip_roughness.jpg"
+      ]
+    }
+    metalnessMap ImageTexture {
+      url [
+        "textures/led_strip/led_strip_metalness.jpg"
+      ]
+    }
+    normalMap ImageTexture {
+      url [
+        "textures/led_strip/led_strip_normal.jpg"
+      ]
+    }
+    emissiveColorMap ImageTexture {
+      url [
+        "textures/led_strip/led_strip_emissive_color.jpg"
+      ]
+    }
+    emissiveIntensity IS emissiveIntensity
+    IBLStrength IS IBLStrength
+    textureTransform IS textureTransform
+  }
+}

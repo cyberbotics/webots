@@ -38,8 +38,10 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.pauseButton.onclick = () => { this.pause(); };
     this.pauseButton.style.display = 'none';
 
-    this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
-    this.fastButton.onclick = () => { this.fast(); };
+    if (webots.showFast) { // disabled by default
+      this.domElement.left.appendChild(this.createToolBarButton('fast', 'Run the simulation as fast as possible'));
+      this.fastButton.onclick = () => { this.fast(); };
+    }
 
     var div = document.createElement('div');
     div.className = 'webotsTime';
@@ -116,7 +118,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   toggleHelp() {
     this.view.contextMenu.hide();
     if (!this.view.helpWindow) {
-      if (!webots.broadcast && webots.webotsDocUrl)
+      if (!this.view.broadcast && webots.webotsDocUrl)
         var webotsDocUrl = webots.webotsDocUrl;
       this.view.helpWindow = new HelpWindow(this.view.view3D, this.view.mobileDevice, webotsDocUrl);
       this.helpButton.classList.add('toolBarButtonActive');
@@ -168,7 +170,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   requestQuit() {
     if (this.view.editor.hasUnsavedChanges()) {
       var text;
-      if (this.view.editor.unloggedFileModified || webots.User1Id === '')
+      if (this.view.editor.unloggedFileModified || typeof webots.User1Id === 'undefined' || webots.User1Id === '')
         text = 'Your changes to the robot controller will be lost because you are not logged in.';
       else
         text = 'Your unsaved changes to the robot controller will be lost.';
@@ -183,13 +185,13 @@ class Toolbar { // eslint-disable-line no-unused-vars
           modal: true,
           resizable: false,
           appendTo: this.view.view3D,
-          open: DialogWindow.openDialog,
+          open: () => { DialogWindow.openDialog(quitDialog); },
           buttons: {
             'Cancel': () => {
-              $(this).dialog('close');
+              $(quitDialog).dialog('close');
             },
             'Quit': () => {
-              $(this).dialog('close');
+              $(quitDialog).dialog('close');
               this.view.quitSimulation();
             }
           }
@@ -202,7 +204,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   reset(revert = false) {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.time = 0; // reset time to correctly compute the initial deadline
     if (revert)
@@ -235,14 +237,14 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   pause() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('pause');
   }
 
   realTime() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('real-time:' + this.view.timeout);
@@ -253,7 +255,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   fast() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.view.stream.socket.send('fast:' + this.view.timeout);
@@ -263,7 +265,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   step() {
-    if (webots.broadcast)
+    if (this.view.broadcast)
       return;
     this.view.contextMenu.hide();
     this.pauseButton.style.display = 'none';
@@ -277,7 +279,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     var buttons = [this.infoButton, this.revertButton, this.resetButton, this.stepButton, this.real_timeButton, this.fastButton, this.pauseButton, this.consoleButton, this.worldSelect];
     for (let i in buttons) {
       if (buttons[i]) {
-        if ((!webots.broadcast || buttons[i] === this.consoleButton) && enabled) {
+        if (enabled && (!this.view.broadcast || buttons[i] === this.consoleButton)) {
           buttons[i].disabled = false;
           buttons[i].classList.remove('toolBarButtonDisabled');
         } else {
@@ -299,12 +301,23 @@ class Toolbar { // eslint-disable-line no-unused-vars
   }
 
   setMode(mode) {
-    if (mode === 'pause')
+    var fastEnabled = typeof this.fastButton !== 'undefined';
+    if (mode === 'pause') {
       this.pauseButton.style.display = 'none';
-    else
-      this.pauseButton.style.display = 'inline';
-    this.real_timeButton.style.display = 'inline';
-    if (typeof this.fastButton !== 'undefined')
-      this.fastButton.style.display = 'inline';
+      this.real_timeButton.style.display = 'inline';
+      if (fastEnabled)
+        this.fastButton.style.display = 'inline';
+      return;
+    }
+
+    this.pauseButton.style.display = 'inline';
+    if (fastEnabled && mode === 'fast') {
+      this.fastButton.style.display = 'none';
+      this.real_timeButton.style.display = 'inline';
+    } else {
+      if (fastEnabled)
+        this.fastButton.style.display = 'inline';
+      this.real_timeButton.style.display = 'none';
+    }
   }
 }

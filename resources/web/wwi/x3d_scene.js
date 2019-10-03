@@ -26,12 +26,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.domElement.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
+    this.renderAllAtLoad = false;
 
     this.viewpoint = new Viewpoint();
-    this.viewpoint.onCameraParametersChanged = () => {
+    this.viewpoint.onCameraParametersChanged = (updateScene) => {
       if (this.gpuPicker)
         this.gpuPicker.needUpdate = true;
-      this.render();
+      if (updateScene)
+        this.render();
     };
 
     this.selector = new Selector();
@@ -60,7 +62,13 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.destroyWorld();
 
     TextureLoader.setTexturePathPrefix(texturePathPrefix);
-    TextureLoader.setOnTextureLoad(() => this.render());
+    TextureLoader.setOnTextureLoad(() => {
+      if (this.renderAllAtLoad && !TextureLoader.hasPendingData()) {
+        this.renderAllAtLoad = false;
+        this.scene.traverse((object) => { object.frustumCulled = true; });
+      }
+      this.render();
+    });
   }
 
   render() {
@@ -100,7 +108,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.objectsIdCache = {};
     this.useNodeCache = {};
     this.root = undefined;
-    this.scene.background = undefined;
+    this.scene.background = new THREE.Color(0, 0, 0);
     this.onSceneUpdate();
     this.render();
   }
@@ -146,6 +154,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
         this.gpuPicker.setScene(this.scene);
         this.sceneModified = false;
       }
+
+      // Render all the objects at scene load.
+      // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
+      this.scene.traverse((o) => {
+        o.frustumCulled = false;
+      });
+      this.renderAllAtLoad = true;
+
       this.onSceneUpdate();
       if (typeof onLoad === 'function')
         onLoad();
@@ -168,6 +184,14 @@ class X3dScene { // eslint-disable-line no-unused-vars
     }
     this._setupLights(loader.directionalLights);
     this._setupEnvironmentMap();
+    if (typeof parentObject === 'undefined') {
+      // Render all the objects at scene load.
+      // The frustumCulled parameter will be set back to TRUE once all the textures are loaded.
+      this.scene.traverse((o) => {
+        o.frustumCulled = false;
+      });
+      this.renderAllAtLoad = true;
+    }
     this.onSceneUpdate();
   }
 
@@ -436,7 +460,7 @@ class X3dScene { // eslint-disable-line no-unused-vars
   _setupEnvironmentMap() {
     var isHDR = false;
     var backgroundMap;
-    if (typeof this.scene.background !== 'undefined') {
+    if (this.scene.background) {
       if (typeof this.scene.background.userData !== 'undefined' && this.scene.background.userData.isHDR) {
         isHDR = true;
         backgroundMap = this.scene.background.userData.texture;

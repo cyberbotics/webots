@@ -152,32 +152,30 @@ void WbPhysics::checkInertiaMatrix(bool showInfo) {
     return;
   }
 
-  if (size == 2) {
-    if (showInfo && mCenterOfMass->size() == 0)
-      info(tr("You must also specify the 'centerOfMass' when specifying the 'inertiaMatrix'"));
+  if (showInfo && mCenterOfMass->size() == 0)
+    info(tr("You must also specify the 'centerOfMass' when specifying the 'inertiaMatrix'"));
 
-    if (showInfo && mMass->value() <= 0.0)
-      info(tr("You must also set the 'mass' to a positive value when specifying the 'inertiaMatrix'."));
+  if (showInfo && mMass->value() <= 0.0)
+    info(tr("You must also set the 'mass' to a positive value when specifying the 'inertiaMatrix'."));
 
-    // The principal moment of inertia must be positive
-    // to avoid assertion failure with debug version of ODE
-    const WbVector3 &v0 = mInertiaMatrix->item(0);
-    if (v0[0] <= 0.0 || v0[1] <= 0.0 || v0[2] <= 0.0) {
-      mHasAvalidInertiaMatrix = false;
-      if (showInfo)
-        warn(tr("The first line of 'inertiaMatrix' (principal moments of inertia) must have only positive values."));
-    }
-    const WbVector3 &v1 = mInertiaMatrix->item(1);
-    const dReal I[12] = {v0[0], v1[0], v1[1], 0.0, v1[0], v0[1], v1[2], 0.0, v1[1], v1[2], v0[2], 0.0};
-    if (!dIsPositiveDefinite(I, 3)) {
-      mHasAvalidInertiaMatrix = false;
-      if (showInfo)
-        warn(tr("'inertiaMatrix' must be positive definite."));
-    } else if (mCenterOfMass->size() == 0 && showInfo)
-      warn(tr("'centerOfmass' must also be specified when using an inertia matrix."));
-    else if (mMass->value() < 0.0 && showInfo)
-      warn(tr("'mass' must be positive when using an inertia matrix."));
+  // The principal moment of inertia must be positive
+  // to avoid assertion failure with debug version of ODE
+  const WbVector3 &v0 = mInertiaMatrix->item(0);
+  if (v0[0] <= 0.0 || v0[1] <= 0.0 || v0[2] <= 0.0) {
+    mHasAvalidInertiaMatrix = false;
+    if (showInfo)
+      warn(tr("The first line of 'inertiaMatrix' (principal moments of inertia) must have only positive values."));
   }
+  const WbVector3 &v1 = mInertiaMatrix->item(1);
+  const dReal I[12] = {v0[0], v1[0], v1[1], 0.0, v1[0], v0[1], v1[2], 0.0, v1[1], v1[2], v0[2], 0.0};
+  if (!dIsPositiveDefinite(I, 3)) {
+    mHasAvalidInertiaMatrix = false;
+    if (showInfo)
+      warn(tr("'inertiaMatrix' must be positive definite."));
+  } else if (mCenterOfMass->size() == 0 && showInfo)
+    warn(tr("'centerOfmass' must also be specified when using an inertia matrix."));
+  else if (mMass->value() < 0.0 && showInfo)
+    warn(tr("'mass' must be positive when using an inertia matrix."));
 }
 
 WbDamping *WbPhysics::damping() const {

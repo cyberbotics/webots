@@ -37,7 +37,7 @@ print('  <vType id="trailer" accel="0.8" decel="4.5" sigma="0.8" length="14" min
       ' guiShape="truck" vClass="trailer"/>')
 print('  <vType id="truck" accel="0.8" decel="4.5" sigma="0.5" length="8" minGap="8" maxSpeed="25"'
       ' guiShape="truck" vClass="truck"/>')
-for i in range(initialVehicleNumber / 2):
+for i in range(initialVehicleNumber // 2):
     departPos = 5000.0 - 2 * i * 5000.0 / initialVehicleNumber
     if vehicleCounter % truckRatio == 0:
         print('  <vehicle id="%d" type="truck" route="1" depart="0" departLane="free" departPos="%lf" departSpeed="max"/>' %
@@ -55,7 +55,7 @@ for i in range(initialVehicleNumber / 2):
         print('  <vehicle id="%d" type="car" route="1" depart="0" departLane="free" departPos="%lf" departSpeed="max"/>' %
               (vehicleCounter, departPos))
     vehicleCounter += 1
-for i in range(initialVehicleNumber / 2):
+for i in range(initialVehicleNumber // 2):
     departPos = 5000.0 - 2 * i * 5000.0 / initialVehicleNumber
     if vehicleCounter % truckRatio == 0:
         print('  <vehicle id="%d" type="truck" route="0" depart="0" departLane="free" departPos="%lf" departSpeed="max"/>' %
@@ -73,7 +73,7 @@ for i in range(initialVehicleNumber / 2):
         print('  <vehicle id="%d" type="car" route="0" depart="0" departLane="free" departPos="%lf" departSpeed="max"/>' %
               (vehicleCounter, departPos))
     vehicleCounter += 1
-for i in range(int(simulationTime / vehicleInsertionInterval)):
+for i in range(int(simulationTime // vehicleInsertionInterval)):
     if vehicleCounter % truckRatio == 0:
         print('  <vehicle id="%d" type="truck" route="%d" depart="%lf" departLane="random"/>' %
               (vehicleCounter, vehicleCounter % 2, i * vehicleInsertionInterval))

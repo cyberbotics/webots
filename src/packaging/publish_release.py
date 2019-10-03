@@ -35,8 +35,12 @@ g = Github(options.key)
 repo = g.get_repo(options.repo)
 releaseExists = False
 now = datetime.datetime.now()
-warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the latest official release: ' \
-                 'https://github.com/cyberbotics/webots/releases/latest'
+if now.weekday() >= 5:
+    print('Skipping nightly build for Saturday and Sunday.')
+    exit(0)
+
+warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
+                 '(https://github.com/cyberbotics/webots/releases/latest).'
 if options.tag:
     tag = options.tag
     title = options.tag
@@ -47,7 +51,9 @@ if options.tag:
 else:
     title = 'Webots Nightly Build (%d-%d-%d)' % (now.day, now.month, now.year)
     tag = 'nightly_%d_%d_%d' % (now.day, now.month, now.year)
-    message = 'This is a nightly build of Webots from the "%s" branch.%s' % (options.branch, warningMessage)
+    branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+             % (options.branch, options.repo, options.commit, now.year)
+    message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branch, warningMessage)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
@@ -56,7 +62,10 @@ for release in repo.get_releases():
         break
     elif match:
         date = now - datetime.datetime(year=int(match.group(3)), month=int(match.group(2)), day=int(match.group(1)))
-        if date > datetime.timedelta(days=2, hours=12):  # keep only 3 nightly releases in total
+        maxDay = 3
+        if now.weekday() <= 1:  # Monday or tuesday
+            maxDay += 2  # weekend day doesn't count
+        if date > datetime.timedelta(days=maxDay, hours=12):  # keep only 3 nightly releases in total
             tagName = release.tag_name
             print('Deleting release "%s"' % release.title)
             release.delete_release()
@@ -67,13 +76,14 @@ for release in repo.get_releases():
 
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tag, options.commit))
+    draft = True if options.tag else False
     repo.create_git_tag_and_release(tag=tag,
                                     tag_message=title,
                                     release_name=title,
                                     release_message=message,
                                     object=options.commit,
                                     type='commit',
-                                    draft=False,
+                                    draft=draft,
                                     prerelease=True)
 
 for release in repo.get_releases():
@@ -81,6 +91,7 @@ for release in repo.get_releases():
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
+        releaseCommentModified = False
         for file in os.listdir(os.path.join(os.environ['WEBOTS_HOME'], 'distribution')):
             path = os.path.join(os.environ['WEBOTS_HOME'], 'distribution', file)
             if file != '.gitignore' and not os.path.isdir(path):
@@ -89,5 +100,13 @@ for release in repo.get_releases():
                 else:
                     print('Uploading "%s"' % file)
                     release.upload_asset(path)
+                    if releaseExists and not options.tag and not releaseCommentModified and options.branch not in release.body:
+                        print('Updating release description')
+                        releaseCommentModified = True
+                        branch = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
+                                 % (options.branch, options.repo, options.commit, now.year)
+                        message = release.body.replace('branch(es):', 'branch(es):\n  - %s' % branch)
+                        release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
+                                               release.target_commitish)
         break
 print('Upload finished.')

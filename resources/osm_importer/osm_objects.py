@@ -88,7 +88,7 @@ class OSMCoord(OSMAbstractObject):
     @staticmethod
     def get_min_and_max_coord(refs):
         """Return the coordinates bounds."""
-        if not len(refs) > 0:
+        if not refs:
             return (0, 0, 0, 0)
         xMin = OSMCoord.coordDictionnary[refs[0]].x
         xMax = OSMCoord.coordDictionnary[refs[0]].x

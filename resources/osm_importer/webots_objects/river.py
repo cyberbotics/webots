@@ -60,7 +60,7 @@ class River(WebotsObject):
     def export(cls, file):
         """Export all the rivers from the rivers list."""
         for river in River.list[:]:
-            if len(river.ref) < 1:
+            if not river.ref:
                 River.list.remove(river)
                 continue
 

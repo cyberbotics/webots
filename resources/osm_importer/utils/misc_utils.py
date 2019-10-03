@@ -150,7 +150,7 @@ def extract_float_from_string(str):
         (?: [Ee] [+-]? \d+ ) ?
     """, re.VERBOSE)
     floats = rx.findall(str)
-    if len(floats) == 0:
+    if not floats:
         return 0.0
     return float(floats[0])
 
@@ -158,6 +158,6 @@ def extract_float_from_string(str):
 def protect_def_name(defName):
     """Convert a DEF name to be supported in Webots."""
     protectedDefName = clean_string(defName)
-    if len(protectedDefName) > 0 and protectedDefName[0].isdigit():
+    if protectedDefName and protectedDefName[0].isdigit():
         protectedDefName = "_" + protectedDefName
     return protectedDefName
