@@ -10,8 +10,8 @@ WorldInfo {
   lineScale 0.04
 }
 Viewpoint {
-  orientation -0.3744945513875871 0.901302263362653 0.21773392257149324 0.6553682537057496
-  position 1.3602295318292752 2.355869905187033 1.5640776295507353
+  orientation -0.1965492858594383 0.9803650301095249 0.01589924421144475 0.4497300304744127
+  position 0.7552513252198246 0.3191851627272053 1.4512958422501279
   near 0.0001
 }
 TexturedBackground {
@@ -19,13 +19,40 @@ TexturedBackground {
 TexturedBackgroundLight {
   castShadows FALSE
 }
+SolidTorus {
+  translation 0.2061 0.171 0.162
+  rotation -0.3243588663662829 -0.3243588663662829 0.888584633908982 1.68865
+  majorRadius 0.013
+  minorRadius 0.006
+  appearance PBRAppearance {
+    baseColor 1 0.333333 0
+    roughness 0.5
+    metalness 0
+    emissiveColor 1 0 0
+    emissiveIntensity 50
+  }
+}
+SolidPipe {
+  translation 0.2657 0.172 0.000975636
+  rotation 0.0426463828780912 0.04264708287781016 0.9981795992452603 1.57262
+  height 0.001
+  radius 0.02
+  thickness 0.03
+  appearance PBRAppearance {
+    baseColor 1 0 0
+    roughness 0.5
+    metalness 0
+    emissiveColor 1 0 0
+    emissiveIntensity 50
+  }
+}
 DEF BOTTOM_LIGHTING PointLight {
   attenuation 0 0 1
   intensity 11
   location 0 -2 1
 }
 SolidBox {
-  translation 0.201047 1.5 -0.172
+  translation -0.05 -0.2 0.05
   rotation 0 1 0 -0.7853903061004254
   size 0.01 0.01 0.01
   appearance PBRAppearance {
@@ -33,12 +60,11 @@ SolidBox {
     roughness 0.5
     metalness 0
     emissiveColor 0.607843 0.160784 0.0509804
-    emissiveIntensity 300
+    emissiveIntensity 10
   }
 }
 Robot {
-  translation 0.0896356 1.06444 -0.614221
-  rotation -0.9839161783358075 -0.12636102290306384 -0.12626102288493873 1.58621
+  rotation -0.9767806184260983 -0.15155194079707943 -0.15143194084395675 1.59349
   children [
     DEF MOBILE_BASE Solid {
       translation 0 0 0.0985
