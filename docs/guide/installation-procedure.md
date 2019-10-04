@@ -22,7 +22,7 @@ All these packages can be installed from our [website](https://cyberbotics.com/d
 If you have a NVIDIA or AMD graphics card, it is highly recommended that you install the Linux graphics drivers from these manufacturers to take the full advantage of the OpenGL hardware acceleration with Webots.
 Please find instructions in [this section](verifying-your-graphics-driver-installation.md).
 
-#### Installing the Debian Package With the Advanced Packaging Tool (APT)
+#### Installing the Debian Package with the Advanced Packaging Tool (APT)
 
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
