@@ -44,7 +44,7 @@ sudo su -
 First of all, Webots should be authenticated with the [Cyberbotics.asc](https://www.cyberbotics.com/Cyberbotics.asc) signature file which can be downloaded from the [Webots download page](https://www.cyberbotics.com/download), and installed using this command:
 
 ```sh
-apt-key add /path/to/Cyberbotics.asc
+curl -s -L https://www.cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
@@ -97,7 +97,7 @@ export WEBOTS_HOME=/home/username/webots
 The export line should however be included in a configuration script like "/etc/profile", so that it is set properly for every session.
 
 Some additional libraries are needed in order to properly run Webots.
-In particular *make*, *g++*, *libjpeg8-dev*, *ffmpeg*, and *libpci3* have to be installed on the system.
+In particular *make*, *g++*, *libjpeg8-dev* and *ffmpeg* have to be installed on the system.
 Other particular libraries could also be required to recompile some of the distributed binary files.
 In this case an error message will be printed in the Webots console mentioning the missing dependency.
 

@@ -24,6 +24,7 @@
 #include "WbConsole.hpp"
 #include "WbContextMenuGenerator.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbDesktopServices.hpp"
 #include "WbDockWidget.hpp"
 #include "WbDocumentation.hpp"
 #include "WbFileUtil.hpp"
@@ -79,7 +80,6 @@
 #include <QtNetwork/QHostInfo>
 
 #include <QtGui/QCloseEvent>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QOpenGLFunctions_3_3_Core>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
@@ -1666,7 +1666,7 @@ void WbMainWindow::showOpenGlInfo() {
 void WbMainWindow::showDocument(const QString &url) {
   bool ret;
   if (url.startsWith("http") || url.startsWith("www"))
-    ret = QDesktopServices::openUrl(QUrl(url));
+    ret = WbDesktopServices::openUrl(url);
   else {
 #ifdef __linux__  // on linux, the '/lib' directory need to be removed from the LD_LIBRARY_PATH,
                   // otherwise their is some libraries conflicts when trying to open pdf with Evince
@@ -1677,8 +1677,8 @@ void WbMainWindow::showDocument(const QString &url) {
     newLdLibraryPath.replace(WEBOTS_HOME + "lib", "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
-    QUrl u("file:///" + url);
-    ret = QDesktopServices::openUrl(u);
+    QString u("file:///" + url);
+    ret = WbDesktopServices::openUrl(u);
 #ifdef __linux__
     qputenv("LD_LIBRARY_PATH", ldLibraryPathBackup);
 #endif
@@ -1734,14 +1734,13 @@ void WbMainWindow::openSupportTicket() {
   QOpenGLFunctions_3_3_Core gl;
   gl.initializeOpenGLFunctions();
 
-  QString url = QString("%1/support_ticket.php?&os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
+  QString url = QString("%1/support_ticket.php?os=%2&graphics=%3 - %4 - %5&version=%6&type=ticket")
                   .arg(WbStandardPaths::cyberboticsUrl())
                   .arg(WbSysInfo::sysInfo())
                   .arg((const char *)gl.glGetString(GL_VENDOR))
                   .arg((const char *)gl.glGetString(GL_RENDERER))
                   .arg((const char *)gl.glGetString(GL_VERSION))
                   .arg(WbApplicationInfo::version().toString(true, false, true));
-
   showDocument(url);
 }
 
@@ -2204,7 +2203,7 @@ void WbMainWindow::logActiveControllersTermination() {
 
 void WbMainWindow::openUrl(const QString &fileName, const QString &message, const QString &title) {
   if (WbMessageBox::question(message, this, title) == QMessageBox::Ok)
-    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
+    WbDesktopServices::openUrl(QUrl::fromLocalFile(fileName).toString());
 }
 
 void WbMainWindow::prepareNodeRegeneration(WbNode *node) {
