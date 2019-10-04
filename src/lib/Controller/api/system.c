@@ -83,27 +83,48 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
-static const char *wbu_system_tmp_path() {
-  static char *tmp = NULL;
-  if (tmp)
-    return tmp;
-  const char *WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
-  if (WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) {
-    tmp = (char *)WEBOTS_TMP_PATH;
-    return tmp;
+static const char *wbu_system_tmpdir() {
+  static char *tmpdir = NULL;
+  if (tmpdir)
+    return tmpdir;
+  // if WEBOTS_TMPDIR environment variable is defined, use it for the tmpdir
+  const char *WEBOTS_TMPDIR = getenv("WEBOTS_TMPDIR");
+  if (WEBOTS_TMPDIR && WEBOTS_TMPDIR[0]) {
+    tmpdir = (char *)WEBOTS_TMPDIR;
+    return tmpdir;
   }
 #ifdef _WIN32
   const char *LOCALAPPDATA = getenv("LOCALAPPDATA");
   assert(LOCALAPPDATA && LOCALAPPDATA[0]);
   const size_t len = strlen(LOCALAPPDATA) + 6;  // adding "\\Temp"
-  tmp = malloc(len);
-  snprintf(tmp, len, "%s\\Temp", LOCALAPPDATA);
+  tmpdir = malloc(len);
+  snprintf(tmpdir, len, "%s\\Temp", LOCALAPPDATA);
 #elif defined(__linux__)
-  tmp = "/tmp";
+  // if the ~/.WEBOTS_TMPDIR directory exists and contains some webots-* files,
+  // use it as the tmpdir, otherwise fallback to /tmp
+  const char *HOME = getenv("HOME");
+  if (HOME && HOME[0]) {
+    const size_t len = strlen(HOME) + strlen("/.WEBOTS_TMPDIR") + 1;
+    char *path = malloc(len);
+    snprintf(path, len, "%s/.WEBOTS_TMPDIR", HOME);
+    DIR *dir = opendir(path);
+    if (dir) {
+      struct dirent *entry;
+      while ((entry = readdir(dir))) {
+        if (strncmp(entry->d_name, "webots-", 7) == 0) {
+          tmpdir = path;
+          break;
+        }
+      }
+      closedir(dir);
+    }
+  }
+  if (tmpdir == NULL)
+    tmpdir = "/tmp";
 #elif defined(__APPLE__)
-  tmp = "/var/tmp";
+  tmpdir = "/var/tmp";
 #endif
-  return tmp;
+  return tmpdir;
 }
 
 const char *wbu_system_webots_tmp_path() {
@@ -113,7 +134,7 @@ const char *wbu_system_webots_tmp_path() {
   WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
   if (WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0])
     return WEBOTS_TMP_PATH;
-  const char *tmp = wbu_system_tmp_path();
+  const char *tmp = wbu_system_tmpdir();
   const size_t l = strlen(tmp);
   const char *WEBOTS_PID = getenv("WEBOTS_PID");
   int webots_pid = 0;
