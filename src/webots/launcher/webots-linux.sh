@@ -36,7 +36,7 @@ if [[ -z "$WEBOTS_TMPDIR" ]]
 then
 if [[ ! -z "$SNAP" ]]
 then
-WEBOTS_TMPDIR=~/.WEBOTS_TMPDIR
+WEBOTS_TMPDIR="$SNAP_USER_DATA/tmp"
 mkdir -p $WEBOTS_TMPDIR
 else
 WEBOTS_TMPDIR=$TMPDIR

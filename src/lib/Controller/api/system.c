@@ -104,9 +104,9 @@ static const char *wbu_system_tmpdir() {
   // use it as the tmpdir, otherwise fallback to /tmp
   const char *HOME = getenv("HOME");
   if (HOME && HOME[0]) {
-    const size_t len = strlen(HOME) + strlen("/.WEBOTS_TMPDIR") + 1;
+    const size_t len = strlen(HOME) + strlen("/snap/webots/common/tmp") + 1;
     char *path = malloc(len);
-    snprintf(path, len, "%s/.WEBOTS_TMPDIR", HOME);
+    snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
     DIR *dir = opendir(path);
     if (dir) {
       struct dirent *entry;
