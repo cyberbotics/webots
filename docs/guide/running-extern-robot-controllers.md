@@ -16,6 +16,8 @@ For example, it may run it within a debugging environment, like *gdb*, a command
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
 
+> **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the external controller to be launched, otherwise the simulation will run whether the controller is started or not.
+
 ## Environment Variables
 
 In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
