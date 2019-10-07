@@ -1,5 +1,11 @@
 # Webots R2019b Changelog
 
+## Webots R2019b Revision 2
+Released on ???
+
+  - Dependency Updates
+    - Windows: upgraded to Qt 5.13.1.
+
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
 
