@@ -115,22 +115,24 @@ The package names could slightly change on different releases and distributions.
 Snap packaging is a modern alternative to older packaging systems.
 It runs software in a sand-boxed environment to guarantee the security of the operating system.
 The snap package of Webots combines the advantages of the Debian package installed with APT and the tarball package.
+To install it, simply follow the instructions from the official [snap store](https://snapcraft.io/webots) or proceed through the software center of your Ubuntu distribution.
 It is very simple to install, automatically updates, runs on a large variety of Linux distributions and has no dependency.
-Moreover, it is available from the official [snap store](https://snapcraft.io/webots) and software center of Ubuntu.
 However, the sand-boxing constraints of snaps yield the following limitations:
 
-- **Download size**:
+##### Download Size
+
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, python, C++ and java compilers, etc.).
 For Webots R2019b revision 1, the download size of the snap is 1.8GB compared to 1.3GB of the Debian and tarball packages.
 
-- **extern controllers**:
-It is not possible to change the built-in dependencies of the snap package (Python interpreter, C/C++/Java compilers, JRE, etc.) or install any extra dependencies (libraries, Python modules).
-However, when developing robot controllers, it is often useful to use various components such as a different version of Python, some Python module (pip), or a native shared library.
-If such components are needed, users can install them on their system or local environment to create, compile and link their robot controllers.
+##### Extern Controllers
+
+It is not possible to change the built-in dependencies of the snap package (Python interpreter, C/C++/Java compilers, JRE, etc.), or install any extra dependencies (native libraries, Python modules, etc.), or run MATLAB controllers.
+However, when developing robot controllers, it is often useful to use various components such as a different version of Python, some Python modules (pip), native shared libraries, or to run some MATLAB controllers.
+If such components are needed, users can install them on their system or local environment to create, possibly compile and link their robot controllers.
 However, because of the snap sand-boxing, Webots will be unable to launch these controller itself.
 To work around this problem, such controllers should be launched as extern controllers from outside of Webots.
+The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
-To install the snap package of Webots, simply follow the instructions from the [snap store](https://snapcraft.io/webots).
 
 #### Server Edition
 
