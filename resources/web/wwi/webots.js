@@ -405,6 +405,7 @@ webots.View = class View {
       return;
     this.worldSelect = document.createElement('select');
     this.worldSelect.id = 'worldSelection';
+    this.worldSelect.classList.add('select-css');
     this.toolBar.worldSelectionDiv.appendChild(this.worldSelect);
     for (let i in worlds) {
       var option = document.createElement('option');

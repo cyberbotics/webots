@@ -18,6 +18,7 @@ class Toolbar { // eslint-disable-line no-unused-vars
     this.infoButton.onclick = () => { this.toggleInfo(); };
 
     this.worldSelectionDiv = document.createElement('div');
+    this.worldSelectionDiv.id = 'worldSelectionDiv';
     this.domElement.left.appendChild(this.worldSelectionDiv);
 
     if (webots.showRevert) { // disabled by default
