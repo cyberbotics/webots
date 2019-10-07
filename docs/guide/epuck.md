@@ -154,7 +154,7 @@ The `version` field of the `E-puck` PROTO node selects the version of the e-puck
 When set to "2", the e-puck model switches to the e-puck2, with the following differences:
 
 - The graphical shape is changing: in particular, the top turret is removed and different chipset texture is set for the plate.
-- The time-of-flight (ToF) long range distance sensor is added to the model (including support for Wifi remote-control).
+- The time-of-flight (ToF) long range distance sensor is added to the model (including support for Wi-Fi remote-control).
 - The overall mass differs: 130 [grams] instead of 150 [grams].
 - The max speed differs: 1200 [steps / second] instead of 1000 [steps / second].
 - The e-puck2 robot windows offers Wi-Fi remote control instead of Bluetooth.
