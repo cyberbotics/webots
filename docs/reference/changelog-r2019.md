@@ -1,5 +1,11 @@
 # Webots R2019b Changelog
 
+## Webots R2019b Revision 2
+Released on ???
+
+  - Enhancements
+    - Webots now wait for external controllers if the `Robot.synchronization` field is set to `TRUE`.
+
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
 
