@@ -258,7 +258,7 @@ void wb_robot_window_step(int time_step) {
       strcat(update_message, update);
   }
 
-  if (tof == 0)
+  if (tof == 0 || wb_distance_sensor_get_sampling_period(tof) == 0)
     snprintf(update, UPDATE_SIZE, "tof ");
   else {
     double tof_distance = wb_distance_sensor_get_value(tof);
