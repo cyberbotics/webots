@@ -600,7 +600,7 @@ Robot {
     }
     %{ if v2 then }%
       DEF EPUCK_TOF DistanceSensor {
-        translation 0.00 0.033 -0.035
+        translation 0.0018 0.033 -0.034
         rotation 0 1 0 1.57
         name "tof"
         type "generic"
@@ -613,6 +613,33 @@ Robot {
             1.00  1052.0  0.010
             1.70  1780.5  0.013
             2.00  2000.0  0.000
+        ]
+        children [
+          Transform {
+            translation -0.0006 0.0008 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 0.4
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.0008 0.0035 0.0044
+                }
+              }
+            ]
+          }
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              roughness 0.4
+              metalness 0
+            }
+            geometry Box {
+              size 0.0005 0.0018 0.004
+            }
+          }
         ]
       }
     %{ end }%
