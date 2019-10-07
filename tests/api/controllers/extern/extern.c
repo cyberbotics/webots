@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);
   ts_assert_int_equal(argc, 2, "Wrong number of arguments on the command line for starting extern controller.");
   ts_assert_string_equal(argv[1], "2", "Wrong argument for the extern controller: got \"%s\" instead of \"2\".");
-  ts_assert_string_equal(wb_robot_get_name(), "extern1", "External controller connected to wrong robot.");
+  ts_assert_string_equal(wb_robot_get_name(), "extern1", "Extern controller connected to wrong robot.");
   wb_robot_step(TIME_STEP);
   ts_send_success();
   return EXIT_SUCCESS;
