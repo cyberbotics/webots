@@ -16,7 +16,7 @@ For example, it may run it within a debugging environment, like *gdb*, a command
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
 
-> **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the external controller to be launched, otherwise the simulation will run whether the controller is started or not.
+> **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the extern controller to be launched, otherwise the simulation will run whether the controller is started or not.
 
 ## Environment Variables
 
@@ -51,12 +51,12 @@ Different use cases are detailed here from the most simple to the most complex:
 
 ### Single Simulation and Single Extern Robot Controller
 
-You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an external controller.
+You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
 
 ### Single Simulation and Multiple Extern Robot Controllers
 
-You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from external controllers.
+You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from extern controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
 Then, in the environment from which you are going to launch the extern controller, you should define an environment variable named `WEBOTS_ROBOT_NAME` and set it to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
 Once this environment variable is set, you can launch your controller and it will connect to the extern robot whose `name` matches the one provided in the environment variable.
