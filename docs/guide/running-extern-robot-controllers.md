@@ -70,6 +70,17 @@ If that simulation has more than one extern controller, you may also set the `WE
 
 > **Note**: the environment variables can be set inside the controller program, before calling the `wb_robot_init()` function.
 
+### Running Extern Robot Controller with the Snap Version of Webots
+
+Running extern controllers with the snap version of Webots should work out the box.
+However, behind the scene, this mechanism relies on some special settings that are automatically managed for you by the Webots launcher and the libController.
+Because of the snap sand-boxing system, Webots has to use a special temporary folder to share information with robot controllers.
+When you launch the snap version of Webots, the launcher computes the `WEBOTS_TMPDIR` environment variable if it is not already set.
+This variable is computed from the `SNAP_USER_COMMON` environment variable which typically points to `/home/username/snap/webots/common`, a folder accessible by both Webots and your own programs.
+Similarly, the libController will automatically check this folder and its contents to determine if it should use it to communicate with Webots.
+It is recommended that you do not override this `WEBOTS_TMPDIR` environment variable, unless you want to experiment a different mechanism.
+
+
 ## Example Usage
 
 1. Open for example the "WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao_demo.wbt" world file.
