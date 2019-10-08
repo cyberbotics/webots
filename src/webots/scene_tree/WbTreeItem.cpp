@@ -126,7 +126,7 @@ QString WbTreeItem::data() const {
 
   switch (mType) {
     case NODE:
-      return mNode->fullName();
+      return mNode->fullNameWithDescription(); //MHEFNY: here
     case FIELD: {
       if (mField->isSingle())
         return QString("%1 %2").arg(mField->name(), mField->value()->toString(WbPrecision::GUI_LOW));

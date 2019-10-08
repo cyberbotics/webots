@@ -405,6 +405,12 @@ QString WbNode::fullName() const {
     return modelName();
 }
 
+QString WbNode::fullNameWithDescription() const {
+  WbSFString *NodeName = findSFString("name");
+  QString NodeNameValue = (NodeName!=NULL)?NodeName->value():"";
+  return fullName()  + " \"" + NodeNameValue + "\"";
+}
+
 QString WbNode::fullVrmlName() const {
   if (isUseNode())
     return "USE " + mUseName;

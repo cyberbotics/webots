@@ -115,6 +115,7 @@ public:
   const QString &useName() const { return mUseName; }
   void setUseName(const QString &useName, bool signal = true);
   QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
+  QString fullNameWithDescription()  const;                                       // e.g. "Robot "quad" " 
   virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
   virtual const QString &x3dName() const { return vrmlName(); }
   QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
