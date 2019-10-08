@@ -42,7 +42,7 @@ jobs:
             tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
           fi
         - travis_wait 30 python -m unittest discover -s tests/sources
-        - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then echo thumbnails not up to date; exit -1; fi  # Make sure all the thumbnails are already up to date
+        - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then echo "Thumbnails not up to date:"; git status -s -uno docs; exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       python: '2.7'
