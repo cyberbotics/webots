@@ -127,6 +127,54 @@ jobs:
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
+    - <<: *source_tests_staging
+      dist: bionic
+      before_install:
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export PATH=$JAVA_HOME/bin:$PATH
+        - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+        - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+        - sudo apt update -qq
+        - sudo apt-get install -y ros-melodic-ros-base ros-melodic-sensor-msgs ros-melodic-tf
+        - sudo rosdep init
+        - rosdep update
+        - pip install rospkg catkin_pkg empy defusedxml netifaces  # by default ros only comes with python2.7 libraries
+      addons: &bionic_apt_packages
+        apt:
+          packages:
+            - g++
+            - cmake
+            - libusb-dev
+            - swig
+            - python2.7-dev
+            - libglu1-mesa-dev
+            - libglib2.0-dev
+            - libfreeimage-dev
+            - libfreetype6-dev
+            - libxml2-dev
+            - libzzip-0-13
+            - libssl1.0-dev
+            - libboost-dev
+            - libjpeg8-dev
+            - libavcodec-extra
+            - libgd-dev
+            - libtiff5-dev
+            - libssh-gcrypt-dev
+            - libzip-dev
+            - python-pip
+            - libreadline-dev
+            - libassimp-dev
+            - libpng-dev
+            - ffmpeg
+            - npm
+            - python3.6-dev
+            - python3.7-dev
+            - openjdk-8-jdk
+            - curl
+            - libwebpdemux1
+            - fakeroot
+            - pbzip2
+            - libxkbcommon-x11-dev
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
