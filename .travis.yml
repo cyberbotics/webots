@@ -2,8 +2,6 @@ os: linux
 dist: xenial
 cache:
   pip: true
-  directories:
-  - dependencies
 services:
   - xvfb
 notifications:
@@ -46,6 +44,13 @@ jobs:
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       python: '2.7'
+    - <<: *source_tests_staging
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      dist: bionic
+    - <<: *source_tests_staging
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      python: '2.7'
+      dist: bionic
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       os: osx
