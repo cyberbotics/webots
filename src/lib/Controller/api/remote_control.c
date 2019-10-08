@@ -305,7 +305,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
             }
             break;
           case WB_NODE_RADIO:
-            ROBOT_ASSERT(0 && "radio unimplemented");
+            ROBOT_ASSERT(!"radio unimplemented");
             break;
           default:
             REQUEST_ASSERT(0, tag, type, c);
@@ -317,7 +317,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       handleRobotMessage(r, c);
       break;
     case WB_NODE_CONNECTOR:
-      ROBOT_ASSERT(0 && "connector unimplemented");
+      ROBOT_ASSERT(!"connector unimplemented");
       break;
     case WB_NODE_DISPLAY:
       handleDisplayMessage(r, tag, c);
@@ -346,7 +346,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       break;
     case WB_NODE_ROTATIONAL_MOTOR:
     case WB_NODE_LINEAR_MOTOR:
-      REQUEST_ASSERT(0 && "Impossible fallback", tag, type, c);
+      REQUEST_ASSERT(!"Impossible fallback", tag, type, c);
     default:
       REQUEST_ASSERT(0, tag, type, c);
   }

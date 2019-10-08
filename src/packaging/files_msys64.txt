@@ -23,7 +23,6 @@
 /mingw64/bin/libbz2-1.dll
 /mingw64/bin/libsqlite3-0.dll
 /mingw64/bin/libxslt-1.dll
-/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/bin/libdouble-conversion.dll
 /mingw64/bin/libjpeg-8.dll
 /mingw64/bin/libpng16-16.dll
@@ -44,6 +43,8 @@
 /mingw64/bin/libzzip-0-13.dll
 /mingw64/bin/libopenal-1.dll
 /mingw64/bin/libassimp.dll
+/mingw64/bin/libssl-1_1-x64.dll
+/mingw64/bin/libcrypto-1_1-x64.dll
 /mingw64/share/qt5/plugins/imageformats/qjpeg.dll
 /mingw64/share/qt5/plugins/platforms/qwindows.dll
 /mingw64/share/qt5/plugins/printsupport/windowsprintersupport.dll
@@ -95,3 +96,8 @@
 
 # needed to recompile the Qt-based robot windows (darwin-op or automobile)
 /mingw64/bin/moc.exe
+
+# needed to allow users to create translations in their own language
+/mingw64/bin/linguist.exe
+/mingw64/bin/lupdate.exe
+/mingw64/bin/lrelease.exe

@@ -11,6 +11,7 @@ PROTO TruckRearLight [
       baseColor 0.780392 0.12549 0.12549
       metalness 0
       roughness 0.3
+      emissiveIntensity 10
     }
     geometry IndexedFaceSet {
       coord Coordinate {

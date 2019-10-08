@@ -33,6 +33,7 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/khr-3hv/icon.png)     | [KHR-3HV](khr-3hv.md)          | KONDO                | *Small size humanoid*           |
 | ![icon.png](images/robots/koala/icon.png)       | [Koala](koala.md)              | K-Team               | *Six-wheeled robot*             |
 | ![icon.png](images/robots/mantis/icon.png)      | [Mantis](mantis.md)            | micromagic           | *Hexapod*                       |
+| ![icon.png](images/robots/mavic-2-pro/icon.png) | [Mavic 2 PRO](mavic-2-pro.md)  | DJI                  | *Quadcopter drone*              |
 | ![icon.png](images/robots/microbot/icon.png)    | [Microbot](microbot.md)        | PICAXE               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/mindstorms/icon.png)  | [Mindstorms](mindstorms.md)    | Lego                 | *Robotics kit*                  |
 | ![icon.png](images/robots/moose/icon.png)       | [Moose](moose.md)              | Clearpath Robotics   | *Eight-wheeled outdoor robot*   |
@@ -50,7 +51,6 @@ Please [contact us](https://www.cyberbotics.com/contact) if you would like to se
 | ![icon.png](images/robots/shrimp/icon.png)      | [Shrimp](shrimp.md)            | BlueBotics           | *Six-wheeled robot*             |
 | ![icon.png](images/robots/sojourner/icon.png)   | [Sojourner](sojourner.md)      | Nasa                 | *Six-wheeled robot*             |
 | ![icon.png](images/robots/surveyor/icon.png)    | [Surveyor SRV-1](surveyor.md)  | Surveyor Corporation | *Robot with two tracks*         |
-| ![icon.png](images/robots/telemax-pro/icon.png) | [Telemax PRO](telemax-pro.md)  | Telerob              | *Robot with four tracks*        |
 | ![icon.png](images/robots/thymio2/icon.png)     | [Thymio II](thymio2.md)        | Mobsya               | *Two-wheeled robot*             |
 | ![icon.png](images/robots/tinkerbots/icon.png)  | [Tinkerbots](tinkerbots.md)    | Kinematics GMBH      | *Robotics kit*                  |
 | ![icon.png](images/robots/ure/icon.png)         | [UR3e, UR5e and UR10e](ure.md) | Universal Robots     | *Robotics arm*                  |

@@ -12,7 +12,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    LightSensorWidget(Device *device, QWidget *parent = NULL);
+    explicit LightSensorWidget(Device *device, QWidget *parent = NULL);
     virtual ~LightSensorWidget() {}
 
   protected slots:

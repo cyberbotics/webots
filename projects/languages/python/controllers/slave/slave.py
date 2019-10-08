@@ -39,7 +39,8 @@ class Slave (Robot):
     def boundSpeed(self, speed):
         return max(-self.maxSpeed, min(self.maxSpeed, speed))
 
-    def initialization(self):
+    def __init__(self):
+        super(Slave, self).__init__()
         self.mode = self.Mode.AVOIDOBSTACLES
         self.camera = self.getCamera('camera')
         self.camera.enable(4 * self.timeStep)
@@ -93,5 +94,4 @@ class Slave (Robot):
 
 
 controller = Slave()
-controller.initialization()
 controller.run()

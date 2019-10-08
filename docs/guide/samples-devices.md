@@ -16,6 +16,13 @@ The studied devices are attached on this robot.
 
 %end
 
+### [accelerometer.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/accelerometer.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Accelerometer](../reference/accelerometer.md)
+
+![accelerometer.png](images/samples/accelerometer.thumbnail.jpg) In this example, the robot turns on a slope.
+Its [Accelerometer](../reference/accelerometer.md) sensor is used to switch on the bottommost LED.
+
 ### [battery.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/battery.wbt)
 
 **Keywords**: [Robot](../reference/robot.md), [Charger](../reference/charger.md), battery
@@ -27,6 +34,13 @@ In order to remain powered, the robot must recharge its battery at energy charge
 [Chargers](../reference/charger.md) are represented by the semi-transparent colored cylinders in the four corners of the arena.
 Only a full charger can recharge the robot's battery.
 The color of a charger changes with its energy level: it is red when completely empty and green when completely full.
+
+### [brake.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/brake.wbt)
+
+**Keywords**: [Robot](../reference/robot.md), [Brake](../reference/brake.md)
+
+![brake.png](images/samples/brake.thumbnail.jpg) In this example, a bike wheel turns until it is slowed down by a braking system.
+The red blocks graphically represent the braking system, but the wheel is actually braked using the [Brake](../reference/brake.md) device.
 
 ### [bumper.wbt](https://github.com/cyberbotics/webots/tree/master/projects/samples/devices/worlds/bumper.wbt)
 

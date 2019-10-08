@@ -71,6 +71,8 @@ public:
 
   static QString defaultX3dFrustumCullingParameter() { return "true"; }
   static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
+  static bool isX3DStreaming() { return cX3DStreaming; }
+  static void enableX3DStreaming() { cX3DStreaming = true; }
 
   // save
   bool save();
@@ -190,6 +192,7 @@ private:
   void createX3DMetaFile(const QString &filename) const;
 
   static bool cX3DMetaFileExport;
+  static bool cX3DStreaming;
 
 private slots:
   void updateProjectPath(const QString &oldPath, const QString &newPath);

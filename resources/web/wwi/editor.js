@@ -1,4 +1,4 @@
-/* global ace, webots, DialogWindow, DefaultUrl */
+/* global ace, webots, DialogWindow, DefaultUrl, SystemInfo */
 'use strict';
 
 class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
@@ -37,10 +37,10 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     this.menu = document.createElement('div');
     this.menu.id = 'webotsEditorMenu';
     var saveShortcut;
-    if (navigator.appVersion.indexOf('Mac') === -1)
-      saveShortcut = 'Ctrl-S';
-    else // macOS
+    if (SystemInfo.isMacOS())
       saveShortcut = 'Cmd-S';
+    else
+      saveShortcut = 'Ctrl-S';
     this.menu.innerHTML = '<input type="image" id="webotsEditorMenuImage" width="17px" src="' + DefaultUrl.wwiImagesUrl() + 'menu.png">' +
                           '<div id="webotsEditorMenuContent">' +
                           '<div id="webotsEditorSaveAction" class="webotsEditorMenuContentItem" title="Save current file">Save<span style="float:right"><i><small>' + saveShortcut + '</small></i></span></div>' +
@@ -50,12 +50,12 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
                           '</div>';
     this.panel.appendChild(this.menu);
 
-    var clampedSize = super.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
+    var clampedSize = DialogWindow.clampDialogSize({left: 0, top: 0, width: 800, height: 600});
     this.params.width = clampedSize.width;
     this.params.height = clampedSize.height;
     this.params.close = null;
     this.params.resize = () => { this._resize(); };
-    this.params.open = () => { this.resizeDialogOnOpen(this.panel); };
+    this.params.open = () => { DialogWindow.resizeDialogOnOpen(this.panel); };
     this.params.title = 'Editor';
 
     $(this.panel).dialog(this.params).dialogExtend({maximizable: !mobile});
@@ -122,7 +122,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
     if ($('#filename-' + i).html().endsWith('*')) { // file was modified
       $('#filename-' + i).html(this.filenames[i]);
       this.needToUploadFiles[i] = true;
-      if (webots.User1Id !== '' && webots.User1Authentication !== '') // user logged in
+      if ((typeof webots.User1Id !== 'undefined' || webots.User1Id !== '') && webots.User1Authentication) // user logged in
         this._storeUserFile(i);
       else
         this.unloggedFileModified = true;
@@ -149,7 +149,7 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       this.sessions[index].setValue(content);
       if ($('#filename-' + index).html().endsWith('*'))
         $('#filename-' + index).html(filename);
-      if (webots.User1Authentication !== '' && webots.User1Id !== '')
+      if (webots.User1Authentication && (typeof webots.User1Id !== 'undefined' || webots.User1Id !== ''))
         this.storeUserFile(index);
       return;
     }
@@ -217,15 +217,15 @@ class Editor extends DialogWindow { // eslint-disable-line no-unused-vars
       autoOpen: true,
       resizable: false,
       dialogClass: 'alert',
-      open: () => { this.openDialog(this); },
+      open: () => { DialogWindow.openDialog(confirmDialog); },
       appendTo: this.parent,
       buttons: {
         'Cancel': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
         },
         'Reset': () => {
-          $(this).dialog('close');
+          $(confirmDialog).dialog('close');
           $('#webotsEditorConfirmDialog').remove();
           if (this.resetAllFiles) {
             this.filenames.forEach((filename) => {

@@ -72,7 +72,7 @@ class TestParagraphs(unittest.TestCase):
             lines = p['paragraph'].split('\n')
             for line in lines:
                 line = line.strip()
-                if len(line) == 0:
+                if not line:
                     continue
                 self.assertTrue(
                     line.endswith('.') or line.endswith(':') or line.endswith('!') or line.endswith('?'),

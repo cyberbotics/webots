@@ -106,9 +106,17 @@ private slots:
   void showOfflineUserGuide();
   void showOfflineReferenceManual();
   void showOfflineAutomobileDocumentation();
+
+  void openGithubRepository();
+  void openCyberboticsWebsite();
   void openBugReport();
   void openSupportTicket();
-  void showCyberboticsWebsite();
+  void openNewsletterSubscription();
+  void openDiscord();
+  void openTwitter();
+  void openYouTube();
+  void openLinkedIn();
+
   void newProjectDirectory();
   void newRobotController();
   void newPhysicsPlugin();
@@ -176,7 +184,6 @@ private:
   void updateGui();
   void updateSimulationMenu();
   void writePreferences() const;
-  void openSupport(const QString &type);
   void showDocument(const QString &url);
   bool runSimulationHasRunWarningMessage();
   void logActiveControllersTermination();

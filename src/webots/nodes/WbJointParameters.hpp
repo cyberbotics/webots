@@ -23,11 +23,11 @@ class WbJointParameters : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbJointParameters();
-  WbJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  explicit WbJointParameters(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbJointParameters(WbTokenizer *tokenizer = NULL);
   WbJointParameters(const WbJointParameters &other);
   explicit WbJointParameters(const WbNode &other);
+  virtual ~WbJointParameters();
 
   int nodeType() const override { return WB_NODE_JOINT_PARAMETERS; }
   void preFinalize() override;

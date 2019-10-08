@@ -18,7 +18,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    DifferentialWheelsWidget(Device *device, QWidget *parent = NULL);
+    explicit DifferentialWheelsWidget(Device *device, QWidget *parent = NULL);
     virtual ~DifferentialWheelsWidget();
 
     void readSensors() override;

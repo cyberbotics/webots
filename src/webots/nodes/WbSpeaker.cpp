@@ -71,11 +71,11 @@ void WbSpeaker::postFinalize() {
 void WbSpeaker::handleMessage(QDataStream &stream) {
   unsigned char command;
 
-  stream >> (unsigned char &)command;
+  stream >> command;
   switch (command) {
     case C_SPEAKER_PLAY_SOUND: {
       int numberOfSound = 0;
-      stream >> (int &)numberOfSound;
+      stream >> numberOfSound;
       for (int i = 0; i < numberOfSound; ++i) {
         short size;
         short side;
@@ -83,28 +83,28 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
         double pitch;
         double balance;
         unsigned char loop;
-        stream >> (short &)size;
+        stream >> size;
         char soundFile[size];
         stream.readRawData(soundFile, size);
-        stream >> (double &)volume;
-        stream >> (double &)pitch;
-        stream >> (double &)balance;
-        stream >> (short &)side;
-        stream >> (unsigned char &)loop;
+        stream >> volume;
+        stream >> pitch;
+        stream >> balance;
+        stream >> side;
+        stream >> loop;
         playSound(soundFile, volume, pitch, balance, (bool)loop, (int)side);
       }
       return;
     }
     case C_SPEAKER_STOP: {
       short numberOfSound = 0;
-      stream >> (short &)numberOfSound;
+      stream >> numberOfSound;
       // cppcheck-suppress knownConditionTrueFalse
       if (numberOfSound == 0)
         stopAll();
       else {
         for (int i = 0; i < numberOfSound; ++i) {
           short size;
-          stream >> (short &)size;
+          stream >> size;
           char sound[size];
           stream.readRawData(sound, size);
           stop(sound);
@@ -114,7 +114,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     }
     case C_SPEAKER_SET_ENGINE: {
       short size;
-      stream >> (short &)size;
+      stream >> size;
       char engine[size];
       stream.readRawData(engine, size);
       mEngine = QString(engine);
@@ -122,7 +122,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     }
     case C_SPEAKER_SET_LANGUAGE: {
       short size;
-      stream >> (short &)size;
+      stream >> size;
       char language[size];
       stream.readRawData(language, size);
       mLanguage = QString(language);
@@ -131,10 +131,10 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     case C_SPEAKER_SPEAK: {
       short size;
       double volume;
-      stream >> (short &)size;
+      stream >> size;
       char text[size];
       stream.readRawData(text, size);
-      stream >> (double &)volume;
+      stream >> volume;
       playText(text, volume);
       return;
     }

@@ -84,6 +84,8 @@ private:
   void propagateLogToClients(WbLog::Level level, const QString &message);
   bool isControllerMessageIgnored(const QString &pattern, const QString &message) const;
 
+  static QString simulationStateString();
+
   QString mX3dWorld;
   QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;

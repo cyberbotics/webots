@@ -16,7 +16,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    AddStateDialog(Motion *motion, QWidget *parent = NULL);
+    explicit AddStateDialog(Motion *motion, QWidget *parent = NULL);
     virtual ~AddStateDialog();
 
   private slots:

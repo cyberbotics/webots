@@ -21,7 +21,7 @@
 
 /* global webots */
 /* global Animation, Console, ContextMenu, Editor, MouseEvents, DefaultUrl, RobotWindow, TextureLoader */
-/* global Server, Stream, Toolbar, Video, X3dScene */
+/* global Server, Stream, SystemInfo, Toolbar, Video, X3dScene */
 /* global MathJax: false */
 /* eslint no-eval: "off" */
 
@@ -29,13 +29,13 @@
 
 webots.User1Id             // ID of the main user (integer value > 0). If 0 or unset, the user is not logged in.
 webots.User1Name           // user name of the main user.
-webots.User1Authentication // password or authentication for the main user (empty or unset if user not authenticated).
+webots.User1Authentication // password hash or authentication for the main user (empty or unset if user not authenticated).
 webots.User2Id             // ID of the secondary user (in case of a soccer match between two different users). 0 or unset if not used.
 webots.User2Name           // user name of the secondary user.
 webots.CustomData          // application specific data to be passed to the simulation server
 webots.showRevert          // defines whether the revert button should be displayed
 webots.showQuit            // defines whether the quit button should be displayed
-
+webots.showFast            // defines whether the fast button should be displayed
 */
 
 webots.View = class View {
@@ -112,11 +112,11 @@ webots.View = class View {
     this.view3D.className = view3D.className + ' webotsView';
 
     if (typeof mobile === 'undefined')
-      this.mobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      this.mobileDevice = SystemInfo.isMobileDevice();
     else
       this.mobileDevice = mobile;
 
-    this.fullscreenEnabled = !/iPhone|iPad|iPop/i.test(navigator.userAgent);
+    this.fullscreenEnabled = !SystemInfo.isIOS();
     if (!this.fullscreenEnabled)
       // Add tag needed to run standalone web page in fullscreen on iOS.
       $('head').append('<meta name="apple-mobile-web-app-capable" content="yes">');
@@ -226,9 +226,9 @@ webots.View = class View {
         }
         if (windowName === infoWindowName) {
           var user;
-          if (webots.User1Id !== '') {
+          if (typeof webots.User1Id !== 'undefined' && webots.User1Id !== '') {
             user = ' [' + webots.User1Name;
-            if (webots.User2Id !== '')
+            if (typeof webots.User2Id !== 'undefined' && webots.User2Id !== '')
               user += '/' + webots.User2Name;
             user += ']';
           } else
@@ -278,7 +278,7 @@ webots.View = class View {
 
     var loadFinalize = () => {
       $('#webotsProgress').hide();
-      if (this.toolBar && !this.broadcast)
+      if (this.toolBar)
         this.toolBar.enableToolBarButtons(true);
 
       if (typeof this.onready === 'function')
@@ -332,7 +332,10 @@ webots.View = class View {
     }
 
     if (typeof this.contextMenu === 'undefined' && this.isWebSocketProtocol) {
-      this.contextMenu = new ContextMenu(webots.User1Id !== '' && webots.User1Authentication !== '', this.view3D);
+      let authenticatedUser = !this.broadcast;
+      if (authenticatedUser && typeof webots.User1Id !== 'undefined' && webots.User1Id !== '')
+        authenticatedUser = Boolean(webots.User1Authentication);
+      this.contextMenu = new ContextMenu(authenticatedUser, this.view3D);
       this.contextMenu.onEditController = (controller) => { this.editController(controller); };
       this.contextMenu.onFollowObject = (id) => { this.x3dScene.viewpoint.follow(id); };
       this.contextMenu.isFollowedObject = (object3d, setResult) => { setResult(this.x3dScene.viewpoint.isFollowedObject(object3d)); };

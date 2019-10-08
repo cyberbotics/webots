@@ -161,7 +161,7 @@ class PathSegment(object):
         elif point[self.orientation] > self.maxPath:
             self.maxPath = point[self.orientation]
 
-        if (self.startTime is None):
+        if self.startTime is None:
             self.startTime = time
             self.currentTime = time
 
@@ -182,7 +182,7 @@ class PathSegment(object):
             self.currentTime = time
             self.currentAngle = angle
 
-            if (self.performanceInit):
+            if self.performanceInit:
 
                 # Computes distance performance.
                 distX = self.goal[0] - self.currentPoint[0]

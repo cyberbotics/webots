@@ -18,7 +18,7 @@ PROTO CrossRoadsTrafficLight [
 }%
   Robot {
     translation IS translation
-    rotation IS rotations
+    rotation IS rotation
     children [
       TrafficLightBigPole {
         translation %{= - size.x / 2 }% 0 %{= - size.y / 2 }%

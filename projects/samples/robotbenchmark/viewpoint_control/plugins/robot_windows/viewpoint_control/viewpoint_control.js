@@ -7,7 +7,7 @@ view.onmousedrag = evaluateViewpoint;
 view.onmousewheel = evaluateViewpoint;
 
 function evaluateViewpoint(event) {
-  var camera = view.x3dSceneManager.viewpoint.camera;
+  var camera = view.x3dScene.viewpoint.camera;
   var currentOrientation = webots.quaternionToAxisAngle(camera.quaternion);
   currentOrientation.axis.negate();
   var targetPosition = new THREE.Vector3(0, 0.45, 0.333);

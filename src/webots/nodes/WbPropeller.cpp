@@ -37,6 +37,7 @@ void WbPropeller::init() {
   mCenterOfThrust = findSFVector3("centerOfThrust");
   mThrustConstants = findSFVector2("thrustConstants");
   mTorqueConstants = findSFVector2("torqueConstants");
+  mFastHelixThreshold = findSFDouble("fastHelixThreshold");
   mDevice = findSFNode("device");
   mFastHelix = findSFNode("fastHelix");
   mSlowHelix = findSFNode("slowHelix");
@@ -137,8 +138,7 @@ WbLogicalDevice *WbPropeller::device() const {
 
 // Update methods: they check validity and correct if necessary
 void WbPropeller::updateHelix(double angularSpeed, bool ode) {
-  const double ANGULAR_SPEED_THRESHOLD = 24.0 * M_PI;
-  const bool fast = fabs(angularSpeed) > ANGULAR_SPEED_THRESHOLD;
+  const bool fast = fabs(angularSpeed) > mFastHelixThreshold->value();
   mHelixType = fast ? FAST_HELIX : SLOW_HELIX;
   WbSolid *const fastHelix = helix(FAST_HELIX);
   WbSolid *const slowHelix = helix(SLOW_HELIX);
@@ -349,16 +349,34 @@ void WbPropeller::write(WbVrmlWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    WbGroup *const gp = new WbGroup();
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
-    if (fastHelix)
-      gp->addChild(new WbSolid(*fastHelix));
-    if (slowHelix)
-      gp->addChild(new WbSolid(*slowHelix));
-
-    gp->write(writer);
-    delete gp;
+    if (writer.isX3d())
+      writer << "<Group>";
+    else {
+      writer << "Group {\n";
+      writer.increaseIndent();
+      writer.indent();
+      writer << "children ";
+    }
+    writer.writeMFStart();
+    if (fastHelix) {
+      writer.writeMFSeparator(true, false);
+      fastHelix->write(writer);
+    }
+    if (slowHelix) {
+      writer.writeMFSeparator(!fastHelix, false);
+      slowHelix->write(writer);
+    }
+    writer.writeMFEnd(!fastHelix && !slowHelix);
+    if (writer.isX3d())
+      writer << "</Group>";
+    else {
+      writer << "\n";
+      writer.decreaseIndent();
+      writer.indent();
+      writer << "}";
+    }
   }
 }
 

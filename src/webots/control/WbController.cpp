@@ -112,6 +112,7 @@ WbController::WbController(WbRobot *robot) :
 
   mProcess = new QProcess();
 
+  connect(mRobot, &WbRobot::controllerExited, this, &WbController::handleControllerExit);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbController::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbController::readStderr);
   connect(mProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
@@ -484,6 +485,32 @@ void WbController::setProcessEnvironment() {
     if (mPythonCommand.isEmpty())
       mPythonCommand = WbLanguageTools::pythonCommand(
         mPythonShortVersion, WbPreferences::instance()->value("General/pythonCommand", "python").toString());
+    // read the python shebang (first line starting with #!) to possibly override the python command
+    QFile pythonSourceFile(mControllerPath + name() + ".py");
+    if (pythonSourceFile.open(QIODevice::ReadOnly)) {
+      QTextStream in(&pythonSourceFile);
+      const QString &line = in.readLine();
+      if (line.startsWith("#!")) {
+#ifndef _WIN32
+        if (line.startsWith("#!/usr/bin/env "))
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(15).trimmed());
+        else
+          mPythonCommand = WbLanguageTools::pythonCommand(mPythonShortVersion, line.mid(2).trimmed());
+#else  // Windows: check that the version specified in the shebang corresponds to the version of Python installed
+        const QString &expectedVersion = line.mid(line.lastIndexOf("python", -1, Qt::CaseInsensitive) + 6);
+        bool mismatch = false;
+        int l = expectedVersion.length();
+        if (l == 1 && expectedVersion[0] != mPythonShortVersion[0])
+          mismatch = true;
+        if (l >= 3 && (expectedVersion[0] != mPythonShortVersion[0] || expectedVersion[2] != mPythonShortVersion[1]))
+          mismatch = true;
+        if (mismatch)
+          warn(tr("Python shebang requests python%1, but current path points to Python%2")
+                 .arg(expectedVersion, mPythonShortVersion));
+#endif
+      }
+      pythonSourceFile.close();
+    }
     addPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::webotsLibPath() + "python" + mPythonShortVersion, false,
                                true);
     addEnvironmentVariable(env, "PYTHONIOENCODING", "UTF-8");
@@ -846,6 +873,13 @@ const QString &WbController::name() const {
 
 const QString &WbController::args() const {
   return mRobot->controllerArgs();
+}
+
+void WbController::handleControllerExit() {
+  if (mRobot->controllerName() == "<extern>") {
+    processFinished(0, QProcess::NormalExit);
+    mRobot->setControllerStarted(false);
+  }
 }
 
 void WbController::writeUserInputEventAnswer() {

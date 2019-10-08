@@ -18,10 +18,10 @@ import datetime
 import os
 import sys
 
-path = '..'
 if 'WEBOTS_HOME' in os.environ:
     path = os.environ['WEBOTS_HOME']
-
+else:
+    path = '../..'
 if len(sys.argv) != 2:  # no commit id passed as an argument
     sys.exit('Commit id not passed as argument.')
 else:

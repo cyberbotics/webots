@@ -143,6 +143,7 @@ PROTO RangeRoverSportSVR [
                   baseColor 0.702 0.702 0.702
                   metalness 0
                   roughness 0.3
+                  emissiveIntensity 20
                 }
                 geometry RangeRoverSportSVRFrontLightsMesh {
                 }
@@ -156,6 +157,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 10
             }
             geometry RangeRoverSportSVRRearLightsMesh {
             }
@@ -167,6 +169,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRRightIndicatorMesh {
             }
@@ -178,6 +181,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.702 0.702 0.702
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRLeftIndicatorMesh {
             }
@@ -189,6 +193,7 @@ PROTO RangeRoverSportSVR [
               baseColor 0.560784 0.113725 0.113725
               metalness 0
               roughness 0.35
+              emissiveIntensity 30
             }
             geometry RangeRoverSportSVRBrakingLightsMesh {
             }

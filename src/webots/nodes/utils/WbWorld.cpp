@@ -37,6 +37,7 @@
 #include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbPropeller.hpp"
 #include "WbProtoList.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
@@ -68,6 +69,7 @@
 
 static WbWorld *gInstance = NULL;
 bool WbWorld::cX3DMetaFileExport = false;
+bool WbWorld::cX3DStreaming = false;
 
 WbWorld *WbWorld::instance() {
   return gInstance;
@@ -423,6 +425,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
       const WbBaseNode *deviceBaseNode = dynamic_cast<const WbBaseNode *>(device);
       const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
       const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
+
       if (deviceBaseNode)
         deviceObject.insert("type", deviceBaseNode->nodeModelName());
 
@@ -438,6 +441,14 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
           else
             deviceObject.insert("axis", motor->joint()->parameters()->axis().toString(WbPrecision::FLOAT_MAX));
         }
+      } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
+        WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
+        deviceObject.insert("transformID", QString("n%1").arg(helix->uniqueId()));
+        deviceObject.insert("position", motor->position());
+        deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
+        deviceObject.insert("minPosition", motor->minPosition());
+        deviceObject.insert("maxPosition", motor->maxPosition());
+        deviceObject.insert("initialPosition", 0.0);
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parent()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
