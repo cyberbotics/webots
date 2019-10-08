@@ -12,6 +12,6 @@ echo ${FILE}
 if [ ! -f ./${FILE} ]; then
   wget ${URL}
 fi
-unzip ${FILE} -d ../../bin
+unzip -q ${FILE} -d ../../bin
 rm -rf ../../bin/node
 mv ../../bin/${FOLDER} ../../bin/node
