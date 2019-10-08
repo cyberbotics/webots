@@ -188,14 +188,14 @@ DEF WOODEN_CHAIR TwoColorChair {
 }
 ```
 
-The "ThreeChairs.wbt" file once loaded by Webots appears as shown in [this figure](#two-instances-of-the-twocolorchair-proto-in-webots).
+The "ThreeChairs.wbt" file once loaded by Webots appears as shown in [this figure](#three-instances-of-the-twocolorchair-proto-in-webots).
 
 As you can observe in this example, defining MFNode fields in the PROTO interface allows to reuse the same model for slightly different objects or robots.
-Extenstion slots like `seatExtensionSlot` field could, for example, be used to add additional devices to a base robot without needing to copy the robot definition or creating a new PROTO.
+Extension slots like `seatExtensionSlot` field could, for example, be used to add additional devices to a base robot without needing to copy the robot definition or creating a new PROTO.
 In this example, a chair backrest has been added as well as a sphere to create a decorative object.
 
 
-%figure "Two instances of the TwoColorChair PROTO in Webots"
+%figure "Three instances of the TwoColorChair PROTO in Webots"
 
 ![two_chairs_v7-2-0.png](images/two_chairs_v7-2-0.png)
 
