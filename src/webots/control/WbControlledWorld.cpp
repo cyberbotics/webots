@@ -346,11 +346,9 @@ void WbControlledWorld::step() {
 }
 
 bool WbControlledWorld::needToWait() {
-  if (!mRobotsWaitingExternController.isEmpty()) {
-    foreach (WbRobot *const robot, mRobotsWaitingExternController) {
-      if (robot->synchronization())
-        return true;
-    }
+  foreach (WbRobot *const robot, mRobotsWaitingExternController) {
+    if (robot->synchronization())
+      return true;
   }
   foreach (WbController *const controller, mControllers) {
     if (!controller->isRequestPending() || controller->isIncompleteRequest()) {
