@@ -17,8 +17,10 @@ A field declaration has the following syntax:
 field fieldType fieldName defaultValue
 ```
 
-`field` is a reserved keyword, `fieldType` is one of: `SFNode, SFColor, SFFloat, SFInt32, SFString, SFVec2f, SFVec3f, SFRotation, SFBool, MFNode, MFColor, MFFloat, MFInt32, MFString, MFVec2f` and `MFVec3f`.
-`fieldName` is a freely chosen name for this field and `defaultValue` is a literal default value that depends on `fieldType`.
+* `field` is a reserved keyword,
+* `fieldType` is one of: `SFNode, SFColor, SFFloat, SFInt32, SFString, SFVec2f, SFVec3f, SFRotation, SFBool, MFNode, MFColor, MFFloat, MFInt32, MFString, MFVec2f` and `MFVec3f`.
+* `fieldName` is a freely chosen name for this field
+* `defaultValue` is a literal default value that depends on `fieldType`.
 
 Here is an example of PROTO definition:
 
@@ -98,7 +100,7 @@ This warning can be suppressed when declaring an interface field by using the `u
 This is useful when the value of an interface field is used to 'store' relevant data that a `Supervisor` controller may wish to access, such as the speed limit for a stretch of road, or an object's radioactivity.
 
 It is an error for an IS statement to refer to a non-existent interface field.
-It is an error if the type of the field being associated does not match the type declared in the PROTO's interface.
+It is also an error if the type of the field being associated does not match the type declared in the PROTO's interface.
 For example, it is illegal to associate an `SFColor` with an `SFVec3f`.
 It is also illegal to associate a `SFColor` with a `MFColor` or vice versa.
 Results are undefined if a field of a node in the PROTO body is associated with more than one field in the PROTO's interface.
