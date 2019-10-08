@@ -197,6 +197,6 @@ In this example, a chair backrest has been added as well as a sphere to create a
 
 %figure "Three instances of the TwoColorChair PROTO in Webots"
 
-![two_chairs_v7-2-0.png](images/two_chairs_v7-2-0.png)
+![three_chairs_proto_example.png](images/three_chairs_proto_example.thumbnail.jpg)
 
 %end
