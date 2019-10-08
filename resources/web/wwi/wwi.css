@@ -85,11 +85,16 @@ iframe {
 }
 /* Hide arrow icon in IE browsers */
 .select-css::-ms-expand {
-	display: none;
+  display: none;
+}
+/* Hide dashed box when on focus in Firefox browsers */
+.select-css:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
 }
 /* Set options to normal weight */
 .select-css option {
-	font-weight:normal;
+  font-weight:normal;
 }
 
 #playBar {
