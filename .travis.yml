@@ -127,7 +127,7 @@ jobs:
         - make release -j2 -C tests
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
-    - <<: *source_tests_staging
+    - <<: *unit_tests_staging
       dist: bionic
       before_install:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
