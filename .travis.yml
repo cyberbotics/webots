@@ -198,6 +198,15 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
         - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
+      dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
+      before_install:
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export PATH=$JAVA_HOME/bin:$PATH
+      addons: *bionic_apt_packages
+      script:
+        - make distrib -j2
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
+    - <<: *distribution_staging
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
