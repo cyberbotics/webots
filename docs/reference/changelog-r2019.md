@@ -5,6 +5,7 @@ Released on ???
 
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
+    - Device names are displayed in the scene tree next to the node name.
   - Dependency Updates
     - Windows: upgraded to Qt 5.13.1.
 
