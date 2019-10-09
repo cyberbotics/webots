@@ -40,7 +40,6 @@ jobs:
             python docs/generate_thumbnails.py --silent;
             tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
           fi
-        - tests/sources/generate_diff.py $TRAVIS_COMMIT $TRAVIS_REPO_SLUG;
         - travis_wait 30 python -m unittest discover -s tests/sources
         - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
