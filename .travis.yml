@@ -71,7 +71,7 @@ jobs:
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 3.7
+      name: Ubuntu 16.04 / Python 3.7 / openjdk 8
       git: &compilation_git
         depth: 3
         submodules: true
@@ -135,10 +135,11 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
     - <<: *unit_tests_staging
-      name: Ubuntu 18.04 / Python 3.7
+      name: Ubuntu 18.04 / Python 3.7 / openjdk 11
       dist: bionic
+      jdk: openjdk11
       before_install:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
@@ -177,7 +178,7 @@ jobs:
             - npm
             - python3.6-dev
             - python3.7-dev
-            - openjdk-8-jdk
+            - openjdk-11-jdk
             - curl
             - fakeroot
             - pbzip2
@@ -185,7 +186,7 @@ jobs:
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 3.7
+      name: Ubuntu 16.04 / Python 3.7 / openjdk 8
       git: *compilation_git
       os: linux
       dist: xenial
@@ -207,10 +208,11 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
         - if [ "$TRAVIS_BRANCH" = "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
     - <<: *distribution_staging
-      name: Ubuntu 18.04 / Python 3.7 (no release upload)
+      name: Ubuntu 18.04 / Python 3.7 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
+      jdk: openjdk11
       before_install:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
       script:
