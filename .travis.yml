@@ -204,7 +204,7 @@ jobs:
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo "Wrong number of files in the 'distribution' folder: $(ls -l distribution)"; exit -1; fi  # make sure all the required files are generated
         - if [ "$TRAVIS_BRANCH" = "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
     - <<: *distribution_staging
       name: Ubuntu 18.04 / Python 3.7 / openjdk 11 (no release upload)
@@ -216,7 +216,7 @@ jobs:
       addons: *bionic_apt_packages
       script:
         - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo "Wrong number of files in the 'distribution' folder: $(ls -l distribution)"; exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
       name: OSX / Python 2.7
       os: osx
@@ -241,5 +241,5 @@ jobs:
       script:
         - if [[ -z "${TRAVIS_TAG}" ]]; then python src/packaging/set_commit_and_date_in_version.py $TRAVIS_COMMIT; fi
         - make distrib -j2
-        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then exit -1; fi  # make sure all the required file are generated
+        - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "3" ]]; then echo "Wrong number of files in the 'distribution' folder: $(ls -l distribution)"; exit -1; fi  # make sure all the required file are generated
         - if [ "$TRAVIS_BRANCH" = "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
