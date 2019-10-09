@@ -105,8 +105,8 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 
 ```
 #VRML_SIM R2019a utf8
-# license: Creative Commons Attribution 4.0 International License.
-# license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
 # tags: static
 # A color pencil
 
