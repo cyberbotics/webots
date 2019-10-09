@@ -171,7 +171,6 @@ jobs:
             - python3.7-dev
             - openjdk-8-jdk
             - curl
-            - libwebpdemux1
             - fakeroot
             - pbzip2
             - libxkbcommon-x11-dev
