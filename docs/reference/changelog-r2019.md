@@ -5,6 +5,8 @@ Released on ???
 
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
+  - Dependency Updates
+    - Windows: upgraded to Qt 5.13.1.
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
