@@ -149,7 +149,7 @@ DEF DAMACUS_SPHERE TwoColorChair {
   legColor 0.678431 0.678431 0.678431
   seatExtensionSlot [
     Transform {
-      translation 1.73472e-18 -0.29 0.27
+      translation 0 -0.29 0.27
       children [
         Shape {
           appearance DamascusSteel {
