@@ -11,7 +11,7 @@ notifications:
     on_success: change
     on_failure: always
 after_failure: >
-  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage: $(echo $TRAVIS_BUILD_WEB_URL)\" }" $DISCORD_WEBHOOK; fi
+  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"Webots need your Help! Nightly build failed during the '$(echo $TRAVIS_BUILD_STAGE_NAME)' stage on the '$(echo $TRAVIS_BRANCH)' branch: $(echo $TRAVIS_BUILD_WEB_URL)\" }" $DISCORD_WEBHOOK; fi
 jobs:
   include:
     - &source_tests_staging
