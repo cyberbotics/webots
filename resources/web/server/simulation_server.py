@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 1996-2019 Cyberbotics Ltd.
 #
@@ -400,7 +400,7 @@ class MonitorHandler(tornado.web.RequestHandler):
         swap = psutil.swap_memory()
         if nvidia:
             nvmlHandle = nvmlDeviceGetHandleByIndex(0)
-            gpu = nvmlDeviceGetName(nvmlHandle)
+            gpu = str(nvmlDeviceGetName(nvmlHandle))
             gpu_memory = nvmlDeviceGetMemoryInfo(nvmlHandle)
             gpu_ram = gpu_memory.total / (1024 * 1048576)
             gpu += " - " + str(gpu_ram) + "GB"
@@ -411,11 +411,11 @@ class MonitorHandler(tornado.web.RequestHandler):
         real_cores = psutil.cpu_count(False)
         cores_ratio = psutil.cpu_count(True) / real_cores
         cores = " (" + str(cores_ratio) + "x " + str(real_cores) + " cores)"
-        if sys.platform == 'linux2':
+        if re.search("^linux\\d?$", sys.platform):  # python2: 'linux2' or 'linux3', python3: 'linux'
             distribution = platform.linux_distribution()
             os_name = 'Linux ' + distribution[0] + " " + distribution[1] + " " + distribution[2]
             command = "cat /proc/cpuinfo"
-            all_info = subprocess.check_output(command, shell=True).strip()
+            all_info = str(subprocess.check_output(command, shell=True).strip())
             for line in all_info.split("\n"):
                 if "model name" in line:
                     cpu = re.sub(".*model name.*:", "", line, 1)
@@ -433,6 +433,7 @@ class MonitorHandler(tornado.web.RequestHandler):
             cpu = subprocess.check_output(command).strip()
         else:  # unknown platform
             os_name = 'Unknown'
+            cpu = 'Unknown'
         self.write("<!DOCTYPE html>\n")
         self.write("<html><head><meta charset='utf-8'/><title>Webots simulation server</title>")
         self.write("<link rel='stylesheet' type='text/css' href='css/monitor.css'></head>\n")
