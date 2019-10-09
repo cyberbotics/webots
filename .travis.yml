@@ -16,6 +16,7 @@ jobs:
   include:
     - &source_tests_staging
       stage: Sources Tests
+      name: Ubuntu 16.04 / Python 3.7
       git:
         depth: 3
         submodules: false
@@ -44,16 +45,20 @@ jobs:
         - if [[ "$(git status -s -uno docs | wc -l)" -ne "0" ]]; then exit -1; fi  # Make sure all the thumbnails are already up to date
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: Ubuntu 16.04 / Python 2.7
       python: '2.7'
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: Ubuntu 18.04 / Python 3.7
       dist: bionic
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: Ubuntu 18.04 / Python 2.7
       python: '2.7'
       dist: bionic
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: OSX / Python 2.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
@@ -66,6 +71,7 @@ jobs:
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: Ubuntu 16.04 / Python 3.7
       git: &compilation_git
         depth: 3
         submodules: true
@@ -129,6 +135,7 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
     - <<: *unit_tests_staging
+      name: Ubuntu 18.04 / Python 3.7
       dist: bionic
       before_install:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -178,6 +185,7 @@ jobs:
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      name: Ubuntu 16.04 / Python 3.7
       git: *compilation_git
       os: linux
       dist: xenial
@@ -199,6 +207,7 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
         - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
+      name: Ubuntu 18.04 / Python 3.7
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       before_install:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -208,6 +217,7 @@ jobs:
         - make distrib -j2
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
     - <<: *distribution_staging
+      name: OSX / Python 2.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
       language: generic     # Travis doesn't support python on macos yet
