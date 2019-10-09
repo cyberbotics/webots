@@ -8,6 +8,7 @@ FOLDER=node-v${NODEJS_VERSION}-win-x64
 FILE=${FOLDER}.zip
 URL=https://nodejs.org/dist/v${NODEJS_VERSION}/${FILE}
 
+cd ${WEBOTS_HOME}/src/install_scripts
 echo ${FILE}
 if [ ! -f ./${FILE} ]; then
   wget ${URL}
