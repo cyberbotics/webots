@@ -4,4 +4,4 @@ export PYTHON37_HOME=/C/Python37-x64
 export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio 10.0"
 export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"
 export WEBOTS_HOME_PATH=`echo "/$WEBOTS_HOME" | sed 's/\\\\/\\//g' | sed 's/://'`
-export PATH="$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PATH/msys64/mingw64/bin:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS"
+export PATH="$PYTHON37_HOME:$PYTHON37_HOME/Scripts:$WEBOTS_HOME_PATH/msys64/mingw64/bin:$WEBOTS_HOME_PATH/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:/c/WINDOWS/system32:/c/WINDOWS"

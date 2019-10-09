@@ -30,7 +30,6 @@ declare -a OPTIONAL_PACKAGES=(
   "mingw-w64-i686-gcc"        # libController (32 bit)
   "mingw-w64-i686-libtiff"    # libController (32 bit)
   "mingw-w64-i686-libpng"     # libController (32 bit)
-  "mingw-w64-x86_64-nodejs"   # webots.min.js
 )
 
 declare -a DEVELOPMENT_PACKAGES=(
