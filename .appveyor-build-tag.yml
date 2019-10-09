@@ -12,7 +12,7 @@ clone_depth: 1
 
 init:
   # The following line will display the login information for a remote desktop connection (useful to debug)
-  # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
@@ -27,7 +27,7 @@ install:
   - python -m pip install --upgrade pip
   - pip install PyGithub
   # The following line make the session on the virtual machine last some time to allow remote desktop session debugging
-  # - ps: Start-Sleep -s 3600
+  - ps: Start-Sleep -s 3600
 
 build_script:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;%PATH%
