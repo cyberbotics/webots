@@ -207,7 +207,7 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then exit -1; fi  # make sure all the required files are generated
         - src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG
     - <<: *distribution_staging
-      name: Ubuntu 18.04 / Python 3.7
+      name: Ubuntu 18.04 / Python 3.7 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       before_install:
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
