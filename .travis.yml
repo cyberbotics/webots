@@ -68,7 +68,7 @@ jobs:
       install: skip  # bundle install is not required
       language: python
       python: 3.7
-      jdk: openjdk8
+      jdk: openjdk11
       addons: &apt_packages
         apt:
           packages:
@@ -98,7 +98,7 @@ jobs:
             - libav-tools
             - npm
             - python3.5-dev
-            - openjdk-8-jdk
+            - openjdk-11-jdk
             - curl
             - libwebpdemux1
             - fakeroot
@@ -108,7 +108,7 @@ jobs:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
         - sudo apt install -y python3.6-dev python3.7-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
         - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
@@ -131,13 +131,13 @@ jobs:
       install: skip  # bundle install is not required
       language: python
       python: 3.7
-      jdk: openjdk8
+      jdk: openjdk11
       addons: *apt_packages
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
         - sudo apt install python3.6-dev python3.7-dev
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
       script:
@@ -158,7 +158,7 @@ jobs:
             - wget
             - node
       before_install:
-        - export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+        - export JAVA_HOME="$(/usr/libexec/java_home -v 11)"
         - npm install -g appdmg
         - pip install PyGithub  # used to upload packages to Github releases
         - sudo mkdir -p /Library/Frameworks/Python.framework/Versions/3.7  # we can't use python3.7 from homebrew for the compilation because it is not compatible with the normal one
