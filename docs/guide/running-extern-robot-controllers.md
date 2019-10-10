@@ -53,8 +53,8 @@ Generic Webots environment variables needed for all the controller languages:
 
 %end
 
-Specific setup depending on the controller language:
 
+Specific setup depending on the controller language:
 
 %tab-component
 
