@@ -55,44 +55,29 @@ Generic Webots environment variables needed for all the controller languages:
 
 Specific setup depending on the controller language:
 
-
-%tab-component
-
-%tab "C/C++"
-
+#### C/C++
 If a C/C++ controller is launched from a Terminal running the bash shell, instead of setting the `WEBOTS_HOME` and `PATH` variables, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
 - On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
 - On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
 - On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
 
-%tab-end
-
-%tab "Python"
+#### Python
 | Version      | Environment Variable     | Typical Value                                    |
 |--------------|--------------------------|--------------------------------------------------|
 | Python 2.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
 | Python 3.7   | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python37`                |
 | all          | PYTHONIOENCODING         | `UTF-8`                                          |
-%tab-end
 
-%tab "Java"
+#### Java
 
 Add the `-Djava.library.path=${WEBOTS_HOME}/lib/java` option to the `java` command line launching the Java controller.
 
-%tab-end
-
-
-%tab "MATLAB"
-
+#### MATLAB
 | Environment Variable     | Typical Value                                    |
 |--------------------------|--------------------------------------------------|
 | WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
 | WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
 | WEBOTS\_VERSION          | `R2019a-rev1`                                    |
-
-%tab-end
-
-%end
 
 ## Setup
 
