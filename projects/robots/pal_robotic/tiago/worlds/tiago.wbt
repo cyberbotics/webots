@@ -10,8 +10,8 @@ WorldInfo {
   lineScale 0.04
 }
 Viewpoint {
-  orientation 0.06364726956330512 -0.9960045966493499 -0.06264078967016373 4.798515099112387
-  position 1.8267605361825863 0.8660425778204305 0.9836767506004254
+  orientation 0.3113652506895843 -0.8868629896060776 -0.3413586359387772 4.515089635889488
+  position 0.5942529489633517 0.8642173651324776 0.6229847665224512
 }
 TexturedBackground {
 }
@@ -1462,7 +1462,7 @@ Robot {
                   translation 0.15505000000000052 0.013999999999998972 -0.15099999999709435
                   rotation 1.0833639735107317e-14 6.986912582786603e-15 -1 1.5707959999999934
                   children [
-                    Shape {
+                    DEF ARM_LEFT_1_SH1 Shape {
                       appearance GlossyPaint {
                         baseColor 0.823529 0.776471 0.776471
                         textureTransform TextureTransform {
@@ -1490,7 +1490,7 @@ Robot {
                         creaseAngle 0.6
                       }
                     }
-                    Shape {
+                    DEF ARM_LEFT_1_SH2 Shape {
                       appearance MattePaint {
                         baseColor 0.133333 0.133333 0.133333
                       }
@@ -1513,7 +1513,7 @@ Robot {
                         ]
                       }
                     }
-                    Shape {
+                    DEF ARM_LEFT_1_SH3 Shape {
                       appearance GlossyPaint {
                         baseColor 0.823529 0.776471 0.776471
                         textureTransform TextureTransform {
@@ -1556,7 +1556,7 @@ Robot {
                         translation 0.125 0.018 -0.031
                         rotation 1 -4.328690203203249e-15 -3.3514115692625225e-14 1.5707959999999443
                         children [
-                          Shape {
+                          DEF ARM_LEFT_2_SH1 Shape {
                             appearance MattePaint {
                               baseColor 0.133333 0.133333 0.133333
                             }
@@ -1603,7 +1603,7 @@ Robot {
                               translation 0.0872 -1.81255e-12 -0.0015
                               rotation -0.5773502691896165 -0.5773502691896488 0.577350269189612 2.094394999999926
                               children [
-                                Shape {
+                                DEF ARM_LEFT_3_SH1 Shape {
                                   appearance GlossyPaint {
                                     baseColor 0.0470588 0.0470588 0.0470588
                                   }
@@ -1627,7 +1627,7 @@ Robot {
                                     creaseAngle 0.4
                                   }
                                 }
-                                Shape {
+                                DEF ARM_LEFT_3_SH2 Shape {
                                   appearance GlossyPaint {
                                     baseColor 0.0470588 0.0470588 0.0470588
                                   }
@@ -1651,7 +1651,7 @@ Robot {
                                     creaseAngle 0.6
                                   }
                                 }
-                                Shape {
+                                DEF ARM_LEFT_3_SH3 Shape {
                                   appearance MattePaint {
                                     baseColor 0.133333 0.133333 0.133333
                                   }
@@ -1698,7 +1698,7 @@ Robot {
                                     translation -0.01999999999861002 -0.027000000000011987 -0.22200000000000128
                                     rotation -0.5773502691896081 -0.5773502691896472 -0.577350269189622 2.0943950000000533
                                     children [
-                                      Shape {
+                                      DEF ARM_LEFT_4_SH1 Shape {
                                         appearance MattePaint {
                                           baseColor 0.133333 0.133333 0.133333
                                         }
@@ -1722,7 +1722,7 @@ Robot {
                                           creaseAngle 0.7
                                         }
                                       }
-                                      Shape {
+                                      DEF ARM_LEFT_4_SH_2 Shape {
                                         appearance GlossyPaint {
                                           baseColor 0.0470588 0.0470588 0.0470588
                                         }
@@ -1746,7 +1746,7 @@ Robot {
                                           creaseAngle 0.6
                                         }
                                       }
-                                      Shape {
+                                      DEF ARM_LEFT_4_SH_3 Shape {
                                         appearance GlossyPaint {
                                           baseColor 0.0470588 0.0470588 0.0470588
                                         }
@@ -1793,7 +1793,7 @@ Robot {
                                           translation -0.16200000000000292 0.019999999997710516 0.02700000000000563
                                           rotation 5.523016316635332e-15 -1 -1.0769651040551807e-14 1.5707960000000054
                                           children [
-                                            Shape {
+                                            DEF ARM_LEFT_5_SH_1 Shape {
                                               appearance GlossyPaint {
                                                 baseColor 0.823529 0.776471 0.776471
                                                 textureTransform TextureTransform {
@@ -1844,7 +1844,7 @@ Robot {
                                                 translation 2.525757381022231e-15 1.8265389201133075e-12 0.1500000000000028
                                                 rotation -0.5773502691896127 -0.577350269189621 -0.5773502691896434 2.0943949999999596
                                                 children [
-                                                  Shape {
+                                                  DEF ARM_LEFT_6_SH_1 Shape {
                                                     appearance GlossyPaint {
                                                       baseColor 0.823529 0.776471 0.776471
                                                       textureTransform TextureTransform {
