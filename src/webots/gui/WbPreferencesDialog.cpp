@@ -83,7 +83,8 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   mEditorFontEdit->setText(prefs->value("Editor/font").toString());
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
-  mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
+  if (mPythonCommand)
+    mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
   mExtraProjectsPath->setText(prefs->value("General/extraProjectsPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
@@ -140,7 +141,8 @@ void WbPreferencesDialog::accept() {
   prefs->setValue("General/language", languageKey);
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
   prefs->setValue("General/numberOfThreads", mNumberOfThreadsCombo->currentIndex() + 1);
-  prefs->setValue("General/pythonCommand", mPythonCommand->text());
+  if (mPythonCommand)
+    prefs->setValue("General/pythonCommand", mPythonCommand->text());
   prefs->setValue("General/extraProjectsPath", mExtraProjectsPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
@@ -244,7 +246,6 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   }
 
   mEditorFontEdit = new WbLineEdit(this);
-  mPythonCommand = new WbLineEdit(this);
   mExtraProjectsPath = new WbLineEdit(this);
   mExtraProjectsPath->setToolTip(
     tr("Extra projects may include PROTOs, controllers, plugins, etc. that you can use in your current project."));
@@ -277,8 +278,15 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   // row 5
   layout->addWidget(new QLabel(tr("Python command:"), this), 5, 0);
-  layout->addWidget(mPythonCommand, 5, 1);
-
+#ifdef __linux__
+  if (qgetenv("SNAP") == "webots") {
+    QLabel *label = new QLabel(tr("built-in python (snap), see <a href=\"https://cyberbotics.com/doc/guide/running-extern-robot-controllers\">extern controllers</a> for alternatives."), this);
+    layout->addWidget(label, 5, 1);
+    connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
+    mPythonCommand = NULL;
+  } else
+#endif
+  layout->addWidget(mPythonCommand = new WbLineEdit(this), 5, 1);
   // row 6
   layout->addWidget(new QLabel(tr("Extra projects path:"), this), 6, 0);
   layout->addWidget(mExtraProjectsPath, 6, 1);
