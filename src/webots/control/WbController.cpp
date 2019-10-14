@@ -783,6 +783,12 @@ void WbController::startPython() {
 }
 
 void WbController::startMatlab() {
+#ifdef __linux__
+  if (qgetenv("SNAP_NAME") == "webots") {
+    warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
+    return;
+  }
+#endif
   if (mMatlabCommand.isEmpty()) {
     mCommand = WbLanguageTools::matlabCommand();
     if (mCommand == "!")  // Matlab 64 bit not available
