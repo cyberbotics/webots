@@ -351,6 +351,9 @@
   "projects/objects/geometries/protos/Extrusion": {
     "nodeString": "Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
   },
+  "projects/objects/geometries/protos/Rectangle": {
+    "nodeString": "Transform { translation 0 0.05 0 rotation 0 1 0 -1.31 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Rectangle { } } ] }"
+  },
   "projects/objects/geometries/protos/TexturedBox": {
     "nodeString": "Transform { translation 0 0.07 0 rotation 0 -1 0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
   },
