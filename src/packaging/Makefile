@@ -103,5 +103,5 @@ xvfb:
 	+@Xvfb :99 -screen 0 1024x768x16 &
 
 clean:
-	+@rm -rf $(WEBOTS_DISTRO_EXE) webots*.deb webots.iss msys64_f*s.iss webots-for-*.iss webots*.mac files.txt iscc_formatter.exe
+	+@rm -rf $(WEBOTS_DISTRO_EXE) webots.deb webots.snap webots.iss webots.mac files.txt iscc_formatter.exe
 	+@find $(WEBOTS_HOME_PATH)/projects $(WEBOTS_HOME_PATH)/resources -name .*.cache | xargs rm -f

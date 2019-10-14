@@ -426,6 +426,17 @@ bool Ros::getDeviceListCallback(webots_ros::robot_get_device_list::Request &req,
   return true;
 }
 
+void Ros::publishClockIfNeeded() {
+  if (mShouldPublishClock) {
+    rosgraph_msgs::Clock simulationClock;
+    double time = mRobot->getTime();
+    simulationClock.clock.sec = (int)time;
+    // round prevents precision issues that can cause problems with ROS timers
+    simulationClock.clock.nsec = round(1000 * (time - simulationClock.clock.sec)) * 1.0e+6;
+    mClockPublisher.publish(simulationClock);
+  }
+}
+
 void Ros::run(int argc, char **argv) {
   launchRos(argc, argv);
   ros::Rate loopRate(1000);  // Hz
@@ -435,15 +446,7 @@ void Ros::run(int argc, char **argv) {
       mEnd = true;
     }
     ros::spinOnce();
-    // publish clock if needed
-    if (mShouldPublishClock) {
-      rosgraph_msgs::Clock simulationClock;
-      double time = mRobot->getTime();
-      simulationClock.clock.sec = (int)time;
-      // round prevents precision issues that can cause problems with ROS timers
-      simulationClock.clock.nsec = round(1000 * (time - simulationClock.clock.sec)) * 1.0e+6;
-      mClockPublisher.publish(simulationClock);
-    }
+    publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
       mSensorList[i]->publishValues(mStep * mStepSize);
 
@@ -452,6 +455,7 @@ void Ros::run(int argc, char **argv) {
       while (mStep == oldStep && !mEnd && ros::ok()) {
         ros::spinOnce();
         loopRate.sleep();
+        publishClockIfNeeded();
       }
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
