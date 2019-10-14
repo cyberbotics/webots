@@ -2,10 +2,10 @@
 header("Access-Control-Allow-Origin: *");
 require 'useragent.php';
 $touchInterface = isMobileDevice();
-$showFast = isset($_GET["fast"]) && $_GET["fast"] == "true";
+$showRun = isset($_GET["run"]) && $_GET["run"] == "true";
 $uiImageName = "help_web_interface.png";
-if ($showFast)
-  $uiImageName = "help_web_interface_with_fast.png"
+if ($showRun)
+  $uiImageName = "help_web_interface_with_run.png"
 ?>
 <h2>Web Interface</h2>
  <img src="images/documentation/<?=$uiImageName?>" width="500" alt="">
@@ -16,8 +16,8 @@ if ($showFast)
    <li><img src="images/reset.png" width="20" alt=""> <b>Reset</b>: save the changes applied to the controller sources and reset the simulation.</li>
    <li><img src="images/step.png" width="20" alt=""> <b>Step</b>: execute one simulation step.</li>
    <li><img src="images/real_time.png" width="20" alt=""> <b>Play</b>: run the simulation in real time.</li>
-<?php if ($showFast) { ?>
-   <li><img src="images/fast.png" width="20" alt=""> <b>Fast</b> (optional): run the simulation as fast as possible.</li>
+<?php if ($showRun) { ?>
+   <li><img src="images/run.png" width="20" alt=""> <b>Run</b> (optional): run the simulation as fast as possible.</li>
 <?php } ?>
    <li><img src="images/pause.png" width="20" alt=""> <b>Pause</b>: pause the simulation.</li>
    <li><img src="images/console.png" width="20" alt=""> <b>Console</b>: open the <a href="#help_console">console window</a> where the simulation messages are printed.</li>
