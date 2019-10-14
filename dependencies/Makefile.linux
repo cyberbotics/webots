@@ -179,7 +179,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openssl:
 	@echo "# downloading $(OPENSSL_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "dc7f94ec6ff15c985d2d6ad0f1b35654  $(OPENSSL_PACKAGE)" > $(OPENSSL_PACKAGE).md5
+	@echo "4be3d9987533fad1f4ac776be62decee  $(OPENSSL_PACKAGE)" > $(OPENSSL_PACKAGE).md5
 	@md5sum -c --status $(OPENSSL_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
 	@rm $(OPENSSL_PACKAGE).md5
 	@echo "# uncompressing $(OPENSSL_PACKAGE)"
