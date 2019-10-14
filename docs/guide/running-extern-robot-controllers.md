@@ -77,7 +77,13 @@ If that simulation has more than one extern controller, you may also set the `WE
 In order to compile and execute extern controllers, the following environment variables should be set:
 ```
 export WEBOTS_HOME=/snap/webots/current/usr/share/webots
-export LD_LIBRARY_PATH=$WEBOTS_HOME/lib:/snap/webots/current/usr/lib/x86_64-linux-gnu
+export LD_LIBRARY_PATH=$WEBOTS_HOME/lib
+```
+
+Additionally, on Ubuntu 16.04 the following environment variables should be set:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/snap/webots/current/usr/lib/x86_64-linux-gnu
+export LD_PRELOAD=/snap/webots/current/usr/lib/x86_64-linux-gnu/libz.so
 ```
 
 Because of the snap sand-boxing system, Webots has to use a special temporary folder to share information with robot controllers.
