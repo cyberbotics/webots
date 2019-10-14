@@ -8,7 +8,7 @@ WorldInfo {
 Viewpoint {
   orientation 0.04913069345659068 0.9922428678493876 0.11419398479121845 3.8679
   position -0.189716 0.0926762 -0.198126
-  follow "e-puck"
+  follow "e-puck2"
 }
 TexturedBackground {
 }
