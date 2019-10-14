@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo @@@ Compile ros webots_ros package
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
 mkdir -p $WEBOTS_HOME/webots_catkin_ws/src
 cd $WEBOTS_HOME/webots_catkin_ws/src
 catkin_init_workspace 2>&1 >> /dev/null

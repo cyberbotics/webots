@@ -74,12 +74,13 @@ INSTALL_TOKEN = install.token
 NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
-release profile update:
+release debug profile update:
+	@echo "# npm not found in PATH:" $(PATH)
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
 release profile update: webots.min.js
-endif
 debug: webots.debug.js
+endif
 
 webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
