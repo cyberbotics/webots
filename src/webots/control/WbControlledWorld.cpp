@@ -82,6 +82,7 @@ WbControlledWorld::WbControlledWorld(WbProtoList *protos, WbTokenizer *tokenizer
 
 WbControlledWorld::~WbControlledWorld() {
   WbController *controller = NULL;
+  mRobotsWaitingExternController.clear();
   while (!mNewControllers.isEmpty()) {
     controller = mNewControllers.takeFirst();
     delete controller;
