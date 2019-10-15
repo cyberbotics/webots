@@ -88,7 +88,9 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 */
 
 WbController::WbController(WbRobot *robot) :
-  mStdout(QTextCodec::codecForName("UTF-8")), mStderr(QTextCodec::codecForName("UTF-8")), mHasPendingImmediateAnswer(false) {
+  mStdout(QTextCodec::codecForName("UTF-8")),
+  mStderr(QTextCodec::codecForName("UTF-8")),
+  mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
