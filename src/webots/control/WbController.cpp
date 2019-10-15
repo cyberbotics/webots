@@ -88,9 +88,7 @@ static void printArray(const QByteArray &buffer, const QString &prefix, int id, 
 */
 
 WbController::WbController(WbRobot *robot) :
-  mStdout(QTextCodec::codecForName("UTF-8")),
-  mStderr(QTextCodec::codecForName("UTF-8")),
-  mHasPendingImmediateAnswer(false) {
+  mStdout(QTextCodec::codecForName("UTF-8")), mStderr(QTextCodec::codecForName("UTF-8")), mHasPendingImmediateAnswer(false) {
   mRobot = robot;
   mRobot->setConfigureRequest(true);
   mControllerPath = mRobot->controllerDir();
@@ -783,12 +781,10 @@ void WbController::startPython() {
 }
 
 void WbController::startMatlab() {
-#ifdef __linux__
-  if (qgetenv("SNAP_NAME") == "webots") {
+  if (WbSysInfo::isSnap()) {
     warn(tr("MATLAB controllers should be launched as extern controllers with the snap package of Webots."));
     return;
   }
-#endif
   if (mMatlabCommand.isEmpty()) {
     mCommand = WbLanguageTools::matlabCommand();
     if (mCommand == "!")  // Matlab 64 bit not available
