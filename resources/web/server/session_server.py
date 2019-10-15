@@ -140,6 +140,10 @@ class ClientWebSocketHandler(tornado.websocket.WebSocketHandler):
         self.write_message(message)
         logging.info('[' + self.request.host + '] New client')
 
+    def on_message(self, message):
+        # self.write_message(message)
+        logging.info(message)
+
     def on_close(self):
         """Close connection after client leaves."""
         logging.info('[' + self.request.host + '] Client disconnected')
