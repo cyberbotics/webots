@@ -27,10 +27,11 @@ jobs:
       addons:
         apt:
           packages:
-            - clang-format-5.0
+            - clang-format-6.0
       install:
         - pip install -r tests/sources/requirements.txt
         - pip install -r docs/tests/requirements.txt
+        - cp dependencies/.clang-format-6 .clang-format
       script:
         - python -m unittest discover -s docs/tests
         - |
