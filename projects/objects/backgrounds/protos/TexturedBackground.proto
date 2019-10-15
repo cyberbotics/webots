@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -8,6 +8,7 @@
 #
 # - dawn_cloudy_empty
 # - empty_office (HDR)
+# - entrance_hall (HDR)
 # - factory (HDR)
 # - morning_cloudy_empty
 # - noon_building_overcast (HDR)
@@ -22,15 +23,44 @@
 # - mountains (HDR)
 
 PROTO TexturedBackground [
-  field  SFString{"dawn_cloudy_empty", "empty_office", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+  field  SFString{"dawn_cloudy_empty", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
                   texture "mountains"  # Defines the texture of the background.
+  field  SFFloat  luminosity  1        # Is `Background.luminosity`.
 ]
 {
+  %{
+    local texture = fields.texture.value
+    local isHDR =
+      texture == "empty_office" or
+      texture == "entrance_hall" or
+      texture == "factory" or
+      texture == "noon_building_overcast" or
+      texture == "noon_cloudy_countryside" or
+      texture == "noon_park_empty" or
+      texture == "mountains"
+    local extension = isHDR and "hdr" or "jpg"
+    local path = "textures/cubic"
+  }%
   Background {
     skyColor 0.33 0.66 1
-    cubemap Cubemap {
-      textureBaseName IS texture
-      directory "textures/cubic"
-    }
+    backUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_back." .. extension .. "\"" }%
+    ]
+    bottomUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_bottom." .. extension .. "\"" }%
+    ]
+    frontUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_front." .. extension .. "\"" }%
+    ]
+    leftUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_left." .. extension .. "\"" }%
+    ]
+    rightUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_right." .. extension .. "\"" }%
+    ]
+    topUrl [
+      %{= "\"" .. path .. "/" .. texture .. "_top." .. extension .. "\"" }%
+    ]
+    luminosity IS luminosity
   }
 }

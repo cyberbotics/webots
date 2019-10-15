@@ -16,6 +16,8 @@ For example, it may run it within a debugging environment, like *gdb*, a command
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
 
+> **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the extern controller to be launched, otherwise the simulation will run whether the controller is started or not.
+
 ## Environment Variables
 
 In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
@@ -26,22 +28,22 @@ Please refer to the documentation of your operating system to set environment va
 | Windows          | all                  | WEBOTS\_HOME             | `C:\Program Files\Webots`                        |
 | Linux            | all                  | WEBOTS\_HOME             | `/usr/local/webots`                              |
 | macOS            | all                  | WEBOTS\_HOME             | `/Applications/Webots`                           |
-| Windows          | all                  | PATH                     | add `${WEBOTS_HOME}\msys64\mingw64\bin`          |
-| Linux            | all                  | LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib`                         |
-| macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
-| all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
-| all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python37`                |
+| Windows          | all                  | PATH                     | add `${WEBOTS_HOME}/lib/controller`              |
+| Linux            | all                  | LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib/controller`              |
+| macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib/controller`              |
+ | all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
+ | all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python37`     |
 | all              | Python               | PYTHONIOENCODING         | `UTF-8`                                          |
 | all              | MATLAB               | WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
 | all              | MATLAB               | WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
 | all              | MATLAB               | WEBOTS\_VERSION          | `R2019a-rev1`                                    |
 
 If a C/C++ controller is launched from a Terminal running the bash shell, it is sufficient to issue the following command to set the path to the Controller library before launching the controller:
-- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/msys64/mingw64/bin`.
-- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib`.
-- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib`.
+- On Windows/MSYS2, type: `export PATH=${PATH}:/C/Program\ Files/Webots/lib/controller`.
+- On Linux, type `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/webots/lib/controller`.
+- On macOS, type `export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/Applications/Webots/lib/controller`.
 
-For a Java controller, the `-Djava.library.path=${WEBOTS_HOME}/lib/java` option should be added to the `java` command line launching the Java controller.
+For a Java controller, the `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java` option should be added to the `java` command line launching the Java controller.
 
 ## Setup
 
@@ -49,12 +51,12 @@ Different use cases are detailed here from the most simple to the most complex:
 
 ### Single Simulation and Single Extern Robot Controller
 
-You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an external controller.
+You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
 In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
 
 ### Single Simulation and Multiple Extern Robot Controllers
 
-You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from external controllers.
+You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from extern controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
 Then, in the environment from which you are going to launch the extern controller, you should define an environment variable named `WEBOTS_ROBOT_NAME` and set it to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
 Once this environment variable is set, you can launch your controller and it will connect to the extern robot whose `name` matches the one provided in the environment variable.
@@ -69,6 +71,21 @@ This can be achieved by setting an environment variable named `WEBOTS_PID` with 
 If that simulation has more than one extern controller, you may also set the `WEBOTS_ROBOT_NAME` environment variable to specify the robot to which your controller should connect.
 
 > **Note**: the environment variables can be set inside the controller program, before calling the `wb_robot_init()` function.
+
+### Running Extern Robot Controller with the Snap Version of Webots
+
+In order to compile and execute extern controllers, the following environment variables should be set:
+```
+export WEBOTS_HOME=/snap/webots/current/usr/share/webots
+export LD_LIBRARY_PATH=$WEBOTS_HOME/lib
+```
+
+Because of the snap sand-boxing system, Webots has to use a special temporary folder to share information with robot controllers.
+When you launch the snap version of Webots, the launcher computes the `WEBOTS_TMPDIR` environment variable if it is not already set.
+This variable is computed from the `SNAP_USER_COMMON` environment variable which typically points to `/home/username/snap/webots/common`, a folder accessible by both Webots and your own programs.
+Similarly, the libController will automatically check this folder and its contents to determine if it should use it to communicate with Webots.
+It is recommended that you do not override this `WEBOTS_TMPDIR` environment variable, unless you want to experiment a different mechanism.
+
 
 ## Example Usage
 

@@ -52,6 +52,8 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.composer = new THREE.EffectComposer(this.renderer);
     let renderPass = new THREE.RenderPass(this.scene, this.viewpoint.camera);
     this.composer.addPass(renderPass);
+    this.bloomPass = new THREE.Bloom(new THREE.Vector2(window.innerWidth, window.innerHeight));
+    this.composer.addPass(this.bloomPass);
     this.hdrResolvePass = new THREE.ShaderPass(THREE.HDRResolveShader);
     this.composer.addPass(this.hdrResolvePass);
     var fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
@@ -72,7 +74,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
   }
 
   render() {
+    // Apply pass uniforms.
     this.hdrResolvePass.material.uniforms['exposure'].value = 2.0 * this.viewpoint.camera.userData.exposure; // Factor empirically found to match the Webots rendering.
+    this.bloomPass.threshold = this.viewpoint.camera.userData.bloomThreshold;
+    this.bloomPass.enabled = this.bloomPass.threshold >= 0;
 
     if (typeof this.preRender === 'function')
       this.preRender(this.scene, this.viewpoint.camera);
@@ -109,6 +114,16 @@ class X3dScene { // eslint-disable-line no-unused-vars
     this.useNodeCache = {};
     this.root = undefined;
     this.scene.background = new THREE.Color(0, 0, 0);
+
+    /*
+    // Code to debug bloom passes.
+    var geometry = new THREE.PlaneGeometry(5, 5);
+    var material = new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide});
+    this.bloomPass.debugMaterial = material;
+    var plane = new THREE.Mesh(geometry, material);
+    this.scene.add(plane);
+    */
+
     this.onSceneUpdate();
     this.render();
   }
@@ -173,11 +188,10 @@ class X3dScene { // eslint-disable-line no-unused-vars
     if (parentId && parentId !== 0)
       parentObject = this.getObjectById('n' + parentId);
     var loader = new THREE.X3DLoader(this);
-    var objects = loader.parse(x3dObject);
-    if (typeof parentObject !== 'undefined') {
-      objects.forEach((o) => { parentObject.add(o); });
+    var objects = loader.parse(x3dObject, parentObject);
+    if (typeof parentObject !== 'undefined')
       this._updateUseNodesIfNeeded(parentObject, parentObject.name.split(';'));
-    } else {
+    else {
       console.assert(objects.length <= 1 && typeof this.root === 'undefined'); // only one root object is supported
       objects.forEach((o) => { this.scene.add(o); });
       this.root = objects[0];
@@ -397,42 +411,6 @@ class X3dScene { // eslint-disable-line no-unused-vars
     return undefined;
   }
 
-  applyEquirectangularBackground(image) {
-    var texture;
-    if (image.data) {
-      texture = new THREE.DataTexture(image.data, image.width, image.height);
-      texture.encoding = THREE.RGBEEncoding;
-      texture.minFilter = THREE.NearestFilter;
-      texture.magFilter = THREE.NearestFilter;
-      texture.flipY = true;
-    } else {
-      texture = new THREE.Texture(image);
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-    }
-    texture.needsUpdate = true;
-
-    var cubemapGenerator = new THREE.EquirectangularToCubeGenerator(texture, { resolution: image.width });
-    this.scene.background = cubemapGenerator.renderTarget;
-
-    var cubeMapTexture = cubemapGenerator.update(this.renderer);
-
-    var pmremGenerator = new THREE.PMREMGenerator(cubeMapTexture);
-    pmremGenerator.update(this.renderer);
-
-    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-    pmremCubeUVPacker.update(this.renderer);
-
-    this.scene.background.userData = {};
-    this.scene.background.userData.isHDR = true;
-    this.scene.background.userData.texture = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-    this._setupEnvironmentMap();
-
-    texture.dispose();
-    pmremGenerator.dispose();
-    pmremCubeUVPacker.dispose();
-  }
-
   // private functions
   _setupLights(directionalLights) {
     if (!this.root)
@@ -477,8 +455,9 @@ class X3dScene { // eslint-disable-line no-unused-vars
       if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
         var material = child.material;
         material.envMap = backgroundMap;
-        if (isHDR)
-          material.envMapIntensity = 0.2; // Factor empirically found to match the Webots rendering.
+        material.envMapIntensity = isHDR ? 0.6 : 1.0; // Factor empirically found to match the Webots rendering.
+        if (typeof this.scene.userData.luminosity !== 'undefined')
+          material.envMapIntensity *= this.scene.userData.luminosity;
         material.needsUpdate = true;
       }
     });

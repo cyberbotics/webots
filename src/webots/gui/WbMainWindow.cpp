@@ -547,8 +547,11 @@ QMenu *WbMainWindow::createViewMenu() {
   menu->setTitle(tr("&View"));
 
   WbActionManager *actionManager = WbActionManager::instance();
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT));
-  menu->addAction(actionManager->action(WbActionManager::FOLLOW_OBJECT_AND_ROTATE));
+  subMenu = menu->addMenu(tr("&Follow Object"));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_NONE));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_TRACKING));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_MOUNTED));
+  subMenu->addAction(actionManager->action(WbActionManager::FOLLOW_PAN_AND_TILT));
   menu->addAction(actionManager->action(WbActionManager::RESTORE_VIEWPOINT));
   menu->addAction(actionManager->action(WbActionManager::MOVE_VIEWPOINT_TO_OBJECT));
 
@@ -1670,8 +1673,8 @@ void WbMainWindow::showDocument(const QString &url) {
     QString WEBOTS_HOME(QDir::toNativeSeparators(WbStandardPaths::webotsHomePath()));
     QByteArray ldLibraryPathBackup = qgetenv("LD_LIBRARY_PATH");
     QByteArray newLdLibraryPath = ldLibraryPathBackup;
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib/", "");
-    newLdLibraryPath.replace(WEBOTS_HOME + "lib", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots/", "");
+    newLdLibraryPath.replace(WEBOTS_HOME + "lib/webots", "");
     qputenv("LD_LIBRARY_PATH", newLdLibraryPath);
 #endif
     QString u("file:///" + url);

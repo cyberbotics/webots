@@ -115,7 +115,7 @@ webots.alert = (title, message, callback) => {
   });
 };
 
-webots.confirm = (title, message, callback) => {
+webots.confirm = (title, message, okCallback, closeCallback) => {
   webots.currentView.ondialogwindow(true);
   var parent = webots.currentView.view3D;
   var panel = document.createElement('div');
@@ -133,8 +133,17 @@ webots.confirm = (title, message, callback) => {
     modal: true,
     width: 400, // enough room to display the social network buttons in a line
     buttons: {
-      Ok: () => { $('#webotsConfirm').dialog('close'); callback(); },
+      Ok: () => {
+        $('#webotsConfirm').dialog('close');
+        if (typeof okCallback === 'function')
+          okCallback();
+      },
       Cancel: () => { $('#webotsConfirm').dialog('close'); }
     },
-    close: () => { $('#webotsConfirm').dialog('destroy').remove(); webots.currentView.ondialogwindow(false); }});
+    close: () => {
+      $('#webotsConfirm').dialog('destroy').remove();
+      webots.currentView.ondialogwindow(false);
+      if (typeof closeCallback === 'function')
+        closeCallback();
+    }});
 };

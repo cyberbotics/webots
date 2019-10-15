@@ -55,6 +55,11 @@ public:
 
   // documentation url the beginning of the .proto file (after the 'documentation url:' string)
   const QString &documentationUrl() const { return mDocumentationUrl; }
+  // return the documentation book and page for this PROTO model:
+  // - robot or object page matching the node name
+  // - if !skipProtoTag: data specified in PROTO 'documentation url' tag
+  // - empty if none of the previous searches are successful
+  QStringList documentationBookAndPage(bool isRobot, bool skipProtoTag) const;
 
   // field models
   WbFieldModel *findFieldModel(const QString &fieldName) const;

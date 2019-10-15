@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   gravity 0 0 0
 }
@@ -9,12 +9,24 @@ DEF VIEWPOINT Viewpoint {
   bloomThreshold 2100
 }
 Background {
-  skyColor [
-    0.33 0.66 1
+  backUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_back.hdr"
   ]
-  cubemap Cubemap {
-    textureBaseName "san_giuseppe_bridge_4k"
-  }
+  bottomUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_bottom.hdr"
+  ]
+  frontUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_front.hdr"
+  ]
+  leftUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_left.hdr"
+  ]
+  rightUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_right.hdr"
+  ]
+  topUrl [
+    "textures/cubic/san_giuseppe_bridge_4k_top.hdr"
+  ]
 }
 DEF LIGHT DirectionalLight {
   ambientIntensity 1

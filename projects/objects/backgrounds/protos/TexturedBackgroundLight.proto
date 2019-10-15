@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: static
@@ -22,8 +22,9 @@
 # - mountains
 
 PROTO TexturedBackgroundLight [
-  field  SFString{"dawn_cloudy_empty", "empty_office", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
+  field  SFString{"dawn_cloudy_empty", "empty_office", "entrance_hall", "factory", "morning_cloudy_empty", "noon_building_overcast", "noon_cloudy_countryside", "noon_cloudy_empty", "noon_cloudy_mountains", "noon_park_empty", "noon_stormy_empty", "noon_sunny_empty", "noon_sunny_garden", "twilight_cloudy_empty", "mountains"}
                   texture        "mountains"  # Should be equivalent to the 'texture' field of the TexturedBackground.
+  field  SFFloat  luminosity  1               # Multiplies the `Light.intensity` field.
   field  SFBool   castShadows    TRUE         # Defines whether the light should cast shadows.
 ]
 {
@@ -32,6 +33,7 @@ PROTO TexturedBackgroundLight [
     local color = {1.0, 1.0, 1.0}
     local intensity = 1.0
     local on = true
+    local luminosity = fields.luminosity.value > 0.0 and fields.luminosity.value or 0.0
     if fields.texture.value == "empty_office" then
       direction = {-0.2, -0.5, -0.9}
       intensity = 0.05
@@ -43,7 +45,7 @@ PROTO TexturedBackgroundLight [
       direction = {1, -0.8, -0.1}
       color = {1.0, 0.75, 0.5}
       intensity = 0.9
-    elseif fields.texture.value == "noon_building_overcast" or fields.texture.value == "factory" then
+    elseif fields.texture.value == "noon_building_overcast" or fields.texture.value == "factory" or fields.texture.value == "entrance_hall" then
       on = false
     elseif fields.texture.value == "noon_cloudy_countryside" then
       direction = {-0.3, -1, -0.1}
@@ -52,6 +54,10 @@ PROTO TexturedBackgroundLight [
     elseif fields.texture.value == "noon_cloudy_empty" then
       direction = {0.2, -1, 0.2}
       color = {0.9, 0.9, 1.0}
+    elseif fields.texture.value == "noon_cloudy_village" then
+      direction = {-0.3, -1, -0.1}
+      color = {0.95, 0.95, 1.0}
+      intensity = 3.0
     elseif fields.texture.value == "noon_cloudy_mountains" then
       direction = {0, -1, -0.5}
       color = {0.9, 0.9, 1.0}
@@ -84,7 +90,7 @@ PROTO TexturedBackgroundLight [
     ambientIntensity 1
     direction %{=direction[1]}% %{=direction[2]}% %{=direction[3]}%
     color %{=color[1]}% %{=color[2]}% %{=color[3]}%
-    intensity %{=intensity}%
+    intensity %{=luminosity * intensity}%
     %{ if on then }%
       on TRUE
     %{ else }%

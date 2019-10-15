@@ -579,7 +579,6 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_CONNECTOR "
                                      "WB_NODE_CONTACT_PROPERTIES "
                                      "WB_NODE_COORDINATE "
-                                     "WB_NODE_CUBEMAP "
                                      "WB_NODE_CYLINDER "
                                      "WB_NODE_DAMPING "
                                      "WB_NODE_FLUID "
@@ -655,7 +654,7 @@ static const char *API_CLASSES =
 
 static const char *WBT_OBJECTS =
   "Appearance Background BallJoint BallJointParameters Box "
-  "Capsule Charger Color Cone ContactProperties Coordinate Cubemap Cylinder Damping "
+  "Capsule Charger Color Cone ContactProperties Coordinate Cylinder Damping "
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Normal PBRAppearance Physics "

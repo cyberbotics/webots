@@ -15,6 +15,10 @@ var TextureLoader = {
     return new THREE.Texture();
   },
 
+  applyTextureTransform: function(texture, transformData) {
+    this._getInstance().applyTextureTransform(texture, transformData);
+  },
+
   createColoredCubeTexture: function(color, width = 1, height = 1) {
     // Create an off-screen canvas.
     var canvas = document.createElement('canvas');
@@ -77,14 +81,16 @@ var TextureLoader = {
 };
 
 class TextureData {
-  constructor(transparent, wrap, transform) {
+  constructor(transparent, wrap, anisotropy, transform) {
     this.transparent = transparent;
     this.wrap = wrap;
+    this.anisotropy = anisotropy;
     this.transform = transform;
   }
 
   equals(other) {
     return this.transparent === other.transparent &&
+           this.anisotropy === other.anisotropy &&
            JSON.stringify(this.wrap) === JSON.stringify(other.wrap) &&
            JSON.stringify(this.transform) === JSON.stringify(other.transform);
   }
@@ -128,31 +134,40 @@ class _TextureLoaderObject {
     };
     newTexture.wrapS = textureData.wrap.s === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
     newTexture.wrapT = textureData.wrap.t === 'true' ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+    newTexture.anisotropy = textureData.anisotropy;
 
-    if (typeof textureData.transform !== 'undefined') {
-      newTexture.matrixAutoUpdate = false;
-      newTexture.onUpdate = () => {
+    if (typeof textureData.transform !== 'undefined')
+      this.applyTextureTransform(newTexture, textureData.transform);
+    // This is the encoding used in Webots.
+    newTexture.encoding = THREE.sRGBEncoding;
+    return newTexture;
+  }
+
+  applyTextureTransform(texture, transformData) {
+    if (transformData !== 'undefined') {
+      texture.matrixAutoUpdate = false;
+      texture.onUpdate = () => {
         // X3D UV transform matrix differs from THREE.js default one
         // http://www.web3d.org/documents/specifications/19775-1/V3.2/Part01/components/texturing.html#TextureTransform
-        var c = Math.cos(-textureData.transform.rotation);
-        var s = Math.sin(-textureData.transform.rotation);
-        var sx = textureData.transform.scale.x;
-        var sy = textureData.transform.scale.y;
-        var cx = textureData.transform.center.x;
-        var cy = textureData.transform.center.y;
-        var tx = textureData.transform.translation.x;
-        var ty = textureData.transform.translation.y;
-        newTexture.matrix.set(
+        var c = Math.cos(-transformData.rotation);
+        var s = Math.sin(-transformData.rotation);
+        var sx = transformData.scale.x;
+        var sy = transformData.scale.y;
+        var cx = transformData.center.x;
+        var cy = transformData.center.y;
+        var tx = transformData.translation.x;
+        var ty = transformData.translation.y;
+        texture.matrix.set(
           sx * c, sx * s, sx * (tx * c + ty * s + cx * c + cy * s) - cx,
           -sy * s, sy * c, sy * (-tx * s + ty * c - cx * s + cy * c) - cy,
           0, 0, 1
         );
       };
-      newTexture.needsUpdate = true;
+    } else {
+      texture.matrixAutoUpdate = true;
+      texture.onUpdate = null;
     }
-    // This is the encoding used in Webots.
-    newTexture.encoding = THREE.sRGBEncoding;
-    return newTexture;
+    texture.needsUpdate = true;
   }
 
   loadOrRetrieveImage(name, texture, cubeTextureIndex = undefined, onLoad = undefined) {
@@ -198,19 +213,16 @@ class _TextureLoaderObject {
     // Load from url.
     var loader;
     var isHDR = hasHDRExtension(name);
-    if (isHDR)
+    if (isHDR) {
       loader = new THREE.RGBELoader();
-    else
+      loader.type = THREE.FloatType;
+    } else
       loader = new THREE.ImageLoader();
     loader.load(
       name,
       (data) => {
         if (this.loadingTextures[name]) {
-          if (isHDR)
-            // HDR loader returns a THREE.DataTexture object
-            this.loadingTextures[name].data = data.image;
-          else // data has Image type
-            this.loadingTextures[name].data = data;
+          this.loadingTextures[name].data = data;
           this._onImageLoaded(name);
         } // else image already loaded
       },
@@ -238,9 +250,13 @@ class _TextureLoaderObject {
         var missingImages = this.loadingCubeTextureObjects[textureObject];
         var indices = missingImages[name];
         indices.forEach((indice) => {
-          if (indice === 2 || indice === 3)
+          if (indice === 2 || indice === 3) {
             // Flip the top and bottom images of the cubemap to ensure a similar projection as the Webots one.
-            image.src = flipImage(image);
+            if (isHDR)
+              flipHDRImage(image.image);
+            else
+              flipRegularImage(image);
+          }
           textureObject.images[indice] = image;
         });
         delete missingImages[name];
@@ -307,7 +323,7 @@ class _TextureLoaderObject {
 
 // Inspired from: https://stackoverflow.com/questions/17040360/javascript-function-to-rotate-a-base-64-image-by-x-degrees-and-return-new-base64
 // Flip a base64 image by 180 degrees.
-function flipImage(base64Image) {
+function flipRegularImage(base64Image) {
   // Create an off-screen canvas.
   var offScreenCanvas = document.createElement('canvas');
   var context = offScreenCanvas.getContext('2d');
@@ -322,7 +338,21 @@ function flipImage(base64Image) {
   context.drawImage(base64Image, 0, 0);
 
   // Encode the image to data-uri with base64:
-  return offScreenCanvas.toDataURL('image/jpeg', 95);
+  base64Image.src = offScreenCanvas.toDataURL('image/jpeg', 95);
+}
+
+function flipHDRImage(image) {
+  let size = image.width * image.height;
+  let d = new Float32Array(3 * size);
+  let max = 3 * (size - 1);
+  let i = 0;
+  let c = 0;
+  for (i = 0; i < 3 * size; i += 3) {
+    let m = max - i;
+    for (c = 0; c < 3; c++)
+      d[i + c] = image.data[m + c];
+  }
+  image.data = d;
 }
 
 function hasJPEGExtension(name) {

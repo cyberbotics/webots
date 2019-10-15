@@ -1,4 +1,4 @@
-#VRML_SIM R2019b utf8
+#VRML_SIM R2020a utf8
 WorldInfo {
   info [
     "Sample of how the indoor objects can be placed"
@@ -11,9 +11,24 @@ Viewpoint {
   exposure 0.5
 }
 Background {
-  cubemap Cubemap {
-    textureBaseName "brown_floor"
-  }
+  backUrl [
+    "textures/cubic/brown_floor_back.hdr"
+  ]
+  bottomUrl [
+    "textures/cubic/brown_floor_bottom.hdr"
+  ]
+  frontUrl [
+    "textures/cubic/brown_floor_front.hdr"
+  ]
+  leftUrl [
+    "textures/cubic/brown_floor_left.hdr"
+  ]
+  rightUrl [
+    "textures/cubic/brown_floor_right.hdr"
+  ]
+  topUrl [
+    "textures/cubic/brown_floor_top.hdr"
+  ]
 }
 DEF FLOOR Solid {
   children [

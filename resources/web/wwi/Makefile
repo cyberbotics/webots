@@ -14,7 +14,10 @@
 
 JS_SOURCES = \
   shaders/hdr_resolve.js \
-  equirectangular_to_cube_generator.js \
+  shaders/bright_pass.js \
+  shaders/blend_bloom.js \
+  shaders/gaussian_blur_13_tap.js \
+  passes/bloom.js \
   gpu_picker.js \
   util.js \
   system_info.js \
@@ -41,10 +44,14 @@ JS_SOURCES = \
 BABEL_JS_SOURCES = \
   node_modules/@babel/polyfill/dist/polyfill.js
 
+ifneq ($(MAKECMDGOALS),debug)
+THREEJS_SUFFIX = .min
+endif
+
 DEPENDENCIES_PATH = dependencies
 THEEEJS_VERSION = 104
-THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three.min.js
-THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three.min.js
+THREEJS_SOURCE = $(DEPENDENCIES_PATH)/three$(THREEJS_SUFFIX).js
+THREEJS_URL = https://cdnjs.cloudflare.com/ajax/libs/three.js/$(THEEEJS_VERSION)/three$(THREEJS_SUFFIX).js
 
 # external sources to be downloaded and minified
 THREEJS_EXAMPLE_URL = https://cdn.jsdelivr.net/gh/mrdoob/three.js@r$(THEEEJS_VERSION)/examples/js/
@@ -68,17 +75,23 @@ NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
 release debug profile update:
+	@echo "# npm not found in PATH:" $(PATH)
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
-release debug profile update: webots.min.js
+release profile update: webots.min.js
+debug: webots.debug.js
 endif
 
 webots.min.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
 	@echo "# compressing webots.min.js"
-	node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
+	@node_modules/.bin/babel $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) -o webots.tmp1.js --presets "@babel/preset-env"
 	@cat $(THREEJS_SOURCE) webots.tmp1.js > webots.tmp2.js
-	@node_modules/.bin/minify webots.tmp2.js -o webots.min.js
+	@node_modules/.bin/minify webots.tmp2.js -o $@
 	@rm webots.tmp2.js webots.tmp1.js
+
+webots.debug.js: $(JS_SOURCES) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(THREEJS_SOURCE) $(INSTALL_TOKEN)
+	@echo "# creating webots.debug.js"
+	@cat $(THREEJS_SOURCE) $(LOCAL_THREEJS_EXAMPLE_SOURCES) $(JS_SOURCES) $(BABEL_JS_SOURCES) > $@
 
 $(THREEJS_SOURCE):
 	@echo "# downloading $(THREEJS_URL)"

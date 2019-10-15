@@ -1417,52 +1417,8 @@ void WbSceneTree::help() {
   if (!node && mSelectedItem->field())
     node = mSelectedItem->field()->parentNode();
   if (node) {
-    if (node->isProtoInstance()) {
-      if (WbNodeUtilities::isRobotTypeName(node->nodeModelName())) {
-        // check for robot doc
-        const QString name = node->modelName().toLower();
-        if (QFile::exists(WbStandardPaths::localDocPath() + "guide/" + name + ".md")) {
-          emit documentationRequest("guide", name, true);
-          return;
-        }
-      } else {
-        // check for object doc
-        const WbProtoModel *protoModel = node->proto();
-        const QString path = protoModel->projectPath();
-        const QDir objectsDir(WbStandardPaths::projectsPath() + "objects");
-        QDir dir(path);
-        QString name = dir.dirName().replace('_', '-');
-        while (!dir.isRoot()) {
-          if (dir == objectsDir) {
-            if (QFile::exists(WbStandardPaths::localDocPath() + "guide/object-" + name + ".md")) {
-              emit documentationRequest("guide", "object-" + name, true);
-              return;
-            }
-            break;
-          }
-          name = dir.dirName().replace('_', '-');
-          if (!dir.cdUp())
-            break;
-        }
-      }
-      const WbProtoModel *protoModel = node->proto();
-      const QString &documentationUrl = protoModel->documentationUrl();
-      if (!documentationUrl.isEmpty()) {
-        const QStringList splittedPath = documentationUrl.split("doc/");
-        if (splittedPath.size() == 2) {
-          const QString file = splittedPath[1].split('#')[0];
-          if (QFile::exists(WbStandardPaths::localDocPath() + file + ".md")) {
-            const QStringList bookAndPage = file.split('/');
-            QString page = bookAndPage[1];
-            if (splittedPath[1].contains('#'))
-              page += '#' + splittedPath[1].split('#')[1];
-            emit documentationRequest(bookAndPage[0], page, true);
-            return;
-          }
-        }
-      }
-    }
-    emit documentationRequest("reference", node->nodeModelName().toLower(), true);
+    const QStringList &bookAndPage = node->documentationBookAndPage(WbNodeUtilities::isRobotTypeName(node->nodeModelName()));
+    emit documentationRequest(bookAndPage[0], bookAndPage[1], true);
   }
 }
 

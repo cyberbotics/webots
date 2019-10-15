@@ -20,7 +20,7 @@ THREE.X3DLoader = class X3DLoader {
     });
   }
 
-  parse(text) {
+  parse(text, parentObject = undefined) {
     this.directionalLights = [];
     var object;
 
@@ -49,10 +49,18 @@ THREE.X3DLoader = class X3DLoader {
 
     // Parse objects.
     var rootObjects = [];
-    xml.childNodes.forEach((n) => { rootObjects.push(n); });
+    xml.childNodes.forEach((n) => {
+      if (n.tagName === 'nodes')
+        n.childNodes.forEach((child) => { rootObjects.push(child); });
+      else
+        rootObjects.push(n);
+    });
     while (rootObjects.length > 0) {
-      var node = rootObjects.pop();
-      object = new THREE.Group();
+      var node = rootObjects.shift(); // get and remove first item
+      if (parentObject)
+        object = parentObject;
+      else
+        object = new THREE.Group();
       this.parsedObjects.push(object); // push before parsing
       this.parseNode(object, node);
     }
@@ -82,11 +90,11 @@ THREE.X3DLoader = class X3DLoader {
     else if (node.tagName === 'SpotLight')
       object = this.parseSpotLight(node, helperNodes);
     else if (node.tagName === 'Group') {
-      object = new THREE.Group();
+      object = new THREE.Object3D();
       object.userData.x3dType = 'Group';
       hasChildren = true;
     } else if (node.tagName === 'Switch') {
-      object = new THREE.Group();
+      object = new THREE.Object3D();
       object.visible = getNodeAttribute(node, 'whichChoice', '-1') !== '-1';
       object.userData.x3dType = 'Switch';
       hasChildren = true;
@@ -99,17 +107,50 @@ THREE.X3DLoader = class X3DLoader {
     else if (node.tagName === 'WorldInfo') {
       this.parseWorldInfo(node);
       return;
-    } else {
-      this.parseChildren(node, parentObject);
-      return;
+    } else if (node.tagName === 'Appearance') {
+      if (!parentObject.isMesh) {
+        console.error("X3DLoader:parsenode: cannot add 'Appearance' node to '" + parentObject.userData.x3dType + "' parent node.");
+        return;
+      }
+      let material = this.parseAppearance(node);
+      if (typeof material !== 'undefined')
+        parentObject.material = material;
+    } else if (node.tagName === 'PBRAppearance') {
+      if (!parentObject.isMesh) {
+        console.error("X3DLoader:parsenode: cannot add 'Appearance' node to '" + parentObject.userData.x3dType + "' parent node.");
+        return;
+      }
+      let material = this.parsePBRAppearance(node);
+      if (typeof material !== 'undefined')
+        parentObject.material = material;
+    } else if (node.tagName === 'TextureTransform')
+      X3DLoader.applyTextureTransformToMaterial(parentObject, this.parseTextureTransform(node));
+    else {
+      let geometry = this.parseGeometry(node);
+      if (typeof geometry !== 'undefined') {
+        if (!parentObject.isMesh) {
+          console.error("X3DLoader:parsenode: cannot add 'Appearance' node to '" + parentObject.userData.x3dType + "' parent node.");
+          return;
+        }
+        parentObject.geometry = geometry;
+      } else {
+        // generic node type
+        this.parseChildren(node, parentObject);
+        return;
+      }
     }
 
     if (typeof object !== 'undefined') {
-      var isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
-      if (isInvisible && object.visible)
-        object.visible = false;
-      this._setCustomId(node, object);
-      parentObject.add(object);
+      if (object.isObject3D) {
+        let isInvisible = getNodeAttribute(node, 'render', 'true').toLowerCase() === 'false';
+        if (isInvisible && object.visible)
+          object.visible = false;
+        this._setCustomId(node, object);
+        parentObject.add(object);
+      }
+      let docUrl = getNodeAttribute(node, 'docUrl', '');
+      if (docUrl)
+        object.userData.docUrl = docUrl;
     }
 
     if (helperNodes.length > 0) {
@@ -183,41 +224,17 @@ THREE.X3DLoader = class X3DLoader {
           }
           if (pbrAppearanceChild)
             continue;
-          else
-            material = this.parseAppearance(child);
+          material = this.parseAppearance(child);
         } else if (child.tagName === 'PBRAppearance')
           material = this.parsePBRAppearance(child);
-
-        if (typeof material !== 'undefined') {
-          this._setCustomId(child, material);
+        if (typeof material !== 'undefined')
           continue;
-        }
       }
 
       if (typeof geometry === 'undefined') {
-        if (child.tagName === 'Box')
-          geometry = this.parseBox(child);
-        else if (child.tagName === 'Cone')
-          geometry = this.parseCone(child);
-        else if (child.tagName === 'Cylinder')
-          geometry = this.parseCylinder(child);
-        else if (child.tagName === 'IndexedFaceSet')
-          geometry = this.parseIndexedFaceSet(child);
-        else if (child.tagName === 'Sphere')
-          geometry = this.parseSphere(child);
-        else if (child.tagName === 'Plane')
-          geometry = this.parsePlane(child);
-        else if (child.tagName === 'ElevationGrid')
-          geometry = this.parseElevationGrid(child);
-        else if (child.tagName === 'IndexedLineSet')
-          geometry = this.parseIndexedLineSet(child);
-        else if (child.tagName === 'PointSet')
-          geometry = this.parsePointSet(child);
-
-        if (typeof geometry !== 'undefined') {
-          this._setCustomId(child, geometry);
+        geometry = this.parseGeometry(child);
+        if (typeof geometry !== 'undefined')
           continue;
-        }
       }
 
       console.log('X3dLoader: Unknown node: ' + child.tagName);
@@ -244,6 +261,32 @@ THREE.X3DLoader = class X3DLoader {
     mesh.receiveShadow = true;
     mesh.userData.isPickable = getNodeAttribute(shape, 'isPickable', 'true').toLowerCase() === 'true';
     return mesh;
+  }
+
+  parseGeometry(node) {
+    var geometry;
+    if (node.tagName === 'Box')
+      geometry = this.parseBox(node);
+    else if (node.tagName === 'Cone')
+      geometry = this.parseCone(node);
+    else if (node.tagName === 'Cylinder')
+      geometry = this.parseCylinder(node);
+    else if (node.tagName === 'IndexedFaceSet')
+      geometry = this.parseIndexedFaceSet(node);
+    else if (node.tagName === 'Sphere')
+      geometry = this.parseSphere(node);
+    else if (node.tagName === 'Plane')
+      geometry = this.parsePlane(node);
+    else if (node.tagName === 'ElevationGrid')
+      geometry = this.parseElevationGrid(node);
+    else if (node.tagName === 'IndexedLineSet')
+      geometry = this.parseIndexedLineSet(node);
+    else if (node.tagName === 'PointSet')
+      geometry = this.parsePointSet(node);
+
+    if (typeof geometry !== 'undefined')
+      this._setCustomId(node, geometry);
+    return geometry;
   }
 
   parseAppearance(appearance) {
@@ -294,7 +337,7 @@ THREE.X3DLoader = class X3DLoader {
     mat.userData.hasTransparentTexture = colorMap && colorMap.userData.isTransparent;
     if (typeof material !== 'undefined')
       this._setCustomId(material, mat);
-
+    this._setCustomId(appearance, mat);
     return mat;
   }
 
@@ -354,7 +397,7 @@ THREE.X3DLoader = class X3DLoader {
     if (isTransparent)
       mat.transparent = true;
     mat.userData.hasTransparentTexture = materialSpecifications.map && materialSpecifications.map.userData.isTransparent;
-
+    this._setCustomId(pbrAppearance, mat);
     return mat;
   }
 
@@ -374,27 +417,40 @@ THREE.X3DLoader = class X3DLoader {
       var defTexture = this._getDefNode(textureTransform[0]);
       if (typeof defTexture !== 'undefined')
         transformData = defTexture.userData.transform;
-      else {
-        transformData = {
-          'center': convertStringToVec2(getNodeAttribute(textureTransform[0], 'center', '0 0')),
-          'rotation': parseFloat(getNodeAttribute(textureTransform[0], 'rotation', '0')),
-          'scale': convertStringToVec2(getNodeAttribute(textureTransform[0], 'scale', '1 1')),
-          'translation': convertStringToVec2(getNodeAttribute(textureTransform[0], 'translation', '0 0'))
-        };
-      }
+      else
+        transformData = this.parseTextureTransform(textureTransform[0]);
     }
+
+    // Map ImageTexture.TextureProperties.anisotropicDegree to THREE.Texture.anisotropy.
+    let anisotropy = 8; // matches with the default value: `ImageTexture.filtering = 4`
+    let textureProperties = imageTexture.getElementsByTagName('TextureProperties');
+    if (textureProperties.length > 0)
+      anisotropy = parseFloat(getNodeAttribute(textureProperties[0], 'anisotropicDegree', '8'));
 
     texture = TextureLoader.createOrRetrieveTexture(filename[0], new TextureData(
       getNodeAttribute(imageTexture, 'isTransparent', 'false').toLowerCase() === 'true',
       { 's': getNodeAttribute(imageTexture, 'repeatS', 'true').toLowerCase(),
         't': getNodeAttribute(imageTexture, 'repeatT', 'true').toLowerCase() },
+      anisotropy,
       transformData
     ));
 
-    if (typeof textureTransform !== 'undefined')
+    if (textureTransform && textureTransform[0])
       this._setCustomId(textureTransform[0], texture);
     this._setCustomId(imageTexture, texture);
     return texture;
+  }
+
+  parseTextureTransform(textureTransform, textureObject = undefined) {
+    var transformData = {
+      'center': convertStringToVec2(getNodeAttribute(textureTransform, 'center', '0 0')),
+      'rotation': parseFloat(getNodeAttribute(textureTransform, 'rotation', '0')),
+      'scale': convertStringToVec2(getNodeAttribute(textureTransform, 'scale', '1 1')),
+      'translation': convertStringToVec2(getNodeAttribute(textureTransform, 'translation', '0 0'))
+    };
+    if (typeof textureObject !== 'undefined' && textureObject.isTexture)
+      TextureLoader.applyTextureTransform(textureObject, transformData);
+    return transformData;
   }
 
   parseIndexedFaceSet(ifs) {
@@ -894,52 +950,50 @@ THREE.X3DLoader = class X3DLoader {
     var color = convertStringToColor(getNodeAttribute(background, 'skyColor', '0 0 0'));
     this.scene.scene.background = color;
 
-    var hdrCubeMapUrl = getNodeAttribute(background, 'hdrUrl', undefined);
     var cubeTextureEnabled = false;
-    var isHDR = typeof hdrCubeMapUrl !== 'undefined';
-    if (isHDR) {
-      // Load HDR equirectangular map
-      TextureLoader.loadOrRetrieveImage(hdrCubeMapUrl, undefined, undefined, (texture) => {
-        this.scene.applyEquirectangularBackground(texture);
-      });
-      cubeTextureEnabled = true;
-    } else {
-      var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
-      var urls = [];
-      for (let i = 0; i < 6; i++) {
-        let url = getNodeAttribute(background, attributeNames[i], undefined);
-        if (typeof url !== 'undefined') {
-          cubeTextureEnabled = true;
-          url = url.split(/['"\s]/).filter((n) => { return n; })[0];
-        }
-        urls.push(url);
+
+    var attributeNames = ['leftUrl', 'rightUrl', 'topUrl', 'bottomUrl', 'backUrl', 'frontUrl'];
+    var urls = [];
+    for (let i = 0; i < 6; i++) {
+      let url = getNodeAttribute(background, attributeNames[i], undefined);
+      if (typeof url !== 'undefined') {
+        cubeTextureEnabled = true;
+        url = url.split(/['"\s]/).filter((n) => { return n; })[0];
+      }
+      urls.push(url);
+    }
+
+    if (cubeTextureEnabled) {
+      let cubeTexture = new THREE.CubeTexture();
+      if (urls.length > 0 && urls[0].endsWith('.hdr')) {
+        cubeTexture.format = THREE.RGBFormat;
+        cubeTexture.type = THREE.FloatType;
       }
 
-      if (cubeTextureEnabled) {
-        let cubeTexture = new THREE.CubeTexture();
-        let missing = 0;
-        for (let i = 0; i < 6; i++) {
-          if (typeof urls[i] === 'undefined')
-            continue;
-          // Look for already loaded texture or load the texture in an asynchronous way.
-          missing++;
-          let image = TextureLoader.loadOrRetrieveImage(urls[i], cubeTexture, i);
-          if (typeof image !== 'undefined') {
-            cubeTexture.images[i] = image;
-            missing--;
-          }
+      let missing = 0;
+      for (let i = 0; i < 6; i++) {
+        if (typeof urls[i] === 'undefined')
+          continue;
+        // Look for already loaded texture or load the texture in an asynchronous way.
+        missing++;
+        let image = TextureLoader.loadOrRetrieveImage(urls[i], cubeTexture, i);
+        if (typeof image !== 'undefined') {
+          cubeTexture.images[i] = image;
+          missing--;
         }
-        this.scene.scene.background = cubeTexture;
-        if (missing === 0)
-          cubeTexture.needsUpdate = true;
       }
+      this.scene.scene.background = cubeTexture;
+      if (missing === 0)
+        cubeTexture.needsUpdate = true;
     }
 
     if (cubeTextureEnabled) {
       // Light offset: empirically found to match the Webots rendering.
-      var ambientLight = new THREE.AmbientLight(isHDR ? 0x333333 : 0xffffff);
+      var ambientLight = new THREE.AmbientLight(0xffffff);
       this.scene.scene.add(ambientLight);
     }
+
+    this.scene.scene.userData.luminosity = parseFloat(getNodeAttribute(background, 'luminosity', '1.0'));
 
     return undefined;
   }
@@ -1033,6 +1087,18 @@ THREE.X3DLoader = class X3DLoader {
     if (typeof defNode === 'undefined')
       console.error('X3dLoader: no matching DEF node "' + useNodeId + '" node.');
     return defNode;
+  }
+
+  static applyTextureTransformToMaterial(material, textureTransform) {
+    if (typeof material === 'undefined' || !material.isMaterial) {
+      console.error('X3DLoader:parseTextureTransform: invalid parent object.');
+      return;
+    }
+    var maps = [material.map, material.roughnessMap, material.metalnessMap, material.normalMap, material.emissiveMap, material.aoMap];
+    maps.forEach((map) => {
+      if (map && map.isTexture)
+        TextureLoader.applyTextureTransform(map, textureTransform);
+    });
   }
 };
 

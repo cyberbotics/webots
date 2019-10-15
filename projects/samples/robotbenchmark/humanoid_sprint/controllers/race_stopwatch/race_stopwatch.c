@@ -116,9 +116,14 @@ int main(int argc, char *argv[]) {
       run = 0;
     }
     const char *message = wb_robot_wwi_receive_text();
-    if (message && strncmp(message, "record:", 7) == 0)
-      // because the smallest record is the best, we send a negative value here
-      robotbenchmark_record(message, "humanoid_sprint", -record);
+    if (message) {
+      if (strncmp(message, "record:", 7) == 0) {
+        // because the smallest record is the best, we send a negative value here
+        robotbenchmark_record(message, "humanoid_sprint", -record);
+        wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
+      } else if (strcmp(message, "exit") == 0)
+        wb_supervisor_simulation_set_mode(WB_SUPERVISOR_SIMULATION_MODE_PAUSE);
+    }
   } while (wb_robot_step(time_step) != -1);
   wb_robot_cleanup();
   return 0;
