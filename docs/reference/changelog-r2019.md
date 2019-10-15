@@ -8,6 +8,8 @@ Released on ???
     - Device names are displayed in the scene tree next to the node name.
   - Dependency Updates
     - Windows: upgraded to Qt 5.13.1.
+  - Bug fixes
+    - Fix `simulation_server.py` script to work with Python3.
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.
