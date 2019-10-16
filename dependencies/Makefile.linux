@@ -47,7 +47,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@echo "# downloading $(QT_PACKAGE)"
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-  @echo "e004cc3d47fd359131fb931303214c9d  $(QT_PACKAGE)" > $(QT_PACKAGE).md5
+  @echo "3caacb0bb6482002cd4565102e8f27b7  $(QT_PACKAGE)" > $(QT_PACKAGE).md5
 	@md5sum -c --status $(QT_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@rm $(QT_PACKAGE).md5
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
@@ -107,7 +107,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
   @echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-  @echo "06888b7c92bd160b402268f47fb5e850  $(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
+  @echo "d1482733dce06f6dcc1c062c5c314185  $(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
 	@md5sum -c --status $(OIS_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@rm $(OIS_PACKAGE).md5
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
@@ -126,7 +126,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
   @echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-  @echo "be91bf0479f160d2e7ca3f737eebc29b  $(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
+  @echo "2a05b1e86e88a43756a754a69e82a20f  $(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
 	@md5sum -c --status $(PICO_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@rm $(PICO_PACKAGE).md5
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
