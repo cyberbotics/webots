@@ -278,8 +278,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
   // row 5
   layout->addWidget(new QLabel(tr("Python command:"), this), 5, 0);
-#ifdef __linux__
-  if (qgetenv("SNAP_NAME") == "webots") {
+  if (WbSysInfo::isSnap()) {
     QLabel *label = new QLabel(
       tr("built-in python (snap), see <a href=\"https://cyberbotics.com/doc/guide/running-extern-robot-controllers\">extern "
          "controllers</a> for alternatives."),
@@ -288,7 +287,6 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
     connect(label, &QLabel::linkActivated, &WbDesktopServices::openUrl);
     mPythonCommand = NULL;
   } else
-#endif
     layout->addWidget(mPythonCommand = new WbLineEdit(this), 5, 1);
   // row 6
   layout->addWidget(new QLabel(tr("Extra projects path:"), this), 6, 0);
