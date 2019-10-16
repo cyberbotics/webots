@@ -44,9 +44,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "6344f08a792f78c6198730a0b6073fa3  $(QT_PACKAGE)" > $(QT_PACKAGE).md5
-	@md5sum -c --status $(QT_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
-	@rm $(QT_PACKAGE).md5
+	@if [ "6344f08a792f78c6198730a0b6073fa3" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -62,9 +60,7 @@ $(WEBOTS_DEPENDENCY_PATH)/assimp:
 	@echo "# downloading $(ASSIMP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "669b02481e4409cbdf1a5d3c94aecff9  $(ASSIMP_PACKAGE)" > $(ASSIMP_PACKAGE).md5
-	@md5sum -c --status $(ASSIMP_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
-	@rm $(ASSIMP_PACKAGE).md5
+	@if [ "669b02481e4409cbdf1a5d3c94aecff9" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
 	@tar xfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
@@ -79,9 +75,7 @@ $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
 	@echo "# downloading $(FREETYPE_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "44e72be43f677dedd0c547cb9a029178  $(FREETYPE_PACKAGE)" > $(FREETYPE_PACKAGE).md5
-	@md5sum -c --status $(FREETYPE_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(FREETYPE_PACKAGE)"; exit 1; fi
-	@rm $(FREETYPE_PACKAGE).md5
+	@if [ "44e72be43f677dedd0c547cb9a029178" != `md5 -q $(FREETYPE_PACKAGE)` ]; then echo "MD5 checksum failed for $(FREETYPE_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(FREETYPE_PACKAGE)"
 	@tar xfm $(FREETYPE_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
@@ -100,9 +94,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
 	@echo "# downloading $(FFMPEG_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "258df72f03ef92526dab46ca0fede187  $(FFMPEG_PACKAGE)" > $(FFMPEG_PACKAGE).md5
-	@md5sum -c --status $(FFMPEG_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(FFMPEG_PACKAGE)"; exit 1; fi
-	@rm $(FFMPEG_PACKAGE).md5
+	@if [ "258df72f03ef92526dab46ca0fede187" != `md5 -q $(FFMPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(FFMPEG_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 
 
@@ -120,9 +112,7 @@ $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b:
 	@echo "# downloading $(JPEG_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(JPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "c210af14f1aaa5797956298894d59507  $(JPEG_PACKAGE)" > $(JPEG_PACKAGE).md5
-	@md5sum -c --status $(JPEG_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(JPEG_PACKAGE)"; exit 1; fi
-	@rm $(JPEG_PACKAGE).md5
+	@if [ "c210af14f1aaa5797956298894d59507" != `md5 -q $(JPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(JPEG_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(JPEG_PACKAGE)"
 	@tar xfm $(JPEG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
@@ -141,9 +131,7 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@echo "# downloading $(LUA_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "cf55c9efdf835998a7b22c916ece1854  $(LUA_PACKAGE)" > $(LUA_PACKAGE).md5
-	@md5sum -c --status $(LUA_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@rm $(LUA_PACKAGE).md5
+	@if [ "cf55c9efdf835998a7b22c916ece1854" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(LUA_PACKAGE)"
 	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
@@ -162,9 +150,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "745929d98829f1bddf0d47ddadb6fd0a  $(LUA_GD_PACKAGE)" > $(LUA_GD_PACKAGE).md5
-	@md5sum -c --status $(LUA_GD_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@rm $(LUA_GD_PACKAGE).md5
+	@if [ "745929d98829f1bddf0d47ddadb6fd0a" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
@@ -177,9 +163,7 @@ $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
 	@echo "# downloading $(MINIGLU_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(MINIGLU_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "504316e92609b37c8b749025e1dcf481  $(MINIGLU_PACKAGE)" > $(MINIGLU_PACKAGE).md5
-	@md5sum -c --status $(MINIGLU_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(MINIGLU_PACKAGE)"; exit 1; fi
-	@rm $(MINIGLU_PACKAGE).md5
+	@if [ "504316e92609b37c8b749025e1dcf481" != `md5 -q $(MINIGLU_PACKAGE)` ]; then echo "MD5 checksum failed for $(MINIGLU_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(MINIGLU_PACKAGE)"
 	@tar xfm $(MINIGLU_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
@@ -198,9 +182,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "2f3963da739fdba15f183e056b4aa85a  $(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
-	@md5sum -c --status $(OIS_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
-	@rm $(OIS_PACKAGE).md5
+	@if [ "2f3963da739fdba15f183e056b4aa85a" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 
@@ -218,9 +200,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openal:
 	@echo "# downloading $(OPENAL_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "4604766ee64f01c596e12445b2e20f96  $(OPENAL_PACKAGE)" > $(OPENAL_PACKAGE).md5
-	@md5sum -c --status $(OPENAL_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
-	@rm $(OPENAL_PACKAGE).md5
+	@if [ "4604766ee64f01c596e12445b2e20f96" != `md5 -q $(OPENAL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(OPENAL_PACKAGE)"
 	@tar xfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
@@ -239,9 +219,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE):
 	@echo "# downloading $(OPENCV_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "a17da7ccec8ab70ee2a20dab0a575e78  $(OPENCV_PACKAGE)" > $(OPENCV_PACKAGE).md5
-	@md5sum -c --status $(OPENCV_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
-	@rm $(OPENCV_PACKAGE).md5
+	@if [ "a17da7ccec8ab70ee2a20dab0a575e78" != `md5 -q $(OPENCV_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
@@ -264,9 +242,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
 	@cd $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "1ec23830cd8f32f10c83f0e0eb027032  $(OPENSSL_PACKAGE)" > $(OPENSSL_PACKAGE).md5
-	@md5sum -c --status $(OPENSSL_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
-	@rm $(OPENSSL_PACKAGE).md5
+	@if [ "1ec23830cd8f32f10c83f0e0eb027032" != `md5 -q $(OPENSSL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(OPENSSL_PACKAGE)"
 	@tar xfm $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
@@ -285,9 +261,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "ebde4a56e12b21cc2adb7a3f56ec1999  $(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
-	@md5sum -c --status $(PICO_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
-	@rm $(PICO_PACKAGE).md5
+	@if [ "ebde4a56e12b21cc2adb7a3f56ec1999" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 
@@ -304,9 +278,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE):
 	@echo "# downloading $(PNG_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(PNG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "0caa0cfb7d735b4a098635c808b1da4c  $(PNG_PACKAGE)" > $(PNG_PACKAGE).md5
-	@md5sum -c --status $(PNG_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PNG_PACKAGE)"; exit 1; fi
-	@rm $(PNG_PACKAGE).md5
+	@if [ "0caa0cfb7d735b4a098635c808b1da4c" != `md5 -q $(PNG_PACKAGE)` ]; then echo "MD5 checksum failed for $(PNG_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 
 
@@ -323,9 +295,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
 	@echo "# downloading $(SSH_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(SSH_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "aa79f5bb1ee6ce12fb47db0c85d736c6  $(SSH_PACKAGE)" > $(SSH_PACKAGE).md5
-	@md5sum -c --status $(SSH_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(SSH_PACKAGE)"; exit 1; fi
-	@rm $(SSH_PACKAGE).md5
+	@if [ "aa79f5bb1ee6ce12fb47db0c85d736c6" != `md5 -q $(SSH_PACKAGE)` ]; then echo "MD5 checksum failed for $(SSH_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 
 
@@ -342,9 +312,7 @@ $(WEBOTS_DEPENDENCY_PATH)/libtiff:
 	@echo "# downloading $(TIFF_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "c660e3d9b9e72ee8252f884282551cd2  $(TIFF_PACKAGE)" > $(TIFF_PACKAGE).md5
-	@md5sum -c --status $(TIFF_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(TIFF_PACKAGE)"; exit 1; fi
-	@rm $(TIFF_PACKAGE).md5
+	@if [ "c660e3d9b9e72ee8252f884282551cd2" != `md5 -q $(TIFF_PACKAGE)` ]; then echo "MD5 checksum failed for $(TIFF_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(TIFF_PACKAGE)"
 	@tar xfm $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
@@ -363,7 +331,5 @@ $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE):
 	@echo "# downloading $(ZIP_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL)/$(ZIP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@echo "4b9dd2d465b76b179443241bf5ec9d3e  $(ZIP_PACKAGE)" > $(ZIP_PACKAGE).md5
-	@md5sum -c --status $(ZIP_PACKAGE).md5 ; if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(ZIP_PACKAGE)"; exit 1; fi
-	@rm $(ZIP_PACKAGE).md5
+	@if [ "4b9dd2d465b76b179443241bf5ec9d3e" != `md5 -q $(ZIP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ZIP_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
