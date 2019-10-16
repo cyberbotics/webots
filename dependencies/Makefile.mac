@@ -50,7 +50,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "6344f08a792f78c6198730a0b6073fa3" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "0b1e5f6cccd83dbb3c1f497121e43505" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
@@ -157,7 +157,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
 	@echo "# downloading $(LUA_GD_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "745929d98829f1bddf0d47ddadb6fd0a" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
+	@if [ "a48b974d568b07d8f8a9317ccd650268" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
@@ -189,7 +189,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "2f3963da739fdba15f183e056b4aa85a" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
+	@if [ "3efd7b991bd121230dd58c2448c2e9f2" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 
@@ -226,7 +226,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE):
 	@echo "# downloading $(OPENCV_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 	@wget $(DEPENDENCIES_URL_DEVELOP)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "a17da7ccec8ab70ee2a20dab0a575e78" != `md5 -q $(OPENCV_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
+	@if [ "796fbb181fd922d42e6ed0ddb2e132ca" != `md5 -q $(OPENCV_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
@@ -268,7 +268,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@echo "# downloading $(PICO_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "ebde4a56e12b21cc2adb7a3f56ec1999" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@if [ "7b357ddff59913c725b3c592375f7443" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 
