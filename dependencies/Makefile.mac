@@ -183,7 +183,7 @@ ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 	@echo "# uncompressing $(OIS_PACKAGE)"
-	@tar xvjfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
+	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
 	@echo "# downloading $(OIS_PACKAGE)"
