@@ -9,7 +9,8 @@ Released on ???
   - Dependency Updates
     - Windows: upgraded to Qt 5.13.1.
   - Bug fixes
-    - Fix `simulation_server.py` script to work with Python3.
+    - Fixed `simulation_server.py` script to work with Python3.
+    - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.

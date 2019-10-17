@@ -29,6 +29,9 @@ namespace WbSysInfo {
 #ifdef __linux__
   const QString &linuxCpuModelName();
   bool isRootUser();
+  inline bool isSnap() { return qgetenv("SNAP_NAME") == "webots"; }
+#else
+  inline bool isSnap() { return false; }
 #endif
   QString environmentVariable(const QString &name);
   void setEnvironmentVariable(const QString &name, const QString &value);
