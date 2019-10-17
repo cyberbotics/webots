@@ -19,15 +19,21 @@ TARGET_PATH = $(subst $(space),\ ,$(WEBOTS_HOME_PATH)/msys64/mingw64/bin)
 
 .PHONY: release debug distrib profile clean cleanse msys64 $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib profile: msys64 $(PACKAGES)
+release debug distrib profile: ../.clang-format msys64 $(PACKAGES)
 
 clean:
 
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f $(TARGET_PATH)/zlib1.dll
 	@rm -f $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest
+	@rm ../.clang-format
 
 .ONESHELL:
+
+../.clang-format:
+	@echo "# copying clang-format configuration file"
+	cp .clang-format-9 $@
+
 msys64: $(TARGET_PATH) \
 	$(TARGET_PATH)/zlib1.dll \
 	$(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest \
