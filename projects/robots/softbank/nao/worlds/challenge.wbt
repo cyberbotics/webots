@@ -29,22 +29,22 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "textures/cubic/brown_floor_back.hdr"
+    "textures/cubic/brown_floor_back.png"
   ]
   bottomUrl [
-    "textures/cubic/brown_floor_bottom.hdr"
+    "textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/brown_floor_front.hdr"
+    "textures/cubic/brown_floor_front.png"
   ]
   leftUrl [
-    "textures/cubic/brown_floor_left.hdr"
+    "textures/cubic/brown_floor_left.png"
   ]
   rightUrl [
-    "textures/cubic/brown_floor_right.hdr"
+    "textures/cubic/brown_floor_right.png"
   ]
   topUrl [
-    "textures/cubic/brown_floor_top.hdr"
+    "textures/cubic/brown_floor_top.png"
   ]
 }
 CeilingLight {
