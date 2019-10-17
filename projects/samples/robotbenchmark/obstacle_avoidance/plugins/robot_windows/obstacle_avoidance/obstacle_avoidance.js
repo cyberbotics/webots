@@ -1,6 +1,7 @@
+/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 $('#infotabs').tabs();
 
-var benchmarkName = "Obstacle Avoidance";
+var benchmarkName = 'Obstacle Avoidance';
 var timeString;
 var roomCrossingTime;
 
@@ -9,20 +10,15 @@ webots.window('obstacle_avoidance').receive = function(message, robot) {
     roomCrossingTime = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(roomCrossingTime);
     $('#time-display').html(timeString);
-
-  } else if (message == 'stop') {
-    if (typeof sendBenchmarkRecord === "undefined" || !sendBenchmarkRecord(robot, this, benchmarkName, -roomCrossingTime, metricToString)) {
-      $('#time-display').css('color','red');
-    }
-
+  } else if (message === 'stop') {
+    if (typeof sendBenchmarkRecord === 'undefined' || !sendBenchmarkRecord(robot, this, benchmarkName, -roomCrossingTime, metricToString))
+      $('#time-display').css('color', 'red');
   } else if (message.startsWith('record:OK:')) {
-    $('#time-display').css('font-weight','bold');
+    $('#time-display').css('font-weight', 'bold');
     showBenchmarkRecord(message, benchmarkName, metricToString);
-
   } else if (message.startsWith('record:Error:')) {
-    $('#time-display').css('color','red');
+    $('#time-display').css('color', 'red');
     showBenchmarkError(message, benchmarkName);
-
   } else
     console.log("Received unknown message for robot '" + robot + "': '" + message + "'");
 
@@ -30,12 +26,10 @@ webots.window('obstacle_avoidance').receive = function(message, robot) {
     return parseSecondsIntoReadableTime(-parseFloat(s));
   }
 
-  function parseSecondsIntoReadableTime(s) {
-    var hours = s / 3600;
-    var absoluteHours = Math.floor(hours);
-    var minutes = (hours - absoluteHours) * 60;
+  function parseSecondsIntoReadableTime(timeInSeconds) {
+    var minutes = timeInSeconds / 60;
     var absoluteMinutes = Math.floor(minutes);
-    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
     var seconds = (minutes - absoluteMinutes) * 60;
     var absoluteSeconds = Math.floor(seconds);
     var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
@@ -44,4 +38,4 @@ webots.window('obstacle_avoidance').receive = function(message, robot) {
       cs = '0' + cs;
     return m + ':' + s + ':' + cs;
   }
-}
+};

@@ -37,7 +37,6 @@ DEF GREEN_BOX Solid {
   name "green box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 0
       metalness 0
     }
     geometry USE BOX0
@@ -61,7 +60,6 @@ DEF BLUE_BOX Solid {
   name "blue box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 0
       metalness 0
     }
     geometry USE BOX1
@@ -85,7 +83,6 @@ DEF WHITE_BOX Solid {
   name "gray box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 0
       metalness 0
     }
     geometry USE BOX2
@@ -109,7 +106,6 @@ DEF RED_BOX Solid {
   name "red box"
   boundingObject Shape {
     appearance PBRAppearance {
-      roughness 0
       metalness 0
     }
     geometry USE BOX3

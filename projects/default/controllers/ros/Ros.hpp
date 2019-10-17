@@ -59,6 +59,7 @@ protected:
 
 private:
   void fixName();
+  void publishClockIfNeeded();
   bool timeStepCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
   bool waitForUserInputEventCallback(webots_ros::robot_wait_for_user_input_event::Request &req,
                                      webots_ros::robot_wait_for_user_input_event::Response &res);

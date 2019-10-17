@@ -72,9 +72,10 @@ static char bundle_name[32];
 static char application_name_lowercase_and_dashes[32];
 static char distribution_path[256];
 
-#define ISS 1  // Windows Inno Setup file format                           -> webots*.iss
-#define MAC 2  // macOS shell script to create dmg file                    -> webots*.mac
-#define DEB 3  // Linux shell script to create a deb and a tarball package -> webots*.deb
+#define ISS 1   // Windows Inno Setup file format                           -> webots*.iss
+#define MAC 2   // macOS shell script to create dmg file                    -> webots*.mac
+#define DEB 3   // Linux shell script to create a deb and a tarball package -> webots.deb
+#define SNAP 4  // Linux shell script to create a snap package              -> webots.snap
 
 // ORable flags for file type defined in files.txt [linux,mac,windows,exe,dll,sig]
 #define TYPE_LINUX 1
@@ -231,10 +232,14 @@ static void copy_file(const char *file) {
       break;
 #ifndef _WIN32
     case MAC:
-      fprintf(fd, "cp $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s \"%s/%s/%s/\"\n", protected_filename2, distribution_path, bundle_name, dest2);
       break;
     case DEB:
-      fprintf(fd, "cp $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s %s/debian/usr/local/%s/%s\n", protected_filename2, distribution_path,
+              application_name_lowercase_and_dashes, dest2);
+      break;
+    case SNAP:
+      fprintf(fd, "cp -a $WEBOTS_HOME/%s $DESTDIR/usr/share/%s/%s\n", protected_filename2,
               application_name_lowercase_and_dashes, dest2);
       break;
 #endif
@@ -295,6 +300,8 @@ static void make_dir(const char *directory) {
     case DEB:
       fprintf(fd, "mkdir %s/debian/usr/local/%s/%s\n", distribution_path, application_name_lowercase_and_dashes, directory);
       break;
+    case SNAP:
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s/%s\n", application_name_lowercase_and_dashes, directory);
     default:
       break;
   }
@@ -416,6 +423,9 @@ static void create_file(const char *name, int m) {
     case DEB:
       snprintf(filename, 256, "%s.deb", application_name_lowercase_and_dashes);
       break;
+    case SNAP:
+      snprintf(filename, 256, "%s.snap", application_name_lowercase_and_dashes);
+      break;
     default:
       break;
   }
@@ -494,7 +504,7 @@ static void create_file(const char *name, int m) {
       break;
     case DEB:
       fprintf(fd, "#!/bin/bash\n");
-      fprintf(fd, "# run this script to install %s in \"$HOME/develop/%s\"\n\n", application_name,
+      fprintf(fd, "# run this auto-generated script to install %s in \"$HOME/develop/%s\"\n\n", application_name,
               application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf %s/debian # cleanup\n", distribution_path);
       fprintf(fd, "rm -f %s/%s-%s_*.deb\n\n", distribution_path, application_name_lowercase_and_dashes, package_version);
@@ -503,6 +513,19 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "mkdir %s/debian/usr/local\n", distribution_path);
       fprintf(fd, "mkdir %s/debian/usr/local/%s\n", distribution_path, application_name_lowercase_and_dashes);
       break;
+    case SNAP:
+      fprintf(fd, "#!/bin/bash\n");
+      fprintf(fd, "# run this auto-generated script to install the %s snap in \"$DESTDIR\"\n\n",
+              application_name_lowercase_and_dashes);
+      fprintf(fd, "mkdir -p $DESTDIR\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/share\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/bin\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib\n");
+      fprintf(fd, "mkdir -p $DESTDIR/usr/lib/x86_64-linux-gnu\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/%s\n", application_name_lowercase_and_dashes);
     default:
       break;
   }
@@ -570,7 +593,7 @@ static void create_file(const char *name, int m) {
     buffer[l--] = '\0';
     if (buffer[l] == '/') {
       buffer[l] = '\0';
-      if (((type & TYPE_LINUX) && (mode == DEB)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+      if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
           ((type & TYPE_MAC) && (mode == MAC)))
         make_dir(buffer);
     }
@@ -637,7 +660,7 @@ static void create_file(const char *name, int m) {
       } while (buffer[l] != ']');
       if ((type & (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS)) == 0)
         type |= (TYPE_LINUX | TYPE_MAC | TYPE_WINDOWS);
-      if (type & TYPE_DLL && (mode == MAC || mode == DEB)) {  // prefix "lib" to the basename
+      if (type & TYPE_DLL && (mode == MAC || mode == DEB || mode == SNAP)) {  // prefix "lib" to the basename
         j = i - 1;
         while (buffer[j] != '/' && j >= 0)
           j--;
@@ -692,7 +715,7 @@ static void create_file(const char *name, int m) {
     buffer[l] = '\0';
     if (buffer[l - 1] == '/')
       continue;
-    if (((type & TYPE_LINUX) && (mode == DEB)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
+    if (((type & TYPE_LINUX) && (mode == DEB || mode == SNAP)) || ((type & TYPE_WINDOWS) && (mode == ISS)) ||
         ((type & TYPE_MAC) && (mode == MAC))) {
       copy_file(buffer);
       // copy the .*.wbproj hidden files
@@ -1038,9 +1061,9 @@ static void create_file(const char *name, int m) {
       // for webots.exe and hence webots cannot compile
       break;
     case DEB:
-#ifdef WEBOTS_UBUNTU_18_04
-      copy_file("lib/libssl.so.1.0.0");
-      copy_file("lib/libcrypto.so.1.0.0");
+#ifdef WEBOTS_UBUNTU_16_04
+      copy_file("lib/webots/libssl.so.1.1");
+      copy_file("lib/webots/libcrypto.so.1.1");
 #endif
       // copy libraries that depends on OS and cannot be included in files_*.txt
       fprintf(fd, "cd %s/debian\n", distribution_path);
@@ -1060,51 +1083,16 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop usr/share/app-install/desktop/\n");
       fprintf(fd, "mkdir usr/local/bin\n");
       fprintf(fd, "ln -s /usr/local/%s/webots usr/local/bin/webots\n", application_name_lowercase_and_dashes);
-      fprintf(fd, "cd %s/debian/usr/local/%s/lib/webots\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_core.so.2.4.3 libopencv_core.so\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so.2.4\n");
-      fprintf(fd, "ln -s libopencv_imgproc.so.2.4.3 libopencv_imgproc.so\n");
-      fprintf(fd, "ln -s libQt5Concurrent.so.5 libQt5Concurrent.so\n");
-      fprintf(fd, "ln -s libQt5Core.so.5 libQt5Core.so\n");
-      fprintf(fd, "ln -s libQt5DBus.so.5 libQt5DBus.so\n");
-      fprintf(fd, "ln -s libQt5Gui.so.5 libQt5Gui.so\n");
-      fprintf(fd, "ln -s libQt5Multimedia.so.5 libQt5Multimedia.so\n");
-      fprintf(fd, "ln -s libQt5MultimediaWidgets.so.5 libQt5MultimediaWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Network.so.5 libQt5Network.so\n");
-      fprintf(fd, "ln -s libQt5OpenGL.so.5 libQt5OpenGL.so\n");
-      fprintf(fd, "ln -s libQt5Positioning.so.5 libQt5Positioning.so\n");
-      fprintf(fd, "ln -s libQt5PrintSupport.so.5 libQt5PrintSupport.so\n");
-      fprintf(fd, "ln -s libQt5Qml.so.5 libQt5Qml.so\n");
-      fprintf(fd, "ln -s libQt5Quick.so.5 libQt5Quick.so\n");
-      fprintf(fd, "ln -s libQt5QuickWidgets.so.5 libQt5QuickWidgets.so\n");
-      fprintf(fd, "ln -s libQt5Sensors.so.5 libQt5Sensors.so\n");
-      fprintf(fd, "ln -s libQt5Sql.so.5 libQt5Sql.so\n");
-      fprintf(fd, "ln -s libQt5WebChannel.so.5 libQt5WebChannel.so\n");
-      fprintf(fd, "ln -s libQt5WebEngine.so.5 libQt5WebEngine.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineCore.so.5 libQt5WebEngineCore.so\n");
-      fprintf(fd, "ln -s libQt5WebEngineWidgets.so.5 libQt5WebEngineWidgets.so\n");
-      fprintf(fd, "ln -s libQt5WebSockets.so.5 libQt5WebSockets.so\n");
-      fprintf(fd, "ln -s libQt5Widgets.so.5 libQt5Widgets.so\n");
-      fprintf(fd, "ln -s libQt5XcbQpa.so.5 libQt5XcbQpa.so\n");
-      fprintf(fd, "ln -s libQt5Xml.so.5 libQt5Xml.so\n");
-      fprintf(fd, "ln -s libopenal.so libopenal.so.1\n");
-
       fprintf(fd, "cd %s/debian\n", distribution_path);
       // add the wrapper library corresponding to the default Python 3 versions
 #ifdef WEBOTS_UBUNTU_16_04
       fprintf(fd, "mkdir usr/local/webots/lib/controller/python35\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/controller/python35/*.py usr/local/webots/lib/controller/python35/\n");
       fprintf(fd, "cp $WEBOTS_HOME/lib/controller/python35/_*.so usr/local/webots/lib/controller/python35/\n");
-#endif
-
       // include system libraries in package that are needed on Ubuntu 18.04
-#ifdef WEBOTS_UBUNTU_16_04
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libssl.so.1.0.0 usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 usr/local/webots/lib/webots\n");
-      fprintf(fd, "cd %s/debian/usr/local/%s/lib/webots\n", distribution_path, application_name_lowercase_and_dashes);
-      fprintf(fd, "ln -s libssl.so.1.0.0 libssl.so\n");
-      fprintf(fd, "ln -s libcrypto.so.1.0.0 libcrypto.so\n");
+      fprintf(fd, "cd %s/debian/usr/local/%s/lib/controller\n", distribution_path, application_name_lowercase_and_dashes);
+      fprintf(fd, "ln -s libssl.so.1.1 libssl.so\n");
+      fprintf(fd, "ln -s libcrypto.so.1.1 libcrypto.so\n");
       fprintf(fd, "cd %s/debian\n", distribution_path);
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libpng12.so.0 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libvpx.so.3 usr/local/webots/lib/webots\n");
@@ -1113,9 +1101,9 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libwebpdemux.so.1 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libjasper.so.1 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5 usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libassimp.so.3 usr/local/webots/lib/webots\n");
 #endif
+      fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libminizip.so.1 usr/local/webots/lib/webots\n");
 
       fprintf(fd, "mkdir DEBIAN\n");
       fprintf(fd, "echo \"Package: %s\" > DEBIAN/control\n", application_name_lowercase_and_dashes);
@@ -1127,7 +1115,7 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "du -sx %s/debian | awk '{print $1}' >> DEBIAN/control\n", distribution_path);
       fprintf(fd, "echo \"Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), ");
       fprintf(fd, "libglib2.0-0 (>= 2.10.0), libglu1-mesa | libglu1, libgtk-3-0, libjpeg8-dev, ");
-      fprintf(fd, "libnss3, libpci3 (>= 3.2.0), libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
+      fprintf(fd, "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, ");
       fprintf(fd, "libzzip-0-13 (>= 0.13.62-2), libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, ");
       fprintf(fd, "libgd3, libfreetype6\" >> DEBIAN/control\n");
 
@@ -1152,9 +1140,9 @@ static void create_file(const char *name, int m) {
 
       // copy include directories of libzip and libssh in tarball package
       fprintf(fd, "mkdir debian/usr/local/webots/include/libssh\n");
-      fprintf(fd, "cp -r /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
+      fprintf(fd, "cp -a /usr/include/libssh debian/usr/local/webots/include/libssh/\n");
       fprintf(fd, "mkdir debian/usr/local/webots/include/libzip\n");
-      fprintf(fd, "cp -r /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
+      fprintf(fd, "cp -a /usr/include/zip.h debian/usr/local/webots/include/libzip/\n");
       fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h debian/usr/local/webots/include/libzip/\n");
 
       // add the required libraries in order to avoid conflicts on other Linux distributions
@@ -1198,12 +1186,30 @@ static void create_file(const char *name, int m) {
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libgd.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libssh.so.4 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/libfreetype.so.6 debian/usr/local/webots/lib/webots\n");
-      fprintf(fd, "cp /lib/x86_64-linux-gnu/libpci.so.3 debian/usr/local/webots/lib/webots\n");
       fprintf(fd, "cd debian/usr/local\n");
       fprintf(fd, "tar cf ../../../%s-%s-%s.tar.bz2 --use-compress-prog=pbzip2 %s\n", application_name_lowercase_and_dashes,
               package_version, arch2, application_name_lowercase_and_dashes);
       fprintf(fd, "rm -rf debian\n");
       break;
+    case SNAP: {
+      const char *usr_lib_x68_64_linux_gnu[] = {
+        "libraw.so.16",           "libvpx.so.5",         "libx264.so.152", "libavcodec.so.57",  "libwebp.so.6",
+        "libwebpmux.so.3",        "libpng16.so.16",      "libassimp.so.4", "libfreeimage.so.3", "libjxrglue.so.0",
+        "libopenjp2.so.7",        "libjpegxr.so.0",      "libHalf.so.12",  "libIex-2_2.so.12",  "libIexMath-2_2.so.12",
+        "libIlmThread-2_2.so.12", "libIlmImf-2_2.so.22", "libzip.so.4",    "libzzip-0.so.13",   "libjbig.so.0",
+        "libtiff.so.5",           "libjpeg.so.8",        "libgomp.so.1",   "liblcms2.so.2",     "libXi.so.6",
+        "libXrender.so.1",        "libfontconfig.so.1",  "libxslt.so.1",   "libgd.so.3",        "libssh.so.4",
+        "libfreetype.so.6"};
+      for (int i = 0; i < sizeof(usr_lib_x68_64_linux_gnu) / sizeof(char *); i++)
+        fprintf(fd, "cp /usr/lib/x86_64-linux-gnu/%s $DESTDIR/usr/lib/x86_64-linux-gnu/\n", usr_lib_x68_64_linux_gnu[i]);
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libssh\n");
+      fprintf(fd, "cp -a /usr/include/libssh $DESTDIR/usr/share/webots/include/libssh/\n");
+      fprintf(fd, "mkdir $DESTDIR/usr/share/webots/include/libzip\n");
+      fprintf(fd, "cp -a /usr/include/zip.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp /usr/include/x86_64-linux-gnu/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n");
+      fprintf(fd, "cp $WEBOTS_HOME/src/packaging/webots.desktop $DESTDIR/usr/share/webots/resources/\n");
+      break;
+    }
     default:
       break;
   }
@@ -1213,6 +1219,9 @@ static void create_file(const char *name, int m) {
     system(buffer);
   } else if (mode == DEB) {
     snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.deb", application_name_lowercase_and_dashes);
+    system(buffer);
+  } else if (mode == SNAP) {
+    snprintf(buffer, BUFFER_SIZE, "chmod a+x %s.snap", application_name_lowercase_and_dashes);
     system(buffer);
   }
   printf(": done\n");
@@ -1339,6 +1348,7 @@ int main(int argc, char *argv[]) {
 #endif
 #ifdef __linux__
   create_distributions(DEB);
+  create_distributions(SNAP);
 #endif
   return 0;
 }

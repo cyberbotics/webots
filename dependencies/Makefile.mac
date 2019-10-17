@@ -38,226 +38,271 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 
 qt-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE) $(WEBOTS_HOME)/Contents/Frameworks/Qt* $(WEBOTS_HOME_LIB)/qt $(WEBOTS_HOME)/include/qt $(WEBOTS_HOME)/bin/qt/lrelease $(WEBOTS_HOME)/bin/qt/lupdate $(WEBOTS_HOME)/bin/qt/moc $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
 
 qt: $(WEBOTS_HOME)/resources/web/local/qwebchannel.js
 
 $(WEBOTS_HOME)/resources/web/local/qwebchannel.js: $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-	tar xvjfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(QT_PACKAGE)"
+	@tar xfm $(QT_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+	@echo "# downloading $(QT_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "0b1e5f6cccd83dbb3c1f497121e43505" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
 assimp-clean:
-	rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME_LIB)/libassimp.dylib
+	@rm -fr $(WEBOTS_DEPENDENCY_PATH)/assimp $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 assimp: $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_HOME_LIB)/libassimp.dylib: $(WEBOTS_DEPENDENCY_PATH)/assimp
-	cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME_LIB)
-	install_name_tool -id @rpath/lib/webots/libassimp.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
+	@cp $(WEBOTS_DEPENDENCY_PATH)/assimp/build/code/libassimp.dylib $(WEBOTS_HOME_LIB)
+	@install_name_tool -id @rpath/lib/webots/libassimp.dylib $(WEBOTS_HOME_LIB)/libassimp.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/assimp:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
+	@echo "# downloading $(ASSIMP_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(ASSIMP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "669b02481e4409cbdf1a5d3c94aecff9" != `md5 -q $(ASSIMP_PACKAGE)` ]; then echo "MD5 checksum failed for $(ASSIMP_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(ASSIMP_PACKAGE)"
+	@tar xfm $(ASSIMP_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)
 
 
 freetype-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9
 
 freetype: $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a
 
 $(WEBOTS_DEPENDENCY_PATH)/freetype-2.9/objs/.libs/libfreetype.a:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxf $(FREETYPE_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
+	@echo "# downloading $(FREETYPE_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(FREETYPE_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "44e72be43f677dedd0c547cb9a029178" != `md5 -q $(FREETYPE_PACKAGE)` ]; then echo "MD5 checksum failed for $(FREETYPE_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(FREETYPE_PACKAGE)"
+	@tar xfm $(FREETYPE_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FREETYPE_PACKAGE)
 
 
 ffmpeg-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util/ffmpeg
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE) $(WEBOTS_HOME)/util/ffmpeg
 
 ffmpeg: $(WEBOTS_HOME)/util/ffmpeg
 
 $(WEBOTS_HOME)/util/ffmpeg: $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
-	tar xvjfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(FFMPEG_PACKAGE)"
+	@tar xfm $(FFMPEG_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+	@echo "# downloading $(FFMPEG_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(FFMPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "258df72f03ef92526dab46ca0fede187" != `md5 -q $(FFMPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(FFMPEG_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(FFMPEG_PACKAGE)
 
 
 jpeg-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b $(WEBOTS_HOME)/include/libjpeg
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b $(WEBOTS_HOME)/include/libjpeg
 
 jpeg: $(WEBOTS_HOME)/include/libjpeg/jconfig.h
 
 $(WEBOTS_HOME)/include/libjpeg/jconfig.h: $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b
-	mkdir -p $(WEBOTS_HOME)/include/libjpeg
-	cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/*.h $(WEBOTS_HOME)/include/libjpeg/
-	cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/build-x86_64/jconfig.h $(WEBOTS_HOME)/include/libjpeg/
+	@mkdir -p $(WEBOTS_HOME)/include/libjpeg
+	@cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/*.h $(WEBOTS_HOME)/include/libjpeg/
+	@cp $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b/build-x86_64/jconfig.h $(WEBOTS_HOME)/include/libjpeg/
 
 $(WEBOTS_DEPENDENCY_PATH)/jpeg-9b:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(JPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxfm $(JPEG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
+	@echo "# downloading $(JPEG_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(JPEG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "c210af14f1aaa5797956298894d59507" != `md5 -q $(JPEG_PACKAGE)` ]; then echo "MD5 checksum failed for $(JPEG_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(JPEG_PACKAGE)"
+	@tar xfm $(JPEG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(JPEG_PACKAGE)
 
 
 lua-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_HOME_LIB)/liblua.dylib
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_HOME_LIB)/liblua.dylib
 
 lua: $(WEBOTS_HOME_LIB)/liblua.dylib
 
 $(WEBOTS_HOME_LIB)/liblua.dylib: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	cp $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
-	install_name_tool -id @rpath/lib/webots/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
+	@cp $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
+	@install_name_tool -id @rpath/lib/webots/liblua.dylib $(WEBOTS_HOME_LIB)/liblua.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	@echo "# downloading $(LUA_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "cf55c9efdf835998a7b22c916ece1854" != `md5 -q $(LUA_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(LUA_PACKAGE)"
+	@tar xfm $(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
 
 
 lua-gd-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE) $(WEBOTS_HOME_LIB)/libgd.3.dylib $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
 lua-gd: $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib
 
 $(WEBOTS_HOME)/resources/lua/modules/gd/gd.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	tar xvjfm $(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(LUA_GD_PACKAGE)"
+	@tar xfm $(LUA_GD_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	@echo "# downloading $(LUA_GD_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(LUA_GD_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "a48b974d568b07d8f8a9317ccd650268" != `md5 -q $(LUA_GD_PACKAGE)` ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
 
 
 miniglu-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
 
 miniglu: $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a
 
 $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0/libminiglu.a:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(MINIGLU_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar zxvf $(MINIGLU_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
+	@echo "# downloading $(MINIGLU_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(MINIGLU_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "504316e92609b37c8b749025e1dcf481" != `md5 -q $(MINIGLU_PACKAGE)` ]; then echo "MD5 checksum failed for $(MINIGLU_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(MINIGLU_PACKAGE)"
+	@tar xfm $(MINIGLU_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(MINIGLU_PACKAGE)
 
 
 ois-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/glu-9.0.0
 
 ois: $(WEBOTS_HOME_LIB)/libOIS.dylib
 
 $(WEBOTS_HOME_LIB)/libOIS.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
-	tar xvjfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(OIS_PACKAGE)"
+	@tar xfm $(OIS_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	@echo "# downloading $(OIS_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OIS_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "3efd7b991bd121230dd58c2448c2e9f2" != `md5 -q $(OIS_PACKAGE)` ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
 
 
 openal-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_HOME_LIB)/libopenal*.dylib
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_HOME_LIB)/libopenal*.dylib
 
 openal: $(WEBOTS_HOME_LIB)/libopenal.dylib
 
 $(WEBOTS_HOME_LIB)/libopenal.dylib: $(WEBOTS_DEPENDENCY_PATH)/openal
-	cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)
-	mv $(WEBOTS_HOME_LIB)/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
-	install_name_tool -id @rpath/lib/webots/libopenal.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
+	@cp $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)
+	@mv $(WEBOTS_HOME_LIB)/libopenal.1.16.0.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
+	@install_name_tool -id @rpath/lib/webots/libopenal.dylib $(WEBOTS_HOME_LIB)/libopenal.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/openal:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+	@echo "# downloading $(OPENAL_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "4604766ee64f01c596e12445b2e20f96" != `md5 -q $(OPENAL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(OPENAL_PACKAGE)"
+	@tar xfm $(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
 
 
 opencv-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) $(WEBOTS_HOME)/lib/controller/libopencv_* $(WEBOTS_HOME)/include/opencv2
 
 opencv: $(WEBOTS_HOME)/lib/controller/libopencv_core.2.4.3.dylib
 
 $(WEBOTS_HOME)/lib/controller/libopencv_core.2.4.3.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
-	tar xvjf $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(OPENCV_PACKAGE)"
+	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	@echo "# downloading $(OPENCV_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(OPENCV_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "796fbb181fd922d42e6ed0ddb2e132ca" != `md5 -q $(OPENCV_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENCV_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENCV_PACKAGE)
 
 
 openssl-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2 $(WEBOTS_HOME_LIB)/libcrypto* $(WEBOTS_HOME_LIB)/libssl*
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2 $(WEBOTS_HOME_LIB)/libcrypto* $(WEBOTS_HOME_LIB)/libssl*
 
 openssl: $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
 
 $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2
-	cp $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2/lib*dylib $(WEBOTS_HOME_LIB)
-	install_name_tool -id @rpath/lib/webots/libcrypto.dylib $(WEBOTS_HOME_LIB)/libcrypto.dylib
-	install_name_tool -id @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libcrypto.1.0.0.dylib
-	install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
-	install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
-	install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
-	install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
+	@cp $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2/lib*dylib $(WEBOTS_HOME_LIB)
+	@install_name_tool -id @rpath/lib/webots/libcrypto.dylib $(WEBOTS_HOME_LIB)/libcrypto.dylib
+	@install_name_tool -id @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libcrypto.1.0.0.dylib
+	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
+	@install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.dylib
+	@install_name_tool -id @rpath/lib/webots/libssl.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
+	@install_name_tool -change /usr/local/ssl/lib/webots/libcrypto.1.0.0.dylib @rpath/lib/webots/libcrypto.1.0.0.dylib $(WEBOTS_HOME_LIB)/libssl.1.0.0.dylib
 
 $(WEBOTS_DEPENDENCY_PATH)/openssl-1.0.2:
-	cd $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar jxfm $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@echo "# downloading $(OPENSSL_PACKAGE)"
+	@cd $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "1ec23830cd8f32f10c83f0e0eb027032" != `md5 -q $(OPENSSL_PACKAGE)` ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(OPENSSL_PACKAGE)"
+	@tar xfm $(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
 
 
 pico-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) $(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME_LIB)/libpico.dylib $(WEBOTS_HOME)/resources/pico
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE) $(WEBOTS_HOME)/include/libpico $(WEBOTS_HOME_LIB)/libpico.dylib $(WEBOTS_HOME)/resources/pico
 
 pico: $(WEBOTS_HOME_LIB)/libpico.dylib
 
 $(WEBOTS_HOME_LIB)/libpico.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
-	tar xvjfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
+	@echo "# uncompressing $(PICO_PACKAGE)"
+	@tar xfm $(PICO_PACKAGE) -C $(WEBOTS_HOME)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
-	wget $(DEPENDENCIES_URL_DEVELOP)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	@echo "# downloading $(PICO_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL_DEVELOP)/$(PICO_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "7b357ddff59913c725b3c592375f7443" != `md5 -q $(PICO_PACKAGE)` ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
 
 png-clean:
-	rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12
 
 png: $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a
 
 $(WEBOTS_DEPENDENCY_PATH)/libpng-1.0.12/libpng.a: $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
-	tar jxfm $(PNG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@echo "# uncompressing $(PNG_PACKAGE)"
+	@tar xfm $(PNG_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE):
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(PNG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	touch $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
+	@echo "# downloading $(PNG_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(PNG_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "0caa0cfb7d735b4a098635c808b1da4c" != `md5 -q $(PNG_PACKAGE)` ]; then echo "MD5 checksum failed for $(PNG_PACKAGE)"; exit 1; fi
+	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PNG_PACKAGE)
 
 
 tiff-clean:
-	rm -rf $(WEBOTS_HOME)/include/libtiff $(WEBOTS_DEPENDENCY_PATH)/libtiff
+	@rm -rf $(WEBOTS_HOME)/include/libtiff $(WEBOTS_DEPENDENCY_PATH)/libtiff
 
 tiff: $(WEBOTS_HOME)/include/libtiff/tiff.h
 
 $(WEBOTS_HOME)/include/libtiff/tiff.h: $(WEBOTS_DEPENDENCY_PATH)/libtiff
-	mkdir -p $(WEBOTS_HOME)/include/libtiff
-	cp $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff/*.h $(WEBOTS_HOME)/include/libtiff
+	@mkdir -p $(WEBOTS_HOME)/include/libtiff
+	@cp $(WEBOTS_DEPENDENCY_PATH)/libtiff/libtiff/*.h $(WEBOTS_HOME)/include/libtiff
 
 $(WEBOTS_DEPENDENCY_PATH)/libtiff:
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
-	wget $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	tar xvjfm $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
+	@echo "# downloading $(TIFF_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)
+	@wget -qq $(DEPENDENCIES_URL)/$(TIFF_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "c660e3d9b9e72ee8252f884282551cd2" != `md5 -q $(TIFF_PACKAGE)` ]; then echo "MD5 checksum failed for $(TIFF_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(TIFF_PACKAGE)"
+	@tar xfm $(TIFF_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(TIFF_PACKAGE)

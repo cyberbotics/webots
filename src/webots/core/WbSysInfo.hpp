@@ -29,6 +29,9 @@ namespace WbSysInfo {
 #ifdef __linux__
   const QString &linuxCpuModelName();
   bool isRootUser();
+  inline bool isSnap() { return qgetenv("SNAP_NAME") == "webots"; }
+#else
+  inline bool isSnap() { return false; }
 #endif
   QString environmentVariable(const QString &name);
   void setEnvironmentVariable(const QString &name, const QString &value);
@@ -41,7 +44,7 @@ namespace WbSysInfo {
 
   int coreCount();
 
-#ifndef __APPLE__
+#ifdef _WIN32
   quint32 gpuDeviceId(QOpenGLFunctions *gl);
   quint32 gpuVendorId(QOpenGLFunctions *gl);
   int intelGPUGeneration(QOpenGLFunctions *gl);

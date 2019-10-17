@@ -85,7 +85,7 @@ PROTO nodes are instantiated using the regular node syntax.
 Fields with the default value can be omitted.
 Field values which differ from the default must be specified.
 
-"TwoChairs.wbt":
+"ThreeChairs.wbt":
 
 ```
 #VRML_SIM R2020a utf8
@@ -93,46 +93,110 @@ Field values which differ from the default must be specified.
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.628082 0.772958 0.089714 5.69177
-  position -0.805359 1.75254 2.75772
+  orientation -0.47498 0.85080 0.22479 1.07385
+  position 4.45734 2.27766 4.69356
 }
-Background {
-  skyColor [
-    0.4 0.7 1
-  ]
+TexturedBackgroundLight {
+  castShadows FALSE
 }
-DirectionalLight {
-  direction -0.3 -1 -0.5
+PointLight {
+  attenuation 0 0 1
+  intensity 21
+  location 4 4 -1
+  radius 10
   castShadows TRUE
 }
-TwoColorChair {
+Floor {
+  translation 0 -0.91 0
+  size 20 20
+}
+DEF GREEN_STOOL TwoColorChair {
+  translation 1 0 3
+  name "two-color chair(2)"
+  legColor 0 0.666667 0
+  seatColor 0.235294 0.470588 0
   seatGeometry Cylinder {
-    height 0.075
-    radius 0.38
+    height 0.1
+    radius 0.4
   }
 }
-TwoColorChair {
-  translation 1.2 0.91 0
-  seatColor 0.564706 0.933333 0.564706
-  seatGeometry Box { size 0.6 0.075 0.52 }
+DEF YELLOW_CHAIR TwoColorChair {
+  translation 1 0 2
+  seatGeometry Box {
+    size 0.6 0.1 0.6
+  }
   seatExtensionSlot [
-    Shape {
-      appearance Appearance {
-        material Material { diffuseColor 0.564706 0.933333 0.564706}
-      }
-      geometry Box { size 0.6 0.67 0.0275 }
+    Transform {
+      translation -0.28 -0.014 0.27
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.03 0.7 0.6
+          }
+        }
+      ]
+    }
+  ]
+}
+DEF DAMACUS_SPHERE TwoColorChair {
+  translation 1 0 0
+  name "two-color chair(1)"
+  legColor 0.678431 0.678431 0.678431
+  seatExtensionSlot [
+    Transform {
+      translation 0 -0.29 0.27
+      children [
+        Shape {
+          appearance DamascusSteel {
+          }
+          geometry Sphere {
+            radius 0.4
+            subdivision 5
+          }
+        }
+      ]
+    }
+  ]
+}
+DEF WOODEN_CHAIR TwoColorChair {
+  translation 1 0 1
+  name "two-color chair(3)"
+  legColor 0.478431 0.239216 0
+  seatColor 0.666667 0.333333 0
+  seatGeometry Box {
+    size 0.6 0.1 0.6
+  }
+  seatExtensionSlot [
+    Transform {
+      translation -0.25 0.05 0.27
+      children [
+        Shape {
+          appearance VarnishedPine {
+          }
+          geometry Box {
+            size 0.1 0.7 0.6
+          }
+        }
+      ]
     }
   ]
 }
 ```
 
-The "TwoChairs.wbt" file once loaded by Webots appears as shown in [this figure](#two-instances-of-the-twocolorchair-proto-in-webots).
+The "ThreeChairs.wbt" file once loaded by Webots appears as shown in [this figure](#three-instances-of-the-twocolorchair-proto-in-webots).
 
 As you can observe in this example, defining MFNode fields in the PROTO interface allows to reuse the same model for slightly different objects or robots.
-Extenstion slots like `seatExtensionSlot` field could, for example, be used to add additional devices to a base robot without needing to copy the robot definition or creating a new PROTO.
+Extension slots like `seatExtensionSlot` field could, for example, be used to add additional devices to a base robot without needing to copy the robot definition or creating a new PROTO.
+In this example, a chair backrest has been added as well as a sphere to create a decorative object.
 
-%figure "Two instances of the TwoColorChair PROTO in Webots"
 
-![two_chairs_v7-2-0.png](images/two_chairs_v7-2-0.png)
+%figure "Three instances of the TwoColorChair PROTO in Webots"
+
+![three_chairs_proto_example.png](images/three_chairs_proto_example.thumbnail.jpg)
 
 %end

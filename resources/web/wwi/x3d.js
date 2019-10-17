@@ -505,12 +505,20 @@ THREE.X3DLoader = class X3DLoader {
     }
 
     if (hasTexCoord) {
+      var isDefaultMapping = getNodeAttribute(ifs, 'defaultMapping', 'false').toLowerCase() === 'true';
       var texcoords = texcoordsStr.split(/\s/);
       var uvs = [];
       for (let i = 0; i < texcoords.length; i += 2) {
         v = new THREE.Vector2();
         v.x = parseFloat(texcoords[i + 0]);
         v.y = parseFloat(texcoords[i + 1]);
+        if (isDefaultMapping) {
+          // add small offset to avoid using the exact same texture coordinates for a face
+          // (i.e. mapping to a line or a point) that is causing a rendering issue
+          // https://github.com/cyberbotics/webots/issues/752
+          v.x += 0.01 * Math.random();
+          v.y += 0.01 * Math.random();
+        }
         uvs.push(v);
       }
     }
@@ -690,8 +698,8 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseCone(cone) {
-    var radius = getNodeAttribute(cone, 'bottomRadius', '0');
-    var height = getNodeAttribute(cone, 'height', '0');
+    var radius = getNodeAttribute(cone, 'bottomRadius', '1');
+    var height = getNodeAttribute(cone, 'height', '2');
     var subdivision = getNodeAttribute(cone, 'subdivision', '32');
     var side = getNodeAttribute(cone, 'side', 'true').toLowerCase() === 'true';
     var bottom = getNodeAttribute(cone, 'bottom', 'true').toLowerCase() === 'true';
@@ -719,8 +727,8 @@ THREE.X3DLoader = class X3DLoader {
   }
 
   parseCylinder(cylinder) {
-    var radius = getNodeAttribute(cylinder, 'radius', '0');
-    var height = getNodeAttribute(cylinder, 'height', '0');
+    var radius = getNodeAttribute(cylinder, 'radius', '1');
+    var height = getNodeAttribute(cylinder, 'height', '2');
     var subdivision = getNodeAttribute(cylinder, 'subdivision', '32');
     var bottom = getNodeAttribute(cylinder, 'bottom', 'true').toLowerCase() === 'true';
     var side = getNodeAttribute(cylinder, 'side', 'true').toLowerCase() === 'true';

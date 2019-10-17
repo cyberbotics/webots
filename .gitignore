@@ -29,6 +29,7 @@ com
 *.jar
 *.rar
 *.tar
+*.xz
 *.zip
 
 # OS generated files
@@ -62,4 +63,4 @@ Thumbs.db
 /webots
 /webots.lnk
 /webots_debug_output.txt
-/util/
+/util

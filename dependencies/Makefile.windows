@@ -24,8 +24,8 @@ release debug distrib profile: msys64 $(PACKAGES)
 clean:
 
 cleanse: $(PACKAGES_CLEAN)
-	rm -f $(TARGET_PATH)/zlib1.dll
-	rm -f $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest
+	@rm -f $(TARGET_PATH)/zlib1.dll
+	@rm -f $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest
 
 .ONESHELL:
 msys64: $(TARGET_PATH) \
@@ -36,101 +36,137 @@ msys64: $(TARGET_PATH) \
 	$(WEBOTS_HOME_PATH)/msys64/mingw32/lib
 
 $(TARGET_PATH)/zlib1.dll: $(TARGET_PATH)
-	cp /mingw64/bin/zlib1.dll $(TARGET_PATH)/
+	@cp /mingw64/bin/zlib1.dll $(TARGET_PATH)/
 
 $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest: $(TARGET_PATH)
-	cp Cyberbotics.Webots.Mingw64.Libraries.manifest $(TARGET_PATH)/
+	@cp Cyberbotics.Webots.Mingw64.Libraries.manifest $(TARGET_PATH)/
 
 $(WEBOTS_HOME_PATH)/msys64/mingw64/lib:
-	mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw64/lib
+	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw64/lib
 
 $(WEBOTS_HOME_PATH)/msys64/mingw32/bin:
-	mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/bin
+	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/bin
 
 $(WEBOTS_HOME_PATH)/msys64/mingw32/lib:
-	mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/lib
+	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/mingw32/lib
 
 $(TARGET_PATH):
-	mkdir -p $(TARGET_PATH)
+	@mkdir -p $(TARGET_PATH)
 
 open-vr-clean:
-	rm -rf "$(WEBOTS_HOME_PATH)/include/openvr" $(TARGET_PATH)/openvr_api.dll "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
+	@rm -rf "$(WEBOTS_HOME_PATH)/include/openvr" $(TARGET_PATH)/openvr_api.dll "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
 open-vr: $(TARGET_PATH)/openvr_api.dll $(WEBOTS_HOME_PATH)/include/openvr
 
 $(WEBOTS_HOME_PATH)/include/openvr: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
-	mkdir "$(WEBOTS_HOME_PATH)/include/openvr"
-	cp -f "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/* "$(WEBOTS_HOME_PATH)/include/openvr"
+	@mkdir -p "$(WEBOTS_HOME_PATH)/include/openvr"
+	@cp -f "$(WEBOTS_DEPENDENCY_PATH)"/openvr-1.0.7/headers/* "$(WEBOTS_HOME_PATH)/include/openvr"
 
 $(TARGET_PATH)/openvr_api.dll: $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7
-	mkdir -p $(TARGET_PATH)
-	cp "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7/bin/win64/openvr_api.dll" "$@"
+	@mkdir -p $(TARGET_PATH)
+	@cp "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7/bin/win64/openvr_api.dll" "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(OPEN_VR_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
-	touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
+	@echo "# downloading $(OPEN_VR_PACKAGE)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
+	@wget -qq "$(DEPENDENCIES_URL)/$(OPEN_VR_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "5aa5208fdf403ab64a2ccdb7abc1f789 *$(OPEN_VR_PACKAGE)" > $(OPEN_VR_PACKAGE).md5
+	@md5sum -c --status $(OPEN_VR_PACKAGE).md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OPEN_VR_PACKAGE)"; exit 1; fi
+	@rm $(OPEN_VR_PACKAGE).md5
+	@echo "# uncompressing $(OPEN_VR_PACKAGE)"
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)" -d "$(WEBOTS_DEPENDENCY_PATH)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
+	@touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
 lua-clean:
-	rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
+	@rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
 
-lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	mkdir -p $(TARGET_PATH)
-	cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
+lua: $(TARGET_PATH)/lua52.dll
+
+$(TARGET_PATH)/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll
+	@echo "# copying lua dll"
+	@mkdir -p $(TARGET_PATH)
+	@cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
 
 $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
-	wget "http://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	cd "$(WEBOTS_DEPENDENCY_PATH)"; tar zxfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
-	make -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw test
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
+	@echo "# downloading $(LUA_PACKAGE)"
+	@wget -qq "http://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "dc7f94ec6ff15c985d2d6ad0f1b35654 *$(LUA_PACKAGE)" > $(LUA_PACKAGE).md5
+	@md5sum -c --status $(LUA_PACKAGE).md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
+	@rm $(LUA_PACKAGE).md5
+	@echo "# uncompressing $(LUA_PACKAGE)"
+	@cd "$(WEBOTS_DEPENDENCY_PATH)"; tar xfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
+
+$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
+	@echo "# compiling lua"
+	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
 
 ois-clean:
-	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
+	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
 
 ois: $(TARGET_PATH)/OIS.dll
 
 $(TARGET_PATH)/OIS.dll: $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)
-	mkdir -p $(TARGET_PATH)
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$(TARGET_PATH)/"
-	mv "$(WEBOTS_HOME_PATH)/XInput9_1_0.dll" "$(TARGET_PATH)/"
-	touch "$@"
+	@echo "# uncompressing $(OIS_PACKAGE)"
+	@mkdir -p $(TARGET_PATH)
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	@mv "$(WEBOTS_HOME_PATH)/OIS.dll" "$(TARGET_PATH)/"
+	@mv "$(WEBOTS_HOME_PATH)/XInput9_1_0.dll" "$(TARGET_PATH)/"
+	@touch "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE):
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(OIS_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "# downloading $(OIS_PACKAGE)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
+	@wget -qq "$(DEPENDENCIES_URL)/$(OIS_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "32c0b9a81ac3a27fe313598c4f8daad1 *$(OIS_PACKAGE)" > $(OIS_PACKAGE).md5
+	@md5sum -c --status $(OIS_PACKAGE).md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(OIS_PACKAGE)"; exit 1; fi
+	@rm $(OIS_PACKAGE).md5
 	touch "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)"
 
 pico-clean:
-	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" "$(WEBOTS_HOME_PATH)/include/libpico" $(TARGET_PATH)/libpico.dll "$(WEBOTS_HOME_PATH)/resources/pico"
+	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" "$(WEBOTS_HOME_PATH)/include/libpico" $(TARGET_PATH)/libpico.dll "$(WEBOTS_HOME_PATH)/resources/pico"
 
 pico: $(TARGET_PATH)/libpico.dll
 
 $(TARGET_PATH)/libpico.dll: $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
-	mkdir -p $(TARGET_PATH)
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
-	mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$(TARGET_PATH)/"
-	touch "$@"
+	@echo "# uncompressing $(PICO_PACKAGE)"
+	@mkdir -p $(TARGET_PATH)
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	@mv "$(WEBOTS_HOME_PATH)/libpico.dll" "$(TARGET_PATH)/"
+	@touch "$@"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
+	@echo "# downloading $(PICO_PACKAGE)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
+	@wget -qq "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "60a412e55d54bb8bf95c7cd728fb4d9a *$(PICO_PACKAGE)" > $(PICO_PACKAGE).md5
+	@md5sum -c --status $(PICO_PACKAGE).md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
+	@rm $(PICO_PACKAGE).md5
+	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
 
 lua-gd-clean:
-	rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" $(TARGET_PATH)/gd.dll
+	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" $(TARGET_PATH)/gd.dll
 
 lua-gd: $(TARGET_PATH)/gd.dll
 
 $(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	mkdir -p $(TARGET_PATH)
-	unzip -o "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
-	touch "$(TARGET_PATH)/gd.dll"
+	@echo "# uncompressing $(LUA_GD_PACKAGE)"
+	@mkdir -p $(TARGET_PATH)
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
+	@touch "$(TARGET_PATH)/gd.dll"
 
 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
-	wget "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
+	@echo "# downloading $(LUA_GD_PACKAGE)"
+	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
+	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
+	@echo "0a54dcc518d331a853f77fb66ebf75e9 *$(LUA_GD_PACKAGE)" > $(LUA_GD_PACKAGE).md5
+	@md5sum -c --status $(LUA_GD_PACKAGE).md5
+	if [ $$? -ne 0 ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
+	@rm $(LUA_GD_PACKAGE).md5
+	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
