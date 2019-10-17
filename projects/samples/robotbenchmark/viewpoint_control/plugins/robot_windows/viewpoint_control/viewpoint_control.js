@@ -85,9 +85,9 @@ function recordPerformance() {
       var result = showBenchmarkRecord('record:' + data, benchmarkName, metricToString);
       if (!result['isNewRecord']) {
         // current record is worst than personal record
-        text = "<p style='font-weight:bold'>You did not outperform your personal record.</p>" +
-               "<p>Your personal record is: " + metricToString(result['personalRecord']) + ".</p>" +
-               "<p>Your current performance is: " + metricToString(record) + ".</p>";
+        var text = "<p style='font-weight:bold'>You did not outperform your personal record.</p>" +
+                   '<p>Your personal record is: ' + metricToString(result['personalRecord']) + '.</p>' +
+                   '<p>Your current performance is: ' + metricToString(record) + '.</p>';
         webots.alert(benchmarkName + ' result', text);
         return false;
       }
