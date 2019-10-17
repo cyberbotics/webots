@@ -463,7 +463,7 @@ void WbBackground::exportNodeFields(WbVrmlWriter &writer) const {
 
   QString irradianceFileNames[6];
   for (int i = 0; i < 6; ++i) {
-    if (mUrlFields[i]->size() == 0)
+    if (mIrradianceUrlFields[i]->size() == 0)
       continue;
     const QString &url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
     const QFileInfo &cubeInfo(url);
