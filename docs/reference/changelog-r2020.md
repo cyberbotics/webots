@@ -4,7 +4,7 @@
 Released on XXX YYth, 2019.
 
   - New Features
-    - Background:
+    - Improved [Background](background.md) node:
       - Added the `Background.luminosity` field which specifies the light contribution of the [Background](background.md) node. Open this field in the `TexturedBackground` and the `TexturedBackgroundLight` PROTO nodes.
       - Dropped the support of the equirectangular projection in textures to improve loading time.
       - Dropped the `Cubemap` node to improve consistency.
