@@ -7,8 +7,10 @@ Released on XXX YYth, 2019.
     - Background:
       - Added the `Background.luminosity` field which specifies the light contribution of the [Background](background.md) node. Open this field in the `TexturedBackground` and the `TexturedBackgroundLight` PROTO nodes.
       - Dropped the support of the equirectangular projection in textures to improve loading time.
-      - Dropped the `Cubemap` node to improve consistency. Restore the `Background.*Url` fields.
-      - Added a Python script to split equirectangular textures to a cubemap (6 textures).
+      - Dropped the `Cubemap` node to improve consistency.
+      - Restored the `Background.*Url` fields, and support only `JPEG` and `PNG` format there.
+      - Introduced the `Background.*IrradianceUrl` fields to define an `HDR` irradiance map.
+      - Added image tools to help with `HDR` format and equirectangular projections.
       - Added new HDR background: `entrance_hall`
     - Added new appearance: `DryMud`
     - Improved the Webots online 3D viewer: `webots.min.js`
