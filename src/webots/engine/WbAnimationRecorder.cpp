@@ -55,6 +55,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfVector3->x(), 0.0001))
                      .arg(ROUND(sfVector3->y(), 0.0001))
                      .arg(ROUND(sfVector3->z(), 0.0001));
+          mLastTranslation =
+            WbVector3(ROUND(sfVector3->x(), 0.001), ROUND(sfVector3->y(), 0.001), ROUND(sfVector3->z(), 0.001));
         } else if (sfRotation && fieldName.compare("rotation") == 0) {
           // special rotation case
           state += QString("%1 %2 %3 %4")
@@ -62,6 +64,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->y(), 0.0001))
                      .arg(ROUND(sfRotation->z(), 0.0001))
                      .arg(ROUND(sfRotation->angle(), 0.0001));
+          mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
+                                     ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
         } else  // generic case
           state += field->value()->toString(WbPrecision::FLOAT_MAX);
         state += "\"";
