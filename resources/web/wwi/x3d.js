@@ -978,21 +978,14 @@ THREE.X3DLoader = class X3DLoader {
     if (backgroundEnabled) {
       let cubeTexture = new THREE.CubeTexture();
 
-      let missing = 0;
       for (let i = 0; i < 6; i++) {
         if (typeof backgroundURLs[i] === 'undefined')
           continue;
         // Look for already loaded texture or load the texture in an asynchronous way.
-        missing++;
-        let image = TextureLoader.loadOrRetrieveImage(backgroundURLs[i], cubeTexture, i);
-        if (typeof image !== 'undefined') {
-          cubeTexture.images[i] = image;
-          missing--;
-        }
+        TextureLoader.loadOrRetrieveImage(backgroundURLs[i], cubeTexture, i);
       }
       this.scene.scene.background = cubeTexture;
-      if (missing === 0)
-        cubeTexture.needsUpdate = true;
+      cubeTexture.needsUpdate = true;
     }
 
     if (irradianceEnabled) {
@@ -1000,21 +993,14 @@ THREE.X3DLoader = class X3DLoader {
       cubeTexture.format = THREE.RGBFormat;
       cubeTexture.type = THREE.FloatType;
 
-      let missing = 0;
       for (let i = 0; i < 6; i++) {
         if (typeof irradianceURLs[i] === 'undefined')
           continue;
         // Look for already loaded texture or load the texture in an asynchronous way.
-        missing++;
-        let image = TextureLoader.loadOrRetrieveImage(irradianceURLs[i], cubeTexture, i);
-        if (typeof image !== 'undefined') {
-          cubeTexture.images[i] = image;
-          missing--;
-        }
+        TextureLoader.loadOrRetrieveImage(irradianceURLs[i], cubeTexture, i);
       }
       this.scene.scene.userData.irradiance = cubeTexture;
-      if (missing === 0)
-        cubeTexture.needsUpdate = true;
+      cubeTexture.needsUpdate = true;
     }
 
     // Light offset: empirically found to match the Webots rendering.
