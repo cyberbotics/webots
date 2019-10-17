@@ -977,6 +977,7 @@ THREE.X3DLoader = class X3DLoader {
 
     if (backgroundEnabled) {
       let cubeTexture = new THREE.CubeTexture();
+      cubeTexture.encoding = THREE.sRGBEncoding;
 
       for (let i = 0; i < 6; i++) {
         if (typeof backgroundURLs[i] === 'undefined')
