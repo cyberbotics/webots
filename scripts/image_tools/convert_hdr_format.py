@@ -18,7 +18,7 @@
 import optparse
 import os
 
-from utils.clamp import clamp_int
+from utils.range import clamp_int
 from images.hdr import HDR
 from images.regular_image import RegularImage
 

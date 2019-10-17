@@ -20,7 +20,7 @@ import optparse
 import os
 
 from images.hdr import HDR
-from utils.clamp import clamp_int
+from utils.range import clamp_int
 
 optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
 optParser.add_option(
