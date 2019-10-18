@@ -5,44 +5,25 @@
 # It is the two arms version of the robot with interchangeable end-effector (gripper or hey5 hand).
 
 PROTO TiagoBase [
-  field  SFVec3f     translation          0 0 0
-  field  SFRotation  rotation             1 0 0 -1.5708
-  field  SFString    controller           "void"
-  field  SFBool      torso_no_arm         FALSE         # Defines the torso body shape by adding the corresponding number of shoulders.
-  field  SFBool      torso_one_arm        FALSE         # Defines the torso body shape by adding the corresponding number of shoulders.
-  field  SFBool      torso_two_arms       TRUE          # Defines the torso body shape by adding the corresponding number of shoulders.
-  field  MFNode      left_end_effector    []            # Defines the left  end-effector used. {Gripper, LeftHey5EndEffector}.
-  field  MFNode      right_end_effector   []            # Defines the right end-effector used. {Gripper, RightHey5EndEffector}.
-  field  MFNode      lidar                []            # Defines the lidar used
-#  field  MFNode     distance_sensor      []            # Defines the back distance sensors.
+  field  SFVec3f            translation     0 0 0
+  field  SFRotation         rotation        1 0 0 -1.5708
+  field  SFString           controller      "void"
+  field  MFNode             lidarExtension  []            # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}
+  field  MFNode             bodyExtension   []            # Defines body extension used {Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
 ]
 {
-#  children IS left_end_effector
-#  children IS right_end_effector
   Robot {
     translation IS translation
     rotation IS rotation
     children [
-      %{ if torso_no_arm.value then}
-      DEF TORSO Solid {
-        Torso {
-          translation 0 0 0
-          rotation    0 1 0 0
-          no_arm      IS torso_no_arm
-          one_arm     IS torso_one_arm
-          two_arms    IS torso_two_arms
-        }
+      DEF BODY_EXTENSION Transform {
+        children IS bodyExtension
       }
-      %{ elseif torso_one_arm.value then}
-      DEF TORSO Solid {
-        TorsoOneArm
+      DEF LIDAR Transform {
+        translation 0.202 0 -0.004          # TODO: Verify positioning
+        rotation 0 0.70711 0.70711 3.1416   # TODO: Verify positioning
+        children IS lidarExtension
       }
-      %{ else }
-      DEF TORSO Solid {
-        TorsoTwoArms
-      }
-      %{ end }
-
       DEF BASE_MOBILE_SHAPE Group {
         children [
           DEF BASE Shape {
@@ -143,7 +124,6 @@ PROTO TiagoBase [
         ]
         rotationStep 0.001
       }
-      DEF LIDAR IS lidar
       DEF BUMPER TouchSensor {
         translation 0 0 0.03
         children [
@@ -1123,7 +1103,7 @@ PROTO TiagoBase [
         }
       }
     ]
-    name "Tiago base"
+    name "TIAGo base"
     boundingObject Group {
       children [
         DEF BASE_BO Transform {
