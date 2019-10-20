@@ -5,11 +5,11 @@
 # It is the two arms version of the robot with interchangeable end-effector (gripper or hey5 hand).
 
 PROTO TiagoBase [
-  field  SFVec3f            translation     0 0 0
-  field  SFRotation         rotation        1 0 0 -1.5708
-  field  SFString           controller      "void"
-  field  MFNode             lidarExtension  []            # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}
-  field  MFNode             bodyExtension   []            # Defines body extension used {Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
+  field  SFVec3f      translation     0 0 0
+  field  SFRotation   rotation        1 0 0 -1.5708
+  field  SFString     controller      "void"
+  field  MFNode       lidarExtension  []            # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
+  field  MFNode       bodyExtension   []            # Defines body extension used {Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
 ]
 {
   Robot {
@@ -20,8 +20,8 @@ PROTO TiagoBase [
         children IS bodyExtension
       }
       DEF LIDAR Transform {
-        translation 0.202 0 -0.004          # TODO: Verify positioning
-        rotation 0 0.70711 0.70711 3.1416   # TODO: Verify positioning
+        translation 0.202 0 -0.004
+        rotation 0.5774 -0.5773 -0.5774 2.0944
         children IS lidarExtension
       }
       DEF BASE_MOBILE_SHAPE Group {
@@ -92,8 +92,8 @@ PROTO TiagoBase [
         ]
       }
       DEF FRONT_SENSOR_1 Transform {
-        translation 0.1714 -0.111032 0.002
-        rotation 0 0 1 -1.8249853071795865
+        translation 0.1714 -0.1110 0.002
+        rotation 0 0 1 -1.825
         children [
           Shape {
             appearance PBRAppearance {

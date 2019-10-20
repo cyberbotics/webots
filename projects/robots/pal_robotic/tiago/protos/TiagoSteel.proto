@@ -1,0 +1,34 @@
+#VRML_SIM R2019a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the robot Tiago Steel version from PAL Robotics (Spain).
+# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with the front arm finished by the parallel gripper.
+
+PROTO TiagoSteel [
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     1 0 0 -1.5708
+  field  SFString    controller   "void"
+]
+{
+  TiagoBase {
+    translation IS translation
+    rotation IS rotation
+    bodyExtension [
+      TiagoBody {
+        FrontArmExtension [
+          TiagoArmLeft {
+            endEffector [
+              EndEffectorGripper {
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    lidarExtension [
+      HokuyoUrg04lxug01 {
+      }
+    ]
+    controller IS controller
+  }
+}
