@@ -1,8 +1,8 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the robot Tiago from PAL Robotics (Spain).
-# It is the right version of the Hey5 end-effector.
+# This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
+# It is the right version of the Hey5 hand end-effector.
 
 PROTO EndEffectorHey5Right [
   field  SFVec3f     translation  0 0 0
@@ -55,8 +55,8 @@ PROTO EndEffectorHey5Right [
           }
         ]
         endPoint DEF HAND_RIGHT_THUMB Solid {
-          translation 0.09010000000000495 0.013400000000004667 0.03800000000137316
-          rotation 2.686192070903168e-15 -1 1.1054713522563039e-14 1.1344639999999477
+          translation 0.0901 0.0134 0.038
+          rotation 0 -1 0 1.1345
           children [
             DEF HAND_RIGHT_THUMB_SHAPE Shape {
               appearance MattePaint {
@@ -100,8 +100,8 @@ PROTO EndEffectorHey5Right [
                 }
               ]
               endPoint DEF HAND_RIGHT_THUMB_CONNECTOR_1 Solid {
-                translation 0.02249999999912189 0.0029999999999961273 8.881784197001252e-15
-                rotation -1 -6.162040714091575e-14 -1.2662429753582522e-13 1.1442380000000076
+                translation 0.0225 0.003 0
+                rotation -1 0 0 1.1442
                 children [
                   DEF HAND_RIGHT_FINGER_CONNECTOR_SHAPE Transform {
                     translation 0.0065 0 0
@@ -136,8 +136,8 @@ PROTO EndEffectorHey5Right [
                       }
                     ]
                     endPoint DEF HAND_RIGHT_THUMB_PHALANX Solid {
-                      translation 0.013000000001731515 -4.4941828036826337e-13 4.5197179332490123e-13
-                      rotation 0.768864627235123 -0.25628820907837435 0.58580162075057 -1.5161761050816633e-15
+                      translation 0.013 0 0
+                      rotation 0.7689 -0.2563 0.5858 0
                       children [
                         DEF HAND_RIGHT_FINGER_PHALANX Shape {
                           appearance MattePaint {
@@ -181,8 +181,8 @@ PROTO EndEffectorHey5Right [
                             }
                           ]
                           endPoint DEF HAND_RIGHT_THUMB_CONNECTOR_2 Solid {
-                            translation 0.009000000000929154 -2.275957200481571e-13 -3.411715354673106e-13
-                            rotation -0.3651483716701107 0.18257418583505536 0.9128709291752768 -6.080941944488115e-16
+                            translation 0.009 0 0
+                            rotation -0.3651 0.1826 0.9129 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_THUMB_TIP_JOINT HingeJoint {
@@ -203,8 +203,8 @@ PROTO EndEffectorHey5Right [
                                   }
                                 ]
                                 endPoint DEF HAND_RIGHT_THUMB_TIP Solid {
-                                  translation 0.01300000000174123 -4.551914400963142e-13 4.54081217071689e-13
-                                  rotation 0.755086685092814 -0.3303504247281061 0.5663150138196105 -5.881301029635768e-16
+                                  translation 0.013 0 0
+                                  rotation 0.7551 -0.3304 0.5663 0
                                   children [
                                     DEF HAND_RIGHT_FINGER_TIP Shape {
                                       appearance MattePaint {
@@ -236,11 +236,10 @@ PROTO EndEffectorHey5Right [
                                     children [
                                       Transform {
                                         translation 0.0226421 -0.0027114 0
-                                        rotation 0 0 1 -0.6765553071795862
-                                        scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
+                                        rotation 0 0 1 -0.6766
                                         children [
                                           Box {
-                                            size 0.01 0.01 0.01
+                                            size 0.0004 0.0066 0.0141
                                           }
                                         ]
                                         translationStep 0.0001
@@ -248,16 +247,15 @@ PROTO EndEffectorHey5Right [
                                       }
                                       Transform {
                                         translation 0.024 -0.0001 0
-                                        scale 1.0199527051837716 0.6513317451940288 1
                                         children [
                                           Box {
-                                            size 0.0017861 0.000566799 0.0139906
+                                            size 0.0018 0.0004 0.014
                                           }
                                         ]
                                         translationStep 0.0001
                                       }
                                       Transform {
-                                        translation 0.0139 0.0036 -2.86678e-06
+                                        translation 0.0139 0.0036 0
                                         rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
@@ -269,18 +267,18 @@ PROTO EndEffectorHey5Right [
                                         rotationStep 0.001
                                       }
                                       Transform {
-                                        translation -0.000484472 0.00615072 -4.421e-05
-                                        rotation 0 0 -1 -0.6458153071795865
+                                        translation -0.0005 0.0062 0
+                                        rotation 0 0 -1 -0.6458
                                         children [
                                           Box {
-                                            size 0.00865483 0.00264905 0.0142201
+                                            size 0.008765483 0.00264905 0.0142201
                                           }
                                         ]
                                         translationStep 0.0001
                                         rotationStep 0.001
                                       }
                                       Transform {
-                                        translation 0.00945916 0.00894654 -1.41e-05
+                                        translation 0.0095 0.0089 0
                                         rotation 0 0 1 0.000815
                                         children [
                                           Box {
@@ -291,7 +289,7 @@ PROTO EndEffectorHey5Right [
                                         rotationStep 0.001
                                       }
                                       Transform {
-                                        translation 0.0073479 0.0004039 3.979e-05
+                                        translation 0.0073 0.0004 0
                                         children [
                                           Box {
                                             size 0.0153 0.014 0.014
@@ -301,8 +299,8 @@ PROTO EndEffectorHey5Right [
                                         rotationStep 0.001
                                       }
                                       Transform {
-                                        translation 0.00462 0.00680154 -7.94601e-06
-                                        rotation -1 0 0 -1.5739153071795862
+                                        translation 0.0046 0.0068 0
+                                        rotation -1 0 0 -1.574
                                         children [
                                           Cylinder {
                                             height 0.0142
@@ -313,7 +311,7 @@ PROTO EndEffectorHey5Right [
                                         rotationStep 0.0001
                                       }
                                       Transform {
-                                        translation 0.0159 0.00079729 -5.31303e-06
+                                        translation 0.0159 0.0008 0
                                         rotation 1 0 0 1.57
                                         children [
                                           Cylinder {
@@ -324,7 +322,7 @@ PROTO EndEffectorHey5Right [
                                         translationStep 0.0001
                                       }
                                       Transform {
-                                        translation -0.0002 -9.24681e-05 4.10434e-05
+                                        translation -0.0002 0 0
                                         rotation 1 0 0 1.572
                                         children [
                                           Cylinder {
@@ -358,7 +356,7 @@ PROTO EndEffectorHey5Right [
                       boundingObject DEF HAND_RIGHT_FINGER_PHALANX_BO Group {
                         children [
                           Transform {
-                            translation -0.000484472 0.00615072 -4.421e-05
+                            translation -0.0005 0.0062 0
                             rotation 0 0 -1 -0.6458153071795865
                             children [
                               Box {
@@ -369,7 +367,7 @@ PROTO EndEffectorHey5Right [
                             rotationStep 0.001
                           }
                           Transform {
-                            translation 0.00942551 0.00604674 -1.41e-05
+                            translation 0.0094 0.0060 0
                             rotation 0 0 -1 0.643185
                             children [
                               Box {
@@ -380,7 +378,7 @@ PROTO EndEffectorHey5Right [
                             rotationStep 0.001
                           }
                           Transform {
-                            translation 0.0073479 -0.0044961 3.979e-05
+                            translation 0.0073 -0.0045 0
                             children [
                               Box {
                                 size 0.0153 0.00411 0.014
@@ -390,8 +388,8 @@ PROTO EndEffectorHey5Right [
                             rotationStep 0.001
                           }
                           Transform {
-                            translation 0.00462 0.00680154 -7.94649e-06
-                            rotation -1 0 0 -1.5739153071795862
+                            translation 0.0046 0.0068 0
+                            rotation -1 0 0 -1.574
                             children [
                               Cylinder {
                                 height 0.0142
@@ -402,7 +400,7 @@ PROTO EndEffectorHey5Right [
                             rotationStep 0.0001
                           }
                           Transform {
-                            translation 0.0093 9.72902e-05 -4.75803e-06
+                            translation 0.0093 0 0
                             rotation 1 0 0 1.57
                             children [
                               Cylinder {
@@ -413,7 +411,7 @@ PROTO EndEffectorHey5Right [
                             translationStep 0.0001
                           }
                           Transform {
-                            translation -0.0002 -9.24681e-05 4.10434e-05
+                            translation -0.0002 0 0
                             rotation 1 0 0 1.572
                             children [
                               Cylinder {
@@ -446,11 +444,11 @@ PROTO EndEffectorHey5Right [
           boundingObject Group {
             children [
               Transform {
-                translation 0.0025387 0.00341038 0
+                translation 0.0026 0.0034 0
                 rotation 0 0 1 0.523
                 children [
                   Box {
-                    size 0.013391879902345557 0.00699063616787299 0.006014032885120299
+                    size 0.013392 0.006991 0.00601
                   }
                 ]
                 translationStep 0.0001
@@ -467,8 +465,8 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.0135584 0.00576252 -0.00535379
-                rotation -0.5375599743583899 -0.8243219606798434 -0.1775459915310564 -0.7718753071795863
+                translation 0.013558 0.005763 -0.005354
+                rotation -0.5376 -0.8243 -0.1775 -0.7719
                 children [
                   Box {
                     size 0.00893 0.01422 0.00379
@@ -478,7 +476,7 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.0206 0.00160667 0.00369504
+                translation 0.0206 0.0016 0.00377
                 rotation -1 0 0 -0.4308153071795866
                 children [
                   Box {
@@ -728,10 +726,9 @@ PROTO EndEffectorHey5Right [
                                                   Transform {
                                                     translation 0.0226421 -0.0027114 0
                                                     rotation 0 0 1 -0.6765553071795862
-                                                    scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
                                                     children [
                                                       Box {
-                                                        size 0.01 0.01 0.01
+                                                        size 0.0004 0.0066 0.0141
                                                       }
                                                     ]
                                                     translationStep 0.0001
@@ -739,10 +736,9 @@ PROTO EndEffectorHey5Right [
                                                   }
                                                   Transform {
                                                     translation 0.024 -0.0001 0
-                                                    scale 1.0199527051837716 0.6513317451940288 1
                                                     children [
                                                       Box {
-                                                        size 0.0017861 0.000566799 0.0139906
+                                                        size 0.0018 0.0004 0.014
                                                       }
                                                     ]
                                                     translationStep 0.0001

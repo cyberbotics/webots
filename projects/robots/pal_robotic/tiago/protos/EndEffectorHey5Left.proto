@@ -1,8 +1,8 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the robot Tiago from PAL Robotics (Spain).
-# It is the left version of the Hey5 end-effector.
+# This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
+# It is the left version of the Hey5 hand end-effector.
 
 PROTO EndEffectorHey5Left [
   field  SFVec3f     translation  0 0 0
@@ -279,10 +279,9 @@ PROTO EndEffectorHey5Left [
                                       Transform {
                                         translation -0.0226421 -0.0027114 0
                                         rotation 0 0 1 -2.407745307179586
-                                        scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
                                         children [
                                           Box {
-                                            size 0.01 0.01 0.01
+                                            size 0.0004 0.0066 0.0141
                                           }
                                         ]
                                         translationStep 0.0001
@@ -290,10 +289,9 @@ PROTO EndEffectorHey5Left [
                                       }
                                       Transform {
                                         translation -0.024 -0.0001 0
-                                        scale 1.0199527051837716 0.6513317451940288 1
                                         children [
                                           Box {
-                                            size 0.0017861 0.000566799 0.0139906
+                                            size 0.0018 0.0004 0.014
                                           }
                                         ]
                                         translationStep 0.0001
@@ -932,10 +930,9 @@ PROTO EndEffectorHey5Left [
                                                   Transform {
                                                     translation 0.0226421 -0.0027114 0
                                                     rotation 0 0 1 -0.6765553071795862
-                                                    scale 0.03691528489195664 0.6588567160637488 1.4110198202562614
                                                     children [
                                                       Box {
-                                                        size 0.01 0.01 0.01
+                                                        size 0.0004 0.0066 0.0141
                                                       }
                                                     ]
                                                     translationStep 0.0001
@@ -943,10 +940,9 @@ PROTO EndEffectorHey5Left [
                                                   }
                                                   Transform {
                                                     translation 0.024 -0.0001 0
-                                                    scale 1.0199527051837716 0.6513317451940288 1
                                                     children [
                                                       Box {
-                                                        size 0.0017861 0.000566799 0.0139906
+                                                        size 0.0018 0.0004 0.014
                                                       }
                                                     ]
                                                     translationStep 0.0001

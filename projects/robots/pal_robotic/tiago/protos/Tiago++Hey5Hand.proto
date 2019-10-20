@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Webots for the robot Tiago++ (Hey5 hand version) from PAL Robotics (Spain).
-# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by Hey5 hand.
+# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by Hey5 hands.
 
 PROTO Tiago++Hey5Hand [
   field  SFVec3f     translation  0 0 0

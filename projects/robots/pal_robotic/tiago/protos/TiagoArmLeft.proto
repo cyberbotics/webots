@@ -1,13 +1,13 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the robot Tiago from PAL Robotics (Spain).
-# It is the robot's left arm that can be connected to a shoulder component.
+# This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
+# It is the robot's left arm that can be connected to the TIAGo body.
 
 PROTO TiagoArmLeft [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 0
-  field  MFNode      endEffector  []                    # Defines the end-effector used {EndEffectorGripper or EndEffectorHey5Left}.
+  field  MFNode      endEffector  []       # Defines the end-effector used {EndEffectorGripper or EndEffectorHey5Left}.
 ]
 {
   Solid {
@@ -157,8 +157,8 @@ PROTO TiagoArmLeft [
                 }
               ]
               endPoint DEF ARM_LEFT_2 Solid {
-                translation 0.12499999999999997 0.018000000000000013 -0.03100000000000025
-                rotation 1 -5.410898419178414e-15 -3.3056129409162155e-14 1.5707959999999443
+                translation 0.125 0.018 -0.031
+                rotation 1 0 0 1.5708
                 children [
                   DEF ARM_LEFT_2_SH1 Shape {
                     appearance MattePaint {
@@ -203,8 +203,8 @@ PROTO TiagoArmLeft [
                       }
                     ]
                     endPoint DEF ARM_LEFT_3 Solid {
-                      translation 0.08720000000000028 -1.812661132305493e-12 -0.0015000000000001115
-                      rotation -0.5773499358561368 0.577350935856026 0.5773499358561371 -2.094395307179585
+                      translation 0.0872 0 -0.0015
+                      rotation -0.5773 0.5774 0.5773 -2.0944
                       children [
                         DEF ARM_LEFT_3_SH1 Shape {
                           appearance GlossyPaint {
@@ -298,8 +298,8 @@ PROTO TiagoArmLeft [
                             }
                           ]
                           endPoint DEF ARM_LEFT_4 Solid {
-                            translation -0.01999999999861002 -0.027000000000012007 -0.22200000000000136
-                            rotation -0.577350269189608 -0.5773502691896472 -0.5773502691896222 2.094395000000053
+                            translation -0.02 -0.027 -0.222
+                            rotation -0.5774 -0.5774 -0.5774 2.0944
                             children [
                               DEF ARM_LEFT_4_SH1 Shape {
                                 appearance MattePaint {
@@ -392,8 +392,8 @@ PROTO TiagoArmLeft [
                                   }
                                 ]
                                 endPoint DEF ARM_LEFT_5 Solid {
-                                  translation -0.1620000000000028 0.019999999997710738 0.02700000000000566
-                                  rotation 5.1388608278501575e-15 -1 -1.0598704107133138e-14 1.5707960000000043
+                                  translation -0.162 0.02 0.027
+                                  rotation 0 -1 0 1.5708
                                   children [
                                     DEF ARM_LEFT_5_SH1 Shape {
                                       appearance GlossyPaint {
@@ -443,8 +443,8 @@ PROTO TiagoArmLeft [
                                         }
                                       ]
                                       endPoint DEF ARM_LEFT_6 Solid {
-                                        translation 2.570860191397628e-15 1.82620585320592e-12 0.1500000000000029
-                                        rotation -0.5773502691896126 -0.5773502691896211 -0.5773502691896435 2.0943949999999596
+                                        translation 0 0 0.15
+                                        rotation -0.5774 -0.5774 -0.5774 2.0944
                                         children [
                                           DEF ARM_LEFT_6_SH1 Shape {
                                             appearance GlossyPaint {
@@ -493,8 +493,8 @@ PROTO TiagoArmLeft [
                                               }
                                             ]
                                             endPoint DEF WRIST Solid {
-                                              translation 0.05500000000000038 1.9081958235744878e-17 1.1102230246251565e-16
-                                              rotation 0.577350269189626 0.5773502691896253 0.5773502691896261 2.094395000000001
+                                              translation 0.055 0 0
+                                              rotation 0.5774 0.5774 0.5774 2.0944
                                               children [
                                                 Transform {
                                                   rotation 1 0 0 1.570796
@@ -529,14 +529,14 @@ PROTO TiagoArmLeft [
                                                 }
                                                 DEF WRIST_LEFT_CONNECTOR Solid {
                                                   translation 0 0 0.012725
-                                                  rotation -0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.094395
+                                                  rotation -0.5774 -0.5774 -0.5774 2.0944
                                                   children [
                                                     Transform {
-                                                      rotation 0 0 1 -1.5707953071795862
+                                                      rotation 0 0 1 -1.5708
                                                       children IS endEffector
                                                     }
                                                     Transform {
-                                                      rotation 0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.094395
+                                                      rotation 0.5774 0.5774 -0.5774 2.0944
                                                       children [
                                                         Shape {
                                                           appearance BrushedAluminium {
@@ -569,7 +569,7 @@ PROTO TiagoArmLeft [
                                                   ]
                                                   name "wrist_left_ft_tool_link"
                                                   boundingObject Transform {
-                                                    rotation 0 0 -1 -1.570000307179586
+                                                    rotation 0 0 -1 -1.57
                                                     children [
                                                       Cylinder {
                                                         height 0.011
@@ -585,7 +585,7 @@ PROTO TiagoArmLeft [
                                               ]
                                               name "arm_left_7_link"
                                               boundingObject Transform {
-                                                rotation 1 0 0 1.570796
+                                                rotation 1 0 0 1.5708
                                                 children [
                                                   Cylinder {
                                                     height 0.0157
@@ -604,7 +604,7 @@ PROTO TiagoArmLeft [
                                         name "arm_left_6_link"
                                         boundingObject Transform {
                                           translation 0.0409 0 0
-                                          rotation 0 0 -1 1.5707963071795863
+                                          rotation 0 0 -1 1.5708
                                           children [
                                             Cylinder {
                                               height 0.013
@@ -672,7 +672,7 @@ PROTO TiagoArmLeft [
                               children [
                                 Transform {
                                   translation 0 0.001 -0.002
-                                  rotation 1 0 0 1.5707959999999999
+                                  rotation 1 0 0 1.5708
                                   children [
                                     Cylinder {
                                       height 0.056
@@ -682,7 +682,7 @@ PROTO TiagoArmLeft [
                                 }
                                 Transform {
                                   translation -0.093 0.019 0.027
-                                  rotation 0 0 -1 1.5707963071795863
+                                  rotation 0 0 -1 1.5708
                                   children [
                                     Cylinder {
                                       height 0.191
@@ -707,7 +707,7 @@ PROTO TiagoArmLeft [
                         children [
                           Transform {
                             translation 0 0 -0.106
-                            rotation 1 0 0 -1.5707963071795863
+                            rotation 1 0 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.23
@@ -742,7 +742,7 @@ PROTO TiagoArmLeft [
                   children [
                     Transform {
                       translation 0.056 0 -0.002
-                      rotation 0 0 1 -1.5707963071795863
+                      rotation 0 0 1 -1.5708
                       children [
                         Cylinder {
                           height 0.048
@@ -752,7 +752,7 @@ PROTO TiagoArmLeft [
                     }
                     Transform {
                       translation 0 0 0.028
-                      rotation 1 0 0 -1.5707963071795863
+                      rotation 1 0 0 -1.5708
                       children [
                         Cylinder {
                           height 0.057
@@ -777,7 +777,7 @@ PROTO TiagoArmLeft [
             children [
               Transform {
                 translation 0 0 0.013
-                rotation 1 0 0 1.5707959999999999
+                rotation 1 0 0 1.5708
                 children [
                   Cylinder {
                     height 0.052
@@ -826,7 +826,7 @@ PROTO TiagoArmLeft [
     boundingObject Group {
       children [
         DEF SHOULDER_LEFT_SH1 Transform {
-          translation 0.0260003 0.14 -0.232
+          translation 0.026 0.14 -0.232
           rotation 0 0 1 1.5708
           children [
             Box {
@@ -835,8 +835,8 @@ PROTO TiagoArmLeft [
           ]
         }
         DEF SHOULDER_LEFT_SH2 Transform {
-          translation 0.0256005 0.186844 -0.266076
-          rotation 0.5199850799097533 0.6776651041415481 -0.5199860799099069 -1.9504353071795864
+          translation 0.0256 0.1868 -0.2661
+          rotation 0.52 0.6777 -0.52 -1.9504
           children [
             Cylinder {
               height 0.016
@@ -847,7 +847,7 @@ PROTO TiagoArmLeft [
         }
         DEF SHOULDER_LEFT_SH3 Transform {
           translation 0.026 0.19 -0.221
-          rotation 1 0 0 -1.5707963071795863
+          rotation 1 0 0 -1.5708
           children [
             Cylinder {
               height 0.075

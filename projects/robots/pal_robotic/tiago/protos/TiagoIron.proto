@@ -1,8 +1,8 @@
 #VRML_SIM R2019a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# This is a proto file for Webots for the robot Tiago Iron version from PAL Robotics (Spain).
-# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body without arm.
+# This is a proto file for Webots for the robot TIAGo (Iron version) from PAL Robotics (Spain).
+# It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) without arm.
 
 PROTO TiagoIron [
   field  SFVec3f     translation  0 0 0
