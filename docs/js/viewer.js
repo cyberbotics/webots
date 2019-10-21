@@ -55,7 +55,6 @@ function setupCyberboticsUrl(url) {
   localSetup.book = 'guide';
   localSetup.page = 'index';
   localSetup.anchor = '';
-  localSetup.tabs = {};
 
   var m = url.match(new RegExp('/([^/]+)/([^/\\?#]+)([^/]*)$'));
   if (m) {
@@ -102,17 +101,11 @@ function setupDefaultUrl(url) {
   else if (!localSetup.book)
     localSetup.book = 'guide';
 
-  m = url.match(/tab-os=([^&#]*)/);
-  if (m)
-    localSetup.tabs['tab-os'] = m[1].toLowerCase();
-  else if (!localSetup.tabs['tab-os'])
-    localSetup.tabs['tab-os'] = '';
-
-  m = url.match(/tab-language=([^&#]*)/);
-  if (m)
-    localSetup.tabs['tab-language'] = m[1].toLowerCase();
-  else if (!localSetup.tabs['tab-language'])
-    localSetup.tabs['tab-language'] = '';
+  // Extract tab options
+  var tabRegex = /[?&](tab-[^=]+)=([^&#]+)/g;
+  var match;
+  while ((match = tabRegex.exec(url)) !== null)
+    localSetup.tabs[match[1]] = match[2];
 
   m = url.match(/#([^&#]*)/);
   if (m)
