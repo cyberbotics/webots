@@ -29,19 +29,19 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "textures/cubic/brown_floor_back.png"
+    "textures/cubic/brown_floor_side.png"
   ]
   bottomUrl [
     "textures/cubic/brown_floor_bottom.png"
   ]
   frontUrl [
-    "textures/cubic/brown_floor_front.png"
+    "textures/cubic/brown_floor_side.png"
   ]
   leftUrl [
-    "textures/cubic/brown_floor_left.png"
+    "textures/cubic/brown_floor_side.png"
   ]
   rightUrl [
-    "textures/cubic/brown_floor_right.png"
+    "textures/cubic/brown_floor_side.png"
   ]
   topUrl [
     "textures/cubic/brown_floor_top.png"

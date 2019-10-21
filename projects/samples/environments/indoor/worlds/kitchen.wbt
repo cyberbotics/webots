@@ -8,23 +8,26 @@ Viewpoint {
   exposure 0.7999999999999999
 }
 Background {
-  backUrl [
-    "textures/cubic/brown_floor_back.png"
+  skyColor [
+    0.2 0.2 0.2
   ]
-  bottomUrl [
-    "textures/cubic/brown_floor_bottom.png"
+  backIrradianceUrl [
+    "textures/cubic/empty_office_back.hdr"
   ]
-  frontUrl [
-    "textures/cubic/brown_floor_front.png"
+  bottomIrradianceUrl [
+    "textures/cubic/empty_office_bottom.hdr"
   ]
-  leftUrl [
-    "textures/cubic/brown_floor_left.png"
+  frontIrradianceUrl [
+    "textures/cubic/empty_office_front.hdr"
   ]
-  rightUrl [
-    "textures/cubic/brown_floor_right.png"
+  leftIrradianceUrl [
+    "textures/cubic/empty_office_left.hdr"
   ]
-  topUrl [
-    "textures/cubic/brown_floor_top.png"
+  rightIrradianceUrl [
+    "textures/cubic/empty_office_right.hdr"
+  ]
+  topIrradianceUrl [
+    "textures/cubic/empty_office_top.hdr"
   ]
 }
 Cabinet {
