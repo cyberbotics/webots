@@ -158,8 +158,10 @@ void WbBackground::activate() {
 
   connect(mLuminosity, &WbSFDouble::changed, this, &WbBackground::updateLuminosity);
   connect(mSkyColor, &WbMFColor::changed, this, &WbBackground::updateColor);
-  for (int i = 0; i < 6; ++i)
+  for (int i = 0; i < 6; ++i) {
     connect(mUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
+    connect(mIrradianceUrlFields[i], &WbMFString::changed, this, &WbBackground::updateCubemap);
+  }
 
   updateColor();
 
