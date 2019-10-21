@@ -64,40 +64,6 @@ void WbBackground::init() {
     mIrradianceUrlFields[i] = findMFString(gIrradianceUrlNames[i]);
   }
 
-  QString directory;
-  QString textureBaseName;
-  for (int i = 0; i < 6; ++i) {
-    if (!mUrlFields[i] || mUrlFields[i]->size() == 0) {
-      // empty url
-      if (i != 0)
-        warn(tr("Impossible to create the cubemap because not all the url fields are defined."));
-      break;
-    }
-    const QFileInfo &fileInfo(mUrlFields[i]->item(0));
-    const QString &currentDirectory = fileInfo.dir().path();
-    QString currentTextureBaseName = fileInfo.baseName();
-
-    const int index = currentTextureBaseName.lastIndexOf(gTextureSuffixes[i]);
-    if (index < 0) {
-      // suffix not found
-      warn(tr("Impossible to create the cubemap because the texture file defined in the '%1' field doesn't end with the '%2' "
-              "suffix.")
-             .arg(gUrlNames[i])
-             .arg(gTextureSuffixes[i]));
-      break;
-    }
-    currentTextureBaseName = currentTextureBaseName.left(index);
-    if (i == 0) {
-      directory = currentDirectory;
-      textureBaseName = currentTextureBaseName;
-    } else if (directory != currentDirectory || textureBaseName != currentTextureBaseName) {
-      // texture are not in the same directory or using the same base name
-      warn(tr("Impossible to create the cubemap because the textures defined in the url fields are not in the same folder or "
-              "they do not share the same base name."));
-      break;
-    }
-  }
-
   mSkyboxShaderProgram = NULL;
   mSkyboxRenderable = NULL;
   mSkyboxMaterial = NULL;
