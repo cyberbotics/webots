@@ -4,7 +4,7 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the left version of the Hey5 hand end-effector.
 
-PROTO TiagoHey5Left [
+PROTO TiagoLeftHey5 [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 -1.5708
 ]

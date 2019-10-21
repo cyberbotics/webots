@@ -623,7 +623,7 @@ PROTO TiagoBase [
               ]
               endPoint DEF SMALL_WHEEL Solid {
                 translation -0.016 0 -0.04
-                rotation 0 -0.7071 -0.7071 3.1416
+                rotation -1 0 0 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {
@@ -1007,7 +1007,7 @@ PROTO TiagoBase [
               ]
               endPoint DEF SMALL_WHEEL Solid {
                 translation -0.016 0 -0.04
-                rotation -1 0 04 1.5708
+                rotation -1 0 0 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {

@@ -7,9 +7,9 @@
 PROTO TiagoBody [
   field  SFVec3f     translation       -0.054 0 0.193
   field  SFRotation  rotation          0 1 0 0
-  field  MFNode      RightArmExtension []              # Defines the slot where the TiagoArmRight can be added.
-  field  MFNode      FrontArmExtension []              # Defines the slot where the TiagoArmRight or TiagoArmLeft can be added.
-  field  MFNode      LeftArmExtension  []              # Defines the slot where the TiagoArmRight can be added.
+  field  MFNode      RightArmExtension []              # Defines the slot where the TiagoRightArm can be added.
+  field  MFNode      FrontArmExtension []              # Defines the slot where the TiagoRightArm or TiagoLeftArm can be added.
+  field  MFNode      LeftArmExtension  []              # Defines the slot where the TiagoRightArm can be added.
 ]
 {
   Solid {
@@ -213,8 +213,8 @@ PROTO TiagoBody [
                 RotationalMotor {
                   name "head_1_joint"
                   maxVelocity 3
-                  minPosition -1.309
-                  maxPosition 1.309
+                  minPosition -1.24
+                  maxPosition 1.24
                   maxTorque 5.197
                 }
                 PositionSensor {
@@ -264,8 +264,8 @@ PROTO TiagoBody [
                       RotationalMotor {
                         name "head_2_joint"
                         maxVelocity 3
-                        minPosition -1.047
-                        maxPosition 0.7854
+                        minPosition -0.98
+                        maxPosition 0.79
                         maxTorque 2.77
                       }
                       PositionSensor {

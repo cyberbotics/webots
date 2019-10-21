@@ -4,10 +4,10 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the robot's right arm that can be connected to the TIAGo body.
 
-PROTO TiagoArmRight [
+PROTO TiagoRightArm [
   field  SFVec3f     translation  0.05 0 0
   field  SFRotation  rotation     0 0 1 3.14159
-  field  MFNode      endEffector  []             # Defines the end-effector used {TiagoGripper or TiagoHey5Right}.
+  field  MFNode      endEffector  []             # Defines the end-effector used {TiagoGripper or TiagoRightHey5}.
 ]
 {
   Solid {
@@ -158,7 +158,7 @@ PROTO TiagoArmRight [
                   name "arm_right_2_joint"
                   maxVelocity 1.95
                   minPosition -1.11
-                  maxPosition 1.6
+                  maxPosition 1.5
                   maxTorque 43
                 }
                 PositionSensor {

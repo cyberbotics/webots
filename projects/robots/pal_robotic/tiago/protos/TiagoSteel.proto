@@ -16,7 +16,7 @@ PROTO TiagoSteel [
     bodyExtension [
       TiagoBody {
         FrontArmExtension [
-          TiagoArmLeft {
+          TiagoFrontArm {
             endEffector [
               TiagoGripper {
               }

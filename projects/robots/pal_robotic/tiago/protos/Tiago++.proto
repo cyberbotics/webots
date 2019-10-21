@@ -8,8 +8,8 @@ PROTO Tiago++ [
   field  SFVec3f     translation        0 0 0
   field  SFRotation  rotation           1 0 0 -1.5708
   field  SFString    controller         "void"
-  field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoHey5Right.
-  field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoHey5Left.
+  field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoRightHey5.
+  field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoLeftHey5.
 ]
 {
   TiagoBase {
@@ -18,7 +18,7 @@ PROTO Tiago++ [
     bodyExtension [
       TiagoBody {
         RightArmExtension [
-          TiagoArmRight {
+          TiagoRightArm {
             endEffector [
               Transform {
                 children IS endEffectorRight
@@ -27,7 +27,7 @@ PROTO Tiago++ [
           }
         ]
         LeftArmExtension [
-          TiagoArmLeft {
+          TiagoLeftArm {
             endEffector [
               Transform {
                 children IS endEffectorLeft

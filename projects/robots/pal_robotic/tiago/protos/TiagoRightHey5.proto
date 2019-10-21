@@ -4,7 +4,7 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the right version of the Hey5 hand end-effector.
 
-PROTO TiagoHey5Right [
+PROTO TiagoRightHey5 [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 -1 -1.5708
 ]
@@ -47,7 +47,7 @@ PROTO TiagoHey5Right [
           RotationalMotor {
             name "hand_right_thumb_abd_joint"
             maxVelocity 2
-            maxPosition 1.57079632679
+            maxPosition 1.57
             maxTorque 2
           }
           PositionSensor {
@@ -693,7 +693,7 @@ PROTO TiagoHey5Right [
                                         }
                                       ]
                                       endPoint DEF INDEX_CONNECTOR_3 Solid {
-                                        translation 0.00 0 0
+                                        translation 0.009 0 0
                                         rotation -0.1474 -0.8847 -0.4423 0
                                         children [
                                           USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
@@ -1337,7 +1337,7 @@ PROTO TiagoHey5Right [
       }
       DEF HAND_RIGHT_LITTLE_JOINT HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.4 0.866025 0
+          axis 0 1 0
           anchor 0.1165 0.0042 -0.032
           dampingConstant 0.5
         }
@@ -1390,7 +1390,7 @@ PROTO TiagoHey5Right [
                       RotationalMotor {
                         name "hand_right_little_flex_1_joint"
                         maxVelocity 2
-                        maxPosition 1
+                        maxPosition 0.79
                         maxTorque 2
                       }
                       PositionSensor {

@@ -4,17 +4,17 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the robot's left arm that can be connected to the TIAGo body.
 
-PROTO TiagoArmLeft [
+PROTO TiagoFrontArm [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 1 0
-  field  MFNode      endEffector  []       # Defines the end-effector used {TiagoGripper or TiagoHey5Left}.
+  field  MFNode      endEffector  []       # Defines the end-effector used {TiagoGripper or TiagoLeftHey5}.
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
     children [
-      DEF LEFT_SHOULDER Shape {
+      DEF SHOULDER Shape {
         appearance GlossyPaint {
           baseColor 0.823529 0.776471 0.776471
           textureTransform TextureTransform {
@@ -42,30 +42,30 @@ PROTO TiagoArmLeft [
           creaseAngle 0.4
         }
       }
-      DEF ARM_LEFT_1_JOINT HingeJoint {
+      DEF ARM_1_JOINT HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 0 -1
+          axis 0 0 1
           anchor 0.025 0.194 -0.16
           dampingConstant 1
           staticFriction 1
         }
         device [
           RotationalMotor {
-            name "arm_left_1_joint"
+            name "arm_1_joint"
             maxVelocity 1.95
-            minPosition -1.11
-            maxPosition 1.5
+            minPosition 0
+            maxPosition 2.68
             maxTorque 43
           }
           PositionSensor {
-            name "arm_left_1_joint_sensor"
+            name "arm_1_joint_sensor"
           }
         ]
-        endPoint DEF ARM_LEFT_1 Solid {
+        endPoint DEF ARM_1 Solid {
           translation 0.0251 0.194 -0.171
-          rotation 0 0 1 1.5708
+          rotation 0 0 1 0
           children [
-            DEF ARM_LEFT_1_SH1 Shape {
+            DEF ARM_1_SH1 Shape {
               appearance GlossyPaint {
                 baseColor 0.823529 0.776471 0.776471
                 textureTransform TextureTransform {
@@ -93,7 +93,7 @@ PROTO TiagoArmLeft [
                 creaseAngle 0.6
               }
             }
-            DEF ARM_LEFT_1_SH2 Shape {
+            DEF ARM_1_SH2 Shape {
               appearance MattePaint {
                 baseColor 0.133333 0.133333 0.133333
               }
@@ -117,7 +117,7 @@ PROTO TiagoArmLeft [
                 creaseAngle 0.6
               }
             }
-            DEF ARM_LEFT_1_SH3 Shape {
+            DEF ARM_1_SH3 Shape {
               appearance GlossyPaint {
                 baseColor 0.823529 0.776471 0.776471
                 textureTransform TextureTransform {
@@ -137,30 +137,30 @@ PROTO TiagoArmLeft [
                 creaseAngle 0.6
               }
             }
-            DEF ARM_LEFT_2_JOINT HingeJoint {
+            DEF ARM_2_JOINT HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
+                axis 0 -1 0
                 anchor 0.125 0.0195 -0.031
                 dampingConstant 1
                 staticFriction 1
               }
               device [
                 RotationalMotor {
-                  name "arm_left_2_joint"
+                  name "arm_2_joint"
                   maxVelocity 1.95
-                  minPosition -1.11
-                  maxPosition 1.5
+                  minPosition -1.5
+                  maxPosition 1.02
                   maxTorque 43
                 }
                 PositionSensor {
-                  name "arm_left_2_joint_sensor"
+                  name "arm_2_joint_sensor"
                 }
               ]
-              endPoint DEF ARM_LEFT_2 Solid {
+              endPoint DEF ARM_2 Solid {
                 translation 0.125 0.018 -0.031
                 rotation 1 0 0 1.5708
                 children [
-                  DEF ARM_LEFT_2_SH1 Shape {
+                  DEF ARM_2_SH1 Shape {
                     appearance MattePaint {
                       baseColor 0.133333 0.133333 0.133333
                     }
@@ -184,29 +184,30 @@ PROTO TiagoArmLeft [
                       creaseAngle 0.9
                     }
                   }
-                  DEF ARM_LEFT_3_JOINT HingeJoint {
+                  DEF ARM_3_JOINT HingeJoint {
                     jointParameters HingeJointParameters {
+                      axis -1 0 0
                       anchor 0.0895 0 -0.0015
                       dampingConstant 1
                       staticFriction 1
                     }
                     device [
                       RotationalMotor {
-                        name "arm_left_3_joint"
+                        name "arm_3_joint"
                         maxVelocity 2.35
-                        minPosition -0.72
-                        maxPosition 3.86
+                        minPosition -3.46
+                        maxPosition 1.5
                         maxTorque 26
                       }
                       PositionSensor {
-                        name "arm_left_3_joint_sensor"
+                        name "arm_3_joint_sensor"
                       }
                     ]
-                    endPoint DEF ARM_LEFT_3 Solid {
+                    endPoint DEF ARM_3 Solid {
                       translation 0.0872 0 -0.0015
-                      rotation -0.5773 0.5774 0.5773 -2.0944
+                      rotation -0.5774 -0.5773 0.5773 2.09446
                       children [
-                        DEF ARM_LEFT_3_SH1 Shape {
+                        DEF ARM_3_SH1 Shape {
                           appearance GlossyPaint {
                             baseColor 0.0470588 0.0470588 0.0470588
                           }
@@ -230,7 +231,7 @@ PROTO TiagoArmLeft [
                             creaseAngle 0.4
                           }
                         }
-                        DEF ARM_LEFT_3_SH2 Shape {
+                        DEF ARM_3_SH2 Shape {
                           appearance GlossyPaint {
                             baseColor 0.0470588 0.0470588 0.0470588
                           }
@@ -254,7 +255,7 @@ PROTO TiagoArmLeft [
                             creaseAngle 0.6
                           }
                         }
-                        DEF ARM_LEFT_3_SH3 Shape {
+                        DEF ARM_3_SH3 Shape {
                           appearance MattePaint {
                             baseColor 0.133333 0.133333 0.133333
                           }
@@ -278,7 +279,7 @@ PROTO TiagoArmLeft [
                             creaseAngle 0.4
                           }
                         }
-                        DEF ARM_LEFT_4_JOINT HingeJoint {
+                        DEF ARM_4_JOINT HingeJoint {
                           jointParameters HingeJointParameters {
                             axis 0 1 0
                             anchor -0.02 -0.027 -0.222
@@ -287,21 +288,21 @@ PROTO TiagoArmLeft [
                           }
                           device [
                             RotationalMotor {
-                              name "arm_left_4_joint"
+                              name "arm_4_joint"
                               maxVelocity 2.35
                               minPosition -0.32
                               maxPosition 2.29
                               maxTorque 26
                             }
                             PositionSensor {
-                              name "arm_left_4_joint_sensor"
+                              name "arm_4_joint_sensor"
                             }
                           ]
-                          endPoint DEF ARM_LEFT_4 Solid {
+                          endPoint DEF ARM_4 Solid {
                             translation -0.02 -0.027 -0.222
                             rotation -0.5774 -0.5774 -0.5774 2.0944
                             children [
-                              DEF ARM_LEFT_4_SH1 Shape {
+                              DEF ARM_4_SH1 Shape {
                                 appearance MattePaint {
                                   baseColor 0.133333 0.133333 0.133333
                                 }
@@ -325,7 +326,7 @@ PROTO TiagoArmLeft [
                                   creaseAngle 0.7
                                 }
                               }
-                              DEF ARM_LEFT_4_SH2 Shape {
+                              DEF ARM_4_SH2 Shape {
                                 appearance GlossyPaint {
                                   baseColor 0.0470588 0.0470588 0.0470588
                                 }
@@ -349,7 +350,7 @@ PROTO TiagoArmLeft [
                                   creaseAngle 0.6
                                 }
                               }
-                              DEF ARM_LEFT_4_SH3 Shape {
+                              DEF ARM_4_SH3 Shape {
                                 appearance GlossyPaint {
                                   baseColor 0.0470588 0.0470588 0.0470588
                                 }
@@ -373,29 +374,30 @@ PROTO TiagoArmLeft [
                                   creaseAngle 0.4
                                 }
                               }
-                              DEF ARM_LEFT_5_JOINT HingeJoint {
+                              DEF ARM_5_JOINT HingeJoint {
                                 jointParameters HingeJointParameters {
+                                  axis -1 0 0
                                   anchor -0.162 0.02 0.027
                                   dampingConstant 1
                                   staticFriction 1
                                 }
                                 device [
                                   RotationalMotor {
-                                    name "arm_left_5_joint"
+                                    name "arm_5_joint"
                                     maxVelocity 1.95
                                     minPosition -2.07
                                     maxPosition 2.07
                                     maxTorque 3
                                   }
                                   PositionSensor {
-                                    name "arm_left_5_joint_sensor"
+                                    name "arm_5_joint_sensor"
                                   }
                                 ]
-                                endPoint DEF ARM_LEFT_5 Solid {
+                                endPoint DEF ARM_5 Solid {
                                   translation -0.162 0.02 0.027
                                   rotation 0 -1 0 1.5708
                                   children [
-                                    DEF ARM_LEFT_5_SH1 Shape {
+                                    DEF ARM_5_SH1 Shape {
                                       appearance GlossyPaint {
                                         baseColor 0.823529 0.776471 0.776471
                                         textureTransform TextureTransform {
@@ -423,30 +425,30 @@ PROTO TiagoArmLeft [
                                         creaseAngle 1
                                       }
                                     }
-                                    DEF ARM_LEFT_6_JOINT HingeJoint {
+                                    DEF ARM_6_JOINT HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        axis 0 -1 0
+                                        axis 0 1 0
                                         anchor 0 0 0.15
                                         dampingConstant 1
                                         staticFriction 1
                                       }
                                       device [
                                         RotationalMotor {
-                                          name "arm_left_6_joint"
+                                          name "arm_6_joint"
                                           maxVelocity 1.76
                                           minPosition -1.39
                                           maxPosition 1.39
                                           maxTorque 6.6
                                         }
                                         PositionSensor {
-                                          name "arm_left_6_joint_sensor"
+                                          name "arm_6_joint_sensor"
                                         }
                                       ]
-                                      endPoint DEF ARM_LEFT_6 Solid {
+                                      endPoint DEF ARM_6 Solid {
                                         translation 0 0 0.15
                                         rotation -0.5774 -0.5774 -0.5774 2.0944
                                         children [
-                                          DEF ARM_LEFT_6_SH1 Shape {
+                                          DEF ARM_6_SH1 Shape {
                                             appearance GlossyPaint {
                                               baseColor 0.823529 0.776471 0.776471
                                               textureTransform TextureTransform {
@@ -474,22 +476,22 @@ PROTO TiagoArmLeft [
                                               creaseAngle 1
                                             }
                                           }
-                                          DEF ARM_LEFT_7_JOINT HingeJoint {
+                                          DEF ARM_7_JOINT HingeJoint {
                                             jointParameters HingeJointParameters {
-                                              axis -1 0 0
+                                              axis 1 0 0
                                               dampingConstant 1
                                               staticFriction 1
                                             }
                                             device [
                                               RotationalMotor {
-                                                name "arm_left_7_joint"
+                                                name "arm_7_joint"
                                                 maxVelocity 1.76
                                                 minPosition -2.07
                                                 maxPosition 2.07
                                                 maxTorque 6.6
                                               }
                                               PositionSensor {
-                                                name "arm_left_7_joint_sensor"
+                                                name "arm_7_joint_sensor"
                                               }
                                             ]
                                             endPoint DEF WRIST Solid {
@@ -499,7 +501,7 @@ PROTO TiagoArmLeft [
                                                 Transform {
                                                   rotation 1 0 0 1.570796
                                                   children [
-                                                    DEF ARM_LEFT_7_SH1 Shape {
+                                                    DEF ARM_7_SH1 Shape {
                                                       appearance PBRAppearance {
                                                         baseColor 0.333333 0 1
                                                         roughness 1
@@ -527,7 +529,7 @@ PROTO TiagoArmLeft [
                                                     }
                                                   ]
                                                 }
-                                                DEF WRIST_LEFT_CONNECTOR Solid {
+                                                DEF WRIST_CONNECTOR Solid {
                                                   translation 0 0 0.012725
                                                   rotation -0.5774 -0.5774 -0.5774 2.0944
                                                   children [
@@ -567,7 +569,7 @@ PROTO TiagoArmLeft [
                                                       ]
                                                     }
                                                   ]
-                                                  name "wrist_left_ft_tool_link"
+                                                  name "wrist_ft_tool_link"
                                                   boundingObject Transform {
                                                     rotation 0 0 -1 -1.57
                                                     children [
@@ -583,7 +585,7 @@ PROTO TiagoArmLeft [
                                                   }
                                                 }
                                               ]
-                                              name "arm_left_7_link"
+                                              name "arm_7_link"
                                               boundingObject Transform {
                                                 rotation 1 0 0 1.5708
                                                 children [
@@ -601,7 +603,7 @@ PROTO TiagoArmLeft [
                                             }
                                           }
                                         ]
-                                        name "arm_left_6_link"
+                                        name "arm_6_link"
                                         boundingObject Transform {
                                           translation 0.0409 0 0
                                           rotation 0 0 -1 1.5708
@@ -622,7 +624,7 @@ PROTO TiagoArmLeft [
                                       }
                                     }
                                   ]
-                                  name "arm_left_5_link"
+                                  name "arm_5_link"
                                   boundingObject Group {
                                     children [
                                       Transform {
@@ -667,7 +669,7 @@ PROTO TiagoArmLeft [
                                 }
                               }
                             ]
-                            name "arm_left_4_link"
+                            name "arm_4_link"
                             boundingObject Group {
                               children [
                                 Transform {
@@ -702,7 +704,7 @@ PROTO TiagoArmLeft [
                           }
                         }
                       ]
-                      name "arm_left_3_link"
+                      name "arm_3_link"
                       boundingObject Group {
                         children [
                           Transform {
@@ -737,7 +739,7 @@ PROTO TiagoArmLeft [
                     }
                   }
                 ]
-                name "arm_left_2_link"
+                name "arm_2_link"
                 boundingObject Group {
                   children [
                     Transform {
@@ -772,7 +774,7 @@ PROTO TiagoArmLeft [
               }
             }
           ]
-          name "TIAGo_left_arm"
+          name "TIAGo front arm"
           boundingObject Group {
             children [
               Transform {
@@ -825,7 +827,7 @@ PROTO TiagoArmLeft [
     name "Left shoulder"
     boundingObject Group {
       children [
-        DEF SHOULDER_LEFT_SH1 Transform {
+        DEF SHOULDER_SH1 Transform {
           translation 0.026 0.14 -0.232
           rotation 0 0 1 1.5708
           children [
@@ -834,7 +836,7 @@ PROTO TiagoArmLeft [
             }
           ]
         }
-        DEF SHOULDER_LEFT_SH2 Transform {
+        DEF SHOULDER_SH2 Transform {
           translation 0.0256 0.1868 -0.2661
           rotation 0.52 0.6777 -0.52 -1.9504
           children [
@@ -845,7 +847,7 @@ PROTO TiagoArmLeft [
           ]
           translationStep 0.001
         }
-        DEF SHOULDER_LEFT_SH3 Transform {
+        DEF SHOULDER_SH3 Transform {
           translation 0.026 0.19 -0.221
           rotation 1 0 0 -1.5708
           children [
