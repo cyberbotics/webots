@@ -168,7 +168,7 @@ void WbStreamingServer::start(int port) {
   try {
     create(port);
   } catch (const QString &e) {
-    WbLog::error(tr("Error when creating the TCP streaming server: %1").arg(e));
+    WbLog::error(tr("Error when creating the TCP streaming server on port %1: %2").arg(port).arg(e));
     return;
   }
   WbLog::info(tr("Streaming server listening on port %1.").arg(port));
