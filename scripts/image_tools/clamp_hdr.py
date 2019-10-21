@@ -15,23 +15,23 @@
 """Clamp the HDR data to a specific threshold."""
 # Look out: this scripts overrides the input image.
 
-import optparse
+import argparse
 import os
 
 from images.hdr import HDR
 
-optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
-optParser.add_option(
-    '--input', '-i', dest='input', default='image.hdr', type='string',
+parser = argparse.ArgumentParser(description='Clamp the HDR data to a specific threshold')
+parser.add_argument(
+    '--input', '-i', dest='input', default='image.hdr',
     help='specifies the input HDR image path'
 )
-optParser.add_option(
-    '--clamp', dest='clamp_threshold', default=30.0, type='float',
+parser.add_argument(
+    '--clamp', dest='clamp_threshold', default=30.0, type=float,
     help='specifies the upper limit for the float data'
 )
-options, args = optParser.parse_args()
+args = parser.parse_args()
 
-hdr_path = options.input
+hdr_path = args.input
 
 assert hdr_path.endswith('.hdr'), 'Invalid input extension.'
 assert os.path.isfile(hdr_path), 'Input file doest not exits.'
@@ -46,9 +46,9 @@ for y in range(hdr.height):
     for x in range(hdr.width):
         pixel = hdr.get_pixel(x, y)
         pixel = (
-            min(pixel[0], options.clamp_threshold),
-            min(pixel[1], options.clamp_threshold),
-            min(pixel[2], options.clamp_threshold)
+            min(pixel[0], args.clamp_threshold),
+            min(pixel[1], args.clamp_threshold),
+            min(pixel[2], args.clamp_threshold)
         )
         result.set_pixel(x, y, pixel)
     result.save(hdr_path)

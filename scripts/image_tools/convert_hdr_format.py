@@ -15,30 +15,30 @@
 """Export an HDR image to another image format (PNG by default)."""
 # The result image is generated in the same directory as the input HDR image.
 
-import optparse
+import argparse
 import os
 
 from utils.range import clamp_int
 from images.hdr import HDR
 from images.regular_image import RegularImage
 
-optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
-optParser.add_option(
-    '--input', '-i', dest='input', default='image.hdr', type='string',
+parser = argparse.ArgumentParser(description='Export an HDR image to another image format')
+parser.add_argument(
+    '--input', '-i', dest='input', default='image.hdr',
     help='specifies the input HDR image path'
 )
-optParser.add_option(
-    '--output-format', '-f', dest='format', default='png', type='string',
+parser.add_argument(
+    '--output-format', '-f', dest='format', default='png',
     help='specifies the output format of the result image'
 )
-optParser.add_option(
-    '--output-quality', '-q', dest='quality', default=98, type='string',
+parser.add_argument(
+    '--output-quality', '-q', dest='quality', default=98, type=int,
     help='specifies the output quality (this affects only the JPG format)'
 )
-options, args = optParser.parse_args()
+args = parser.parse_args()
 
-hdr_path = options.input
-result_path = hdr_path.replace('.hdr', '.' + options.format)
+hdr_path = args.input
+result_path = hdr_path.replace('.hdr', '.' + args.format)
 
 assert hdr_path.endswith('.hdr'), 'Invalid input extension.'
 assert hdr_path != result_path, 'Identical input and output paths.'
@@ -60,6 +60,6 @@ for y in range(hdr.height):
         )
         result.set_pixel(x, y, pixel)
 if format == 'png':
-    result.save(result_path, quality=options.quality)
+    result.save(result_path, quality=args.quality)
 else:
     result.save(result_path)

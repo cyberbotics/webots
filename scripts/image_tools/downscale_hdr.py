@@ -16,28 +16,28 @@
 # Look out: this scripts overrides the input image.
 
 import math
-import optparse
+import argparse
 import os
 
 from images.hdr import HDR
 from utils.range import clamp_int
 
-optParser = optparse.OptionParser(usage='usage: %prog --input=image.hdr')
-optParser.add_option(
-    '--input', '-i', dest='input', default='image.hdr', type='string',
+parser = argparse.ArgumentParser(description='Downscale an HDR image to a specified size')
+parser.add_argument(
+    '--input', '-i', dest='input', default='image.hdr',
     help='specifies the input HDR image path'
 )
-optParser.add_option(
-    '--width', dest='width', default=256, type='int',
+parser.add_argument(
+    '--width', dest='width', default=256, type=int,
     help='specifies the width of the target image.'
 )
-optParser.add_option(
-    '--height', dest='height', default=256, type='int',
+parser.add_argument(
+    '--height', dest='height', default=256, type=int,
     help='specifies the height of the target image.'
 )
-options, args = optParser.parse_args()
+args = parser.parse_args()
 
-hdr_path = options.input
+hdr_path = args.input
 
 assert hdr_path.endswith('.hdr'), 'Invalid input extension.'
 assert os.path.isfile(hdr_path), 'Input file doest not exits.'
@@ -47,11 +47,11 @@ hdr = HDR.load_from_file(hdr_path)
 assert hdr.is_valid(), 'Invalid input HDR file.'
 
 print('Create the result image...')
-result = HDR.create_black_image(options.width, options.height)
-for y in range(options.height):
-    for x in range(options.width):
-        uf = float(x) * hdr.width / options.width
-        vf = float(y) * hdr.height / options.height
+result = HDR.create_black_image(args.width, args.height)
+for y in range(args.height):
+    for x in range(args.width):
+        uf = float(x) * hdr.width / args.width
+        vf = float(y) * hdr.height / args.height
         u1 = int(math.floor(uf))  # coord of pixel to bottom left
         v1 = int(math.floor(vf))
         u2 = u1 + 1  # coords of pixel to top right
