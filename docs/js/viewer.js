@@ -74,9 +74,8 @@ function setupCyberboticsUrl(url) {
 
     // Extract tab options
     var tabRegex = /[?&](tab-[^=]+)=([^&#]+)/g;
-    var match;
-    while ((match = tabRegex.exec(url)) !== null)
-      localSetup.tabs[match[1]] = match[2];
+    while ((m = tabRegex.exec(url)) !== null)
+      localSetup.tabs[m[1]] = m[2];
 
     m = args.match(/#([^&#]*)/);
     if (m)
@@ -103,9 +102,8 @@ function setupDefaultUrl(url) {
 
   // Extract tab options
   var tabRegex = /[?&](tab-[^=]+)=([^&#]+)/g;
-  var match;
-  while ((match = tabRegex.exec(url)) !== null)
-    localSetup.tabs[match[1]] = match[2];
+  while ((m = tabRegex.exec(url)) !== null)
+    localSetup.tabs[m[1]] = m[2];
 
   m = url.match(/#([^&#]*)/);
   if (m)
