@@ -278,24 +278,22 @@ void WbBackground::applySkyBoxToWren() {
   QVector<QImage *> regularImageData;
 
   try {
-    QString suffix = "";
+    bool allUrlDefined = true;
+    bool atLeastOneUrlDefined = false;
+
     for (int i = 0; i < 6; ++i) {
-      if (mUrlFields[i]->size() == 0)
-        throw QString();
+      if (mUrlFields[i]->size() == 0) {
+        allUrlDefined = false;
+        textureUrls[i] = "";
+        continue;
+      } else
+        atLeastOneUrlDefined = true;
 
       textureUrls[i] = WbUrl::computePath(this, "textureBaseName", mUrlFields[i]->item(0), false);
-
-      if (textureUrls[i].isEmpty())
-        throw QString();
-
-      QString newSuffix = QFileInfo(textureUrls[i]).suffix();
-      if (newSuffix == ".hdr")
-        throw tr("Unsupported HDR format.");
-      if (i > 0 && newSuffix != suffix)
-        throw tr("Inconsistent image format.");
-
-      suffix = newSuffix;
     }
+
+    if (!allUrlDefined)
+      throw QString(atLeastOneUrlDefined ? "Incomplete cubemap" : "");
 
     wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
