@@ -14,6 +14,9 @@ pip install --user --requirement requirements.txt
 
 Clamp the HDR data to a specific threshold.
 
+> Note: It may be interesting to clamp the highest values of an HDR image when obtaining saturated results in the Webots rendering.
+A typical value for the threshold may be 30.
+
 ```shell
 cd $WEBOTS_HOME
 
@@ -38,17 +41,21 @@ python convert_hdr_format.py --input /Users/$USER/Desktop/entrance_hall.hdr
 
 Downscale an HDR image to a specified size.
 
+> Note: A smaller image takes less time to be loaded.
+A typical irradiance map could be 256x256.
+
 ```shell
 cd $WEBOTS_HOME
 
 python downscale_hdr.py --help
 
-python downscale_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --clamp 30
+python downscale_hdr.py --input /Users/$USER/Desktop/entrance_hall.hdr --width 128 --height 128
 ```
 
 ### `equirectangular_to_cubemap`
 
 Convert an image having an equirectangular projection to 6 cubemap images.
+The conversion preserves the input image format.
 
 Typical usage:
 
