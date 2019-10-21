@@ -161,7 +161,8 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection) {
   if (material.cubeTextureFlags.x > 0.0) {
     float mipCount = 7.0;
     float lod = (pbrInputs.perceptualRoughness * mipCount);
-    // A single irradiance map is used for the diffuse and specular reflections.
+    // A single irradiance map is used for the diffuse and specular reflections:
+    // Thanks to the following fact: the diffuse map is close to the specular map at the 4th LOD.
     // invert z components of sample vectors due to VRML default camera orientation looking towards -z
     diffuseLight = textureLod(cubeTextures[0], vec3(n.xy, -n.z), 4).rgb;
     specularLight = textureLod(cubeTextures[0], vec3(reflection.xy, -reflection.z), lod).rgb;
