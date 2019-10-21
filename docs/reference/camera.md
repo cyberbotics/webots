@@ -200,7 +200,7 @@ If the mouse cursor is over one of these rectangles and the simulator is paused,
 #### `wb_camera_disable`
 #### `wb_camera_get_sampling_period`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -301,7 +301,7 @@ The `wb_camera_get_sampling_period` function returns the period given to the `wb
 #### `wb_camera_get_max_fov`
 #### `wb_camera_set_fov`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -405,7 +405,7 @@ The minimum and maximum values for the field of view are defined in this [Zoom](
 #### `wb_camera_get_min_focal_distance`
 #### `wb_camera_set_focal_distance`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -508,7 +508,7 @@ Note that if the camera device has no [Focus](focus.md) node defined in its `foc
 #### `wb_camera_get_width`
 #### `wb_camera_get_height`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -593,7 +593,7 @@ These functions return the width and height of a camera image as defined in the 
 
 #### `wb_camera_get_near`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -677,7 +677,7 @@ This function returns the near parameter of a camera device as defined in the co
 #### `wb_camera_image_get_blue`
 #### `wb_camera_image_get_gray`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -884,7 +884,7 @@ The dimensions of the array are the width and the length of camera's image and t
 
 #### `wb_camera_save_image`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -982,7 +982,7 @@ It is -1 in case of failure (unable to open the specified file or unrecognized i
 #### `wb_camera_recognition_get_number_of_objects`
 #### `wb_camera_recognition_get_objects`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1101,7 +1101,7 @@ The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get
 
 A camera recognition object is defined by the following structure:
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

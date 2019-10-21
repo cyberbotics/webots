@@ -43,7 +43,7 @@ Be aware that the point cloud mode is computationally expensive and can therefor
 
 A point of the lidar point cloud is defined like this:
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -205,7 +205,7 @@ The same comment applies to the horizontal resolution, the internal depth camera
 #### `wb_lidar_disable`
 #### `wb_lidar_get_sampling_period`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -304,7 +304,7 @@ The `wb_lidar_get_sampling_period` function returns the period given into the `w
 #### `wb_lidar_disable_point_cloud`
 #### `wb_lidar_is_point_cloud_enabled`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -403,7 +403,7 @@ First the lidar should be enabled using the `wb_lidar_enable` function.
 #### `wb_lidar_get_range_image`
 #### `wb_lidar_get_layer_range_image`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -508,7 +508,7 @@ Their content are identical but their handling is of course different.
 #### `wb_lidar_get_layer_point_cloud`
 #### `wb_lidar_get_number_of_points`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -613,7 +613,7 @@ The `wb_lidar_get_number_of_points` function returns the total number of points 
 #### `wb_lidar_get_frequency`
 #### `wb_lidar_set_frequency`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -703,7 +703,7 @@ The `frequency` argument should be in the range [minFrequency; maxFrequency].
 #### `wb_lidar_get_horizontal_resolution`
 #### `wb_lidar_get_number_of_layers`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -791,7 +791,7 @@ The `wb_lidar_get_number_of_layers` function returns the number of layers of the
 #### `wb_lidar_get_min_frequency`
 #### `wb_lidar_get_max_frequency`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -877,7 +877,7 @@ The `wb_lidar_get_min_frequency` and `wb_lidar_get_max_frequency` functions retu
 #### `wb_lidar_get_fov`
 #### `wb_lidar_get_vertical_fov`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -965,7 +965,7 @@ The `wb_lidar_get_vertical_fov` function returns the vertical field of view of t
 #### `wb_lidar_get_min_range`
 #### `wb_lidar_get_max_range`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

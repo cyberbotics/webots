@@ -79,7 +79,7 @@ In addition it is highly recommended to choose -1 for the baudRate, in order to 
 
 #### `wb_emitter_send`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -218,7 +218,7 @@ Here is an example of sending a Java string in a way that is compatible with a C
 #### `wb_emitter_set_channel`
 #### `wb_emitter_get_channel`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -322,7 +322,7 @@ The `wb_emitter_get_channel` function returns the current channel number of the 
 #### `wb_emitter_set_range`
 #### `wb_emitter_get_range`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -413,7 +413,7 @@ For both the `wb_emitter_set_range` and `emitter_get_range` functions, a value o
 
 #### `wb_emitter_get_buffer_size`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

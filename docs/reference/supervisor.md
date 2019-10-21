@@ -22,7 +22,7 @@ As for a regular [Robot](robot.md) controller, the `wb_robot_init`, `wb_robot_st
 #### `wb_supervisor_node_get_from_id`
 #### `wb_supervisor_node_get_selected`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -155,7 +155,7 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -254,7 +254,7 @@ The `wb_supervisor_node_get_parent_node` function retrieves the reference to the
 #### `wb_supervisor_node_get_type_name`
 #### `wb_supervisor_node_get_base_type_name`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -539,7 +539,7 @@ These integers can be directly compared with the output of the `Node::getType` f
 
 #### `wb_supervisor_node_remove`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -619,7 +619,7 @@ The `wb_supervisor_node_remove` function removes the node specified as an argume
 
 #### `wb_supervisor_node_get_field`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -706,7 +706,7 @@ Otherwise, it returns a handler to a field.
 #### `wb_supervisor_node_get_position`
 #### `wb_supervisor_node_get_orientation`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -823,7 +823,7 @@ The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt](https://g
 
 #### `wb_supervisor_node_get_center_of_mass`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -911,7 +911,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/center\_of\_mass.wbt](https://g
 #### `wb_supervisor_node_get_contact_point`
 #### `wb_supervisor_node_get_number_of_contact_points`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1009,7 +1009,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/worlds/cylinder\_stack.wbt](https://gi
 
 #### `wb_supervisor_node_get_static_balance`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1094,7 +1094,7 @@ The test consists in checking whether the projection of the center of mass onto 
 #### `wb_supervisor_node_get_velocity`
 #### `wb_supervisor_node_set_velocity`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1190,7 +1190,7 @@ The last three are respectively the angular velocities around the x, y and z axe
 
 #### `wb_supervisor_node_reset_physics`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1274,7 +1274,7 @@ To stop the inertia of all available solids please refer to [this section](#wb_s
 
 #### `wb_supervisor_node_restart_controller`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1356,7 +1356,7 @@ Note that if a robot window is specified for the [Robot](robot.md) node, the rob
 
 #### `wb_supervisor_node_move_viewpoint`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1437,7 +1437,7 @@ Calling this function is equivalent to using the 'Move Viewpoint to Object' menu
 
 #### `wb_supervisor_node_set_visibility`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1524,7 +1524,7 @@ It is relevant to show a node only if it was previously hidden using this functi
 
 #### `wb_supervisor_set_label`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1658,7 +1658,7 @@ For example the vector `[1 0 1]` represents the magenta color.
 
 #### `wb_supervisor_simulation_quit`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1798,7 +1798,7 @@ int main(int argc, char *argv[]) {
 #### `wb_supervisor_simulation_get_mode`
 #### `wb_supervisor_simulation_set_mode`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -1921,7 +1921,7 @@ The current simulation mode can also be modified by the Webots user, when he's c
 
 #### `wb_supervisor_simulation_reset`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2004,7 +2004,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 #### `wb_supervisor_simulation_reset_physics`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2090,7 +2090,7 @@ To stop the inertia of a single [Solid](solid.md) node please refer to [this sec
 #### `wb_supervisor_world_save`
 #### `wb_supervisor_world_reload`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2202,7 +2202,7 @@ You may wish to save some data in a file from your supervisor and robot controll
 
 #### `wb_supervisor_export_image`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2295,7 +2295,7 @@ In this example, the [Supervisor](#supervisor) controller takes a snapshot image
 #### `wb_supervisor_movie_is_ready`
 #### `wb_supervisor_movie_failed`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2416,7 +2416,7 @@ After starting a new recording process the returned value is reset to `FALSE`.
 #### `wb_supervisor_animation_start_recording`
 #### `wb_supervisor_animation_stop_recording`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2512,7 +2512,7 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2656,7 +2656,7 @@ These integers can be directly compared with the output of the `Field::getType` 
 #### `wb_supervisor_field_get_mf_string`
 #### `wb_supervisor_field_get_mf_node`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -2853,7 +2853,7 @@ The type of the field has to match the name of the function used and the index s
 #### `wb_supervisor_field_set_mf_color`
 #### `wb_supervisor_field_set_mf_string`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -3045,7 +3045,7 @@ The "soccer.wbt" world, located in the "projects/samples/demos/worlds" directory
 #### `wb_supervisor_field_insert_mf_string`
 #### `wb_supervisor_field_remove_mf`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -3195,7 +3195,7 @@ The `wb_supervisor_field_remove_mf` function removes an item from a specified mu
 #### `wb_supervisor_field_import_mf_node`
 #### `wb_supervisor_field_import_mf_node_from_string`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -3327,7 +3327,7 @@ For example, a device imported into a Robot node doesn't reset the Robot, so the
 #### `wb_supervisor_virtual_reality_headset_get_position`
 #### `wb_supervisor_virtual_reality_headset_get_orientation`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

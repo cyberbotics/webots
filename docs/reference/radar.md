@@ -35,7 +35,7 @@ Any [Solid](solid.md) node is a potential radar target if its `radarCrossSection
 
 A radar target is defined like this:
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -201,7 +201,7 @@ The power returned by the target is computed using the following formulas:
 #### `wb_radar_disable`
 #### `wb_radar_get_sampling_period`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -299,7 +299,7 @@ The `wb_radar_get_sampling_period` function returns the period given into the `w
 #### `wb_radar_get_min_range`
 #### `wb_radar_get_max_range`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -386,7 +386,7 @@ These functions allow the controller to get the value of the minimum and maximum
 #### `wb_radar_get_horizontal_fov`
 #### `wb_radar_get_vertical_fov`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -472,7 +472,7 @@ These functions allow the controller to get the value of the horizontal and vert
 
 #### `wb_radar_get_number_of_targets`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -552,7 +552,7 @@ This function allows the controller to get the number of targets currently seen 
 
 #### `wb_radar_get_targets`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

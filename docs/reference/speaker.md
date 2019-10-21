@@ -16,7 +16,7 @@ It can be used to play sounds and perform text-to-speech from the controller API
 
 #### `wb_speaker_play_sound`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -121,7 +121,7 @@ If not found there and if the robot is a PROTO, it will be searched relatively t
 
 #### `wb_speaker_stop`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -205,7 +205,7 @@ It is possible to stop all the sounds currently playing in a speaker by setting 
 
 #### `wb_speaker_is_sound_playing`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -292,7 +292,7 @@ It is possible to check if the speaker is playing any sound (including text-to-s
 #### `wb_speaker_is_speaking`
 #### `wb_speaker_speak`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

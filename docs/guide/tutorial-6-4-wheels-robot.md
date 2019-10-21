@@ -176,7 +176,7 @@ In the previous tutorials, you have learnt how to setup a feedback loop and how 
 However, actuating a [RotationalMotor](../reference/rotationalmotor.md) node is something new.
 To program the rotational motors, the first step is to include the API module corresponding to the [RotationalMotor](../reference/rotationalmotor.md) node:
 
-%tab-component "tab-language"
+%tab-component "language"
 %tab "C"
 ```c
 #include <webots/motor.h>
@@ -208,7 +208,7 @@ In MATLAB controller you don't need to include the API, Webots will do this for 
 
 Then to get the references of the [RotationalMotor](../reference/rotationalmotor.md) nodes:
 
-%tab-component "tab-language"
+%tab-component "language"
 %tab "C"
 ```c
 // initialize motors
@@ -268,7 +268,7 @@ A [Motor](../reference/motor.md) can be actuated by setting its position, its ve
 Here we are interested in setting its velocity.
 This can be achieved by setting its position at infinity, and by bounding its velocity:
 
-%tab-component "tab-language"
+%tab-component "language"
 %tab "C"
 ```c
 double speed = -1.5; // [rad/s]
@@ -325,7 +325,7 @@ As usual a possible solution of this exercise is located in the tutorials direct
 
 Here is the complete code of the controller developed in the previous subsection.
 
-%tab-component "tab-language"
+%tab-component "language"
 %tab "C"
 ```c
 #include <webots/distance_sensor.h>

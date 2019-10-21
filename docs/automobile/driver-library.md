@@ -10,7 +10,7 @@ All the functions included in this library are explained below.
 #### `wbu_driver_cleanup`
 #### `wbu_driver_step`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -88,7 +88,7 @@ Unlike the robot step, the driver step does not have any argument, the default t
 #### `wbu_driver_set_steering_angle`
 #### `wbu_driver_get_steering_angle`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -176,7 +176,7 @@ The `wbu_driver_get_steering_angle` function returns the current steering angle.
 #### `wbu_driver_set_cruising_speed`
 #### `wbu_driver_get_target_cruising_speed`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -257,7 +257,7 @@ The `wbu_driver_get_target_cruising_speed` function simply returns the target cr
 
 #### `wbu_driver_get_current_speed`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -332,7 +332,7 @@ The estimated speed is computed using the rotational speed of the actuated wheel
 #### `wbu_driver_get_throttle`
 
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -414,7 +414,7 @@ The `wbu_driver_get_throttle` function simply returns the state of the throttle 
 #### `wbu_driver_set_brake_intensity`
 #### `wbu_driver_get_brake_intensity`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -497,7 +497,7 @@ The `wbu_driver_get_brake_intensity` function simply returns the current brake i
 #### `wbu_driver_set_hazard_flashers`
 #### `wbu_driver_get_hazard_flashers`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -613,7 +613,7 @@ The `wbu_driver_get_hazard_flashers` function allows the user to get the state o
 #### `wbu_driver_get_dipped_beams`
 #### `wbu_driver_get_antifog_lights`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -702,7 +702,7 @@ The `wbu_driver_get_dipped_beams` and `wbu_driver_get_antifog_lights` functions 
 
 #### `wbu_driver_get_rpm`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -778,7 +778,7 @@ This function returns the estimation of the engine rotation speed.
 #### `wbu_driver_get_gear`
 #### `wbu_driver_get_gear_number`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -866,7 +866,7 @@ The `wbu_driver_get_gear_number` function simply returns the number of available
 
 #### `wbu_driver_get_control_mode`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -959,7 +959,7 @@ This `wbu_driver_get_control_mode` returns the current control mode of the car.
 #### `wbu_driver_set_wiper_mode`
 #### `wbu_driver_get_wiper_mode`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

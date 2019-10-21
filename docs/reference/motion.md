@@ -5,7 +5,7 @@
 #### `wbu_motion_new`
 #### `wbu_motion_delete`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -108,7 +108,7 @@ if (! walk->isValid()) {
 #### `wbu_motion_set_loop`
 #### `wbu_motion_set_reverse`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -231,7 +231,7 @@ By default, the *loop mode* and *reverse mode* of motions are `false`.
 #### `wbu_motion_get_time`
 #### `wbu_motion_set_time`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

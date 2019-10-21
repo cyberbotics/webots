@@ -10,7 +10,7 @@ All the functions included in this library are explained below.
 #### `wbu_car_init`
 #### `wbu_car_cleanup`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -89,7 +89,7 @@ If you use the [driver](driver-library.md) library it is not needed to call thes
 #### `wbu_car_get_type`
 #### `wbu_car_get_engine_type`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -210,7 +210,7 @@ These two functions return respectively the type of transmission and of engine o
 #### `wbu_car_set_indicator_period`
 #### `wbu_car_get_indicator_period`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -291,7 +291,7 @@ The `wbu_car_get_indicator_period` function returns the current blinking period 
 #### `wbu_car_get_backwards_lights`
 #### `wbu_car_get_brake_lights`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -372,7 +372,7 @@ These two functions return respectively the state of the backwards and brake lig
 #### `wbu_car_get_front_wheel_radius`
 #### `wbu_car_get_rear_wheel_radius`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -461,7 +461,7 @@ All these functions provide important physical characteristics from the car.
 #### `wbu_car_get_wheel_encoder`
 #### `wbu_car_get_wheel_speed`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -566,7 +566,7 @@ The `wheel_index` argument should match a value of the `WbuCarWheelIndex` enum.
 #### `wbu_car_get_right_steering_angle`
 #### `wbu_car_get_left_steering_angle`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -643,7 +643,7 @@ These two functions return respectively the right and left steering angles (beca
 
 #### `wbu_car_enable_limited_slip_differential`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
@@ -717,7 +717,7 @@ If the limited differential slip is disabled, when a wheel starts to slip, it wi
 
 #### `wbu_car_enable_indicator_auto_disabling`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

@@ -41,7 +41,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_compass_get_sampling_period`
 #### `wb_compass_get_values`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

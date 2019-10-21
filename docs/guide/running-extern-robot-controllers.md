@@ -23,7 +23,7 @@ Please refer to the documentation of your operating system to set environment va
 
 Generic Webots environment variables needed for all the controller languages:
 
-%tab-component "tab-os"
+%tab-component "os"
 
 %tab "Windows"
 | Environment Variable     | Typical Value                                    |
@@ -56,7 +56,7 @@ Generic Webots environment variables needed for all the controller languages:
 Specific setup depending on the controller language:
 
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 

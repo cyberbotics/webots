@@ -125,7 +125,7 @@ Finally, if the sensor's `lookupTable` is filled with correct calibration data, 
 #### `wb_light_sensor_get_sampling_period`
 #### `wb_light_sensor_get_value`
 
-%tab-component "tab-language"
+%tab-component "language"
 
 %tab "C"
 
