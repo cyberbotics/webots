@@ -50,7 +50,7 @@ private:
     ROBOT_WINDOW_PLUGIN,
     SOLID_REFERENCE,
     // No info from there.
-    N_STRING_TYPE_INFO, // counter
+    N_STRING_TYPE_INFO,  // counter
 
     REGULAR,
     SOUND,
