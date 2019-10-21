@@ -287,12 +287,12 @@ showdown.extension('wbTabComponent', function() {
     {
       type: 'lang',
       filter: function(text, converter, options) {
-        text = text.replace(/%tab-component([^]+?)%end/gi, function(match, content) {
+        text = text.replace(/%tab-component\s+"([^]+?)"([^]+?)%end/gi, function(match, tabTitle, content) {
           tabComponentCounter++;
           var buttons = '';
           var first = true;
           var subText = content.replace(/%tab\s+"([^]+?)"([^]+?)%tab-end/gi, function(subMatch, title, subContent) {
-            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" onclick="openTabFromEvent(event, \'' + title + '\')">' + title + '</button>';
+            buttons += '<button name="' + title.toLowerCase() + '" class="tab-links' + (first ? ' active' : '') + '" onclick="openTabFromEvent(event, \'' + tabTitle + '\', \'' + title + '\')">' + title + '</button>';
             var result = '<div class="tab-content" name="' + title.toLowerCase() + '"' + (first ? ' style="display:block"' : '') + ' tabid="' + tabComponentCounter + '">' + converter.makeHtml(subContent) + '</div>';
             first = false;
             return result;

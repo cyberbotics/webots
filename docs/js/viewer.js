@@ -1,5 +1,6 @@
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
 /* global getGETQueryValue */
+/* global getGETQueriesMatchingRegularExpression */
 /* global setup */
 /* global showdown */
 /* global hljs */
@@ -13,6 +14,22 @@
 'use strict';
 
 var handle;
+
+// TODO to be removed when wwi/R2019b/request_methods.js on FTP is updated
+function getGETQueriesMatchingRegularExpression(pattern) {
+  var values = {};
+  var query = window.location.search.substring(1);
+  if (query === '')
+    return values;
+  var vars = query.split('&');
+  var regex = new RegExp(pattern);
+  for (let i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=');
+    if (regex.test(pair[0]))
+      values[pair[0].toLowerCase()] = pair[1].toLowerCase();
+  }
+  return values;
+}
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
@@ -38,7 +55,7 @@ function setupCyberboticsUrl(url) {
   localSetup.book = 'guide';
   localSetup.page = 'index';
   localSetup.anchor = '';
-  localSetup.tab = '';
+  localSetup.tabs = {};
 
   var m = url.match(new RegExp('/([^/]+)/([^/\\?#]+)([^/]*)$'));
   if (m) {
@@ -56,11 +73,17 @@ function setupCyberboticsUrl(url) {
         localSetup.branch = version.substr(n + 1);
     }
 
-    m = url.match(/tab=([^&#]*)/);
+    m = url.match(/tab-os=([^&#]*)/);
     if (m)
-      localSetup.tab = m[1];
+      localSetup.tabs['tab-os'] = m[1];
     else
-      localSetup.tab = '';
+      localSetup.tabs['tab-os'] = '';
+
+    m = url.match(/tab-language=([^&#]*)/);
+    if (m)
+      localSetup.tabs['tab-language'] = m[1];
+    else
+      localSetup.tabs['tab-language'] = '';
 
     m = args.match(/#([^&#]*)/);
     if (m)
@@ -85,11 +108,17 @@ function setupDefaultUrl(url) {
   else if (!localSetup.book)
     localSetup.book = 'guide';
 
-  m = url.match(/tab=([^&#]*)/);
+  m = url.match(/tab-os=([^&#]*)/);
   if (m)
-    localSetup.tab = m[1].toLowerCase();
-  else if (!localSetup.tab)
-    localSetup.tab = '';
+    localSetup.tabs['tab-os'] = m[1].toLowerCase();
+  else if (!localSetup.tabs['tab-os'])
+    localSetup.tabs['tab-os'] = '';
+
+  m = url.match(/tab-language=([^&#]*)/);
+  if (m)
+    localSetup.tabs['tab-language'] = m[1].toLowerCase();
+  else if (!localSetup.tabs['tab-language'])
+    localSetup.tabs['tab-language'] = '';
 
   m = url.match(/#([^&#]*)/);
   if (m)
@@ -103,7 +132,17 @@ function setupUrl(url) {
     setupCyberboticsUrl(url);
   else
     setupDefaultUrl(url);
-  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch + ' tab=' + localSetup.tab + ' anchor=' + localSetup.anchor);
+
+  var tabsQuery = '';
+  for (var option in localSetup.tabs) {
+    if (!localSetup.tabs[option])
+      continue;
+    if (tabsQuery)
+      tabsQuery += ',';
+    tabsQuery += option + '=' + localSetup.tabs[option];
+  }
+  tabsQuery = '[' + tabsQuery + ']';
+  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch + ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
 }
 
 function computeTargetPath() {
@@ -139,7 +178,7 @@ function redirectUrls(node) {
           anchor = match[3];
           if (anchor)
             anchor = anchor.substring(1); // remove the '#' character
-          a.setAttribute('href', forgeUrl(book, newPage, localSetup.tab, anchor));
+          a.setAttribute('href', forgeUrl(book, newPage, localSetup.tabs, anchor));
         }
       } else { // Cross-page hyperlink case.
         addDynamicLoadEvent(a);
@@ -149,7 +188,7 @@ function redirectUrls(node) {
           anchor = match[2];
           if (anchor)
             anchor = anchor.substring(1); // remove the '#' character
-          a.setAttribute('href', forgeUrl(localSetup.book, newPage, localSetup.tab, anchor));
+          a.setAttribute('href', forgeUrl(localSetup.book, newPage, localSetup.tabs, anchor));
         }
       }
     }
@@ -173,7 +212,9 @@ function collapseMovies(node) {
   }
 }
 
-function forgeUrl(book, page, tab, anchor) {
+function forgeUrl(book, page, tabs, anchor) {
+  var tabOption;
+  var isFirstArgument;
   var anchorString = (anchor && anchor.length > 0) ? ('#' + anchor) : '';
   var url = location.href;
   if (isCyberboticsUrl) {
@@ -183,37 +224,42 @@ function forgeUrl(book, page, tab, anchor) {
       url += '?version=' + localSetup.repository + ':' + localSetup.branch;
     else if (localSetup.branch !== '')
       url += '?version=' + localSetup.branch;
-    if (localSetup.tab !== '' && localSetup.branch === '')
-      url += '?tab=' + localSetup.tab;
-    else if (localSetup.tab !== '')
-      url += '&tab=' + localSetup.tab;
+    isFirstArgument = localSetup.branch === '';
+    for (tabOption in tabs) {
+      if (!tabs[tabOption])
+        continue;
+      url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabs[tabOption];
+      isFirstArgument = false;
+    }
     url += anchorString;
   } else {
-    var isFirstArgument;
+    isFirstArgument = (url.indexOf('?') < 0);
+
+    // Remove anchor from url
+    url = url.split('#')[0];
 
     // Add or replace the book argument.
     if (url.indexOf('book=') > -1)
       url = url.replace(/book=([^&]+)?/, 'book=' + book);
-    else {
-      isFirstArgument = (url.indexOf('?') < 0);
-      url = url + (isFirstArgument ? '?' : '&') + 'book=' + book;
-    }
+    else
+      url += (isFirstArgument ? '?' : '&') + 'book=' + book;
 
     // Add or replace the page argument.
     if (url.indexOf('page=') > -1)
       url = url.replace(/page=([\w-]+)?/, 'page=' + page);
-    else {
-      isFirstArgument = (url.indexOf('?') < 0);
-      url = url + (isFirstArgument ? '?' : '&') + 'page=' + page;
-    }
+    else
+      url += (isFirstArgument ? '?' : '&') + 'page=' + page;
 
     // Add or replace the tab argument.
-    if (url.indexOf('tab=') > -1)
-      url = url.replace(/tab=([^&]+)(#[\w-]+)?/, 'tab=' + tab + anchorString);
-    else {
-      isFirstArgument = (url.indexOf('?') < 0);
-      url = url + (tab !== '' ? (isFirstArgument ? '?' : '&') + 'tab=' + tab : '') + anchorString;
+    for (tabOption in tabs) {
+      let tabName = tabs[tabOption] ? tabs[tabOption] : '';
+      if (url.indexOf(tabOption + '=') > -1)
+        url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
+      else if (tabName)
+        url += (isFirstArgument ? '?' : '&') + tabOption + '=' + tabName;
     }
+
+    url += anchorString;
   }
   return url;
 }
@@ -623,7 +669,7 @@ function populateViewDiv(mdContent) {
 
 // replace the browser URL after a dynamic load
 function updateBrowserUrl() {
-  var url = forgeUrl(localSetup.book, localSetup.page, localSetup.tab, localSetup.anchor);
+  var url = forgeUrl(localSetup.book, localSetup.page, localSetup.tabs, localSetup.anchor);
   if (history.pushState) {
     try {
       history.pushState({state: 'new'}, null, url);
@@ -1005,22 +1051,24 @@ function createRobotComponent(view) {
 }
 
 // Open a tab component tab
-function openTabFromEvent(evt, name) {
+function openTabFromEvent(evt, option, name) {
   // update links
   var a = document.querySelectorAll('a');
   for (var i = 0; i < a.length; i++) {
     var href = a[i].getAttribute('href');
     if (!href)
       continue;
-    if (href.includes('tab=' + localSetup.tab))
-      a[i].setAttribute('href', href.replace('tab=' + localSetup.tab, 'tab=' + name.toLowerCase()));
-    else if (!href.startsWith('#'))
-      a[i].setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + 'tab=' + name.toLowerCase());
+    if (localSetup.tabs[option]) {
+      if (href.includes(option + '=' + localSetup.tabs[option]))
+        a[i].setAttribute('href', href.replace(option + '=' + localSetup.tabs[option], option + '=' + name.toLowerCase()));
+      else if (!href.startsWith('#'))
+        a[i].setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + option + '=' + name.toLowerCase());
+    }
   }
   // open tab
-  localSetup.tab = name.toLowerCase();
+  localSetup.tabs[option] = name.toLowerCase();
   updateBrowserUrl();
-  openTab(evt.target.parentNode, localSetup.tab);
+  openTab(evt.target.parentNode, localSetup.tabs[option]);
 }
 
 // Open a tab component tab
@@ -1029,7 +1077,7 @@ function openTab(tabcomponent, name) {
 
   var tabcontent = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"][name="' + name + '"]')[0];
   if (typeof tabcontent === 'undefined')
-    return;
+    return false;
 
   var tabcontents = tabcomponent.parentNode.querySelectorAll('.tab-content[tabid="' + tabID + '"]');
   for (var i = 0; i < tabcontents.length; i++)
@@ -1044,12 +1092,17 @@ function openTab(tabcomponent, name) {
 
   var tablink = tabcomponent.querySelectorAll('.tab-links[name="' + name + '"]')[0];
   tablink.classList.add('active');
+  return true;
 }
 
 function applyTabs() {
   var tabComponents = document.querySelectorAll('.tab-component');
-  for (var k = 0; k < tabComponents.length; k++)
-    openTab(tabComponents[k], localSetup.tab);
+  for (var k = 0; k < tabComponents.length; k++) {
+    for (var tabName in localSetup.tabs) {
+      if (openTab(tabComponents[k], localSetup.tabs[tabName]))
+        break;
+    }
+  }
 }
 
 function renderGraphs() {
@@ -1442,8 +1495,8 @@ document.addEventListener('DOMContentLoaded', function() {
       localSetup.anchor = window.location.hash.substring(1);
     if (!localSetup.branch)
       localSetup.branch = getGETQueryValue('branch', 'master');
-    if (!localSetup.tab)
-      localSetup.tab = getGETQueryValue('tab', '').toLowerCase();
+    if (!localSetup.tabs)
+      localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
   }
 
   // prevent FOUC for blog
