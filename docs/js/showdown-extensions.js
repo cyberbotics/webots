@@ -211,7 +211,7 @@ showdown.extension('wbSpoiler', function() {
             '<details>\n' +
             '  <summary>' + title + '</summary>\n' +
             '  ' + content + '\n' +
-            '</details>\n'
+            '</details>\n';
           return replacement;
         });
         return text;
