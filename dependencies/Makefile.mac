@@ -30,7 +30,7 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 release debug distrib profile: ../.clang-format $(PACKAGES)
 clean:
 cleanse: $(PACKAGES_CLEAN)
-	@rm ../.clang-format
+	@rm -f ../.clang-format
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"

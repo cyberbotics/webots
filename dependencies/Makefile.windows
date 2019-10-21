@@ -26,7 +26,7 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f $(TARGET_PATH)/zlib1.dll
 	@rm -f $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest
-	@rm ../.clang-format
+	@rm -f ../.clang-format
 
 .ONESHELL:
 
