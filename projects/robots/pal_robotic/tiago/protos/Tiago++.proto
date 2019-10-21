@@ -4,10 +4,12 @@
 # This is a proto file for Webots for the robot Tiago++ (gripper version) from PAL Robotics (Spain).
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the torso body with two arms finished by parallel grippers.
 
-PROTO Tiago++ParallelGripper [
-  field  SFVec3f     translation  0 0 0
-  field  SFRotation  rotation     1 0 0 -1.5708
-  field  SFString    controller   "void"
+PROTO Tiago++ [
+  field  SFVec3f     translation        0 0 0
+  field  SFRotation  rotation           1 0 0 -1.5708
+  field  SFString    controller         "void"
+  field  MFNode      endEffectorRight   TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoHey5Right.
+  field  MFNode      endEffectorLeft    TiagoGripper{}    # Defines the end-effector used by default but it can be changed with TiagoHey5Left.
 ]
 {
   TiagoBase {
@@ -18,7 +20,8 @@ PROTO Tiago++ParallelGripper [
         RightArmExtension [
           TiagoArmRight {
             endEffector [
-              EndEffectorGripper {
+              Transform {
+                children IS endEffectorRight
               }
             ]
           }
@@ -26,7 +29,8 @@ PROTO Tiago++ParallelGripper [
         LeftArmExtension [
           TiagoArmLeft {
             endEffector [
-              EndEffectorGripper {
+              Transform {
+                children IS endEffectorLeft
               }
             ]
           }

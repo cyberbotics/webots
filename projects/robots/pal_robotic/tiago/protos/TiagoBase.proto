@@ -2,14 +2,14 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
-# It is the two arms version of the robot with interchangeable end-effector (gripper or hey5 hand).
+# It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 
 PROTO TiagoBase [
   field  SFVec3f      translation     0 0 0
   field  SFRotation   rotation        1 0 0 -1.5708
   field  SFString     controller      "void"
-  field  MFNode       lidarExtension  []            # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
-  field  MFNode       bodyExtension   []            # Defines body extension used {Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
+  field  MFNode       lidarExtension  []              # Defines the lidar used {Sick TIM551 or Hokuyo URG 04LX_UG01}.
+  field  MFNode       bodyExtension   []              # Defines body extension used {TiagoBody, Fixed shelves, Safety box, roller conveyor, boxes, lifter}.
 ]
 {
   Robot {
@@ -109,8 +109,8 @@ PROTO TiagoBase [
         rotationStep 0.001
       }
       DEF FRONT_SENSOR_2 Transform {
-        translation 0.1714 0.111032 0.002
-        rotation 0 0 1 1.82499
+        translation 0.1714 0.111 0.002
+        rotation 0 0 1 1.825
         children [
           Shape {
             appearance PBRAppearance {
@@ -158,7 +158,7 @@ PROTO TiagoBase [
         name "base_cover_link"
         boundingObject Transform {
           translation 0 0 0.043
-          rotation 1 0 0 1.5707959999999999
+          rotation 1 0 0 1.5708
           children [
             Cylinder {
               height 0.086
@@ -170,13 +170,13 @@ PROTO TiagoBase [
           density -1
           mass 0.25821
           centerOfMass [
-            0.22414 2e-05 0.04681
+            0.2241 0 0.0468
           ]
         }
       }
       DEF DISTANCE_SENSOR_BACK_LEFT DistanceSensor {
         translation -0.183 0.183 0.173
-        rotation 0 0 1 2.356194
+        rotation 0 0 1 2.3562
         children [
           DEF DS_SHAPE Shape {
             appearance MattePaint {
@@ -214,7 +214,7 @@ PROTO TiagoBase [
       }
       DEF DISTANCE_SENSOR_BACK_MIDDLE DistanceSensor {
         translation -0.259 0 0.173
-        rotation 0 0 1 3.141593
+        rotation 0 0 1 3.1416
         children [
           DEF DS_SHAPE Shape {
             appearance MattePaint {
@@ -274,7 +274,7 @@ PROTO TiagoBase [
       }
       DEF DISTANCE_SENSOR_BACK_RIGHT DistanceSensor {
         translation -0.183 -0.183 0.173
-        rotation 0 0 1 3.926991
+        rotation 0 0 1 3.927
         children [
           DEF DS_SHAPE Shape {
             appearance MattePaint {
@@ -342,7 +342,7 @@ PROTO TiagoBase [
         device [
           RotationalMotor {
             name "wheel_right_joint"
-            maxVelocity 10.152284264
+            maxVelocity 10.1523
             maxTorque 6
           }
           PositionSensor {
@@ -350,8 +350,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF RIGHT_WHEEL Solid {
-          translation -1.9637069748057456e-15 -0.2019999999999961 0.00999999999998697
-          rotation 1 1.997799889105961e-14 2.194347688251845e-14 1.570799693899574
+          translation 0 -0.202 0.01
+          rotation 1 0 0 1.5708
           children [
             DEF BIG_WHEEL Group {
               children [
@@ -441,7 +441,7 @@ PROTO TiagoBase [
           ]
           name "wheel_right_link"
           boundingObject Transform {
-            rotation 1 0 0 1.570796
+            rotation 1 0 0 1.5708
             children [
               Cylinder {
                 height 0.04
@@ -468,7 +468,7 @@ PROTO TiagoBase [
         device [
           RotationalMotor {
             name "wheel_left_joint"
-            maxVelocity 10.152284264
+            maxVelocity 10.1522
             maxTorque 6
           }
           PositionSensor {
@@ -476,8 +476,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF LEFT_WHEEL Solid {
-          translation 1.2628786905111156e-15 0.20220000000001523 0.009999999999988511
-          rotation 1 1.928922069725744e-14 2.1297676229181833e-14 1.5707999999999993
+          translation 0 0.2022 0.01
+          rotation 1 0 0 1.5708
           children [
             Transform {
               rotation -1 0 0 3.141593
@@ -572,7 +572,7 @@ PROTO TiagoBase [
           ]
           name "wheel_left_link"
           boundingObject Transform {
-            rotation 1 0 0 1.570796
+            rotation 1 0 0 1.5708
             children [
               Cylinder {
                 height 0.04
@@ -604,8 +604,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF CASTER_WHEEL_FRONT_RIGHT Solid {
-          translation 0.1695000000000001 -0.10199999999999618 -0.033500000000468134
-          rotation 4.6913707417547044e-18 -1.608347305254181e-08 0.9999999999999998 -3.77497288313355e-17
+          translation 0.1695 -0.102 -0.0335
+          rotation 0 0 1 0
           children [
             DEF SMALL_WHEEL_JOINT HingeJoint {
               jointParameters HingeJointParameters {
@@ -622,8 +622,8 @@ PROTO TiagoBase [
                 }
               ]
               endPoint DEF SMALL_WHEEL Solid {
-                translation -0.016000000000000986 -1.6930901125533637e-15 -0.04000000000000483
-                rotation -9.381875241126185e-07 -0.7071053742878693 -0.7071081880818042 3.1415907772221834
+                translation -0.016 0 -0.04
+                rotation 0 -0.7071 -0.7071 3.1416
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {
@@ -655,7 +655,7 @@ PROTO TiagoBase [
                 ]
                 name "caster_front_right_2_link"
                 boundingObject DEF SMALL_WHEEL_BO Transform {
-                  rotation 1 0 0 1.570796
+                  rotation 1 0 0 1.5708
                   children [
                     Cylinder {
                       height 0.015
@@ -713,7 +713,7 @@ PROTO TiagoBase [
             density -1
             mass 0.051448
             centerOfMass [
-              -0.006346 5.3e-05 -0.020375
+              -0.0063 0 -0.0204
             ]
           }
         }
@@ -733,8 +733,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF CASTER_WHEEL_FRONT_LEFT Solid {
-          translation 0.1695000000000032 0.10200000000000661 -0.03349999999773639
-          rotation 4.691370796084777e-18 -1.9447990198478149e-07 0.9999999999999811 -3.1336950863127114e-17
+          translation 0.1695 0.102 -0.0335
+          rotation 0 0 1 0
           children [
             DEF SMALL_WHEEL_JOINT HingeJoint {
               jointParameters HingeJointParameters {
@@ -750,8 +750,8 @@ PROTO TiagoBase [
                 }
               ]
               endPoint DEF SMALL_WHEEL Solid {
-                translation -0.016000000000003428 -2.706168622523819e-16 -0.0400000000017885
-                rotation -1 -2.4688029110329286e-14 -2.1491418397993146e-14 1.5707959999999526
+                translation -0.016 0 -0.04
+                rotation -1 0 0 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {
@@ -841,7 +841,7 @@ PROTO TiagoBase [
             density -1
             mass 0.051448
             centerOfMass [
-              -0.006346 5.3e-05 -0.020375
+              -0.0063 0 -0.0204
             ]
           }
         }
@@ -861,8 +861,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF CASTER_WHEEL_BACK_RIGHT Solid {
-          translation -0.17350000000000748 -0.10199999999999568 -0.03350000000046339
-          rotation 4.691370797883273e-18 -2.00385399903879e-07 0.9999999999999799 -5.055881527474398e-16
+          translation -0.1735 -0.102 -0.0335
+          rotation 0 0 1 0
           children [
             DEF SMALL_WHEEL_JOINT HingeJoint {
               jointParameters HingeJointParameters {
@@ -878,8 +878,8 @@ PROTO TiagoBase [
                 }
               ]
               endPoint DEF SMALL_WHEEL_JOINT Solid {
-                translation -0.015999999999996822 8.881784197001252e-16 -0.039999999999058615
-                rotation -1 -2.859787240979122e-14 -2.5928714644110802e-14 1.5707959999999543
+                translation -0.016 0 -0.0439999999999058615
+                rotation -1 0 0 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {
@@ -969,7 +969,7 @@ PROTO TiagoBase [
             density -1
             mass 0.051448
             centerOfMass [
-              -0.006346 5.3e-05 -0.020375
+              -0.006346 0 -0.020375
             ]
           }
         }
@@ -989,8 +989,8 @@ PROTO TiagoBase [
           }
         ]
         endPoint DEF CASTER_WHEEL_BACK_LEFT Solid {
-          translation -0.17350000000000382 0.10200000000000728 -0.033500000000461314
-          rotation 4.69136272912298e-18 2.628856419789029e-05 0.9999999996544556 -3.9957798335452804e-18
+          translation -0.1735 0.102 -0.0335
+          rotation 0 0 1 0
           children [
             DEF SMALL_WHEEL_JOINT HingeJoint {
               jointParameters HingeJointParameters {
@@ -1006,8 +1006,8 @@ PROTO TiagoBase [
                 }
               ]
               endPoint DEF SMALL_WHEEL Solid {
-                translation -0.015999999999997905 1.5959455978986625e-15 -0.04000000000087556
-                rotation -1 -2.690290774919849e-14 -2.3967570352624434e-14 1.5707959999999526
+                translation -0.016 0 -0.04
+                rotation -1 0 04 1.5708
                 children [
                   DEF SMALL_WHEEL_SHAPE Shape {
                     appearance Asphalt {
@@ -1097,7 +1097,7 @@ PROTO TiagoBase [
             density -1
             mass 0.051448
             centerOfMass [
-              -0.006346 5.3e-05 -0.020375
+              -0.006346 0 -0.020375
             ]
           }
         }
@@ -1141,7 +1141,7 @@ PROTO TiagoBase [
       density -1
       mass 28.26649
       centerOfMass [
-        -1e-06 1e-06 3.9e-05
+        0 0 0
       ]
     }
     controller IS controller

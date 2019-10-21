@@ -2,11 +2,11 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
-# It is the torso part where shoulders can be fixed to add arms.
+# It is the TiagoBody (torso) part where arms can be fixed.
 
 PROTO TiagoBody [
-  field  SFVec3f     translation            -0.054 0 0.193
-  field  SFRotation  rotation               0 1 0 0
+  field  SFVec3f     translation       -0.054 0 0.193
+  field  SFRotation  rotation          0 1 0 0
   field  MFNode      RightArmExtension []              # Defines the slot where the TiagoArmRight can be added.
   field  MFNode      FrontArmExtension []              # Defines the slot where the TiagoArmRight or TiagoArmLeft can be added.
   field  MFNode      LeftArmExtension  []              # Defines the slot where the TiagoArmRight can be added.
@@ -126,8 +126,8 @@ PROTO TiagoBody [
           }
         ]
         endPoint DEF TORSO_LIFT Solid {
-          translation -3.9898639947466563e-17 -1.3183898417423734e-16 0.5999999999999999
-          rotation 0.9273204831236583 0.0984767268684115 0.3610804008037394 -1.3528785793671855e-14
+          translation 0 0 0.6
+          rotation 0.9273 0.0985 0.3611 0
           children [
             DEF ARM_RIGHT_EXTENSION Transform {
               translation 0.05 0 0
@@ -176,7 +176,7 @@ PROTO TiagoBody [
             }
             DEF TORSO_BODY Shape {
               appearance GlossyPaint {
-                baseColor 0.823529 0.776471 0.776471
+                baseColor 0.8235 0.7765 0.7765
                 textureTransform TextureTransform {
                   scale 4 4
                 }
@@ -213,8 +213,8 @@ PROTO TiagoBody [
                 RotationalMotor {
                   name "head_1_joint"
                   maxVelocity 3
-                  minPosition -1.308996939
-                  maxPosition 1.308996939
+                  minPosition -1.309
+                  maxPosition 1.309
                   maxTorque 5.197
                 }
                 PositionSensor {
@@ -222,8 +222,8 @@ PROTO TiagoBody [
                 }
               ]
               endPoint DEF NECK Solid {
-                translation 0.1820000000000029 -7.348288644237755e-15 9.325873406851315e-15
-                rotation -0.7635631355633484 -1.8101548132915355e-06 0.6457331786468702 -8.724017487874494e-16
+                translation 0.182 0 0
+                rotation -0.7636 0 0.6457 0
                 children [
                   Shape {
                     appearance GlossyPaint {
@@ -264,8 +264,8 @@ PROTO TiagoBody [
                       RotationalMotor {
                         name "head_2_joint"
                         maxVelocity 3
-                        minPosition -1.0471975512
-                        maxPosition 0.785398163397
+                        minPosition -1.047
+                        maxPosition 0.7854
                         maxTorque 2.77
                       }
                       PositionSensor {
@@ -273,8 +273,8 @@ PROTO TiagoBody [
                       }
                     ]
                     endPoint DEF HEAD Solid {
-                      translation 0.004999999999997562 -8.326672684688674e-17 0.09800000000088005
-                      rotation 1 2.042166507357834e-14 -1.6514433637448692e-14 1.5707960000000107
+                      translation 0.005 0 0.098
+                      rotation 1 0 0 1.5708
                       children [
                         DEF EYES Shape {
                           appearance GlossyPaint {
@@ -338,7 +338,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.008 -0.019 0
-                            rotation 1 0 0 -1.5707963071795863
+                            rotation 1 0 0 -1.5708
                             children [
                               Cylinder {
                                 height 0.132
@@ -356,7 +356,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.053 0.056 -0.068
-                            rotation 0 0 1 -1.5707963071795863
+                            rotation 0 0 1 -1.5708
                             children [
                               Cylinder {
                                 height 0.111
@@ -366,7 +366,7 @@ PROTO TiagoBody [
                           }
                           Transform {
                             translation 0.053 0.056 0.068
-                            rotation 0 0 1 -1.5707963071795863
+                            rotation 0 0 1 -1.5708
                             children [
                               Cylinder {
                                 height 0.111
@@ -430,7 +430,7 @@ PROTO TiagoBody [
                 ]
               }
               DEF NECK_SUPPORT_SH2 Transform {
-                translation 0.13891 0 -0.043169
+                translation 0.1389 0 -0.0432
                 rotation 0 1 0 -0.43
                 children [
                   Box {
@@ -461,7 +461,7 @@ PROTO TiagoBody [
             density -1
             mass 6.93198
             centerOfMass [
-              0.04361 -0.00116 -0.17334
+              0.0436 -0.0012 -0.1733
             ]
           }
         }
@@ -500,7 +500,7 @@ PROTO TiagoBody [
       density -1
       mass 14.0136
       centerOfMass [
-        0.02435 -0.00464 0.159
+        0.0244 -0.0046 0.159
       ]
     }
   }

@@ -7,7 +7,7 @@
 PROTO TiagoArmRight [
   field  SFVec3f     translation  0.05 0 0
   field  SFRotation  rotation     0 0 1 3.14159
-  field  MFNode      endEffector  []             # Defines the end-effector used {EndEffectorGripper or RightHey5EndEffector}.
+  field  MFNode      endEffector  []             # Defines the end-effector used {TiagoGripper or TiagoHey5Right}.
 ]
 {
   Solid {

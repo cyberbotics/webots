@@ -10,8 +10,8 @@ WorldInfo {
   lineScale 0.02
 }
 Viewpoint {
-  orientation -0.001968840211567127 0.9999769163299356 -0.006503112754234869 1.604645804101339
-  position 5.5088806937499655 0.19633801468425416 -0.19826161902136444
+  orientation -0.21143979132695856 0.9575164257342829 0.19610076260090353 1.6252153453305755
+  position 5.258010491939387 2.9788013254440773 -0.20009488851585228
 }
 TexturedBackground {
 }
@@ -29,9 +29,17 @@ TiagoSteel {
 TiagoTitanium {
   translation 0 0 -0.8
 }
-Tiago++ParallelGripper {
-  translation -1.4 0 1.5
+Tiago++ {
+  translation -1 0 1.3
 }
-Tiago++Hey5Hand {
-  translation -1.4 0 -1.5
+Tiago++ {
+  translation -0.98 0 -1.3
+  endEffectorRight [
+    TiagoHey5Right {
+    }
+  ]
+  endEffectorLeftt [
+    TiagoHey5Left {
+    }
+  ]
 }

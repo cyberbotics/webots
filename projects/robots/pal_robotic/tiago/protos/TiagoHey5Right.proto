@@ -4,7 +4,7 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the right version of the Hey5 hand end-effector.
 
-PROTO EndEffectorHey5Right [
+PROTO TiagoHey5Right [
   field  SFVec3f     translation  0 0 0
   field  SFRotation  rotation     0 0 -1 -1.5708
 ]
@@ -477,7 +477,7 @@ PROTO EndEffectorHey5Right [
               }
               Transform {
                 translation 0.0206 0.0016 0.00377
-                rotation -1 0 0 -0.4308153071795866
+                rotation -1 0 0 -0.43082
                 children [
                   Box {
                     size 0.016 0.014128 0.00495
@@ -487,8 +487,8 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.0232479 0.0057039 -0.00536021
-                rotation 0.40276619778060524 0.895442439712043 0.18963709312236046 1.00892
+                translation 0.023248 0.005704 -0.00536
+                rotation 0.4028 0.8954 0.1896 1.0089
                 children [
                   Box {
                     size 0.0028 0.0142 0.008
@@ -498,7 +498,7 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.01812 0.00613243 -0.00614961
+                translation 0.01812 0.00613 -0.00615
                 rotation 1 0 0 0.427
                 children [
                   Cylinder {
@@ -509,7 +509,7 @@ PROTO EndEffectorHey5Right [
                 translationStep 0.0001
               }
               Transform {
-                translation 0.0236 0.00339102 -0.000258586
+                translation 0.0236 0.003391 -0.000259
                 rotation 1 0 0 0.427
                 children [
                   Cylinder {
@@ -520,7 +520,7 @@ PROTO EndEffectorHey5Right [
                 translationStep 0.0001
               }
               Transform {
-                translation 0.0133 0.00327269 8.08104e-05
+                translation 0.0133 0.0032727 0
                 rotation 1 0 0 0.427
                 children [
                   Cylinder {
@@ -560,8 +560,8 @@ PROTO EndEffectorHey5Right [
           }
         ]
         endPoint DEF HAND_RIGHT_INDEX_PHALANX_1 Solid {
-          translation 0.12650000000000028 0.004200000000000009 0.0265000000000003
-          rotation -0.9357411839615883 -0.2480370487627244 -0.25073104929235007 1.64794
+          translation 0.1265 0.0042 0.0265
+          rotation -0.9357 -0.248 -0.2507 1.6479
           children [
             DEF HAND_RIGHT_FIRST_PHALANX_SHAPE Shape {
               appearance MattePaint {
@@ -605,8 +605,8 @@ PROTO EndEffectorHey5Right [
                 }
               ]
               endPoint DEF HAND_RIGHT_INDEX_CONNECTOR_1 Solid {
-                translation 0.009000000000005004 4.53859172466764e-13 2.2082335959794364e-13
-                rotation 1 6.523735231792808e-14 -5.919249536428131e-14 1.5707960000000174
+                translation 0.009 0 0
+                rotation 1 0 0 1.5708
                 children [
                   USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                   DEF HAND_RIGHT_INDEX_PHALANX_2_JOINT HingeJoint {
@@ -627,8 +627,8 @@ PROTO EndEffectorHey5Right [
                       }
                     ]
                     endPoint DEF INDEX_PHALANX_2 Solid {
-                      translation 0.012999999998552725 1.137423488728473e-13 -1.8165469128916811e-12
-                      rotation 0.2182178902359924 -0.4364357804719848 -0.8728715609439696 -2.543840524313801e-16
+                      translation 0.013 0 0
+                      rotation 0.2182 -0.4364 -0.8729 0
                       children [
                         USE HAND_RIGHT_FINGER_PHALANX
                         DEF HAND_RIGHT_INDEX_CONNECTOR_2_JOINT HingeJoint {
@@ -649,8 +649,8 @@ PROTO EndEffectorHey5Right [
                             }
                           ]
                           endPoint DEF INDEX_CONNECTOR_2 Solid {
-                            translation 0.009000000000924935 -2.220446049250313e-16 9.086065233532281e-13
-                            rotation 0 -0.7071067811865475 0.7071067811865475 -3.140184917367551e-16
+                            translation 0.009 0 0
+                            rotation 0 -0.7071 0.7071 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_INDEX_PHALANX_3_JOINT HingeJoint {
@@ -671,8 +671,8 @@ PROTO EndEffectorHey5Right [
                                   }
                                 ]
                                 endPoint DEF INDEX_PHALANX_3 Solid {
-                                  translation 0.012999999999463885 2.220446049250313e-16 4.545253062815391e-13
-                                  rotation -0.408248290463863 -0.408248290463863 0.816496580927726 -6.798699777552592e-16
+                                  translation 0.013 0 0
+                                  rotation -0.4082 -0.4082 0.8165 0
                                   children [
                                     USE HAND_RIGHT_FINGER_PHALANX
                                     DEF HAND_RIGHT_INDEX_CONNECTOR_3_JOINT HingeJoint {
@@ -693,8 +693,8 @@ PROTO EndEffectorHey5Right [
                                         }
                                       ]
                                       endPoint DEF INDEX_CONNECTOR_3 Solid {
-                                        translation 0.009000000000468966 -1.1285417045314716e-13 4.516387264175137e-13
-                                        rotation -0.14744195615489714 -0.8846517369293828 -0.4423258684646914 7.529898907871223e-16
+                                        translation 0.00 0 0
+                                        rotation -0.1474 -0.8847 -0.4423 0
                                         children [
                                           USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                                           DEF HAND_RIGHT_INDEX_TIP_JOINT HingeJoint {
@@ -715,8 +715,8 @@ PROTO EndEffectorHey5Right [
                                               }
                                             ]
                                             endPoint DEF INDEX_TIP Solid {
-                                              translation 0.013000000000379819 1.887379141862766e-15 -4.525269048372138e-13
-                                              rotation -0.16222142113076254 -0.16222142113076254 0.9733285267845753 -6.843874359417885e-16
+                                              translation 0.013 0 0
+                                              rotation -0.1622 -0.1622 0.9733 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
@@ -724,8 +724,8 @@ PROTO EndEffectorHey5Right [
                                               boundingObject DEF HAND_RIGHT_FINGER_TIP_BO Group {
                                                 children [
                                                   Transform {
-                                                    translation 0.0226421 -0.0027114 0
-                                                    rotation 0 0 1 -0.6765553071795862
+                                                    translation 0.0226 -0.0027 0
+                                                    rotation 0 0 1 -0.6766
                                                     children [
                                                       Box {
                                                         size 0.0004 0.0066 0.0141
@@ -744,7 +744,7 @@ PROTO EndEffectorHey5Right [
                                                     translationStep 0.0001
                                                   }
                                                   Transform {
-                                                    translation 0.0139 0.0036 -2.86678e-06
+                                                    translation 0.0139 0.0036 0
                                                     rotation 1 0 0 1.57
                                                     children [
                                                       Cylinder {
@@ -756,8 +756,8 @@ PROTO EndEffectorHey5Right [
                                                     rotationStep 0.001
                                                   }
                                                   Transform {
-                                                    translation -0.000484472 0.00615072 -4.421e-05
-                                                    rotation 0 0 -1 -0.6458153071795865
+                                                    translation -0.0005 0.0062 0
+                                                    rotation 0 0 -1 -0.6458
                                                     children [
                                                       Box {
                                                         size 0.00865483 0.00264905 0.0142201
@@ -767,7 +767,7 @@ PROTO EndEffectorHey5Right [
                                                     rotationStep 0.001
                                                   }
                                                   Transform {
-                                                    translation 0.00945916 0.00894654 -1.41e-05
+                                                    translation 0.0095 0.0089 0
                                                     rotation 0 0 1 0.000815
                                                     children [
                                                       Box {
@@ -778,7 +778,7 @@ PROTO EndEffectorHey5Right [
                                                     rotationStep 0.001
                                                   }
                                                   Transform {
-                                                    translation 0.0073479 0.0004039 3.979e-05
+                                                    translation 0.0073 0.0004 0
                                                     children [
                                                       Box {
                                                         size 0.0153 0.014 0.014
@@ -788,8 +788,8 @@ PROTO EndEffectorHey5Right [
                                                     rotationStep 0.001
                                                   }
                                                   Transform {
-                                                    translation 0.00462 0.00680154 -7.94601e-06
-                                                    rotation -1 0 0 -1.5739153071795862
+                                                    translation 0.0046 0.0068 0
+                                                    rotation -1 0 0 -1.574
                                                     children [
                                                       Cylinder {
                                                         height 0.0142
@@ -800,7 +800,7 @@ PROTO EndEffectorHey5Right [
                                                     rotationStep 0.0001
                                                   }
                                                   Transform {
-                                                    translation 0.0159 0.00079729 -5.31303e-06
+                                                    translation 0.0159 0.0008 0
                                                     rotation 1 0 0 1.57
                                                     children [
                                                       Cylinder {
@@ -811,7 +811,7 @@ PROTO EndEffectorHey5Right [
                                                     translationStep 0.0001
                                                   }
                                                   Transform {
-                                                    translation -0.0002 -9.24681e-05 4.10434e-05
+                                                    translation -0.0002 0 0
                                                     rotation 1 0 0 1.572
                                                     children [
                                                       Cylinder {
@@ -862,8 +862,8 @@ PROTO EndEffectorHey5Right [
           boundingObject DEF HAND_RIGHT_FINGER_FIRST_PHALANX_BO Group {
             children [
               Transform {
-                translation -0.000134238 3.25429e-05 0.00647638
-                rotation 0.9026669571373119 0.3039279855681319 0.30466398553318336 -1.6706153071795864
+                translation -0.0001 0 0.0065
+                rotation 0.9027 0.3039 0.3047 -1.6706
                 children [
                   Box {
                     size 0.00865483 0.00264905 0.0142201
@@ -873,8 +873,8 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.00912055 -8.20413e-07 0.00630561
-                rotation 0.9064698587788056 -0.29655395379912175 -0.3006129531667602 -1.665115307179586
+                translation 0.0091 0 0.0063
+                rotation 0.9065 -0.2966 -0.3006 -1.6651
                 children [
                   Box {
                     size 0.00766065 0.00288985 0.0140609
@@ -884,8 +884,8 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.0074479 -0.00014182 -0.00448623
-                rotation 1 0 0 -1.5699453071795864
+                translation 0.0074 -0.0001 -0.0045
+                rotation 1 0 0 -1.5699
                 children [
                   Box {
                     size 0.0152 0.00411 0.014
@@ -895,7 +895,7 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation 0.00451184 1.54e-06 0.00679193
+                translation 0.0045 0 0.0068
                 rotation 0 1 0 -1.572
                 children [
                   Cylinder {
@@ -907,8 +907,8 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.0001
               }
               Transform {
-                translation 0.00930012 -2.7098e-06 9.52421e-05
-                rotation 0.0015907607420420182 -0.9999974664687269 -0.0015926507429236466 -1.571995307179586
+                translation 0.0093 0 0
+                rotation 0.0016 -1 -0.0016 -1.572
                 children [
                   Cylinder {
                     height 0.0142
@@ -919,7 +919,7 @@ PROTO EndEffectorHey5Right [
                 rotationStep 0.001
               }
               Transform {
-                translation -0.00020012 7.532e-06 -5.89565e-05
+                translation -0.0002 0 0
                 rotation 0 1 0 1.572
                 children [
                   Cylinder {
@@ -960,8 +960,8 @@ PROTO EndEffectorHey5Right [
           }
         ]
         endPoint DEF HAND_RIGHT_MIDDLE_PHALANX_1 Solid {
-          translation 0.1335000000000086 0.004200000000007321 0.007000000000514817
-          rotation -1 1.582236101605897e-14 4.1906573499419704e-14 1.5707960000000023
+          translation 0.1335 0.0042 0.007
+          rotation -1 0 0 1.5708
           children [
             USE HAND_RIGHT_FIRST_PHALANX_SHAPE
             DEF HAND_RIGHT_MIDDLE_CONNECTOR_1_JOINT HingeJoint {
@@ -982,8 +982,8 @@ PROTO EndEffectorHey5Right [
                 }
               ]
               endPoint DEF HAND_RIGHT_MIDDLE_CONNECTOR_1 Solid {
-                translation 0.008999999999990349 -9.009459844833145e-13 -5.564992910933597e-15
-                rotation 1 1.994640379373837e-14 -3.980185033115448e-14 1.5707960000000263
+                translation 0.009 0 0
+                rotation 1 0 0 1.5708
                 children [
                   USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                   DEF HAND_RIGHT_MIDDLE_PHALANX_2_JOINT HingeJoint {
@@ -1004,8 +1004,8 @@ PROTO EndEffectorHey5Right [
                       }
                     ]
                     endPoint DEF HAND_RIGHT_MIDDLE_PHALANX_2 Solid {
-                      translation 0.013000000000000345 -4.388850394221322e-16 -9.060530103965903e-13
-                      rotation 0 0.5547001962252291 0.8320502943378437 8.00593208497344e-16
+                      translation 0.013 0 0
+                      rotation 0 0.5547 0.8321 0
                       children [
                         USE HAND_RIGHT_FINGER_PHALANX
                         DEF HAND_RIGHT_MIDDLE_CONNECTOR_2_JOINT HingeJoint {
@@ -1026,8 +1026,8 @@ PROTO EndEffectorHey5Right [
                             }
                           ]
                           endPoint DEF HAND_RIGHT_MIDDLE_CONNECTOR_2 Solid {
-                            translation 0.009000000000000341 1.3877787807814457e-15 2.7755575615628914e-15
-                            rotation 0 -0.11043152607484653 0.9938837346736188 -1.0053497077208612e-15
+                            translation 0.009 0 0
+                            rotation 0 -0.1104 0.9939 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_MIDDLE_PHALANX_3_JOINT HingeJoint {
@@ -1048,8 +1048,8 @@ PROTO EndEffectorHey5Right [
                                   }
                                 ]
                                 endPoint DEF HAND_RIGHT_MIDDLE_PHALANX_3 Solid {
-                                  translation 0.013000000000000567 1.330532906074211e-15 -9.10715947100016e-13
-                                  rotation -0.6666666666666666 0.3333333333333333 0.6666666666666666 -4.996003610813203e-16
+                                  translation 0.013 0 0
+                                  rotation -0.6667 0.3333 0.6667 0
                                   children [
                                     USE HAND_RIGHT_FINGER_PHALANX
                                     DEF HAND_RIGHT_MIDDLE_CONNECTOR_3_JOINT HingeJoint {
@@ -1070,8 +1070,8 @@ PROTO EndEffectorHey5Right [
                                         }
                                       ]
                                       endPoint DEF HAND_RIGHT_MIDDLE_CONNECTOR_3 Solid {
-                                        translation 0.008999999999997677 9.367506770274758e-16 -3.219646771412954e-15
-                                        rotation -0.4190581774617469 -0.3492151478847891 0.8381163549234938 -7.947987303456222e-16
+                                        translation 0.009 0 0
+                                        rotation -0.4191 -0.3492 0.8381 0
                                         children [
                                           USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                                           DEF HAND_RIGHT_MIDDLE_TIP_JOINT HingeJoint {
@@ -1092,8 +1092,8 @@ PROTO EndEffectorHey5Right [
                                               }
                                             ]
                                             endPoint DEF HAND_RIGHT_MIDDLE_TIP Solid {
-                                              translation 0.013000000000007006 1.2195106036116954e-15 2.886579864025407e-15
-                                              rotation 0.2407717061715384 -0.1203858530857692 0.9630868246861536 -4.611102534756202e-16
+                                              translation 0.013 0 0
+                                              rotation 0.2408 -0.1204 0.9631 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
@@ -1157,8 +1157,8 @@ PROTO EndEffectorHey5Right [
           }
         ]
         endPoint DEF HAND_RIGHT_RING_PHALANX_1 Solid {
-          translation 0.12650000000000938 0.00420000000000716 -0.012499999998910272
-          rotation -0.9831056944488255 0.12942795977355578 0.12942795977356558 1.5878340000000062
+          translation 0.1265 0.0042 -0.0125
+          rotation -0.9831 0.1294 0.1294 1.5878
           children [
             USE HAND_RIGHT_FIRST_PHALANX_SHAPE
             DEF HAND_RIGHT_RING_CONNECTOR_1_JOINT HingeJoint {
@@ -1179,8 +1179,8 @@ PROTO EndEffectorHey5Right [
                 }
               ]
               endPoint DEF HAND_RIGHT_RING_CONNECTOR_1 Solid {
-                translation 0.00900000000000567 -9.044431870108838e-13 -5.676015213396113e-15
-                rotation 1 1.8546720198689037e-14 -4.2863531125859105e-14 1.5707960000000056
+                translation 0.009 0 0
+                rotation 1 0 0 1.5708
                 children [
                   USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                   DEF HAND_RIGHT_RING_PHALANX_2_JOINT HingeJoint {
@@ -1201,8 +1201,8 @@ PROTO EndEffectorHey5Right [
                       }
                     ]
                     endPoint DEF HAND_RIGHT_RING_PHALANX_2 Solid {
-                      translation 0.012999999999918854 -4.85722573273506e-17 -9.123812816369536e-13
-                      rotation -0.6837634587578276 0.4558423058385518 0.5698028822981898 -4.871083751574258e-16
+                      translation 0.013 0 0
+                      rotation -0.6838 0.4558 0.5698 0
                       children [
                         USE HAND_RIGHT_FINGER_PHALANX
                         DEF HAND_RIGHT_RING_CONNECTOR_2_JOINT HingeJoint {
@@ -1223,8 +1223,8 @@ PROTO EndEffectorHey5Right [
                             }
                           ]
                           endPoint DEF HAND_RIGHT_RING_CONNECTOR_2 Solid {
-                            translation 0.009000000000248143 5.551115123125783e-16 3.497202527569243e-15
-                            rotation 0 1 0 -1.1102230246251565e-16
+                            translation 0.009 0 0
+                            rotation 0 1 0 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_RING_PHALANX_3_JOINT HingeJoint {
@@ -1245,8 +1245,8 @@ PROTO EndEffectorHey5Right [
                                   }
                                 ]
                                 endPoint DEF HAND_RIGHT_RING_PHALANX_3 Solid {
-                                  translation 0.012999999999917522 1.1084883011491797e-15 -9.116596366709473e-13
-                                  rotation 0.061898446059017294 -0.12379689211803459 0.9903751369442767 -8.968100940422724e-16
+                                  translation 0.013 0 0
+                                  rotation 0.0619 -0.1238 0.9904 0
                                   children [
                                     USE HAND_RIGHT_FINGER_PHALANX
                                     DEF HAND_RIGHT_RING_CONNECTOR_3_JOINT HingeJoint {
@@ -1267,8 +1267,8 @@ PROTO EndEffectorHey5Right [
                                         }
                                       ]
                                       endPoint DEF HAND_RIGHT_RING_CONNECTOR_3 Solid {
-                                        translation 0.008999999999785846 1.1275702593849246e-16 9.077738560847592e-13
-                                        rotation 0.5345224838248488 -0.2672612419124244 0.8017837257372732 -2.0770370905276122e-16
+                                        translation 0.009 0 0
+                                        rotation 0.5345 -0.2673 0.8018 0
                                         children [
                                           USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                                           DEF HAND_RIGHT_RING_TIP_JOINT HingeJoint {
@@ -1289,8 +1289,8 @@ PROTO EndEffectorHey5Right [
                                               }
                                             ]
                                             endPoint DEF HAND_RIGHT_RING_TIP Solid {
-                                              translation 0.01300000000014867 5.585809592645319e-16 9.124923039394162e-13
-                                              rotation 0.19245008972987526 0.19245008972987526 0.9622504486493764 2.884444029575346e-16
+                                              translation 0.013 0 0
+                                              rotation 0.1925 0.1925 0.9623 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
@@ -1354,8 +1354,8 @@ PROTO EndEffectorHey5Right [
           }
         ]
         endPoint DEF HAND_RIGHT_LITTLE_PHALANX_1_JOINT Solid {
-          translation 0.11650000000000338 0.004200000000005002 -0.031999999999244855
-          rotation -0.9351130202419153 0.2505630054238171 0.2505630054238403 1.6378340000000229
+          translation 0.1165 0.0042 -0.032
+          rotation -0.9351 0.2506 0.2506 1.6378
           children [
             USE HAND_RIGHT_FIRST_PHALANX_SHAPE
             DEF HAND_RIGHT_LITTLE_CONNECTOR_1_JOINT HingeJoint {
@@ -1376,8 +1376,8 @@ PROTO EndEffectorHey5Right [
                 }
               ]
               endPoint DEF HAND_RIGHT_LITTLE_CONNECTOR_1 Solid {
-                translation 0.008999999999554253 -4.483080573436382e-13 -3.734859643778066e-15
-                rotation 1 -1.4170086754977272e-14 -5.5345768211961094e-15 1.5707960000000003
+                translation 0.009 0 0
+                rotation 1 0 0 1.5708
                 children [
                   USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                   DEF HAND_RIGHT_LITTLE_PHALANX_2_JOINT HingeJoint {
@@ -1398,8 +1398,8 @@ PROTO EndEffectorHey5Right [
                       }
                     ]
                     endPoint DEF HAND_RIGHT_LITTLE_PHALANX_2 Solid {
-                      translation 0.013000000000376266 -4.926614671774132e-16 -4.539701947692265e-13
-                      rotation 0.7071067811865475 0 0.7071067811865475 -3.9252311467094383e-16
+                      translation 0.013 0 0
+                      rotation 0.7071 0 0.7071 0
                       children [
                         USE HAND_RIGHT_FINGER_PHALANX
                         DEF HAND_RIGHT_LITTLE_CONNECTOR_2_JOINT HingeJoint {
@@ -1420,8 +1420,8 @@ PROTO EndEffectorHey5Right [
                             }
                           ]
                           endPoint DEF HAND_RIGHT_LITTLE_CONNECTOR_2 Solid {
-                            translation 0.00900000000001211 -1.7694179454963432e-16 3.774758283725532e-15
-                            rotation -0.9733285267845753 -0.16222142113076254 0.16222142113076254 -3.4219371797089436e-16
+                            translation 0.009 0 0
+                            rotation -0.9733 -0.1622 0.1622 0
                             children [
                               USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                               DEF HAND_RIGHT_LITTLE_PHALANX_3_JOINT HingeJoint {
@@ -1442,8 +1442,8 @@ PROTO EndEffectorHey5Right [
                                   }
                                 ]
                                 endPoint DEF HAND_RIGHT_LITTLE_PHALANX_3 Solid {
-                                  translation 0.013000000000379375 1.106753577673203e-15 -4.564126854234019e-13
-                                  rotation 0.457495710997814 0.457495710997814 -0.7624928516630234 -3.640109616122046e-16
+                                  translation 0.013 0 0
+                                  rotation 0.4575 0.4575 -0.7625 0
                                   children [
                                     USE HAND_RIGHT_FINGER_PHALANX
                                     DEF HAND_RIGHT_LITTLE_CONNECTOR_3_JOINT HingeJoint {
@@ -1464,8 +1464,8 @@ PROTO EndEffectorHey5Right [
                                         }
                                       ]
                                       endPoint DEF HAND_RIGHT_LITTLE_CONNECTOR_3 Solid {
-                                        translation 0.008999999999557362 2.1163626406917047e-16 -9.110490140074035e-13
-                                        rotation 0 0 1 -7.216449660063518e-16
+                                        translation 0.009 0 0
+                                        rotation 0 0 1 0
                                         children [
                                           USE HAND_RIGHT_FINGER_CONNECTOR_SHAPE
                                           DEF HAND_RIGHT_LITTLE_TIP_JOINT HingeJoint {
@@ -1486,8 +1486,8 @@ PROTO EndEffectorHey5Right [
                                               }
                                             ]
                                             endPoint DEF HAND_RIGHT_LITTLE_TIP Solid {
-                                              translation 0.013000000001287537 1.1102230246251565e-15 -4.5274894944213884e-13
-                                              rotation 0 1 0 -1.1102230246251565e-16
+                                              translation 0.013 0 0
+                                              rotation 0 1 0 0
                                               children [
                                                 USE HAND_RIGHT_FINGER_TIP
                                               ]
@@ -1537,7 +1537,7 @@ PROTO EndEffectorHey5Right [
     boundingObject Group {
       children [
         Transform {
-          translation 0.0211 -0.0249 -2.1684e-19
+          translation 0.0211 -0.0249 0
           rotation 0 0 1 1.5708
           children [
             Cylinder {

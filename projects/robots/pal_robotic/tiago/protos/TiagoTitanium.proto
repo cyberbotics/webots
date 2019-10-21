@@ -18,7 +18,7 @@ PROTO TiagoTitanium [
         FrontArmExtension [
           TiagoArmLeft {
             endEffector [
-              EndEffectorHey5Right {
+              TiagoHey5Right {
               }
             ]
           }

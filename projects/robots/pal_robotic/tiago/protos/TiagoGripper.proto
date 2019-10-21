@@ -4,9 +4,9 @@
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the parallel gripper end-effector.
 
-PROTO EndEffectorGripper [
+PROTO TiagoGripper [
   field  SFVec3f     translation  0 0.016 0
-  field  SFRotation  rotation     0.57735 0.57735 -0.57735 2.0944
+  field  SFRotation  rotation     0.5774 0.5774 -0.5774 2.0944
 ]
 {
   Solid {
@@ -72,7 +72,7 @@ PROTO EndEffectorGripper [
             }
             DEF CONNECTOR Transform {
               translation 0 0 0.0087
-              rotation 1 0 0 -1.5707953071795862
+              rotation 1 0 0 -1.5708
               children [
                 DEF FACE Shape {
                   appearance BrushedAluminium {
@@ -145,7 +145,7 @@ PROTO EndEffectorGripper [
             }
             DEF v1 CapScrew {
               translation 0.0477 0.008 -0.0108
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               appearance BrushedAluminium {
               }
               screwRadius 0.0018
@@ -153,7 +153,7 @@ PROTO EndEffectorGripper [
             }
             DEF v2 CapScrew {
               translation 0.0477 0.008 -0.043
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               name "cap screw(1)"
               appearance BrushedAluminium {
               }
@@ -162,7 +162,7 @@ PROTO EndEffectorGripper [
             }
             DEF v3 CapScrew {
               translation 0.0477 0.008 -0.075
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               name "cap screw(2)"
               appearance BrushedAluminium {
               }
@@ -171,7 +171,7 @@ PROTO EndEffectorGripper [
             }
             DEF v4 CapScrew {
               translation 0.0477 -0.008 -0.075
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               name "cap screw(3)"
               appearance BrushedAluminium {
               }
@@ -180,7 +180,7 @@ PROTO EndEffectorGripper [
             }
             DEF v5 CapScrew {
               translation 0.0477 -0.008 -0.043
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               name "cap screw(4)"
               appearance BrushedAluminium {
               }
@@ -189,7 +189,7 @@ PROTO EndEffectorGripper [
             }
             DEF v6 CapScrew {
               translation 0.0477 -0.008 -0.0108
-              rotation 0 1 0 -1.5707953071795862
+              rotation 0 1 0 -1.5708
               name "cap screw(5)"
               appearance BrushedAluminium {
               }
@@ -401,7 +401,7 @@ PROTO EndEffectorGripper [
                   translation 0.004 0 -0.1741
                   children [
                     Box {
-                      size 0.0076 0.0509078 0.0898245
+                      size 0.0076 0.05091 0.08982
                     }
                   ]
                   translationStep 0.0001
@@ -419,7 +419,7 @@ PROTO EndEffectorGripper [
                   translation -0.0085 0.0156 -0.1048
                   children [
                     Box {
-                      size 0.0321331 0.0295917 0.01487
+                      size 0.03213 0.02959 0.01487
                     }
                   ]
                   translationStep 0.0001
@@ -430,7 +430,7 @@ PROTO EndEffectorGripper [
               density -1
               mass 0.10998
               centerOfMass [
-                -0.00447 0.010766 -0.121013
+                -0.00447 0.01077 -0.121013
               ]
             }
           }
@@ -519,7 +519,7 @@ PROTO EndEffectorGripper [
                   translation 0.004 0 -0.1741
                   children [
                     Box {
-                      size 0.0076 0.0509078 0.0898245
+                      size 0.0076 0.05091 0.08982
                     }
                   ]
                   translationStep 0.0001
@@ -537,7 +537,7 @@ PROTO EndEffectorGripper [
                   translation -0.0085 0.0156 -0.1048
                   children [
                     Box {
-                      size 0.0321331 0.0295917 0.01487
+                      size 0.03213 0.02959 0.01487
                     }
                   ]
                   translationStep 0.0001
@@ -548,7 +548,7 @@ PROTO EndEffectorGripper [
               density -1
               mass 0.10998
               centerOfMass [
-                -0.00447 0.010766 -0.121013
+                -0.00447 0.01077 -0.121013
               ]
             }
           }
@@ -569,7 +569,7 @@ PROTO EndEffectorGripper [
             rotationStep 0.001
           }
           Transform {
-            translation 0.029 -0.0183436 -0.046
+            translation 0.029 -0.01834 -0.046
             rotation 0 0 -1 -0.59
             children [
               Box {
@@ -580,7 +580,7 @@ PROTO EndEffectorGripper [
             rotationStep 0.001
           }
           Transform {
-            translation -0.029 0.0183436 -0.046
+            translation -0.029 0.01834 -0.046
             rotation 0 0 -1 -0.59
             children [
               Box {
@@ -592,7 +592,7 @@ PROTO EndEffectorGripper [
           }
           Transform {
             translation 0.0172 0.0109 -0.046
-            rotation 0 -0.9999999999999999 0 1.5707953071795862
+            rotation 0 -1 0 1.5708
             children [
               Box {
                 size 0.106 0.056 0.071
@@ -601,7 +601,7 @@ PROTO EndEffectorGripper [
           }
           Transform {
             translation -0.0172 -0.0109 -0.046
-            rotation 0 -0.9999999999999999 0 1.5707953071795862
+            rotation 0 -1 0 1.5708
             children [
               Box {
                 size 0.106 0.056 0.071
