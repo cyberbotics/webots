@@ -21,6 +21,7 @@ from pynvml import nvmlInit, nvmlShutdown, nvmlDeviceGetHandleByIndex, nvmlDevic
                    nvmlDeviceGetUtilizationRates
 from requests import session
 
+import asyncio
 import errno
 import json
 import logging
@@ -211,6 +212,7 @@ class Client:
                 protocol = 'wss:'
             else:
                 protocol = 'ws:'
+            asyncio.set_event_loop(asyncio.new_event_loop())
             client.client_websocket.write_message('webots:' + protocol + '//' +
                                                   hostname + ':' + str(port))
             for line in iter(client.webots_process.stdout.readline, b''):

@@ -53,7 +53,6 @@ CONTROLLERS=\
   sony/qrio/controllers.Makefile \
   sphero/bb8/controllers.Makefile \
   surveyor/controllers.Makefile \
-  telerob/telemax_pro/controllers.Makefile \
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 
@@ -77,7 +76,7 @@ release debug profile clean: $(TARGETS)
 
 # libraries dependencies
 
-robotis/darwin-op/controllers.Makefile: robotis/darwin-op/libraries.Makefile
+robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
 

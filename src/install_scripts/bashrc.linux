@@ -16,5 +16,5 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1          # If defined, you are allowed
 # These environment variables are necessaries to compile and run Webots #
 #########################################################################
 
-export WEBOTS_HOME=$HOME/webots          # Defines the path to Webots home.
-export LD_LIBRARY_PATH=$WEBOTS_HOME/lib  # Add the Webots libraries to the library path (useful when launching Webots directly without using the launcher).
+export WEBOTS_HOME=$HOME/webots                 # Defines the path to Webots home.
+export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/webots  # Add the Webots libraries to the library path (useful when launching Webots directly without using the launcher).

@@ -29,6 +29,7 @@ com
 *.jar
 *.rar
 *.tar
+*.xz
 *.zip
 
 # OS generated files
@@ -58,8 +59,9 @@ Thumbs.db
 # Local rules #
 ###############
 
+/.clang-format
 /msys64
 /webots
 /webots.lnk
 /webots_debug_output.txt
-/util/
+/util

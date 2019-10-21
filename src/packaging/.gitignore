@@ -1,6 +1,7 @@
 /*.iss
 /*.deb
 /*.mac
+/*.snap
 /*.spec
 /webots_distro
 /files.txt

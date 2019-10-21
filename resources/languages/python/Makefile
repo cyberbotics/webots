@@ -27,12 +27,12 @@ PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 INTERFACE       = controller.i
 SWIG            = swig
-SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/
+SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
 WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
 WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
-PYOUT           = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/,$(INTERFACE:.i=.py))
-PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION))
+PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/,$(INTERFACE:.i=.py))
+PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION))
 
 ifeq ($(OSTYPE),windows)
 SPACE          :=
@@ -40,16 +40,16 @@ SPACE          +=
 PYTHON_HOME    := $(subst \ ,$(SPACE),$(dir $(subst $(SPACE),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -DMS_WIN64 -D_hypot=hypot -Wno-stringop-truncation
 LD_FLAGS        = -shared -Wl,--enable-auto-import
-LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_HOME_PATH)/msys64/mingw64/bin -lController -lCppController
-LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
+LIBS            = -L"$(PYTHON_HOME)libs" -lpython$(PYTHON_SHORT_VERSION) -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
+LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.pyd))
 ifneq (,$(findstring 3.,$(PYTHON_VERSION)))
 DEF             = _controller3.def
 else
 DEF             = _controller2.def
 endif
 PYTHON_INCLUDES = -I"$(PYTHON_HOME)include"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/Controller.dll
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/CppController.dll
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -66,12 +66,12 @@ C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
-LD_FLAGS        = -dynamiclib -install_name @rpath/lib/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
-LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController -lpython$(PYTHON_VERSION)
-LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
+LD_FLAGS        = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lpython$(PYTHON_VERSION)
+LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.dylib
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.dylib
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 ifneq (,$(wildcard $(BREW_PYTHON_PATH)))
 PYTHON_INCLUDES += -I"$(BREW_PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
 LIBS            += -L"$(BREW_PYTHON_PATH)/lib"
@@ -81,11 +81,11 @@ endif
 ifeq ($(OSTYPE),linux)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable
 LD_FLAGS        = -shared
-LIBS            = -L$(WEBOTS_HOME_PATH)/lib -lController -lCppController
-LIBOUT          = $(addprefix $(WEBOTS_HOME_PATH)/lib/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
+LIBS            = -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController
+LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -I"/usr/include/python$(PYTHON_VERSION)"
-LIBCONTROLLER   = $(WEBOTS_HOME_PATH)/lib/libController.so
-LIBCPPCONTROLLER= $(WEBOTS_HOME_PATH)/lib/libCppController.so
+LIBCONTROLLER   = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
+LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.so
 endif
 
 SWIG_EXISTS     = $(shell which $(SWIG) 2> /dev/null)
@@ -118,4 +118,4 @@ $(WRAPPER_OBJECT):$(WRAPPER)
 endif
 
 clean:
-	rm -rf *.o *.cpp $(WEBOTS_HOME_PATH)/lib/python*
+	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/python*

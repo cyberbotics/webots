@@ -66,7 +66,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 
- SUPPORTED_SDK = 10.9 10.10 10.11 10.12 10.13 10.14
+ SUPPORTED_SDK = 10.9 10.10 10.11 10.12 10.13 10.14 10.15
  MACOSX_MIN_SDK_VERSION = 10.9
 
  # cf. https://stackoverflow.com/a/30225756/2210777
@@ -87,9 +87,11 @@ ifeq ($(OSTYPE),windows)
  EXE_EXTENSION = .exe
  SHARED_LIB_EXTENSION = .dll
  WEBOTS_LIB_PATH=$(subst \,/,$(WEBOTS_HOME))/msys64/mingw64/bin
+ WEBOTS_CONTROLLER_LIB_PATH=$(subst \,/,$(WEBOTS_HOME))/lib/controller
 else
  LIB_PREFIX = lib
- WEBOTS_LIB_PATH=$(WEBOTS_HOME)/lib
+ WEBOTS_LIB_PATH=$(WEBOTS_HOME)/lib/webots
+ WEBOTS_CONTROLLER_LIB_PATH=$(WEBOTS_HOME)/lib/controller
  ifeq ($(OSTYPE),linux)
   SHARED_LIB_EXTENSION = .so
  else # macOS
