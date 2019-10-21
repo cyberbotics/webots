@@ -390,7 +390,7 @@ void WbBackground::applySkyBoxToWren() {
 
   WrTextureCubeMap *cm = wr_texture_cubemap_new();
 
-  int w, h, nrComponents;
+  int w, h, components;
   bool success = true;
   for (int i = 0; i < 6; ++i) {
     if (mIrradianceUrlFields[i]->size() == 0) {
@@ -403,7 +403,7 @@ void WbBackground::applySkyBoxToWren() {
       break;
     }
     wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-    float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &nrComponents, 0);
+    float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
     wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
   }
   if (success) {
