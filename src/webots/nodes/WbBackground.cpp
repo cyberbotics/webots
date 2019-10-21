@@ -268,7 +268,7 @@ void WbBackground::applyColourToWren(const WbRgb &color) {
 void WbBackground::applySkyBoxToWren() {
   destroySkyBox();
 
-  mCubeMapTexture = wr_texture_cubemap_new();
+  WbWrenOpenGlContext::makeWrenCurrent();
 
   int edgeLength = 0;
   QString lastFile;
@@ -277,6 +277,8 @@ void WbBackground::applySkyBoxToWren() {
   QVector<float *> hdrImageData;
   QVector<QImage *> regularImageData;
 
+  // 1. Load the background.
+  mCubeMapTexture = wr_texture_cubemap_new();
   try {
     bool allUrlDefined = true;
     bool atLeastOneUrlDefined = false;
@@ -293,7 +295,7 @@ void WbBackground::applySkyBoxToWren() {
     }
 
     if (!allUrlDefined)
-      throw QString(atLeastOneUrlDefined ? "Incomplete cubemap" : "");
+      throw QString(atLeastOneUrlDefined ? tr("Incomplete cubemap") : "");
 
     wr_texture_set_internal_format(WR_TEXTURE(mCubeMapTexture), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
 
@@ -336,8 +338,6 @@ void WbBackground::applySkyBoxToWren() {
     destroySkyBox();
   }
 
-  WbWrenOpenGlContext::makeWrenCurrent();
-
   if (mCubeMapTexture) {
     wr_texture_set_size(WR_TEXTURE(mCubeMapTexture), edgeLength, edgeLength);
     wr_texture_setup(WR_TEXTURE(mCubeMapTexture));
@@ -354,25 +354,35 @@ void WbBackground::applySkyBoxToWren() {
     wr_scene_set_skybox(wr_scene_get_instance(), mSkyboxRenderable);
   }
 
+  // 2. Load the irradiance map.
   WrTextureCubeMap *cm = wr_texture_cubemap_new();
 
-  int w, h, components;
-  bool success = true;
-  for (int i = 0; i < 6; ++i) {
-    if (mIrradianceUrlFields[i]->size() == 0) {
-      success = false;
-      break;
+  try {
+    // Check first that every fields are present.
+    bool allUrlDefined = true;
+    bool atLeastOneUrlDefined = false;
+    for (int i = 0; i < 6; ++i) {
+      if (mIrradianceUrlFields[i]->size() == 0) {
+        allUrlDefined = false;
+        continue;
+      } else
+        atLeastOneUrlDefined = true;
     }
-    QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
-    if (url.isEmpty()) {
-      success = false;
-      break;
+    if (!allUrlDefined)
+      throw tr(atLeastOneUrlDefined ? "Incomplete irradiance cubemap" : "");
+
+    // Actually load the irradiance map.
+    int w, h, components;
+    for (int i = 0; i < 6; ++i) {
+      QString url = WbUrl::computePath(this, "textureBaseName", mIrradianceUrlFields[i]->item(0), false);
+      if (url.isEmpty())
+        throw QString();
+
+      wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
+      float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
+      wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
     }
-    wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGB32F);
-    float *data = stbi_loadf(url.toUtf8().constData(), &w, &h, &components, 0);
-    wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
-  }
-  if (success) {
+
     wr_texture_set_size(WR_TEXTURE(cm), w, h);
     wr_texture_set_texture_unit(WR_TEXTURE(cm), 13);
     wr_texture_setup(WR_TEXTURE(cm));
@@ -380,9 +390,15 @@ void WbBackground::applySkyBoxToWren() {
     mIrradianceCubeTexture =
       wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), w);
     wr_texture_cubemap_disable_automatic_mip_map_generation(mIrradianceCubeTexture);
-  } else {
-    wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
-    mIrradianceCubeTexture = NULL;
+
+  } catch (QString &error) {
+    if (error.length() > 0)
+      warn(error);
+
+    if (mIrradianceCubeTexture) {
+      wr_texture_delete(WR_TEXTURE(mIrradianceCubeTexture));
+      mIrradianceCubeTexture = NULL;
+    }
 
     // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
     // Reflections won't be good in such case.
