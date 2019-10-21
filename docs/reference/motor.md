@@ -239,7 +239,7 @@ If a more specific or accurate model is needed, it can be implemented in the rob
 #### `wb_motor_get_available_torque`
 #### `wb_motor_get_max_torque`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -492,7 +492,7 @@ Positions are expressed in *radian* (rad) for rotational motors and in *meter* (
 #### `wb_motor_get_torque_feedback`
 #### `wb_motor_get_torque_feedback_sampling_period`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -643,7 +643,7 @@ The `wb_motor_get_force_feedback_sampling_period` (resp. `wb_motor_get_torque_fe
 #### `wb_motor_set_force`
 #### `wb_motor_set_torque`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -744,7 +744,7 @@ The example in "projects/samples/howto/worlds/force\_control.wbt" demonstrates t
 
 #### `wb_motor_get_type`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -843,7 +843,7 @@ If the value of the `type` field is "linear", this function returns WB\_LINEAR, 
 #### `wb_motor_get_brake`
 #### `wb_motor_get_position_sensor`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

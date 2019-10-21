@@ -114,7 +114,7 @@ This approximation usually improves as the `basicTimeStep` ([WorldInfo](worldinf
 #### `wb_touch_sensor_get_value`
 #### `wb_touch_sensor_get_values`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -232,7 +232,7 @@ This function can be used with a sensor of type "force-3d" exclusively.
 
 #### `wb_touch_sensor_get_type`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

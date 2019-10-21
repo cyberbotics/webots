@@ -64,7 +64,7 @@ Then, after closing the window, the overlay will be automatically restored.
 #### `wb_display_get_width`
 #### `wb_display_get_height`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -152,7 +152,7 @@ These functions return respectively the values of the `width` and `height` field
 #### `wb_display_set_opacity`
 #### `wb_display_set_font`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -297,7 +297,7 @@ For example the vector `[1 0 1]` represents the magenta color.
 #### `wb_display_attach_camera`
 #### `wb_display_detach_camera`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -395,7 +395,7 @@ After detaching a camera, the pixels that have not been manually drawn will be t
 #### `wb_display_fill_oval`
 #### `wb_display_fill_polygon`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -563,7 +563,7 @@ The `wb_display_fill_polygon` function draws a polygon having the same propertie
 #### `wb_display_image_save`
 #### `wb_display_image_delete`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

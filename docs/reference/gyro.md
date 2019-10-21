@@ -39,7 +39,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_gyro_get_sampling_period`
 #### `wb_gyro_get_values`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

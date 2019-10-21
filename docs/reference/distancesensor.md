@@ -175,7 +175,7 @@ The ground texture must be placed in a [Plane](plane.md).
 #### `wb_distance_sensor_get_sampling_period`
 #### `wb_distance_sensor_get_value`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -284,7 +284,7 @@ Hence, the range of the return value is defined by this lookup table.
 #### `wb_distance_sensor_get_min_value`
 #### `wb_distance_sensor_get_aperture`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -382,7 +382,7 @@ The `wb_distance_sensor_get_aperture` function returns the aperture of the dista
 
 #### `wb_distance_sensor_get_type`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

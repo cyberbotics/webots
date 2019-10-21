@@ -129,7 +129,7 @@ Unlike the "physics" mode, in the "kinematics" mode the gravity and other forces
 In `C++`, `Java` and `Python`, the `DifferentialWheels` class inherits from the [Robot](robot.md) class.
 The `DifferentialWheels` class is supposed to be instantiated only once in the controller life-cycle.
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C++"
 
@@ -180,7 +180,7 @@ public class DifferentialWheels extends Robot {
 
 #### `wb_differential_wheels_set_speed`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -272,7 +272,7 @@ The `wb_differential_wheels_get_left_speed` and `wb_differential_wheels_get_righ
 #### `wb_differential_wheels_disable_encoders`
 #### `wb_differential_wheels_get_encoders_sampling_period`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -367,7 +367,7 @@ Note that the first encoders values will be available only after the first sampl
 #### `wb_differential_wheels_get_right_encoder`
 #### `wb_differential_wheels_set_encoders`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -452,7 +452,7 @@ Setting the encoders' values will not make the wheels rotate to reach the specif
 
 #### `wb_differential_wheels_get_max_speed`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -524,7 +524,7 @@ The `wb_differential_wheels_get_max_speed` function allows the user to get the v
 
 #### `wb_differential_wheels_get_speed_unit`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

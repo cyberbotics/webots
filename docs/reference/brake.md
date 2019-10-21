@@ -17,7 +17,7 @@ The [Brake](#brake) node can be inserted in the `device` field of a [HingeJoint]
 #### `wb_brake_set_damping_constant`
 #### `wb_brake_get_type`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -115,7 +115,7 @@ It will return `WB_ROTATIONAL` if the sensor is associated with a [HingeJoint](h
 #### `wb_brake_get_motor`
 #### `wb_brake_get_position_sensor`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

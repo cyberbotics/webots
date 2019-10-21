@@ -67,7 +67,7 @@ The noise is not dependent on the distance between emitter-receiver.
 #### `wb_receiver_disable`
 #### `wb_receiver_get_sampling_period`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -169,7 +169,7 @@ The `wb_receiver_get_sampling_period` function returns the period given into the
 #### `wb_receiver_get_queue_length`
 #### `wb_receiver_next_packet`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -298,7 +298,7 @@ Making assumptions based on timing will result in code that is not robust.
 #### `wb_receiver_get_data`
 #### `wb_receiver_get_data_size`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -447,7 +447,7 @@ More sophisticated data typed must be accessed explicitly using `setdatatype` an
 #### `wb_receiver_get_signal_strength`
 #### `wb_receiver_get_emitter_direction`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -550,7 +550,7 @@ It is illegal to call this function if the receiver's queue is empty (i.e. when 
 #### `wb_receiver_set_channel`
 #### `wb_receiver_get_channel`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

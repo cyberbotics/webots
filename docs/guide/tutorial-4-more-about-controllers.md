@@ -68,7 +68,7 @@ In order to do that, we will use the simple feedback loop depicted in the UML st
 
 The complete code of this controller is given in the next subsection.
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 > **Hands on #2**: At the beginning of the controller file, add the include directives corresponding to the [Robot](../reference/robot.md), the [DistanceSensor](../reference/distancesensor.md) and the [Motor](../reference/motor.md) nodes in order to be able to use the corresponding API:
 > ```c
@@ -154,7 +154,7 @@ The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.
 The Webots API has to be initialized using the `wb_robot_init` function and it has to be cleaned up using the `wb_robot_cleanup` function.
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 > **Hands on #3**: Write the prototype of the `main` function as follows:
 > ```c
@@ -254,7 +254,7 @@ A sensor such as the [DistanceSensor](../reference/distancesensor.md) has to be 
 The second argument of the enable function defines at which rate the sensor will be refreshed.
 
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 > **Hands on #4**: Just after the comment `// initialize devices`, get and enable the distance sensors as follows:
 > ```c
@@ -605,7 +605,7 @@ Reload the world.
 Here is the complete code of the controller detailed in the previous subsection.
 
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 ```c
 #include <webots/robot.h>

@@ -13,7 +13,7 @@ In order to get the `Keyboard` instance, you should call the `getKeyboard` funct
 #### `wb_keyboard_get_sampling_period`
 #### `wb_keyboard_get_key`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

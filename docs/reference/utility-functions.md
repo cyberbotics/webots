@@ -5,7 +5,7 @@ They are not callback functions, but functions that you can call from your callb
 
 #### `dWebotsGetBodyFromDEF`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -46,7 +46,7 @@ Solid merging happens between rigidly linked solids with non NULL `physics` fiel
 
 #### `dWebotsGetGeomFromDEF`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -87,7 +87,7 @@ This function allows you to retrieve the contact joint group where to create the
 It is typically called inside the `webots_physics_collide` function.
 Remark that this group may change during the time and should be retrieved at each `webots_physics_collide` call.
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -121,7 +121,7 @@ void dGeomSetDynamicFlag(dGeomID geom)
 #### `dWebotsSend`
 #### `dWebotsReceive`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -184,7 +184,7 @@ The following example shows how to split concatenated string messages:
 
 #### `dWebotsGetTime`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -203,7 +203,7 @@ This corresponds to the time displayed in the bottom right corner of the main We
 
 #### `dWebotsConsolePrintf`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 

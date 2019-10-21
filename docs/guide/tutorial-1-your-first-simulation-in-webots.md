@@ -164,7 +164,7 @@ The new source file is displayed in Webots text editor window.
 This source file may be compiled (if written in C, C++ or Java) without any modification, however the current code has no real effect.
 We will now associate new `e-puck_go_forward` (or `EPuckGoForward`) controller to the `E-puck` node.
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 > **Hands-on #9**: In the scene tree view, select the `controller` field of the `E-puck` node, then use the field editor at the bottom of the Scene Tree view: press the `Select...` button and then select `e-puck_go_forward` in the list.
 >Once the controller is associated with the robot, save the world.
@@ -328,7 +328,7 @@ The controller directory name should match with the binary name.
 The wheels of differential wheels robots are often controlled in velocity and not in position like we did in the previous example.
 In order to control the motors of the wheels in speed you need to set the target position to the infinity and to set the desired speed:
 
-%tab-component
+%tab-component "tab-language"
 %tab "C"
 > **Hands-on #10**: Modify the controller program as shown below, recompile it and run it:
 > ```c

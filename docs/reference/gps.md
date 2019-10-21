@@ -52,7 +52,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_gps_get_values`
 #### `wb_gps_get_speed`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -177,7 +177,7 @@ If these values are needed for a longer period they must be copied.
 
 #### `wb_gps_get_coordinate_system`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
@@ -271,7 +271,7 @@ If the value of the `gpsCoordinateSystem` field is "local" then this function re
 
 #### `wb_gps_convert_to_degrees_minutes_seconds`
 
-%tab-component
+%tab-component "tab-language"
 
 %tab "C"
 
