@@ -32,7 +32,7 @@ namespace wren {
 
     // Encapsulate memory management
     static PbrMaterial *createMaterial();
-    static void deletePhongMaterial(PbrMaterial *material);
+    static void deleteMaterial(PbrMaterial *material);
     static size_t cachedItemCount() { return PbrMaterial::cCache.size(); }
     static void printCacheContents();
 
@@ -58,6 +58,7 @@ namespace wren {
 
   private:
     PbrMaterial();
+    ~PbrMaterial() {}
     void init();
 
     static std::unordered_map<cache::Key, cache::PbrMaterialData> cCache;

@@ -55,7 +55,7 @@ namespace wren {
     return material;
   }
 
-  void PhongMaterial::deletePhongMaterial(PhongMaterial *material) {
+  void PhongMaterial::deleteMaterial(PhongMaterial *material) {
     material->releaseMaterial();
     delete material;
   }

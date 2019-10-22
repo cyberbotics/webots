@@ -70,7 +70,7 @@ namespace wren {
     return material;
   }
 
-  void PbrMaterial::deletePhongMaterial(PbrMaterial *material) {
+  void PbrMaterial::deleteMaterial(PbrMaterial *material) {
     material->releaseMaterial();
     delete material;
   }
