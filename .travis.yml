@@ -33,7 +33,6 @@ jobs:
         - pip install -r docs/tests/requirements.txt
         - cp dependencies/.clang-format-6 .clang-format
       script:
-        - clang-format --version
         - python -m unittest discover -s docs/tests
         - |
           # in case of manually triggered test, planned test or tag test, run complete test
@@ -58,7 +57,7 @@ jobs:
       python: '2.7'
       dist: bionic
     - <<: *source_tests_staging
-#      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
+      if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
       name: OSX / Python 2.7
       os: osx
       osx_image: xcode10.2  # Xcode: 10.2.1  |  macOS: 10.14
