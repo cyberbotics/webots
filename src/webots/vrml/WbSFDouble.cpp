@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbSFDouble.hpp"
 #include <cmath>
+#include "WbSFDouble.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFDouble::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFDouble::readSFDouble(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toDouble();
   } catch (...) {
