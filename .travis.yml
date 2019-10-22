@@ -144,6 +144,9 @@ jobs:
       dist: bionic
       jdk: openjdk11
       before_install:
+        - sudo add-apt-repository ppa:deadsnakes/ppa -y
+        - sudo apt update
+        - sudo apt install -y python3.8-dev
         - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - export ROS_DISTRO=melodic
@@ -184,7 +187,6 @@ jobs:
             - npm
             - python3.6-dev
             - python3.7-dev
-            - python3.8-dev
             - openjdk-11-jdk
             - curl
             - fakeroot
@@ -205,7 +207,7 @@ jobs:
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
-        - sudo apt install python3.6-dev python3.7-dev python3.8-dev
+        - sudo apt install python3.6-dev python3.7-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
@@ -219,6 +221,9 @@ jobs:
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       jdk: openjdk11
       before_install:
+        - sudo add-apt-repository ppa:deadsnakes/ppa -y
+        - sudo apt update
+        - sudo apt install -y python3.8-dev
         - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
       addons: *bionic_apt_packages
