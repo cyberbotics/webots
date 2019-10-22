@@ -38,6 +38,10 @@ WbClipboard *WbClipboard::instance() {
   return gInstance;
 }
 
+void WbClipboard::deleteInstance() {
+  gInstance->clear();
+}
+
 WbClipboard::WbClipboard() : WbVariant(), mNodeInfo(NULL), mSystemClipboard(QApplication::clipboard()) {
   update();
 }

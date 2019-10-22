@@ -69,7 +69,7 @@ public:
   void setDecorationVisible(bool visible);
 
   int &handleWidth() { return mHandleWidth; }
-  void setHandleWidth(int &handleWidth) { mHandleWidth = handleWidth; }
+  void setHandleWidth(const int &handleWidth) { mHandleWidth = handleWidth; }
 
   // save/restore splitter perspective
   QList<QByteArray> saveState() const;

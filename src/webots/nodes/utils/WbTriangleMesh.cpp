@@ -451,8 +451,8 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
 
       const WbVector3 &v1 = posB - posA;
       const WbVector3 &v2 = posC - posA;
-      WbVector3 normal(v1.cross(v2));
-      const double length = normal.length();
+      WbVector3 n(v1.cross(v2));
+      const double length = n.length();
       if (length == 0.0)
         return QObject::tr("Null normal for face %1 %2 %3.\nThis can be caused by duplicate vertices in your mesh. "
                            "Try to open your model in a 3D modeling software, remove any duplicate vertices, and re-import the "
@@ -460,8 +460,8 @@ QString WbTriangleMesh::tmpNormalsPass(const WbMFVector3 *coord, const WbMFVecto
           .arg(indexA)
           .arg(indexB)
           .arg(indexC);
-      normal /= length;
-      mTmpTriangleNormals.append(normal);
+      n /= length;
+      mTmpTriangleNormals.append(n);
     }
   }
 
@@ -590,7 +590,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
 
       // compute the normal per vertex (from normal per triangle)
       if (!mNormalsValid || !mNormalPerVertex) {
-        WbVector3 normal;
+        WbVector3 triangleNormal;
         const WbVector3 &faceNormal = mTmpTriangleNormals[t];
         const QList<int> &linkedTriangles = mTmpVertexToTriangle.values(indexCoord);
         const int ltSize = linkedTriangles.size();
@@ -615,7 +615,7 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
                 }
               }
               if (!found) {
-                normal += linkedTriangleNormal;
+                triangleNormal += linkedTriangleNormal;
                 linkedTriangleNormals[linkedTriangleNormalsIndex] = &linkedTriangleNormal;
                 linkedTriangleNormalsIndex++;
               }
@@ -624,15 +624,15 @@ void WbTriangleMesh::finalPass(const WbMFVector3 *coord, const WbMFVector3 *norm
         }
         delete[] linkedTriangleNormals;
 
-        if (normal.isNull())
-          normal = faceNormal;
+        if (triangleNormal.isNull())
+          triangleNormal = faceNormal;
         else
-          normal.normalize();
+          triangleNormal.normalize();
 
         // populate the remaining two final arrays
-        mNormals.append(normal[X]);
-        mNormals.append(normal[Y]);
-        mNormals.append(normal[Z]);
+        mNormals.append(triangleNormal[X]);
+        mNormals.append(triangleNormal[Y]);
+        mNormals.append(triangleNormal[Z]);
       } else {  // normal already defined per vertex
         const int indexNormal = mTmpNormalIndices[index];
         if (indexNormal >= 0 && indexNormal < normalSize) {

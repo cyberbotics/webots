@@ -208,6 +208,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
 
 WbMainWindow::~WbMainWindow() {
   delete mFactoryLayout;
+  WbClipboard::deleteInstance();
 }
 
 void WbMainWindow::lockFullScreen(bool isLocked) {
@@ -393,6 +394,7 @@ void WbMainWindow::createMainTools() {
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
+  mTextEditor->updateGui();
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);

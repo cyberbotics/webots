@@ -360,7 +360,7 @@ void WbSceneTree::pasteInMFValue() {
   WbMultipleValue *parentItem;
   WbNode *parentNode = NULL;
   WbField *field = NULL;
-  WbTreeItem *fieldItem = mSelectedItem;
+  WbTreeItem *fieldItem;
   int index = 0;
 
   if (mSelectedItem->isField()) {

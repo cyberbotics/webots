@@ -68,6 +68,7 @@ WbContactSound::~WbContactSound() {
   WbSoundEngine::deleteSource(mSource);
 }
 
+// cppcheck-suppress constParameter
 bool WbContactSound::doesGeomsMatch(const dGeomID &geom1, const dGeomID &geom2) const {
   return ((geom1 == mGeom1 && geom2 == mGeom2) || (geom1 == mGeom2 && geom2 == mGeom1));
 }
