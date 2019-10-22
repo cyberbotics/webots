@@ -32,7 +32,7 @@ Please refer to the documentation of your operating system to set environment va
 | Linux            | all                  | LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib`                         |
 | macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib`                         |
 | all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python27`                |
-| all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python37`                |
+| all              | Python 3.X           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/python3X`                |
 | all              | Python               | PYTHONIOENCODING         | `UTF-8`                                          |
 | all              | MATLAB               | WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
 | all              | MATLAB               | WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |

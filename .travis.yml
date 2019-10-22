@@ -75,7 +75,7 @@ jobs:
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 3.7 / openjdk 8 / ROS kinetic
+      name: Ubuntu 16.04 / Python 3.8 / openjdk 8 / ROS kinetic
       git: &compilation_git
         depth: 3
         submodules: true
@@ -83,7 +83,7 @@ jobs:
       dist: xenial
       install: skip  # bundle install is not required
       language: python
-      python: 3.7
+      python: 3.8
       jdk: openjdk8
       addons: &apt_packages
         apt:
@@ -123,7 +123,7 @@ jobs:
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
-        - sudo apt install -y python3.6-dev python3.7-dev
+        - sudo apt install -y python3.6-dev python3.7-dev python3.8-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - export ROS_DISTRO=kinetic
@@ -140,7 +140,7 @@ jobs:
         - python tests/test_suite.py --no-ansi-escape --nomake
         - ./tests/ros.sh
     - <<: *unit_tests_staging
-      name: Ubuntu 18.04 / Python 3.7 / openjdk 11 / ROS melodic
+      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 / ROS melodic
       dist: bionic
       jdk: openjdk11
       before_install:
@@ -184,6 +184,7 @@ jobs:
             - npm
             - python3.6-dev
             - python3.7-dev
+            - python3.8-dev
             - openjdk-11-jdk
             - curl
             - fakeroot
@@ -192,19 +193,19 @@ jobs:
     - &distribution_staging
       stage: Distribution
       if: type = cron OR commit_message IN (travis_distrib, travis_distrib_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 16.04 / Python 3.7 / openjdk 8
+      name: Ubuntu 16.04 / Python 3.8 / openjdk 8
       git: *compilation_git
       os: linux
       dist: xenial
       install: skip  # bundle install is not required
       language: python
-      python: 3.7
+      python: 3.8
       jdk: openjdk8
       addons: *apt_packages
       before_install:
         - sudo add-apt-repository ppa:deadsnakes/ppa -y
         - sudo apt update
-        - sudo apt install python3.6-dev python3.7-dev
+        - sudo apt install python3.6-dev python3.7-dev python3.8-dev
         - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         - export PATH=$JAVA_HOME/bin:$PATH
         - pip install PyGithub # used to upload packages to Github releases
@@ -214,7 +215,7 @@ jobs:
         - if [[ "$(ls -l distribution | grep -v ^l | wc -l)" -ne "4" ]]; then echo Wrong number of files in the distribution folder; exit -1; fi  # make sure all the required files are generated
         - if [ "$TRAVIS_BRANCH" != "master" ]; then src/packaging/publish_release.py --key=$GITHUB_API_KEY --repo=$TRAVIS_REPO_SLUG --branch=$TRAVIS_BRANCH --commit=$TRAVIS_COMMIT --tag=$TRAVIS_TAG; fi
     - <<: *distribution_staging
-      name: Ubuntu 18.04 / Python 3.7 / openjdk 11 (no release upload)
+      name: Ubuntu 18.04 / Python 3.8 / openjdk 11 (no release upload)
       dist: bionic  # on Ubuntu 18.04 we just test the package creation but do not upload it
       jdk: openjdk11
       before_install:
