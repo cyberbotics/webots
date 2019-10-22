@@ -49,6 +49,17 @@ namespace wren {
     return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
   }
 
+  PhongMaterial *PhongMaterial::createMaterial() {
+    PhongMaterial *material = new PhongMaterial();
+    material->init();
+    return material;
+  }
+
+  void PhongMaterial::deletePhongMaterial(PhongMaterial *material) {
+    material->releaseMaterial();
+    delete material;
+  }
+
   void PhongMaterial::clearMaterial() {
     GlslLayout::PhongMaterial material(mCacheData->mMaterial);
 
@@ -152,18 +163,19 @@ namespace wren {
     Material::bindTextures();
   }
 
-  PhongMaterial::PhongMaterial() : Material(), mColorPerVertex(false) {
+  PhongMaterial::PhongMaterial() : Material(), mColorPerVertex(false), mCacheData(NULL) {
+    mMaterialStructure = new WrMaterial;
+    mMaterialStructure->type = WR_MATERIAL_PHONG;
+    mMaterialStructure->data = reinterpret_cast<void *>(this);
+  }
+
+  void PhongMaterial::init() {
     GlslLayout::PhongMaterial material;
     material.mAmbient = glm::vec4(gVec3Ones, 1.0f);
     material.mDiffuse = glm::vec4(gVec3Ones, 1.0f);
     material.mSpecularAndExponent = glm::vec4(gVec3Ones, 25.0f);
     material.mEmissiveAndOpacity = glm::vec4(gVec3Zeros, 1.0f);
     material.mTextureFlags = glm::vec4(0.0f);
-
-    mMaterialStructure = new WrMaterial;
-    mMaterialStructure->type = WR_MATERIAL_PHONG;
-    mMaterialStructure->data = reinterpret_cast<void *>(this);
-
     updateMaterial(material);
   }
 

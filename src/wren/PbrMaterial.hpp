@@ -31,8 +31,8 @@ namespace wren {
     void setTextureCubeMap(TextureCubeMap *texture, size_t index) override;
 
     // Encapsulate memory management
-    static PbrMaterial *createMaterial() { return new PbrMaterial(); }
-    static void deletePhongMaterial(PbrMaterial *PbrMaterial) { delete PbrMaterial; }
+    static PbrMaterial *createMaterial();
+    static void deletePhongMaterial(PbrMaterial *material);
     static size_t cachedItemCount() { return PbrMaterial::cCache.size(); }
     static void printCacheContents();
 
@@ -52,14 +52,14 @@ namespace wren {
 
     // Clear all the data but preserve the program
     void clearMaterial() override;
-
-    PbrMaterial();
-    ~PbrMaterial() { releaseMaterial(); }
     void bind(bool bindProgram = true) const override;
     size_t sortingId() const override;
     void updateTranslucency() override;
 
   private:
+    PbrMaterial();
+    void init();
+
     static std::unordered_map<cache::Key, cache::PbrMaterialData> cCache;
     void releaseMaterial() override;
     void updateMaterial(const GlslLayout::PbrMaterial &material);

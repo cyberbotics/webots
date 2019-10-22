@@ -64,6 +64,17 @@ namespace wren {
     return static_cast<size_t>(mCacheData->id() << 1) | (textureId << 16) | (programId << 32) | mHasPremultipliedAlpha;
   }
 
+  PbrMaterial *PbrMaterial::createMaterial() {
+    PbrMaterial *material = new PbrMaterial();
+    material->init();
+    return material;
+  }
+
+  void PbrMaterial::deletePhongMaterial(PbrMaterial *material) {
+    material->releaseMaterial();
+    delete material;
+  }
+
   void PbrMaterial::clearMaterial() {
     GlslLayout::PbrMaterial material(mCacheData->mMaterial);
 
@@ -190,7 +201,13 @@ namespace wren {
     Material::bindTextures();
   }
 
-  PbrMaterial::PbrMaterial() : Material() {
+  PbrMaterial::PbrMaterial() : Material(), mCacheData(NULL) {
+    mMaterialStructure = new WrMaterial;
+    mMaterialStructure->type = WR_MATERIAL_PBR;
+    mMaterialStructure->data = reinterpret_cast<void *>(this);
+  }
+
+  void PbrMaterial::init() {
     GlslLayout::PbrMaterial material;
     material.mBaseColorAndTransparency = glm::vec4(gVec3Ones, 0.0f);
     material.mRoughnessMetalnessNormalMapFactorOcclusion = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
@@ -200,11 +217,6 @@ namespace wren {
     material.mNormalBrdfEmissiveBackgroundFlags = glm::vec4(0.0f);
     material.mPenFlags = glm::vec4(0.0f);
     material.mCubeTextureFlags = glm::vec4(0.0f);
-
-    mMaterialStructure = new WrMaterial;
-    mMaterialStructure->type = WR_MATERIAL_PBR;
-    mMaterialStructure->data = reinterpret_cast<void *>(this);
-
     updateMaterial(material);
   }
 
