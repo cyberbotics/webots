@@ -10,6 +10,8 @@ clone_depth: 1
 
 install:
   - set PATH=C:\Python37-x64;C:\Python37-x64\Scripts;C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+  - pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+  - pacman --noconfirm -Syuu
   - pacman --noconfirm -S mingw-w64-x86_64-cppcheck
   - pacman --noconfirm -S mingw-w64-x86_64-clang
   - pip install -r %APPVEYOR_BUILD_FOLDER%\\tests\\sources\\requirements.txt
