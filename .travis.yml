@@ -16,14 +16,14 @@ jobs:
   include:
     - &source_tests_staging
       stage: Sources Tests
-      name: Ubuntu 16.04 / Python 3.7
+      name: Ubuntu 16.04 / Python 3.8
       git:
         depth: 3
         submodules: false
       os: linux
       dist: xenial
       language: python
-      python: '3.7'
+      python: '3.8'
       addons:
         apt:
           packages:
@@ -49,7 +49,7 @@ jobs:
       python: '2.7'
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
-      name: Ubuntu 18.04 / Python 3.7
+      name: Ubuntu 18.04 / Python 3.8
       dist: bionic
     - <<: *source_tests_staging
       if: type = cron OR commit_message IN (travis_sources, travis_unit, travis_distrib) OR (NOT tag =~ ^nightly_ AND tag IS present)
