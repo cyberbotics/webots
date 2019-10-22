@@ -69,6 +69,10 @@ jobs:
             - clang-format
             - cppcheck
             - python
+      install:
+        - pip install -r tests/sources/requirements.txt
+        - pip install -r docs/tests/requirements.txt
+        - cp dependencies/.clang-format-9 .clang-format
     - &unit_tests_staging
       stage: Unit Tests
       if: type = cron OR commit_message IN (travis_unit, travis_distrib, travis_unit_only) OR (NOT tag =~ ^nightly_ AND tag IS present)
