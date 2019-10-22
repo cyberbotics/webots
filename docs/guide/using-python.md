@@ -9,7 +9,7 @@ The classes are either representations of a node of the scene tree (such as Robo
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
 The Python API of Webots supports both Python 3.7 and Python 2.7.
-On Ubuntu 18.04 adn 16.04 it also supports Python 3.6 and Python 3.8, and Python 3.5 Ubuntu 16.04.
+On Ubuntu 18.04 and 16.04 it also supports Python 3.6 and Python 3.8, and Python 3.5 Ubuntu 16.04.
 
 Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-pycharm-with-webots.md) chapter for a step-by-step procedure.
 
