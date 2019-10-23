@@ -87,7 +87,7 @@ using namespace std;
   for (int i = 0; i < len; ++i)
     PyList_SetItem($result, i, PyFloat_FromDouble($1[i]));
 }
-%typemap(in) const double [ANY] {
+%typemap(in) const double * {
   if (!PyList_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
     return NULL;
