@@ -170,6 +170,7 @@ bool RosLidar::setFrequencyCallback(webots_ros::set_float::Request &req, webots_
   return true;
 }
 
+// cppcheck-suppress constParameter
 bool RosLidar::enablePointCloudCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res) {
   if (!mIsPointCloudEnabled && req.value) {
     mIsPointCloudEnabled = true;

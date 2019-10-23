@@ -283,18 +283,15 @@ void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
   WbTransform *transform = upperTransform();
 
   // initial values with identity matrices
-  n.setXyz(0.0, 1.0, 0.0);     // plane normal
-  WbVector3 p(0.0, 0.0, 0.0);  // a point in the plane
+  n.setXyz(0.0, 1.0, 0.0);  // plane normal
 
   if (transform) {
     const WbMatrix3 &m3 = transform->rotationMatrix();
     // Applies this transform's rotation to plane normal
     n = m3 * n;
 
-    // Translates p
-    p = transform->position();
     // Computes the d parameter in the plane equation
-    d = p.dot(n);
+    d = transform->position().dot(n);
   } else
     d = 0.0;
 }

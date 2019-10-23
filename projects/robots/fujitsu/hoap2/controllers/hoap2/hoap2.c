@@ -178,8 +178,10 @@ int main(int argc, char *argv[]) {
   gps = wb_robot_get_device("gps");
   emitter = wb_robot_get_device("emitter");
   FILE *file = fopen(filename, "r");
-  if (file == NULL)
+  if (file == NULL) {
     printf("unable to locate the %s file\n", filename);
+    return 1;
+  }
 
   tempMotor[larm_joint_5] = 0; /* currently not needed, */
   tempMotor[rarm_joint_5] = 0; /* because we don't use the fingers */
@@ -188,8 +190,10 @@ int main(int argc, char *argv[]) {
   next_position[rarm_joint_5] = 0.0;
 
   char *ptr = fgets(l, 500, file);
-  if (ptr == NULL)
+  if (ptr == NULL) {
     fprintf(stderr, "Error while reading the %s file\n", filename);
+    return 1;
+  }
 
   sscanf(l,
          "%d, %*d, %d, %d, %d, %d ,%d, %d, %d, %d, %d, %d, %d, %d, %d, "

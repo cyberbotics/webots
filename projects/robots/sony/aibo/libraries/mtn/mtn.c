@@ -117,6 +117,7 @@ static int list_contains(MTN *mtn) {
 }
 
 static void _fread(void *ptr, size_t size, size_t nitems, FILE *stream) {
+  // cppcheck-suppress uninitvar
   size_t ret = fread(ptr, size, nitems, stream);
   if (ret != nitems)
     fprintf(stderr, "Error during _fread\n");

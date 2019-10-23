@@ -38,7 +38,7 @@ public:
   // qproperty methods
   const QColor &backgroundColor() const { return mBackgroundColor; }
 
-  void setBackgroundColor(QColor &color) { mBackgroundColor = color; }
+  void setBackgroundColor(const QColor &color) { mBackgroundColor = color; }
 
 private slots:
   void startButtonPressed();
