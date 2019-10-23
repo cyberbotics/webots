@@ -24,28 +24,44 @@
   $i = strpos($uri, '/');
   unset($repository);
   $branch = '';
+  $tab = ''; // For backward compatibility <= R2019b revision 1.
   $tabs = array();
   if ($i !== FALSE) {
     $book = substr($uri, 0, $i);
     $j = strpos($uri, 'version=');
     if ($j === FALSE) {
-      preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-      if ($matches) {
-        $n = $matches[0][0][1];
-        foreach ($matches as $tabMatch)
-          $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
+      $n = strpos($uri, 'tab='); // For backward compatibility <= R2019b revision 1.
+      if ($n !== FALSE)
+        $tab = substr($uri, $n + 4);
+      else {
+        preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+        if ($matches) {
+          $n = $matches[0][0][1];
+          foreach ($matches as $tabMatch)
+            $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
+        } else
+          $n = FALSE;
+      }
+
+      if ($n !== FALSE)
         $page = substr($uri, $i + 1, $n - $i - 2);
-      } else
+      else
         $page = substr($uri, $i + 1);
     } else {
       $page = substr($uri, $i + 1, $j - $i - 2);
       $version = substr($uri, $j + 8);
-      preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
-      if ($matches) {
-        $tabs = array();
-        $version = substr($version, 0, $matches[0][0][1]);
-        foreach ($matches as $tabMatch)
-          $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
+      $n = strpos($version, 'tab='); // For backward compatibility <= R2019b revision 1.
+      if ($n !== FALSE) {
+        $version = substr($version, 0, $n - 5);
+        $tab = substr($version, $n + 4);
+      } else {
+        preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+        if ($matches) {
+          $tabs = array();
+          $version = substr($version, 0, $matches[0][0][1]);
+          foreach ($matches as $tabMatch)
+            $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
+        }
       }
       $n = strpos($version, ':');
       if ($n === FALSE)
@@ -84,6 +100,7 @@
       setup = {
         'book':       '$book',
         'page':       '$page',
+        'tab':        '$tab',  // For backward compatibility <= R2019b revision 1.
         'tabs':       " . json_encode($tabs) . ",
         'anchor':     window.location.hash.substring(1),
         'branch':     '$branch',
@@ -92,6 +109,7 @@
         'url':        'https://raw.githubusercontent.com/$repository/webots/'
       }
       console.log('Setup: ' + JSON.stringify(setup));
+      console.log('AA: ' + '$request_uri');
     </script>
     <link rel='stylesheet' type='text/css' href='$cacheUrl$branch/docs/css/webots-doc.css'/>
   ";
