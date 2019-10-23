@@ -20,7 +20,7 @@ WbSFBool::WbSFBool(const WbSFBool &other) {
   mValue = other.mValue;
 }
 
-void WbSFBool::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFBool::readSFBool(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toBool();
   } catch (...) {
