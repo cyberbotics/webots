@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #define WB_ALLOW_MIXING_C_AND_CPP_API
-#include <webots/supervisor.h>
 #include <webots/Field.hpp>
+#include <webots/supervisor.h>
 
-#include <stdio.h>
 #include <map>
+#include <stdio.h>
 
 using namespace std;
 using namespace webots;
@@ -45,9 +45,7 @@ void Field::cleanup() {
   fieldMap.clear();
 }
 
-Field::Field(WbFieldRef ref) {
-  fieldRef = ref;
-}
+Field::Field(WbFieldRef ref) { fieldRef = ref; }
 
 Field::Type Field::getType() const {
   return Type(wb_supervisor_field_get_type(fieldRef));
@@ -57,9 +55,7 @@ std::string Field::getTypeName() const {
   return string(wb_supervisor_field_get_type_name(fieldRef));
 }
 
-int Field::getCount() const {
-  return wb_supervisor_field_get_count(fieldRef);
-}
+int Field::getCount() const { return wb_supervisor_field_get_count(fieldRef); }
 
 bool Field::getSFBool() const {
   return wb_supervisor_field_get_sf_bool(fieldRef);
@@ -147,19 +143,19 @@ void Field::setSFFloat(double value) {
   wb_supervisor_field_set_sf_float(fieldRef, value);
 }
 
-void Field::setSFVec2f(const double *values) {
+void Field::setSFVec2f(const double values[2]) {
   wb_supervisor_field_set_sf_vec2f(fieldRef, values);
 }
 
-void Field::setSFVec3f(const double *values) {
+void Field::setSFVec3f(const double values[3]) {
   wb_supervisor_field_set_sf_vec3f(fieldRef, values);
 }
 
-void Field::setSFRotation(const double *values) {
+void Field::setSFRotation(const double values[4]) {
   wb_supervisor_field_set_sf_rotation(fieldRef, values);
 }
 
-void Field::setSFColor(const double *values) {
+void Field::setSFColor(const double values[4]) {
   wb_supervisor_field_set_sf_color(fieldRef, values);
 }
 
@@ -179,11 +175,11 @@ void Field::setMFFloat(int index, double value) {
   wb_supervisor_field_set_mf_float(fieldRef, index, value);
 }
 
-void Field::setMFVec2f(int index, const double *values) {
+void Field::setMFVec2f(int index, const double values[2]) {
   wb_supervisor_field_set_mf_vec2f(fieldRef, index, values);
 }
 
-void Field::setMFVec3f(int index, const double *values) {
+void Field::setMFVec3f(int index, const double values[3]) {
   wb_supervisor_field_set_mf_vec3f(fieldRef, index, values);
 }
 
@@ -191,7 +187,7 @@ void Field::setMFRotation(int index, const double values[4]) {
   wb_supervisor_field_set_mf_rotation(fieldRef, index, values);
 }
 
-void Field::setMFColor(int index, const double *values) {
+void Field::setMFColor(int index, const double values[3]) {
   wb_supervisor_field_set_mf_color(fieldRef, index, values);
 }
 
@@ -238,11 +234,14 @@ void Field::importMFNode(int position, const std::string &filename) {
   wb_supervisor_field_import_mf_node(fieldRef, position, filename.c_str());
 }
 
-void Field::importMFNodeFromString(int position, const std::string &nodeString) {
-  wb_supervisor_field_import_mf_node_from_string(fieldRef, position, nodeString.c_str());
+void Field::importMFNodeFromString(int position,
+                                   const std::string &nodeString) {
+  wb_supervisor_field_import_mf_node_from_string(fieldRef, position,
+                                                 nodeString.c_str());
 }
 
 void Field::removeMFNode(int position) {
-  fprintf(stderr, "Field::removeMFNode is deprecated, please use Field::removeMF instead\n");
+  fprintf(stderr, "Field::removeMFNode is deprecated, please use "
+                  "Field::removeMF instead\n");
   wb_supervisor_field_remove_mf(fieldRef, position);
 }
