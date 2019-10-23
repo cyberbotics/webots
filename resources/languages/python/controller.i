@@ -97,6 +97,9 @@ using namespace std;
   for (int i = 0; i < len; ++i)
     $1[i] = PyFloat_AsDouble(PyList_GetItem($input, i));
 }
+%typemap(freearg) const double * {
+  free($1);
+}
 %typemap(in) const int * {
   if (!PyList_Check($input)) {
     PyErr_SetString(PyExc_TypeError, "in method '$name', expected 'PyList'\n");
@@ -107,7 +110,9 @@ using namespace std;
   for (int i = 0; i < len; ++i)
     $1[i] = PyInt_AsLong(PyList_GetItem($input, i));
 }
-
+%typemap(freearg) const int * {
+  free($1);
+}
 //----------------------------------------------------------------------------------------------
 //  Device
 //----------------------------------------------------------------------------------------------
@@ -349,6 +354,10 @@ using namespace std;
           ((unsigned char *)$1)[(j * len1 * len3) + (i * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
   } else // PyString case
     $1 = PyString_AsString($input);
+}
+
+%typemap(freearg) const void * {
+  free($1);
 }
 
 %rename (__internalImageNew) imageNew(int width, int height, const void *data, int format) const;
