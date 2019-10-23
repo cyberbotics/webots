@@ -24,24 +24,28 @@
   $i = strpos($uri, '/');
   unset($repository);
   $branch = '';
-  $tab = '';
+  $tabs = array();
   if ($i !== FALSE) {
     $book = substr($uri, 0, $i);
     $j = strpos($uri, 'version=');
     if ($j === FALSE) {
-      $n = strpos($uri, 'tab=');
-      if ($n !== FALSE) {
+      preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+      if ($matches) {
+        $n = $matches[0][0][1];
+        foreach ($matches as $tabMatch)
+          $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
         $page = substr($uri, $i + 1, $n - $i - 2);
-        $tab = substr($uri, $n + 4);
       } else
         $page = substr($uri, $i + 1);
     } else {
       $page = substr($uri, $i + 1, $j - $i - 2);
       $version = substr($uri, $j + 8);
-      $n = strpos($version, 'tab=');
-      if ($n !== FALSE) {
-        $version = substr($version, 0, $n - 5);
-        $tab = substr($version, $n + 4);
+      preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+      if ($matches) {
+        $tabs = array();
+        $version = substr($version, 0, $matches[0][0][1]);
+        foreach ($matches as $tabMatch)
+          $tabs[$tabMatch[1]] = $tabMatch[2];
       }
       $n = strpos($version, ':');
       if ($n === FALSE)
@@ -80,7 +84,7 @@
       setup = {
         'book':       '$book',
         'page':       '$page',
-        'tab':        '$tab',
+        'tabs':       " + json_encode($tabs) + ",
         'anchor':     window.location.hash.substring(1),
         'branch':     '$branch',
         'repository': '$repository',
