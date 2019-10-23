@@ -109,7 +109,6 @@
         'url':        'https://raw.githubusercontent.com/$repository/webots/'
       }
       console.log('Setup: ' + JSON.stringify(setup));
-      console.log('AA: ' + '$request_uri');
     </script>
     <link rel='stylesheet' type='text/css' href='$cacheUrl$branch/docs/css/webots-doc.css'/>
   ";
