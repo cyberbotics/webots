@@ -148,8 +148,6 @@ void WbSceneTree::cleanup() {
   delete mModel;
   mModel = NULL;
 
-  mClipboard->clear();
-
   // disconnect all signals
   disconnect(this, 0);
 }

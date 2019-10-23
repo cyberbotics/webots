@@ -208,7 +208,6 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
 
 WbMainWindow::~WbMainWindow() {
   delete mFactoryLayout;
-  WbClipboard::deleteInstance();
 }
 
 void WbMainWindow::lockFullScreen(bool isLocked) {
@@ -1080,6 +1079,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupOptionalRendering();
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
+  WbClipboard::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
