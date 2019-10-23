@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #include "WbSFDouble.hpp"
-#include <cmath>
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFDouble::read(WbTokenizer *tokenizer, const QString &worldPath) {
+#include <cmath>
+
+void WbSFDouble::readSFDouble(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     mValue = tokenizer->nextToken()->toDouble();
   } catch (...) {

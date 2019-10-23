@@ -211,6 +211,7 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
     return false;
 
   const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+  // cppcheck-suppress knownConditionTrueFalse
   if (transform) {
     WbNode *child = transform->child(0);
     if (child == NULL) {
@@ -220,6 +221,7 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
     }
 
     const WbGeometry *const geometry = dynamic_cast<WbGeometry *>(child);
+    // cppcheck-suppress knownConditionTrueFalse
     if (geometry)
       return true;
 
@@ -260,6 +262,7 @@ WbGeometry *WbSolidUtilities::geometry(WbNode *const node) {
     return NULL;
 
   WbGeometry *const geometry = dynamic_cast<WbGeometry *>(node);
+  // cppcheck-suppress knownConditionTrueFalse
   if (geometry)
     return geometry;
 
