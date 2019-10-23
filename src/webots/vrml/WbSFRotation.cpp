@@ -18,7 +18,7 @@
 
 #include <cassert>
 
-void WbSFRotation::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFRotation::readSFRotation(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     double x = tokenizer->nextToken()->toDouble();
     double y = tokenizer->nextToken()->toDouble();

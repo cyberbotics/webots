@@ -11,6 +11,7 @@ Released on ???
   - Bug fixes
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
+    - Fixed displaying streaming server initialization errors in the Webots console.
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.

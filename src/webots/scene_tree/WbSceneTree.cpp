@@ -148,8 +148,6 @@ void WbSceneTree::cleanup() {
   delete mModel;
   mModel = NULL;
 
-  mClipboard->clear();
-
   // disconnect all signals
   disconnect(this, 0);
 }
@@ -360,7 +358,7 @@ void WbSceneTree::pasteInMFValue() {
   WbMultipleValue *parentItem;
   WbNode *parentNode = NULL;
   WbField *field = NULL;
-  WbTreeItem *fieldItem = mSelectedItem;
+  WbTreeItem *fieldItem;
   int index = 0;
 
   if (mSelectedItem->isField()) {

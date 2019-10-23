@@ -108,8 +108,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         definitionNode = NULL;
         const WbNode *const upperUseNode = mNestedUseNodes.last();
         WbNode *const upperDefinition = upperUseNode->defNode();
-        const int index = WbNode::subNodeIndex(node, upperUseNode);
-        matchingNode = WbNode::findNodeFromSubNodeIndex(index, upperDefinition);
+        const int childIndex = WbNode::subNodeIndex(node, upperUseNode);
+        matchingNode = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
         if (matchingNode && matchingNode->isUseNode()) {
           definitionNode = static_cast<WbBaseNode *>(matchingNode->defNode());
           QString error;
@@ -188,8 +188,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       }
 
     } else {
-      if (!isAValidUseableNode)
-        node->warn(warning + " " + QObject::tr("Non-admissible USE node turned into DEF node."));
+      node->warn(warning + " " + QObject::tr("Non-admissible USE node turned into DEF node."));
       makeDefNodeAndUpdateDictionary(node, true);
     }
     return true;
@@ -296,8 +295,8 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
           const WbNode *const upperUseNode = mNestedUseNodes.last();
           WbNode *upperDefinition = upperUseNode->defNode();
           if (mNestedProtos.last()->isAnAncestorOf(upperDefinition)) {
-            int index = WbNode::subNodeIndex(node, upperUseNode);
-            WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(index, upperDefinition);
+            int childIndex = WbNode::subNodeIndex(node, upperUseNode);
+            WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
             definitionNode = static_cast<WbBaseNode *>(matchingUse->defNode());
           }
         }

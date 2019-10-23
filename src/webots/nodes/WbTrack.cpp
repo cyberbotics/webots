@@ -479,6 +479,7 @@ void WbTrack::updateAnimatedGeometries() {
       continue;
 
     WbIndexedFaceSet *ifs = dynamic_cast<WbIndexedFaceSet *>(geom);
+    // cppcheck-suppress knownConditionTrueFalse
     if (ifs)
       ifs->updateTriangleMesh();
 

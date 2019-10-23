@@ -222,8 +222,10 @@ static void run() {
 
   /* ...otherwise, there is data to read, so read & process. */
   n = recv(fd, buffer, 256, 0);
-  if (n < 0)
+  if (n < 0) {
     printf("error reading from socket\n");
+    return;
+  }
   buffer[n] = '\0';
   printf("Received %d bytes: %s\n", n, buffer);
 

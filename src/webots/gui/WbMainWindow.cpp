@@ -204,6 +204,8 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, QWidget *parent) :
           &WbMainWindow::discardNodeRegeneration);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbMainWindow::finalizeNodeRegeneration);
+
+  WbLog::instance()->showPendingConsoleMessages();
 }
 
 WbMainWindow::~WbMainWindow() {
@@ -393,6 +395,7 @@ void WbMainWindow::createMainTools() {
   }
 
   mTextEditor = new WbBuildEditor(this, toolBarAlign());
+  mTextEditor->updateGui();
   addDockWidget(Qt::RightDockWidgetArea, mTextEditor, Qt::Vertical);
   addDock(mTextEditor);
   connect(mTextEditor, &WbBuildEditor::reloadRequested, this, &WbMainWindow::reloadWorld, Qt::QueuedConnection);
@@ -1081,6 +1084,7 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   mSimulationView->view3D()->cleanupOptionalRendering();
   mSimulationView->view3D()->cleanupFullScreenOverlay();
   mSimulationView->cleanup();
+  WbClipboard::deleteInstance();
 
   // really close
   if (WbApplication::instance()) {
