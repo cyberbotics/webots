@@ -9,7 +9,7 @@
     return $length === 0 || (substr($haystack, -$length) === $needle);
   }
 
-  $request_uri = htmlspecialchars($_SERVER['REQUEST_URI']);
+  $request_uri = $_SERVER['REQUEST_URI'];
   if (substr($request_uri, 0, 5) != "/doc/") { # redirect aliases
     $request_uri = "/doc/".substr($request_uri, 1)."/index"; // we remove the "/" prefix
     header("Location: $request_uri");
@@ -79,6 +79,11 @@
   }
   if (!isset($repository))
     $repository = 'cyberbotics';
+
+  $book = htmlspecialchars($book);
+  $page = htmlspecialchars($page);
+  $branch = htmlspecialchars($branch);
+  $repository = htmlspecialchars($repository);
 
   if ($branch === '') {
     # get HEAD commit SHA, to ensure that when master is updated the latest version is cached by the CDN
