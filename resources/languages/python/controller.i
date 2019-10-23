@@ -346,7 +346,7 @@ using namespace std;
     for (int i = 0; i < len1; ++i)
       for (int j = 0; j < len2; ++j)
         for (int k = 0; k < len3; ++k)
-          ((unsigned char *)$1)[(i * len2 * len3) + (j * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
+          ((unsigned char *)$1)[(j * len1 * len3) + (i * len3) + k] = (unsigned char) PyInt_AsLong(PyList_GetItem(PyList_GetItem(PyList_GetItem($input, i), j), k));
   } else // PyString case
     $1 = PyString_AsString($input);
 }
