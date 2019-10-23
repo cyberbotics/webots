@@ -45,7 +45,7 @@
         $tabs = array();
         $version = substr($version, 0, $matches[0][0][1]);
         foreach ($matches as $tabMatch)
-          $tabs[$tabMatch[1]] = $tabMatch[2];
+          $tabs[$tabMatch[1][0]] = $tabMatch[2][0];
       }
       $n = strpos($version, ':');
       if ($n === FALSE)
@@ -84,7 +84,7 @@
       setup = {
         'book':       '$book',
         'page':       '$page',
-        'tabs':       " + json_encode($tabs) + ",
+        'tabs':       " . json_encode($tabs) . ",
         'anchor':     window.location.hash.substring(1),
         'branch':     '$branch',
         'repository': '$repository',
