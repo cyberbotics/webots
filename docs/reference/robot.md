@@ -125,7 +125,7 @@ Asynchronous controllers may also be recommended for networked simulations invol
 #### `wb_robot_init`
 #### `wb_robot_cleanup`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -317,7 +317,7 @@ int main() {
 #### `getSpeaker`
 #### `getTouchSensor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -477,7 +477,7 @@ If the specified device is not found, the function returns `NULL` in C++, `null`
 
 #### `wb_robot_get_device_by_index`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -590,7 +590,7 @@ for(i=0; i<n_devices; i++) {
 
 #### `wb_robot_wait_for_user_input_event`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -728,7 +728,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 #### `wb_robot_get_battery_sampling_period`
 #### `wb_robot_battery_sensor_get_value`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -833,7 +833,7 @@ The `wb_robot_get_battery_sampling_period` function returns the period given int
 
 #### `wb_robot_get_basic_time_step`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -914,7 +914,7 @@ This function returns the value of the `basicTimeStep` field of the [WorldInfo](
 #### `wb_robot_get_mode`
 #### `wb_robot_set_mode`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1034,7 +1034,7 @@ The WbRobotMode can be compared to the following enumeration items:
 
 #### `wb_robot_get_name`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1111,7 +1111,7 @@ This sample world is located in the "projects/samples/demos/worlds" directory of
 
 #### `wb_robot_get_model`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1195,7 +1195,7 @@ The string returned should not be deallocated, as it was allocated by the "libCo
 
  - *set the data defined in the robot node*
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1283,7 +1283,7 @@ The `wb_robot_set_custom_data` function set the string contained in the `customD
 
 #### `wb_robot_get_type`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1364,7 +1364,7 @@ This function returns the type of the current mode (WB\_NODE\_ROBOT, WB\_NODE\_S
 
 #### `wb_robot_get_project_path`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1447,7 +1447,7 @@ It should not be deallocated.
 
 #### `wb_robot_get_world_path`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1530,7 +1530,7 @@ It should not be deallocated.
 #### `wb_robot_get_controller_name`
 #### `wb_robot_get_controller_arguments`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1616,7 +1616,7 @@ These functions return the content of respectively the Robot::controller and the
 
 #### `wb_robot_get_supervisor`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1697,7 +1697,7 @@ This function can be used to determine whether it is allowed to use the [Supervi
 
 #### `wb_robot_get_synchronization`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1777,7 +1777,7 @@ This function returns the boolean value corresponding to the synchronization fie
 
 #### `wb_robot_get_time`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1859,7 +1859,7 @@ It does not matter whether the controller is synchronized or not.
 
 #### `wb_robot_task_new`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1890,7 +1890,7 @@ Hence you should use mutexes (see below) to ensure that such data is not accesse
 #### `wb_robot_mutex_lock`
 #### `wb_robot_mutex_unlock`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -1933,7 +1933,7 @@ Users unfamiliar with the mutex concept may wish to consult a reference on multi
 #### `wb_robot_wwi_send`
 #### `wb_robot_wwi_send_text`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -2033,7 +2033,7 @@ The message is received using the `webots.window("<robot window name>").receive`
 
 #### `wb_robot_window_custom_function`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
