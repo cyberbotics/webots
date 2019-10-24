@@ -52,7 +52,7 @@
       $version = substr($uri, $j + 8);
       $n = strpos($version, 'tab='); // For backward compatibility <= R2019b revision 1.
       if ($n !== FALSE) {
-        $version = substr($version, 0, $n - 5);
+        $version = substr($version, 0, $n - 1);
         $tab = substr($version, $n + 4);
       } else {
         preg_match_all("/&(tab-[^=?&]+)=([^?&#]+)/", $version, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
