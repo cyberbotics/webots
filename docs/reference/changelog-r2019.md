@@ -3,6 +3,8 @@
 ## Webots R2019b Revision 2
 Released on ???
 
+  - New Features
+    - Linux: Added support for Python 3.8.
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
     - Device names are displayed in the scene tree next to the node name.
