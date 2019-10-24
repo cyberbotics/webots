@@ -15,22 +15,6 @@
 
 var handle;
 
-// TODO to be removed when wwi/R2019b/request_methods.js on FTP is updated
-function getGETQueriesMatchingRegularExpression(pattern) {
-  var values = {};
-  var query = window.location.search.substring(1);
-  if (query === '')
-    return values;
-  var vars = query.split('&');
-  var regex = new RegExp(pattern);
-  for (let i = 0; i < vars.length; i++) {
-    var pair = vars[i].split('=');
-    if (regex.test(pair[0]))
-      values[pair[0].toLowerCase()] = pair[1].toLowerCase();
-  }
-  return values;
-}
-
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
     return this.slice(0, prefix.length) === prefix;
@@ -1486,6 +1470,14 @@ document.addEventListener('DOMContentLoaded', function() {
       localSetup.branch = getGETQueryValue('branch', 'master');
     if (!localSetup.tabs)
       localSetup.tabs = getGETQueriesMatchingRegularExpression('^tab-\\w+$', 'g');
+    // backward compatibility <= R2019b revision 1
+    if (!localSetup.tabs['tab-language']) {
+      if (localSetup.tab) {
+        localSetup.tabs['tab-language'] = localSetup.tab;
+        delete localSetup.tab;
+      } else
+        localSetup.tabs['tab-language'] = getGETQueryValue('tab', '').toLowerCase();
+    }
   }
 
   // prevent FOUC for blog
