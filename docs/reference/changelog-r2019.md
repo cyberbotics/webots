@@ -3,6 +3,8 @@
 ## Webots R2019b Revision 2
 Released on ???
 
+  - New Features
+    - Linux: Added support for Python 3.8.
   - Enhancements
     - Webots now wait for extern controllers if the `Robot.synchronization` field is set to `TRUE`.
     - Device names are displayed in the scene tree next to the node name.
@@ -12,6 +14,7 @@ Released on ???
     - Fixed `simulation_server.py` script to work with Python3.
     - Fixed exporting first translation and rotation fields change during animation recording and simulation streaming.
     - Fixed displaying streaming server initialization errors in the Webots console.
+    - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
 
 ## Webots R2019b Revision 1
 Released on October 3rd, 2019.

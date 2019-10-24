@@ -31,8 +31,8 @@ Please refer to the documentation of your operating system to set environment va
 | Windows          | all                  | PATH                     | add `${WEBOTS_HOME}/lib/controller`              |
 | Linux            | all                  | LD\_LIBRARY\_PATH        | add `${WEBOTS_HOME}/lib/controller`              |
 | macOS            | all                  | DYLD\_LIBRARY\_PATH      | add `${WEBOTS_HOME}/lib/controller`              |
- | all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
- | all              | Python 3.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python37`     |
+| all              | Python 2.7           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python27`     |
+| all              | Python 3.X           | PYTHONPATH               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
 | all              | Python               | PYTHONIOENCODING         | `UTF-8`                                          |
 | all              | MATLAB               | WEBOTS\_PROJECT          | `/my_folder/my_webots_project`                   |
 | all              | MATLAB               | WEBOTS\_CONTROLLER\_NAME | `my_robot_controller.m`                          |
