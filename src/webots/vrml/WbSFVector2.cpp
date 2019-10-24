@@ -16,7 +16,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 
-void WbSFVector2::read(WbTokenizer *tokenizer, const QString &worldPath) {
+void WbSFVector2::readSFVector2(WbTokenizer *tokenizer, const QString &worldPath) {
   try {
     double x = tokenizer->nextToken()->toDouble();
     double y = tokenizer->nextToken()->toDouble();

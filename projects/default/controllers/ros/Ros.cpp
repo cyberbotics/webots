@@ -273,14 +273,16 @@ void Ros::fixName() {
 void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
   int nDevices = mRobot->getNumberOfDevices();
   for (int i = 0; i < nDevices; i++) {
-    bool hidden = false;
     Device *tempDevice = mRobot->getDeviceByIndex(i);
-    for (int j = 0; j < numberHiddenDevices; ++j) {
-      if (strcmp(hiddenDevices[j], tempDevice->getName().c_str()) == 0)
-        hidden = true;
+    if (hiddenDevices) {
+      bool hidden = false;
+      for (int j = 0; j < numberHiddenDevices; ++j) {
+        if (strcmp(hiddenDevices[j], tempDevice->getName().c_str()) == 0)
+          hidden = true;
+      }
+      if (hidden)
+        continue;
     }
-    if (hidden)
-      continue;
 
     const unsigned int previousDevicesCount = mDeviceList.size();
     switch (tempDevice->getNodeType()) {
@@ -395,6 +397,7 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
 }
 
 // timestep callback allowing a ros node to run the simulation step by step
+// cppcheck-suppress constParameter
 bool Ros::timeStepCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res) {
   if (req.value >= 1 && (req.value % static_cast<int>(mRobot->getBasicTimeStep()) == 0)) {
     mStep++;

@@ -212,9 +212,9 @@ void WbDisplay::findImageTextures(WbGroup *group) {
           mImageTextures.push_back(theTexture);
       }
     } else {
-      WbGroup *group = dynamic_cast<WbGroup *>(node);
-      if (group)
-        findImageTextures(group);
+      WbGroup *g = dynamic_cast<WbGroup *>(node);
+      if (g)
+        findImageTextures(g);
     }
   }
 }

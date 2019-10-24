@@ -20,6 +20,7 @@ install:
   - type %APPVEYOR_BUILD_FOLDER%\src\install_scripts\bash_profile.appveyor >> C:\msys64\home\appveyor\.bash_profile
   - bash --login -c "cd $WEBOTS_HOME_PATH; git submodule init; git submodule update"
   - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/msys64_installer.sh --all"
+  - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/nodejs_windows_installer.sh"
   - bash --login -c "$WEBOTS_HOME_PATH/src/install_scripts/inno_setup_installer.sh"
   - python -m pip install --upgrade pip
   - pip install PyGithub

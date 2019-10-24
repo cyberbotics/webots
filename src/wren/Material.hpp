@@ -40,9 +40,6 @@ namespace wren {
     };
 
     virtual WrMaterialType type() const { return WR_MATERIAL_NONE; }
-    // Encapsulate memory management
-
-    static void deleteMaterial(Material *material) { delete material; }
 
     // Clear all the data but preserve the program
     virtual void clearMaterial() = 0;

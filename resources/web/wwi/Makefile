@@ -68,6 +68,7 @@ NPM_EXISTS = $(shell which npm 2> /dev/null)
 
 ifeq ($(NPM_EXISTS),)
 release debug profile update:
+	@echo "# npm not found in PATH:" $(PATH)
 	@echo "# Please install nodejs to build 'webots.min.js' using the instructions on the GitHub wiki."
 else
 release debug profile update: webots.min.js

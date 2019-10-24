@@ -99,7 +99,6 @@ class TestCppCheck(unittest.TestCase):
         ]
         includeDirs = [
             'include/controller/c',
-            'include/ode',
             'include/wren',
             'include/glad',
             'src/webots/app',
