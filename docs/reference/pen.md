@@ -61,7 +61,7 @@ It is also switchable from the pen API, using the `wb_pen_write` function.
 
 #### `wb_pen_write`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -142,7 +142,7 @@ If the `write` parameter is *true*, the specified `tag` device will write; if `w
 
 #### `wb_pen_set_ink_color`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 

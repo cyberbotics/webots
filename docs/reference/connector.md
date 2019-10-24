@@ -147,7 +147,7 @@ But it is not necessary to add a [Physics](physics.md) node to the [Connector](#
 #### `wb_connector_get_presence_sampling_period`
 #### `wb_connector_get_presence`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
@@ -280,7 +280,7 @@ rotation_aligned := the n-ways rotational angle is within tolerance
 #### `wb_connector_lock`
 #### `wb_connector_unlock`
 
-%tab-component
+%tab-component "language"
 
 %tab "C"
 
