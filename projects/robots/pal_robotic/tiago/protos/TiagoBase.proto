@@ -1,6 +1,6 @@
-#VRML_SIM R2019a utf8
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0.
+# license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a proto file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 

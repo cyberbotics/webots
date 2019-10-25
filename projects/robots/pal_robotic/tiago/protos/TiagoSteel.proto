@@ -1,6 +1,6 @@
-#VRML_SIM R2019a utf8
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+#VRML_SIM R2019b utf8
+# license: Apache License 2.0.
+# license url: http://www.apache.org/licenses/LICENSE-2.0.
 # This is a proto file for Webots for the robot TIAGo (Steel version) from PAL Robotics (Spain).
 # It is composed of the TIAGo base (with Hokuyo URG 04LX_UG01 lidar) and the TIAGo body (torso) with the front arm finished by the parallel gripper.
 
