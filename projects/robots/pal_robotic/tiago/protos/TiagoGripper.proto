@@ -5,10 +5,21 @@
 # It is the parallel gripper end-effector.
 
 PROTO TiagoGripper [
-  field  SFVec3f     translation  0 0.016 0
-  field  SFRotation  rotation     0.5774 0.5774 -0.5774 2.0944
+  field  SFVec3f                            translation  0 0.016 0
+  field  SFRotation                         rotation     0.5774 0.5774 -0.5774 2.0944
+  field SFString{"left", "front", "right"}  name         "front"
 ]
 {
+  %{
+    local side = ""
+    if fields.name.value == "left" then
+      side = "left_hand_"
+    elseif fields.name.value == "right" then
+      side = "right_hand_"
+    else
+      side = ""
+    end
+  }%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -329,13 +340,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name "gripper_left_finger_joint"
+              name %{= "\"" .. side .. "gripper_left_finger_joint\""}%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name "gripper_left_finger_joint_sensor"
+              name %{= "\"" .. side .. "gripper_left_finger_joint_sensor\""}%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -442,13 +453,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name "gripper_right_finger_joint"
+              name %{= "\"" .. side .. "gripper_right_finger_joint\""}%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name "gripper_right_finger_joint_sensor"
+              name %{= "\"" .. side .. "gripper_right_finger_joint_sensor\""}%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {
@@ -554,7 +565,7 @@ PROTO TiagoGripper [
           }
         }
       ]
-      name "gripper"
+      name IS name
       boundingObject Group {
         children [
           Transform {

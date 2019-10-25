@@ -44,6 +44,7 @@ PROTO TiagoFrontArm [
       }
       DEF ARM_1_JOINT HingeJoint {
         jointParameters HingeJointParameters {
+          position 0.07
           axis 0 0 1
           anchor 0.025 0.194 -0.16
           dampingConstant 1
@@ -53,7 +54,7 @@ PROTO TiagoFrontArm [
           RotationalMotor {
             name "arm_1_joint"
             maxVelocity 1.95
-            minPosition 0
+            minPosition 0.07
             maxPosition 2.68
             maxTorque 43
           }
