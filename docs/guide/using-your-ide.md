@@ -76,6 +76,7 @@ N/A because Python is interpreted.
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
 - `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
 
+---
 
 ### Visual Studio
 
