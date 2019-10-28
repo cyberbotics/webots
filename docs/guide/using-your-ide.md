@@ -5,7 +5,12 @@ You may be interested in using your favorite IDE to develop a Webots controller.
 
 A priori, Webots can support any IDE to create, build and debug its controllers.
 It is simply a matter of setting up the IDE correctly to fulfill the Webots controller build rules.
-These rules are:
+
+Documenting every IDE for each OS is a huge and unmaintainable task.
+This is why only some of them are documented.
+They could serve as a reference for others.
+
+The build rules are:
 
 - The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$CONTROLLER_NAME/$CONTROLLER_NAME[$EXE_EXTENSION]`.
 - The executable should be linked with the Webots controller library (and eventually include the corresponding path):
@@ -49,14 +54,14 @@ libraries:
 %tab "Python"
 
 ```
-N/A
+N/A because Python is interpreted.
 ```
 
 %tab-end
 
 %end
 
-Legend:
+#### Legend
 
 - `$WEBOTS_HOME` is the path to Webots.
 - `$WEBOTS_PROJECT` is the path to your Webots project.
@@ -69,9 +74,6 @@ Legend:
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
 - `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
 
-Documenting every IDE for each OS is a huge and unmaintainable task.
-This is why only some of them are documented.
-They could serve as a reference for others.
 
 ### Visual Studio
 
