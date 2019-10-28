@@ -7,8 +7,8 @@ A priori, Webots can support any IDE to create, build and debug its controllers.
 It is simply a matter of setting up the IDE correctly to fulfill the Webots controller build rules.
 These rules are:
 
-1. The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$CONTROLLER_NAME/$CONTROLLER_NAME[$EXE_EXTENSION]`.
-2. The executable should be linked with the Webots controller shared library.
+- The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$CONTROLLER_NAME/$CONTROLLER_NAME[$EXE_EXTENSION]`.
+- The executable should be linked with the Webots controller shared library.
 For C, this library is `$WEBOTS_HOME/lib/$SL_PREFIXController$SL_SUFFIX`.
     - For C++, `$WEBOTS_HOME/lib/$SL_PREFIXCppController$SL_SUFFIX` should be added to the C library.
         - For Java, `$WEBOTS_HOME/lib/java/Controller.jar` should be added to the C++ library.
