@@ -27,8 +27,9 @@ Where:
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
 - `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
 
-Documenting every IDE for each OS is a huge task.
-This is why we are only documenting some of them, which can serve as a reference for others.
+Documenting every IDE for each OS is a huge and unmaintainable task.
+This is why only some of them are documented.
+They could serve as a reference for others.
 
 ### Visual Studio
 
