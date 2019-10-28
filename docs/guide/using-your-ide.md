@@ -8,19 +8,61 @@ It is simply a matter of setting up the IDE correctly to fulfill the Webots cont
 These rules are:
 
 - The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$CONTROLLER_NAME/$CONTROLLER_NAME[$EXE_EXTENSION]`.
-- The executable should be linked with the Webots controller shared library.
-For C, this library is `$WEBOTS_HOME/lib/$SL_PREFIXController$SL_SUFFIX`.
-    - For C++, `$WEBOTS_HOME/lib/$SL_PREFIXCppController$SL_SUFFIX` should be added to the C library.
-        - For Java, `$WEBOTS_HOME/lib/java/Controller.jar` should be added to the C++ library.
-        - For Python, `$WEBOTS_HOME/lib/python$PYTHON_VERSION/_controller.so` and `$WEBOTS_HOME/lib/python$PYTHON_VERSION/controller.py` should be added to the C++ library.
+- The executable should be linked with the Webots controller library (and eventually include the corresponding path):
 
-Where:
+%tab-component "language"
+
+%tab "C"
+
+```
+libraries:
+- $WEBOTS_HOME/lib/$SL_PREFIXController$SL_SUFFIX
+
+includes:
+- $WEBOTS_HOME/include/controller/c
+```
+
+%tab-end
+
+%tab "C++"
+
+```
+libraries:
+- $WEBOTS_HOME/lib/$SL_PREFIXController$SL_SUFFIX
+- $WEBOTS_HOME/lib/$SL_PREFIXCppController$SL_SUFFIX
+
+includes:
+- $WEBOTS_HOME/include/controller/cpp
+```
+
+%tab-end
+
+%tab "Java"
+
+```
+libraries:
+- $WEBOTS_HOME/lib/java/Controller.jar
+```
+
+%tab-end
+
+%tab "Python"
+
+```
+N/A
+```
+
+%tab-end
+
+%end
+
+Legend:
 
 - `$WEBOTS_HOME` is the path to Webots.
 - `$WEBOTS_PROJECT` is the path to your Webots project.
 - `$CONTROLLER_NAME` is the name of your controller.
 - `$EXE_EXTENSION` is the executable file suffix.
-    - For C or C++: `.exe` on Windows, and nothing else where.
+    - For C or C++: `.exe` on Windows, and nothing else.
     - For Python: `.py`.
     - For Java: `.class` or `.jar`.
 - `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and nothing on Windows.
