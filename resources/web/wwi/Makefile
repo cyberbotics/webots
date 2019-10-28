@@ -100,8 +100,10 @@ $(INSTALL_TOKEN): package.json
 
 cleanse: clean
 	@echo "# uninstalling npm dependencies"
-	@npm --silent uninstall 1> /dev/null
 	@rm -fr node_modules $(INSTALL_TOKEN) package-lock.json
+ifeq ($(NPM_EXISTS),)
+	@npm --silent uninstall 1> /dev/null
+endif
 
 clean:
 	@rm -fr *.min.js $(DEPENDENCIES_PATH)
