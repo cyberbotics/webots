@@ -1,20 +1,31 @@
 ## Using Your IDE
 
-Webots can support any [Integrated Development Environments (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) to build its controllers.
-It is simply a question of configuring your IDE correctly to fulfill the Webots controller build rules.
+Using an [Integrated Development Environments (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) is for sure convenient for its features (graphical debugger, edition tools, etc.).
+You may be interested in using your favorite IDE to develop a Webots controller.
+
+A priori, Webots can support any IDE to create, build and debug its controllers.
+It is simply a matter of setting up the IDE correctly to fulfill the Webots controller build rules.
 These rules are:
 
-1. The resulting executable file should have the same name as the controller directory: `$YOUR_WEBOTS_PROJECT/controllers/$YOUR_CONTROLLER_NAME/$YOUR_CONTROLLER_NAME[$EXTENSION]`.
-`$EXTENSION` may be `.exe`, `.py`, `.class`, etc. depending on your controller language and operating system.
-2. The executable should be linked with the Webots controller library.
-For example, this library is `$WEBOTS_HOME/lib/libController.so` for C on `linux` or `$WEBOTS_HOME/lib/python37/controller.py` for Python on `macOS`.
+1. The target executable file should have the same name as the controller directory, and follow strictly this path: `$WEBOTS_PROJECT/controllers/$CONTROLLER_NAME/$CONTROLLER_NAME[$EXE_EXTENSION]`.
+2. The executable should be linked with the Webots controller shared library.
+For C, this library is `$WEBOTS_HOME/lib/$SL_PREFIXController$SL_SUFFIX`.
+    - For C++, `$WEBOTS_HOME/lib/$SL_PREFIXCppController$SL_SUFFIX` should be added to the C library.
+        - For Java, `$WEBOTS_HOME/lib/java/Controller.jar` should be added to the C++ library.
+        - For Python, `$WEBOTS_HOME/lib/python$PYTHON_VERSION/_controller.so` and `$WEBOTS_HOME/lib/python$PYTHON_VERSION/controller.py` should be added to the C++ library.
 
-Using an IDE is for sure convenient for its facilities (graphical debugger, edition tools, etc.).
+Where:
 
-Some IDE comes with interpreters or compiler tool chain.
-They may be incompatible with the precompiled Webots controller libraries.
-In this case, the IDE integration may be much more complex.
-For example, this is the case of the `Visual Studio C++ compiler` which is not compatible with the `MINGW gcc compiler` used to precompile the C++ Webots controller library.
+- `$WEBOTS_HOME` is the path to Webots.
+- `$WEBOTS_PROJECT` is the path to your Webots project.
+- `$CONTROLLER_NAME` is the name of your controller.
+- `$EXE_EXTENSION` is the executable file suffix.
+    - For C or C++: `.exe` on Windows, and nothing else where.
+    - For Python: `.py`.
+    - For Java: `.class` or `.jar`.
+- `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and nothing on Windows.
+- `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
+- `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, etc.).
 
 Documenting every IDE for each OS is a huge task.
 This is why we are only documenting some of them, which can serve as a reference for others.
@@ -25,7 +36,7 @@ On Windows, [Visual Studio](https://visualstudio.microsoft.com) can be used to c
 
 A `Visual Studio` project can be simply created using the "New Robot Controller..." wizard.
 To do so, you should simply select the **Wizards / New Robot Controller...** menu item, choose the C or C++ language, and select a Visual Studio project.
-The resulting project can be open in `Visual Studio`.
+The target project can be open in `Visual Studio`.
 
 ### CMake
 
@@ -34,7 +45,8 @@ Using [its generators](https://cmake.org/cmake/help/v3.0/manual/cmake-generators
 The actual build is processed in these environments.
 For the `Visual Studio` target, prefer the [solution above](#visual-studio).
 
-As a template, you could copy the following `CMakeLists.txt` file to your controller directory:
+As a template, you could copy the following `CMakeLists.txt` file to your controller directory.
+This template is only a sample, it may be adapted depending on your CMake target.
 
 ```cmake
 cmake_minimum_required(VERSION 3.0)
@@ -73,7 +85,7 @@ For example:
 
 ```shell
 # export WEBOTS_HOME=...
-cd $YOUR_WEBOTS_PROJECT/controllers/$YOUR_CONTROLLER_NAME
+cd $WEBOTS_PROJECT/controllers/$CONTROLLER_NAME
 # edit CMakeLists.txt
 mkdir build
 cd build
