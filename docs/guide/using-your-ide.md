@@ -61,7 +61,9 @@ N/A because Python is interpreted.
 
 %end
 
-#### Legend
+---
+
+*Legend*
 
 - `$WEBOTS_HOME` is the path to Webots.
 - `$WEBOTS_PROJECT` is the path to your Webots project.
